@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var Good = require('good');
 var Basic = require('hapi-auth-basic');
 var http = require('http');
+var settings = require('./settings.js');
 
 /*
  var connection = mysql.createConnection({
@@ -20,6 +21,7 @@ var server = new Hapi.Server(
     });
 server.connection({ port: 3000 });
 
+/*
 var pool  = mysql.createPool({
     connectionLimit : 10,
     host            : '127.0.0.1',
@@ -27,20 +29,20 @@ var pool  = mysql.createPool({
     user            : 'jdick',
     password        : ''
 });
-
-
+*/
+var pool = mysql.createPool(settings.mysqlPoolSettings);
 
 
 var validate = function (username,password,callback) {
 
     //Openmrs context
     var options = {
-        hostname: '127.0.0.1',
-        port:8910,
+        hostname: 'etl1.ampath.or.ke',
+        port:8080,
         path:'/amrs/ws/rest/v1/session',
         headers: {
             'Authorization': "Basic " + new Buffer(username + ":" + password).toString("base64")
-        },
+        }
     };
 
     http.get(options,function(res) {
@@ -49,7 +51,7 @@ var validate = function (username,password,callback) {
             body += chunk;
         });
         res.on('end', function() {
-            var result = JSON.parse(body)
+            var result = JSON.parse(body);
             console.log(result);
             callback(null,result.authenticated,{});
         });
