@@ -5,15 +5,6 @@ var Basic = require('hapi-auth-basic');
 var http = require('http');
 var settings = require('./settings.js');
 
-/*
- var connection = mysql.createConnection({
- host     : 'amrsreporting.ampath.or.ke',
- user     : 'jdick'
- });
-*/
-
-
-
 var server = new Hapi.Server(
     {connections: {
         routes: {cors:true}
@@ -21,17 +12,7 @@ var server = new Hapi.Server(
     });
 server.connection({ port: 3000 });
 
-/*
-var pool  = mysql.createPool({
-    connectionLimit : 10,
-    host            : '127.0.0.1',
-    port            : '3307',
-    user            : 'jdick',
-    password        : ''
-});
-*/
 var pool = mysql.createPool(settings.mysqlPoolSettings);
-
 
 var validate = function (username,password,callback) {
 
@@ -105,9 +86,8 @@ server.register([
                     var uuid = request.params.uuid;
 
                     pool.getConnection(function (err, connection) {
-                        connection.query('select * from reporting_JD.flat_moh_indicators where person_id=' + uuid,
+                        connection.query('select * from reporting_JD.moh_data where uuid=' + uuid,
                             function (err, rows, fields) {
-                                console.log(rows);
                                 reply(rows);
                             });
                     });
