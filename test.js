@@ -47,43 +47,56 @@ var validate = function (username,password,callback) {
 };
 
 //order=columname|asc,columnName|desc
-
 var getSortOrder = function(param) {
     if(!param) return null;
-    console.log(param);
-    param = param.split(',')
     var parts;
     var order = [];
-    _.each(param,function(order_by) {
+    _.each(param.split(','),function(order_by) {
         parts = order_by.split('|');
         order.push({column:parts[0],asc:(parts[1].toLowerCase() === "asc")});
     })
     return order;
 }
 
-var queryLimit = 20;
+var queryLimit = 200;
 var queryOffset = 0;
 var queryServer = function(queryParts,callback) {
+    var result = {};
     var s = squel.select()
-        .from(queryParts['table'])
+        .from(queryParts['table']);
+
+    if(queryParts.columns && queryParts.columns !== "*" )
+        _.each(queryParts['columns'].replace(/[()]/g,'').split(','), function(columnName) {s.field(columnName);});
 
     s.where.apply(this,queryParts['where']);
     _.each(queryParts['order'], function(param) {s.order(param.column, param.asc);});
     s.limit(queryParts['limit'] || queryLimit);
     s.offset(queryParts['offset'] || queryOffset)
+
     var q = s.toParam();
     console.log(q);
 
     pool.getConnection(function (err, connection) {
         if(err) {
+            result.errorMessage = "Database Connection Error";
+            result.error = err;
             console.log('Database Connection Error');
+            callback(result);
             return;
         }
         connection.query(q.text, q.values,
             function (err, rows, fields) {
                 connection.release();
-                if(err) console.log(err);
-                callback(rows);
+                if(err) {
+                    result.errorMessage = "Error querying server"
+                    result.error = err;
+                }
+                else {
+                    result.result = rows;
+                    result.startIndex = queryParts.offset || queryOffset;
+                    result.size = rows.length;
+                }
+                callback(result);
             });
     });
 
@@ -128,10 +141,10 @@ server.register([
                 //auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
-                    console.log(request.params);
                     var order = getSortOrder(request.query.order);
 
                     var queryParts = {
+                        columns : request.query.fields || "*",
                         table:"reporting_JD.moh_data",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
