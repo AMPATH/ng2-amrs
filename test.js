@@ -92,9 +92,9 @@ var queryServer = function(queryParts,callback) {
                     result.error = err;
                 }
                 else {
-                    result.result = rows;
                     result.startIndex = queryParts.offset || queryOffset;
                     result.size = rows.length;
+                    result.result = rows;
                 }
                 callback(result);
             });
@@ -146,6 +146,76 @@ server.register([
                     var queryParts = {
                         columns : request.query.fields || "*",
                         table:"reporting_JD.moh_data",
+                        where:["uuid = ?",uuid],
+                        order: order || [{column:'encounter_datetime',asc:false}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/etl/patient/{uuid}/vitals',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+
+                    var queryParts = {
+                        columns : request.query.fields || "*",
+                        table:"reporting_JD.flat_vitals",
+                        where:["uuid = ?",uuid],
+                        order: order || [{column:'encounter_datetime',asc:false}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+
+        server.route({
+            method: 'GET',
+            path: '/etl/patient/{uuid}/data',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+
+                    var queryParts = {
+                        columns : request.query.fields || "*",
+                        table:"reporting_JD.flat_labs_and_imaging",
+                        where:["uuid = ?",uuid],
+                        order: order || [{column:'encounter_datetime',asc:false}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/etl/patient/{uuid}/hiv-summary',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+
+                    var queryParts = {
+                        columns : request.query.fields || "*",
+                        table:"reporting_JD.flat_hiv_summary",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
