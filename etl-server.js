@@ -58,24 +58,45 @@ var getSortOrder = function(param) {
     return order;
 }
 
-var queryLimit = 200;
+var queryLimit = 300;
 var queryOffset = 0;
 var queryServer = function(queryParts,callback) {
     var result = {};
     var s = squel.select()
-        .from(queryParts['table']);
+        .from(queryParts['table'],"t1");
 
-    if(queryParts.columns && queryParts.columns !== "*" )
-        _.each(queryParts['columns'].replace(/[()]/g,'').split(','), function(columnName) {s.field(columnName);});
+    _.each(queryParts['joins'],function(join) {
+        s.join(join[0],join[1],join[2]);
+    });
+
+    _.each(queryParts['outerJoins'],function(join) {
+        s.outer_join(join[0],join[1],join[2]);
+    });
+
+
+    if (queryParts.columns && queryParts.columns !== "*" ) {
+        if(typeof queryParts.columns === "string") {
+            if (queryParts.columns.substring(0, 1) === "(")
+                queryParts.columns = queryParts.columns.substring(1, -1);
+            queryParts.columns = queryParts.columns.split(',');
+        }
+        _.each(queryParts.columns, function (columnName) {
+            s.field(columnName);
+        });
+    }
+
 
     s.where.apply(this,queryParts['where']);
     _.each(queryParts['order'], function(param) {s.order(param.column, param.asc);});
     s.limit(queryParts['limit'] || queryLimit);
-    s.offset(queryParts['offset'] || queryOffset)
+    s.offset(queryParts['offset'] || queryOffset);
+    _.each(queryParts['group'],function(col) {s.group(col);});
+
 
     var q = s.toParam();
-    console.log(q);
 
+    console.log(q.text.replace("\\",""));
+    console.log(q.values);
     pool.getConnection(function (err, connection) {
         if(err) {
             result.errorMessage = "Database Connection Error";
@@ -84,7 +105,7 @@ var queryServer = function(queryParts,callback) {
             callback(result);
             return;
         }
-        connection.query(q.text, q.values,
+        connection.query((q.text.replace("\\","")), q.values,
             function (err, rows, fields) {
                 connection.release();
                 if(err) {
@@ -136,7 +157,7 @@ server.register([
 
         server.route({
             method: 'GET',
-            path: '/patient/{uuid}',
+            path: '/etl/patient/{uuid}',
             config: {
                 //auth: 'simple',
                 handler: function (request, reply) {
@@ -226,6 +247,128 @@ server.register([
                 }
             }
         });
+
+
+        /*
+        REST ENDPOINTS FOR LOCATION : /etl/location/uuid/
+        hiv-summary : summary stats on clinic
+        appointments : patients with rtc dates between startDate and endDate
+
+
+         */
+
+        server.route({
+            method: 'GET',
+            path: '/etl/location/{uuid}/hiv-summary-indicators',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+
+                    var queryParts = {
+                        columns : request.query.fields || "*",
+                        table:"reporting_JD.hiv_summary_indicators",
+                        where:["location = ?",uuid],
+                        order: order || [{column:'encounter_datetime',asc:false}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+
+        server.route({
+            method: 'GET',
+            path: '/etl/location/{uuid}/appointment-schedule',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+                    var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+                    var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+
+                    var queryParts = {
+                        columns : request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
+                        table:"reporting_JD.flat_hiv_summary",
+                        joins:[
+                            ['reporting_JD.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
+                            ['amrs.person_name','t3','t1.person_id = t3.person_id'],
+                            ['amrs.patient_identifier','t4','t1.person_id=t4.patient_id']
+                        ],
+                        where:["t1.location_uuid = ? and t2.next_encounter_datetime is null and date(rtc_date) >= ? and date(rtc_date) <= ?",uuid,startDate,endDate],
+                        group:['person_id'],
+                        order: order || [{column:'family_name',asc:true}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+
+        server.route({
+            method: 'GET',
+            path: '/etl/location/{uuid}/monthly-appointment-schedule',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+                    var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+
+                    var queryParts = {
+                        columns : request.query.fields || ["date(rtc_date) as rtc_date","date_format(rtc_date,'%W') as day_of_week","count(*) as total"],
+                        table:"reporting_JD.flat_hiv_summary",
+                        joins:[
+                            ['reporting_JD.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
+                        ],
+                        where:["t1.location_uuid = ? and t2.next_encounter_datetime is null and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')",uuid,startDate],
+                        group:['rtc_date'],
+                        order: order || [{column:'rtc_date',asc:true}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+
+
+
+        server.route({
+            method: 'GET',
+            path: '/etl/location/{uuid}/defaulter-list',
+            config: {
+                //auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+
+                    var defaulterPeriod = request.query.defaulterPeriod || 30;
+
+                    var queryParts = {
+                        columns : request.query.fields || "*",
+                        table:"reporting_JD.flat_defaulters",
+                        where:["location_uuid = ? and days_since_rtc >= ?",uuid,defaulterPeriod],
+                        order: order || [{column:'risk_category',asc:true},{column:'days_since_rtc',asc:false}],
+                        offset:request.query.startIndex,
+                        limit:request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
 
 
         server.start(function () {
