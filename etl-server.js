@@ -3,11 +3,13 @@ var mysql = require('mysql');
 var Good = require('good');
 var Basic = require('hapi-auth-basic');
 var http = require('http');
+var https = require('https');
 var settings = require('./conf/settings.js');
 var squel = require ('squel');
 var _ = require('underscore');
 var tls = require('tls');
 var fs = require('fs');
+
 
 var httpsServer = tls.createServer({
     key: fs.readFileSync(settings.sslSettings.key),
@@ -36,15 +38,15 @@ var validate = function (username,password,callback) {
 
     //Openmrs context
     var options = {
-        hostname: 'etl1.ampath.or.ke',
-        port:8080,
+        hostname: 'amrs.ampath.or.ke',
+        port:8443,
         path:'/amrs/ws/rest/v1/session',
         headers: {
             'Authorization': "Basic " + new Buffer(username + ":" + password).toString("base64")
         }
     };
 
-    http.get(options,function(res) {
+    https.get(options,function(res) {
         var body = '';
         res.on('data', function(chunk) {
             body += chunk;
@@ -175,7 +177,7 @@ server.register([
             method: 'GET',
             path: '/etl/patient/{uuid}',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
