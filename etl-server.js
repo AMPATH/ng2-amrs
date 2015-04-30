@@ -200,7 +200,7 @@ server.register([
             method: 'GET',
             path: '/etl/patient/{uuid}/vitals',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
@@ -224,7 +224,7 @@ server.register([
             method: 'GET',
             path: '/etl/patient/{uuid}/data',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
@@ -247,7 +247,7 @@ server.register([
             method: 'GET',
             path: '/etl/patient/{uuid}/hiv-summary',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
@@ -279,7 +279,7 @@ server.register([
             method: 'GET',
             path: '/etl/location/{uuid}/hiv-summary-indicators',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
@@ -303,7 +303,7 @@ server.register([
             method: 'GET',
             path: '/etl/location/{uuid}/appointment-schedule',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
@@ -335,7 +335,7 @@ server.register([
             method: 'GET',
             path: '/etl/location/{uuid}/monthly-appointment-schedule',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
@@ -366,7 +366,7 @@ server.register([
             method: 'GET',
             path: '/etl/location/{uuid}/defaulter-list',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
