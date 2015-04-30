@@ -184,7 +184,7 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.moh_data",
+                        table:"reporting_JD.flat_hiv_summary",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
