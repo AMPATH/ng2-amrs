@@ -6,13 +6,29 @@ var http = require('http');
 var settings = require('./conf/settings.js');
 var squel = require ('squel');
 var _ = require('underscore');
+var tls = require('tls');
+var fs = require('fs');
+
+var httpsServer = tls.createServer({
+    key: fs.readFileSync(settings.sslSettings.key),
+    cert: fs.readFileSync(settings.sslSettings.crt)
+    //requestCert: true,
+});
+
 
 var server = new Hapi.Server(
     {connections: {
         routes: {cors:true}
     }
     });
-server.connection({ port: 3000 });
+
+
+
+server.connection({
+    port: 8002,
+    tls: httpsServer
+});
+
 
 var pool = mysql.createPool(settings.mysqlPoolSettings);
 
