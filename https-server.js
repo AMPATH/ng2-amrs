@@ -3,10 +3,11 @@
  */
 var https = require('https');
 var fs = require('fs');
+var settings = require('./conf/settings');
 
 var options = {
-    key: fs.readFileSync('conf/etl-key.pem'),
-    cert: fs.readFileSync('conf/etl-cert.pem')
+    key: fs.readFileSync(settings.sslSettings.key),
+    cert: fs.readFileSync(settings.sslSettings.crt)
 };
 
 https.createServer(options, function (req, res) {

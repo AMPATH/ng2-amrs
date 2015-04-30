@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var Good = require('good');
 var Basic = require('hapi-auth-basic');
 var http = require('http');
-var settings = require('./settings.js');
+var settings = require('./conf/settings.js');
 var squel = require ('squel');
 var _ = require('underscore');
 
