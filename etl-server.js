@@ -2,7 +2,6 @@ var Hapi = require('hapi');
 var mysql = require('mysql');
 var Good = require('good');
 var Basic = require('hapi-auth-basic');
-var http = require('http');
 var https = require('https');
 var settings = require('./conf/settings.js');
 var squel = require ('squel');
@@ -14,16 +13,14 @@ var fs = require('fs');
 var httpsServer = tls.createServer({
     key: fs.readFileSync(settings.sslSettings.key),
     cert: fs.readFileSync(settings.sslSettings.crt)
-    //requestCert: true,
 });
-
 
 var server = new Hapi.Server(
     {connections: {
+        //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
         routes: {cors:true}
     }
     });
-
 
 
 server.connection({
@@ -184,7 +181,7 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.flat_hiv_summary",
+                        table:"etl.flat_hiv_summary",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
@@ -207,7 +204,7 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.flat_vitals",
+                        table:"etl.flat_vitals",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
@@ -231,7 +228,7 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.flat_labs_and_imaging",
+                        table:"etl.flat_labs_and_imaging",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
@@ -254,7 +251,7 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.flat_hiv_summary",
+                        table:"etl.flat_hiv_summary",
                         where:["uuid = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
@@ -284,9 +281,11 @@ server.register([
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
 
+                    var query = ""
+
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.hiv_summary_indicators",
+                        table:"etl.hiv_summary_indicators",
                         where:["location = ?",uuid],
                         order: order || [{column:'encounter_datetime',asc:false}],
                         offset:request.query.startIndex,
@@ -312,9 +311,9 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
-                        table:"reporting_JD.flat_hiv_summary",
+                        table:"etl.flat_hiv_summary",
                         joins:[
-                            ['reporting_JD.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
+                            ['etl.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
                             ['amrs.person_name','t3','t1.person_id = t3.person_id'],
                             ['amrs.patient_identifier','t4','t1.person_id=t4.patient_id']
                         ],
@@ -343,9 +342,9 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || ["date(rtc_date) as rtc_date","date_format(rtc_date,'%W') as day_of_week","count(*) as total"],
-                        table:"reporting_JD.flat_hiv_summary",
+                        table:"etl.flat_hiv_summary",
                         joins:[
-                            ['reporting_JD.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
+                            ['etl.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
                         ],
                         where:["t1.location_uuid = ? and t2.next_encounter_datetime is null and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')",uuid,startDate],
                         group:['rtc_date'],
@@ -375,9 +374,9 @@ server.register([
 
                     var queryParts = {
                         columns : request.query.fields || "*",
-                        table:"reporting_JD.flat_defaulters",
+                        table:"etl.flat_defaulters",
                         where:["location_uuid = ? and days_since_rtc >= ?",uuid,defaulterPeriod],
-                        order: order || [{column:'risk_category',asc:true},{column:'days_since_rtc',asc:false}],
+                        order: order || [{column:'risk_category',asc:true},{column:'days_since_rtc',asc:true}],
                         offset:request.query.startIndex,
                         limit:request.query.limit
                     }
