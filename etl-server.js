@@ -286,7 +286,7 @@ server.register([
             method: 'GET',
             path: '/etl/patient/{uuid}/hiv-summary',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
