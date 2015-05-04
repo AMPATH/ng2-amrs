@@ -274,6 +274,37 @@ server.register([
 
         server.route({
             method: 'GET',
+            path: '/etl/location/{uuid}/clinic-encounter-data',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    var uuid = request.params.uuid;
+                    var order = getSortOrder(request.query.order);
+                    var startDate = request.query.startDate || new Date("1900-01-01").toISOString().substring(0,10);
+                    var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+
+                    var queryParts = {
+                        columns: request.query.fields || "t1.*,t2.gender,round(datediff(curdate(),t2.birthdate)/365) as age,group_concat(identifier) as identifiers",
+                        table: "etl.flat_hiv_summary",
+                        joins:[
+                            ['amrs.person','t2','t1.person_id = t2.person_id'],
+                            ['amrs.patient_identifier','t3','t1.person_id=t3.patient_id']
+                        ],
+                        where: ["t1.location_uuid = ? and t1.encounter_datetime between ? and ?", uuid, startDate, endDate],
+                        group:['person_id','encounter_id'],
+                        order: order || [{column: 'encounter_datetime', asc: false}],
+                        offset: request.query.startIndex,
+                        limit: request.query.limit
+                    }
+
+                    queryServer(queryParts,reply);
+                }
+            }
+        });
+
+
+        server.route({
+            method: 'GET',
             path: '/etl/location/{uuid}/hiv-summary-indicators',
             config: {
                 auth: 'simple',
