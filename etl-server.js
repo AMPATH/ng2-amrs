@@ -73,6 +73,30 @@ var getSortOrder = function(param) {
     return order;
 }
 
+var getFilters = function(filters) {
+    var s="";
+    var vals = [],column;
+     _.each(filters,function(item) {
+         column = item.column;
+         for(var f in item.filters) {
+             if(item.filters[f] === undefined || item.filters[f] === null || item.filters[f] === "") continue;
+             console.log(item.filters[f]);
+             s += column;
+             if(f === "start") s += " >= ?";
+             else if(f === "end") s += " <= ?";
+             else s+= " like ?"
+             vals.push(item.filters[f]);
+             s += " AND "
+         }
+     });
+    s = s.substring(0, s.length-5)
+    if(s !== "")
+        s = "(" + s + ")";
+    console.log(s);
+    console.log(vals);
+    return {s:s,vals:vals};
+}
+
 var queryLimit = 300;
 var queryOffset = 0;
 var queryServer = function(queryParts,callback) {
@@ -331,6 +355,16 @@ server.register([
                     var startDate = request.query.startDate || new Date("1900-01-01").toISOString().substring(0,10);
                     var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
 
+                    var filters = {s:""};
+                    if(request.query.filters)
+                        filters = getFilters(JSON.parse(request.query.filters));
+                    var where = ["t1.location_uuid = ?",uuid];
+                    if(filters.s != "") {
+                        where[0] += " AND " + filters.s;
+                        where = where.concat(filters.vals);
+                    }
+                    console.log(where);
+
                     var queryParts = {
                         columns: request.query.fields || "t1.*,t2.gender,round(datediff(curdate(),t2.birthdate)/365) as age,group_concat(identifier) as identifiers",
                         table: "etl.flat_hiv_summary",
@@ -338,7 +372,7 @@ server.register([
                             ['amrs.person','t2','t1.person_id = t2.person_id'],
                             ['amrs.patient_identifier','t3','t1.person_id=t3.patient_id']
                         ],
-                        where: ["t1.location_uuid = ? and t1.encounter_datetime between ? and ?", uuid, startDate, endDate],
+                        where: where,
                         group:['person_id','encounter_id'],
                         order: order || [{column: 'encounter_datetime', asc: false}],
                         offset: request.query.startIndex,
