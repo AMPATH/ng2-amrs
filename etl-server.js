@@ -17,8 +17,8 @@ var httpsServer = tls.createServer({
 
 var server = new Hapi.Server(
     {connections: {
-        //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
-        routes: {cors:true}
+        routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
+        //routes: {cors:true}
     }
     });
 
@@ -268,6 +268,9 @@ server.register([
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
 
+                    request.query.page;
+                    request.query.pageSize;
+
                     var queryParts = {
                         columns : request.query.fields || "*",
                         table:"etl.flat_vitals",
@@ -352,9 +355,6 @@ server.register([
                 handler: function (request, reply) {
                     var uuid = request.params.uuid;
                     var order = getSortOrder(request.query.order);
-                    var startDate = request.query.startDate || new Date("1900-01-01").toISOString().substring(0,10);
-                    var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
-
                     var filters = {s:""};
                     if(request.query.filters)
                         filters = getFilters(JSON.parse(request.query.filters));
@@ -366,7 +366,7 @@ server.register([
                     console.log(where);
 
                     var queryParts = {
-                        columns: request.query.fields || "t1.*,t2.gender,round(datediff(curdate(),t2.birthdate)/365) as age,group_concat(identifier) as identifiers",
+                        columns: request.query.fields || "t1.*,t2.gender,round(datediff(t1.encounter_datetime,t2.birthdate)/365) as age,group_concat(identifier) as identifiers",
                         table: "etl.flat_hiv_summary",
                         joins:[
                             ['amrs.person','t2','t1.person_id = t2.person_id'],
@@ -496,7 +496,7 @@ server.register([
                         columns : request.query.fields || "*",
                         table:"etl.flat_defaulters",
                         where:["location_uuid = ? and days_since_rtc >= ?",uuid,defaulterPeriod],
-                        order: order || [{column:'risk_category',asc:true},{column:'days_since_rtc',asc:true}],
+                        order: order || [{column:'days_since_rtc',asc:true}],
                         offset:request.query.startIndex,
                         limit:request.query.limit
                     }

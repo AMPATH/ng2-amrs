@@ -97,3 +97,36 @@ var hivSummary = function(uuid) {
     }
 
 }
+
+
+var schema = {
+    personUuid: "",
+    encounterDatetime: "",
+    hivSummary:
+    {
+
+        lastCD4: {result: 1, date: ""},
+        lastVL: {result: 1, date: ""},
+        edd: "",
+        arv_regimen: {},
+    },
+    vitals: {
+        systolic:"",
+        diastolic:"",
+        pulse:"",
+        oxygenSat:"",
+        height:"",
+        weight:""
+    }
+    ,
+    labData: [
+        {obsUuid:"",obsDatetime:"",value:"",name:"",conceptUuid:""}
+    ],
+    imagingData: {},
+    medications: {},
+
+}
+
+
+
+}
