@@ -17,8 +17,8 @@ var httpsServer = tls.createServer({
 
 var server = new Hapi.Server(
     {connections: {
-        routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
-        //routes: {cors:true}
+        //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
+        routes: {cors:true}
     }
     });
 
