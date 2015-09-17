@@ -437,7 +437,7 @@ server.register([
                             ['amrs.person_name','t3','t1.person_id = t3.person_id'],
                             ['amrs.patient_identifier','t4','t1.person_id=t4.patient_id']
                         ],
-                        where:["t1.location_uuid = ? and t2.next_encounter_datetime is null and date(rtc_date) >= ? and date(rtc_date) <= ?",uuid,startDate,endDate],
+                        where:["t1.location_uuid = ? and date(rtc_date) >= ? and date(rtc_date) <= ?",uuid,startDate,endDate],
                         group:['person_id'],
                         order: order || [{column:'family_name',asc:true}],
                         offset:request.query.startIndex,
@@ -461,12 +461,9 @@ server.register([
                     var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
 
                     var queryParts = {
-                        columns : request.query.fields || ["date(rtc_date) as rtc_date","date_format(rtc_date,'%W') as day_of_week","count(*) as total"],
+                        columns : request.query.fields || ["date(rtc_date) as rtc_date","date_format(rtc_date,'%W') as day_of_week","count( distinct t1.person_id) as total"],
                         table:"etl.flat_hiv_summary",
-                        joins:[
-                            ['etl.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
-                        ],
-                        where:["t1.location_uuid = ? and t2.next_encounter_datetime is null and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')",uuid,startDate],
+                        where:["t1.location_uuid = ? and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')",uuid,startDate],
                         group:['rtc_date'],
                         order: order || [{column:'rtc_date',asc:true}],
                         offset:request.query.startIndex,
