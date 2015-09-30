@@ -1,0 +1,14 @@
+{
+    "name": "squel",
+    "version": "3.10.0",
+    "main": "squel.js",
+    "ignore": [
+        "**/.*",
+        "Gruntfile.js",
+        "node_modules",
+        "public",
+        "test",
+        "src",
+        "docs"
+    ]
+}
