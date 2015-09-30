@@ -248,6 +248,62 @@ function getARVNames(str) {
             db.queryServer_test(queryParts, function(result){
             	callback(result);
             });
+		},
+		getPatientVitals: function getPatientVitals(request, callback){
+			var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+            console.log('test  ', request.query)
+            request.query.page;
+            request.query.pageSize;
+
+            var queryParts = {
+                columns : request.query.fields || "*",
+                table:"etl.flat_vitals",
+                where:["uuid = ?",uuid],
+                order: order || [{column:'encounter_datetime',asc:false}],
+                offset:request.query.startIndex,
+                limit:request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function(result){
+            	callback(result);
+            });
+
+		},
+		getPatientData: function getPatientData(request, callback){
+			var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+
+            var queryParts = {
+                columns : request.query.fields || "*",
+                table:"etl.flat_labs_and_imaging",
+                where:["uuid = ?",uuid],
+                order: order || [{column:'encounter_datetime',asc:false}],
+                offset:request.query.startIndex,
+                limit:request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function(result){
+            	callback(result);
+            });
+		},
+		getPatient: function getPatient(request, callback){
+			console.log('Gettting Here',request.query)
+            var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+
+            var queryParts = {
+                columns : request.query.fields || "*",
+                table:"etl.flat_hiv_summary",
+                where:["uuid = ?",uuid],
+                order: order || [{column:'encounter_datetime',asc:false}],
+                offset:request.query.startIndex,
+                limit:request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function(result){
+            	callback(result);
+            });
 		}
 	};
 }();

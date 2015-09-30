@@ -61,20 +61,7 @@ var getFilters = function(filters) {
             config: {
                 //auth: 'simple',
                 handler: function (request, reply) {
-                    console.log('Gettting Here',request.query)
-                    var uuid = request.params.uuid;
-                    var order = getSortOrder(request.query.order);
-
-                    var queryParts = {
-                        columns : request.query.fields || "*",
-                        table:"etl.flat_hiv_summary",
-                        where:["uuid = ?",uuid],
-                        order: order || [{column:'encounter_datetime',asc:false}],
-                        offset:request.query.startIndex,
-                        limit:request.query.limit
-                    }
-
-                    db.queryServer_test(queryParts,reply);
+                    dao.getPatient(request, reply);
                 }
             }
         },
@@ -84,22 +71,7 @@ var getFilters = function(filters) {
             config: {
                 // auth: 'simple',
                 handler: function (request, reply) {
-                    var uuid = request.params.uuid;
-                    var order = getSortOrder(request.query.order);
-                    console.log('test  ', request.query)
-                    request.query.page;
-                    request.query.pageSize;
-
-                    var queryParts = {
-                        columns : request.query.fields || "*",
-                        table:"etl.flat_vitals",
-                        where:["uuid = ?",uuid],
-                        order: order || [{column:'encounter_datetime',asc:false}],
-                        offset:request.query.startIndex,
-                        limit:request.query.limit
-                    }
-
-                    db.queryServer_test(queryParts,reply);
+                    dao.getPatientVitals(request, reply);
                 }
             }
         },
@@ -109,19 +81,7 @@ var getFilters = function(filters) {
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-                    var uuid = request.params.uuid;
-                    var order = getSortOrder(request.query.order);
-
-                    var queryParts = {
-                        columns : request.query.fields || "*",
-                        table:"etl.flat_labs_and_imaging",
-                        where:["uuid = ?",uuid],
-                        order: order || [{column:'encounter_datetime',asc:false}],
-                        offset:request.query.startIndex,
-                        limit:request.query.limit
-                    }
-
-                    db._queryServer_test(queryParts,reply);
+                    dao.getPatientData(request, reply);
                 }
             }
         },
