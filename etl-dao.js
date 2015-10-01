@@ -237,7 +237,7 @@ function getARVNames(str) {
             var order = getSortOrder(request.query.order);
 
             var queryParts = {
-                columns : "uuid",
+                columns : request.query.fields || "*",
                 table:table_,
                 where:[column_name + " = ?",column_value],
                 // order: order || [{column:'encounter_datetime',asc:false}],

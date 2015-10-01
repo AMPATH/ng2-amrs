@@ -90,12 +90,24 @@ var getFilters = function(filters) {
 
     if (queryParts.columns && queryParts.columns !== "*" ) {
         if(typeof queryParts.columns === "string") {
-            if (queryParts.columns.substring(0, 1) === "(")
-                queryParts.columns = queryParts.columns.substring(1, -1);
+            // if (queryParts.columns.substring(0, 1) === "(")
+            //     queryParts.columns = queryParts.columns.substring(1, -1);
             queryParts.columns = queryParts.columns.split(',');
         }
+        var i = 0;
         _.each(queryParts.columns, function (columnName) {
-            s.field(columnName);
+            if (i === 0 && columnName.substring(0,1) === "(")
+                s.field(columnName.split("(")[1]);
+            else if (i === queryParts.columns.length-1)
+            {
+                var col = columnName;
+                var n = columnName.split(")").length-1;
+                if(n === 1 && !_.contains(col,"(")) 
+                    s.field(columnName.split(")")[0]);
+                else s.field(col);
+            }
+            else s.field(columnName);
+            i++;
         });
     }
 
