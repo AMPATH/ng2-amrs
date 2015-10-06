@@ -188,6 +188,32 @@ function getARVNames(str) {
             	});
 
 		},
+        getClinicDailyVisits: function getClinicDailyVisits(request, callback){
+            var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+            var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+
+            var queryParts = {
+                columns : request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
+                table:"etl.flat_hiv_summary",
+                joins:[
+                    ['etl.derived_encounter','t2','t1.encounter_id = t2.encounter_id'],
+                    ['amrs.person_name','t3','t1.person_id = t3.person_id'],
+                    ['amrs.patient_identifier','t4','t1.person_id=t4.patient_id']
+                ],
+                where:["t1.location_uuid = ? and date(encounter_datetime) >= ? and date(encounter_datetime) <= ?",uuid,startDate,endDate],
+                group:['person_id'],
+                order: order || [{column:'family_name',asc:true}],
+                offset:request.query.startIndex,
+                limit:request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function(result){
+                callback(result);
+                });
+
+        },
 		getClinicMonthlyAppointmentSchedule: function getClinicMonthlyAppointmentSchedule(request, callback){
 			var uuid = request.params.uuid;
             var order = getSortOrder(request.query.order);
@@ -207,6 +233,25 @@ function getARVNames(str) {
             	callback(result);
             });
 		},
+        getClinicMonthlyVisits: function getClinicMonthlyVisits(request, callback){
+            var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+            var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+
+            var queryParts = {
+                columns : request.query.fields || ["date(encounter_datetime) as visit_date","date_format(encounter_datetime,'%W') as day_of_week","count( distinct t1.person_id) as total"],
+                table:"etl.flat_hiv_summary",
+                where:["t1.location_uuid = ? and date_format(encounter_datetime,'%Y-%m') = date_format(?,'%Y-%m')",uuid,startDate],
+                group:['encounter_datetime'],
+                order: order || [{column:'encounter_datetime',asc:true}],
+                offset:request.query.startIndex,
+                limit:request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function(result){
+                callback(result);
+            });
+        },
 		getClinicDefaulterList: function getClinicDefaulterList(request, callback){
 			var uuid = request.params.uuid;
             var order = getSortOrder(request.query.order);
@@ -227,6 +272,7 @@ function getARVNames(str) {
             });
 		},
 		getCustomData: function getCustomData(request, callback){
+            
 			var passed_params = request.params.userParams.split('/');
             var table_ ="amrs." + passed_params[0];
             var column_name = passed_params[1] ;

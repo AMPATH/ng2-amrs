@@ -90,11 +90,31 @@ module.exports = function() {
         },
         {
             method: 'GET',
+            path: '/etl/location/{uuid}/daily-visits',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getClinicDailyVisits(request, reply);
+                }
+            }
+        },
+        {
+            method: 'GET',
             path: '/etl/location/{uuid}/monthly-appointment-schedule',
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicMonthlyAppointmentSchedule(request, reply);
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/location/{uuid}/monthly-visits',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getClinicMonthlyVisits(request, reply);
                 }
             }
         },
