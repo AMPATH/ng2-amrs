@@ -70,6 +70,16 @@ module.exports = function() {
         },
         {
             method: 'GET',
+            path: '/etl/location/{uuid}/monthly-appointment-visits',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getClinicMonthlySummary(request, reply);
+                }
+            }
+        },
+        {
+            method: 'GET',
             path: '/etl/location/{uuid}/hiv-summary-indicators',
             config: {
                 auth: 'simple',

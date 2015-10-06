@@ -55,24 +55,37 @@ var getFilters = function(filters) {
     console.log(vals);
     return {s:s,vals:vals};
 }
+    var queryLimit = 300;
+    var queryOffset = 0;
 
-	service.queryServer = function(params) {
-		var sql = params.sql;
-		var values = params.values;
-		var queryHandler = params.callback;
+	service.queryServer = function(queryParts, callback) {
+        var result = {};
+		var sql = queryParts.sql;
+		var values = queryParts.values;
+		// var queryHandler = queryParts.callback;
 
+        console.log('Sql query', sql);
 		getServerConnection(function(err, connection) {
 			if (err) return queryHandler(err, null);
 			
-			connection.query(sql, values, function(err, rows, fields) {
-				queryHandler(err, rows);
-				connection.release();
+			connection.query(sql, values, function(err, rows, fields) {				
+                if(err) {
+                    result.errorMessage = "Error querying server"
+                    result.error = err;
+                }
+                else {
+                    result.startIndex = queryOffset;
+                    result.size = rows.length;
+                    result.result = rows;
+                }
+                // queryHandler(err, result);
+                callback(result);
+                connection.release();
 			});
 		});
 	};
 
-	var queryLimit = 300;
-	var queryOffset = 0;
+	
 
 	service.queryServer_test = function(queryParts, callback) {
     var result = {};

@@ -233,6 +233,66 @@ function getARVNames(str) {
             	callback(result);
             });
 		},
+        getClinicMonthlySummary: function getClinicMonthlySummary(request, callback){
+            var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+            var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+
+            var queryParts = {};
+            queryParts.values =[uuid, startDate, uuid, startDate, uuid, startDate, uuid, startDate];
+            queryParts.startDate = startDate;
+
+            var sql = "select " 
+                sql += " CONVERT_TZ((coalesce(scheduled.rtc_date, visited.encounter_datetime)),'+00:00', '+03:00') as rtc_date, "
+                sql += "        coalesce(scheduled.day_of_week, visited.day_of_week) as day_of_week,"
+                sql += "        ifnull(scheduled.total_scheduled,0) as total,"
+                sql += "        ifnull(visited.total_visits,0) as total_visited"
+                sql += "        from ("
+                sql += "       select date(rtc_date) as rtc_date, date_format(rtc_date,'%W') as day_of_week,"
+                sql += "        count( distinct t1.person_id) as total_scheduled,location_id"
+                sql += "        from etl.flat_hiv_summary t1"
+                sql += "        where t1.location_uuid = ? and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')"
+                sql += "        group by rtc_date) scheduled"
+                sql += "        left join("
+                sql += "        select date(encounter_datetime) as encounter_datetime, date_format(encounter_datetime,'%W') as day_of_week,"
+                sql += "        count( distinct t1.person_id) as total_visits,location_id"
+                sql += "        from etl.flat_hiv_summary t1"
+                sql += "        where t1.location_uuid = ? and date_format(encounter_datetime,'%Y-%m') = date_format(?,'%Y-%m')"
+                sql += "        group by encounter_datetime) visited on scheduled.location_id=visited.location_id and scheduled.rtc_date=visited.encounter_datetime"
+                sql += " union"
+                sql += "        select "
+                sql += "        CONVERT_TZ((coalesce(scheduled.rtc_date, visited.encounter_datetime)),'+00:00', '+03:00') as rtc_date, "
+                sql += "        coalesce(scheduled.day_of_week, visited.day_of_week) as day_of_week,"
+                sql += "        ifnull(scheduled.total_scheduled,0) as total,"
+                sql += "        ifnull(visited.total_visits,0) as total_visited"
+                sql += "        from ("
+                sql += "        select date(rtc_date) as rtc_date, date_format(rtc_date,'%W') as day_of_week,"
+                sql += "        count( distinct t1.person_id) as total_scheduled,location_id"
+                sql += "        from etl.flat_hiv_summary t1"
+                sql += "        where t1.location_uuid = ? and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')"
+                sql += "        group by rtc_date) scheduled"
+                sql += "        right join("
+                sql += "        select date(encounter_datetime) as encounter_datetime, date_format(encounter_datetime,'%W') as day_of_week,"
+                sql += "        count( distinct t1.person_id) as total_visits,location_id"
+                sql += "        from etl.flat_hiv_summary t1"
+                sql += "        where t1.location_uuid = ? and date_format(encounter_datetime,'%Y-%m') = date_format(?,'%Y-%m')"
+                sql += "        group by encounter_datetime) visited on scheduled.location_id=visited.location_id and scheduled.rtc_date=visited.encounter_datetime"
+            queryParts.sql = sql;
+            // var queryParts = {
+            //     columns : request.query.fields || ["date(rtc_date) as rtc_date","date_format(rtc_date,'%W') as day_of_week","count( distinct t1.person_id) as total"],
+            //     table:"etl.flat_hiv_summary",
+            //     where:["t1.location_uuid = ? and date_format(rtc_date,'%Y-%m') = date_format(?,'%Y-%m')",uuid,startDate],
+            //     group:['rtc_date'],
+            //     order: order || [{column:'rtc_date',asc:true}],
+            //     offset:request.query.startIndex,
+            //     limit:request.query.limit
+            // }
+
+
+            db.queryServer(queryParts, function(result){
+                callback(result);
+            });
+        },
         getClinicMonthlyVisits: function getClinicMonthlyVisits(request, callback){
             var uuid = request.params.uuid;
             var order = getSortOrder(request.query.order);
