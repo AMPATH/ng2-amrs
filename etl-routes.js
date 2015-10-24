@@ -163,6 +163,16 @@ module.exports = function() {
                     dao.getPatientCountGroupedByLocation(request, reply);
                 }
             }
+        },
+        {
+            method: 'GET',
+            path: '/etl/patient/statistics/location/{filterParams*3}',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getPatientDetailsGroupedByLocation(request, reply);
+                }
+            }
         }
 	];
 }();
