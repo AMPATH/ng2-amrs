@@ -410,6 +410,32 @@ function getARVNames(str) {
             db.queryServer_test(queryParts, function(result){
             	callback(result);
             });
+		},
+		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){
+			         
+            var periodFrom = request.params.filterParams.split('/')[0];
+            var periodTo = request.params.filterParams.split('/')[1];
+            var order = getSortOrder(request.query.order);
+           
+            var queryParts = {
+                columns :"t3.location_id,t3.name,count( distinct t1.patient_id) as total",
+                table:"amrs.patient",                
+                where:["date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')",periodFrom,periodTo],
+                group:['t3.uuid,t3.name'],
+                order: order || [{column:'t2.location_id',asc:false}],
+                joins:[
+                       ['amrs.encounter','t2','t1.patient_id = t2.patient_id'],
+                       ['amrs.location','t3','t2.location_id=t3.location_id']
+                       
+                       ],                    
+                offset:request.query.startIndex,
+                limit:request.query.limit
+            }
+ 
+             db.queryServer_test(queryParts, function(result){
+            	callback(result);
+            });
 		}
+        
 	};
 }();

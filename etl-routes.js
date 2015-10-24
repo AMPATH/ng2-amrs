@@ -153,6 +153,17 @@ module.exports = function() {
             
             */
             }
+        },        
+        {
+            method: 'GET',
+            path: '/etl/patient/statistics/{filterParams*2}',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getPatientCountGroupedByLocation(request, reply);
+                }
+            }
         }
 	];
 }();
+   
