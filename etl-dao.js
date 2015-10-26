@@ -411,10 +411,9 @@ function getARVNames(str) {
             	callback(result);
             });
 		},
-		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){
-			         
-            var periodFrom = request.params.filterParams.split('/')[0];
-            var periodTo = request.params.filterParams.split('/')[1];
+		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){			
+            var periodFrom = request.query.startDate;
+            var periodTo = request.query.endDate;
             var order = getSortOrder(request.query.order);
            
             var queryParts = {
@@ -436,16 +435,14 @@ function getARVNames(str) {
             	callback(result);
             });
 		},
-        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){
-			         
-           
-            var periodFrom = request.params.filterParams.split('/')[0];
-            var periodTo = request.params.filterParams.split('/')[1];
-            var location = request.params.filterParams.split('/')[2];
+        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){			  
+            var periodFrom = request.query.startDate;
+            var periodTo = request.query.endDate;
+            var location = request.params.location;
             var order = getSortOrder(request.query.order);
            
             var queryParts = {
-                columns :"t3.given_name,t3.middle_name,t3.family_name",
+                columns :"distinct t1.patient_id,t3.given_name,t3.middle_name,t3.family_name",
                 table:"amrs.patient",                
                 where:["t2.location_id = ? AND date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')",location,periodFrom,periodTo],
                 order: order || [{column:'t2.location_id',asc:false}],
