@@ -495,6 +495,32 @@ function getARVNames(str) {
                     callback(result);
                 });
             });
+        },
+        getPatientListByIndicator: function getPatientListByIndicator(request, callback){
+            console.log('Getting Here',request.query);
+            var reportIndicator =request.query.indicator;
+            var location = request.params.location;
+            var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+            //Check for undefined query field
+            if(reportIndicator === undefined)
+                callback(Boom.badRequest('indicator (Report Indicator) is missing from your request query'));
+            //declare query params
+            var queryParams = {
+                reportIndicator: reportIndicator,
+            };
+            //build report
+            reportFactory.buildPatientListExpression(queryParams, function(exprResult){
+                var queryParts = {
+                    columns : "*",
+                    table:exprResult.resource,
+                    where:["encounter_datetime >= ? and encounter_datetime <= ? and location_id=? and "
+                    +exprResult.whereClause,startDate,endDate,location]
+                };
+                db.queryServer_test(queryParts, function(result){
+                    callback(result);
+                });
+            });
         }
     };
 }();
