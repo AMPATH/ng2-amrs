@@ -144,16 +144,16 @@ module.exports = function() {
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-                    dao.getCustomData(request, reply);                    
+                    dao.getCustomData(request, reply);
                 }
                 /*
             the rest request and query expression should be
             /table/filter_column/filter/filter_value or
             /table/filter_column/filter/filter_value?fields=(field1,field2,fieldn) or
-            
+
             */
             }
-        },        
+        },
         {
             method: 'GET',
             path: '/etl/patient/creation/statistics',
@@ -173,7 +173,16 @@ module.exports = function() {
                     dao.getPatientDetailsGroupedByLocation(request, reply);
                 }
             }
+        },
+        {
+            method: 'GET',
+            path: '/etl/hiv-summary-indicators',
+            config:{
+                handler: function (request, reply) {
+                    dao.getHivSummaryIndicators(request, reply);
+                }
+
+            }
         }
 	];
 }();
-   

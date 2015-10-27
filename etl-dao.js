@@ -2,6 +2,8 @@
 
 var db = require('./etl-db');
 var _ = require('underscore');
+var reportFactory = require('./etl-factory');
+var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 console.log('modules');
 console.log('+++++Test Dao', db)
 
@@ -242,7 +244,7 @@ function getARVNames(str) {
             queryParts.values =[uuid, startDate, uuid, startDate, uuid, startDate, uuid, startDate];
             queryParts.startDate = startDate;
 
-            var sql = "select " 
+            var sql = "select "
                 sql += " CONVERT_TZ((coalesce(scheduled.rtc_date, visited.encounter_datetime)),'+00:00', '+03:00') as rtc_date, "
                 sql += "        coalesce(scheduled.day_of_week, visited.day_of_week) as day_of_week,"
                 sql += "        ifnull(scheduled.total_scheduled,0) as total,"
@@ -332,11 +334,11 @@ function getARVNames(str) {
             });
 		},
 		getCustomData: function getCustomData(request, callback){
-            
+
 			var passed_params = request.params.userParams.split('/');
             var table_ ="amrs." + passed_params[0];
             var column_name = passed_params[1] ;
-            var column_value = passed_params[2]; 
+            var column_value = passed_params[2];
 
             console.log('Gettting Here')
             var uuid = request.params.uuid;
@@ -411,54 +413,88 @@ function getARVNames(str) {
             	callback(result);
             });
 		},
-		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){			
+		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){
             var periodFrom = request.query.startDate;
             var periodTo = request.query.endDate;
             var order = getSortOrder(request.query.order);
-           
+
             var queryParts = {
                 columns :"t3.location_id,t3.name,count( distinct t1.patient_id) as total",
-                table:"amrs.patient",                
+                table:"amrs.patient",
                 where:["date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')",periodFrom,periodTo],
                 group:['t3.uuid,t3.name'],
                 order: order || [{column:'t2.location_id',asc:false}],
                 joins:[
                        ['amrs.encounter','t2','t1.patient_id = t2.patient_id'],
                        ['amrs.location','t3','t2.location_id=t3.location_id']
-                       
-                       ],                    
+
+                       ],
                 offset:request.query.startIndex,
                 limit:request.query.limit
             }
- 
+
              db.queryServer_test(queryParts, function(result){
             	callback(result);
             });
 		},
-        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){			  
+        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){
             var periodFrom = request.query.startDate;
             var periodTo = request.query.endDate;
             var location = request.params.location;
             var order = getSortOrder(request.query.order);
-           
+
             var queryParts = {
                 columns :"distinct t1.patient_id,t3.given_name,t3.middle_name,t3.family_name",
-                table:"amrs.patient",                
+                table:"amrs.patient",
                 where:["t2.location_id = ? AND date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')",location,periodFrom,periodTo],
                 order: order || [{column:'t2.location_id',asc:false}],
                 joins:[
-                       ['amrs.encounter','t2','t1.patient_id = t2.patient_id'],                                             
+                       ['amrs.encounter','t2','t1.patient_id = t2.patient_id'],
                        ['amrs.person_name','t3','t3.person_id=t1.patient_id']
-                       
-                       ],                    
+
+                       ],
                 offset:request.query.startIndex,
                 limit:request.query.limit
             }
- 
+
              db.queryServer_test(queryParts, function(result){
             	callback(result);
             });
-		}
-        
-	};
+		},
+        getHivSummaryIndicators: function getHivSummaryIndicators(request, callback){
+            console.log('Getting Here',request.query);
+            var reportName =request.query.report;
+            var countBy =request.query.countBy;
+            var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+            //Check for undefined query field
+            if(reportName === undefined)
+                callback(Boom.badRequest('report (Report Name) is missing from your request query'));
+            if(countBy === undefined)
+                callback(Boom.badRequest('countBy (Count By) is missing from your request query' +
+                    'this is necessary because gives you the ability to count by either person_id or encounter_id'));
+            //build query params
+            var queryParams = {
+                reportName: reportName,
+                countBy: countBy //this gives the ability to count by either person_id or encounter_id
+            };
+            //build report
+            reportFactory.buildReportExpression(queryParams, function(exprResult){
+                var columns=["name as location, location_uuid" +exprResult];
+                var queryParts = {
+                    columns : columns,
+                    table:"etl.flat_hiv_summary",
+                    where:["encounter_datetime >= ? and encounter_datetime <= ? ",startDate,endDate],
+                    joins:[
+                        ['amrs.location', 't2', 't1.location_uuid = t2.uuid']
+                    ],
+                    group:['location_uuid']
+
+                };
+                db.queryServer_test(queryParts, function(result){
+                    callback(result);
+                });
+            });
+        }
+    };
 }();

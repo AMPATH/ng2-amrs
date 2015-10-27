@@ -6,14 +6,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": false,
                 "conditional":false,
                 "fieldToCalulate": "*"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": false,
                 "conditional":false,
@@ -28,14 +28,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":false,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":false,
@@ -50,14 +50,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -72,14 +72,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -94,14 +94,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -116,14 +116,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -138,14 +138,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -160,14 +160,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -182,14 +182,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -204,14 +204,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -226,14 +226,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -248,14 +248,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -270,14 +270,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -292,14 +292,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -314,14 +314,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -336,14 +336,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -358,14 +358,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -380,14 +380,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -402,14 +402,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -424,14 +424,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
@@ -446,14 +446,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditiona,l":true,
@@ -468,14 +468,14 @@
         "resource": "etl.flat_hiv_summary",
         "reportIndicators": [
             {
-                "name": "patients",
+                "name": "person",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
                 "fieldToCalulate": "person_id"
             },
             {
-                "name": "encounters",
+                "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
