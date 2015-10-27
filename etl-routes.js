@@ -156,11 +156,21 @@ module.exports = function() {
         },        
         {
             method: 'GET',
-            path: '/etl/patient/statistics/{filterParams*2}',
+            path: '/etl/patient/creation/statistics',
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientCountGroupedByLocation(request, reply);
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/location/{location}/patient/creation/statistics',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getPatientDetailsGroupedByLocation(request, reply);
                 }
             }
         }
