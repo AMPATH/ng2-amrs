@@ -27,7 +27,7 @@ module.exports = function() {
                                 if (indicator.name === name) {
 
                                         _.each(indicator.reportIndicators, function (reportIndicator) {
-                                            if (reportIndicator.name ===queryParams.reportType) {
+                                            if (reportIndicator.name ===queryParams.countBy) {
                                                 result += ", ";
                                                 var str = reportIndicator.groupFunction + "( ";
                                                 if (reportIndicator.distinct === true)str += "distinct ";
