@@ -1,0 +1,15 @@
+
+[
+    {
+	    "reportName":"hiv-summery-report",
+	    "analysisType": "timeBased",
+	    "parameters":["startDate","endDate"],
+	    "indicators":["is_encounter","is_patient","is_on_arvs","is_on_arvs_first_line","is_on_arvs_second_line",
+          "is_on_arvs_third_line","is_vl_done_past_year","is_no_vl_done_past_year","is_vl_done_past_year_lte_1000",
+          "is_vl_done_past_year_gt_1000","is_vl_done_this_encounter","is_vl_done_this_encounter_lte_1000",
+          "is_vl_done_this_encounter_gt_1000","is_vl_ordered","is_pending_vl_order",
+          "is_pending_vl_order_no_result_after_4_weeks","is_on_arvs_lte_26_weeks","is_on_arvs_lte_52_weeks",
+          "is_on_arvs_lte_52_weeks_and_have_vl","is_on_arvs_lte_52_weeks_and_have_vl_lte_1000","is_pregnant",
+          "is_pregnant_and_on_arvs"]
+	}
+]
