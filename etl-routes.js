@@ -5,20 +5,20 @@ var dao = require('./etl-dao');
 console.log('modules');
 console.log('+++++Test Dao', dao)
 
-module.exports = function() {
+module.exports = function () {
 
-	return [
-		{
-			method: 'GET',
-			path: '/',
-			config : {
-				handler: function (request, reply) {
-        			reply('Hello, World! HAPI Demo Server');
-    			}
+    return [
+        {
+            method: 'GET',
+            path: '/',
+            config: {
+                handler: function (request, reply) {
+                    reply('Hello, World! HAPI Demo Server');
+                }
 
-			}
-		},
-		{
+            }
+        },
+        {
             method: 'GET',
             path: '/etl/patient/{uuid}',
             config: {
@@ -28,7 +28,7 @@ module.exports = function() {
                 }
             }
         },
-		{
+        {
             method: 'GET',
             path: '/etl/patient/{uuid}/vitals',
             config: {
@@ -38,7 +38,7 @@ module.exports = function() {
                 }
             }
         },
-		{
+        {
             method: 'GET',
             path: '/etl/patient/{uuid}/data',
             config: {
@@ -48,17 +48,17 @@ module.exports = function() {
                 }
             }
         },
-		{
+        {
             method: 'GET',
             path: '/etl/patient/{uuid}/hiv-summary',
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-					dao.getPatientHivSummary(request, reply);
+                    dao.getPatientHivSummary(request, reply);
                 }
             }
         },
-		{
+        {
             method: 'GET',
             path: '/etl/location/{uuid}/clinic-encounter-data',
             config: {
@@ -177,7 +177,7 @@ module.exports = function() {
         {
             method: 'GET',
             path: '/etl/hiv-summary-indicators',
-            config:{
+            config: {
                 handler: function (request, reply) {
                     dao.getHivSummaryIndicators(request, reply);
                 }
@@ -187,12 +187,20 @@ module.exports = function() {
         {
             method: 'GET',
             path: '/etl/location/{location}/patient-by-indicator',
-            config:{
+            config: {
                 handler: function (request, reply) {
                     dao.getPatientListByIndicator(request, reply);
                 }
-
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/data-entry-statistics/{sub}',
+            config: {
+                handler: function (request, reply) {
+                    dao.getDataEntryIndicators(request.params.sub, request, reply);
+                }
             }
         }
-	];
-}();
+    ];
+} ();

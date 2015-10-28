@@ -482,6 +482,21 @@
                 "fieldToCalulate": "encounter_id"
             }
         ]
+    },
+    {
+        "name":"encounters_count",
+        "label": "encounters_count",
+        "expression": "",
+        "resource": "amrs.encounter_provider",
+        "reportIndicators": [
+            {
+                "name": "encounter",
+                "groupFunction": "count",
+                "distinct": false,
+                "conditional":false,
+                "fieldToCalulate": "*"
+            }
+        ]
     }
 ]
 

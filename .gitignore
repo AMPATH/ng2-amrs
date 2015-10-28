@@ -2,3 +2,4 @@ node_modules/
 conf/
 conf_copy/
 .idea/**
+.vscode/
