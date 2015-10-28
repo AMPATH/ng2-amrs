@@ -476,7 +476,7 @@ module.exports = function () {
             //build query params
             var queryParams = {
                 reportName: reportName,
-                countBy: countBy //this gives the ability to count by either person_id or encounter_id
+                countBy: countBy||'person' //this gives the ability to count by either person_id or encounter_id
             };
             //build report
             reportFactory.buildReportExpression(queryParams, function (exprResult) {
@@ -488,8 +488,9 @@ module.exports = function () {
                     joins: [
                         ['amrs.location', 't2', 't1.location_uuid = t2.uuid']
                     ],
-                    group: ['location_uuid']
-
+                    group:['location_uuid'],
+                    offset:request.query.startIndex,
+                    limit:request.query.limit
                 };
                 db.queryServer_test(queryParts, function (result) {
                     callback(result);
@@ -501,7 +502,7 @@ module.exports = function () {
 
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-        
+
             //build query params
             var queryParams = {
                 reportName: reportName,
@@ -565,6 +566,7 @@ module.exports = function () {
             var location = request.params.location;
             var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+            var order = getSortOrder(request.query.order);
             //Check for undefined query field
             if(reportIndicator === undefined)
                 callback(Boom.badRequest('indicator (Report Indicator) is missing from your request query'));
@@ -578,7 +580,10 @@ module.exports = function () {
                     columns : "*",
                     table:exprResult.resource,
                     where:["encounter_datetime >= ? and encounter_datetime <= ? and location_id=? and "
-                    +exprResult.whereClause,startDate,endDate,location]
+                    +exprResult.whereClause,startDate,endDate,location],
+                    order: order || [{column: 'encounter_datetime', asc: false}],
+                    offset:request.query.startIndex,
+                    limit:request.query.limit
                 };
                 db.queryServer_test(queryParts, function(result){
                     callback(result);
@@ -586,7 +591,7 @@ module.exports = function () {
             });
         }
     };
-    
+
     //helper functions
     function buildWhereClauseForDataEntryIndicators(queryParams, where) {
         if (queryParams.locations) {
