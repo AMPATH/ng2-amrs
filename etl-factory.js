@@ -52,6 +52,29 @@ module.exports = function() {
            });
        });
 
+        },
+       buildPatientListExpression:function builPatientListExpression(queryParams, successCallback) {
+            //Check for undefined params
+            if(queryParams  === null || queryParams === undefined) return "";
+           //Initialize returned obj
+            var result={
+                whereClause:"",
+                resource:""
+            };
+            //Load json schema into the query builder
+            fs.readFile(indicatorsSchemaPath, 'utf8', function (indicatorError, indicatorData) {
+                if (indicatorError) throw indicatorError; // we'll not handle error
+                //Parse Json Obj
+                var indicatorsSchema= JSON.parse(indicatorData);
+                    _.each(indicatorsSchema, function (indicator) {
+                        if (indicator.name === queryParams.reportIndicator) {
+                            result.whereClause= indicator.expression;
+                            result.resource=indicator.resource;
+                        }
+                    });
+                successCallback(result);
+            });
+
         }
     }
 }();

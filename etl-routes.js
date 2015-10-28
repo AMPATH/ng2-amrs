@@ -183,6 +183,16 @@ module.exports = function() {
                 }
 
             }
+        },
+        {
+            method: 'GET',
+            path: '/etl/location/{location}/patient-by-indicator',
+            config:{
+                handler: function (request, reply) {
+                    dao.getPatientListByIndicator(request, reply);
+                }
+
+            }
         }
 	];
 }();

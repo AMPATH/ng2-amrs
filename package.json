@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "boom": "^2.9.0",
     "datatable": "^2.0.1",
     "datatables": "^1.10.7",
     "fs": "0.0.2",
