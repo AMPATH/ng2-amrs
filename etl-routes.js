@@ -200,7 +200,48 @@ module.exports = function () {
             path: '/etl/data-entry-statistics/{sub}',
             config: {
                 handler: function (request, reply) {
-                    dao.getDataEntryIndicators(request.params.sub, request, reply);
+                    var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+                    
+                    var onResolvedPromise = function (promise) {
+                        asyncRequests--;
+                        if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                            dao.getDataEntryIndicators(request.params.sub, request, reply);
+                        }
+                    };
+                    
+                    //establish the number of asyncRequests
+                    //this is done prior to avoid any race conditions
+                    if (request.query.formUuids) {
+                        asyncRequests++;
+                    }
+                    if (request.query.encounterTypeUuids) {
+                        asyncRequests++;
+                    }
+                    if (request.query.locationUuids) {
+                        asyncRequests++;
+                    }
+                    
+                    if(asyncRequests == 0)
+                         dao.getDataEntryIndicators(request.params.sub, request, reply);
+                    
+                    if (request.query.formUuids) {
+                        dao.getIdsByUuidAsyc('amrs.form', 'form_id', 'uuid', request.query.formUuids,
+                            function (results) {
+                                request.query.formIds = results;
+                            }).onResolved = onResolvedPromise;
+                    }
+                    if (request.query.encounterTypeUuids) {
+                        dao.getIdsByUuidAsyc('amrs.encounter_type', 'encounter_type_id', 'uuid', request.query.encounterTypeUuids,
+                            function (results) {
+                                request.query.encounterTypeIds = results;
+                            }).onResolved = onResolvedPromise;
+                    }
+                    if (request.query.locationUuids) {
+                        dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                            function (results) {
+                                request.query.locationIds = results;
+                            }).onResolved = onResolvedPromise;
+                    }
                 }
             }
         },
