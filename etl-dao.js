@@ -577,13 +577,22 @@ module.exports = function () {
             //build report
             reportFactory.buildPatientListExpression(queryParams, function(exprResult){
                 var queryParts = {
-                    columns : "*",
+                    columns: "t1.uuid,t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid",
+                    concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
+                    "group_concat(distinct t3.identifier separator ', ') as identifiers",
                     table:exprResult.resource,
-                    where:["encounter_datetime >= ? and encounter_datetime <= ? and location_id=? and "
-                    +exprResult.whereClause,startDate,endDate,location],
+                    where:["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_id=? " +
+                    "and t3.voided=0 and  "+exprResult.whereClause,startDate,endDate,location],
+                    joins: [
+                        ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
+                    ],
+                    leftOuterJoins:[
+                        ['amrs.patient_identifier', 't3', 't1.person_id = t3.patient_id']
+                    ],
                     order: order || [{column: 'encounter_datetime', asc: false}],
                     offset:request.query.startIndex,
-                    limit:request.query.limit
+                    limit:request.query.limit,
+                    group:['t1.person_id']
                 };
                 db.queryServer_test(queryParts, function(result){
                     callback(result);

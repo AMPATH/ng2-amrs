@@ -8,7 +8,7 @@ var _ = require('underscore');
 module.exports = function() {
 	var service = {};
 	var pool  = mysql.createPool(settings.mysqlPoolSettings);
-	
+
 
 	var getServerConnection = function(connectHandler) {
 		pool.getConnection(function(err, connection) {
@@ -67,8 +67,8 @@ var getFilters = function(filters) {
         console.log('Sql query', sql);
 		getServerConnection(function(err, connection) {
 			if (err) return queryHandler(err, null);
-			
-			connection.query(sql, values, function(err, rows, fields) {				
+
+			connection.query(sql, values, function(err, rows, fields) {
                 if(err) {
                     result.errorMessage = "Error querying server"
                     result.error = err;
@@ -85,7 +85,7 @@ var getFilters = function(filters) {
 		});
 	};
 
-	
+
 
 	service.queryServer_test = function(queryParts, callback) {
     var result = {};
@@ -98,6 +98,10 @@ var getFilters = function(filters) {
 
     _.each(queryParts['outerJoins'],function(join) {
         s.outer_join(join[0],join[1],join[2]);
+    });
+
+    _.each(queryParts['leftOuterJoins'],function(join) {
+        s.left_outer_join(join[0],join[1],join[2]);
     });
 
 
@@ -115,7 +119,29 @@ var getFilters = function(filters) {
             {
                 var col = columnName;
                 var n = columnName.split(")").length-1;
-                if(n === 1 && !_.contains(col,"(")) 
+                if(n === 1 && !_.contains(col,"("))
+                    s.field(columnName.split(")")[0]);
+                else s.field(col);
+            }
+            else s.field(columnName);
+            i++;
+        });
+    }
+    if (queryParts.concatColumns && queryParts.concatColumns !== "*" ) {
+        if(typeof queryParts.concatColumns === "string") {
+            // if (queryParts.columns.substring(0, 1) === "(")
+            //     queryParts.columns = queryParts.columns.substring(1, -1);
+            queryParts.concatColumns = queryParts.concatColumns.split(';');
+        }
+        var i = 0;
+        _.each(queryParts.concatColumns, function (columnName) {
+            if (i === 0 && columnName.substring(0,1) === "(")
+                s.field(columnName.split("(")[1]);
+            else if (i === queryParts.concatColumns.length-1)
+            {
+                var col = columnName;
+                var n = columnName.split(")").length-1;
+                if(n === 1 && !_.contains(col,"("))
                     s.field(columnName.split(")")[0]);
                 else s.field(col);
             }
@@ -144,7 +170,7 @@ var getFilters = function(filters) {
 
     getServerConnection(function(err, connection) {
 			if (err) return queryHandler(err, null);
-			
+
 			connection.query(sql, values, function(err, rows, fields) {
 				if(err) {
                     result.errorMessage = "Error querying server"
@@ -188,5 +214,5 @@ var getFilters = function(filters) {
 
 }
 
-	return service;	
+	return service;
 }();
