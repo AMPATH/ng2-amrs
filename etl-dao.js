@@ -412,45 +412,45 @@ module.exports = function () {
             db.queryServer_test(queryParts, function (result) {
                 callback(result);
             });
-        },
-        getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback) {
-            var periodFrom = request.query.startDate;
-            var periodTo = request.query.endDate;
+		},
+		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){			
+            var periodFrom = request.query.startDate || new Date().toISOString().substring(0,10);
+            var periodTo = request.query.endDate || new Date().toISOString().substring(0,10);
             var order = getSortOrder(request.query.order);
 
             var queryParts = {
-                columns: "t3.location_id,t3.name,count( distinct t1.patient_id) as total",
-                table: "amrs.patient",
-                where: ["date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')", periodFrom, periodTo],
-                group: ['t3.uuid,t3.name'],
-                order: order || [{ column: 't2.location_id', asc: false }],
-                joins: [
-                    ['amrs.encounter', 't2', 't1.patient_id = t2.patient_id'],
-                    ['amrs.location', 't3', 't2.location_id=t3.location_id']
-
-                ],
-                offset: request.query.startIndex,
-                limit: request.query.limit
+                columns :"t3.location_id,t3.name,count( distinct t1.patient_id) as total",
+                table:"amrs.patient",                
+                where:["date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')",periodFrom,periodTo],
+                group:['t3.uuid,t3.name'],
+                order: order || [{column:'t2.location_id',asc:false}],
+                joins:[
+                       ['amrs.encounter','t2','t1.patient_id = t2.patient_id'],
+                       ['amrs.location','t3','t2.location_id=t3.location_id'],
+                       ['amrs.person_name','t4','t4.person_id=t1.patient_id']                      
+                       ],                    
+                offset:request.query.startIndex,
+                limit:request.query.limit
             }
 
             db.queryServer_test(queryParts, function (result) {
                 callback(result);
             });
-        },
-        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback) {
-            var periodFrom = request.query.startDate;
-            var periodTo = request.query.endDate;
+		},
+        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){		      
             var location = request.params.location;
+            var periodFrom = request.query.startDate || new Date().toISOString().substring(0,10);
+            var periodTo = request.query.endDate || new Date().toISOString().substring(0,10);
             var order = getSortOrder(request.query.order);
-
             var queryParts = {
-                columns: "distinct t1.patient_id,t3.given_name,t3.middle_name,t3.family_name",
+                columns: "distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name",
                 table: "amrs.patient",
                 where: ["t2.location_id = ? AND date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')", location, periodFrom, periodTo],
                 order: order || [{ column: 't2.location_id', asc: false }],
                 joins: [
                     ['amrs.encounter', 't2', 't1.patient_id = t2.patient_id'],
-                    ['amrs.person_name', 't3', 't3.person_id=t1.patient_id']
+                    ['amrs.person_name', 't3', 't3.person_id=t1.patient_id'],
+                    ['amrs.person', 't4', 't4.person_id=t1.patient_id']
 
                 ],
                 offset: request.query.startIndex,
