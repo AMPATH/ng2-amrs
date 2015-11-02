@@ -442,15 +442,15 @@ module.exports = function () {
             var periodFrom = request.query.startDate || new Date().toISOString().substring(0,10);
             var periodTo = request.query.endDate || new Date().toISOString().substring(0,10);
             var order = getSortOrder(request.query.order);
-
             var queryParts = {
-                columns: "distinct t1.patient_id,t3.given_name,t3.middle_name,t3.family_name",
+                columns: "distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name",
                 table: "amrs.patient",
                 where: ["t2.location_id = ? AND date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')", location, periodFrom, periodTo],
                 order: order || [{ column: 't2.location_id', asc: false }],
                 joins: [
                     ['amrs.encounter', 't2', 't1.patient_id = t2.patient_id'],
-                    ['amrs.person_name', 't3', 't3.person_id=t1.patient_id']
+                    ['amrs.person_name', 't3', 't3.person_id=t1.patient_id'],
+                    ['amrs.person', 't4', 't4.person_id=t1.patient_id']
 
                 ],
                 offset: request.query.startIndex,
