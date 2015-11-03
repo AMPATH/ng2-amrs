@@ -614,7 +614,9 @@ module.exports = function () {
             };
             //retrieve jsin
             reportFactory.buildIndicatorsSchema(queryParams, function (result) {
-                callback(result);
+                var schema = {};
+                schema.result =result;
+                callback(schema);
             });
         },
         getIdsByUuidAsyc: getIdsByUuidAsyc
