@@ -480,6 +480,7 @@ module.exports = function () {
             };
             //build report
             reportFactory.buildReportExpression(queryParams, function (exprResult) {
+                console.log('here is the result:===>',exprResult);
                 var columns = ["name as location, location_uuid" + exprResult];
                 var queryParts = {
                     columns: columns,
@@ -577,12 +578,12 @@ module.exports = function () {
             //build report
             reportFactory.buildPatientListExpression(queryParams, function(exprResult){
                 var queryParts = {
-                    columns: "t1.uuid,t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid",
+                    columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
                     concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
                     "group_concat(distinct t3.identifier separator ', ') as identifiers",
                     table:exprResult.resource,
-                    where:["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_id=? " +
-                    "and t3.voided=0 and  "+exprResult.whereClause,startDate,endDate,location],
+                    where:["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_uuid=? " +
+                    "and t3.voided=0 "+exprResult.whereClause,startDate,endDate,location],
                     joins: [
                         ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
                     ],
@@ -598,7 +599,22 @@ module.exports = function () {
                     callback(result);
                 });
             });
-        }
+        },
+        getIndicatorsSchema: function  getIndicatorsSchema(request, callback) {
+            console.log('Getting Here', request.query);
+            var reportName = request.query.report;
+            //Check for undefined query field
+            if (reportName === undefined)
+                callback(Boom.badRequest('report (Report Name) is missing from your request query'));
+            //build query params
+            var queryParams = {
+                reportName: reportName
+            };
+            //retrieve jsin
+            reportFactory.buildIndicatorsSchema(queryParams, function (result) {
+                callback(result);
+            });
+        },
     };
 
     //helper functions

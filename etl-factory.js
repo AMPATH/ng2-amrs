@@ -68,11 +68,43 @@ module.exports = function() {
                 var indicatorsSchema= JSON.parse(indicatorData);
                     _.each(indicatorsSchema, function (indicator) {
                         if (indicator.name === queryParams.reportIndicator) {
-                            result.whereClause= indicator.expression;
+                            if (indicator.expression != "") {
+                                result.whereClause= "and "+indicator.expression;
+                            }else{
+                                result.whereClause= indicator.expression;
+                            }
                             result.resource=indicator.resource;
                         }
                     });
                 successCallback(result);
+            });
+
+        },
+       buildIndicatorsSchema:function buildIndicatorsSchema(queryParams, successCallback) {
+            //Check for undefined params
+            if(queryParams  === null || queryParams === undefined) return "";
+            var result=[];
+            //Load json schema into the query builder
+            fs.readFile(indicatorsSchemaPath, 'utf8', function (indicatorError, indicatorData) {
+                if (indicatorError) throw indicatorError; // we'll not consider error handling for now
+                var indicatorsSchema= JSON.parse(indicatorData);
+                fs.readFile(reportSchemaPath, 'utf8', function (reportError, reportData) {
+                    if (reportError) throw reportError; // we'll not consider error handling for now
+                    var reports=JSON.parse(reportData);
+                    _.each(reports,function(report) {
+                        if(report.reportName===queryParams.reportName) {
+                            _.each(report.indicators, function (name) {
+                                console.log('here is the requested indicators', name);
+                                _.each(indicatorsSchema, function (indicator) {
+                                    if (indicator.name === name) {
+                                        result.push(indicator);
+                                    }
+                                });
+                            });
+                        }
+                    });
+                    successCallback(result);
+                });
             });
 
         }
