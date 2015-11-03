@@ -456,7 +456,7 @@
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
-                "conditiona,l":true,
+                "conditional":true,
                 "fieldToCalulate": "encounter_id"
             }
         ]
