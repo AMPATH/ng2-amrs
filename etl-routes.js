@@ -177,8 +177,8 @@ module.exports = function () {
         {
             method: 'GET',
             path: '/etl/hiv-summary-indicators',
-            auth: 'simple',
             config: {
+                auth: 'simple',
                 handler: function (request, reply) {
                     dao.getHivSummaryIndicators(request, reply);
                 }
@@ -188,8 +188,8 @@ module.exports = function () {
         {
             method: 'GET',
             path: '/etl/location/{location}/patient-by-indicator',
-            auth: 'simple',
             config: {
+                auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientListByIndicator(request, reply);
                 }
@@ -207,8 +207,8 @@ module.exports = function () {
         {
             method: 'GET',
             path: '/etl/indicators-schema',
-            auth: 'simple',
             config: {
+                auth: 'simple',
                 handler: function (request, reply) {
                     dao.getIndicatorsSchema(request, reply);
                 }
