@@ -566,9 +566,9 @@ var sql = "	select " +
                         joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
                         break;
                     case 'by-creator-by-encounter-type':
-                        columns = ["t5.person_id as creator_id, t5.uuid as person_uuid, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
+                        columns = ["t5.user_id as creator_id, t5.uuid as user_uuid, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
                         groupBy = ['creator_id', 'encounter_type_id'];
-                        joins.push(['amrs.person', 't5', 't2.creator = t5.person_id']);
+                        joins.push(['amrs.users', 't5', 't2.creator = t5.user_id']);
                         break;
                 }
 
