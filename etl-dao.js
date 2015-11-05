@@ -476,7 +476,7 @@ module.exports = function () {
             //build query params
             var queryParams = {
                 reportName: reportName,
-                countBy: countBy||'person' //this gives the ability to count by either person_id or encounter_id
+                countBy: countBy || 'person' //this gives the ability to count by either person_id or encounter_id
             };
             //build report
             reportFactory.buildReportExpression(queryParams, function (exprResult) {
@@ -489,9 +489,9 @@ module.exports = function () {
                     joins: [
                         ['amrs.location', 't2', 't1.location_uuid = t2.uuid']
                     ],
-                    group:['location_uuid'],
-                    offset:request.query.startIndex,
-                    limit:request.query.limit
+                    group: ['location_uuid'],
+                    offset: request.query.startIndex,
+                    limit: request.query.limit
                 };
                 db.queryServer_test(queryParts, function (result) {
                     callback(result);
@@ -503,12 +503,11 @@ module.exports = function () {
 
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-
-            //build query params
+           
             var queryParams = {
                 reportName: reportName,
                 countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
-                locations: request.query.locations,
+                locations: request.query.locationIds,
                 provideruuid: request.query.providerUuid,
                 encounterTypeIds: request.query.encounterTypeIds,
                 creatoruuid: request.query.creatorUuid,
@@ -518,6 +517,7 @@ module.exports = function () {
             reportFactory.buildReportExpression(queryParams, function (exprResult) {
                 var columns;
                 var groupBy;
+                var orderBy = [];
                 var joins = [
                     ['amrs.encounter', 't2', 't1.encounter_id = t2.encounter_id'],
                     ['amrs.encounter_type', 't3', 't3.encounter_type_id = t2.encounter_type']
@@ -533,9 +533,10 @@ module.exports = function () {
                         joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
                         break;
                     case 'by-month-by-encounter-type':
-                        columns = ["CONCAT(year(encounter_datetime), '-', month(encounter_datetime))  as month, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
+                        columns = ["year(encounter_datetime) as year, month(encounter_datetime)  as month_number, DATE_FORMAT(encounter_datetime, '%M, %Y') as month, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
                         groupBy = ['month', 'encounter_type_id'];
                         joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
+                        orderBy =[{ column: 'year', asc: true },{ column: 'month_number', asc: true }];
                         break;
                     case 'by-provider-by-encounter-type':
                         columns = ["t4.provider_id as provider_id, t4.uuid as provider_uuid, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
@@ -554,29 +555,30 @@ module.exports = function () {
                     table: "amrs.encounter_provider",
                     where: where,
                     joins: joins,
-                    group: groupBy
+                    group: groupBy,
+                    order: orderBy
                 };
                 db.queryServer_test(queryParts, function (result) {
                     callback(result);
                 });
             });
         },
-        getPatientListByIndicator: function getPatientListByIndicator(request, callback){
-            console.log('Getting Here',request.query);
-            var reportIndicator =request.query.indicator;
+        getPatientListByIndicator: function getPatientListByIndicator(request, callback) {
+            console.log('Getting Here', request.query);
+            var reportIndicator = request.query.indicator;
             var location = request.params.location;
-            var startDate = request.query.startDate || new Date().toISOString().substring(0,10);
-            var endDate = request.query.endDate || new Date().toISOString().substring(0,10);
+            var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
             var order = getSortOrder(request.query.order);
             //Check for undefined query field
-            if(reportIndicator === undefined)
+            if (reportIndicator === undefined)
                 callback(Boom.badRequest('indicator (Report Indicator) is missing from your request query'));
             //declare query params
             var queryParams = {
                 reportIndicator: reportIndicator,
             };
             //build report
-            reportFactory.buildPatientListExpression(queryParams, function(exprResult){
+            reportFactory.buildPatientListExpression(queryParams, function (exprResult) {
                 var queryParts = {
                     columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
                     concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
@@ -595,7 +597,7 @@ module.exports = function () {
                     limit:request.query.limit,
                     group:['t1.person_id']
                 };
-                db.queryServer_test(queryParts, function(result){
+                db.queryServer_test(queryParts, function (result) {
                     callback(result);
                 });
             });
@@ -615,6 +617,7 @@ module.exports = function () {
                 callback(result);
             });
         },
+        getIdsByUuidAsyc: getIdsByUuidAsyc
     };
 
     //helper functions
@@ -651,5 +654,42 @@ module.exports = function () {
             where[0] = where[0] + " and t2.form_id in ?";
             where.push(formIds);
         }
+    }
+    
+    function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
+        var uuids = [];
+        _.each(arrayOfUuids.split(','), function (uuid) {
+            uuids.push(uuid);
+        });
+        
+        var queryParts = {
+            columns: idColumnName,
+            table: fullTableName,
+            where: [ uuidColumnName +  " in ?", uuids]
+        };
+        
+        var promise = {
+            onResolved: undefined,
+            results: undefined
+        };
+        
+        db.queryServer_test(queryParts, function (result) {
+            var formattedResult = '';
+            
+            _.each(result.result, function (rowPacket) {
+                if (formattedResult === '') {
+                    formattedResult = formattedResult + rowPacket[idColumnName];
+                } else {
+                    formattedResult = formattedResult + ',' + rowPacket[idColumnName];
+                }
+            });
+            callback(formattedResult);
+            promise.results = formattedResult;
+            if (typeof promise.onResolved === 'function') {
+                promise.onResolved(promise);
+            }
+        });
+        
+        return promise;
     }
 } ();
