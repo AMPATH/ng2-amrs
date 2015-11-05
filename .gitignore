@@ -3,4 +3,3 @@ conf/
 conf_copy/
 .idea/**
 .vscode/
-*.log
