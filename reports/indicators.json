@@ -10,14 +10,14 @@
                 "groupFunction": "count",
                 "distinct": false,
                 "conditional":false,
-                "fieldToCalulate": "*"
+                "fieldToCalculate": "*"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": false,
                 "conditional":false,
-                "fieldToCalulate": "*"
+                "fieldToCalculate": "*"
             }
         ]
     },
@@ -32,14 +32,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":false,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":false,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             }
         ]
     },
@@ -54,14 +54,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -76,14 +76,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -98,14 +98,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -120,14 +120,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -142,14 +142,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -164,14 +164,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -186,14 +186,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -208,14 +208,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -230,14 +230,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -252,14 +252,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -274,14 +274,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -296,14 +296,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -318,14 +318,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -340,14 +340,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -362,14 +362,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -384,14 +384,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -406,14 +406,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -428,14 +428,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -450,14 +450,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -472,14 +472,14 @@
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "person_id"
+                "fieldToCalculate": "person_id"
             },
             {
                 "name": "encounter",
                 "groupFunction": "count",
                 "distinct": true,
                 "conditional":true,
-                "fieldToCalulate": "encounter_id"
+                "fieldToCalculate": "encounter_id"
             }
         ]
     },
@@ -494,7 +494,7 @@
                 "groupFunction": "count",
                 "distinct": false,
                 "conditional":false,
-                "fieldToCalulate": "*"
+                "fieldToCalculate": "*"
             }
         ]
     }

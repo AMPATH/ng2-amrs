@@ -27,10 +27,10 @@ module.exports = function() {
 
                                         if (reportIndicator.conditional === true) {
                                             str += "if(" + indicator.expression + "," +
-                                                reportIndicator.fieldToCalulate + ",null)) as " + indicator.name;
+                                                reportIndicator.fieldToCalculate + ",null)) as " + indicator.name;
                                         }
                                         else if (reportIndicator.conditional === false) {
-                                            str += reportIndicator.fieldToCalulate + ") as " + indicator.name;
+                                            str += reportIndicator.fieldToCalculate + ") as " + indicator.name;
                                         }
                                         result += str.toString();
                                     }

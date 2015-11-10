@@ -173,13 +173,17 @@ var getFilters = function(filters) {
 
 			connection.query(sql, values, function(err, rows, fields) {
 				if(err) {
-                    result.errorMessage = "Error querying server"
+                    result.errorMessage = "Error querying server";
                     result.error = err;
+                    result.sql=sql;
+                    result.sqlParams=values;
                 }
                 else {
                     result.startIndex = queryParts.offset || queryOffset;
                     result.size = rows.length;
                     result.result = rows;
+                    result.sql=sql;
+                    result.sqlParams=values;
                 }
 				// queryHandler(err, result);
 				callback(result);
