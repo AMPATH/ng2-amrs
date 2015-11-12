@@ -525,7 +525,7 @@ var sql = "	select " +
 
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-           
+
             var queryParams = {
                 reportName: reportName,
                 countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
@@ -607,7 +607,7 @@ var sql = "	select " +
                     "group_concat(distinct t3.identifier separator ', ') as identifiers",
                     table:exprResult.resource,
                     where:["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_uuid=? " +
-                    "and t3.voided=0 "+exprResult.whereClause,startDate,endDate,location],
+                    exprResult.whereClause,startDate,endDate,location],
                     joins: [
                         ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
                     ],
@@ -679,27 +679,27 @@ var sql = "	select " +
             where.push(formIds);
         }
     }
-    
+
     function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
         var uuids = [];
         _.each(arrayOfUuids.split(','), function (uuid) {
             uuids.push(uuid);
         });
-        
+
         var queryParts = {
             columns: idColumnName,
             table: fullTableName,
             where: [ uuidColumnName +  " in ?", uuids]
         };
-        
+
         var promise = {
             onResolved: undefined,
             results: undefined
         };
-        
+
         db.queryServer_test(queryParts, function (result) {
             var formattedResult = '';
-            
+
             _.each(result.result, function (rowPacket) {
                 if (formattedResult === '') {
                     formattedResult = formattedResult + rowPacket[idColumnName];
@@ -713,7 +713,7 @@ var sql = "	select " +
                 promise.onResolved(promise);
             }
         });
-        
+
         return promise;
     }
 } ();
