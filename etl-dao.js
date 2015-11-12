@@ -216,6 +216,33 @@ module.exports = function () {
             });
 
         },
+        getHasNotReturned: function getHasNotReturned(request, callback) {
+            var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+            var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+
+            var queryParts = {
+                columns: request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
+                table: "etl.flat_hiv_summary",
+                joins: [
+                    ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
+                    ['amrs.person_name', 't3', 't1.person_id = t3.person_id'],
+                    ['amrs.patient_identifier', 't4', 't1.person_id=t4.patient_id']
+                ],
+                where: ["t1.location_uuid = ? and t1.rtc_date between ? and ? and next_clinic_datetime is null",
+                 uuid, startDate, endDate],
+                group: ['person_id'],
+                order: order || [{ column: 'family_name', asc: true }],
+                offset: request.query.startIndex,
+                limit: request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function (result) {
+                callback(result);
+            });
+
+        },
         getClinicMonthlyAppointmentSchedule: function getClinicMonthlyAppointmentSchedule(request, callback) {
             var uuid = request.params.uuid;
             var order = getSortOrder(request.query.order);

@@ -110,6 +110,16 @@ module.exports = function () {
         },
         {
             method: 'GET',
+            path: '/etl/location/{uuid}/has-not-returned',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getHasNotReturned(request, reply);
+                }
+            }
+        },
+        {
+            method: 'GET',
             path: '/etl/location/{uuid}/monthly-appointment-schedule',
             config: {
                 auth: 'simple',
