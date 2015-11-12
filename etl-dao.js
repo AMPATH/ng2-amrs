@@ -244,76 +244,33 @@ module.exports = function () {
             var queryParts = {};
             queryParts.values = [uuid, startDate,endDate, uuid, startDate, endDate];
             queryParts.startDate = startDate;
-
-            // var sql ='select attended as total_visited,scheduled as total ,t1.d as rtc_date,date_format(t1.d,"%W") as day_of_week'
-            // +' from'
-            // +' (select'
-            // +' date(convert_tz(t1.encounter_datetime,"+00:00","+03:00")) as d,'
-            // +' count(distinct person_id) as attended'
-            // +' from etl.flat_hiv_summary t1'
-            // +' join amrs.encounter t2 using (encounter_id)'
-            // +' where'
-            //     +' t1.location_uuid = ?'
-            //     +' and t1.encounter_datetime between ? and ?'
-            //     +' and t2.encounter_type != 21'
-            //   +' group by d'
-            // + ') t1'
-            // +' join'
-            // +' ( select'
-            //   +' date(convert_tz(t1.rtc_date,"+00:00","+03:00")) as d,'
-            //   +' count(distinct person_id) as scheduled'
-            //   +' from etl.flat_hiv_summary t1'
-            //   +' where'
-            //     +' t1.location_uuid = ?'
-            //     +' and t1.rtc_date between ? and ?'
-            //   +' group by d'
-            // +' ) t2 on t1.d = t2.d'
-//             var sql = "select distinct" +
-// "        CONVERT_TZ((coalesce(scheduled.rtc_date, visited.encounter_datetime)),'+00:00', '+03:00') as rtc_date," +
-// "        coalesce(scheduled.day_of_week, visited.day_of_week) as day_of_week," +
-// "        ifnull(scheduled.total_scheduled,0) as total," +
-// "        ifnull(visited.total_visits,0) as total_visited" +
-// "        from (" +
-// "          select date(rtc_date) as rtc_date, date_format(rtc_date,'%W') as day_of_week," +
-// "          count( distinct t1.person_id) as total_scheduled,location_id" +
-// "          from etl.flat_hiv_summary t1" +
-// "          where t1.location_uuid = ?" +
-// "          and rtc_date between ? and ?" +
-// "          group by rtc_date)  scheduled" +
-// "          left join(" +
-// "            select date(encounter_datetime) as encounter_datetime, date_format(encounter_datetime,'%W') as day_of_week," +
-// "            count( distinct t1.person_id) as total_visits,location_id" +
-// "            from etl.flat_hiv_summary t1" +
-// "            where t1.location_uuid = ?" +
-// "            and encounter_datetime between ? and ?" +
-// "            group by encounter_datetime) visited on scheduled.location_id=visited.location_id" +
-// "            and scheduled.rtc_date=visited.encounter_datetime" +
-// "  ";
-var sql = "	select " +
-"        CONVERT_TZ((coalesce(scheduled.rtc_date, visited.encounter_datetime)),'+00:00', '+03:00') as rtc_date," +
-"        coalesce(scheduled.day_of_week, visited.day_of_week) as day_of_week," +
-"        ifnull(scheduled.total_scheduled,0) as total, " +
-"        ifnull(sum(visited.total_visits),0) as total_visited" +
-"        from (" +
-"          select date(rtc_date) as rtc_date, date_format(rtc_date,'%W') as day_of_week," +
-"          count( distinct t1.person_id) as total_scheduled,location_id" +
-"          from etl.flat_hiv_summary t1" +
-"          where t1.location_uuid = ?" +
-"          and rtc_date between ? and ?" +
-"          group by rtc_date)  scheduled" +
-"          left join(" +
-"            select date(encounter_datetime) as encounter_datetime, date_format(encounter_datetime,'%W') as day_of_week," +
-"            count( distinct t1.person_id) as total_visits,location_id" +
-"            from etl.flat_hiv_summary t1" +
-"            where t1.location_uuid = ?" +
-"            and encounter_datetime between ? and ?" +
-"            group by encounter_datetime) visited on scheduled.location_id=visited.location_id" +
-"            and scheduled.rtc_date=visited.encounter_datetime" +
-"            group by rtc_date";
+           var sql = "select attended as total_visited,scheduled as total ,t1.d as rtc_date," +
+            " date_format(t1.d,'%W') as day_of_week,has_not_returned " +
+            " from (select 	 date(convert_tz(t1.encounter_datetime,'+00:00','+03:00')) as d,  " +
+            " count(distinct t1.person_id) as attended,	" +
+            " count(distinct if(abs(timestampdiff(day,t1.prev_rtc_date, t1.encounter_datetime)) <= 14,t1.person_id,null)) as attended_and_scheduled_within_14," +
+            " count(distinct if(timestampdiff(day,t1.prev_rtc_date,t1.encounter_datetime) > 14,t1.person_id,null)) as attended_and_scheduled_after_14	" +
+            " from etl.flat_hiv_summary t1		" +
+            " join amrs.encounter t2 using (encounter_id) 	" +
+            " where 		t1.location_uuid = ?		" +
+            " and t1.encounter_datetime between ? and ?" +
+            " and t2.encounter_type != 21	group by d ) t1 " +
+            " join (select 	date(convert_tz(t1.rtc_date,'+00:00','+03:00')) as d,  	" +
+            " count(distinct t1.person_id) as scheduled," +
+            " count(distinct if(next_clinic_datetime is not null,t1.person_id,null)) as scheduled_and_attended,	" +
+            " count(distinct if(next_clinic_datetime is null,t1.person_id,null)) as has_not_returned, 	" +
+            " count(distinct if(abs(timestampdiff(day,rtc_date,next_clinic_datetime)) <= 14,t1.person_id,null)) as scheduled_and_attended_within_14,	" +
+            " count(distinct if(timestampdiff(day,rtc_date,next_clinic_datetime) > 14,t1.person_id,null)) as scheduled_and_attended_after_14,	" +
+            " count(distinct if(next_encounter_type=21,t1.person_id,null)) as next_visit_by_outreach	" +
+            " from etl.flat_hiv_summary t1	" +
+            " join etl.derived_encounter t2 using (encounter_id)	" +
+            " where 		t1.location_uuid = ?		" +
+            " and t1.rtc_date between ? and ?	" +
+            " group by d ) t2 on t1.d = t2.d";
 
             queryParts.sql = sql;
             db.queryServer(queryParts, function (result) {
-                console.log('appointments=======>',result);
+              console.log('Result========>',result);
                 callback(result);
             });
         },
