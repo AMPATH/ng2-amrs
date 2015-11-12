@@ -216,6 +216,33 @@ module.exports = function () {
             });
 
         },
+        getHasNotReturned: function getHasNotReturned(request, callback) {
+            var uuid = request.params.uuid;
+            var order = getSortOrder(request.query.order);
+            var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+
+            var queryParts = {
+                columns: request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
+                table: "etl.flat_hiv_summary",
+                joins: [
+                    ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
+                    ['amrs.person_name', 't3', 't1.person_id = t3.person_id'],
+                    ['amrs.patient_identifier', 't4', 't1.person_id=t4.patient_id']
+                ],
+                where: ["t1.location_uuid = ? and t1.rtc_date between ? and ? and next_clinic_datetime is null",
+                 uuid, startDate, endDate],
+                group: ['person_id'],
+                order: order || [{ column: 'family_name', asc: true }],
+                offset: request.query.startIndex,
+                limit: request.query.limit
+            }
+
+            db.queryServer_test(queryParts, function (result) {
+                callback(result);
+            });
+
+        },
         getClinicMonthlyAppointmentSchedule: function getClinicMonthlyAppointmentSchedule(request, callback) {
             var uuid = request.params.uuid;
             var order = getSortOrder(request.query.order);
@@ -413,22 +440,22 @@ module.exports = function () {
                 callback(result);
             });
 		},
-		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){			
+		getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback){
             var periodFrom = request.query.startDate || new Date().toISOString().substring(0,10);
             var periodTo = request.query.endDate || new Date().toISOString().substring(0,10);
             var order = getSortOrder(request.query.order);
 
             var queryParts = {
                 columns :"t3.location_id,t3.name,count( distinct t1.patient_id) as total",
-                table:"amrs.patient",                
+                table:"amrs.patient",
                 where:["date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')",periodFrom,periodTo],
                 group:['t3.uuid,t3.name'],
                 order: order || [{column:'t2.location_id',asc:false}],
                 joins:[
                        ['amrs.encounter','t2','t1.patient_id = t2.patient_id'],
                        ['amrs.location','t3','t2.location_id=t3.location_id'],
-                       ['amrs.person_name','t4','t4.person_id=t1.patient_id']                      
-                       ],                    
+                       ['amrs.person_name','t4','t4.person_id=t1.patient_id']
+                       ],
                 offset:request.query.startIndex,
                 limit:request.query.limit
             }
@@ -437,7 +464,7 @@ module.exports = function () {
                 callback(result);
             });
 		},
-        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){		      
+        getPatientDetailsGroupedByLocation: function getPatientDetailsGroupedByLocation(request, callback){
             var location = request.params.location;
             var periodFrom = request.query.startDate || new Date().toISOString().substring(0,10);
             var periodTo = request.query.endDate || new Date().toISOString().substring(0,10);
