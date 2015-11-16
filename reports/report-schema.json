@@ -1,45 +1,132 @@
 [
     {
-        "reportName": "hiv-summery-report",
-        "analysisType": "timeBased",
-        "parameters": [
-            "startDate",
-            "endDate"
+        "name": "hiv-summary-report",
+        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "joins":[
+            {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
         ],
-        "indicators": [
-            "encounter",
-            "patient",
-            "on_arvs",
-            "on_arvs_first_line",
-            "on_arvs_second_line",
-            "on_arvs_third_line",
-            "vl_done_past_year",
-            "no_vl_done_past_year",
-            "vl_done_past_year_lte_1000",
-            "vl_done_past_year_gt_1000",
-            "vl_done_this_encounter",
-            "vl_done_this_encounter_lte_1000",
-            "vl_done_this_encounter_gt_1000",
-            "vl_ordered",
-            "pending_vl_order",
-            "pending_vl_order_no_result_after_4_weeks",
-            "on_arvs_lte_26_weeks",
-            "on_arvs_lte_52_weeks",
-            "on_arvs_lte_52_weeks_and_have_vl",
-            "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-            "pregnant",
-            "pregnant_and_on_arvs"
-        ]
-    },
-    {
-        "reportName": "data-entry-statistic-report",
-        "analysisType": "timeBased,clinicBased,providerBased",
         "parameters": [
-            "startDate",
-            "endDate"
+            {"name":"startDate", "defaultValue":"defaultValue"},
+            {"name":"endDate", "defaultValue":"defaultValue"},
+            {"name":"locationUuids","defaultValue":[]}
         ],
+        "filters": [
+            {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
+            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
+        ],
+        "groupClause":["location_uuid"],
         "indicators": [
-            "encounters_count"
+            {
+                "label":"encounters",
+                "expression":"encounters",
+                "patientListExpression":"encounters"
+            },
+            {
+                "label":"patients",
+                "expression":"patients",
+                "patientListExpression":"patients"
+            },
+            {
+                "label":"on_arvs",
+                "expression":"on_arvs",
+                "patientListExpression":"on_arvs"
+            },
+            {
+                "label":"on_arvs_first_line",
+                "expression":"on_arvs_first_line",
+                "patientListExpression":"on_arvs_first_line"
+            },
+            {
+                "label":"on_arvs_second_line",
+                "expression":"on_arvs_second_line",
+                "patientListExpression":"on_arvs_second_line"
+            },
+            {
+                "label":"on_arvs_third_line",
+                "expression":"on_arvs_third_line",
+                "patientListExpression":"on_arvs_third_line"
+            },
+            {
+                "label":"vl_done_past_year",
+                "expression":"vl_done_past_year",
+                "patientListExpression":"vl_done_past_year"
+            },
+            {
+                "label":"no_vl_done_past_year",
+                "expression":"no_vl_done_past_year",
+                "patientListExpression":"no_vl_done_past_year"
+            },
+            {
+                "label":"vl_done_past_year_lte_1000",
+                "expression":"vl_done_past_year_lte_1000",
+                "patientListExpression":"vl_done_past_year_lte_1000"
+            },
+            {
+                "label":"vl_done_past_year_gt_1000",
+                "expression":"vl_done_past_year_gt_1000",
+                "patientListExpression":"vl_done_past_year_gt_1000"
+            },
+            {
+                "label":"vl_done_this_encounter",
+                "expression":"vl_done_this_encounter",
+                "patientListExpression":"vl_done_this_encounter"
+            },
+            {
+                "label":"vl_done_this_encounter_lte_1000",
+                "expression":"vl_done_this_encounter_lte_1000",
+                "patientListExpression":"vl_done_this_encounter_lte_1000"
+            },
+            {
+                "label":"vl_done_this_encounter_gt_1000",
+                "expression":"vl_done_this_encounter_gt_1000",
+                "patientListExpression":"vl_done_this_encounter_gt_1000"
+            },
+            {
+                "label":"vl_ordered",
+                "expression":"vl_ordered",
+                "patientListExpression":"vl_ordered"
+            },
+            {
+                "label":"pending_vl_order",
+                "expression":"pending_vl_order",
+                "patientListExpression":"pending_vl_order"
+            },
+            {
+                "label":"pending_vl_order_no_result_after_4_weeks",
+                "expression":"pending_vl_order_no_result_after_4_weeks",
+                "patientListExpression":"pending_vl_order_no_result_after_4_weeks"
+            },
+            {
+                "label":"on_arvs_lte_26_weeks",
+                "expression":"on_arvs_lte_26_weeks",
+                "patientListExpression":"on_arvs_lte_26_weeks"
+            },
+            {
+                "label":"on_arvs_lte_52_weeks",
+                "expression":"on_arvs_lte_52_weeks",
+                "patientListExpression":"on_arvs_lte_52_weeks"
+            },
+            {
+                "label":"on_arvs_lte_52_weeks_and_have_vl",
+                "expression":"on_arvs_lte_52_weeks_and_have_vl",
+                "patientListExpression":"on_arvs_lte_52_weeks_and_have_vl"
+            },
+            {
+                "label":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+                "expression":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+                "patientListExpression":"on_arvs_lte_52_weeks_and_have_vl_lte_1000"
+            },
+            {
+                "label":"pregnant",
+                "expression":"pregnant",
+                "patientListExpression":"pregnant"
+            },
+            {
+                "label":"pregnant_and_on_arvs",
+                "expression":"pregnant_and_on_arvs",
+                "patientListExpression":"pregnant_and_on_arvs"
+            }
         ]
     }
+
 ]

@@ -276,6 +276,7 @@ module.exports = function () {
                 }
 
             }
-        }
+        },
+
     ];
 } ();
