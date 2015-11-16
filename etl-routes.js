@@ -211,14 +211,14 @@ module.exports = function () {
             config: {
                 handler: function (request, reply) {
                     var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                    
+
                     var onResolvedPromise = function (promise) {
                         asyncRequests--;
                         if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                             dao.getDataEntryIndicators(request.params.sub, request, reply);
                         }
                     };
-                    
+
                     //establish the number of asyncRequests
                     //this is done prior to avoid any race conditions
                     if (request.query.formUuids) {
@@ -230,10 +230,10 @@ module.exports = function () {
                     if (request.query.locationUuids) {
                         asyncRequests++;
                     }
-                    
+
                     if(asyncRequests == 0)
                          dao.getDataEntryIndicators(request.params.sub, request, reply);
-                    
+
                     if (request.query.formUuids) {
                         dao.getIdsByUuidAsyc('amrs.form', 'form_id', 'uuid', request.query.formUuids,
                             function (results) {
@@ -262,6 +262,17 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getIndicatorsSchema(request, reply);
+                }
+
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/hiv-summary-data',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getHivSummaryData(request, reply);
                 }
 
             }
