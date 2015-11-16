@@ -625,7 +625,32 @@ module.exports = function () {
                 callback(schema);
             });
         },
-        getIdsByUuidAsyc: getIdsByUuidAsyc
+        getIdsByUuidAsyc: getIdsByUuidAsyc,
+        getHivSummaryData: function getHivSummaryData(request, callback) {
+            var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
+            var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+            var locationsId = request.query.locations||'13';
+            var locations = [];
+            _.each(locationsId.split(','), function (loc) {
+                locations.push(Number(loc));
+            });
+            var columns = "name as location, t1.*";
+            var queryParts = {
+                columns: columns,
+                table: "etl.flat_hiv_summary",
+                where: ["encounter_datetime >= ? and encounter_datetime <= ? and t1.location_id in ?",
+                    startDate, endDate, locations],
+                joins: [
+                    ['amrs.location', 't2', 't1.location_uuid = t2.uuid']
+                ],
+                offset: request.query.startIndex,
+                limit: request.query.limit
+            };
+            db.queryServer_test(queryParts, function (result) {
+                callback(result);
+            });
+
+        },
     };
 
     //helper functions
