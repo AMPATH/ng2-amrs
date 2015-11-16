@@ -473,43 +473,29 @@ module.exports = function () {
             var countBy = request.query.countBy;
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            //Check for undefined query field
-            if (reportName === undefined)
-                callback(Boom.badRequest('report (Report Name) is missing from your request query'));
-            if (countBy === undefined)
-                callback(Boom.badRequest('countBy (Count By) is missing from your request query' +
-                    'this is necessary because gives you the ability to count by either person_id or encounter_id'));
             //build query params
-            var queryParams = {
+            var requestParams = {
                 reportName: reportName,
-                countBy: countBy || 'person' //this gives the ability to count by either person_id or encounter_id
+                whereParams: [
+                    {"name":"startDate", "value":startDate},
+                    {"name":"endDate", "value":endDate}
+                ],
+                countBy: countBy||'num_persons',
+                offset:request.query.startIndex,
+                limit: request.query.limit,
+                supplementColumns:"name as location, location_uuid"
             };
             //build report
-            reportFactory.buildReportExpression(queryParams, function (exprResult) {
-                console.log('here is the result:===>',exprResult);
-                var columns = ["name as location, location_uuid" + exprResult];
-                var queryParts = {
-                    columns: columns,
-                    table: "etl.flat_hiv_summary",
-                    where: ["encounter_datetime >= ? and encounter_datetime <= ? ", startDate, endDate],
-                    joins: [
-                        ['amrs.location', 't2', 't1.location_uuid = t2.uuid']
-                    ],
-                    group: ['location_uuid'],
-                    offset: request.query.startIndex,
-                    limit: request.query.limit
-                };
-                db.queryServer_test(queryParts, function (result) {
+            reportFactory.singleReportToSql(requestParams, function (exprResult) {
+                db.reportQueryServer(exprResult, function (result) {
                     callback(result);
                 });
             });
         },
         getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {
             var reportName = 'data-entry-statistic-report';
-
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-
             var queryParams = {
                 reportName: reportName,
                 countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
@@ -519,55 +505,58 @@ module.exports = function () {
                 creatoruuid: request.query.creatorUuid,
                 formIds: request.query.formIds
             };
+            var columns;
+            var groupBy;
+            var orderBy = [];
+            var joins = [
+                ['amrs.encounter', 't2', 't1.encounter_id = t2.encounter_id'],
+                ['amrs.encounter_type', 't3', 't3.encounter_type_id = t2.encounter_type']
+            ];
+            var where = ["encounter_datetime >= ? and encounter_datetime <= ?", startDate, endDate];
 
-            reportFactory.buildReportExpression(queryParams, function (exprResult) {
-                var columns;
-                var groupBy;
-                var orderBy = [];
-                var joins = [
-                    ['amrs.encounter', 't2', 't1.encounter_id = t2.encounter_id'],
-                    ['amrs.encounter_type', 't3', 't3.encounter_type_id = t2.encounter_type']
-                ];
-                var where = ["encounter_datetime >= ? and encounter_datetime <= ?", startDate, endDate];
+            buildWhereClauseForDataEntryIndicators(queryParams, where);
 
-                buildWhereClauseForDataEntryIndicators(queryParams, where);
+            switch (subType) {
+                case 'by-date-by-encounter-type':
+                    columns = ["date(encounter_datetime) as date, t2.encounter_type as encounter_type_id, " +
+                    "t3.name as encounter_type, count(*) as encounters_count" ];
+                    groupBy = ['date', 'encounter_type_id'];
+                    joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
+                    break;
+                case 'by-month-by-encounter-type':
+                    columns = ["year(encounter_datetime) as year, month(encounter_datetime)  as month_number, " +
+                    "DATE_FORMAT(encounter_datetime, '%M, %Y') as month, t2.encounter_type as encounter_type_id," +
+                    " t3.name as encounter_type, count(*) as encounters_count"];
+                    groupBy = ['month', 'encounter_type_id'];
+                    joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
+                    orderBy =[{ column: 'year', asc: true },{ column: 'month_number', asc: true }];
+                    break;
+                case 'by-provider-by-encounter-type':
+                    columns = ["t4.provider_id as provider_id, t4.uuid as provider_uuid, t2.encounter_type as " +
+                    "encounter_type_id, t3.name as encounter_type, count(*) as encounters_count"];
+                    groupBy = ['provider_id', 'encounter_type_id'];
+                    joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
+                    break;
+                case 'by-creator-by-encounter-type':
+                    columns = ["t5.user_id as creator_id, t5.uuid as user_uuid, t2.encounter_type as encounter_type_id," +
+                    " t3.name as encounter_type, count(*) as encounters_count"];
+                    groupBy = ['creator_id', 'encounter_type_id'];
+                    joins.push(['amrs.users', 't5', 't2.creator = t5.user_id']);
+                    break;
+            }
 
-                switch (subType) {
-                    case 'by-date-by-encounter-type':
-                        columns = ["date(encounter_datetime) as date, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
-                        groupBy = ['date', 'encounter_type_id'];
-                        joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
-                        break;
-                    case 'by-month-by-encounter-type':
-                        columns = ["year(encounter_datetime) as year, month(encounter_datetime)  as month_number, DATE_FORMAT(encounter_datetime, '%M, %Y') as month, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
-                        groupBy = ['month', 'encounter_type_id'];
-                        joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
-                        orderBy =[{ column: 'year', asc: true },{ column: 'month_number', asc: true }];
-                        break;
-                    case 'by-provider-by-encounter-type':
-                        columns = ["t4.provider_id as provider_id, t4.uuid as provider_uuid, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
-                        groupBy = ['provider_id', 'encounter_type_id'];
-                        joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
-                        break;
-                    case 'by-creator-by-encounter-type':
-                        columns = ["t5.user_id as creator_id, t5.uuid as user_uuid, t2.encounter_type as encounter_type_id, t3.name as encounter_type" + exprResult];
-                        groupBy = ['creator_id', 'encounter_type_id'];
-                        joins.push(['amrs.users', 't5', 't2.creator = t5.user_id']);
-                        break;
-                }
-
-                var queryParts = {
-                    columns: columns,
-                    table: "amrs.encounter_provider",
-                    where: where,
-                    joins: joins,
-                    group: groupBy,
-                    order: orderBy
-                };
-                db.queryServer_test(queryParts, function (result) {
-                    callback(result);
-                });
+            var queryParts = {
+                columns: columns,
+                table: "amrs.encounter_provider",
+                where: where,
+                joins: joins,
+                group: groupBy,
+                order: orderBy
+            };
+            db.queryServer_test(queryParts, function (result) {
+                callback(result);
             });
+
         },
         getPatientListByIndicator: function getPatientListByIndicator(request, callback) {
             console.log('Getting Here', request.query);
@@ -576,12 +565,14 @@ module.exports = function () {
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
             var order = getSortOrder(request.query.order);
+            var reportName = request.query.reportName || 'hiv-summary-report';
             //Check for undefined query field
             if (reportIndicator === undefined)
                 callback(Boom.badRequest('indicator (Report Indicator) is missing from your request query'));
             //declare query params
             var queryParams = {
                 reportIndicator: reportIndicator,
+                reportName:reportName
             };
             //build report
             reportFactory.buildPatientListExpression(queryParams, function (exprResult) {
@@ -608,7 +599,7 @@ module.exports = function () {
                 });
             });
         },
-        getIndicatorsSchema: function  getIndicatorsSchema(request, callback) {
+        getIndicatorsSchema: function getIndicatorsSchema(request, callback) {
             console.log('Getting Here', request.query);
             var reportName = request.query.report;
             //Check for undefined query field

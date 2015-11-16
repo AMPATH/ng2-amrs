@@ -1,503 +1,336 @@
 [
     {
-        "name":"encounter",
+        "name":"encounters",
         "label": "Total # of encounters",
         "expression": "",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": false,
-                "conditional":false,
-                "fieldToCalculate": "*"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(*)"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": false,
-                "conditional":false,
-                "fieldToCalculate": "*"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(*)"
             }
-        ]
+        }
     },
     {
-        "name":"patient",
+        "name":"patients",
         "label": "Total # of patients",
         "expression": "",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":false,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(*)"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":false,
-                "fieldToCalculate": "person_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(*)"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs",
         "label": "Total # of patients who are on ARVs",
         "expression": "cur_arv_line is not null",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_first_line",
         "label": "# of patient on ARVs first line",
         "expression": "cur_arv_line=1",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_second_line",
         "label": "# of patient on ARVs second line",
         "expression": "cur_arv_line=2",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_third_line",
         "label": "# of patient on ARVs third line",
         "expression": "cur_arv_line>2",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_done_past_year",
         "label": "# of patient(s) whose Viral Load have been taken in the past 1 year",
         "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"no_vl_done_past_year",
         "label": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
         "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_done_past_year_lte_1000",
         "label": "# of patient(s) whose Viral Load is Less Than or Equal to 1000",
         "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_done_past_year_gt_1000",
         "label": "# of patient(s) whose Viral Load is Greater Than 1000",
         "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_done_this_encounter",
         "label": "# of patient(s) whose Viral Load has been taken in this encounter",
         "expression": "vl_resulted >= 0",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_done_this_encounter_lte_1000",
         "label": "# of patient(s) whose Viral Load in this encounter is Less Than 1000",
         "expression": "vl_resulted <= 1000",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_done_this_encounter_gt_1000",
         "label": "# of patient(s) whose Viral Load in this encounter is Greater Than 1000",
         "expression": "vl_resulted > 1000",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"vl_ordered",
         "label": "# of patient(s) whose Viral Load has been ordered",
         "expression": "vl_order_date=encounter_datetime",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"pending_vl_order",
         "label": "# of patient(s) whose Viral Load has been Ordered but awaiting result",
         "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"pending_vl_order_no_result_after_4_weeks",
         "label": "# of patient(s) whose Pending Viral Load Result is missing even after 4 weeks",
         "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_lte_26_weeks",
         "label": "# of patient(s) who have been on ARVs for the last 26 weeks or less",
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_lte_52_weeks",
         "label": "# of patient(s) who have been on ARVs for the last 52 weeks or less",
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_lte_52_weeks_and_have_vl",
         "label": "# of patient(s) who have been on ARVs for the last 52 weeks or less and have Viral Load",
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
         "label": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        }
     },
     {
         "name":"pregnant",
         "label": "# of pregnant patients in a given time period",
         "expression": "edd > encounter_datetime",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+
+        }
     },
     {
         "name":"pregnant_and_on_arvs",
-        "label": "# o pregnant patients and are on ARVs in a given time period",
+        "label": "# of pregnant patients and are on ARVs in a given time period",
         "expression": "edd > encounter_datetime and cur_arv_line is not null",
-        "resource": "etl.flat_hiv_summary",
-        "reportIndicators": [
-            {
-                "name": "person",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "person_id"
+        "reportIndicators": {
+            "num_encounters": {
+                "name":"num_encounters",
+                "sql":"count(distinct if($expression,encounter_id,null))"
             },
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": true,
-                "conditional":true,
-                "fieldToCalculate": "encounter_id"
+            "num_persons": {
+                "name":"num_persons",
+                "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
-    },
-    {
-        "name":"encounters_count",
-        "label": "encounters_count",
-        "expression": "",
-        "resource": "amrs.encounter_provider",
-        "reportIndicators": [
-            {
-                "name": "encounter",
-                "groupFunction": "count",
-                "distinct": false,
-                "conditional":false,
-                "fieldToCalculate": "*"
-            }
-        ]
+        }
     }
+
 ]
 
 
