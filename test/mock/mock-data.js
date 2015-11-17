@@ -48,6 +48,22 @@ module.exports = function ()
 				cd4_order_date: null
 			}
 			]
+		},
+
+		getCustomMockData: function getCustomMockData() {
+			return [
+			{
+				patient_id: 1001,
+				creator: 3,
+				date_created: "2006-02-14T21:00:00.000Z",
+				changed_by: 164623,
+				date_changed: "2012-04-23T14:36:23.000Z",
+				voided: 0,
+				voided_by: null,
+				date_voided: null,
+				void_reason: null
+			}
+			]
 		}
 		
 	}

@@ -4,7 +4,6 @@
   "description": "etl rest server",
   "main": "et-server.js",
   "scripts": {
-    "pretest":"jshint ../etl-rest-server",
     "test": "mocha",
     "watch": "npm test -- --watch"
   },

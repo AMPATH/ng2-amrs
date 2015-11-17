@@ -22,7 +22,7 @@ module.exports = function () {
             method: 'GET',
             path: '/etl/patient/{uuid}',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatient(request, reply);
                 }
