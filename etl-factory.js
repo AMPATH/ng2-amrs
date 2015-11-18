@@ -2,8 +2,11 @@
 var _ = require('underscore');
 //Report Indicators Json Schema Path
 var indicatorsSchema = require('./reports/indicators.json');
-var reports = require('./reports/report-schema.json');
+var hivSummaryReport = require('./reports/hiv-summary-report.json');
+var reports=[];
 
+//create an array of reports --->push your report using reports.push(report1,report2,... report(n));
+reports.push(hivSummaryReport);
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function() {
     return {
@@ -67,7 +70,7 @@ module.exports = function() {
                     alias: report.table['alias'],
                     joins: joinsToSql(report.joins),
                     where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
-                    group: report.groupClause,
+                    group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
                     offset: requestParams.offset,
                     limit: requestParams.limit
                 };
@@ -105,20 +108,43 @@ module.exports = function() {
         });
         return result;
     }
+    //converts an array of group clause into squel consumable
+    function groupClauseToSql(groupClauses, groupBy, reportParams) {
+        var result =[];
+        _.each(groupBy.split(','), function (by) {
+            _.each(groupClauses,function(groupClause) {
+                if(groupClause["parameter"]===by)
+                {
+                    _.each(reportParams, function (reportParam) {
+                        if (reportParam["name"] === groupClause["parameter"]) {
+                            _.each(reportParam["defaultValue"],function(value) {
+                                result.push(value["expression"]);
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        return result;
+    }
     //converts an array of filters into sql
     function filtersToSql(whereParams, reportParams, reportFilters) {
         var result =[];
         var expression ='';
         var parameters=[];
         _.each(reportFilters,function(reportFilter) {
-            expression +=reportFilter["expression"];
-            expression +=' and ';
-            _.each(reportParams,function(reportParam) {
-                if(reportParam["name"]===reportFilter["parameter"])
-                {
-                    _.each(whereParams,function(whereParam) {
-                        if(whereParam["name"]===reportParam["name"])
-                            parameters.push(whereParam["value"]||reportParam["defaultValue"]);
+            _.each(whereParams,function(whereParam) {
+                //checks whether param value is set, if not set the filter is not pushed.
+                //also checks if report filter parameter passed is eq to where param
+                if(whereParam["name"]===reportFilter["parameter"] && whereParam["value"]) {
+                    expression += reportFilter["expression"];
+                    expression += ' and ';
+                    _.each(reportParams, function (reportParam) {
+                        if (reportParam["name"] === whereParam["name"]) {
+                            _.each(whereParam["value"].split(','), function (whereParamValue) {
+                                parameters.push(whereParamValue);
+                            });
+                        }
                     });
                 }
             });

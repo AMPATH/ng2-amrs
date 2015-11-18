@@ -1,4 +1,3 @@
-[
     {
         "name": "hiv-summary-report",
         "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
@@ -6,15 +5,22 @@
             {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
         ],
         "parameters": [
-            {"name":"startDate", "defaultValue":"defaultValue"},
-            {"name":"endDate", "defaultValue":"defaultValue"},
-            {"name":"locationUuids","defaultValue":[]}
+            {"name":"startDate", "defaultValue":["10-10-2015"]},
+            {"name":"endDate", "defaultValue":["defaultValue"]},
+            {"name":"locations","defaultValue":[]},
+            {"name":"groupByLocation", "defaultValue":[
+                {"label":"location","expression":"location"}
+            ]
+            }
         ],
         "filters": [
             {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
-            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
+            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+            {"expression":"t1.location_id in ?", "parameter":"location"}
         ],
-        "groupClause":["location_uuid"],
+        "groupClause":[
+            {"parameter":"groupByLocation"}
+        ],
         "indicators": [
             {
                 "label":"encounters",
@@ -129,4 +135,3 @@
         ]
     }
 
-]
