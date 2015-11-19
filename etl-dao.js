@@ -473,14 +473,17 @@ module.exports = function () {
             var countBy = request.query.countBy;
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+            var locations = request.query.locations;
             //build query params
             var requestParams = {
                 reportName: reportName,
                 whereParams: [
                     {"name":"startDate", "value":startDate},
-                    {"name":"endDate", "value":endDate}
+                    {"name":"endDate", "value":endDate},
+                    {"name":"location", "value":locations}
                 ],
                 countBy: countBy||'num_persons',
+                groupBy:request.query.groupBy||'location,encounters,groupByLocation',
                 offset:request.query.startIndex,
                 limit: request.query.limit,
                 supplementColumns:"name as location, location_uuid"
@@ -620,9 +623,9 @@ module.exports = function () {
         getHivSummaryData: function getHivSummaryData(request, callback) {
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            var locationsId = request.query.locations||'13';
+            var locationIds = request.query.locations||'13';
             var locations = [];
-            _.each(locationsId.split(','), function (loc) {
+            _.each(locationIds.split(','), function (loc) {
                 locations.push(Number(loc));
             });
             var columns = "name as location, t1.*";

@@ -6,11 +6,11 @@
         "reportIndicators": {
             "num_encounters": {
                 "name":"num_encounters",
-                "sql":"count(*)"
+                "sql":"count(distinct encounter_id)"
             },
             "num_persons": {
                 "name":"num_persons",
-                "sql":"count(*)"
+                "sql":"count(distinct person_id)"
             }
         }
     },
@@ -21,11 +21,11 @@
         "reportIndicators": {
             "num_encounters": {
                 "name":"num_encounters",
-                "sql":"count(*)"
+                "sql":"count(distinct encounter_id)"
             },
             "num_persons": {
                 "name":"num_persons",
-                "sql":"count(*)"
+                "sql":"count(distinct person_id)"
             }
         }
     },
