@@ -2,8 +2,8 @@
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
-console.log('modules');
-console.log('+++++Test Dao', dao)
+var winston = require('winston');
+var path  = require('path');
 
 module.exports = function () {
 
@@ -14,6 +14,34 @@ module.exports = function () {
             config: {
                 handler: function (request, reply) {
                     reply('Hello, World! HAPI Demo Server');
+                }
+
+            }
+        },
+        {
+            method: 'POST',
+            path: '/javascript-errors',
+            config: {
+                handler: function (request, reply) {
+                  if (request.payload) {
+                    var logger = new winston.Logger({
+                      transports: [
+                        new winston.transports.File({
+                          level: 'info',
+                          filename: 'client-logs.log',
+                          handleExceptions: true,
+                          json: true,
+                          colorize: false,
+                        }),
+                    ],
+                      exitOnError: false,
+                    });
+                    logger.add(require('winston-daily-rotate-file'),
+                    {filename: path.join(__dirname, 'logs', 'client-logs.log')});
+                    logger.info(request.payload);
+                  }
+
+                  reply({message:'ok'});
                 }
 
             }

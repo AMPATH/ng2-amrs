@@ -5,6 +5,7 @@ var Basic = require('hapi-auth-basic');
 var https = require('https');
 var settings = require('./conf/settings.js');
 var squel = require ('squel');
+var corsHeaders = require('hapi-cors-headers');
 var _ = require('underscore');
 var tls = require('tls');
 var fs = require('fs');
@@ -96,6 +97,7 @@ server.register([
             server.route(route);
         }
 
+        server.ext('onPreResponse', corsHeaders);
         server.start(function () {
             server.log('info', 'Server running at: ' + server.info.uri);
         });
