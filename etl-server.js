@@ -10,6 +10,7 @@ var _ = require('underscore');
 var tls = require('tls');
 var fs = require('fs');
 var routes = require('./etl-routes');
+var elasticRoutes = require('./elastic/routes/care.treatment.routes');
 
 
 // var httpsServer = tls.createServer({
@@ -88,10 +89,13 @@ server.register([
         server.auth.strategy('simple', 'basic', { validateFunc: validate });
 
         //Adding routes
-        for (var route in routes) {
-            server.route(routes[route]);
+        for (var route of routes) {
+            server.route(route);
         }
 
+        for (var route of elasticRoutes) {
+            server.route(route);
+        }
 
         server.ext('onPreResponse', corsHeaders);
         server.start(function () {

@@ -293,6 +293,18 @@ module.exports = function () {
                 }
 
             }
-        }
+        },
+        {
+            method: 'GET',
+            path: '/etl/hiv-summary-data',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getHivSummaryData(request, reply);
+                }
+
+            }
+        },
+
     ];
 } ();
