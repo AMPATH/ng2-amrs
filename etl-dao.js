@@ -483,7 +483,7 @@ module.exports = function () {
                     {"name":"location", "value":locations}
                 ],
                 countBy: countBy||'num_persons',
-                groupBy:request.query.groupBy||'location,encounters,groupByLocation',
+                groupBy:request.query.groupBy||'groupByLocation',
                 offset:request.query.startIndex,
                 limit: request.query.limit,
                 supplementColumns:"name as location, location_uuid"
@@ -628,14 +628,18 @@ module.exports = function () {
             _.each(locationIds.split(','), function (loc) {
                 locations.push(Number(loc));
             });
-            var columns = "name as location, t1.*";
+            var columns = "name as location, t1.*, day(encounter_datetime) as day, t3.gender, " +
+                "week(encounter_datetime) as week, month(encounter_datetime) as month, year(encounter_datetime) as year," +
+                "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(t3.birthdate, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < " +
+                "DATE_FORMAT(t3.birthdate,'00-%m-%d')) AS age, if(arv_start_date is not null, t1.person_id,null) as on_arvs";
             var queryParts = {
                 columns: columns,
                 table: "etl.flat_hiv_summary",
                 where: ["encounter_datetime >= ? and encounter_datetime <= ? and t1.location_id in ?",
                     startDate, endDate, locations],
                 joins: [
-                    ['amrs.location', 't2', 't1.location_uuid = t2.uuid']
+                    ['amrs.location', 't2', 't1.location_uuid = t2.uuid'],
+                    ['amrs.person', 't3', 't3.person_id=t1.person_id']
                 ],
                 offset: request.query.startIndex,
                 limit: request.query.limit
