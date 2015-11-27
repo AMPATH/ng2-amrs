@@ -4,7 +4,7 @@
 var dao = require('./etl-dao');
 var winston = require('winston');
 var path  = require('path');
-
+var _ = require('underscore');
 module.exports = function () {
 
     return [
@@ -175,6 +175,21 @@ module.exports = function () {
                     dao.getClinicDefaulterList(request, reply);
                 }
             }
+        },
+        {
+        method: 'OPTIONS',
+        path: '/{param*}',
+        handler: function (request, reply) {
+            // echo request headers back to caller (allow any requested)
+            var additionalHeaders = [];
+            if (request.headers['access-control-request-headers']) {
+                additionalHeaders = request.headers['access-control-request-headers'].split(', ');
+            }
+            var headers = _.union('Authorization, Content-Type, If-None-Match'.split(', '), additionalHeaders);
+
+            reply().type('text/plain')
+                .header('Access-Control-Allow-Headers', headers.join(', '));
+              }
         },
         {
             method: 'GET',
