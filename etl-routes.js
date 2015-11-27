@@ -2,9 +2,9 @@
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
-console.log('modules');
-console.log('+++++Test Dao', dao)
-
+var winston = require('winston');
+var path  = require('path');
+var _ = require('underscore');
 module.exports = function () {
 
     return [
@@ -14,6 +14,34 @@ module.exports = function () {
             config: {
                 handler: function (request, reply) {
                     reply('Hello, World! HAPI Demo Server');
+                }
+
+            }
+        },
+        {
+            method: 'POST',
+            path: '/javascript-errors',
+            config: {
+                handler: function (request, reply) {
+                  if (request.payload) {
+                    var logger = new winston.Logger({
+                      transports: [
+                        new winston.transports.File({
+                          level: 'info',
+                          filename: 'client-logs.log',
+                          handleExceptions: true,
+                          json: true,
+                          colorize: false,
+                        }),
+                    ],
+                      exitOnError: false,
+                    });
+                    logger.add(require('winston-daily-rotate-file'),
+                    {filename: path.join(__dirname, 'logs', 'client-logs.log')});
+                    logger.info(request.payload);
+                  }
+
+                  reply({message:'ok'});
                 }
 
             }
@@ -149,6 +177,21 @@ module.exports = function () {
             }
         },
         {
+        method: 'OPTIONS',
+        path: '/{param*}',
+        handler: function (request, reply) {
+            // echo request headers back to caller (allow any requested)
+            var additionalHeaders = [];
+            if (request.headers['access-control-request-headers']) {
+                additionalHeaders = request.headers['access-control-request-headers'].split(', ');
+            }
+            var headers = _.union('Authorization, Content-Type, If-None-Match'.split(', '), additionalHeaders);
+
+            reply().type('text/plain')
+                .header('Access-Control-Allow-Headers', headers.join(', '));
+              }
+        },
+        {
             method: 'GET',
             path: '/etl/custom_data/{userParams*3}',
             config: {
@@ -211,14 +254,14 @@ module.exports = function () {
             config: {
                 handler: function (request, reply) {
                     var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                    
+
                     var onResolvedPromise = function (promise) {
                         asyncRequests--;
                         if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                             dao.getDataEntryIndicators(request.params.sub, request, reply);
                         }
                     };
-                    
+
                     //establish the number of asyncRequests
                     //this is done prior to avoid any race conditions
                     if (request.query.formUuids) {
@@ -230,10 +273,10 @@ module.exports = function () {
                     if (request.query.locationUuids) {
                         asyncRequests++;
                     }
-                    
+
                     if(asyncRequests == 0)
                          dao.getDataEntryIndicators(request.params.sub, request, reply);
-                    
+
                     if (request.query.formUuids) {
                         dao.getIdsByUuidAsyc('amrs.form', 'form_id', 'uuid', request.query.formUuids,
                             function (results) {
@@ -265,6 +308,18 @@ module.exports = function () {
                 }
 
             }
-        }
+        },
+        {
+            method: 'GET',
+            path: '/etl/hiv-summary-data',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getHivSummaryData(request, reply);
+                }
+
+            }
+        },
+
     ];
 } ();
