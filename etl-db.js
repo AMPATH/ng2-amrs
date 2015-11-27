@@ -89,8 +89,10 @@ var getFilters = function(filters) {
 
 	service.queryServer_test = function(queryParts, callback) {
     var result = {};
+    var tableAlias='t1';
+        if(queryParts['alias'])tableAlias=queryParts['alias'];
     var s = squel.select()
-        .from(queryParts['table'],"t1");
+        .from(queryParts['table'],tableAlias);
 
     _.each(queryParts['joins'],function(join) {
         s.join(join[0],join[1],join[2]);
@@ -216,7 +218,109 @@ var getFilters = function(filters) {
     //         });
     // });
 
-}
+};
+    service.reportQueryServer = function(queryParts, callback) {
+        var result = {};
+        var tableAlias='t1';
+        if(queryParts['alias'])tableAlias=queryParts['alias'];
+        var s = squel.select()
+            .from(queryParts['table'],tableAlias);
+
+        _.each(queryParts['joins'],function(join) {
+            if (join[3]=='JOIN') s.join(join[0],join[1],join[2]);
+            if (join[3]=='INNER JOIN') s.join(join[0],join[1],join[2]);
+            if (join[3]=='OUTER JOIN') s.outer_join(join[0],join[1],join[2]);
+            if (join[3]=='LEFT OUTER JOIN') s.left_outer_join(join[0],join[1],join[2]);
+        });
+
+
+        if (queryParts.columns && queryParts.columns !== "*" ) {
+            if(typeof queryParts.columns === "string") {
+                // if (queryParts.columns.substring(0, 1) === "(")
+                //     queryParts.columns = queryParts.columns.substring(1, -1);
+                queryParts.columns = queryParts.columns.split(',');
+            }
+            var i = 0;
+            _.each(queryParts.columns, function (columnName) {
+                if (i === 0 && columnName.substring(0,1) === "(")
+                    s.field(columnName.split("(")[1]);
+                else if (i === queryParts.columns.length-1)
+                {
+                    var col = columnName;
+                    var n = columnName.split(")").length-1;
+                    if(n === 1 && !_.contains(col,"("))
+                        s.field(columnName.split(")")[0]);
+                    else s.field(col);
+                }
+                else s.field(columnName);
+                i++;
+            });
+        }
+        if (queryParts.concatColumns && queryParts.concatColumns !== "*" ) {
+            if(typeof queryParts.concatColumns === "string") {
+                // if (queryParts.columns.substring(0, 1) === "(")
+                //     queryParts.columns = queryParts.columns.substring(1, -1);
+                queryParts.concatColumns = queryParts.concatColumns.split(';');
+            }
+            var i = 0;
+            _.each(queryParts.concatColumns, function (columnName) {
+                if (i === 0 && columnName.substring(0,1) === "(")
+                    s.field(columnName.split("(")[1]);
+                else if (i === queryParts.concatColumns.length-1)
+                {
+                    var col = columnName;
+                    var n = columnName.split(")").length-1;
+                    if(n === 1 && !_.contains(col,"("))
+                        s.field(columnName.split(")")[0]);
+                    else s.field(col);
+                }
+                else s.field(columnName);
+                i++;
+            });
+        }
+
+
+        s.where.apply(this,queryParts['where']);
+        _.each(queryParts['order'], function(param) {s.order(param.column, param.asc);});
+        s.limit(queryParts['limit'] || queryLimit);
+        s.offset(queryParts['offset'] || queryOffset);
+        _.each(queryParts['group'],function(col) {s.group(col);});
+
+
+        var q = s.toParam();
+
+        console.log(q.text.replace("\\",""));
+        console.log(q.values);
+
+        var sql = q.text.replace("\\","");
+        var values = q.values;
+        // var queryHandler = params.callback;
+
+
+        getServerConnection(function(err, connection) {
+            if (err) return queryHandler(err, null);
+
+            connection.query(sql, values, function(err, rows, fields) {
+                if(err) {
+                    result.errorMessage = "Error querying server";
+                    result.error = err;
+                    result.sql=sql;
+                    result.sqlParams=values;
+                }
+                else {
+                    result.startIndex = queryParts.offset || queryOffset;
+                    result.size = rows.length;
+                    result.result = rows;
+                    result.sql=sql;
+                    result.sqlParams=values;
+                }
+                // queryHandler(err, result);
+                callback(result);
+                connection.release();
+            });
+        });
+
+    };
 
 	return service;
 }();
