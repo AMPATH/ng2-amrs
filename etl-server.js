@@ -5,6 +5,7 @@ var Basic = require('hapi-auth-basic');
 var https = require('https');
 var settings = require('./conf/settings.js');
 var squel = require ('squel');
+var corsHeaders = require('hapi-cors-headers');
 var _ = require('underscore');
 var tls = require('tls');
 var fs = require('fs');
@@ -12,15 +13,15 @@ var routes = require('./etl-routes');
 var elasticRoutes = require('./elastic/routes/care.treatment.routes');
 
 
-// var httpsServer = tls.createServer({
-//     key: fs.readFileSync(settings.sslSettings.key),
-//     cert: fs.readFileSync(settings.sslSettings.crt)
-// });
+var httpsServer = tls.createServer({
+    key: fs.readFileSync(settings.sslSettings.key),
+    cert: fs.readFileSync(settings.sslSettings.crt)
+});
 
 var server = new Hapi.Server(
     {connections: {
         //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
-        routes: {cors:true}
+        routes: {cors:{additionalHeaders:['JSNLog-RequestId']}}
     }
     });
 
@@ -28,7 +29,7 @@ var server = new Hapi.Server(
 server.connection({
     port: 8002,
     host:'localhost'
-    // tls: httpsServer
+    tls: httpsServer
 });
 
 
@@ -96,6 +97,7 @@ server.register([
             server.route(elasticRoutes[route]);
         }
 
+        server.ext('onPreResponse', corsHeaders);
         server.start(function () {
             server.log('info', 'Server running at: ' + server.info.uri);
         });
