@@ -13,10 +13,10 @@ var routes = require('./etl-routes');
 var elasticRoutes = require('./elastic/routes/care.treatment.routes');
 
 
-// var httpsServer = tls.createServer({
-//     key: fs.readFileSync(settings.sslSettings.key),
-//     cert: fs.readFileSync(settings.sslSettings.crt)
-// });
+var httpsServer = tls.createServer({
+    key: fs.readFileSync(settings.sslSettings.key),
+    cert: fs.readFileSync(settings.sslSettings.crt)
+});
 
 var server = new Hapi.Server(
     {connections: {
@@ -29,7 +29,7 @@ var server = new Hapi.Server(
 server.connection({
     port: 8002,
     host:'localhost'
-    // tls: httpsServer
+    tls: httpsServer
 });
 
 
