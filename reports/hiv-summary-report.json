@@ -1,4 +1,5 @@
-   [ {
+   [
+       {
         "name": "hiv-summary-report",
         "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
         "joins":[
@@ -11,6 +12,10 @@
             {"name":"groupByLocation", "defaultValue":[
                 {"label":"location","expression":"location"}
             ]
+            },
+            {"name":"groupByMonth", "defaultValue":[
+                {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
+            ]
             }
         ],
         "filters": [
@@ -19,118 +24,120 @@
             {"expression":"t1.location_id in ?", "parameter":"location"}
         ],
         "groupClause":[
-            {"parameter":"groupByLocation"}
+            {"parameter":"groupByLocation"},
+            {"parameter":"groupByMonth"}
         ],
         "indicators": [
             {
                 "label":"encounters",
                 "expression":"encounters",
-                "patientListExpression":"encounters"
+                "sql":"count(distinct encounter_id)"
             },
             {
                 "label":"patients",
                 "expression":"patients",
-                "sql":"count(distinct if($expression,encounter_id,null))"
+                "sql":"count(distinct person_id)"
             },
             {
                 "label":"on_arvs",
-                "expression":"on_arvs"
+                "expression":"on_arvs",
+                "sql":"count(distinct if($expression,person_id,null))"
 
             },
             {
                 "label":"on_arvs_first_line",
                 "expression":"on_arvs_first_line",
-                "patientListExpression":"on_arvs_first_line"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"on_arvs_second_line",
                 "expression":"on_arvs_second_line",
-                "patientListExpression":"on_arvs_second_line"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"on_arvs_third_line",
                 "expression":"on_arvs_third_line",
-                "patientListExpression":"on_arvs_third_line"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_done_past_year",
                 "expression":"vl_done_past_year",
-                "patientListExpression":"vl_done_past_year"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"no_vl_done_past_year",
                 "expression":"no_vl_done_past_year",
-                "patientListExpression":"no_vl_done_past_year"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_done_past_year_lte_1000",
                 "expression":"vl_done_past_year_lte_1000",
-                "patientListExpression":"vl_done_past_year_lte_1000"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_done_past_year_gt_1000",
                 "expression":"vl_done_past_year_gt_1000",
-                "patientListExpression":"vl_done_past_year_gt_1000"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_done_this_encounter",
                 "expression":"vl_done_this_encounter",
-                "patientListExpression":"vl_done_this_encounter"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_done_this_encounter_lte_1000",
                 "expression":"vl_done_this_encounter_lte_1000",
-                "patientListExpression":"vl_done_this_encounter_lte_1000"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_done_this_encounter_gt_1000",
                 "expression":"vl_done_this_encounter_gt_1000",
-                "patientListExpression":"vl_done_this_encounter_gt_1000"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"vl_ordered",
                 "expression":"vl_ordered",
-                "patientListExpression":"vl_ordered"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"pending_vl_order",
                 "expression":"pending_vl_order",
-                "patientListExpression":"pending_vl_order"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"pending_vl_order_no_result_after_4_weeks",
                 "expression":"pending_vl_order_no_result_after_4_weeks",
-                "patientListExpression":"pending_vl_order_no_result_after_4_weeks"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"on_arvs_lte_26_weeks",
                 "expression":"on_arvs_lte_26_weeks",
-                "patientListExpression":"on_arvs_lte_26_weeks"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"on_arvs_lte_52_weeks",
                 "expression":"on_arvs_lte_52_weeks",
-                "patientListExpression":"on_arvs_lte_52_weeks"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"on_arvs_lte_52_weeks_and_have_vl",
                 "expression":"on_arvs_lte_52_weeks_and_have_vl",
-                "patientListExpression":"on_arvs_lte_52_weeks_and_have_vl"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
                 "expression":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-                "patientListExpression":"on_arvs_lte_52_weeks_and_have_vl_lte_1000"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"pregnant",
                 "expression":"pregnant",
-                "patientListExpression":"pregnant"
+                "sql":"count(distinct if($expression,person_id,null))"
             },
             {
                 "label":"pregnant_and_on_arvs",
                 "expression":"pregnant_and_on_arvs",
-                "patientListExpression":"pregnant_and_on_arvs"
+                "sql":"count(distinct if($expression,person_id,null))"
             }
         ]
     }
