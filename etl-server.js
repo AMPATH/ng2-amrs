@@ -14,8 +14,8 @@ var elasticRoutes = require('./elastic/routes/care.treatment.routes');
 
 
 var httpsServer = tls.createServer({
-    key: fs.readFileSync(settings.sslSettings.key),
-    cert: fs.readFileSync(settings.sslSettings.crt)
+  key: fs.readFileSync(settings.sslSettings.key),
+   cert: fs.readFileSync(settings.sslSettings.crt)
 });
 
 var server = new Hapi.Server(

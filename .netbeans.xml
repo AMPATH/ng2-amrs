@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<auxiliary-configuration xmlns="http://www.netbeans.org/ns/auxiliary-configuration/1">
+    <formeditor xmlns="http://controlsjs.com/netbeans/tools/formeditor/">
+        <formeditor_sourcefilter>"system;custom;wineight%20skin;"</formeditor_sourcefilter>
+    </formeditor>
+</auxiliary-configuration>
