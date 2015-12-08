@@ -1,0 +1,152 @@
+[
+  {
+    "name": "moh-731-past_three_months",
+    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+    "joins":[
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
+    ],
+    "parameters": [
+      {"name":"startDate", "defaultValue":"2015-10-01"},
+      {"name":"endDate", "defaultValue":"2015-10-31"},
+      {"name":"locationUuids"},
+      {"name":"groupParameter","defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]}
+    ],
+    "filters": [
+      {"expression":"location_uuid in ?","parameter":"locationUuids"},
+      {"expression":"timestampdiff(month,encounter_datetime,?) <= 2", "parameter":"startDate"},
+      {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
+    ],
+    "groupClause":{"parameter":"groupParameter"},
+    "indicators": [
+      "currently_in_care",
+      {
+        "label":"unscheduled_visits",
+        "expression":"scheduled_visit",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      },
+      {
+        "label":"on_art",
+        "expression":"on_art",
+        "sql":"count(distinct if($expression,person_id,null))"
+      },
+      {
+        "label":"revisits_on_art",
+        "expression":"revisits_on_art",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      }
+
+    ]
+  },
+
+
+  {
+    "name": "moh-731-summary-current_month",
+    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+    "joins":[
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
+    ],
+    "parameters": [
+      {"name":"startDate", "defaultValue":"2015-10-01"},
+      {"name":"endDate", "defaultValue":"2015-10-31"},
+      {"name":"locationUuids"},
+      {"name":"groupParameter","defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]}
+    ],
+    "filters": [
+      {"expression":"location_uuid in ?","parameter":"locationUuids"},
+      {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
+      {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
+    ],
+    "groupClause":{"parameter":"groupParameter"},
+    "indicators": [
+      {
+        "label":"on_pcp_prophylaxis",
+        "expression":"on_pcp_prophylaxis",
+        "sql":"count(distinct if($expression,person_id,null))"
+      },
+      {
+        "label":"enrolled_in_care",
+        "expression":"enrolled_in_care",
+        "sql":"count(distinct if($expression,person_id,null))"
+      },
+      {
+        "label":"starting_art",
+        "expression":"starting_art",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      },
+      {
+        "label":"screened_for_tb",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      },
+      {
+        "label":"condoms_provided",
+        "expression":"condoms_provided",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      },
+      {
+        "label":"using_modern_contracept_methods",
+        "expression":"using_modern_contracept_methods",
+        "sql":"count(distinct if($expression,person_id,null))"
+      },
+      {
+        "label":"female_gte_18yo_visits",
+        "expression":"female_gte_18yo_visits",
+        "sql":"count(distinct if($expression,person_id,null))"
+      },
+      {
+        "label":"scheduled_visit",
+        "expression":"scheduled_visit",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      },
+      {
+        "label":"unscheduled_visits",
+        "expression":"unscheduled_visits",
+        "sql":"count(distinct if($expression,encounter_id,null))"
+      }
+    ]
+  },
+  {
+    "name": "moh-731-summary-cumulative",
+    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+    "joins":[
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
+    ],
+    "parameters": [
+      {"name":"locationUuids"},
+      {"name":"groupParameter","defaultValue":[{"expression":"location_uuid", "label":"location"}]}
+    ],
+    "filters": [
+      {"expression":"location_uuid in ?","parameter":"locationUuids"}
+    ],
+    "groupClause":{"parameter":"groupParameter"},
+    "indicators": [
+      {
+        "label":"on_art",
+        "expression":"on_art",
+        "sql":"count(distinct if($expression,person_id,null))"
+      }
+    ]
+  },
+
+
+  {
+    "name":"MOH-731",
+    "parameters":[],
+    "reports":[
+      {
+        "reportName":"moh-731-summary-cumulative",
+        "alias": "t1"
+      },
+      {
+        "reportName":"moh-731-summary-current_month",
+        "alias": "t1"
+      },
+      {
+        "reportName":"moh-731-past_three_months",
+        "alias": "t1"
+      }
+
+
+
+    ]
+  }
+]

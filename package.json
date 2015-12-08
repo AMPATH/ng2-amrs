@@ -26,6 +26,7 @@
     "mysql": "^2.6.2",
     "squel": "^3.10.0",
     "underscore": "^1.8.3",
+    "walk": "^2.3.9",
     "winston": "^2.1.1",
     "winston-daily-rotate-file": "^1.0.1"
   }

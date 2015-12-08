@@ -228,12 +228,33 @@ module.exports = function () {
             }
         },
         {
+         /**
+                endpoint  to  get  Reports
+                @todo Rename  to get-report-by-name,count by{patient/encounters},filter-params{location/starting date/ end date}
+                @todo ,groupby params{location/monthly}
+
+                **/
+
             method: 'GET',
             path: '/etl/hiv-summary-indicators',
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-                    dao.getHivSummaryIndicators(request, reply);
+                //determine  report to  call the  right  name
+               // request.query.report='MOH-731'; HACK  TO TEST   MOH-731
+                     switch(request.query.report){
+                    case 'MOH-731':{
+                     console.log("using this  case>>>>>> MOH-731")
+                      dao.getHivSummaryIndicators(request, reply);
+                      break;
+                      }
+                      default:{
+                       console.log("using  this  case>>>>>>>Default'")
+                      dao.getHivSummaryIndicators(request, reply);
+                      break;
+                      }
+                     }
+
                 }
 
             }
@@ -299,6 +320,11 @@ module.exports = function () {
             }
         },
         {
+        /**
+         endpoint  to  get  Reports Indicators
+         @todo Rename  to get-report-indicators by  report  name
+         **/
+
             method: 'GET',
             path: '/etl/indicators-schema',
             config: {
@@ -309,6 +335,19 @@ module.exports = function () {
 
             }
         },
+           {
+
+
+                    method: 'GET',
+                    path: '/etl/indicators-schema-with-sections',
+                    config: {
+                        auth: 'simple',
+                        handler: function (request, reply) {
+                            dao.getIndicatorsSchemaWithSections(request, reply);
+                        }
+
+                    }
+                },
         {
             method: 'GET',
             path: '/etl/hiv-summary-data',
