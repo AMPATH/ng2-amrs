@@ -2,152 +2,53 @@
     {
         "name":"encounters",
         "label": "Total # of encounters",
-        "expression": "",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct encounter_id)"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct person_id)"
-            }
-        }
+        "expression": ""
     },
     {
         "name":"patients",
         "label": "Total # of patients",
-        "expression": "",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct encounter_id)"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct person_id)"
-            }
-        }
+        "expression": ""
+
     },
     {
         "name":"on_arvs",
         "label": "Total # of patients who are on ARVs",
-        "expression": "cur_arv_line is not null",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "cur_arv_line is not null"
     },
     {
         "name":"on_arvs_first_line",
         "label": "# of patient on ARVs first line",
-        "expression": "cur_arv_line=1",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "cur_arv_line=1"
     },
     {
         "name":"on_arvs_second_line",
         "label": "# of patient on ARVs second line",
-        "expression": "cur_arv_line=2",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "cur_arv_line=2"
     },
     {
         "name":"on_arvs_third_line",
         "label": "# of patient on ARVs third line",
-        "expression": "cur_arv_line>2",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "cur_arv_line>2"
     },
     {
         "name":"vl_done_past_year",
         "label": "# of patient(s) whose Viral Load have been taken in the past 1 year",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
     },
     {
         "name":"no_vl_done_past_year",
         "label": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
-        "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
     },
     {
         "name":"vl_done_past_year_lte_1000",
         "label": "# of patient(s) whose Viral Load is Less Than or Equal to 1000",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
     },
     {
         "name":"vl_done_past_year_gt_1000",
         "label": "# of patient(s) whose Viral Load is Greater Than 1000",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000",
-        "reportIndicators": {
-            "num_encounters": {
-                "name":"num_encounters",
-                "sql":"count(distinct if($expression,encounter_id,null))"
-            },
-            "num_persons": {
-                "name":"num_persons",
-                "sql":"count(distinct if($expression,person_id,null))"
-            }
-        }
+        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
     },
     {
         "name":"vl_done_this_encounter",
@@ -199,11 +100,11 @@
         "label": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
     },
-  {
-    "name": "pregnant",
-    "label": "# of pregnant patients in a given time period",
-    "expression": "edd > encounter_datetime"
-  },
+    {
+      "name": "pregnant",
+      "label": "# of pregnant patients in a given time period",
+      "expression": "edd > encounter_datetime"
+    },
     {
         "name":"pregnant_and_on_arvs",
         "label": "# of pregnant patients and are on ARVs in a given time period",
@@ -214,204 +115,159 @@
         "label": "on PCP prophylaxis",
         "expression": "encounter_datetime >= pcp_prophylaxis_start_date"
     },
-
     {
         "name":"on_pcp_prophylaxis_males_below_15",
         "label": "Total # of male patients less than 15 who are on PCP prophylaxis",
         "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 15"
 
     },
-
-
     {
         "name":"on_pcp_prophylaxis_females_below_15",
         "label": "Total # of female patients less than 15 who are on PCP prophylaxis",
         "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
-
-
     {
         "name":"on_pcp_prophylaxis_males_15_and_above",
         "label": "Total # of male patients 15 and older who are on PCP prophylaxis",
         "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
-
     },
-
     {
         "name":"on_pcp_prophylaxis_females_15_and_above",
         "label": "Total # of female patients 15 and older who are on PCP prophylaxis",
         "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
 
     },
-
-
     {
         "name":"enrolled_in_care_total",
         "label": "Total # of patients enrolled in care",
         "expression": "encounter_datetime = hiv_start_date"
 
     },
-
     {
         "name":"enrolled_in_care_males_lt_one",
         "label": "Total # of male patients < 1 yr enrolled in care",
         "expression": "encounter_datetime = hiv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 1"
     },
-
     {
         "name":"enrolled_in_care_females_lt_one",
         "label": "Total # of female patients < 1 yr enrolled in care",
         "expression": "encounter_datetime = hiv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 1"
 
     },
-
-
     {
         "name":"enrolled_in_care_males_1_to_15",
         "label": "Total # of male patients between 1 and 15 enrolled in care",
         "expression": "encounter_datetime = hiv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
     {
         "name":"enrolled_in_care_females_1_to_15",
         "label": "Total # of female patients between 1 and 15 enrolled in care",
         "expression": "encounter_datetime = hiv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
     {
         "name":"enrolled_in_care_males_15_and_older",
         "label": "Total # of male patients 15 and older enrolled in care",
         "expression": "encounter_datetime = hiv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
 
     },
-
     {
         "name":"enrolled_in_care_females_15_and_older",
         "label": "Total # of female patients 15 and older enrolled in care",
         "expression": "encounter_datetime = hiv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
-
     },
-
-
-
     {
         "name":"currently_in_care_total",
         "label": "Total # of patients currently in care",
         "expression": "encounter_datetime > hiv_start_date"
     },
-
     {
         "name":"currently_in_care_males_lt_one",
         "label": "Total # of male patients < 1 yr currently in care",
         "expression": "encounter_datetime > hiv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 1"
-
     },
-
     {
         "name":"currently_in_care_females_lt_one",
         "label": "Total # of female patients < 1 yr currently in care",
         "expression": "encounter_datetime > hiv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 1"
     },
-
-
     {
         "name":"currently_in_care_males_1_to_15",
         "label": "Total # of male patients between 1 and 15 currently in care",
         "expression": "encounter_datetime > hiv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
     {
         "name":"currently_in_care_females_1_to_15",
         "label": "Total # of female patients between 1 and 15 currently in care",
         "expression": "encounter_datetime > hiv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
     {
         "name":"currently_in_care_males_15_and_older",
         "label": "Total # of male patients 15 and older currently in care",
         "expression": "encounter_datetime > hiv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
-
     {
         "name":"currently_in_care_females_15_and_older",
         "label": "Total # of female patients 15 and older currently in care",
         "expression": "encounter_datetime > hiv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
-
-
     {
         "name":"starting_art_total",
         "label": "Total # of patients starting ART",
         "expression": "encounter_datetime = arv_start_date"
     },
-
     {
         "name":"starting_art_males_lt_one",
         "label": "Total # of male patients < 1 yr starting ART",
         "expression": "encounter_datetime = arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 1"
     },
-
     {
         "name":"starting_art_females_lt_one",
         "label": "Total # of female patients < 1 yr starting ART",
         "expression": "encounter_datetime = arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 1"
 
     },
-
-
     {
         "name":"starting_art_males_1_to_15",
         "label": "Total # of male patients between 1 and 15 starting ART",
         "expression": "encounter_datetime = arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
 
     },
-
     {
         "name":"starting_art_females_1_to_15",
         "label": "Total # of female patients between 1 and 15 starting ART",
         "expression": "encounter_datetime = arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
 
     },
-
     {
         "name":"starting_art_males_15_and_older",
         "label": "Total # of male patients 15 and older starting ART",
         "expression": "encounter_datetime = arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
-
     {
         "name":"starting_art_females_15_and_older",
         "label": "Total # of female patients 15 and older starting ART",
         "expression": "encounter_datetime = arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
-
-
     {
         "name":"revisits_on_art_total",
         "label": "Total # of patient revisits on ART",
         "expression": "encounter_datetime > arv_start_date"
     },
-
     {
         "name":"revisits_on_art_males_lt_one",
         "label": "Total # of male patients < 1 yr revisits on ART",
         "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 1"
     },
-
     {
         "name":"revisits_on_art_females_lt_one",
         "label": "Total # of female patients < 1 yr revisits on ART",
         "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 1"
     },
-
-
     {
         "name":"revisits_on_art_males_1_to_15",
         "label": "Total # of male patients between 1 and 15 revisits on ART",
         "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
     {
         "name":"revisits_on_art_females_1_to_15",
         "label": "Total # of female patients between 1 and 15 revisits on ART",
@@ -426,137 +282,103 @@
         "name":"revisits_on_art_females_15_and_older",
         "label": "Total # of female patients 15 and older revisits on ART",
         "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
-
     },
-
     {
         "name":"on_art_total",
         "label": "Total # of patients on ART",
         "expression": "encounter_datetime >= arv_start_date"
     },
-
     {
         "name":"on_art_males_lt_one",
         "label": "Total # of male patients < 1 yr on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 1"},
-
+        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 1"
+    },
     {
         "name":"on_art_females_lt_one",
         "label": "Total # of female patients < 1 yr on ART",
         "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 1"
     },
-
-
     {
         "name":"on_art_males_1_to_15",
         "label": "Total # of male patients between 1 and 15 on ART",
         "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
-
     },
-
     {
         "name":"on_art_females_1_to_15",
         "label": "Total # of female patients between 1 and 15 on ART",
         "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 1 and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
     {
         "name":"on_art_males_15_and_older",
         "label": "Total # of male patients 15 and older on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"},
-
+        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
+    },
     {
         "name":"on_art_females_15_and_older",
         "label": "Total # of female patients 15 and older on ART",
         "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
-
-
     },
-
-
     {
         "name":"on_original_first_line",
         "label": "Total # of patients on original ART regimen",
         "expression": "cur_arv_meds = arv_first_regimen"
-
     },
-
     {
         "name":"on_alternative_first_line",
         "label": "Total # of patients on original ART regimen",
         "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 1"
     },
-
-
     {
         "name":"on_second_line",
         "label": "Total # of patients on original ART regimen",
         "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 2"
     },
-
-
     {
         "name":"screened_for_tb",
         "label": "Total # of  patients screened for TB",
         "expression": "screened_for_tb"
-
     },
-
-
     {
         "name":"screened_for_tb_males_lt_15",
         "label": "Total # of male patients under 15 screened for TB",
         "expression": "screened_for_tb and gender='M' and timestampdiff(year,birthdate,encounter_datetime) < 15"
-
     },
-
-
     {
         "name":"screened_for_tb_females_lt_15",
         "label": "Total # of female patients under 15 screened for TB",
         "expression": "screened_for_tb and gender='F' and timestampdiff(year,birthdate,encounter_datetime) < 15"
     },
-
-
-
     {
         "name":"screened_for_tb_males_15_and_older",
         "label": "Total # of male patients 15 and older screened for TB",
         "expression": "screened_for_tb and gender='M' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
-
     {
         "name":"screened_for_tb_females_15_and_older",
         "label": "Total # of female patients 15 and older screened for TB",
         "expression": "screened_for_tb and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
-
-
     {
         "name":"using_modern_contracept_methods",
         "label": " # of patients using modern contraceptive methods (IUD, injectables, OCP)",
         "expression": "using_modern_contracept_methods = 1"
     },
-
     {
         "name":"condoms_provided",
         "label": " # of patients provided with condoms",
         "expression": "condoms_provided = 1"
     },
-
     {
         "name":"female_gte_18yo_visits",
         "label": " female patients >= 18",
         "expression": "timestampdiff(year,birthdate,encounter_datetime) >= 18"
     },
-
     {
         "name":"scheduled_visits",
         "label": "Scheduled visit",
         "expression": "scheduled_visit = 1"
 
     },
-
     {
         "name":"unscheduled_visits",
         "label": "Unscheduled visit",
@@ -567,8 +389,6 @@
         "label": "Total #  patient on ART",
         "expression": "scheduled_visit = 1"
     }
-
-
 ]
 
 
