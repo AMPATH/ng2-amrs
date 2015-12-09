@@ -162,7 +162,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-            {"expression":"t1.location_id in ?", "parameter":"location"}
+            {"expression":"t1.location_id in ?", "parameter":"locations"}
         ],
         "groupClause":[
             {"parameter":"groupByLocation"},

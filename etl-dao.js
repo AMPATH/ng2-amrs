@@ -472,27 +472,29 @@ module.exports = function () {
             var countBy = request.query.countBy;
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            var locations = request.query.locations;
+            var locations = request.query.locationIds;
+            var requestIndicators = request.query.indicators;
             //build query params
             var requestParams = {
                 reportName: reportName,
                 whereParams: [
                     {"name": "startDate", "value": startDate},
                     {"name": "endDate", "value": endDate},
-                    {"name": "location", "value": locations}
+                    {"name": "locations", "value": locations}
                 ],
                 countBy: countBy || 'num_persons',
                 groupBy: request.query.groupBy || 'groupByLocation',
                 offset: request.query.startIndex,
                 limit: request.query.limit,
-                supplementColumns: "name as location, location_uuid, t1.encounter_datetime, t1.location_id"
+                requestIndicators: requestIndicators
             };
             //build report
             var singleReportQueryParams = reportFactory.singleReportToSql(requestParams);
+            console.log('singleReportQueryParams',singleReportQueryParams)
             var multiQueryPartsArray = db.reportMultiQueryServer(singleReportQueryParams);
             db.ExecuteMultiReport(multiQueryPartsArray[0], multiQueryPartsArray[1], function(results){
                 var formattedResult= [];
-                if(util.isArray(results.result[0])){
+                if(results.result!==undefined && (util.isArray(results.result[0]))){
                     _.each(results.result, function(result){
                         formattedResult= formattedResult.concat(result);
                     })
@@ -717,37 +719,7 @@ module.exports = function () {
                 callback(result);
             });
 
-        },
-        getPatientLevelIndicators: function getPatientLevelIndicators(request, callback) {
-            var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
-            var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            var locationIds = request.query.locations || '13';
-            var locations = [];
-            _.each(locationIds.split(','), function (loc) {
-                locations.push(Number(loc));
-            });
-            var columns = "name as location, t1.*, day(encounter_datetime) as day, t3.gender, " +
-                "week(encounter_datetime) as week, month(encounter_datetime) as month, year(encounter_datetime) as year" +
-                ", if(arv_start_date is not null, t1.person_id,null) as on_arvs," +
-                "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(t3.birthdate, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < " +
-                "DATE_FORMAT(t3.birthdate,'00-%m-%d')) AS age";
-            var queryParts = {
-                columns: columns,
-                table: "etl.flat_hiv_summary",
-                where: ["encounter_datetime >= ? and encounter_datetime <= ? and t1.location_id in ?",
-                    startDate, endDate, locations],
-                joins: [
-                    ['amrs.location', 't2', 't1.location_uuid = t2.uuid'],
-                    ['amrs.person', 't3', 't3.person_id=t1.person_id']
-                ],
-                offset: request.query.startIndex,
-                limit: request.query.limit
-            };
-            db.queryServer_test(queryParts, function (result) {
-                callback(result);
-            });
-
-        },
+        }
     };
 
     //helper functions

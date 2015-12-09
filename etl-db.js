@@ -167,7 +167,7 @@ var getFilters = function(filters) {
 
     var sql = q.text.replace("\\","");
 	var values = q.values;
-	// var queryHandler = params.callback;
+	//var queryHandler = params.callback;
 
 
     getServerConnection(function(err, connection) {

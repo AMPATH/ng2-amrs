@@ -21,7 +21,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-            {"expression":"t1.location_id in ?", "parameter":"location"}
+            {"expression":"t1.location_id in (?)", "parameter":"locations"}
         ],
         "groupClause":[
             {"parameter":"groupByLocation"},
@@ -139,6 +139,28 @@
                 "expression":"pregnant_and_on_arvs",
                 "sql":"count(distinct if($expression,person_id,null))"
             }
-        ]
+        ],
+        "supplementColumns":[
+               {
+                   "label":"location",
+                   "type":"single",
+                   "sql":"t2.name"
+               },
+               {
+                   "label":"location_uuid",
+                   "type":"single",
+                   "sql":"t1.location_uuid"
+               },
+               {
+                   "label":"location_id",
+                   "type":"single",
+                   "sql":"t1.location_id"
+               },
+               {
+                   "label":"encounter_datetime",
+                   "type":"single",
+                   "sql":"t1.encounter_datetime"
+               }
+           ]
     }
 ]

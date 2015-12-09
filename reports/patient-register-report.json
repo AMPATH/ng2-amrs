@@ -2,141 +2,171 @@
     "name": "patient-register-report",
     "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[
-        {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
+        {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
+        {"joinType":"INNER JOIN","schema":"amrs","tableName":"person_name","alias":"t3","joinExpression":"t1.person_id = t3.person_id"},
+        {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"patient_identifier","alias":"t4","joinExpression":"t1.person_id = t4.patient_id"}
     ],
     "parameters": [
         {"name":"startDate", "defaultValue":["10-10-2015"]},
         {"name":"endDate", "defaultValue":["defaultValue"]},
-        {"name":"locations","defaultValue":[]},
-        {"name":"groupByLocation", "defaultValue":[
-            {"label":"location","expression":"location"}
-        ]
-        },
-        {"name":"groupByMonth", "defaultValue":[
-            {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-        ]
-        }
+        {"name":"locations","defaultValue":[]}
     ],
     "filters": [
         {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
         {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-        {"expression":"t1.location_id in ?", "parameter":"location"}
+        {"expression":"t1.location_id in (?)", "parameter":"locations"}
     ],
     "groupClause":[
-        {"parameter":"groupByLocation"},
-        {"parameter":"groupByMonth"}
+
     ],
     "indicators": [
         {
             "label":"encounters",
             "expression":"encounters",
-            "sql":"if($expression)"
+            "sql":"true"
         },
         {
             "label":"patients",
             "expression":"patients",
-            "sql":"if($expression)"
+            "sql":"true"
         },
         {
             "label":"on_arvs",
             "expression":"on_arvs",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
 
         },
         {
             "label":"on_arvs_first_line",
             "expression":"on_arvs_first_line",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"on_arvs_second_line",
             "expression":"on_arvs_second_line",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"on_arvs_third_line",
             "expression":"on_arvs_third_line",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_done_past_year",
             "expression":"vl_done_past_year",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"no_vl_done_past_year",
             "expression":"no_vl_done_past_year",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_done_past_year_lte_1000",
             "expression":"vl_done_past_year_lte_1000",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_done_past_year_gt_1000",
             "expression":"vl_done_past_year_gt_1000",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_done_this_encounter",
             "expression":"vl_done_this_encounter",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_done_this_encounter_lte_1000",
             "expression":"vl_done_this_encounter_lte_1000",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_done_this_encounter_gt_1000",
             "expression":"vl_done_this_encounter_gt_1000",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"vl_ordered",
             "expression":"vl_ordered",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"pending_vl_order",
             "expression":"pending_vl_order",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"pending_vl_order_no_result_after_4_weeks",
             "expression":"pending_vl_order_no_result_after_4_weeks",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"on_arvs_lte_26_weeks",
             "expression":"on_arvs_lte_26_weeks",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"on_arvs_lte_52_weeks",
             "expression":"on_arvs_lte_52_weeks",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"on_arvs_lte_52_weeks_and_have_vl",
             "expression":"on_arvs_lte_52_weeks_and_have_vl",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
             "expression":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"pregnant",
             "expression":"pregnant",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
         },
         {
             "label":"pregnant_and_on_arvs",
             "expression":"pregnant_and_on_arvs",
-            "sql":"if($expression)"
+            "sql":"if($expression,true,false)"
+        }
+    ],
+    "supplementColumns":[
+        {
+            "label":"location",
+            "type":"single",
+            "sql":"t2.name"
+        },
+        {
+            "label":"location_uuid",
+            "type":"single",
+            "sql":"t1.location_uuid"
+        },
+        {
+            "label":"location_id",
+            "type":"single",
+            "sql":"t1.location_id"
+        },
+        {
+            "label":"encounter_datetime",
+            "type":"single",
+            "sql":"t1.encounter_datetime"
+        },
+        {
+            "label":"person_id",
+            "type":"single",
+            "sql":"t1.person_id"
+        },
+        {
+            "label":"identifiers",
+            "type":"multiple",
+            "sql":"group_concat(distinct t4.identifier separator ', ')"
+        },
+        {
+            "label":"person_name",
+            "type":"multiple",
+            "sql":"concat(t3.given_name,' ',t3.middle_name,' ',t3.family_name)"
         }
     ]
 }
