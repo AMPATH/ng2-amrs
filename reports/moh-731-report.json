@@ -12,7 +12,7 @@
       {"name":"groupParameter","defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]}
     ],
     "filters": [
-      {"expression":"location_uuid in ?","parameter":"locationUuids"},
+      {"expression":"location_uuid in (?)","parameter":"locationUuids"},
       {"expression":"timestampdiff(month,encounter_datetime,?) <= 2", "parameter":"startDate"},
       {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
     ],
@@ -52,7 +52,7 @@
       {"name":"groupParameter","defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]}
     ],
     "filters": [
-      {"expression":"location_uuid in ?","parameter":"locationUuids"},
+      {"expression":"location_uuid in (?)","parameter":"locationUuids"},
       {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
       {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
     ],
@@ -115,7 +115,7 @@
       {"name":"groupParameter","defaultValue":[{"expression":"location_uuid", "label":"location"}]}
     ],
     "filters": [
-      {"expression":"location_uuid in ?","parameter":"locationUuids"}
+      {"expression":"location_uuid in (?)","parameter":"locationUuids"}
     ],
     "groupClause":{"parameter":"groupParameter"},
     "indicators": [

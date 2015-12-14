@@ -12,7 +12,7 @@ var walker = walk.walk("./reports", []);
 walker.on("file", function (root, fileStats, next) {
     //test  file  to determine if its report  json
     if (fileStats.name.match(".*(-report.json)")) {
-        console.log('pushing file to reports array>>>>' + fileStats.name);
+        console.log('pushing file schema to reports array>>>>' + fileStats.name);
         reports.push.apply(reports, require('./reports/' + fileStats.name));
     }
     next();
@@ -129,14 +129,15 @@ module.exports = function () {
             //   console.log(report.name+"<<<<<<The  report  Name<");
             if (report.name === reportName) {
                 {
-                    console.log(report.name + "<<<<<<The sub  report That was resolved");
                     queryParts = {
-                        columns: [(requestParams.supplementColumns || 'location_uuid') + (indicatorsToColumns(report, requestParams.countBy))],
+                        columns:indicatorsToColumns(report, requestParams.countBy, requestParams),
+                        concatColumns:concatColumnsToColumns(report),
                         table: report.table['schema'] + '.' + report.table['tableName'],
                         alias: report.table['alias'],
                         joins: joinsToSql(report.joins),
                         where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
                         group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
+                        order: [{column: 't1.location_id', asc: true}],
                         offset: requestParams.offset,
                         limit: requestParams.limit
                     };
@@ -161,13 +162,14 @@ module.exports = function () {
                     })
                 } else {
                     var queryParts = {
-                        columns: [(requestParams.supplementColumns || 'location_uuid') +
-                        (indicatorsToColumns(report, requestParams.countBy))],
+                        columns:indicatorsToColumns(report, requestParams.countBy, requestParams),
+                        concatColumns:concatColumnsToColumns(report),
                         table: report.table['schema'] + '.' + report.table['tableName'],
                         alias: report.table['alias'],
                         joins: joinsToSql(report.joins),
                         where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
                         group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
+                        order: [{column: 't1.location_id', asc: true}],
                         offset: requestParams.offset,
                         limit: requestParams.limit
                     };
@@ -179,21 +181,64 @@ module.exports = function () {
     }
 
     //converts a set of indicators into sql columns
-    function indicatorsToColumns(report, countBy) {
-        var result = "";
-        //Load json schema into the query builder
+    function indicatorsToColumns(report, countBy, requestParam) {
+        var result = [];
+        //converts a set of supplementColumns  into sql columns
+        _.each(supplementColumnsToColumns(report), function (column) {
+            result.push(column);
+        });
+        console.log('here is the supplementColumnsToColumns ', supplementColumnsToColumns(report) )
+        //converts set of indicators to sql columns
         _.each(report.indicators, function (singleIndicator) {
             _.each(indicatorsSchema, function (indicator) {
-                if (indicator.name === singleIndicator.expression) {
-                    result += ", ";
-                    //{old way}  var column = indicator.reportIndicators[countBy].sql + ' as ' + indicator.name;
-                    var column = singleIndicator.sql + ' as ' + indicator.name;
-                    column = column.replace('$expression', indicator.expression);
-                    result += column;
+                if (requestParam.requestIndicators) {
+                    //compare request partams indicator list corresponds to the singleIndicator
+                    _.each(requestParam.requestIndicators.split(','), function (requestIndicatorName) {
+                        if (indicator.name === requestIndicatorName) {
+                            if (indicator.name === singleIndicator.expression) {
+                                var column = singleIndicator.sql + ' as ' + singleIndicator.label;
+                                column = column.replace('$expression', indicator.expression);
+                                result.push(column);
+                            }
+                        }
+                    });
+                } else {
+                    if (indicator.name === singleIndicator.expression) {
+                        var column = singleIndicator.sql + ' as ' + indicator.name;
+                        column = column.replace('$expression', indicator.expression);
+                        result.push(column);
+                    }
                 }
             });
         });
 
+        return result;
+    }
+
+    //converts a set of supplement columns of type single into sql columns
+    function supplementColumnsToColumns(report) {
+        var result = [];
+        _.each(report.supplementColumns, function (supplementColumn) {
+            if( supplementColumn.type==='single'){
+                var column = supplementColumn.sql + ' as ' + supplementColumn.label;
+                result.push(column);
+            }
+        });
+        return result;
+    }
+
+    //converts a set of supplement columns of type multiple into sql columns
+    function concatColumnsToColumns(report) {
+        var result = '';
+        _.each(report.supplementColumns, function (supplementColumn) {
+            if( supplementColumn.type==='multiple'){
+                var column = supplementColumn.sql + ' as ' + supplementColumn.label;
+                result += column;
+                result += ', ';
+            }
+        });
+        var lastIndex = result.lastIndexOf(',');
+        result = result.substring(0, lastIndex);
         return result;
     }
 
@@ -245,9 +290,8 @@ module.exports = function () {
                     expression += ' and ';
                     _.each(reportParams, function (reportParam) {
                         if (reportParam["name"] === whereParam["name"]) {
-                            _.each(whereParam["value"].split(','), function (whereParamValue) {
-                                parameters.push(whereParamValue);
-                            });
+                            console.log('i am pushing this:',whereParam["value"] );
+                            parameters.push(whereParam["value"]);
                         }
                     });
                 }
