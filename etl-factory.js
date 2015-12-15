@@ -59,7 +59,6 @@ module.exports = function () {
                 result.resource = report.table['schema'] + '.' + report.table['tableName'];
             }
         });
-        console.log('here is the whereclause', result);
         successCallback(result);
     }
 
@@ -71,7 +70,6 @@ module.exports = function () {
         _.each(reports, function (report) {
             if (report.name === queryParams.reportName) {
                 _.each(report.indicators, function (reportIndicator) {
-                    console.log('here is the requested indicators', reportIndicator);
                     _.each(indicatorsSchema, function (indicator) {
                         if (indicator.name === reportIndicator.expression) {
                             result.push(indicator);
@@ -96,7 +94,6 @@ module.exports = function () {
             if (report.name === queryParams.reportName) {
                 allReportSections = report.sections;
                 _.each(report.indicators, function (reportIndicator) {
-                    //  console.log('here is the requested indicators', reportIndicator);
                     _.each(indicatorsSchema, function (indicator) {
                         if (indicator.name === reportIndicator.expression) {
                             //add section infor
@@ -126,7 +123,6 @@ module.exports = function () {
         if (requestParams === null || requestParams === undefined) return "";
         var queryParts = {};
         _.each(reports, function (report) {
-            //   console.log(report.name+"<<<<<<The  report  Name<");
             if (report.name === reportName) {
                 {
                     queryParts = {
@@ -187,7 +183,6 @@ module.exports = function () {
         _.each(supplementColumnsToColumns(report), function (column) {
             result.push(column);
         });
-        console.log('here is the supplementColumnsToColumns ', supplementColumnsToColumns(report) )
         //converts set of indicators to sql columns
         _.each(report.indicators, function (singleIndicator) {
             _.each(indicatorsSchema, function (indicator) {
