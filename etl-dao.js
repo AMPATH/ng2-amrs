@@ -472,7 +472,7 @@ module.exports = function () {
             var countBy = request.query.countBy;
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            var locations = request.query.locationIds;
+            var locations = request.query.locations;
             var requestIndicators = request.query.indicators;
             //build query params
             var requestParams = {
@@ -490,7 +490,6 @@ module.exports = function () {
             };
             //build report
             var singleReportQueryParams = reportFactory.singleReportToSql(requestParams);
-            console.log('singleReportQueryParams',singleReportQueryParams)
             var multiQueryPartsArray = db.reportMultiQueryServer(singleReportQueryParams);
             db.ExecuteMultiReport(multiQueryPartsArray[0], multiQueryPartsArray[1], function(results){
                 var formattedResult= [];

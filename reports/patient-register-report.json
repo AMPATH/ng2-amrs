@@ -9,7 +9,16 @@
     "parameters": [
         {"name":"startDate", "defaultValue":["10-10-2015"]},
         {"name":"endDate", "defaultValue":["defaultValue"]},
-        {"name":"locations","defaultValue":[]}
+        {"name":"locations","defaultValue":[]},
+        {
+            "name": "groupByEncounter",
+            "defaultValue": [
+                {
+                    "label": "encounter",
+                    "expression": "encounter_id"
+                }
+            ]
+        }
     ],
     "filters": [
         {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
@@ -17,19 +26,9 @@
         {"expression":"t1.location_id in (?)", "parameter":"locations"}
     ],
     "groupClause":[
-
+        {"parameter":"groupByEncounter"}
     ],
     "indicators": [
-        {
-            "label":"encounters",
-            "expression":"encounters",
-            "sql":"true"
-        },
-        {
-            "label":"patients",
-            "expression":"patients",
-            "sql":"true"
-        },
         {
             "label":"on_arvs",
             "expression":"on_arvs",
@@ -149,7 +148,7 @@
             "sql":"t1.location_id"
         },
         {
-            "label":"encounter_datetime",
+            "label":"encounter_date",
             "type":"single",
             "sql":"t1.encounter_datetime"
         },
@@ -157,6 +156,11 @@
             "label":"person_id",
             "type":"single",
             "sql":"t1.person_id"
+        },
+        {
+          "label":"person_uuid",
+          "type":"single",
+          "sql":"t1.uuid"
         },
         {
             "label":"identifiers",
