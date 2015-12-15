@@ -3,21 +3,21 @@ var _ = require('underscore');
 var walk = require('walk');
 //Report Indicators Json Schema Path
 var indicatorsSchema = require('./reports/indicators.json');
-//var hivSummaryReport = require('./reports/hiv-summary-report.json');
 var reports = [];
 //iterate the report folder picking  files satisfying  regex *report.json
+reports.push.apply(reports,require('./reports/hiv-summary-report.json'));
+reports.push.apply(reports,require('./reports/moh-731-report.json'));
+reports.push.apply(reports,require('./reports/patient-register-report.json'));
 
-var walker = walk.walk("./reports", []);
-
-walker.on("file", function (root, fileStats, next) {
-    //test  file  to determine if its report  json
-    if (fileStats.name.match(".*(-report.json)")) {
-        console.log('pushing file schema to reports array>>>>' + fileStats.name);
-        reports.push.apply(reports, require('./reports/' + fileStats.name));
-    }
-    next();
-});
-
+//var walker = walk.walk("./reports", []);
+//walker.on("file", function (root, fileStats, next) {
+//    //test  file  to determine if its report  json
+//    if (fileStats.name.match(".*(-report.json)")) {
+//        console.log('pushing file schema to reports array>>>>' + fileStats.name);
+//        reports.push.apply(reports, require('./reports/' + fileStats.name));
+//    }
+//    next();
+//});
 
 //create an array of reports --->push your report using reports.push(report1,report2,... report(n));
 //reports.push(hivSummaryReport);
