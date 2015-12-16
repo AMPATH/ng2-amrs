@@ -110,6 +110,8 @@
         "label": "# of pregnant patients and are on ARVs in a given time period",
         "expression": "edd > encounter_datetime and cur_arv_line is not null"
     },
+
+
     {
         "name":"on_pcp_prophylaxis",
         "label": "on PCP prophylaxis",
@@ -359,9 +361,9 @@
         "expression": "screened_for_tb and gender='F' and timestampdiff(year,birthdate,encounter_datetime) >= 15"
     },
     {
-        "name":"using_modern_contracept_methods",
+        "name":"using_modern_contracept_method",
         "label": " # of patients using modern contraceptive methods (IUD, injectables, OCP)",
-        "expression": "using_modern_contracept_methods = 1"
+        "expression": "using_modern_contracept_method = 1"
     },
     {
         "name":"condoms_provided",

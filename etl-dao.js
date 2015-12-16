@@ -472,7 +472,13 @@ module.exports = function () {
             var countBy = request.query.countBy;
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            var locations = request.query.locations;
+            var locations;
+            if(request.query.locations) {
+                var locations=[];
+                _.each(request.query.locations.split(','), function (loc) {
+                    locations.push(Number(loc));
+                });
+            }
             var requestIndicators = request.query.indicators;
             //build query params
             var requestParams = {
