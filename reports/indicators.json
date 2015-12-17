@@ -101,9 +101,9 @@
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
     },
     {
-      "name": "pregnant",
-      "label": "# of pregnant patients in a given time period",
-      "expression": "edd > encounter_datetime"
+        "name": "pregnant",
+        "label": "# of pregnant patients in a given time period",
+        "expression": "edd > encounter_datetime"
     },
     {
         "name":"pregnant_and_on_arvs",
@@ -406,12 +406,12 @@
     {
         "name":"enrollment_date",
         "label": "enrollment_date",
-        "expression": "enrollment_date"
+        "expression": "DATE_FORMAT(enrollment_date,'%m-%d-%Y')"
     },
     {
         "name":"death_date",
         "label": "death_date",
-        "expression": "death_date"
+        "expression": "DATE_FORMAT(death_date,'%m-%d-%Y')"
     },
     {
         "name":"scheduled_visit",
@@ -431,17 +431,17 @@
     {
         "name":"prev_rtc_date",
         "label": "prev_rtc_date",
-        "expression": "prev_rtc_date"
+        "expression": "DATE_FORMAT(prev_rtc_date,'%m-%d-%Y')"
     },
     {
         "name":"rtc_date",
         "label": "rtc_date",
-        "expression": "rtc_date"
+        "expression": "DATE_FORMAT(rtc_date,'%m-%d-%Y')"
     },
     {
         "name":"arv_start_date",
         "label": "arv_start_date",
-        "expression": "arv_start_date"
+        "expression": "DATE_FORMAT(arv_start_date,'%m-%d-%Y')"
     },
     {
         "name":"arv_first_regimen",
@@ -461,7 +461,7 @@
     {
         "name":"first_evidence_patient_pregnant",
         "label": "first_evidence_patient_pregnant",
-        "expression": "first_evidence_patient_pregnant"
+        "expression": "DATE_FORMAT(first_evidence_patient_pregnant,'%m-%d-%Y')"
     },
     {
         "name":"edd",
@@ -476,12 +476,12 @@
     {
         "name":"tb_tx_start_date",
         "label": "tb_tx_start_date",
-        "expression": "tb_tx_start_date"
+        "expression": "DATE_FORMAT(tb_tx_start_date,'%m-%d-%Y')"
     },
     {
         "name":"pcp_prophylaxis_start_date",
         "label": "pcp_prophylaxis_start_date",
-        "expression": "pcp_prophylaxis_start_date"
+        "expression": "DATE_FORMAT(pcp_prophylaxis_start_date,'%m-%d-%Y')"
     },
     {
         "name":"cd4_resulted",
@@ -491,7 +491,7 @@
     {
         "name":"cd4_resulted_date",
         "label": "cd4_resulted_date",
-        "expression": "cd4_resulted_date"
+        "expression": "DATE_FORMAT(cd4_resulted_date,'%m-%d-%Y')"
     },
     {
         "name":"cd4_1",
@@ -501,7 +501,7 @@
     {
         "name":"cd4_1_date",
         "label": "cd4_1_date",
-        "expression": "cd4_1_date"
+        "expression": "DATE_FORMAT(cd4_1_date,'%m-%d-%Y')"
     },
     {
         "name":"cd4_2",
@@ -511,7 +511,7 @@
     {
         "name":"cd4_2_date",
         "label": "cd4_2_date",
-        "expression": "cd4_2_date"
+        "expression": "DATE_FORMAT(cd4_2_date,'%m-%d-%Y')"
     },
     {
         "name":"cd4_percent_1",
@@ -521,7 +521,7 @@
     {
         "name":"cd4_percent_1_date",
         "label": "cd4_percent_1_date",
-        "expression": "cd4_percent_1_date"
+        "expression": "DATE_FORMAT(cd4_percent_1_date,'%m-%d-%Y')"
     },
     {
         "name":"cd4_percent_2",
@@ -531,7 +531,7 @@
     {
         "name":"cd4_percent_2_date",
         "label": "cd4_percent_2_date",
-        "expression": "cd4_percent_2_date"
+        "expression": "DATE_FORMAT(cd4_percent_2_date,'%m-%d-%Y')"
     },
     {
         "name":"vl_resulted",
@@ -541,7 +541,7 @@
     {
         "name":"vl_resulted_date",
         "label": "vl_resulted_date",
-        "expression": "vl_resulted_date"
+        "expression": "DATE_FORMAT(vl_resulted_date,'%m-%d-%Y')"
     },
     {
         "name":"vl_1",
@@ -551,7 +551,7 @@
     {
         "name":"vl_1_date",
         "label": "vl_1_date",
-        "expression": "vl_1_date"
+        "expression": "DATE_FORMAT(vl_1_date,'%m-%d-%Y')"
     },
     {
         "name":"vl_2",
@@ -561,19 +561,17 @@
     {
         "name":"vl_2_date",
         "label": "vl_2_date",
-        "expression": "vl_2_date"
+        "expression": "DATE_FORMAT(vl_2_date,'%m-%d-%Y')"
     },
     {
         "name":"vl_order_date",
         "label": "vl_order_date",
-        "expression": "vl_order_date"
+        "expression": "DATE_FORMAT(vl_order_date,'%m-%d-%Y')"
     },
     {
         "name":"cd4_order_date",
         "label": "cd4_order_date",
-        "expression": "cd4_order_date"
+        "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
     }
 
 ]
-
-
