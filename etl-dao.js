@@ -472,6 +472,7 @@ module.exports = function () {
             var countBy = request.query.countBy;
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+            var order = getSortOrder(request.query.order);
             var locations;
             if(request.query.locations) {
                 var locations=[];
@@ -488,6 +489,7 @@ module.exports = function () {
                     {"name": "endDate", "value": endDate},
                     {"name": "locations", "value": locations}
                 ],
+                order:order||[{column: 't1.location_id', asc: true}],
                 countBy: countBy || 'num_persons',
                 groupBy: request.query.groupBy || 'groupByLocation',
                 offset: request.query.startIndex,
