@@ -160,6 +160,11 @@
                    "label":"encounter_datetime",
                    "type":"single",
                    "sql":"t1.encounter_datetime"
+               },
+               {
+                   "label":"month",
+                   "type":"single",
+                   "sql":"t1.encounter_datetime"
                }
            ]
     }
