@@ -165,7 +165,7 @@ module.exports = function () {
                         joins: joinsToSql(report.joins),
                         where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
                         group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
-                        order: [{column: 't1.location_id', asc: true}],
+                        order: requestParams.order,
                         offset: requestParams.offset,
                         limit: requestParams.limit
                     };
