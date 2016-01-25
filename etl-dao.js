@@ -625,7 +625,7 @@ module.exports = function () {
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
             var order = getSortOrder(request.query.order);
             var reportName = request.query.reportName || 'hiv-summary-report';
-            var locationIds = request.query.locations;
+            var locationIds = request.query.locations||'';
             var locations = [];
             _.each(locationIds.split(','), function (loc) {
                 locations.push(Number(loc));
@@ -638,15 +638,18 @@ module.exports = function () {
                 reportIndicator: reportIndicator,
                 reportName: reportName
             };
-            //build report
+            //build repor
             reportFactory.buildPatientListExpression(queryParams, function (exprResult) {
+                var whereClause=["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_id in ? " +
+                exprResult.whereClause, startDate, endDate, locations];
+                if(locationIds==='') whereClause=["t1.encounter_datetime >= ? and t1.encounter_datetime <= ?" +
+                exprResult.whereClause, startDate, endDate];
                 var queryParts = {
                     columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
                     concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
                     "group_concat(distinct t3.identifier separator ', ') as identifiers",
                     table: exprResult.resource,
-                    where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_id in ? " +
-                    exprResult.whereClause, startDate, endDate, locations],
+                    where: whereClause,
                     joins: [
                         ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
                     ],
