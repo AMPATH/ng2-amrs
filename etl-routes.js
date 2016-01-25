@@ -297,7 +297,7 @@ module.exports = function () {
                     if (request.query.locationUuids) {
                         dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                             function (results) {
-                                request.query.locationIds = results;
+                                request.query.locations = results;
                             }).onResolved = onResolvedPromise;
                     }
                 }
