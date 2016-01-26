@@ -238,15 +238,6 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-                    switch (request.query.report) {
-                        case 'MOH-731':
-                        {
-                            console.log("using this  case>>>>>> MOH-731")
-                            dao.getReportIndicators(request, reply);
-                            break;
-                        }
-                        default:
-                        {
                             var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
                             var onResolvedPromise = function (promise) {
                                 asyncRequests--;
@@ -265,9 +256,7 @@ module.exports = function () {
                                         request.query.locations = results;
                                     }).onResolved = onResolvedPromise;
                             }
-                            break;
-                        }
-                    }
+
                 }
 
             }

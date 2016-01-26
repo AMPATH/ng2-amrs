@@ -1,0 +1,91 @@
+ [{
+  "name": "attended",
+  "table":{"schema":"","tableName":"","alias":"t1","hasNested":"attended-data-table"},
+  "joins":[
+  ],
+  "parameters": [
+      {"name":"groupByd", "defaultValue":[
+          {"label":"d","expression":"d"}
+      ]
+      },
+      {"name":"groupByw", "defaultValue":[
+          {"label":"w","expression":"w"}
+      ]
+      }
+  ],
+  "filters": [
+  ],
+  "groupClause":[
+      {"parameter":"groupByd"},
+      {"parameter":"groupByw"}
+  ],
+  "indicators": [
+    {
+        "label":"attended",
+        "expression":"attended",
+        "sql":"count(if(attended,1,0))"
+    }
+  ],
+  "supplementColumns":[
+         {
+             "label":"d",
+             "type":"single",
+             "sql":"t1.d"
+         },
+         {
+             "label":"w",
+             "type":"single",
+             "sql":"t1.w"
+         }
+     ]
+ },
+ {
+  "name": "attended-data-table",
+  "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+  "joins":[
+      {"joinType":"INNER JOIN","schema":"etl","tableName":"derived_encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"}
+  ],
+  "parameters": [
+      {"name":"startDate", "defaultValue":["10-10-2015"]},
+      {"name":"endDate", "defaultValue":["defaultValue"]},
+      {"name":"location","defaultValue":[]}
+  ],
+  "filters": [
+      {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
+      {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+      {"expression":"t1.location_id = ?", "parameter":"location"}
+  ],
+  "groupClause":[
+  ],
+  "indicators": [
+  ],
+  "supplementColumns":[
+         {
+             "label":"encounter_id",
+             "type":"single",
+             "sql":"t1.encounter_id"
+         },
+         {
+             "label":"d",
+             "type":"single",
+             "sql":"date(encounter_datetime)"
+         },
+         {
+             "label":"w",
+             "type":"single",
+             "sql":"date_format(rtc_date,'%W')"
+         },
+         {
+             "label":"attended",
+             "type":"single",
+             "sql":"1"
+         },
+         {
+             "label":"location_id",
+             "type":"single",
+             "sql":"t1.location_id"
+         }
+     ]
+ }
+
+ ]
