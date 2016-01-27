@@ -1,5 +1,6 @@
 "use strict";
 var _ = require('underscore');
+var s = require("underscore.string");
 var walk = require('walk');
 var indicatorHandlersDefinition = require('./etl-processors.js');
 //Report Indicators Json Schema Path
@@ -7,9 +8,9 @@ var indicatorsSchemaDefinition = require('./reports/indicators.json');
 var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
 reportList.push.apply(reportList, require('./reports/hiv-summary-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/patient-register-report.json'));
-reportList.push.apply(reportList, require('./reports/clinic-calander.report.json'));
+reportList.push.apply(reportList, require('./reports/clinic-calander-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/daily-visits-appointment.report.json'));
 
 
@@ -201,8 +202,42 @@ module.exports = function () {
         return queryPartsArray;
     }
 
+function replaceIndicatorParam(_indicatorExpression, requestParam) {
+  var indicatorExpression = _indicatorExpression;
+  var result;
+  console.log('underscore string', s.include(indicatorExpression,'endDate'));
+  if (s.include(indicatorExpression,'endDate')) {
+    if(requestParam.whereParams) {
+      var dateParam = _.find(requestParam.whereParams, function(param){
+        if(param.name === 'endDate') return param;
+      });
+
+      if (dateParam) {
+        indicatorExpression =  s.replaceAll(indicatorExpression,'endDate', "'"+ dateParam.value + "'");
+        console.log('end date param', indicatorExpression);
+      }
+    }
+
+  }
+
+  if (s.include(indicatorExpression,'startDate')) {
+    if(requestParam.whereParams) {
+      var dateParam = _.find(requestParam.whereParams, function(param){
+        if(param.name === 'startDate') return param;
+      });
+
+      if (dateParam) {
+        indicatorExpression = s.replaceAll(indicatorExpression,'startDate', "'"+ dateParam.value + "'");
+        console.log('start date param', indicatorExpression);
+      }
+    }
+  }
+
+  return indicatorExpression;
+}
     //converts a set of indicators into sql columns
     function indicatorsToColumns(report, countBy, requestParam) {
+      console.log('request parameters', requestParam);
         var result = [];
         //converts a set of supplementColumns  into sql columns
         _.each(supplementColumnsToColumns(report), function (column) {
@@ -221,7 +256,9 @@ module.exports = function () {
                                     result.push(processesDerivedIndicator(report, singleIndicator, indicator));
                                 } else {
                                     var column = singleIndicator.sql + ' as ' + singleIndicator.label;
-                                    column = column.replace('$expression', indicator.expression);
+                                    //check if indicator expression has endDate and startDate parameters
+                                    var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                                    column = column.replace('$expression', indicatorExpression);
                                     result.push(column);
                                 }
                             }
@@ -231,10 +268,12 @@ module.exports = function () {
                     if (indicator.name === singleIndicator.expression) {
                         //Determine indicator type, whether it is derived or an independent indicator
                         if (singleIndicator.sql.match(/\[(.*?)\]/)) {
-                            result.push(processesDerivedIndicator(report, singleIndicator, indicator));
+                            result.push(processesDerivedIndicator(report, singleIndicator, indicator, requestParam));
                         } else {
                             var column = singleIndicator.sql + ' as ' + indicator.name;
-                            column = column.replace('$expression', indicator.expression);
+                            //check if indicator expression has endDate and startDate parameters
+                            var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                            column = column.replace('$expression', indicatorExpression);
                             result.push(column);
                         }
                     }
@@ -246,26 +285,30 @@ module.exports = function () {
     }
 
     //converts set of derived indicators to sql columns
-    function processesDerivedIndicator(report, derivedIndicator, indicator) {
+    function processesDerivedIndicator(report, derivedIndicator, indicator, requestParam) {
         var reg = /[\[\]']/g; //regex [] indicator
         var matches = [];
         derivedIndicator.sql.replace(/\[(.*?)\]/g, function (g0, g1) {
             matches.push(g1);
         });
+        derivedIndicator.sql = derivedIndicator.sql.replace(reg, '');
         _.each(matches, function (indicatorKey) {
             _.each(report.indicators, function (singleIndicator) {
                 if (indicatorKey === singleIndicator.expression) {
                     _.each(indicatorsSchema, function (indicator) {
                         if (indicator.name === indicatorKey) {
                             var column = singleIndicator.sql;
-                            column = column.replace('$expression', indicator.expression);
+                            console.log('Derived Indicator request param', requestParam);
+                            var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                            column = column.replace('$expression', indicatorExpression);
                             derivedIndicator.sql = derivedIndicator.sql.replace(indicatorKey, column);
                         }
                     });
                 }
             });
         });
-        return derivedIndicator.sql.replace(reg, '') + ' as ' + indicator.name;
+        console.log('track derived indicator', derivedIndicator.sql);
+        return derivedIndicator.sql + ' as ' + indicator.name;
     }
 
     //converts a set of supplement columns of type single into sql columns
@@ -308,8 +351,7 @@ module.exports = function () {
                     schema: join.schema,
                     tableName: join.tableName,
                     alias: join.alias,
-                    joinExpression: join.joinExpression
-                    ,
+                    joinExpression: join.joinExpression,
                     joinType: join.joinType
                 }
                 result.push(joinOject);
@@ -319,11 +361,11 @@ module.exports = function () {
                     schema: join.schema,
                     tableName: join.tableName,
                     alias: join.alias,
-                    joinExpression: join.joinExpression
-                    ,
+                    joinExpression: join.joinExpression,
                     joinType: join.joinType,
                     joinedQuerParts: queryParts
                 };
+                console.log('testing joinedReport', joinOject);
                 result.push(joinOject);
                 //var r = [join['schema'] + '.' + join['tableName'], join['alias'], join['joinExpression'], join['joinType']];
             }
@@ -359,7 +401,7 @@ module.exports = function () {
             _.each(whereParams, function (whereParam) {
                 //checks whether param value is set, if not set the filter is not pushed.
                 //also checks if report filter parameter passed is eq to where param
-                if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"] || reportFilter["processForce"] == true) {
+                if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"] || reportFilter["processForce"] === true) {
                     expression += reportFilter["expression"];
                     expression += ' and ';
                     _.each(reportParams, function (reportParam) {

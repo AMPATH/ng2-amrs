@@ -11,7 +11,6 @@ var fs = require('fs');
 var routes = require('./etl-routes');
 var elasticRoutes = require('./elastic/routes/care.treatment.routes');
 
-
 var httpsServer = tls.createServer({
     key: fs.readFileSync(settings.sslSettings.key),
     cert: fs.readFileSync(settings.sslSettings.crt)
@@ -31,23 +30,23 @@ var server = new Hapi.Server({
 
 server.connection({
     port: 8002,
-    host: 'localhost',
-    tls: httpsServer
+    host:'localhost'
+    //tls: httpsServer
 });
 
 
 var pool = mysql.createPool(settings.mysqlPoolSettings);
 
-var validate = function (username, password, callback) {
+var validate = function(username, password, callback) {
 
-    //Openmrs context
-    var options = {
-        hostname: 'test1.ampath.or.ke',
-        port: 8443,
-        path: '/amrs/ws/rest/v1/session',
-        headers: {
-            'Authorization': "Basic " + new Buffer(username + ":" + password).toString("base64")
-        }
+  //Openmrs context
+  var options = {
+      hostname: 'amrs.ampath.or.ke',
+      port:8443,
+      path:'/amrs/ws/rest/v1/session',
+      headers: {
+          'Authorization': "Basic " + new Buffer(username + ":" + password).toString("base64")
+      }
     };
 
     https.get(options, function (res) {

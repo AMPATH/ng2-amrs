@@ -1,0 +1,96 @@
+[{
+ "name": "attended",
+ "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+ "joins":[
+ ],
+ "parameters": [
+     {"name":"groupByAttendedDate", "defaultValue":[
+         {"label":"attended_date","expression":"attended_date"}
+     ]
+     },
+   {"name":"startDate", "defaultValue":["10-10-2015"]},
+   {"name":"endDate", "defaultValue":["defaultValue"]},
+   {"name":"locations","defaultValue":[]}
+ ],
+ "filters": [
+     {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
+     {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+     {"expression":"t1.location_id in (?) ", "parameter":"locations"},
+     {"expression":"encounter_type not in (21,99999)"}
+ ],
+ "groupClause":[
+     {"parameter":"groupByAttendedDate"},
+     {"parameter":"groupByw"}
+ ],
+ "indicators": [
+
+ ],
+ "supplementColumns":[
+        {
+            "label":"attended_date",
+            "type":"single",
+            "sql":"date(t1.encounter_datetime)"
+        },
+        {
+            "label":"attended",
+            "type":"single",
+            "sql":"count(distinct person_id)"
+        }
+    ]
+},
+{
+ "name": "scheduled",
+ "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+ "joins":[
+     {"joinType":"INNER JOIN","schema":"etl","tableName":"derived_encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"}
+ ],
+ "parameters": [
+     {"name":"groupByRtcDate", "defaultValue":[
+         {"label":"scheduled_date","expression":"scheduled_date"}
+     ]
+     },
+   {"name":"startDate", "defaultValue":["10-10-2015"]},
+   {"name":"endDate", "defaultValue":["30-10-2015"]},
+   {"name":"locations","defaultValue":[]}
+ ],
+ "filters": [
+     {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
+     {"expression":"t1.rtc_date <= ?", "parameter":"endDate"},
+     {"expression":"t1.location_id in ?", "parameter":"locations"},
+     {"expression":"encounter_type not in (99999)"}
+ ],
+ "groupClause":[
+     {"parameter":"groupByRtcDate"},
+     {"parameter":"groupByw"}
+ ],
+ "indicators": [
+   {
+       "label":"has_not_returned",
+       "expression":"has_not_returned",
+       "sql":"count(distinct if($expression, t1.person_id, null))"
+   },
+   {
+       "label":"not_attended",
+       "expression":"not_attended",
+       "sql":"count(distinct if($expression, t1.person_id, null))"
+   }
+ ],
+ "supplementColumns":[
+        {
+            "label":"scheduled_date",
+            "type":"single",
+            "sql":"date(t1.rtc_date)"
+        },
+        {
+            "label":"scheduled",
+            "type":"single",
+            "sql":"count(distinct t1.person_id)"
+        },
+        {
+            "label":"followed_up_by_outreach",
+            "type":"single",
+            "sql":"if(next_encounter_type =21, 1,0)"
+        }
+    ]
+}
+]

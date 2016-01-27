@@ -159,6 +159,5 @@ module.exports = function ()
                 return queryResults;
             }
         }
-		
 	}
 }();
