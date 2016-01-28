@@ -402,7 +402,8 @@ module.exports = function () {
             });
         },
         getPatient: function getPatient(request, callback) {
-            console.log('Gettting Here', request.query)
+          console.log('Gettting Here', request);
+            console.log(JSON.stringify(request.toString));
             var uuid = request.params.uuid;
             var order = getSortOrder(request.query.order);
 

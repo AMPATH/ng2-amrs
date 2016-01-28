@@ -29,7 +29,7 @@ var server = new Hapi.Server(
 server.connection({
     port: 8002,
     host:'localhost'
-    tls: httpsServer
+  //  tls: httpsServer
 });
 
 
@@ -102,4 +102,4 @@ server.register([
             server.log('info', 'Server running at: ' + server.info.uri);
         });
 });
-module.exports = server; 
+module.exports = server;
