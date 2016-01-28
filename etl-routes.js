@@ -238,24 +238,25 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-                            var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                            var onResolvedPromise = function (promise) {
-                                asyncRequests--;
-                                if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                                    dao.getReportIndicators(request, reply);
-                                }
-                            };
-                            if (request.query.locationUuids) {
-                                asyncRequests++;
-                            }
-                            if (asyncRequests == 0)
-                                dao.getReportIndicators(request, reply);
-                            if (request.query.locationUuids) {
-                                dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                                    function (results) {
-                                        request.query.locations = results;
-                                    }).onResolved = onResolvedPromise;
-                            }
+
+                    var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+                    var onResolvedPromise = function (promise) {
+                        asyncRequests--;
+                        if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                            dao.getReportIndicators(request, reply);
+                        }
+                    };
+                    if (request.query.locationUuids) {
+                        asyncRequests++;
+                    }
+                    if (asyncRequests === 0)
+                        dao.getReportIndicators(request, reply);
+                    if (request.query.locationUuids) {
+                        dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                            function (results) {
+                                request.query.locations = results;
+                            }).onResolved = onResolvedPromise;
+                    }
 
                 }
 
@@ -297,7 +298,7 @@ module.exports = function () {
                     if (request.query.locationUuids) {
                         dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                             function (results) {
-                                request.query.locationIds = results;
+                                request.query.locations = results;
                             }).onResolved = onResolvedPromise;
                     }
                 }

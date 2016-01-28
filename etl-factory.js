@@ -243,6 +243,27 @@ module.exports = function() {
 
   }
 
+    //converts set of derived indicators to sql columns
+    function processesDerivedIndicator(report,derivedIndicator,indicator){
+        var reg = /[\[\]']/g; //regex [] indicator
+        var matches = [];
+        derivedIndicator.sql.replace(/\[(.*?)\]/g, function(g0,g1){matches.push(g1);});
+        _.each(matches, function (indicatorKey) {
+            _.each(report.indicators, function (singleIndicator) {
+                if (indicatorKey === singleIndicator.expression) {
+                    _.each(indicatorsSchema, function (indicator) {
+                        if (indicator.name === indicatorKey) {
+                            var column = singleIndicator.sql;
+                            column = column.replace('$expression', indicator.expression);
+                            derivedIndicator.sql = derivedIndicator.sql.replace(indicatorKey, column);
+                        }
+                    });
+                }
+            });
+        });
+        return derivedIndicator.sql.replace(reg, '') + ' as ' + indicator.name;
+    }
+
   //converts set of derived indicators to sql columns
   function processesDerivedIndicator(report, derivedIndicator, indicator) {
     var reg = /[\[\]']/g; //regex [] indicator
