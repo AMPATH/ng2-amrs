@@ -1200,7 +1200,7 @@ module.exports = function() {
           results.size = formattedResult.length;
           results.result = formattedResult;
         }
-        callback(results);
+        callback(reportFactory.resolveIndicators(reportName,results));
       })
     },
     getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {

@@ -354,6 +354,11 @@
             "type":"multiple",
             "sql":"concat(t3.given_name,' ',t3.middle_name,' ',t3.family_name)"
         }
+    ],
+    "indicatorHandlers":[
+      {"processor":"convertConceptIdToName","indicators":["arv_first_regimen","cur_arv_meds"]}
     ]
+
+
 }
 ]
