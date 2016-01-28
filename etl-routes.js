@@ -238,6 +238,7 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
+
                     var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
                     var onResolvedPromise = function (promise) {
                         asyncRequests--;
@@ -248,7 +249,7 @@ module.exports = function () {
                     if (request.query.locationUuids) {
                         asyncRequests++;
                     }
-                    if (asyncRequests == 0)
+                    if (asyncRequests === 0)
                         dao.getReportIndicators(request, reply);
                     if (request.query.locationUuids) {
                         dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,

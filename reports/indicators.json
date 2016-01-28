@@ -572,6 +572,11 @@
         "name":"cd4_order_date",
         "label": "cd4_order_date",
         "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
+    },
+    {
+        "name":"attended",
+        "label": "attended",
+        "expression": ""
     }
 
 ]

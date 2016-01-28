@@ -349,99 +349,111 @@ var getFilters = function(filters) {
         });
 
     };
+function cretateQuery(queryParts,sq){
+	var result = {};
+	var  multiquery="";
+	var multuvalues=[];
+	var tableAlias='t1';
+	if(queryParts['alias'])tableAlias=queryParts['alias'];
+	var s
+if(sq){
+	s = squel.select()
+			.from(sq,tableAlias);
 
+}else {
+	s = squel.select()
+			.from(queryParts.table,tableAlias);
+}
+	_.each(queryParts['joins'],function(join) {
+			if (join[3]=='JOIN') s.join(join[0],join[1],join[2]);
+			if (join[3]=='INNER JOIN') s.join(join[0],join[1],join[2]);
+			if (join[3]=='OUTER JOIN') s.outer_join(join[0],join[1],join[2]);
+			if (join[3]=='LEFT OUTER JOIN') s.left_outer_join(join[0],join[1],join[2]);
+	});
+
+
+	if (queryParts.columns && queryParts.columns !== "*" ) {
+			if(typeof queryParts.columns === "string") {
+					// if (queryParts.columns.substring(0, 1) === "(")
+					//     queryParts.columns = queryParts.columns.substring(1, -1);
+					queryParts.columns = queryParts.columns.split(',');
+			}
+			var i = 0;
+			_.each(queryParts.columns, function (columnName) {
+					if (i === 0 && columnName.substring(0,1) === "(")
+							s.field(columnName.split("(")[1]);
+					else if (i === queryParts.columns.length-1)
+					{
+							var col = columnName;
+							var n = columnName.split(")").length-1;
+							if(n === 1 && !_.contains(col,"("))
+									s.field(columnName.split(")")[0]);
+							else s.field(col);
+					}
+					else s.field(columnName);
+					i++;
+			});
+	}
+	if (queryParts.concatColumns && queryParts.concatColumns !== "*" ) {
+			if(typeof queryParts.concatColumns === "string") {
+					// if (queryParts.columns.substring(0, 1) === "(")
+					//     queryParts.columns = queryParts.columns.substring(1, -1);
+					queryParts.concatColumns = queryParts.concatColumns.split(';');
+			}
+			var i = 0;
+			_.each(queryParts.concatColumns, function (columnName) {
+					if (i === 0 && columnName.substring(0,1) === "(")
+							s.field(columnName.split("(")[1]);
+					else if (i === queryParts.concatColumns.length-1)
+					{
+							var col = columnName;
+							var n = columnName.split(")").length-1;
+							if(n === 1 && !_.contains(col,"("))
+									s.field(columnName.split(")")[0]);
+							else s.field(col);
+					}
+					else s.field(columnName);
+					i++;
+			});
+	}
+
+
+	s.where.apply(this,queryParts['where']);
+	_.each(queryParts['order'], function(param) {s.order(param.column, param.asc);});
+	s.limit(queryParts['limit'] || queryLimit);
+	s.offset(queryParts['offset'] || queryOffset);
+	_.each(queryParts['group'],function(col) {s.group(col);});
+
+return s;
+}
     service.reportMultiQueryServer = function(queryPartsArray) {
     var  multiquery="";
     var multuvalues=[];
      var result = {};
      var tableAlias='t1';
     _.each(queryPartsArray,function(queryParts){
-       // console.log(queryParts,"current query part")
        if(queryParts!==undefined)
        {
+				 var s;
+				 if (queryParts.nestedParts!==''){
+					s=cretateQuery(queryParts,	cretateQuery(queryParts.nestedParts[0]));
+				}else {
+					s=cretateQuery(queryParts);
+				}
+				var q = s.toParam();
 
-            var result = {};
-            var tableAlias='t1';
-            if(queryParts['alias'])tableAlias=queryParts['alias'];
-            var s = squel.select()
-                .from(queryParts['table'],tableAlias);
-
-            _.each(queryParts['joins'],function(join) {
-                if (join[3]=='JOIN') s.join(join[0],join[1],join[2]);
-                if (join[3]=='INNER JOIN') s.join(join[0],join[1],join[2]);
-                if (join[3]=='OUTER JOIN') s.outer_join(join[0],join[1],join[2]);
-                if (join[3]=='LEFT OUTER JOIN') s.left_outer_join(join[0],join[1],join[2]);
-            });
-
-
-            if (queryParts.columns && queryParts.columns !== "*" ) {
-                if(typeof queryParts.columns === "string") {
-                    // if (queryParts.columns.substring(0, 1) === "(")
-                    //     queryParts.columns = queryParts.columns.substring(1, -1);
-                    queryParts.columns = queryParts.columns.split(',');
-                }
-                var i = 0;
-                _.each(queryParts.columns, function (columnName) {
-                    if (i === 0 && columnName.substring(0,1) === "(")
-                        s.field(columnName.split("(")[1]);
-                    else if (i === queryParts.columns.length-1)
-                    {
-                        var col = columnName;
-                        var n = columnName.split(")").length-1;
-                        if(n === 1 && !_.contains(col,"("))
-                            s.field(columnName.split(")")[0]);
-                        else s.field(col);
-                    }
-                    else s.field(columnName);
-                    i++;
-                });
-            }
-            if (queryParts.concatColumns && queryParts.concatColumns !== "*" ) {
-                if(typeof queryParts.concatColumns === "string") {
-                    // if (queryParts.columns.substring(0, 1) === "(")
-                    //     queryParts.columns = queryParts.columns.substring(1, -1);
-                    queryParts.concatColumns = queryParts.concatColumns.split(';');
-                }
-                var i = 0;
-                _.each(queryParts.concatColumns, function (columnName) {
-                    if (i === 0 && columnName.substring(0,1) === "(")
-                        s.field(columnName.split("(")[1]);
-                    else if (i === queryParts.concatColumns.length-1)
-                    {
-                        var col = columnName;
-                        var n = columnName.split(")").length-1;
-                        if(n === 1 && !_.contains(col,"("))
-                            s.field(columnName.split(")")[0]);
-                        else s.field(col);
-                    }
-                    else s.field(columnName);
-                    i++;
-                });
-            }
-
-
-            s.where.apply(this,queryParts['where']);
-            _.each(queryParts['order'], function(param) {s.order(param.column, param.asc);});
-            s.limit(queryParts['limit'] || queryLimit);
-            s.offset(queryParts['offset'] || queryOffset);
-            _.each(queryParts['group'],function(col) {s.group(col);});
-
-
-            var q = s.toParam();
-
-            console.log(q.text.replace("\\",""));
-            console.log(q.values,"Values  passed");
-
-            var sql = q.text.replace("\\","");
-            var values = q.values;
-            // var queryHandler = params.callback;
-            if( multiquery===""){
-            multiquery=sql;}else{
-    multiquery= multiquery+";"+sql;
-    }
-    _.each(values,function(res){
-    multuvalues.push(res);
-    })
+				console.log(q.text.replace("\\",""));
+				console.log(q.values,"Values  passed");
+				var sql = q.text.replace("\\","");
+				var values = q.values;
+				// var queryHandler = params.callback;
+				if( multiquery===""){
+				multiquery=sql;}else{
+			multiquery= multiquery+";"+sql;
+			}
+			_.each(values,function(res){
+			multuvalues.push(res);
+			});
       }
     });
     return [ multiquery,multuvalues];
