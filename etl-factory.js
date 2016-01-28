@@ -1,6 +1,7 @@
 "use strict";
 var _ = require('underscore');
 var walk = require('walk');
+var indicatorHandlers = require('./etl-processors.js');
 //Report Indicators Json Schema Path
 var indicatorsSchema = require('./reports/indicators.json');
 var reports = [];
@@ -29,9 +30,20 @@ module.exports = function() {
     buildIndicatorsSchema: buildIndicatorsSchema,
     buildIndicatorsSchemaWithSections: buildIndicatorsSchemaWithSections,
     singleReportToSql: singleReportToSql,
-    reportIndicatorToSql: reportIndicatorToSql
+    reportIndicatorToSql: reportIndicatorToSql,
+    resolveIndicators:resolveIndicators
   };
+    function resolveIndicators(reportName, result) {
+        _.each(reports, function(report) {
+            if (report.name === reportName) {
+                _.each(report.indicatorHandlers, function(handler){
+                    indicatorHandlers[handler.processor](handler.indicators, result);
+                });
 
+            }
+        });
+        return result;
+    }
   function buildPatientListExpression(queryParams, successCallback) {
     //Check for undefined params
     if (queryParams === null || queryParams === undefined) return "";

@@ -435,7 +435,7 @@ return s;
        if(queryParts!==undefined)
        {
 				 var s;
-				 if (queryParts.nestedParts!==''){
+				 if (queryParts.nestedParts!==undefined && queryParts.nestedParts.length>0){
 					s=cretateQuery(queryParts,	cretateQuery(queryParts.nestedParts[0]));
 				}else {
 					s=cretateQuery(queryParts);
