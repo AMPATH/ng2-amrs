@@ -1,9 +1,8 @@
-
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
 var winston = require('winston');
-var path  = require('path');
+var path = require('path');
 var _ = require('underscore');
 module.exports = function () {
 
@@ -23,25 +22,25 @@ module.exports = function () {
             path: '/javascript-errors',
             config: {
                 handler: function (request, reply) {
-                  if (request.payload) {
-                    var logger = new winston.Logger({
-                      transports: [
-                        new winston.transports.File({
-                          level: 'info',
-                          filename: 'client-logs.log',
-                          handleExceptions: true,
-                          json: true,
-                          colorize: false,
-                        }),
-                    ],
-                      exitOnError: false,
-                    });
-                    logger.add(require('winston-daily-rotate-file'),
-                    {filename: path.join(__dirname, 'logs', 'client-logs.log')});
-                    logger.info(request.payload);
-                  }
+                    if (request.payload) {
+                        var logger = new winston.Logger({
+                            transports: [
+                                new winston.transports.File({
+                                    level: 'info',
+                                    filename: 'client-logs.log',
+                                    handleExceptions: true,
+                                    json: true,
+                                    colorize: false,
+                                }),
+                            ],
+                            exitOnError: false,
+                        });
+                        logger.add(require('winston-daily-rotate-file'),
+                            {filename: path.join(__dirname, 'logs', 'client-logs.log')});
+                        logger.info(request.payload);
+                    }
 
-                  reply({message:'ok'});
+                    reply({message: 'ok'});
                 }
 
             }
@@ -177,19 +176,19 @@ module.exports = function () {
             }
         },
         {
-        method: 'OPTIONS',
-        path: '/{param*}',
-        handler: function (request, reply) {
-            // echo request headers back to caller (allow any requested)
-            var additionalHeaders = [];
-            if (request.headers['access-control-request-headers']) {
-                additionalHeaders = request.headers['access-control-request-headers'].split(', ');
-            }
-            var headers = _.union('Authorization, Content-Type, If-None-Match'.split(', '), additionalHeaders);
+            method: 'OPTIONS',
+            path: '/{param*}',
+            handler: function (request, reply) {
+                // echo request headers back to caller (allow any requested)
+                var additionalHeaders = [];
+                if (request.headers['access-control-request-headers']) {
+                    additionalHeaders = request.headers['access-control-request-headers'].split(', ');
+                }
+                var headers = _.union('Authorization, Content-Type, If-None-Match'.split(', '), additionalHeaders);
 
-            reply().type('text/plain')
-                .header('Access-Control-Allow-Headers', headers.join(', '));
-              }
+                reply().type('text/plain')
+                    .header('Access-Control-Allow-Headers', headers.join(', '));
+            }
         },
         {
             method: 'GET',
@@ -200,11 +199,11 @@ module.exports = function () {
                     dao.getCustomData(request, reply);
                 }
                 /*
-            the rest request and query expression should be
-            /table/filter_column/filter/filter_value or
-            /table/filter_column/filter/filter_value?fields=(field1,field2,fieldn) or
+                 the rest request and query expression should be
+                 /table/filter_column/filter/filter_value or
+                 /table/filter_column/filter/filter_value?fields=(field1,field2,fieldn) or
 
-            */
+                 */
             }
         },
         {
@@ -228,12 +227,37 @@ module.exports = function () {
             }
         },
         {
+            /**
+             endpoint  to  get  Reports
+             @todo Rename  to get-report-by-name,count by{patient/encounters},filter-params{location/starting date/ end date}
+             @todo ,groupby params{location/monthly}
+             **/
+
             method: 'GET',
-            path: '/etl/hiv-summary-indicators',
+            path: '/etl/get-report-by-report-name',
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
-                    dao.getHivSummaryIndicators(request, reply);
+
+                    var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+                    var onResolvedPromise = function (promise) {
+                        asyncRequests--;
+                        if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                            dao.getReportIndicators(request, reply);
+                        }
+                    };
+                    if (request.query.locationUuids) {
+                        asyncRequests++;
+                    }
+                    if (asyncRequests === 0)
+                        dao.getReportIndicators(request, reply);
+                    if (request.query.locationUuids) {
+                        dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                            function (results) {
+                                request.query.locations = results;
+                            }).onResolved = onResolvedPromise;
+                    }
+
                 }
 
             }
@@ -245,6 +269,38 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientListByIndicator(request, reply);
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/patient-by-indicator',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+
+                    var onResolvedPromise = function (promise) {
+                        asyncRequests--;
+                        if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                            dao.getPatientByIndicatorAndLocation(request, reply);
+                        }
+                    };
+
+                    //establish the number of asyncRequests
+                    //this is done prior to avoid any race conditions
+                    if (request.query.locationUuids) {
+                        asyncRequests++;
+                    }
+
+                    if (asyncRequests == 0)
+                        dao.getPatientByIndicatorAndLocation(request, reply);
+                    if (request.query.locationUuids) {
+                        dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                            function (results) {
+                                request.query.locations = results;
+                            }).onResolved = onResolvedPromise;
+                    }
                 }
             }
         },
@@ -274,8 +330,8 @@ module.exports = function () {
                         asyncRequests++;
                     }
 
-                    if(asyncRequests == 0)
-                         dao.getDataEntryIndicators(request.params.sub, request, reply);
+                    if (asyncRequests == 0)
+                        dao.getDataEntryIndicators(request.params.sub, request, reply);
 
                     if (request.query.formUuids) {
                         dao.getIdsByUuidAsyc('amrs.form', 'form_id', 'uuid', request.query.formUuids,
@@ -299,12 +355,30 @@ module.exports = function () {
             }
         },
         {
+            /**
+             endpoint  to  get  Reports Indicators
+             @todo Rename  to get-report-indicators by  report  name
+             **/
+
             method: 'GET',
             path: '/etl/indicators-schema',
             config: {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getIndicatorsSchema(request, reply);
+                }
+
+            }
+        },
+        {
+
+
+            method: 'GET',
+            path: '/etl/indicators-schema-with-sections',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.getIndicatorsSchemaWithSections(request, reply);
                 }
 
             }
@@ -322,4 +396,4 @@ module.exports = function () {
         },
 
     ];
-} ();
+}();

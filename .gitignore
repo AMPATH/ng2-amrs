@@ -4,3 +4,4 @@ conf_copy/
 .idea/**
 .vscode/
 *.log
+.netbeans.xml
