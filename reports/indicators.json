@@ -577,6 +577,22 @@
         "name":"attended",
         "label": "attended",
         "expression": ""
+    },
+    {
+        "name":"scheduled",
+        "label": "scheduled",
+        "expression": ""
+    },
+    {
+        "name":"defaulted",
+        "label": "defaulted",
+        "expression": ""
+    },
+    {
+        "name":"has_not_returned",
+        "label": "has_not_returned",
+        "expression": ""
     }
+
 
 ]
