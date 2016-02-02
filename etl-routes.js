@@ -1,3 +1,4 @@
+/*jshint -W003, -W098, -W117, -W026 */
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
@@ -49,7 +50,7 @@ module.exports = function () {
             method: 'GET',
             path: '/etl/patient/{uuid}',
             config: {
-                //auth: 'simple',
+                auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatient(request, reply);
                 }
@@ -293,7 +294,7 @@ module.exports = function () {
                         asyncRequests++;
                     }
 
-                    if (asyncRequests == 0)
+                    if (asyncRequests === 0)
                         dao.getPatientByIndicatorAndLocation(request, reply);
                     if (request.query.locationUuids) {
                         dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
@@ -330,7 +331,7 @@ module.exports = function () {
                         asyncRequests++;
                     }
 
-                    if (asyncRequests == 0)
+                    if (asyncRequests === 0)
                         dao.getDataEntryIndicators(request.params.sub, request, reply);
 
                     if (request.query.formUuids) {
