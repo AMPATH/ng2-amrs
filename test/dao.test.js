@@ -7,7 +7,7 @@ var request = require('request');
 var sinon = require('sinon'); //for creating spies, mocks and stubs
 var sinonChai = require('sinon-chai'); //expection engine for sinion
 var mockData = require('./mock/mock-data');
-var nock = require('nock');
+// var nock = require('nock');
 var _ = require('underscore');
 var Hapi = require('hapi');
 var fakeServer = require('./sinon-server-1.17.3');
@@ -18,12 +18,11 @@ global.should = chai.should;
 global.Assertion = chai.Assertion;
 global.assert = chai.assert;
 
-var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
 describe('ETL-SERVER TESTS', function() {
 
-  describe('Testing /etl/patient/{uuid} Endpoint', function() {
+  describe('Testing etl-dao layer', function() {
 
     // example showing how to use a stub to fake a method
     var stub;
