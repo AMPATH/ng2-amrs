@@ -1,6 +1,6 @@
 var chai = require('chai');
 var routes = require('../etl-routes');
-var server = require('../etl-server');
+// var server = require('../etl-server');
 var db = require('../etl-db');
 var dao = require('../etl-dao');
 var request = require('request');
@@ -109,65 +109,65 @@ describe('ETL-SERVER TESTS', function() {
       expect(queryParts.columns).to.include('c');
     });
 
-    it('should have route /etl/patient/{uuid}', function(done) {
-      var table = server.table();
-      var url = '/etl/patient/{uuid}';
-      var path = null;
-      _.each(table, function(r) { // console.log(r.table);
-        _.each(r.table, function(p) {
-          if (p.path === url) path = p.path;
-        });
-      });
-
-      expect(path).to.equal(url);
-      done();
-    });
+    // it('should have route /etl/patient/{uuid}', function(done) {
+    //   var table = server.table();
+    //   var url = '/etl/patient/{uuid}';
+    //   var path = null;
+    //   _.each(table, function(r) { // console.log(r.table);
+    //     _.each(r.table, function(p) {
+    //       if (p.path === url) path = p.path;
+    //     });
+    //   });
+    //
+    //   expect(path).to.equal(url);
+    //   done();
+    // });
   });
 
-  describe('Tests for /etl/custom_data Endpoint', function() {
-    var stub;
-    beforeEach(function() {
-      stub = sinon.stub(dao, 'getCustomData'); //.returns({ one: 'fakeOne' });
-    });
+  // describe('Tests for /etl/custom_data Endpoint', function() {
+  //   var stub;
+  //   beforeEach(function() {
+  //     stub = sinon.stub(dao, 'getCustomData'); //.returns({ one: 'fakeOne' });
+  //   });
+  //
+  //   afterEach(function() {
+  //     stub.restore();
+  //   });
+  //
+  //   it('should have route /etl/custom_data/{userParams*3}', function(done) {
+  //     var table = server.table();
+  //     var url = '/etl/custom_data/{userParams*3}';
+  //     var path = null;
+  //     _.each(table, function(r) { // console.log(r.table);
+  //       _.each(r.table, function(p) {
+  //         if (p.path === url) path = p.path;
+  //       });
+  //     });
+  //
+  //     expect(path).to.equal(url);
+  //     done();
+  //   });
+  // });
 
-    afterEach(function() {
-      stub.restore();
-    });
-
-    it('should have route /etl/custom_data/{userParams*3}', function(done) {
-      var table = server.table();
-      var url = '/etl/custom_data/{userParams*3}';
-      var path = null;
-      _.each(table, function(r) { // console.log(r.table);
-        _.each(r.table, function(p) {
-          if (p.path === url) path = p.path;
-        });
-      });
-
-      expect(path).to.equal(url);
-      done();
-    });
-  });
-
-  describe('Test the Main End Point /', function() {
-    it('returns status code 200', function(done) {
-      // console.info('passed here');
-      request.get(baseUrl, function(error, response, body) {
-        console.log(body);
-        expect(response.statusCode).equal(200);
-        done();
-      });
-    });
-
-    it('returns Hello, World', function(done) {
-      console.info('passed here');
-      request.get(baseUrl, function(error, response, body) {
-        console.log(body);
-        expect(body).to.equal('Hello, World! HAPI Demo Server');
-        done();
-      });
-
-      // assert.equal(200, response.statusCode);
-    });
-  });
+  // describe('Test the Main End Point /', function() {
+  //   it('returns status code 200', function(done) {
+  //     // console.info('passed here');
+  //     request.get(baseUrl, function(error, response, body) {
+  //       console.log(body);
+  //       expect(response.statusCode).equal(200);
+  //       done();
+  //     });
+  //   });
+  //
+  //   it('returns Hello, World', function(done) {
+  //     console.info('passed here');
+  //     request.get(baseUrl, function(error, response, body) {
+  //       console.log(body);
+  //       expect(body).to.equal('Hello, World! HAPI Demo Server');
+  //       done();
+  //     });
+  //
+  //     // assert.equal(200, response.statusCode);
+  //   });
+  // });
 });
