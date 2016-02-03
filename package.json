@@ -2,7 +2,7 @@
   "name": "etl_rest_server",
   "version": "1.0.0",
   "description": "etl rest server",
-  "main": "et-server.js",
+  "main": "etl-server.js",
   "scripts": {
     "test": "mocha",
     "watch": "npm test -- --watch"
