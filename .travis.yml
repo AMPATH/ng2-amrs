@@ -7,7 +7,7 @@ node_js:
 #  - 'bower install'
   # blacklist
 
-script: ./scripts/create-conf.sh
+script: ./test/scripts/create-conf.sh
 branches:
   except:
     - legacy
