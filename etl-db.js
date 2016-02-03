@@ -2,9 +2,24 @@
 "use strict";
 
 var mysql = require('mysql');
-var settings = require('./conf/settings.js');
 var squel = require ('squel');
 var _ = require('underscore');
+var settings = settings = require('./conf/settings.js');
+
+var test = true;
+// if (test) {
+// 	settings = {
+// 	    mysqlPoolSettings: {
+// 	        connectionLimit : 10,
+// 	        host: 'mocktest',
+// 	        port: '0000',
+// 	        user: 'mockuser',
+// 	        password: 'mockpassword'
+// 	    }
+// 	}
+// } else {
+// 	settings = require('./conf/settings.js');
+// }
 
 module.exports = function() {
 	var service = {};

@@ -6,6 +6,8 @@ node_js:
 #  - 'npm install -g bower grunt-cli'
 #  - 'bower install'
   # blacklist
+
+script: ./test/scripts/create-conf.sh
 branches:
   except:
     - legacy
