@@ -9,6 +9,7 @@ reports.push.apply(reports, require('./reports/hiv-summary-report.json'));
 reports.push.apply(reports, require('./reports/moh-731-report.json'));
 reports.push.apply(reports, require('./reports/patient-register-report.json'));
 reports.push.apply(reports, require('./reports/clinic-calander.report.json'));
+reports.push.apply(reports, require('./reports/daily-visits-appointment.report.json'));
 //var walker = walk.walk("./reports", []);
 //walker.on("file", function (root, fileStats, next) {
 //    //test  file  to determine if its report  json
@@ -357,12 +358,11 @@ module.exports = function() {
       _.each(whereParams, function(whereParam) {
         //checks whether param value is set, if not set the filter is not pushed.
         //also checks if report filter parameter passed is eq to where param
-        if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"]) {
+        if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"] || reportFilter["processForce"]==true ) {
           expression += reportFilter["expression"];
           expression += ' and ';
           _.each(reportParams, function(reportParam) {
             if (reportParam["name"] === whereParam["name"]) {
-              console.log('i am pushing this:', whereParam["value"]);
               parameters.push(whereParam["value"]);
             }
           });
