@@ -1,9 +1,25 @@
+/*jshint -W003, -W097, -W117, -W026 */
 "use strict";
 
 var mysql = require('mysql');
-var settings = require('./conf/settings.js');
 var squel = require ('squel');
 var _ = require('underscore');
+var settings = settings = require('./conf/settings.js');
+
+var test = true;
+// if (test) {
+// 	settings = {
+// 	    mysqlPoolSettings: {
+// 	        connectionLimit : 10,
+// 	        host: 'mocktest',
+// 	        port: '0000',
+// 	        user: 'mockuser',
+// 	        password: 'mockpassword'
+// 	    }
+// 	}
+// } else {
+// 	settings = require('./conf/settings.js');
+// }
 
 module.exports = function() {
 	var service = {};
@@ -28,9 +44,9 @@ var getSortOrder = function(param) {
     _.each(param.split(','),function(order_by) {
         parts = order_by.split('|');
         order.push({column:parts[0],asc:(parts[1].toLowerCase() === "asc")});
-    })
+    });
     return order;
-}
+};
 
 var getFilters = function(filters) {
     var s="";
@@ -43,18 +59,18 @@ var getFilters = function(filters) {
              s += column;
              if(f === "start") s += " >= ?";
              else if(f === "end") s += " <= ?";
-             else s+= " like ?"
+             else s+= " like ?";
              vals.push(item.filters[f]);
-             s += " AND "
+             s += " AND ";
          }
      });
-    s = s.substring(0, s.length-5)
+    s = s.substring(0, s.length-5);
     if(s !== "")
         s = "(" + s + ")";
     console.log(s);
     console.log(vals);
     return {s:s,vals:vals};
-}
+};
     var queryLimit = 300;
     var queryOffset = 0;
 
@@ -70,7 +86,7 @@ var getFilters = function(filters) {
 
 			connection.query(sql, values, function(err, rows, fields) {
                 if(err) {
-                    result.errorMessage = "Error querying server"
+                    result.errorMessage = "Error querying server";
                     result.error = err;
                 }
                 else {
@@ -192,32 +208,6 @@ var getFilters = function(filters) {
 				connection.release();
 			});
 		});
-
-
-    // pool.getConnection(function (err, connection) {
-    //     if(err) {
-    //         result.errorMessage = "Database Connection Error";
-    //         result.error = err;
-    //         console.log('Database Connection Error');
-    //         callback(result);
-    //         return;
-    //     }
-    //     connection.query((q.text.replace("\\","")), q.values,
-    //         function (err, rows, fields) {
-    //             connection.release();
-    //             if(err) {
-    //                 result.errorMessage = "Error querying server"
-    //                 result.error = err;
-    //             }
-    //             else {
-    //                 result.startIndex = queryParts.offset || queryOffset;
-    //                 result.size = rows.length;
-    //                 result.result = rows;
-    //             }
-    //             callback(result);
-    //         });
-    // });
-
 };
   service.ExecuteMultiReport = function(sql,values, callback) {
     var result = {};
@@ -435,7 +425,7 @@ return s;
        if(queryParts!==undefined)
        {
 				 var s;
-				 if (queryParts.nestedParts!==''){
+				 if (queryParts.nestedParts!==undefined && queryParts.nestedParts.length>0){
 					s=cretateQuery(queryParts,	cretateQuery(queryParts.nestedParts[0]));
 				}else {
 					s=cretateQuery(queryParts);

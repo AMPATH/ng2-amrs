@@ -1,0 +1,23 @@
+sudo: false
+language: node_js
+node_js:
+  - '0.12'
+#before_script:
+#  - 'npm install -g bower grunt-cli'
+#  - 'bower install'
+  # blacklist
+
+script: ./test/scripts/create-conf.sh
+branches:
+  except:
+    - legacy
+    - experimental
+
+# whitelist
+branches:
+  only:
+    - master
+
+notifications:
+  email:
+    - ampath-developers@ampath.or.ke
