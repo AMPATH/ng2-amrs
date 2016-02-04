@@ -592,6 +592,82 @@
         "name":"has_not_returned",
         "label": "has_not_returned",
         "expression": ""
+    },
+    {
+        "name":"virally_suppressed_in_past_year",
+        "label": "# of patient(s) who are virally suppressed in the past one year",
+        "expression": "vl_1 = 0 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+        "name":"virally_suppressed",
+        "label": "# of patient(s) who are virally suppressed in the past one year",
+        "expression": "vl_1 = 0"
+    },
+    {
+        "name":"not_virally_suppressed_in_past_year",
+        "label": "# of patient(s) who are not virally suppressed in the past one year",
+        "expression": "vl_1> 0 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    }
+,
+    {
+        "name":"cd4_order_date",
+        "label": "cd4_order_date",
+        "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
+    },
+    {
+        "name":"perc_virally_suppressed_in_past_year",
+        "label": "% of  patient(s) who are virally suppressed in the past one year",
+        "expression": ""
+    },
+    {
+        "name":"perc_not_virally_suppressed_in_past_year",
+        "label": "% of  patient(s) who are not virally suppressed in the past one year",
+        "expression": ""
+    },
+    {
+        "name":"perc_on_arvs",
+        "label": "% of patients who are on ARVs",
+        "expression": ""
+    },
+    {
+        "name":"perc_in_care",
+        "label":"% of patients who are in Care",
+        "expression":""
+    },
+    {
+        "name":"perc_on_arvs_lte_6_months",
+        "label":"% of patients who have been on ARVs for less than 6 months",
+        "expression":""
+    },
+    {
+        "name":"perc_on_arvs_gt_6_months",
+        "label":"% of patients who have been on  ARVs for more than 6 months",
+        "expression":""
+    },
+    {
+        "name":"perc_on_arv_first_line",
+        "label":"% of patients on ARVs first line",
+        "expression":""
+    },
+    {
+        "name":"perc_on_arv_second_line",
+        "label":"% of patients on ARVs second line",
+        "expression":""
+    },
+    {
+        "name":"perc_on_arv_gt_third_line",
+        "label":"% of patients on ARVs third line or more",
+        "expression":""
+    },
+    {
+        "name":"perc_with_pending_viral_load",
+        "label":"% of patients with pending viral load",
+        "expression":""
+    },
+    {
+        "name":"on_arvs_gt_26_weeks",
+        "label": "# of patient(s) who have been on ARVs 26 weeks or more",
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
     }
 
 

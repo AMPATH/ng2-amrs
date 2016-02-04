@@ -143,7 +143,86 @@
                 "label":"pregnant_and_on_arvs",
                 "expression":"pregnant_and_on_arvs",
                 "sql":"count(distinct if($expression,person_id,null))"
+            },
+            {
+                "label":"enrolled_in_care_total",
+                "expression":"enrolled_in_care_total",
+                "sql": "count(distinct if($expression,person_id,0))"
+
+            },
+            {
+                "label":"virally_suppressed",
+                "expression":"virally_suppressed",
+                "sql": "count(distinct if($expression,person_id,0))"
+            },
+            {
+                "label":"virally_suppressed_in_past_year",
+                "expression":"virally_suppressed_in_past_year",
+                "sql": "count(distinct if($expression,person_id,0))"
+
+            },
+            {
+                "label":"not_virally_suppressed_in_past_year",
+                "expression":"not_virally_suppressed_in_past_year",
+                "sql": "count(distinct if($expression,person_id,0))"
+
+            },
+            {
+                "label":"perc_in_care",
+                "expression":"perc_in_care",
+                "sql":"[enrolled_in_care_total]/[patients]"
+            },
+            {
+                "label":"perc_virally_suppressed_in_past_year",
+                "expression":"perc_virally_suppressed_in_past_year",
+                "sql":"[virally_suppressed_in_past_year]/[on_arvs]"
+            },
+            {
+                "label":"perc_not_virally_suppressed_in_past_year",
+                "expression":"perc_not_virally_suppressed_in_past_year",
+                "sql":"[not_virally_suppressed_in_past_year]/[on_arvs]"
+            },
+            {
+                "label":"perc_on_arvs",
+                "expression":"perc_on_arvs",
+                "sql":"[on_arvs]/[patients]"
+            },
+            {
+                "label":"perc_on_arv_first_line",
+                "expression":"perc_on_arv_first_line",
+                "sql":"[on_arvs_first_line]/[on_arvs]"
+            },
+            {
+                "label":"perc_on_arv_second_line",
+                "expression":"perc_on_arv_second_line",
+                "sql":"[on_arvs_second_line]/[on_arvs]"
+            },
+            {
+                "label":"perc_on_arv_third_line",
+                "expression":"perc_on_arv_third_line",
+                "sql":"[on_arvs_third_line]/[on_arvs]"
+            },
+            {
+                "label":"perc_with_pending_viral_load",
+                "expression":"perc_with_pending_viral_load",
+                "sql":"[pending_vl_order]/[on_arvs]"
+            },
+            {
+                "label":"perc_on_arvs_lte_6_months",
+                "expression":"perc_on_arvs_lte_6_months",
+                "sql":"[on_arvs_lte_26_weeks]/[on_arvs]"
+            },
+            {
+                "label":"on_arvs_gt_26_weeks",
+                "expression":"on_arvs_gt_26_weeks",
+                "sql": "count(distinct if($expression,person_id,0))"
+            },
+            {
+                "label":"perc_on_arvs_gt_6_months",
+                "expression":"perc_on_arvs_gt_6_months",
+                "sql":"[on_arvs_gt_26_weeks]/[patients]"
             }
+
         ],
         "supplementColumns":[
                {
