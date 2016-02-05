@@ -6,6 +6,19 @@ var squel = require ('squel');
 var _ = require('underscore');
 var settings = settings = require('./conf/settings.js');
 
+var errorHandler = function(errorType,error){
+    var currentdate = new Date(); 
+    var datetime = currentdate.getDate() + "/"
+                   + (currentdate.getMonth()+1)  + "/" 
+                   + currentdate.getFullYear() + " @ "  
+                   + currentdate.getHours() + ":"  
+                   + currentdate.getMinutes() + ":" 
+                   + currentdate.getSeconds();            
+    var errorDescription= errorType + ' occurred at ' + datetime;
+    console.log(errorDescription,error);
+    
+    };
+    
 var test = true;
 // if (test) {
 // 	settings = {
@@ -29,7 +42,7 @@ module.exports = function() {
 	var getServerConnection = function(connectHandler) {
 		pool.getConnection(function(err, connection) {
 			if (err) {
-				console.log('Error While connecting to the database', err);
+				errorHandler('exports:Database connection error',err);
             	return connectHandler(err, null);
 			}
 			return connectHandler(null, connection);
@@ -78,14 +91,17 @@ var getFilters = function(filters) {
         var result = {};
 		var sql = queryParts.sql;
 		var values = queryParts.values;
-		// var queryHandler = queryParts.callback;
-
+        
         console.log('Sql query', sql);
 		getServerConnection(function(err, connection) {
-			if (err) return queryHandler(err, null);
+            if (err) {
+                 errorHandler('queryServer: Database connection error',err);
+                 return ;
+            }
 
 			connection.query(sql, values, function(err, rows, fields) {
                 if(err) {
+                    errorHandler('queryServer: Error querying server',err);
                     result.errorMessage = "Error querying server";
                     result.error = err;
                 }
@@ -94,7 +110,6 @@ var getFilters = function(filters) {
                     result.size = rows.length;
                     result.result = rows;
                 }
-                // queryHandler(err, result);
                 callback(result);
                 connection.release();
 			});
@@ -183,14 +198,16 @@ var getFilters = function(filters) {
 
     var sql = q.text.replace("\\","");
 	var values = q.values;
-	//var queryHandler = params.callback;
 
 
     getServerConnection(function(err, connection) {
-			if (err) return queryHandler(err, null);
-
+           if (err) {
+                 errorHandler('queryServer_test: Database connection error', err);
+                 return ;
+            }
 			connection.query(sql, values, function(err, rows, fields) {
 				if(err) {
+                    errorHandler('queryServer_test:Error querying server',err);
                     result.errorMessage = "Error querying server";
                     result.error = err;
                     result.sql=sql;
@@ -203,7 +220,6 @@ var getFilters = function(filters) {
                     result.sql=sql;
                     result.sqlParams=values;
                 }
-				// queryHandler(err, result);
 				callback(result);
 				connection.release();
 			});
@@ -213,10 +229,14 @@ var getFilters = function(filters) {
     var result = {};
         var tableAlias='t1';
         getServerConnection(function(err, connection) {
-            if (err) return queryHandler(err, null);
+            if (err) {
+                 errorHandler('ExecuteMultiReport: Database connection error', err);
+                 return ;
+            }
 
             connection.query(sql, values, function(err, rows, fields) {
                 if(err) {
+                    errorHandler('ExecuteMultiReport: Error querying server',err);
                     result.errorMessage = "Error querying server";
                     result.error = err;
                     result.sql=sql;
@@ -229,7 +249,6 @@ var getFilters = function(filters) {
                     result.sql=sql;
                     result.sqlParams=values;
                 }
-                // queryHandler(err, result);
                 callback(result);
                 connection.release();
             });
@@ -312,14 +331,16 @@ var getFilters = function(filters) {
 
         var sql = q.text.replace("\\","");
         var values = q.values;
-        // var queryHandler = params.callback;
 
 
         getServerConnection(function(err, connection) {
-            if (err) return queryHandler(err, null);
-
+            if(err) {
+                    errorHandler('reportQueryServer:Database connection error',err);
+                    return;
+            }
             connection.query(sql, values, function(err, rows, fields) {
                 if(err) {
+                    errorHandler('reportQueryServer: Error querying server',err);
                     result.errorMessage = "Error querying server";
                     result.error = err;
                     result.sql=sql;
@@ -332,7 +353,6 @@ var getFilters = function(filters) {
                     result.sql=sql;
                     result.sqlParams=values;
                 }
-                // queryHandler(err, result);
                 callback(result);
                 connection.release();
             });
@@ -415,7 +435,7 @@ if(sq){
 	_.each(queryParts['group'],function(col) {s.group(col);});
 
 return s;
-}
+} 
     service.reportMultiQueryServer = function(queryPartsArray) {
     var  multiquery="";
     var multuvalues=[];
@@ -436,7 +456,6 @@ return s;
 				console.log(q.values,"Values  passed");
 				var sql = q.text.replace("\\","");
 				var values = q.values;
-				// var queryHandler = params.callback;
 				if( multiquery===""){
 				multiquery=sql;}else{
 			multiquery= multiquery+";"+sql;
