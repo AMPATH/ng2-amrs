@@ -1,0 +1,240 @@
+[{
+  "name": "daily-appointments",
+  "table": {
+    "schema": "etl",
+    "tableName": "flat_hiv_summary",
+    "alias": "t1"
+  },
+  "joins": [{
+    "joinType": "INNER JOIN",
+    "schema": "etl",
+    "tableName": "derived_encounter",
+    "alias": "t2",
+    "joinExpression": "t1.encounter_id = t2.encounter_id"
+  },
+  {
+    "joinType": "INNER JOIN",
+    "schema": "amrs",
+    "tableName": "person_name",
+    "alias": "t3",
+    "joinExpression": "t1.person_id  = t3.person_id"
+  }
+],
+  "parameters": [{
+    "name": "startDate",
+    "defaultValue": ["10-10-2015"]
+  },{
+    "name": "locations",
+    "defaultValue": []
+  },
+  {"name":"groupByPerson", "defaultValue":[
+      {"label":"person_id","expression":"person_id"}
+  ]}
+]
+,
+"filters": [{
+  "expression": "date(t1.encounter_datetime) = ?",
+  "parameter": "startDate"
+}, {
+  "expression": "t1.location_id in ?",
+  "parameter": "locations"
+},{
+  "expression": "encounter_type != 99999",
+  "parameter": "",
+  "processForce":true
+}
+],
+"groupClause": [
+  {"parameter":"groupByPerson"}
+],
+"indicators": [
+
+],
+"supplementColumns": [{
+"label": "person_id",
+"type": "single",
+"sql": "t1.person_id"
+}, {
+"label": "encounter_id",
+"type": "single",
+"sql": "t1.encounter_id"
+}, {
+"label": "given_name",
+"type": "single",
+"sql": "t3.given_name"
+}, {
+"label": "middle_name",
+"type": "single",
+"sql": "t3.middle_name"
+}, {
+"label": "family_name",
+"type": "single",
+"sql": "t3.family_name"
+}]
+},
+
+{
+  "name": "daily-attendance",
+  "table": {
+    "schema": "etl",
+    "tableName": "flat_hiv_summary",
+    "alias": "t1"
+  },
+  "joins": [{
+    "joinType": "INNER JOIN",
+    "schema": "etl",
+    "tableName": "derived_encounter",
+    "alias": "t2",
+    "joinExpression": "t1.encounter_id = t2.encounter_id"
+  },
+  {
+    "joinType": "INNER JOIN",
+    "schema": "amrs",
+    "tableName": "person_name",
+    "alias": "t3",
+    "joinExpression": "t1.person_id  = t3.person_id"
+  }
+],
+  "parameters": [{
+    "name": "startDate",
+    "defaultValue": ["10-10-2015"]
+  },{
+    "name": "locations",
+    "defaultValue": []
+  },
+  {"name":"groupByPerson", "defaultValue":[
+      {"label":"person_id","expression":"person_id"}
+  ]}
+]
+,
+"filters": [{
+  "expression": "date(t1.rtc_date) = ?",
+  "parameter": "startDate"
+}, {
+  "expression": "t1.location_id in ?",
+  "parameter": "locations"
+},{
+  "expression": "encounter_type != 99999",
+  "parameter": "",
+  "processForce":true
+}
+],
+"groupClause": [
+  {"parameter":"groupByPerson"}
+],
+"indicators": [
+
+],
+"supplementColumns": [{
+"label": "person_id",
+"type": "single",
+"sql": "t1.person_id"
+}, {
+"label": "encounter_id",
+"type": "single",
+"sql": "t1.encounter_id"
+}, {
+"label": "given_name",
+"type": "single",
+"sql": "t3.given_name"
+}, {
+"label": "middle_name",
+"type": "single",
+"sql": "t3.middle_name"
+}, {
+"label": "family_name",
+"type": "single",
+"sql": "t3.family_name"
+}]
+},
+{
+  "name": "daily-has-not-returned",
+  "table": {
+    "schema": "etl",
+    "tableName": "flat_hiv_summary",
+    "alias": "t1"
+  },
+  "joins": [{
+    "joinType": "INNER JOIN",
+    "schema": "etl",
+    "tableName": "derived_encounter",
+    "alias": "t2",
+    "joinExpression": "t1.encounter_id = t2.encounter_id"
+  },
+  {
+    "joinType": "INNER JOIN",
+    "schema": "amrs",
+    "tableName": "person_name",
+    "alias": "t3",
+    "joinExpression": "t1.person_id  = t3.person_id"
+  }
+],
+  "parameters": [{
+    "name": "startDate",
+    "defaultValue": ["10-10-2015"]
+  },{
+    "name": "locations",
+    "defaultValue": []
+  },
+  {"name":"groupByPerson", "defaultValue":[
+      {"label":"person_id","expression":"person_id"}
+  ]}
+]
+,
+"filters": [{
+  "expression": "date(t1.rtc_date) = ?",
+  "parameter": "startDate"
+}, {
+  "expression": "t1.location_id in ?",
+  "parameter": "locations"
+},{
+  "expression": "encounter_type != 99999",
+  "parameter": "",
+  "processForce":true
+},
+{
+  "expression": "death_date is null",
+  "parameter": "",
+  "processForce":true
+},
+{
+  "expression": "transfer_out is null",
+  "parameter": "",
+  "processForce":true
+},
+{
+  "expression": "next_clinic_datetime is null",
+  "parameter": "",
+  "processForce":true
+}
+],
+"groupClause": [
+  {"parameter":"groupByPerson"}
+],
+"indicators": [
+
+],
+"supplementColumns": [{
+"label": "person_id",
+"type": "single",
+"sql": "t1.person_id"
+}, {
+"label": "encounter_id",
+"type": "single",
+"sql": "t1.encounter_id"
+}, {
+"label": "given_name",
+"type": "single",
+"sql": "t3.given_name"
+}, {
+"label": "middle_name",
+"type": "single",
+"sql": "t3.middle_name"
+}, {
+"label": "family_name",
+"type": "single",
+"sql": "t3.family_name"
+}
+]
+}
+]
