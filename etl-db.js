@@ -7,18 +7,18 @@ var _ = require('underscore');
 var settings = settings = require('./conf/settings.js');
 
 var errorHandler = function(errorType,error){
-    var currentdate = new Date(); 
+    var currentdate = new Date();
     var datetime = currentdate.getDate() + "/"
-                   + (currentdate.getMonth()+1)  + "/" 
-                   + currentdate.getFullYear() + " @ "  
-                   + currentdate.getHours() + ":"  
-                   + currentdate.getMinutes() + ":" 
-                   + currentdate.getSeconds();            
+                   + (currentdate.getMonth()+1)  + "/"
+                   + currentdate.getFullYear() + " @ "
+                   + currentdate.getHours() + ":"
+                   + currentdate.getMinutes() + ":"
+                   + currentdate.getSeconds();
     var errorDescription= errorType + ' occurred at ' + datetime;
     console.log(errorDescription,error);
-    
+
     };
-    
+
 var test = true;
 // if (test) {
 // 	settings = {
@@ -91,7 +91,7 @@ var getFilters = function(filters) {
         var result = {};
 		var sql = queryParts.sql;
 		var values = queryParts.values;
-        
+
         console.log('Sql query', sql);
 		getServerConnection(function(err, connection) {
             if (err) {
@@ -375,10 +375,19 @@ if(sq){
 			.from(queryParts.table,tableAlias);
 }
 	_.each(queryParts['joins'],function(join) {
-			if (join[3]=='JOIN') s.join(join[0],join[1],join[2]);
-			if (join[3]=='INNER JOIN') s.join(join[0],join[1],join[2]);
-			if (join[3]=='OUTER JOIN') s.outer_join(join[0],join[1],join[2]);
-			if (join[3]=='LEFT OUTER JOIN') s.left_outer_join(join[0],join[1],join[2]);
+        if(join.joinedQuerParts){
+
+            var sq= cretateQuery(join.joinedQuerParts[0]);
+            if (join.joinType == 'JOIN') s.join(sq, join.alias, join.joinExpression);
+            if (join.joinType == 'INNER JOIN') s.join(sq, join.alias, join.joinExpression);
+            if (join.joinType == 'OUTER JOIN') s.outer_join(sq, join.alias, join.joinExpression);
+            if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(sq, join.alias, join.joinExpression);
+        }else {
+            if (join.joinType == 'JOIN') s.join(join.schema+'.'+join.tableName, join.alias, join.joinExpression);
+            if (join.joinType == 'INNER JOIN') s.join(join.schema+'.'+join.tableName, join.alias, join.joinExpression);
+            if (join.joinType == 'OUTER JOIN') s.outer_join(join.schema+'.'+join.tableName, join.alias, join.joinExpression);
+            if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(join.schema+'.'+join.tableName, join.alias, join.joinExpression);
+        }
 	});
 
 
@@ -435,7 +444,7 @@ if(sq){
 	_.each(queryParts['group'],function(col) {s.group(col);});
 
 return s;
-} 
+}
     service.reportMultiQueryServer = function(queryPartsArray) {
     var  multiquery="";
     var multuvalues=[];

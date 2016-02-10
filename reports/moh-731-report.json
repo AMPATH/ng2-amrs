@@ -1,5 +1,45 @@
 [
   {
+    "name": "MOH-731",
+    "table":{"schema":"","tableName":"","alias":"t1","hasNested":"moh-731-past_three_months"},
+    "joins":[
+      {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"",
+        "joinedReport":"moh-731-summary-current_month"},
+      {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"",
+        "joinedReport":"moh-731-summary-cumulative"}
+    ],
+    "parameters": [
+      {"name":"groupByd", "defaultValue":[
+        {"label":"d","expression":"d"}
+      ]
+      },
+      {"name":"groupByLocation", "defaultValue":[
+        {"label":"location","expression":"t1.location_id"}
+      ]
+      },
+      {"name":"groupByw", "defaultValue":[
+        {"label":"w","expression":"w"}
+      ]
+      }
+    ],
+    "filters": [
+    ],
+    "groupClause":[
+      {"parameter":"groupByLocation"},
+      {"parameter":"groupByw"}
+    ],
+    "indicators": [
+
+    ],
+    "supplementColumns":[
+      {
+        "label":"all",
+        "type":"all",
+        "sql":"*"
+      }
+    ]
+  },
+  {
     "name": "moh-731-past_three_months",
     "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[
@@ -444,7 +484,7 @@
 
 
   {
-    "name":"MOH-731",
+    "name":"MOH731",
     "parameters":[],
     "reports":[
       {
