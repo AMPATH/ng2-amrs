@@ -127,7 +127,6 @@ module.exports = function() {
                 result.push(res);
 
               } catch (e) {
-                console.log(reportIndicator)
                 result.push(indicator);
               }
             }
@@ -197,7 +196,7 @@ module.exports = function() {
             table: report.table['schema'] + '.' + report.table['tableName'],
             alias: report.table['alias'],
             nestedParts: nestedParts,
-            joins: joinsToSql(report.joins),
+            joins: joinsToSql(report.joins,requestParams),
             where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
             group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
             order: requestParams.order,
@@ -205,7 +204,6 @@ module.exports = function() {
             limit: requestParams.limit
           };
         }
-        console.log('queryParts====>', queryParts);
         queryPartsArray.push(queryParts);
       }
     });
@@ -307,6 +305,9 @@ module.exports = function() {
       if (supplementColumn.type === 'single') {
         var column = supplementColumn.sql + ' as ' + supplementColumn.label;
         result.push(column);
+      } else if (supplementColumn.type === 'all')  {
+        var column = supplementColumn.sql
+        result.push(column);
       }
     });
     return result;
@@ -333,11 +334,23 @@ module.exports = function() {
   }
 
   //converts an array of tables into sql
-  function joinsToSql(joins) {
+  function joinsToSql(joins, requestParams) {
     var result = [];
     _.each(joins, function(join) {
-      var r = [join['schema'] + '.' + join['tableName'], join['alias'], join['joinExpression'], join['joinType']];
-      result.push(r);
+      if(join.tableName) {
+        console.log('this is not a joinded report');
+        var r = [join['schema'] + '.' + join['tableName'], join['alias'], join['joinExpression'], join['joinType']];
+        var joinOject={schema:join.schema, tableName:join.tableName, alias:join.alias, joinExpression:join.joinExpression
+            , joinType:join.joinType }
+        result.push(joinOject);
+      } else {
+        var queryParts=singleReportToSql(requestParams, join.joinedReport)
+        var joinOject ={schema:join.schema, tableName:join.tableName, alias:join.alias, joinExpression:join.joinExpression
+          , joinType:join.joinType,joinedQuerParts:queryParts };
+        result.push(joinOject);
+        console.log('this is a joinded report---------->',joinOject);
+        //var r = [join['schema'] + '.' + join['tableName'], join['alias'], join['joinExpression'], join['joinType']];
+      }
     });
     return result;
   }
