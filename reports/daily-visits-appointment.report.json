@@ -33,7 +33,7 @@
 ]
 ,
 "filters": [{
-  "expression": "date(t1.encounter_datetime) = ?",
+  "expression": "date(t1.rtc_date) = ?",
   "parameter": "startDate"
 }, {
   "expression": "t1.location_id in ?",
@@ -54,7 +54,13 @@
 "label": "person_id",
 "type": "single",
 "sql": "t1.person_id"
-}, {
+},
+{
+"label": "uuid",
+"type": "single",
+"sql": "t1.uuid"
+}
+, {
 "label": "encounter_id",
 "type": "single",
 "sql": "t1.encounter_id"
@@ -108,7 +114,7 @@
 ]
 ,
 "filters": [{
-  "expression": "date(t1.rtc_date) = ?",
+  "expression": "date(t1.encounter_datetime) = ?",
   "parameter": "startDate"
 }, {
   "expression": "t1.location_id in ?",
@@ -129,6 +135,11 @@
 "label": "person_id",
 "type": "single",
 "sql": "t1.person_id"
+},
+{
+"label": "uuid",
+"type": "single",
+"sql": "t1.uuid"
 }, {
 "label": "encounter_id",
 "type": "single",
@@ -218,6 +229,11 @@
 "label": "person_id",
 "type": "single",
 "sql": "t1.person_id"
+},
+{
+"label": "uuid",
+"type": "single",
+"sql": "t1.uuid"
 }, {
 "label": "encounter_id",
 "type": "single",

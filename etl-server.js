@@ -32,8 +32,8 @@ var server = new Hapi.Server({
 
 server.connection({
   port: 8002,
-  host: 'localhost'
-    //  tls: httpsServer
+  host: 'localhost',
+  tls: httpsServer
 });
 
 

@@ -48,14 +48,18 @@
   "parameters": [
       {"name":"startDate", "defaultValue":["10-10-2015"]},
       {"name":"endDate", "defaultValue":["defaultValue"]},
-      {"name":"location","defaultValue":[]}
+      {"name":"locations","defaultValue":[]},
+      {"name":"groupByPerson", "defaultValue":[
+          {"label":"person_id","expression":"t1.person_id"}
+      ]}
   ],
   "filters": [
       {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
       {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-      {"expression":"t1.location_id = ?", "parameter":"location"}
+      {"expression":"t1.location_id = ?", "parameter":"locations"}
   ],
   "groupClause":[
+    {"parameter":"groupByPerson"}
   ],
   "indicators": [
   ],
@@ -73,7 +77,7 @@
          {
              "label":"w",
              "type":"single",
-             "sql":"date_format(rtc_date,'%W')"
+             "sql":"date_format(encounter_datetime,'%W')"
          },
          {
              "label":"attended",
@@ -186,6 +190,11 @@
              "sql":"t1.location_id"
          },
          {
+             "label":"patient_id",
+             "type":"single",
+             "sql":"t1.person_id"
+         },
+         {
              "label":"scheduled_and_attended",
              "type":"single",
              "sql":"if(timestampdiff(day,rtc_date,next_clinic_datetime) between -7 and 7,1,null)"
@@ -193,7 +202,7 @@
          {
              "label":"defaulted",
              "type":"single",
-             "sql":"if(death_date is null and transfer_out is null and timestampdiff(day,rtc_date,if(next_encounter_datetime,next_encounter_datetime,@cutoff_date)) > 90,1,null) "
+             "sql":"if(death_date is null and transfer_out is null and timestampdiff(day,rtc_date,if(next_encounter_datetime,next_encounter_datetime,'')) > 90,1,null) "
          },
          {
              "label":"has_not_returned",
