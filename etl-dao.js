@@ -768,10 +768,10 @@ module.exports = function() {
     getHivSummaryData: function getHivSummaryData(request, callback) {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var locationIds = request.query.locations || '13';
+      var locationUuids = request.query.locationUuids || '';
       var locations = [];
-      _.each(locationIds.split(','), function(loc) {
-        locations.push(Number(loc));
+      _.each(locationUuids.split(','), function(loc) {
+        locations.push(loc);
       });
       var columns = "name as location, t1.*, day(encounter_datetime) as day, t3.gender, " +
         "week(encounter_datetime) as week, month(encounter_datetime) as month, year(encounter_datetime) as year," +
@@ -780,7 +780,7 @@ module.exports = function() {
       var queryParts = {
         columns: columns,
         table: "etl.flat_hiv_summary",
-        where: ["encounter_datetime >= ? and encounter_datetime <= ? and t1.location_id in ?",
+        where: ["encounter_datetime >= ? and encounter_datetime <= ? and t1.location_uuid in ?",
           startDate, endDate, locations
         ],
         joins: [
