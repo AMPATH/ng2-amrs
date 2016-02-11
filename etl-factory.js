@@ -275,29 +275,6 @@ module.exports = function() {
         return derivedIndicator.sql.replace(reg, '') + ' as ' + indicator.name;
     }
 
-  //converts set of derived indicators to sql columns
-  function processesDerivedIndicator(report, derivedIndicator, indicator) {
-    var reg = /[\[\]']/g; //regex [] indicator
-    var matches = [];
-    derivedIndicator.sql.replace(/\[(.*?)\]/g, function(g0, g1) {
-      matches.push(g1);
-    });
-    _.each(matches, function(indicatorKey) {
-      _.each(report.indicators, function(singleIndicator) {
-        if (indicatorKey === singleIndicator.expression) {
-          _.each(indicatorsSchema, function(indicator) {
-            if (indicator.name === indicatorKey) {
-              var column = singleIndicator.sql;
-              column = column.replace('$expression', indicator.expression);
-              derivedIndicator.sql = derivedIndicator.sql.replace(indicatorKey, column);
-            }
-          });
-        }
-      });
-    });
-    return derivedIndicator.sql.replace(reg, '') + ' as ' + indicator.name;
-  }
-
   //converts a set of supplement columns of type single into sql columns
   function supplementColumnsToColumns(report) {
     var result = [];
@@ -317,7 +294,7 @@ module.exports = function() {
   function concatColumnsToColumns(report) {
     var result = '';
     _.each(report.supplementColumns, function(supplementColumn) {
-      if (supplementColumn.type === 'multiple') {
+     if (supplementColumn.type === 'multiple') {
         var column = supplementColumn.sql + ' as ' + supplementColumn.label;
         result += column;
         result += ', ';
