@@ -1,16 +1,16 @@
 "use strict";
 var _ = require('underscore');
 var walk = require('walk');
-var indicatorHandlers = require('./etl-processors.js');
+var indicatorHandlersDefinition = require('./etl-processors.js');
 //Report Indicators Json Schema Path
-var indicatorsSchema = require('./reports/indicators.json');
-var reports = [];
+var indicatorsSchemaDefinition = require('./reports/indicators.json');
+var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
-reports.push.apply(reports, require('./reports/hiv-summary-report.json'));
-reports.push.apply(reports, require('./reports/moh-731-report.json'));
-reports.push.apply(reports, require('./reports/patient-register-report.json'));
-reports.push.apply(reports, require('./reports/clinic-calander.report.json'));
-reports.push.apply(reports, require('./reports/daily-visits-appointment.report.json'));
+reportList.push.apply(reportList, require('./reports/hiv-summary-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-report.json'));
+reportList.push.apply(reportList, require('./reports/patient-register-report.json'));
+reportList.push.apply(reportList, require('./reports/clinic-calander.report.json'));
+reportList.push.apply(reportList, require('./reports/daily-visits-appointment.report.json'));
 //var walker = walk.walk("./reports", []);
 //walker.on("file", function (root, fileStats, next) {
 //    //test  file  to determine if its report  json
@@ -26,14 +26,47 @@ reports.push.apply(reports, require('./reports/daily-visits-appointment.report.j
 
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function() {
+    var reports;
+    var indicatorsSchema;
+    var indicatorHandlers;
+    initialize(reportList, indicatorsSchemaDefinition, indicatorHandlersDefinition);
   return {
     buildPatientListExpression: buildPatientListExpression,
     buildIndicatorsSchema: buildIndicatorsSchema,
     buildIndicatorsSchemaWithSections: buildIndicatorsSchemaWithSections,
     singleReportToSql: singleReportToSql,
     reportIndicatorToSql: reportIndicatorToSql,
-    resolveIndicators:resolveIndicators
+    resolveIndicators:resolveIndicators,
+    getReportList: getReportList,
+    setReportList: setReportList,
+    getIndicatorsSchema: getIndicatorsSchema,
+    setIndicatorsSchema: setIndicatorsSchema,
+    getIndicatorHandlers: getIndicatorHandlers,
+    setIndicatorHandlers: setIndicatorHandlers
   };
+      function getReportList() {
+        return reports;
+    }
+    function setReportList(_reports) {
+        reports = _reports;
+    }
+    function getIndicatorsSchema() {
+        return indicatorsSchema;
+    }
+    function setIndicatorsSchema(_indicatorsSchema) {
+        indicatorsSchema = _indicatorsSchema;
+    }
+    function getIndicatorHandlers() {
+        return indicatorHandlers;
+    }
+    function setIndicatorHandlers(_indicatorHandlers) {
+        indicatorHandlers = _indicatorHandlers;
+    }
+    function initialize(_reports, _indicatorsSchema, _indicatorHandlers) {
+        setReportList(_reports);
+        setIndicatorsSchema(_indicatorsSchema);
+        setIndicatorHandlers(_indicatorHandlers);
+    }
     function resolveIndicators(reportName, result) {
         _.each(reports, function(report) {
             if (report.name === reportName) {
