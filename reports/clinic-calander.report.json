@@ -51,6 +51,9 @@
       {"name":"locations","defaultValue":[]},
       {"name":"groupByPerson", "defaultValue":[
           {"label":"person_id","expression":"t1.person_id"}
+      ]},
+      {"name":"groupByEncounter", "defaultValue":[
+      {"label":"encounter_date","expression":"date(t1.encounter_datetime)"}
       ]}
   ],
   "filters": [
@@ -59,7 +62,8 @@
       {"expression":"t1.location_id = ?", "parameter":"locations"}
   ],
   "groupClause":[
-    {"parameter":"groupByPerson"}
+    {"parameter":"groupByPerson"},
+    {"parameter":"groupByEncounter"}
   ],
   "indicators": [
   ],
@@ -152,7 +156,13 @@
   "parameters": [
       {"name":"startDate", "defaultValue":["10-10-2015"]},
       {"name":"endDate", "defaultValue":["defaultValue"]},
-        {"name":"locations","defaultValue":[]}
+      {"name":"locations","defaultValue":[]},
+      {"name":"groupByPerson", "defaultValue":[
+          {"label":"person_id","expression":"t1.person_id"}
+      ]},
+      {"name":"groupByRtc", "defaultValue":[
+      {"label":"rtc_date","expression":"t1.rtc_date"}
+      ]}
   ],
   "filters": [
       {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
@@ -160,6 +170,8 @@
       {"expression":"t1.location_id = ?", "parameter":"locations"}
   ],
   "groupClause":[
+{"parameter":"groupByPerson"},
+{"parameter":"groupByRtc"}
   ],
   "indicators": [
   ],
