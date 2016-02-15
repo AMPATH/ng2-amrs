@@ -3,103 +3,19 @@
 
 var db = require('./etl-db');
 var _ = require('underscore');
-var util = require('util');
 var reportFactory = require('./etl-factory');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
+var helpers = require('./etl-helpers');
 module.exports = function() {
-
-  var getSortOrder = function(param) {
-    if (!param) return null;
-    var parts;
-    var order = [];
-    _.each(param.split(','), function(order_by) {
-      parts = order_by.split('|');
-      order.push({
-        column: parts[0],
-        asc: (parts[1].toLowerCase() === "asc")
-      });
-    });
-    return order;
-  };
-
-  var getFilters = function(filters) {
-    var s = "";
-    var vals = [],
-      column;
-    _.each(filters, function(item) {
-      column = item.column;
-      for (var f in item.filters) {
-        if (item.filters[f] === undefined || item.filters[f] === null || item.filters[f] === "") continue;
-        console.log(item.filters[f]);
-        s += column;
-        if (f === "start") s += " >= ?";
-        else if (f === "end") s += " <= ?";
-        elses += " like ?";
-        vals.push(item.filters[f]);
-        s += " AND ";
-      }
-    });
-    s = s.substring(0, s.length - 5)
-    if (s !== "")
-      s = "(" + s + ")";
-    console.log(s);
-    console.log(vals);
-    return { s: s, vals: vals };
-  };
-
-  //str : code1 ## code2 ##
-  function getARVNames(str) {
-    if (str === null || str === undefined) return "";
-    var arvs = {
-      814: "ABACAVIR",
-      817: "ABACAVIR LAMIVUDINE AND ZIDOVUDINE",
-      6159: "ATAZANAVIR",
-      6160: "ATAZANAVIR AND RITONAVIR",
-      796: "DIDANOSINE",
-      633: "EFAVIRENZ",
-      791: "EMTRICITABINE",
-      6679: "EPZICOM",
-      6158: "ETRAVIRINE",
-      749: "INDINAVIR",
-      6156: "ISENTRESS",
-      6965: "LAMIVIR S30",
-      628: "LAMIVUDINE",
-      1400: "LAMIVUDINE AND TENOFOVIR",
-      794: "LOPINAVIR AND RITONAVIR",
-      635: "NELFINAVIR",
-      631: "NEVIRAPINE",
-      6467: "NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE",
-      1107: "NONE",
-      5424: "OTHER ANTIRETROVIRAL DRUG",
-      6157: "PREZISTA",
-      795: "RITONAVIR",
-      625: "STAVUDINE",
-      792: "STAVUDINE LAMIVUDINE AND NEVIRAPINE",
-      6964: "TDF AND 3TC AND EFV",
-      802: "TENOFOVIR",
-      6180: "TRUVADA",
-      5811: "UNKNOWN ANTIRETROVIRAL DRUG",
-      797: "ZIDOVUDINE",
-      630: "ZIDOVUDINE AND LAMIVUDINE"
-    };
-    var arvCodes = str.split(" ## ");
-    var arvNames = [];
-    _.each(arvCodes, function(code) {
-      arvNames.push(arvs[code]);
-    });
-    return arvNames.join(', ');
-  }
-
-
   return {
     getClinicEncounterData: function getClinicEncounterData(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var filters = {
         s: ""
       };
       if (request.query.filters)
-        filters = getFilters(JSON.parse(request.query.filters));
+        filters = helpers.getFilters(JSON.parse(request.query.filters));
       var where = ["t1.location_uuid = ?", uuid];
       if (filters.s !== "") {
         where[0] += " AND " + filters.s;
@@ -126,15 +42,15 @@ module.exports = function() {
 
       db.queryServer_test(queryParts, function(result) {
         _.each(result.result, function(row) {
-          row.cur_arv_meds = getARVNames(row.cur_arv_meds);
-          row.arv_first_regimen = getARVNames(row.arv_first_regimen);
+          row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
+          row.arv_first_regimen = helpers.getARVNames(row.arv_first_regimen);
         });
         callback(result);
       });
     },
     getPatientHivSummary: function getPatientHivSummary(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order = helpers.getSortOrder(request.query.order);
 
       var queryParts = {
         columns: request.query.fields || "*",
@@ -150,15 +66,15 @@ module.exports = function() {
 
       db.queryServer_test(queryParts, function(result) {
         _.each(result.result, function(row) {
-          row.cur_arv_meds = getARVNames(row.cur_arv_meds);
-          row.arv_first_regimen = getARVNames(row.arv_first_regimen);
+          row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
+          row.arv_first_regimen = helpers.getARVNames(row.arv_first_regimen);
         });
         callback(result);
       });
     },
     getClinicHivSummayIndicators: function getClinicHivSummayIndicators(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
 
       var query = "";
 
@@ -180,7 +96,7 @@ module.exports = function() {
     },
     getClinicAppointmentSchedule: function getClinicAppointmentSchedule(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
 
@@ -209,7 +125,7 @@ module.exports = function() {
     },
     getClinicDailyVisits: function getClinicDailyVisits(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
 
@@ -238,7 +154,7 @@ module.exports = function() {
     },
     getHasNotReturned: function getHasNotReturned(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
 
@@ -269,7 +185,7 @@ module.exports = function() {
     },
     getClinicMonthlyAppointmentSchedule: function getClinicMonthlyAppointmentSchedule(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
 
       var queryParts = {
@@ -291,7 +207,7 @@ module.exports = function() {
     },
     getClinicMonthlySummary: function getClinicMonthlySummary(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
 
@@ -322,7 +238,7 @@ module.exports = function() {
     },
     getClinicMonthlyVisits: function getClinicMonthlyVisits(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
 
       var queryParts = {
@@ -344,7 +260,7 @@ module.exports = function() {
     },
     getClinicDefaulterList: function getClinicDefaulterList(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
 
       var defaulterPeriod = request.query.defaulterPeriod || 30;
 
@@ -373,7 +289,7 @@ module.exports = function() {
 
       console.log('Gettting Here');
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
 
       var queryParts = {
         columns: request.query.fields || "*",
@@ -390,7 +306,7 @@ module.exports = function() {
     },
     getPatientVitals: function getPatientVitals(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       console.log('test  ', request.query);
       // request.query.page;
       // request.query.pageSize;
@@ -414,7 +330,7 @@ module.exports = function() {
     },
     getPatientData: function getPatientData(request, callback) {
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
 
       var queryParts = {
         columns: request.query.fields || "*",
@@ -435,7 +351,7 @@ module.exports = function() {
     getPatient: function getPatient(request, callback) {
       console.log('Gettting Here', request.query);
       var uuid = request.params.uuid;
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
 
       var queryParts = {
         columns: request.query.fields || "*",
@@ -456,7 +372,7 @@ module.exports = function() {
     getPatientCountGroupedByLocation: function getPatientStgetPatientCountGroupedByLocationatics(request, callback) {
       var periodFrom = request.query.startDate || new Date().toISOString().substring(0, 10);
       var periodTo = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
 
       var queryParts = {
         columns: "t3.location_id,t3.name,count( distinct t1.patient_id) as total",
@@ -484,7 +400,7 @@ module.exports = function() {
       var location = request.params.location;
       var periodFrom = request.query.startDate || new Date().toISOString().substring(0, 10);
       var periodTo = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var queryParts = {
         columns: "distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name",
         table: "amrs.patient",
@@ -513,7 +429,7 @@ module.exports = function() {
       var countBy = request.query.countBy;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var order = getSortOrder(request.query.order);
+      var order = helpers.getSortOrder(request.query.order);
       var locations;
       if (request.query.locations) {
         locations = [];
@@ -546,17 +462,9 @@ module.exports = function() {
         requestIndicators: requestIndicators
       };
       //build report
-      var singleReportQueryParams = reportFactory.singleReportToSql(requestParams);
-      var multiQueryPartsArray = db.reportMultiQueryServer(singleReportQueryParams);
-      db.ExecuteMultiReport(multiQueryPartsArray[0], multiQueryPartsArray[1], function(results) {
-        var formattedResult = [];
-        if (results.result !== undefined && (util.isArray(results.result[0]))) {
-          _.each(results.result, function(result) {
-            formattedResult = formattedResult.concat(result);
-          });
-          results.size = formattedResult.length;
-          results.result = formattedResult;
-        }
+      var queryParts =reportFactory.singleReportToSql(requestParams);
+
+      db.reportQueryServer(queryParts, function(results) {
         callback(reportFactory.resolveIndicators(reportName, results));
       });
     },
@@ -582,7 +490,7 @@ module.exports = function() {
       ];
       var where = ["encounter_datetime >= ? and encounter_datetime <= ?", startDate, endDate];
 
-      buildWhereClauseForDataEntryIndicators(queryParams, where);
+      helpers.buildWhereClauseForDataEntryIndicators(queryParams, where);
 
       switch (subType) {
         case 'by-date-by-encounter-type':
@@ -642,7 +550,7 @@ module.exports = function() {
       var location = request.params.location;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var reportName = request.query.reportName || 'hiv-summary-report';
       //Check for undefined query field
       if (reportIndicator === undefined)
@@ -686,7 +594,7 @@ module.exports = function() {
       var reportIndicator = request.query.indicator;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var order = getSortOrder(request.query.order);
+      var order =  helpers.getSortOrder(request.query.order);
       var reportName = request.query.reportName || 'hiv-summary-report';
       var locationIds = request.query.locations;
       var locations = [];
@@ -764,7 +672,42 @@ module.exports = function() {
         callback(schema);
       });
     },
-    getIdsByUuidAsyc: getIdsByUuidAsyc,
+    getIdsByUuidAsyc:function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
+        var uuids = [];
+        _.each(arrayOfUuids.split(','), function(uuid) {
+            uuids.push(uuid);
+        });
+
+        var queryParts = {
+            columns: idColumnName,
+            table: fullTableName,
+            where: [uuidColumnName + " in ?", uuids]
+        };
+
+        var promise = {
+            onResolved: undefined,
+            results: undefined
+        };
+
+        db.queryServer_test(queryParts, function(result) {
+            var formattedResult = '';
+
+            _.each(result.result, function(rowPacket) {
+                if (formattedResult === '') {
+                    formattedResult = formattedResult + rowPacket[idColumnName];
+                } else {
+                    formattedResult = formattedResult + ',' + rowPacket[idColumnName];
+                }
+            });
+            callback(formattedResult);
+            promise.results = formattedResult;
+            if (typeof promise.onResolved === 'function') {
+                promise.onResolved(promise);
+            }
+        });
+
+        return promise;
+    },
     getHivSummaryData: function getHivSummaryData(request, callback) {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
@@ -796,77 +739,4 @@ module.exports = function() {
 
     }
   };
-
-  //helper functions
-  function buildWhereClauseForDataEntryIndicators(queryParams, where) {
-    if (queryParams.locations) {
-      var locations = [];
-      _.each(queryParams.locations.split(','), function(loc) {
-        locations.push(Number(loc));
-      });
-      where[0] = where[0] + " and t2.location_id in ?";
-      where.push(locations);
-    }
-    if (queryParams.provideruuid) {
-      where[0] = where[0] + " and t4.uuid = ?";
-      where.push(queryParams.provideruuid);
-    }
-    if (queryParams.creatoruuid) {
-      where[0] = where[0] + " and t5.uuid = ?";
-      where.push(queryParams.creatoruuid);
-    }
-    if (queryParams.encounterTypeIds) {
-      var encounterTypes = [];
-      _.each(queryParams.encounterTypeIds.split(','), function(encType) {
-        encounterTypes.push(Number(encType));
-      });
-      where[0] = where[0] + " and t2.encounter_type in ?";
-      where.push(encounterTypes);
-    }
-    if (queryParams.formIds) {
-      var formIds = [];
-      _.each(queryParams.formIds.split(','), function(formid) {
-        formIds.push(Number(formid));
-      });
-      where[0] = where[0] + " and t2.form_id in ?";
-      where.push(formIds);
-    }
-  }
-
-  function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
-    var uuids = [];
-    _.each(arrayOfUuids.split(','), function(uuid) {
-      uuids.push(uuid);
-    });
-
-    var queryParts = {
-      columns: idColumnName,
-      table: fullTableName,
-      where: [uuidColumnName + " in ?", uuids]
-    };
-
-    var promise = {
-      onResolved: undefined,
-      results: undefined
-    };
-
-    db.queryServer_test(queryParts, function(result) {
-      var formattedResult = '';
-
-      _.each(result.result, function(rowPacket) {
-        if (formattedResult === '') {
-          formattedResult = formattedResult + rowPacket[idColumnName];
-        } else {
-          formattedResult = formattedResult + ',' + rowPacket[idColumnName];
-        }
-      });
-      callback(formattedResult);
-      promise.results = formattedResult;
-      if (typeof promise.onResolved === 'function') {
-        promise.onResolved(promise);
-      }
-    });
-
-    return promise;
-  }
 }();
