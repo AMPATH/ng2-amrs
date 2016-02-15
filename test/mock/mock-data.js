@@ -64,7 +64,101 @@ module.exports = function ()
 				void_reason: null
 			}
 			]
-		}
+		},
+        getReportMock: function getReportMock() {
+            return [
+                {
+                    name: "test-report-01",
+                    table: {
+                        schema: "etl",
+                        tableName: "test_flat_hiv_summary",
+                        alias: "t1"
+                    },
+                    sections: "first_test_section",
+                    indicatorHandlers: [
+                        { processor: "testReportProcessorHandler", indicators: ["indicator1", "indicator2"] }
+                    ],
+
+                    joins: [
+                        {
+                            joinType: "INNER JOIN",
+                            schema: "etl",
+                            tableName: "derived_encounter",
+                            alias: "t2",
+                            joinExpression: "t1.encounter_id = t2.encounter_id"
+                        }
+                    ],
+                    parameters: [
+                        {
+                            name: "startDate",
+                            defaultValue: [
+                                "10-10-2015"
+                            ]
+                        },
+                        {
+                            name: "endDate",
+                            defaultValue: [
+                                "defaultValue"
+                            ]
+                        },
+                        {
+                            name: "locations",
+                            defaultValue: []
+                        }
+                    ],
+                    filters: [
+                        {
+                            expression: "t1.rtc_date >= ?",
+                            parameter: "startDate"
+                        },
+                        {
+                            expression: "t1.rtc_date <= ?",
+                            parameter: "endDate"
+                        },
+                        {
+                            expression: "t1.location_id = ?",
+                            parameter: "locations"
+                        }
+                    ],
+                    groupClause: [
+                        { parameter: "groupByd" },
+                        { parameter: "groupByw" }
+                    ],
+                    indicators: [{
+                        label: "test scheduled",
+                        expression: "test_scheduled",
+                        sql: "count(scheduled)"
+                    }, {
+                            label: "test2_scheduled",
+                            expression: "test2_scheduled",
+                            sql: "count(scheduled)",
+                            section: "first_test_section"
+                        }
+                    ],
+                    supplementColumns: [
+                        {
+                            label: "encounter_id",
+                            type: "single",
+                            sql: "t1.encounter_id"
+                        },
+                        {
+                            label: "d",
+                            type: "single",
+                            sql: "date(rtc_date)"
+                        }
+
+
+                    ]
+                }
+            ]
+        },
+        getReportProcessorMock: function getReportProcessorMock() {
+            return { testReportProcessorHandler: testReportProcessorHandlerFunction }
+            function testReportProcessorHandlerFunction(testValue, queryResults) {
+                queryResults.testindicators = testValue
+                return queryResults;
+            }
+        }
 		
 	}
 }();
