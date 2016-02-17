@@ -65,7 +65,7 @@ module.exports = function() {
         table: "etl.flat_labs_and_imaging",
         where: ["uuid = ?", uuid],
         order: order || [{
-          column: 'encounter_datetime',
+          column: 'test_datetime',
           asc: false
         }],
         offset: request.query.startIndex,
