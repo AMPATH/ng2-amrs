@@ -226,7 +226,7 @@ module.exports = function() {
     getHivSummaryData: function getHivSummaryData(request, callback) {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var locationUuids = request.query.locationUuids || '';
+      var locationUuids = request.query.locationUuids ||'';
       var locations = [];
       _.each(locationUuids.split(','), function(loc) {
         locations.push(loc);
@@ -234,13 +234,18 @@ module.exports = function() {
       var columns = "name as location, t1.*, day(encounter_datetime) as day, t3.gender, " +
         "week(encounter_datetime) as week, month(encounter_datetime) as month, year(encounter_datetime) as year," +
         "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(t3.birthdate, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < " +
-        "DATE_FORMAT(t3.birthdate,'00-%m-%d')) AS age, if(arv_start_date is not null, t1.person_id,null) as on_arvs, t2.location_id";
+        "DATE_FORMAT(t3.birthdate,'00-%m-%d')) AS age, if(arv_start_date is not null, t1.person_id,null) as on_arvs, " +
+          "t2.location_id";
+
+      var whereClause=["encounter_datetime >= ? and encounter_datetime <= ? " +
+      "and t1.location_uuid in ?", startDate, endDate, locations];
+      console.log('here is the no of locations selected', request.query.locationUuids);
+      if (request.query.locationUuids===undefined)
+        whereClause= ["encounter_datetime >= ? and encounter_datetime <= ?", startDate, endDate];
       var queryParts = {
         columns: columns,
         table: "etl.flat_hiv_summary",
-        where: ["encounter_datetime >= ? and encounter_datetime <= ? and t1.location_uuid in ?",
-          startDate, endDate, locations
-        ],
+        where:whereClause,
         joins: [
           ['amrs.location', 't2', 't1.location_uuid = t2.uuid'],
           ['amrs.person', 't3', 't3.person_id=t1.person_id']
