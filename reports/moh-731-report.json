@@ -9,16 +9,8 @@
         "joinedReport":"moh-731-summary-cumulative"}
     ],
     "parameters": [
-      {"name":"groupByd", "defaultValue":[
-        {"label":"d","expression":"d"}
-      ]
-      },
       {"name":"groupByLocation", "defaultValue":[
         {"label":"location","expression":"t1.location_id"}
-      ]
-      },
-      {"name":"groupByw", "defaultValue":[
-        {"label":"w","expression":"w"}
       ]
       }
     ],
@@ -49,16 +41,8 @@
         "joinedReport":"moh-731-summary-cumulative"}
     ],
     "parameters": [
-      {"name":"groupByd", "defaultValue":[
-        {"label":"d","expression":"d"}
-      ]
-      },
       {"name":"groupByLocation", "defaultValue":[
         {"label":"location","expression":"t1.location_id"}
-      ]
-      },
-      {"name":"groupByw", "defaultValue":[
-        {"label":"w","expression":"w"}
       ]
       }
     ],
@@ -328,6 +312,11 @@
         "sql":"count(distinct if($expression,encounter_id,null))"
       },
       {
+        "label":"total_visits",
+        "expression":"total_visits",
+        "sql":"[scheduled_visits]+[unscheduled_visits]"
+      },
+      {
         "label":"on_art_total",
         "expression":"on_art_total",
         "sql":"count(distinct if($expression,encounter_id,null))"
@@ -366,6 +355,41 @@
         "label":"on_art_females_15_and_older",
         "expression":"on_art_females_15_and_older",
         "sql":"count(distinct if($expression,encounter_id,null))"
+      },
+      {
+        "label":"starting_art_total",
+        "expression":"starting_art_total",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_males_lt_one",
+        "expression":"starting_art_males_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_females_lt_one",
+        "expression":"starting_art_females_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_males_1_to_15",
+        "expression":"starting_art_males_1_to_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_females_1_to_15",
+        "expression":"starting_art_females_1_to_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_males_15_and_older",
+        "expression":"starting_art_males_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_females_15_and_older",
+        "expression":"starting_art_females_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       }
     ],
     "supplementColumns":[
@@ -441,41 +465,6 @@
       {
         "label":"on_pcp_prophylaxis_females_15_and_above",
         "expression":"on_pcp_prophylaxis_females_15_and_above",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_total",
-        "expression":"starting_art_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_males_lt_one",
-        "expression":"starting_art_males_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_females_lt_one",
-        "expression":"starting_art_females_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_males_1_to_15",
-        "expression":"starting_art_males_1_to_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_females_1_to_15",
-        "expression":"starting_art_females_1_to_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_males_15_and_older",
-        "expression":"starting_art_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_females_15_and_older",
-        "expression":"starting_art_females_15_and_older",
         "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
