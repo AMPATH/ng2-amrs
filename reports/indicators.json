@@ -384,12 +384,17 @@
     {
         "name":"unscheduled_visits",
         "label": "Unscheduled visit",
-        "expression": "scheduled_visit = 1"
+        "expression": "scheduled_visit IS NULL"
+    },
+    {
+        "name":"total_visits",
+        "label": "Total # of Hiv Care Visits",
+        "expression": ""
     },
     {
         "name":"on_art",
         "label": "Total #  patient on ART",
-        "expression": "scheduled_visit = 1"
+        "expression": "encounter_datetime >= arv_start_date"
     },
 
 
