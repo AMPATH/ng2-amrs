@@ -82,7 +82,7 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"timestampdiff(month,encounter_datetime,?) <= 2", "parameter":"startDate"},
+      {"expression":"DATE_SUB( ?, INTERVAL 2 MONTH)", "parameter":"startDate"},
       {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
     ],
     "groupClause":[
@@ -104,77 +104,77 @@
       {
         "label":"revisits_on_art",
         "expression":"revisits_on_art",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_total",
         "expression":"currently_in_care_total",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_males_lt_one",
         "expression":"currently_in_care_males_lt_one",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_females_lt_one",
         "expression":"currently_in_care_females_lt_one",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_males_1_to_15",
         "expression":"currently_in_care_males_1_to_15",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_females_1_to_15",
         "expression":"currently_in_care_females_1_to_15",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_males_15_and_older",
         "expression":"currently_in_care_males_15_and_older",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"currently_in_care_females_15_and_older",
         "expression":"currently_in_care_females_15_and_older",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_total",
         "expression":"revisits_on_art_total",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_males_lt_one",
         "expression":"revisits_on_art_males_lt_one",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_females_lt_one",
         "expression":"revisits_on_art_females_lt_one",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_males_1_to_15",
         "expression":"revisits_on_art_males_1_to_15",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_females_1_to_15",
         "expression":"revisits_on_art_females_1_to_15",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_males_15_and_older",
         "expression":"revisits_on_art_males_15_and_older",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"revisits_on_art_females_15_and_older",
         "expression":"revisits_on_art_females_15_and_older",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"on_original_first_line",
@@ -284,12 +284,12 @@
       },
       {
         "label":"screened_for_tb",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"condoms_provided",
         "expression":"condoms_provided",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"using_modern_contracept_method",
@@ -470,27 +470,27 @@
       {
         "label":"screened_for_tb",
         "expression":"screened_for_tb",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"screened_for_tb_males_lt_15",
         "expression":"screened_for_tb_males_lt_15",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"screened_for_tb_females_lt_15",
         "expression":"screened_for_tb_females_lt_15",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"screened_for_tb_males_15_and_older",
         "expression":"screened_for_tb_males_15_and_older",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
         "label":"screened_for_tb_females_15_and_older",
         "expression":"screened_for_tb_females_15_and_older",
-        "sql":"count(distinct if($expression,person_id,null))"
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       }
     ],
     "supplementColumns":[
