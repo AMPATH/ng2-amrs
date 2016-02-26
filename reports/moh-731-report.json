@@ -82,7 +82,7 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"DATE_SUB( ?, INTERVAL 2 MONTH)", "parameter":"startDate"},
+      {"expression":"t1.encounter_datetime >= DATE_SUB( ?, INTERVAL 2 MONTH)", "parameter":"startDate"},
       {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
     ],
     "groupClause":[
