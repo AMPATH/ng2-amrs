@@ -10,7 +10,10 @@ var tls = require('tls');
 var fs = require('fs');
 var routes = require('./etl-routes');
 var elasticRoutes = require('./elastic/routes/care.treatment.routes');
-
+const Inert = require('inert');
+const Vision = require('vision');
+const HapiSwagger = require('hapi-swagger');
+const Pack = require('./package');
 
 var httpsServer = tls.createServer({
     key: fs.readFileSync(settings.sslSettings.key),
@@ -68,22 +71,36 @@ var validate = function (username, password, callback) {
 
 };
 
+const HapiSwaggerOptions = {
+    info: {
+        'title': 'REST API Documentation',
+        'version': Pack.version,
+    }
+};
 
-server.register([{
-        register: Basic,
-        options: {}
-    }, {
-        register: Good,
-        options: {
-            reporters: [{
-                reporter: require('good-console'),
-                events: {
-                    response: '*',
-                    log: '*'
-                }
-            }]
-        }
-    }],
+
+server.register([
+        Inert,
+        Vision,
+        {
+            'register': HapiSwagger,
+            'options': HapiSwaggerOptions
+        },
+        {
+            register: Basic,
+            options: {}
+        }, {
+            register: Good,
+            options: {
+                reporters: [{
+                    reporter: require('good-console'),
+                    events: {
+                        response: '*',
+                        log: '*'
+                    }
+                }]
+            }
+        }],
 
     function (err) {
         if (err) {
