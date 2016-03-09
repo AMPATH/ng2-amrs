@@ -20,7 +20,7 @@
     "fs": "0.0.2",
     "good": "^6.1.0",
     "good-console": "^5.0.0",
-    "hapi": "^13.0.0",
+    "hapi": "^8.8.1",
     "hapi-auth-basic": "^2.0.0",
     "hapi-cors-headers": "^1.0.0",
     "https": "^1.0.0",
