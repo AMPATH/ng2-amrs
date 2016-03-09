@@ -5,7 +5,6 @@ var dao = require('./etl-dao');
 var winston = require('winston');
 var path = require('path');
 var _ = require('underscore');
-var Joi = require('joi');
 module.exports = function () {
 
     return [
@@ -15,10 +14,7 @@ module.exports = function () {
             config: {
                 handler: function (request, reply) {
                     reply('Hello, World! HAPI Demo Server');
-                },
-                description: 'Get HAPI',
-                notes: 'Returns a message that shows HAPI is configured correctly',
-                tags: ['api'],
+                }
 
             }
         },
@@ -48,8 +44,7 @@ module.exports = function () {
                     reply({message: 'ok'});
                 }
 
-            },
-
+            }
         },
         {
             method: 'GET',
@@ -58,20 +53,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatient(request, reply);
-                },
-                description: 'Get patient',
-                notes: 'Returns a patient with the given parameter uuid',
-                tags: ['api'],
-                validate: {
-                    params: {
-                        uuid: Joi.string()
-                            .required()
-                            .description('the unique identifier for a patient'),
-
-                    },
-
                 }
-
             }
         },
         {
@@ -81,18 +63,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientVitals(request, reply);
-                },
-                description: 'Get patient vitals',
-                notes: 'Returns a patient vitals with the given parameter uuid',
-                tags: ['api'],
-                validate: {
-                    params: {
-                        uuid: Joi.string()
-                            .required()
-                            .description('the unique identifier for a patient'),
-                    }
                 }
-
             }
         },
         {
@@ -102,10 +73,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientData(request, reply);
-                },
-                description: 'Get patient test data',
-                notes: 'Returns a patient test data with the given parameter uuid',
-                tags: ['api'],
+                }
             }
         },
         {
@@ -115,10 +83,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientHivSummary(request, reply);
-                },
-                description: 'Get patient HIV summary',
-                notes: 'Returns a patient HIV summary with the given parameter uuid',
-                tags: ['api'],
+                }
             }
         },
         {
@@ -138,10 +103,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicMonthlySummary(request, reply);
-                },
-                description: "Get a location's monthly appointment visits",
-                notes: "Returns a location's monthly appointment visits with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -151,10 +113,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicHivSummayIndicators(request, reply);
-                },
-                description: "Get a location's HIV summary indicators",
-                notes: "Returns a location's HIV summary indicators with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -164,10 +123,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicAppointmentSchedule(request, reply);
-                },
-                description: "Get a location's appointment schedule",
-                notes: "Returns a location's appointment-schedule with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -177,10 +133,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicDailyVisits(request, reply);
-                },
-                description: "Get a location's daily visits",
-                notes: "Returns a location's daily visits with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -190,10 +143,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getHasNotReturned(request, reply);
-                },
-                description: "Get a location's not returned visits",
-                notes: "Returns a location's not returned visits with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -203,10 +153,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicMonthlyAppointmentSchedule(request, reply);
-                },
-                description: "Get a location's monthly appointment schedule",
-                notes: "Returns a location's monthly appointment schedule with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -216,10 +163,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicMonthlyVisits(request, reply);
-                },
-                description: "Get a location's monthly visits",
-                notes: "Returns a location's monthly visits with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -229,10 +173,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getClinicDefaulterList(request, reply);
-                },
-                description: "Get a location's defaulter list",
-                notes: "Returns a location's defaulter list with the given parameter uuid",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -257,7 +198,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getCustomData(request, reply);
-                },
+                }
                 /*
                  the rest request and query expression should be
                  /table/filter_column/filter/filter_value or
@@ -273,10 +214,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientCountGroupedByLocation(request, reply);
-                },
-                description: "Get patients created by period",
-                notes: "Returns a list of patients created by period for each location",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -286,10 +224,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientDetailsGroupedByLocation(request, reply);
-                },
-                description: "Get details of patient created in a location",
-                notes: "Returns details of patient created in a location",
-                tags: ['api'],
+                }
             }
         },
         {
@@ -324,10 +259,7 @@ module.exports = function () {
                             }).onResolved = onResolvedPromise;
                     }
 
-                },
-                description: 'Get MOH731 report',
-                notes: 'Returns MOH731 report for each location',
-                tags: ['api'],
+                }
 
             }
         },
@@ -338,14 +270,6 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getPatientListByIndicator(request, reply);
-                },
-                description: 'Get patient list by indicator',
-                notes: 'Returns a patient list by indicator with a given uuid as parameter',
-                tags: ['api'],
-                validate: {
-                    params: {
-                        location: Joi.string()
-                    }
                 }
             }
         },
@@ -378,10 +302,7 @@ module.exports = function () {
                                 request.query.locations = results;
                             }).onResolved = onResolvedPromise;
                     }
-                },
-                description: 'Get patient',
-                notes: 'Returns a patient with the given parameter uuid',
-                tags: ['api'],
+                }
             }
         },
         {
@@ -431,7 +352,7 @@ module.exports = function () {
                                 request.query.locationIds = results;
                             }).onResolved = onResolvedPromise;
                     }
-                },
+                }
             }
         },
         {
@@ -446,10 +367,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getIndicatorsSchema(request, reply);
-                },
-                description: 'Get HIV monthly summary indicator schema',
-                notes: 'Returns HIV monthly summary indicator schema ',
-                tags: ['api'],
+                }
 
             }
         },
@@ -462,10 +380,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getIndicatorsSchemaWithSections(request, reply);
-                },
-                description: 'Get indicator schema with sections',
-                notes: 'Returns indicator schema with sections',
-                tags: ['api'],
+                }
 
             }
         },
@@ -476,10 +391,7 @@ module.exports = function () {
                 auth: 'simple',
                 handler: function (request, reply) {
                     dao.getHivSummaryData(request, reply);
-                },
-                description: 'Get HIV summary flat table',
-                notes: 'Returns a HIV summary flat table',
-                tags: ['api'],
+                }
 
             }
         },
