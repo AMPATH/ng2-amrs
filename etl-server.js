@@ -21,9 +21,9 @@ var server = new Hapi.Server({
     }
   }
 });
-var https = false;
+var tls_config = false;
 if (config.etl.tls) {
-  https = tls.createServer({
+  tls_config = tls.createServer({
     key: fs.readFileSync(config.etl.key),
     cert: fs.readFileSync(config.etl.cert)
   });
@@ -32,9 +32,8 @@ if (config.etl.tls) {
 server.connection({
   port: config.etl.port,
   host: config.etl.host,
-  tls: https
+  tls: tls_config
 });
-
 var pool = mysql.createPool(config.mysql);
 
 var validate = function(username, password, callback) {
