@@ -13,7 +13,7 @@ module.exports = function () {
             path: '/',
             config: {
                 handler: function (request, reply) {
-                    reply('Hello, World! HAPI Demo Server');
+                    reply('Welcome to ETL reset server for OpenMRS');
                 }
 
             }
