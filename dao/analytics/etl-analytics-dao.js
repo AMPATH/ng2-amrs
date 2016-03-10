@@ -60,10 +60,10 @@ module.exports = function() {
           "name": "locations",
           "value": locations
         }],
-        order: order || [{
-          column: 't1.location_id',
-          asc: true
-        }],
+        // order: order || [{
+        //   column: 't1.location_id',
+        //   asc: true
+        // }],
         countBy: countBy || 'num_persons',
         groupBy: request.query.groupBy || 'groupByLocation',
         offset: request.query.startIndex,

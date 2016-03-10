@@ -392,30 +392,108 @@ function replaceIndicatorParam(_indicatorExpression, requestParam) {
         return result;
     }
 
+    function _getMatchingWhereExpression(whereParams, reportFilter) {
+
+      var matchingWhereExpression = _.find(whereParams, function(whereParam){
+        if ((whereParam["name"] === reportFilter["parameter"] &&
+        whereParam["value"])|| reportFilter["processForce"] === true) {
+          console.log('final Method report--->', whereParam);
+          return whereParam;
+        }
+
+      });
+      return matchingWhereExpression;
+    }
     //converts an array of filters into sql
     function filtersToSql(whereParams, reportParams, reportFilters) {
         var result = [];
         var expression = '';
         var parameters = [];
+        console.log('Report/Json Params', reportParams);
+        console.log('Report/Filters', reportFilters);
+        console.log('Web/Client Params', whereParams);
         _.each(reportFilters, function (reportFilter) {
-            _.each(whereParams, function (whereParam) {
-                //checks whether param value is set, if not set the filter is not pushed.
-                //also checks if report filter parameter passed is eq to where param
-                if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"] || reportFilter["processForce"] === true) {
-                    expression += reportFilter["expression"];
-                    expression += ' and ';
-                    _.each(reportParams, function (reportParam) {
-                        if (reportParam["name"] === whereParam["name"]) {
-                            parameters.push(whereParam["value"]);
-                        }
-                    });
+
+          // console.log('final report--->', reportFilter);
+          //search in the web/Client params to see if there is a matching Param
+          //Process an array of Parameters in the report filters
+          var reportFilterParam = reportFilter["parameter"];
+          var reportFilterParamArray = [];
+          if(s.include(reportFilterParam,',')) {
+            reportFilterParamArray = reportFilterParam.split(',');
+          }
+          var matchingWhereExpression;
+
+          if(reportFilterParamArray.length > 1) {
+
+            for(var i in reportFilterParamArray) {
+              var dummyReportFilter = {
+                parameter: reportFilterParamArray[i],
+                processForce:reportFilter["processForce"]
+              };
+              matchingWhereExpression = _getMatchingWhereExpression(whereParams, dummyReportFilter);
+              if(!_.isUndefined(matchingWhereExpression) && i === '0') {
+                expression += reportFilter["expression"];
+                expression += ' and ';
+              }
+              if(!_.isUndefined(matchingWhereExpression)) {
+                var matchingReportParam = _.find(reportParams, function(reportParam){
+                  if (reportParam["name"] === matchingWhereExpression["name"])
+                  return reportParam;
+                });
+
+                if(!_.isUndefined(matchingReportParam) && reportFilter["processForce"] !==true) {
+                  parameters.push(matchingWhereExpression["value"]);
                 }
-            });
+              }
+            }
+
+          } else {
+            matchingWhereExpression = _getMatchingWhereExpression(whereParams, reportFilter);
+            if(!_.isUndefined(matchingWhereExpression)) {
+              expression += reportFilter["expression"];
+              expression += ' and ';
+
+              var matchingReportParam = _.find(reportParams, function(reportParam){
+                if (reportParam["name"] === matchingWhereExpression["name"])
+                return reportParam;
+              });
+              console.log('final params-report', matchingReportParam);
+              console.log('final params-where', matchingWhereExpression);
+              if(!_.isUndefined(matchingReportParam) && reportFilter["processForce"] !==true ) {
+                parameters.push(matchingWhereExpression["value"]);
+              }
+            }
+
+          }
+          // matchingWhereExpression = _.find(whereParams, function(whereParam){
+          //   if (whereParam["name"] === reportFilter["parameter"] &&
+          //   whereParam["value"] || reportFilter["processForce"] === true)
+          //   return whereParam;
+          // });
+
+
+            // _.each(whereParams, function (whereParam) {
+            //     //checks whether param value is set, if not set the filter is not pushed.
+            //     //also checks if report filter parameter passed is eq to where param
+            //     if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"] || reportFilter["processForce"] === true) {
+            //         expression += reportFilter["expression"];
+            //         expression += ' and ';
+            //         _.each(reportParams, function (reportParam) {
+            //             if (reportParam["name"] === whereParam["name"]) {
+            //                 parameters.push(whereParam["value"]);
+            //             }
+            //         });
+            //     }
+            // });
         });
         var lastIndex = expression.lastIndexOf('and');
         expression = expression.substring(0, lastIndex);
         result.push(expression);
+        console.log('final results', result);
+        console.log('final paras', parameters);
         result.push.apply(result, parameters);
+
         return result;
     }
 
