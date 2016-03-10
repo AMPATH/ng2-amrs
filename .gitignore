@@ -5,3 +5,4 @@ conf_copy/
 .vscode/
 *.log
 .netbeans.xml
+etl-daemon.js
