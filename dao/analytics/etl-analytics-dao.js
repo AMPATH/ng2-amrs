@@ -47,6 +47,7 @@ module.exports = function() {
         });
       }
       var requestIndicators = request.query.indicators;
+
       //build query params
       var requestParams = {
         reportName: reportName,
@@ -59,7 +60,14 @@ module.exports = function() {
         }, {
           "name": "locations",
           "value": locations
-        }],
+        }, {
+          "name": "@referenceDate",
+          "value": request.query["referenceDate"]
+        }, {
+          "name": "patientUuid",
+          "value": request.query["patientUuid"]
+          }
+        ],
         // order: order || [{
         //   column: 't1.location_id',
         //   asc: true

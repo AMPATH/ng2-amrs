@@ -12,7 +12,7 @@ reportList.push.apply(reportList, require('./reports/moh-731-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/patient-register-report.json'));
 reportList.push.apply(reportList, require('./reports/clinic-calander-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/daily-visits-appointment.report.json'));
-
+reportList.push.apply(reportList, require('./reports/clinical-reminder-report.json'));
 
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
@@ -202,39 +202,51 @@ module.exports = function () {
         return queryPartsArray;
     }
 
-function replaceIndicatorParam(_indicatorExpression, requestParam) {
-  var indicatorExpression = _indicatorExpression;
-  var result;
-  console.log('underscore string', s.include(indicatorExpression,'endDate'));
-  if (s.include(indicatorExpression,'endDate')) {
-    if(requestParam.whereParams) {
-      var dateParam = _.find(requestParam.whereParams, function(param){
-        if(param.name === 'endDate') return param;
-      });
+    function replaceIndicatorParam(_indicatorExpression, requestParam) {
+      var indicatorExpression = _indicatorExpression;
+      var result;
+      console.log('underscore string', s.include(indicatorExpression,'endDate'));
+      if (s.include(indicatorExpression,'endDate')) {
+        if(requestParam.whereParams) {
+          var dateParam = _.find(requestParam.whereParams, function(param){
+            if(param.name === 'endDate') return param;
+          });
 
-      if (dateParam) {
-        indicatorExpression =  s.replaceAll(indicatorExpression,'endDate', "'"+ dateParam.value + "'");
-        console.log('end date param', indicatorExpression);
+          if (dateParam) {
+            indicatorExpression =  s.replaceAll(indicatorExpression,'endDate', "'"+ dateParam.value + "'");
+            console.log('end date param', indicatorExpression);
+          }
+        }
+
       }
-    }
 
-  }
+      if (s.include(indicatorExpression,'startDate')) {
+        if(requestParam.whereParams) {
+          var dateParam = _.find(requestParam.whereParams, function(param){
+            if(param.name === 'startDate') return param;
+          });
 
-  if (s.include(indicatorExpression,'startDate')) {
-    if(requestParam.whereParams) {
-      var dateParam = _.find(requestParam.whereParams, function(param){
-        if(param.name === 'startDate') return param;
-      });
-
-      if (dateParam) {
-        indicatorExpression = s.replaceAll(indicatorExpression,'startDate', "'"+ dateParam.value + "'");
-        console.log('start date param', indicatorExpression);
+          if (dateParam) {
+            indicatorExpression = s.replaceAll(indicatorExpression,'startDate', "'"+ dateParam.value + "'");
+            console.log('start date param', indicatorExpression);
+          }
+        }
       }
-    }
-  }
+        if (s.include(indicatorExpression,'@referenceDate')) {
+            if(requestParam.whereParams) {
+                var referenceParam = _.find(requestParam.whereParams, function(param){
+                    if(param.name === '@referenceDate') return param;
+                });
 
-  return indicatorExpression;
-}
+                if (referenceParam) {
+                    indicatorExpression = s.replaceAll(indicatorExpression,'@referenceDate', "'"+ referenceParam.value + "'");
+                    console.log('@referenceDate param', indicatorExpression);
+                }
+            }
+        }
+
+      return indicatorExpression;
+    }
     //converts a set of indicators into sql columns
     function indicatorsToColumns(report, countBy, requestParam) {
       console.log('request parameters', requestParam);
