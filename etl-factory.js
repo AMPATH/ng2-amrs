@@ -13,6 +13,10 @@ reportList.push.apply(reportList, require('./reports/patient-register-report.jso
 reportList.push.apply(reportList, require('./reports/clinic-calander-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/daily-visits-appointment.report.json'));
 reportList.push.apply(reportList, require('./reports/clinical-reminder-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-cohort-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-indicator-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-indicator-allsites-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-cohort-allsites-report.json'));
 
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
@@ -167,89 +171,103 @@ module.exports = function () {
         successCallback([result, allReportSections]);
     }
 
+    function _buildQueryParts(requestParams, reportName, queryPartsArray) {
+      if (reportName) {
+          reportName = reportName;
+      } else {
+          reportName = requestParams.reportName;
+      }
+      var queryParts;
+      _.each(reports, function (report) {
+
+          if (report.name === reportName) {
+            // console.log('Current selected Report Name: ', reportName);
+            var nestedParts = '';
+              if (report.table.dynamicDataset && report.table.dynamicDataset !== reportName) {
+                _buildQueryParts(requestParams, report.table.dynamicDataset, queryPartsArray);
+                //get the last item of the array
+                var n = queryPartsArray.length;
+                nestedParts = queryPartsArray[n-1];
+                //remove the object from the array
+                queryPartsArray.splice(n-1, 1);
+              } else {
+                nestedParts = undefined;
+              }
+              var queryParts = {
+                  columns: indicatorsToColumns(report, requestParams.countBy, requestParams),
+                  concatColumns: concatColumnsToColumns(report),
+                  table: report.table['schema'] + '.' + report.table['tableName'],
+                  alias: report.table['alias'],
+                  nestedParts: nestedParts,
+                  joins: joinsToSql(report.joins, requestParams),
+                  where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
+                  group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
+                  order: requestParams.order,
+                  offset: requestParams.offset,
+                  limit: requestParams.limit
+              };
+              // console.log('Nested Parts>>>>', queryParts.nestedParts);
+              queryPartsArray.push(queryParts);
+          }
+      });
+    }
+
     function singleReportToSql(requestParams, reportName) {
         if (requestParams === null || requestParams === undefined) return "";
         var queryPartsArray = [];
-        if (reportName) {
-            reportName = reportName;
-        } else {
-            reportName = requestParams.reportName;
-        }
-        _.each(reports, function (report) {
-            if (report.name === reportName) {
-                var nestedParts = '';
-                if (report.table.hasNested && report.table.hasNested !== reportName) {
-                    nestedParts = singleReportToSql(requestParams, report.table.hasNested);
-
-                }
-                var queryParts = {
-                    columns: indicatorsToColumns(report, requestParams.countBy, requestParams),
-                    concatColumns: concatColumnsToColumns(report),
-                    table: report.table['schema'] + '.' + report.table['tableName'],
-                    alias: report.table['alias'],
-                    nestedParts: nestedParts,
-                    joins: joinsToSql(report.joins, requestParams),
-                    where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
-                    group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
-                    order: requestParams.order,
-                    offset: requestParams.offset,
-                    limit: requestParams.limit
-                };
-
-                queryPartsArray.push(queryParts);
-            }
-        });
+        _buildQueryParts(requestParams, reportName, queryPartsArray);
+        // console.log('Current parts array: ', queryPartsArray);
         return queryPartsArray;
     }
 
-    function replaceIndicatorParam(_indicatorExpression, requestParam) {
-      var indicatorExpression = _indicatorExpression;
-      var result;
-      console.log('underscore string', s.include(indicatorExpression,'endDate'));
-      if (s.include(indicatorExpression,'endDate')) {
-        if(requestParam.whereParams) {
-          var dateParam = _.find(requestParam.whereParams, function(param){
-            if(param.name === 'endDate') return param;
-          });
 
-          if (dateParam) {
-            indicatorExpression =  s.replaceAll(indicatorExpression,'endDate', "'"+ dateParam.value + "'");
-            console.log('end date param', indicatorExpression);
-          }
-        }
+function replaceIndicatorParam(_indicatorExpression, requestParam) {
+  var indicatorExpression = _indicatorExpression;
+  var result;
+  // console.log('underscore string', s.include(indicatorExpression,'endDate'));
+  if (s.include(indicatorExpression,'endDate')) {
+    if(requestParam.whereParams) {
+      var dateParam = _.find(requestParam.whereParams, function(param){
+        if(param.name === 'endDate') return param;
+      });
 
+      if (dateParam) {
+        indicatorExpression =  s.replaceAll(indicatorExpression,'endDate', "'"+ dateParam.value + "'");
+        // console.log('end date param', indicatorExpression);
       }
+    }
+  }
 
-      if (s.include(indicatorExpression,'startDate')) {
-        if(requestParam.whereParams) {
+  if (s.include(indicatorExpression,'startDate')) {
+    if(requestParam.whereParams) {
           var dateParam = _.find(requestParam.whereParams, function(param){
             if(param.name === 'startDate') return param;
           });
 
-          if (dateParam) {
-            indicatorExpression = s.replaceAll(indicatorExpression,'startDate', "'"+ dateParam.value + "'");
-            console.log('start date param', indicatorExpression);
-          }
-        }
+      if (dateParam) {
+        indicatorExpression = s.replaceAll(indicatorExpression,'startDate', "'"+ dateParam.value + "'");
+        // console.log('start date param', indicatorExpression);
       }
-        if (s.include(indicatorExpression,'@referenceDate')) {
-            if(requestParam.whereParams) {
-                var referenceParam = _.find(requestParam.whereParams, function(param){
-                    if(param.name === '@referenceDate') return param;
-                });
-
-                if (referenceParam) {
-                    indicatorExpression = s.replaceAll(indicatorExpression,'@referenceDate', "'"+ referenceParam.value + "'");
-                    console.log('@referenceDate param', indicatorExpression);
-                }
-            }
-        }
-
-      return indicatorExpression;
     }
+  }
+  if (s.include(indicatorExpression,'@referenceDate')) {
+    if(requestParam.whereParams) {
+      var referenceParam = _.find(requestParam.whereParams, function(param) {
+        if(param.name === '@referenceDate') return param;
+      });
+
+      if (referenceParam) {
+          indicatorExpression = s.replaceAll(indicatorExpression,'@referenceDate', "'"+ referenceParam.value + "'");
+          console.log('@referenceDate param', indicatorExpression);
+      }
+    }
+  }
+
+  return indicatorExpression;
+}
     //converts a set of indicators into sql columns
     function indicatorsToColumns(report, countBy, requestParam) {
-      console.log('request parameters', requestParam);
+      // console.log('request parameters', requestParam);
         var result = [];
         //converts a set of supplementColumns  into sql columns
         _.each(supplementColumnsToColumns(report), function (column) {
@@ -310,7 +328,7 @@ module.exports = function () {
                     _.each(indicatorsSchema, function (indicator) {
                         if (indicator.name === indicatorKey) {
                             var column = singleIndicator.sql;
-                            console.log('Derived Indicator request param', requestParam);
+                            // console.log('Derived Indicator request param', requestParam);
                             var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
                             column = column.replace('$expression', indicatorExpression);
                             derivedIndicator.sql = derivedIndicator.sql.replace(indicatorKey, column);
@@ -319,7 +337,7 @@ module.exports = function () {
                 }
             });
         });
-        console.log('track derived indicator', derivedIndicator.sql);
+        // console.log('track derived indicator', derivedIndicator.sql);
         return derivedIndicator.sql + ' as ' + indicator.name;
     }
 
@@ -368,16 +386,17 @@ module.exports = function () {
                 }
                 result.push(joinOject);
             } else {
-                var queryParts = singleReportToSql(requestParams, join.joinedReport)
+                var queryParts = singleReportToSql(requestParams, join.dynamicDataset)
+                // console.log('show the query parts here:', queryParts.length);
                 var joinOject = {
                     schema: join.schema,
                     tableName: join.tableName,
                     alias: join.alias,
                     joinExpression: join.joinExpression,
                     joinType: join.joinType,
-                    joinedQuerParts: queryParts
+                    joinedQuerParts: queryParts[0]
                 };
-                console.log('testing joinedReport', joinOject);
+                // console.log('testing joinedReport', joinOject);
                 result.push(joinOject);
                 //var r = [join['schema'] + '.' + join['tableName'], join['alias'], join['joinExpression'], join['joinType']];
             }
@@ -421,9 +440,9 @@ module.exports = function () {
         var result = [];
         var expression = '';
         var parameters = [];
-        console.log('Report/Json Params', reportParams);
-        console.log('Report/Filters', reportFilters);
-        console.log('Web/Client Params', whereParams);
+        // console.log('Report/Json Params', reportParams);
+        // console.log('Report/Filters', reportFilters);
+        // console.log('Web/Client Params', whereParams);
         _.each(reportFilters, function (reportFilter) {
 
           // console.log('final report--->', reportFilter);
@@ -470,40 +489,19 @@ module.exports = function () {
                 if (reportParam["name"] === matchingWhereExpression["name"])
                 return reportParam;
               });
-              console.log('final params-report', matchingReportParam);
-              console.log('final params-where', matchingWhereExpression);
+              // console.log('final params-report', matchingReportParam);
+              // console.log('final params-where', matchingWhereExpression);
               if(!_.isUndefined(matchingReportParam) && reportFilter["processForce"] !==true ) {
                 parameters.push(matchingWhereExpression["value"]);
               }
             }
-
           }
-          // matchingWhereExpression = _.find(whereParams, function(whereParam){
-          //   if (whereParam["name"] === reportFilter["parameter"] &&
-          //   whereParam["value"] || reportFilter["processForce"] === true)
-          //   return whereParam;
-          // });
-
-
-            // _.each(whereParams, function (whereParam) {
-            //     //checks whether param value is set, if not set the filter is not pushed.
-            //     //also checks if report filter parameter passed is eq to where param
-            //     if (whereParam["name"] === reportFilter["parameter"] && whereParam["value"] || reportFilter["processForce"] === true) {
-            //         expression += reportFilter["expression"];
-            //         expression += ' and ';
-            //         _.each(reportParams, function (reportParam) {
-            //             if (reportParam["name"] === whereParam["name"]) {
-            //                 parameters.push(whereParam["value"]);
-            //             }
-            //         });
-            //     }
-            // });
         });
         var lastIndex = expression.lastIndexOf('and');
         expression = expression.substring(0, lastIndex);
         result.push(expression);
-        console.log('final results', result);
-        console.log('final paras', parameters);
+        // console.log('final results', result);
+        // console.log('final paras', parameters);
         result.push.apply(result, parameters);
 
         return result;

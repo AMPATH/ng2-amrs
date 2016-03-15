@@ -4,7 +4,7 @@
 'use strict';
 var _ = require('underscore');
 
-var pool = mysql.createPool(settings.mysqlPoolSettings);
+var pool = mysql.createPool(config.mysql);
 
 
 function queryServer(query, values) {
@@ -126,4 +126,3 @@ var schema = {
     medications: {},
 
 }
-

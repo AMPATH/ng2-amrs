@@ -4,7 +4,7 @@
 var mysql = require('mysql');
 var squel = require('squel');
 var _ = require('underscore');
-var settings = require('./conf/settings.js');
+var config = require('./conf/config');
 
 var errorHandler = function (errorType, error) {
     var currentdate = new Date();
@@ -20,7 +20,7 @@ var errorHandler = function (errorType, error) {
 
 module.exports = function () {
     var service = {};
-    var pool = mysql.createPool(settings.mysqlPoolSettings);
+    var pool = mysql.createPool(config.mysql);
     var getServerConnection = function (connectHandler) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -89,8 +89,39 @@ module.exports = function () {
             });
         });
     };
-    service.createQuery=createQuery;
+
+    function _updateJoins(join, s, sq) {
+      if (sq) {
+        if(_.isUndefined(join.joinExpression) || join.joinExpression === '') {
+          if (join.joinType == 'JOIN') s.join(sq, join.alias);
+          if (join.joinType == 'INNER JOIN') s.join(sq, join.alias);
+          if (join.joinType == 'OUTER JOIN') s.outer_join(sq, join.alias);
+          if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(sq, join.alias);
+        } else {
+          if (join.joinType == 'JOIN') s.join(sq, join.alias, join.joinExpression);
+          if (join.joinType == 'INNER JOIN') s.join(sq, join.alias, join.joinExpression);
+          if (join.joinType == 'OUTER JOIN') s.outer_join(sq, join.alias, join.joinExpression);
+          if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(sq, join.alias, join.joinExpression);
+        }
+      } else {
+        if(_.isUndefined(join.joinExpression) || join.joinExpression === '') {
+          if (join.joinType == 'JOIN') s.join(join.schema + '.' + join.tableName, join.alias);
+          if (join.joinType == 'INNER JOIN') s.join(join.schema + '.' + join.tableName, join.alias);
+          if (join.joinType == 'OUTER JOIN') s.outer_join(join.schema + '.' + join.tableName, join.alias);
+          if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(join.schema + '.' + join.tableName, join.alias);
+
+        } else {
+          if (join.joinType == 'JOIN') s.join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
+          if (join.joinType == 'INNER JOIN') s.join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
+          if (join.joinType == 'OUTER JOIN') s.outer_join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
+          if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
+        }
+      }
+    }
+
+    service.createQuery = createQuery;
         function createQuery(queryParts, sq) {
+          // console.log('query parts in Create query', queryParts)
         var result = {};
         var multiquery = "";
         var multuvalues = [];
@@ -107,17 +138,17 @@ module.exports = function () {
         }
         _.each(queryParts['joins'], function (join) {
             if (join.joinedQuerParts) {
-
-                var sq = createQuery(join.joinedQuerParts[0]);
-                if (join.joinType == 'JOIN') s.join(sq, join.alias, join.joinExpression);
-                if (join.joinType == 'INNER JOIN') s.join(sq, join.alias, join.joinExpression);
-                if (join.joinType == 'OUTER JOIN') s.outer_join(sq, join.alias, join.joinExpression);
-                if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(sq, join.alias, join.joinExpression);
+              var joinedParts = join.joinedQuerParts
+                var sq = '';
+                if (joinedParts.nestedParts !== undefined && joinedParts.nestedParts !== '') {
+                  // This is for cases where joined reports has some a sub query
+                  sq = createQuery(joinedParts, createQuery(joinedParts.nestedParts));
+                } else {
+                  sq = createQuery(joinedParts);
+                }
+                _updateJoins(join, s, sq);
             } else {
-                if (join.joinType == 'JOIN') s.join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
-                if (join.joinType == 'INNER JOIN') s.join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
-                if (join.joinType == 'OUTER JOIN') s.outer_join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
-                if (join.joinType == 'LEFT OUTER JOIN') s.left_outer_join(join.schema + '.' + join.tableName, join.alias, join.joinExpression);
+                _updateJoins(join, s);
             }
         });
 
@@ -266,27 +297,30 @@ module.exports = function () {
         function transformReportQueryPartsToSql(queryPartsArray) {
         var query = "";
         var sqlParams = [];
+        var s;
+        //The queryPartsArray may never have more than one element and
+        // that is why we just need to get the sql
         _.each(queryPartsArray, function (queryParts) {
-            if (queryParts !== undefined) {
-                var s;
-                if (queryParts.nestedParts !== undefined && queryParts.nestedParts.length > 0) {
-                    s = createQuery(queryParts, createQuery(queryParts.nestedParts[0]));
-                } else {
-                    s = createQuery(queryParts);
-                }
-                var q = s.toParam();
-                var sql = q.text.replace("\\", "");
-                var values = q.values;
-                if (query === "") {
-                    query = sql;
-                } else {
-                    query = query + ";" + sql;
-                }
-                _.each(values, function (res) {
-                    sqlParams.push(res);
-                });
-            }
+          if (queryParts !== undefined) {
+              if (queryParts.nestedParts !== undefined && queryParts.nestedParts !== '') {
+                // This is done so that we can always pick up sub queries
+                s = createQuery(queryParts, createQuery(queryParts.nestedParts));
+              } else {
+                s = createQuery(queryParts);
+              }
+              var q = s.toParam();
+              var sql = q.text.replace("\\", "");
+              var values = q.values;
+              query = sql;
+              _.each(values, function (res) {
+                  sqlParams.push(res);
+              });
+          }
         });
+
+
+
+
         return {query: query, sqlParams: sqlParams, offset: queryOffset}
     };
     service.queryServer_test = function (queryParts, callback) {

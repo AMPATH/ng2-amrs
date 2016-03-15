@@ -1,12 +1,12 @@
 [
   {
     "name": "MOH-731-Combined-Location",
-    "table":{"schema":"","tableName":"","alias":"t1","hasNested":"moh-731-past_three_months"},
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-past_three_months"},
     "joins":[
       {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"",
-        "joinedReport":"moh-731-summary-current_month"},
+        "dynamicDataset":"moh-731-summary-current_month"},
       {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"",
-        "joinedReport":"moh-731-summary-cumulative"}
+        "dynamicDataset":"moh-731-summary-cumulative"}
     ],
     "parameters": [
       {"name":"groupByLocation", "defaultValue":[
@@ -32,544 +32,60 @@
     ]
   },
   {
-    "name": "MOH-731",
-    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+    "name": "MOH-731-report",
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-indicator-report"},
     "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
-      {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"},
-      {"joinType":"INNER JOIN","schema":"amrs","alias":"t4","joinExpression":"t4.location_uuid = t1.location_uuid",
-        "joinedReport":"moh-731-summary-cumulative-revised"}
+      {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-12month-indicator-report"},
+      {"joinType":"INNER JOIN","schema":"amrs","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
+          "dynamicDataset":"moh-731-cummulative-indicator-report"}
     ],
     "parameters": [
-      {"name":"startDate", "defaultValue":"2015-10-01"},
-      {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"locations","defaultValue":[]},
-      {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_id"}
-      ]
+      {
+        "name":"locations",
+        "defaultValue":[]
       },
-      {"name":"groupParameter","defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]}
+      {
+        "name":"groupByLocation",
+        "defaultValue":[{"label":"location","expression":"t1.location_id"}]
+      },
+      {
+        "name":"groupParameter",
+        "defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]
+      }
     ],
     "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"date(t1.encounter_datetime) >= DATE_SUB( ?, INTERVAL 2 MONTH)", "parameter":"startDate"},
-      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
+      {"expression":"t1.location_id in ?","parameter":"locations"}
     ],
     "groupClause":[
       {"parameter":"groupByLocation"},
       {"parameter":"groupByMonth"}
-    ],
-    "indicators": [
-      {
-        "label":"unscheduled_visits",
-        "expression":"scheduled_visit",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art",
-        "expression":"on_art",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art",
-        "expression":"revisits_on_art",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_total",
-        "expression":"currently_in_care_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_males_lt_one",
-        "expression":"currently_in_care_males_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_females_lt_one",
-        "expression":"currently_in_care_females_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_males_below_15",
-        "expression":"currently_in_care_males_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_females_below_15",
-        "expression":"currently_in_care_females_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_males_15_and_older",
-        "expression":"currently_in_care_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"currently_in_care_females_15_and_older",
-        "expression":"currently_in_care_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_total",
-        "expression":"revisits_on_art_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_males_lt_one",
-        "expression":"revisits_on_art_males_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_females_lt_one",
-        "expression":"revisits_on_art_females_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_males_below_15",
-        "expression":"revisits_on_art_males_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_females_below_15",
-        "expression":"revisits_on_art_females_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_males_15_and_older",
-        "expression":"revisits_on_art_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"revisits_on_art_females_15_and_older",
-        "expression":"revisits_on_art_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_pcp_prophylaxis",
-        "expression":"on_pcp_prophylaxis",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_total",
-        "expression":"enrolled_in_care_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_males_lt_one",
-        "expression":"enrolled_in_care_males_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_females_lt_one",
-        "expression":"enrolled_in_care_females_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_males_1_to_15",
-        "expression":"enrolled_in_care_males_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_females_1_to_15",
-        "expression":"enrolled_in_care_females_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_males_15_and_older",
-        "expression":"enrolled_in_care_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"enrolled_in_care_females_15_and_older",
-        "expression":"enrolled_in_care_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art",
-        "expression":"starting_art",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"screened_for_tb",
-        "expression":"screened_for_tb",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"screened_for_tb_males_below_15",
-        "expression":"screened_for_tb_males_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"screened_for_tb_females_below_15",
-        "expression":"screened_for_tb_females_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"screened_for_tb_males_15_and_older",
-        "expression":"screened_for_tb_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"screened_for_tb_females_15_and_older",
-        "expression":"screened_for_tb_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"condoms_provided",
-        "expression":"condoms_provided",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"using_modern_contracept_method",
-        "expression":"using_modern_contracept_method",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"female_gte_18yo_visits",
-        "expression":"female_gte_18yo_visits",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"scheduled_visits",
-        "expression":"scheduled_visits",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"unscheduled_visits",
-        "expression":"unscheduled_visits",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"total_visits",
-        "expression":"total_visits",
-        "sql":"[scheduled_visits]+[unscheduled_visits]"
-      },
-      {
-        "label":"on_art_total",
-        "expression":"on_art_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art",
-        "expression":"on_art",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art_males_lt_one",
-        "expression":"on_art_males_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art_females_lt_one",
-        "expression":"on_art_females_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art_males_below_15",
-        "expression":"on_art_males_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art_females_below_15",
-        "expression":"on_art_females_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art_males_15_and_older",
-        "expression":"on_art_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art_females_15_and_older",
-        "expression":"on_art_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_total",
-        "expression":"starting_art_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_males_lt_one",
-        "expression":"starting_art_males_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_females_lt_one",
-        "expression":"starting_art_females_lt_one",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_males_below_15",
-        "expression":"starting_art_males_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_females_below_15",
-        "expression":"starting_art_females_below_15",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_males_15_and_older",
-        "expression":"starting_art_males_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_females_15_and_older",
-        "expression":"starting_art_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      }
-    ],
-    "supplementColumns":[
-      {
-        "label":"location",
-        "type":"single",
-        "sql":"t2.name"
-      },
-      {
-        "label":"location_uuid",
-        "type":"single",
-        "sql":"t1.location_uuid"
-      },
-      {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t1.location_id"
-      },
-      {
-        "label":"total_on_therapy_at_12_months",
-        "type":"single",
-        "sql":"t4.total_on_therapy_at_12_months"
-      },
-      {
-        "label":"art_net_cohort_at_12_months",
-        "type":"single",
-        "sql":"t4.art_net_cohort_at_12_months"
-      },
-      {
-        "label":"on_alternative_first_line",
-        "type":"single",
-        "sql":"t4.on_alternative_first_line"
-      },
-      {
-        "label":"on_original_first_line",
-        "type":"single",
-        "sql":"t4.on_original_first_line"
-      },
-      {
-          "label":"on_second_line",
-          "type": "single",
-          "sql": "t4.on_second_line"
-      }
-    ]
-  },
-  {
-    "name": "moh-731-summary-cumulative",
-    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
-    "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
-      {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
-    ],
-    "parameters": [
-      {"name":"locations","defaultValue":[]},
-      {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_id"}
-      ]
-      }
-    ],
-    "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
-    ],
-    "groupClause":[
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByMonth"}
-    ],
-    "indicators": [
-      {
-        "label":"on_alternative_first_line",
-        "expression":"on_alternative_first_line",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-        "label":"on_original_first_line",
-        "expression":"on_original_first_line",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-        "label":"art_net_cohort_at_12_months",
-        "expression":"art_net_cohort_at_12_months",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-        "label":"total_on_therapy_at_12_months",
-        "expression":"total_on_therapy_at_12_months",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-          "label":"on_second_line",
-          "expression": "on_second_line",
-          "sql": "count(distinct if($expression, t1.person_id,null))"
-      }
-    ],
-    "supplementColumns":[
-      {
-        "label":"location",
-        "type":"single",
-        "sql":"t2.name"
-      },
-      {
-        "label":"location_uuid",
-        "type":"single",
-        "sql":"t1.location_uuid"
-      },
-      {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t1.location_id"
-      }]
-  },
-  {
-    "name": "moh-731-summary-cumulative-revised",
-    "table":{"schema":"amrs","tableName":"location","alias":"t2"},
-    "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","alias":"t1","joinExpression":"t1.location_id=t2.location_id ",
-        "joinedReport":"moh-731-summary"}
-    ],
-    "parameters": [
-        {"name":"groupByLocation", "defaultValue":[
-        {"label":"location_id","expression":"t1.location_id"}
-      ]
-    }
-    ],
-    "filters": [],
-    "groupClause":[
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByMonth"}
-    ],
-    "indicators": [
-      {
-        "label":"on_alternative_first_line",
-        "expression":"on_alternative_first_line",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-        "label":"on_original_first_line",
-        "expression":"on_original_first_line",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-        "label":"art_net_cohort_at_12_months",
-        "expression":"art_net_cohort_at_12_months",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-        "label":"total_on_therapy_at_12_months",
-        "expression":"total_on_therapy_at_12_months",
-        "sql":"count(distinct if($expression, t1.person_id,null))"
-      },
-      {
-          "label":"on_second_line",
-          "expression": "on_second_line",
-          "sql": "count(distinct if($expression, t1.person_id,null))"
-      }
-    ],
-    "supplementColumns":[
-      {
-        "label":"location_uuid",
-        "type":"single",
-        "sql":"t1.location_uuid"
-      },
-      {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t1.location_id"
-      }]
-  },
-  {
-    "name": "moh-731-summary",
-    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
-    "joins":[],
-    "parameters": [
-      {"name":"locations","defaultValue":[]},
-      {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"startDate", "defaultValue":"2015-10-31"},
-      {"name":"groupByPerson", "defaultValue":[
-        {"label":"person_id","expression":"t1.person_id"}
-      ]
-      }
-    ],
-    "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"date(t1.arv_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
-      {"expression":"date(t1.arv_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"}
-    ],
-    "groupClause":[
-      {"parameter":"groupByPerson"}
     ],
     "indicators": [],
     "supplementColumns":[
       {
-        "label":"person_id",
-        "type":"single",
-        "sql":"t1.person_id"
-      },
+        "label":"all",
+        "type":"all",
+        "sql":"*"
+      }
+    ]
+  },
+  {
+    "name": "MOH-731-allsites-report",
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-indicator-allsites-report"},
+    "joins":[
+      {"joinType":"INNER JOIN","schema":"","alias":"t3","joinExpression":"",
+        "dynamicDataset":"moh-731-12month-indicator-allsites-report"}
+    ],
+    "parameters": [],
+    "filters": [],
+    "groupClause":[],
+    "indicators": [],
+    "supplementColumns":[
       {
-        "label":"location_uuid",
-        "type":"single",
-        "sql":"t1.location_uuid"
-      },
-      {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t1.location_id"
-      },
-      {
-        "label":"cur_arv_line",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,cur_arv_line)),20)"
-      },
-      {
-        "label":"cur_arv_meds",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,cur_arv_meds)),20)"
-      },
-      {
-        "label":"arv_first_regimen",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,arv_first_regimen)),20)"
-      },
-      {
-        "label":"rtc_date",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,rtc_date)),20)"
-      },
-      {
-        "label":"encounter_datetime",
-        "type":"single",
-        "sql":"max(encounter_datetime)"
-      },
-      {
-        "label":"death_date",
-        "type":"single",
-        "sql":"max(death_date)"
-      },
-      {
-        "label":"transfer_out",
-        "type":"single",
-        "sql":"max(transfer_out)"
-      },
-      {
-        "label":"out_of_care",
-        "type":"single",
-        "sql":"max(out_of_care)"
-      },
-      {
-        "label":"arv_start_date",
-        "type":"single",
-        "sql":"arv_start_date"
+        "label":"all",
+        "type":"all",
+        "sql":"*"
       }
     ]
   }
