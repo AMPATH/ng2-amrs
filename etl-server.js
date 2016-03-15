@@ -10,7 +10,10 @@ var tls = require('tls');
 var fs = require('fs');
 var routes = require('./etl-routes');
 var elasticRoutes = require('./elastic/routes/care.treatment.routes');
-
+var Inert = require('inert');
+var Vision = require('vision');
+var HapiSwagger = require('hapi-swagger');
+var Pack = require('./package');
 var server = new Hapi.Server({
   connections: {
     //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
@@ -65,23 +68,41 @@ var validate = function(username, password, callback) {
 
 
 };
-
-
-server.register([{
-    register: Basic,
-    options: {}
+var HapiSwaggerOptions = {
+  info: {
+    'title': 'REST API Documentation',
+    'version': Pack.version,
+  },
+  tags: [{
+    'name': 'patient'
   }, {
-    register: Good,
-    options: {
-      reporters: [{
-        reporter: require('good-console'),
-        events: {
-          response: '*',
-          log: '*'
-        }
-      }]
-    }
+    'name': 'location'
   }],
+  sortEndpoints: 'path'
+};
+
+
+server.register([
+    Inert,
+    Vision, {
+      'register': HapiSwagger,
+      'options': HapiSwaggerOptions
+    }, {
+      register: Basic,
+      options: {}
+    }, {
+      register: Good,
+      options: {
+        reporters: [{
+          reporter: require('good-console'),
+          events: {
+            response: '*',
+            log: '*'
+          }
+        }]
+      }
+    }
+  ],
 
   function(err) {
     if (err) {
