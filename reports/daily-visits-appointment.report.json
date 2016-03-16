@@ -11,6 +11,13 @@
     "tableName": "patient_identifier",
     "alias": "t2",
     "joinExpression": "t1.person_id  = t2.patient_id"
+  },
+  {
+    "joinType": "INNER JOIN",
+    "schema": "amrs",
+    "tableName": "person",
+    "alias": "t3",
+    "joinExpression": "t1.person_id  = t3.person_id"
   }
 ],
   "parameters": [{
@@ -21,12 +28,12 @@
     "defaultValue": []
   },
   {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"person_id"}
+      {"label":"person_id","expression":"t1.person_id"}
   ]}
 ]
 ,
 "filters": [{
-  "expression": "person_id in (select distinct person_id from etl.flat_hiv_summary where date(rtc_date) = ? and location_id in ? and encounter_type != 99999)",
+  "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where date(rtc_date) = ? and location_id in ? and encounter_type != 99999)",
   "parameter": "startDate,locations"
 },
 {
@@ -54,7 +61,7 @@
 {
 "label": "uuid",
 "type": "single",
-"sql": "t1.uuid"
+"sql": "t3.uuid"
 },
  {
 "label": "given_name",
@@ -89,6 +96,13 @@
     "tableName": "patient_identifier",
     "alias": "t2",
     "joinExpression": "t1.person_id  = t2.patient_id"
+  },
+  {
+    "joinType": "INNER JOIN",
+    "schema": "amrs",
+    "tableName": "person",
+    "alias": "t3",
+    "joinExpression": "t1.person_id  = t3.person_id"
   }
 ],
   "parameters": [{
@@ -99,12 +113,12 @@
     "defaultValue": []
   },
   {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"person_id"}
+      {"label":"person_id","expression":"t1.person_id"}
   ]}
 ]
 ,
 "filters": [{
-  "expression": "person_id in (select distinct person_id from etl.flat_hiv_summary where date(encounter_datetime) = ? and location_id in ? and encounter_type != 99999)",
+  "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where date(encounter_datetime) = ? and location_id in ? and encounter_type != 99999)",
   "parameter": "startDate,locations"
 },
 {
@@ -132,7 +146,7 @@
 {
 "label": "uuid",
 "type": "single",
-"sql": "t1.uuid"
+"sql": "t3.uuid"
 },
  {
 "label": "given_name",
@@ -175,6 +189,13 @@
     "tableName": "patient_identifier",
     "alias": "t4",
     "joinExpression": "t3.person_id  = t4.patient_id"
+  },
+  {
+    "joinType": "INNER JOIN",
+    "schema": "amrs",
+    "tableName": "person",
+    "alias": "t3",
+    "joinExpression": "t1.person_id  = t3.person_id"
   }
 ],
   "parameters": [{
@@ -185,7 +206,7 @@
     "defaultValue": []
   },
   {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"person_id"}
+      {"label":"person_id","expression":"t1.person_id"}
   ]}
 ]
 ,
@@ -225,7 +246,7 @@
 {
 "label": "uuid",
 "type": "single",
-"sql": "t1.uuid"
+"sql": "t3.uuid"
 }
 , {
 "label": "encounter_id",
@@ -283,7 +304,7 @@
     "defaultValue": []
   },
   {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"person_id"}
+      {"label":"person_id","expression":"t1.person_id"}
   ]}
 ]
 ,
@@ -389,7 +410,7 @@
     "defaultValue": []
   },
   {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"person_id"}
+      {"label":"person_id","expression":"t1.person_id"}
   ]}
 ]
 ,

@@ -33,7 +33,7 @@ module.exports = function() {
       });
     },
     getReportIndicators: function getReportIndicators(request, callback) {
-      console.log('Getting Here', request.query);
+      // console.log('Getting Here', request.query);
       var reportName = request.query.report;
       var countBy = request.query.countBy;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
@@ -80,7 +80,7 @@ module.exports = function() {
       };
       //build report
       var queryParts =reportFactory.singleReportToSql(requestParams);
-
+      console.log('Query parts before getting to the server',queryParts.length);
       db.reportQueryServer(queryParts, function(results) {
         callback(reportFactory.resolveIndicators(reportName, results));
       });

@@ -1,12 +1,12 @@
 [
   {
     "name": "MOH-731",
-    "table":{"schema":"","tableName":"","alias":"t1","hasNested":"moh-731-past_three_months"},
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-past_three_months"},
     "joins":[
       {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"t1.location_id=t2.location_id ",
-        "joinedReport":"moh-731-summary-current_month"},
+        "dynamicDataset":"moh-731-summary-current_month"},
       {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"t1.location_id=t3.location_id",
-        "joinedReport":"moh-731-summary-cumulative"}
+        "dynamicDataset":"moh-731-summary-cumulative"}
     ],
     "parameters": [
       {"name":"groupByLocation", "defaultValue":[
@@ -33,12 +33,12 @@
   },
   {
     "name": "MOH-731-Combined-Location",
-    "table":{"schema":"","tableName":"","alias":"t1","hasNested":"moh-731-past_three_months"},
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-past_three_months"},
     "joins":[
       {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"",
-        "joinedReport":"moh-731-summary-current_month"},
+        "dynamicDataset":"moh-731-summary-current_month"},
       {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"",
-        "joinedReport":"moh-731-summary-cumulative"}
+        "dynamicDataset":"moh-731-summary-cumulative"}
     ],
     "parameters": [
       {"name":"groupByLocation", "defaultValue":[

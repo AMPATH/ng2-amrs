@@ -125,28 +125,39 @@
     {
         "name":"on_pcp_prophylaxis",
         "label": "on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date"
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and coalesce(t1.death_date, out_of_care) is null"
     },
     {
         "name":"on_pcp_prophylaxis_males_below_15",
         "label": "Total # of male patients less than 15 who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15"
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
 
     },
     {
         "name":"on_pcp_prophylaxis_females_below_15",
         "label": "Total # of female patients less than 15 who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15"
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
     },
     {
         "name":"on_pcp_prophylaxis_males_15_and_above",
         "label": "Total # of male patients 15 and older who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15"
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"on_pcp_prophylaxis_below_15",
+        "label": "Total # of female patients less than 15 who are on PCP prophylaxis",
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and timestampdiff(year,birthdate,endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
     },
     {
         "name":"on_pcp_prophylaxis_females_15_and_above",
         "label": "Total # of female patients 15 and older who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15"
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
+
+    },
+    {
+        "name":"on_pcp_prophylaxis_15_and_above",
+        "label": "Total # of female patients 15 and older who are on PCP prophylaxis",
+        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and timestampdiff(year,birthdate,endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
 
     },
     {
@@ -406,8 +417,21 @@
         "label": "Total #  patient on ART",
         "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
-
-
+    {
+        "name":"ever_on_art",
+        "label": "Total #  patient ever on ART",
+        "expression": "arv_start_date>=enrollment_date"
+    },
+    {
+        "name":"ever_on_art_below_15",
+        "label": "Total #  patient ever on ART Below 15yrs",
+        "expression": "arv_start_date>=enrollment_date and timestampdiff(year,birthdate,endDate) < 15"
+    },
+    {
+        "name":"ever_on_art_15_and_older",
+        "label": "Total #  patient ever on ART 15yrs and older",
+        "expression": "arv_start_date>=enrollment_date and timestampdiff(year,birthdate,endDate) >= 15"
+    },
     {
         "name":"encounter_type",
         "label": "encounter_type",

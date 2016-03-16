@@ -1,6 +1,6 @@
  [{
   "name": "attended",
-  "table":{"schema":"","tableName":"","alias":"t1","hasNested":"attended-data-table"},
+  "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"attended-data-table"},
   "joins":[
   ],
   "parameters": [
@@ -97,7 +97,7 @@
  },
  {
   "name": "appointments",
-  "table":{"schema":"","tableName":"","alias":"t1","hasNested":"appointments-data-table"},
+  "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"appointments-data-table"},
   "joins":[
   ],
   "parameters": [
