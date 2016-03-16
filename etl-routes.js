@@ -445,9 +445,6 @@ module.exports = function () {
         method: 'GET',
         path: '/etl/patient-by-indicator',
         config: {
-            options: {
-                allowUnknown: true
-            },
             auth: 'simple',
             handler: function (request, reply) {
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
@@ -478,6 +475,9 @@ module.exports = function () {
             notes: 'Returns a patient by passing a given indicator and location.',
             tags: ['api'],
             validate: {
+                options: {
+                    allowUnknown: true
+                },
                 query: {
                     indicator: Joi.string()
                         .required()
