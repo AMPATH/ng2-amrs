@@ -1,0 +1,60 @@
+   [
+       {
+        "name": "clinical-reminder-report",
+           "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+           "joins":[
+           ],
+           "parameters": [
+               {"name":"patientUuid", "defaultValue":[]},
+               {"name":"@referenceDate", "defaultValue":["defaultValue"]}
+           ],
+           "filters": [
+             {"expression":"t1.uuid = ?", "parameter":"patientUuid"},
+             {"expression":"t1.encounter_datetime < ?", "parameter":"@referenceDate"}
+           ],
+           "groupClause":[
+           ],
+           "indicators": [
+               {
+                   "label":"needs_vl_coded",
+                   "expression":"needs_vl_coded",
+                   "sql":"$expression"
+               },
+               {
+                 "label":"overdue_vl_lab_order",
+                 "expression":"overdue_vl_lab_order",
+                 "sql":"$expression"
+               },
+               {
+                 "label":"needs_cd4_count_coded",
+                 "expression":"needs_cd4_count_coded",
+                 "sql":"$expression"
+               },
+               {
+                 "label":"overdue_cd4_count_lab_order",
+                 "expression":"overdue_cd4_count_lab_order",
+                 "sql":"$expression"
+               }
+
+           ],
+           "supplementColumns":[
+
+               {
+                   "label":"last_encounter_date",
+                   "type":"single",
+                   "sql":"MAX(t1.encounter_datetime)"
+               },
+               {
+                   "label":"person_id",
+                   "type":"single",
+                   "sql":"t1.person_id"
+               },
+               {
+                   "label":"person_uuid",
+                   "type":"single",
+                   "sql":"t1.uuid"
+               }
+           ]
+
+       }
+   ]

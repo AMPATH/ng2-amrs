@@ -683,6 +683,26 @@
         "name":"on_arvs_gt_26_weeks",
         "label": "# of patient(s) who have been on ARVs 26 weeks or more",
         "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
+    },
+    {
+        "name":"needs_vl_coded",
+        "label": "Patient level coded indicator that determines whether patient requires a Viral load",
+        "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,vl_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_start_date, @referenceDate) <= 12 and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_start_date, @referenceDate) > 12 and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) > 12) then 3 else 0 end"
+    },
+    {
+      "name":"overdue_vl_lab_order",
+      "label": "Patient level coded indicator that determines whether patient Viral load order is overdue",
+      "expression": "case when timestampdiff(day,vl_order_date, @referenceDate) > 30 and vl_1_date is null or vl_order_date > vl_1_date then 1 else 0 end "
+    },
+    {
+        "name":"needs_cd4_count_coded",
+        "label": "Patient level coded indicator that determines whether patient requires a Viral load",
+        "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,cd4_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_start_date, @referenceDate) <= 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_start_date, @referenceDate) > 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 12) then 3 else 0 end"
+    },
+    {
+        "name":"overdue_cd4_count_lab_order",
+        "label": "Patient level coded indicator that determines whether patient Viral load order is overdue",
+        "expression": "case when timestampdiff(day,cd4_order_date, @referenceDate) > 30 and cd4_1_date is null or cd4_order_date > cd4_1_date then timestampdiff(day,cd4_order_date, @referenceDate) else 0 end "
     }
 
 
