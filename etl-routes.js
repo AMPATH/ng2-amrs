@@ -586,6 +586,37 @@ module.exports = function () {
             }
 
         }
+    },{
+        method: 'GET',
+        path: '/etl/patient-list-by-indicator',
+        config: {
+            auth: 'simple',
+            handler: function (request, reply) {
+                var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+
+                var onResolvedPromise = function (promise) {
+                    asyncRequests--;
+                    if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                        dao.getPatientListReportByIndicatorAndLocation(request, reply);
+                    }
+                };
+
+                //establish the number of asyncRequests
+                //this is done prior to avoid any race conditions
+                if (request.query.locationUuids) {
+                    asyncRequests++;
+                }
+
+                if (asyncRequests === 0)
+                    dao.getPatientListReportByIndicatorAndLocation(request, reply);
+                if (request.query.locationUuids) {
+                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                        function (results) {
+                            request.query.locations = results;
+                        }).onResolved = onResolvedPromise;
+                }
+            }
+        }
     },
 
     ];
