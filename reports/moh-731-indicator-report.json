@@ -37,11 +37,6 @@
         "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
-        "label":"revisits_on_art",
-        "expression":"revisits_on_art",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
         "label":"currently_in_care_total",
         "expression":"currently_in_care_total",
         "sql":"count(distinct if($expression,t1.person_id,null))"
@@ -224,11 +219,6 @@
       {
         "label":"on_art_total",
         "expression":"on_art_total",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"on_art",
-        "expression":"on_art",
         "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {

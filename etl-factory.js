@@ -23,6 +23,7 @@ module.exports = function () {
     var reports;
     var indicatorsSchema;
     var indicatorHandlers;
+    var indicatorMap;
     initialize(reportList, indicatorsSchemaDefinition, indicatorHandlersDefinition);
     return {
         buildPatientListExpression: buildPatientListExpression,
@@ -35,7 +36,8 @@ module.exports = function () {
         getIndicatorsSchema: getIndicatorsSchema,
         setIndicatorsSchema: setIndicatorsSchema,
         getIndicatorHandlers: getIndicatorHandlers,
-        setIndicatorHandlers: setIndicatorHandlers
+        setIndicatorHandlers: setIndicatorHandlers,
+        buildPatientListReportExpression: buildPatientListReportExpression
     };
     function getReportList() {
         return reports;
@@ -60,6 +62,20 @@ module.exports = function () {
     function setIndicatorHandlers(_indicatorHandlers) {
         indicatorHandlers = _indicatorHandlers;
     }
+    function createIndicatorMap() {
+        // create a map
+        var map = {};
+        // Add key, value pairs into the map with indicator object
+        _.each(indicatorsSchema, function (indicator) {
+            var key = indicator.name;
+            var value = indicator;
+            map[key] = value;
+        });
+        //make map global
+        indicatorMap = map;
+
+    }
+
 
     function initialize(_reports, _indicatorsSchema, _indicatorHandlers) {
         setReportList(_reports);
@@ -181,7 +197,6 @@ module.exports = function () {
       _.each(reports, function (report) {
 
           if (report.name === reportName) {
-            // console.log('Current selected Report Name: ', reportName);
             var nestedParts = '';
               if (report.table.dynamicDataset && report.table.dynamicDataset !== reportName) {
                 _buildQueryParts(requestParams, report.table.dynamicDataset, queryPartsArray);
@@ -207,7 +222,6 @@ module.exports = function () {
                   offset: requestParams.offset,
                   limit: requestParams.limit
               };
-              // console.log('Nested Parts>>>>', queryParts.nestedParts);
               queryPartsArray.push(queryParts);
           }
       });
@@ -217,7 +231,6 @@ module.exports = function () {
         if (requestParams === null || requestParams === undefined) return "";
         var queryPartsArray = [];
         _buildQueryParts(requestParams, reportName, queryPartsArray);
-        // console.log('Current parts array: ', queryPartsArray);
         return queryPartsArray;
     }
 
@@ -397,7 +410,7 @@ function replaceIndicatorParam(_indicatorExpression, requestParam) {
                     joinType: join.joinType,
                     joinedQuerParts: queryParts[0]
                 };
-                // console.log('testing joinedReport', joinOject);
+                // console.log('testing dynamicDataset', joinOject);
                 result.push(joinOject);
                 //var r = [join['schema'] + '.' + join['tableName'], join['alias'], join['joinExpression'], join['joinType']];
             }
@@ -430,7 +443,6 @@ function replaceIndicatorParam(_indicatorExpression, requestParam) {
       var matchingWhereExpression = _.find(whereParams, function(whereParam){
         if ((whereParam["name"] === reportFilter["parameter"] &&
         whereParam["value"])|| reportFilter["processForce"] === true) {
-          console.log('final Method report--->', whereParam);
           return whereParam;
         }
 
@@ -508,5 +520,157 @@ function replaceIndicatorParam(_indicatorExpression, requestParam) {
 
         return result;
     }
+
+    //converts a set of indicators into sql columns
+    function indicatorsToFilter(report, requestParam) {
+       // console.log('request parameters', requestParam);
+        var result = '';
+        //converts set of indicators to sql columns
+        _.each(report.indicators, function (singleIndicator) {
+            _.each(indicatorsSchema, function (indicator) {
+                if (requestParam.requestIndicators) {
+                    //compare request params indicator list corresponds to the singleIndicator
+                    _.each(requestParam.requestIndicators.split(','), function (requestIndicatorName) {
+                        if (indicator.name === requestIndicatorName) {
+                            if (indicator.name === singleIndicator.expression) {
+                                //Determine indicator type, whether it is derived or an independent indicator
+                                if (singleIndicator.sql.match(/\[(.*?)\]/)) {
+                                    //result.push(processesDerivedIndicator(report, singleIndicator, indicator));
+                                } else {
+                                    //check if indicator expression has endDate and startDate parameters
+                                    var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                                    result += '(' + indicatorExpression + ') or ';
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        var lastIndex = result.lastIndexOf(' or ');
+        result = result.substring(0, lastIndex);
+        return result;
+    }
+
+    function reportWhereClauseToFilter(queryParams, reportName) {
+        var reportParams = queryParams;
+        //
+        var whereClause = '';
+        var table='';
+        _.each(reports, function (report) {
+
+            if (report.name === reportName ) {
+                // reportParams.reportName = reportName;
+                var reportWhereClause = filtersToSql(reportParams.whereParams, report.parameters, report.filters);;
+                if(report.table.schema!==''&&report.table.table!=='') {
+                    table = report.table['schema'] + '.' + report.table['tableName'];
+                }
+                var indicatorWhereClause = indicatorsToFilter(report, reportParams);
+                if( reportWhereClause[0]) {
+                    reportWhereClause[0] = reportWhereClause[0] + ' and ' + indicatorWhereClause;
+                }else{
+                    reportWhereClause[0] = indicatorWhereClause;
+                }
+                if (indicatorWhereClause) whereClause = reportWhereClause;
+
+
+            }
+        });
+
+
+        return {
+            whereClause:whereClause,
+            table:table
+
+        };
+    }
+    function dynamicDataSetToFilter(queryParams, reportName){
+        var query='';
+        var param=[];
+        if(reportName!==undefined) {
+            var resource = reportWhereClauseToFilter(queryParams, reportName);
+            var filter =resource.whereClause;
+            if (filter) {
+                query += filter[0] + ' and ';
+                filter.shift();
+                param.push.apply(param, filter);
+            }
+            var lastIndex = query.lastIndexOf(' and ');
+            query = query.substring(0, lastIndex);
+        }
+        return {
+            query:query,
+            params:param
+        };
+    }
+    function buildQueryAndParams(reportName,queryParams) {
+        var query = '';
+        var param = [];
+        console.log('Get report---->', reportName);
+        _.each(reports, function (report) {
+            if (report.name === reportName) {
+                var filter = dynamicDataSetToFilter(queryParams, report.name);
+                if (filter.query !== '') {
+                    query += filter.query + ' and ';
+                    param.push.apply(param, filter.params);
+                }
+                _.each(report.joins, function (join) {
+                    if (join.dynamicDataset) {
+                        var filter = buildQueryAndParams(join.dynamicDataset, queryParams);
+                        if (filter.query !== '') {
+                            query += filter.query + ' and ';
+                            param.push.apply(param, filter.params);
+                        }
+                    }
+                });
+                if (report.table.dynamicDataset) {
+                    var filter = buildQueryAndParams(report.table.dynamicDataset, queryParams, query, param);
+                    if (filter.query !== '') {
+                        query += filter.query + ' and ';
+                        param.push.apply(param, filter.params);
+                    }
+                }
+            }
+        });
+
+        var lastIndex = query.lastIndexOf(' and ');
+        query = query.substring(0, lastIndex);
+        return {
+            query: query,
+            params: param
+        };
+
+    }
+
+    function buildPatientListReportExpression(queryParams, successCallback) {
+        var result = {
+            whereClause: [],
+            resource: ''
+        };
+
+        //Check for undefined params
+        if (queryParams === null || queryParams === undefined) return "";
+        _.each(reports, function (report) {
+            if (report.name === queryParams.reportName) {
+
+                var filter=buildQueryAndParams(report.name,queryParams);
+                if(filter.params.length===0) {
+                    filter.query += ' and '+report.filters[0].expression ;
+                    _.each(queryParams.whereParams, function (whereParam) {
+                        if (whereParam.name === 'locations') {
+                            filter.params.push( whereParam.value);
+                        }
+
+                    });
+                }
+                result.whereClause.push(filter.query);
+                result.whereClause.push.apply(result.whereClause, filter.params);
+                result.resource = filter.table;
+            }
+        });
+        successCallback(result);
+    }
+
+
 
 }();
