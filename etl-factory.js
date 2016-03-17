@@ -202,6 +202,7 @@ module.exports = function () {
                   joins: joinsToSql(report.joins, requestParams),
                   where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
                   group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
+                  having: filtersToSql(requestParams.whereParams, report.parameters, report.having),
                   order: requestParams.order,
                   offset: requestParams.offset,
                   limit: requestParams.limit
@@ -422,6 +423,7 @@ function replaceIndicatorParam(_indicatorExpression, requestParam) {
         });
         return result;
     }
+
 
     function _getMatchingWhereExpression(whereParams, reportFilter) {
 
