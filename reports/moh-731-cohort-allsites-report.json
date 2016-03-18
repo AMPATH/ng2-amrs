@@ -4,6 +4,7 @@
     "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[],
     "parameters": [
+      {"name":"locations","defaultValue":[]},
       {"name":"endDate", "defaultValue":"2015-10-31"},
       {"name":"startDate", "defaultValue":"2015-10-31"},
       {"name":"groupByPerson", "defaultValue":[
@@ -12,6 +13,7 @@
       }
     ],
     "filters": [
+      {"expression":"t1.location_id in ?","parameter":"locations"},
       {"expression":"date(t1.arv_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
       {"expression":"date(t1.arv_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"},
       {"expression":"t1.is_clinical_encounter = 1"}
@@ -91,12 +93,14 @@
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
     ],
     "parameters": [
+      {"name":"locations","defaultValue":[]},
       {"name":"groupByPerson", "defaultValue":[
         {"label":"person_id","expression":"t1.person_id"}
       ]
       }
     ],
     "filters": [
+      {"expression":"t1.location_id in ?","parameter":"locations"},
       {"expression":"t1.is_clinical_encounter = 1"}
     ],
     "groupClause":[

@@ -7,10 +7,12 @@
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
     ],
     "parameters": [
+      {"name":"locations","defaultValue":[]},
       {"name":"startDate", "defaultValue":"2015-10-01"},
       {"name":"endDate", "defaultValue":"2015-10-31"}
     ],
     "filters": [
+      {"expression":"t1.location_id in ?","parameter":"locations"},
       {"expression":"date(t1.encounter_datetime) >= DATE_SUB( ?, INTERVAL 2 MONTH)", "parameter":"startDate"},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
       {"expression":"t1.is_clinical_encounter = 1"}

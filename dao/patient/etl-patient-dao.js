@@ -24,10 +24,28 @@ module.exports = function() {
         limit: request.query.limit
       };
 
+      var qParts = {
+        columns: "*",
+        table: "amrs.encounter_type",
+        where: ["retired = ?", 0],
+        offset: request.query.startIndex,
+        limit: 1000
+      };
+      var encounterTypeNames = {};
+      //get encounter type Name
+      db.queryServer_test(qParts, function(result) {
+        console.log('returned rows : ', result.result.length);
+        _.each(result.result, function(row) {
+          encounterTypeNames[row.encounter_type_id] = row.name;
+        });
+      });
+
       db.queryServer_test(queryParts, function(result) {
         _.each(result.result, function(row) {
           row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
           row.arv_first_regimen = helpers.getARVNames(row.arv_first_regimen);
+          row['encounter_type_name'] = encounterTypeNames[row.encounter_type];
+          row['prev_encounter_type_name'] = encounterTypeNames[row.prev_encounter_type_hiv];
         });
         callback(result);
       });

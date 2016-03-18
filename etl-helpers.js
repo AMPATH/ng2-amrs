@@ -41,6 +41,7 @@ module.exports = function () {
             console.log(vals);
             return {s: s, vals: vals};
         },
+
         getARVNames: function getARVNames(str) {
             if (str === null || str === undefined) return "";
             var arvs = {
@@ -118,4 +119,3 @@ module.exports = function () {
     }
     }
 }();
-
