@@ -38,6 +38,7 @@ module.exports = function() {
       var countBy = request.query.countBy;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+      var referenceDate = request.query.referenceDate || new Date().toISOString().substring(0, 10);
       var order = helpers.getSortOrder(request.query.order);
       var locations;
       if (request.query.locations) {
@@ -62,7 +63,7 @@ module.exports = function() {
           "value": locations
         }, {
           "name": "@referenceDate",
-          "value": request.query["referenceDate"]
+          "value": referenceDate
         }, {
           "name": "patientUuid",
           "value": request.query["patientUuid"]
