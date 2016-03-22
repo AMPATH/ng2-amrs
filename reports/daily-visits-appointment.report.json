@@ -118,7 +118,7 @@
 ]
 ,
 "filters": [{
-  "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where date(encounter_datetime) = ? and location_id in ? and encounter_type != 99999)",
+  "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where date(encounter_datetime) = ? and location_id in ? and encounter_type not in (21,99999))",
   "parameter": "startDate,locations"
 },
 {
@@ -214,8 +214,12 @@
 ,
 "filters": [
   {
-    "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where rtc_date =? and location_id in ?)",
-    "parameter": "startDate,locations"
+    "expression": "t1.rtc_date =?",
+    "parameter": "startDate"
+  },
+  {
+    "expression": "t1.location_id in ?",
+    "parameter": "locations"
   },
 {
   "expression": "t4.voided = 0",
@@ -226,27 +230,25 @@
   "expression": "t3.voided = 0",
   "parameter": "",
   "processForce":true
+},
+{
+  "expression": "death_date is null",
+  "parameter": "",
+  "processForce":true
+},
+{
+  "expression": "transfer_out is null",
+  "parameter": "",
+  "processForce":true
+},
+{
+  "expression": "next_clinic_datetime is null",
+  "parameter": "",
+  "processForce":true
 }
 ],
 "groupClause": [
   {"parameter":"groupByPerson"}
-],
-"having":[
-  {
-    "expression": "death_date is null",
-    "parameter": "",
-    "processForce":true
-  },
-  {
-    "expression": "transfer_out is null",
-    "parameter": "",
-    "processForce":true
-  },
-  {
-    "expression": "next_clinic_datetime is null",
-    "parameter": "",
-    "processForce":true
-  }
 ],
 "indicators": [],
 "supplementColumns": [{
@@ -279,21 +281,6 @@
 "label": "identifiers",
 "type": "single",
 "sql": "group_concat(distinct t4.identifier order by t4.identifier asc)"
-},
-{
-"label": "death_date",
-"type": "single",
-"sql": "max(death_date)"
-},
-{
-"label": "transfer_out",
-"type": "single",
-"sql": "max(transfer_out)"
-},
-{
-"label": "next_clinic_datetime",
-"type": "single",
-"sql": "max(next_clinic_datetime)"
 }
 ]
 }
