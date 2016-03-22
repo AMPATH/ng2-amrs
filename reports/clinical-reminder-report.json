@@ -39,21 +39,49 @@
            ],
            "supplementColumns":[
 
-               {
-                   "label":"last_encounter_date",
-                   "type":"single",
-                   "sql":"MAX(t1.encounter_datetime)"
-               },
-               {
+             {
+                 "label":"last_encounter_date",
+                 "type":"single",
+                 "sql":"t1.encounter_datetime"
+             },
+             {
                    "label":"person_id",
                    "type":"single",
                    "sql":"t1.person_id"
-               },
-               {
+             },
+             {
                    "label":"person_uuid",
                    "type":"single",
                    "sql":"t1.uuid"
+             },
+             {
+                   "label":"arv_start_date",
+                   "type":"single",
+                   "sql":"t1.arv_start_date"
+              },
+              {
+                   "label":"cur_arv_meds",
+                   "type":"single",
+                   "sql":"t1.cur_arv_meds"
+               },
+               {
+                   "label":"viral_load",
+                   "type":"single",
+                   "sql":"t1.vl_1"
+               },
+               {
+                   "label":"vl_order_date",
+                   "type":"single",
+                   "sql":"t1.vl_order_date"
+               },
+               {
+                   "label":"last_vl_date",
+                   "type":"single",
+                   "sql":"t1.vl_1_date"
                }
+           ],
+           "orderBy":[
+             {"column":"encounter_datetime", "order":"desc", "name":"orderByDate"}
            ]
 
        }

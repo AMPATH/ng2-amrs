@@ -218,7 +218,7 @@ module.exports = function () {
                   where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
                   group: groupClauseToSql(report.groupClause, requestParams.groupBy, report.parameters),
                   having: filtersToSql(requestParams.whereParams, report.parameters, report.having),
-                  order: requestParams.order,
+                  order: orderByToSql(report),
                   offset: requestParams.offset,
                   limit: requestParams.limit
               };
@@ -232,6 +232,21 @@ module.exports = function () {
         var queryPartsArray = [];
         _buildQueryParts(requestParams, reportName, queryPartsArray);
         return queryPartsArray;
+    }
+
+    function orderByToSql(report) {
+        var order=[];
+        if(!report.orderBy) return null;
+        _.each(report.orderBy, function (orderBy) {
+            order.push(
+                {
+                    column: orderBy.column,
+                    asc: (orderBy.order.toLowerCase() === "asc")
+                }
+            );
+        });
+        console.log('----------------------->returned order by',order)
+        return order;
     }
 
 
