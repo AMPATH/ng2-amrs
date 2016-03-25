@@ -851,13 +851,20 @@
         "name":"needs_vl_coded",
         "label":"needs vl coded",
         "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,vl_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_start_date, @referenceDate) <= 12 and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_start_date, @referenceDate) > 12 and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) > 12) then 3 else 0 end"
+        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @referenceDate) >= 90) then 1 when (timestampdiff(month,arv_start_date, @referenceDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 6)  and (timestampdiff(month,arv_start_date, @referenceDate)>=6) then 2 when (timestampdiff(month,arv_start_date, @referenceDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 12) then 3 else 0 end"
+    },
+    {
+        "name":"months_since_last_vl_date",
+        "label":"months since last vl date",
+        "description": "Number of months since last vl date",
+        "expression": "timestampdiff(month,vl_1_date, @referenceDate)"
+
     },
     {
         "name":"overdue_vl_lab_order",
         "label":"overdue vl lab order",
         "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
-        "expression": "case when timestampdiff(day,vl_order_date, @referenceDate) > 30 and vl_1_date is null or vl_order_date > vl_1_date then timestampdiff(day,vl_order_date, @referenceDate) else 0 end "
+        "expression": "case when (timestampdiff(day,vl_order_date, @referenceDate) >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) then timestampdiff(day,vl_order_date, @referenceDate) else 0 end "
     },
     {
         "name":"needs_cd4_count_coded",
