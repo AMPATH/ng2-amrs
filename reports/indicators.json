@@ -748,13 +748,13 @@
         "name":"not_attended",
         "label":"not attended",
         "description": "not attended",
-        "expression": "date(t1.rtc_date)<>date(t2.next_clinic_datetime)"
+        "expression": "date(t1.rtc_date)<>date(next_clinical_datetime_hiv)"
     },
     {
         "name":"has_not_returned",
         "label":"has not returned",
         "description": "has not returned",
-        "expression": "date(t1.rtc_date) >=startDate and date(t1.rtc_date)< date(now()) and t2.next_clinic_datetime is null and death_date is null and transfer_out is null"
+        "expression": "date(t1.rtc_date) >=startDate and date(t1.rtc_date)< date(now()) and next_clinical_datetime_hiv is null and death_date is null and transfer_out is null"
     },
     {
         "name":"virally_suppressed_in_past_year",

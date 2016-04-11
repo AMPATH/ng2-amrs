@@ -83,7 +83,7 @@ module.exports = function() {
         columns: request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
         table: "etl.flat_hiv_summary",
         joins: [
-          ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
+        //  ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
           ['amrs.person_name', 't3', 't1.person_id = t3.person_id'],
           ['amrs.patient_identifier', 't4', 't1.person_id=t4.patient_id']
         ],
@@ -115,7 +115,7 @@ module.exports = function() {
         columns: request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
         table: "etl.flat_hiv_summary",
         joins: [
-          ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
+      //    ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
           ['amrs.person_name', 't3', 't1.person_id = t3.person_id'],
           ['amrs.patient_identifier', 't4', 't1.person_id=t4.patient_id']
         ],
@@ -147,11 +147,11 @@ module.exports = function() {
         columns: request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
         table: "etl.flat_hiv_summary",
         joins: [
-          ['etl.derived_encounter', 't2', 't1.encounter_id = t2.encounter_id'],
-          ['amrs.person_name', 't3', 't1.person_id = t3.person_id'],
+          ['amrs.person_name', 't3', 't1.person_id = t3.person_id']
           ['amrs.patient_identifier', 't4', 't1.person_id=t4.patient_id']
         ],
-        where: ["t1.location_uuid = ? and date(t1.rtc_date) between ? and ? and next_clinic_datetime is null",
+        where: ["t1.location_uuid = ? and t1.rtc_date between ? and ? and next_clinical_datetime_hiv is null",
+
           uuid, startDate, endDate
         ],
         group: ['person_id'],
@@ -208,14 +208,12 @@ module.exports = function() {
         "       SUM(CASE WHEN description = 'encounter' THEN total_scheduled ELSE 0 END) AS total," +
         "       (CASE WHEN CURDATE() > d THEN scheduled_and_attended ELSE 0 END) as scheduled_and_attended," +
         "       (CASE WHEN CURDATE() >  d THEN has_not_returned ELSE 0 END) as has_not_returned from" +
-        "  (SELECT date(rtc_date) AS d, 'schedule' AS description, date_format(rtc_date,'%W') AS day_of_week, count(DISTINCT t1.person_id) AS total_scheduled,location_id, count(DISTINCT if(next_clinic_datetime IS NOT NULL,t1.person_id,NULL)) AS scheduled_and_attended, count(DISTINCT if(next_clinic_datetime IS NULL,t1.person_id,NULL)) AS has_not_returned" +
+        "  (SELECT date(rtc_date) AS d, 'schedule' AS description, date_format(rtc_date,'%W') AS day_of_week, count(DISTINCT t1.person_id) AS total_scheduled,location_id, count(DISTINCT if(next_clinical_datetime_hiv IS NOT NULL,t1.person_id,NULL)) AS scheduled_and_attended, count(DISTINCT if(next_clinical_datetime_hiv IS NULL,t1.person_id,NULL)) AS has_not_returned" +
         "   FROM etl.flat_hiv_summary t1" +
-        "   JOIN etl.derived_encounter t2 USING (encounter_id)" +
         "   WHERE t1.location_uuid = ?" +
-        "     AND date(rtc_date) BETWEEN ? AND ?  GROUP BY d" +
-        "   UNION SELECT date(encounter_datetime) AS d, 'encounter' AS description, date_format(encounter_datetime,'%W') AS day_of_week, count(DISTINCT t1.person_id) AS total_visits,location_id, count(DISTINCT if(next_clinic_datetime IS NOT NULL,t1.person_id,NULL)) AS scheduled_and_attended, count(DISTINCT if(next_clinic_datetime IS NULL,t1.person_id,NULL)) AS has_not_returned" +
+        "     AND rtc_date BETWEEN ? AND ?  GROUP BY d" +
+        "   UNION SELECT date(encounter_datetime) AS d, 'encounter' AS description, date_format(encounter_datetime,'%W') AS day_of_week, count(DISTINCT t1.person_id) AS total_visits,location_id, count(DISTINCT if(next_clinical_datetime_hiv IS NOT NULL,t1.person_id,NULL)) AS scheduled_and_attended, count(DISTINCT if(next_clinical_datetime_hiv IS NULL,t1.person_id,NULL)) AS has_not_returned" +
         "   FROM etl.flat_hiv_summary t1" +
-        "   JOIN etl.derived_encounter t2 USING (encounter_id)" +
         "   WHERE t1.location_uuid = ? " +
         "     AND date(encounter_datetime) BETWEEN ? AND ?" +
         "   GROUP BY d) AS a GROUP BY d;";

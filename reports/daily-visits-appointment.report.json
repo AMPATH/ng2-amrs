@@ -247,7 +247,7 @@
   "processForce":true
 },
 {
-  "expression": "next_clinic_datetime is null",
+  "expression": "next_clinical_datetime_hiv is null",
   "parameter": "",
   "processForce":true
 }
