@@ -99,6 +99,10 @@ module.exports = function() {
         creatoruuid: request.query.creatorUuid,
         formIds: request.query.formIds
       };
+
+      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+
       var columns;
       var groupBy;
       var orderBy = [];
@@ -106,7 +110,7 @@ module.exports = function() {
         ['amrs.encounter', 't2', 't1.encounter_id = t2.encounter_id'],
         ['amrs.encounter_type', 't3', 't3.encounter_type_id = t2.encounter_type']
       ];
-      var where = ["encounter_datetime >= ? and encounter_datetime <= ?", startDate, endDate];
+      var where = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
 
       helpers.buildWhereClauseForDataEntryIndicators(queryParams, where);
 
