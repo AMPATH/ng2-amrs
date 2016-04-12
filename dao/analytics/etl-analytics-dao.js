@@ -47,6 +47,10 @@ module.exports = function() {
           locations.push(Number(loc));
         });
       }
+
+      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+
       var requestIndicators = request.query.indicators;
 
       //build query params
@@ -250,11 +254,14 @@ module.exports = function() {
         "DATE_FORMAT(t3.birthdate,'00-%m-%d')) AS age, if(arv_start_date is not null, t1.person_id,null) as on_arvs, " +
           "t2.location_id";
 
-      var whereClause=["encounter_datetime >= ? and encounter_datetime <= ? " +
+      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+
+      var whereClause=["date(encounter_datetime) >= ? and date(encounter_datetime) <= ? " +
       "and t1.location_uuid in ?", startDate, endDate, locations];
       console.log('here is the no of locations selected', request.query.locationUuids);
       if (request.query.locationUuids===undefined)
-        whereClause= ["encounter_datetime >= ? and encounter_datetime <= ?", startDate, endDate];
+        whereClause= ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
       var queryParts = {
         columns: columns,
         table: "etl.flat_hiv_summary",
@@ -288,6 +295,9 @@ module.exports = function() {
         callback(Boom.badRequest('indicator (Report Indicator) is missing from your request query'));
       //declare query params
       //build query params
+
+      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
       var queryParams = {
         requestIndicators: requestIndicators,
