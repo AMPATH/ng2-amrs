@@ -91,9 +91,11 @@ module.exports = function() {
       });
     },
     getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {
-      var reportName = 'data-entry-statistic-report';
+      var reportName = subType;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
+      var referenceDate = request.query.referenceDate || new Date().toISOString().substring(0, 10);
+
       var queryParams = {
         reportName: reportName,
         countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
@@ -104,69 +106,60 @@ module.exports = function() {
         formIds: request.query.formIds
       };
 
+      var where = {};
+
+      helpers.buildWhereParamsDataEntryIndicators(queryParams, where);
+
+      var requestIndicators = request.query.indicators;
+
+      //build query params
       if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
       if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
-
-      var columns;
-      var groupBy;
-      var orderBy = [];
-      var joins = [
-        ['amrs.encounter', 't2', 't1.encounter_id = t2.encounter_id'],
-        ['amrs.encounter_type', 't3', 't3.encounter_type_id = t2.encounter_type']
-      ];
-      var where = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
-
-      helpers.buildWhereClauseForDataEntryIndicators(queryParams, where);
-
-      switch (subType) {
-        case 'by-date-by-encounter-type':
-          columns = ["date(encounter_datetime) as date, t2.encounter_type as encounter_type_id, " +
-            "t3.name as encounter_type, count(*) as encounters_count"
-          ];
-          groupBy = ['date', 'encounter_type_id'];
-          joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
-          break;
-        case 'by-month-by-encounter-type':
-          columns = ["year(encounter_datetime) as year, month(encounter_datetime)  as month_number, " +
-            "DATE_FORMAT(encounter_datetime, '%M, %Y') as month, t2.encounter_type as encounter_type_id," +
-            " t3.name as encounter_type, count(*) as encounters_count"
-          ];
-          groupBy = ['month', 'encounter_type_id'];
-          joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
-          orderBy = [{
-            column: 'year',
-            asc: true
-          }, {
-            column: 'month_number',
-            asc: true
-          }];
-          break;
-        case 'by-provider-by-encounter-type':
-          columns = ["t4.provider_id as provider_id, t4.uuid as provider_uuid, t2.encounter_type as " +
-            "encounter_type_id, t3.name as encounter_type, count(*) as encounters_count"
-          ];
-          groupBy = ['provider_id', 'encounter_type_id'];
-          joins.push(['amrs.provider', 't4', 't4.provider_id = t1.provider_id']);
-          break;
-        case 'by-creator-by-encounter-type':
-          columns = ["t5.user_id as creator_id, t5.uuid as user_uuid, t2.encounter_type as encounter_type_id," +
-            " t3.name as encounter_type, count(*) as encounters_count"
-          ];
-          groupBy = ['creator_id', 'encounter_type_id'];
-          joins.push(['amrs.users', 't5', 't2.creator = t5.user_id']);
-          break;
-      }
-
-      var queryParts = {
-        columns: columns,
-        table: "amrs.encounter_provider",
-        where: where,
-        joins: joins,
-        group: groupBy,
-        order: orderBy
+      var requestParams = {
+        reportName: reportName,
+        whereParams: [
+          {
+          "name": "startDate",
+          "value": startDate
+          },
+          {
+            "name": "endDate",
+            "value": endDate
+          },
+          {
+            "name": "locations",
+            "value": where.locations
+          },
+          {
+            "name": "@referenceDate",
+            "value": referenceDate
+          },
+          {
+            "name": "patientUuid",
+            "value": request.query["patientUuid"]
+          },
+          {
+            "name": "formIds",
+            "value": where.formIds
+          },
+          {
+            "name": "creatorUuid",
+            "value": where.creatorUuid
+          },
+          {
+            "name": "encounterTypeIds",
+            "value": where.encounterTypes
+          }
+        ],
+        groupBy: request.query.groupBy || 'groupByEncounterTypeId',
+        offset: request.query.startIndex,
+        limit: request.query.limit
       };
-      db.queryServer_test(queryParts, function(result) {
-        callback(result);
+      //build report
+      var queryParts =reportFactory.singleReportToSql(requestParams);
+      console.log('Query parts before getting to the server',requestParams);
+      db.reportQueryServer(queryParts, function(results) {
+        callback(reportFactory.resolveIndicators(reportName, results));
       });
 
     },
@@ -273,6 +266,7 @@ module.exports = function() {
         offset: request.query.startIndex,
         limit: request.query.limit
       };
+      
       db.queryServer_test(queryParts, function(result) {
         callback(result);
       });

@@ -147,10 +147,10 @@ module.exports = function() {
         columns: request.query.fields || "t1.*,t3.given_name,t3.middle_name,t3.family_name,group_concat(identifier) as identifiers",
         table: "etl.flat_hiv_summary",
         joins: [
-          ['amrs.person_name', 't3', 't1.person_id = t3.person_id']
+          ['amrs.person_name', 't3', 't1.person_id = t3.person_id'],
           ['amrs.patient_identifier', 't4', 't1.person_id=t4.patient_id']
         ],
-        where: ["t1.location_uuid = ? and t1.rtc_date between ? and ? and next_clinical_datetime_hiv is null",
+        where: ["t1.location_uuid = ? and date(t1.rtc_date) between ? and ? and next_clinical_datetime_hiv is null",
 
           uuid, startDate, endDate
         ],
@@ -162,7 +162,7 @@ module.exports = function() {
         offset: request.query.startIndex,
         limit: request.query.limit
       };
-
+      console.log('query parts', queryParts);
       db.queryServer_test(queryParts, function(result) {
         callback(result);
       });
