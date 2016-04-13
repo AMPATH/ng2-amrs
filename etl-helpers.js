@@ -83,6 +83,42 @@ module.exports = function () {
             });
             return arvNames.join(', ');
         },
+
+        getTestsOrderedNames: function getTestsOrderedNames(str) {
+            if (str === null || str === undefined) return "";
+            var tests = {
+                678: "WBC",
+                21: "Hb",
+                790: "Cr",
+                654: "ALT",
+                653: "AST",
+                5497: "CD4",
+                730: "CD4%",
+                856: "Viral Load",
+                1040: "Rapid HIV",
+                1030: "HIV DNA PCR",
+                2323: "TB PCR",
+                2311: "Sputum Culture",
+                307: "Sputum AFB",
+                8064: "Sputum Gene Xpert",
+                8070: "MTB Finding",
+                8071: "RIF Resistant Finding",
+                299: "VDRL",
+                729: "Platelets",
+                851: "MCV",
+                12: "Chest Xray",
+                1019:"Complete Blood Count",
+                657:"CD4 PANEL"
+
+
+            };
+            var testsCodes = str.split(" ## ");
+            var testsNames = [];
+            _.each(testsCodes, function (code) {
+                testsNames.push(tests[code]);
+            });
+            return testsNames.join(",");
+        },
         buildWhereClauseForDataEntryIndicators: function buildWhereClauseForDataEntryIndicators(queryParams, where) {
         if (queryParams.locations) {
             var locations = [];
