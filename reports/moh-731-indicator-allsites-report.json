@@ -13,9 +13,9 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"date(t1.encounter_datetime) >= DATE_SUB( ?, INTERVAL 2 MONTH)", "parameter":"startDate"},
+      {"expression":"timestampdiff(day,date(t1.rtc_date),?) <= 90", "parameter":"endDate"},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
-      {"expression":"t1.is_clinical_encounter = 1"}
+      {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
     ],
     "groupClause":[],
     "indicators": [
