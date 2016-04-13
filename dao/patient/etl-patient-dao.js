@@ -91,6 +91,11 @@ module.exports = function() {
       };
 
       db.queryServer_test(queryParts, function(result) {
+
+        _.each(result.result, function(row) {
+          row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
+
+        });
         callback(result);
       });
     },
