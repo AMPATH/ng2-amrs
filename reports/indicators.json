@@ -760,21 +760,32 @@
         "name":"virally_suppressed_in_past_year",
         "label":"virally suppressed in past year",
         "description": "# of patient(s) who are virally suppressed in the past one year",
-        "expression": "vl_1 = 0 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+        "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+        "name":"viral_load_resulted_in_past_year",
+        "label":"viral load done in past year",
+        "description": "patient(s) whose viral load has resulted in the past one year",
+        "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
     },
     {
         "name":"virally_suppressed",
         "label":"virally suppressed",
-        "description": "# of patient(s) who are virally suppressed in the past one year",
-        "expression": "vl_1 = 0"
+        "description": "# of patient(s) who are virally suppressed",
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 < 1000"
+    },
+    {
+        "name":"perc_virally_suppressed",
+        "label":"perc virally suppressed",
+        "description": "% of  patient(s) who are virally suppressed",
+        "expression": ""
     },
     {
         "name":"not_virally_suppressed_in_past_year",
         "label":"not virally suppressed in past year",
         "description": "# of patient(s) who are not virally suppressed in the past one year",
-        "expression": "vl_1> 0 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    }
-,
+        "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
     {
         "name":"cd4_order_date",
         "label":"cd4 order date",
@@ -883,6 +894,114 @@
         "label":"encounters_count",
         "description": "",
         "expression": ""
+    },
+    {
+        "name":"patients_requiring_vl",
+        "label":"patients requiring vl",
+        "description": "patients requiring vl",
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"tested_appropriately",
+        "label":"tested appropriately",
+        "description": "tested appropriately",
+        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"perc_tested_appropriately",
+        "label":"perc tested appropriately",
+        "description":"perc tested appropriately",
+        "expression":""
+    },
+    {
+        "name":"deceased_patients",
+        "label":"Deceased Patients",
+        "description": "Deceased Patients",
+        "expression": "patient_care_status=159"
+    },
+    {
+        "name":"untraceable_patients",
+        "label":"untraceable patients",
+        "description": "untraceable patients",
+        "expression": "patient_care_status=9079"
+    },
+    {
+        "name":"transferred_out_patients",
+        "label":"transferred out patients",
+        "description": "transferred out patients",
+        "expression": "patient_care_status=1287"
+    },
+    {
+        "name":"hiv_negative_patients",
+        "label":"hiv negative patients",
+        "description": "hiv negative patients",
+        "expression": "patient_care_status=9036"
+    },
+    {
+        "name":"patients_continuing_care",
+        "label":"patients continuing care",
+        "description": "patients continuing care",
+        "expression": "patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90"
+    },
+    {
+        "name":"self_disengaged_from_care",
+        "label":"self disengaged from care",
+        "description": "self disengaged from care",
+        "expression": "patient_care_status=9083"
+    },
+    {
+        "name":"defaulters",
+        "label":"defaulters",
+        "description": "defaulters",
+        "expression": "patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) > 90"
+    },
+    {
+        "name":"other_patient_care_status",
+        "label":"other status",
+        "description": "other_status",
+        "expression": "patient_care_status not in (159,9079,1287,9036,6101,9083)"
+    },
+    {
+        "name":"on_nevirapine",
+        "label":"patient on_nevirapine",
+        "description": "patient on_nevirapine",
+        "expression": "cur_arv_meds regexp '(631|6467|792)'"
+    },
+    {
+        "name":"on_lopinavir",
+        "label":"patient on_lopinavir",
+        "description": "patient on_lopinavir",
+        "expression": "cur_arv_meds regexp '(9026|794)'"
+    },
+    {
+        "name":"on_efavirenz",
+        "label":"patient on_efavirenz",
+        "description": "patient on_efavirenz",
+        "expression": "cur_arv_meds regexp '(633|6964)'"
+    },
+    {
+        "name":"on_atazanavir",
+        "label":"patient on_atazanavir",
+        "description": "patient on_raltegravir",
+        "expression": "cur_arv_meds regexp '(6159|6160)'"
+    },
+    {
+        "name":"on_raltegravir",
+        "label":"patient on_raltegravir",
+        "description": "patient on_raltegravir",
+        "expression": "cur_arv_meds regexp '(6156)'"
+    },
+    {
+        "name":"on_other_arv_drugs",
+        "label":"patient on_other_arv_drugs",
+        "description": "patient on_other_arv_drugs",
+        "expression": "not (cur_arv_meds regexp '(6156|6159|6160|633|6964|9026|794|631|6467|792)')"
+    },
+    {
+        "name":"not_on_arv",
+        "label":"patient not_on_arv",
+        "description": "patient not_on_arv ",
+        "expression": "cur_arv_meds is null"
     }
 
 ]
