@@ -877,7 +877,12 @@
         "label":"overdue cd4 count lab order",
         "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
         "expression": "case when timestampdiff(day,cd4_order_date, @referenceDate) > 30 and cd4_1_date is null or cd4_order_date > cd4_1_date then timestampdiff(day,cd4_order_date, @referenceDate) else 0 end "
+    },
+    {
+        "name":"encounters_count",
+        "label":"encounters_count",
+        "description": "",
+        "expression": ""
     }
-
 
 ]

@@ -152,6 +152,35 @@ module.exports = function () {
             where[0] = where[0] + " and t2.form_id in ?";
             where.push(formIds);
         }
+    },
+    buildWhereParamsDataEntryIndicators: function buildWhereParamsDataEntryIndicators(queryParams, where) {
+      if (queryParams.locations) {
+        var locations = [];
+        _.each(queryParams.locations.split(','), function(loc) {
+            locations.push(Number(loc));
+        });
+        where.locations = locations;
+      }
+      if (queryParams.provideruuid) {
+        where.providerUuid = queryParams.provideruuid;
+      }
+      if (queryParams.creatoruuid) {
+        where.creatorUuid = queryParams.creatoruuid;
+      }
+      if (queryParams.encounterTypeIds) {
+        var encounterTypes = [];
+        _.each(queryParams.encounterTypeIds.split(','), function(encType) {
+            encounterTypes.push(Number(encType));
+        });
+        where.encounterTypes = encounterTypes;
+      }
+      if (queryParams.formIds) {
+        var formIds = [];
+        _.each(queryParams.formIds.split(','), function(formid) {
+            formIds.push(Number(formid));
+        });
+        where.formIds = formIds;
+      }
     }
-    }
+  }
 }();

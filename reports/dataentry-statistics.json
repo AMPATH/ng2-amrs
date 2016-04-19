@@ -1,0 +1,479 @@
+[
+    {
+     "name": "by-date-by-encounter-type",
+     "table":{"schema":"amrs","tableName":"encounter_provider","alias":"t1"},
+     "joins":[
+         {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
+         {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
+         {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"}
+     ],
+     "parameters": [
+         {"name":"startDate", "defaultValue":["01-01-1980"]},
+         {"name":"endDate", "defaultValue":["Now()"]},
+         {"name":"locations","defaultValue":[1]},
+         {"name":"providerUuid","defaultValue":[1]},
+         {"name":"formIds","defaultValue":[1]},
+         {"name":"encounterTypeIds","defaultValue":[1]},
+         {"name":"groupByDate", "defaultValue":[
+             {"label":"date","expression":"date"}
+         ]
+        },
+        {"name":"groupByEncounterTypeId", "defaultValue":[
+            {"label":"encounter_type_id","expression":"encounter_type_id"}
+        ]
+        }
+     ],
+     "filters": [
+         {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
+         {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
+         {"expression":"t2.location_id in ?", "parameter":"locations"},
+         {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+         {"expression":"t2.form_id in ?", "parameter":"formIds"},
+         {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
+     ],
+     "groupClause":[
+         {"parameter":"groupByDate"},
+         {"parameter":"groupByEncounterTypeId"}
+     ],
+     "indicators": [
+         {
+             "label":"encounters_count",
+             "expression":"encounters_count",
+             "sql":"count(*)"
+         }
+     ],
+     "supplementColumns":[
+            {
+                "label":"date",
+                "type":"single",
+                "sql":"date(t2.encounter_datetime)"
+            },
+            {
+                "label":"encounter_type_id",
+                "type":"single",
+                "sql":"t2.encounter_type"
+            },
+            {
+                "label":"encounter_type",
+                "type":"single",
+                "sql":"t3.name"
+            },
+            {
+                "label":"encounter_type_uuid",
+                "type":"single",
+                "sql":"t3.uuid"
+            }
+        ]
+ },
+ {
+  "name": "by-month-by-encounter-type",
+  "table":{"schema":"amrs","tableName":"encounter_provider","alias":"t1"},
+  "joins":[
+      {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
+      {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
+      {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"}
+  ],
+  "parameters": [
+      {"name":"startDate", "defaultValue":["01-01-1980"]},
+      {"name":"endDate", "defaultValue":["Now()"]},
+      {"name":"locations","defaultValue":[1]},
+      {"name":"providerUuid","defaultValue":[1]},
+      {"name":"formIds","defaultValue":[1]},
+      {"name":"encounterTypeIds","defaultValue":[1]},
+      {"name":"groupByMonth", "defaultValue":[
+          {"label":"month","expression":"month"}
+      ]
+     },
+     {"name":"groupByEncounterTypeId", "defaultValue":[
+         {"label":"encounter_type_id","expression":"encounter_type_id"}
+     ]
+     }
+  ],
+  "filters": [
+      {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
+      {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
+      {"expression":"t2.location_id in ?", "parameter":"locations"},
+      {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+      {"expression":"t2.form_id in ?", "parameter":"formIds"},
+      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
+  ],
+  "groupClause":[
+      {"parameter":"groupByMonth"},
+      {"parameter":"groupByEncounterTypeId"}
+  ],
+  "indicators": [
+      {
+          "label":"encounters_count",
+          "expression":"encounters_count",
+          "sql":"count(*)"
+      }
+  ],
+  "supplementColumns":[
+         {
+             "label":"year",
+             "type":"single",
+             "sql":"year(t2.encounter_datetime)"
+         },
+         {
+             "label":"month_number",
+             "type":"single",
+             "sql":"month(t2.encounter_datetime)"
+         },
+         {
+             "label":"month",
+             "type":"single",
+             "sql":"DATE_FORMAT(t2.encounter_datetime, '%M, %Y')"
+         },
+         {
+             "label":" encounter_type_id",
+             "type":"single",
+             "sql":"t2.encounter_type"
+         },
+         {
+             "label":"encounter_type",
+             "type":"single",
+             "sql":"t3.name"
+         },
+         {
+             "label":"encounter_type_uuid",
+             "type":"single",
+             "sql":"t3.uuid"
+         }
+     ],
+     "orderBy":[
+       {"column":"year", "order":"asc"},
+       {"column":"month_number", "order":"asc"}
+     ]
+},
+{
+ "name": "by-provider-by-encounter-type",
+ "table":{"schema":"amrs","tableName":"encounter_provider","alias":"t1"},
+ "joins":[
+     {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"}
+ ],
+ "parameters": [
+     {"name":"startDate", "defaultValue":["01-01-1980"]},
+     {"name":"endDate", "defaultValue":["Now()"]},
+     {"name":"locations","defaultValue":[1]},
+     {"name":"providerUuid","defaultValue":[1]},
+     {"name":"formIds","defaultValue":[1]},
+     {"name":"encounterTypeIds","defaultValue":[1]},
+     {"name":"groupByProviderId", "defaultValue":[
+         {"label":"provider_id","expression":"provider_id"}
+     ]
+    },
+    {"name":"groupByEncounterTypeId", "defaultValue":[
+        {"label":"encounter_type_id","expression":"encounter_type_id"}
+    ]
+    }
+ ],
+ "filters": [
+     {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
+     {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
+     {"expression":"t2.location_id in ?", "parameter":"locations"},
+     {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+     {"expression":"t2.form_id in ?", "parameter":"formIds"},
+     {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
+ ],
+ "groupClause":[
+     {"parameter":"groupByProviderId"},
+     {"parameter":"groupByEncounterTypeId"}
+ ],
+ "indicators": [
+     {
+         "label":"encounters_count",
+         "expression":"encounters_count",
+         "sql":"count(*)"
+     }
+ ],
+ "supplementColumns":[
+        {
+            "label":"provider_id",
+            "type":"single",
+            "sql":"t4.provider_id"
+        },
+        {
+            "label":"provider_uuid",
+            "type":"single",
+            "sql":"t4.uuid"
+        },
+        {
+            "label":"encounter_type_id",
+            "type":"single",
+            "sql":"t2.encounter_type"
+        },
+        {
+            "label":"encounter_type",
+            "type":"single",
+            "sql":"t3.name"
+        },
+        {
+            "label":"encounter_type_uuid",
+            "type":"single",
+            "sql":"t3.uuid"
+        }
+    ]
+},
+{
+ "name": "by-creator-by-encounter-type",
+ "table":{"schema":"amrs","tableName":"encounter_provider","alias":"t1"},
+ "joins":[
+     {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"}
+ ],
+ "parameters": [
+     {"name":"startDate", "defaultValue":["01-01-1980"]},
+     {"name":"endDate", "defaultValue":["Now()"]},
+     {"name":"locations","defaultValue":[1]},
+     {"name":"providerUuid","defaultValue":[1]},
+     {"name":"formIds","defaultValue":[1]},
+     {"name":"encounterTypeIds","defaultValue":[1]},
+     {"name":"creatorUuid","defaultValue":[1]},
+     {"name":"groupByCreatorId", "defaultValue":[
+         {"label":"creator_id","expression":"creator_id"}
+     ]
+    },
+    {"name":"groupByEncounterTypeId", "defaultValue":[
+        {"label":"encounter_type_id","expression":"encounter_type_id"}
+    ]
+    }
+ ],
+ "filters": [
+     {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
+     {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
+     {"expression":"t2.location_id in ?", "parameter":"locations"},
+     {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+     {"expression":"t2.form_id in ?", "parameter":"formIds"},
+     {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
+     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"}
+ ],
+ "groupClause":[
+     {"parameter":"groupByCreatorId"},
+     {"parameter":"groupByEncounterTypeId"}
+ ],
+ "indicators": [
+     {
+         "label":"encounters_count",
+         "expression":"encounters_count",
+         "sql":"count(*)"
+     }
+ ],
+ "supplementColumns":[
+        {
+            "label":"creator_id",
+            "type":"single",
+            "sql":"t5.user_id"
+        },
+        {
+            "label":"user_uuid",
+            "type":"single",
+            "sql":"t5.uuid"
+        },
+        {
+            "label":"encounter_type_id",
+            "type":"single",
+            "sql":"t2.encounter_type"
+        },
+        {
+            "label":"encounter_type",
+            "type":"single",
+            "sql":"t3.name"
+        },
+        {
+            "label":"encounter_type_uuid",
+            "type":"single",
+            "sql":"t3.uuid"
+        }
+    ]
+},
+{
+ "name": "patientList-encounter",
+ "table":{"schema":"amrs","tableName":"encounter_provider","alias":"t1"},
+ "joins":[
+     {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"}
+ ],
+ "parameters": [
+     {"name":"startDate", "defaultValue":["01-01-1980"]},
+     {"name":"endDate", "defaultValue":["Now()"]},
+     {"name":"locations","defaultValue":[1]},
+     {"name":"providerUuid","defaultValue":[1]},
+     {"name":"formIds","defaultValue":[1]},
+     {"name":"encounterTypeIds","defaultValue":[1]},
+     {"name":"creatorUuid","defaultValue":[1]}
+ ],
+ "filters": [
+     {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
+     {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
+     {"expression":"t2.location_id in ?", "parameter":"locations"},
+     {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+     {"expression":"t2.form_id in ?", "parameter":"formIds"},
+     {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
+     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"}
+ ],
+ "groupClause":[],
+ "indicators": [],
+ "supplementColumns":[
+      {
+       "label":"patient_id",
+       "type":"single",
+       "sql":"DISTINCT t2.patient_id"
+        },
+        {
+            "label":"creator_id",
+            "type":"single",
+            "sql":"t5.user_id"
+        },
+        {
+            "label":"user_uuid",
+            "type":"single",
+            "sql":"t5.uuid"
+        },
+        {
+            "label":"encounter_type_id",
+            "type":"single",
+            "sql":"t2.encounter_type"
+        },
+        {
+            "label":"encounter_type",
+            "type":"single",
+            "sql":"t3.name"
+        },
+        {
+            "label":"provider_id",
+            "type":"single",
+            "sql":"t4.provider_id"
+        },
+        {
+            "label":"provider_uuid",
+            "type":"single",
+            "sql":"t4.uuid"
+        },
+        {
+            "label":"year",
+            "type":"single",
+            "sql":"year(t2.encounter_datetime)"
+        },
+        {
+            "label":"month_number",
+            "type":"single",
+            "sql":"month(t2.encounter_datetime)"
+        },
+        {
+            "label":"month",
+            "type":"single",
+            "sql":"DATE_FORMAT(t2.encounter_datetime, '%M, %Y')"
+        },
+        {
+            "label":"date",
+            "type":"single",
+            "sql":"date(t2.encounter_datetime)"
+        },
+        {
+            "label":"location_id",
+            "type":"single",
+            "sql":"t2.location_id"
+        },
+        {
+            "label":"form_id",
+            "type":"single",
+            "sql":"t2.form_id"
+        }
+    ]
+},
+{
+ "name": "patientList",
+ "table":{"schema":"amrs","tableName":"person_name","alias":"t1"},
+ "joins":[
+   {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"t2.patient_id = t1.person_id",
+       "dynamicDataset":"patientList-encounter"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t3.person_id = t2.patient_id"},
+     {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"patient_identifier","alias":"t4","joinExpression":"t4.patient_id = t2.patient_id"}
+     ],
+ "parameters": [
+   {"name":"groupByPatientId", "defaultValue":[
+       {"label":"patient_id","expression":"patient_id"}
+   ]
+  }
+ ],
+ "filters": [],
+ "groupClause":[
+   {"parameter":"groupByPatientId"}
+ ],
+ "indicators": [],
+ "supplementColumns":[
+        {
+            "label":"patient_id",
+            "type":"single",
+            "sql":"t2.patient_id"
+        },
+        {
+            "label":"patient_uuid",
+            "type":"single",
+            "sql":"t3.uuid"
+        },
+        {
+            "label":"person_name",
+            "type":"single",
+            "sql":"concat_ws(' ',t1.given_name,t1.middle_name,t1.family_name)"
+        },
+        {
+            "label":"identifiers",
+            "type":"single",
+            "sql":"group_concat(distinct t4.identifier separator ', ')"
+        },
+        {
+            "label":"provider_id",
+            "type":"single",
+            "sql":"t2.provider_id"
+        },
+        {
+            "label":"provider_uuid",
+            "type":"single",
+            "sql":"t2.provider_uuid"
+        },
+        {
+            "label":"gender",
+            "type":"single",
+            "sql":"t3.gender"
+        },
+        {
+            "label":"birthdate",
+            "type":"single",
+            "sql":"t3.birthdate"
+        },
+        {
+            "label":"month",
+            "type":"single",
+            "sql":"DATE_FORMAT(t2.date, '%M, %Y')"
+        },
+        {
+            "label":"date",
+            "type":"single",
+            "sql":"date(t2.date)"
+        },
+        {
+            "label":"location_id",
+            "type":"single",
+            "sql":"t2.location_id"
+        },
+        {
+            "label":"form_id",
+            "type":"single",
+            "sql":"t2.form_id"
+        },
+        {
+            "label":"creator_id",
+            "type":"single",
+            "sql":"t2.creator_id"
+        }
+    ]
+}
+
+]

@@ -69,7 +69,7 @@ describe('ANALYTICS LEVEL ETL-SERVER TESTS', function () {
                 // console.log('body2  ++', stub.args[0][0]);
                 var queryParts = stub.args[0][0];
                 expect(queryParts.table).to.equal('etl.flat_hiv_summary');
-                expect(queryParts.where).to.include("encounter_datetime >= ? and encounter_datetime <= ?");
+                expect(queryParts.where).to.include("date(encounter_datetime) >= ? and date(encounter_datetime) <= ?");
                 expect(queryParts.joins).to.be.an('array');
                 expect(queryParts.joins).to.have.deep.property('[0][0]', 'amrs.location');
                 expect(queryParts.joins).to.have.deep.property('[0][1]', 't2');
