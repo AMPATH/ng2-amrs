@@ -197,8 +197,10 @@ module.exports = function() {
           concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
             "group_concat(distinct t3.identifier separator ', ') as identifiers",
           table: exprResult.resource,
-          where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_uuid=? " +
-            exprResult.whereClause, startDate, endDate, location
+          where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
+           "and t1.location_uuid = ? and t1.is_clinical_encounter = 1 and " +
+           "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ? )" +
+            exprResult.whereClause, startDate, endDate, location, endDate
           ],
           joins: [
             ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
@@ -246,8 +248,10 @@ module.exports = function() {
           concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
             "group_concat(distinct t3.identifier separator ', ') as identifiers",
           table: exprResult.resource,
-          where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? and t1.location_id in ? " +
-            exprResult.whereClause, startDate, endDate, locations
+          where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
+           "and t1.location_id in ? and t1.is_clinical_encounter = 1 and " +
+           "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ?)" +
+            exprResult.whereClause, startDate, endDate, locations, endDate
           ],
           joins: [
             ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
