@@ -94,15 +94,16 @@ module.exports = function() {
       var reportName = subType;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var referenceDate = request.query.referenceDate || new Date().toISOString().substring(0, 10);
+      var providerUuid;
+      var creatorUuid;
+      if(request.query.creatorUuid) creatorUuid= request.query.creatorUuid;
+      if(request.query.providerUuid)  providerUuid = request.query.providerUuid;
 
       var queryParams = {
         reportName: reportName,
         countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
         locations: request.query.locationIds,
-        provideruuid: request.query.providerUuid,
         encounterTypeIds: request.query.encounterTypeIds,
-        creatoruuid: request.query.creatorUuid,
         formIds: request.query.formIds
       };
 
@@ -131,12 +132,8 @@ module.exports = function() {
             "value": where.locations
           },
           {
-            "name": "@referenceDate",
-            "value": referenceDate
-          },
-          {
-            "name": "patientUuid",
-            "value": request.query["patientUuid"]
+            "name": "providerUuid",
+            "value": providerUuid
           },
           {
             "name": "formIds",
@@ -144,7 +141,7 @@ module.exports = function() {
           },
           {
             "name": "creatorUuid",
-            "value": where.creatorUuid
+            "value": creatorUuid
           },
           {
             "name": "encounterTypeIds",
@@ -266,7 +263,7 @@ module.exports = function() {
         offset: request.query.startIndex,
         limit: request.query.limit
       };
-      
+
       db.queryServer_test(queryParts, function(result) {
         callback(result);
       });
