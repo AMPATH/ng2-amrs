@@ -27,7 +27,7 @@
          {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
          {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
          {"expression":"t2.location_id in ?", "parameter":"locations"},
-         {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+         {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
          {"expression":"t2.form_id in ?", "parameter":"formIds"},
          {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
      ],
@@ -93,7 +93,7 @@
       {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
       {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
       {"expression":"t2.location_id in ?", "parameter":"locations"},
-      {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+      {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
       {"expression":"t2.form_id in ?", "parameter":"formIds"},
       {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
   ],
@@ -173,7 +173,7 @@
      {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
      {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
      {"expression":"t2.location_id in ?", "parameter":"locations"},
-     {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+     {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
  ],
@@ -246,10 +246,10 @@
      {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
      {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
      {"expression":"t2.location_id in ?", "parameter":"locations"},
-     {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+     {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
-     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"}
+     {"expression":"t5.uuid = ?", "parameter":"creatorUuid"}
  ],
  "groupClause":[
      {"parameter":"groupByCreatorId"},
@@ -312,10 +312,10 @@
      {"expression":"date(t2.encounter_datetime) >= ?", "parameter":"startDate"},
      {"expression":"date(t2.encounter_datetime) <= ?", "parameter":"endDate"},
      {"expression":"t2.location_id in ?", "parameter":"locations"},
-     {"expression":"t4.uuid in ?", "parameter":"providerUuid"},
+     {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
-     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"}
+     {"expression":"t5.uuid = ?", "parameter":"creatorUuid"}
  ],
  "groupClause":[],
  "indicators": [],
