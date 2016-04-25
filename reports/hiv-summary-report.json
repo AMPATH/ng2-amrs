@@ -25,7 +25,10 @@
         "filters": [
             {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-            {"expression":"t1.location_id in ?", "parameter":"locations"}
+            {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
+            {"expression":"(t1.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= ?)", "parameter":"endDate"}
+
         ],
         "groupClause":[
             {"parameter":"groupByLocation"},
@@ -33,11 +36,6 @@
             {"parameter":"groupByMonth"}
         ],
         "indicators": [
-            {
-                "label":"encounters",
-                "expression":"encounters",
-                "sql":"count(distinct encounter_id)"
-            },
             {
                 "label":"patients",
                 "expression":"patients",
