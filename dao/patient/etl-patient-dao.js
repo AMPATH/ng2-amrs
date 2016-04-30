@@ -200,6 +200,7 @@ module.exports = function() {
           where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
            "and t1.location_uuid = ? and t1.is_clinical_encounter = 1 and " +
            "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ? )" +
+           " and coalesce(t1.death_date, out_of_care) is null" +
             exprResult.whereClause, startDate, endDate, location, endDate
           ],
           joins: [
@@ -227,7 +228,7 @@ module.exports = function() {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
       var order =  helpers.getSortOrder(request.query.order);
-      var reportName = request.query.reportName || 'hiv-summary-report';
+      var reportName = request.query.reportName || 'hiv-summary-monthly-report';
       var locationIds = request.query.locations;
       var locations = [];
       _.each(locationIds.split(','), function(loc) {
@@ -247,10 +248,11 @@ module.exports = function() {
           columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
           concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
             "group_concat(distinct t3.identifier separator ', ') as identifiers",
-          table: exprResult.resource,
+          table: 'etl.flat_hiv_summary',
           where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
            "and t1.location_id in ? and t1.is_clinical_encounter = 1 and " +
            "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ?)" +
+           " and coalesce(t1.death_date, out_of_care) is null" +
             exprResult.whereClause, startDate, endDate, locations, endDate
           ],
           joins: [

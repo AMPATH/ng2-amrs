@@ -3,13 +3,13 @@
         "name":"encounters",
         "label":"encounters",
         "description": "Total # of encounters",
-        "expression": ""
+        "expression": "true"
     },
     {
         "name":"patients",
         "label":"patients",
         "description": "Total # of patients",
-        "expression": ""
+        "expression": "true"
 
     },
     {
