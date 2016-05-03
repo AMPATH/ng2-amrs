@@ -15,7 +15,7 @@ module.exports = function() {
       var queryParts = {
         columns: request.query.fields || "*",
         table: "etl.flat_hiv_summary",
-        where: ["uuid = ?", uuid],
+        where: ["uuid = ? and t1.is_clinical_encounter = 1", uuid],
         order: order || [{
           column: 'encounter_datetime',
           asc: false
