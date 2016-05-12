@@ -79,6 +79,11 @@
                 "sql":"count(distinct if($expression,person_id,null))"
             },
             {
+                "label":"on_second_line_not_suppressed",
+                "expression":"on_second_line_not_suppressed",
+                "sql":"count(distinct if($expression,person_id,null))"
+            },
+            {
                 "label":"vl_done_past_year_gt_1000",
                 "expression":"vl_done_past_year_gt_1000",
                 "sql":"count(distinct if($expression,person_id,null))"

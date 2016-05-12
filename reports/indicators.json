@@ -1002,6 +1002,12 @@
         "label":"patient not_on_arv",
         "description": "patient not_on_arv ",
         "expression": "cur_arv_meds is null"
+    },
+    {
+        "name":"on_second_line_not_suppressed",
+        "label":"patient on second line not suppressed",
+        "description": "patient not_on_arv ",
+        "expression": "vl_1 > 1000 and cur_arv_line > 1"
     }
 
 ]
