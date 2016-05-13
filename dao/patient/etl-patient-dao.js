@@ -79,9 +79,12 @@ module.exports = function() {
       var order =  helpers.getSortOrder(request.query.order);
 
       var queryParts = {
-        columns: request.query.fields || "*",
+        columns: request.query.fields || "t1.*, t2.cur_arv_meds",
         table: "etl.flat_labs_and_imaging",
-        where: ["uuid = ?", uuid],
+        joins: [
+          ['etl.flat_hiv_summary', 't2', 't1.encounter_id = t2.encounter_id']
+        ],
+        where: ["t1.uuid = ?", uuid],
         order: order || [{
           column: 'test_datetime',
           asc: false
@@ -94,7 +97,7 @@ module.exports = function() {
 
         _.each(result.result, function(row) {
           row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
-
+          row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
         });
         callback(result);
       });
