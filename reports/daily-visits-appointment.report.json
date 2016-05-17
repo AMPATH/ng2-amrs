@@ -1,292 +1,338 @@
-[{
-  "name": "daily-appointments",
-  "table": {
-    "schema": "amrs",
-    "tableName": "person_name",
-    "alias": "t1"
-  },
-  "joins": [{
-    "joinType": "INNER JOIN",
-    "schema": "amrs",
-    "tableName": "patient_identifier",
-    "alias": "t2",
-    "joinExpression": "t1.person_id  = t2.patient_id"
-  },
+[
   {
-    "joinType": "INNER JOIN",
-    "schema": "amrs",
-    "tableName": "person",
-    "alias": "t3",
-    "joinExpression": "t1.person_id  = t3.person_id"
-  }
-],
-  "parameters": [{
-    "name": "startDate",
-    "defaultValue": ["10-10-2015"]
-  },{
-    "name": "locations",
-    "defaultValue": []
-  },
-  {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"t1.person_id"}
-  ]}
-]
-,
-"filters": [{
-  "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where date(rtc_date) = ? and location_id in ? and encounter_type != 99999)",
-  "parameter": "startDate,locations"
-},
-{
-  "expression": "t1.voided = 0",
-  "parameter": "",
-  "processForce":true
-},
-{
-  "expression": "t2.voided = 0",
-  "parameter": "",
-  "processForce":true
-}
-],
-"groupClause": [
-  {"parameter":"groupByPerson"}
-],
-"indicators": [
-
-],
-"supplementColumns": [{
-"label": "person_id",
-"type": "single",
-"sql": "t1.person_id"
-},
-{
-"label": "uuid",
-"type": "single",
-"sql": "t3.uuid"
-},
- {
-"label": "given_name",
-"type": "single",
-"sql": "t1.given_name"
-}, {
-"label": "middle_name",
-"type": "single",
-"sql": "t1.middle_name"
-}, {
-"label": "family_name",
-"type": "single",
-"sql": "t1.family_name"
-},
-{
-"label": "identifiers",
-"type": "single",
-"sql": "group_concat(distinct t2.identifier order by t2.identifier asc)"
-}
-]
-},
-{
-  "name": "daily-attendance",
-  "table": {
-    "schema": "amrs",
-    "tableName": "person_name",
-    "alias": "t1"
-  },
-  "joins": [{
-    "joinType": "INNER JOIN",
-    "schema": "amrs",
-    "tableName": "patient_identifier",
-    "alias": "t2",
-    "joinExpression": "t1.person_id  = t2.patient_id"
-  },
-  {
-    "joinType": "INNER JOIN",
-    "schema": "amrs",
-    "tableName": "person",
-    "alias": "t3",
-    "joinExpression": "t1.person_id  = t3.person_id"
-  }
-],
-  "parameters": [{
-    "name": "startDate",
-    "defaultValue": ["10-10-2015"]
-  },{
-    "name": "locations",
-    "defaultValue": []
-  },
-  {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"t1.person_id"}
-  ]}
-]
-,
-"filters": [{
-  "expression": "t1.person_id in (select distinct person_id from etl.flat_hiv_summary where date(encounter_datetime) = ? and location_id in ? and encounter_type not in (21,99999))",
-  "parameter": "startDate,locations"
-},
-{
-  "expression": "t1.voided = 0",
-  "parameter": "",
-  "processForce":true
-},
-{
-  "expression": "t2.voided = 0",
-  "parameter": "",
-  "processForce":true
-}
-],
-"groupClause": [
-  {"parameter":"groupByPerson"}
-],
-"indicators": [
-
-],
-"supplementColumns": [{
-"label": "person_id",
-"type": "single",
-"sql": "t1.person_id"
-},
-{
-"label": "uuid",
-"type": "single",
-"sql": "t3.uuid"
-},
- {
-"label": "given_name",
-"type": "single",
-"sql": "t1.given_name"
-}, {
-"label": "middle_name",
-"type": "single",
-"sql": "t1.middle_name"
-}, {
-"label": "family_name",
-"type": "single",
-"sql": "t1.family_name"
-},
-{
-"label": "identifiers",
-"type": "single",
-"sql": "group_concat(distinct t2.identifier order by t2.identifier asc)"
-}
-]
-},
-{
-  "name": "daily-has-not-returned",
-  "table": {
-    "schema": "etl",
-    "tableName": "flat_hiv_summary",
-    "alias": "t1"
-  },
-  "joins": [
-    {
-      "joinType": "INNER JOIN",
+    "name": "daily-appointments",
+    "table": {
       "schema": "etl",
-      "tableName": "derived_encounter",
-      "alias": "t2",
-      "joinExpression": "t1.encounter_id  = t2.encounter_id"
+      "tableName": "flat_hiv_summary",
+      "alias": "t1",
+      "indexExpression":"FORCE INDEX (location_id_rtc_date)"
     },
-  {
-    "joinType": "INNER JOIN",
-    "schema": "amrs",
-    "tableName": "person_name",
-    "alias": "t3",
-    "joinExpression": "t1.person_id  = t3.person_id"
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t2",
+        "joinExpression": "t1.person_id  = t2.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t3",
+        "joinExpression": "t1.person_id  = t3.patient_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": [
+          "10-10-2015"
+        ]
+      },
+      {
+        "name": "locations",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "t1.person_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(rtc_date) = ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "coalesce(t1.death_date) is null",
+        "processForce": true,
+        "parameter": ""
+      },
+      {
+        "expression": "encounter_type != 99999",
+        "processForce": true,
+        "parameter": ""
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "indicators": [
+    ],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
+      },
+      {
+        "label": "uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "given_name",
+        "type": "single",
+        "sql": "t2.given_name"
+      },
+      {
+        "label": "middle_name",
+        "type": "single",
+        "sql": "t2.middle_name"
+      },
+      {
+        "label": "family_name",
+        "type": "single",
+        "sql": "t2.family_name"
+      },
+      {
+        "label": "identifiers",
+        "type": "single",
+        "sql": "group_concat(distinct t3.identifier)"
+      }
+    ]
   },
   {
-    "joinType": "INNER JOIN",
-    "schema": "amrs",
-    "tableName": "patient_identifier",
-    "alias": "t4",
-    "joinExpression": "t3.person_id  = t4.patient_id"
+    "name": "daily-attendance",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1",
+      "indexExpression":"FORCE INDEX (location_id_rtc_date)"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t2",
+        "joinExpression": "t1.person_id  = t2.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t3",
+        "joinExpression": "t1.person_id  = t3.patient_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": [
+          "10-10-2015"
+        ]
+      },
+      {
+        "name": "locations",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "t1.person_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(t1.encounter_datetime) = ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "coalesce(t1.death_date) is null",
+        "processForce": true,
+        "parameter": ""
+      },
+      {
+        "expression": "encounter_type not in (21,99999)",
+        "processForce": true,
+        "parameter": ""
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "indicators": [
+    ],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
+      },
+      {
+        "label": "uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "given_name",
+        "type": "single",
+        "sql": "t2.given_name"
+      },
+      {
+        "label": "middle_name",
+        "type": "single",
+        "sql": "t2.middle_name"
+      },
+      {
+        "label": "family_name",
+        "type": "single",
+        "sql": "t2.family_name"
+      },
+      {
+        "label": "identifiers",
+        "type": "single",
+        "sql": "group_concat(distinct t3.identifier)"
+      }
+    ]
+  },
+  {
+    "name": "daily-has-not-returned",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1",
+      "indexExpression":"FORCE INDEX (location_id_rtc_date)"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "derived_encounter",
+        "alias": "t2",
+        "joinExpression": "t1.encounter_id  = t2.encounter_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t3",
+        "joinExpression": "t1.person_id  = t3.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t4",
+        "joinExpression": "t3.person_id  = t4.patient_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": [
+          "10-10-2015"
+        ]
+      },
+      {
+        "name": "locations",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "t1.person_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(t1.rtc_date) =?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "date(t1.rtc_date) < date(now())",
+        "parameter": "",
+        "processForce": true
+      },
+      {
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "coalesce(t1.death_date) is null",
+        "parameter": "",
+        "processForce": true
+      },
+      {
+        "expression": "transfer_out is null",
+        "parameter": "",
+        "processForce": true
+      },
+      {
+        "expression": "next_clinical_datetime_hiv is null",
+        "parameter": "",
+        "processForce": true
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
+      },
+      {
+        "label": "uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "encounter_id",
+        "type": "single",
+        "sql": "t1.encounter_id"
+      },
+      {
+        "label": "given_name",
+        "type": "single",
+        "sql": "t3.given_name"
+      },
+      {
+        "label": "middle_name",
+        "type": "single",
+        "sql": "t3.middle_name"
+      },
+      {
+        "label": "family_name",
+        "type": "single",
+        "sql": "t3.family_name"
+      },
+      {
+        "label": "identifiers",
+        "type": "single",
+        "sql": "group_concat(distinct t4.identifier)"
+      }
+    ]
   }
-
-],
-  "parameters": [
-    {
-      "name": "startDate",
-      "defaultValue": ["10-10-2015"]
-    },{
-    "name": "locations",
-    "defaultValue": []
-  },
-  {"name":"groupByPerson", "defaultValue":[
-      {"label":"person_id","expression":"t1.person_id"}
-  ]}
-]
-,
-"filters": [
-  {
-    "expression": "date(t1.rtc_date) =?",
-    "parameter": "startDate"
-  },
-  {
-    "expression": "date(t1.rtc_date) < date(now())",
-    "parameter": "",
-    "processForce":true
-  },
-  {
-    "expression": "t1.location_id in ?",
-    "parameter": "locations"
-  },
-{
-  "expression": "t4.voided = 0",
-  "parameter": "",
-  "processForce":true
-},
-{
-  "expression": "t3.voided = 0",
-  "parameter": "",
-  "processForce":true
-},
-{
-  "expression": "death_date is null",
-  "parameter": "",
-  "processForce":true
-},
-{
-  "expression": "transfer_out is null",
-  "parameter": "",
-  "processForce":true
-},
-{
-  "expression": "next_clinical_datetime_hiv is null",
-  "parameter": "",
-  "processForce":true
-}
-],
-"groupClause": [
-  {"parameter":"groupByPerson"}
-],
-"indicators": [],
-"supplementColumns": [{
-"label": "person_id",
-"type": "single",
-"sql": "t1.person_id"
-},
-{
-"label": "uuid",
-"type": "single",
-"sql": "t1.uuid"
-}, {
-"label": "encounter_id",
-"type": "single",
-"sql": "t1.encounter_id"
-}, {
-"label": "given_name",
-"type": "single",
-"sql": "t3.given_name"
-}, {
-"label": "middle_name",
-"type": "single",
-"sql": "t3.middle_name"
-}, {
-"label": "family_name",
-"type": "single",
-"sql": "t3.family_name"
-},
-{
-"label": "identifiers",
-"type": "single",
-"sql": "group_concat(distinct t4.identifier order by t4.identifier asc)"
-}
-]
-}
 ]
