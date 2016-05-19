@@ -127,14 +127,16 @@ module.exports = function () {
         var multuvalues = [];
         var tableAlias = 't1';
         if (queryParts['alias'])tableAlias = queryParts['alias'];
+        if (queryParts['indexExpression'])tableAlias += ' '+queryParts['indexExpression'];
         var s;
         if (sq) {
             s = squel.select()
                 .from(sq, tableAlias);
 
         } else {
-            s = squel.select()
-                .from(queryParts.table, tableAlias);
+            s = squel.select();
+            if (queryParts['indexExpression'])  s = squel.select({autoQuoteAliasNames: false });
+            s.from(queryParts.table, tableAlias);
         }
         _.each(queryParts['joins'], function (join) {
             if (join.joinedQuerParts) {

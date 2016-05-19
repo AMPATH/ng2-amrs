@@ -216,6 +216,7 @@ module.exports = function () {
                   concatColumns: concatColumnsToColumns(report),
                   table: report.table['schema'] + '.' + report.table['tableName'],
                   alias: report.table['alias'],
+                  indexExpression: report.table['indexExpression']||null,
                   nestedParts: nestedParts,
                   joins: joinsToSql(report.joins, requestParams),
                   where: filtersToSql(requestParams.whereParams, report.parameters, report.filters),
