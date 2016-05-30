@@ -2,7 +2,7 @@ var Hapi = require('hapi');
 var mysql = require('mysql');
 var Good = require('good');
 var Basic = require('hapi-auth-basic');
-var https = require('https');
+var https = require('http');
 var config = require('./conf/config');
 var corsHeaders = require('hapi-cors-headers');
 var _ = require('underscore');
@@ -50,7 +50,9 @@ var validate = function(username, password, callback) {
       'Authorization': "Basic " + new Buffer(username + ":" + password).toString("base64")
     }
   };
-
+  if (config.openmrs.https) {
+    https = require('https');
+  }
   https.get(options, function(res) {
     var body = '';
     res.on('data', function(chunk) {
