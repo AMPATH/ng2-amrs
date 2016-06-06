@@ -1,6 +1,7 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
-
+var Promise = require("bluebird");
+var noteService = require("../../http/notes.service");
 var db = require('../../etl-db');
 var _ = require('underscore');
 var reportFactory = require('../../etl-factory');
@@ -73,6 +74,26 @@ module.exports = function() {
         callback(result);
       });
 
+    },
+    getClinicalNotes: function getClinicalNotes(request, callback) {
+      var patientEncounters=noteService.getPatientEncounters(request, callback);
+      var patientHivSummary=noteService.getHivSummary(request, callback);
+      var patientVitals=noteService.getVitals(request, callback);
+
+      Promise.all([patientEncounters,patientHivSummary,patientVitals]).then(function(data) {
+          var encounters = data[0].results;
+          var hivSummaries = data[1].result;
+          var vitals = data[2].result;
+          noteService.generate(encounters,hivSummaries,vitals,function (notes) {
+              callback({notes:notes,status:'notes generated'});
+          });
+
+      })
+      .catch (function(e) {
+          // Return empty json on error
+          console.log('Error',e);
+          callback({notes:[],status:'error generating notes'});
+      });
     },
     getPatientData: function getPatientData(request, callback) {
       var uuid = request.params.uuid;

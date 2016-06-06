@@ -139,7 +139,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
           var queryParts = stub.args[0][0];
           expect(queryParts.table).to.equal('etl.flat_labs_and_imaging');
           // if fields is null output all columns
-          expect(queryParts.columns).to.equal('*');
+          expect(queryParts.columns).to.equal('t1.*, t2.cur_arv_meds');
 
           expect(queryParts.where).to.include(options.params.uuid);
         });
