@@ -76,19 +76,19 @@
         "name":"vl_done_this_encounter",
         "label":"vl done this encounter",
         "description": "# of patient(s) whose Viral Load has been taken in this encounter",
-        "expression": "vl_resulted >= 0"
+        "expression": "vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
     },
     {
         "name":"vl_done_this_encounter_lte_1000",
         "label":"vl done this encounter lte 1000",
         "description": "# of patient(s) whose Viral Load in this encounter is Less Than 1000",
-        "expression": "vl_resulted <= 1000"
+        "expression": "vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
     },
     {
         "name":"vl_done_this_encounter_gt_1000",
         "label":"vl done this encounter gt 1000",
         "description": "# of patient(s) whose Viral Load in this encounter is Greater Than 1000",
-        "expression": "vl_resulted > 1000"
+        "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
     },
     {
         "name":"vl_ordered",
