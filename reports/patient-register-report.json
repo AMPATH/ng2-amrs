@@ -146,6 +146,11 @@
             "sql":"if($expression,true,false)"
         },
         {
+            "label":"not_on_arvs_cd4_lte_500",
+            "expression":"not_on_arvs_cd4_lte_500",
+            "sql":"if($expression,true,false)"
+        },
+        {
             "label":"pregnant",
             "expression":"pregnant",
             "sql":"if($expression,true,false)"
