@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.0",
-    "boom": "^2.9.0",
+    "boom": "^2.10.1",
     "chai-http": "^1.0.0",
     "datatable": "^2.0.1",
     "datatables": "^1.10.7",
@@ -24,6 +24,7 @@
     "good-console": "^5.0.0",
     "hapi": "^13.0.0",
     "hapi-auth-basic": "^2.0.0",
+    "hapi-authorization": "^3.0.2",
     "hapi-cors-headers": "^1.0.0",
     "hapi-swagger": "^4.2.1",
     "https": "^1.0.0",
