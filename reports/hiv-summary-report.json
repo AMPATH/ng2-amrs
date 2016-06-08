@@ -149,6 +149,11 @@
                 "sql":"count(distinct if($expression,person_id,null))"
             },
             {
+                "label":"newly_enrolled",
+                "expression":"newly_enrolled",
+                "sql": "count(distinct if($expression,person_id,0))"
+            },
+            {
                 "label":"enrolled_in_care_total",
                 "expression":"enrolled_in_care_total",
                 "sql": "count(distinct if($expression,person_id,0))"

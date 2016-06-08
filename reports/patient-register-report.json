@@ -167,6 +167,11 @@
           "sql":"$expression"
         },
         {
+          "label":"newly_enrolled",
+          "expression":"newly_enrolled",
+          "sql":"$expression"
+        },
+        {
           "label":"enrollment_date",
           "expression":"enrollment_date",
           "sql":"$expression"

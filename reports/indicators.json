@@ -1008,6 +1008,14 @@
         "label":"patient on second line not suppressed",
         "description": "patient not_on_arv ",
         "expression": "vl_1 > 1000 and cur_arv_line > 1"
+    },
+    {
+        "name":"newly_enrolled",
+        "label":"newly enrolled",
+        "description": "patients who are newly enrolled",
+        "expression": "is_clinical_encounter=1 and prev_clinical_datetime_hiv is null"
     }
+
+
 
 ]
