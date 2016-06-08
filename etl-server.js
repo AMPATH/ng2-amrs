@@ -14,6 +14,8 @@ var Inert = require('inert');
 var Vision = require('vision');
 var HapiSwagger = require('hapi-swagger');
 var Pack = require('./package');
+var hapiAuthorization = require('hapi-authorization');
+var authorizer = require('./authorization/etl-authorizer');
 var server = new Hapi.Server({
   connections: {
     //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
@@ -24,6 +26,7 @@ var server = new Hapi.Server({
     }
   }
 });
+
 var tls_config = false;
 if (config.etl.tls) {
   tls_config = tls.createServer({
@@ -39,7 +42,7 @@ server.connection({
 });
 var pool = mysql.createPool(config.mysql);
 
-var validate = function(username, password, callback) {
+var validate = function (username, password, callback) {
 
   //Openmrs context
   var options = {
@@ -55,16 +58,26 @@ var validate = function(username, password, callback) {
   }
   https.get(options, function(res) {
     var body = '';
-    res.on('data', function(chunk) {
+    res.on('data', function (chunk) {
       body += chunk;
     });
-    res.on('end', function() {
+    res.on('end', function () {
       var result = JSON.parse(body);
-      console.log(result);
-      callback(null, result.authenticated, {});
+
+      authorizer.setUser(result.user);
+      var currentUser = {
+        username: username,
+        role: authorizer.isSuperUser() ?
+          authorizer.getAllPrivilegesArray() :
+          authorizer.getCurrentUserPreviliges()
+      };
+
+      //console.log('Logged in user:', currentUser);
+
+      callback(null, result.authenticated, currentUser);
     });
-  }).on('error', function(error) {
-    console.log(error);
+  }).on('error', function (error) {
+    //console.log(error);
     callback(null, false);
   });
 
@@ -78,35 +91,41 @@ var HapiSwaggerOptions = {
   tags: [{
     'name': 'patient'
   }, {
-    'name': 'location'
-  }],
+      'name': 'location'
+    }],
   sortEndpoints: 'path'
 };
 
 
 server.register([
-    Inert,
-    Vision, {
-      'register': HapiSwagger,
-      'options': HapiSwaggerOptions
-    }, {
-      register: Basic,
-      options: {}
-    }, {
-      register: Good,
-      options: {
-        reporters: [{
-          reporter: require('good-console'),
-          events: {
-            response: '*',
-            log: '*'
-          }
-        }]
-      }
+  Inert,
+  Vision, {
+    'register': HapiSwagger,
+    'options': HapiSwaggerOptions
+  }, {
+    register: Basic,
+    options: {}
+  }, {
+    register: hapiAuthorization,
+    options: {
+      roles: authorizer.getAllPrivilegesArray()
     }
-  ],
+  },
+  {
+    register: Good,
+    options: {
+      reporters: [{
+        reporter: require('good-console'),
+        events: {
+          response: '*',
+          log: '*'
+        }
+      }]
+    }
+  }
+],
 
-  function(err) {
+  function (err) {
     if (err) {
       throw err; // something bad happened loading the plugin
     }
@@ -124,7 +143,7 @@ server.register([
     }
 
     server.ext('onPreResponse', corsHeaders);
-    server.start(function() {
+    server.start(function () {
       server.log('info', 'Server running at: ' + server.info.uri);
     });
   });
