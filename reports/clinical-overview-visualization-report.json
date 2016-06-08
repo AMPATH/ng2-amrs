@@ -245,5 +245,242 @@
                 "sql":"t1.location_id"
             }
         ]
+    },
+    {
+        "name": "patient-list-report-perc_tested_appropriately",
+        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "joins":[
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "person_name", "alias": "t2", "joinExpression": "t1.person_id  = t2.person_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            }
+        ],
+        "parameters": [
+            {"name":"startDate", "defaultValue":["01-01-1980"]},
+            {"name":"endDate", "defaultValue":["Now()"]},
+            {"name":"locations","defaultValue":[1]},
+            {"name":"groupByPerson", "defaultValue":[
+                {"label":"person","expression":"t1.person_id"}
+            ]
+            }
+        ],
+        "filters": [
+
+            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+            {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"startDate"},
+            {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
+            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"Timestampdiff(month, arv_start_date, encounter_datetime) >= 6 AND Timestampdiff(day, vl_1_date, encounter_datetime) < 365 AND (Coalesce(t1.death_date, out_of_care) IS NULL ) ", "processForce":true}
+        ],
+        "groupClause":[
+            {"parameter":"groupByPerson"}
+        ],
+        "orderBy":[
+            {"column":"encounter_datetime", "order":"desc", "name":"orderByDate"}
+        ],
+        "indicators": [
+        ],
+        "supplementColumns":[
+            {
+                "label": "person_id",
+                "type": "single",
+                "sql": "t1.person_id"
+            },
+            {
+                "label": "patient_uuid",
+                "type": "single",
+                "sql": "t1.uuid"
+            },
+            {
+                "label": "person_name",
+                "type": "single",
+                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+            },
+            {
+                "label": "identifiers",
+                "type": "single",
+                "sql": "group_concat(distinct t3.identifier separator ', ')"
+            }
+        ]
+    },
+    {
+        "name": "patient-list-report-currently_in_care_total",
+        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "joins":[
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "person_name", "alias": "t2", "joinExpression": "t1.person_id  = t2.person_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            }
+        ],
+        "parameters": [
+            {"name":"startDate", "defaultValue":["01-01-1980"]},
+            {"name":"endDate", "defaultValue":["Now()"]},
+            {"name":"locations","defaultValue":[1]},
+            {"name":"groupByPerson", "defaultValue":[
+                {"label":"person","expression":"t1.person_id"}
+            ]
+            }
+        ],
+        "filters": [
+            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+            {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"startDate"},
+            {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
+            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"encounter_datetime >= enrollment_date AND (Coalesce(t1.death_date, out_of_care) IS NULL)", "processForce":true}
+        ],
+        "groupClause":[
+            {"parameter":"groupByPerson"}
+        ],
+        "orderBy":[
+            {"column":"encounter_datetime", "order":"desc", "name":"orderByDate"}
+        ],
+        "indicators": [
+        ],
+        "supplementColumns":[
+            {
+                "label": "person_id",
+                "type": "single",
+                "sql": "t1.person_id"
+            },
+            {
+                "label": "patient_uuid",
+                "type": "single",
+                "sql": "t1.uuid"
+            },
+            {
+                "label": "person_name",
+                "type": "single",
+                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+            },
+            {
+                "label": "identifiers",
+                "type": "single",
+                "sql": "group_concat(distinct t3.identifier separator ', ')"
+            }
+        ]
+    },
+    {
+        "name": "patient-list-report-on_art_total",
+        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "joins":[
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "person_name", "alias": "t2", "joinExpression": "t1.person_id  = t2.person_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            }
+        ],
+        "parameters": [
+            {"name":"startDate", "defaultValue":["01-01-1980"]},
+            {"name":"endDate", "defaultValue":["Now()"]},
+            {"name":"locations","defaultValue":[1]},
+            {"name":"groupByPerson", "defaultValue":[
+                {"label":"person","expression":"t1.person_id"}
+            ]
+            }
+        ],
+        "filters": [
+            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+            {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"startDate"},
+            {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
+            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"encounter_datetime >= arv_start_date AND (Coalesce(t1.death_date, out_of_care) IS NULL)", "processForce":true}
+        ],
+        "groupClause":[
+            {"parameter":"groupByPerson"}
+        ],
+        "orderBy":[
+            {"column":"encounter_datetime", "order":"desc", "name":"orderByDate"}
+        ],
+        "indicators": [
+        ],
+        "supplementColumns":[
+            {
+                "label": "person_id",
+                "type": "single",
+                "sql": "t1.person_id"
+            },
+            {
+                "label": "patient_uuid",
+                "type": "single",
+                "sql": "t1.uuid"
+            },
+            {
+                "label": "person_name",
+                "type": "single",
+                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+            },
+            {
+                "label": "identifiers",
+                "type": "single",
+                "sql": "group_concat(distinct t3.identifier separator ', ')"
+            }
+        ]
+    },
+    {
+        "name": "patient-list-report-perc_virally_suppressed",
+        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "joins":[
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "person_name", "alias": "t2", "joinExpression": "t1.person_id  = t2.person_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            }
+        ],
+        "parameters": [
+            {"name":"startDate", "defaultValue":["01-01-1980"]},
+            {"name":"endDate", "defaultValue":["Now()"]},
+            {"name":"locations","defaultValue":[1]},
+            {"name":"groupByPerson", "defaultValue":[
+                {"label":"person","expression":"t1.person_id"}
+            ]
+            }
+        ],
+        "filters": [
+            {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+            {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"startDate"},
+            {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
+            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"Timestampdiff(month, arv_start_date, encounter_datetime) >= 6 AND Timestampdiff(day, vl_1_date, encounter_datetime) <365 AND (Coalesce(t1.death_date, out_of_care) IS NULL) AND vl_1 < 1000", "processForce":true}
+        ],
+        "groupClause":[
+            {"parameter":"groupByPerson"}
+        ],
+        "orderBy":[
+            {"column":"encounter_datetime", "order":"desc", "name":"orderByDate"}
+        ],
+        "indicators": [
+        ],
+        "supplementColumns":[
+            {
+                "label": "person_id",
+                "type": "single",
+                "sql": "t1.person_id"
+            },
+            {
+                "label": "patient_uuid",
+                "type": "single",
+                "sql": "t1.uuid"
+            },
+            {
+                "label": "person_name",
+                "type": "single",
+                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+            },
+            {
+                "label": "identifiers",
+                "type": "single",
+                "sql": "group_concat(distinct t3.identifier separator ', ')"
+            }
+        ]
     }
 ]
