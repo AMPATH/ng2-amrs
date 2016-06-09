@@ -1,6 +1,7 @@
 var rp = require('request-promise');
 var Promise = require("bluebird");
 var config = require("../conf/config");
+var requestConfig = require('../request-config');
 var dao = require('../etl-dao');
 var _ = require('underscore');
 var moment = require('moment');
@@ -12,7 +13,8 @@ var CONCEPT_UUIDS = {
   TB_TX_DRUG_STARTED_DETAILED: 'a89fe6f0-1350-11df-a1f1-0026b9348838',
   TB_TX_PLAN: 'a89c1fd4-1350-11df-a1f1-0026b9348838',
   CC_HPI: 'a89ffbf4-1350-11df-a1f1-0026b9348838',
-  ASSESSMENT: '23f710cc-7f9c-4255-9b6b-c3e240215dba'
+  ASSESSMENT: '23f710cc-7f9c-4255-9b6b-c3e240215dba',
+  TB_PROPHY_PLAN: 'a89c1cfa-1350-11df-a1f1-0026b9348838'
 };
 var encounterRepresentation = 'custom:(uuid,encounterDatetime,' +
   'patient:(uuid,uuid),form:(uuid,name),location:ref,encounterType:ref,' +
@@ -167,14 +169,15 @@ function generateNote(hivSummaryModel, vitalsModel, encounters) {
   };
 
   if (vitalsModel && !_.isEmpty(vitalsModel)) {
+
     note.vitals = {
       weight: vitalsModel.weight,
       height: vitalsModel.height,
       bmi: vitalsModel.bmi,
       temperature: vitalsModel.temp,
       oxygenSaturation: vitalsModel.oxygen_sat,
-      systolicBp: vitalsModel.systolic_bp,
-      diastolicBp: vitalsModel.diastolic_bp,
+      systolicBp: vitalsModel.systolic_bp || '',
+      diastolicBp: vitalsModel.diastolic_bp || '',
       pulse: vitalsModel.pulse
     };
   }
@@ -306,40 +309,29 @@ function _constructTBProphylaxisPlan(encArray, hivSummaryModel, obsfinder) {
       .toDate().toISOString();
   } else {
     tbProphy.startDate = 'Not available';
-    tbProphy.estimatedEndDate = 'N/A'
+    tbProphy.estimatedEndDate = 'N/A';
   }
   return tbProphy;
 }
 var self = function() {
   var etlProtocal = 'http';
   var openmrsProtocal = 'http';
-  if(config.etl.tls){
-    etlProtocal='https';
+  if (config.etl.tls) {
+    etlProtocal = 'https';
   }
-  if(config.openmrs.https){
-    openmrsProtocal='https';
+  if (config.openmrs.https) {
+    openmrsProtocal = 'https';
   }
-  var etlBase = etlProtocal+'://'+config.etl.host+':'+config.etl.port;
-  var openmrsBase = openmrsProtocal+'://'+config.openmrs.host+':'+config.openmrs.port;
+  var etlBase = etlProtocal + '://' + config.etl.host + ':' + config.etl.port;
+  var openmrsBase = openmrsProtocal + '://' + config.openmrs.host + ':' + config.openmrs.port;
   return {
     generate: generateNotes,
     getHivSummary: function getHivSummary(request) {
       return new Promise(function(resolve, reject) {
-
-        var options = {
-          uri: etlBase+'/etl/patient/' + request.params.uuid + '/hiv-summary',
-          qs: {
+        requestConfig.getRequestPromise({
             startIndex: request.query.startIndex,
             limit: request.query.limit
-          },
-          headers: {
-            'User-Agent': 'Request-Promise',
-            'authorization': request.headers.authorization
-          },
-          json: true
-        };
-        rp(options)
-          .then(function(json) {
+          }, etlBase + '/etl/patient/' + request.params.uuid + '/hiv-summary').then(function(json) {
             resolve(json);
           })
           .catch(function(err) {
@@ -348,22 +340,12 @@ var self = function() {
           });
       });
     },
-    getVitals: function getVitals(request, callback) {
+    getVitals: function getVitals(request) {
       return new Promise(function(resolve, reject) {
-        var options = {
-          uri: etlBase+'/etl/patient/' + request.params.uuid + '/vitals',
-          qs: {
+        requestConfig.getRequestPromise({
             startIndex: request.query.startIndex,
             limit: request.query.limit
-          },
-          headers: {
-            'User-Agent': 'Request-Promise',
-            'authorization': request.headers.authorization
-          },
-          json: true
-        };
-        rp(options)
-          .then(function(json) {
+          }, etlBase + '/etl/patient/' + request.params.uuid + '/vitals').then(function(json) {
             resolve(json);
           })
           .catch(function(err) {
@@ -372,25 +354,17 @@ var self = function() {
           });
       });
     },
-    getPatientEncounters: function getPatientEncounters(request, callback) {
+    getPatientEncounters: function getPatientEncounters(request) {
       return new Promise(function(resolve, reject) {
         var _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
-          'patient:(uuid,uuid),form:(uuid,name),' +
-          'location:ref,encounterType:ref,provider:ref)';
-        var options = {
-          uri: openmrsBase +'/amrs/ws/rest/v1/encounter',
-          qs: {
+          'patient:(uuid,uuid),form:(uuid,name),location:ref,encounterType:ref,' +
+          'encounterProviders:(provider:full,encounterRole:ref),' +
+          'obs:(uuid,obsDatetime,concept:(uuid,name:(uuid,name)),value:ref,' +
+          'groupMembers:(uuid,concept:(uuid,name:(uuid,name)),obsDatetime,value:ref)))';
+        requestConfig.getRequestPromise({
             v: _customDefaultRep,
             patient: request.params.uuid
-          },
-          headers: {
-            'User-Agent': 'Request-Promise',
-            'authorization': request.headers.authorization
-          },
-          json: true
-        };
-        rp(options)
-          .then(function(json) {
+          }, openmrsBase + '/amrs/ws/rest/v1/encounter').then(function(json) {
             resolve(json);
           })
           .catch(function(err) {

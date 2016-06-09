@@ -4,6 +4,7 @@ var Good = require('good');
 var Basic = require('hapi-auth-basic');
 var https = require('http');
 var config = require('./conf/config');
+var requestConfig = require('./request-config');
 var corsHeaders = require('hapi-cors-headers');
 var _ = require('underscore');
 var tls = require('tls');
@@ -97,7 +98,10 @@ var HapiSwaggerOptions = {
   sortEndpoints: 'path'
 };
 
-
+server.ext('onRequest', function(request, reply) {
+  requestConfig.setAuthorization(request.headers.authorization);
+  return reply.continue();
+});
 server.register([
   Inert,
   Vision, {
