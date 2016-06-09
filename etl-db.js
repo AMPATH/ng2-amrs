@@ -66,7 +66,6 @@ module.exports = function () {
         var sql = queryParts.sql;
         var values = queryParts.values;
 
-        console.log('Sql query', sql);
         getServerConnection(function (err, connection) {
             if (err) {
                 errorHandler('queryServer: Database connection error', err);
@@ -121,7 +120,6 @@ module.exports = function () {
 
     service.createQuery = createQuery;
         function createQuery(queryParts, sq) {
-          // console.log('query parts in Create query', queryParts)
         var result = {};
         var multiquery = "";
         var multuvalues = [];
@@ -208,7 +206,7 @@ module.exports = function () {
         _.each(queryParts['group'], function (col) {
             s.group(col);
         });
-        console.log('Having stuff', queryParts['having'][0]);
+
         if(queryParts['having'][0] !== '') s.having(queryParts['having'][0]);
 
         return s;

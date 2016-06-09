@@ -15,7 +15,7 @@ module.exports = function() {
       var column_name = passed_params[1];
       var column_value = passed_params[2];
 
-      console.log('Gettting Here');
+
       var uuid = request.params.uuid;
       var order =  helpers.getSortOrder(request.query.order);
 
@@ -33,7 +33,6 @@ module.exports = function() {
       });
     },
     getReportIndicators: function getReportIndicators(request, callback) {
-      // console.log('Getting Here', request.query);
       var reportName = request.query.report;
       var countBy = request.query.countBy;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
@@ -85,7 +84,6 @@ module.exports = function() {
       };
       //build report
       var queryParts =reportFactory.singleReportToSql(requestParams);
-      console.log('Query parts before getting to the server',queryParts.length);
       db.reportQueryServer(queryParts, function(results) {
         callback(reportFactory.resolveIndicators(reportName, results));
       });
@@ -154,14 +152,12 @@ module.exports = function() {
       };
       //build report
       var queryParts =reportFactory.singleReportToSql(requestParams);
-      console.log('Query parts before getting to the server',requestParams);
       db.reportQueryServer(queryParts, function(results) {
         callback(reportFactory.resolveIndicators(reportName, results));
       });
 
     },
     getIndicatorsSchemaWithSections: function getIndicatorsSchemaWithSections(request, callback) {
-      console.log('Getting Here', request.query);
       var reportName = request.query.report;
       //Check for undefined query field
       if (reportName === undefined)
@@ -178,7 +174,6 @@ module.exports = function() {
       });
     },
     getIndicatorsSchema: function getIndicatorsSchema(request, callback) {
-      console.log('Getting Here', request.query);
       var reportName = request.query.report;
       //Check for undefined query field
       if (reportName === undefined)
@@ -270,7 +265,6 @@ module.exports = function() {
 
     },
     getPatientListReportByIndicatorAndLocation: function getPatientListReportByIndicatorAndLocation(request, callback) {
-      console.log('Getting Here', request.query);
       var requestIndicators = request.query.indicator;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
@@ -306,7 +300,6 @@ module.exports = function() {
       };
       //build report
       reportFactory.buildPatientListReportExpression(queryParams, function(exprResult) {
-        console.log('here is the where clause',exprResult.whereClause);
         var queryParts = {
           columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, t4.gender, t4.birthdate",
           concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name;" +

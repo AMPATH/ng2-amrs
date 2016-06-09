@@ -21,7 +21,7 @@ module.exports = function() {
         where[0] += " AND " + filters.s;
         where = where.concat(filters.vals);
       }
-      console.log(where);
+
 
       var queryParts = {
         columns: request.query.fields || "t1.*,t2.gender,round(datediff(t1.encounter_datetime,t2.birthdate)/365) as age,group_concat(identifier) as identifiers",
@@ -162,7 +162,6 @@ module.exports = function() {
         offset: request.query.startIndex,
         limit: request.query.limit
       };
-      console.log('query parts', queryParts);
       db.queryServer_test(queryParts, function(result) {
         callback(result);
       });
