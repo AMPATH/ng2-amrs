@@ -76,9 +76,9 @@ module.exports = function() {
 
     },
     getClinicalNotes: function getClinicalNotes(request, callback) {
-      var patientEncounters=noteService.getPatientEncounters(request, callback);
-      var patientHivSummary=noteService.getHivSummary(request, callback);
-      var patientVitals=noteService.getVitals(request, callback);
+      var patientEncounters=noteService.getPatientEncounters(request);
+      var patientHivSummary=noteService.getHivSummary(request);
+      var patientVitals=noteService.getVitals(request);
 
       Promise.all([patientEncounters,patientHivSummary,patientVitals]).then(function(data) {
           var encounters = data[0].results;
