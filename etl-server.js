@@ -7,6 +7,7 @@ var config = require('./conf/config');
 var requestConfig = require('./request-config');
 var corsHeaders = require('hapi-cors-headers');
 var _ = require('underscore');
+var moment = require('moment');
 var tls = require('tls');
 var fs = require('fs');
 var routes = require('./etl-routes');
@@ -145,9 +146,9 @@ server.register([
         console.log("No response");
       }else{
         console.log(
-            'Username:',
+             'Username:',
             user +'\n'+
-            server.info.uri + ': '
+            moment().local().format("YYYY-MM-DD HH:mm:ss") + ': ' +  server.info.uri + ': '
             + request.method.toUpperCase() + ' '
             + request.url.path + ' \n '
             + request.response.statusCode
