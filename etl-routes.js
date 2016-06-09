@@ -617,7 +617,6 @@ module.exports = function () {
                                 request.query.formIds = results;
                             }).onResolved = onResolvedPromise;
                     }
-                    console.log('uuids ', request.query.encounterTypeUuids)
                     if (request.query.encounterTypeUuids) {
 
                         dao.getIdsByUuidAsyc('amrs.encounter_type', 'encounter_type_id', 'uuid', request.query.encounterTypeUuids,

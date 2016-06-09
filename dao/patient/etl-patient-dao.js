@@ -35,7 +35,6 @@ module.exports = function() {
       var encounterTypeNames = {};
       //get encounter type Name
       db.queryServer_test(qParts, function(result) {
-        console.log('returned rows : ', result.result.length);
         _.each(result.result, function(row) {
           encounterTypeNames[row.encounter_type_id] = row.name;
         });
@@ -54,7 +53,6 @@ module.exports = function() {
     getPatientVitals: function getPatientVitals(request, callback) {
       var uuid = request.params.uuid;
       var order =  helpers.getSortOrder(request.query.order);
-      console.log('test  ', request.query);
       // request.query.page;
       // request.query.pageSize;
 
@@ -124,7 +122,6 @@ module.exports = function() {
       });
     },
     getPatient: function getPatient(request, callback) {
-      console.log('Gettting Here', request.query);
       var uuid = request.params.uuid;
       var order =  helpers.getSortOrder(request.query.order);
 
@@ -199,7 +196,6 @@ module.exports = function() {
       });
     },
     getPatientListByIndicator: function getPatientListByIndicator(request, callback) {
-      console.log('Getting Here', request.query);
       var reportIndicator = request.query.indicator;
       var location = request.params.location;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
@@ -247,7 +243,6 @@ module.exports = function() {
       });
     },
     getPatientByIndicatorAndLocation: function getPatientByIndicator(request, callback) {
-      console.log('Getting Here', request.query);
       var reportIndicator = request.query.indicator;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
