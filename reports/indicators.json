@@ -1005,8 +1005,8 @@
     },
     {
         "name":"on_second_line_not_suppressed",
-        "label":"patient on second line not suppressed",
-        "description": "patient not_on_arv ",
+        "label":"on second line not suppressed",
+        "description": "patient on second line not suppressed",
         "expression": "vl_1 > 1000 and cur_arv_line > 1"
     },
     {
@@ -1016,11 +1016,17 @@
         "expression": "is_clinical_encounter=1 and prev_clinical_datetime_hiv is null"
     },
     {
-      "name":"new_viral_load_present",
-      "label":"new viral load present",
-      "description": "patient has a new viral load result",
-      "expression": "DATE_ADD(vl_1_date, INTERVAL 90 DAY) > NOW()"
-  }
+        "name":"new_viral_load_present",
+        "label":"new viral load present",
+        "description": "patient has a new viral load result",
+        "expression": "DATE_ADD(vl_1_date, INTERVAL 90 DAY) > NOW()"
+    },
+    {
+        "name":"not_on_arvs_cd4_lte_500",
+        "label":"patient not_on_arvs_cd4_lte_500",
+        "description": "patients who qualify for ART but are not on therapy",
+        "expression": "arv_start_date is null and cd4_1 < 500"
+    }
 
 
 ]

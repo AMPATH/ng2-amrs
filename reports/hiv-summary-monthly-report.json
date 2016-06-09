@@ -78,6 +78,11 @@
                 "sql":"count(distinct if($expression,person_id,null))"
             },
             {
+                "label":"not_on_arvs_cd4_lte_500",
+                "expression":"not_on_arvs_cd4_lte_500",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
                 "label":"vl_done_past_year_lte_1000",
                 "expression":"vl_done_past_year_lte_1000",
                 "sql":"count(distinct if($expression,person_id,null))"
