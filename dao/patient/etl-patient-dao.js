@@ -201,6 +201,9 @@ module.exports = function() {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
       var order =  helpers.getSortOrder(request.query.order);
+      var startAge =request.query.startAge||0;
+      var endAge =request.query.endAge||150;
+      var gender =(request.query.gender||'M,F').split(',');
       var reportName = request.query.reportName || 'hiv-summary-report';
       //Check for undefined query field
       if (reportIndicator === undefined)
@@ -220,11 +223,13 @@ module.exports = function() {
           where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
            "and t1.location_uuid = ? and t1.is_clinical_encounter = 1 and " +
            "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ? )" +
-           " and coalesce(t1.death_date, out_of_care) is null" +
-            exprResult.whereClause, startDate, endDate, location, endDate
+           " and coalesce(t1.death_date, out_of_care) is null and round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?" +
+          " and round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ? and t4.gender in ?" +
+            exprResult.whereClause, startDate, endDate, location, endDate, startAge, endAge, gender
           ],
           joins: [
-            ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
+            ['amrs.person_name', 't2', 't1.person_id = t2.person_id'],
+            ['amrs.person', 't4', 't1.person_id = t4.person_id']
           ],
           leftOuterJoins: [
             ['amrs.patient_identifier', 't3', 't1.person_id = t3.patient_id']
@@ -249,6 +254,9 @@ module.exports = function() {
       var order =  helpers.getSortOrder(request.query.order);
       var reportName = request.query.reportName || 'hiv-summary-monthly-report';
       var locationIds = request.query.locations;
+      var startAge =request.query.startAge||0;
+      var endAge =request.query.endAge||150;
+      var gender =(request.query.gender||'M,F').split(',');
       var locations = [];
       _.each(locationIds.split(','), function(loc) {
         locations.push(Number(loc));
@@ -271,11 +279,13 @@ module.exports = function() {
           where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
            "and t1.location_id in ? and t1.is_clinical_encounter = 1 and " +
            "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ?)" +
-           " and coalesce(t1.death_date, out_of_care) is null" +
-            exprResult.whereClause, startDate, endDate, locations, endDate
+           " and coalesce(t1.death_date, out_of_care) is null and round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?" +
+          " and round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ? and t4.gender in ?" +
+            exprResult.whereClause, startDate, endDate, locations, endDate, startAge, endAge, gender
           ],
           joins: [
-            ['amrs.person_name', 't2', 't1.person_id = t2.person_id']
+            ['amrs.person_name', 't2', 't1.person_id = t2.person_id'],
+            ['amrs.person', 't4', 't1.person_id = t4.person_id']
           ],
           leftOuterJoins: [
             ['amrs.patient_identifier', 't3', 't1.person_id = t3.patient_id']

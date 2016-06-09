@@ -38,6 +38,9 @@ module.exports = function() {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
       var referenceDate = request.query.referenceDate || new Date().toISOString().substring(0, 10);
+      var startAge =request.query.startAge||0;
+      var endAge =request.query.endAge||150;
+      var gender =(request.query.gender||'M,F').split(',');
       var order = helpers.getSortOrder(request.query.order);
       var locations;
       if (request.query.locations) {
@@ -70,6 +73,16 @@ module.exports = function() {
         }, {
           "name": "patientUuid",
           "value": request.query["patientUuid"]
+          },
+          {
+            "name": "startAge",
+            "value": startAge
+          }, {
+            "name": "endAge",
+            "value": endAge
+          }, {
+            "name": "gender",
+            "value": gender
           }
         ],
         // order: order || [{
@@ -326,7 +339,5 @@ module.exports = function() {
         });
       });
     }
-
-
   };
 }();
