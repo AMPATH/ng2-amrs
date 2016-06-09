@@ -1014,8 +1014,13 @@
         "label":"newly enrolled",
         "description": "patients who are newly enrolled",
         "expression": "is_clinical_encounter=1 and prev_clinical_datetime_hiv is null"
-    }
-
+    },
+    {
+      "name":"new_viral_load_present",
+      "label":"new viral load present",
+      "description": "patient has a new viral load result",
+      "expression": "DATE_ADD(vl_1_date, INTERVAL 90 DAY) > NOW()"
+  }
 
 
 ]

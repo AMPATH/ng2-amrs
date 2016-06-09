@@ -26,6 +26,11 @@
                  "sql":"$expression"
                },
                {
+                 "label":"new_viral_load_present",
+                 "expression":"new_viral_load_present",
+                 "sql":"$expression"
+               },
+               {
                  "label":"needs_cd4_count_coded",
                  "expression":"needs_cd4_count_coded",
                  "sql":"$expression"
