@@ -25,7 +25,11 @@ var reportPrivileges = {
     'patient-register-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'hiv-summary-report': [PRIVILEGES.canViewDataAnalytics],
     'hiv-summary-monthly-report': [PRIVILEGES.canViewDataAnalytics],
-    'clinical-reminder-report': [PRIVILEGES.canViewPatient]
+    'clinical-reminder-report': [PRIVILEGES.canViewPatient],
+    'patient-list-report-perc_virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-on_art_total': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-currently_in_care_total': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-perc_tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];
@@ -52,17 +56,17 @@ authorizer.getCurrentUserRoles = function () {
 };
 
 authorizer.getAllPrivileges = function () {
-    return PRIVILEGES;    
+    return PRIVILEGES;
 };
 
 authorizer.getAllPrivilegesArray = function () {
     var allPrivileges = [];
-    
+
     for(var prop in PRIVILEGES){
         allPrivileges.push(PRIVILEGES[prop]);
     }
     //console.log('All privileges', allPrivileges);
-    return allPrivileges;    
+    return allPrivileges;
 };
 
 authorizer.hasPrivilege = function (privilege) {
@@ -81,13 +85,13 @@ authorizer.hasPrivileges = function (arrayOfPrivileges) {
     if (authorizer.isSuperUser()) {
         return true;
     }
-    
+
     var hasPrivilege = true;
-    
+
     for(var i = 0; i <arrayOfPrivileges.length; i++){
         if(!authorizer.hasPrivilege(arrayOfPrivileges[i])) {
            hasPrivilege = false;
-           break; 
+           break;
         }
     }
     return hasPrivilege;
@@ -96,7 +100,7 @@ authorizer.hasPrivileges = function (arrayOfPrivileges) {
 authorizer.hasReportAccess = function (reportName) {
     var hasAccess = false;
     var requiredPrivileges = reportPrivileges[reportName];
-    
+
     if(requiredPrivileges){
         hasAccess = authorizer.hasPrivileges(requiredPrivileges);
     }
@@ -110,7 +114,7 @@ authorizer.isSuperUser = function () {
             return true;
         }
     }
-    
+
     return false;
 };
 
