@@ -188,11 +188,6 @@
 
             },
             {
-                "label":"perc_in_care",
-                "expression":"perc_in_care",
-                "sql":"[enrolled_in_care_total]/[patients]"
-            },
-            {
                 "label":"perc_virally_suppressed_in_past_year",
                 "expression":"perc_virally_suppressed_in_past_year",
                 "sql":"[virally_suppressed_in_past_year]/[on_arvs]"
