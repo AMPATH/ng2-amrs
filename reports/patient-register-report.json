@@ -4,12 +4,16 @@
     "joins":[
         {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
         {"joinType":"INNER JOIN","schema":"amrs","tableName":"person_name","alias":"t3","joinExpression":"t1.person_id = t3.person_id"},
-        {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"patient_identifier","alias":"t4","joinExpression":"t1.person_id = t4.patient_id"}
+        {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"patient_identifier","alias":"t4","joinExpression":"t1.person_id = t4.patient_id"},
+        {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t5","joinExpression":"t1.person_id = t5.person_id"}
     ],
     "parameters": [
         {"name":"startDate", "defaultValue":["10-10-2015"]},
         {"name":"endDate", "defaultValue":["defaultValue"]},
         {"name":"locations","defaultValue":[]},
+        {"name":"startAge", "defaultValue":[]},
+        {"name":"endAge", "defaultValue":[]},
+        {"name":"gender", "defaultValue":[]},
         {
             "name": "groupByEncounter",
             "defaultValue": [
@@ -23,7 +27,10 @@
     "filters": [
         {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
         {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-        {"expression":"t1.location_id in ?", "parameter":"locations"}
+        {"expression":"t1.location_id in ?", "parameter":"locations"},
+        {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) >= ?", "parameter":"startAge"},
+        {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) <= ?", "parameter":"endAge"},
+        {"expression":"t5.gender in ?", "parameter":"gender"}
     ],
     "groupClause":[
         {"parameter":"groupByEncounter"}

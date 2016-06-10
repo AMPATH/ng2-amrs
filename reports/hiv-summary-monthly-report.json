@@ -6,11 +6,15 @@
             {"joinType":"JOIN","schema":"etl","tableName":"flat_hiv_summary","alias":"t1",
                 "joinExpression":"is_clinical_encounter=1 and encounter_datetime <= t2.endDate and coalesce(t1.death_date, out_of_care) is null"},
             {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t3",
-                "joinExpression":"t1.location_uuid = t3.uuid"}
+                "joinExpression":"t1.location_uuid = t3.uuid"},
+            {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t4","joinExpression":"t1.person_id = t4.person_id"}
         ],
         "parameters": [
             {"name":"startDate", "defaultValue":["01-01-1980"]},
             {"name":"endDate", "defaultValue":["Now()"]},
+            {"name":"startAge", "defaultValue":[]},
+            {"name":"endAge", "defaultValue":[]},
+            {"name":"gender", "defaultValue":[]},
             {"name":"locations","defaultValue":[1]},
             {"name":"groupByYear", "defaultValue":[
                 {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
@@ -25,6 +29,9 @@
             {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?", "parameter":"startAge"},
+            {"expression":"round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ?", "parameter":"endAge"},
+            {"expression":"t4.gender in ?", "parameter":"gender"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= t2.endDate)", "processForce":true}
@@ -39,43 +46,43 @@
             {
                 "label":"patients",
                 "expression":"patients",
-                "sql":"count(distinct person_id)"
+                "sql":"count(distinct t1.person_id)"
             },
             {
                 "label":"on_arvs",
                 "expression":"on_arvs",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
 
             },
             {
                 "label":"on_arvs_first_line",
                 "expression":"on_arvs_first_line",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_arvs_second_line",
                 "expression":"on_arvs_second_line",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_arvs_third_line",
                 "expression":"on_arvs_third_line",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"vl_done_past_year",
                 "expression":"vl_done_past_year",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"no_vl_done_past_year",
                 "expression":"no_vl_done_past_year",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_second_line_not_suppressed",
                 "expression":"on_second_line_not_suppressed",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"not_on_arvs_cd4_lte_500",
@@ -85,99 +92,99 @@
             {
                 "label":"vl_done_past_year_lte_1000",
                 "expression":"vl_done_past_year_lte_1000",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"vl_done_past_year_gt_1000",
                 "expression":"vl_done_past_year_gt_1000",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"vl_done_this_encounter",
                 "expression":"vl_done_this_encounter",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"vl_done_this_encounter_lte_1000",
                 "expression":"vl_done_this_encounter_lte_1000",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"vl_done_this_encounter_gt_1000",
                 "expression":"vl_done_this_encounter_gt_1000",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"vl_ordered",
                 "expression":"vl_ordered",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"pending_vl_order",
                 "expression":"pending_vl_order",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"pending_vl_order_no_result_after_4_weeks",
                 "expression":"pending_vl_order_no_result_after_4_weeks",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_arvs_lte_26_weeks",
                 "expression":"on_arvs_lte_26_weeks",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_arvs_lte_52_weeks",
                 "expression":"on_arvs_lte_52_weeks",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_arvs_lte_52_weeks_and_have_vl",
                 "expression":"on_arvs_lte_52_weeks_and_have_vl",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
                 "expression":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"pregnant",
                 "expression":"pregnant",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"pregnant_and_on_arvs",
                 "expression":"pregnant_and_on_arvs",
-                "sql":"count(distinct if($expression,person_id,null))"
+                "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
                 "label":"newly_enrolled",
                 "expression":"newly_enrolled",
-                "sql": "count(distinct if($expression,person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))"
             },
             {
                 "label":"enrolled_in_care_total",
                 "expression":"enrolled_in_care_total",
-                "sql": "count(distinct if($expression,person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))"
 
             },
             {
                 "label":"virally_suppressed",
                 "expression":"virally_suppressed",
-                "sql": "count(distinct if($expression,person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))"
             },
             {
                 "label":"virally_suppressed_in_past_year",
                 "expression":"virally_suppressed_in_past_year",
-                "sql": "count(distinct if($expression,person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))"
 
             },
             {
                 "label":"not_virally_suppressed_in_past_year",
                 "expression":"not_virally_suppressed_in_past_year",
-                "sql": "count(distinct if($expression,person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))"
 
             },
             {
@@ -228,7 +235,7 @@
             {
                 "label":"on_arvs_gt_26_weeks",
                 "expression":"on_arvs_gt_26_weeks",
-                "sql": "count(distinct if($expression,person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))"
             },
             {
                 "label":"perc_on_arvs_gt_6_months",
