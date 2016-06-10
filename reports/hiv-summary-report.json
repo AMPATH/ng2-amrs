@@ -186,12 +186,6 @@
                 "label":"not_virally_suppressed_in_past_year",
                 "expression":"not_virally_suppressed_in_past_year",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
-
-            },
-            {
-                "label":"perc_in_care",
-                "expression":"perc_in_care",
-                "sql":"[enrolled_in_care_total]/[patients]"
             },
             {
                 "label":"perc_virally_suppressed_in_past_year",
