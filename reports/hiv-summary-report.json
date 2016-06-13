@@ -177,6 +177,12 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))"
             },
             {
+                "label":"viral_load_resulted_in_past_year",
+                "expression":"viral_load_resulted_in_past_year",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+
+            },
+            {
                 "label":"virally_suppressed_in_past_year",
                 "expression":"virally_suppressed_in_past_year",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
@@ -190,12 +196,12 @@
             {
                 "label":"perc_virally_suppressed_in_past_year",
                 "expression":"perc_virally_suppressed_in_past_year",
-                "sql":"[virally_suppressed_in_past_year]/[on_arvs]"
+                "sql":"[virally_suppressed_in_past_year]/[viral_load_resulted_in_past_year]"
             },
             {
                 "label":"perc_not_virally_suppressed_in_past_year",
                 "expression":"perc_not_virally_suppressed_in_past_year",
-                "sql":"[not_virally_suppressed_in_past_year]/[on_arvs]"
+                "sql":"[not_virally_suppressed_in_past_year]/[viral_load_resulted_in_past_year]"
             },
             {
                 "label":"perc_on_arvs",
