@@ -122,6 +122,26 @@
         "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
+        "label":"on_pcp_prophylaxis_males_below_15",
+        "expression":"on_pcp_prophylaxis_males_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_females_below_15",
+        "expression":"on_pcp_prophylaxis_females_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_males_15_and_above",
+        "expression":"on_pcp_prophylaxis_males_15_and_above",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_females_15_and_above",
+        "expression":"on_pcp_prophylaxis_females_15_and_above",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
         "label":"enrolled_in_care_total",
         "expression":"enrolled_in_care_total",
         "sql":"count(distinct if($expression,t1.person_id,null))"
@@ -155,6 +175,26 @@
         "label":"enrolled_in_care_females_15_and_older",
         "expression":"enrolled_in_care_females_15_and_older",
         "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_males_below_15",
+        "expression":"ever_on_art_males_below_15",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_females_below_15",
+        "expression":"ever_on_art_females_below_15",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_males_15_and_older",
+        "expression":"ever_on_art_males_15_and_older",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_females_15_and_older",
+        "expression":"ever_on_art_females_15_and_older",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
       },
       {
         "label":"starting_art",
