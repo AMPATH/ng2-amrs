@@ -12,6 +12,10 @@ var _ = require('underscore');
 var Hapi = require('hapi');
 var fakeServer = require('../../sinon-server-1.17.3');
 
+var Promise = require('bluebird');
+
+require('sinon-as-promised')(Promise);
+
 chai.config.includeStack = true;
 global.expect = chai.expect;
 global.should = chai.should;
@@ -28,13 +32,15 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
     var stub;
     beforeEach(function(done) {
       stub = sinon.stub(db, 'queryServer_test');
-
+      
+      queryDbStub = sinon.stub(db, 'queryDb');
       // .yieldsTo(1, null, { result:mockData.getPatientMockData() });
       done();
     });
 
     afterEach(function() {
       stub.restore();
+      queryDbStub.restore();
     });
 
     it('should create the right query parts object when getPatient is called',
@@ -180,7 +186,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
     it('should create the right query parts object when getPatientVitals is called',
         function(done) {
           // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
-          stub.yields({
+          queryDbStub.resolves({
             startIndex: 0,
             size: 1,
             result: mockData.getPatientMockData()
@@ -205,7 +211,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
           });
 
           // console.log('body2  ++', stub.args[0][0]);
-          var queryParts = stub.args[0][0];
+          var queryParts = queryDbStub.args[0][0];
           expect(queryParts.table).to.equal('etl.flat_vitals');
           // if fields is null output all columns
           expect(queryParts.columns).to.equal('*');
@@ -216,7 +222,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
     it('should create the right fields property when getPatientVitals is called',
         function(done) {
           // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
-          stub.yields({
+          queryDbStub.resolves({
             startIndex: 0,
             size: 1,
             result: mockData.getPatientMockData()
@@ -238,7 +244,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
           });
 
           // console.log('bodyxx  ++', stub.args[0][0]);
-          var queryParts = stub.args[0][0];
+          var queryParts = queryDbStub.args[0][0];
 
           expect(queryParts.columns).to.be.an('array');
           expect(queryParts.columns).to.include('a');
