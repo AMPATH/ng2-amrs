@@ -8,7 +8,7 @@ var currentUserRoles = [];
 var PRIVILEGES = {
     canViewPatient: 'View Patients',
     canViewDataAnalytics: 'View Data Analytics',
-    canViewDataEntryStats: 'View Data Entry Stats',
+    canViewDataEntryStats: 'View POC Data entry statitsisc',
     canViewClinicDashBoard: 'View Clinic Dashboard'
 };
 
