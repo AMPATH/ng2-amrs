@@ -144,8 +144,6 @@
         "description": "# of pregnant patients and are on ARVs in a given time period",
         "expression": "edd > encounter_datetime and cur_arv_line is not null"
     },
-
-
     {
         "name":"on_pcp_prophylaxis",
         "label":"on pcp prophylaxis",
@@ -511,10 +509,34 @@
         "expression": "arv_start_date>=enrollment_date and timestampdiff(year,birthdate,endDate) < 15"
     },
     {
+        "name":"ever_on_art_males_below_15",
+        "label":"ever on art males below 15",
+        "description": "Total # of male patients ever on ART Below 15yrs",
+        "expression": "arv_start_date>=enrollment_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15"
+    },
+    {
+        "name":"ever_on_art_females_below_15",
+        "label":"ever on art females below 15",
+        "description": "Total # of female patients ever on ART Below 15yrs",
+        "expression": "arv_start_date>=enrollment_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15"
+    },
+    {
         "name":"ever_on_art_15_and_older",
         "label":"ever on art 15 and older",
         "description": "Total #  patient ever on ART 15yrs and older",
         "expression": "arv_start_date>=enrollment_date and timestampdiff(year,birthdate,endDate) >= 15"
+    },
+    {
+        "name":"ever_on_art_males_15_and_older",
+        "label":"ever on art males 15 and older",
+        "description": "Total # of male patients ever on ART 15yrs and older",
+        "expression": "arv_start_date>=enrollment_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15"
+    },
+    {
+        "name":"ever_on_art_females_15_and_older",
+        "label":"ever on art females 15 and older",
+        "description": "Total # of female patients ever on ART 15yrs and older",
+        "expression": "arv_start_date>=enrollment_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15"
     },
     {
         "name":"encounter_type",
