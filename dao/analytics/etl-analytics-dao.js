@@ -6,7 +6,7 @@ var _ = require('underscore');
 var reportFactory = require('../../etl-factory');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
-module.exports = function() {
+module.exports = function () {
   return {
     getCustomData: function getCustomData(request, callback) {
 
@@ -17,7 +17,7 @@ module.exports = function() {
 
 
       var uuid = request.params.uuid;
-      var order =  helpers.getSortOrder(request.query.order);
+      var order = helpers.getSortOrder(request.query.order);
 
       var queryParts = {
         columns: request.query.fields || "*",
@@ -28,7 +28,7 @@ module.exports = function() {
         limit: request.query.limit
       };
 
-      db.queryServer_test(queryParts, function(result) {
+      db.queryServer_test(queryParts, function (result) {
         callback(result);
       });
     },
@@ -38,20 +38,20 @@ module.exports = function() {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
       var referenceDate = request.query.referenceDate || new Date().toISOString().substring(0, 10);
-      var startAge =request.query.startAge||0;
-      var endAge =request.query.endAge||150;
-      var gender =(request.query.gender||'M,F').split(',');
+      var startAge = request.query.startAge || 0;
+      var endAge = request.query.endAge || 150;
+      var gender = (request.query.gender || 'M,F').split(',');
       var order = helpers.getSortOrder(request.query.order);
       var locations;
       if (request.query.locations) {
         locations = [];
-        _.each(request.query.locations.split(','), function(loc) {
+        _.each(request.query.locations.split(','), function (loc) {
           locations.push(Number(loc));
         });
       }
 
-      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
-      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+      if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
       var requestIndicators = request.query.indicators;
 
@@ -62,17 +62,17 @@ module.exports = function() {
           "name": "startDate",
           "value": startDate
         }, {
-          "name": "endDate",
-          "value": endDate
-        }, {
-          "name": "locations",
-          "value": locations
-        }, {
-          "name": "@referenceDate",
-          "value": referenceDate
-        }, {
-          "name": "patientUuid",
-          "value": request.query["patientUuid"]
+            "name": "endDate",
+            "value": endDate
+          }, {
+            "name": "locations",
+            "value": locations
+          }, {
+            "name": "@referenceDate",
+            "value": referenceDate
+          }, {
+            "name": "patientUuid",
+            "value": request.query["patientUuid"]
           },
           {
             "name": "startAge",
@@ -96,8 +96,8 @@ module.exports = function() {
         requestIndicators: requestIndicators
       };
       //build report
-      var queryParts =reportFactory.singleReportToSql(requestParams);
-      db.reportQueryServer(queryParts, function(results) {
+      var queryParts = reportFactory.singleReportToSql(requestParams);
+      db.reportQueryServer(queryParts, function (results) {
         callback(reportFactory.resolveIndicators(reportName, results));
       });
     },
@@ -107,8 +107,8 @@ module.exports = function() {
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
       var providerUuid;
       var creatorUuid;
-      if(request.query.creatorUuid) creatorUuid= request.query.creatorUuid;
-      if(request.query.providerUuid)  providerUuid = request.query.providerUuid;
+      if (request.query.creatorUuid) creatorUuid = request.query.creatorUuid;
+      if (request.query.providerUuid) providerUuid = request.query.providerUuid;
 
       var queryParams = {
         reportName: reportName,
@@ -125,14 +125,14 @@ module.exports = function() {
       var requestIndicators = request.query.indicators;
 
       //build query params
-      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
-      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+      if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
       var requestParams = {
         reportName: reportName,
         whereParams: [
           {
-          "name": "startDate",
-          "value": startDate
+            "name": "startDate",
+            "value": startDate
           },
           {
             "name": "endDate",
@@ -164,9 +164,40 @@ module.exports = function() {
         limit: request.query.limit
       };
       //build report
-      var queryParts =reportFactory.singleReportToSql(requestParams);
-      db.reportQueryServer(queryParts, function(results) {
+      var queryParts = reportFactory.singleReportToSql(requestParams);
+      db.reportQueryServer(queryParts, function (results) {
         callback(reportFactory.resolveIndicators(reportName, results));
+      });
+
+    },
+    getPatientFlowData: function getPatientFlowData(request, callback) {
+      var reportName = 'patient-flow-report';
+      var dateStarted = request.query.dateStarted || new Date().toISOString().substring(0, 10);
+      if (!_.isUndefined(dateStarted)) dateStarted = dateStarted.split('T')[0];
+
+      var requestParams = {
+        reportName: reportName,
+        whereParams: [
+          {
+            "name": "dateStarted",
+            "value": dateStarted
+          },
+          {
+            "name": "location",
+            "value": request.paramsArray[0]
+          }
+        ],
+        groupBy:'groupByEncounter',
+        offset: request.query.startIndex || 0,
+        limit: request.query.limit || 1000
+      };
+
+      //build report
+      var queryParts = reportFactory.singleReportToSql(requestParams, reportName);
+      db.reportQueryServer(queryParts, function (results) {
+        var results = reportFactory.resolveIndicators(reportName, results);
+
+        callback(results);
       });
 
     },
@@ -180,7 +211,7 @@ module.exports = function() {
         reportName: reportName
       };
       //retrieve jsin
-      reportFactory.buildIndicatorsSchemaWithSections(queryParams, function(result) {
+      reportFactory.buildIndicatorsSchemaWithSections(queryParams, function (result) {
         var schema = {};
         schema.result = result;
         callback(schema);
@@ -196,74 +227,74 @@ module.exports = function() {
         reportName: reportName
       };
       //retrieve jsin
-      reportFactory.buildIndicatorsSchema(queryParams, function(result) {
+      reportFactory.buildIndicatorsSchema(queryParams, function (result) {
         var schema = {};
         schema.result = result;
         callback(schema);
       });
     },
-    getIdsByUuidAsyc:function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
-        var uuids = [];
-        _.each(arrayOfUuids.split(','), function(uuid) {
-            uuids.push(uuid);
+    getIdsByUuidAsyc: function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
+      var uuids = [];
+      _.each(arrayOfUuids.split(','), function (uuid) {
+        uuids.push(uuid);
+      });
+
+      var queryParts = {
+        columns: idColumnName,
+        table: fullTableName,
+        where: [uuidColumnName + " in ?", uuids]
+      };
+
+      var promise = {
+        onResolved: undefined,
+        results: undefined
+      };
+
+      db.queryServer_test(queryParts, function (result) {
+        var formattedResult = '';
+
+        _.each(result.result, function (rowPacket) {
+          if (formattedResult === '') {
+            formattedResult = formattedResult + rowPacket[idColumnName];
+          } else {
+            formattedResult = formattedResult + ',' + rowPacket[idColumnName];
+          }
         });
+        callback(formattedResult);
+        promise.results = formattedResult;
+        if (typeof promise.onResolved === 'function') {
+          promise.onResolved(promise);
+        }
+      });
 
-        var queryParts = {
-            columns: idColumnName,
-            table: fullTableName,
-            where: [uuidColumnName + " in ?", uuids]
-        };
-
-        var promise = {
-            onResolved: undefined,
-            results: undefined
-        };
-
-        db.queryServer_test(queryParts, function(result) {
-            var formattedResult = '';
-
-            _.each(result.result, function(rowPacket) {
-                if (formattedResult === '') {
-                    formattedResult = formattedResult + rowPacket[idColumnName];
-                } else {
-                    formattedResult = formattedResult + ',' + rowPacket[idColumnName];
-                }
-            });
-            callback(formattedResult);
-            promise.results = formattedResult;
-            if (typeof promise.onResolved === 'function') {
-                promise.onResolved(promise);
-            }
-        });
-
-        return promise;
+      return promise;
     },
     getHivSummaryData: function getHivSummaryData(request, callback) {
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var locationUuids = request.query.locationUuids ||'';
+      var locationUuids = request.query.locationUuids || '';
       var locations = [];
-      _.each(locationUuids.split(','), function(loc) {
+      _.each(locationUuids.split(','), function (loc) {
         locations.push(loc);
       });
       var columns = "name as location, t1.*, day(encounter_datetime) as day, t3.gender, " +
         "week(encounter_datetime) as week, month(encounter_datetime) as month, year(encounter_datetime) as year," +
         "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(t3.birthdate, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < " +
         "DATE_FORMAT(t3.birthdate,'00-%m-%d')) AS age, if(arv_start_date is not null, t1.person_id,null) as on_arvs, " +
-          "t2.location_id";
+        "t2.location_id";
 
-      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
-      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+      if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
-      var whereClause=["date(encounter_datetime) >= ? and date(encounter_datetime) <= ? " +
-      "and t1.location_uuid in ?", startDate, endDate, locations];
+      var whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ? " +
+        "and t1.location_uuid in ?", startDate, endDate, locations];
       console.log('here is the no of locations selected', request.query.locationUuids);
-      if (request.query.locationUuids===undefined)
-        whereClause= ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
+      if (request.query.locationUuids === undefined)
+        whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
       var queryParts = {
         columns: columns,
         table: "etl.flat_hiv_summary",
-        where:whereClause,
+        where: whereClause,
         joins: [
           ['amrs.location', 't2', 't1.location_uuid = t2.uuid'],
           ['amrs.person', 't3', 't3.person_id=t1.person_id']
@@ -272,7 +303,7 @@ module.exports = function() {
         limit: request.query.limit
       };
 
-      db.queryServer_test(queryParts, function(result) {
+      db.queryServer_test(queryParts, function (result) {
         callback(result);
       });
 
@@ -281,11 +312,11 @@ module.exports = function() {
       var requestIndicators = request.query.indicator;
       var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
       var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-      var order =  helpers.getSortOrder(request.query.order);
+      var order = helpers.getSortOrder(request.query.order);
       var reportName = request.query.reportName || 'hiv-summary-report';
       var locationIds = request.query.locations;
       var locations = [];
-      _.each(locationIds.split(','), function(loc) {
+      _.each(locationIds.split(','), function (loc) {
         locations.push(Number(loc));
       });
       //Check for undefined query field
@@ -294,8 +325,8 @@ module.exports = function() {
       //declare query params
       //build query params
 
-      if(!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
-      if(!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+      if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
+      if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
       var queryParams = {
         requestIndicators: requestIndicators,
@@ -304,15 +335,15 @@ module.exports = function() {
           "name": "startDate",
           "value": startDate
         }, {
-          "name": "endDate",
-          "value": endDate
-        }, {
-          "name": "locations",
-          "value": locations
-        }]
+            "name": "endDate",
+            "value": endDate
+          }, {
+            "name": "locations",
+            "value": locations
+          }]
       };
       //build report
-      reportFactory.buildPatientListReportExpression(queryParams, function(exprResult) {
+      reportFactory.buildPatientListReportExpression(queryParams, function (exprResult) {
         var queryParts = {
           columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, t4.gender, t4.birthdate",
           concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name;" +
@@ -334,10 +365,10 @@ module.exports = function() {
           limit: request.query.limit,
           group: ['t1.person_id']
         };
-        db.queryServer_test(queryParts, function(result) {
+        db.queryServer_test(queryParts, function (result) {
           callback(result);
         });
       });
     }
   };
-}();
+} ();

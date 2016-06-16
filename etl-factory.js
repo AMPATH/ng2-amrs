@@ -20,6 +20,7 @@ reportList.push.apply(reportList, require('./reports/moh-731-cohort-allsites-rep
 reportList.push.apply(reportList, require('./reports/dataentry-statistics.json'));
 reportList.push.apply(reportList, require('./reports/clinical-overview-visualization-report.json'));
 reportList.push.apply(reportList, require('./reports/hiv-summary-monthly-report.json'));
+reportList.push.apply(reportList, require('./reports/patient-flow-report.json'));
 
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {

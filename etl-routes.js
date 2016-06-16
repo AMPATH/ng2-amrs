@@ -242,6 +242,33 @@ module.exports = function () {
             }
         }, {
             method: 'GET',
+            path: '/etl/location/{uuid}/patient-flow-data',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                },
+                handler: function (request, reply) {
+                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.paramsArray[0],
+                        function (results) {
+                            request.paramsArray[0] = results;
+                            dao.getPatientFlowData(request, reply);
+                        });
+                },
+                description: "Get a location's patient movement and waiting time data",
+                notes: "Returns a location's patient flow with the given location uuid.",
+                tags: ['api'],
+                validate: {
+                    options: { allowUnknown: true },
+                    params: {
+                        uuid: Joi.string()
+                            .required()
+                            .description("The location's uuid(universally unique identifier)."),
+                    }
+                }
+            }
+        }, {
+            method: 'GET',
             path: '/etl/location/{uuid}/daily-visits',
             config: {
                 auth: 'simple',
