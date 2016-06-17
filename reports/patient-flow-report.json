@@ -1,0 +1,158 @@
+[
+  {
+    "name": "patient-flow-report",
+    "table": {
+      "schema": "amrs",
+      "tableName": "visit",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "encounter",
+        "alias": "t4",
+        "joinExpression": "t1.visit_id=t4.visit_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t2",
+        "joinExpression": "t1.patient_id  = t2.person_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t3",
+        "joinExpression": "t1.patient_id  = t3.patient_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "dateStarted",
+        "defaultValue": [
+          "10-10-2015"
+        ]
+      },
+      {
+        "name": "location"
+      },
+      {
+        "name": "groupByEncounter",
+        "defaultValue": [
+          {
+            "label": "encounter_id",
+            "expression": "t4.encounter_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(t1.date_started) = ?",
+        "parameter": "dateStarted"
+      },
+      {
+        "expression": "t1.location_id = ?",
+        "parameter": "location"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEncounter"
+      }
+    ],
+    "orderBy": [
+      {
+        "column": "t1.date_started",
+        "order": "asc"
+      },
+      {
+        "column": "t1.visit_id",
+        "order": "asc"
+      },
+      {
+        "column": "t4.date_created",
+        "order": "asc"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "visit_id",
+        "type": "single",
+        "sql": "t1.visit_id"
+      },
+      {
+        "label": "visit_start",
+        "type": "single",
+        "sql": "t1.date_started"
+      },
+      {
+        "label": "triaged",
+        "type": "single",
+        "sql": "case when t4.encounter_type=110 then t4.encounter_datetime else null end"
+      },
+      {
+        "label": "time_to_be_triaged",
+        "type": "single",
+        "sql": "case when t4.encounter_type=110 then TIMESTAMPDIFF(MINUTE,t1.date_started,t4.encounter_datetime) else null end"
+      },
+      {
+        "label": "seen_by_clinician",
+        "type": "single",
+        "sql": "case when t4.encounter_type in (1,2,3,4,105,106) then t4.encounter_datetime else null end"
+      },
+      {
+        "label": "visit_end",
+        "type": "single",
+        "sql": "t1.date_stopped"
+      },
+      {
+        "label": "encounter_type",
+        "type": "single",
+        "sql": "t4.encounter_type"
+      },
+      {
+        "label": "encounter_start",
+        "type": "single",
+        "sql": "t4.encounter_datetime"
+      },
+      {
+        "label": "encounter_end",
+        "type": "single",
+        "sql": "t4.date_created"
+      },
+      {
+        "label": "patient_id",
+        "type": "single",
+        "sql": "t1.patient_id"
+      },
+      {
+        "label": "given_name",
+        "type": "single",
+        "sql": "t2.given_name"
+      },
+      {
+        "label": "middle_name",
+        "type": "single",
+        "sql": "t2.middle_name"
+      },
+      {
+        "label": "family_name",
+        "type": "single",
+        "sql": "t2.family_name"
+      },
+      {
+        "label": "identifiers",
+        "type": "single",
+        "sql": "group_concat(distinct t3.identifier)"
+      }
+    ],
+    "indicatorHandlers":[
+      {"processor":"processPatientFlow","indicators":[]}
+    ]
+  }
+]
