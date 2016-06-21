@@ -19,7 +19,10 @@ function groupResultsByVisitId(arrayOfResults) {
         if (_.isEmpty(grouped[result.visit_id])) {
             grouped[result.visit_id] = {
                 patient_id: result.patient_id,
-                names: result.given_name + ' ' + result.middle_name + ' ' + result.family_name,
+                patient_uuid: result.patient_uuid,
+                names: (result.given_name && result.given_name != null ? result.given_name : '') +
+                (result.middle_name && result.middle_name != null ? ' ' + result.middle_name : '') +
+                (result.family_name && result.family_name != null ? ' ' + result.family_name : ''),
                 identifiers: result.identifiers,
 
                 visit_id: result.visit_id,
@@ -51,7 +54,10 @@ function _handleTriaged(result, visit) {
     //triaged
     //necessary check to ensure the first triage encounter is used
     if (_.isEmpty(visit.triaged)) {
-        visit.triaged = typeof result.triaged === 'string' ? result.triaged : new Date(result.triaged).toISOString();
+        visit.triaged = null;
+        if (result.triaged !== null && result.triaged !== undefined)
+            visit.triaged = typeof result.triaged === 'string' ? result.triaged : new Date(result.triaged).toISOString();
+
         visit.time_to_be_triaged = result.time_to_be_triaged;
     }
 }
@@ -83,7 +89,7 @@ function _handleCompletedVisit(result, visit) {
     visit.completed_visit = null;
 
     if (result.encounter_end !== null && result.encounter_end !== undefined)
-            visit.completed_visit = typeof result.encounter_end === 'string' ? result.encounter_end : new Date(result.encounter_end).toISOString();
+        visit.completed_visit = typeof result.encounter_end === 'string' ? result.encounter_end : new Date(result.encounter_end).toISOString();
 
 }
 

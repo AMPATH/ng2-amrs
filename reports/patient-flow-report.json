@@ -27,6 +27,13 @@
         "tableName": "patient_identifier",
         "alias": "t3",
         "joinExpression": "t1.patient_id  = t3.patient_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t5",
+        "joinExpression": "t1.patient_id = t5.person_id"
       }
     ],
     "parameters": [
@@ -131,6 +138,11 @@
         "sql": "t1.patient_id"
       },
       {
+        "label": "patient_uuid",
+        "type": "single",
+        "sql": "t5.uuid"
+      },
+      {
         "label": "given_name",
         "type": "single",
         "sql": "t2.given_name"
@@ -151,8 +163,11 @@
         "sql": "group_concat(distinct t3.identifier)"
       }
     ],
-    "indicatorHandlers":[
-      {"processor":"processPatientFlow","indicators":[]}
+    "indicatorHandlers": [
+      {
+        "processor": "processPatientFlow",
+        "indicators": []
+      }
     ]
   }
 ]
