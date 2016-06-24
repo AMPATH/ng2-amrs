@@ -4,6 +4,9 @@
   var dao = require('../etl-dao');
   var _ = require('underscore');
   var moment = require('moment');
+  var utils = require('./utils.js');
+  var math = require('math');
+  
   var DEFAULT_NO_NOTES = 40;
   var TB_PROPHY_PERIOD = 6; // In months.
   var CONCEPT_UUIDS = {
@@ -123,23 +126,19 @@
    * This method will try to generate note for available data, i.e it won't
    * fail because one of the expected data object is null
    */
-  function generateNote(hivSummaryModel, vitalsModel, encounters) {
-    if (Array.isArray(encounters) && !_.isEmpty(encounters)) {
-      //Create a corresponding array of models
-      var encModelArray = encounters;
-    }
+  function generateNote(hivSummary, vitals, encounters) {
     var noInfo = '';
     var note = {
-      visitDate: hivSummaryModel.encounter_datetime,
-      scheduled: hivSummaryModel.scheduled_visit,
+      visitDate: hivSummary.encounter_datetime,
+      scheduled: hivSummary.scheduled_visit,
       providers: [],
       lastViralLoad: {
-        value: hivSummaryModel.vl_1,
-        date: hivSummaryModel.vl_1_date,
+        value: hivSummary.vl_1,
+        date: hivSummary.vl_1_date,
       },
       lastCD4Count: {
-        value: hivSummaryModel.cd4_1,
-        date: hivSummaryModel.cd4_1_date
+        value: hivSummary.cd4_1,
+        date: hivSummary.cd4_1_date
       },
       artRegimen: {
         curArvMeds: noInfo,
@@ -163,20 +162,27 @@
         diastolicBp: noInfo,
         pulse: noInfo
       },
-      rtcDate: hivSummaryModel.rtc_date
+      rtcDate: hivSummary.rtc_date
     };
 
-    if (vitalsModel && !_.isEmpty(vitalsModel)) {
-
+    if (vitals && !_.isEmpty(vitals)) {
+      // Calculate BMI
+      var bmi = noInfo;
+      try {
+        bmi = math.round(utils.calculateBMI(vitals.weight, vitals.height),1);
+      } catch(err) {
+        // Do nothing
+      }
+      
       note.vitals = {
-        weight: vitalsModel.weight,
-        height: vitalsModel.height,
-        bmi: vitalsModel.bmi,
-        temperature: vitalsModel.temp,
-        oxygenSaturation: vitalsModel.oxygen_sat,
-        systolicBp: vitalsModel.systolic_bp || '',
-        diastolicBp: vitalsModel.diastolic_bp || '',
-        pulse: vitalsModel.pulse
+        weight: vitals.weight,
+        height: vitals.height,
+        bmi: bmi,
+        temperature: vitals.temp,
+        oxygenSaturation: vitals.oxygen_sat,
+        systolicBp: vitals.systolic_bp || '',
+        diastolicBp: vitals.diastolic_bp || '',
+        pulse: vitals.pulse
       };
     }
 
@@ -185,29 +191,26 @@
       note.providers = _getProviders(encounters);
 
       // Get CC/HPI & Assessment
-      var ccHpi = _findTextObsValue(encounters, CONCEPT_UUIDS.CC_HPI,
+      note.ccHpi = _findTextObsValue(encounters, CONCEPT_UUIDS.CC_HPI,
         __findObsWithGivenConcept);
 
-      var assessment = _findTextObsValue(encounters, CONCEPT_UUIDS.ASSESSMENT,
+      note.assessment = _findTextObsValue(encounters, CONCEPT_UUIDS.ASSESSMENT,
         __findObsWithGivenConcept);
-
-      note.ccHpi = ccHpi || 'None';
-      note.assessment = assessment || 'None';
 
       // Get TB prophylaxis
-      note.tbProphylaxisPlan = _constructTBProphylaxisPlan(encounters, hivSummaryModel,
+      note.tbProphylaxisPlan = _constructTBProphylaxisPlan(encounters, hivSummary,
         __findObsWithGivenConcept);
     } else {
       console.log('encounters array is null or empty');
     }
 
     // Get ART regimen
-    if (!_.isEmpty(hivSummaryModel.cur_arv_meds)) {
+    if (!_.isEmpty(hivSummary.cur_arv_meds)) {
       // Just use the stuff from Etl
       note.artRegimen = {
-        curArvMeds: hivSummaryModel.cur_arv_meds,
-        curArvLine: hivSummaryModel.cur_arv_line,
-        arvStartDate: hivSummaryModel.arv_start_date
+        curArvMeds: hivSummary.cur_arv_meds,
+        curArvLine: hivSummary.cur_arv_line,
+        arvStartDate: hivSummary.arv_start_date
       };
     } else {
       // TODO: Try getting it from encounters.
@@ -216,21 +219,52 @@
     return note;
   }
 
-  function _getProviders(encModelArray) {
+  function _getProviders(openmrsEncounters) {
     var providers = [];
-    _.each(encModelArray, function(encModel) {
-      var providerObject = encModel.provider || {};
+    _.each(openmrsEncounters, function(encModel) {
       var encounterType = encModel.encounterType || {};
-      var provider = {
-        uuid: providerObject.uuid || '',
-        name: providerObject.display || '',
-        encounterType: encounterType.display || ''
-      };
-      providers.push(provider);
+      if(encModel.encounterProviders) {
+        var multipleProviderPerEncounter =
+          __getProvidersFromEncounterProviders(encModel.encounterProviders,
+              encounterType); 
+          Array.prototype.push.apply(providers, multipleProviderPerEncounter);
+      } else {
+        // most likely defined as provider
+        var providerObject = encModel.provider || {};   // Staying on safe
+        var provider = {
+          uuid: providerObject.uuid || '',
+          name: providerObject.display || '',
+          encounterType: encounterType.display || ''
+        };
+        if(providerObject.person) {
+          provider.name = providerObject.person.display || provider.name;
+        }
+        providers.push(provider);
+      }  
     });
+    
     return _.uniq(providers, false, function(provider) {
       return provider.uuid + provider.encounterType;
     });
+    
+    // ****This function is defined within _getProviders function
+    function __getProvidersFromEncounterProviders(encProviders, encType) {
+      var _providers = [];
+      _.each(encProviders, function(encProvider) {
+        var provider = encProvider.provider;
+        var providerRep = {
+          uuid: provider.uuid || '',
+          name: provider.display || '',
+          encounterType: encType.display || ''
+        };
+        if(provider.person) {
+          //Update provider name
+          providerRep.name = provider.person.display || providerRep.name;
+        }
+        _providers.push(providerRep);
+      });
+      return _providers;
+    }
   }
 
   /*
@@ -256,18 +290,19 @@
   }
 
   function _findTextObsValue(encArray, conceptUuid, obsfinder) {
-    var value = null;
-    var found = null;
+    var values = [];
 
-    _.find(encArray, function(enc) {
-      found = obsfinder(enc.obs, conceptUuid);
-      return found !== null && !_.isEmpty(found);
+    _.each(encArray, function(enc) {
+      var ret = obsfinder(enc.obs, conceptUuid);
+      if(ret !== null && !_.isEmpty(ret)) {
+        var value = {
+          encounterType:enc.encounterType.display || '',
+          value: ret.value
+        };
+        values.push(value);
+      }
     });
-
-    if (found) {
-      value = found.value;
-    }
-    return value;
+    return values;
   }
 
   /**
@@ -278,7 +313,7 @@
    *    prophylaxis and fetch reason if available.
    * -> if it is to change the fetch the reasone.
    */
-  function _constructTBProphylaxisPlan(encArray, hivSummaryModel, obsfinder) {
+  function _constructTBProphylaxisPlan(encArray, hivSummary, obsfinder) {
     // Find plan.
     var tbProphy = {
       plan: 'Not available',
@@ -297,11 +332,11 @@
     }
 
     // Calculate estimated end date of plan (6 months after starting)
-    var tempDate = moment(hivSummaryModel.tb_prophylaxis_start_date);
+    var tempDate = moment(hivSummary.tb_prophylaxis_start_date);
     if (tempDate.isValid()) {
-      tbProphy.startDate = hivSummaryModel.tb_prophylaxis_start_date;
+      tbProphy.startDate = hivSummary.tb_prophylaxis_start_date;
       tbProphy.estimatedEndDate =
-        moment(hivSummaryModel.tb_prophylaxis_start_date)
+        moment(hivSummary.tb_prophylaxis_start_date)
         .add(TB_PROPHY_PERIOD, 'months')
         .toDate().toISOString();
     } else {
@@ -312,6 +347,7 @@
   }
 
   module.exports = {
+    generateNote: generateNote,
     generateNotes: generateNotes
   };
 })();
