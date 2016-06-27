@@ -108,6 +108,8 @@ authorizer.hasReportAccess = function (reportName) {
 };
 
 authorizer.isSuperUser = function () {
+     return true;//for now all users are super users
+     /** Disabled for now
     for (var i = 0; i < SUPERUSER_ROLES.length; i++) {
         var role = SUPERUSER_ROLES[i];
         if (currentUserRoles.indexOf(role) > -1) {
@@ -115,7 +117,7 @@ authorizer.isSuperUser = function () {
         }
     }
 
-    return false;
+    return false;**/
 };
 
 module.exports = authorizer;
@@ -134,4 +136,3 @@ function _setCurrentUserRoles() {
         currentUserRoles.push(currentUser.roles[i].display);
     }
 }
-
