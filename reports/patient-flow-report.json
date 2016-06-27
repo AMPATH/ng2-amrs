@@ -44,7 +44,7 @@
         ]
       },
       {
-        "name": "location"
+        "name": "locations"
       },
       {
         "name": "groupByEncounter",
@@ -62,8 +62,8 @@
         "parameter": "dateStarted"
       },
       {
-        "expression": "t1.location_id = ?",
-        "parameter": "location"
+        "expression": "t1.location_id in (?)",
+        "parameter": "locations"
       }
     ],
     "groupClause": [

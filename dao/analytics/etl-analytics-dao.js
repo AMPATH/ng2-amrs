@@ -173,6 +173,7 @@ module.exports = function () {
     getPatientFlowData: function getPatientFlowData(request, callback) {
       var reportName = 'patient-flow-report';
       var dateStarted = request.query.dateStarted || new Date().toISOString().substring(0, 10);
+      var locations = request.query.locations;
       if (!_.isUndefined(dateStarted)) dateStarted = dateStarted.split('T')[0];
 
       var requestParams = {
@@ -183,8 +184,8 @@ module.exports = function () {
             "value": dateStarted
           },
           {
-            "name": "location",
-            "value": request.paramsArray[0]
+            "name": "locations",
+            "value": locations
           }
         ],
         groupBy:'groupByEncounter',

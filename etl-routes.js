@@ -242,18 +242,31 @@ module.exports = function () {
             }
         }, {
             method: 'GET',
-            path: '/etl/location/{uuid}/patient-flow-data',
+            path: '/etl/patient-flow-data',
             config: {
                 auth: 'simple',
                 plugins: {
                     'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
                 },
                 handler: function (request, reply) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.paramsArray[0],
-                        function (results) {
-                            request.paramsArray[0] = results;
+                    var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+                    var onResolvedPromise = function (promise) {
+                        asyncRequests--;
+                        if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                             dao.getPatientFlowData(request, reply);
-                        });
+                        }
+                    };
+                    if (request.query.locationUuids) {
+                        asyncRequests++;
+                    }
+                    if (asyncRequests === 0)
+                        dao.getPatientFlowData(request, reply);
+                    if (request.query.locationUuids) {
+                        dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                            function (results) {
+                                request.query.locations = results;
+                            }).onResolved = onResolvedPromise;
+                    }
                 },
                 description: "Get a location's patient movement and waiting time data",
                 notes: "Returns a location's patient flow with the given location uuid.",
@@ -261,9 +274,6 @@ module.exports = function () {
                 validate: {
                     options: { allowUnknown: true },
                     params: {
-                        uuid: Joi.string()
-                            .required()
-                            .description("The location's uuid(universally unique identifier)."),
                     }
                 }
             }
