@@ -116,6 +116,8 @@ module.exports = function() {
 
         _.each(result.result, function(row) {
           row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
+          row.hiv_dna_pcr = helpers.getConceptName(row.hiv_dna_pcr);
+          row.chest_xray = helpers.getConceptName(row.chest_xray);
           row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
         });
         callback(result);
