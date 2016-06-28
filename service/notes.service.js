@@ -150,8 +150,8 @@
         startDate: noInfo,
         estimatedEndDate: noInfo
       },
-      ccHpi: '',
-      assessment: '',
+      ccHpi: [],
+      assessment: [],
       vitals: {
         weight: noInfo,
         height: noInfo,
@@ -193,10 +193,20 @@
       // Get CC/HPI & Assessment
       note.ccHpi = _findTextObsValue(encounters, CONCEPT_UUIDS.CC_HPI,
         __findObsWithGivenConcept);
-
+      
+      // Sort ccHpi per obsDatetime
+      note.ccHpi.sort(function(ccHpi1, ccHpi2) {
+        return moment(ccHPi1.obsDatetime).diff(ccHpi2.obsDatetime);
+      });
+      
       note.assessment = _findTextObsValue(encounters, CONCEPT_UUIDS.ASSESSMENT,
         __findObsWithGivenConcept);
-
+      
+      // Sort assessment
+      note.assessment.sort(function(ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+      
       // Get TB prophylaxis
       note.tbProphylaxisPlan = _constructTBProphylaxisPlan(encounters, hivSummary,
         __findObsWithGivenConcept);
@@ -296,6 +306,7 @@
       var ret = obsfinder(enc.obs, conceptUuid);
       if(ret !== null && !_.isEmpty(ret)) {
         var value = {
+          obsDatetime: ret.obsDatetime || enc.encounterDatetime,
           encounterType:enc.encounterType.display || '',
           value: ret.value
         };
