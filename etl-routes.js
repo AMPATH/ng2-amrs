@@ -72,10 +72,6 @@ module.exports = function () {
                 },
                 handler: function (request, reply) {
                     dao.getPatient(request, reply);
-                    // if (!authorizer.hasPrivilege(privileges.canViewPatient))
-                    //     dao.getPatient(request, reply);
-                    // else
-                    //reply(Boom.forbidden('Access denied. Privilege required: [' + privileges.canViewPatient + ']'));
                 }
             }
         }, {
@@ -83,10 +79,24 @@ module.exports = function () {
             path: '/etl/patient/{uuid}/clinical-notes',
             config: {
                 auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': { role: privileges.canViewPatient }
+                },
                 handler: function (request, reply) {
                     dao.getClinicalNotes(request, reply);
-                }
-
+                },
+                description: 'Get patient clinical notes',
+                notes: 'Returns a list of notes constructed from several ' +
+                       'patient information sources, particularly encounters',
+                tags: ['api'],
+                validate: {
+                    options: { allowUnknown: true },
+                    params: {
+                        uuid: Joi.string()
+                            .required()
+                            .description("The patient's uuid(universally unique identifier)."),
+                    }
+                }  
             }
         }, {
             method: 'GET',

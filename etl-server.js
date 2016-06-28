@@ -48,10 +48,11 @@ var pool = mysql.createPool(config.mysql);
 var validate = function (username, password, callback) {
 
   //Openmrs context
+  var openmrsAppName = config.openmrs.applicationName || 'amrs';
   var options = {
     hostname: config.openmrs.host,
     port: config.openmrs.port,
-    path: '/amrs/ws/rest/v1/session',
+    path: '/' + openmrsAppName + '/ws/rest/v1/session',
     headers: {
       'Authorization': "Basic " + new Buffer(username + ":" + password).toString("base64")
     }
@@ -83,9 +84,8 @@ var validate = function (username, password, callback) {
     //console.log(error);
     callback(null, false);
   });
-
-
 };
+
 var HapiSwaggerOptions = {
   info: {
     'title': 'REST API Documentation',
