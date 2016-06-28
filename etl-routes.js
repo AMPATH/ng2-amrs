@@ -408,7 +408,7 @@ module.exports = function () {
                  the rest request and query expression should be
                  /table/filter_column/filter/filter_value or
                  /table/filter_column/filter/filter_value?fields=(field1,field2,fieldn) or
-    
+
                  */
             }
         }, {

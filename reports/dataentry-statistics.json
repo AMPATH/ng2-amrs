@@ -394,6 +394,7 @@
    {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"t2.patient_id = t1.person_id",
        "dynamicDataset":"patientList-encounter"},
      {"joinType":"JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t3.person_id = t2.patient_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"},
      {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"patient_identifier","alias":"t4","joinExpression":"t4.patient_id = t2.patient_id"}
      ],
  "parameters": [
@@ -462,6 +463,11 @@
             "label":"location_id",
             "type":"single",
             "sql":"t2.location_id"
+        },
+        {
+            "label":"location_name",
+            "type":"single",
+            "sql":"t5.name"
         },
         {
             "label":"form_id",
