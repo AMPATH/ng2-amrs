@@ -177,12 +177,12 @@
       {
         "label":"condoms_provided",
         "expression":"condoms_provided",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
+        "sql":"count(distinct if($expression,t1.visit_id,null))"
       },
       {
         "label":"using_modern_contracept_method",
         "expression":"using_modern_contracept_method",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
+        "sql":"count(distinct if($expression,t1.visit_id,null))"
       },
       {
         "label":"female_gte_18yo_visits",
