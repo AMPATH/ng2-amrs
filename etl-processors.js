@@ -22,6 +22,12 @@ module.exports = function() {
     //use processor helpers here
     queryResults.result = 
     patientFlowProcessor.groupResultsByVisitId(queryResults.result);
+    queryResults.averageWaitingTime = 
+    patientFlowProcessor.calculateAverageWaitingTime(queryResults.result);
+    queryResults.medianWaitingTime = 
+    patientFlowProcessor.calculateMedianWaitingTime(queryResults.result);
+    queryResults.incompleteVisitsCount = 
+    patientFlowProcessor.getIncompleteVisitsCount(queryResults.result);
     
     return queryResults;
   }

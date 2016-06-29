@@ -2,6 +2,7 @@
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
+var preRequest = require('./pre-request-processing');
 var pack = require('./package');
 var winston = require('winston');
 var path = require('path');
@@ -252,18 +253,17 @@ module.exports = function () {
             }
         }, {
             method: 'GET',
-            path: '/etl/location/{uuid}/patient-flow-data',
+            path: '/etl/patient-flow-data',
             config: {
                 auth: 'simple',
                 plugins: {
                     'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
                 },
                 handler: function (request, reply) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.paramsArray[0],
-                        function (results) {
-                            request.paramsArray[0] = results;
-                            dao.getPatientFlowData(request, reply);
-                        });
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                    function(){
+                        dao.getPatientFlowData(request,reply);
+                    });
                 },
                 description: "Get a location's patient movement and waiting time data",
                 notes: "Returns a location's patient flow with the given location uuid.",
@@ -271,9 +271,6 @@ module.exports = function () {
                 validate: {
                     options: { allowUnknown: true },
                     params: {
-                        uuid: Joi.string()
-                            .required()
-                            .description("The location's uuid(universally unique identifier)."),
                     }
                 }
             }
