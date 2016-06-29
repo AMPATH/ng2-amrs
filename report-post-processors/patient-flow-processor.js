@@ -3,7 +3,10 @@ var moment = require('moment');
 
 var moduleExport = {
     groupResultsByVisitId: groupResultsByVisitId,
-
+    //aggregates
+    calculateAverageWaitingTime: calculateAverageWaitingTime,
+    getIncompleteVisitsCount: getIncompleteVisitsCount,
+    calculateMedianWaitingTime: calculateMedianWaitingTime,
     //helpers
     _handleTimeToBeSeenByClinician: _handleTimeToBeSeenByClinician,
     _getTimeSpanInMinutes: _getTimeSpanInMinutes,
@@ -109,6 +112,7 @@ function _handleTimeToBeSeenByClinician(visit) {
 
 function _handleTimeToCompleteVisit(visit) {
     visit.time_to_complete_visit = null;
+    if (_.isEmpty(visit.seen_by_clinician)) return;
 
     if (!_.isEmpty(visit.registered) && !_.isEmpty(visit.completed_visit)) {
         visit.time_to_complete_visit =
@@ -120,4 +124,142 @@ function _getTimeSpanInMinutes(timeA, timeB) {
     var a = moment(timeA);
     var b = moment(timeB);
     return Math.round((b.diff(a) / (1000 * 60)));
+}
+
+function calculateAverageWaitingTime(patientFlowArray) {
+    var results = {
+        averageWaitingTime: '0',
+        averageVisitCompletionTime: '0',
+        averageTriageWaitingTime: '0',
+        averageClinicianWaitingTime: '0'
+    };
+
+    var triageSum = 0;
+    var triageCount = 0;
+    var clinicianSum = 0;
+    var clinicianCount = 0;
+    var completionSum = 0;
+    var completionCount = 0;
+    for (var i = 0; i < patientFlowArray.length; i++) {
+        var patientFlow = patientFlowArray[i];
+        if (patientFlow.time_to_be_triaged !== null &&
+            patientFlow.time_to_be_triaged !== undefined) {
+            triageSum = triageSum + patientFlow.time_to_be_triaged;
+            triageCount++;
+        }
+
+        if (patientFlow.time_to_be_seen_by_clinician !== null &&
+            patientFlow.time_to_be_seen_by_clinician !== undefined) {
+            clinicianSum = clinicianSum + patientFlow.time_to_be_seen_by_clinician;
+            clinicianCount++;
+        }
+
+        if (patientFlow.time_to_complete_visit !== null &&
+            patientFlow.time_to_complete_visit !== undefined) {
+            completionSum = completionSum + patientFlow.time_to_complete_visit;
+            completionCount++;
+        }
+    }
+
+    if (triageSum != 0) {
+        results.averageTriageWaitingTime = (triageSum / triageCount).toFixed(1);
+    }
+
+    if (clinicianSum != 0) {
+        results.averageClinicianWaitingTime = (clinicianSum / clinicianCount).toFixed(1);
+    }
+
+    if (completionSum != 0) {
+        results.averageVisitCompletionTime = (completionSum / completionCount).toFixed(1);
+    }
+
+    results.averageWaitingTime =
+        ((new Number(results.averageTriageWaitingTime) + new Number(results.averageClinicianWaitingTime)) / 2).toFixed(1);
+
+    return results;
+}
+
+function getIncompleteVisitsCount(patientFlowArray) {
+    var count = 0;
+
+    for (var i = 0; i < patientFlowArray.length; i++) {
+        var patientFlow = patientFlowArray[i];
+        if (_.isEmpty(patientFlow.seen_by_clinician)) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+function calculateMedianWaitingTime(patientFlowArray) {
+
+    var waitingTime = _extractWaitingTime(patientFlowArray);
+
+    var medianWaitingTime = {
+        medianWaitingTime: '0',
+        medianVisitCompletionTime: '0',
+        medianTriageWaitingTime: '0',
+        medianClinicianWaitingTime: '0'
+    };
+
+    if (waitingTime.allWaitingTimes.length > 0)
+        medianWaitingTime.medianWaitingTime = _getMedian(waitingTime.allWaitingTimes).toFixed(1);
+
+    if (waitingTime.triageWaitingTimes.length > 0)
+        medianWaitingTime.medianTriageWaitingTime = _getMedian(waitingTime.triageWaitingTimes).toFixed(1);
+
+    if (waitingTime.clinicianWaitingTimes.length > 0)
+        medianWaitingTime.medianClinicianWaitingTime = _getMedian(waitingTime.clinicianWaitingTimes).toFixed(1);
+
+    if (waitingTime.visitCompletionTimes.length > 0)
+        medianWaitingTime.medianVisitCompletionTime = _getMedian(waitingTime.visitCompletionTimes).toFixed(1);
+
+    return medianWaitingTime;
+
+}
+
+function _extractWaitingTime(patientFlowArray) {
+    var allWaitingTimes = [];
+    var triageWaitingTimes = [];
+    var clinicianWaitingTimes = [];
+    var visitCompletionTimes = [];
+
+    for (var i = 0; i < patientFlowArray.length; i++) {
+        var patientFlow = patientFlowArray[i];
+        if (patientFlow.time_to_be_seen_by_clinician !== null &&
+            patientFlow.time_to_be_seen_by_clinician !== undefined) {
+            clinicianWaitingTimes.push(patientFlow.time_to_be_seen_by_clinician);
+            allWaitingTimes.push(patientFlow.time_to_be_seen_by_clinician);
+        }
+        if (patientFlow.time_to_be_triaged !== null &&
+            patientFlow.time_to_be_triaged !== undefined) {
+            triageWaitingTimes.push(patientFlow.time_to_be_triaged);
+            allWaitingTimes.push(patientFlow.time_to_be_triaged);
+        }
+        if (patientFlow.time_to_complete_visit !== null &&
+            patientFlow.time_to_complete_visit !== undefined) {
+            visitCompletionTimes.push(patientFlow.time_to_complete_visit);
+        }
+    }
+    return {
+        allWaitingTimes: allWaitingTimes,
+        triageWaitingTimes: triageWaitingTimes,
+        clinicianWaitingTimes: clinicianWaitingTimes,
+        visitCompletionTimes: visitCompletionTimes
+    };
+}
+
+function _getMedian(data) {
+    // extract the .values field and sort the resulting array
+    var m = data.sort(function (a, b) {
+        return a - b;
+    });
+
+    var middle = Math.floor((m.length - 1) / 2); // NB: operator precedence
+    if (m.length % 2) {
+        return m[middle];
+    } else {
+        return (m[middle] + m[middle + 1]) / 2.0;
+    }
 }

@@ -2,6 +2,7 @@
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
+var preRequest = require('./pre-request-processing');
 var pack = require('./package');
 var winston = require('winston');
 var path = require('path');
@@ -249,24 +250,10 @@ module.exports = function () {
                     'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
                 },
                 handler: function (request, reply) {
-                    var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                    var onResolvedPromise = function (promise) {
-                        asyncRequests--;
-                        if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                            dao.getPatientFlowData(request, reply);
-                        }
-                    };
-                    if (request.query.locationUuids) {
-                        asyncRequests++;
-                    }
-                    if (asyncRequests === 0)
-                        dao.getPatientFlowData(request, reply);
-                    if (request.query.locationUuids) {
-                        dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                            function (results) {
-                                request.query.locations = results;
-                            }).onResolved = onResolvedPromise;
-                    }
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                    function(){
+                        dao.getPatientFlowData(request,reply);
+                    });
                 },
                 description: "Get a location's patient movement and waiting time data",
                 notes: "Returns a location's patient flow with the given location uuid.",

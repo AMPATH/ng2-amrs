@@ -125,6 +125,7 @@ describe('PATIENT FLOW PROCESSOR TESTS', function () {
             //case both values present
             var visit = {
                 registered: "2016-06-15T05:10:30.000Z",
+                seen_by_clinician: "2016-06-15T05:56:34.000Z",
                 completed_visit: "2016-06-15T05:56:34.000Z"
             };
 
@@ -141,5 +142,145 @@ describe('PATIENT FLOW PROCESSOR TESTS', function () {
         });
 
 
+    it('should calculate average waiting time when _calculateAverageWaitingTime',
+        function () {
+
+            var arrayOfPatientFlowData = [
+                {
+                    time_to_be_seen_by_clinician: 5,
+                    time_to_be_triaged: 5,
+                    time_to_complete_visit: 3
+                },
+                {
+                    time_to_be_seen_by_clinician: 10,
+                    time_to_be_triaged: 10,
+                    time_to_complete_visit: 84
+                },
+                {
+                    time_to_be_seen_by_clinician: 15,
+                    time_to_be_triaged: 16,
+                    time_to_complete_visit: null
+                },
+                {
+                    time_to_be_seen_by_clinician: null,
+                    time_to_be_triaged: null,
+                    time_to_complete_visit: 8
+                },
+                {
+                    time_to_be_seen_by_clinician: 5,
+                    time_to_be_triaged: 5,
+                    time_to_complete_visit: 4
+                },
+                {
+                    time_to_be_seen_by_clinician: null,
+                    time_to_be_triaged: null,
+                    time_to_complete_visit: null
+                }
+            ];
+
+            //average triage waiting time = 36/4 = 9.00
+
+            //average clinician waiting time = 35/4 = 8.75
+
+            //average waitingTime = (9.00 + 8.75)/2 = 8.88
+
+            //average visit completion time = 99/4 = 24.75
+
+            //incomplete visits is where there's no clinical encounter
+
+            var expectedAverageTimeObject = {
+                averageWaitingTime: '8.9',
+                averageVisitCompletionTime: '24.8',
+                averageTriageWaitingTime: '9.0',
+                averageClinicianWaitingTime: '8.8'
+            };
+
+
+            var actualAverageTimeObject =
+                patientFlowProcessor.calculateAverageWaitingTime(arrayOfPatientFlowData);
+            //console.log(actualAverageWaitingTimeObject);
+
+            expect(expectedAverageTimeObject).to.deep.equal(actualAverageTimeObject);
+
+        });
+
+    it('should get incomplete visits count when _getIncompleteVisitsCount',
+        function () {
+            var arrayOfPatientFlowData = [
+                {
+                    seen_by_clinician: "2016-06-15T05:56:34.000Z"
+                },
+                {
+                    seen_by_clinician: "2016-06-15T05:56:34.000Z"
+                },
+                {
+                    seen_by_clinician: "2016-06-15T05:56:34.000Z"
+                },
+                {
+                    seen_by_clinician: null
+                },
+                {
+                    seen_by_clinician: "2016-06-15T05:56:34.000Z"
+                },
+                {
+                    seen_by_clinician: null
+                }
+            ];
+
+            expect(patientFlowProcessor.getIncompleteVisitsCount(arrayOfPatientFlowData)).to.equal(2);
+
+        });
+
+    it('should calculate median waiting time when _calculateAverageWaitingTime',
+        function () {
+
+            var arrayOfPatientFlowData = [
+                {
+                    time_to_be_seen_by_clinician: 5,
+                    time_to_be_triaged: 5,
+                    time_to_complete_visit: 3
+                },
+                {
+                    time_to_be_seen_by_clinician: 10,
+                    time_to_be_triaged: 10,
+                    time_to_complete_visit: 84
+                },
+                {
+                    time_to_be_seen_by_clinician: 15,
+                    time_to_be_triaged: 16,
+                    time_to_complete_visit: null
+                },
+                {
+                    time_to_be_seen_by_clinician: null,
+                    time_to_be_triaged: null,
+                    time_to_complete_visit: 8
+                },
+                {
+                    time_to_be_seen_by_clinician: 5,
+                    time_to_be_triaged: 5,
+                    time_to_complete_visit: 4
+                },
+                {
+                    time_to_be_seen_by_clinician: null,
+                    time_to_be_triaged: null,
+                    time_to_complete_visit: null
+                }
+            ];
+
+            var expectedMedianTimeObject = {
+                medianWaitingTime: '7.5', // 5,5,5,5,10,10,15,16
+                medianVisitCompletionTime: '6.0', // 3,4,8,84
+                medianTriageWaitingTime: '7.5',//5,5,10,16
+                medianClinicianWaitingTime: '7.5'//5,5,10,15
+            };
+
+
+            var actualAverageTimeObject =
+                patientFlowProcessor.calculateMedianWaitingTime(arrayOfPatientFlowData);
+            //console.log(actualAverageWaitingTimeObject);
+
+            expect(expectedMedianTimeObject).to.deep.equal(actualAverageTimeObject);
+
+        });
 
 });
