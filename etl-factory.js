@@ -8,15 +8,13 @@ var indicatorsSchemaDefinition = require('./reports/indicators.json');
 var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
 reportList.push.apply(reportList, require('./reports/hiv-summary-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-report-v2.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-report.json'));
 reportList.push.apply(reportList, require('./reports/patient-register-report.json'));
 reportList.push.apply(reportList, require('./reports/clinic-calander-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/daily-visits-appointment.report.json'));
 reportList.push.apply(reportList, require('./reports/clinical-reminder-report.json'));
 reportList.push.apply(reportList, require('./reports/moh-731-cohort-report.json'));
 reportList.push.apply(reportList, require('./reports/moh-731-indicator-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-indicator-allsites-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-cohort-allsites-report.json'));
 reportList.push.apply(reportList, require('./reports/dataentry-statistics.json'));
 reportList.push.apply(reportList, require('./reports/clinical-overview-visualization-report.json'));
 reportList.push.apply(reportList, require('./reports/hiv-summary-monthly-report.json'));

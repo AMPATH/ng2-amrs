@@ -27,11 +27,6 @@
     ],
     "indicators": [
       {
-        "label":"unscheduled_visits",
-        "expression":"scheduled_visit",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
         "label":"on_art",
         "expression":"on_art",
         "sql":"count(distinct if($expression,t1.person_id,null))"
@@ -249,17 +244,17 @@
       {
         "label":"female_gte_18yo_visits",
         "expression":"female_gte_18yo_visits",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
+        "sql":"count(distinct if($expression,t1.visit_id,null))"
       },
       {
         "label":"scheduled_visits",
         "expression":"scheduled_visits",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
+        "sql":"count(distinct if($expression,t1.visit_id,null))"
       },
       {
         "label":"unscheduled_visits",
         "expression":"unscheduled_visits",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
+        "sql":"count(distinct if($expression,t1.visit_id,null))"
       },
       {
         "label":"total_visits",

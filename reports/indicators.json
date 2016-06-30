@@ -488,20 +488,20 @@
         "name":"scheduled_visits",
         "label":"scheduled visits",
         "description": "Scheduled visit",
-        "expression": "scheduled_visit = 1246  and encounter_datetime between startDate and endDate"
+        "expression": "(date(encounter_datetime) = date(prev_rtc_date)) and encounter_datetime between startDate and endDate "
 
     },
     {
         "name":"unscheduled_visits",
         "label":"unscheduled visits",
         "description": "Unscheduled visit",
-        "expression": "(scheduled_visit != 1246 ) and encounter_datetime between startDate and endDate"
+        "expression": "(date(encounter_datetime) != date(prev_rtc_date)) and encounter_datetime between startDate and endDate"
     },
     {
         "name":"total_visits",
         "label":"total visits",
         "description": "Total # of Hiv Care Visits",
-        "expression": "encounter_datetime between startDate and endDate"
+        "expression": ""
     },
     {
         "name":"on_art",
