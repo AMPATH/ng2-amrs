@@ -141,6 +141,16 @@
         "expression":"on_pcp_prophylaxis_females_15_and_above",
         "sql":"count(distinct if($expression,t1.person_id,null))"
       },
+       {
+        "label":"hiv_exposed_infants_below_2_months",
+        "expression":"hiv_exposed_infants_below_2_months",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+       {
+        "label":"hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
+        "expression":"hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
       {
         "label":"enrolled_in_care_total",
         "expression":"enrolled_in_care_total",
