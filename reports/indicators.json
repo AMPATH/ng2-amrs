@@ -183,6 +183,19 @@
 
     },
     {
+        "name":"hiv_exposed_infants_below_2_months",
+        "label":"hiv exposed infants 2 months and below",
+        "description": "Total # of infants below 2 months who are exposed to hiv",
+        "expression": "hiv_rapid_test_resulted is not null and DATEDIFF(birthdate, endDate) <= 60 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
+        "label":"hiv exposed infants on pcp prophylaxis 2 months and below",
+        "description": "Total # of hiv exposed infants 2 months and below who are on PCP prophylaxis",
+        "expression": "hiv_rapid_test_resulted is not null and encounter_datetime >= pcp_prophylaxis_start_date and DATEDIFF(birthdate, endDate) <= 60 and coalesce(t1.death_date, out_of_care) is null"
+
+    },
+    {
         "name":"on_pcp_prophylaxis_15_and_above",
         "label":"on pcp prophylaxis 15 and above",
         "description": "Total # of female patients 15 and older who are on PCP prophylaxis",
