@@ -767,6 +767,16 @@ module.exports = function () {
                 }
             }
         },
+    {
+        method: 'GET',
+        path: '/etl/patient-lab-orders',
+        config: {
+            auth: 'simple',
+            handler: function (request, reply) {
+                dao.getSyncronizedPatientLabOrders(request, reply);
+            }
 
+        }
+    }
     ];
 } ();

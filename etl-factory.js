@@ -5,6 +5,7 @@ var walk = require('walk');
 var indicatorHandlersDefinition = require('./etl-processors.js');
 //Report Indicators Json Schema Path
 var indicatorsSchemaDefinition = require('./reports/indicators.json');
+var patientLabOrderProperties=require('./patient-lab-orders.json');
 var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
 reportList.push.apply(reportList, require('./reports/hiv-summary-report.json'));
@@ -41,7 +42,8 @@ module.exports = function () {
         setIndicatorsSchema: setIndicatorsSchema,
         getIndicatorHandlers: getIndicatorHandlers,
         setIndicatorHandlers: setIndicatorHandlers,
-        buildPatientListReportExpression: buildPatientListReportExpression
+        buildPatientListReportExpression: buildPatientListReportExpression,
+        buildETLPatientLabOrdersExpression:buildETLPatientLabOrdersExpression
     };
     function getReportList() {
         return reports;
@@ -690,7 +692,21 @@ function replaceIndicatorParam(_indicatorExpression, requestParam) {
         });
         successCallback(result);
     }
-
-
-
+    function buildETLPatientLabOrdersExpression(queryParams,successCallback){
+      var result={
+        columns:'',
+        table:'',
+        where:[]
+      }
+      _.each(patientLabOrderProperties.patientLabOrderSchema.parameters,function(parameter){
+        if(parameter !==''){
+          result.columns+=parameter.name+',';
+        }
+      });
+      //regular expression to remove the last comma;
+      result.columns=result.columns.replace(/,\s*$/,"");
+      result.table=patientLabOrderProperties.patientLabOrderSchema.table.schema+'.'+patientLabOrderProperties.patientLabOrderSchema.table.tableName;
+      result.where.push(patientLabOrderProperties.patientLabOrderSchema.filters[0].expression);
+      successCallback(result);
+    }
 }();
