@@ -29,7 +29,13 @@ var reportPrivileges = {
     'patient-list-report-perc_virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'patient-list-report-on_art_total': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'patient-list-report-currently_in_care_total': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
-    'patient-list-report-perc_tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics]
+    'patient-list-report-perc_tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-not_on_art_total': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-not_tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-not_virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-patients_requiring_vl': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];
