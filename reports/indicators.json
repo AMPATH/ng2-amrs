@@ -469,7 +469,7 @@
         "name":"female_gte_18yo_visits",
         "label":"female gte 18yo visits",
         "description": " female patients >= 18",
-        "expression": "timestampdiff(year,birthdate,endDate) >= 18 and encounter_datetime between startDate and endDate"
+        "expression": "gender='F' and timestampdiff(year,birthdate,endDate) >= 18 and encounter_datetime between startDate and endDate"
     },
     {
         "name":"scheduled_visits",
