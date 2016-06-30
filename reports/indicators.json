@@ -648,6 +648,18 @@
         "expression": "DATE_FORMAT(tb_tx_start_date,'%m-%d-%Y')"
     },
     {
+        "name": "is_on_tb_medication",
+        "label": "is_on_tb_medication",
+        "description": "Is on TB medication",
+        "expression": "tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,startDate) <= 1"
+    },
+    {
+        "name": "starting_art_and_has_tb",
+        "label": "starting_art_and_has_tb",
+        "description": "Starting ART and has TB",
+        "expression": "(tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,startDate) <= 1) and (date(encounter_datetime) = date(arv_start_date) and arv_start_date between startDate and endDate)"
+    },
+    {
         "name":"pcp_prophylaxis_start_date",
         "label":"pcp prophylaxis start date",
         "description": "pcp_prophylaxis_start_date",

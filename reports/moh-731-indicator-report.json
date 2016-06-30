@@ -207,6 +207,11 @@
         "sql":"count(distinct if($expression,t1.person_id,null))"
       },
       {
+        "label":"starting_art_and_has_tb",
+        "expression":"starting_art_and_has_tb",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
         "label":"screened_for_tb",
         "expression":"screened_for_tb",
         "sql":"count(distinct if($expression,t1.person_id,null))"
