@@ -11,6 +11,8 @@ var mockData = require('../../mock/mock-data');
 var _ = require('underscore');
 var Hapi = require('hapi');
 var fakeServer = require('../../sinon-server-1.17.3');
+var PassThrough = require('stream').PassThrough;
+var http = require('http');
 
 var Promise = require('bluebird');
 
@@ -32,13 +34,14 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
     var stub;
     beforeEach(function(done) {
       stub = sinon.stub(db, 'queryServer_test');
-      
       queryDbStub = sinon.stub(db, 'queryDb');
+      this.request = sinon.stub(http, 'request');
       // .yieldsTo(1, null, { result:mockData.getPatientMockData() });
       done();
     });
 
     afterEach(function() {
+      http.request.restore();
       stub.restore();
       queryDbStub.restore();
     });
@@ -565,6 +568,188 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
           assert.equal(queryParts.group.length, 1);
 
         });
+        it('should ensure that convertViralLoadPayloadToRestConsumableObs receives  the right input and generates the correct payload',
+            function() {
+              var expectedInput={
+                "PatientID":"value",
+                "DateCollected":"26-May-2016",
+                "FinalResult":5000
+              }
+              var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
+              var expectedOutput={
+                concept:"a8982474-1350-11df-a1f1-0026b9348838",
+                person:"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                obsDatetime:"2016-05-26T00:00:00+03:00",
+                value:0
+              }
+              var payload=dao.convertViralLoadPayloadToRestConsumableObs(expectedInput,patientUuId);
+
+              expect(payload).to.have.property("concept");
+              expect(payload).to.have.property("person");
+              expect(payload).to.have.property("obsDatetime");
+              expect(payload).to.have.property("value");
+
+              expect(payload).deep.equal(expectedOutput);
+            });
+            it('should ensure that convertCD4PayloadTORestConsumableObs receives  the right input and generates the correct payload',
+                function() {
+                  var expectedInput={
+                    "PatientID":"value",
+                    "DateCollected":"26-May-2016",
+                    "AVGCD3percentLymph":81.49,
+                    "AVGCD3AbsCnt":1339.69,
+                    "AVGCD3CD4percentLymph":26.29,
+                    "AVGCD3CD4AbsCnt":432.28,
+                    "CD45AbsCnt":1644.03
+                  }
+                  var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
+                  var expectedOutput={
+                    concept:"a896cce6-1350-11df-a1f1-0026b9348838",
+                    person:"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                    obsDatetime:"2016-05-26T00:00:00+03:00",
+                    groupMembers:[
+                      {
+                        "concept":"a89c4220-1350-11df-a1f1-0026b9348838",
+                        "person":"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                        "value":81.49,
+                        "obsDatetime":"2016-05-26T00:00:00+03:00"
+                      },
+                      {
+                        "concept":"a898fcd2-1350-11df-a1f1-0026b9348838",
+                        "person":"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                        "value":1339.69,
+                        "obsDatetime":"2016-05-26T00:00:00+03:00"
+                      },
+                      {
+                        "concept":"a8970a26-1350-11df-a1f1-0026b9348838",
+                        "person":"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                        "value":26.29,
+                        "obsDatetime":"2016-05-26T00:00:00+03:00"
+                      },
+                      {
+                        "concept":"a8a8bb18-1350-11df-a1f1-0026b9348838",
+                        "person":"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                        "value":432.28,
+                        "obsDatetime":"2016-05-26T00:00:00+03:00"
+                      },
+                      {
+                        "concept":"a89c4914-1350-11df-a1f1-0026b9348838",
+                        "person":"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                        "value":1644.03,
+                        "obsDatetime":"2016-05-26T00:00:00+03:00"
+                      }
+                    ]
+                  }
+                  var payload=dao.convertCD4PayloadTORestConsumableObs(expectedInput,patientUuId);
+
+                  expect(payload).to.have.property("concept");
+                  expect(payload).to.have.property("person");
+                  expect(payload).to.have.property("obsDatetime");
+                  expect(payload).to.have.property("groupMembers");
+                  expect(payload.groupMembers).to.be.an("array");
+
+                  expect(payload).deep.equal(expectedOutput);
+                });
+                it('should ensure that convertDNAPCRPayloadTORestConsumableObs receives  the right input and generates the correct payload',
+                    function() {
+                      var expectedInput={
+                        "PatientID":"value",
+                        "DateCollected":"26-May-2016",
+                        "FinalResult":"NEGATIVE"
+                      }
+                      var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
+                      var expectedOutput={
+                        concept:"a898fe80-1350-11df-a1f1-0026b9348838",
+                        person:"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                        obsDatetime:"2016-05-26T00:00:00+03:00",
+                        value:"a896d2cc-1350-11df-a1f1-0026b9348838"
+                      }
+                      var payload=dao.convertDNAPCRPayloadTORestConsumableObs(expectedInput,patientUuId);
+
+                      expect(payload).to.have.property("concept");
+                      expect(payload).to.have.property("person");
+                      expect(payload).to.have.property("obsDatetime");
+                      expect(payload).to.have.property("value");
+
+                      expect(payload).deep.equal(expectedOutput);
+                    });
+                    it('should ensure that convertDNAPCRPayloadTORestConsumableObs receives  the right input and generates the correct payload',
+                        function() {
+                          var expectedInput={
+                            "PatientID":"value",
+                            "DateCollected":"26-May-2016",
+                            "FinalResult":"POSITIVE"
+                          }
+                          var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
+                          var expectedOutput={
+                            concept:"a898fe80-1350-11df-a1f1-0026b9348838",
+                            person:"c6e4e026-3b49-4b64-81de-05cf8bd18594",
+                            obsDatetime:"2016-05-26T00:00:00+03:00",
+                            value:"a896f3a6-1350-11df-a1f1-0026b9348838"
+                          }
+                          var payload=dao.convertDNAPCRPayloadTORestConsumableObs(expectedInput,patientUuId);
+
+                          expect(payload).to.have.property("concept");
+                          expect(payload).to.have.property("person");
+                          expect(payload).to.have.property("obsDatetime");
+                          expect(payload).to.have.property("value");
+
+                          expect(payload).deep.equal(expectedOutput);
+                        });
+        it('should ensure that the convertViralLoadExceptionToRestConsumableObs function generates the right output',
+      function(){
+        var expectedInput={
+         "LabID":"173545",
+         "PatientID":"2524040",
+         "ProviderID":"1289-8",
+         "MFLCode":"15204",
+         "AMRslocationID":"14",
+         "AMRslocation":"MTRH Module 3",
+         "PatientNames":"XXXXXXX",
+         "DateCollected":"26-May-2016",
+         "DateReceived":"26-May-2016",
+         "DateTested":"30-May-2016",
+         "Result":"4064 ",
+         "FinalResult":"wewe tu",
+         "DateDispatched":"08-Jun-2016"
+        }
+        var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
+        var payload=dao.convertViralLoadExceptionToRestConsumableObs(expectedInput,patientUuId);
+        expect(payload).to.have.property("concept");
+        expect(payload).to.have.property("person");
+        expect(payload).to.have.property("obsDatetime");
+        expect(payload).to.have.property("groupMembers");
+        expect(payload.groupMembers).to.be.an("array");
+      });
+      it('should ensure that the convertCD4ExceptionTORestConsumableObs function generates the right output',
+    function(){
+      var expectedInput={
+       "LabID":"6304",
+       "PatientID":"000981160-5",
+       "ProviderID":"",
+       "MFLCode":"15753",
+       "AMRslocationID":"3",
+       "AMRslocation":"Turbo",
+       "PatientNames":"XXXXXXXXXXXXXXXXXXXXXX",
+       "DateCollected":"02-Jun-2016",
+       "DateReceived":"06-Jun-2016",
+       "DateTested":"06-Jun-2016",
+       "Result":"81.49",
+       "AVGCD3percentLymph":"Not done",
+       "AVGCD3AbsCnt":"Not done",
+       "AVGCD3CD4percentLymph":"Not done",
+       "AVGCD3CD4AbsCnt":"not done",
+       "CD45AbsCnt":"not done",
+       "DateDispatched":""
+        }
+      var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
+      var payload=dao.convertCD4ExceptionTORestConsumableObs(expectedInput,patientUuId);
+      expect(payload).to.have.property("concept");
+      expect(payload).to.have.property("person");
+      expect(payload).to.have.property("obsDatetime");
+      expect(payload).to.have.property("groupMembers");
+      expect(payload.groupMembers).to.be.an("array");
+    });
 
   });
 });

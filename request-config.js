@@ -22,6 +22,20 @@ module.exports = function() {
    },
    getAuthorization:function getAuthorization() {
     return authorizationHeader;
-   }
+  },
+  postRequestPromise:function postRequestPromise(payload,uri){
+    var options = {
+      method: 'POST',
+      uri: uri,
+      headers: {
+        'User-Agent': 'Request-Promise',
+        'authorization': authorizationHeader,
+        'content-type':'application/json'
+      },
+      body:payload,
+      json: true
+  };
+  return rp(options);
+  }
  };
 }();

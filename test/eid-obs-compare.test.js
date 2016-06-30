@@ -43,12 +43,55 @@ describe('EID-OBS COMPARE TESTS', function () {
 
     it('should match eid and amrs viral load correctly when isViralLoadEquivalent',
         function () {
+
+            //CASE 1: EID result is not an error
             var eidResult = labDataSamples.getEidViralLoad();
             var equivalentObs = labDataSamples.getAmrsViralLoadObs();
 
             var isEquivalent = eidObsCompare.isViralLoadEquivalent(eidResult, equivalentObs);
 
             expect(isEquivalent).to.be.true;
+
+            //CASE 2: EID result is an error
+            eidResult = {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "26-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "4064 ",
+                "FinalResult": "wewe tu",
+                "DateDispatched": "08-Jun-2016"
+            };
+            equivalentObs = {
+                person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                obsDatetime: '2016-05-26T00:00:00+03:00',
+                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                groupMembers: [
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a8982474-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-05-26T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'wewe tu',
+                        obsDatetime: '2016-05-26T00:00:00+03:00'
+                    }
+                ]
+            };
+
+            isEquivalent = eidObsCompare.isViralLoadEquivalent(eidResult, equivalentObs);
+
+            expect(isEquivalent).to.be.true;
+
         });
 
     it('should match eid and amrs DNA PCR correctly when isDnaPcrEquivalent',
@@ -62,14 +105,109 @@ describe('EID-OBS COMPARE TESTS', function () {
         });
 
 
-    it('should match eid and amrs CD4 Panel correctly when isDnaPcrEquivalent',
+    it('should match eid and amrs CD4 Panel correctly when isCd4PanelEquivalent',
         function () {
+            //CASE 1 EID result is valid
             var eidResult = labDataSamples.getEidCd4Panel();
             var equivalentObs = labDataSamples.getAmrsCd4PanelObs();
 
             var isEquivalent = eidObsCompare.isCd4PanelEquivalent(eidResult, equivalentObs);
 
             expect(isEquivalent).to.be.true;
+
+            //CASE 2 EID result is an error
+            eidResult = {
+                "LabID": "6304",
+                "PatientID": "000981160-5",
+                "ProviderID": "",
+                "MFLCode": "15753",
+                "AMRslocationID": "3",
+                "AMRslocation": "Turbo",
+                "PatientNames": "XXXXXXXXXXXXXXXXXXXXXX",
+                "DateCollected": "02-Jun-2016",
+                "DateReceived": "06-Jun-2016",
+                "DateTested": "06-Jun-2016",
+                "Result": "81.49",
+                "AVGCD3percentLymph": "Not done",
+                "AVGCD3AbsCnt": "Not done",
+                "AVGCD3CD4percentLymph": "Not done",
+                "AVGCD3CD4AbsCnt": "not done",
+                "CD45AbsCnt": "not done",
+                "DateDispatched": ""
+            };
+
+            equivalentObs = {
+                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                obsDatetime: '2016-06-02T00:00:00+03:00',
+                groupMembers: [
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a89c4220-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a898fcd2-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a8970a26-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a8a8bb18-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a89c4914-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    }
+                ]
+            };
+
+            isEquivalent = eidObsCompare.isCd4PanelEquivalent(eidResult, equivalentObs);
+
+            expect(isEquivalent).to.be.true;
+
         });
 
     it('should locate a given eid result in an array of obs correctly when findEquivalentObject',
@@ -213,6 +351,150 @@ describe('EID-OBS COMPARE TESTS', function () {
             var mergedResult = eidObsCompare.mergeEidResults(eidResults);
 
             expect(mergedResult).to.deep.equal(expectedMergedResults);
+        });
+
+    it('should return correctly when isEidViralLoadError',
+        function () {
+            var viralLoadError = {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "26-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "4064 ",
+                "FinalResult": "wewe tu",
+                "DateDispatched": "08-Jun-2016"
+            };
+
+            expect(eidObsCompare.isEidViralLoadError(viralLoadError)).to.be.true;
+        });
+
+    it('should return correctly when isEidCD4PanelError',
+        function () {
+            var cd4Error = {
+                "LabID": "6304",
+                "PatientID": "000981160-5",
+                "ProviderID": "",
+                "MFLCode": "15753",
+                "AMRslocationID": "3",
+                "AMRslocation": "Turbo",
+                "PatientNames": "XXXXXXXXXXXXXXXXXXXXXX",
+                "DateCollected": "02-Jun-2016",
+                "DateReceived": "06-Jun-2016",
+                "DateTested": "06-Jun-2016",
+                "Result": "81.49",
+                "AVGCD3percentLymph": "Not done",
+                "AVGCD3AbsCnt": "Not done",
+                "AVGCD3CD4percentLymph": "Not done",
+                "AVGCD3CD4AbsCnt": "not done",
+                "CD45AbsCnt": "not done",
+                "DateDispatched": ""
+            };
+
+            expect(eidObsCompare.isEidCD4PanelError(cd4Error)).to.be.true;
+        });
+
+    it('should return correctly when isObsViralLoadError',
+        function () {
+            var viralLoadError = {
+                person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                obsDatetime: '2016-05-26T00:00:00+03:00',
+                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                groupMembers: [
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a8982474-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-05-26T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'wewe tu',
+                        obsDatetime: '2016-05-26T00:00:00+03:00'
+                    }
+                ]
+            };
+
+            expect(eidObsCompare.isObsViralLoadError(viralLoadError)).to.be.true;
+        });
+
+    it('should return correctly when isObsCd4PanelError',
+        function () {
+            var cd4Error = {
+                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                obsDatetime: '2016-06-02T00:00:00+03:00',
+                groupMembers: [
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a89c4220-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a898fcd2-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a8970a26-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a8a8bb18-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a89c4914-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    },
+                    {
+                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        obsDatetime: '2016-06-02T00:00:00+03:00'
+                    }
+                ]
+            };
+
+            expect(eidObsCompare.isObsCd4PanelError(cd4Error)).to.be.true;
         });
 
 

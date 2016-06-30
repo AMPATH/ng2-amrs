@@ -16,7 +16,6 @@ var errorHandler = function (errorType, error) {
         + currentdate.getMinutes() + ":"
         + currentdate.getSeconds();
     var errorDescription = errorType + ' occurred at ' + datetime;
-    console.log(errorDescription, error);
 };
 
 module.exports = function () {
@@ -32,7 +31,7 @@ module.exports = function () {
     };
     var queryLimit = 300;
     var queryOffset = 0;
-    
+
     function _updateJoins(join, s, sq) {
       if (sq) {
         if(_.isUndefined(join.joinExpression) || join.joinExpression === '') {
@@ -61,7 +60,7 @@ module.exports = function () {
         }
       }
     }
-    
+
     function queryReportServer(sql, callback) {
       var result = {};
       getServerConnection(function (err, connection) {
@@ -90,7 +89,7 @@ module.exports = function () {
           });
       });
     }
-    
+
     function queryServer(queryParts, callback) {
         var result = {};
         var sql = queryParts.sql;
@@ -118,7 +117,7 @@ module.exports = function () {
             });
         });
     }
-    
+
     function createQuery(queryParts, sq) {
       var result = {};
       var multiquery = "";
@@ -211,7 +210,7 @@ module.exports = function () {
 
       return s;
     }
-    
+
     function transformQueryPartsToSql(queryParts) {
       var tableAlias = 't1';
       if (queryParts['alias'])tableAlias = queryParts['alias'];
@@ -230,7 +229,6 @@ module.exports = function () {
           s.left_outer_join(join[0], join[1], join[2]);
       });
 
-
       if (queryParts.columns && queryParts.columns !== "*") {
           if (typeof queryParts.columns === "string") {
               // if (queryParts.columns.substring(0, 1) === "(")
@@ -247,6 +245,7 @@ module.exports = function () {
                   if (n === 1 && !_.contains(col, "("))
                       s.field(columnName.split(")")[0]);
                   else s.field(col);
+
               }
               else s.field(columnName);
               i++;
@@ -295,7 +294,7 @@ module.exports = function () {
       var values = q.values;
       return {query: sql, sqlParams: values, offset: queryParts['offset'] || queryOffset}
     }
-    
+
     function transformReportQueryPartsToSql(queryPartsArray) {
       var query = "";
       var sqlParams = [];
@@ -322,28 +321,28 @@ module.exports = function () {
 
       return {query: query, sqlParams: sqlParams, offset: queryOffset}
     }
-    
+
     function reportQueryServer (queryPartsArray, callback) {
         var sql = transformReportQueryPartsToSql(queryPartsArray);
         queryReportServer(sql, function (result) {
-            callback(result);
+          callback(result);
         });
     }
-    
+
     function queryServer_test(queryParts, callback) {
         var sql = transformQueryPartsToSql(queryParts);
         queryReportServer(sql, function (result) {
             callback(result);
         });
     }
-    
+
     function queryServer_testToPromisify(queryParts, callback) {
         var sql = transformQueryPartsToSql(queryParts);
         queryReportServer(sql, function (result) {
             callback(null,result);
         });
     }
-    
+
     return {
       queryReportServer: queryReportServer,
       queryServer: queryServer,

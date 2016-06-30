@@ -1,6 +1,7 @@
 var Hapi = require('hapi');
 var mysql = require('mysql');
 var Good = require('good');
+var requestConfig = require('./request-config');
 var Basic = require('hapi-auth-basic');
 var https = require('http');
 var config = require('./conf/config');
@@ -79,6 +80,7 @@ var validate = function (username, password, callback) {
       //console.log('Logged in user:', currentUser);
 
       callback(null, result.authenticated, currentUser);
+
     });
   }).on('error', function (error) {
     //console.log(error);
@@ -102,6 +104,7 @@ var HapiSwaggerOptions = {
 server.ext('onRequest', function(request, reply) {
   requestConfig.setAuthorization(request.headers.authorization);
   return reply.continue();
+
 });
 server.register([
   Inert,
@@ -141,6 +144,7 @@ server.register([
     for (var route in elasticRoutes) {
       server.route(elasticRoutes[route]);
     }
+
     server.on('response', function (request) {
       if (request.response === undefined ||request.response===null){
         console.log("No response");
@@ -157,6 +161,7 @@ server.register([
       }
 
     })
+
 
     server.ext('onPreResponse', corsHeaders);
     server.start(function () {
