@@ -94,6 +94,7 @@
     ],
     "parameters": [
       {"name":"locations","defaultValue":[]},
+      {"name":"endDate", "defaultValue":["Now()"]},
       {"name":"groupByPerson", "defaultValue":[
         {"label":"person_id","expression":"t1.person_id"}
       ]
@@ -101,7 +102,10 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"t1.is_clinical_encounter = 1"}
+      {"expression":"t1.is_clinical_encounter = 1"},
+      {"expression":"arv_start_date is not null", "processForce":true},
+      {"expression":"arv_start_location=t1.location_id", "processForce":true},
+      {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
     ],
     "groupClause":[
       {"parameter":"groupByPerson"}

@@ -22,6 +22,7 @@ var reportPrivileges = {
     'clinical-art-overview-report': [PRIVILEGES.canViewDataAnalytics],
     'clinical-patient-care-status-overview-report': [PRIVILEGES.canViewDataAnalytics],
     'MOH-731-report': [PRIVILEGES.canViewDataAnalytics],
+    'MOH-731-allsites-report': [PRIVILEGES.canViewDataAnalytics],
     'patient-register-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'hiv-summary-report': [PRIVILEGES.canViewDataAnalytics],
     'hiv-summary-monthly-report': [PRIVILEGES.canViewDataAnalytics],
