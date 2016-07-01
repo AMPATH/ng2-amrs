@@ -383,6 +383,12 @@
         "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
+        "name":"not_on_art_total",
+        "label":"not on art total",
+        "description": "Total # of patients not on ART",
+        "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
         "name":"on_art_males_lt_one",
         "label":"on art males lt one",
         "description": "Total # of male patients < 1 yr on ART",
@@ -822,6 +828,12 @@
         "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 < 1000"
     },
     {
+        "name":"not_virally_suppressed",
+        "label":"not virally suppressed",
+        "description": "# of patient(s) who are not virally suppressed",
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 >= 1000"
+    },
+    {
         "name":"perc_virally_suppressed",
         "label":"perc virally suppressed",
         "description": "% of  patient(s) who are virally suppressed",
@@ -952,7 +964,13 @@
         "name":"tested_appropriately",
         "label":"tested appropriately",
         "description": "tested appropriately",
-        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) <= 365 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"not_tested_appropriately",
+        "label":"not tested appropriately",
+        "description": "not tested appropriately",
+        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date,encounter_datetime) > 365 or vl_1_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"perc_tested_appropriately",
@@ -988,7 +1006,7 @@
         "name":"patients_continuing_care",
         "label":"patients continuing care",
         "description": "patients continuing care",
-        "expression": "patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90"
+        "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90 and encounter_type not in (21,81) ) or (patient_care_status=6101 and encounter_type in (21,81) and endDate > DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY))"
     },
     {
         "name":"self_disengaged_from_care",
@@ -1000,7 +1018,7 @@
         "name":"defaulters",
         "label":"defaulters",
         "description": "defaulters",
-        "expression": "patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) > 90"
+        "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) > 90 and encounter_type not in (21,81)) or ((patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90) and (encounter_type in (21,81) and endDate < DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY)))"
     },
     {
         "name":"other_patient_care_status",
