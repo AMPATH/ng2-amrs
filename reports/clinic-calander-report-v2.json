@@ -42,7 +42,6 @@
  "name": "scheduled",
  "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
  "joins":[
-     {"joinType":"INNER JOIN","schema":"etl","tableName":"derived_encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"}
  ],
  "parameters": [
      {"name":"groupByRtcDate", "defaultValue":[
@@ -57,7 +56,9 @@
      {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
      {"expression":"t1.rtc_date <= ?", "parameter":"endDate"},
      {"expression":"t1.location_id in ?", "parameter":"locations"},
-     {"expression":"encounter_type not in (99999)"}
+     {"expression":"coalesce(t1.transfer_out) is null","processForce":true},
+     {"expression":"coalesce(t1.death_date) is null","processForce":true},
+     {"expression":"encounter_type not in (99999)","processForce":true}
  ],
  "groupClause":[
      {"parameter":"groupByRtcDate"},
@@ -79,7 +80,7 @@
         {
             "label":"scheduled_date",
             "type":"single",
-            "sql":"date(t1.rtc_date)"
+            "sql":"date_format(t1.rtc_date,'%Y-%m-%d')"
         },
         {
             "label":"scheduled",
