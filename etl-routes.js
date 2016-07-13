@@ -8,7 +8,7 @@ var winston = require('winston');
 var path = require('path');
 var _ = require('underscore');
 var Joi = require('joi');
-
+var eidLabData=require('./eid-data-synchronization/eid-lab-results')
 var Boom = require('boom');
 var authorizer = require('./authorization/etl-authorizer');
 
@@ -97,7 +97,7 @@ module.exports = function () {
                             .required()
                             .description("The patient's uuid(universally unique identifier)."),
                     }
-                }  
+                }
             }
         }, {
             method: 'GET',
@@ -773,7 +773,7 @@ module.exports = function () {
         config: {
             auth: 'simple',
             handler: function (request, reply) {
-                dao.getSyncronizedPatientLabOrders(request, reply);
+              eidLabData.getPatientLabResults(request,reply);
             }
 
         }

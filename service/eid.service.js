@@ -1,0 +1,193 @@
+/*jshint -W003, -W097, -W117, -W026 */
+'use strict';
+var Promise = require('bluebird');
+var _ = require('underscore');
+var http = require('http');
+var https = require('https');
+var Promise=require('bluebird');
+var rp = require('../request-config');
+var config = require('../conf/config');
+var moment=require('moment');
+var comparison=require('../eid-obs-compare');
+var obsService=require('./openmrs-rest/obs.service');
+module.exports = function() {
+  function getEIDResource(path){
+    var link=config.eid.ampath[0].host+':'+config.eid.ampath[0].port+path;
+    return link;
+  }
+  function getEIDCD4PanelResource(path){
+    var link=config.eid.ampath[1].host+':'+config.eid.ampath[1].port+path;
+    return link;
+  }
+  function getAlupeResource(path){
+    var link=config.eid.alupe[0].host+':'+config.eid.alupe[0].port+path;
+    return link;
+  }
+  function getAlupeCD4PanelResource(path){
+    var link=config.eid.alupe[1].host+':'+config.eid.alupe[1].port+path;
+    return link;
+  }
+ function getEIDTestResultsByPatientIdentifier(patientIdentifier){
+  var results={
+    patientIdentifier: patientIdentifier
+  }
+  var viralLoadResults=getEIDViralLoadTestResultsByPatientIdentifier(patientIdentifier);
+  var pcrResults=getEIDPCRTestResultsByPatientIdentifier(patientIdentifier);
+  var cd4Panel=getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier);
+  return new Promise(function(resolve,reject){
+    viralLoadResults.then(function(vlData){
+      results.viralLoad=vlData;
+      return pcrResults
+    })
+    .then(function(pcrData){
+      results.pcr=pcrData;
+      return cd4Panel
+    })
+    .then(function(cd4Data){
+      results.cd4Panel=cd4Data;
+      resolve(results);
+    })
+    .catch(function(error){
+      reject(error);
+      console.error("error getEIDTestResultsByPatientIdentifier +++++++++++++++++++++++++++++++++++++++",error);
+    })
+});
+}
+function getAllEIDTestResultsByPatientUuId(patientUuId){
+  var allResults=[];
+    var promiseArray=[];
+    return new Promise(function(resolve,reject){
+      obsService.getPatientIdentifiers(patientUuId).then(function(response){
+        _.each(response.identifiers,function(identifier){
+          var promise=getEIDTestResultsByPatientIdentifier(identifier);
+          promiseArray.push(promise);
+        });
+        return Promise.all(promiseArray);
+      })
+      .then(function(response){
+        resolve(response);
+      })
+      .catch(function(error){
+        reject(error);
+        console.error("getAllEIDTestResultsByPatientUuId +++++++++++++++++++++++++++++++++++++++++++",error);
+      })
+  });
+}
+function getEIDViralLoadTestResultsByPatientIdentifier(patientIdentifier){
+  var viralLoadArray=[];
+  var uri=getEIDResource(config.eid.ampath[0].path);
+  var queryString={
+    apikey:config.eid.ampath[0].apikey,
+    test:2,
+    patientID:patientIdentifier
+  }
+  var alupeUri=getAlupeResource(config.eid.alupe[0].path);
+  var alupeQueryString={
+    apikey:config.eid.alupe[0].apikey,
+    test:2,
+    patientID:patientIdentifier
+  }
+  return new Promise(function(resolve,reject){
+    var alupeVLPromise=rp.getRequestPromise(alupeQueryString,alupeUri);
+    rp.getRequestPromise(queryString,uri)
+    .then(function(response){
+      viralLoadArray=response.posts;
+      return alupeVLPromise;
+    })
+    .then(function(response){
+      var concatenatedArray =viralLoadArray.concat(response.posts);
+      resolve(concatenatedArray);
+    })
+    .catch(function(error){
+      resolve(error);
+      console.error("getEIDViralLoadTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++++++",error);
+    })
+  })
+}
+function getEIDPCRTestResultsByPatientIdentifier(patientIdentifier){
+  var pcrArray=[];
+  var uri=getEIDResource(config.eid.ampath[0].path);
+  var queryString={
+    apikey:config.eid.ampath[0].apikey,
+    test:1,
+    patientID:patientIdentifier
+  }
+  var alupeUri=getAlupeResource(config.eid.alupe[0].path);
+  var alupeQueryString={
+    apikey:config.eid.alupe[0].apikey,
+    test:1,
+    patientID:patientIdentifier
+  }
+  return new Promise(function(resolve,reject){
+    var alupePcrPromise=rp.getRequestPromise(alupeQueryString,alupeUri);
+    rp.getRequestPromise(queryString,uri)
+    .then(function(response){
+      pcrArray=response.posts;
+      return alupePcrPromise;
+    })
+    .then(function(response){
+      var concatenatedArray=pcrArray.concat(response.posts);
+      resolve(concatenatedArray);
+    })
+    .catch(function(error){
+      reject(error);
+      console.error("getEIDPCRTestResultsByPatientIdentifier++++++++++++++++++++++++++++++",error);
+    })
+  })
+}
+function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier){
+  var uri=module.exports.getEIDCD4PanelResource(config.eid.ampath[1].path);
+  var queryString={
+    apikey:config.eid.ampath[1].apikey,
+    patientID:patientIdentifier
+  }
+  var alupeUri=getAlupeResource(config.eid.alupe[1].path);
+  var alupeQueryString={
+    apikey:config.eid.alupe[1].apikey,
+    patientID:patientIdentifier
+  }
+  return new Promise(function(resolve,reject){
+    rp.getRequestPromise(queryString,uri)
+    .then(function(response){
+      resolve(response.posts);
+    })
+    .catch(function(error){
+      reject(error);
+      console.error("getEIDCD4PanelTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++",error);
+    })
+  })
+}
+
+ function getSynchronizedPatientLabResults(request,reply){
+   var promise1=getAllEIDTestResultsByPatientUuId(request.query.patientUuId);
+   var promise2=obsService.getPatientAllTestObsByPatientUuId(request.query.patientUuId);
+   var mergedEidResults={};
+ return new Promise(function(resolve,reject){
+   promise1.then(function(response){
+     mergedEidResults=comparison.mergeEidResults(response);
+     return promise2;
+   })
+   .then(function(obsResponse){
+     var missingResult=comparison.findAllMissingEidResults(mergedEidResults,obsResponse);
+     return obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
+   })
+   .then(function(updatedObs){
+     reply({updatedObs});
+   })
+   .catch(function(error){
+     reject(error);
+     console.error("getSynchronizedPatientLabResults ++++++++++++++++++++++++++++++++++++++++",error);
+   })
+ });
+ }
+ return {
+   getSynchronizedPatientLabResults:getSynchronizedPatientLabResults,
+   getAllEIDTestResultsByPatientUuId:getAllEIDTestResultsByPatientUuId,
+   getEIDTestResultsByPatientIdentifier:getEIDTestResultsByPatientIdentifier,
+   getEIDViralLoadTestResultsByPatientIdentifier:getEIDViralLoadTestResultsByPatientIdentifier,
+   getEIDResource:getEIDResource,
+   getEIDPCRTestResultsByPatientIdentifier:getEIDPCRTestResultsByPatientIdentifier,
+   getEIDCD4PanelTestResultsByPatientIdentifier:getEIDCD4PanelTestResultsByPatientIdentifier,
+   getEIDCD4PanelResource:getEIDCD4PanelResource
+ }
+ }();
