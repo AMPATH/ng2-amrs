@@ -25,6 +25,7 @@ var reportPrivileges = {
     'MOH-731-allsites-report': [PRIVILEGES.canViewDataAnalytics],
     'patient-register-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'hiv-summary-report': [PRIVILEGES.canViewDataAnalytics],
+    'clinic-comparator-report': [PRIVILEGES.canViewDataAnalytics],
     'hiv-summary-monthly-report': [PRIVILEGES.canViewDataAnalytics],
     'clinical-reminder-report': [PRIVILEGES.canViewPatient],
     'patient-list-report-perc_virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],

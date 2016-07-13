@@ -20,6 +20,7 @@ reportList.push.apply(reportList, require('./reports/dataentry-statistics.json')
 reportList.push.apply(reportList, require('./reports/clinical-overview-visualization-report.json'));
 reportList.push.apply(reportList, require('./reports/hiv-summary-monthly-report.json'));
 reportList.push.apply(reportList, require('./reports/patient-flow-report.json'));
+reportList.push.apply(reportList, require('./reports/clinic-comparator-report.json'));
 
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
@@ -87,11 +88,11 @@ module.exports = function () {
         setIndicatorHandlers(_indicatorHandlers);
     }
 
-    function resolveIndicators(reportName, result) {
+    function resolveIndicators(reportName, result,requestIndicators) {
         _.each(reports, function (report) {
             if (report.name === reportName) {
                 _.each(report.indicatorHandlers, function (handler) {
-                    indicatorHandlers[handler.processor](handler.indicators, result);
+                    indicatorHandlers[handler.processor](handler.indicators, result,requestIndicators);
                 });
 
             }
