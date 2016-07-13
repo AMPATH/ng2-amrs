@@ -241,6 +241,11 @@
                 "sql":"count(distinct if($expression, person_id,null))"
             },
             {
+                "label":"transfer_to_MNCH",
+                "expression":"transfer_to_MNCH",
+                "sql":"count(distinct if($expression, person_id,null))"
+            },
+            {
                 "label":"other_patient_care_status",
                 "expression":"other_patient_care_status",
                 "sql":"count(distinct if($expression, person_id,null))"
