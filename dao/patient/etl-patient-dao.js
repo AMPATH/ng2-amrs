@@ -55,6 +55,8 @@ module.exports = function() {
 
       // Format & Clean up raw summaries
       _.each(summaryData.result, function(summary) {
+        summary.cur_arv_meds_id = summary.cur_arv_meds;
+        summary.arv_first_regimen_id = summary.arv_first_regimen;
         summary.cur_arv_meds = helpers.getARVNames(summary.cur_arv_meds);
         summary.arv_first_regimen = helpers.getARVNames(summary.arv_first_regimen);
         summary['encounter_type_name'] = encounterTypeNames[summary.encounter_type];

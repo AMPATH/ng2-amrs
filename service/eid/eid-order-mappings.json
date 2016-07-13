@@ -1,0 +1,266 @@
+{
+  "artRegimen": [
+   {
+      "eidDisplay": "AZT/3TC/ EFV",
+      "eidId": 2,
+      "mrsArvRegimen":"6159,628,633"
+    },
+   {
+      "eidDisplay": "ABC/3TC/ATVr",
+      "eidId": 10,
+     "mrsArvRegimen":"814,628,6160"
+    },
+    {
+      "eidDisplay": "ABC/3TC/EFV",
+      "eidId": 12,
+      "mrsArvRegimen":"814,628,633"
+    },
+    {
+      "eidDisplay": "ABC/3TC/LPVr",
+      "eidId": 13,
+      "mrsArvRegimen":"814,628,794"
+    },
+    {
+      "eidDisplay": "ABC/3TC/NVP",
+      "eidId": 11,
+      "mrsArvRegimen":"814,628,631"
+    },
+    {
+      "eidDisplay": "AZT/3TC/ NVP",
+      "eidId": 1,
+      "mrsArvRegimen":"797,628,631"
+    },
+    {
+      "eidDisplay": "AZT/3TC/ABC",
+      "eidId": 6,
+      "mrsArvRegimen":"797,628,814"
+    },
+    {
+      "eidDisplay": "AZT/3TC/ATVr",
+      "eidId": 8,
+      "mrsArvRegimen":"797,628,6160"
+    },
+    {
+      "eidDisplay": "AZT/3TC/LPVr",
+      "eidId": 5,
+      "mrsArvRegimen":"797,628,794"
+    },
+    {
+      "eidDisplay": "TDF/3TC/ATVr",
+      "eidId": 9,
+      "mrsArvRegimen":"802,628,6160"
+    },
+    {
+      "eidDisplay": "TDF/3TC/EFV",
+      "eidId": 4,
+      "mrsArvRegimen":"802,628,633"
+    },
+    {
+      "eidDisplay": "TDF/3TC/LPVr",
+      "eidId": 7,
+      "mrsArvRegimen":"802,628,794"
+    },
+   {
+      "eidDisplay": "TDF/3TC/NVP",
+      "eidId": 3,
+     "mrsArvRegimen":"802,628,631"
+    }
+  ],
+  "testOrderJustification": {
+    "5931c4d4-4406-4d71-b75d-2205d905cc24": {
+      "eidId": 1,
+      "eidDisplay": "Routine VL",
+      "mrsDisplay": ""
+    },
+    "e43ddeb6-3984-499c-a280-3bade1039608": {
+      "eidId": 2,
+      "eidDisplay": "Confirmation of Treatment Failure (Repeat VL at 3M)",
+      "mrsDisplay": ""
+    },
+    "a8981934-1350-11df-a1f1-0026b9348838": {
+      "eidId": 3,
+      "eidDisplay": "Clinical Failure",
+      "mrsDisplay": ""
+    },
+    "c6537e06-9fc2-47da-b679-e2a32824407f": {
+      "eidId": 4,
+      "eidDisplay": "Immunological Failure",
+      "mrsDisplay": ""
+    },
+    "a8a00158-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
+      "eidDisplay": "Single Drug Substitution",
+      "mrsDisplay": ""
+    },
+    "a89d109c-1350-11df-a1f1-0026b9348838": {
+      "eidId": 6,
+      "eidDisplay": "Pregnant Mother",
+      "mrsDisplay": ""
+    },
+    "uuid": {
+      "a8aaf3e2-1350-11df-a1f1-0026b9348838": 7,
+      "eidDisplay": "Other",
+      "mrsDisplay": ""
+    },
+    "undefined": {
+      "eidId": 8,
+      "eidDisplay": "No Data",
+      "mrsDisplay": ""
+    }
+  },
+  "dnaPcrEntryPoint": {
+    "a8a09ac8-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "OPD",
+      "eidId": 1,
+      "mrsDisplay": "OPD"
+    },
+    "3e5ad07b-2ced-4925-8264-cc4d8d1438d4": {
+      "eidDisplay": "Paediatric Ward",
+      "eidId": 2,
+      "mrsDisplay": "Peadiatric ward"
+    },
+    "a8a17d80-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "MCH/PMTCT",
+      "eidId": 3,
+      "mrsDisplay": "MCH"
+    },
+    "a89fbedc-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "MCH/PMTCT",
+      "eidId": 3,
+      "mrsDisplay": "PMTCT"
+    },
+    "a8a3899a-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "CCC/PSC",
+      "eidId": 4,
+      "mrsDisplay": "CCC"
+    },
+    "materrnity-uuid": {
+      "eidDisplay": "Materrnity",
+      "eidId": 5,
+      "mrsDisplay": "Materrnity"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "Other",
+      "eidId": 6,
+      "mrsDisplay": "Other"
+    },
+    "undefined": {
+      "eidDisplay": "No Data",
+      "eidId": 7,
+      "mrsDisplay": "No Data"
+    }
+  },
+  "hivStatus":{
+    "a896f3a6-1350-11df-a1f1-0026b9348838": {
+      "eidId": 2,
+      "eidDisplay": "Positive",
+      "mrsDisplay": "Positive"
+    },
+    "a896d2cc-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidDisplay": "Negative",
+      "mrsDisplay": "Negative"
+    },
+    "a899b50a-1350-11df-a1f1-0026b9348838": {
+      "eidId": 0,
+      "eidDisplay": "",
+      "mrsDisplay": "Unknown"
+    }
+  },
+  "infantProphylaxis":{
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidDisplay": "sdNVP only",
+      "mrsDisplay": "sdNVP only"
+    },
+    "6a73f32d-1870-4527-af6e-74443251ded2": {
+      "eidId": 9,
+      "eidDisplay": "sdNVP +AZT +3TC",
+      "mrsDisplay": "sdNVP +AZT +3TC"
+    },
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 0,
+      "eidDisplay": "NVP",
+      "mrsDisplay": "NVP"
+    },
+    "a897ea4a-1350-11df-a1f1-0026b9348838": {
+      "eidId": 2,
+      "eidDisplay": "AZT",
+      "mrsDisplay": "AZT"
+    },
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidDisplay": "NVP during BF period",
+      "mrsDisplay": "NVP during BF period"
+    },
+    "a899e0ac-1350-11df-a1f1-0026b9348838": {
+      "eidId": 0,
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 0,
+      "eidDisplay": "Other",
+      "mrsDisplay": "Other"
+    }
+  },
+  "pmtctIntervention":{
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidDisplay": "sdNVP only",
+      "mrsDisplay": "sdNVP only"
+    },
+    "0906b973-25da-4e87-a272-84692cdd8453": {
+      "eidId":2,
+      "eidDisplay": "Uninterrupted HAART (HAART until end of BF)",
+      "mrsDisplay": "Uninterrupted HAART (HAART until end of BF)"
+    },
+    "6a73f32d-1870-4527-af6e-74443251ded2": {
+      "eidId": 3,
+      "eidDisplay": "AZT (from 14wks or later) + sdNVP + 3TC (Tail)",
+      "mrsDisplay": "AZT (from 14wks or later) + sdNVP + 3TC (Tail)"
+    },
+    "a899ccb6-1350-11df-a1f1-0026b9348838": {
+      "eidId": 4,
+      "eidDisplay": "HAART",
+      "mrsDisplay": "HAART"
+    },
+    "a899e0ac-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 6,
+      "eidDisplay": "Other",
+      "mrsDisplay": "Other"
+    }
+  },
+  "infantFeedingPlan":{
+    "a8a8d9b8-1350-11df-a1f1-0026b9348838": {
+      "eidId":1,
+      "eidDisplay": "EBF=Exclusive breastfeeding",
+      "mrsDisplay": "EBF=Exclusive breastfeeding"
+    },
+    "a8a70156-1350-11df-a1f1-0026b9348838": {
+      "eidId": 4,
+      "eidDisplay": "ERF=Exclusive replacement feeding",
+      "mrsDisplay": "ERF=Exclusive replacement feeding"
+    },
+    "a89cca10-1350-11df-a1f1-0026b9348838": {
+      "eidId": 2,
+      "eidDisplay": "MF=Mixed Feeding",
+      "mrsDisplay": "MF=Mixed Feeding"
+    },
+    "a8ae86e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 6,
+      "eidDisplay": "BF= Breastfeeding",
+      "mrsDisplay": "BF= Breastfeeding"
+    },
+    "a89cc934-1350-11df-a1f1-0026b9348838": {
+      "eidId": 7,
+      "eidDisplay": "NBF=Not breastfeeding",
+      "mrsDisplay": "NBF=Not breastfeeding"
+    }
+  }
+}
