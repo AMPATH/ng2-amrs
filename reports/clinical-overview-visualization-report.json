@@ -316,7 +316,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -377,7 +377,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -437,7 +437,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -497,7 +497,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -557,7 +557,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -617,7 +617,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -652,7 +652,8 @@
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
-            {"expression":"arv_start_date is null", "processForce":true}
+            {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
+            {"expression":"(encounter_datetime < arv_start_date  or arv_start_date is null)", "processForce":true}
         ],
         "groupClause":[
             {"parameter":"groupByPerson"}
@@ -676,7 +677,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -736,7 +737,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -796,7 +797,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
@@ -856,7 +857,7 @@
             {
                 "label": "person_name",
                 "type": "single",
-                "sql": "concat(t2.given_name, ' ', t2.middle_name, ' ', t2.family_name)"
+                "sql": "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))"
             },
             {
                 "label": "identifiers",
