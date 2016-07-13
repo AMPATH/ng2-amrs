@@ -6,6 +6,7 @@ var mysql = require('mysql');
 var squel = require('squel');
 var _ = require('underscore');
 var config = require('./conf/config');
+var moment=require('moment');
 
 var errorHandler = function (errorType, error) {
     var currentdate = new Date();
@@ -342,7 +343,59 @@ module.exports = function () {
             callback(null,result);
         });
     }
-
+    function insertQueryServer(queryParts, callback){
+      var column1=queryParts.columns[0];
+      var column2=queryParts.columns[1];
+      var column3=queryParts.columns[2];
+      var value1=queryParts.values[0];
+      var s=squel.insert()
+        .into(queryParts['table'])
+        .setFieldsRows([
+          { person_uuid:value1,date_updated:moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+          date_created:moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ')}
+        ])
+        .toParam();
+        saveQueryServer(s,function(response){
+          callback(response);
+        });
+    }
+    function updateQueryServer(queryParts, callback){
+      var value1=queryParts.values[0];
+      var value2=moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+      var s=squel.update()
+        .table(queryParts['table'])
+        .set("date_updated",value2)
+        .where("person_uuid=?",value1)
+        .toParam();
+        saveQueryServer(s,function(response){
+          callback(response);
+        });
+    }
+    function saveQueryServer(sql,callback){
+      var result={};
+      getServerConnection(function (err, connection) {
+          if (err) {
+              errorHandler('ExecuteMultiReport: Database connection error', err);
+              return;
+          }
+          connection.query(sql.text, sql.values, function (err, rows, fields) {
+              if (err) {
+                  errorHandler('Error querying server', err);
+                  result.errorMessage = "Error querying server";
+                  result.error = err;
+                  result.sql = sql.text;
+                  result.sqlParams = sql.values;
+              }
+              else {
+                  result.size = rows.length;
+                  result.sql = sql.text;
+                  result.sqlParams = sql.values;
+              }
+              callback(result);
+              connection.release();
+          });
+      });
+    }
     return {
       queryReportServer: queryReportServer,
       queryServer: queryServer,
@@ -351,6 +404,9 @@ module.exports = function () {
       transformReportQueryPartsToSql: transformReportQueryPartsToSql,
       reportQueryServer: reportQueryServer,
       queryServer_test: queryServer_test,
-      queryDb: Promise.promisify(queryServer_testToPromisify)
+      queryDb: Promise.promisify(queryServer_testToPromisify),
+      insertQueryServer:insertQueryServer,
+      saveQueryServer:saveQueryServer,
+      updateQueryServer:updateQueryServer
     };
 }();

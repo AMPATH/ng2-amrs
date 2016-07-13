@@ -148,6 +148,7 @@ function isEidViralLoadError(eidViralLoadResult) {
     var isError = false;
     var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
     var hasLessThanSymbol = /</g;
+    if(_.isEmpty(eidViralLoadResult)) return false;
     var viralLoadResult = _removeWhiteSpace(eidViralLoadResult.FinalResult);
     if (!hasNumbersOnly.test(viralLoadResult) && !hasLessThanSymbol.test(viralLoadResult)) {
         isError = true;
@@ -160,6 +161,7 @@ function isEidCD4PanelError(eidCD4Result) {
     var exceptions = [];
     var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
     var hasLessThanSymbol = /</g;
+    if(_.isEmpty(eidCD4Result)) return false;
     var avgCD3percentLymphResult = _removeWhiteSpace(eidCD4Result.AVGCD3percentLymph);
     var avgCD3AbsCntResult = _removeWhiteSpace(eidCD4Result.AVGCD3AbsCnt);
     var avgCD3CD4percentLymphResult = _removeWhiteSpace(eidCD4Result.AVGCD3CD4percentLymph);
@@ -183,6 +185,7 @@ function isEidCD4PanelError(eidCD4Result) {
     if (exceptions.length > 0) {
         hasErrors = true;
     }
+
     return hasErrors;
 }
 

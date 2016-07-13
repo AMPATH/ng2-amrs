@@ -13,11 +13,9 @@ var Hapi = require('hapi');
 var fakeServer = require('../../sinon-server-1.17.3');
 var PassThrough = require('stream').PassThrough;
 var http = require('http');
-
+var eidRestFormatter=require('../../../eid-rest-formatter');
 var Promise = require('bluebird');
-
 require('sinon-as-promised')(Promise);
-
 chai.config.includeStack = true;
 global.expect = chai.expect;
 global.should = chai.should;
@@ -573,7 +571,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
               var expectedInput={
                 "PatientID":"value",
                 "DateCollected":"26-May-2016",
-                "FinalResult":5000
+                "FinalResult":0
               }
               var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
               var expectedOutput={
@@ -582,8 +580,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
                 obsDatetime:"2016-05-26T00:00:00+03:00",
                 value:0
               }
-              var payload=dao.convertViralLoadPayloadToRestConsumableObs(expectedInput,patientUuId);
-
+              var payload=eidRestFormatter.convertViralLoadPayloadToRestConsumableObs(expectedInput,patientUuId);
               expect(payload).to.have.property("concept");
               expect(payload).to.have.property("person");
               expect(payload).to.have.property("obsDatetime");
@@ -640,8 +637,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
                       }
                     ]
                   }
-                  var payload=dao.convertCD4PayloadTORestConsumableObs(expectedInput,patientUuId);
-
+                  var payload=eidRestFormatter.convertCD4PayloadTORestConsumableObs(expectedInput,patientUuId);
                   expect(payload).to.have.property("concept");
                   expect(payload).to.have.property("person");
                   expect(payload).to.have.property("obsDatetime");
@@ -664,8 +660,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
                         obsDatetime:"2016-05-26T00:00:00+03:00",
                         value:"a896d2cc-1350-11df-a1f1-0026b9348838"
                       }
-                      var payload=dao.convertDNAPCRPayloadTORestConsumableObs(expectedInput,patientUuId);
-
+                      var payload=eidRestFormatter.convertDNAPCRPayloadTORestConsumableObs(expectedInput,patientUuId);
                       expect(payload).to.have.property("concept");
                       expect(payload).to.have.property("person");
                       expect(payload).to.have.property("obsDatetime");
@@ -687,8 +682,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
                             obsDatetime:"2016-05-26T00:00:00+03:00",
                             value:"a896f3a6-1350-11df-a1f1-0026b9348838"
                           }
-                          var payload=dao.convertDNAPCRPayloadTORestConsumableObs(expectedInput,patientUuId);
-
+                          var payload=eidRestFormatter.convertDNAPCRPayloadTORestConsumableObs(expectedInput,patientUuId);
                           expect(payload).to.have.property("concept");
                           expect(payload).to.have.property("person");
                           expect(payload).to.have.property("obsDatetime");
@@ -714,7 +708,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
          "DateDispatched":"08-Jun-2016"
         }
         var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
-        var payload=dao.convertViralLoadExceptionToRestConsumableObs(expectedInput,patientUuId);
+        var payload=eidRestFormatter.convertViralLoadExceptionToRestConsumableObs(expectedInput,patientUuId);
         expect(payload).to.have.property("concept");
         expect(payload).to.have.property("person");
         expect(payload).to.have.property("obsDatetime");
@@ -743,7 +737,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function() {
        "DateDispatched":""
         }
       var patientUuId="c6e4e026-3b49-4b64-81de-05cf8bd18594";
-      var payload=dao.convertCD4ExceptionTORestConsumableObs(expectedInput,patientUuId);
+      var payload=eidRestFormatter.convertCD4ExceptionTORestConsumableObs(expectedInput,patientUuId);
       expect(payload).to.have.property("concept");
       expect(payload).to.have.property("person");
       expect(payload).to.have.property("obsDatetime");
