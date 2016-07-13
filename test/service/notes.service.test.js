@@ -92,5 +92,57 @@
       expect(notes.length).to.equal(1);
       expect(notes).to.deep.equal(expected);     
     });
+    
+    it('generateNotes() should order CC/HPI & assessment chronologically', function() {
+      var ASSESSMENT = '23f710cc-7f9c-4255-9b6b-c3e240215dba';
+      var adultReturn = encounterMocks.getAdultReturnRestMock();
+      var triage = encounterMocks.getTriageRestMock();
+      
+      // Change encounterDatetime to have slightly different time
+      adultReturn.encounterDatetime = '2016-04-11T11:18:10.000+0300';
+      triage.encounterDatetime = '2016-04-11T11:17:30.000+0300';  // happen earlier
+      
+      // Inject assessment in triage & adult return mocks.
+      var triageAssessment = {
+        'concept': {
+          'uuid': ASSESSMENT,
+          'name': {
+            'uuid': 'some-name-uuid',
+            'name': 'ASSESSMENT'
+          }
+        },
+        'value': 'High Blood pressure, low weight',
+        'groupMembers': null
+      };
+      
+      triage.obs.push(triageAssessment);
+      
+      // Change adult return value slightly different version
+      var adultReturnAss = Object.assign({},triageAssessment);
+      adultReturnAss.value = 'Coughing, chest pain. TB suspected';
+      
+      adultReturn.obs.push(adultReturnAss);
+      
+      // Change the expected note to include the above added assessments
+      var expected = Object.assign({}, expectedNote);
+      var ass1Toexpect = {
+        obsDatetime: triage.encounterDatetime,
+        encounterType: triage.encounterType.display,
+        value: triageAssessment.value
+      };
+      var ass2Toexpect = {
+        obsDatetime: adultReturn.encounterDatetime,
+        encounterType: adultReturn.encounterType.display,
+        value: adultReturnAss.value
+      }
+      expected.assessment.push(ass1Toexpect, ass2Toexpect);
+      
+      // Create note and set expectations
+      var note = noteGS.generateNote(hivSummary, vitals, [adultReturn, triage]);
+      
+      expect(note).to.deep.equal(expected);
+      expect(note.assessment[0]).to.deep.equal(ass1Toexpect);
+      expect(note.assessment[1]).to.deep.equal(ass2Toexpect);
+    });
   });
 })();
