@@ -767,7 +767,7 @@ module.exports = function () {
                 }
             }
         },
-    {
+        {
         method: 'GET',
         path: '/etl/patient-lab-orders',
         config: {
@@ -775,8 +775,17 @@ module.exports = function () {
             handler: function (request, reply) {
               eidLabData.getPatientLabResults(request,reply);
             }
-
+            }
+        },
+        {
+            method: 'POST',
+            path: '/etl/eid/order/{lab}',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.postLabOrderToEid(request, reply);
+                }
+            }
         }
-    }
     ];
 } ();
