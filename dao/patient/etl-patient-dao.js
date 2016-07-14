@@ -258,7 +258,7 @@ module.exports = function() {
     reportFactory.buildPatientListExpression(queryParams, function(exprResult) {
       var queryParts = {
         columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
-        concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
+        concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name; " +
           "group_concat(distinct t3.identifier separator ', ') as identifiers",
         table: exprResult.resource,
         where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
@@ -315,7 +315,7 @@ module.exports = function() {
     reportFactory.buildPatientListExpression(queryParams, function(exprResult) {
       var queryParts = {
         columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
-        concatColumns: "concat(t2.given_name,' ',t2.middle_name,' ',t2.family_name) as person_name; " +
+        concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name; " +
           "group_concat(distinct t3.identifier separator ', ') as identifiers",
         table: 'etl.flat_hiv_summary',
         where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
