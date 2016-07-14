@@ -50,6 +50,7 @@ function groupResultsByMonth(results, indicator){
 
             if(month===result.reporting_month) {
                 row['month']=result.reporting_month;
+                row[result.location]=result[indicator];
                 _.each(locationIds, function (locationId) {
                     if (locationId === result.location_id) {
 
@@ -67,7 +68,7 @@ function groupResultsByMonth(results, indicator){
         finalReport.push(row)
     });
 
-    return {formatted:finalReport,original:results};
+    return finalReport;
 }
 
 
