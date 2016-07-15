@@ -1006,7 +1006,7 @@
         "name":"patients_continuing_care",
         "label":"patients continuing care",
         "description": "patients continuing care",
-        "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90 and encounter_type not in (21,81) ) or (patient_care_status=6101 and encounter_type in (21,81) and endDate > DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY))"
+        "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90 and is_clinical_encounter=1 ) or (patient_care_status=6101 and is_clinical_encounter=0 and endDate > DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY))"
     },
     {
         "name":"self_disengaged_from_care",
@@ -1018,7 +1018,7 @@
         "name":"defaulters",
         "label":"defaulters",
         "description": "defaulters",
-        "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) > 90 and encounter_type not in (21,81)) or ((patient_care_status=6101 and timestampdiff(day,rtc_date, endDate) < 90) and (encounter_type in (21,81) and endDate < DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY)))"
+        "expression": "(patient_care_status=6101 and timestampdiff(day,if(is_clinical_encounter=1,rtc_date,prev_clinical_rtc_date_hiv), endDate) > 90)"
     },
     {
         "name":"transfer_to_MNCH",
