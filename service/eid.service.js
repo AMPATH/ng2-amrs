@@ -10,6 +10,7 @@ var config = require('../conf/config');
 var moment=require('moment');
 var comparison=require('../eid-obs-compare');
 var obsService=require('./openmrs-rest/obs.service');
+var etlLogger = require('../etl-file-logger');
 module.exports = function() {
   function getEIDResource(path){
     var link=config.eid.ampath[0].host+':'+config.eid.ampath[0].port+path;
@@ -49,7 +50,8 @@ module.exports = function() {
     })
     .catch(function(error){
       reject(error);
-      console.error("error getEIDTestResultsByPatientIdentifier +++++++++++++++++++++++++++++++++++++++",error);
+     etlLogger.logRequestError('Error getting eid results by patient identifier. Details:' + error, config.logging.eidFile, config.logging.eidPath);
+      //console.error("error getEIDTestResultsByPatientIdentifier +++++++++++++++++++++++++++++++++++++++",error);
     })
 });
 }
@@ -69,7 +71,7 @@ function getAllEIDTestResultsByPatientUuId(patientUuId){
       })
       .catch(function(error){
         reject(error);
-        console.error("getAllEIDTestResultsByPatientUuId +++++++++++++++++++++++++++++++++++++++++++",error);
+        etlLogger.logRequestError('Error getting eid results. Details:' + error, config.logging.eidFile, config.logging.eidPath);
       })
   });
 }
@@ -100,7 +102,8 @@ function getEIDViralLoadTestResultsByPatientIdentifier(patientIdentifier){
     })
     .catch(function(error){
       resolve(error);
-      console.error("getEIDViralLoadTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++++++",error);
+      //console.error("getEIDViralLoadTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++++++",error);
+       etlLogger.logRequestError('Viral load request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
     })
   })
 }
@@ -131,7 +134,8 @@ function getEIDPCRTestResultsByPatientIdentifier(patientIdentifier){
     })
     .catch(function(error){
       reject(error);
-      console.error("getEIDPCRTestResultsByPatientIdentifier++++++++++++++++++++++++++++++",error);
+      //console.error("getEIDPCRTestResultsByPatientIdentifier++++++++++++++++++++++++++++++",error);
+      etlLogger.logRequestError('DNA PCR request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
     })
   })
 }
@@ -153,7 +157,8 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier){
     })
     .catch(function(error){
       reject(error);
-      console.error("getEIDCD4PanelTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++",error);
+      //console.error("getEIDCD4PanelTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++",error);
+      etlLogger.logRequestError('CD4 panel request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
     })
   })
 }
@@ -176,7 +181,7 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier){
    })
    .catch(function(error){
      reject(error);
-     console.error("getSynchronizedPatientLabResults ++++++++++++++++++++++++++++++++++++++++",error);
+     etlLogger.logRequestError('SynchronizedPatientLabResults request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
    })
  });
  }
