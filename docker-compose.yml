@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  mysql4etl:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=supersecret
+      - MYSQL_USER=etl_user
+      - MYSQL_PASSWORD=etl_password
+  etl:
+    build: .
+    links:
+      - mysql4etl:db
+    ports:
+      - "8002:8002"
