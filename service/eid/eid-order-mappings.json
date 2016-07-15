@@ -174,23 +174,23 @@
       "mrsDisplay": "sdNVP only"
     },
     "6a73f32d-1870-4527-af6e-74443251ded2": {
-      "eidId": 9,
+      "eidId": 2,
       "eidDisplay": "sdNVP +AZT +3TC",
       "mrsDisplay": "sdNVP +AZT +3TC"
     },
     "a8967656-1350-11df-a1f1-0026b9348838": {
-      "eidId": 0,
-      "eidDisplay": "NVP",
+      "eidId": 10,
+      "eidDisplay": "NVP for 6 weeks",
       "mrsDisplay": "NVP"
     },
     "a897ea4a-1350-11df-a1f1-0026b9348838": {
-      "eidId": 2,
+      "eidId": 5,
       "eidDisplay": "AZT",
       "mrsDisplay": "AZT"
     },
     "a8967656-1350-11df-a1f1-0026b9348838": {
-      "eidId": 1,
-      "eidDisplay": "NVP during BF period",
+      "eidId": 5,
+      "eidDisplay": "",
       "mrsDisplay": "NVP during BF period"
     },
     "a899e0ac-1350-11df-a1f1-0026b9348838": {
@@ -198,8 +198,13 @@
       "eidDisplay": "None",
       "mrsDisplay": "None"
     },
-    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+    "undefined": {
       "eidId": 0,
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
       "eidDisplay": "Other",
       "mrsDisplay": "Other"
     }
@@ -211,27 +216,32 @@
       "mrsDisplay": "sdNVP only"
     },
     "0906b973-25da-4e87-a272-84692cdd8453": {
-      "eidId":2,
+      "eidId":5,
       "eidDisplay": "Uninterrupted HAART (HAART until end of BF)",
       "mrsDisplay": "Uninterrupted HAART (HAART until end of BF)"
     },
     "6a73f32d-1870-4527-af6e-74443251ded2": {
-      "eidId": 3,
-      "eidDisplay": "AZT (from 14wks or later) + sdNVP + 3TC (Tail)",
+      "eidId": 2,
+      "eidDisplay": "Sd NVP+AZT+3TC",
       "mrsDisplay": "AZT (from 14wks or later) + sdNVP + 3TC (Tail)"
     },
     "a899ccb6-1350-11df-a1f1-0026b9348838": {
-      "eidId": 4,
+      "eidId": 7,
       "eidDisplay": "HAART",
       "mrsDisplay": "HAART"
     },
     "a899e0ac-1350-11df-a1f1-0026b9348838": {
-      "eidId": 5,
+      "eidId": 6,
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "undefined": {
+      "eidId": 6,
       "eidDisplay": "None",
       "mrsDisplay": "None"
     },
     "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
-      "eidId": 6,
+      "eidId": 5,
       "eidDisplay": "Other",
       "mrsDisplay": "Other"
     }
