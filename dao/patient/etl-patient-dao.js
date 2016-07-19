@@ -18,10 +18,13 @@ module.exports = function() {
   function getPatientHivSummary(request, callback) {
       var uuid = request.params.uuid;
       var order = helpers.getSortOrder(request.query.order);
+      var includeNonClinicalEncounter =  Boolean(request.query.includeNonClinicalEncounter||false);
+      var whereClause= includeNonClinicalEncounter===true?["uuid = ?", uuid]:
+          ["uuid = ?  and t1.is_clinical_encounter = 1", uuid];
     var queryParts = {
       columns: request.query.fields || "*",
       table: "etl.flat_hiv_summary",
-      where: ["uuid = ? and t1.is_clinical_encounter = 1", uuid],
+      where:whereClause,
       order: order || [{
         column: 'encounter_datetime',
         asc: false
