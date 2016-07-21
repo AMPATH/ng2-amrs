@@ -8,10 +8,10 @@ var winston = require('winston');
 var path = require('path');
 var _ = require('underscore');
 var Joi = require('joi');
-var eidLabData=require('./eid-data-synchronization/eid-lab-results')
+var eidLabData = require('./eid-data-synchronization/eid-lab-results')
 var Boom = require('boom');
 var authorizer = require('./authorization/etl-authorizer');
-
+var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 
 module.exports = function () {
@@ -88,7 +88,7 @@ module.exports = function () {
                 },
                 description: 'Get patient clinical notes',
                 notes: 'Returns a list of notes constructed from several ' +
-                       'patient information sources, particularly encounters',
+                'patient information sources, particularly encounters',
                 tags: ['api'],
                 validate: {
                     options: { allowUnknown: true },
@@ -261,9 +261,9 @@ module.exports = function () {
                 },
                 handler: function (request, reply) {
                     preRequest.resolveLocationIdsToLocationUuids(request,
-                    function(){
-                        dao.getPatientFlowData(request,reply);
-                    });
+                        function () {
+                            dao.getPatientFlowData(request, reply);
+                        });
                 },
                 description: "Get a location's patient movement and waiting time data",
                 notes: "Returns a location's patient flow with the given location uuid.",
@@ -768,13 +768,16 @@ module.exports = function () {
             }
         },
         {
-        method: 'GET',
-        path: '/etl/patient-lab-orders',
-        config: {
-            auth: 'simple',
-            handler: function (request, reply) {
-              eidLabData.getPatientLabResults(request,reply);
-            }
+            method: 'GET',
+            path: '/etl/patient-lab-orders',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    if (config.eidSyncOn === true)
+                        eidLabData.getPatientLabResults(request, reply);
+                    else
+                        reply(Boom.notImplemented('Sorry, sync service temporarily unavailable.'));
+                }
             }
         },
         {
