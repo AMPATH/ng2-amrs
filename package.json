@@ -13,9 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.0",
-    "boom": "^2.10.1",
     "body-parser": "^1.15.1",
+    "boom": "^2.10.1",
     "chai-http": "^1.0.0",
+    "cluster": "^0.7.7",
     "cookie-parser": "^1.4.2",
     "datatable": "^2.0.1",
     "datatables": "^1.10.7",

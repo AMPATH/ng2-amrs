@@ -19,7 +19,12 @@ var HapiSwagger = require('hapi-swagger');
 var Pack = require('./package');
 var hapiAuthorization = require('hapi-authorization');
 var authorizer = require('./authorization/etl-authorizer');
-var user ='';
+var user = '';
+var cluster = require('cluster');
+var os = require('os');
+
+
+var numCPUs = os.cpus().length;
 var server = new Hapi.Server({
   connections: {
     //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
@@ -61,7 +66,7 @@ var validate = function (username, password, callback) {
   if (config.openmrs.https) {
     https = require('https');
   }
-  https.get(options, function(res) {
+  https.get(options, function (res) {
     var body = '';
     res.on('data', function (chunk) {
       body += chunk;
@@ -101,7 +106,7 @@ var HapiSwaggerOptions = {
   sortEndpoints: 'path'
 };
 
-server.ext('onRequest', function(request, reply) {
+server.ext('onRequest', function (request, reply) {
   requestConfig.setAuthorization(request.headers.authorization);
   return reply.continue();
 
@@ -146,16 +151,16 @@ server.register([
     }
 
     server.on('response', function (request) {
-      if (request.response === undefined ||request.response===null){
+      if (request.response === undefined || request.response === null) {
         console.log("No response");
-      }else{
+      } else {
         console.log(
-             'Username:',
-            user +'\n'+
-            moment().local().format("YYYY-MM-DD HH:mm:ss") + ': ' +  server.info.uri + ': '
-            + request.method.toUpperCase() + ' '
-            + request.url.path + ' \n '
-            + request.response.statusCode
+          'Username:',
+          user + '\n' +
+          moment().local().format("YYYY-MM-DD HH:mm:ss") + ': ' + server.info.uri + ': '
+          + request.method.toUpperCase() + ' '
+          + request.url.path + ' \n '
+          + request.response.statusCode
         );
 
       }
@@ -164,9 +169,29 @@ server.register([
 
 
     server.ext('onPreResponse', corsHeaders);
-    server.start(function () {
-      server.log('info', 'Server running at: ' + server.info.uri);
-    });
+
+    if (config.clusteringEnabled === true && cluster.isMaster) {
+
+      for (var i = 0; i < numCPUs; i++) {
+        cluster.fork();
+      }
+
+      cluster.on('exit', function (worker, code, signal) {
+        //refork the cluster
+        //cluster.fork(); 
+      });
+
+      
+
+    } else {
+      //TODO start HAPI server here
+      server.start(function () {
+        console.log('info', 'Server running at: ' + server.info.uri);
+        server.log('info', 'Server running at: ' + server.info.uri);
+      });
+
+    }
+
 
 
   });
