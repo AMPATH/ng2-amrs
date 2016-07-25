@@ -155,6 +155,8 @@ module.exports = function() {
       _.each(result.result, function(row) {
         row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
         row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
+        row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error,row.cd4_error,row.hiv_dna_pcr_error);
+
       });
       callback(result);
     });
