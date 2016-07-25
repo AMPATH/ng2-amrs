@@ -140,6 +140,31 @@ module.exports = function() {
       });
       return testsNames.join(",");
     },
+
+    resolvedLabOrderErrors:function resolvedLabOrderErrors(vlerror,cd4eror,pcrerror){
+      var message ='';
+
+      if(vlerror === 1)
+        message = 'Error processing Viral Load, please redraw';
+      if(cd4eror === 1){
+        if(message !== '')
+        message = message + ', ' +'Error processing cd4, please redraw';
+        else
+          message = 'Error processing cd4, please redraw';
+      }
+
+      if(pcrerror === 1){
+
+        if(message !== '')
+          message = message + ', ' +'Error processing hiv dna pcr, please redraw';
+        else
+          message = 'Error processing hiv dna pcr, please redraw';
+      }
+
+      return message
+
+  },
+
     buildWhereClauseForDataEntryIndicators: function buildWhereClauseForDataEntryIndicators(queryParams, where) {
       if (queryParams.locations) {
         var locations = [];
