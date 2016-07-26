@@ -124,7 +124,6 @@ function getPatientAllTestObsByPatientUuId(patientUuId){
     })
     .catch(function(error){
       reject(error);
-      console.log("");
     })
 });
 }
@@ -155,7 +154,6 @@ function getPatientTodaysTestObsByPatientUuId(patientUuId){
       resolve(concatenatedArray);
     })
     .catch(function(error){
-      console.error("getPatientAllTestObsByPatientUuId++++++++++++++++++++++++++++++++++++++++++++++++++++++",error);
       reject(error);
     })
 });
@@ -173,6 +171,7 @@ function postObsToAMRS(payload,patientUuId){
   });
 }
 function postAllObsToAMRS(payload,patientUuId){
+  console.log("payload to post++++++++++++++++++++++++++++++++++++++++",payload);
     var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
     var hasLessThanSymbol=/</g;
     var promisesViralLoadlAll=[];
@@ -180,6 +179,7 @@ function postAllObsToAMRS(payload,patientUuId){
     var promisesDnaPcrAll=[];
       if(payload.viralLoad.length >0){
         _.each(payload.viralLoad,function(viralLoadPayload){
+          if(viralLoadPayload !=undefined){
           var valid=eidRestFormatter.checkStatusOfViralLoad(viralLoadPayload);
           if(valid==1){
             var restConsumablePayload=eidRestFormatter.convertViralLoadPayloadToRestConsumableObs(viralLoadPayload,patientUuId);
@@ -189,14 +189,16 @@ function postAllObsToAMRS(payload,patientUuId){
             var restConsumablePayload=eidRestFormatter.convertViralLoadWithLessThanToRestConsumableObs(viralLoadPayload,patientUuId);
            promisesViralLoadlAll.push(postObsToAMRS(restConsumablePayload,patientUuId));
           }
-          else{
+          else if(valid==2){
             var restConsumablePayload=eidRestFormatter.convertViralLoadExceptionToRestConsumableObs(viralLoadPayload,patientUuId);
            promisesViralLoadlAll.push(postObsToAMRS(restConsumablePayload,patientUuId));
           }
+        }
         });
       }
       if(payload.cd4Panel.length >0){
         _.each(payload.cd4Panel,function(cd4Payload){
+          if(cd4Payload !=undefined){
           var cd4PanelHasValidData=eidRestFormatter.cd4PanelHasValidData(cd4Payload);
           var cd4PanelHasErrors=eidRestFormatter.cd4PanelHasErrors(cd4Payload);
           if(cd4PanelHasValidData){
@@ -209,12 +211,15 @@ function postAllObsToAMRS(payload,patientUuId){
             var restConsumablePayload=eidRestFormatter.convertCD4ExceptionTORestConsumableObs(cd4Exceptions,patientUuId);
             promisesCd4All.push(postObsToAMRS(restConsumablePayload,patientUuId));
           }
+        }
         });
       }
       if(payload.pcr.length >0){
         _.each(payload.pcr,function(pcrPayload){
+          if(pcrPayload !=undefined){
           var restConsumablePayload=eidRestFormatter.convertDNAPCRPayloadTORestConsumableObs(pcrPayload,patientUuId);
           promisesDnaPcrAll.push(postObsToAMRS(restConsumablePayload,patientUuId));
+        }
         });
       }
       return new Promise(function(resolve,reject){
@@ -224,7 +229,6 @@ function postAllObsToAMRS(payload,patientUuId){
         })
         .catch(function(error){
           reject(error);
-          console.error("postAllObsToAMRS++++++++++++++++++++++++++++++++++++++",error);
         });
       });
   }

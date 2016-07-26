@@ -15,6 +15,7 @@ module.exports=function(){
     var status=0;
     var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
     var hasLessThanSymbol=/</g;
+    if(_.isEmpty(viralLoadPayload)) return -1;
     var viralLoadResult = removeWhiteSpace(viralLoadPayload.FinalResult);
     if(hasNumbersOnly.test(viralLoadResult)){
       status=1;
@@ -23,7 +24,7 @@ module.exports=function(){
       status=0;
     }
     else{
-      status=-1;
+      status=2;
     }
     return status;
   }
