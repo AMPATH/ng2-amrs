@@ -28,13 +28,12 @@ module.exports = function() {
     var link=config.eid.alupe[1].host+':'+config.eid.alupe[1].port+path;
     return link;
   }
- function getEIDTestResultsByPatientIdentifier(patientIdentifier){
+ function getEIDTestResultsByPatientIdentifier(patientIdentifier,startDate,endDate){
   var results={
-    patientIdentifier: patientIdentifier
   }
   var viralLoadResults=getEIDViralLoadTestResultsByPatientIdentifier(patientIdentifier);
   var pcrResults=getEIDPCRTestResultsByPatientIdentifier(patientIdentifier);
-  var cd4Panel=getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier);
+  var cd4Panel=getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier,startDate,endDate);
   return new Promise(function(resolve,reject){
     viralLoadResults.then(function(vlData){
       results.viralLoad=vlData;
@@ -55,23 +54,22 @@ module.exports = function() {
     })
 });
 }
-function getAllEIDTestResultsByPatientUuId(patientUuId){
+function getAllEIDTestResultsByPatientUuId(patientUuId,startDate,endDate){
   var allResults=[];
     var promiseArray=[];
     return new Promise(function(resolve,reject){
-      obsService.getPatientIdentifiers(patientUuId).then(function(response){
-        _.each(response.identifiers,function(identifier){
-          var promise=getEIDTestResultsByPatientIdentifier(identifier);
-          promiseArray.push(promise);
-        });
-        return Promise.all(promiseArray);
+      obsService.getPatientIdentifiers(patientUuId)
+      .then(function(response){
+        var promise=getEIDTestResultsByPatientIdentifier(response.identifiers,startDate,endDate);
+        return promise;
       })
       .then(function(response){
         resolve(response);
+        console.log("response++++++++++++++++++++++++++++++++++++++++++++++++++++",response);
       })
       .catch(function(error){
         reject(error);
-        etlLogger.logRequestError('Error getting eid results. Details:' + error, config.logging.eidFile, config.logging.eidPath);
+        //etlLogger.logRequestError('Error getting eid results. Details:' + error, config.logging.eidFile, config.logging.eidPath);
       })
   });
 }
@@ -101,7 +99,7 @@ function getEIDViralLoadTestResultsByPatientIdentifier(patientIdentifier){
       resolve(concatenatedArray);
     })
     .catch(function(error){
-      resolve(error);
+      reject(error);
       //console.error("getEIDViralLoadTestResultsByPatientIdentifier++++++++++++++++++++++++++++++++++++++++",error);
        etlLogger.logRequestError('Viral load request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
     })
@@ -139,11 +137,13 @@ function getEIDPCRTestResultsByPatientIdentifier(patientIdentifier){
     })
   })
 }
-function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier){
+function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier,startDate,endDate){
   var uri=module.exports.getEIDCD4PanelResource(config.eid.ampath[1].path);
   var queryString={
     apikey:config.eid.ampath[1].apikey,
-    patientID:patientIdentifier
+    "patientID":patientIdentifier,
+    startDate:startDate,
+    endDate:endDate
   }
   var alupeUri=getAlupeResource(config.eid.alupe[1].path);
   var alupeQueryString={
@@ -151,6 +151,7 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier){
     patientID:patientIdentifier
   }
   return new Promise(function(resolve,reject){
+    var cd4Promise=rp.getRequestPromise(queryString,uri);
     rp.getRequestPromise(queryString,uri)
     .then(function(response){
       resolve(response.posts);
@@ -164,20 +165,20 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier){
 }
 
  function getSynchronizedPatientLabResults(request,reply){
-   var promise1=getAllEIDTestResultsByPatientUuId(request.query.patientUuId);
+   var promise1=getAllEIDTestResultsByPatientUuId(request.query.patientUuId,request.query.startDate,request.query.endDate);
    var promise2=obsService.getPatientAllTestObsByPatientUuId(request.query.patientUuId);
    var mergedEidResults={};
  return new Promise(function(resolve,reject){
    promise1.then(function(response){
-     mergedEidResults=comparison.mergeEidResults(response);
+     mergedEidResults=response;
      return promise2;
    })
    .then(function(obsResponse){
      var missingResult=comparison.findAllMissingEidResults(mergedEidResults,obsResponse);
-     return obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
-   })
-   .then(function(updatedObs){
-     reply({updatedObs});
+     if(!_.isEmpty(missingResult)){
+       obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
+     }
+     reply({updatedObs:missingResult});
    })
    .catch(function(error){
      reject(error);

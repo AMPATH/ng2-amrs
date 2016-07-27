@@ -74,7 +74,7 @@ function mergeEidResults(arrayOfEidResults) {
         pcr: [],
         cd4Panel: []
     };
-
+    if(_.isEmpty(arrayOfEidResults)) return results;
     _.each(arrayOfEidResults, function (result) {
         results.viralLoad = results.viralLoad.concat(result.viralLoad);
         results.pcr = results.pcr.concat(result.pcr);

@@ -433,7 +433,7 @@ function postAllObsToAMRS(payload,patientUuId){
     return cd4Exceptions;
   }
   function convertViralLoadPayloadToRestConsumableObs(viralLoad,patientUuId){
-    var date=moment(viralLoad.DateCollected).format();
+    var date=moment(viralLoad.DateCollected).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     var body={
       person:patientUuId,
       obsDatetime:date,
@@ -443,7 +443,7 @@ function postAllObsToAMRS(payload,patientUuId){
     return body;
   }
   function convertViralLoadWithLessThanToRestConsumableObs(viralLoad,patientUuId){
-    var date=moment(viralLoad.DateCollected).format();
+    var date=moment(viralLoad.DateCollected).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     var body={
       person:patientUuId,
       obsDatetime:date,
@@ -454,7 +454,7 @@ function postAllObsToAMRS(payload,patientUuId){
     return body;
   }
   function convertViralLoadExceptionToRestConsumableObs(viralLoad,patientUuId){
-    var date=moment(viralLoad.DateCollected).format();
+    var date=moment(viralLoad.DateCollected).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     var body={
       person:patientUuId,
       obsDatetime:date,
@@ -479,7 +479,7 @@ function postAllObsToAMRS(payload,patientUuId){
     return body;
   }
   function convertCD4PayloadTORestConsumableObs(CD4payload,patientUuId){
-    var date=moment(CD4payload.DateCollected).format();
+    var date=moment(CD4payload.DateCollected).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     var body={
       concept:"a896cce6-1350-11df-a1f1-0026b9348838",
       person:patientUuId,
@@ -520,7 +520,7 @@ function postAllObsToAMRS(payload,patientUuId){
     return body;
   }
   function convertCD4ExceptionTORestConsumableObs(CD4payload,patientUuId){
-    var date=moment(CD4payload.DateCollected).format();
+    var date=moment(CD4payload.DateCollected).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     var body={
       concept:"457c741d-8f71-4829-b59d-594e0a618892",
       person:patientUuId,
@@ -586,7 +586,7 @@ function postAllObsToAMRS(payload,patientUuId){
       concept:"a898fe80-1350-11df-a1f1-0026b9348838",
       person:patientUuId
     };
-    var date=moment(DNAPCRPayload.DateCollected).format();
+    var date=moment(DNAPCRPayload.DateCollected).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
       body.obsDatetime=date;
       if(DNAPCRPayload.FinalResult.toUpperCase()=="NEGATIVE"){
         body.value="a896d2cc-1350-11df-a1f1-0026b9348838";
