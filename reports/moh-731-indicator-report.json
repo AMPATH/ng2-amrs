@@ -1,5 +1,237 @@
 [
   {
+    "name": "moh-731-monthly-one-row-per-patient",
+    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+    "joins":[
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
+    ],
+    "parameters": [
+      {"name":"startDate", "defaultValue":"2015-10-01"},
+      {"name":"endDate", "defaultValue":"2015-10-31"},
+      {"name":"locations","defaultValue":[]},
+      {"name":"groupByLocation", "defaultValue":[
+        {"label":"location","expression":"t1.location_id"}
+      ]
+      }
+    ],
+    "filters": [
+      {"expression":"t1.location_id in ?","parameter":"locations"},
+      {"expression":"timestampdiff(day,date(t1.rtc_date),?) <= 90", "parameter":"endDate"},
+      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
+      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
+      {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
+    ],
+    "groupClause":[
+      {"parameter":"groupByLocation"},
+      {"parameter":"groupByMonth"}
+    ],
+    "indicators": [
+      {
+        "label":"currently_in_care_total",
+        "expression":"currently_in_care_total",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"currently_in_care_males_lt_one",
+        "expression":"currently_in_care_males_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"currently_in_care_females_lt_one",
+        "expression":"currently_in_care_females_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"currently_in_care_males_below_15",
+        "expression":"currently_in_care_males_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"currently_in_care_females_below_15",
+        "expression":"currently_in_care_females_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"currently_in_care_males_15_and_older",
+        "expression":"currently_in_care_males_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"currently_in_care_females_15_and_older",
+        "expression":"currently_in_care_females_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_total",
+        "expression":"revisits_on_art_total",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_males_lt_one",
+        "expression":"revisits_on_art_males_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_females_lt_one",
+        "expression":"revisits_on_art_females_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_males_below_15",
+        "expression":"revisits_on_art_males_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_females_below_15",
+        "expression":"revisits_on_art_females_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_males_15_and_older",
+        "expression":"revisits_on_art_males_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"revisits_on_art_females_15_and_older",
+        "expression":"revisits_on_art_females_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis",
+        "expression":"on_pcp_prophylaxis",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_below_15",
+        "expression":"on_pcp_prophylaxis_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_15_and_above",
+        "expression":"on_pcp_prophylaxis_15_and_above",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_males_below_15",
+        "expression":"on_pcp_prophylaxis_males_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_females_below_15",
+        "expression":"on_pcp_prophylaxis_females_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_males_15_and_above",
+        "expression":"on_pcp_prophylaxis_males_15_and_above",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_pcp_prophylaxis_females_15_and_above",
+        "expression":"on_pcp_prophylaxis_females_15_and_above",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+       {
+        "label":"hiv_exposed_infants_below_2_months",
+        "expression":"hiv_exposed_infants_below_2_months",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+       {
+        "label":"hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
+        "expression":"hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"screened_for_tb",
+        "expression":"screened_for_tb",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"screened_for_tb_males_below_15",
+        "expression":"screened_for_tb_males_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"screened_for_tb_females_below_15",
+        "expression":"screened_for_tb_females_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"screened_for_tb_males_15_and_older",
+        "expression":"screened_for_tb_males_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"screened_for_tb_females_15_and_older",
+        "expression":"screened_for_tb_females_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"using_modern_contracept_method",
+        "expression":"using_modern_contracept_method",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art",
+        "expression":"on_art",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_total",
+        "expression":"on_art_total",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_males_lt_one",
+        "expression":"on_art_males_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_females_lt_one",
+        "expression":"on_art_females_lt_one",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_males_below_15",
+        "expression":"on_art_males_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_females_below_15",
+        "expression":"on_art_females_below_15",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_males_15_and_older",
+        "expression":"on_art_males_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"on_art_females_15_and_older",
+        "expression":"on_art_females_15_and_older",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
+      }
+    ],
+    "supplementColumns":[
+      {
+        "label":"location",
+        "type":"single",
+        "sql":"t2.name"
+      },
+      {
+        "label":"location_uuid",
+        "type":"single",
+        "sql":"t1.location_uuid"
+      },
+      {
+        "label":"location_id",
+        "type":"single",
+        "sql":"t1.location_id"
+      }
+    ]
+  },
+  {
     "name": "moh-731-monthly-one-row-per-encounter",
     "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[
@@ -190,6 +422,68 @@
           "label":"on_second_line",
           "expression": "on_second_line",
           "sql": "count(distinct if($expression, t1.person_id,null))"
+      }
+    ],
+    "supplementColumns":[
+
+      {
+        "label":"location_id",
+        "type":"single",
+        "sql":"t1.location_id"
+      }]
+  },
+  {
+    "name": "moh-731-cumulative-one-row-per-patient",
+    "table":{"schema":"","tableName":"","alias":"t1", "dynamicDataset":"moh-731-cumulative-cohort-one-row-per-patient"},
+    "joins":[
+    ],
+    "parameters": [
+        {"name":"groupByLocation", "defaultValue":[
+        {"label":"location_id","expression":"t1.location_id"}
+      ]
+    }
+    ],
+    "filters": [
+    ],
+    "groupClause":[
+      {"parameter":"groupByLocation"},
+      {"parameter":"groupByMonth"}
+    ],
+    "indicators": [
+      {
+        "label":"ever_on_art",
+        "expression":"ever_on_art",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_below_15",
+        "expression":"ever_on_art_below_15",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_males_below_15",
+        "expression":"ever_on_art_males_below_15",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_females_below_15",
+        "expression":"ever_on_art_females_below_15",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_15_and_older",
+        "expression":"ever_on_art_15_and_older",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_males_15_and_older",
+        "expression":"ever_on_art_males_15_and_older",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
+      },
+      {
+        "label":"ever_on_art_females_15_and_older",
+        "expression":"ever_on_art_females_15_and_older",
+        "sql":"count(distinct if($expression, t1.person_id,null))"
       }
     ],
     "supplementColumns":[
