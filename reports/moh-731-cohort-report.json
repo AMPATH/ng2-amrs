@@ -1,6 +1,6 @@
 [
   {
-    "name": "moh-731-12month-cohort",
+    "name": "moh-731-12month-cohort-one-row-per-encounter",
     "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[],
     "parameters": [
@@ -16,7 +16,7 @@
       {"expression":"t1.location_id in ?","parameter":"locations"},
       {"expression":"date(t1.arv_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
       {"expression":"date(t1.arv_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"},
-      {"expression":"t1.is_clinical_encounter = 1"}
+      {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
     ],
     "groupClause":[
       {"parameter":"groupByPerson"}
@@ -66,7 +66,7 @@
       {
         "label":"death_date",
         "type":"single",
-        "sql":"max(death_date)"
+        "sql":"max(t1.death_date)"
       },
       {
         "label":"transfer_out",
@@ -86,7 +86,7 @@
     ]
   },
   {
-    "name": "moh-731-cummulative-cohort",
+    "name": "moh-731-cumulative-cohort-one-row-per-patient",
     "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
@@ -102,10 +102,11 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"t1.is_clinical_encounter = 1"},
+      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
+      {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
       {"expression":"arv_start_date is not null", "processForce":true},
       {"expression":"arv_start_location=t1.location_id", "processForce":true},
-      {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"}
+      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
     ],
     "groupClause":[
       {"parameter":"groupByPerson"}
@@ -131,6 +132,11 @@
         "label":"birthdate",
         "type":"single",
         "sql":"t3.birthdate"
+      },
+      {
+        "label":"gender",
+        "type":"single",
+        "sql":"t3.gender"
       },
       {
         "label":"arv_start_date",

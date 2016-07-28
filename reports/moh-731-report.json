@@ -1,44 +1,14 @@
 [
   {
-    "name": "MOH-731-Combined-Location",
-    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-past_three_months"},
-    "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"",
-        "dynamicDataset":"moh-731-summary-current_month"},
-      {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"",
-        "dynamicDataset":"moh-731-summary-cumulative"}
-    ],
-    "parameters": [
-      {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_id"}
-      ]
-      }
-    ],
-    "filters": [
-    ],
-    "groupClause":[
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByw"}
-    ],
-    "indicators": [
-
-    ],
-    "supplementColumns":[
-      {
-        "label":"all",
-        "type":"all",
-        "sql":"*"
-      }
-    ]
-  },
-  {
     "name": "MOH-731-report",
-    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-indicator-report"},
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-one-row-per-patient"},
     "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
-        "dynamicDataset":"moh-731-12month-indicator-report"},
-      {"joinType":"INNER JOIN","schema":"amrs","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
-          "dynamicDataset":"moh-731-cummulative-indicator-report"}
+      {"joinType":"INNER JOIN","schema":"","alias":"t2","joinExpression":"t2.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-monthly-one-row-per-encounter"},
+      {"joinType":"INNER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-12month-one-row-per-encounter"},
+      {"joinType":"INNER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
+          "dynamicDataset":"moh-731-cumulative-one-row-per-patient"}
     ],
     "parameters": [
       {
@@ -74,10 +44,12 @@
     "name": "MOH-731-allsites-report",
     "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-indicator-report"},
     "joins":[
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
-        "dynamicDataset":"moh-731-12month-indicator-report"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
-        "dynamicDataset":"moh-731-cummulative-indicator-report"}
+      {"joinType":"INNER JOIN","schema":"","alias":"t2","joinExpression":"t2.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-monthly-one-row-per-encounter"},
+      {"joinType":"INNER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-12month-one-row-per-encounter"},
+      {"joinType":"INNER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-cumulative-one-row-per-patient"}
     ],
     "parameters": [
       {
