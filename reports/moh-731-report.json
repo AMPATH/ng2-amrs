@@ -42,7 +42,7 @@
   },
   {
     "name": "MOH-731-allsites-report",
-    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-indicator-report"},
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-one-row-per-patient"},
     "joins":[
       {"joinType":"INNER JOIN","schema":"","alias":"t2","joinExpression":"t2.location_id = t1.location_id",
         "dynamicDataset":"moh-731-monthly-one-row-per-encounter"},
