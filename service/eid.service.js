@@ -178,7 +178,10 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier,startDat
      if(!_.isEmpty(missingResult)){
        obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
      }
-     reply({updatedObs:missingResult});
+     return obsService.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId);
+   })
+   .then(function(response){
+     reply({updatedObs:response});
    })
    .catch(function(error){
      reject(error);
