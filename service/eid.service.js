@@ -178,11 +178,11 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier,startDat
      if(!_.isEmpty(missingResult)){
        obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
      }
-     return obsService.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId);
-   })
-   .then(function(response){
-     reply({updatedObs:response});
-   })
+     return obsService.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId)
+     .then(function(response){
+       reply({updatedObs:response});
+     });
+   })   
    .catch(function(error){
      reject(error);
      etlLogger.logRequestError('SynchronizedPatientLabResults request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
