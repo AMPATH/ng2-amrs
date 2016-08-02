@@ -65,7 +65,6 @@ function getAllEIDTestResultsByPatientUuId(patientUuId,startDate,endDate){
       })
       .then(function(response){
         resolve(response);
-        console.log("response++++++++++++++++++++++++++++++++++++++++++++++++++++",response);
       })
       .catch(function(error){
         reject(error);
@@ -174,15 +173,12 @@ function getEIDCD4PanelTestResultsByPatientIdentifier(patientIdentifier,startDat
      return promise2;
    })
    .then(function(obsResponse){
-     var missingResult=comparison.findAllMissingEidResults(mergedEidResults,obsResponse);
-     if(!_.isEmpty(missingResult)){
-       obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
-     }
-     return obsService.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId)
-     .then(function(response){
-       reply({updatedObs:response});
-     });
-   })   
+    var missingResult=comparison.findAllMissingEidResults(mergedEidResults,obsResponse);
+    return obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
+   })
+   .then(function(postResponse){
+     reply({updatedObs:postResponse});
+   })
    .catch(function(error){
      reject(error);
      etlLogger.logRequestError('SynchronizedPatientLabResults request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);

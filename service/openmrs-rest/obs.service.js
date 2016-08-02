@@ -171,7 +171,6 @@ function postObsToAMRS(payload,patientUuId){
   });
 }
 function postAllObsToAMRS(payload,patientUuId){
-  console.log("payload to post++++++++++++++++++++++++++++++++++++++++",payload);
     var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
     var hasLessThanSymbol=/</g;
     var promisesViralLoadlAll=[];
