@@ -110,7 +110,7 @@
       {
         "label": "seen_by_clinician",
         "type": "single",
-        "sql": "case when t4.encounter_type in (1,2,3,4,105,106) then t4.encounter_datetime else null end"
+        "sql": "case when t4.encounter_type in (1,2,3,4,14,17,105,106) then t4.encounter_datetime else null end"
       },
       {
         "label": "visit_end",
