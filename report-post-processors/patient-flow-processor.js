@@ -10,7 +10,7 @@ var moduleExport = {
     //helpers
     _handleTimeToBeSeenByClinician: _handleTimeToBeSeenByClinician,
     _getTimeSpanInMinutes: _getTimeSpanInMinutes,
-    _handleTimeToCompleteVisit: _handleTimeToCompleteVisit
+    _handleTimeToCompleteVisit: _handleTimeToCompleteVisit,
 };
 
 module.exports = moduleExport;
@@ -27,7 +27,11 @@ function groupResultsByVisitId(arrayOfResults) {
                 (result.middle_name && result.middle_name != null ? ' ' + result.middle_name : '') +
                 (result.family_name && result.family_name != null ? ' ' + result.family_name : ''),
                 identifiers: result.identifiers,
+                visit_person_Name:(result.visit_start_given_name && result.visit_start_given_name != null ? result.visit_start_given_name : '') +
+                (result.visit_start_middle_name && result.visit_start_middle_name != null ? ' ' + result.visit_start_middle_name : '') +
+                (result.visit_start_family_name && result.visit_start_family_name != null ? ' ' + result.visit_start_family_name : ''),
 
+                visit_person_id:result.visit_person_id,
                 visit_id: result.visit_id,
                 registered: typeof result.triaged === 'string' ? result.visit_start : new Date(result.visit_start).toISOString(),
                 visit_end: result.visit_end,
@@ -81,7 +85,13 @@ function _handleEncouters(result, visit) {
         var encounter = {
             encounter_type: result.encounter_type,
             encounter_start: result.encounter_start,
-            encounter_end: result.encounter_end
+            encounter_end: result.encounter_end,
+            encounter_type_name: result.encounter_type_name,
+
+            person_name: (result.provider_given_name && result.provider_given_name != null ? result.provider_given_name : '') +
+            (result.provider_middle_name && result.provider_middle_name != null ? ' ' + result.provider_middle_name : '') +
+            (result.provider_family_name && result.provider_family_name != null ? ' ' + result.provider_family_name : ''),
+            person_id:result.person_id
         };
         visit.encounters.push(encounter);
     }
@@ -180,6 +190,7 @@ function calculateAverageWaitingTime(patientFlowArray) {
 }
 
 function getIncompleteVisitsCount(patientFlowArray) {
+
     var count = 0;
 
     for (var i = 0; i < patientFlowArray.length; i++) {

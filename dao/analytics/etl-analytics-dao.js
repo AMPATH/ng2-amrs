@@ -173,8 +173,14 @@ module.exports = function () {
     getPatientFlowData: function getPatientFlowData(request, callback) {
       var reportName = 'patient-flow-report';
       var dateStarted = request.query.dateStarted || new Date().toISOString().substring(0, 10);
-      var locations = request.query.locations;
       if (!_.isUndefined(dateStarted)) dateStarted = dateStarted.split('T')[0];
+      var locations;
+      if (request.query.locations) {
+        locations = [];
+        _.each(request.query.locations.split(','), function (loc) {
+          locations.push(Number(loc));
+        });
+      }
 
       var requestParams = {
         reportName: reportName,
@@ -194,11 +200,10 @@ module.exports = function () {
       };
 
       //build report
-      var queryParts = reportFactory.singleReportToSql(requestParams, reportName);
-      db.reportQueryServer(queryParts, function (results) {
-        var results = reportFactory.resolveIndicators(reportName, results);
 
-        callback(results);
+      var queryParts = reportFactory.singleReportToSql(requestParams);
+      db.reportQueryServer(queryParts, function (results) {
+        callback(reportFactory.resolveIndicators(reportName, results));
       });
 
     },
