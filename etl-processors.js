@@ -30,7 +30,7 @@ module.exports = function() {
     patientFlowProcessor.calculateMedianWaitingTime(queryResults.result);
     queryResults.incompleteVisitsCount = 
     patientFlowProcessor.getIncompleteVisitsCount(queryResults.result);
-    
+
     return queryResults;
   }
 

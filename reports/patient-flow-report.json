@@ -34,7 +34,54 @@
         "tableName": "person",
         "alias": "t5",
         "joinExpression": "t1.patient_id = t5.person_id"
+      },
+
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "encounter_provider",
+        "alias": "t6",
+        "joinExpression": "t4.encounter_id=t6.encounter_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "provider",
+        "alias": "t7",
+        "joinExpression": "t7.provider_id = t6.provider_id"
+      },
+
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "encounter_type",
+        "alias": "t9",
+        "joinExpression": "t9.encounter_type_id=t4.encounter_type"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t8",
+        "joinExpression": "t7.person_id  = t8.person_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "users",
+        "alias": "t10",
+        "joinExpression": "t1.creator  = t10.user_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t11",
+        "joinExpression": "t10.person_id  = t11.person_id"
       }
+
+
+
     ],
     "parameters": [
       {
@@ -62,7 +109,7 @@
         "parameter": "dateStarted"
       },
       {
-        "expression": "t1.location_id in (?)",
+        "expression": "t1.location_id in ?",
         "parameter": "locations"
       }
     ],
@@ -92,6 +139,7 @@
         "type": "single",
         "sql": "t1.visit_id"
       },
+
       {
         "label": "visit_start",
         "type": "single",
@@ -118,10 +166,21 @@
         "sql": "t1.date_stopped"
       },
       {
+        "label": "creator",
+        "type": "single",
+        "sql": "t1.creator"
+      },
+      {
         "label": "encounter_type",
         "type": "single",
         "sql": "t4.encounter_type"
       },
+      {
+        "label": "encounter_type_name",
+        "type": "single",
+        "sql": "t9.name"
+      },
+
       {
         "label": "encounter_start",
         "type": "single",
@@ -161,7 +220,54 @@
         "label": "identifiers",
         "type": "single",
         "sql": "group_concat(distinct t3.identifier)"
+      },
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t7.person_id"
+      },
+      {
+        "label": "visit_person_id",
+        "type": "single",
+        "sql": "t10.person_id"
+      },
+
+      {
+        "label": "provider_given_name",
+        "type": "single",
+        "sql": "t8.given_name"
+      },
+      {
+        "label": "provider_middle_name",
+        "type": "single",
+        "sql": "t8.middle_name"
+      },
+      {
+        "label": "provider_family_name",
+        "type": "single",
+        "sql": "t8.family_name"
+      },
+      {
+        "label": "Visit_creator",
+        "type": "single",
+        "sql": "t10.creator"
+      },
+      {
+        "label": "visit_start_given_name",
+        "type": "single",
+        "sql": "t11.given_name"
+      },
+      {
+        "label": "visit_start_middle_name",
+        "type": "single",
+        "sql": "t11.middle_name"
+      },
+      {
+        "label": "visit_start_family_name",
+        "type": "single",
+        "sql": "t11.family_name"
       }
+
     ],
     "indicatorHandlers": [
       {
