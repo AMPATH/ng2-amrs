@@ -228,6 +228,11 @@
         "label":"location_id",
         "type":"single",
         "sql":"t1.location_id"
+      },
+      {
+        "label":"joining_column",
+        "type":"single",
+        "sql":"1"
       }
     ]
   },
@@ -319,16 +324,6 @@
         "sql":"[scheduled_visits]+[unscheduled_visits]"
       },
       {
-        "label":"starting_art",
-        "expression":"starting_art",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
-        "label":"starting_art_and_has_tb",
-        "expression":"starting_art_and_has_tb",
-        "sql":"count(distinct if($expression,t1.person_id,null))"
-      },
-      {
         "label":"starting_art_total",
         "expression":"starting_art_total",
         "sql":"count(distinct if($expression,t1.person_id,null))"
@@ -362,6 +357,11 @@
         "label":"starting_art_females_15_and_older",
         "expression":"starting_art_females_15_and_older",
         "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"starting_art_and_has_tb",
+        "expression":"starting_art_and_has_tb",
+        "sql":"count(distinct if($expression,t1.person_id,null))"
       }
     ],
     "supplementColumns":[
@@ -379,6 +379,11 @@
         "label":"location_id",
         "type":"single",
         "sql":"t1.location_id"
+      },
+      {
+        "label":"joining_column",
+        "type":"single",
+        "sql":"1"
       }
     ]
   },
@@ -387,12 +392,17 @@
     "table":{"schema":"","tableName":"","alias":"t1", "dynamicDataset":"moh-731-12month-cohort-one-row-per-encounter"},
     "joins":[],
     "parameters": [
-        {"name":"groupByLocation", "defaultValue":[
-        {"label":"location_id","expression":"t1.location_id"}
-      ]
-    }
+      {"name":"groupByLocation", "defaultValue":[
+          {"label":"location_id","expression":"t1.location_id"}
+        ]
+      },
+      {"name":"endDate", "defaultValue":"2015-10-31"},
+      {"name":"startDate", "defaultValue":"2015-10-31"}
     ],
-    "filters": [],
+    "filters": [
+      {"expression":"date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
+      {"expression":"date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"}
+    ],
     "groupClause":[
       {"parameter":"groupByLocation"},
       {"parameter":"groupByMonth"}
@@ -425,25 +435,42 @@
       }
     ],
     "supplementColumns":[
-
       {
         "label":"location_id",
         "type":"single",
         "sql":"t1.location_id"
-      }]
+      },
+      {
+        "label":"joining_column",
+        "type":"single",
+        "sql":"1"
+      }
+    ]
   },
   {
     "name": "moh-731-cumulative-one-row-per-patient",
-    "table":{"schema":"","tableName":"","alias":"t1", "dynamicDataset":"moh-731-cumulative-cohort-one-row-per-patient"},
+    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
     "joins":[
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
+      {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
     ],
     "parameters": [
-        {"name":"groupByLocation", "defaultValue":[
+      {"name":"locations","defaultValue":[]},
+      {"name":"endDate", "defaultValue":["Now()"]},
+      {"name":"groupByPerson", "defaultValue":[
+        {"label":"person_id","expression":"t1.person_id"}
+      ]
+      },
+      {"name":"groupByLocation", "defaultValue":[
         {"label":"location_id","expression":"t1.location_id"}
       ]
-    }
+      }
     ],
     "filters": [
+      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
+      {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
+      {"expression":"arv_start_location in ?","parameter":"locations"},
+      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
     ],
     "groupClause":[
       {"parameter":"groupByLocation"},
@@ -487,11 +514,16 @@
       }
     ],
     "supplementColumns":[
-
       {
         "label":"location_id",
         "type":"single",
         "sql":"t1.location_id"
-      }]
+      },
+      {
+        "label":"joining_column",
+        "type":"single",
+        "sql":"1"
+      }
+    ]
   }
 ]
