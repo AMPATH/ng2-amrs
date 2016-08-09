@@ -78,6 +78,13 @@
         "tableName": "person_name",
         "alias": "t11",
         "joinExpression": "t10.person_id  = t11.person_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t12",
+        "joinExpression": "t4.location_id  = t12.location_id"
       }
 
 
@@ -266,6 +273,16 @@
         "label": "visit_start_family_name",
         "type": "single",
         "sql": "t11.family_name"
+      },
+      {
+        "label":"location",
+        "type":"single",
+        "sql":"t12.name"
+      },
+      {
+        "label":"location_id",
+        "type":"single",
+        "sql":"t12.location_id"
       }
 
     ],
