@@ -31,6 +31,7 @@ function groupResultsByVisitId(arrayOfResults) {
                 (result.visit_start_middle_name && result.visit_start_middle_name != null ? ' ' + result.visit_start_middle_name : '') +
                 (result.visit_start_family_name && result.visit_start_family_name != null ? ' ' + result.visit_start_family_name : ''),
 
+                location: result.location,
                 visit_person_id:result.visit_person_id,
                 visit_id: result.visit_id,
                 registered: typeof result.triaged === 'string' ? result.visit_start : new Date(result.visit_start).toISOString(),
@@ -87,6 +88,7 @@ function _handleEncouters(result, visit) {
             encounter_start: result.encounter_start,
             encounter_end: result.encounter_end,
             encounter_type_name: result.encounter_type_name,
+            location: result.location,
 
             person_name: (result.provider_given_name && result.provider_given_name != null ? result.provider_given_name : '') +
             (result.provider_middle_name && result.provider_middle_name != null ? ' ' + result.provider_middle_name : '') +
