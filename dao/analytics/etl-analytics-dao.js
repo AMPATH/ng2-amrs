@@ -32,6 +32,22 @@ module.exports = function () {
         callback(result);
       });
     },
+    resolveLocationUuidsToName: function resolveLocationUuidsToName(uuids, callback) {
+      var queryParts = {
+        columns: 'name,uuid',
+        table: 'amrs.location',
+        where:['uuid in ?', uuids],
+        offset: 0,
+        limit: 300
+      };
+
+      db.queryServer_test(queryParts, function (result) {
+        //stringify
+        result=JSON.stringify(result);
+        result= JSON.parse(result);
+        callback(result.result);
+      });
+    },
     getReportIndicators: function getReportIndicators(request, callback) {
       var reportName = request.query.report;
       var countBy = request.query.countBy;

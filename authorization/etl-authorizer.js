@@ -4,6 +4,8 @@ var authorizer = {};
 var currentUser = null;
 var currentUserPrivileges = [];
 var currentUserRoles = [];
+var analytics = require('../dao/analytics/etl-analytics-dao');
+var _ = require('underscore');
 
 var PRIVILEGES = {
     canViewPatient: 'View Patients',
@@ -126,6 +128,30 @@ authorizer.isSuperUser = function () {
     }
 
     return false;**/
+};
+
+authorizer.getUserAuthorizedLocations = function (userProperties, callback) {
+    var authorized=[];
+    for (var key in userProperties) {
+        if (/^grantAccessToLocation/.test(key)) {
+            if (userProperties[key] === '*') {
+               return callback([{
+                    uuid:userProperties[key],
+                    name:'All'
+                }])
+            } else {
+                authorized.push(userProperties[key])
+            }
+        }
+    }
+    if(authorized.length>0){
+        analytics.resolveLocationUuidsToName(authorized, function(results){
+            callback(results);
+        })
+    } else{
+        //for users whose privileges are not set
+        callback(authorized);
+    }
 };
 
 module.exports = authorizer;

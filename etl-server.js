@@ -22,6 +22,7 @@ var authorizer = require('./authorization/etl-authorizer');
 var user = '';
 var cluster = require('cluster');
 var os = require('os');
+var locationAuthorizer =require('./authorization/location-authorizer.plugin');
 
 
 var numCPUs = os.cpus().length;
@@ -75,17 +76,16 @@ var validate = function (username, password, callback) {
       var result = JSON.parse(body);
       user = result.user.username;
       authorizer.setUser(result.user);
-      var currentUser = {
-        username: username,
-        role: authorizer.isSuperUser() ?
-          authorizer.getAllPrivilegesArray() :
-          authorizer.getCurrentUserPreviliges()
-      };
-
-      //console.log('Logged in user:', currentUser);
-
-      callback(null, result.authenticated, currentUser);
-
+      authorizer.getUserAuthorizedLocations(result.user.userProperties, function(authorizedLocations){
+        var currentUser = {
+          username: username,
+          role: authorizer.isSuperUser() ?
+              authorizer.getAllPrivilegesArray() :
+              authorizer.getCurrentUserPreviliges(),
+          authorizedLocations:authorizedLocations
+        };
+        callback(null, result.authenticated, currentUser);
+      });
     });
   }).on('error', function (error) {
     //console.log(error);
@@ -130,8 +130,12 @@ server.register([
     options: {
       reporters: []
     }
+  },
+  {
+    register: locationAuthorizer,
+    options: {}
   }
-],
+    ],
 
   function (err) {
     if (err) {
@@ -178,10 +182,10 @@ server.register([
 
       cluster.on('exit', function (worker, code, signal) {
         //refork the cluster
-        //cluster.fork(); 
+        //cluster.fork();
       });
 
-      
+
 
     } else {
       //TODO start HAPI server here

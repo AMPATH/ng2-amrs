@@ -176,7 +176,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicEncounterData(request, reply);
@@ -188,7 +196,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicMonthlySummary(request, reply);
@@ -211,7 +227,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewDataAnalytics }
+                    'hapiAuthorization': { role: privileges.canViewDataAnalytics },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicHivSummayIndicators(request, reply);
@@ -234,7 +258,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicAppointmentSchedule(request, reply);
@@ -257,7 +289,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'query',//can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     preRequest.resolveLocationIdsToLocationUuids(request,
@@ -280,7 +320,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicDailyVisits(request, reply);
@@ -303,7 +351,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getHasNotReturned(request, reply);
@@ -326,7 +382,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicMonthlyAppointmentSchedule(request, reply);
@@ -349,7 +413,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getClinicMonthlyVisits(request, reply);
@@ -375,7 +447,15 @@ module.exports = function () {
                     dao.getClinicDefaulterList(request, reply);
                 },
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard }
+                    'hapiAuthorization': { role: privileges.canViewClinicDashBoard },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'uuid' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 description: "Get a location's defaulter list",
                 notes: "Returns a location's defaulter list.",
@@ -424,7 +504,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { roles: [privileges.canViewDataEntryStats, privileges.canViewPatient] }
+                    'hapiAuthorization': { roles: [privileges.canViewDataEntryStats, privileges.canViewPatient] },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type:'query',//can be in either query or params so you have to specify
+                                name:'locationUuids' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getPatientCountGroupedByLocation(request, reply);
@@ -484,6 +572,23 @@ module.exports = function () {
             path: '/etl/get-report-by-report-name',
             config: {
                 auth: 'simple',
+                plugins:{
+                   'openmrsLocationAuthorizer':{
+                       locationParameter: [
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'locationUuids' //name of the location parameter
+                           }
+                       ],
+                       exemptedParameter:[ //set this if you want to prevent validation checks for certain reports
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'clinical-reminder-report' //parameter value
+                           }
+                       ]
+                    }
+                },
                 handler: function (request, reply) {
                     //security check
                     if (!authorizer.hasReportAccess(request.query.report)) {
@@ -532,7 +637,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { roles: [privileges.canViewPatient, privileges.canViewDataAnalytics] }
+                    'hapiAuthorization': { roles: [privileges.canViewPatient, privileges.canViewDataAnalytics] },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'params',//can be in either query or params so you have to specify
+                                name: 'location' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     dao.getPatientListByIndicator(request, reply);
@@ -562,7 +675,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { roles: [privileges.canViewPatient, privileges.canViewDataAnalytics] }
+                    'hapiAuthorization': { roles: [privileges.canViewPatient, privileges.canViewDataAnalytics] },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'query',//can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
                     var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
@@ -612,7 +733,15 @@ module.exports = function () {
             config: {
                 auth: 'simple',
                 plugins: {
-                    'hapiAuthorization': { role: privileges.canViewDataEntryStats }
+                    'hapiAuthorization': { role: privileges.canViewDataEntryStats },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'query',//can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }
+                        ]
+                    }
                 },
                 handler: function (request, reply) {
 
@@ -738,7 +867,16 @@ module.exports = function () {
                     'hapiAuthorization':
                     {
                         roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
+                    },
+                    'openmrsLocationAuthorizer':{
+                        locationParameter: [
+                            {
+                                type: 'query',//can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }
+                        ]
                     }
+
                 },
                 handler: function (request, reply) {
                     var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
@@ -785,6 +923,9 @@ module.exports = function () {
             path: '/etl/eid/order/{lab}',
             config: {
                 auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': { role: privileges.canViewPatient }
+                },
                 handler: function (request, reply) {
                     dao.postLabOrderToEid(request, reply);
                 }
