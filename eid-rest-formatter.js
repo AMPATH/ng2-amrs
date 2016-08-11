@@ -477,6 +477,8 @@ module.exports=function(){
    getOrderByOrderNumber:getOrderByOrderNumber,
    getRestResource:getRestResource,
    convertViralLoadWithLessThanToRestConsumableObs:convertViralLoadWithLessThanToRestConsumableObs,
-   cd4PanelHasErrors:cd4PanelHasErrors
+   cd4PanelHasErrors:cd4PanelHasErrors,
+   generateCd4Exceptions: generateCd4Exceptions,
+   generateCd4ValidData: generateCd4ValidData
  }
 }();

@@ -21,11 +21,11 @@ module.exports = function(){
           });
         }
         else{
-          eidService.getSynchronizedPatientLabResults(request,reply);
+          eidService.getSynchronizedPatientLabResults(request.query.patientUuId,reply);
         }
       }
      else{
-       eidService.getSynchronizedPatientLabResults(request,reply);
+       eidService.getSynchronizedPatientLabResults(request.query.patientUuId,reply);
      }
     });
   }
