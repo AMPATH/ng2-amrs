@@ -212,7 +212,7 @@ module.exports = function () {
         ],
         groupBy:'groupByEncounter',
         offset: request.query.startIndex || 0,
-        limit: request.query.limit || 1000
+        limit: request.query.limit || 1000000
       };
 
       //build report
