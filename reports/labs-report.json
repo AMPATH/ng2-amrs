@@ -1,0 +1,76 @@
+   [
+       {
+        "name": "labs-report",
+        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "joins":[
+            {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
+            {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
+        ],
+        "parameters": [
+            {"name":"startDate", "defaultValue":["10-10-2015"]},
+            {"name":"endDate", "defaultValue":["defaultValue"]},
+            {"name":"locations","defaultValue":[]},
+            {"name":"startAge", "defaultValue":[]},
+            {"name":"endAge", "defaultValue":[]},
+            {"name":"gender", "defaultValue":[]},
+            {"name":"@referenceDate", "defaultValue":["defaultValue"]},
+            {"name":"groupByLocation", "defaultValue":[
+                {"label":"location","expression":"location"}
+            ]
+            },
+            {"name":"groupByYear", "defaultValue":[
+                {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
+            ]
+            },
+            {"name":"groupByMonth", "defaultValue":[
+                {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
+            ]
+            }
+        ],
+        "filters": [
+            {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
+            {"expression":"t1.rtc_date <= ?", "parameter":"endDate"},
+            {"expression":"t1.location_id in ?", "parameter":"locations"},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true}
+        ],
+        "groupClause":[
+            {"parameter":"groupByLocation"},
+            {"parameter":"groupByYear"},
+            {"parameter":"groupByMonth"}
+        ],
+        "indicators": [
+              {
+                  "label":"needs_vl_in_period",
+                  "expression":"needs_vl_in_period",
+                  "sql":"$expression"
+              }
+        ],
+        "supplementColumns":[
+               {
+                   "label":"location",
+                   "type":"single",
+                   "sql":"t2.name"
+               },
+               {
+                   "label":"location_uuid",
+                   "type":"single",
+                   "sql":"t1.location_uuid"
+               },
+               {
+                   "label":"location_id",
+                   "type":"single",
+                   "sql":"t1.location_id"
+               },
+               {
+                   "label":"encounter_datetime",
+                   "type":"single",
+                   "sql":"t1.encounter_datetime"
+               },
+               {
+                   "label":"month",
+                   "type":"single",
+                   "sql":"t1.encounter_datetime"
+               }
+           ]
+    }
+]
