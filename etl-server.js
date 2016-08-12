@@ -23,8 +23,7 @@ var user = '';
 var cluster = require('cluster');
 var os = require('os');
 var locationAuthorizer = require('./authorization/location-authorizer.plugin');
-var cache = require('memory-cache');
-
+var cache = require('./session-cache');
 var numCPUs = os.cpus().length;
 var server = new Hapi.Server({
   connections: {
@@ -52,12 +51,6 @@ server.connection({
 });
 var pool = mysql.createPool(config.mysql);
 
-var saveToCache = function(key, value) {
-  cache.put(key, value, 900000);
-};
-var getFromToCache = function(key) {
-  return cache.get(key);
-};
 var validate = function(username, password, callback) {
 
   //Openmrs context
@@ -71,7 +64,13 @@ var validate = function(username, password, callback) {
       'Authorization': "Basic " + authBuffer
     }
   };
-  if (cache.get(authBuffer) === null) {
+  var key = '';
+  cache.encriptKey(authBuffer, function(hash) {
+    key = hash;
+  }, function() {
+
+  });
+  if (cache.getFromToCache(key) === null) {
     if (config.openmrs.https) {
       https = require('https');
     }
@@ -91,7 +90,7 @@ var validate = function(username, password, callback) {
               authorizer.getAllPrivilegesArray() : authorizer.getCurrentUserPreviliges(),
             authorizedLocations: authorizedLocations
           };
-          saveToCache(authBuffer, {
+          cache.saveToCache(key, {
             result: result,
             currentUser: currentUser
           });
@@ -103,9 +102,9 @@ var validate = function(username, password, callback) {
       callback(null, false);
     });
   } else {
-    var cached = getFromToCache(authBuffer);
+    var cached = cache.getFromToCache(key);
     authorizer.setUser(cached.result.user);
-    saveToCache(authBuffer, {
+    cache.saveToCache(key, {
       result: cached.result,
       currentUser: cached.currentUser
     });
