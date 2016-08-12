@@ -39,7 +39,8 @@ var reportPrivileges = {
     'patient-list-report-not_virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'patient-list-report-virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'patient-list-report-patients_requiring_vl': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
-    'patient-list-report-tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics]
+    'patient-list-report-tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'labs-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];

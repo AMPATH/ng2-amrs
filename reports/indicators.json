@@ -924,6 +924,12 @@
         "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @referenceDate) >= 90) then 1 when (timestampdiff(month,arv_first_regimen_start_date, @referenceDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 6)  and (timestampdiff(month,arv_first_regimen_start_date, @referenceDate)>=6) then 2 when (timestampdiff(month,arv_first_regimen_start_date, @referenceDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 12) then 3 else 0 end"
     },
     {
+        "name":"needs_vl_in_period",
+        "label":"needs vl in period",
+        "description": "Patient level coded indicator that determines whether patient requires a Viral load",
+        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, endDate) >= 90) then true when (timestampdiff(month,arv_first_regimen_start_date, endDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, endDate) >= 6)  and (timestampdiff(month,arv_first_regimen_start_date, endDate)>=6) then true when (timestampdiff(month,arv_first_regimen_start_date, endDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, endDate) >= 12) then true else false end"
+    },
+    {
         "name":"months_since_last_vl_date",
         "label":"months since last vl date",
         "description": "Number of months since last vl date",
