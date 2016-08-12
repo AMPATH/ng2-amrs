@@ -32,14 +32,17 @@ module.exports = function(){
           identifiers:[]
         }
         _.each(response.identifiers,function(identifier){
-          patientIdentifiers.identifiers.push(identifier.identifier);
-          var hasALetterRegEx=/[a-z]/i;
-          if(hasALetterRegEx.test(identifier.identifier)){
-          var indexOfFirstLetter=identifier.identifier.match(/[a-z]/i).index;
-          var identifierWithSpace = identifier.identifier.substr(0, indexOfFirstLetter) +
-           ' '+ identifier.identifier.substr(indexOfFirstLetter);
-           patientIdentifiers.identifiers.push(identifierWithSpace);
-         }
+          //exclude Old AMPATH Medical Record Number identifierType
+          if(identifier.identifierType.uuid !="58a46a32-1359-11df-a1f1-0026b9348838"){        
+            patientIdentifiers.identifiers.push(identifier.identifier);
+            var hasALetterRegEx=/[a-z]/i;
+            if(hasALetterRegEx.test(identifier.identifier)){
+            var indexOfFirstLetter=identifier.identifier.match(/[a-z]/i).index;
+            var identifierWithSpace = identifier.identifier.substr(0, indexOfFirstLetter) +
+             ' '+ identifier.identifier.substr(indexOfFirstLetter);
+             patientIdentifiers.identifiers.push(identifierWithSpace);
+           }
+          }
         })
         resolve(patientIdentifiers);
       })

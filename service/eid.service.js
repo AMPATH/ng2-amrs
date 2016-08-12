@@ -36,7 +36,7 @@ module.exports = function() {
     }
     return resource;
   }
-  function getEIDTestResultsByPatientIdentifier(patientIdentifier,startDate,endDate){
+  function getEIDTestResultsByPatientIdentifier(patientIdentifier){
    var results={
      viralLoad:[],
      pcr:[],
@@ -69,7 +69,7 @@ module.exports = function() {
      else{
        results.ampathPcrErrorMsg=response;
      }
-     return getCd4TestResultsByPatientIdentifier(patientIdentifier,startDate,endDate,config.eid.host.ampath,
+     return getCd4TestResultsByPatientIdentifier(patientIdentifier,config.eid.host.ampath,
      config.eid.ampath.cd4ApiKey);
    })
    .then(function(response){
@@ -110,11 +110,11 @@ module.exports = function() {
    })
  });
  }
-function getAllEIDTestResultsByPatientUuId(patientUuId,startDate,endDate){
+function getAllEIDTestResultsByPatientUuId(patientUuId){
     return new Promise(function(resolve,reject){
       obsService.getPatientIdentifiers(patientUuId)
       .then(function(response){
-        return getEIDTestResultsByPatientIdentifier(response.identifiers,startDate,endDate)
+        return getEIDTestResultsByPatientIdentifier(response.identifiers)
       })
       .then(function(eidResponse){
         resolve(eidResponse);
@@ -146,7 +146,9 @@ function getPcrTestResultsByPatientIdentifier(patientIdentifier,host,key){
     //getResultsFromSingleServer(ampathPcrPromise,resolve,reject);
   });
 }
-function getCd4TestResultsByPatientIdentifier(patientIdentifier,startDate,endDate,host,key){
+function getCd4TestResultsByPatientIdentifier(patientIdentifier,host,key){
+  var startDate=moment(new Date('2004-01-01')).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+  var endDate=moment(new Date()).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
   var resource=getCd4Resource(host,key);
   var queryString=resource.query;
   queryString.patientID=patientIdentifier;
@@ -158,19 +160,18 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier,startDate,endDat
     //getResultsFromSingleServer(ampathCd4Promise,resolve,reject);
   });
 }
- function getSynchronizedPatientLabResults(request,reply){
+ function getSynchronizedPatientLabResults(patientUuId,reply){
    var queryParts = {
      columns:[eidResultsSchema.patientLabResultsSchema.parameters[1].name,
    eidResultsSchema.patientLabResultsSchema.parameters[2].name,
    eidResultsSchema.patientLabResultsSchema.parameters[3].name],
      table: eidResultsSchema.patientLabResultsSchema.table.schema+'.'
      +eidResultsSchema.patientLabResultsSchema.table.tableName +' ',
-     values:[request.query.patientUuId]
+     values:[patientUuId]
    };
-   var promise1=getAllEIDTestResultsByPatientUuId(request.query.patientUuId,request.query.startDate,request.query.endDate);
-   var promise2=obsService.getPatientAllTestObsByPatientUuId(request.query.patientUuId);
+   var promise1=getAllEIDTestResultsByPatientUuId(patientUuId);
+   var promise2=obsService.getPatientAllTestObsByPatientUuId(patientUuId);
    var mergedEidResults={};
-   var eidResponseWithError={};
  return new Promise(function(resolve,reject){
    promise1.then(function(response){
      mergedEidResults=response;
@@ -178,7 +179,7 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier,startDate,endDat
    })
    .then(function(obsResponse){
      var missingResult=comparison.findAllMissingEidResults(mergedEidResults,obsResponse);
-    return obsService.postAllObsToAMRS(missingResult,request.query.patientUuId);
+    return obsService.postAllObsToAMRS(missingResult,patientUuId);
   })
    .then(function(postResponse){
      var serversWithDownTime=[];
@@ -188,6 +189,7 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier,startDate,endDat
        }
      });
      postResponse.push({serverStatus:serversWithDownTime});
+     resolve({updatedObs:postResponse});
      reply({updatedObs:postResponse});
      saveEidSyncLog(queryParts,function(response){});
    })
