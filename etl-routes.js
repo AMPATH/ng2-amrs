@@ -930,6 +930,16 @@ module.exports = function () {
                     dao.postLabOrderToEid(request, reply);
                 }
             }
+        },
+        {
+            method: 'GET',
+            path: '/etl/session/invalidate',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    dao.invalidateUserSession(request, reply);
+                }
+            }
         }
     ];
 } ();
