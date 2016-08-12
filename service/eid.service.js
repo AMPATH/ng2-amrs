@@ -194,8 +194,8 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier,host,key){
      saveEidSyncLog(queryParts,function(response){});
    })
    .catch(function(error){
-     reject(error);
      etlLogger.logRequestError('SynchronizedPatientLabResults request error. Details:' + error, config.logging.eidFile, config.logging.eidPath);
+     reject(error);
    })
  });
  }

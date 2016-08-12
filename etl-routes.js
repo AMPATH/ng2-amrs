@@ -940,6 +940,57 @@ module.exports = function () {
                     dao.invalidateUserSession(request, reply);
                 }
             }
-        }
+          },
+          {
+              method: 'GET',
+              path: '/etl/lab-cohorts',
+              config: {
+                  auth: 'simple',
+                  handler: function (request, reply) {
+
+                      dao.loadLabCohorts(request, reply);
+                  },
+                  description: 'Home',
+                  notes: 'Returns a message that shows ETL service is running.',
+                  tags: ['api'],
+                  validate: {
+                      options: {
+                          allowUnknown: true
+                      },
+                      query: {
+                          startDate: Joi.string()
+                              .required()
+                              .description("The start date to filter by"),
+                          endDate: Joi.string()
+                              .required()
+                              .description("The end date to filter by"),
+                      }
+                  }
+              }
+          },
+          {
+              method: 'GET',
+              path: '/etl/lab-cohorts-sync',
+              config: {
+                  auth: 'simple',
+                  handler: function (request, reply) {
+
+                      dao.syncLabCohorts(request, reply);
+                  },
+                  description: 'Home',
+                  notes: 'Returns a message that shows ETL service is running.',
+                  tags: ['api'],
+                  validate: {
+                      query: {
+                          startDate: Joi.string()
+                              .required()
+                              .description("The start date to filter by"),
+                          endDate: Joi.string()
+                              .required()
+                              .description("The end date to filter by"),
+                      }
+                  }
+              }
+          }
     ];
 } ();
