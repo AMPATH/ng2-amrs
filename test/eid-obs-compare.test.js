@@ -71,12 +71,12 @@ describe('EID-OBS COMPARE TESTS', function () {
             equivalentObs = {
                 person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
                 obsDatetime: '2016-05-26T00:00:00+03:00',
-                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                concept: { uuid: '457c741d-8f71-4829-b59d-594e0a618892' },
                 groupMembers: [
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a8982474-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-05-26T00:00:00+03:00'
                     },
                     {
@@ -137,68 +137,68 @@ describe('EID-OBS COMPARE TESTS', function () {
             };
 
             equivalentObs = {
-                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                concept: { uuid: '457c741d-8f71-4829-b59d-594e0a618892' },
                 person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
                 obsDatetime: '2016-06-02T00:00:00+03:00',
                 groupMembers: [
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a89c4220-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a89c4220-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a898fcd2-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a898fcd2-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a8970a26-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a8970a26-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a8a8bb18-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a8a8bb18-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
                         value: 'a89c4914-1350-11df-a1f1-0026b9348838',
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     }
                 ]
@@ -404,16 +404,16 @@ describe('EID-OBS COMPARE TESTS', function () {
             var viralLoadError = {
                 person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
                 obsDatetime: '2016-05-26T00:00:00+03:00',
-                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                concept: { uuid: '457c741d-8f71-4829-b59d-594e0a618892' },
                 groupMembers: [
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a8982474-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-05-26T00:00:00+03:00'
                     },
                     {
-                        concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+                        concept: { uuid: 'a8a06fc6-1350-11df-a1f1-0026b9348838' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
                         value: 'wewe tu',
                         obsDatetime: '2016-05-26T00:00:00+03:00'
@@ -427,68 +427,68 @@ describe('EID-OBS COMPARE TESTS', function () {
     it('should return correctly when isObsCd4PanelError',
         function () {
             var cd4Error = {
-                concept: '457c741d-8f71-4829-b59d-594e0a618892',
+                concept: { uuid: '457c741d-8f71-4829-b59d-594e0a618892' },
                 person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
                 obsDatetime: '2016-06-02T00:00:00+03:00',
                 groupMembers: [
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a89c4220-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a89c4220-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a898fcd2-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a898fcd2-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a8970a26-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a8970a26-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a8a8bb18-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a8a8bb18-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: 'f67ff075-f91e-4b71-897a-9ded87b34984',
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a89c4914-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a89c4914-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     },
                     {
-                        concept: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04',
+                        concept: { uuid: '5026a3ee-0612-48bf-b9a3-a2944ddc3e04' },
                         person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
-                        value: 'a899ea48-1350-11df-a1f1-0026b9348838',
+                        value: { uuid: 'a899ea48-1350-11df-a1f1-0026b9348838' },
                         obsDatetime: '2016-06-02T00:00:00+03:00'
                     }
                 ]
