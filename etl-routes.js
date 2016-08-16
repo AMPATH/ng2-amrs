@@ -948,7 +948,16 @@ module.exports = function () {
                   auth: 'simple',
                   handler: function (request, reply) {
 
+                    var eidSyncApiKey = config.eidSyncApiKey;
+                    var headers = request.headers;
+
+                    var h_eidSyncApiKey = request.headers.eidsyncapikey;
+
+                    if(eidSyncApiKey === h_eidSyncApiKey) {
                       dao.loadLabCohorts(request, reply);
+                    } else {
+                      reply(Boom.unauthorized('invalid api key'))
+                    }
                   },
                   description: 'Home',
                   notes: 'Returns a message that shows ETL service is running.',
@@ -975,7 +984,16 @@ module.exports = function () {
                   auth: 'simple',
                   handler: function (request, reply) {
 
+                    var eidSyncApiKey = config.eidSyncApiKey;
+                    var headers = request.headers;
+
+                    var h_eidSyncApiKey = request.headers.eidsyncapikey;
+
+                    if(eidSyncApiKey === h_eidSyncApiKey) {
                       dao.syncLabCohorts(request, reply);
+                    } else {
+                      reply(Boom.unauthorized('invalid api key'));
+                    }
                   },
                   description: 'Home',
                   notes: 'Returns a message that shows ETL service is running.',
