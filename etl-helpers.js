@@ -145,20 +145,20 @@ module.exports = function() {
       var message ='';
 
       if(vlerror === 1)
-        message = 'Error processing Viral Load, please redraw';
+        message = 'Error processing Viral Load';
       if(cd4eror === 1){
         if(message !== '')
-        message = message + ', ' +'Error processing cd4, please redraw';
+        message = message + ', ' +'Error processing cd4';
         else
-          message = 'Error processing cd4, please redraw';
+          message = 'Error processing cd4';
       }
 
       if(pcrerror === 1){
 
         if(message !== '')
-          message = message + ', ' +'Error processing hiv dna pcr, please redraw';
+          message = message + ', ' +'Error processing hiv dna pcr';
         else
-          message = 'Error processing hiv dna pcr, please redraw';
+          message = 'Error processing hiv dna pcr';
       }
 
       return message
