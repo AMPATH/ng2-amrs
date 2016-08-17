@@ -159,6 +159,8 @@ module.exports = function() {
         row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
         row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
         row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error,row.cd4_error,row.hiv_dna_pcr_error);
+        row.hiv_dna_pcr = helpers.getConceptName(row.hiv_dna_pcr);
+        row.chest_xray = helpers.getConceptName(row.chest_xray);
 
       });
       callback(result);
