@@ -991,6 +991,20 @@ module.exports = function () {
                       }
                   }
               }
+          },
+          {
+              method: 'GET',
+              path: '/etl/eid/load-order-justifications',
+              config: {
+                  auth: 'simple',
+                  handler: function (request, reply) {
+
+                      dao.loadOrderJustifications(request, reply);
+                  },
+                  description: 'Justifications',
+                  notes: 'Returns order justification(s)',
+                  tags: ['api']
+              }
           }
     ];
 } ();
