@@ -190,9 +190,9 @@ function isEidCD4PanelError(eidCD4Result) {
 }
 
 function isObsViralLoadError(obs) {
-    if (_.isEmpty(obs)) return false;
+    if (_.isEmpty(obs) || _.isEmpty(obs.concept)) return false;
 
-    if (obs.concept !== '457c741d-8f71-4829-b59d-594e0a618892') return false;
+    if (obs.concept.uuid !== '457c741d-8f71-4829-b59d-594e0a618892') return false;
 
     if (obs.groupMembers.length <= 0) return false;
 
@@ -204,9 +204,9 @@ function isObsViralLoadError(obs) {
 }
 
 function isObsCd4PanelError(obs) {
-    if (_.isEmpty(obs)) return false;
+    if (_.isEmpty(obs)  || _.isEmpty(obs.concept)) return false;
 
-    if (obs.concept !== '457c741d-8f71-4829-b59d-594e0a618892') return false;
+    if (obs.concept.uuid !== '457c741d-8f71-4829-b59d-594e0a618892') return false;
 
     if (obs.groupMembers.length <= 0) return false;
 
@@ -229,7 +229,7 @@ function _getObsObjectWithValue(obsArray, value) {
     if (!Array.isArray(obsArray)) return;
 
     for (var i = 0; i < obsArray.length; i++) {
-        if (obsArray[i].value === value) return obsArray[i];
+        if (obsArray[i].value && obsArray[i].value.uuid && obsArray[i].value.uuid === value) return obsArray[i];
     }
 }
 
@@ -237,7 +237,9 @@ function _getObsObjectWithAnyOfValueArray(obsArray, valuesArray) {
     if (!Array.isArray(obsArray)) return;
 
     for (var i = 0; i < obsArray.length; i++) {
-        if (valuesArray.indexOf(obsArray[i].value) >= 0) return obsArray[i];
+        if (obsArray[i].value && obsArray[i].value.uuid && valuesArray.indexOf(obsArray[i].value.uuid) >= 0) return obsArray[i];
+
+         if (valuesArray.indexOf(obsArray[i].value) >= 0) return obsArray[i];
     }
 }
 
