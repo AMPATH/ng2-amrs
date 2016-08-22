@@ -38,11 +38,11 @@ function listReachableServers() {
     {
       name: 'ampath',
       ip: config.eid.host.ampath.replace(protomatch, '')
-    },
-    {
-      name: 'alupe',
-      ip: config.eid.host.alupe.replace(protomatch, '')
     }
+    // {
+    //   name: 'alupe',
+    //   ip: config.eid.host.alupe.replace(protomatch, '')
+    // }
   ];
 
   var reachable_servers = {};
@@ -86,14 +86,10 @@ function getSynchronizedPatientLabResults(patientUuId) {
       mergedEidResults = testResultsResponse.results;
 
       return obsService.getPatientAllTestObsByPatientUuId(patientUuId);
-
     })
     .then(function(obsResponse) {
 
       var missingResult = comparison.findAllMissingEidResults(mergedEidResults, obsResponse);
-
-      //TODO - viralLoad: [], pcr: [], cd4Panel: []. marked empty items as not syncd
-
       return obsService.postAllObsToAMRS(missingResult, patientUuId);
     })
     .then(function(postResponse) {
@@ -166,8 +162,6 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, reachable_serve
     generalApiKey: config.eid.alupe.generalApiKey,
     cd4ApiKey: config.eid.alupe.cd4ApiKey
   }
-
-  //TODO - switch to promise
 
   return new Promise(function(resolve, reject) {
 
