@@ -33,7 +33,7 @@ module.exports = function(){
         }
         _.each(response.identifiers,function(identifier){
           //exclude Old AMPATH Medical Record Number identifierType
-          if(identifier.identifierType.uuid !="58a46a32-1359-11df-a1f1-0026b9348838"){        
+          if(identifier.identifierType.uuid !="58a46a32-1359-11df-a1f1-0026b9348838"){
             patientIdentifiers.identifiers.push(identifier.identifier);
             var hasALetterRegEx=/[a-z]/i;
             if(hasALetterRegEx.test(identifier.identifier)){
@@ -47,7 +47,7 @@ module.exports = function(){
         resolve(patientIdentifiers);
       })
       .catch(function(error) {
-        console.error("error getPatientIdentifiers++++++++++++++++++++++++++++++++++++++",error);
+        //console.error("error getPatientIdentifiers++++++++++++++++++++++++++++++++++++++",error);
         reject(error);
       });
   });

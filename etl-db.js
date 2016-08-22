@@ -343,7 +343,27 @@ module.exports = function () {
             callback(null,result);
         });
     }
-    function insertQueryServer(queryParts, callback){
+    function saveRecord(table, fields) {
+
+      return new Promise(function(resolve, reject) {
+
+        try {
+
+          var query = squel.insert()
+            .into(table)
+            .setFieldsRows(fields)
+            .toParam();
+
+          saveQueryServer(query, function(response) {
+            resolve(response);
+          });
+
+        } catch(e) {
+          reject(e);
+        }
+      });
+    }
+    function insertQueryServer(queryParts, callback) {
       var column1=queryParts.columns[0];
       var column2=queryParts.columns[1];
       var column3=queryParts.columns[2];
@@ -405,8 +425,9 @@ module.exports = function () {
       reportQueryServer: reportQueryServer,
       queryServer_test: queryServer_test,
       queryDb: Promise.promisify(queryServer_testToPromisify),
-      insertQueryServer:insertQueryServer,
-      saveQueryServer:saveQueryServer,
-      updateQueryServer:updateQueryServer
+      insertQueryServer: insertQueryServer,
+      saveRecord: saveRecord,
+      saveQueryServer: saveQueryServer,
+      updateQueryServer: updateQueryServer
     };
 }();

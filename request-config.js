@@ -3,8 +3,8 @@ var rp = require('request-promise');
 module.exports = function() {
  var authorizationHeader = '';
  return {
-   getRequestPromise:function getRequestPromise(queryString,url) {
-   var options = {
+   getRequestPromise: function getRequestPromise(queryString,url) {
+     var options = {
        uri: url,
         qs:queryString,
         headers: {
