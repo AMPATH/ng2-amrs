@@ -112,25 +112,25 @@
         "name":"on_arvs_lte_26_weeks",
         "label":"on arvs lte 26 weeks",
         "description": "# of patient(s) who have been on ARVs for the last 26 weeks or less",
-        "expression": "timestampdiff(week,arv_first_regimen_start_date,encounter_datetime) <= 26"
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
     },
     {
         "name":"on_arvs_lte_52_weeks",
         "label":"on arvs lte 52 weeks",
         "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less",
-        "expression": "timestampdiff(week,arv_first_regimen_start_date,encounter_datetime) <= 52"
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52"
     },
     {
         "name":"on_arvs_lte_52_weeks_and_have_vl",
         "label":"on arvs lte 52 weeks and have vl",
         "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and have Viral Load",
-        "expression": "timestampdiff(week,arv_first_regimen_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
     },
     {
         "name":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
         "label":"on arvs lte 52 weeks and have vl lte 1000",
         "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
-        "expression": "timestampdiff(week,arv_first_regimen_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
     },
     {
         "name": "pregnant",
@@ -344,91 +344,91 @@
         "name":"revisits_on_art_total",
         "label":"revisits on art total",
         "description": "Total # of patient revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"revisits_on_art_males_lt_one",
         "label":"revisits on art males lt one",
         "description": "Total # of male patients < 1 yr revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"revisits_on_art_females_lt_one",
         "label":"revisits on art females lt one",
         "description": "Total # of female patients < 1 yr revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"revisits_on_art_males_below_15",
         "label":"revisits on art males below 15",
         "description": "Total # of male patients below 15 revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"revisits_on_art_females_below_15",
         "label":"revisits on art females below 15",
         "description": "Total # of female patients between 1 and 15 revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name": "revisits_on_art_males_15_and_older",
         "label":"revisits on art males 15 and older",
         "description": "Total # of male patients 15 and older revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"revisits_on_art_females_15_and_older",
         "label":"revisits on art females 15 and older",
         "description": "Total # of female patients 15 and older revisits on ART",
-        "expression": "encounter_datetime > arv_first_regimen_start_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_total",
         "label":"on art total",
         "description": "Total # of patients on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"not_on_art_total",
         "label":"not on art total",
         "description": "Total # of patients not on ART",
-        "expression": "(encounter_datetime < arv_first_regimen_start_date  or arv_first_regimen_start_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_males_lt_one",
         "label":"on art males lt one",
         "description": "Total # of male patients < 1 yr on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_females_lt_one",
         "label":"on art females lt one",
         "description": "Total # of female patients < 1 yr on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_males_below_15",
         "label":"on art males below 15",
         "description": "Total # of male patients below 15 on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_females_below_15",
         "label":"on art females below 15",
         "description": "Total # of female patients below 15 on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_males_15_and_older",
         "label":"on art males 15 and older",
         "description": "Total # of male patients 15 and older on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_art_females_15_and_older",
         "label":"on art females 15 and older",
         "description": "Total # of female patients 15 and older on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_original_first_line",
@@ -519,7 +519,7 @@
         "name":"on_art",
         "label":"on art",
         "description": "Total #  patient on ART",
-        "expression": "encounter_datetime >= arv_first_regimen_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"ever_on_art",
@@ -825,13 +825,13 @@
         "name":"virally_suppressed",
         "label":"virally suppressed",
         "description": "# of patient(s) who are virally suppressed",
-        "expression": "timestampdiff(month,arv_first_regimen_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 < 1000"
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 < 1000"
     },
     {
         "name":"not_virally_suppressed",
         "label":"not virally suppressed",
         "description": "# of patient(s) who are not virally suppressed",
-        "expression": "timestampdiff(month,arv_first_regimen_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 >= 1000"
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 >= 1000"
     },
     {
         "name":"perc_virally_suppressed",
@@ -915,19 +915,19 @@
         "name":"on_arvs_gt_26_weeks",
         "label":"on arvs gt 26 weeks",
         "description": "# of patient(s) who have been on ARVs 26 weeks or more",
-        "expression": "timestampdiff(week,arv_first_regimen_start_date,encounter_datetime) > 26"
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
     },
     {
         "name":"needs_vl_coded",
         "label":"needs vl coded",
         "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @referenceDate) >= 90) then 1 when (timestampdiff(month,arv_first_regimen_start_date, @referenceDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 6)  and (timestampdiff(month,arv_first_regimen_start_date, @referenceDate)>=6) then 2 when (timestampdiff(month,arv_first_regimen_start_date, @referenceDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 12) then 3 else 0 end"
+        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @referenceDate) >= 90) then 1 when (timestampdiff(month,arv_start_date, @referenceDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 6)  and (timestampdiff(month,arv_start_date, @referenceDate)>=6) then 2 when (timestampdiff(month,arv_start_date, @referenceDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 12) then 3 else 0 end"
     },
     {
         "name":"needs_vl_in_period",
         "label":"needs vl in period",
         "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, endDate) >= 90) then true when (timestampdiff(month,arv_first_regimen_start_date, endDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, endDate) >= 6)  and (timestampdiff(month,arv_first_regimen_start_date, endDate)>=6) then true when (timestampdiff(month,arv_first_regimen_start_date, endDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, endDate) >= 12) then true else false end"
+        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, endDate) >= 90) then true when (timestampdiff(month,arv_start_date, endDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, endDate) >= 6)  and (timestampdiff(month,arv_start_date, endDate)>=6) then true when (timestampdiff(month,arv_start_date, endDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, endDate) >= 12) then true else false end"
     },
     {
         "name":"months_since_last_vl_date",
@@ -946,7 +946,7 @@
         "name":"needs_cd4_count_coded",
         "label":"needs cd4 count coded",
         "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,cd4_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_first_regimen_start_date, @referenceDate) <= 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_first_regimen_start_date, @referenceDate) > 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 12) then 3 else 0 end"
+        "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,cd4_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_start_date, @referenceDate) <= 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_start_date, @referenceDate) > 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 12) then 3 else 0 end"
     },
     {
         "name":"overdue_cd4_count_lab_order",
@@ -964,19 +964,19 @@
         "name":"patients_requiring_vl",
         "label":"patients requiring vl",
         "description": "patients requiring vl",
-        "expression": "timestampdiff(month,arv_first_regimen_start_date,encounter_datetime) >= 6 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"tested_appropriately",
         "label":"tested appropriately",
         "description": "tested appropriately",
-        "expression": "timestampdiff(month, arv_first_regimen_start_date, encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) <= 365 and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) <= 365 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"not_tested_appropriately",
         "label":"not tested appropriately",
         "description": "not tested appropriately",
-        "expression": "timestampdiff(month, arv_first_regimen_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date,encounter_datetime) > 365 or vl_1_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date,encounter_datetime) > 365 or vl_1_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"perc_tested_appropriately",
@@ -1102,7 +1102,7 @@
         "name":"not_on_arvs_cd4_lte_500",
         "label":"patient not_on_arvs_cd4_lte_500",
         "description": "patients who qualify for ART but are not on therapy",
-        "expression": "arv_first_regimen_start_date is null and cd4_1 < 500"
+        "expression": "arv_start_date is null and cd4_1 < 500"
     }
 
 
