@@ -131,28 +131,76 @@ authorizer.isSuperUser = function () {
     return false;**/
 };
 
-authorizer.getUserAuthorizedLocations = function (userProperties, callback) {
+authorizer.getUserAuthorizedLocations = function  (userProperties, callback) {
+
+    var authorized=[];
+    resolveLocationName(userProperties,'aggregate',  function(r){
+        authorized.push.apply(authorized, r);
+        resolveLocationName(userProperties, 'operational', function(s){
+            authorized.push.apply(authorized, s);
+            callback(authorized)
+        })
+    });
+};
+
+function resolveLocationName (userProperties, type, callback) {
     var authorized=[];
     for (var key in userProperties) {
-        if (/^grantAccessToLocation/.test(key)) {
-            if (userProperties[key] === '*') {
-               return callback([{
-                    uuid:userProperties[key],
-                    name:'All'
-                }])
-            } else {
-                authorized.push(userProperties[key])
+        if(type==='operational') {
+            if (/^grantAccessToLocationOperationalData/.test(key)) {
+                if (userProperties[key] === '*') {
+                    return callback([{
+                        uuid: userProperties[key],
+                        name: 'All',
+                        type: 'operational'
+
+                    }])
+
+                } else {
+                    authorized.push(userProperties[key])
+                }
             }
-        }
+        } else if (type==='aggregate'){
+            if (/^grantAccessToLocationAggregateData/.test(key)) {
+                if (userProperties[key] === '*') {
+                    return callback([{
+                        uuid: userProperties[key],
+                        name: 'All',
+                        type: 'aggregate'
+                    }])
+                } else {
+                    authorized.push(userProperties[key])
+                }
+            }
+       }
     }
+
     if(authorized.length>0){
         analytics.resolveLocationUuidsToName(authorized, function(results){
-            callback(results);
+            var i=[]
+            _.each(results, function(result) {
+                if (type==='operational') {
+                    i.push({
+                        uuid: result.uuid,
+                        name: result.name,
+                        type: 'operational'
+                    })
+                }else if(type==='aggregate'){
+                    i.push({
+                        uuid: result.uuid,
+                        name: result.name,
+                        type: 'aggregate'
+                    })
+                }
+            });
+            callback(i);
         })
+
     } else{
         //for users whose privileges are not set
         callback(authorized);
     }
+
 };
 
 module.exports = authorizer;

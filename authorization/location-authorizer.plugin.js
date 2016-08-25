@@ -133,49 +133,122 @@ internals.onPreHandler = function (request, reply) {
     // if openmrsLocationAuthorizer is enabled, get the user
     if (params) {
         var user = request.auth.credentials;
-        var routeSettings = request.route.settings.plugins[pluginName] || {locationParameter: [],exemptedParameter:[]};
+        var routeSettings = request.route.settings.plugins[pluginName] || {locationParameter: [],exemptedParameter:[],aggregateReport:[]};
         if (user.authorizedLocations.length > 0) {
 
-            var unAuthorisedLocations = [];
+            var unAuthorisedOperationalLocations = [];
+            var unAuthorisedAggregateLocations = [];
             var isExempted=false;
+            var isAggregate=false;
+
             //check for exemptions
             isExempted= _.some(routeSettings.exemptedParameter||[], function (routeSetting) {
                 var passedExemptedValue = request[routeSetting.type][routeSetting.name] || '';
                 return passedExemptedValue===routeSetting.value;
             });
+
+            //check if passedParam is aggregate
+            isAggregate= _.some(routeSettings.aggregateReport||[], function (routeSetting) {
+                var passedParamValue = request[routeSetting.type][routeSetting.name] || '';
+                return passedParamValue===routeSetting.value;
+            });
+
             if(isExempted===false) {
-                //get all the selected locations that this user is not authorised to fetch data
-                _.each(routeSettings.locationParameter, function (routeSetting) {
-                    var passedLocations = request[routeSetting.type][routeSetting.name] || 'All';
-                    if (passedLocations === 'All') {
-                        //this means the user did not limit request parameters to any locations
-                        //therefore check if user is allowed to access all location
-                        var isAuthorised = _.some(user.authorizedLocations, function (authorizedLocation) {
-                            return authorizedLocation.uuid === '*'
-                        });
-                        if (!isAuthorised) unAuthorisedLocations.push('All');
-                    } else {
-                        _.each(passedLocations.split(','), function (passedLocation) {
-                            if (passedLocation.length > 10) { //validate passedLocation is a uuid
-                                //determine if user is authorised
-                                var isAuthorised = _.some(user.authorizedLocations, function (authorizedLocation) {
-                                    if (authorizedLocation.uuid === '*') return true;
-                                    return authorizedLocation.uuid == passedLocation;
-                                });
-                                //if not authorised then push the unauthorised locations
-                                if (!isAuthorised) unAuthorisedLocations.push(passedLocation);
-                            }
-                        })
-                    }
-                });
+               if (isAggregate===true) {
+                    //get all the selected locations that this user is not authorised to fetch data
+                    _.each(routeSettings.locationParameter, function (routeSetting) {
+                        var passedLocations = request[routeSetting.type][routeSetting.name] || 'All';
+                        if (passedLocations === 'All') {
+                            //this means the user did not limit request parameters to any locations
+                            //therefore check if user is allowed to access all location
+                            var isAuthorised = _.some(user.authorizedLocations, function (authorizedLocation) {
+                                if (authorizedLocation.type==='aggregate') return authorizedLocation.uuid === '*'
+                            });
+                            if (!isAuthorised) unAuthorisedAggregateLocations.push('All');
+                        } else {
+                            _.each(passedLocations.split(','), function (passedLocation) {
+                                if (passedLocation.length >0) { //validate passedLocation is a uuid
+                                    //determine if user is authorised
+                                    var isAuthorised = _.some(user.authorizedLocations, function (authorizedLocation) {
+                                        if (authorizedLocation.type==='aggregate') {
+                                            if (authorizedLocation.uuid === '*') return true;
+                                            return authorizedLocation.uuid == passedLocation;
+                                        }
+                                    });
+                                    //if not authorised then push the unauthorised locations
+                                    if (!isAuthorised) unAuthorisedAggregateLocations.push(passedLocation);
+                                }
+                            })
+                        }
+                    });
+              } else {
+                    //get all the selected locations that this user is not authorised to fetch data
+                    _.each(routeSettings.locationParameter, function (routeSetting) {
+                        var passedLocations = request[routeSetting.type][routeSetting.name] || 'All';
+                        if (passedLocations === 'All') {
+                            //this means the user did not limit request parameters to any locations
+                            //therefore check if user is allowed to access all location
+                            var isAuthorised = _.some(user.authorizedLocations, function (authorizedLocation) {
+                                if(authorizedLocation.type==='operational')return authorizedLocation.uuid === '*'
+                            });
+                            if (!isAuthorised) unAuthorisedOperationalLocations.push('All');
+                        } else {
+                            _.each(passedLocations.split(','), function (passedLocation) {
+                                if (passedLocation.length >0) { //validate passedLocation is a uuid
+                                    //determine if user is authorised
+                                    var isAuthorised = _.some(user.authorizedLocations, function (authorizedLocation) {
+                                        if(authorizedLocation.type==='operational') {
+                                            if (authorizedLocation.uuid === '*') return true;
+                                            return authorizedLocation.uuid == passedLocation;
+                                        }
+                                    });
+                                    //if not authorised then push the unauthorised locations
+                                    if (!isAuthorised) unAuthorisedOperationalLocations.push(passedLocation);
+                                }
+                            })
+                        }
+                    });
+               }
             }
             //if any of the passed location is unauthorised then boom.forbidden() else reply.continue()
-            if (unAuthorisedLocations.length > 0) {
+            if (unAuthorisedOperationalLocations.length > 0) {
                 //construct message appropriately
-                var authorisedLocations =user.authorizedLocations.map(function(location) {
-                    return location['name'];
+                var authorisedOperationLocations =[];
+                _.each(user.authorizedLocations, function(location) {
+                    if (location.type==='operational') {
+                        authorisedOperationLocations.push(location['name']) ;
+                    }
+
                 });
-                return reply(Boom.forbidden('You are only allowed to view data in '+authorisedLocations||''+' location(s)'));
+                if(authorisedOperationLocations.length > 0 ){
+                    return reply(Boom.forbidden('You are only allowed to view operational data in '+authorisedOperationLocations.toString()||''
+                        +' location(s)'));
+
+                }else{
+
+                    return reply(Boom.forbidden('You are not allowed to view operational data in any location '));
+                }
+
+
+            } else if  (unAuthorisedAggregateLocations.length > 0) {
+
+
+                var authorisedAggregateLocations =[];
+                _.each(user.authorizedLocations, function(location) {
+                    if (location.type==='aggregate') {
+                        authorisedAggregateLocations.push(location['name']) ;
+                    }
+
+                });
+                if(authorisedAggregateLocations.length > 0 ){
+                    return reply(Boom.forbidden('You are only allowed to view aggregate data in '+authorisedAggregateLocations.toString()||''
+                        +' location(s)'));
+
+                }else{
+
+                    return reply(Boom.forbidden('You are not allowed to view aggregate data in any location '));
+                }
+
             } else {
                 reply.continue();
             }
