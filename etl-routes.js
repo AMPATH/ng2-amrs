@@ -586,6 +586,49 @@ module.exports = function () {
                                name:'report', //name of the parameter
                                value:'clinical-reminder-report' //parameter value
                            }
+                       ],
+                       aggregateReport:[ //set this if you want to  validation checks for certain aggregate reports
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'hiv-summary-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'hiv-summary-monthly-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'MOH-731-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'MOH-731-allsites-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'clinic-comparator-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'clinical-hiv-comparative-overview-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'clinical-art-overview-report' //parameter value
+                           },
+                           {
+                               type:'query',//can be in either query or params so you have to specify
+                               name:'report', //name of the parameter
+                               value:'clinical-patient-care-status-overview-report' //parameter value
+                           }
+
                        ]
                     }
                 },
