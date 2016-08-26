@@ -1,0 +1,201 @@
+[ {
+    "name": "viral-load-monitoring-report",
+    "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+    "joins":[
+        {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
+        {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t5","joinExpression":"t1.person_id = t5.person_id"}
+    ],
+    "parameters": [
+        {"name":"startDate", "defaultValue":["10-10-2015"]},
+        {"name":"endDate", "defaultValue":["defaultValue"]},
+        {"name":"locations","defaultValue":[]},
+        {"name":"startAge", "defaultValue":[]},
+        {"name":"endAge", "defaultValue":[]},
+        {"name":"gender", "defaultValue":[]},
+        {
+            "name": "groupByLocation",
+            "defaultValue": [
+                {
+                    "label": "location",
+                    "expression": "t1.location_id"
+                }
+            ]
+        }
+    ],
+    "filters": [
+        {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
+        {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
+        {"expression":"t1.location_id in ?", "parameter":"locations"},
+        {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) >= ?", "parameter":"startAge"},
+        {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) <= ?", "parameter":"endAge"},
+        {"expression":"t5.gender in ?", "parameter":"gender"}
+    ],
+    "groupClause":[
+        {"parameter":"groupByLocation"}
+    ],
+    "indicators": [
+      {
+          "label":"on_arvs",
+          "expression":"on_arvs",
+          "sql":"count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+          "label":"patients",
+          "expression":"patients",
+          "sql":"count(distinct t1.person_id)"
+      },
+      {
+          "label":"total_with_vl",
+          "expression":"total_with_vl",
+          "sql":"count(if($expression, t1.person_id, null))"
+      },
+      {
+          "label":"num_with_two_vls_past_year",
+          "expression":"num_with_two_vls_past_year",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"second_vl_gt_one_yo",
+          "expression":"second_vl_gt_one_yo",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"last_vl_undetected",
+          "expression":"last_vl_undetected",
+          "sql":"count(if($expression ,1,null))"
+      },
+      {
+          "label":"last_vl_unsuppressed",
+          "expression":"last_vl_unsuppressed",
+          "sql":"count(if($expression ,1,null))"
+      },
+      {
+          "label":"last_vl_suppressed",
+          "expression":"last_vl_suppressed",
+          "sql":"count(if(timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 < 1000,1,null))"
+      },
+      {
+          "label":"perc_suppressed",
+          "expression":"perc_suppressed",
+          "sql":"100*[last_vl_suppressed] /[total_with_vl]"
+      },
+      {
+          "label":"one_vl_unsuppressed",
+          "expression":"one_vl_unsuppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"one_vl_suppressed",
+          "expression":"one_vl_suppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"avg_time_since_last_unsuppressed_vl_one_vl",
+          "expression":"avg_time_since_last_unsuppressed_vl_one_vl",
+          "sql":"avg(if($expression,timestampdiff(day,vl_1_date,now()),null))"
+      },
+      {
+          "label":"total_with_two_vls",
+          "expression":"total_with_two_vls",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"init_vl_unsuppressed_follow_up_unsuppressed",
+          "expression":"init_vl_unsuppressed_follow_up_unsuppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"follow_up_suppressed",
+          "expression":"follow_up_suppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"perc_fu_suppressed",
+          "expression":"perc_fu_suppressed",
+          "sql":" [follow_up_suppressed]/[total_with_two_vls]"
+      },
+      {
+          "label":"avg_length_btwn_vls_first_unsuppressed",
+          "expression":"avg_length_btwn_vls_first_unsuppressed",
+          "sql":"avg(if($expression,timestampdiff(day,vl_2_date,vl_1_date),null))"
+      },
+      {
+          "label":"days_since_last_vl_first_unsuppressed",
+          "expression":"days_since_last_vl_first_unsuppressed",
+          "sql":"avg(if($expression, timestampdiff(day,vl_1_date,now()),null))"
+      },
+      {
+          "label":"no_switch_after_unsuppressed",
+          "expression":"no_switch_after_unsuppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"switch_after_unsuppressed",
+          "expression":"switch_after_unsuppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"no_switch_after_unsuppressed_x1",
+          "expression":"no_switch_after_unsuppressed_x1",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"switch_after_unsuppressed_x1",
+          "expression":"switch_after_unsuppressed_x1",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"switch_after_unsuppressed_x_2",
+          "expression":"switch_after_unsuppressed_x_2",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"no_switch_after_unsuppressed_x_2",
+          "expression":"no_switch_after_unsuppressed_x_2",
+          "sql":"count(if($expression,1,null)) "
+      },
+      {
+          "label":"avg_time_to_switch_after_unsuppressed",
+          "expression":"avg_time_to_switch_after_unsuppressed",
+          "sql":"avg(if($expression,timestampdiff(day,vl_1_date,arv_start_date),null))"
+      },
+      {
+          "label":"avg_time_to_switch_after_unsuppressed_x2",
+          "expression":"avg_time_to_switch_after_unsuppressed_x2",
+          "sql":"avg(if(arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366 and vl_2 > 1000 and timestampdiff(day,vl_2_date,now()) <= 366,timestampdiff(day,vl_1_date,arv_start_date),null))"
+      },
+      {
+          "label":"avg_days_to_switch_after_unsuppressed",
+          "expression":"avg_days_to_switch_after_unsuppressed",
+          "sql":"avg(if($expression,timestampdiff(day,vl_1_date,arv_start_date),null))"
+      },
+      {
+          "label":"num_with_vl_after_switch",
+          "expression":"num_with_vl_after_switch",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"num_with_vl_after_switch_suppressed",
+          "expression":"num_with_vl_after_switch_suppressed",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"num_with_vl_after_switch_unsuppressed",
+          "expression":"num_with_vl_after_switch_unsuppressed",
+          "sql":"count(if($expression,1,null))"
+      }
+    ],
+    "supplementColumns":[
+        {
+            "label":"location",
+            "type":"single",
+            "sql":"t2.name"
+        }
+    ],
+    "indicatorHandlers":[
+
+    ]
+
+
+}
+]
