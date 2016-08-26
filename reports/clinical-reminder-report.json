@@ -1,8 +1,9 @@
    [
        {
         "name": "clinical-reminder-report",
-           "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+           "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1", "indexExpression":"FORCE INDEX (enc_date_location)"},
            "joins":[
+             {"joinType":"LEFT OUTER JOIN","schema":"etl","tableName":"flat_labs_and_imaging","alias":"t2","joinExpression":"date(t1.encounter_datetime) = date(t2.test_datetime)"}
            ],
            "parameters": [
                {"name":"patientUuid", "defaultValue":[]},
