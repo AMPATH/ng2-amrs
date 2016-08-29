@@ -21,7 +21,15 @@
         "tableName": "patient_identifier",
         "alias": "t3",
         "joinExpression": "t1.person_id  = t3.patient_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t4",
+        "joinExpression": "t1.person_id  = t4.person_id"
       }
+
     ],
     "parameters": [
       {
@@ -101,6 +109,16 @@
         "label": "identifiers",
         "type": "single",
         "sql": "group_concat(distinct t3.identifier)"
+      },
+      {
+        "label": "gender",
+        "type": "single",
+        "sql": "t4.gender"
+      },
+      {
+        "label": "age",
+        "type": "single",
+        "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
       }
     ]
   },
@@ -126,6 +144,13 @@
         "tableName": "patient_identifier",
         "alias": "t3",
         "joinExpression": "t1.person_id  = t3.patient_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t4",
+        "joinExpression": "t1.person_id  = t4.person_id"
       }
     ],
     "parameters": [
@@ -206,6 +231,16 @@
         "label": "identifiers",
         "type": "single",
         "sql": "group_concat(distinct t3.identifier)"
+      },
+      {
+        "label": "gender",
+        "type": "single",
+        "sql": "t4.gender"
+      },
+      {
+        "label": "age",
+        "type": "single",
+        "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
       }
     ]
   },
@@ -238,6 +273,13 @@
         "tableName": "patient_identifier",
         "alias": "t4",
         "joinExpression": "t3.person_id  = t4.patient_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t5",
+        "joinExpression": "t1.person_id  = t5.person_id"
       }
     ],
     "parameters": [
@@ -332,6 +374,16 @@
         "label": "identifiers",
         "type": "single",
         "sql": "group_concat(distinct t4.identifier)"
+      },
+      {
+        "label": "gender",
+        "type": "single",
+        "sql": "t5.gender"
+      },
+      {
+        "label": "age",
+        "type": "single",
+        "sql": "extract(year from (from_days(datediff(now(),t5.birthdate))))"
       }
     ]
   }
