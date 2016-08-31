@@ -11,7 +11,6 @@ module.exports = function () {
         if(request.headers.authorization) {
             var header =request.headers.authorization;
             var authBuffer=header.replace('Basic ','');
-            console.log(authBuffer);
             cache.encriptKey(authBuffer, function (hash) {
                 cache.removeFromCache(hash);
                 callback('user session was invalidated successfully in etl server');
