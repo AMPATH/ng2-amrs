@@ -19,7 +19,6 @@ var HapiSwagger = require('hapi-swagger');
 var Pack = require('./package');
 var hapiAuthorization = require('hapi-authorization');
 var authorizer = require('./authorization/etl-authorizer');
-var user = '';
 var cluster = require('cluster');
 var os = require('os');
 var locationAuthorizer = require('./authorization/location-authorizer.plugin');
@@ -52,64 +51,73 @@ server.connection({
 var pool = mysql.createPool(config.mysql);
 
 var validate = function (username, password, callback) {
-
-    //Openmrs context
-    var openmrsAppName = config.openmrs.applicationName || 'amrs';
-    var authBuffer = new Buffer(username + ":" + password).toString("base64");
-    var options = {
-        hostname: config.openmrs.host,
-        port: config.openmrs.port,
-        path: '/' + openmrsAppName + '/ws/rest/v1/session',
-        headers: {
-            'Authorization': "Basic " + authBuffer
-        }
-    };
-    var key = '';
-    cache.encriptKey(authBuffer, function (hash) {
-        key = hash;
-        if (cache.getFromToCache(key) === null) {
-            if (config.openmrs.https) {
-                https = require('https');
+    try {
+        //Openmrs context
+        var openmrsAppName = config.openmrs.applicationName || 'amrs';
+        var authBuffer = new Buffer(username + ":" + password).toString("base64");
+        var options = {
+            hostname: config.openmrs.host,
+            port: config.openmrs.port,
+            path: '/' + openmrsAppName + '/ws/rest/v1/session',
+            headers: {
+                'Authorization': "Basic " + authBuffer
             }
-            https.get(options, function (res) {
-                var body = '';
-                res.on('data', function (chunk) {
-                    body += chunk;
-                });
-                res.on('end', function () {
-                    var result = JSON.parse(body);
-                    user = result.user.username;
-                    authorizer.setUser(result.user);
-                    authorizer.getUserAuthorizedLocations(result.user.userProperties, function (authorizedLocations) {
-                        var currentUser = {
-                            username: username,
-                            role: authorizer.isSuperUser() ?
-                                authorizer.getAllPrivilegesArray() : authorizer.getCurrentUserPreviliges(),
-                            authorizedLocations: authorizedLocations
-                        };
-                        cache.saveToCache(key, {
-                            result: result,
-                            currentUser: currentUser
-                        });
-                        callback(null, result.authenticated, currentUser);
+        };
+        var key = '';
+        cache.encriptKey(authBuffer, function (hash) {
+            key = hash;
+            if (cache.getFromToCache(key) === null) {
+                if (config.openmrs.https) {
+                    https = require('https');
+                }
+                https.get(options, function (res) {
+                    var body = '';
+                    res.on('data', function (chunk) {
+                        body += chunk;
                     });
+                    res.on('end', function () {
+                        var result = JSON.parse(body);
+                        if (result.authenticated === true) {
+                            var user = result.user.username;
+                            authorizer.setUser(result.user);
+                            authorizer.getUserAuthorizedLocations(result.user.userProperties, function (authorizedLocations) {
+                                var currentUser = {
+                                    username: username,
+                                    role: authorizer.isSuperUser() ?
+                                        authorizer.getAllPrivilegesArray() : authorizer.getCurrentUserPreviliges(),
+                                    authorizedLocations: authorizedLocations
+                                };
+                                cache.saveToCache(key, {
+                                    result: result,
+                                    currentUser: currentUser
+                                });
+                                callback(null, result.authenticated, currentUser);
+                            });
+                        } else {
+                            console.log('An error occurred while trying to validate; user is not authenticated');
+                            callback(null, false);
+                        }
+                    });
+                }).on('error', function (error) {
+                    //console.log(error);
+                    callback(null, false);
                 });
-            }).on('error', function (error) {
-                //console.log(error);
-                callback(null, false);
-            });
-        } else {
-            var cached = cache.getFromToCache(key);
-            authorizer.setUser(cached.result.user);
-            cache.saveToCache(key, {
-                result: cached.result,
-                currentUser: cached.currentUser
-            });
-            callback(null, cached.result.authenticated, cached.currentUser);
-        }
-    }, function () {
+            } else {
+                var cached = cache.getFromToCache(key);
+                authorizer.setUser(cached.result.user);
+                cache.saveToCache(key, {
+                    result: cached.result,
+                    currentUser: cached.currentUser
+                });
+                callback(null, cached.result.authenticated, cached.currentUser);
+            }
+        }, function () {
+            callback(null, false);
+        });
+    } catch (ex){
+        console.log('An error occurred while trying to validate',ex);
         callback(null, false);
-    });
+    }
 };
 
 var HapiSwaggerOptions = {
@@ -175,6 +183,9 @@ server.register([
             if (request.response === undefined || request.response === null) {
                 console.log("No response");
             } else {
+                var user = '';
+                if (request.auth && request.auth.credentials)
+                    user = request.auth.credentials.username;
                 console.log(
                     'Username:',
                     user + '\n' +
@@ -182,8 +193,7 @@ server.register([
                 );
 
             }
-
-        })
+        });
 
 
         server.ext('onPreResponse', corsHeaders);
