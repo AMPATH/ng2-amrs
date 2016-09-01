@@ -222,7 +222,7 @@ module.exports = function() {
     var periodTo = request.query.endDate || new Date().toISOString().substring(0, 10);
     var order =  helpers.getSortOrder(request.query.order);
     var queryParts = {
-      columns: "distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name",
+      columns: "distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name, t4.gender, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age",
       table: "amrs.patient",
       where: ["t2.location_id = ? AND date_format(t1.date_created,'%Y-%m-%d') between date_format(?,'%Y-%m-%d') AND date_format(?,'%Y-%m-%d')", location, periodFrom, periodTo],
       order: order || [{
@@ -264,7 +264,7 @@ module.exports = function() {
     //build report
     reportFactory.buildPatientListExpression(queryParams, function(exprResult) {
       var queryParts = {
-        columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
+        columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age, t4.gender",
         concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name; " +
           "group_concat(distinct t3.identifier separator ', ') as identifiers",
         table: exprResult.resource,
@@ -321,7 +321,7 @@ module.exports = function() {
     //build report
     reportFactory.buildPatientListExpression(queryParams, function(exprResult) {
       var queryParts = {
-        columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid",
+        columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age, t4.gender",
         concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name; " +
           "group_concat(distinct t3.identifier separator ', ') as identifiers",
         table: 'etl.flat_hiv_summary',
