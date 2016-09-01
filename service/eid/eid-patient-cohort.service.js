@@ -17,19 +17,26 @@ function synchronizePatientCohort(patientUuIdCohort,reply) {
     success: [],
     fail:  []
   }
-
+  
   Promise.reduce(patientUuIdCohort, function(previous, patientUuId) {
 
     return syncService.getSynchronizedPatientLabResults(patientUuId)
       .then(function(response) {
         etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('%s successfully syncd', response.uuid);
-        responses.success.push(response);
+
+        _.each(response.data, function(row) {
+          responses.success.push(row);
+        });
+
+        _.each(response.errors, function(error) {
+          responses.fail.push(error);
+          etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).error('sync failure: %s', error.message);
+        });
+
         return response;
       })
-      .catch(function(error) {
-        responses.fail.push(error);
-        etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).error('sync failure: %s', error.message);
-         return error;
+      .catch(function(errors) {
+         return errors;
       });
   }, 0)
     .then(function(data) {

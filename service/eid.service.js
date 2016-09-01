@@ -34,20 +34,15 @@ function listReachableServers() {
 
   var protomatch = /^(https?):\/\//;
 
-  var ips = [
-    {
-      name: 'ampath',
-      ip: config.eid.host.ampath.replace(protomatch, '')
-    },
-    {
-      name: 'alupe',
-      ip: config.eid.host.alupe.replace(protomatch, '')
-    }
-  ];
+  var locations = config.eid.locations;
+
+  _.each(locations, function(location) {
+    location.ip = location.host.replace(protomatch, '');
+  });
 
   var reachable_servers = [];
 
-  return Promise.reduce(ips, function(previous, row) {
+  return Promise.reduce(locations, function(previous, row) {
 
     return new Promise(function(resolve, reject) {
       isReachable(row.ip, function(err, reachable) {
@@ -60,13 +55,37 @@ function listReachableServers() {
 
 function getSynchronizedPatientLabResults(patientUuId) {
 
+  var results = {
+    data: [],
+    errors: []
+  }
+
   return listReachableServers()
     .then(function(reachable) {
       return Promise.reduce(reachable, function(previous, row) {
 
-        return _getSynchronizedPatientLabResults(row, patientUuId);
+        return _getSynchronizedPatientLabResults(row, patientUuId)
+          .then(function(obj) {
+            results.data.push(obj);
 
-      }, 0);
+            return new Promise(function(resolve, reject) {
+              resolve(results);
+            })
+          })
+          .catch(function(error) {
+
+            //catch errors and continue
+            results.errors.push(error);
+            return new Promise(function(resolve, reject) {
+              resolve(results);
+            })
+          });
+      }, 0)
+        .then(function(data) {
+          return new Promise(function(resolve, reject) {
+            resolve(results);
+          });
+        })
     });
 }
 
@@ -80,6 +99,7 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
       person_uuid: patientUuId,
       date_updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
       date_created: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+      site: server.name
     }
   ];
 
@@ -108,7 +128,8 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
 
       return new Promise(function(resolve, reject) {
         resolve({
-          uuid: patientUuId
+          uuid: patientUuId,
+          site: server.name
         });
       });
     }).catch(function(err) {
@@ -133,13 +154,15 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
           .then(function(resp) {
             reject({
               uuid: patientUuId,
-              message: err_msg
+              message: err_msg,
+              site: server.name
             });
           })
           .catch(function(err) {
             reject({
               uuid: patientUuId,
-              message: err_msg
+              message: err_msg,
+              site: server.name
             });
           });
       });
@@ -154,33 +177,10 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
     cd4Panel: []
   }
 
-  var conf = {};
-
-  switch(server.name) {
-    case 'ampath':
-      conf = {
-        location_name: 'ampath',
-        host: config.eid.host.ampath,
-        generalApiKey: config.eid.ampath.generalApiKey,
-        cd4ApiKey: config.eid.ampath.cd4ApiKey,
-        loadCd4: true
-      };
-      break;
-    case 'alupe':
-      conf = {
-        location_name: 'alupe',
-        host: config.eid.host.alupe,
-        generalApiKey: config.eid.alupe.generalApiKey,
-        cd4ApiKey: config.eid.alupe.cd4ApiKey
-      }
-      break;
-  }
-
+  var conf = server;
 
   results[server.name] = {};
   var location_name = server.name;
-
-
 
   return new Promise(function(resolve, reject) {
 
@@ -213,8 +213,8 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
         }
       })
       .then(function(response) {
-
         if(response.posts instanceof Array) {
+
           _.each(response.posts, function(row) {
             results.cd4Panel.push(row);
           });
