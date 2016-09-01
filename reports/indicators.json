@@ -1107,140 +1107,194 @@
     {
         "name":"total_with_vl",
         "label":"total with vl",
-        "description": "Total # of patients with vl",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366"
+        "description": "The number of patients who have at least one viral load resulted within 366 days of the end_date (can be more than 1 year",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 AND TIMESTAMPDIFF(DAY, vl_2_date, endDate) <= 366"
     },
     {
         "name":"num_with_two_vls_past_year",
         "label":"num with two vls past year",
-        "description": "Total # of patients with 2 vls in last year",
-        "expression": "timestampdiff(day,t1.vl_1_date,now()) <= 366 and timestampdiff(day,t1.vl_2_date,now()) <= 366"
+        "description": "The number of patients who have two viral load results within 366 days of end_date",
+        "expression": "timestampdiff(day,t1.vl_1_date,endDate) <= 366 and timestampdiff(day,t1.vl_2_date,endDate) <= 366"
+    },
+    {
+        "name":"num_with_only_one_vl_past_year",
+        "label":"num with only one vl past year",
+        "description": "the number of patients who have only one viral in the past year and no other viral load in past year",
+        "expression": "timestampdiff(day,t1.vl_1_date,endDate) <= 366 and timestampdiff(day,t1.vl_2_date,endDate) <= 366"
     },
     {
         "name":"second_vl_gt_one_yo",
         "label":"second vl gt one year",
-        "description": "Total # of patients with second vl gt one year",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and timestampdiff(day,vl_2_date,now()) > 366"
+        "description": "The number of patients who only have a single viral load resulted within 366 days of end_date and another viral load older than one year from year from end_date",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and timestampdiff(day,vl_2_date,endDate) > 366"
     },
     {
         "name":"last_vl_undetected",
         "label":"last vl undetected",
         "description": "Total # of patients with last vl undetected",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 = 0"
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and vl_1 = 0"
     },
     {
         "name":"last_vl_unsuppressed",
         "label":"last vl unsuppressed",
-        "description": "Total # of patients with last vl unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 >= 1000"
+        "description": "Total  # of patients which have a VL in past year which was unsuppressed.",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and vl_1 >= 1000"
     },
     {
         "name":"last_vl_suppressed",
         "label":"last vl suppressed",
-        "description": "Total # of patients with last vl suppressed",
-        "expression": "count(if(timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 < 1000,1,null))"
+        "description": "Total # of patients which have a VL in past year which was unsuppressed",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and vl_1 < 1000"
     },
     {
-        "name":"perc_suppressed",
-        "label":"perc suppressed",
-        "description": "% suppressed",
+        "name":"perc_unsuppressed",
+        "label":"perc unsuppressed",
+        "description": "The number of patients with a unsuppressed viral load within 1 year from end date divided by the number of patients with a viral load within 1 year of end date",
         "expression": ""
     },
     {
         "name":"one_vl_unsuppressed",
         "label":"one vl unsuppressed",
-        "description": "Total # of patients with one vl unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,now()) > 366) and vl_1 >= 1000"
+        "description": "The number of patients with a single vl within one year of end_date and that vl >= 1000",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,endDate) > 366) and vl_1 >= 1000"
     },
     {
         "name":"one_vl_suppressed",
         "label":"one vl suppressed",
-        "description": "Total # of patients with one vl suppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,now()) > 366) and vl_1 < 1000"
+        "description": "The number of patients with a single vl within one year of end_date and that VL < 1000",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,endDate) > 366) and vl_1 < 1000"
+    },
+    {
+        "name":"num_requiring_followup_vl",
+        "label":"num requiring followup vl",
+        "description": "The number of patients with viral load in the past year in which the VL >= 1000 and it’s been more than 90 days between that VL and end_date.",
+        "expression": "timestampdiff(day,vl_2_date,endDate) <= 366 AND vl_2 >1000 || (timestampdiff(day,vl_1_date,endDate) <= 366 AND vl_1 > 1000 AND timestampdiff(day,vl_1_date,endDate) > 90 AND (vl_2 is null or vl_2_date > 1 ))"
+    },
+    {
+        "name":"getting_followup_vl",
+        "label":"getting followup vl",
+        "description": "Number of patients who got a follow-up viral load who needed one",
+        "expression": "TIMESTAMPDIFF(DAY, vl_2_date,endDate) <= 366 AND vl_2 > 1000"
+    },
+    {
+        "name":"getting_followup_vl_180_days",
+        "label":"getting followup vl",
+        "description": "Number of patients who got a follow-up viral load who needed one and the follow up is within 180 days",
+        "expression": "TIMESTAMPDIFF(DAY, vl_2_date,endDate) <= 366 AND vl_2 > 1000 AND TIMESTAMPDIFF(DAY, vl_1_date,endDate) <= 180"
+    },
+    {
+        "name":"perc_getting_followup_vl",
+        "label":"perc getting followup vl",
+        "description": "The numerator is number of patients who got a follow-up viral load who needed one. The denominator is the number of patients who required a follow-up (num_requiring_followup_vl)",
+        "expression": ""
+    },
+    {
+        "name":"perc_getting_followup_vl_180_days",
+        "label":"perc getting followup vl 180 days",
+        "description": "The numerator is number of patients who got a follow-up viral load within 180 days who needed one. The denominator is the number of patients who required a follow-up (num_requiring_followup_vl)",
+        "expression": ""
+    },
+    {
+        "name":"one_vl_unsuppressed_gt_90_days",
+        "label":"one vl unsuppressed gt 90 days",
+        "description": "The number of patients who have a single viral load in the past year which is >= 1000 and the difference between end_date and the vl date is > 90 days",
+        "expression": "TIMESTAMPDIFF(DAY, vl_1_date, endDate) <= 366  AND (vl_2 IS NULL  OR TIMESTAMPDIFF(DAY, vl_2_date, endDate > 366)  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, endDate > 90"
+    },
+    {
+        "name":"one_vl_unsuppressed_gt_180_days",
+        "label":"one vl unsuppressed gt 180 days",
+        "description": "The number of patients who have a single viral load in the past year which is >= 1000 and the difference between end_date and the vl date is > 180 days",
+        "expression": "TIMESTAMPDIFF(DAY, vl_1_date, endDate) <= 366  AND (vl_2 IS NULL  OR TIMESTAMPDIFF(DAY, vl_2_date, endDate > 366)  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, endDate > 180"
     },
     {
         "name":"avg_time_since_last_unsuppressed_vl_one_vl",
         "label":"avg time since last unsuppressed vl one vl",
         "description": "Avg time since last unsuppressed vl one vl",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 > 1000 and (vl_2 is null or timestampdiff(day,vl_2_date,now()) > 366)"
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and vl_1 > 1000 and (vl_2 is null or timestampdiff(day,vl_2_date,endDate) > 366)"
     },
     {
         "name":"total_with_two_vls",
         "label":"total with two vls",
-        "description": "Total # of patients with 2 vls",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and timestampdiff(day,vl_2_date,now()) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+        "description": "Total # of patients with two vls within one year of end_date.",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and timestampdiff(day,vl_2_date,endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
     },
     {
         "name":"init_vl_unsuppressed_follow_up_unsuppressed",
         "label":"init vl unsuppressed follow up unsuppressed",
-        "description": "Total # of patients init_vl_unsuppressed_follow_up_unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,now()) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+        "description": "Total #  of patients with an initial viral load >= 1000 with a follow-up viral load >= 1000 where both viral loads are within one year of end_date",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
     },
     {
         "name":"follow_up_suppressed",
         "label":"follow up suppressed",
-        "description": "Total # of patients follow up suppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,now()) <= 366 and vl_2 < 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+        "description": "Total # of patients with an initial viral load >= 1000 with a follow-up viral load < 1000 where both viral loads are within one year of end_date",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,endDate) <= 366 and vl_2 < 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
     },
     {
         "name":"perc_fu_suppressed",
         "label":"perc fu suppressed",
-        "description": "% follow up suppressed",
+        "description": "Of the cohort of patients with a VL >= 1000, what percentage have a follow-up that is suppressed. The denominator is all the patients with a VL >= 1000 within one year of end_date AND have a follow-up viral load within 1 year of end date",
         "expression": ""
     },
     {
         "name":"avg_length_btwn_vls_first_unsuppressed",
         "label":"avg length btwn vls first unsuppressed",
-        "description": "avg length btwn vls first unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and timestampdiff(day,vl_2_date,now()) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+        "description": "For patients with an initial VL >= 1000 within 1 year of end_date, the average number of days until a follow-up viral load was ordered.",
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and timestampdiff(day,vl_2_date,endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
     },
     {
         "name":"days_since_last_vl_first_unsuppressed",
         "label":"days since last vl first unsuppressed",
         "description": "avg days since last vl first unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,now()) <= 366 and timestampdiff(day,vl_2_date,now()) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+        "expression": "timestampdiff(day,vl_1_date,endDate) <= 366 and timestampdiff(day,vl_2_date,endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
     },
     {
         "name":"no_switch_after_unsuppressed",
         "label":"no switch after unsuppressed",
-        "description": "# of patient with no switch after unsuppressed",
-        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366"
+        "description": "# The number of patients switched to new regiment after the previous vl vl >= 1000",
+        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366"
     },
     {
         "name":"switch_after_unsuppressed",
         "label":"switch after unsuppressed",
         "description": "# of patients  with switch after unsuppressed",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366"
+        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366"
     },
     {
         "name":"no_switch_after_unsuppressed_x1",
         "label":"no switch after unsuppressed x1",
-        "description": "# of patient s with no switch after unsuppressed x1",
-        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,now()) <= 366)"
+        "description": "# The number of patients remaining on same regimen after the previous vl >= 1000",
+        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,endDate) <= 366)"
     },
     {
         "name":"switch_after_unsuppressed_x1",
         "label":"switch after unsuppressed x1",
-        "description": "# of patient s with  switch after unsuppressed x1",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,now()) <= 366)"
+        "description": "# of patients switched to new regimen after a single, unsuppressed VL in past year",
+        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,endDate) <= 366)"
     },
     {
         "name":"no_switch_after_unsuppressed_x_2",
         "label":"no switch after unsuppressed x2",
-        "description": "# of patients with  no switch after unsuppressed x2",
-        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,now()) <= 366"
+        "description": "# of patients not switched to new regimen after two unsuppressed VLs in past year",
+        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,endDate) <= 366"
     },
     {
         "name":"switch_after_unsuppressed_x_2",
         "label":"switch after unsuppressed x 2",
-        "description": "# of patient s with  switch after unsuppressed x2",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,now()) <= 366)"
+        "description": "# of patients switched to new regimen after two unsuppressed VLs in past year",
+        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,endDate) <= 366)"
     },
     {
         "name":"avg_time_to_switch_after_unsuppressed",
         "label":"avg time to switch after unsuppressed",
-        "description": "avg time to switch after unsuppressed",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366"
+        "description": "Average time to switch a patient to a new regimen after an unsuppressed viral load",
+        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,endDate) <= 366"
+    },
+    {
+        "name":"avg_time_to_switch_after_unsuppressed_x2",
+        "label":"avg time to switch after unsuppressed x2",
+        "description": "Average time to switch a patient to a new regimen after two two unsuppressed viral loads",
+        "expression": "arv_start_date > vl_1_date  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, NOW()) <= 366  AND vl_2 > 1000  AND TIMESTAMPDIFF(DAY, vl_2_date, NOW()) <= 366,  TIMESTAMPDIFF(DAY,vl_1_date,  arv_start_date)"
     },
     {
         "name":"avg_days_to_switch_after_unsuppressed",
@@ -1257,13 +1311,19 @@
     {
         "name":"num_with_vl_after_switch_suppressed",
         "label":"num with vl after switch suppressed",
-        "description": "# of patients with vl after switch suppressed",
+        "description": "# of patients with suppressed follow-up viral load after a regiment switch",
         "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date and vl_1 < 1000"
     },
     {
         "name":"num_with_vl_after_switch_unsuppressed",
         "label":"num with vl after switch unsuppressed",
-        "description": "# of patients with vl after switch unsuppressed",
+        "description": "# of patients with unsuppressed follow-up viral load after a regimen switch",
         "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date and vl_1 >= 1000"
+    },
+    {
+        "name":"perc_switched_with_suppressed_fu",
+        "label":"perc switched with suppressed fu",
+        "description": "% of patients switched with suppressed f/u VL",
+        "expression": ""
     }
 ]

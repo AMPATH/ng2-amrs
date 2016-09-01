@@ -23,12 +23,14 @@
         }
     ],
     "filters": [
-        {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
-        {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
         {"expression":"t1.location_id in ?", "parameter":"locations"},
         {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) >= ?", "parameter":"startAge"},
         {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) <= ?", "parameter":"endAge"},
-        {"expression":"t5.gender in ?", "parameter":"gender"}
+        {"expression":"t5.gender in ?", "parameter":"gender"},
+        {"expression":"t1.out_of_care IS NULL", "processForce":true},
+        {"expression":"t1.death_date IS NULL", "processForce":true},
+        {"expression":"TIMESTAMPDIFF(DAY,  IF(t1.encounter_type = 21,  t1.prev_clinical_datetime_hiv,  t1.encounter_datetime),?) < 366", "parameter":"endDate"},
+        {"expression":"(next_encounter_datetime_hiv is null or next_encounter_datetime_hiv >= ?)", "parameter":"endDate"}
     ],
     "groupClause":[
         {"parameter":"groupByLocation"}
@@ -75,9 +77,9 @@
           "sql":"count(if(timestampdiff(day,vl_1_date,now()) <= 366 and vl_1 < 1000,1,null))"
       },
       {
-          "label":"perc_suppressed",
-          "expression":"perc_suppressed",
-          "sql":"100*[last_vl_suppressed] /[total_with_vl]"
+          "label":"perc_unsuppressed",
+          "expression":"perc_unsuppressed",
+          "sql":"100*[last_vl_unsuppressed] /[total_with_vl]"
       },
       {
           "label":"one_vl_unsuppressed",
@@ -110,9 +112,39 @@
           "sql":"count(if($expression,1,null))"
       },
       {
+          "label":"num_requiring_followup_vl",
+          "expression":"num_requiring_followup_vl",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"getting_followup_vl",
+          "expression":"getting_followup_vl",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"getting_followup_vl_180_days",
+          "expression":"getting_followup_vl_180_days",
+          "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"perc_getting_followup_vl_180_days",
+          "expression":"perc_getting_followup_vl_180_days",
+          "sql":"[getting_followup_vl_180_days]/[num_requiring_followup_vl]"
+      },
+      {
+          "label":"perc_getting_followup_vl",
+          "expression":"perc_getting_followup_vl",
+          "sql":"[getting_followup_vl]/[num_requiring_followup_vl]"
+      },
+      {
           "label":"perc_fu_suppressed",
           "expression":"perc_fu_suppressed",
           "sql":" [follow_up_suppressed]/[total_with_two_vls]"
+      },
+      {
+          "label":"avg_length_btwn_vls_first_unsuppressed",
+          "expression":"avg_length_btwn_vls_first_unsuppressed",
+          "sql":"avg(if($expression,timestampdiff(day,vl_2_date,vl_1_date),null))"
       },
       {
           "label":"avg_length_btwn_vls_first_unsuppressed",
@@ -162,7 +194,7 @@
       {
           "label":"avg_time_to_switch_after_unsuppressed_x2",
           "expression":"avg_time_to_switch_after_unsuppressed_x2",
-          "sql":"avg(if(arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,now()) <= 366 and vl_2 > 1000 and timestampdiff(day,vl_2_date,now()) <= 366,timestampdiff(day,vl_1_date,arv_start_date),null))"
+          "sql":"AVG(IF(arv_start_date > vl_1_date  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, NOW()) <= 366  AND vl_2 > 1000  AND TIMESTAMPDIFF(DAY, vl_2_date, NOW()) <= 366,  TIMESTAMPDIFF(DAY,vl_1_date,  arv_start_date),  NULL))"
       },
       {
           "label":"avg_days_to_switch_after_unsuppressed",
@@ -183,7 +215,13 @@
           "label":"num_with_vl_after_switch_unsuppressed",
           "expression":"num_with_vl_after_switch_unsuppressed",
           "sql":"count(if($expression,1,null))"
+      },
+      {
+          "label":"perc_switched_with_suppressed_fu",
+          "expression":"perc_switched_with_suppressed_fu",
+          "sql":"[num_with_vl_after_switch_suppressed]/[total_with_two_vls]"
       }
+
     ],
     "supplementColumns":[
         {
