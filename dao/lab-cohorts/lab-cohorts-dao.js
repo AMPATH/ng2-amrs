@@ -51,9 +51,14 @@ function syncLabCohorts(request, reply) {
     offset: offset
   };
 
-  etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('Starting Patient Sync...');
+  var responses = {
+    success: [],
+    fail:  []
+  };
+
+  etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('starting patient sync..');
   //load uuids and loop through them
-  sync(params,reply);
+  sync(params, responses, reply);
 }
 
 /*
@@ -89,11 +94,11 @@ function load(startDate, endDate, limit, offset) {
  * Loads records from db and posts them to the sync function.
  * Calls itself until all db records are syncd
  */
-function sync(params, reply) {
+function sync(params, responses, reply) {
 
   var limit = params.limit;
 
-  etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('Loading db data: params: '+ JSON.stringify(params));
+  etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('Loading db data: params: ' + JSON.stringify(params));
 
   load(params.startDate, params.endDate, limit, params.offset)
     .then(function(data) {
@@ -101,26 +106,46 @@ function sync(params, reply) {
       var size = data.size;
       var offset = data.startIndex;
 
-      if(size > 0)
-        return post(data).then(function(post_status) {
+      if(size > 0) {
 
-          if(size == limit) {
+        etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('posting %d uuids to the sync processor', size);
 
-            offset += size;
-            params.offset = offset;
-            //repeat sync until there are no more records to load from db
-            sync(params, reply);
+        return post(data)
+          .then(function(post_data) {
 
-          } else {
-            reply({
-              status: "success"
-            });
-          }
+            if(typeof post_data === 'object') {
+
+              if(post_data.success)
+                _.each(post_data.success, function(row) {
+                  responses.success.push(row);
+                });
+
+              if(post_data.fail)
+                _.each(post_data.fail, function(row) {
+                  responses.fail.push(row);
+                });
+            }
+
+            if(size == limit) {
+
+              offset += size;
+              params.offset = offset;
+              //repeat sync until there are no more records to load from db
+              sync(params, responses, reply);
+
+            } else {
+              reply({
+                status: "success",
+                response: responses
+              });
+            }
         });
+      }
       else {
 
         reply({
-          status: "success"
+          status: "success",
+          message: "there are no uuid's to sync"
         });
       }
     }).catch(function(err) {
@@ -146,7 +171,7 @@ function post(data) {
 
   return new Promise(function(resolve, reject) {
     eidPatientCohortService.synchronizePatientCohort(arr, function(res) {
-      etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('Sync Result: '+ res);
+      etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('sync result: %s', JSON.stringify(res));
       resolve(res);
     });
   });

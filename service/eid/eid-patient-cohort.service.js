@@ -1,26 +1,38 @@
 'use strict';
-var syncService=require('../eid.service');
-var _ = require('underscore');
-var Promise=require('bluebird');
-var moment=require('moment');
-var config=require('../../conf/config');
-var etlLogger = require('../../etl-file-logger');
-module.exports = function(){
-  function synchronizePatientCohort(patientUuIdCohort,reply){
-    Promise.reduce(patientUuIdCohort,function(previous,patientUuId){
-      return syncService.getSynchronizedPatientLabResults(patientUuId,function(){})
-      .then(function(response){
+var
+  syncService = require('../eid.service')
+  , _ = require('underscore')
+  , Promise = require('bluebird')
+  , moment = require('moment')
+  , config = require('../../conf/config')
+  , etlLogger = require('../../etl-file-logger');
+
+module.exports = {
+  synchronizePatientCohort: synchronizePatientCohort
+};
+
+function synchronizePatientCohort(patientUuIdCohort,reply) {
+
+  var responses = {
+    success: [],
+    fail:  []
+  }
+
+  Promise.reduce(patientUuIdCohort, function(previous, patientUuId) {
+
+    return syncService.getSynchronizedPatientLabResults(patientUuId)
+      .then(function(response) {
+        etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('%s successfully syncd', response.uuid);
+        responses.success.push(response);
         return response;
-      },function(error) {
-         etlLogger.logRequestError('SynchronizedPatientLabResults request error. Details:' + error,
-         config.logging.eidFile, config.logging.eidPath);
+      })
+      .catch(function(error) {
+        responses.fail.push(error);
+        etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).error('sync failure: %s', error.message);
          return error;
       });
-      },0).then(function(data){
-      reply("patient cohort synchronization completed");
+  }, 0)
+    .then(function(data) {
+      reply(responses);
     });
 }
-  return {
-    synchronizePatientCohort:synchronizePatientCohort
-  }
-}();
