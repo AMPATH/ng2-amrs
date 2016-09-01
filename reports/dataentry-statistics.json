@@ -445,6 +445,11 @@
             "sql":"t3.gender"
         },
         {
+            "label": "age",
+            "type": "single",
+            "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
+        },
+        {
             "label":"birthdate",
             "type":"single",
             "sql":"t3.birthdate"

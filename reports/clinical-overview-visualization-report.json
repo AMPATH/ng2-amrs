@@ -274,6 +274,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -291,7 +294,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"encounter_datetime >= enrollment_date and (coalesce(t1.death_date, out_of_care) is null)", "processForce":true}
         ],
@@ -323,6 +326,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -335,6 +348,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -352,7 +368,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"Timestampdiff(month, arv_start_date, encounter_datetime) >= 6 AND Timestampdiff(day, vl_1_date, encounter_datetime) < 365 AND (Coalesce(t1.death_date, out_of_care) IS NULL ) ", "processForce":true}
         ],
@@ -384,6 +400,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -396,6 +422,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -412,7 +441,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) <= 365 and (coalesce(t1.death_date, out_of_care) is null)", "processForce":true}
         ],
@@ -444,6 +473,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -456,6 +495,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -472,7 +514,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"encounter_datetime >= arv_start_date AND (Coalesce(t1.death_date, out_of_care) IS NULL)", "processForce":true}
         ],
@@ -504,6 +546,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -516,6 +568,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -532,7 +587,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"Timestampdiff(month, arv_start_date, encounter_datetime) >= 6 AND Timestampdiff(day, vl_1_date, encounter_datetime) <365 AND (Coalesce(t1.death_date, out_of_care) IS NULL) AND vl_1 < 1000", "processForce":true}
         ],
@@ -564,6 +619,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -576,6 +641,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -592,7 +660,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"Timestampdiff(month, arv_start_date, encounter_datetime) >= 6 AND Timestampdiff(day, vl_1_date, encounter_datetime) <365 AND (Coalesce(t1.death_date, out_of_care) IS NULL) AND vl_1 < 1000", "processForce":true}
         ],
@@ -624,6 +692,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -636,6 +714,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -652,7 +733,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"(encounter_datetime < arv_start_date  or arv_start_date is null)", "processForce":true}
         ],
@@ -684,6 +765,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -696,6 +787,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -712,7 +806,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date,encounter_datetime) > 365 or vl_1_date is null) and (coalesce(t1.death_date, out_of_care) is null)", "processForce":true}
         ],
@@ -744,6 +838,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -756,6 +860,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -772,7 +879,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, vl_1_date, encounter_datetime) < 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 >= 1000", "processForce":true}
         ],
@@ -804,6 +911,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     },
@@ -816,6 +933,9 @@
             },
             {
                 "joinType": "INNER JOIN", "schema": "amrs", "tableName": "patient_identifier", "alias": "t3", "joinExpression": "t1.person_id  = t3.patient_id"
+            },
+            {
+                "joinType": "INNER JOIN", "schema": "amrs",  "tableName": "person", "alias": "t4",  "joinExpression": "t1.person_id = t4.person_id"
             }
         ],
         "parameters": [
@@ -832,7 +952,7 @@
             {"expression":"t1.location_id in ?", "parameter":"locations"},
             {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-            {"expression":"coalesce(death_date, out_of_care) is null", "processForce":true},
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
             {"expression":"timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and (coalesce(t1.death_date, out_of_care) is null)", "processForce":true}
         ],
@@ -864,6 +984,16 @@
                 "label": "identifiers",
                 "type": "single",
                 "sql": "group_concat(distinct t3.identifier separator ', ')"
+            },
+            {
+                "label": "gender",
+                "type": "single",
+                "sql": "t4.gender"
+            },
+            {
+                "label": "age",
+                "type": "single",
+                "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
             }
         ]
     }
