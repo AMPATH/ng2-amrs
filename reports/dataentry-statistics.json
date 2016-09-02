@@ -447,7 +447,7 @@
         {
             "label": "age",
             "type": "single",
-            "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
+            "sql": "extract(year from (from_days(datediff(now(),t3.birthdate))))"
         },
         {
             "label":"birthdate",
