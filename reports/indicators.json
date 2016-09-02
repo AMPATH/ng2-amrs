@@ -55,6 +55,12 @@
         "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
     },
     {
+        "name": "vl_done_past_year_relative_to_end_date",
+        "label": "vl done past year relative to end date",
+        "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
+        "expression": "timestampdiff(week,vl_1_date,endDate) <= 52"
+    },
+    {
         "name":"no_vl_done_past_year",
         "label":"no vl done past year",
         "description": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
