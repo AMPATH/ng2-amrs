@@ -35,20 +35,20 @@ module.exports = function () {
                               })
                               .catch(function (error) {
                                   reject(error);
-                                  callback(Boom.badData(error));
+                                  callback(Boom.badData(error.message));
                               })
                       });
                   },
                   function (err) {
-                      callback(Boom.badData(err));
+                      callback(Boom.badData(err.message));
                   });
             } else {
 
-              callback(Boom.forbidden('Forbidden: An order with the same order number exists in the eid system'));
+              callback(Boom.badData('Forbidden: An order with the same order number exists in the eid system'));
             }
 
           }).catch(function(err) {
-            callback(Boom.badData(err));
+            callback(Boom.badData(err.message));
           });
     };
 
@@ -76,7 +76,7 @@ module.exports = function () {
           });
         });
     };
-    
+
     function loadOrderJustifications(request, reply) {
 
       var uuid = request.query.uuid;
