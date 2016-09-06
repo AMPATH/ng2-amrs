@@ -17,27 +17,66 @@ module.exports = function () {
 
         var rawPayload = JSON.parse(JSON.stringify(request.payload));
         var labName = request.params.lab;
+        var orderNumber = rawPayload.orderNumber;
 
-        eidService.generatePayload(rawPayload,
-            function (payload) {
-                var eidServer = eidService.getEidServerUrl(labName, rawPayload.type,'post');
-                return new Promise(function (resolve, reject) {
-                    rp.postRequestPromise(payload, eidServer.url)
-                        .then(function (response) {
-                            resolve(response);
-                            callback(payload);
-                        })
-                        .catch(function (error) {
-                            reject(error);
-                            callback(Boom.badData(error));
-                        })
-                });
-            },
-            function (err) {
-                callback(Boom.badData(err));
-            });
+        getEidOrder(labName, orderNumber)
+          .then(function(orders) {
+
+            if(orders.length == 0) {
+
+              eidService.generatePayload(rawPayload,
+                  function (payload) {
+                      var eidServer = eidService.getEidServerUrl(labName, rawPayload.type,'post');
+                      return new Promise(function (resolve, reject) {
+                          rp.postRequestPromise(payload, eidServer.url)
+                              .then(function (response) {
+                                  resolve(response);
+                                  callback(payload);
+                              })
+                              .catch(function (error) {
+                                  reject(error);
+                                  callback(Boom.badData(error));
+                              })
+                      });
+                  },
+                  function (err) {
+                      callback(Boom.badData(err));
+                  });
+            } else {
+
+              callback(Boom.forbidden('Forbidden: An order with the same order number exists in the eid system'));
+            }
+
+          }).catch(function(err) {
+            callback(Boom.badData(err));
+          });
     };
 
+    function getEidOrder(labName, orderNumber) {
+
+      var payload = {
+        "test" : 2,
+        "patientID[]" : '',
+        "location" : '',
+        "orderno[]" : orderNumber,
+        "DateDispatched" : ''
+      };
+
+      var eidServer = eidService.getEidServerUrl(labName, '', 'post');
+      payload.apikey = eidServer.apiKey;
+
+      return rp.getRequestPromise(payload, eidServer.url)
+        .then(function(response) {
+
+          return new Promise(function(resolve, reject) {
+            if(response && response.posts)
+              resolve(response.posts);
+            else
+              resolve([]);
+          });
+        });
+    };
+    
     function loadOrderJustifications(request, reply) {
 
       var uuid = request.query.uuid;
@@ -81,6 +120,7 @@ module.exports = function () {
 
     return {
         postLabOrderToEid: postLabOrderToEid,
-        loadOrderJustifications: loadOrderJustifications
+        loadOrderJustifications: loadOrderJustifications,
+        getEidOrder: getEidOrder
     }
 }();

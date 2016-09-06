@@ -44,7 +44,7 @@
                     "dateDrawn": rawPayload.dateDrawn,
                     "dateReceived": rawPayload.dateReceived,
                     "receivedStatus": 1,
-                    "sampletype": 3,
+                    "sampletype": rawPayload.sampleType ? rawPayload.sampleType : 3, //default to 3 to prevent code breaking
                     "artStartDateInitial": rawPayload.artStartDateInitial,
                     "artStartDateCurrent": rawPayload.artStartDateCurrent,
                     "artRegimen": getArtRegimen(rawPayload) || 14,
@@ -95,8 +95,8 @@
                 break;
             default:
                 return {
-                    url: '',
-                    apiKey: ''
+                    url: serverConfig.host + ':' + serverConfig.port + config.eid.generalPath,
+                    apiKey: serverConfig.apiKey
                 }
 
         }
