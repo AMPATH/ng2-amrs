@@ -31,18 +31,24 @@
 
     ],
     "orderBy": [
+      {"column":"t1.encounter_datetime", "order":"desc", "name":"orderByDate"}
     ],
     "indicators": [],
     "supplementColumns": [
       {
         "label": "encounter_datetime",
         "type": "single",
-        "sql": "t1.encounter_datetime"
+        "sql": "DATE_FORMAT(t1.encounter_datetime,'%d-%m-%Y')"
       },
       {
         "label": "current_regimen",
         "type": "single",
-        "sql": "t1.cur_arv_line"
+        "sql": "t1.cur_arv_meds"
+      },
+      {
+        "label": "previous_regimen",
+        "type": "single",
+        "sql": "t1.prev_arv_meds"
       },
       {
         "label": "previous_vl",
@@ -52,10 +58,12 @@
       {
         "label": "previous_vl_date",
         "type": "single",
-        "sql": "t1.vl_1_date"
+        "sql": "DATE_FORMAT(t1.vl_1_date,'%d-%m-%Y')"
       }
     ],
-    "indicatorHandlers": [
+    "indicatorHandlers":[
+      {"processor":"findChanges","indicators":["previous_regimen","current_regimen"]},
+      {"processor":"convertConceptIdToName","indicators":["previous_regimen","current_regimen"]}
     ]
   }
 ]
