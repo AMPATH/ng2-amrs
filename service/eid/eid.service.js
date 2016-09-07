@@ -44,7 +44,7 @@
                     "dateDrawn": rawPayload.dateDrawn,
                     "dateReceived": rawPayload.dateReceived,
                     "receivedStatus": 1,
-                    "sampletype": rawPayload.sampleType ? rawPayload.sampleType : 3, //default to 3 to prevent code breaking
+                    "sampletype": rawPayload.sampleType ? rawPayload.sampleType : 1, //default to 3 to prevent code breaking
                     "artStartDateInitial": rawPayload.artStartDateInitial,
                     "artStartDateCurrent": rawPayload.artStartDateCurrent,
                     "artRegimen": getArtRegimen(rawPayload) || 14,
