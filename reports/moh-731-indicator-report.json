@@ -17,7 +17,7 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"timestampdiff(day,date(t1.rtc_date),?) <= 90", "parameter":"endDate"},
+      {"expression":"timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90", "parameter":"endDate"},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
       {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
       {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
@@ -254,7 +254,7 @@
     ],
     "filters": [
       {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"timestampdiff(day,date(t1.rtc_date),?) <= 90", "parameter":"endDate"},
+      {"expression":"timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90", "parameter":"endDate"},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
       {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
     ],
