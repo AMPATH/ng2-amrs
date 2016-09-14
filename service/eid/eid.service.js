@@ -133,21 +133,59 @@
         if (result) return result[code];
     }
 
+    function hasCode(list, code) {
+
+      var hasCode = false;
+
+      try {
+
+        _.each(list, function (item) {
+
+          if(parseInt(item) === parseInt(code)) {
+            hasCode = true;
+          }
+        });
+      } catch(e) {}
+
+      return hasCode;
+    }
+
     function getArtRegimen(rawPayload) {
+
         if (rawPayload.artRegimenUuid === "") return 15; //15 is none;
+
         var arvCodes = rawPayload.artRegimenUuid.split(" ## ");
-        var sumOfArvCodes=0;
         var resolvedId=14;  // 14 is other
-        _.each(arvCodes, function (code) {
-            sumOfArvCodes=sumOfArvCodes+Number(code);
-        });
+
+        if(!(arvCodes && arvCodes.length > 0)) return resolvedId;
+
         _.each(eidOrderMap.artRegimen, function (artRegimen) {
-            var sumOfMrsArvRegimen=0;
-            _.each(artRegimen.mrsArvRegimen.split(","), function (mrsArvRegimen) {
-                sumOfMrsArvRegimen=sumOfMrsArvRegimen+Number(mrsArvRegimen);
-            });
-            if (Number(sumOfMrsArvRegimen)===Number(sumOfArvCodes)) resolvedId=artRegimen.eidId;
+
+          var mrsArvRegimens = artRegimen.mrsArvRegimen.split(",");
+
+          if(hasCode(mrsArvRegimens, arvCodes[0])) {
+
+            var hasCodes = true;
+
+            if(arvCodes.length === 1 && mrsArvRegimens.length != 1) {
+
+              hasCodes = false;
+            } else {
+
+              for(var i = 1; i < arvCodes.length; i++) {
+
+                var code = arvCodes[i];
+                if(!hasCode(mrsArvRegimens, arvCodes[i])) {
+                  hasCodes = false;
+                  break;
+                }
+              }
+            }
+
+            if(hasCodes) resolvedId = artRegimen.eidId;
+          }
         });
+
         return resolvedId;
     }
 
@@ -156,10 +194,8 @@
         if (result) return result.eidId;
     }
 
-
     module.exports = {
         generatePayload: generatePayloadByOrderType,
         getEidServerUrl: getEidServerUrl
     };
-
 })();

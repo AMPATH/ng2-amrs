@@ -1,69 +1,334 @@
 {
   "artRegimen": [
-   {
-      "eidDisplay": "AZT/3TC/ EFV",
-      "eidId": 2,
-      "mrsArvRegimen":"6159,628,633"
-    },
-   {
-      "eidDisplay": "ABC/3TC/ATVr",
-      "eidId": 10,
-     "mrsArvRegimen":"814,628,6160"
+    {
+      "eidDisplay": "NVP/3TC/AZT",
+      "eidId": "1",
+      "mrsArvRegimen": "6467"
     },
     {
-      "eidDisplay": "ABC/3TC/EFV",
-      "eidId": 12,
-      "mrsArvRegimen":"814,628,633"
+      "eidDisplay": "AZT/3TC/NVP",
+      "eidId": "1",
+      "mrsArvRegimen": "630,631"
     },
     {
-      "eidDisplay": "ABC/3TC/LPVr",
-      "eidId": 13,
-      "mrsArvRegimen":"814,628,794"
+      "eidDisplay": "YES/NVP/3TC/AZT",
+      "eidId": "1",
+      "mrsArvRegimen": "1065,6467"
     },
     {
-      "eidDisplay": "ABC/3TC/NVP",
-      "eidId": 11,
-      "mrsArvRegimen":"814,628,631"
+      "eidDisplay": "3TC/NVP/AZT",
+      "eidId": "1",
+      "mrsArvRegimen": "628,631,797"
     },
     {
-      "eidDisplay": "AZT/3TC/ NVP",
-      "eidId": 1,
-      "mrsArvRegimen":"797,628,631"
+      "eidDisplay": "AZT/3TC/NVP/3TC/AZT",
+      "eidId": "1",
+      "mrsArvRegimen": "630,6467"
+    },
+    {
+      "eidDisplay": "NVP/NVP/3TC/AZT",
+      "eidId": "1",
+      "mrsArvRegimen": "631,6467"
+    },
+    {
+      "eidDisplay": "NVP/3TC/AZT/NVP/3TC/AZT",
+      "eidId": "1",
+      "mrsArvRegimen": "6467,6467"
+    },
+    {
+      "eidDisplay": "AZT/3TC/NVP/YES",
+      "eidId": "1",
+      "mrsArvRegimen": "630,631,1065"
+    },
+    {
+      "eidDisplay": "AZT/3TC/EFV",
+      "eidId": "2",
+      "mrsArvRegimen": "630,633"
+    },
+    {
+      "eidDisplay": "3TC/EFV/AZT",
+      "eidId": "2",
+      "mrsArvRegimen": "628,633,797"
+    },
+    {
+      "eidDisplay": "AZT/3TC/EFV/YES",
+      "eidId": "2",
+      "mrsArvRegimen": "630,633,1065"
+    },
+    {
+      "eidDisplay": "AZT/3TC/EFV/OTHER",
+      "eidId": "2",
+      "mrsArvRegimen": "630,633,5424"
+    },
+    {
+      "eidDisplay": "NVP/3TC/TDF",
+      "eidId": "3",
+      "mrsArvRegimen": "631,1400"
+    },
+    {
+      "eidDisplay": "NVP/YES/3TC/TDF",
+      "eidId": "3",
+      "mrsArvRegimen": "631,1065,1400"
+    },
+    {
+      "eidDisplay": "3TC/NVP/TDF",
+      "eidId": "3",
+      "mrsArvRegimen": "628,631,802"
+    },
+    {
+      "eidDisplay": "NVP/NVP/3TC/TDF/3TC/TDF",
+      "eidId": "3",
+      "mrsArvRegimen": "631,631,1400,1400"
+    },
+    {
+      "eidDisplay": "3TC/NVP/3TC/TDF",
+      "eidId": "3",
+      "mrsArvRegimen": "628,631,1400"
+    },
+    {
+      "eidDisplay": "EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "6964"
+    },
+    {
+      "eidDisplay": "EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "633,1400"
+    },
+    {
+      "eidDisplay": "YES/EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "1065,6964"
+    },
+    {
+      "eidDisplay": "3TC/TDF/EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "1400,6964"
+    },
+    {
+      "eidDisplay": "3TC/EFV/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "628,633,802"
+    },
+    {
+      "eidDisplay": "EFV/EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "633,6964"
+    },
+    {
+      "eidDisplay": "EFV/3TC/TDF/EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "6964,6964"
+    },
+    {
+      "eidDisplay": "OTHER/EFV/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "5424,6964"
+    },
+    {
+      "eidDisplay": "EFV/YES/3TC/TDF",
+      "eidId": "4",
+      "mrsArvRegimen": "633,1065,1400"
+    },
+    {
+      "eidDisplay": "AZT/3TC/LPV/R",
+      "eidId": "5",
+      "mrsArvRegimen": "630,794"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/AZT",
+      "eidId": "5",
+      "mrsArvRegimen": "628,794,797"
+    },
+    {
+      "eidDisplay": "AZT/3TC/LPV/R/YES",
+      "eidId": "5",
+      "mrsArvRegimen": "630,794,1065"
     },
     {
       "eidDisplay": "AZT/3TC/ABC",
-      "eidId": 6,
-      "mrsArvRegimen":"797,628,814"
+      "eidId": "6",
+      "mrsArvRegimen": "630,814"
     },
     {
-      "eidDisplay": "AZT/3TC/ATVr",
-      "eidId": 8,
-      "mrsArvRegimen":"797,628,6160"
+      "eidDisplay": "3TC/AZT/ABC",
+      "eidId": "6",
+      "mrsArvRegimen": "628,797,814"
     },
     {
-      "eidDisplay": "AZT/3TC/LPVr",
-      "eidId": 5,
-      "mrsArvRegimen":"797,628,794"
+      "eidDisplay": "AZT/ABC/3TC",
+      "eidId": "6",
+      "mrsArvRegimen": "797,6679"
     },
     {
-      "eidDisplay": "TDF/3TC/ATVr",
-      "eidId": 9,
-      "mrsArvRegimen":"802,628,6160"
+      "eidDisplay": "LPV/R/3TC/TDF",
+      "eidId": "7",
+      "mrsArvRegimen": "794,1400"
     },
     {
-      "eidDisplay": "TDF/3TC/EFV",
-      "eidId": 4,
-      "mrsArvRegimen":"802,628,633"
+      "eidDisplay": "3TC/LPV/R/3TC/TDF",
+      "eidId": "7",
+      "mrsArvRegimen": "628,794,1400"
     },
     {
-      "eidDisplay": "TDF/3TC/LPVr",
-      "eidId": 7,
-      "mrsArvRegimen":"802,628,794"
+      "eidDisplay": "LPV/R/YES/3TC/TDF",
+      "eidId": "7",
+      "mrsArvRegimen": "794,1065,1400"
     },
-   {
-      "eidDisplay": "TDF/3TC/NVP",
-      "eidId": 3,
-     "mrsArvRegimen":"802,628,631"
+    {
+      "eidDisplay": "AZT/3TC/ATV/R",
+      "eidId": "8",
+      "mrsArvRegimen": "630,6160"
+    },
+    {
+      "eidDisplay": "AZT/3TC/ATV",
+      "eidId": "8",
+      "mrsArvRegimen": "630,6159"
+    },
+    {
+      "eidDisplay": "3TC/AZT/ATV/R",
+      "eidId": "8",
+      "mrsArvRegimen": "628,797,6160"
+    },
+    {
+      "eidDisplay": "AZT/3TC/OTHER/ATV",
+      "eidId": "8",
+      "mrsArvRegimen": "630,5424,6159"
+    },
+    {
+      "eidDisplay": "3TC/TDF/ATV/R",
+      "eidId": "9",
+      "mrsArvRegimen": "1400,6160"
+    },
+    {
+      "eidDisplay": "3TC/TDF/ATV",
+      "eidId": "9",
+      "mrsArvRegimen": "1400,6159"
+    },
+    {
+      "eidDisplay": "3TC/TDF/OTHER/ATV",
+      "eidId": "9",
+      "mrsArvRegimen": "1400,5424,6159"
+    },
+    {
+      "eidDisplay": "3TC/TDF/OTHER/ATV/R",
+      "eidId": "9",
+      "mrsArvRegimen": "1400,5424,6160"
+    },
+    {
+      "eidDisplay": "3TC/ABC/ATV/R",
+      "eidId": "10",
+      "mrsArvRegimen": "628,814,6160"
+    },
+    {
+      "eidDisplay": "3TC/ABC/ATV",
+      "eidId": "10",
+      "mrsArvRegimen": "628,814,6159"
+    },
+    {
+      "eidDisplay": "3TC/ABC/OTHER/ATV",
+      "eidId": "10",
+      "mrsArvRegimen": "628,814,5424,6159"
+    },
+    {
+      "eidDisplay": "ATV/R/ABC/3TC",
+      "eidId": "10",
+      "mrsArvRegimen": "6160,6679"
+    },
+    {
+      "eidDisplay": "NVP,ABC/3TC",
+      "eidId": "11",
+      "mrsArvRegimen": "631,6679"
+    },
+    {
+      "eidDisplay": "3TC/NVP/ABC",
+      "eidId": "11",
+      "mrsArvRegimen": "628,631,814"
+    },
+    {
+      "eidDisplay": "NVP/YES/ABC/3TC",
+      "eidId": "11",
+      "mrsArvRegimen": "631,1065,6679"
+    },
+    {
+      "eidDisplay": "3TC/NVP/ABC/3TC",
+      "eidId": "11",
+      "mrsArvRegimen": "628,631,6679"
+    },
+    {
+      "eidDisplay": "EFV/ABC/3TC",
+      "eidId": "12",
+      "mrsArvRegimen": "633,6679"
+    },
+    {
+      "eidDisplay": "3TC/EFV/ABC",
+      "eidId": "12",
+      "mrsArvRegimen": "628,633,814"
+    },
+    {
+      "eidDisplay": "EFV/YES/ABC/3TC",
+      "eidId": "12",
+      "mrsArvRegimen": "633,1065,6679"
+    },
+    {
+      "eidDisplay": "3TC/EFV/ABC/YES",
+      "eidId": "12",
+      "mrsArvRegimen": "628,633,814,1065"
+    },
+    {
+      "eidDisplay": "3TC/EFV/ABC/3TC",
+      "eidId": "12",
+      "mrsArvRegimen": "628,633,6679"
+    },
+    {
+      "eidDisplay": "3TC,LPV/R,ABC",
+      "eidId": "13",
+      "mrsArvRegimen": "628,794,814"
+    },
+    {
+      "eidDisplay": "LPV/R/ABC/3TC",
+      "eidId": "13",
+      "mrsArvRegimen": "794,6679"
+    },
+    {
+      "eidDisplay": "LPV/R/YES/ABC/3TC",
+      "eidId": "13",
+      "mrsArvRegimen": "794,1065,6679"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/ABC/YES",
+      "eidId": "13",
+      "mrsArvRegimen": "628,794,814,1065"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/ABC/3TC/TDF",
+      "eidId": "13",
+      "mrsArvRegimen": "628,794,814,1400"
+    },
+    {
+      "eidDisplay": "OTHER",
+      "eidId": "14",
+      "mrsArvRegimen": "5424"
+    },
+    {
+      "eidDisplay": "AZT/3TC/OTHER",
+      "eidId": "14",
+      "mrsArvRegimen": "630,5424"
+    },
+    {
+      "eidDisplay": "3TC/ABC/OTHER",
+      "eidId": "14",
+      "mrsArvRegimen": "628,814,5424"
+    },
+    {
+      "eidDisplay": "OTHER/Raltegravir",
+      "eidId": "14",
+      "mrsArvRegimen": "5424,6156"
+    },
+    {
+      "eidDisplay": "OTHER/Truvada",
+      "eidId": "14",
+      "mrsArvRegimen": "5424,6180"
     }
   ],
   "testOrderJustification": {
