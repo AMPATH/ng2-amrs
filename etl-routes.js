@@ -33,7 +33,19 @@ module.exports = function () {
                 notes: 'Returns a message that shows ETL service is running.',
                 tags: ['api'],
             }
-        }, {
+        },
+        {
+            method: 'POST',
+            path: '/etl/forms/error',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+
+                  dao.logError(request, reply);
+                }
+            }
+        },
+        {
             method: 'POST',
             path: '/javascript-errors',
             config: {
@@ -63,7 +75,8 @@ module.exports = function () {
                 }
 
             }
-        }, {
+        },
+        {
             method: 'GET',
             path: '/etl/patient/{uuid}',
             config: {
