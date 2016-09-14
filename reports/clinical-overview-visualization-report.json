@@ -4,7 +4,7 @@
         "table":{"schema":"etl","tableName":"dates","alias":"t2"},
         "joins":[
             {"joinType":"JOIN","schema":"etl","tableName":"flat_hiv_summary","alias":"t1",
-                "joinExpression":"is_clinical_encounter=1 and timestampdiff(day,t1.rtc_date,t2.endDate) <= 90 and encounter_datetime <= t2.endDate and coalesce(death_date, out_of_care) is null and (t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)"}
+                "joinExpression":"is_clinical_encounter=1 and timestampdiff(day,if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)),t2.endDate) <= 90 and encounter_datetime <= t2.endDate and coalesce(death_date, out_of_care) is null and (t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)"}
         ],
         "parameters": [
             {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -19,7 +19,7 @@
             {"expression":"t2.endDate >= ?", "parameter":"startDate"},
             {"expression":"t2.endDate <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"startDate"}
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"startDate"}
 
         ],
         "groupClause":[
@@ -292,7 +292,7 @@
 
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -366,7 +366,7 @@
 
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -439,7 +439,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -512,7 +512,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -585,7 +585,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -658,7 +658,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -731,7 +731,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -804,7 +804,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -877,7 +877,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
@@ -950,7 +950,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
             {"expression":"t1.location_id in ?", "parameter":"locations"},
-            {"expression":"t1.rtc_date >= (? - interval 90 day)", "parameter":"endDate"},
+            {"expression":"if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)", "parameter":"endDate"},
             {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
             {"expression":"(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > ?)", "parameter":"endDate"},
