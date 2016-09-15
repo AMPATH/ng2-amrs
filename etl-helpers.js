@@ -141,29 +141,29 @@ module.exports = function() {
       return testsNames.join(",");
     },
 
-    resolvedLabOrderErrors:function resolvedLabOrderErrors(vlerror,cd4eror,pcrerror){
-      var message ='';
+    resolvedLabOrderErrors: function resolvedLabOrderErrors(vlerror, cd4eror, pcrerror) {
+      var message = '';
 
-      if(vlerror === 1)
+      if (vlerror === 1)
         message = 'Error processing Viral Load';
-      if(cd4eror === 1){
-        if(message !== '')
-        message = message + ', ' +'Error processing cd4';
+      if (cd4eror === 1) {
+        if (message !== '')
+          message = message + ', ' + 'Error processing cd4';
         else
           message = 'Error processing cd4';
       }
 
-      if(pcrerror === 1){
+      if (pcrerror === 1) {
 
-        if(message !== '')
-          message = message + ', ' +'Error processing hiv dna pcr';
+        if (message !== '')
+          message = message + ', ' + 'Error processing hiv dna pcr';
         else
           message = 'Error processing hiv dna pcr';
       }
 
       return message
 
-  },
+    },
 
     buildWhereClauseForDataEntryIndicators: function buildWhereClauseForDataEntryIndicators(queryParams, where) {
       if (queryParams.locations) {
@@ -199,6 +199,19 @@ module.exports = function() {
         where.push(formIds);
       }
     },
+    decodeBase64Image: function decodeBase64Image(dataString) {
+      var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+        response = {};
+
+      if (matches.length !== 3) {
+        return new Error('Invalid input string');
+      }
+
+      response.type = matches[1];
+      response.data = new Buffer(matches[2], 'base64');
+
+      return response;
+    },
     buildWhereParamsDataEntryIndicators: function buildWhereParamsDataEntryIndicators(queryParams, where) {
       if (queryParams.locations) {
         var locations = [];
@@ -228,5 +241,6 @@ module.exports = function() {
         where.formIds = formIds;
       }
     }
-  }
+  };
+
 }();
