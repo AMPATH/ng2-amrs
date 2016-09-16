@@ -14,7 +14,7 @@ var
   , obsService = require('./openmrs-rest/obs.service')
   , etlLogger = require('../etl-file-logger')
   , db = require('../etl-db')
-  , isReachable = require('is-reachable')
+  , curl = require('curlrequest')
   , eidResultsSchema = require('../eid-lab-results');
 
 module.exports = {
@@ -32,22 +32,26 @@ module.exports = {
 
 function listReachableServers() {
 
-  var protomatch = /^(https?):\/\//;
-
   var locations = config.eid.locations;
 
-  _.each(locations, function(location) {
-    location.ip = location.host.replace(protomatch, '');
-  });
-
   var reachable_servers = [];
+
+  var port = config.eid.port;
 
   return Promise.reduce(locations, function(previous, row) {
 
     return new Promise(function(resolve, reject) {
-      isReachable(row.ip, function(err, reachable) {
-        if(reachable) reachable_servers.push(row); //[row.name] = true;
-        resolve(reachable_servers);
+
+      var url = row.host + '/' + port + '/eid/orders/api.php'
+
+      curl.request({ url: url, pretend: true }, function (err, stdout, meta) {
+
+        if(err) {
+          resolve(reachable_servers);
+        } else {
+          reachable_servers.push(row);
+          resolve(reachable_servers);
+        }
       });
     });
   }, 0);
