@@ -19,7 +19,7 @@ module.exports = function () {
         var labName = request.params.lab;
         var orderNumber = rawPayload.orderNumber;
 
-        getEidOrder(labName, orderNumber)
+        getEidOrder(rawPayload, labName, orderNumber) 
           .then(function(orders) {
 
             if(orders.length == 0) {
@@ -52,10 +52,9 @@ module.exports = function () {
           });
     };
 
-    function getEidOrder(labName, orderNumber) {
+    function getEidOrder(rawPayload, labName, orderNumber) {
 
       var payload = {
-        "test" : 2,
         "patientID[]" : '',
         "location" : '',
         "orderno[]" : orderNumber,
@@ -64,6 +63,21 @@ module.exports = function () {
 
       var eidServer = eidService.getEidServerUrl(labName, '', 'post');
       payload.apikey = eidServer.apiKey;
+
+      switch (rawPayload.type) {
+          case 'VL':
+            payload.test = 2;
+            break;
+          case 'DNAPCR':
+            payload.test = 1;
+            break;
+          case 'CD4':
+            //TODO - we need to handle cd4 url
+            return new Promise(function(resolve, reject) {
+              resolve([]);
+            });
+            break;
+      }
 
       return rp.getRequestPromise(payload, eidServer.url)
         .then(function(response) {
