@@ -17,9 +17,9 @@
            ],
            "indicators": [
                {
-                   "label":"needs_vl_coded",
-                   "expression":"needs_vl_coded",
-                   "sql":"$expression"
+                "label":"needs_vl_coded",
+                "expression":"needs_vl_coded",
+                "sql":"$expression"
                },
                {
                  "label":"overdue_vl_lab_order",
@@ -45,6 +45,11 @@
                  "label":"overdue_cd4_count_lab_order",
                  "expression":"overdue_cd4_count_lab_order",
                  "sql":"$expression"
+               },
+               {
+                 "label":"vl_error",
+                 "expression":"vl_error",
+                 "sql":"t2.vl_error"
                }
 
            ],
