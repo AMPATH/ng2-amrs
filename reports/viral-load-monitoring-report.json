@@ -79,7 +79,12 @@
       {
           "label":"perc_unsuppressed",
           "expression":"perc_unsuppressed",
-          "sql":"100*[last_vl_unsuppressed] /[total_with_vl]"
+          "sql":"100*[last_vl_unsuppressed] /[num_with_at_least_one_vl_past_year]"
+      },
+      {
+          "label":"num_with_at_least_one_vl_past_year",
+          "expression":"num_with_at_least_one_vl_past_year",
+          "sql":"count(if($expression,1,null))"
       },
       {
           "label":"one_vl_unsuppressed",
