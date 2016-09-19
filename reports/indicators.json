@@ -1129,6 +1129,12 @@
         "expression": "timestampdiff(day,t1.vl_1_date,endDate) <= 366 and timestampdiff(day,t1.vl_2_date,endDate) <= 366"
     },
     {
+        "name":"num_with_at_least_one_vl_past_year",
+        "label":"num with at least one vl past year",
+        "description": "the number of patients with at least one viral in the past year and no other viral load in past year",
+        "expression": "timestampdiff(day,t1.vl_1_date,endDate) <= 366"
+    },
+    {
         "name":"second_vl_gt_one_yo",
         "label":"second vl gt one year",
         "description": "The number of patients who only have a single viral load resulted within 366 days of end_date and another viral load older than one year from year from end_date",
