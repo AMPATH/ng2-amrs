@@ -367,7 +367,8 @@ module.exports = function () {
       //build report
       reportFactory.buildPatientListReportExpression(queryParams, function (exprResult) {
         var queryParts = {
-          columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, t4.gender, t4.birthdate, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age",
+          columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, t4.gender, t4.birthdate, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age," +
+          "case when (timestampdiff(day,vl_order_date,now()) between 0 and 14) and (vl_1_date is null or vl_order_date > vl_1_date) then true else false end as has_pending_vl_test",
           concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name;" +
           "group_concat(distinct t3.identifier separator ', ') as identifiers",
           table: "etl.flat_hiv_summary",
