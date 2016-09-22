@@ -1,15 +1,16 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
-var db = require('../../etl-db');
-var _ = require('underscore');
-var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
-var helpers = require('../../etl-helpers');
-var http = require('http');
-var https = require('https');
-var Promise = require('bluebird');
-var rp = require('../../request-config');
-var eidService = require('../../service/eid/eid.service');
-
+var
+  db = require('../../etl-db')
+  , _ = require('underscore')
+  , Boom = require('boom') //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
+  , helpers = require('../../etl-helpers')
+  , http = require('http')
+  , https = require('https')
+  , Promise = require('bluebird')
+  , rp = require('../../request-config')
+  , config = require('../../conf/config')
+  , eidService = require('../../service/eid/eid.service');
 
 module.exports = function () {
 
@@ -19,7 +20,7 @@ module.exports = function () {
         var labName = request.params.lab;
         var orderNumber = rawPayload.orderNumber;
 
-        getEidOrder(rawPayload, labName, orderNumber) 
+        getEidOrder(rawPayload, labName, orderNumber)
           .then(function(orders) {
 
             if(orders.length == 0) {
@@ -62,7 +63,6 @@ module.exports = function () {
       };
 
       var eidServer = eidService.getEidServerUrl(labName, '', 'post');
-      payload.apikey = eidServer.apiKey;
 
       switch (rawPayload.type) {
           case 'VL':
@@ -72,12 +72,28 @@ module.exports = function () {
             payload.test = 1;
             break;
           case 'CD4':
-            //TODO - we need to handle cd4 url
-            return new Promise(function(resolve, reject) {
-              resolve([]);
-            });
+
+            var serverConfig = config.eidServer[labName];
+
+            var apikey = "";
+            var locations = config.eid.locations;
+
+            for(var i = 0; i < locations.length; i++) {
+
+              if(locations[i].name === labName) {
+                apikey = locations[i].cd4ApiKey;
+                break;
+              }
+            }
+            
+            eidServer = {
+                url: serverConfig.host + ':' + serverConfig.port + '/cd4/orders/api.php',
+                apiKey: apikey
+            };
             break;
       }
+
+      payload.apikey = eidServer.apiKey;
 
       return rp.getRequestPromise(payload, eidServer.url)
         .then(function(response) {
