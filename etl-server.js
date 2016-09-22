@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var Good = require('good');
 var requestConfig = require('./request-config');
 var Basic = require('hapi-auth-basic');
+var etlBroadcast =require('./etl-broadcast');
 var https = require('http');
 var config = require('./conf/config');
 var requestConfig = require('./request-config');
@@ -24,6 +25,7 @@ var os = require('os');
 var locationAuthorizer = require('./authorization/location-authorizer.plugin');
 var cache = require('./session-cache');
 var numCPUs = os.cpus().length;
+var Nes = require('nes');
 var server = new Hapi.Server({
     connections: {
         //routes: {cors:{origin:["https://amrs.ampath.or.ke:8443"]}}
@@ -159,6 +161,10 @@ server.register([
         }, {
             register: locationAuthorizer,
             options: {}
+        },
+        {
+          'register': Nes,
+          'options': etlBroadcast.getOptions(server)
         }
     ],
 
@@ -166,7 +172,7 @@ server.register([
         if (err) {
             throw err; // something bad happened loading the plugin
         }
-        server.auth.strategy('simple', 'basic', {
+        server.auth.strategy('simple', 'basic', 'required', {
             validateFunc: validate
         });
 

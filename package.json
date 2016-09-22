@@ -46,6 +46,8 @@
     "moment": "^2.13.0",
     "multer": "^1.1.0",
     "mysql": "^2.6.2",
+    "nes": "^6.2.5",
+    "redis": "^2.6.2",
     "request": "^2.65.0",
     "request-promise": "^3.0.0",
     "squel": "^4.3.3",
