@@ -57,8 +57,15 @@ module.exports = function() {
       patientFlowProcessor.calculateMedianWaitingTime(queryResults.result);
     queryResults.incompleteVisitsCount =
       patientFlowProcessor.getIncompleteVisitsCount(queryResults.result);
+    queryResults.completeVisitsCount =
+        patientFlowProcessor.getCompleteVisitsCount(queryResults.result);
+    queryResults.totalVisitsCount =
+        patientFlowProcessor.getTotalVisitsCount(queryResults.result);
+    queryResults.resultsByLocation = patientFlowProcessor.splitResultsByLocation(queryResults.result);
+    queryResults.statsByLocation = patientFlowProcessor.calculateStatisticsByLocation(queryResults.resultsByLocation);
 
     return queryResults;
+
   }
 
   function processClinicalComparator(indicators, queryResults, requestIndicators) {

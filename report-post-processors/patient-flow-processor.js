@@ -6,11 +6,15 @@ var moduleExport = {
     //aggregates
     calculateAverageWaitingTime: calculateAverageWaitingTime,
     getIncompleteVisitsCount: getIncompleteVisitsCount,
+    getCompleteVisitsCount: getCompleteVisitsCount,
+    getTotalVisitsCount: getTotalVisitsCount,
     calculateMedianWaitingTime: calculateMedianWaitingTime,
     //helpers
     _handleTimeToBeSeenByClinician: _handleTimeToBeSeenByClinician,
     _getTimeSpanInMinutes: _getTimeSpanInMinutes,
     _handleTimeToCompleteVisit: _handleTimeToCompleteVisit,
+    splitResultsByLocation:splitResultsByLocation,
+    calculateStatisticsByLocation:calculateStatisticsByLocation
 };
 
 module.exports = moduleExport;
@@ -32,6 +36,7 @@ function groupResultsByVisitId(arrayOfResults) {
                 (result.visit_start_family_name && result.visit_start_family_name != null ? ' ' + result.visit_start_family_name : ''),
 
                 location: result.location,
+                locationId: result.location_id,
                 visit_person_id:result.visit_person_id,
                 visit_id: result.visit_id,
                 registered: typeof result.triaged === 'string' ? result.visit_start : new Date(result.visit_start).toISOString(),
@@ -95,6 +100,8 @@ function _handleEncouters(result, visit) {
             (result.provider_family_name && result.provider_family_name != null ? ' ' + result.provider_family_name : ''),
             person_id:result.person_id
         };
+
+
         visit.encounters.push(encounter);
     }
 
@@ -205,6 +212,21 @@ function getIncompleteVisitsCount(patientFlowArray) {
     return count;
 }
 
+function getCompleteVisitsCount(patientFlowArray) {
+
+    var count = 0;
+
+    for (var i = 0; i < patientFlowArray.length; i++) {
+        var patientFlow = patientFlowArray[i];
+        if (!_.isEmpty(patientFlow.seen_by_clinician)) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+
 function calculateMedianWaitingTime(patientFlowArray) {
 
     var waitingTime = _extractWaitingTime(patientFlowArray);
@@ -275,4 +297,71 @@ function _getMedian(data) {
     } else {
         return (m[middle] + m[middle + 1]) / 2.0;
     }
+}
+
+
+function splitResultsByLocation(patientFlowItemsArray) {
+    var locations=[];
+    var finalResultsByLocation= [];
+    for (var i = 0; i < patientFlowItemsArray.length; i++) {
+        var res = _.filter(patientFlowItemsArray, function(o) {
+            return o.locationId ===patientFlowItemsArray[i].locationId;
+        });
+
+        var locationSplitResults = {
+            locationName: patientFlowItemsArray[i].location,
+            locationId: patientFlowItemsArray[i].locationId,
+            results: res
+        };
+
+        locations.push(locationSplitResults);
+    }
+
+    locations.forEach(function(item) {
+        var unique = true;
+        finalResultsByLocation.forEach(function(item2) {
+            if (_.isEqual(item, item2)) unique = false;
+        });
+        if (unique)  finalResultsByLocation.push(item);
+    });
+
+    return finalResultsByLocation;
+}
+
+function calculateStatisticsByLocation(resultsSplitByLocationArray) {
+    var locationsStats = [];
+    var stats={};
+    _.each(resultsSplitByLocationArray, function(loc) {
+         stats =  _calculateStatsForSingleLocation(loc);
+        locationsStats.push(stats);
+
+    });
+
+    return locationsStats;
+}
+
+function _calculateStatsForSingleLocation(resultsSplitByLocation) {
+    var stats = {
+        locationId: resultsSplitByLocation.locationId,
+        location: resultsSplitByLocation.locationName,
+
+    };
+
+    stats.medianWaitingTime =
+       calculateMedianWaitingTime(resultsSplitByLocation.results);
+    stats.incompleteVisitsCount =
+        getIncompleteVisitsCount(resultsSplitByLocation.results);
+    stats.completeVisitsCount =
+        getCompleteVisitsCount(resultsSplitByLocation.results);
+    stats.totalVisitsCount =
+        getTotalVisitsCount(resultsSplitByLocation.results);
+    return stats;
+}
+
+function getTotalVisitsCount(patientFlowArray) {
+
+     var inCompleteVists = getIncompleteVisitsCount(patientFlowArray);
+     var completeVists = getCompleteVisitsCount(patientFlowArray);
+
+    return completeVists + inCompleteVists;
 }
