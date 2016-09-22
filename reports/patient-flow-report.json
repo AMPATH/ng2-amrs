@@ -84,7 +84,7 @@
         "schema": "amrs",
         "tableName": "location",
         "alias": "t12",
-        "joinExpression": "t4.location_id  = t12.location_id"
+        "joinExpression": "t1.location_id  = t12.location_id"
       }
 
 
