@@ -1038,7 +1038,10 @@ module.exports = function() {
     method: 'GET',
     path: '/etl/lab-cohorts',
     config: {
-      auth: 'simple',
+      auth: false,
+      plugins: {
+        'hapiAuthorization': false
+      },
       handler: function(request, reply) {
 
         var eidSyncApiKey = config.eidSyncApiKey;
@@ -1073,7 +1076,10 @@ module.exports = function() {
     method: 'GET',
     path: '/etl/lab-cohorts-sync',
     config: {
-      auth: 'simple',
+      auth: false,
+      plugins: {
+        'hapiAuthorization': false
+      },
       handler: function(request, reply) {
 
         var eidSyncApiKey = config.eidSyncApiKey;
@@ -1089,17 +1095,7 @@ module.exports = function() {
       },
       description: 'Home',
       notes: 'Returns a message that shows ETL service is running.',
-      tags: ['api'],
-      validate: {
-        query: {
-          startDate: Joi.string()
-            .required()
-            .description("The start date to filter by"),
-          endDate: Joi.string()
-            .required()
-            .description("The end date to filter by"),
-        }
-      }
+      tags: ['api']
     }
   }, {
     method: 'GET',

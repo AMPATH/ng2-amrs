@@ -30,7 +30,7 @@ module.exports = {
   getCd4Resource: getCd4Resource
 }
 
-function listReachableServers() {
+function listReachableServers(filter_locations) {
 
   var locations = config.eid.locations;
 
@@ -49,7 +49,10 @@ function listReachableServers() {
         if(err) {
           resolve(reachable_servers);
         } else {
-          reachable_servers.push(row);
+
+          if( filter_locations.length > 0 && _.indexOf(filter_locations, row.name) > -1 )
+            reachable_servers.push(row);
+            
           resolve(reachable_servers);
         }
       });
@@ -57,14 +60,14 @@ function listReachableServers() {
   }, 0);
 }
 
-function getSynchronizedPatientLabResults(patientUuId) {
+function getSynchronizedPatientLabResults(patientUuId, locations) {
 
   var results = {
     data: [],
     errors: []
   }
 
-  return listReachableServers()
+  return listReachableServers(locations)
     .then(function(reachable) {
       return Promise.reduce(reachable, function(previous, row) {
 
