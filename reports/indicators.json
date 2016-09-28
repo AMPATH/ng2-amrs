@@ -949,6 +949,12 @@
         "expression": "case when (timestampdiff(day,vl_order_date, @referenceDate) >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) and vl_error <> 1 then timestampdiff(day,vl_order_date, @referenceDate) else 0 end "
     },
     {
+        "name":"ordered_vl_has_error",
+        "label":"latest ordered vl has error",
+        "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
+        "expression": "case when vl_error= 1 then 1 else 0 end "
+    },
+    {
         "name":"needs_cd4_count_coded",
         "label":"needs cd4 count coded",
         "description": "Patient level coded indicator that determines whether patient requires a Viral load",
