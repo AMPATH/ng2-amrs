@@ -660,6 +660,11 @@ module.exports = function() {
               type: 'query',//can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-register-report' //parameter value
+            },
+            {
+              type: 'query',//can be in either query or params so you have to specify
+              name: 'report', //name of the parameter
+              value: 'medical-history-report' //parameter value
             }
           ],
           aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
