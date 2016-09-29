@@ -10,11 +10,14 @@ module.exports = function () {
 
       var data = request.payload || request.body;
 
-      var logger = etlLogger.logger('/tmp/form-submit-errors.log');
+      var username = (request.auth && request.auth.credentials) ? request.auth.credentials.username : '';
+
+      var file = '/tmp/form-submit-errors_' + username + '.log';
+
+      var logger = etlLogger.logger(file);
       logger.error('-----------------------------------------------------------------------------------------------------------------------')
       logger.error(data);
       logger.error('-----------------------------------------------------------------------------------------------------------------------')
-
 
       reply({
           message: 'ok'
