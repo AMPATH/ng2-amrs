@@ -617,52 +617,43 @@ module.exports = function() {
           }],
           exemptedParameter: [ //set this if you want to prevent validation checks for certain reports
             {
-              type: 'query',//can be in either query or params so you have to specify
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'clinical-reminder-report' //parameter value
-            },
-            {//patient-list-report-currently_in_care_total
-              type: 'query',//can be in either query or params so you have to specify
+            }, { //patient-list-report-currently_in_care_total
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-not_on_art_total' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-currently_in_care_total' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-on_art_total' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-patients_requiring_vl' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-tested_appropriately' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-not_tested_appropriately' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-list-report-virally_suppressed' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'patient-register-report' //parameter value
-            },
-            {
-              type: 'query',//can be in either query or params so you have to specify
+            }, {
+              type: 'query', //can be in either query or params so you have to specify
               name: 'report', //name of the parameter
               value: 'medical-history-report' //parameter value
             }
@@ -1119,60 +1110,59 @@ module.exports = function() {
       notes: 'Returns order justification(s)',
       tags: ['api']
     }
-  },
-  {
-   method: 'POST',
-   path: '/etl/fileupload',
-   config: {
-     auth: 'simple',
-     handler: function(request, reply) {
-       var replyPayload = {};
-       var image = etlHelpers.decodeBase64Image(request.payload.data);
-       var imageTypeRegularExpression = /\/(.*?)$/;
-       var imageTypeDetected = image
-         .type
-         .match(imageTypeRegularExpression);
-       var seed = crypto.randomBytes(20);
-       var uniqueSHA1String = crypto
-         .createHash('sha1')
-         .update(seed)
-         .digest('hex');
-       var userUploadedImagePath = 'uploads/' +
-         uniqueSHA1String +
-         '.' +
-         imageTypeDetected[1];
-       try {
-         require('fs').writeFile(userUploadedImagePath, image.data,
-           function() {
-             replyPayload = {
-               image: uniqueSHA1String +
-                 '.' +
-                 imageTypeDetected[1]
-             };
-             reply(replyPayload);
-             console.log('DEBUG - feed:message: Saved to disk image attached by user:', userUploadedImagePath);
-           });
-       } catch (error) {
-         console.log('ERROR:', error);
-         replyPayload = {
-           error: 'Error Uploading image'
-         };
-         reply(replyPayload);
-       }
-     }
-   }
- }, {
-   method: 'GET',
-   path: '/etl/files/{param*}',
-   config: {
-     auth: 'simple',
-     handler: {
-       directory: {
-         path: './uploads',
-         redirectToSlash: true,
-         index: true
-       }
-     }
-   }
- }];
+  }, {
+    method: 'POST',
+    path: '/etl/fileupload',
+    config: {
+      auth: 'simple',
+      handler: function(request, reply) {
+        var replyPayload = {};
+        var image = etlHelpers.decodeBase64Image(request.payload.data);
+        var imageTypeRegularExpression = /\/(.*?)$/;
+        var imageTypeDetected = image
+          .type
+          .match(imageTypeRegularExpression);
+        var seed = crypto.randomBytes(20);
+        var uniqueSHA1String = crypto
+          .createHash('sha1')
+          .update(seed)
+          .digest('hex');
+        var userUploadedImagePath = config.etl.uploadsDirectory +
+          uniqueSHA1String +
+          '.' +
+          imageTypeDetected[1];
+        try {
+          require('fs').writeFile(userUploadedImagePath, image.data,
+            function() {
+              replyPayload = {
+                image: uniqueSHA1String +
+                  '.' +
+                  imageTypeDetected[1]
+              };
+              reply(replyPayload);
+              console.log('DEBUG - feed:message: Saved to disk image attached by user:', userUploadedImagePath);
+            });
+        } catch (error) {
+          console.log('ERROR:', error);
+          replyPayload = {
+            error: 'Error Uploading image'
+          };
+          reply(replyPayload);
+        }
+      }
+    }
+  }, {
+    method: 'GET',
+    path: '/etl/files/{param*}',
+    config: {
+      auth: 'simple',
+      handler: {
+        directory: {
+          path: config.etl.uploadsDirectory,
+          redirectToSlash: true,
+          index: true
+        }
+      }
+    }
+  }];
 }();
