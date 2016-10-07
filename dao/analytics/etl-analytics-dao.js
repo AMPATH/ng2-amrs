@@ -223,6 +223,43 @@ module.exports = function () {
       });
 
     },
+    getClinicLabOrdersData: function getClinicLabOrdersData(request, callback) {
+      var reportName = 'clinic-lab-orders-report';
+      var dateActivated = request.query.dateActivated || new Date().toISOString().substring(0, 10);
+      if (!_.isUndefined(dateActivated)) dateActivated = dateActivated.split('T')[0];
+      var locations;
+      if (request.query.locations) {
+        locations = [];
+        _.each(request.query.locations.split(','), function (loc) {
+          locations.push(Number(loc));
+        });
+      }
+
+      var requestParams = {
+        reportName: reportName,
+        whereParams: [
+          {
+            "name": "dateActivated",
+            "value": dateActivated
+          },
+          {
+            "name": "locations",
+            "value": locations
+          }
+        ],
+        groupBy:'groupByPerson',
+        offset: request.query.startIndex || 0,
+        limit: request.query.limit || 1000000
+      };
+
+      //build report
+
+      var queryParts = reportFactory.singleReportToSql(requestParams);
+      db.reportQueryServer(queryParts, function (results) {
+        callback(reportFactory.resolveIndicators(reportName, results));
+      });
+
+    },
     getIndicatorsSchemaWithSections: function getIndicatorsSchemaWithSections(request, callback) {
       var reportName = request.query.report;
       //Check for undefined query field
