@@ -41,14 +41,38 @@ function syncLabCohorts(request, reply) {
 
   var startDate = request.query.startDate;
   var endDate = request.query.endDate;
+  var locations = request.query.locations;
+  var locations_list = [];
   var limit = max_limit;
   var offset = 0;
+
+  var eid_locations = config.eid.locations;
+
+  if(locations && locations.length > 0) {
+    var l = locations.trim().split(',');
+
+    for(var i = 0; i < l.length; i++) {
+
+      var has_location = false;
+      for(var x = 0; x < eid_locations.length; x++) {
+
+        if(eid_locations[x].name === l[i]) {
+
+          has_location = true;
+          break;
+        }
+      }
+
+      if(has_location) locations_list.push(l[i]);
+    }
+  }
 
   var params = {
     startDate: startDate,
     endDate: endDate,
     limit: limit,
-    offset: offset
+    offset: offset,
+    locations_list: locations_list
   };
 
   var responses = {
@@ -110,7 +134,7 @@ function sync(params, responses, reply) {
 
         etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('posting %d uuids to the sync processor', size);
 
-        return post(data)
+        return post(params.locations_list, data)
           .then(function(post_data) {
 
             if(typeof post_data === 'object') {
@@ -159,7 +183,7 @@ function sync(params, responses, reply) {
 /*
  * Posts an array of uuids to the sync function
  */
-function post(data) {
+function post(locations, data) {
 
   var arr = [];
 
@@ -170,7 +194,7 @@ function post(data) {
   etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('syncronizing ' + arr.length + ' records');
 
   return new Promise(function(resolve, reject) {
-    eidPatientCohortService.synchronizePatientCohort(arr, function(res) {
+    eidPatientCohortService.synchronizePatientCohort(arr, locations, function(res) {
       etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('sync result: %s', JSON.stringify(res));
       resolve(res);
     });

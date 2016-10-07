@@ -11,16 +11,16 @@ module.exports = {
   synchronizePatientCohort: synchronizePatientCohort
 };
 
-function synchronizePatientCohort(patientUuIdCohort,reply) {
+function synchronizePatientCohort(patientUuIdCohort, locations, reply) {
 
   var responses = {
     success: [],
     fail:  []
   }
-  
+
   Promise.reduce(patientUuIdCohort, function(previous, patientUuId) {
 
-    return syncService.getSynchronizedPatientLabResults(patientUuId)
+    return syncService.getSynchronizedPatientLabResults(patientUuId, locations)
       .then(function(response) {
         etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('%s successfully syncd', response.uuid);
 
