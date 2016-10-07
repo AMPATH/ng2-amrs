@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AppState } from '../app.service';
 import { Title } from './title';
 import { XLarge } from './x-large';
+import {SelectItem} from 'primeng/primeng';
 
 @Component({
   // The selector is what angular internally uses
@@ -14,16 +15,24 @@ import { XLarge } from './x-large';
     Title
   ],
   // Our list of styles in our component. We may add more to compose many styles together
-  styleUrls: [ './home.component.css' ],
+  styleUrls: ['./home.component.css'],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
   templateUrl: './home.component.html'
 })
 export class Home {
   // Set our default values
   localState = { value: '' };
+  cities: SelectItem[];
+
+  selectedCity: string[];
   // TypeScript public modifiers
   constructor(public appState: AppState, public title: Title) {
-
+    this.cities = [];
+    this.cities.push({ label: 'New York', value: 'New York' });
+    this.cities.push({ label: 'Rome', value: 'Rome' });
+    this.cities.push({ label: 'London', value: 'London' });
+    this.cities.push({ label: 'Istanbul', value: 'Istanbul' });
+    this.cities.push({ label: 'Paris', value: 'Paris' });
   }
 
   ngOnInit() {

@@ -173,6 +173,21 @@ module.exports = function(options) {
         {
           test: /\.(jpg|png|gif)$/,
           loader: 'file'
+        }, {
+          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=application/font-woff"
+        }, {
+          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=application/font-woff"
+        }, {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=application/octet-stream"
+        }, {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "file"
+        }, {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=image/svg+xml"
         }
       ],
 
@@ -201,7 +216,7 @@ module.exports = function(options) {
       new VersionFile({
         packageFile: path.join(__dirname, '../package.json'),
         template: path.join(__dirname, 'version.ejs'),
-        outputFile: path.join(__dirname,'../src/app/version.json')
+        outputFile: path.join(__dirname, '../src/app/version.json')
       }),
       /*
        * Plugin: ForkCheckerPlugin
