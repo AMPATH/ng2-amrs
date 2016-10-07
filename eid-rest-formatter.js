@@ -17,6 +17,11 @@ module.exports=function(){
     var hasLessThanSymbol=/</g;
     if(_.isEmpty(viralLoadPayload)) return -1;
     var viralLoadResult = removeWhiteSpace(viralLoadPayload.FinalResult);
+
+    if(_.isEmpty(viralLoadResult)) {
+      return -1;
+    }
+
     if(hasNumbersOnly.test(viralLoadResult)){
       status=1;
     }
