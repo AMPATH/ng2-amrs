@@ -13,9 +13,6 @@ import '@angular/common';
 import '@angular/forms';
 import '@angular/http';
 import '@angular/router';
-require('../node_modules/primeng/resources/primeng.css');
-require('../node_modules/primeng/resources/themes/bootstrap/theme.css');
-require('../node_modules/font-awesome/css/font-awesome.css');
 // AngularClass
 import '@angularclass/hmr';
 

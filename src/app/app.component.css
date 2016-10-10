@@ -1,3 +1,6 @@
+@import "../../node_modules/primeng/resources/primeng.css";
+@import "../../node_modules/primeng/resources/themes/bootstrap/theme.css";
+@import "../../node_modules/font-awesome/css/font-awesome.css";
 html, body{
   height: 100%;
   font-family: Arial, Helvetica, sans-serif
