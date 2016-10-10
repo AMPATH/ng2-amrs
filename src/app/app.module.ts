@@ -21,6 +21,9 @@ import { Home } from './home';
 import { About } from './about';
 import { NoContent } from './no-content';
 import { XLarge } from './home/x-large';
+import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { PatientSearchComponent } from './patient-search/patient-search.component';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -44,7 +47,9 @@ type StoreType = {
     About,
     Home,
     NoContent,
-    XLarge
+    XLarge,
+    MainDashboardComponent,
+    PatientSearchComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -52,7 +57,8 @@ type StoreType = {
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
     InputTextModule,
-    MultiSelectModule
+    MultiSelectModule,
+    MainDashboardModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

@@ -42,6 +42,12 @@ const version = require('./version');
           About
         </a>
       </span>
+      |
+      <span>
+        <a [routerLink]=" ['./clinic-dashboard'] ">
+          Clinic Dashboard
+        </a>
+      </span>
     </nav>
 
     <main>
