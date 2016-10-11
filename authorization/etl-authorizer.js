@@ -42,7 +42,8 @@ var reportPrivileges = {
     'patient-list-report-tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'labs-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'viral-load-monitoring-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
-    'medical-history-report': [PRIVILEGES.canViewPatient]
+    'medical-history-report': [PRIVILEGES.canViewPatient],
+    'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard,PRIVILEGES.canViewPatient]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];

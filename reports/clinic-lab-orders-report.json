@@ -1,0 +1,147 @@
+[
+  {
+    "name": "clinic-lab-orders-report",
+    "table": {
+      "schema": "amrs",
+      "tableName": "orders",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "encounter",
+        "alias": "t2",
+        "joinExpression": "t1.encounter_id=t2.encounter_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t3",
+        "joinExpression": "t1.patient_id  = t3.person_id"
+      },
+
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t4",
+        "joinExpression": "t1.patient_id  = t4.patient_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t5",
+        "joinExpression": "t2.location_id  = t5.location_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t6",
+        "joinExpression": "t1.patient_id  = t6.person_id"
+      }
+
+    ],
+    "parameters": [
+      {
+        "name": "dateActivated",
+        "defaultValue": [
+          "10-10-2015"
+        ]
+      },
+      {
+        "name": "locations"
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "t3.person_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(t1.date_activated) = ?",
+        "parameter": "dateActivated"
+      },
+      {
+        "expression": "t2.location_id in ?",
+        "parameter": "locations"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "orderBy": [
+
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "order_no",
+        "type": "single",
+        "sql": "t1.order_number"
+      },
+      {
+        "label": "date_activated",
+        "type": "single",
+        "sql": "t1.date_activated"
+      },
+      {
+        "label": "patient_id",
+        "type": "single",
+        "sql": "t1.patient_id"
+      },
+      {
+        "label": "given_name",
+        "type": "single",
+        "sql": "t3.given_name"
+      },
+      {
+        "label": "middle_name",
+        "type": "single",
+        "sql": "t3.middle_name"
+      },
+      {
+        "label": "family_name",
+        "type": "single",
+        "sql": "t3.family_name"
+      },
+      {
+        "label": "identifiers",
+        "type": "single",
+        "sql": "group_concat(distinct t4.identifier)"
+      },
+      {
+        "label": "person_name",
+        "type": "single",
+        "sql": "concat(t3.given_name,' ',t3.middle_name,' ',t3.family_name)"
+      },
+      {
+        "label":"location",
+        "type":"single",
+        "sql":"t5.name"
+      },
+      {
+        "label":"location_id",
+        "type":"single",
+        "sql":"t5.location_id"
+      },
+      {
+        "label": "patient_uuid",
+        "type": "single",
+        "sql": "t6.uuid"
+      }
+
+    ]
+
+  }
+]

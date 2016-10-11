@@ -353,7 +353,41 @@ module.exports = function() {
         params: {}
       }
     }
-  }, {
+  },{
+      method: 'GET',
+      path: '/etl/clinic-lab-orders-data',
+      config: {
+        auth: 'simple',
+        plugins: {
+          'hapiAuthorization': {
+            role: privileges.canViewClinicDashBoard
+          },
+          'openmrsLocationAuthorizer': {
+            locationParameter: [{
+              type: 'query', //can be in either query or params so you have to specify
+              name: 'locationUuids' //name of the location parameter
+            }]
+          }
+        },
+        handler: function(request, reply) {
+          preRequest.resolveLocationIdsToLocationUuids(request,
+              function() {
+                dao.getClinicLabOrdersData(request, reply);
+              });
+        },
+        description: "Get a location's lab orders data",
+        notes: "Returns a location's lab orders data with the given location uuid.",
+        tags: ['api'],
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          params: {}
+        }
+      }
+    },
+
+    {
     method: 'GET',
     path: '/etl/location/{uuid}/daily-visits',
     config: {
