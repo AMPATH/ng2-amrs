@@ -4,8 +4,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { AppState } from './app.service';
-
-const version = require('./version');
+import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
+import { DynamicRouteModel } from './shared/services/dynamic-route.model';
 
 /*
  * App Component
@@ -17,69 +17,25 @@ const version = require('./version');
   styleUrls: [
     './app.component.css'
   ],
-  template: `
-    <nav>
-      <span>
-        <a [routerLink]=" ['./'] ">
-          Index
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./home'] ">
-          Home
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./detail'] ">
-          Detail
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./about'] ">
-          About
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./clinic-dashboard'] ">
-          Clinic Dashboard
-        </a>
-      </span>
-    </nav>
-
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-        <span>{{version.version.name}} : {{version.version.version}}
-        : {{version.version.buildDate}}</span>
-      </div>
-    </footer>
-  `
+  templateUrl: './app.component.html'
 })
 export class App {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
   name = 'Angular 2 Webpack Starter';
   url = 'https://twitter.com/AngularClass';
-  version = version;
+  routes: any[];
   constructor(
-    public appState: AppState) {
+    public appState: AppState, dynamicRoutesService: DynamicRoutesService) {
+    dynamicRoutesService.routes.subscribe(result => {
+      this.routes = (<DynamicRouteModel>result).routes;
+    },
+      err => console.log(err),
+      () => console.log('Completed'));
 
   }
 
   ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+    //console.log('Initial App State', this.appState.state);
   }
 
 }

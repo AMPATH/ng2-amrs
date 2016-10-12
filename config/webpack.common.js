@@ -17,6 +17,8 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const VersionFile = require('webpack-version-file-plugin');
 const path = require('path');
+const autoprefixer = require('autoprefixer');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 /*
  * Webpack Constants
  */
@@ -84,6 +86,7 @@ module.exports = function(options) {
       modules: [helpers.root('src'), 'node_modules'],
 
     },
+    postcss: [autoprefixer],
 
     /*
      * Options affecting the normal modules.
@@ -135,8 +138,10 @@ module.exports = function(options) {
             'angular2-template-loader'
           ],
           exclude: [/\.(spec|e2e)\.ts$/]
+        }, {
+          test: /\.scss$/,
+          loaders: ['style', 'css', 'postcss', 'sass']
         },
-
         /*
          * Json loader support for *.json files.
          *
@@ -217,6 +222,25 @@ module.exports = function(options) {
         packageFile: path.join(__dirname, '../package.json'),
         template: path.join(__dirname, 'version.ejs'),
         outputFile: path.join(__dirname, '../src/app/version.json')
+      }),
+      new ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery',
+        "Tether": 'tether',
+        "window.Tether": "tether",
+        Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
+        Alert: "exports?Alert!bootstrap/js/dist/alert",
+        Button: "exports?Button!bootstrap/js/dist/button",
+        Carousel: "exports?Carousel!bootstrap/js/dist/carousel",
+        Collapse: "exports?Collapse!bootstrap/js/dist/collapse",
+        Dropdown: "exports?Dropdown!bootstrap/js/dist/dropdown",
+        Modal: "exports?Modal!bootstrap/js/dist/modal",
+        Popover: "exports?Popover!bootstrap/js/dist/popover",
+        Scrollspy: "exports?Scrollspy!bootstrap/js/dist/scrollspy",
+        Tab: "exports?Tab!bootstrap/js/dist/tab",
+        Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
+        Util: "exports?Util!bootstrap/js/dist/util",
       }),
       /*
        * Plugin: ForkCheckerPlugin

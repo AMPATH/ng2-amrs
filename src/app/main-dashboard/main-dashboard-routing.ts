@@ -3,13 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainDashboardComponent } from './main-dashboard.component';
 import { ClinicDashboardComponent } from '../clinic-dashboard/clinic-dashboard.component';
 import { PatientDashboardComponent } from '../patient-dashboard/patient-dashboard.component';
-import { PatientSearchComponent } from '../patient-search/patient-search.component';
+
 const dashboardRoutes: Routes = [
   {
     path: '',
     component: MainDashboardComponent,
     children: [
-      { path: 'patient-search', component: PatientSearchComponent },
       {
         path: 'clinic-dashboard',
         loadChildren: () =>

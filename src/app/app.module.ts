@@ -5,8 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
-import {InputTextModule} from 'primeng/primeng';
-import {MultiSelectModule} from 'primeng/primeng';
+import { InputTextModule } from 'primeng/primeng';
+import { MultiSelectModule } from 'primeng/primeng';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -23,7 +23,7 @@ import { NoContent } from './no-content';
 import { XLarge } from './home/x-large';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
-import { PatientSearchComponent } from './patient-search/patient-search.component';
+import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -48,8 +48,7 @@ type StoreType = {
     Home,
     NoContent,
     XLarge,
-    MainDashboardComponent,
-    PatientSearchComponent
+    MainDashboardComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -62,7 +61,8 @@ type StoreType = {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    DynamicRoutesService
   ]
 })
 export class AppModule {

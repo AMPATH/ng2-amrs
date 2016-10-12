@@ -4,6 +4,7 @@ import { FormsModule }    from '@angular/forms';
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
+import { PatientSearchComponent } from './patient-search/patient-search.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -12,7 +13,8 @@ import { PatientEncountersComponent } from './patient-encounters/patient-encount
   ],
   declarations: [
     PatientInfoComponent,
-    PatientEncountersComponent
+    PatientEncountersComponent,
+    PatientSearchComponent
   ],
   providers: [
 
