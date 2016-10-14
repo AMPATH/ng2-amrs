@@ -4,8 +4,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { AppState } from './app.service';
-import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
-import { DynamicRouteModel } from './shared/services/dynamic-route.model';
+
 
 /*
  * App Component
@@ -25,13 +24,7 @@ export class App {
   url = 'https://twitter.com/AngularClass';
   routes: any[];
   constructor(
-    public appState: AppState, dynamicRoutesService: DynamicRoutesService) {
-    dynamicRoutesService.routes.subscribe(result => {
-      this.routes = (<DynamicRouteModel>result).routes;
-    },
-      err => console.log(err),
-      () => console.log('Completed'));
-
+    public appState: AppState) {
   }
 
   ngOnInit() {
