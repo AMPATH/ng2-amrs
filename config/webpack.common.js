@@ -34,7 +34,7 @@ const METADATA = {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function(options) {
+module.exports = function (options) {
   isProd = options.env === 'production';
   return {
 
@@ -101,15 +101,15 @@ module.exports = function(options) {
        * See: http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
        */
       preLoaders: [{
-          test: /\.ts$/,
-          loader: 'string-replace-loader',
-          query: {
-            search: '(System|SystemJS)(.*[\\n\\r]\\s*\\.|\\.)import\\((.+)\\)',
-            replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
-            flags: 'g'
-          },
-          include: [helpers.root('src')]
+        test: /\.ts$/,
+        loader: 'string-replace-loader',
+        query: {
+          search: '(System|SystemJS)(.*[\\n\\r]\\s*\\.|\\.)import\\((.+)\\)',
+          replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
+          flags: 'g'
         },
+        include: [helpers.root('src')]
+      },
 
       ],
 
@@ -218,11 +218,11 @@ module.exports = function(options) {
         filename: 'webpack-assets.json',
         prettyPrint: true
       }),
-      new VersionFile({
-        packageFile: path.join(__dirname, '../package.json'),
-        template: path.join(__dirname, 'version.ejs'),
-        outputFile: path.join(__dirname, '../src/app/version.json')
-      }),
+      // new VersionFile({
+      //   packageFile: path.join(__dirname, '../package.json'),
+      //   template: path.join(__dirname, 'version.ejs'),
+      //   outputFile: path.join(__dirname, '../src/app/version.json')
+      // }),
       new ProvidePlugin({
         jQuery: 'jquery',
         $: 'jquery',
@@ -286,11 +286,11 @@ module.exports = function(options) {
         from: 'src/assets',
         to: 'assets'
       }], {
-        ignore: [
-          'humans.txt',
-          'robots.txt'
-        ]
-      }),
+          ignore: [
+            'humans.txt',
+            'robots.txt'
+          ]
+        }),
       new CopyWebpackPlugin([{
         from: 'src/assets/robots.txt'
       }, {
