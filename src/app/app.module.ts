@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
 
 import { InputTextModule } from 'primeng/primeng';
 import { MultiSelectModule } from 'primeng/primeng';
@@ -62,6 +64,7 @@ type StoreType = {
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
+    Angulartics2Piwik,
     DynamicRoutesService
   ]
 })
