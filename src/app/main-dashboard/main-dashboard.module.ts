@@ -7,8 +7,6 @@ import { MainDashboardComponent } from './main-dashboard.component';
 import { ClinicDashboardComponent } from '../clinic-dashboard/clinic-dashboard.component';
 import { PatientDashboardComponent } from '../patient-dashboard/patient-dashboard.component';
 
-
-
 @NgModule({
   imports: [
     CommonModule,

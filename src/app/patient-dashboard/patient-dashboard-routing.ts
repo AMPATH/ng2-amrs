@@ -10,12 +10,15 @@ const patientDashboardRoutes: Routes = [
   { path: '', redirectTo: 'patient-search', pathMatch: 'full' },
   { path: 'patient-search', component: PatientSearchComponent },
   {
-    path: '', component: PatientDashboardComponent,
+    path: ':patient_uuid', component: PatientDashboardComponent,
     children: [
       { path: 'patient-info', component: PatientInfoComponent },
       { path: 'patient-encounters', component: PatientEncountersComponent }
     ],
     canActivate: [
+      PatientDashboardGuard
+    ],
+    canDeactivate: [
       PatientDashboardGuard
     ]
   }
