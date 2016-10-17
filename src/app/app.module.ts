@@ -5,8 +5,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
-import { InputTextModule } from 'primeng/primeng';
-import { MultiSelectModule } from 'primeng/primeng';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -24,7 +22,7 @@ import { XLarge } from './home/x-large';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
-
+import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
@@ -55,14 +53,13 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    InputTextModule,
-    MultiSelectModule,
     MainDashboardModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
-    DynamicRoutesService
+    DynamicRoutesService,
+    { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() }
   ]
 })
 export class AppModule {

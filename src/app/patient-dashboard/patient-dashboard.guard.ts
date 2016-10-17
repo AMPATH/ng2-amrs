@@ -1,33 +1,20 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { Router, ActivatedRoute, CanActivate, CanDeactivate, Params, CanLoad } from '@angular/router';
 
 import { DynamicRoutesService } from '../shared/services/dynamic-routes.service';
+import { PatientDashboardComponent } from './patient-dashboard.component';
 @Injectable()
-export class PatientDashboardGuard implements CanActivate {
+export class PatientDashboardGuard implements CanActivate, CanDeactivate<PatientDashboardComponent> {
 
-    constructor(private dynamicRoutesService: DynamicRoutesService) { }
+    constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
+        private route: ActivatedRoute) { }
     canActivate() {
-        console.log('Do Route stuff');
-        let routes = [
-            {
-                url: 'patient-dashboard/patient-search',
-                label: 'Patient Search',
-                icon: 'fa fa-search'
-            },
-            {
-                url: 'patient-dashboard//patient-info',
-                label: 'Patient Info',
-                icon: 'fa fa-user'
-            },
-            {
-                url: 'patient-dashboard/patient-encounters',
-                label: 'Patient Encounters',
-                icon: 'fa fa-users'
-            }
-        ]
+        return true;
+    }
+    canDeactivate(target: PatientDashboardComponent) {
         this.dynamicRoutesService.setRoutes({
             key: 'patientDashboard',
-            moduleLabel: "Patient Dashboard", routes: routes
+            moduleLabel: "Patient Dashboard", routes: []
         });
         return true;
     }

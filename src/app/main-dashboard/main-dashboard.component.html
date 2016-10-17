@@ -1,126 +1,107 @@
-<div class="main-wrapper">
-	<div class="app" id="app">
-		<header class="header">
-			<div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-      <i class="fa fa-bars"></i>
-    </button> </div>
-			<div class="header-block header-block-nav">
-				<ul class="nav-profile">
-					<li class="profile dropdown">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-							<i class="fa fa-user icon"></i> Patient Dashboard
-						</a>
-						<div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
-							<a class="dropdown-item" href="#"> <i class="fa fa-user icon"></i> Clinic Dashboard </a>
-							<a class="dropdown-item" href="#"> <i class="fa fa-bell icon"></i> Data Analytics </a>
-						</div>
-					</li>
-					<li class="profile dropdown">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-							<div class="img" style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&s=40')"> </div> <span class="name">
-            John Doe
-          </span> </a>
-						<div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
-							<a class="dropdown-item" href="#"> <i class="fa fa-user icon"></i> Profile </a>
-							<a class="dropdown-item" href="#"> <i class="fa fa-bell icon"></i> Notifications </a>
-							<a class="dropdown-item" href="#"> <i class="fa fa-gear icon"></i> Settings </a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="login.html"> <i class="fa fa-power-off icon"></i> Logout </a>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</header>
-		<aside class="sidebar">
-			<div class="sidebar-container">
-				<div class="sidebar-header">
-					<div class="brand">
-						<div class="logo"> <span class="l l1"></span> <span class="l l2"></span> <span class="l l3"></span> <span class="l l4"></span> <span class="l l5"></span>							</div> Modular Admin </div>
-				</div>
-				<nav class="menu">
-					<ul class="nav metismenu" id="sidebar-menu">
-						<li routerLinkActive="active" *ngFor='let route of routes'>
-							<a routerLink="{{route.url}}"> <i class="{{route.icon}}"></i> {{route.label}} </a>
+<!-- Main Header -->
+<header class="main-header">
+
+	<!-- Logo -->
+	<a href="index2.html" class="logo">
+		<!-- mini logo for sidebar mini 50x50 pixels -->
+		<span class="logo-mini"><b>POC</b></span>
+		<!-- logo for regular state and mobile devices -->
+		<span class="logo-lg"><b>Ampath</b>POC</span>
+	</a>
+
+	<!-- Header Navbar -->
+	<nav class="navbar navbar-static-top" role="navigation">
+		<!-- Sidebar toggle button-->
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+			<span class="sr-only">Toggle navigation</span>
+		</a>
+		<!-- Navbar Right Menu -->
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+				<li routerLinkActive="active">
+					<a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span>Patient Search</span> </a>
+				</li>
+				<li routerLinkActive="active">
+					<a routerLink="/clinic-dashboard"> <i class="fa fa-user-md"></i> <span>Clinic Dashboard</span> </a>
+				</li>
+				<!-- User Account Menu -->
+				<li class="dropdown user user-menu">
+					<!-- Menu Toggle Button -->
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<!-- The user image in the navbar-->
+						<i class="fa fa-user"></i>
+						<!-- hidden-xs hides the username on small devices so only the image appears. -->
+						<span class="hidden-xs">Poc User - Developer</span>
+					</a>
+					<ul class="dropdown-menu">
+						<!-- The user image in the menu -->
+						<li class="user-header">
+							<p>
+								Poc User - Developer
+								<small>Role : Admin</small>
+							</p>
+						</li>
+						<!-- Menu Footer-->
+						<li class="user-footer">
+							<div class="pull-left">
+								<a href="#" class="btn btn-default btn-flat">Settings</a>
+							</div>
+							<div class="pull-right">
+								<a href="#" class="btn btn-default btn-flat">Sign out</a>
+							</div>
 						</li>
 					</ul>
-				</nav>
-			</div>
-			<footer class="sidebar-footer">
+				</li>
+				<!-- Control Sidebar Toggle Button -->
+			</ul>
+		</div>
+	</nav>
+</header>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
 
-			</footer>
-		</aside>
-		<div class="sidebar-overlay" id="sidebar-overlay"></div>
-		<article class="content dashboard-page">
-			<router-outlet></router-outlet>
-		</article>
-		<footer class="footer">
-			<div class="footer-block buttons"> Online </div>
-			<div class="footer-block author">
-				<ul>
-					<li> POC ver 2 </li>
-					<li> Build Date </li>
-				</ul>
-			</div>
-		</footer>
-		<div class="modal fade" id="modal-media">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-						<h4 class="modal-title">Media Library</h4>
-					</div>
-					<div class="modal-body modal-tab-container">
-						<ul class="nav nav-tabs modal-tabs" role="tablist">
-							<li class="nav-item"> <a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a> </li>
-							<li class="nav-item"> <a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a> </li>
-						</ul>
-						<div class="tab-content modal-tab-content">
-							<div class="tab-pane fade" id="gallery" role="tabpanel">
-								<div class="images-container">
-									<div class="row"> </div>
-								</div>
-							</div>
-							<div class="tab-pane fade active in" id="upload" role="tabpanel">
-								<div class="upload-container">
-									<div id="dropzone">
-										<form action="/" method="POST" enctype="multipart/form-data" class="dropzone needsclick dz-clickable" id="demo-upload">
-											<div class="dz-message-block">
-												<div class="dz-message needsclick"> Drop files here or click to upload. </div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Insert Selected</button>						</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
-		<div class="modal fade" id="confirm-modal">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-						<h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
-					</div>
-					<div class="modal-body">
-						<p>Are you sure want to do this?</p>
-					</div>
-					<div class="modal-footer"> <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button> <button type="button" class="btn btn-secondary"
-							data-dismiss="modal">No</button> </div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
-	</div>
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+		<!-- Sidebar Menu -->
+		<ul class="sidebar-menu">
+			<li><a><i class="fa fa-circle text-success"></i> <span>Online</span></a></li>
+			<li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
+				<a routerLink="/{{route.url}}"> <i class="{{route.icon}}"></i> <span>{{route.label}}</span> </a>
+			</li>
+		</ul>
+		<!-- /.sidebar-menu -->
+	</section>
+	<!-- /.sidebar -->
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="min-height: 100%;">
+	<!-- Content Header (Page header) -->
+	<!--<section class="content-header">
+		<h1>
+			Page Header
+			<small>Optional description</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+			<li class="active">Here</li>
+		</ol>
+	</section>-->
+
+	<!-- Main content -->
+	<section class="content">
+		<router-outlet></router-outlet>
+
+	</section>
+	<!-- /.content -->
 </div>
-<!-- Reference block for JS -->
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+<footer class="main-footer">
+	<!-- To the right -->
+	<div class="pull-right hidden-xs">
+		P.O.C version 2.x.x BuildDate:
+	</div>
+</footer>
+<div class="control-sidebar-bg"></div>

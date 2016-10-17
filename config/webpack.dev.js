@@ -19,7 +19,7 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
 const HMR = helpers.hasProcessFlag('hot');
-const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
+const METADATA = webpackMerge(commonConfig({ env: ENV }).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
@@ -31,8 +31,8 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function(options) {
-  return webpackMerge(commonConfig({env: ENV}), {
+module.exports = function (options) {
+  return webpackMerge(commonConfig({ env: ENV }), {
 
     /**
      * Merged metadata from webpack.common.js for index.html
@@ -125,7 +125,7 @@ module.exports = function(options) {
          *
          * See: https://github.com/webpack/webpack/commit/a04ffb928365b19feb75087c63f13cadfc08e1eb
          */
-        new NamedModulesPlugin(),
+      new NamedModulesPlugin(),
 
     ],
 
