@@ -255,13 +255,6 @@
     "joins": [
       {
         "joinType": "INNER JOIN",
-        "schema": "etl",
-        "tableName": "derived_encounter",
-        "alias": "t2",
-        "joinExpression": "t1.encounter_id  = t2.encounter_id"
-      },
-      {
-        "joinType": "INNER JOIN",
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t3",
