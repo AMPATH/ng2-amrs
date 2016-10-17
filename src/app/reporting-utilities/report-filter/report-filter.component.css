@@ -1,0 +1,13 @@
+/*.ui-fluid .ui-calendar {
+    width: 50% !important;
+}
+
+.ui-fluid .ui-button {
+    width: 10% !important;
+}
+
+*/
+
+make-full-width {
+    width: 100% !important;
+}
