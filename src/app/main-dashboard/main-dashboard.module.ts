@@ -4,21 +4,25 @@ import { FormsModule } from '@angular/forms';
 
 import { dashboardRouting } from './main-dashboard-routing';
 import { MainDashboardComponent } from './main-dashboard.component';
-import { ClinicDashboardComponent } from '../clinic-dashboard/clinic-dashboard.component';
-import { PatientDashboardComponent } from '../patient-dashboard/patient-dashboard.component';
+import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';
+import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    dashboardRouting
+    dashboardRouting,
+    ClinicDashboardModule,
+    PatientDashboardModule
   ],
   declarations: [
-    ClinicDashboardComponent,
-    PatientDashboardComponent
+    MainDashboardComponent
   ],
   providers: [
 
+  ],
+  exports: [
+    MainDashboardComponent
   ]
 })
 export class MainDashboardModule { }

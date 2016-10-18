@@ -20,7 +20,6 @@ import { About } from './about';
 import { NoContent } from './no-content';
 import { XLarge } from './home/x-large';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
-import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 // Application wide providers
@@ -45,8 +44,7 @@ type StoreType = {
     About,
     Home,
     NoContent,
-    XLarge,
-    MainDashboardComponent
+    XLarge
   ],
   imports: [ // import Angular's modules
     BrowserModule,
