@@ -1,8 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainDashboardComponent } from './main-dashboard.component';
-import { ClinicDashboardComponent } from '../clinic-dashboard/clinic-dashboard.component';
-import { PatientDashboardComponent } from '../patient-dashboard/patient-dashboard.component';
 
 const dashboardRoutes: Routes = [
   { path: '', redirectTo: 'patient-dashboard', pathMatch: 'full' },
