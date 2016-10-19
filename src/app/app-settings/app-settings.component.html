@@ -1,0 +1,55 @@
+<div class="container">
+  <div>
+    <h1>Servers Settings</h1>
+    <form #openmrsServerUrl="ngForm">
+      <div class="form-group">
+        <label for="openmrsServerUrl">Current Openmrs Server URL:</label> {{ openmrsServer }}
+        <select class="form-control" id="openmrsServerUrl"
+               required
+               [(ngModel)]="openmrsServer" name="openmrsServerUrl"
+               #openmrsServerUrl="ngModel" >
+          <option *ngFor="let url of openmrsServerUrls" [value]="url">{{url}}</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-default"
+        (click)="showNewUrlForm($event)" id="openmrsUrlBtn">
+        Add New
+      </button>
+    </form>
+  </div>
+  
+  <div>
+    <form #etlServerUrl="ngForm">
+      <div class="form-group">
+        <label for="etlServerUrl">Current ETL URL:</label> {{ etlServer }}
+        <select class="form-control" id="etlServerUrl"
+               required
+               [(ngModel)]="etlServer" name="etlServerUrl"
+               #etlServerUrl="ngModel" >
+          <option *ngFor="let url of etlServerUrls" [value]="url">{{url}}</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-default"
+        (click)="showNewUrlForm($event)" id="etlUrlBtn">
+        Add New
+      </button>
+    </form>
+  </div>
+</div>
+
+<modal #addUrlModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Type the new {{urlType}} URL</h4>
+    </modal-header>
+    <modal-body>
+      <form (ngSubmit)="onSubmit()" #serverUrl="ngForm">
+        <input type="text" placeholder="{{urlPlaceholder}}"
+         class="form-control" [(ngModel)]="newUrl" name="newUrl"/>
+      </form>
+    </modal-body>
+    <modal-footer [show-default-buttons]="false">
+      <button type="button" class="btn btn-default" data-dismiss="addUrlModal" (click)="addUrlModal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveNewURL(newUrl, urlType)">Add</button>
+    </modal-footer>
+</modal>

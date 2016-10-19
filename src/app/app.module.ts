@@ -21,8 +21,10 @@ import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { About } from './about';
 import { NoContent } from './no-content';
-import { MainDashboardModule } from './main-dashboard';
 import { AuthenticationModule } from './authentication';
+import { XLarge } from './home/x-large';
+import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
+import { AppSettingsModule } from './app-settings';
 import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 import { AppFeatureAnalytics } from './shared/services/app-feature-analytics.service';
@@ -57,7 +59,8 @@ type StoreType = {
     RouterModule.forRoot(ROUTES, { useHash: true }),
     Angulartics2Module.forRoot(),
     MainDashboardModule,
-    AuthenticationModule
+    AuthenticationModule,
+    AppSettingsModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -70,7 +73,7 @@ type StoreType = {
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) { }
+  constructor(public appRef: ApplicationRef, public appState: AppState) {}
 
   hmrOnInit(store: StoreType) {
     if (!store || !store.state) return;

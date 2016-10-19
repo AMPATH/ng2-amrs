@@ -23,6 +23,16 @@ const autowatch = process.env.npm_lifecycle_script.indexOf('--auto-watch') !== -
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 module.exports = function(options) {
+  let awesomeTypescriptLoaderQuery = {
+    compilerOptions: {
+
+      // Remove TypeScript helpers to be injected
+      // below by DefinePlugin
+      removeComments: true
+
+    }
+  };
+
   let config =  {
 
     /**
@@ -113,16 +123,10 @@ module.exports = function(options) {
          */
         {
           test: /\.ts$/,
-          loader: 'awesome-typescript-loader',
-          query: {
-            compilerOptions: {
-
-              // Remove TypeScript helpers to be injected
-              // below by DefinePlugin
-              removeComments: true
-
-            }
-          },
+          loader: [
+            'awesome-typescript-loader?' + JSON.stringify(awesomeTypescriptLoaderQuery),
+            'angular2-template-loader'
+          ],
           exclude: [/\.e2e\.ts$/]
         },
 
@@ -147,7 +151,30 @@ module.exports = function(options) {
          *
          * See: https://github.com/webpack/raw-loader
          */
-        { test: /\.html$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')] }
+        { test: /\.html$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')] },
+
+        /** 
+         * File loader for supporting images, for example, in CSS files.
+         */
+        {
+          test: /\.(jpg|png|gif)$/,
+          loader: 'file'
+        }, {
+          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=application/font-woff"
+        }, {
+          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=application/font-woff"
+        }, {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=application/octet-stream"
+        }, {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "file"
+        }, {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=image/svg+xml"
+        }
 
       ],
 
