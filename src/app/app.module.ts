@@ -3,28 +3,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from './shared/guards/auth.guard';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+
 
 /*
  * Platform and Environment providers/directives/pipes
  */
 import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
+import { ROUTES } from './app-routing.module';
 // App is our top level component
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { Home } from './home';
 import { About } from './about';
 import { NoContent } from './no-content';
-import { XLarge } from './home/x-large';
-import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
+import { MainDashboardModule } from './main-dashboard';
+import { AuthenticationModule } from './authentication';
 import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 import { AppFeatureAnalytics } from './shared/services/app-feature-analytics.service';
-
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -46,17 +47,17 @@ type StoreType = {
   declarations: [
     App,
     About,
-    Home,
-    NoContent,
-    XLarge
+    NoContent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
+    Ng2Bs3ModalModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
     Angulartics2Module.forRoot(),
-    MainDashboardModule
+    MainDashboardModule,
+    AuthenticationModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -64,6 +65,7 @@ type StoreType = {
     DynamicRoutesService,
     Angulartics2Piwik,
     AppFeatureAnalytics,
+    AuthGuard,
     { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() }
   ]
 })
@@ -104,5 +106,4 @@ export class AppModule {
     store.disposeOldHosts();
     delete store.disposeOldHosts;
   }
-
 }

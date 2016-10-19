@@ -2,6 +2,18 @@
 @import "../../node_modules/primeng/resources/themes/bootstrap/theme.css";
 @import "../../node_modules/font-awesome/css/font-awesome.css";
 @import "../../node_modules/webfont-medical-icons/css/webfont-medical-icons.css";
-@import "AdminLTE.css";
-@import "skin-black-light.css";
 @import "../../node_modules/angular2-busy/build/style/busy.css";
+@import "../assets/css/AdminLTE.css";
+@import "skin-black-light.css";
+
+body {
+  background: #f9fafc;
+}
+
+.padding-bottom-30 {
+	padding-bottom: 30px !important;
+}
+
+.margin-bottom-0 {
+	margin-bottom: 0 !important;
+}

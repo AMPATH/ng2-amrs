@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainDashboardComponent } from './main-dashboard.component';
 
 const dashboardRoutes: Routes = [
-  { path: '', redirectTo: 'patient-dashboard', pathMatch: 'full' },
   {
     path: '',
     component: MainDashboardComponent,
@@ -22,4 +21,5 @@ const dashboardRoutes: Routes = [
     ]
   }
 ];
+
 export const dashboardRouting: ModuleWithProviders = RouterModule.forChild(dashboardRoutes);
