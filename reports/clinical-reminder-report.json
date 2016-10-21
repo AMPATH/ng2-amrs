@@ -47,6 +47,11 @@
                  "label":"overdue_cd4_count_lab_order",
                  "expression":"overdue_cd4_count_lab_order",
                  "sql":"$expression"
+               },
+               {
+                 "label":"is_on_inh_treatment",
+                 "expression":"is_on_inh_treatment",
+                 "sql":"$expression"
                }
 
 
@@ -112,6 +117,21 @@
                "label":"vl_error_order_date",
                "type":"single",
                "sql":"t3.vl_error_order_date"
+             },
+             {
+               "label":"tb_prophylaxis_end_date",
+               "type":"single",
+               "sql":"DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 6 MONTH)"
+             },
+             {
+               "label":"tb_prophylaxis_start_date",
+               "type":"single",
+               "sql":"t1.tb_prophylaxis_start_date"
+             },
+             {
+               "label":"inh_treatment_days_remaining",
+               "type":"single",
+               "sql":"DATEDIFF(now(), DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 6 MONTH))"
              }
 
 

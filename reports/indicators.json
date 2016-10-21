@@ -485,6 +485,12 @@
         "expression": "screened_for_tb and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and encounter_datetime between startDate and endDate"
     },
     {
+        "name":"is_on_inh_treatment",
+        "label":"is_on_inh_treatment",
+        "description": "patient is on INH treatment",
+        "expression": "case when (timestampdiff(month,tb_prophylaxis_start_date, now()) <= 6) and tb_prophylaxis_start_date is not null then timestampdiff(month,tb_prophylaxis_start_date, now()) else 0 end "
+    },
+    {
         "name":"using_modern_contracept_method",
         "label":"using modern contracept method",
         "description": " # of patients using modern contraceptive methods (IUD, injectables, OCP)",
