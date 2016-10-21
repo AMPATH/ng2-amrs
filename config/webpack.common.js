@@ -24,7 +24,7 @@ const ProvidePlugin = require('webpack/lib/ProvidePlugin');
  */
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = {
-  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
+  title: 'Ampath Point of Care',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };

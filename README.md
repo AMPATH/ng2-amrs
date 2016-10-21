@@ -258,8 +258,35 @@ import * as _ from 'lodash';
 * [Twitter: @AngularClass](https://twitter.com/AngularClass)
 * [Gitter: AngularClass/angular2-webpack-starter](https://gitter.im/angularclass/angular2-webpack-starter)
 
-# Quick Start Guides
+# How to add App Analytics as you code
+> This project is configured with angulartics with piwik as the analytics provider. It is important to track events and actions as you code. Here is a basic quide on how to do this: 
 
+* Provider: https://test1.ampath.or.ke/piwik 
+* Default App: NG2-AMRS-Localhost
+
+Import ```AppFeatureAnalytics``` Service in your component, service, directive or pipe
+
+```es6
+import { AppFeatureAnalytics } from '../../shared/services/app-feature-analytics.service.ts';
+```
+
+... and inject it 
+ 
+```es6
+constructor(private appFeatureAnalytics: AppFeatureAnalytics) {}
+```
+then call this.appFeatureAnalytics.trackEvent() with the following parameters
+   * @param {string} category  --> The Module/Dashboard eg 'Patient Dashboard'
+   * @param {string} action  --> The Feature you want to track eg 'Searching Patient'
+   * @param {string} [name]  --> The name of the function trackEvent() fx was invoked eg 'searchPatient'
+   
+```es6
+
+  public searchPatient(event: any) {
+    //.... functionality of your method
+    this.appFeatureAnalytics.trackEvent('Patient Dashboard', 'Searched Patient', 'searchPatient');
+  }
+```
 
 ___
 

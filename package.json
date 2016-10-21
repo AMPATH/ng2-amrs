@@ -1,14 +1,14 @@
 {
   "name": "Ampath_Point_of_Care",
   "version": "5.0.5",
-  "description": "An Angular 2 Webpack Starter kit featuring Angular 2 (Router, Http, Forms, Services, Tests, E2E, Coverage), Karma, Protractor, Jasmine, Istanbul, TypeScript, and Webpack by AngularClass",
+  "description": "Ampath Point Of Care",
   "keywords": [
     "angular2",
     "webpack",
     "typescript"
   ],
-  "author": "Patrick Stapleton <patrick@angularclass.com>",
-  "homepage": "https://github.com/angularclass/angular2-webpack-starter",
+  "author": "Ampath Devs <dev@ampath.or.ke>",
+  "homepage": "https://github.com/AMPATH",
   "license": "MIT",
   "scripts": {
     "build:dev": "webpack --config config/webpack.dev.js --progress --profile",
@@ -72,6 +72,7 @@
     "@angularclass/hmr": "~1.2.0",
     "@angularclass/hmr-loader": "~3.0.2",
     "angular2-select": "^1.0.0-alpha.11",
+    "angulartics2": "^1.1.10",
     "assets-webpack-plugin": "^3.4.0",
     "bootstrap-loader": "^1.0.8",
     "core-js": "^2.4.1",

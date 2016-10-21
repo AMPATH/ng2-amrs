@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
-
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -22,6 +23,7 @@ import { XLarge } from './home/x-large';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
+import { AppFeatureAnalytics } from './shared/services/app-feature-analytics.service';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
@@ -51,12 +53,15 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
+    Angulartics2Module.forRoot(),
     MainDashboardModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
     DynamicRoutesService,
+    Angulartics2Piwik,
+    AppFeatureAnalytics,
     { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() }
   ]
 })
