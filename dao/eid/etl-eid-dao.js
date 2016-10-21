@@ -31,6 +31,11 @@ module.exports = function () {
                       return new Promise(function (resolve, reject) {
                           rp.postRequestPromise(payload, eidServer.url)
                               .then(function (response) {
+                                if(response === 'Could not select database'){
+                                   reject(response);
+                                   callback(Boom.internal(response));
+                                   return;
+                                }
                                   resolve(response);
                                   callback(payload);
                               })
