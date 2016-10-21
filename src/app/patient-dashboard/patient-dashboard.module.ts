@@ -9,6 +9,8 @@ import { PatientEncountersComponent } from './patient-encounters/patient-encount
 import { PatientSearchComponent } from './patient-search/patient-search.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
+import { PatientBannerComponent } from './patient-banner/patient-banner.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { PatientDashboardComponent } from './patient-dashboard.component';
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientSearchComponent,
-    PatientDashboardComponent
+    PatientDashboardComponent,
+    PatientBannerComponent
   ],
   providers: [
     PatientDashboardGuard
