@@ -488,7 +488,7 @@
         "name":"is_on_inh_treatment",
         "label":"is_on_inh_treatment",
         "description": "patient is on INH treatment",
-        "expression": "case when (timestampdiff(month,tb_prophylaxis_start_date, now()) <= 6) and tb_prophylaxis_start_date is not null then timestampdiff(month,tb_prophylaxis_start_date, now()) else 0 end "
+        "expression": "tb_prophylaxis_start_date is not null"
     },
     {
         "name":"using_modern_contracept_method",
