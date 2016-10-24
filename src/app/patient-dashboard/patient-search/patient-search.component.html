@@ -1,4 +1,7 @@
-<p>
-	patient-search works!
-</p>
-<a [routerLink]="['/patient-dashboard', 111,'patient-info']"> <i class="fa fa-search"></i> Go to dashboard </a>
+<p>patient-search works!</p>
+<ul *ngFor="let patient of patients"> 
+	<li>
+		<a [routerLink]="['/patient-dashboard', 11,'patient-info']"> <i class="fa"></i> {{ patient.fullName }} </a>
+	</li>
+</ul>
+<!--a [routerLink]="['/patient-dashboard', 11,'patient-info']"> <i class="fa fa-search"></i> Go to dashboard </a-->

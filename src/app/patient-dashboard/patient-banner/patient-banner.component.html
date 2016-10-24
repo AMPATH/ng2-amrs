@@ -1,21 +1,15 @@
 <div class="panel panel-info">
-  <div class="panel-body">
-		<div>
-			<div class="row">
-
-				<div class="col-sm-6">
-					<div style="padding-top: 10px">Name</div>
-					<div style="padding-top: 10px">Age</div>
-					<div style="padding-top: 10px">Health Center:</div>
-				</div>
-
-				<div class="col-sm-6">
-					<div style="padding-top: 10px">AMRS UID</div>
-					<div style="padding-top: 10px">AMRS MRN</div>
-					<div style="padding-top: 10px">National ID</div>
-				</div>
-
-			</div>
+  <div class="panel-heading">
+	  <div class="banner-info" *ngIf="patient">
+		  <div class="inline banner-detail" id="name">{{patient.fullName}}</div>
+		  <div class="inline banner-detail" id="gender">	{{ patient.gender }}</div>
+		  <div class="inline banner-detail" id="dob">	{{ patient.dob | date:'dd-MM-yyyy' }} (	{{ patient.age }})</div>
+		  <div class="inline banner-detail" id="identifier">	{{ patient.ampathMrsUId }}</div>
+		  <div class="inline banner-detail" id="identifier">	{{ patient.amrsMrn }}</div>
+		  <div class="inline banner-detail" id="identifier">	{{ patient.kenyaNationalId }}</div>
+	  </div>
+		<div *ngIf="!patient">
+			<p>Nothing to show</p>
 		</div>
 	</div>
 </div>
