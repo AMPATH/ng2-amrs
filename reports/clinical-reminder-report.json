@@ -121,7 +121,7 @@
              {
                "label":"tb_prophylaxis_end_date",
                "type":"single",
-               "sql":"DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 6 MONTH)"
+               "sql":"DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY)"
              },
              {
                "label":"tb_prophylaxis_start_date",
@@ -131,7 +131,7 @@
              {
                "label":"inh_treatment_days_remaining",
                "type":"single",
-               "sql":"DATEDIFF(now(), DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 6 MONTH))"
+               "sql":"DATEDIFF(DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY), now())"
              }
 
 
