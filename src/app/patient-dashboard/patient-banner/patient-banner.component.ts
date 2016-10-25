@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { Patient } from '../patients';//added
+
 @Component({
   moduleId: module.id,
   selector: 'patient-banner',
@@ -10,15 +12,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class PatientBannerComponent implements OnInit {
   //Assign the selected patient here
-  patient = {
-      fullName: "Test One Spens ",
-      gender: 'M',
-      dob: 1212345123,
-      age: 34,
-      ampathMrsUId: 163238471-3,
-      amrsMrn : 456789,
-      kenyaNationalId: 16150-2013
-  };
+  @Input()
+  patient :Patient;
 
   constructor() { }
 
@@ -26,3 +21,4 @@ export class PatientBannerComponent implements OnInit {
   }
 
 }
+

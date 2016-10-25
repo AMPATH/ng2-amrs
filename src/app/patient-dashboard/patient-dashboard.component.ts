@@ -3,12 +3,22 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { DynamicRoutesService } from '../shared/services/dynamic-routes.service';
 
+//Patient model and service
+import { Patient } from './patients';
+import { PatientService } from './patient.service';
+
 @Component({
   selector: 'app-patient-dashboard',
   templateUrl: './patient-dashboard.component.html',
-  styleUrls: ['./patient-dashboard.component.css']
+  styleUrls: ['./patient-dashboard.component.css'],
+  providers: [PatientService]//added
 })
 export class PatientDashboardComponent implements OnInit {
+
+  //Handle patients
+  patients : Patient[];
+  selectedPatient: Patient;
+
   options = [
     {
       value: 'a',
@@ -23,7 +33,7 @@ export class PatientDashboardComponent implements OnInit {
       label: 'Gamma'
     }
   ];
-  constructor(private router: Router, private route: ActivatedRoute, private dynamicRoutesService: DynamicRoutesService) {
+  constructor(private router: Router, private route: ActivatedRoute, private dynamicRoutesService: DynamicRoutesService, private patientService: PatientService) {
 
     this.route.params.forEach((params: Params) => {
       let patientUuid = params['patient_uuid'];
@@ -36,9 +46,21 @@ export class PatientDashboardComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-
+  //Function to fetch patients
+  getPatients(): void {
+    this.patientService.getPatients().then(patients => this.patients = patients);
   }
+
+  ngOnInit() {
+    this.getPatients();//added
+  }
+
+  //Assign selectedPatient to patient
+  selectPatient(patient: Patient): void {
+    this.selectedPatient = patient;
+  }
+
+
   setRoutes(patientUuid) {
     let routes = [
       {

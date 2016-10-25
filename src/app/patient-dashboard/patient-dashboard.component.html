@@ -1,2 +1,7 @@
 <router-outlet></router-outlet>
-<patient-banner></patient-banner>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let patient of patients" (click)="selectPatient(patient)">
+       {{ patient.fullName}}
+    </li>
+</ul>
+<patient-banner [patient]="selectedPatient"></patient-banner>
