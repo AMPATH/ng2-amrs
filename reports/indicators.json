@@ -212,46 +212,46 @@
         "name":"enrolled_in_care_total",
         "label":"enrolled in care total",
         "description": "Total # of patients enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between startDate and endDate"
 
     },
     {
         "name":"enrolled_in_care_males_lt_one",
         "label":"enrolled in care males lt one",
         "description": "Total # of male patients < 1 yr enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and date(enrollment_date) between startDate and endDate"
     },
     {
         "name":"enrolled_in_care_females_lt_one",
         "label":"enrolled in care females lt one",
         "description": "Total # of female patients < 1 yr enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and date(enrollment_date) between startDate and endDate"
 
     },
     {
         "name":"enrolled_in_care_males_below_15",
         "label":"enrolled in care males below 15",
         "description": "Total # of male patients below 15 enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and gender='M'  and timestampdiff(year,birthdate,endDate) < 15 and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and gender='M'  and timestampdiff(year,birthdate,endDate) < 15 and date(enrollment_date) between startDate and endDate"
     },
     {
         "name":"enrolled_in_care_females_below_15",
         "label":"enrolled in care females below 15",
         "description": "Total # of female patients below 15 enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and date(enrollment_date) between startDate and endDate"
     },
     {
         "name":"enrolled_in_care_males_15_and_older",
         "label":"enrolled in care males 15 and older",
         "description": "Total # of male patients 15 and older enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and date(enrollment_date) between startDate and endDate"
 
     },
     {
         "name":"enrolled_in_care_females_15_and_older",
         "label":"enrolled in care females 15 and older",
         "description": "Total # of female patients 15 and older enrolled in care",
-        "expression": "encounter_datetime = enrollment_date and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and enrollment_date between startDate and endDate"
+        "expression": "(date(prev_clinical_datetime_hiv) between startDate and endDate  or prev_clinical_datetime_hiv is null) and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and date(enrollment_date) between startDate and endDate"
     },
     {
         "name":"currently_in_care_total",
@@ -299,52 +299,52 @@
         "name":"starting_art_total",
         "label":"starting art total",
         "description": "Total # of patients starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
     },
     {
         "name":"starting_art_males_lt_one",
         "label":"starting art males lt one",
         "description": "Total # of male patients < 1 yr starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,endDate) < 1 and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
     },
     {
         "name":"starting_art_females_lt_one",
         "label":"starting art females lt one",
         "description": "Total # of female patients < 1 yr starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,endDate) < 1 and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
 
     },
     {
         "name":"starting_art_males_below_15",
         "label":"starting art males below 15",
         "description": "Total # of male patients below 15 starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,endDate) < 15 and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
 
     },
     {
         "name":"starting_art_females_below_15",
         "label":"starting art females below 15",
         "description": "Total # of female patients below 15 starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,endDate) < 15 and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
 
     },
     {
         "name":"starting_art_males_15_and_older",
         "label":"starting art males 15 and older",
         "description": "Total # of male patients 15 and older starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,endDate) >= 15 and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
     },
     {
         "name":"starting_art_females_15_and_older",
         "label":"starting art females 15 and older",
         "description": "Total # of female patients 15 and older starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and arv_first_regimen_start_date between startDate and endDate"
+        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,endDate) >= 15 and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null"
     },
     {
         "name": "starting_art_and_has_tb",
         "label": "starting_art_and_has_tb",
         "description": "Starting ART and has TB",
-        "expression": "(tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,startDate) <= 1) and (date(encounter_datetime) = date(arv_first_regimen_start_date) and arv_first_regimen_start_date between startDate and endDate)"
+        "expression": "(tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,startDate) <= 1) and (date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between startDate and endDate) and cur_arv_meds is not null and prev_arv_meds is null)"
     },
     {
         "name":"revisits_on_art_total",
@@ -449,8 +449,8 @@
         "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 1 and coalesce(transfer_out, out_of_care) is null"
     },
     {
-        "name":"on_second_line",
-        "label":"on second line",
+        "name":"on_second_line_or_higher",
+        "label":"on second line or higher",
         "description": "Total # of patients on original ART regimen",
         "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line >= 2 and coalesce(transfer_out, out_of_care) is null "
     },
@@ -493,7 +493,7 @@
     {
         "name":"using_modern_contracept_method",
         "label":"using modern contracept method",
-        "description": " # of patients using modern contraceptive methods (IUD, injectables, OCP)",
+        "description": " # of patients using modern contraceptive methods (IUD, injectables, OCP, e.t.c)",
         "expression": "using_modern_contraceptive_method = 1 and encounter_datetime between startDate and endDate"
     },
     {
