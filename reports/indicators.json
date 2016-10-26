@@ -8,7 +8,7 @@
     {
         "name":"patients",
         "label":"patients",
-        "description": "Total # of patients",
+        "description": "Total # of patients who have had an encounter within selected period",
         "expression": "true"
 
     },
