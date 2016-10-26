@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
+import { Constants } from '../../utils/constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -13,11 +14,12 @@ export class AuthGuard implements CanActivate {
 
     if(previousRoute && previousRoute.indexOf('#') != -1) {
       previousRoute = previousRoute.substring(previousRoute.indexOf('#') + 1);
-    }
+    } else
+      previousRoute = '/';
 
     sessionStorage.setItem('previousRoute', previousRoute);
 
-    let credentials = sessionStorage.getItem('credentials');
+    let credentials = sessionStorage.getItem(Constants.CREDENTIALS_KEY);
 
     if (credentials) {
       return true;

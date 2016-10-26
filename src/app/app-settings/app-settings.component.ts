@@ -1,10 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppSettingsService } from './app-settings.service';
+import { AuthenticationService } from '../amrs-api/authentication.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './app-settings.component.html',
+  styleUrls: ['./app-settings.component.css'],
   providers: [ AppSettingsService ]
 })
 export class AppSettingsComponent {
@@ -13,8 +16,13 @@ export class AppSettingsComponent {
   newUrl: string;
   urlPlaceholder: string;
   urlType: string;
-  
-  constructor(private appSettingsService: AppSettingsService ) {}
+  serverTemplates: Array<Object> = this.getServerTemplates();
+
+  constructor( private router: Router, private appSettingsService: AppSettingsService, private authenticationService: AuthenticationService ) {}
+
+  getServerTemplates(): Array<Object> {
+    return this.appSettingsService.getServerTemplates();
+  }
 
   get openmrsServer():string {
     return this.appSettingsService.getOpenmrsServer();
@@ -63,5 +71,22 @@ export class AppSettingsComponent {
   saveNewURL(url: string, urlType:string = 'openmrs') {
     this.appSettingsService.addAndSetUrl(url, urlType);
     this.urlModal.close();
+  }
+
+  changeServerSettings(row: any) {
+    //changes are reflected on the respective drop down menu's
+    //change openmrs url
+    this.openmrsServer = row.amrsUrl;
+    //alert(this.openmrsServer);
+    //change etl-server url
+    this.etlServer = row.etlUrl;
+  }
+
+  onDoneClick() {
+
+    //clear session cache
+    //return back to login page
+    this.authenticationService.clearSessionCache();
+      this.router.navigate(['/login']);
   }
 }
