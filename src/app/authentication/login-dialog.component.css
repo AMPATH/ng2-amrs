@@ -1,0 +1,23 @@
+.login-dialog {
+
+}
+
+.login-dialog .login-container {
+
+}
+
+.login-dialog .banner {
+  display: none !important;
+}
+
+.login-dialog header {
+  width: auto !important;
+}
+
+.login-dialog .login-container {
+  width: 100% !important;
+}
+
+.login-dialog #server-settings {
+  display: none !important;
+}

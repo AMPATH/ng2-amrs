@@ -15,8 +15,8 @@ describe('App', () => {
       App
     ]}));
 
-  it('should have a url', inject([ App ], (app: App) => {
-    expect(app.url).toEqual('https://twitter.com/AngularClass');
+  it('should have a name', inject([ App ], (app: App) => {
+    expect(app.name).toBeTruthy();
   }));
 
 });

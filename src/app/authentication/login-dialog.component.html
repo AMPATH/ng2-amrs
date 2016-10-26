@@ -1,0 +1,7 @@
+<div class="login-dialog">
+  <modal #modal [cssClass]="cssClass" >
+       <modal-body>
+           <login #loginComponent (loginSuccess)="onLoginSuccess($event)"></login>
+       </modal-body>
+   </modal>
+</div>
