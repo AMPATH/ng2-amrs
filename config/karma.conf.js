@@ -27,7 +27,10 @@ module.exports = function(config) {
      *
      * we are building the test environment in ./spec-bundle.js
      */
-    files: [ { pattern: './config/spec-bundle.js', watched: false } ],
+    files: [
+      'node_modules/jquery/dist/jquery.slim.min.js',
+      { pattern: './config/spec-bundle.js', watched: false } 
+    ],
 
     /*
      * preprocess matching files before serving them to the browser
