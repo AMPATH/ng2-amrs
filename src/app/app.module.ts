@@ -24,6 +24,8 @@ import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { DynamicRoutesService } from './shared/services/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 import { AppFeatureAnalytics } from './shared/services/app-feature-analytics.service';
+
+
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
