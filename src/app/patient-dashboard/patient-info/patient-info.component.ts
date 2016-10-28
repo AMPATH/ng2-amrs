@@ -7,7 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatientInfoComponent implements OnInit {
 
-  constructor() { }
+  messageType = "error";
+  message = "There is a problem with your internet connection. Please try to connect again";
+  isVisible = true;
+
+  doSomething(): void {
+    alert('Test function working');
+  }
+ 
+  constructor() {
+   }
 
   ngOnInit() {
   }
