@@ -9,7 +9,7 @@ import { PatientEncountersComponent } from './patient-encounters/patient-encount
 import { PatientSearchComponent } from './patient-search/patient-search.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-import { NgamrsSharedModule } from '../shared/ngamrs-shared.module'
+import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 
 @NgModule({
   imports: [
