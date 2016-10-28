@@ -21,7 +21,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import 'jquery';
+import 'slimscroll';
 import 'bootstrap-loader';
+import './assets/slimScroll/jquery.slimscroll.min.js';
 import './assets/app';
 if ('production' === ENV) {
   // Production
