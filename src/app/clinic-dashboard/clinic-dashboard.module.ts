@@ -6,6 +6,7 @@ import { clinicDashboardRouting } from './clinic-dashboard-routing.module';
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
+import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ClinicDashboardComponent } from './clinic-dashboard.component';
   ],
   declarations: [
     DailyScheduleComponent,
+    MonthlyScheduleComponent,
     ClinicDashboardComponent
   ],
   providers: [
@@ -22,6 +24,7 @@ import { ClinicDashboardComponent } from './clinic-dashboard.component';
   ],
   exports: [
     DailyScheduleComponent,
+    MonthlyScheduleComponent,
     ClinicDashboardComponent
   ],
 })
