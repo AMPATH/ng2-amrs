@@ -31,21 +31,35 @@
 						<!-- The user image in the navbar-->
 						<i class="fa fa-user"></i>
 						<!-- hidden-xs hides the username on small devices so only the image appears. -->
-						<span class="hidden-xs">Poc User - Developer</span>
+						<span class="username">{{user.display}}</span>
+						<span class="hidden-xs"> - {{ user.roleDisplay }}</span>
 					</a>
 					<ul class="dropdown-menu">
-						<!-- The user image in the menu -->
-						<li class="user-header">
+						<li class="dropdown-header">
 							<p>
-								Poc User - Developer
-								<small>Role : Admin</small>
+								<span class="label label-default">Location:</span>
+								<span>(Location)</span>
 							</p>
+							<p>
+								<span class="label label-primary">Role:</span>
+								<span>{{ user.roleDisplay }}</span>
+							</p>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li>
+							<a routerLink="/app/settings">
+								<span class="glyphicon glyphicon-hdd"></span>
+								Switch Servers
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-user"></span>
+								User Default Settings
+							</a>
 						</li>
 						<!-- Menu Footer-->
 						<li class="user-footer">
-							<div class="pull-left">
-								<a href="#" class="btn btn-default btn-flat">Settings</a>
-							</div>
 							<div class="pull-right">
 								<a (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
 							</div>

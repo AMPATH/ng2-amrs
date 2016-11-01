@@ -5,6 +5,9 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
 import { AuthenticationService } from '../amrs-api/authentication.service';
 import { Subscription } from 'rxjs';
+import { UserService } from '../amrs-api/user.service';
+import { User } from '../models/user.model';
+
 declare var jQuery: any;
 
 @Component({
@@ -16,13 +19,14 @@ export class MainDashboardComponent implements OnInit {
   public routeConfig = <DynamicRouteModel>{};
   public sidebarOpen = true;
   public isMobile = false;
+  user: User;
 
   busyIndicator: Subscription;
 
   constructor(private router: Router,
               private dynamicRoutesService: DynamicRoutesService,
-              private authenticationService: AuthenticationService) {
-
+              private authenticationService: AuthenticationService,
+              private userService: UserService) {
   }
 
   ngOnInit() {
@@ -38,6 +42,7 @@ export class MainDashboardComponent implements OnInit {
       },
       err => console.log(err),
       () => console.log('Completed'));
+    this.user = this.userService.getLoggedInUser();
   }
 
   screenChanges(event) {

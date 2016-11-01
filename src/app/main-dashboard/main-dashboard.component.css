@@ -1,0 +1,20 @@
+.user-menu > .dropdown-menu {
+  width: 250px;
+}
+
+.user-menu .dropdown-menu>li>a {
+  color: #333;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.user-menu li.dropdown-header {
+  font-size: 15px;
+  padding-top: 15px;
+}
+
+.user-menu li.dropdown-header span:first-child {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 13px;
+}
