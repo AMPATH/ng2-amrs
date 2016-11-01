@@ -218,11 +218,11 @@ module.exports = function(options) {
         filename: 'webpack-assets.json',
         prettyPrint: true
       }),
-      // new VersionFile({
-      //   packageFile: path.join(__dirname, '../package.json'),
-      //   template: path.join(__dirname, 'version.ejs'),
-      //   outputFile: path.join(__dirname, '../src/app/version.json')
-      // }),
+      new VersionFile({
+        packageFile: path.join(__dirname, '../package.json'),
+        template: path.join(__dirname, 'version.ejs'),
+        outputFile: path.join(__dirname, '../src/app/version.json')
+      }),
       new ProvidePlugin({
         jQuery: 'jquery',
         $: 'jquery',
