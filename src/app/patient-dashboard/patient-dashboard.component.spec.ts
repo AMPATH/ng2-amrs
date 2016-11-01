@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { DynamicRoutesService } from '../shared/services/dynamic-routes.service';
+import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
@@ -23,8 +23,7 @@ describe('Component: PatientDashboard', () => {
   it('should create an instance', () => {
     let router: Router = TestBed.get(Router);
     let route: ActivatedRoute = TestBed.get(ActivatedRoute);
-    let dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-    let component = new PatientDashboardComponent(router, route, dynamicRoutesService);
+    let component = new PatientDashboardComponent(router, route);
     expect(component).toBeTruthy();
   });
 });

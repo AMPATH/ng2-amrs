@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { PatientInfoComponent } from './patient-info.component';
+import { PatientVitalsComponent } from './patient-vitals.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 
-describe('Component: PatientInfo', () => {
+describe('Component: PatientVitals', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -21,9 +21,12 @@ describe('Component: PatientInfo', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
   });
+
   it('should create an instance', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    let component = new PatientInfoComponent(fakeAppFeatureAnalytics);
+    let component = new PatientVitalsComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });
 });
+
+

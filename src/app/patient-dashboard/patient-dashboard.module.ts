@@ -10,24 +10,35 @@ import { PatientSearchComponent } from './patient-search/patient-search.componen
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
+import { FormsComponent } from './forms/forms.component';
+import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    patientDashboardRouting, CommonModule, AccordionModule, DataTableModule, SharedModule,NgamrsSharedModule
+    patientDashboardRouting, CommonModule, AccordionModule, DataTableModule, SharedModule, NgamrsSharedModule
   ],
   declarations: [
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientSearchComponent,
-    PatientDashboardComponent
+    PatientDashboardComponent,
+    PatientVitalsComponent,
+    FormsComponent,
+    LabDataSummaryComponent
   ],
   providers: [
     PatientDashboardGuard
   ],
   exports: [
-    PatientDashboardComponent, PatientEncountersComponent
+    PatientDashboardComponent,
+    PatientEncountersComponent,
+    PatientVitalsComponent,
+    FormsComponent,
+    LabDataSummaryComponent
   ]
 })
-export class PatientDashboardModule { }
+export class PatientDashboardModule {
+}
