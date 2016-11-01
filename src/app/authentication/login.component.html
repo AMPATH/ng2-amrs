@@ -21,11 +21,12 @@
               </div>
               <div class="login-buttons">
                 <button class="btn indigo btn-large" type="submit">Sign in</button>
-                <button id="server-settings" class="btn indigo btn-large pull-right" type="submit">Server Settings</button>
+                <a routerLink="/app/settings" id="server-settings" class="btn indigo btn-large pull-right" type="submit">Server Settings</a>
               </div>
               <div class="clear"></div>
             </form>
             <div class="error">{{error}}</div>
+            <div [ngBusy]="busy"></div>
           </div>
         </div>
       </div>

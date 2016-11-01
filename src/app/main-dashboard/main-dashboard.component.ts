@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Response } from '@angular/http';
+import { Router } from '@angular/router';
 import { DynamicRoutesService } from '../shared/services/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/services/dynamic-route.model';
+import { AuthenticationService } from '../amrs-api/authentication.service';
+import { Subscription } from 'rxjs';
+
 declare var jQuery: any;
 
 @Component({
@@ -13,7 +17,10 @@ export class MainDashboardComponent implements OnInit {
   routeConfig = <DynamicRouteModel>{};
   sidebarOpen = true;
   isMobile = false;
-  constructor(private dynamicRoutesService: DynamicRoutesService) {
+
+  busyIndicator: Subscription;
+
+  constructor(private router: Router, private dynamicRoutesService: DynamicRoutesService, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -33,5 +40,17 @@ export class MainDashboardComponent implements OnInit {
   screenChanges(event) {
     this.sidebarOpen = event;
     this.isMobile = event;
+  }
+
+  logout() {
+
+    this.busyIndicator = this.authenticationService.logOut()
+    .subscribe(
+      (response: Response) => {
+        this.router.navigate(['/login']);
+      },
+      (error: Error) => {
+        this.router.navigate(['/login']);
+      });
   }
 }

@@ -1,13 +1,21 @@
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {provideRoutes } from '@angular/router';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { UtilsModule } from '../utils/utils.module';
 import { AppSettingsComponent } from './app-settings.component';
 import { AppSettingsService } from './app-settings.service';
+import {RouterTestingModule} from '@angular/router/testing';
+
+import { Http, BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+import { AuthenticationService } from '../amrs-api/authentication.service';
+import { SessionService } from '../amrs-api/session.service';
 
 describe('AppSettingsComponent Tests', () => {
   let comp:    AppSettingsComponent;
@@ -16,11 +24,23 @@ describe('AppSettingsComponent Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, Ng2Bs3ModalModule, UtilsModule ],
+      imports: [ FormsModule, Ng2Bs3ModalModule, UtilsModule, RouterTestingModule ],
       declarations: [ AppSettingsComponent ],
       providers: [
+        MockBackend,
+        BaseRequestOptions,
         { provide: APP_BASE_HREF, useValue: '/' },
+        {
+          provide: Http,
+          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
+            return new Http(backendInstance, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        },
         AppSettingsService,
+        AuthenticationService,
+        SessionService,
+        provideRoutes([])
       ],
     })
     .compileComponents()
@@ -39,7 +59,7 @@ describe('AppSettingsComponent Tests', () => {
     fixture.detectChanges();
     expect(debugElement.nativeElement.textContent).toContain(comp.openmrsServerUrls[0]);
   });
-  
+
   it('Should display default ETL server url', () => {
     fixture.autoDetectChanges();
     let formElements = fixture.debugElement.queryAll(By.css('div .form-group'));

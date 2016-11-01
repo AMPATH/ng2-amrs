@@ -18,13 +18,46 @@ export class AppSettingsService {
     'https://amrsreporting.ampath.or.ke:8002/etl',
     'https://amrsreporting.ampath.or.ke:8003/etl'
   ];
-  
+
+  private templates = [
+    {
+      name: 'Production',
+      amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
+      etlUrl: 'https://amrsreporting.ampath.or.ke:8002/etl'
+    },
+    {
+      name: 'Production Demo',
+      amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
+      etlUrl: 'https://amrsreporting.ampath.or.ke:8003/etl'
+    },
+    {
+      name: 'Single Server',
+      amrsUrl: '/amrs',
+      etlUrl: '/etl-server/etl'
+    },
+    {
+      name: 'Single Server Demo',
+      amrsUrl: '/amrs',
+      etlUrl: '/etl-server-demo/etl'
+    },
+    {
+      name: 'Test',
+      amrsUrl: 'https://test1.ampath.or.ke:8443/amrs',
+      etlUrl: 'https://test1.ampath.or.ke:8002/etl'
+    },
+    {
+      name: 'Test Demo',
+      amrsUrl: 'https://test1.ampath.or.ke:8443/amrs',
+      etlUrl: 'https://test1.ampath.or.ke:8003/etl'
+    }
+  ]
+
   public static readonly OPENMRS_LIST_STORAGE_KEY = 'appSettings.openmrsServersList';
   public static readonly ETL_LIST_STORAGE_KEY = 'appSettings.etlServersList'
-  public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer'; 
+  public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';
   public static readonly ETL_SERVER_KEY = 'appSettings.etlServer';
   private static readonly OPENMRS_REST_SUFFIX = 'ws/rest/v1/';
-  
+
   get openmrsServerUrls():string[] {
     return this._openmrsServerUrls;
   }
@@ -34,13 +67,13 @@ export class AppSettingsService {
   }
 
   constructor(private localStorageService: LocalStorageService) {
-    let cachedUrls = 
+    let cachedUrls =
       localStorageService.getObject(AppSettingsService.OPENMRS_LIST_STORAGE_KEY);
     if(cachedUrls) {
       this._openmrsServerUrls = cachedUrls;
     }
     else {
-      localStorageService.setObject(AppSettingsService.OPENMRS_LIST_STORAGE_KEY, 
+      localStorageService.setObject(AppSettingsService.OPENMRS_LIST_STORAGE_KEY,
         this.openmrsServerUrls);
     }
 
@@ -50,8 +83,8 @@ export class AppSettingsService {
     }
     else {
       this.setOpenmrsServer(this.openmrsServerUrls[0]);
-    } 
-    
+    }
+
     cachedUrls = localStorageService.getItem(AppSettingsService.ETL_LIST_STORAGE_KEY);
     if(cachedUrls) {
       this._etlServerUrls = JSON.parse(cachedUrls);
@@ -69,9 +102,13 @@ export class AppSettingsService {
       this.setEtlServer(this.etlServerUrls[0]);
     }
   }
-  
+
+  getServerTemplates(): Array<Object> {
+    return this.templates;
+  }
+
   getOpenmrsServer():string {
-    return this._openmrsServer;
+    return this.localStorageService.getItem(AppSettingsService.OPENMRS_SERVER_KEY) || this._openmrsServer;
   }
 
   setOpenmrsServer(value: string): void {
@@ -83,7 +120,7 @@ export class AppSettingsService {
   }
 
   getEtlServer():string {
-    return this._etlServer;
+    return this.localStorageService.getItem(AppSettingsService.ETL_SERVER_KEY) || this._etlServer;
   }
 
   setEtlServer(value: string):void {
@@ -93,7 +130,7 @@ export class AppSettingsService {
     this.localStorageService.setItem(AppSettingsService.ETL_SERVER_KEY, value);
     this._etlServer = value;
   }
-  
+
   addAndSetUrl(url: string, urlType:string = 'openmrs') {
     if(urlType === 'etl') {
       this.addEtlUrl(url);
@@ -104,13 +141,13 @@ export class AppSettingsService {
       this.setOpenmrsServer(url);
     }
   }
-  
+
   addEtlUrl(url: string):void {
     this.etlServerUrls.push(url);
     this.localStorageService.setObject(AppSettingsService.ETL_LIST_STORAGE_KEY,
       this.etlServerUrls);
   }
-  
+
   addOpenmrsUrl(url: string): void {
     this.openmrsServerUrls.push(url);
     this.localStorageService.setObject(AppSettingsService.OPENMRS_LIST_STORAGE_KEY,
@@ -122,7 +159,7 @@ export class AppSettingsService {
       return this.getOpenmrsServer() + AppSettingsService.OPENMRS_REST_SUFFIX;
     }
     else {
-      return this.getOpenmrsServer() + '/' + AppSettingsService.OPENMRS_REST_SUFFIX; 
+      return this.getOpenmrsServer() + '/' + AppSettingsService.OPENMRS_REST_SUFFIX;
     }
   }
 }

@@ -1,6 +1,23 @@
-<div class="container">
+<div class="container app-settings">
   <div>
-    <h1>Servers Settings</h1>
+    <h1>POC Servers Settings</h1>
+    <hr />
+
+    <div class="action-buttons">
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <span class="glyphicon glyphicon-hdd"></span>
+          Templates
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li *ngFor="let row of serverTemplates; let index = index">
+            <a (click)="changeServerSettings(row)">{{row.name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <form #openmrsServerUrl="ngForm">
       <div class="form-group">
         <label for="openmrsServerUrl">Current Openmrs Server URL:</label> {{ openmrsServer }}
@@ -17,7 +34,7 @@
       </button>
     </form>
   </div>
-  
+
   <div>
     <form #etlServerUrl="ngForm">
       <div class="form-group">
@@ -35,6 +52,10 @@
         Add New
       </button>
     </form>
+  </div>
+
+  <div class="action-buttons pull-right">
+    <button class="btn btn-primary btn-large" type="submit" (click)="onDoneClick()">Done</button>
   </div>
 </div>
 

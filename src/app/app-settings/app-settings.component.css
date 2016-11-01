@@ -1,0 +1,16 @@
+.app-settings form {
+  margin-top: 30px;
+}
+
+.app-settings .action-buttons {
+  margin-top: 10px;
+}
+
+.app-settings .dropdown-menu li {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.app-settings .dropdown-menu a {
+  font-size: 15px !important;
+  font-color: #000 !important;
+}
