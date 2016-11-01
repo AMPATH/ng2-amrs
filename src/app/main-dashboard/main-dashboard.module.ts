@@ -7,6 +7,7 @@ import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.modu
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
+import { UserService } from '../amrs-api/user.service';
 
 @NgModule({
   imports: [
@@ -21,11 +22,11 @@ import { MainDashboardGuard } from './main-dashboard.guard';
     MainDashboardComponent
   ],
   providers: [
-    MainDashboardGuard
+    MainDashboardGuard,
+    UserService
   ],
   exports: [
     MainDashboardComponent
   ]
 })
 export class MainDashboardModule { }
-
