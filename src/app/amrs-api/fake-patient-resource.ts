@@ -1,11 +1,13 @@
-import { PatientResourceService } from '../../amrs-api/patient-resource.service';
+import { PatientResourceService } from './patient-resource.service';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import {Http} from "@angular/http";
+import {AppSettingsService} from "../app-settings/app-settings.service";
 /**
  * FakePatientResourceService
  */
 export class FakePatientResourceService extends PatientResourceService {
-  constructor() {
-    super();
+  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+    super(http,appSettingsService);
   }
   returnErrorOnNext: boolean = false;
 

@@ -6,7 +6,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { PatientSearchService } from './patient-search.service';
 import { PatientResourceService } from "../../amrs-api/patient-resource.service";
 import { Patient } from "../../models/patient.model";
-import {FakePatientResourceService} from "./fake-patient-resource";
+import {FakePatientResourceService} from "../../amrs-api/fake-patient-resource";
 
 describe('Service: PatientSearch', () => {
   beforeEach(() => {
