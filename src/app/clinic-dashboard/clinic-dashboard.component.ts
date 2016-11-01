@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { DynamicRoutesService } from '../shared/services/dynamic-routes.service';
+import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 
 @Component({
   selector: 'app-clinic-dashboard',
@@ -10,7 +10,11 @@ import { DynamicRoutesService } from '../shared/services/dynamic-routes.service'
 })
 export class ClinicDashboardComponent implements OnInit {
   locationUuid: string;
-  constructor(private router: Router, private route: ActivatedRoute, private dynamicRoutesService: DynamicRoutesService) { }
+
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private dynamicRoutesService: DynamicRoutesService) {
+  }
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
@@ -25,9 +29,11 @@ export class ClinicDashboardComponent implements OnInit {
       }
     });
   }
+
   locationSelected(uuid: string) {
     console.log('Redirect to location');
   }
+
   setRoutes(locationUuid) {
     let routes = [
       {
@@ -40,10 +46,6 @@ export class ClinicDashboardComponent implements OnInit {
         label: 'Monthly Schedule',
         icon: 'fa fa-list-ol'
       }
-    ]
-    this.dynamicRoutesService.setRoutes({
-      key: 'patientDashboard',
-      moduleLabel: "Patient Dashboard", routes: routes
-    });
+    ];
   }
 }

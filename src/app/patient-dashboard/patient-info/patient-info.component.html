@@ -1,10 +1,9 @@
 <p>
   patient-info works!!
 </p>
-
 <!--How to use the display the error
   *Pass it the messageType(info, error, warning)
   *Pass it the message you want to display
-  *set the isVisible property true to display error and vice versa 
+  *set the isVisible property true to display error and vice versa
 -->
 <app-display-error (click)="doSomething($event)" [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>

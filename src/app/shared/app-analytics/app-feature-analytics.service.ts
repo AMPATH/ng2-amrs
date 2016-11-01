@@ -6,14 +6,13 @@ import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik
 @Injectable()
 export class AppFeatureAnalytics {
 
-  /**
-   * Creates an instance of AppFeatureAnalytics.
-   *
-   * @param {Angulartics2} angulartics2
-   * @param {Angulartics2Piwik} angulartics2Piwik
-   *
-   * @memberOf AppFeatureAnalytics
-   */
+  private appUser: any = {  // TODO: fetch this information from user service
+    userName: 'akimaina',
+    userId: '1',
+    firstName: 'John',
+    lastName: 'Doe'
+  };
+
   constructor(private angulartics2: Angulartics2, private angulartics2Piwik: Angulartics2Piwik) { }
 
 
@@ -22,16 +21,18 @@ export class AppFeatureAnalytics {
    *
    * @param {string} category
    * @param {string} action
+   * @param {string} [name]
    *
    * @memberOf AppFeatureAnalytics
    */
-  public trackEvent(category: string, action: string) {
-    let appUser: string = 'akimaina'; // TODO: fetch this information from user service
+  public trackEvent(category: string, action: string, name?: string) {
+    this.angulartics2.setUsername.next(this.appUser.userName);
+    this.angulartics2.setUserProperties.next(this.appUser);
     this.angulartics2.eventTrack.next({
       action: action,
       properties: {
         category: category || 'General',
-        label: (action || 'General') + ' | ' + (appUser || 'N/A')
+        label: name || 'N/A'
       }
     });
   }
