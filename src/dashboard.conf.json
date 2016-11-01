@@ -4,41 +4,7 @@
     "name": "Patient Dashboard",
     "baseRoute": "patient-dashboard",
     "routeParameter": "patientUuid",
-    "programs": [
-      {
-        "programName": "HIV",
-        "programUuid": "hiv-uuid",
-        "baseRoute": "",
-        "routes": [
-          {
-            "url": "hiv-summary",
-            "label": "HIV Summary",
-            "icon": "fa fa-medkit",
-            "isSideBarOpen": false
-          },
-          {
-            "url": "hiv-clinical-note",
-            "label": "Clinical Notes",
-            "icon": "fa fa-book",
-            "isSideBarOpen": false
-          }
-        ]
-      },
-      {
-        "programName": "Oncology",
-        "programUuid": "onc-uuid",
-        "baseRoute": "oncology",
-        "routes": [
-          {
-            "url": "oncology-summary",
-            "label": "Oncology Summary",
-            "icon": "fa fa-server",
-            "isSideBarOpen": false
-          }
-        ]
-      }
-    ],
-    "commonRoutes": [
+    "nonProgramRoutes": [
       {
         "url": "patient-info",
         "label": "Patient Info",
@@ -54,7 +20,7 @@
       {
         "url": "patient-encounters",
         "label": "Encounters",
-        "icon": "fa fa-vcard",
+        "icon": "icon-i-immunizations",
         "isSideBarOpen": false
       },
       {
@@ -66,20 +32,54 @@
       {
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
-        "icon": "fa fa-heart",
+        "icon": "icon-i-laboratory",
         "isSideBarOpen": false
       },
       {
         "url": "lab-orders",
         "label": "Lab Orders",
-        "icon": "fa fa-thermometer",
+        "icon": "icon-i-pathology",
         "isSideBarOpen": false
       },
       {
         "url": "programs",
         "label": "Programs",
-        "icon": "fa fa-th",
+        "icon": "icon-i-family-practice",
         "isSideBarOpen": false
+      }
+    ],
+    "programs": [
+      {
+        "programName": "HIV",
+        "programUuid": "hiv-uuid",
+        "baseRoute": "",
+        "routes": [
+          {
+            "url": "hiv-summary",
+            "label": "HIV Summary",
+            "icon": "fa fa-medkit",
+            "isSideBarOpen": false
+          },
+          {
+            "url": "clinical-notes",
+            "label": "Clinical Notes",
+            "icon": "fa fa-book",
+            "isSideBarOpen": false
+          }
+        ]
+      },
+      {
+        "programName": "Oncology",
+        "programUuid": "onc-uuid",
+        "baseRoute": "oncology",
+        "routes": [
+          {
+            "url": "oncology-summary",
+            "label": "Oncology Summary",
+            "icon": "icon-i-oncology",
+            "isSideBarOpen": false
+          }
+        ]
       }
     ]
   },
@@ -87,23 +87,29 @@
     "id": "clinicDashboard",
     "name": "Clinic Dashboard",
     "baseRoute": "clinic-dashboard",
-    "routeParameter": "location-uuid",
+    "routeParameter": "locationUuid",
+    "nonProgramRoutes": [
+    ],
     "programs": [
       {
         "programName": "HIV",
-        "programUuid": "program-uuid",
+        "programUuid": "hiv-uuid",
         "baseRoute": "",
         "routes": [
           {
-            "url": "calender",
-            "label": "Patient Info",
-            "icon": "fa fa-clipboard",
+            "url": "daily-schedule",
+            "label": "Daily Schedule",
+            "icon": "fa fa-calendar-o",
+            "isSideBarOpen": false
+          },
+          {
+            "url": "monthly-schedule",
+            "label": "Monthly Schedule",
+            "icon": "fa fa-calendar",
             "isSideBarOpen": false
           }
         ]
       }
-    ],
-    "commonRoutes": [
     ]
   },
   "dataAnalyticsDashboard": {
@@ -111,6 +117,8 @@
     "name": "Data Analytics Dashboard",
     "baseRoute": "data-analytics-dashboard",
     "routeParameter": "",
+    "nonProgramRoutes": [
+    ],
     "programs": [
       {
         "programName": "HIV",
@@ -125,8 +133,6 @@
           }
         ]
       }
-    ],
-    "commonRoutes": [
     ]
   }
 }

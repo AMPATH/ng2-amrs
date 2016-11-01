@@ -26,6 +26,11 @@ export class DynamicRoutesService {
     return this.dashboardConfig;
   }
 
+  public clearRoutes(route: DynamicRouteModel) {
+    Object.assign(this.routesModel, route);
+    this.routes.next(this.routesModel);
+  }
+
   public setRoutes(route: DynamicRouteModel) {
     this.fetchRoutesFromFile().subscribe(
       data => {
@@ -46,22 +51,21 @@ export class DynamicRoutesService {
     let routeParameter: string;
 
     // extract routes that is common to all programs
-    dashboard['commonRoutes'].forEach((commonRoute: Object) => {
+    dashboard['nonProgramRoutes'].forEach((nonProgramRoute: Object) => {
       let url = dashboard['baseRoute'] +
         this.extractParameter(dashboard['routeParameter'], route)
-        + '/' + commonRoute['url'];
+        + '/' + nonProgramRoute['url'];
       routes.push(
         {
           url: url,
-          label: commonRoute['label'],
-          icon: commonRoute['icon'],
-          isSideBarOpen: commonRoute['isSideBarOpen'],
-          isMobile: commonRoute['isMobile']
+          label: nonProgramRoute['label'],
+          icon: nonProgramRoute['icon'],
+          isSideBarOpen: nonProgramRoute['isSideBarOpen']
         }
       );
     });
 
-    // extract routes that is program specific routes
+    // extract routes that is program specific
     dashboard['programs'].forEach((program: Array<Object>) => {
       route.programUuids.forEach((programUuid: string) => {
         if (programUuid === program['programUuid']) {
@@ -74,8 +78,7 @@ export class DynamicRoutesService {
                 url: url,
                 label: programRoute['label'],
                 icon: programRoute['icon'],
-                isSideBarOpen: programRoute['isSideBarOpen'],
-                isMobile: programRoute['isMobile']
+                isSideBarOpen: programRoute['isSideBarOpen']
               }
             );
           });

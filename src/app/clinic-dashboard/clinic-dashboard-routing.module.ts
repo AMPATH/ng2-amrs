@@ -3,14 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
-import { ClinicDashboardGuard } from './clinic-dashboard.guard'
+import { ClinicDashboardGuard } from './clinic-dashboard.guard';
+import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
+import { AuthGuard } from '../shared/guards/auth.guard';
 const clinicDashboardRoutes: Routes = [
-  { path: 'clinic-dashboard', component: ClinicDashboardComponent },
+  { path: 'daily-schedule', component: DailyScheduleComponent, canActivate: [AuthGuard] },
   {
-    path: 'clinic-dashboard/:location_uuid', component: ClinicDashboardComponent,
+    path: ':location_uuid', component: ClinicDashboardComponent,
     children: [
-      { path: '', redirectTo: 'daily-schedule', pathMatch: 'full' },
       { path: 'daily-schedule', component: DailyScheduleComponent },
+      { path: 'monthly-schedule', component: MonthlyScheduleComponent },
     ],
     canActivate: [
       ClinicDashboardGuard

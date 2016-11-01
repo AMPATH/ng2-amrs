@@ -19,7 +19,7 @@ export class PatientDashboardGuard implements CanActivate {
               private route: ActivatedRoute) {
   }
 
-  canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let component: any = routeSnapshot.component;
     if (component.name === 'PatientDashboardComponent') {
       let patientUuid = routeSnapshot.params['patient_uuid'];
@@ -30,7 +30,8 @@ export class PatientDashboardGuard implements CanActivate {
           moduleLabel: 'Patient Dashboard',
           params: {
             patientUuid: patientUuid
-          }
+          },
+          routes: []
         });
       } else {
         this.router.navigate(['/patient-dashboard/patient-search']);
@@ -39,8 +40,14 @@ export class PatientDashboardGuard implements CanActivate {
     return true;
   }
 
-  canDeactivate(target: PatientDashboardComponent) {
-
+  canDeactivate(target: PatientDashboardComponent): boolean {
+    this.dynamicRoutesService.clearRoutes({
+      dashboardId: '',
+      programUuids: [],
+      moduleLabel: '',
+      params: {},
+      routes: []
+    });
     return true;
   }
 }
