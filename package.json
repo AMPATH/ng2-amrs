@@ -1,6 +1,6 @@
 {
   "name": "Ampath_Point_of_Care",
-  "version": "5.0.5",
+  "version": "2.0.0",
   "description": "Ampath Point Of Care",
   "keywords": [
     "angular2",
@@ -82,6 +82,7 @@
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
     "jquery": "^3.1.1",
+    "json-loader": "^0.5.4",
     "materialize-css": "^0.97.7",
     "ng2-bs3-modal": "^0.10.4",
     "ng2-responsive": "^0.4.7",
