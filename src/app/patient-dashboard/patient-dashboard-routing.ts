@@ -8,6 +8,11 @@ import { PatientSearchComponent } from './patient-search/patient-search.componen
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';
+import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.component';
+import { LabOrdersComponent } from './lab-orders/lab-orders.component';
+import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
+import { ProgramsComponent } from './programs/programs.component';
+import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 
 const patientDashboardRoutes: Routes = [
 
@@ -20,9 +25,11 @@ const patientDashboardRoutes: Routes = [
       { path: 'patient-encounters', component: PatientEncountersComponent },
       { path: 'patient-vitals', component: PatientVitalsComponent },
       { path: 'forms', component: FormsComponent },
-
-      { path: 'hiv-summary', component: FormsComponent },
-      { path: 'lab-data-summary', component: FormsComponent },
+      { path: 'hiv-summary', component: HivSummaryComponent },
+      { path: 'lab-data-summary', component: LabDataSummaryComponent },
+      { path: 'lab-orders', component: LabOrdersComponent },
+      { path: 'programs', component: ProgramsComponent },
+      { path: 'clinical-notes', component: ClinicalNotesComponent },
     ],
     canActivate: [
       AuthGuard,

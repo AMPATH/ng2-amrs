@@ -13,6 +13,10 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';
 import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.component';
+import { LabOrdersComponent } from './lab-orders/lab-orders.component';
+import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
+import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
+import { ProgramsComponent } from './programs/programs.component';
 
 @NgModule({
   imports: [
@@ -27,7 +31,11 @@ import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.com
     PatientDashboardComponent,
     PatientVitalsComponent,
     FormsComponent,
-    LabDataSummaryComponent
+    LabDataSummaryComponent,
+    LabOrdersComponent,
+    HivSummaryComponent,
+    ClinicalNotesComponent,
+    ProgramsComponent
   ],
   providers: [
     PatientDashboardGuard
@@ -37,7 +45,11 @@ import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.com
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
-    LabDataSummaryComponent
+    LabDataSummaryComponent,
+    LabOrdersComponent,
+    HivSummaryComponent,
+    ClinicalNotesComponent,
+    ProgramsComponent
   ]
 })
 export class PatientDashboardModule {
