@@ -20,6 +20,8 @@ export class MainDashboardComponent implements OnInit {
   public sidebarOpen = true;
   public isMobile = false;
   user: User;
+  version: string;
+  buildDate: Date;
 
   busyIndicator: Subscription;
 
@@ -43,6 +45,8 @@ export class MainDashboardComponent implements OnInit {
       err => console.log(err),
       () => console.log('Completed'));
     this.user = this.userService.getLoggedInUser();
+
+    this.loadVersion();
   }
 
   screenChanges(event) {
@@ -60,5 +64,20 @@ export class MainDashboardComponent implements OnInit {
         (error: Error) => {
           this.router.navigate(['/login']);
         });
+  }
+
+  loadVersion() {
+
+    try {
+
+      var json = require("../version.json");
+
+      if(json && json.version) {
+
+        this.version = json.version.version;
+        this.buildDate = new Date(json.version.buildDate);
+      }
+
+    } catch (e) {}
   }
 }
