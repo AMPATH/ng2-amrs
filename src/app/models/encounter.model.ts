@@ -9,12 +9,18 @@ import { serializable, serialize } from './serializable.decorator';
 import './date.extensions';
 
 export class Encounter extends BaseModel {
+    private _encounterDatetime: Date;
+    private _patient: Patient;
+    private _encounterType: EncounterType;
+    private _location: Location;
+    private _form: Form;
+    private _provider: Provider;
+    private _visit: Visit;
 
     constructor(openmrsModel?: any) {
         super(openmrsModel);
     }
 
-    private _encounterDatetime: Date;
     @serializable()
     public get encounterDatetime(): Date {
         if (this._encounterDatetime === null || this._encounterDatetime === undefined) {
@@ -27,7 +33,6 @@ export class Encounter extends BaseModel {
         this._encounterDatetime = v;
     }
 
-    private _patient: Patient;
     @serializable()
     public get patient(): Patient {
         if (this._patient === null || this._patient === undefined) {
@@ -41,7 +46,6 @@ export class Encounter extends BaseModel {
         this._patient = v;
     }
 
-    private _encounterType: EncounterType;
     @serializable()
     public get encounterType(): EncounterType {
         if (this._encounterType === null || this._encounterType === undefined) {
@@ -55,7 +59,6 @@ export class Encounter extends BaseModel {
         this._encounterType = v;
     }
 
-    private _location: Location;
     @serializable()
     public get location(): Location {
         if (this._location === null || this._location === undefined) {
@@ -69,7 +72,6 @@ export class Encounter extends BaseModel {
         this._location = v;
     }
 
-    private _form: Form;
     @serializable()
     public get form(): Form {
         if (this._form === null || this._form === undefined) {
@@ -83,7 +85,6 @@ export class Encounter extends BaseModel {
         this._form = v;
     }
 
-    private _provider: Provider;
     @serializable()
     public get provider(): Provider {
         if (this._provider === null || this._provider === undefined) {
@@ -97,7 +98,6 @@ export class Encounter extends BaseModel {
         this._provider = v;
     }
 
-    private _visit: Visit;
     @serializable()
     public get visit(): Visit {
         if (this._visit === null || this._visit === undefined) {

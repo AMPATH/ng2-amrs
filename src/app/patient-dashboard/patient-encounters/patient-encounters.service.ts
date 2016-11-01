@@ -11,8 +11,9 @@ export class PatientEncounterService {
   constructor(private encounterService: EncounterResourceService) { }
   getEncountersByPatientUuid(
     patientuuid: string,
-    cached: boolean= false,
+    cached: boolean = false,
     v: string = null): Observable<Encounter[]> {
+
     let subject: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
     let encounterObservable = this.encounterService.getEncountersByPatientUuid('uuid');
     encounterObservable.subscribe(
@@ -32,8 +33,6 @@ export class PatientEncounterService {
 
     return subject.asObservable();
   }
-
-
 
 }
 

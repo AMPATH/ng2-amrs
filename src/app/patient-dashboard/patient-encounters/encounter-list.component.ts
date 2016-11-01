@@ -7,11 +7,12 @@ import { Encounter } from '../../models/encounter.model';
 
 })
 export class EncounterListComponent implements OnInit {
-    constructor() { }
     @Input() encounters: Encounter[];
     @Input('messageType') messageType: string;
     @Input('message') message: string;
     @Input('isVisible') isVisible: boolean;
+    constructor() { }
+
 
     ngOnInit() { }
 }

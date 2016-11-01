@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FakeEncounterResourceService } from './patient-encounter-service.mock';
+import { EncounterResourceService } from './encounter-resource.service';
 
 
 /**
@@ -9,7 +11,11 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [CommonModule],
   declarations: [],
-  providers: [],
+  providers: [    {
+      provide: EncounterResourceService, useFactory: () => {
+        return new FakeEncounterResourceService();
+      }, deps: []
+    }],
   exports: []
 })
 export class DataAnalytics { }
