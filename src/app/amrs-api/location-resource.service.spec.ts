@@ -42,7 +42,7 @@ describe('FormsResourceService Unit Tests', () => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toBe(
-            'http://localhost:8080/openmrs/ws/rest/v1/location?v=default');
+            AppSettingsService.DEFAULT_OPENMRS_SERVER_URL + '/ws/rest/v1/location?v=default');
         });
         expect(locationResourceService.getLocations());
       })));

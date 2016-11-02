@@ -5,6 +5,10 @@ import { LocalStorageService } from '../utils/local-storage.service';
 export class AppSettingsService {
   private _openmrsServer: string;
   private _etlServer: string;
+
+  public static readonly DEFAULT_OPENMRS_SERVER_URL = 'https://amrs.ampath.or.ke:8443/amrs';
+  public static readonly DEFAULT_ETL_SERVER_URL = 'https://amrsreporting.ampath.or.ke:8002/etl';
+
   private _openmrsServerUrls = [
     'http://localhost:8080/openmrs',
     'https://test2.ampath.or.ke:8443/amrs',
@@ -79,8 +83,9 @@ export class AppSettingsService {
     let cachedUrl = localStorageService.getItem(AppSettingsService.OPENMRS_SERVER_KEY);
     if (cachedUrl) {
       this._openmrsServer = cachedUrl;
-    } else {
-      this.setOpenmrsServer(this.openmrsServerUrls[0]);
+    }
+    else {
+      this.setOpenmrsServer(AppSettingsService.DEFAULT_OPENMRS_SERVER_URL);
     }
 
     cachedUrls = localStorageService.getItem(AppSettingsService.ETL_LIST_STORAGE_KEY);
@@ -94,8 +99,9 @@ export class AppSettingsService {
     cachedUrl = localStorageService.getItem(AppSettingsService.ETL_SERVER_KEY);
     if (cachedUrl) {
       this._etlServer = cachedUrl;
-    } else {
-      this.setEtlServer(this.etlServerUrls[0]);
+    }
+    else {
+      this.setEtlServer(AppSettingsService.DEFAULT_ETL_SERVER_URL);
     }
   }
 
