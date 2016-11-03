@@ -1,0 +1,26 @@
+.banner-info {
+    color: black;
+    width: 100%;
+    background-color: white;
+}
+.banner-detail {
+    background-color: white;
+}
+.badge {
+    display: none;
+}
+.btn-banner {
+    background-color: white;
+    margin: 1px;
+}
+.badge {
+    display: unset;
+    float: left;
+}
+@media screen and (max-width: 768px) {
+    
+    .attributes {
+        width: 100%;
+    }
+   
+}

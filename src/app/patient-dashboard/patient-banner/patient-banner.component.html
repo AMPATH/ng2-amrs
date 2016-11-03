@@ -1,0 +1,14 @@
+<div class="banner-info" *ngIf="patient">
+	<div class="btn-group attributes" role="group" aria-label="...">
+		<button type="button" class="btn btn-banner">{{ patient.fullName}}</button>
+		<button type="button" class="btn btn-banner">{{ patient.gender }}</button>
+		<button type="button" class="btn btn-banner">{{ patient.dob | date:'dd-MM-yyyy' }} ( {{ patient.age }} )</button>
+	</div>
+
+	<div class="btn-group identifier" role="group" aria-label="...">
+		<button type="button" class="btn btn-banner"><span class="badge">MUI</span> {{ patient.ampathMrsUId }}</button>
+		<button type="button" class="btn btn-banner"><span class="badge">MRN</span> {{ patient.amrsMrn }}</button>
+		<button type="button" class="btn btn-banner"><span class="badge">CCC</span> {{ patient.cCC }}</button>
+		<button type="button" class="btn btn-banner"><span class="badge">NID</span> {{ patient.kenyaNationalId }}</button>
+	</div>
+</div>
