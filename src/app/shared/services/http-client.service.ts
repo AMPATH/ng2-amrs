@@ -1,35 +1,66 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { provide } from '@angular2/core';
+import { Http, Request, RequestOptionsArgs, Response, XHRBackend, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
+import { HTTP_PROVIDERS } from '@angular2/http';
+import { ROUTER_PROVIDERS } from '@angular2/router';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { Constants } from '../../utils/constants';
 
-@Injectable()
-export class HttpClient {
+export class HttpClient extends Http {
 
-  constructor(private http: Http, private localStorageService: LocalStorageService) {
-  }
+    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private _router: Router, private localStorageService: LocalStorageService) {
+        super(backend, defaultOptions);
+    }
 
-  createAuthorizationHeader(headers: Headers) {
+    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+        return this.intercept(super.request(url, options));
+    }
 
-    let credentials = this.localStorageService.getItem(Constants.CREDENTIALS_KEY);
+    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+      return this.intercept(super.get(url, this.getRequestOptionArgs(options)));
+    }
 
-    if(credentials) headers.append('Authorization', 'Basic ' + credentials);
-  }
-  
-  get(url) {
+    post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+        return this.intercept(super.post(url, body, this.getRequestOptionArgs(options)));
+    }
 
-    let headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get(url, {
-      headers: headers
-    });
-  }
+    put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+        return this.intercept(super.put(url, body, this.getRequestOptionArgs(options)));
+    }
 
-  post(url, data) {
-    let headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.post(url, data, {
-      headers: headers
-    });
-  }
+    delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        return this.intercept(super.delete(url, this.getRequestOptionArgs(options)));
+    }
+
+    getRequestOptionArgs(options: RequestOptionsArgs = null) : RequestOptionsArgs {
+
+        if (options == null) {
+            options = new RequestOptions();
+        }
+
+        if (options.headers == null) {
+            options.headers = new Headers();
+        }
+
+        let credentials = this.localStorageService.getItem(Constants.CREDENTIALS_KEY);
+
+        if(credentials) options.headers.append('Authorization', 'Basic ' + credentials);
+
+        return options;
+    }
+
+    intercept(observable: Observable<Response>): Observable<Response> {
+      return observable.catch((err, source) => {
+
+  			// if (err.status  == 401 && !_.endsWith(err.url, '/session')) {
+        //   this._router.navigate(['/login']);
+        //   return Observable.empty();
+        // } else {
+        //   return Observable.throw(err);
+  			// }
+        return Observable.throw(err);
+      });
+    }
 }

@@ -11,11 +11,11 @@ export class SessionService {
   }
 
   getUrl(): string {
-
+    
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'session';
   }
 
-  getSession(credentials?: any) {
+  getSession(credentials: any = null) {
 
     let headers = new Headers();
 
