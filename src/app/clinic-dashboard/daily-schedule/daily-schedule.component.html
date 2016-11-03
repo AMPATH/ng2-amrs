@@ -1,3 +1,26 @@
 <p>
   daily-schedule works!
 </p>
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+<p-tabView>
+  <p-tabPanel header="Report Filter Demo">
+    <report-filter
+      [enabledControls]="['indicatorsControl','endDateControl', 'genderControl', 'startDateControl', 'locationsControl', 'ageRangeControl', 'formsControl']"
+      (onGenerateReport)="onGenerateReport($event)" [(reportFilterModel)]="reportFilter"
+      [buttonName]="'Generate Report'" [showButton]="true"
+      [reportFilterTitle]="'Report Filter'" [enableDiagnostic]="true" [reportName]="'hiv-summary-monthly-report'">
+    </report-filter>
+
+    <p-fieldset legend="This should change when ReportFilterComponent changes:">
+      <strong>{{diagnostic}}</strong>
+    </p-fieldset>
+
+
+  </p-tabPanel>
+  <p-tabPanel header="Tab Panel 2">
+    content 3
+  </p-tabPanel>
+  <p-tabPanel header="Tab Panel 3">
+    Content 3
+  </p-tabPanel>
+</p-tabView>

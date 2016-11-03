@@ -1,23 +1,14 @@
-
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
+import { Http, Response, URLSearchParams } from '@angular/http';
 import { ReplaySubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class LocationResourceService {
-
-  private baseUrl = '-'; // create ng-amr server selector
   private locations = new ReplaySubject(1);
 
-  constructor(private http: Http) {
-
-  }
-
-  protected createAuthorizationHeader(): Headers {
-    let headers = new Headers();
-    headers.append('Authorization', 'Basic ' + 'HASH');  // TODO: do authentication
-    return headers;
+  constructor(private http: Http, private appSettingsService: AppSettingsService) {
   }
 
   /**
@@ -36,9 +27,8 @@ export class LocationResourceService {
 
     if (!this.locations.observers.length || forceRefresh) {
       this.http.get(
-        this.baseUrl + 'location',
+        this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location',
         {
-          headers: this.createAuthorizationHeader(), // TODO create a base class which extends BaseRequestOptions --> do injection
           search: params
         }
       )

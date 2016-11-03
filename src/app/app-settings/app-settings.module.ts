@@ -8,6 +8,7 @@ import { UtilsModule } from '../utils/utils.module';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppSettingsService } from './app-settings.service';
 
+
 @NgModule({
   imports: [
     CommonModule,

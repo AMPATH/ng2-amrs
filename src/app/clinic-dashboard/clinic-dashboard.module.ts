@@ -8,11 +8,19 @@ import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 
+import { TabViewModule, FieldsetModule, ButtonModule, GrowlModule } from 'primeng/primeng';
+import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    clinicDashboardRouting
+    clinicDashboardRouting,
+    ReportingUtilities,
+    TabViewModule,
+    FieldsetModule,
+    ButtonModule,
+    GrowlModule
   ],
   declarations: [
     DailyScheduleComponent,

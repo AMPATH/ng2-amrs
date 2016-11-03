@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
-/**
- * Do not specify providers for modules that might be imported by a lazy loaded module.
- */
+import { LocationResourceService } from './location-resource.service';
+import { AppSettingsModule } from '../app-settings/app-settings.module';
+import { FormsResourceService } from './forms-resource.service';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, AppSettingsModule],
   declarations: [],
-  providers: [],
+  providers: [LocationResourceService, FormsResourceService],
   exports: []
 })
 export class AmrsApi { }
