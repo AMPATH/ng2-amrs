@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
-/**
- * Do not specify providers for modules that might be imported by a lazy loaded module.
- */
+import { AppSettingsModule } from '../app-settings/app-settings.module';
+import { IndicatorResourceService } from './indicator-resource.service';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, AppSettingsModule],
   declarations: [],
-  providers: [],
+  providers: [IndicatorResourceService],
   exports: []
 })
-export class EtlApi { }
+export class EtlApi {
+}
