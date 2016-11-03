@@ -12,8 +12,6 @@ import { LocalStorageService } from '../utils/local-storage.service';
 
 describe('SessionService Unit Tests', () => {
   
-  let appSettingsService: AppSettingsService;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [  ],
@@ -34,6 +32,10 @@ describe('SessionService Unit Tests', () => {
       ],
     });
   }));
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('it should return a server url', inject([ SessionService ], (sessionService: SessionService) => {
     expect(sessionService.getUrl()).toBeTruthy();

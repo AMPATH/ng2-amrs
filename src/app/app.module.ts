@@ -8,7 +8,8 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-
+import { Http, Request, RequestOptionsArgs, Response, XHRBackend, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
+import { Router } from '@angular/router';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -28,6 +29,8 @@ import { AppSettingsModule } from './app-settings';
 import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
+import { HttpClient } from './shared/services/http-client.service';
+import { LocalStorageService } from './utils/local-storage.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -69,7 +72,12 @@ type StoreType = {
     Angulartics2Piwik,
     AppFeatureAnalytics,
     AuthGuard,
-    { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() }
+    LocalStorageService,
+    { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() },
+    { provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions, router: Router, localStorageService: LocalStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, localStorageService),
+      deps: [XHRBackend, RequestOptions, Router, LocalStorageService]}
   ]
 })
 export class AppModule {
