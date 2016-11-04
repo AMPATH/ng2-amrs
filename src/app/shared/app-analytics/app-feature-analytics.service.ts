@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // analytics
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
+import { Angulartics2Piwik } from 'angulartics2/dist/providers';
 
 @Injectable()
 export class AppFeatureAnalytics {
