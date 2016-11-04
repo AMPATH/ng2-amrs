@@ -42,7 +42,7 @@ describe('IndicatorResourceService Unit Tests', () => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toBe(
-            'http://localhost:8002/etl/indicators-schema?report=reportName');
+            AppSettingsService.DEFAULT_ETL_SERVER_URL + '/indicators-schema?report=reportName');
         });
         expect(indicatorResourceService.getReportIndicators({report: 'reportName'}));
       })));
