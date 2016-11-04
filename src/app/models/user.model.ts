@@ -6,7 +6,7 @@ export class User extends BaseModel {
     constructor(openmrsModel?: any) {
         super(openmrsModel);
     }
-
+    
     public get roleDisplay(): string {
 
       let roleDisplay: string = "";
@@ -15,8 +15,11 @@ export class User extends BaseModel {
 
       if(roles && roles.length > 0) {
 
+        let counter: number = 0;
         _.forEach(roles, function(role) {
-          roleDisplay = roleDisplay.length == 0 ? role.display : roleDisplay + ", " + role.display;
+
+          if(counter <= 1) roleDisplay = roleDisplay.length == 0 ? role.display : roleDisplay + ", " + role.display;
+          counter++;
         });
       }
 
