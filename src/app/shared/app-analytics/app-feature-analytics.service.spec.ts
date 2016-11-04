@@ -7,8 +7,7 @@ import { SpyLocation } from '@angular/common/testing';
 
 // analytics
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
-
+import { Angulartics2Piwik } from 'angulartics2/dist/providers';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
 declare var window: any;

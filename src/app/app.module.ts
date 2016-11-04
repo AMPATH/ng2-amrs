@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/src/providers/angulartics2-piwik';
+import { Angulartics2Piwik } from 'angulartics2/dist/providers/piwik/angulartics2-piwik';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Http, Request, RequestOptionsArgs, Response, XHRBackend, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
 import { Router } from '@angular/router';
