@@ -36,18 +36,17 @@ describe('FormResourceService Unit Tests', () => {
       }));
 
   it('should make API call with correct URL',
-    inject([FormsResourceService, MockBackend],
-      fakeAsync((formsResourceService: FormsResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+    inject([FormsResourceService, MockBackend], fakeAsync((formsResourceService: FormsResourceService, backend: MockBackend) => {
+      backend.connections.subscribe((connection: MockConnection) => {
 
-          expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toBe(
-            'http://localhost:8080/openmrs/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
-            '(uuid,name),version,published,retired,retiredReason,resources:(uuid,name,dataType,' +
-            'valueReference))&q=POC');
-        });
-        expect(formsResourceService.getForms());
-      })));
+        expect(connection.request.method).toBe(RequestMethod.Get);
+        expect(connection.request.url).toBe(
+          'http://localhost:8080/openmrs/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
+          '(uuid,name),version,published,retired,retiredReason,resources:(uuid,name,dataType,' +
+          'valueReference))&q=POC');
+      });
+      expect(formsResourceService.getForms());
+    })));
 
   it('It should return an array of form object when getForms is invoked',
     inject([MockBackend, FormsResourceService],

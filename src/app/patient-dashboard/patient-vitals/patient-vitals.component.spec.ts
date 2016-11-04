@@ -1,6 +1,7 @@
-/* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
+
+import { VitalsResourceService} from '../../etl-api/vitals-resource.service'
 import { PatientVitalsComponent } from './patient-vitals.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
@@ -24,7 +25,8 @@ describe('Component: PatientVitals', () => {
 
   it('should create an instance', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    let component = new PatientVitalsComponent(fakeAppFeatureAnalytics);
+    let service = TestBed.get(VitalsResourceService);
+    let component = new PatientVitalsComponent(service,fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });
 });
