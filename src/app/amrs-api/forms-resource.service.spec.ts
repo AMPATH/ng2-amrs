@@ -42,7 +42,7 @@ describe('FormResourceService Unit Tests', () => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toBe(
-            'http://localhost:8080/openmrs/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
+            AppSettingsService.DEFAULT_OPENMRS_SERVER_URL + '/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
             '(uuid,name),version,published,retired,retiredReason,resources:(uuid,name,dataType,' +
             'valueReference))&q=POC');
         });
