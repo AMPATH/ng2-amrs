@@ -29,7 +29,7 @@ module.exports = function(config) {
      */
     files: [
       'node_modules/jquery/dist/jquery.slim.min.js',
-      { pattern: './config/spec-bundle.js', watched: false } 
+      { pattern: './config/spec-bundle.js', watched: false }
     ],
 
     /*
@@ -87,7 +87,10 @@ module.exports = function(config) {
      * Continuous Integration mode
      * if true, Karma captures browsers, runs the tests and exits
      */
-    singleRun: true
+    singleRun: true,
+    browserDisconnectTimeout: 10000,
+    browserDisconnectTolerance: 1,
+    browserNoActivityTimeout: 60000
   };
 
   if (process.env.TRAVIS){
