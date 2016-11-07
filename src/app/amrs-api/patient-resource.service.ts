@@ -8,10 +8,10 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class PatientResourceService {
 
-  v: string = 'custom:(uuid,identifiers:(identifier,uuid,identifierType:(uuid,name)),person:(uuid,gender,birthdate,dead,age,deathDate,causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
+  v: string = 'custom:(uuid,display,identifiers:(identifier,uuid,identifierType:(uuid,name)),person:(uuid,display,gender,birthdate,dead,age,deathDate,causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
   + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,stateProvince,country,postalCode,countyDistrict,address3,address4,address5,address6)))';
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {}
+  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {}
 
   getUrl(): string {
 
