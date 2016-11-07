@@ -16,7 +16,7 @@ export class PatientVitalsComponent implements OnInit {
 
   isBusy : Subscription;
 
-  nextStartIndex : number = 0;
+  nextStartIndex : string = '0';
 
   dataLoaded : boolean = false;
 
@@ -30,7 +30,7 @@ export class PatientVitalsComponent implements OnInit {
 
     let _this=this;
 
-    this.loadVitals('de662c03-b9af-4f00-b10e-2bda0440b03b',0,10,(err,data)=> {
+    this.loadVitals('de662c03-b9af-4f00-b10e-2bda0440b03b','0','10',(err,data)=> {
       if(err)
         console.error(err);
       else{
@@ -58,14 +58,14 @@ export class PatientVitalsComponent implements OnInit {
 
   loadMoreVitals (){
 
-    this.loadVitals(this.patientUuid,this.nextStartIndex,10,(err,data)=>{
+    this.loadVitals(this.patientUuid,this.nextStartIndex,'10',(err,data)=>{
       if(err) console.error(err);
 
     });
 
   }
 
-  loadVitals (patientUuid : string,startIndex : number, limit : number,cb : Function){
+  loadVitals (patientUuid : string,startIndex : string, limit : string,cb : Function){
 
     let _this = this;
 
