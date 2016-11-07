@@ -4,9 +4,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { PatientSearchService } from './patient-search.service';
-import { PatientResourceService } from "../../amrs-api/patient-resource.service";
+import { PatientResourceService } from "../../openmrs-api/patient-resource.service";
 import { Patient } from "../../models/patient.model";
-import {FakePatientResourceService} from "../../amrs-api/fake-patient-resource";
+import {FakePatientResourceService} from "../../openmrs-api/fake-patient-resource";
 
 describe('Service: PatientSearch', () => {
   beforeEach(() => {

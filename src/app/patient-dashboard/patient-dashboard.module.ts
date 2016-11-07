@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AccordionModule, DataTableModule, SharedModule } from 'primeng/primeng';
-import { Ng2PaginationModule } from 'ng2-pagination'
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
@@ -19,15 +19,15 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { PatientSearchService } from './patient-search/patient-search.service';
-import {AmrsApi} from "../amrs-api/amrs-api.module";
+import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    patientDashboardRouting, CommonModule, AccordionModule, DataTableModule, SharedModule,NgamrsSharedModule,
-    Ng2PaginationModule,AmrsApi
+    patientDashboardRouting, CommonModule, AccordionModule, DataTableModule, SharedModule, NgamrsSharedModule,
+    Ng2PaginationModule, OpenmrsApi
 
   ],
   declarations: [

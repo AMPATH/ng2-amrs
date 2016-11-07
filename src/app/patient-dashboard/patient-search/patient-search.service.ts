@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject} from 'rxjs/Rx';
 
-import { PatientResourceService } from '../../amrs-api/patient-resource.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Patient } from '../../models/patient.model';
 
 @Injectable()

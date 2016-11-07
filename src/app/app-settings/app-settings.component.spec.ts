@@ -14,8 +14,8 @@ import { MockBackend } from '@angular/http/testing';
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { AuthenticationService } from '../amrs-api/authentication.service';
-import { SessionService } from '../amrs-api/session.service';
+import { AuthenticationService } from '../openmrs-api/authentication.service';
+import { SessionService } from '../openmrs-api/session.service';
 
 describe('AppSettingsComponent Tests', () => {
   let comp:    AppSettingsComponent;

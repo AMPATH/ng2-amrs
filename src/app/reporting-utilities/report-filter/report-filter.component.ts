@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import { ReportFilterModel } from './report-filter.model';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
-import { LocationResourceService } from '../../amrs-api/location-resource.service';
-import { FormsResourceService } from '../../amrs-api/forms-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 
 
 @Component({

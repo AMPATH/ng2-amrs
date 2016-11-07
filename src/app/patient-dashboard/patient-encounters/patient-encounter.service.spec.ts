@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { PatientEncounterService } from './patient-encounters.service';
-import { EncounterResourceService } from "../../amrs-api/encounter-resource.service";
+import { EncounterResourceService } from "../../openmrs-api/encounter-resource.service";
 import { Encounter } from "../../models/encounter.model";
 
 describe('Service: PatientEncounter', () => {

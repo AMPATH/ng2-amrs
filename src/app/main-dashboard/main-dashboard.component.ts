@@ -3,9 +3,9 @@ import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
-import { AuthenticationService } from '../amrs-api/authentication.service';
+import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Subscription } from 'rxjs';
-import { UserService } from '../amrs-api/user.service';
+import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 
 declare var jQuery: any;

@@ -7,7 +7,7 @@ import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.modu
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
-import { UserService } from '../amrs-api/user.service';
+import { UserService } from '../openmrs-api/user.service';
 
 @NgModule({
   imports: [

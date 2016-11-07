@@ -3,9 +3,9 @@ import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { AuthenticationService } from '../amrs-api/authentication.service';
+import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { SessionService } from '../amrs-api/session.service';
+import { SessionService } from '../openmrs-api/session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 
