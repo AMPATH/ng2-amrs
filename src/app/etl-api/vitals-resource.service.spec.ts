@@ -1,23 +1,17 @@
-import {TestBed} from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 import {MockBackend, MockConnection} from '@angular/http/testing';
-import { Http,BaseRequestOptions, ResponseOptions,Response } from '@angular/http';
+import {Http, BaseRequestOptions, ResponseOptions, Response,RequestMethod} from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { LocalStorageService } from '../utils/local-storage.service';
+import {AppSettingsService} from '../app-settings/app-settings.service';
+import {LocalStorageService} from '../utils/local-storage.service';
 import {VitalsResourceService} from './vitals-resource.service';
 
 
 describe('Vitals Resource Service Unit Tests', () => {
 
-  let backend : MockBackend
-    , originalTimeout
-    , service : VitalsResourceService
-    ,patientUuid='de662c03-b9af-4f00-b10e-2bda0440b03b';
+  let backend: MockBackend, patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
 
   beforeEach(() => {
-
-    originalTimeout = window.jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    window.jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
     TestBed.configureTestingModule({
       providers: [
@@ -39,21 +33,21 @@ describe('Vitals Resource Service Unit Tests', () => {
   });
 
   afterEach(() => {
-    window.jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     TestBed.resetTestingModule();
   });
 
-  it('is defined', () => {
-    service = TestBed.get(VitalsResourceService);
-    expect(service).toBeTruthy();
-  });
+  it('should be injected with all dependencies',
+    inject([VitalsResourceService], (vitalsResourceService: VitalsResourceService) => {
+      expect(vitalsResourceService).toBeTruthy();
+    }));
 
-  it('should make API call with the correct url parameters', () =>{
+  it('should make API call with the correct url parameters', () => {
 
     backend = TestBed.get(MockBackend);
 
     backend.connections.subscribe((connection: MockConnection) => {
 
+      expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url).toMatch('/patient/(*)/vitals');
       expect(connection.request.url).toContain('startIndex=');
       expect(connection.request.url).toContain('limit=10');
@@ -63,40 +57,39 @@ describe('Vitals Resource Service Unit Tests', () => {
 
   });
 
-  it('should return the correct parameters from the api', (done) => {
+  it('should return the correct parameters from the api', async(inject([VitalsResourceService, MockBackend], (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-    service = TestBed.get(VitalsResourceService);
+    let mockResponse = new Response(new ResponseOptions({
+      body: {
+        startIndex: '0',
+        limit: '10',
+        result: []
+      }
+    }));
 
-    let backend: MockBackend = TestBed.get(MockBackend);
+    mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => {
 
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-          results: [
-            {
-              startIndex: '0',
-              limit: '10',
-              result : []
-            }
-          ]
-        })
-      });
-      connection.mockRespond(new Response(options));
+      let _data = data.json();
+
+      expect(_data).toBeTruthy();
+      expect(_data.startIndex).toBeDefined();
+      expect(_data.limit).toBeDefined();
+      expect(_data.result).toBeDefined();
+
     });
+  })));
 
-    service.getVitals(patientUuid, 0, 10)
-      .subscribe((data) => {
-        let _data=data.json();
+  it('should return the correct parameters from the api', async(inject([VitalsResourceService, MockBackend], (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-        expect(_data).toBeTruthy();
-        expect(_data.startIndex).toBeDefined();
-        expect(_data.limit).toBeDefined();
-        expect(_data.result).toBeDefined();
+    mockBackend.connections.subscribe(c =>c.mockError(new Error('An error occured while processing the request')));
 
-        done();
+    vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => {},
+      (error: Error) => {
+        expect(error).toBeTruthy();
+
       });
-
-  });
+  })));
 
 });
