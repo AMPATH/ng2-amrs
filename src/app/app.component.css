@@ -5,6 +5,7 @@
 @import "../../node_modules/angular2-busy/build/style/busy.css";
 @import "../assets/css/AdminLTE.css";
 @import "skin-black-light.css";
+@import "../../node_modules/ladda/dist/ladda.min.css"
 
 body {
   background: #f9fafc;

@@ -29,7 +29,9 @@ const patientDashboardRoutes: Routes = [
       { path: 'lab-data-summary', component: LabDataSummaryComponent },
       { path: 'lab-orders', component: LabOrdersComponent },
       { path: 'programs', component: ProgramsComponent },
-      { path: 'clinical-notes', component: ClinicalNotesComponent },
+      { path: 'clinical-notes', component: ClinicalNotesComponent }
+
+
     ],
     canActivate: [
       AuthGuard,
