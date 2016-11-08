@@ -41,10 +41,8 @@ describe('FormResourceService Unit Tests', () => {
         backend.connections.subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toBe(
-            AppSettingsService.DEFAULT_OPENMRS_SERVER_URL + '/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
-            '(uuid,name),version,published,retired,retiredReason,resources:(uuid,name,dataType,' +
-            'valueReference))&q=POC');
+          expect(connection.request.url).toContain('/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
+            '(uuid,name),version,published,retired,retiredReason,resources:(uuid,name,dataType,valueReference))&q=POC');
         });
         expect(formsResourceService.getForms());
       })));

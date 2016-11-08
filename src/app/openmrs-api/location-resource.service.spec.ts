@@ -41,8 +41,7 @@ describe('FormsResourceService Unit Tests', () => {
         backend.connections.subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toBe(
-            AppSettingsService.DEFAULT_OPENMRS_SERVER_URL + '/ws/rest/v1/location?v=default');
+          expect(connection.request.url).toContain('/ws/rest/v1/location?v=default');
         });
         expect(locationResourceService.getLocations());
       })));

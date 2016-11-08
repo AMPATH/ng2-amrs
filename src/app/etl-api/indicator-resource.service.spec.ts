@@ -41,8 +41,7 @@ describe('IndicatorResourceService Unit Tests', () => {
         backend.connections.subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toBe(
-            AppSettingsService.DEFAULT_ETL_SERVER_URL + '/indicators-schema?report=reportName');
+          expect(connection.request.url).toContain('/indicators-schema?report=reportName');
         });
         expect(indicatorResourceService.getReportIndicators({report: 'reportName'}));
       })));
