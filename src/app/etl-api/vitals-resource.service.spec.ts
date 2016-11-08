@@ -79,6 +79,7 @@ describe('Vitals Resource Service Unit Tests', () => {
       expect(_data.result).toBeDefined();
 
     });
+
   })));
 
   it('should return the correct parameters from the api', async(inject([VitalsResourceService, MockBackend], (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {

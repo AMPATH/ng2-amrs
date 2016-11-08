@@ -10,20 +10,21 @@ import { PatientEncountersComponent } from './patient-encounters/patient-encount
 import { PatientSearchComponent } from './patient-search/patient-search.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
+import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { FormsComponent } from './forms/forms.component';
 import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.component';
 import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
+
 import { ProgramsComponent } from './programs/programs.component';
+import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from './patient-search/patient-search.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
-
-
+import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 
 @NgModule({
   imports: [
@@ -53,9 +54,12 @@ import { EncounterListComponent } from './patient-encounters/encounter-list.comp
     EncounterListComponent
   ],
   providers: [
-    PatientDashboardGuard, PatientSearchService, PatientEncounterService
 
-
+    PatientEncounterService,
+    PatientDashboardGuard,
+    PatientSearchService,
+    AppFeatureAnalytics,
+    VitalsResourceService
   ],
   exports: [
     PatientDashboardComponent,
