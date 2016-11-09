@@ -3,7 +3,7 @@ declare var Reflect: any;
 import { BaseModel } from './base-model.model';
 import './date.extensions';
 
-export const METADATA_KEY_SERIALIZABLE = "SERIALIZABLE";
+export const METADATA_KEY_SERIALIZABLE = 'SERIALIZABLE';
 
 export interface SerializableProperty {
 
@@ -14,7 +14,8 @@ export interface SerializableProperty {
 
 }
 
-export function serializable(addToNewPayload: boolean = true, addToUpdatePayload: boolean = true, name?: string) {
+export function serializable(addToNewPayload: boolean = true,
+                             addToUpdatePayload: boolean = true, name?: string) {
 
   return function (target: any, key: any) {
 
@@ -57,10 +58,14 @@ export function serialize(target: any, newPayload: boolean, prototype?: any): Ob
 
     if (newPayload) {
       if (prop.addToNewPayload)
-        prev[prop.name] = isBaseModel || isOpenmrsDate ? (isOpenmrsDate ? openmrsDate.toServerTimezoneString(): baseModelVersion.uuid) : target[prop.key];
+        prev[prop.name] = isBaseModel || isOpenmrsDate ? (
+          isOpenmrsDate ? openmrsDate.toServerTimezoneString()
+          : baseModelVersion.uuid) : target[prop.key];
     } else {
       if (prop.addToUpdatePayload)
-        prev[prop.name] = isBaseModel || isOpenmrsDate ? (isOpenmrsDate ? openmrsDate.toServerTimezoneString(): baseModelVersion.uuid) : target[prop.key];
+        prev[prop.name] = isBaseModel || isOpenmrsDate ? (
+          isOpenmrsDate ? openmrsDate.toServerTimezoneString()
+          : baseModelVersion.uuid) : target[prop.key];
     }
     return prev;
   }, {});

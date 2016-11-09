@@ -6,16 +6,13 @@ import { serializable, serialize } from './serializable.decorator';
 import { Person } from './person.model';
 
 export class Patient extends BaseModel {
+  private _person: Person;
     constructor(openmrsModel?: any) {
         super(openmrsModel);
     }
 
-  public toUpdatePayload(): any {
-    return null;
-  }
 
-  private _person: Person;
-  @serializable(true,false)
+  @serializable(true, false)
   public get person(): Person {
     if (this._person === null || this._person === undefined) {
       this.initializeNavigationProperty('person');
@@ -26,6 +23,10 @@ export class Patient extends BaseModel {
   public set person(v: Person) {
     this._openmrsModel.person = v.openmrsModel;
     this._person = v;
+  }
+
+  public toUpdatePayload(): any {
+    return null;
   }
 
 

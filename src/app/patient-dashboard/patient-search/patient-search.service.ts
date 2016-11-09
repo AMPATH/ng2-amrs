@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject} from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Patient } from '../../models/patient.model';
@@ -12,14 +12,14 @@ export class PatientSearchService {
 
   }
 
-  searchPatient(searchText: string,cached:boolean): Observable<Patient[]> {
+  searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
     this.subject = new BehaviorSubject<Patient[]>([]);
 
-    let patientsObservable = this.resouceService.searchPatient(searchText,false);
+    let patientsObservable = this.resouceService.searchPatient(searchText, false);
 
     patientsObservable.subscribe(
       (patients) => {
-        console.log('patients',patients);
+        console.log('patients', patients);
         let mappedPatients: Patient[] = new Array<Patient>();
 
         for (let i = 0; i < patients.length; i++) {
@@ -32,7 +32,6 @@ export class PatientSearchService {
         this.subject.error(error); // test case that returns error
       }
     );
-
     return this.subject.asObservable();
   }
 

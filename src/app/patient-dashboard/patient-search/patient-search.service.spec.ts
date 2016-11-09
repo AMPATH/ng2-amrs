@@ -4,9 +4,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { PatientSearchService } from './patient-search.service';
-import { PatientResourceService } from "../../openmrs-api/patient-resource.service";
-import { Patient } from "../../models/patient.model";
-import {FakePatientResourceService} from "../../openmrs-api/fake-patient-resource";
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { Patient } from '../../models/patient.model';
+import { FakePatientResourceService } from '../../openmrs-api/fake-patient-resource';
 
 describe('Service: PatientSearch', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Service: PatientSearch', () => {
         PatientSearchService,
         {
           provide: PatientResourceService, useFactory: () => {
-          return new FakePatientResourceService();
+          return new FakePatientResourceService(null, null);
         }, deps: []
         }
       ]
@@ -33,9 +33,9 @@ describe('Service: PatientSearch', () => {
 
   it('should search for patients by search text', (done) => {
     let service: PatientSearchService = TestBed.get(PatientSearchService);
-    let results = service.searchPatient('text',false);
+    let result = service.searchPatient('text', false);
 
-    results.subscribe((results) => {
+    result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');
@@ -50,14 +50,14 @@ describe('Service: PatientSearch', () => {
     let fakeRes: FakePatientResourceService =
       TestBed.get(PatientResourceService) as FakePatientResourceService;
 
-    //tell mock to return error on next call
+      // tell mock to return error on next call
     fakeRes.returnErrorOnNext = true;
-    let results = service.searchPatient('text',false);
+    let results = service.searchPatient('text', false);
 
-    results.subscribe((results) => {
+    results.subscribe((result) => {
       },
       (error) => {
-        //when it gets here, then it returned an error
+        // when it gets here, then it returned an error
         done();
       });
 

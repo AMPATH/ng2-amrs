@@ -8,8 +8,8 @@
              autofocus="true" >
       <div class="input-group-btn">
 
-        <button   class="btn btn-primary ladda-button" [ladda]='isLoading'
-                 data-style="expand-right" (click)="loadPatient()">
+        <button   class="ladda-button " [ladda]='isLoading' data-size="xs" data-color="blue" data-style="expand-right"
+                  (click)="loadPatient()">
           <span class="glyphicon glyphicon-search"> Search</span>
         </button>
       </div>

@@ -4,7 +4,7 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 
-//Added
+// Added
 import { DisplayErrorComponent } from './display-error/display-error.component';
 
 @NgModule({
@@ -20,14 +20,14 @@ import { DisplayErrorComponent } from './display-error/display-error.component';
             })
         ),
       LaddaModule.forRoot({
-        style: "contract",
-        spinnerSize: 30,
-        spinnerColor: "white",
+        style: 'expand-right',
+        spinnerSize: 20,
+        spinnerColor: 'white',
         spinnerLines: 12
       }),
         CommonModule
     ],
-    exports: [BusyModule, LaddaModule,DisplayErrorComponent],
+    exports: [BusyModule, LaddaModule, DisplayErrorComponent],
     declarations: [
         DisplayErrorComponent
     ],
