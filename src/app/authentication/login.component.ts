@@ -1,7 +1,6 @@
 import { Component, Output, EventEmitter, Input, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
-import { LoginService } from './login.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
 import { Subscription } from 'rxjs';

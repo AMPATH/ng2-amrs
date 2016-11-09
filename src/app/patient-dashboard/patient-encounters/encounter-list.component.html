@@ -1,0 +1,39 @@
+<div class="panel panel-primary" style="padding:2px;">
+    <div>
+        <app-display-error [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
+    </div>
+    <div class="panel panel-default">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Encounter Date</th>
+                    <th>Encounter Type</th>
+                    <th>Location</th>
+                    <th>Form</th>
+                    <th>Provider</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor: pointer;" *ngFor="let encounter of encounters| paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+                    <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
+                    <td>{{encounter.encounterType.uuid}}</td>
+                    <td>{{encounter.location.uuid}}</td>
+                    <td>{{encounter.form.uuid}}</td>
+                    <td>{{encounter.provider.uuid}}</td>
+                    <td>
+                        <button (click)="loadPatientEncounters()" type="button" class="btn btn-xs">
+                <span class="glyphicon text-primary glyphicon-edit"></span>
+              </button>
+                    </td>
+                    <td>
+                        <button (click)="loadPatientEncounters()" type="button" class="btn  btn-xs">
+                <span class="glyphicon text-primary glyphicon-eye-open"></span>
+              </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+      <pagination-controls  (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+</div>

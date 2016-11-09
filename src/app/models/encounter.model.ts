@@ -111,5 +111,5 @@ export class Encounter extends BaseModel {
         this._visit = v;
     }
 
-    //TODO: Add Obs and Orders Array
+    // TODO: Add Obs and Orders Array
 }

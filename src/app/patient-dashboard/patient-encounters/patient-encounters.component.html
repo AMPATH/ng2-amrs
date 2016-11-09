@@ -1,9 +1,3 @@
-<p-dataTable  [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" [stacked]="stacked" >
-    <header>Patient Encounters</header>
-    <p-column field="EncounterDate" header="Encounter Date"></p-column>
-    <p-column field="EncounterType" header="Encounter Type"></p-column>
-    <p-column field="Form" header="Form"></p-column>
-    <p-column field="Location" header="Location"></p-column>
-    <p-column field="Provider" header="Provider"></p-column>
-    <p-column field="Actions" header="Actions"></p-column>
-</p-dataTable>
+<div>
+      <encounter-list  [encounters]="encounters"  [isVisible]="isVisible" [messageType]="messageType" [message]="message"></encounter-list>
+</div>

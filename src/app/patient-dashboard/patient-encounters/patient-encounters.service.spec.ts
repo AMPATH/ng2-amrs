@@ -4,8 +4,10 @@ import { TestBed, async } from '@angular/core/testing';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { PatientEncounterService } from './patient-encounters.service';
-import { EncounterResourceService } from "../../openmrs-api/encounter-resource.service";
-import { Encounter } from "../../models/encounter.model";
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { Encounter } from '../../models/encounter.model';
+import { FakeEncounterResourceService } from '../../amrs-api/patient-encounter-service.mock';
+
 
 describe('Service: PatientEncounter', () => {
     beforeEach(() => {
@@ -32,7 +34,7 @@ describe('Service: PatientEncounter', () => {
 
     it('should get Encounters by patientUuid', (done) => {
         let service: PatientEncounterService = TestBed.get(PatientEncounterService);
-        let results = service.getEncountersByUuid('patientUuid');
+        let results = service.getEncountersByPatientUuid('uuid', false, null);
 
         results.subscribe((results) => {
             expect(results).toBeTruthy();
@@ -48,62 +50,17 @@ describe('Service: PatientEncounter', () => {
         let fakeRes: FakeEncounterResourceService =
             TestBed.get(EncounterResourceService) as FakeEncounterResourceService;
 
-        //tell mock to return error on next call
+        // tell mock to return error on next call
         fakeRes.returnErrorOnNext = true;
-        let results = service.getEncountersByUuid('patientUuid');
+        let results = service.getEncountersByPatientUuid('uuid');
 
         results.subscribe((results) => {
         },
             (error) => {
-                //when it gets here, then it returned an error
+                // when it gets here, then it returned an error
                 done();
             });
 
     });
 });
-
-/**
- * FakeEncounterResourceService
- */
-class FakeEncounterResourceService extends EncounterResourceService {
-    constructor() {
-        super();
-    }
-    returnErrorOnNext: boolean = false;
-    getEncountersByUuid(uuid: string,cached: boolean=false,v: string = null): Observable<any> {
-        let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-        let encounters = [
-            {
-            uuid:'uuid',
-            display:'the encounter',
-            encounterDatetime:'2016-01-01 0:00z',
-            patient: {
-                uuid:'patient uuid'
-            },
-            encounterType: {
-                uuid:'encounter type uuid'
-            },
-            location: {
-                uuid: 'location uuid'
-            },
-            form: {
-                uuid: 'form uuid'
-            },
-            provider: {
-                uuid: 'provider uuid'
-            },
-            visit: {
-                uuid: 'uuid'
-            }
-            }
-        ];
-
-        if (!this.returnErrorOnNext)
-            test.next(encounters);
-        else
-            test.error(new Error('Error loading patient'));
-        return test.asObservable();
-    }
-}
-
 
