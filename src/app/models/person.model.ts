@@ -4,6 +4,7 @@ import './date.extensions';
 
 
 export class Person extends BaseModel {
+  private _birthdate: Date;
   constructor(openmrsModel?: any) {
     super(openmrsModel);
   }
@@ -16,7 +17,7 @@ export class Person extends BaseModel {
     this._openmrsModel.gender = v;
   }
 
-  @serializable(true,false)
+  @serializable(true, false)
   public get age(): number {
     return this._openmrsModel.age;
   }
@@ -24,7 +25,7 @@ export class Person extends BaseModel {
     this._openmrsModel.age = v;
   }
 
-  private _birthdate: Date;
+
   @serializable()
   public get birthdate(): Date {
     if (this._birthdate === null || this._birthdate === undefined) {
@@ -37,7 +38,7 @@ export class Person extends BaseModel {
     this._birthdate = v;
   }
 
-  @serializable(false,true)
+  @serializable(false, true)
   public get preferredName(): string {
     return this._openmrsModel.preferredName;
   }

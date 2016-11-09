@@ -10,7 +10,7 @@ export abstract class BaseModel {
         }
     }
 
-    @serializable(true,false)
+    @serializable(true, false)
     public get uuid(): string {
         return this._openmrsModel.uuid;
     }
@@ -28,15 +28,15 @@ export abstract class BaseModel {
     }
 
     public toNewPayload(): any {
-        return serialize(this,true);
+        return serialize(this, true);
     }
 
     public toUpdatePayload(): any {
         return serialize(this, false);
     }
 
-    protected initializeNavigationProperty(member:string) {
-        if(this._openmrsModel[member] === undefined || this._openmrsModel[member] === null){
+    protected initializeNavigationProperty(member: string) {
+        if (this._openmrsModel[member] === undefined || this._openmrsModel[member] === null) {
             this._openmrsModel[member] = {};
         }
     }

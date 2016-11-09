@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Encounter } from './encounter.model';
-import {Patient} from "./patient.model";
+import { Patient } from './patient.model';
 
 
 /**

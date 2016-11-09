@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-//import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
+// import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
 
 import { Person } from './person.model';
 
@@ -8,18 +8,18 @@ import { Person } from './person.model';
 
 describe('Model: Person', () => {
 
-  let existingPerson:any = {
-    uuid:'uuid',
-    display:'the person',
-    gender:'gender',
-    age:'age',
-    preferredName:'the person preferredName',
-    birthdate:'2016-01-01 0:00z'
+  let existingPerson: any = {
+    uuid: 'uuid',
+    display: 'the person',
+    gender: 'gender',
+    age: 'age',
+    preferredName: 'the person preferredName',
+    birthdate: '2016-01-01 0:00z'
 
   };
 
-  it('should wrap openmrs person for display correctly',()=>{
-    let wrappedPerson:Person = new Person(existingPerson);
+  it('should wrap openmrs person for display correctly', () => {
+    let wrappedPerson: Person = new Person(existingPerson);
     expect(wrappedPerson.uuid).toEqual(existingPerson.uuid);
     expect(wrappedPerson.display).toEqual(existingPerson.display);
     expect(wrappedPerson.gender).toEqual(existingPerson.gender);
@@ -29,7 +29,7 @@ describe('Model: Person', () => {
 
   });
 
-//TODO implement these tests
+// TODO implement these tests
   /*it('should generate update existing payload correctly',()=>{
 
   });
@@ -40,7 +40,6 @@ describe('Model: Person', () => {
   });
 
   it('should generate an existing Person payload correctly', ()=>{
-
 
   });*/
 });

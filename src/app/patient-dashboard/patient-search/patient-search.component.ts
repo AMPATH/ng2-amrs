@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../../models/patient.model';
@@ -13,33 +13,33 @@ import { Patient } from '../../models/patient.model';
 
 export class PatientSearchComponent implements OnInit {
   searchString: string;
-  patients:Patient[];
-  isResetButton:boolean= false;
-  totalPatients:number;
+  patients: Patient[];
+  isResetButton: boolean = false;
+  totalPatients: number;
   isLoading: boolean = false;
-  page:number = 1;
+  page: number = 1;
   public errorMessage: string;
 
   constructor(private patientSearchService: PatientSearchService, private router: Router) { }
 
   loadPatient(): void {
 
-    if(this.searchString && this.searchString.length > 2){
+    if ( this.searchString  &&  this.searchString.length  >  2 ) {
       this.isLoading = true;
-      this.patients=[];
-      let request= this.patientSearchService.searchPatient(this.searchString,false);
+      this.patients = [];
+      let request = this.patientSearchService.searchPatient(this.searchString, false);
       request
         .subscribe(
-          (data) =>{
+          (data) => {
 
             this.patients = data;
-            this.totalPatients=this.patients.length;
+            this.totalPatients = this.patients.length;
 
 
           },
           (error) => {
 
-            console.log('error',error);
+            console.log('error', error);
             this.errorMessage = error;
           }
           );
@@ -47,7 +47,7 @@ export class PatientSearchComponent implements OnInit {
          this.isLoading = false;
         }, 1000);
 
-       this.isResetButton =true;
+       this.isResetButton = true;
 
     }
    }
@@ -56,15 +56,15 @@ export class PatientSearchComponent implements OnInit {
        return;
      }
 
-    this.router.navigate(['/patient-dashboard/'+ patientUuid +'/patient-info']);
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/patient-info']);
 
   }
 
 
   resetSearchList() {
     this.patientSearchService.resetPatients();
-    this.searchString= '';
-    this.isResetButton =false;
+    this.searchString = '';
+    this.isResetButton = false;
   }
 
   ngOnInit(): void {
