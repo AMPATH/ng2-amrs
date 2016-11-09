@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
-
-// Added
 import { DisplayErrorComponent } from './display-error/display-error.component';
 
 @NgModule({

@@ -20,13 +20,21 @@ import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.componen
 import { ProgramsComponent } from './programs/programs.component';
 import { PatientSearchService } from './patient-search/patient-search.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
+import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
+import { EncounterListComponent } from './patient-encounters/encounter-list.component';
+
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    patientDashboardRouting, CommonModule, AccordionModule, DataTableModule, SharedModule, NgamrsSharedModule,
+    patientDashboardRouting,
+    CommonModule,
+    AccordionModule,
+    DataTableModule,
+    SharedModule,
+    NgamrsSharedModule,
     Ng2PaginationModule, OpenmrsApi
 
   ],
@@ -41,11 +49,12 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
     LabOrdersComponent,
     HivSummaryComponent,
     ClinicalNotesComponent,
-    ProgramsComponent
+    ProgramsComponent,
+    EncounterListComponent
   ],
   providers: [
-    PatientDashboardGuard,
-    PatientSearchService
+    PatientDashboardGuard, PatientSearchService, PatientEncounterService
+
 
   ],
   exports: [
@@ -57,7 +66,8 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
     LabOrdersComponent,
     HivSummaryComponent,
     ClinicalNotesComponent,
-    ProgramsComponent
+    ProgramsComponent,
+    EncounterListComponent
   ]
 })
 export class PatientDashboardModule {

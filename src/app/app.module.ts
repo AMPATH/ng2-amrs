@@ -23,7 +23,6 @@ import { AppState, InternalStateType } from './app.service';
 import { About } from './about';
 import { NoContent } from './no-content';
 import { AuthenticationModule } from './authentication';
-import { XLarge } from './home/x-large';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { AppSettingsModule } from './app-settings';
 import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.service';
