@@ -1,15 +1,79 @@
 import { Injectable } from '@angular/core';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class EncounterResourceService {
+    v: string = 'custom:(uuid,encounterDatetime,' +
+    'patient:(uuid,uuid),form:(uuid,name),' +
+    'location:ref,encounterType:ref,provider:ref,' +
+    'obs:(uuid,obsDatetime,concept:(uuid,uuid),value:ref,groupMembers))';
 
-    constructor() { }
-    getEncountersByPatientUuid(
-        patientuuid: string,
-        cached: boolean= false,
+    constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
+    getUrl(): string {
+
+        return this.appSettingsService.getOpenmrsRestbaseurl().trim();
+    }
+
+    getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
         v: string = null): Observable<any> {
-        let test: Subject<any> = new Subject<any>();
-        return test.asObservable();
+        if (!patientUuid) {
+            return null;
+        }
+        let url = this.getUrl() + 'encounter';
+        const params = new URLSearchParams();
+        params.set('patient', patientUuid);
+        params.set('v', this.v);
+
+        return this.http.get(url, {
+            search: params
+        }).map((response: Response) => {
+            return response.json().results;
+        });
+    }
+    getEncounterByUuid(uuid: string): Observable<any> {
+        if (!uuid) {
+            return null;
+        }
+        let url = this.getUrl() + 'encounter/' + uuid;
+                  return this.http.get(url).map((response: Response) => {
+            return response.json().encounter;
+        });
+    }
+    getEncounterTypes(v: string) {
+        if (!v) {
+            return null;
+        }
+        let url = this.getUrl() + 'encountertype';
+           return this.http.get(url).map((response: Response) => {
+            return response.json().encountertype;
+        });
+    }
+
+    saveEncounter(payload) {
+        if (!payload) {
+            return null;
+        }
+        let url = this.getUrl() + 'encounter';
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(url, payload, options)
+            .map((response: Response) => {
+                return response.json().encounter;
+            });
+    }
+
+    updateEncounter(uuid, payload) {
+        if (!payload || !uuid) {
+            return null;
+        }
+        let url = this.getUrl() + 'encounter/' + uuid;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(url, payload, options)
+            .map((response: Response) => {
+                return response.json().encounter;
+            });
     }
 }

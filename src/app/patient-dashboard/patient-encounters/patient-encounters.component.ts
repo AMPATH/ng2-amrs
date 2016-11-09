@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { PatientEncounterService } from './patient-encounters.service';
 import { Encounter } from '../../models/encounter.model';
+import { Subscription } from 'rxjs';
+import { PatientService } from '../patient.service';
+
+
 
 @Component({
   selector: 'app-patient-encounters',
@@ -11,28 +15,50 @@ import { Encounter } from '../../models/encounter.model';
 })
 export class PatientEncountersComponent implements OnInit {
 
-  public encounters: Encounter[];
+  encounters: Encounter[];
   messageType: string;
   message: string;
   isVisible: boolean;
+  busy: Subscription;
+  patient: any;
+  errors: any = [];
 
-  constructor(private patientEncounterService: PatientEncounterService) { }
-  loadPatientEncounters(patientuuid: string): void {
-    let request = this.patientEncounterService.getEncountersByPatientUuid('uuid')
+  constructor(private patientEncounterService: PatientEncounterService,
+    private patientService: PatientService) { }
+      ngOnInit() {
+    this.getPatient();
+  }
+  loadPatientEncounters(patientUuid) {
+    this.encounters = [];
+    this.busy = this.patientEncounterService
+      .getEncountersByPatientUuid(patientUuid)
       .subscribe(
-      (value) => {
-        this.encounters = value;
+      (data) => {
+        console.log('Encounters', data);
+        this.encounters = data.reverse();
         this.isVisible = false;
       },
 
-      (error) => {
-        this.messageType = 'error';
-        this.message = 'There is a problem loading Encounters. Click me to reload...';
-        this.isVisible = true;
+      (err) => {
+        this.errors.push({
+          id: 'visit',
+          message: 'error fetching visit'
+        });
       });
   }
-
-  ngOnInit(): void {
-    this.loadPatientEncounters('uuid');
+  getPatient() {
+    this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        if (patient !== null) {
+          this.patient = patient;
+          this.loadPatientEncounters(patient.person.uuid);
+        }
+      }
+      , (err) => {
+        this.errors.push({
+          id: 'patient',
+          message: 'error fetching patient'
+        });
+      });
   }
 }

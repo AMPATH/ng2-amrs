@@ -8,8 +8,8 @@
                 <tr>
                     <th>Encounter Date</th>
                     <th>Encounter Type</th>
-                    <th>Location</th>
                     <th>Form</th>
+                    <th>Location</th>
                     <th>Provider</th>
                     <th colspan="2">Actions</th>
                 </tr>
@@ -17,10 +17,10 @@
             <tbody>
                 <tr style="cursor: pointer;" *ngFor="let encounter of encounters| paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
                     <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
-                    <td>{{encounter.encounterType.uuid}}</td>
-                    <td>{{encounter.location.uuid}}</td>
-                    <td>{{encounter.form.uuid}}</td>
-                    <td>{{encounter.provider.uuid}}</td>
+                    <td>{{encounter.encounterType.display}}</td>
+                    <td>{{encounter.form.name}}</td>
+                    <td>{{encounter.location.display}}</td>
+                    <td>{{encounter.provider.display}}</td>
                     <td>
                         <button (click)="loadPatientEncounters()" type="button" class="btn btn-xs">
                 <span class="glyphicon text-primary glyphicon-edit"></span>
@@ -35,5 +35,5 @@
             </tbody>
         </table>
     </div>
-      <pagination-controls  (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+    <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
 </div>
