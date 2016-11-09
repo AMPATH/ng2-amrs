@@ -1,3 +1,4 @@
+/* tslint:disable */
 /*
  * Custom Type Definitions
  * When including 3rd party modules you also need to include the type definition for the module
@@ -44,7 +45,7 @@ import * as _ from 'lodash'
  */
 
 // support NodeJS modules without type definitions
-declare module '*';
+//declare module '*';
 
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
@@ -71,16 +72,16 @@ type FactoryPromise = () => Promise<any>;
 
 type AsyncRoutes = {
   [component: string]: Es6PromiseLoader |
-                               Function |
-                FactoryEs6PromiseLoader |
-                         FactoryPromise
+  Function |
+  FactoryEs6PromiseLoader |
+  FactoryPromise
 };
 
 
 type IdleCallbacks = Es6PromiseLoader |
-                             Function |
-              FactoryEs6PromiseLoader |
-                       FactoryPromise ;
+  Function |
+  FactoryEs6PromiseLoader |
+  FactoryPromise;
 
 interface WebpackModule {
   hot: {
@@ -100,14 +101,14 @@ interface WebpackModule {
 
 
 interface WebpackRequire {
-    (id: string): any;
-    (paths: string[], callback: (...modules: any[]) => void): void;
-    ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
-    context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
+  (id: string): any;
+  (paths: string[], callback: (...modules: any[]) => void): void;
+  ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
+  context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
 }
 
 interface WebpackContext extends WebpackRequire {
-    keys(): string[];
+  keys(): string[];
 }
 
 interface ErrorStackTraceLimit {
@@ -116,8 +117,8 @@ interface ErrorStackTraceLimit {
 
 
 // Extend typings
-interface NodeRequire extends WebpackRequire {}
-interface ErrorConstructor extends ErrorStackTraceLimit {}
-interface NodeRequireFunction extends Es6PromiseLoader  {}
-interface NodeModule extends WebpackModule {}
-interface Global extends GlobalEnvironment  {}
+interface NodeRequire extends WebpackRequire { }
+interface ErrorConstructor extends ErrorStackTraceLimit { }
+interface NodeRequireFunction extends Es6PromiseLoader { }
+interface NodeModule extends WebpackModule { }
+interface Global extends GlobalEnvironment { }
