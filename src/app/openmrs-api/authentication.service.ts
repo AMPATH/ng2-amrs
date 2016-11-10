@@ -14,34 +14,34 @@ export class AuthenticationService {
     private appSettingsService: AppSettingsService,
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
-    private sessionService: SessionService) {}
+    private sessionService: SessionService) { }
 
   authenticate(username: string, password: string) {
 
     let credentials = {
       username: username,
       password: password
-    }
+    };
 
     let request = this.sessionService.getSession(credentials);
 
     request
       .subscribe(
-        (response: Response) => {
+      (response: Response) => {
 
-          let data = response.json();
+        let data = response.json();
 
-          if(data.authenticated) {
+        if (data.authenticated) {
 
-            this.setCredentials(username, password);
+          this.setCredentials(username, password);
 
-            //store logged in user details in session storage
-            let user = data.user;
-            this.storeUser(user);
-          }
-        });
+          // store logged in user details in session storage
+          let user = data.user;
+          this.storeUser(user);
+        }
+      });
 
-      return request;
+    return request;
   }
 
   logOut() {
@@ -50,14 +50,14 @@ export class AuthenticationService {
 
     response
       .subscribe(
-        (response: Response) => {
+      (res: Response) => {
 
-          this.clearSessionCache();
-        },
-        (error: Error) => {
+        this.clearSessionCache();
+      },
+      (error: Error) => {
 
-          this.clearSessionCache();
-        });
+        this.clearSessionCache();
+      });
 
     return response;
   }

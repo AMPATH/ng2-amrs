@@ -15,8 +15,8 @@ describe('Service: PatientSearch', () => {
         PatientSearchService,
         {
           provide: PatientResourceService, useFactory: () => {
-          return new FakePatientResourceService(null, null);
-        }, deps: []
+            return new FakePatientResourceService(null, null);
+          }, deps: []
         }
       ]
     });
@@ -30,6 +30,7 @@ describe('Service: PatientSearch', () => {
     let service: PatientSearchService = TestBed.get(PatientSearchService);
     expect(service).toBeTruthy();
   });
+
 
   it('should search for patients by search text', (done) => {
     let service: PatientSearchService = TestBed.get(PatientSearchService);
@@ -50,12 +51,12 @@ describe('Service: PatientSearch', () => {
     let fakeRes: FakePatientResourceService =
       TestBed.get(PatientResourceService) as FakePatientResourceService;
 
-      // tell mock to return error on next call
+    // tell mock to return error on next call
     fakeRes.returnErrorOnNext = true;
     let results = service.searchPatient('text', false);
 
     results.subscribe((result) => {
-      },
+    },
       (error) => {
         // when it gets here, then it returned an error
         done();

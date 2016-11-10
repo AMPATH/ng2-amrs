@@ -3,13 +3,17 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
-//TODO inject service
+// TODO inject service
 
 @Injectable()
 export class PatientResourceService {
 
-  v: string = 'custom:(uuid,display,identifiers:(identifier,uuid,identifierType:(uuid,name)),person:(uuid,display,gender,birthdate,dead,age,deathDate,causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
-  + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,stateProvince,country,postalCode,countyDistrict,address3,address4,address5,address6)))';
+  v: string = 'custom:(uuid,display,' +
+  'identifiers:(identifier,uuid,identifierType:(uuid,name)),' +
+  'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
+  'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
+  + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
+  'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,address6)))';
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
 

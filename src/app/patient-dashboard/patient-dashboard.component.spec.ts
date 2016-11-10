@@ -9,7 +9,7 @@ import { PatientDashboardComponent } from './patient-dashboard.component';
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
-class MockActivatedRoute { 'params': Observable.from([{ 'id': 1 }]) };
+class MockActivatedRoute { 'params': Observable.from([{ 'id': 1 }]); }
 
 describe('Component: PatientDashboard', () => {
 

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-export let Helpers = {
+export let helpers = {
   buildUrl: (url) => {
     return {
       withParams: (params) => {
@@ -11,7 +11,8 @@ export let Helpers = {
     };
   },
   isNullOrUndefined: (obj) => {
-    return _.isUndefined(obj) || _.isNull(obj) || (typeof obj === 'string' && (obj.length === 0 || !obj.trim()));
+    return _.isUndefined(obj) || _.isNull(obj) ||
+      (typeof obj === 'string' && (obj.length === 0 || !obj.trim()));
   },
   hasAllMembersUndefinedOrNull: (obj, members) => {
 
@@ -19,7 +20,7 @@ export let Helpers = {
 
     for (let i = 0; i < members.length; i++) {
 
-      if (!Helpers.isNullOrUndefined(obj[members[i]])) {
+      if (!helpers.isNullOrUndefined(obj[members[i]])) {
         hasANonNullMember = true;
         break;
       }

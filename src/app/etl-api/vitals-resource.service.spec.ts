@@ -56,40 +56,45 @@ describe('Vitals Resource Service Unit Tests', () => {
 
   });
 
-  it('should return the correct parameters from the api', async(inject([VitalsResourceService, MockBackend], (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
+  it('should return the correct parameters from the api',
+    async(inject([VitalsResourceService, MockBackend],
+      (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-    let mockResponse = new Response(new ResponseOptions({
-      body: {
-        startIndex: '0',
-        limit: '10',
-        result: []
-      }
-    }));
+        let mockResponse = new Response(new ResponseOptions({
+          body: {
+            startIndex: '0',
+            limit: '10',
+            result: []
+          }
+        }));
 
-    mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
+        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
 
-    vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => {
+        vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => {
 
-      let _data = data.json();
+          let _data = data.json();
 
-      expect(_data).toBeTruthy();
-      expect(_data.startIndex).toBeDefined();
-      expect(_data.limit).toBeDefined();
-      expect(_data.result).toBeDefined();
+          expect(_data).toBeTruthy();
+          expect(_data.startIndex).toBeDefined();
+          expect(_data.limit).toBeDefined();
+          expect(_data.result).toBeDefined();
 
-    });
+        });
 
-  })));
+      })));
 
-  it('should return the correct parameters from the api', async(inject([VitalsResourceService, MockBackend], (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
+  it('should return the correct parameters from the api',
+    async(inject([VitalsResourceService, MockBackend],
+      (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-    mockBackend.connections.subscribe(c => c.mockError(new Error('An error occured while processing the request')));
+        mockBackend.connections.subscribe(c =>
+          c.mockError(new Error('An error occured while processing the request')));
 
-    vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => { },
-      (error: Error) => {
-        expect(error).toBeTruthy();
+        vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => { },
+          (error: Error) => {
+            expect(error).toBeTruthy();
 
-      });
-  })));
+          });
+      })));
 
 });
