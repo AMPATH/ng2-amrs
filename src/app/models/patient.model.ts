@@ -4,10 +4,14 @@
 import { BaseModel } from './base-model.model';
 import { serializable, serialize } from './serializable.decorator';
 import { Person } from './person.model';
+import { PatientIdentifier } from './patient-identifier.model';
+
 
 export class Patient extends BaseModel {
   private _person: Person;
-    constructor(openmrsModel?: any) {
+  private _patientIdentifier: PatientIdentifier;
+  private _identifier = this.openmrsModel.identifiers;
+  constructor(openmrsModel?: any) {
         super(openmrsModel);
     }
 
@@ -25,9 +29,127 @@ export class Patient extends BaseModel {
     this._person = v;
   }
 
+  @serializable()
+  public get identifiers(): PatientIdentifier {
+    if (this._patientIdentifier === null || this._patientIdentifier === undefined) {
+      this.initializeNavigationProperty('patientIdentifier');
+      this._patientIdentifier = new PatientIdentifier(this._openmrsModel.identifiers);
+    }
+    return this._patientIdentifier;
+  }
+  public set identifiers(v: PatientIdentifier) {
+    this._openmrsModel.identifiers = v.openmrsModel;
+    this._patientIdentifier = v;
+  }
+  public get searchIdentifiers() {
+
+    if (this._identifier.length > 0) {
+      // return _identifier[0].display.split('=')[1];
+      let filteredIdentifiers: any ;
+      let identifier = this._identifier;
+      let kenyaNationalId = this.getIdentifierByType(identifier, 'KENYAN NATIONAL ID NUMBER');
+      let amrsMrn = this.getIdentifierByType(identifier, 'AMRS Medical Record Number');
+      let ampathMrsUId = this.getIdentifierByType(identifier, 'AMRS Universal ID');
+      let cCC = this.getIdentifierByType(identifier, 'CCC Number');
+      if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
+        (ampathMrsUId) === undefined && (cCC) === undefined) {
+        if ((this._identifier[0].identifier)) {
+          filteredIdentifiers = {'default': this._identifier[0].identifier};
+        } else {
+          filteredIdentifiers = {'default': ''};
+        }
+      } else {
+        filteredIdentifiers = {
+          'kenyaNationalId': kenyaNationalId,
+          'amrsMrn': amrsMrn,
+          'ampathMrsUId': ampathMrsUId,
+          'cCC': cCC
+        };
+      }
+      return filteredIdentifiers;
+    } else {
+      return this._identifier = '';
+    }
+
+
+
+  }
+  getIdentifierByType(identifierObject, type ) {
+    for (let e in identifierObject) {
+      if ((identifierObject[e].identifierType) !== undefined) {
+        let idType = identifierObject[e].identifierType.name;
+        let id = identifierObject[e].identifier;
+        if (idType === type) {
+          return id;
+        }
+      }
+    }
+  }
+
   public toUpdatePayload(): any {
     return null;
   }
+
+  public get commonIdentifiers() {
+
+    if (this._identifier.length > 0) {
+      // return _identifier[0].display.split('=')[1];
+      let filteredIdentifiers: any;
+      let identifiers = this. _identifier;
+      let kenyaNationalId = this.getAllIdentifiersByType(identifiers, 'KENYAN NATIONAL ID NUMBER');
+      let amrsMrn = this.getAllIdentifiersByType(identifiers, 'AMRS Medical Record Number');
+      let ampathMrsUId = this.getAllIdentifiersByType(identifiers, 'AMRS Universal ID');
+      let cCC = this.getAllIdentifiersByType(identifiers, 'CCC Number');
+
+      if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
+        (ampathMrsUId) === undefined && (cCC) === undefined) {
+        if ((this._identifier[0].identifier)) {
+          filteredIdentifiers = {'default': this._identifier[0].identifier};
+        } else {
+          filteredIdentifiers = {'default': ''};
+        }
+      } else {
+        filteredIdentifiers = {
+          'kenyaNationalId': this._fromArrayToCommaSeparatedString(kenyaNationalId),
+          'amrsMrn': this._fromArrayToCommaSeparatedString(amrsMrn),
+          'ampathMrsUId': this._fromArrayToCommaSeparatedString(ampathMrsUId),
+          'cCC': this._fromArrayToCommaSeparatedString(cCC)
+        };
+      }
+      return filteredIdentifiers;
+    } else {
+      return this._identifier = '';
+    }
+
+  };
+
+  getAllIdentifiersByType(identifiers, type ) {
+  let types = [];
+  for (let e in identifiers) {
+    if ((identifiers[e].identifierType) !== undefined) {
+      let idType = identifiers[e].identifierType.name;
+      let id = identifiers[e].identifier;
+      if (idType === type) {
+        types.push(id);
+      }
+    }
+  }
+
+  return types;
+ }
+
+  _fromArrayToCommaSeparatedString(inputArray) {
+   let returnString = '';
+
+  for (let i = 0; i < inputArray.length; i++) {
+    if (i === 0) {
+      returnString = inputArray[i] + returnString;
+    } else
+      returnString = returnString +  ', ' + inputArray[i] ;
+  }
+  return returnString;
+ }
+
 
 
 }

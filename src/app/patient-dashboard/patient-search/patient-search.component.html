@@ -40,7 +40,35 @@
       <tr style="cursor: pointer;" (click)="loadPatientData(patient.uuid)"
           *ngFor="let patient of patients | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
         <td>{{ (i + 1)+ (page - 1) * 10 }}</td>
-        <td>{{patient.uuid}}</td>
+        <td>
+          <span *ngIf="patient.searchIdentifiers.kenyaNationalId"> {{patient.searchIdentifiers.kenyaNationalId}}
+            <span *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span></span>
+          <span *ngIf="patient.searchIdentifiers.amrsMrn">{{patient.searchIdentifiers.amrsMrn}}
+             <span *ngIf="patient.searchIdentifiers.ampathMrsUId">,</span></span>
+          <span *ngIf="patient.searchIdentifiers.ampathMrsUId">{{patient.searchIdentifiers.ampathMrsUId}}
+             <span *ngIf="patient.searchIdentifiers.cCC">,</span></span>
+          <span *ngIf="patient.searchIdentifiers.cCC">{{patient.searchIdentifiers.cCC}}</span>
+          <span *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
+
+          <a href="#" [tooltipHtml]="toolTipTemplate"
+             [tooltipContext]="tooltipModel"
+          (tooltipStateChanged)="tooltipStateChanged($event)"> <span class="badge badge-info" >...</span></a>
+          <template #toolTipTemplate let-model="model">
+            <div style="margin-bottom: 4px;" align="left">
+              <span *ngIf="patient.searchIdentifiers.ampathMrsUId">AMRS UID: {{patient.commonIdentifiers.ampathMrsUId}}</span>
+            </div>
+            <div style="margin-bottom: 4px;" align="left">
+              <span *ngIf="patient.searchIdentifiers.amrsMrn">AMRS MRN: {{patient.commonIdentifiers.amrsMrn}}</span>
+            </div>
+            <div style="margin-bottom: 4px;"  align="left">
+              <span *ngIf="patient.searchIdentifiers.cCC">CCC: {{patient.commonIdentifiers.cCC}}</span>
+            </div>
+            <div align="left">
+              <span *ngIf="patient.searchIdentifiers.kenyaNationalId">National ID: {{patient.commonIdentifiers.kenyaNationalId}}</span>
+            </div>
+          </template>
+
+        </td>
         <td>{{patient.person.display}}</td>
         <td>{{patient.person.gender}}</td>
         <td>{{patient.person.age}}</td>

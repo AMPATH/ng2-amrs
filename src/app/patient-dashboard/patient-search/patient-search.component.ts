@@ -8,7 +8,7 @@ import { Patient } from '../../models/patient.model';
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
-  styleUrls: ['./patient-search.component.css']
+  styleUrls: ['./patient-search.component.css'],
 })
 
 export class PatientSearchComponent implements OnInit {
@@ -31,6 +31,7 @@ export class PatientSearchComponent implements OnInit {
       request
         .subscribe(
           (data) => {
+            console.log('data', data);
 
             this.patients = data;
             this.totalPatients = this.patients.length;
@@ -66,6 +67,10 @@ export class PatientSearchComponent implements OnInit {
     this.searchString = '';
     this.isResetButton = false;
   }
+  public tooltipStateChanged(state: boolean): void {
+    console.log(`Tooltip is open: ${state}`);
+  }
+
 
   ngOnInit(): void {
 

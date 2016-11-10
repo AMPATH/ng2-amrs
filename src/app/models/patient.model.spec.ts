@@ -25,6 +25,7 @@ describe('Model: Patient', () => {
     expect(wrappedPatient.uuid).toEqual(existingPatient.uuid);
     expect(wrappedPatient.display).toEqual(existingPatient.display);
     expect(wrappedPatient.person.uuid).toEqual(existingPatient.person.uuid);
+    expect(wrappedPatient.identifiers.uuid).toEqual(existingPatient.identifiers.uuid);
 
   });
 
