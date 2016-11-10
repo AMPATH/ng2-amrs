@@ -11,7 +11,6 @@ export class IndicatorResourceService {
   private reportIndicators = new ReplaySubject(1);
   constructor(private http: Http, private appSettingsService: AppSettingsService) {
   }
-
   /**
    * @param {*} param
    * @param {boolean} [forceRefresh]
@@ -27,15 +26,15 @@ export class IndicatorResourceService {
 
     if (!this.reportIndicators.observers.length || forceRefresh) {
       this.http.get(
-        this.appSettingsService.getEtlRestbaseurl().trim()  + 'indicators-schema',
+        this.appSettingsService.getEtlRestbaseurl().trim() + 'indicators-schema',
         {
           search: params
         }
       )
         .map((res: Response) => res.json())
         .subscribe(
-          data => this.reportIndicators.next(data.result),
-          error => this.reportIndicators.error(error)
+        data => this.reportIndicators.next(data.result),
+        error => this.reportIndicators.error(error)
         );
     }
 

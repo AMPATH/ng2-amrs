@@ -1,30 +1,30 @@
 import * as _ from 'lodash';
 
-export var Helpers = {
-  buildUrl:(url)=>{
+export let Helpers = {
+  buildUrl: (url) => {
     return {
-      withParams : (params)=>{
-        return url+'?'+Object.keys(params).map((key)=> {
+      withParams: (params) => {
+        return url + '?' + Object.keys(params).map((key) => {
           return key + '=' + params[key];
         }).join('&');
       }
-    }
+    };
   },
-  isNullOrUndefined : (obj)=>{
-    return _.isUndefined(obj) || _.isNull(obj) || (typeof obj === 'string' && (obj.length ===0 || !obj.trim()));
+  isNullOrUndefined: (obj) => {
+    return _.isUndefined(obj) || _.isNull(obj) || (typeof obj === 'string' && (obj.length === 0 || !obj.trim()));
   },
-  hasAllMembersUndefinedOrNull : (obj,members)=>{
+  hasAllMembersUndefinedOrNull: (obj, members) => {
 
-    var hasA_nonNullMember = false;
+    let hasANonNullMember = false;
 
-    for (var i = 0; i < members.length; i++) {
+    for (let i = 0; i < members.length; i++) {
 
       if (!Helpers.isNullOrUndefined(obj[members[i]])) {
-        hasA_nonNullMember = true;
+        hasANonNullMember = true;
         break;
       }
     }
 
-    return !hasA_nonNullMember;
+    return !hasANonNullMember;
   }
 };

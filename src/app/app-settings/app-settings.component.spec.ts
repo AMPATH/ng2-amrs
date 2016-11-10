@@ -1,13 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {provideRoutes } from '@angular/router';
+import { provideRoutes } from '@angular/router';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { UtilsModule } from '../utils/utils.module';
 import { AppSettingsComponent } from './app-settings.component';
 import { AppSettingsService } from './app-settings.service';
-import {RouterTestingModule} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -18,14 +18,14 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 
 describe('AppSettingsComponent Tests', () => {
-  let comp:    AppSettingsComponent;
+  let comp: AppSettingsComponent;
   let fixture: ComponentFixture<AppSettingsComponent>;
   let debugElement: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, Ng2Bs3ModalModule, UtilsModule, RouterTestingModule ],
-      declarations: [ AppSettingsComponent ],
+      imports: [FormsModule, Ng2Bs3ModalModule, UtilsModule, RouterTestingModule],
+      declarations: [AppSettingsComponent],
       providers: [
         MockBackend,
         BaseRequestOptions,
@@ -43,12 +43,12 @@ describe('AppSettingsComponent Tests', () => {
         provideRoutes([])
       ],
     })
-    .compileComponents()
-    .then(() => {
-      fixture = TestBed.createComponent(AppSettingsComponent);
-      comp = fixture.componentInstance;
-      debugElement = fixture.debugElement.query(By.css('div .form-group'));
-    });
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(AppSettingsComponent);
+        comp = fixture.componentInstance;
+        debugElement = fixture.debugElement.query(By.css('div .form-group'));
+      });
   }));
 
   it('AppSettingsComponent should exist', () => {

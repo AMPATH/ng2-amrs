@@ -7,7 +7,7 @@ import { User } from '../models/user.model';
 export class UserService {
 
   constructor(
-    private sessionStorageService: SessionStorageService) {}
+    private sessionStorageService: SessionStorageService) { }
 
   public getLoggedInUser(): User {
     let userObject = this.sessionStorageService.getObject(Constants.USER_KEY);

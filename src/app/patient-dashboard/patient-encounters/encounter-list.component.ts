@@ -12,7 +12,5 @@ export class EncounterListComponent implements OnInit {
     @Input('message') message: string;
     @Input('isVisible') isVisible: boolean;
     constructor() { }
-
-
     ngOnInit() { }
 }

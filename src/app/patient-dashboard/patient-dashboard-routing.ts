@@ -42,4 +42,5 @@ const patientDashboardRoutes: Routes = [
     ]
   }
 ];
-export const patientDashboardRouting: ModuleWithProviders = RouterModule.forChild(patientDashboardRoutes);
+export const patientDashboardRouting: ModuleWithProviders = RouterModule
+  .forChild(patientDashboardRoutes);

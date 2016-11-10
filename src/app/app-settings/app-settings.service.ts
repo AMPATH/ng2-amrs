@@ -3,11 +3,15 @@ import { LocalStorageService } from '../utils/local-storage.service';
 
 @Injectable()
 export class AppSettingsService {
-  private _openmrsServer: string;
-  private _etlServer: string;
-
   public static readonly DEFAULT_OPENMRS_SERVER_URL = 'https://amrs.ampath.or.ke:8443/amrs';
   public static readonly DEFAULT_ETL_SERVER_URL = 'https://amrsreporting.ampath.or.ke:8002/etl';
+  public static readonly OPENMRS_LIST_STORAGE_KEY = 'appSettings.openmrsServersList';
+  public static readonly ETL_LIST_STORAGE_KEY = 'appSettings.etlServersList'
+  public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';
+  public static readonly ETL_SERVER_KEY = 'appSettings.etlServer';
+  private static readonly OPENMRS_REST_SUFFIX = 'ws/rest/v1/';
+  private _openmrsServer: string;
+  private _etlServer: string;
 
   private _openmrsServerUrls = [
     'http://localhost:8080/openmrs',
@@ -56,11 +60,6 @@ export class AppSettingsService {
     }
   ];
 
-  public static readonly OPENMRS_LIST_STORAGE_KEY = 'appSettings.openmrsServersList';
-  public static readonly ETL_LIST_STORAGE_KEY = 'appSettings.etlServersList'
-  public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';
-  public static readonly ETL_SERVER_KEY = 'appSettings.etlServer';
-  private static readonly OPENMRS_REST_SUFFIX = 'ws/rest/v1/';
 
   get openmrsServerUrls(): string[] {
     return this._openmrsServerUrls;
@@ -83,8 +82,7 @@ export class AppSettingsService {
     let cachedUrl = localStorageService.getItem(AppSettingsService.OPENMRS_SERVER_KEY);
     if (cachedUrl) {
       this._openmrsServer = cachedUrl;
-    }
-    else {
+    } else {
       this.setOpenmrsServer(AppSettingsService.DEFAULT_OPENMRS_SERVER_URL);
     }
 
@@ -99,8 +97,7 @@ export class AppSettingsService {
     cachedUrl = localStorageService.getItem(AppSettingsService.ETL_SERVER_KEY);
     if (cachedUrl) {
       this._etlServer = cachedUrl;
-    }
-    else {
+    } else {
       this.setEtlServer(AppSettingsService.DEFAULT_ETL_SERVER_URL);
     }
   }
@@ -111,7 +108,7 @@ export class AppSettingsService {
 
   getOpenmrsServer(): string {
     return this.localStorageService
-        .getItem(AppSettingsService.OPENMRS_SERVER_KEY) || this._openmrsServer;
+      .getItem(AppSettingsService.OPENMRS_SERVER_KEY) || this._openmrsServer;
   }
 
   setOpenmrsServer(value: string): void {

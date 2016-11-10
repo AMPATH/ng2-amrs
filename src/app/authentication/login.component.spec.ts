@@ -11,8 +11,8 @@ import { SessionStorageService } from '../utils/session-storage.service';
 
 // Load the implementations that should be tested
 import { LoginComponent } from './login.component';
-import {provideRoutes } from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
+import { provideRoutes } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoginComponent Unit Tests', () => {
   // provide our implementations or mocks to the dependency injector
@@ -40,7 +40,7 @@ describe('LoginComponent Unit Tests', () => {
     ]
   }));
 
-  it('should have required variables', inject([ LoginComponent ], (loginComponent: LoginComponent) => {
+  it('should have required variables', inject([LoginComponent], (loginComponent: LoginComponent) => {
     expect(loginComponent.loginSuccess).toBeTruthy();
     expect(loginComponent.loginFailure).toBeTruthy();
     expect(loginComponent.error).toBe(undefined);

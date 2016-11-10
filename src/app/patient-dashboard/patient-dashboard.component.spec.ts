@@ -9,14 +9,17 @@ import { PatientDashboardComponent } from './patient-dashboard.component';
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
-class MockActivatedRoute { 'params': Observable.from([{ 'id': 1 }]) }
+class MockActivatedRoute { 'params': Observable.from([{ 'id': 1 }]) };
 
 describe('Component: PatientDashboard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Router, useClass: MockRouter }, { provide: ActivatedRoute, useClass: MockActivatedRoute }, DynamicRoutesService
+        { provide: Router, useClass: MockRouter }, {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        }, DynamicRoutesService
       ]
     });
   });

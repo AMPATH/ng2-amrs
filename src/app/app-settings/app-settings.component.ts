@@ -8,7 +8,7 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
   selector: 'app-settings',
   templateUrl: './app-settings.component.html',
   styleUrls: ['./app-settings.component.css'],
-  providers: [ AppSettingsService ]
+  providers: [AppSettingsService]
 })
 export class AppSettingsComponent {
   @ViewChild('addUrlModal')
@@ -18,13 +18,14 @@ export class AppSettingsComponent {
   urlType: string;
   serverTemplates: Array<Object> = this.getServerTemplates();
 
-  constructor( private router: Router, private appSettingsService: AppSettingsService, private authenticationService: AuthenticationService ) {}
+  constructor(private router: Router, private appSettingsService: AppSettingsService,
+    private authenticationService: AuthenticationService) { }
 
   getServerTemplates(): Array<Object> {
     return this.appSettingsService.getServerTemplates();
   }
 
-  get openmrsServer():string {
+  get openmrsServer(): string {
     return this.appSettingsService.getOpenmrsServer();
   }
 
@@ -32,7 +33,7 @@ export class AppSettingsComponent {
     this.appSettingsService.setOpenmrsServer(value);
   }
 
-  get etlServer():string {
+  get etlServer(): string {
     return this.appSettingsService.getEtlServer();
   }
 
@@ -50,43 +51,42 @@ export class AppSettingsComponent {
 
   showNewUrlForm(event) {
     this.newUrl = null;
-    if(event && event.srcElement) {
+    if (event && event.srcElement) {
       let srcId = event.srcElement.id;
-      if(srcId == 'etlUrlBtn') {
+      if (srcId === 'etlUrlBtn') {
         this.urlPlaceholder = 'http://localhost:8002/etl';
         this.urlType = 'etl';
-      }
-      else {  // openmrsUrlBtn
+      } else {
+        // openmrsUrlBtn
         this.urlPlaceholder = 'http://localhost:8080/openmrs';
         this.urlType = 'openmrs';
       }
-    }
-    else {
+    } else {
       this.urlPlaceholder = '';
     }
 
     this.urlModal.open();
   }
 
-  saveNewURL(url: string, urlType:string = 'openmrs') {
+  saveNewURL(url: string, urlType: string = 'openmrs') {
     this.appSettingsService.addAndSetUrl(url, urlType);
     this.urlModal.close();
   }
 
   changeServerSettings(row: any) {
-    //changes are reflected on the respective drop down menu's
-    //change openmrs url
+    // changes are reflected on the respective drop down menu's
+    // change openmrs url
     this.openmrsServer = row.amrsUrl;
-    //alert(this.openmrsServer);
-    //change etl-server url
+    // alert(this.openmrsServer);
+    // change etl-server url
     this.etlServer = row.etlUrl;
   }
 
   onDoneClick() {
 
-    //clear session cache
-    //return back to login page
+    // clear session cache
+    // return back to login page
     this.authenticationService.clearSessionCache();
-      this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
 }

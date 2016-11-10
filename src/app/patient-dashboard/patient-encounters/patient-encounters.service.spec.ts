@@ -6,7 +6,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { PatientEncounterService } from './patient-encounters.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../models/encounter.model';
-import { FakeEncounterResourceService } from '../../amrs-api/patient-encounter-service.mock';
+import { FakeEncounterResourceService } from '../../openmrs-api/patient-encounter-service.mock';
 
 
 describe('Service: PatientEncounter', () => {

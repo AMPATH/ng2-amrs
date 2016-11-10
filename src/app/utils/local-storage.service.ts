@@ -15,8 +15,7 @@ export class LocalStorageService {
     try {
       let object = JSON.parse(stored);
       return object;
-    }
-    catch(error) {
+    } catch (error) {
       console.error(error);
       return null;
     }

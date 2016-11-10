@@ -21,8 +21,8 @@ describe('AuthenticationService Unit Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  ],
-      declarations: [  ],
+      imports: [],
+      declarations: [],
       providers: [
         MockBackend,
         BaseRequestOptions,
@@ -42,48 +42,56 @@ describe('AuthenticationService Unit Tests', () => {
     });
   }));
 
-  it('it should authenticate user requests', inject([ MockBackend, SessionStorageService, AuthenticationService ], (backend: MockBackend, sessionStorageService: SessionStorageService, authenticationService: AuthenticationService) => {
+  it('it should authenticate user requests', inject([MockBackend,
+    SessionStorageService, AuthenticationService],
+    (backend: MockBackend, sessionStorageService: SessionStorageService,
+      authenticationService: AuthenticationService) => {
 
-    let username = 'test';
-    let password = 'test';
+      let username = 'test';
+      let password = 'test';
 
-    backend.connections.subscribe((connection: MockConnection) => {
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-          authenticated: true,
-          user: {}
-        })
+      backend.connections.subscribe((connection: MockConnection) => {
+        let options = new ResponseOptions({
+          body: JSON.stringify({
+            authenticated: true,
+            user: {}
+          })
+        });
+        connection.mockRespond(new Response(options));
       });
-      connection.mockRespond(new Response(options));
-    });
 
-    authenticationService.authenticate(username, password)
-      .subscribe((response) => {
+      authenticationService.authenticate(username, password)
+        .subscribe((response) => {
           expect(response.json().authenticated).toEqual(true);
           expect(response.json().user).toBeTruthy();
 
-          var expectedCredentials = btoa(username + ":" + password);
-          expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY)).toEqual(expectedCredentials);
-          expect(sessionStorageService.getItem(Constants.USER_KEY)).toEqual(JSON.stringify({}));
+          let expectedCredentials = btoa(username + ':' + password);
+          expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY))
+            .toEqual(expectedCredentials);
+          expect(sessionStorageService.getItem(Constants.USER_KEY))
+            .toEqual(JSON.stringify({}));
         });
-  }));
+    }));
 
-  it('it should clear user details on logout', inject([ MockBackend, SessionStorageService, AuthenticationService ], (backend: MockBackend, sessionStorageService: SessionStorageService, authenticationService: AuthenticationService) => {
+  it('it should clear user details on logout', inject([MockBackend,
+    SessionStorageService, AuthenticationService],
+    (backend: MockBackend, sessionStorageService: SessionStorageService,
+      authenticationService: AuthenticationService) => {
 
-    backend.connections.subscribe((connection: MockConnection) => {
-      let options = new ResponseOptions({
-        body: JSON.stringify({})
+      backend.connections.subscribe((connection: MockConnection) => {
+        let options = new ResponseOptions({
+          body: JSON.stringify({})
+        });
+        connection.mockRespond(new Response(options));
       });
-      connection.mockRespond(new Response(options));
-    });
 
-    authenticationService.logOut()
-      .subscribe((response) => {
+      authenticationService.logOut()
+        .subscribe((response) => {
           expect(response.json()).toEqual({});
 
           expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY)).toEqual(null);
           expect(sessionStorageService.getItem(Constants.USER_KEY)).toEqual(null);
         });
 
-  }));
+    }));
 });

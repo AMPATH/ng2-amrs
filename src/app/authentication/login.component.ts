@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [  ]
+  providers: []
 })
 export class LoginComponent {
 
@@ -24,7 +24,7 @@ export class LoginComponent {
 
   @ViewChildren('password') passwordField;
 
-  constructor( private router: Router, private authenticationService: AuthenticationService ) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
   }
 
   login(event, username: string, password: string) {
@@ -37,42 +37,42 @@ export class LoginComponent {
 
     this.busy = this.authenticationService.authenticate(username, password)
       .subscribe(
-        (response: Response) => {
-          let data = response.json();
+      (response: Response) => {
+        let data = response.json();
 
-          if(data.authenticated) {
+        if (data.authenticated) {
 
-            this.loginSuccess.emit(true);
+          this.loginSuccess.emit(true);
 
-            if(currentRoute && currentRoute.indexOf('login') != -1) {
+          if (currentRoute && currentRoute.indexOf('login') != -1) {
 
-              let previousRoute: string = sessionStorage.getItem('previousRoute');
+            let previousRoute: string = sessionStorage.getItem('previousRoute');
 
-              if(previousRoute && previousRoute.length > 1)
-                if(previousRoute && previousRoute.indexOf('login') != -1) {
-                  this.router.navigate(['/']);
-                } else
-                  this.router.navigate([ previousRoute ]);
-              else
+            if (previousRoute && previousRoute.length > 1)
+              if (previousRoute && previousRoute.indexOf('login') != -1) {
                 this.router.navigate(['/']);
-            }
-          } else {
-
-            this.error = Messages.WRONG_USERNAME_PASSWORD;
-            this.clearAndFocusPassword();
+              } else
+                this.router.navigate([previousRoute]);
+            else
+              this.router.navigate(['/']);
           }
-        },
-        (error: Error) => {
+        } else {
 
           this.error = Messages.WRONG_USERNAME_PASSWORD;
-          this.loginFailure.emit(false);
           this.clearAndFocusPassword();
-        });
+        }
+      },
+      (error: Error) => {
+
+        this.error = Messages.WRONG_USERNAME_PASSWORD;
+        this.loginFailure.emit(false);
+        this.clearAndFocusPassword();
+      });
   }
 
   clearAndFocusPassword() {
 
     this.passwordField.first.nativeElement.focus();
-    this.passwordField.first.nativeElement.value = "";
+    this.passwordField.first.nativeElement.value = '';
   }
 }

@@ -6,7 +6,6 @@ import { IndicatorResourceService } from './indicator-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 // Load the implementations that should be tested
-
 describe('IndicatorResourceService Unit Tests', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,7 +31,7 @@ describe('IndicatorResourceService Unit Tests', () => {
   it('should have getIndicators defined',
     inject([IndicatorResourceService],
       (indicatorResourceService: IndicatorResourceService) => {
-        expect(indicatorResourceService.getReportIndicators({report: 'reportName'})).toBeTruthy();
+        expect(indicatorResourceService.getReportIndicators({ report: 'reportName' })).toBeTruthy();
       }));
 
   it('should make API call with correct URL',
@@ -43,7 +42,7 @@ describe('IndicatorResourceService Unit Tests', () => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/indicators-schema?report=reportName');
         });
-        expect(indicatorResourceService.getReportIndicators({report: 'reportName'}));
+        expect(indicatorResourceService.getReportIndicators({ report: 'reportName' }));
       })));
 
   it('It should return an array of Indicator object when getIndicator is invoked',
@@ -54,17 +53,17 @@ describe('IndicatorResourceService Unit Tests', () => {
           let options = new ResponseOptions({
             body: JSON.stringify({
               result: [
-                {name: 'Indicator1'},
-                {name: 'Indicator2'}
+                { name: 'Indicator1' },
+                { name: 'Indicator2' }
               ]
             })
           });
           connection.mockRespond(new Response(options));
         });
 
-        indicatorResourceService.getReportIndicators({report: 'reportName'})
+        indicatorResourceService.getReportIndicators({ report: 'reportName' })
           .subscribe((response) => {
-            expect(response).toContain({name: 'Indicator1'});
+            expect(response).toContain({ name: 'Indicator1' });
             expect(response).toBeDefined();
             expect(response.length).toBeGreaterThan(1);
 

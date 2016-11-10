@@ -1,10 +1,10 @@
-import {TestBed, async, inject} from '@angular/core/testing';
-import {MockBackend, MockConnection} from '@angular/http/testing';
-import {Http, BaseRequestOptions, ResponseOptions, Response,RequestMethod} from '@angular/http';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
-import {AppSettingsService} from '../app-settings/app-settings.service';
-import {LocalStorageService} from '../utils/local-storage.service';
-import {VitalsResourceService} from './vitals-resource.service';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { LocalStorageService } from '../utils/local-storage.service';
+import { VitalsResourceService } from './vitals-resource.service';
 
 
 describe('Vitals Resource Service Unit Tests', () => {
@@ -12,7 +12,6 @@ describe('Vitals Resource Service Unit Tests', () => {
   let backend: MockBackend, patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
@@ -84,9 +83,9 @@ describe('Vitals Resource Service Unit Tests', () => {
 
   it('should return the correct parameters from the api', async(inject([VitalsResourceService, MockBackend], (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-    mockBackend.connections.subscribe(c =>c.mockError(new Error('An error occured while processing the request')));
+    mockBackend.connections.subscribe(c => c.mockError(new Error('An error occured while processing the request')));
 
-    vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => {},
+    vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => { },
       (error: Error) => {
         expect(error).toBeTruthy();
 
