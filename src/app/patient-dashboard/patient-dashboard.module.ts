@@ -26,6 +26,7 @@ import { PatientEncounterService } from './patient-encounters/patient-encounters
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,7 +38,6 @@ import { VitalsResourceService } from '../etl-api/vitals-resource.service';
     SharedModule,
     NgamrsSharedModule,
     Ng2PaginationModule, OpenmrsApi
-
   ],
   declarations: [
     PatientInfoComponent,
@@ -54,7 +54,6 @@ import { VitalsResourceService } from '../etl-api/vitals-resource.service';
     EncounterListComponent
   ],
   providers: [
-
     PatientEncounterService,
     PatientDashboardGuard,
     PatientSearchService,

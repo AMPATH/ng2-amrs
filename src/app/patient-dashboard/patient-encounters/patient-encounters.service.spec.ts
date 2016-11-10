@@ -34,9 +34,9 @@ describe('Service: PatientEncounter', () => {
 
     it('should get Encounters by patientUuid', (done) => {
         let service: PatientEncounterService = TestBed.get(PatientEncounterService);
-        let results = service.getEncountersByPatientUuid('uuid', false, null);
+        let result = service.getEncountersByPatientUuid('uuid', false, null);
 
-        results.subscribe((results) => {
+        result.subscribe((results) => {
             expect(results).toBeTruthy();
             expect(results.length).toBeGreaterThan(0);
             expect(results[0].uuid).toEqual('uuid');
@@ -54,7 +54,7 @@ describe('Service: PatientEncounter', () => {
         fakeRes.returnErrorOnNext = true;
         let results = service.getEncountersByPatientUuid('uuid');
 
-        results.subscribe((results) => {
+        results.subscribe((result) => {
         },
             (error) => {
                 // when it gets here, then it returned an error
