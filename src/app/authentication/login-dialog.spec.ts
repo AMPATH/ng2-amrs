@@ -5,8 +5,8 @@ import {
 
 // Load the implementations that should be tested
 import { LoginDialogComponent } from './login-dialog.component';
-import {provideRoutes } from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
+import { provideRoutes } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('App', () => {
   // provide our implementations or mocks to the dependency injector
@@ -20,8 +20,8 @@ describe('App', () => {
     ]
   }));
 
-  it('should have required variables', inject([ LoginDialogComponent ], (loginDialogComponent: LoginDialogComponent) => {
+  it('should have required variables', inject([LoginDialogComponent], (loginDialogComponent: LoginDialogComponent) => {
     expect(loginDialogComponent.cssClass).toBeTruthy();
-     expect(loginDialogComponent.closeEvent).toBeTruthy();
+    expect(loginDialogComponent.closeEvent).toBeTruthy();
   }));
 });

@@ -1,10 +1,10 @@
 export class Patient {
   fullName: string;
   gender: string;
-  dob : number;
+  dob: number;
   age: number;
   ampathMrsUId: number;
-  amrsMrn : number;
+  amrsMrn: number;
   cCC: number;
   kenyaNationalId: number;
 }

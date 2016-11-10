@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers } from '@angular/http';
 
-//TODO inject service
+// TODO inject service
 
 @Injectable()
 export class SessionService {
@@ -11,7 +11,7 @@ export class SessionService {
   }
 
   getUrl(): string {
-    
+
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'session';
   }
 
@@ -19,10 +19,10 @@ export class SessionService {
 
     let headers = new Headers();
 
-    if(credentials && credentials.username) {
-      let base64 = btoa(credentials.username + ":" + credentials.password);
+    if (credentials && credentials.username) {
+      let base64 = btoa(credentials.username + ':' + credentials.password);
 
-      headers.append("Authorization", "Basic " + base64);
+      headers.append('Authorization', 'Basic ' + base64);
     }
 
     let url = this.getUrl();
@@ -36,6 +36,6 @@ export class SessionService {
 
     let url = this.getUrl();
 
-    return this.http.delete(url,  {});
+    return this.http.delete(url, {});
   }
 }

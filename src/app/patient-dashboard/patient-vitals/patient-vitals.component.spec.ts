@@ -1,21 +1,21 @@
-import {MockBackend,} from '@angular/http/testing';
-import {Http, BaseRequestOptions,Response,ResponseOptions} from '@angular/http';
-import { TestBed, inject,async } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import {AppSettingsService} from '../../app-settings/app-settings.service';
-import {LocalStorageService} from '../../utils/local-storage.service';
-import { VitalsResourceService} from '../../etl-api/vitals-resource.service';
-import { MockVitalsResourceService} from '../../etl-api/vitals-resource.service.mock';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
+import { MockVitalsResourceService } from '../../etl-api/vitals-resource.service.mock';
 import { PatientVitalsComponent } from './patient-vitals.component';
 
 describe('Component: Vitals Unit Tests', () => {
 
-  let vitalsResourceService: VitalsResourceService , fakeAppFeatureAnalytics: AppFeatureAnalytics ,component;
+  let vitalsResourceService: VitalsResourceService,
+    fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
@@ -43,7 +43,7 @@ describe('Component: Vitals Unit Tests', () => {
 
     vitalsResourceService = TestBed.get(VitalsResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component=new PatientVitalsComponent(vitalsResourceService,fakeAppFeatureAnalytics);
+    component = new PatientVitalsComponent(vitalsResourceService, fakeAppFeatureAnalytics);
 
   });
 
@@ -77,8 +77,8 @@ describe('Component: Vitals Unit Tests', () => {
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
 
-    spyOn(component, 'loadVitals').and.callFake((err,data)=>{});
-    component.loadVitals('','0','10',(err,data)=>{});
+    spyOn(component, 'loadVitals').and.callFake((err, data) => { });
+    component.loadVitals('', '0', '10', (err, data) => { });
     expect(component.loadVitals).toHaveBeenCalled();
 
     spyOn(component, 'loadMoreVitals').and.callThrough();

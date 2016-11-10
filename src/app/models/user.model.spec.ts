@@ -2,9 +2,9 @@ import { User } from './user.model';
 
 describe('Model: Person', () => {
 
-  let userObject:any = {
-    uuid:'uuid',
-    display:'the user',
+  let userObject: any = {
+    uuid: 'uuid',
+    display: 'the user',
     roles: [
       {
         display: "System Developer",
@@ -20,9 +20,8 @@ describe('Model: Person', () => {
       }
     ]
   };
-
-  it('should wrap openmrs person for display correctly',()=>{
-    let wrappedUser:User = new User(userObject);
+  it('should wrap openmrs person for display correctly', () => {
+    let wrappedUser: User = new User(userObject);
     expect(wrappedUser.uuid).toEqual(userObject.uuid);
     expect(wrappedUser.roleDisplay).toEqual('System Developer, Tester')
     expect(wrappedUser.roles).toEqual(userObject.roles);

@@ -1,4 +1,7 @@
-import { Component, Output, EventEmitter, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
+import {
+  Component, Output, EventEmitter, ViewChild,
+  ViewEncapsulation, OnInit
+} from '@angular/core';
 import { LoginComponent } from './login.component';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -12,22 +15,22 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class LoginDialogComponent  implements OnInit {
+export class LoginDialogComponent implements OnInit {
 
   @Output() closeEvent = new EventEmitter();
 
-  @ViewChild("loginComponent") loginComponent: LoginComponent;
+  @ViewChild('loginComponent') loginComponent: LoginComponent;
 
   @ViewChild('modal')
   modal: ModalComponent;
 
-  cssClass: string = "login-dialog";
+  cssClass: string = 'login-dialog';
 
-  constructor(  ) {
+  constructor() {
   }
 
   ngOnInit() {
-    //this.open();
+    // this.open();
   }
 
   open() {
@@ -35,7 +38,7 @@ export class LoginDialogComponent  implements OnInit {
   }
 
   onLoginSuccess(evt) {
-    //TODO - display a success message
+    //T ODO - display a success message
     this.modal.close();
     this.closeEvent.emit(true);
     return false;

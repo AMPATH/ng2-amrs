@@ -11,7 +11,7 @@ export class PatientResourceService {
   v: string = 'custom:(uuid,display,identifiers:(identifier,uuid,identifierType:(uuid,name)),person:(uuid,display,gender,birthdate,dead,age,deathDate,causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
   + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,stateProvince,country,postalCode,countyDistrict,address3,address4,address5,address6)))';
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {}
+  constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
 
   getUrl(): string {
 
@@ -30,9 +30,9 @@ export class PatientResourceService {
     return this.http.get(url, {
       search: params
     })
-    .map((response:Response) => {
-      return response.json().results;
-    });
+      .map((response: Response) => {
+        return response.json().results;
+      });
   }
 
   getPatientByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {

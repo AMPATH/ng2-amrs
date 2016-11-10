@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http,URLSearchParams} from '@angular/http';
+import { Http, URLSearchParams } from '@angular/http';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
@@ -7,16 +7,15 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 @Injectable()
 export class VitalsResourceService {
 
-  constructor(private http : Http,private appSettingsService: AppSettingsService) {}
+  constructor(private http: Http, private appSettingsService: AppSettingsService) { }
 
-  getVitals(patientUuid :string, startIndex : string, limit :string) {
+  getVitals(patientUuid: string, startIndex: string, limit: string) {
 
-    let api = this.appSettingsService.getEtlServer() + '/patient/'+patientUuid+'/vitals';
+    let api = this.appSettingsService.getEtlServer() + '/patient/' + patientUuid + '/vitals';
 
     if (!startIndex) {
       startIndex = '0';
     }
-
     if (!limit) {
       limit = '20';
     }
@@ -28,7 +27,7 @@ export class VitalsResourceService {
     params.set('limit', limit);
 
 
-    return this.http.get(api,{search:params});
+    return this.http.get(api, { search: params });
   }
 }
 
