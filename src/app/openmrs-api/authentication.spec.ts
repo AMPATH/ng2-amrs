@@ -44,7 +44,7 @@ describe('AuthenticationService Unit Tests', () => {
 
   it('it should authenticate user requests', inject([MockBackend,
     SessionStorageService, AuthenticationService],
-    (backend: MockBackend, sessionStorageService: SessionStorageService,
+    (backend: MockBackend, service: SessionStorageService,
       authenticationService: AuthenticationService) => {
 
       let username = 'test';
@@ -66,16 +66,16 @@ describe('AuthenticationService Unit Tests', () => {
           expect(response.json().user).toBeTruthy();
 
           let expectedCredentials = btoa(username + ':' + password);
-          expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY))
+          expect(service.getItem(Constants.CREDENTIALS_KEY))
             .toEqual(expectedCredentials);
-          expect(sessionStorageService.getItem(Constants.USER_KEY))
+          expect(service.getItem(Constants.USER_KEY))
             .toEqual(JSON.stringify({}));
         });
     }));
 
   it('it should clear user details on logout', inject([MockBackend,
     SessionStorageService, AuthenticationService],
-    (backend: MockBackend, sessionStorageService: SessionStorageService,
+    (backend: MockBackend, service: SessionStorageService,
       authenticationService: AuthenticationService) => {
 
       backend.connections.subscribe((connection: MockConnection) => {
@@ -89,8 +89,8 @@ describe('AuthenticationService Unit Tests', () => {
         .subscribe((response) => {
           expect(response.json()).toEqual({});
 
-          expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY)).toEqual(null);
-          expect(sessionStorageService.getItem(Constants.USER_KEY)).toEqual(null);
+          expect(service.getItem(Constants.CREDENTIALS_KEY)).toEqual(null);
+          expect(service.getItem(Constants.USER_KEY)).toEqual(null);
         });
 
     }));

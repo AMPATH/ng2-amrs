@@ -3,7 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs';
-import { Mock } from "protractor/built/driverProviders";
+import { Mock } from 'protractor/built/driverProviders';
 
 @Injectable()
 export class MockVitalsResourceService {

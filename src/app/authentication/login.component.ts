@@ -44,17 +44,18 @@ export class LoginComponent {
 
           this.loginSuccess.emit(true);
 
-          if (currentRoute && currentRoute.indexOf('login') != -1) {
+          if (currentRoute && currentRoute.indexOf('login') !== -1) {
 
             let previousRoute: string = sessionStorage.getItem('previousRoute');
 
             if (previousRoute && previousRoute.length > 1)
-              if (previousRoute && previousRoute.indexOf('login') != -1) {
+              if (previousRoute && previousRoute.indexOf('login') !== -1) {
                 this.router.navigate(['/']);
-              } else
+              } else {
                 this.router.navigate([previousRoute]);
-            else
+              } else {
               this.router.navigate(['/']);
+            }
           }
         } else {
 

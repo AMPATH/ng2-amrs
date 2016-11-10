@@ -20,8 +20,9 @@ describe('App', () => {
     ]
   }));
 
-  it('should have required variables', inject([LoginDialogComponent], (loginDialogComponent: LoginDialogComponent) => {
-    expect(loginDialogComponent.cssClass).toBeTruthy();
-    expect(loginDialogComponent.closeEvent).toBeTruthy();
-  }));
+  it('should have required variables',
+    inject([LoginDialogComponent], (loginDialogComponent: LoginDialogComponent) => {
+      expect(loginDialogComponent.cssClass).toBeTruthy();
+      expect(loginDialogComponent.closeEvent).toBeTruthy();
+    }));
 });

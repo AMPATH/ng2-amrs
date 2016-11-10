@@ -8,7 +8,10 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/dist/providers';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { Http, Request, RequestOptionsArgs, Response, XHRBackend, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
+import {
+  Http, Request, RequestOptionsArgs,
+  Response, XHRBackend, RequestOptions, ConnectionBackend, Headers
+} from '@angular/http';
 import { Router } from '@angular/router';
 
 /*
@@ -73,14 +76,17 @@ type StoreType = {
     AuthGuard,
     LocalStorageService,
     { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() },
-    { provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions, router: Router, localStorageService: LocalStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, localStorageService),
-      deps: [XHRBackend, RequestOptions, Router, LocalStorageService]}
+    {
+      provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
+        router: Router, localStorageService: LocalStorageService) =>
+        new HttpClient(xhrBackend, requestOptions),
+      deps: [XHRBackend, RequestOptions]
+    }
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {}
+  constructor(public appRef: ApplicationRef, public appState: AppState) { }
 
   hmrOnInit(store: StoreType) {
     if (!store || !store.state) return;

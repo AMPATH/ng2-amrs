@@ -38,7 +38,7 @@ export class LoginDialogComponent implements OnInit {
   }
 
   onLoginSuccess(evt) {
-    //T ODO - display a success message
+    // TODO - display a success message
     this.modal.close();
     this.closeEvent.emit(true);
     return false;

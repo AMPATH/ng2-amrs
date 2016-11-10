@@ -22,4 +22,5 @@ const clinicDashboardRoutes: Routes = [
     ]
   }
 ];
-export const clinicDashboardRouting: ModuleWithProviders = RouterModule.forChild(clinicDashboardRoutes);
+export const clinicDashboardRouting: ModuleWithProviders =
+  RouterModule.forChild(clinicDashboardRoutes);

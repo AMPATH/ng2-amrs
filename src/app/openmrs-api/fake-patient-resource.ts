@@ -6,12 +6,14 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
  * FakePatientResourceService
  */
 export class FakePatientResourceService extends PatientResourceService {
+  returnErrorOnNext: boolean = false;
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
     super(http, appSettingsService);
   }
-  returnErrorOnNext: boolean = false;
 
-  searchPatient(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
+
+  searchPatient(searchText: string,
+    cached: boolean = false, v: string = null): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let patients = [
       {
@@ -69,10 +71,11 @@ export class FakePatientResourceService extends PatientResourceService {
     ];
 
 
-    if (!this.returnErrorOnNext)
+    if (!this.returnErrorOnNext) {
       test.next(patients);
-    else
+    } else {
       test.error(new Error('Error loading patient'));
+    }
     return test.asObservable();
   }
 }

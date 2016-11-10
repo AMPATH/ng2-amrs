@@ -1,3 +1,5 @@
+
+/* tslint:disable:forin */
 declare var Reflect: any;
 
 import { BaseModel } from './base-model.model';
@@ -15,7 +17,7 @@ export interface SerializableProperty {
 }
 
 export function serializable(addToNewPayload: boolean = true,
-                             addToUpdatePayload: boolean = true, name?: string) {
+  addToUpdatePayload: boolean = true, name?: string) {
 
   return function (target: any, key: any) {
 
@@ -60,12 +62,12 @@ export function serialize(target: any, newPayload: boolean, prototype?: any): Ob
       if (prop.addToNewPayload)
         prev[prop.name] = isBaseModel || isOpenmrsDate ? (
           isOpenmrsDate ? openmrsDate.toServerTimezoneString()
-          : baseModelVersion.uuid) : target[prop.key];
+            : baseModelVersion.uuid) : target[prop.key];
     } else {
       if (prop.addToUpdatePayload)
         prev[prop.name] = isBaseModel || isOpenmrsDate ? (
           isOpenmrsDate ? openmrsDate.toServerTimezoneString()
-          : baseModelVersion.uuid) : target[prop.key];
+            : baseModelVersion.uuid) : target[prop.key];
     }
     return prev;
   }, {});

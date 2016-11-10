@@ -6,7 +6,7 @@ import {
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
-export class InterceptHttp extends Http {
+export class HttpClient extends Http {
     constructor(
         @Inject(ConnectionBackend) backend: ConnectionBackend,
         @Inject(RequestOptions) defaultOptions: RequestOptions) {

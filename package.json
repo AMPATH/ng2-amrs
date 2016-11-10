@@ -71,6 +71,7 @@
     "@angularclass/conventions-loader": "^1.0.2",
     "@angularclass/hmr": "~1.2.0",
     "@angularclass/hmr-loader": "~3.0.2",
+    "@types/lodash": "^4.14.38",
     "angular2-busy": "^1.0.2",
     "angular2-ladda": "^1.0.6",
     "angular2-materialize": "^5.2.1",

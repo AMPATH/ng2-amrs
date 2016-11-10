@@ -6,11 +6,10 @@ import { EncounterResourceService } from '../openmrs-api/encounter-resource.serv
  * FakeEncounterResourceService
  */
 export class FakeEncounterResourceService extends EncounterResourceService {
+    returnErrorOnNext: boolean = false;
     constructor() {
         super();
     }
-    returnErrorOnNext: boolean = false;
-
     getEncountersByPatientUuid(
         patientuuid: string,
         cached: boolean = false,
@@ -65,10 +64,11 @@ export class FakeEncounterResourceService extends EncounterResourceService {
             }
         ];
 
-        if (!this.returnErrorOnNext)
+        if (!this.returnErrorOnNext) {
             test.next(encounters);
-        else
+        } else {
             test.error(new Error('Error loading patient'));
+        }
         return test.asObservable();
     }
 }

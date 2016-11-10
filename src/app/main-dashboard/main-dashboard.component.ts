@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 
-declare var jQuery: any;
+declare let jQuery: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -26,22 +26,22 @@ export class MainDashboardComponent implements OnInit {
   busyIndicator: Subscription;
 
   constructor(private router: Router,
-              private dynamicRoutesService: DynamicRoutesService,
-              private authenticationService: AuthenticationService,
-              private userService: UserService) {
+    private dynamicRoutesService: DynamicRoutesService,
+    private authenticationService: AuthenticationService,
+    private userService: UserService) {
   }
 
   ngOnInit() {
     // Work Around for min-height
     window.dispatchEvent(new Event('resize'));
     this.dynamicRoutesService.routes.subscribe(result => {
-        this.routeConfig = (<DynamicRouteModel>result);
-        if (this.routeConfig.routes.length > 0 && !this.isMobile) {
-          this.sidebarOpen = true;
-        } else {
-          this.sidebarOpen = false;
-        }
-      },
+      this.routeConfig = (<DynamicRouteModel>result);
+      if (this.routeConfig.routes.length > 0 && !this.isMobile) {
+        this.sidebarOpen = true;
+      } else {
+        this.sidebarOpen = false;
+      }
+    },
       err => console.log(err),
       () => console.log('Completed'));
     this.user = this.userService.getLoggedInUser();
@@ -58,26 +58,26 @@ export class MainDashboardComponent implements OnInit {
 
     this.busyIndicator = this.authenticationService.logOut()
       .subscribe(
-        (response: Response) => {
-          this.router.navigate(['/login']);
-        },
-        (error: Error) => {
-          this.router.navigate(['/login']);
-        });
+      (response: Response) => {
+        this.router.navigate(['/login']);
+      },
+      (error: Error) => {
+        this.router.navigate(['/login']);
+      });
   }
 
   loadVersion() {
 
     try {
 
-      var json = require("../version.json");
+      let json = require('../version.json');
 
-      if(json && json.version) {
+      if (json && json.version) {
 
         this.version = json.version.version;
         this.buildDate = new Date(json.version.buildDate);
       }
 
-    } catch (e) {}
+    } catch (e) { }
   }
 }
