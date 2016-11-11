@@ -12,11 +12,12 @@ import {
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientDashboardComponent } from './patient-dashboard.component';
+import { PatientService } from './patient.service';
 @Injectable()
 export class PatientDashboardGuard implements CanActivate {
 
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private patientService: PatientService) {
   }
 
   canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -33,6 +34,8 @@ export class PatientDashboardGuard implements CanActivate {
           },
           routes: []
         });
+        // set patient object
+        this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid);
       } else {
         this.router.navigate(['/patient-dashboard/patient-search']);
       }

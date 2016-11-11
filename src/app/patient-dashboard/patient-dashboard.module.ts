@@ -25,7 +25,7 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
-
+import { PatientService } from './patient.service';
 
 @NgModule({
   imports: [
@@ -58,7 +58,8 @@ import { VitalsResourceService } from '../etl-api/vitals-resource.service';
     PatientDashboardGuard,
     PatientSearchService,
     AppFeatureAnalytics,
-    VitalsResourceService
+    VitalsResourceService,
+    PatientService
   ],
   exports: [
     PatientDashboardComponent,

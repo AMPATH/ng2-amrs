@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { PatientService } from '../patient.service';
 
 @Component({
   selector: 'app-patient-info',
@@ -14,9 +15,17 @@ export class PatientInfoComponent implements OnInit {
   doSomething(): void {
     alert('Test function working');
   }
-  constructor(private appFeatureAnalytics: AppFeatureAnalytics) {
+
+  constructor(private appFeatureAnalytics: AppFeatureAnalytics,
+              private patientService: PatientService) {
   }
+
   ngOnInit() {
+    this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        console.log('---->', patient);
+      }
+    );
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Patient Info Loaded', 'ngOnInit');
   }
