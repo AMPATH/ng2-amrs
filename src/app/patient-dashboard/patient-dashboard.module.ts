@@ -26,6 +26,8 @@ import { PatientEncounterService } from './patient-encounters/patient-encounters
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { PatientService } from './patient.service';
+import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
+
 
 @NgModule({
   imports: [
@@ -37,7 +39,8 @@ import { PatientService } from './patient.service';
     DataTableModule,
     SharedModule,
     NgamrsSharedModule,
-    Ng2PaginationModule, OpenmrsApi
+    Ng2PaginationModule, OpenmrsApi,
+    TooltipModule
   ],
   declarations: [
     PatientInfoComponent,

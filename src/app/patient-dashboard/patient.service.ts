@@ -5,7 +5,7 @@ import { PatientResourceService } from '../openmrs-api/patient-resource.service'
 
 @Injectable()
 export class PatientService {
-  public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(new Patient());
+  public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(new Patient({}));
   public currentlyLoadedPatientUuid = new ReplaySubject(1);
 
   constructor(private patientResourceService: PatientResourceService) {}
