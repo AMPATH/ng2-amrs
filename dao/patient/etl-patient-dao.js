@@ -170,6 +170,7 @@ module.exports = function() {
                 row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error, row.cd4_error, row.hiv_dna_pcr_error);
                 row.hiv_dna_pcr = helpers.getConceptName(row.hiv_dna_pcr);
                 row.chest_xray = helpers.getConceptName(row.chest_xray);
+                row.ecg = helpers.getConceptName(row.ecg);
 
             });
             callback(result);
