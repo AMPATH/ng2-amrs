@@ -1,0 +1,40 @@
+<div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Hang in there............'}"></div>
+
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+
+<div *ngIf="!visit" class="box">
+    <div class="box-header with-border">
+        <h4 class="box-title">Select Visit type</h4>
+    </div>
+    <div class="box-body">
+        <table class='table'>
+            <tr *ngFor="let visitType of visitTypes">
+                <td>
+                    {{visitType.display}}
+                </td>
+                <td>
+                    {{visitType.description}}
+                </td>
+                <td>
+                    <button id="startButton" (click)="startVisit(visitType.uuid)" class='btn btn-primary'>Start Visit</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div *ngIf="visit" class='box'>
+    <div class="panel-heading">
+        <h4><span>Started At:{{visit.startDatetime | date:'dd-MM-yyyy hh:mm'}}</span>
+            <span *ngIf="visit.stopDatetime">Ended At:{{visit.stopDatetime | date:'dd-MM-yyyy hh:mm'}}</span></h4>
+    </div>
+    <div class="panel-body">
+        <div>Encounters go here</div>
+        <div>Forms go here</div>
+    </div>
+    <div class="box-footer">
+        <button id="cancelVisitButton" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
+        <button *ngIf="!visit.stopDatetime" id="endVisitButton" (click)="endVisit()" class='btn btn-success'>End Visit Visit</button>
+    </div>
+</div>

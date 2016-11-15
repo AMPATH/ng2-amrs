@@ -19,7 +19,6 @@ export class PatientSearchService {
 
     patientsObservable.subscribe(
       (patients) => {
-        console.log('patients', patients);
         let mappedPatients: Patient[] = new Array<Patient>();
 
         for (let i = 0; i < patients.length; i++) {
