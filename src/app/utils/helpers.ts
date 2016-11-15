@@ -1,26 +1,21 @@
 import * as _ from 'lodash';
 
-export var Helpers = {
 
-  buildUrl:(url)=>{
+export class Helpers {
 
-    return {
-      withParams: (params) => {
-        return url + '?' + Object.keys(params).map((key) => {
-            return key + '=' + params[key];
-          }).join('&');
-      }
-    };
+  static isNullOrUndefined (subject) {
 
-  },
-  isNullOrUndefined : (subject)=>{
+    return _.isUndefined(subject)
+      || _.isNull(subject)
+      || (typeof subject === 'string'
+      && (subject.length === 0
+      || !subject.trim()));
 
-    return _.isUndefined(subject) || _.isNull(subject) || (typeof subject === 'string' && (subject.length ===0 || !subject.trim()));
+  };
 
-  },
-  formatBlankOrNull(obj, text) {
+  static formatBlankOrNull (obj, text) {
 
-    _.each(Object.keys(obj), function(key) {
+    _.each(Object.keys(obj), function (key) {
 
       if (obj[key] === '' || obj[key] === null) {
         obj[key] = text;
@@ -28,17 +23,19 @@ export var Helpers = {
 
     });
 
-  },
-  isNullOrEmpty : (str)=>{
+  };
+
+  static isNullOrEmpty(str) {
     return (!str || 0 === str.length);
-  },
-  hasAllMembersUndefinedOrNull: (obj, members) => {
+  };
+
+  static hasAllMembersUndefinedOrNull(obj, members) {
 
     let hasANonNullMember = false;
 
     for (let i = 0; i < members.length; i++) {
 
-      if (!Helpers.isNullOrUndefined(obj[members[i]])) {
+      if (!this.isNullOrUndefined(obj[members[i]])) {
         hasANonNullMember = true;
         break;
       }
@@ -46,4 +43,7 @@ export var Helpers = {
 
     return !hasANonNullMember;
   }
-};
+
+  constructor() {};
+
+}
