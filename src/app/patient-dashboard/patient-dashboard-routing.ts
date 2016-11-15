@@ -13,6 +13,7 @@ import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
+import { VisitComponent } from './visit/visit.component';
 
 const patientDashboardRoutes: Routes = [
 
@@ -29,9 +30,8 @@ const patientDashboardRoutes: Routes = [
       { path: 'lab-data-summary', component: LabDataSummaryComponent },
       { path: 'lab-orders', component: LabOrdersComponent },
       { path: 'programs', component: ProgramsComponent },
-      { path: 'clinical-notes', component: ClinicalNotesComponent }
-
-
+      { path: 'clinical-notes', component: ClinicalNotesComponent },
+      { path: 'visit', component: VisitComponent }
     ],
     canActivate: [
       AuthGuard,

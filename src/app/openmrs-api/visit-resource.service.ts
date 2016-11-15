@@ -23,11 +23,14 @@ export class VisitResourceService {
     }
 
     getPatientVisits(searchParams) {
-        if (!searchParams || !searchParams.patientUuid || !searchParams.v) {
+        if (!searchParams) {
             return null;
         }
+        let custom = 'custom:(uuid,encounters:(uuid,uuid),patient:(uuid,uuid),' +
+            'visitType:(uuid,name),location:ref,startDatetime,' +
+            'stopDatetime)';
         const params = new URLSearchParams();
-        params.set('v', searchParams.v);
+        params.set('v', searchParams.v || custom);
         params.set('patient', searchParams.patientUuid);
         return this.http
             .get(`${this.getUrl()}`, {
@@ -38,14 +41,11 @@ export class VisitResourceService {
     }
 
     getVisitTypes(searchParams) {
-        if (!searchParams || !searchParams.v) {
+        if (!searchParams) {
             return null;
         }
-        const params = new URLSearchParams();
-        params.set('v', searchParams.v);
         return this.http
             .get(`${this.appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`, {
-                search: params
             })
             .map(this.parseVisitTypesResponse)
             .catch(this.handleError);

@@ -33,6 +33,7 @@ import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'n
 import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
 import { HttpClient } from './shared/services/http-client.service';
 import { LocalStorageService } from './utils/local-storage.service';
+import { SessionStorageService } from './utils/session-storage.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -79,9 +80,9 @@ type StoreType = {
     {
       provide: Http,
       useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, localStorageService: LocalStorageService) =>
-        new HttpClient(xhrBackend, requestOptions),
-      deps: [XHRBackend, RequestOptions]
+        router: Router, sessionStorageService: SessionStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     }
   ]
 })

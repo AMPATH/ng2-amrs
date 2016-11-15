@@ -12,6 +12,12 @@
         "isSideBarOpen": false
       },
       {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "fa fa-clipboard",
+        "isSideBarOpen": false
+      },
+      {
         "url": "patient-vitals",
         "label": "Vitals",
         "icon": "fa fa-heartbeat",
@@ -88,8 +94,7 @@
     "name": "Clinic Dashboard",
     "baseRoute": "clinic-dashboard",
     "routeParameter": "locationUuid",
-    "nonProgramRoutes": [
-    ],
+    "nonProgramRoutes": [],
     "programs": [
       {
         "programName": "HIV",
@@ -117,8 +122,7 @@
     "name": "Data Analytics Dashboard",
     "baseRoute": "data-analytics-dashboard",
     "routeParameter": "",
-    "nonProgramRoutes": [
-    ],
+    "nonProgramRoutes": [],
     "programs": [
       {
         "programName": "HIV",
@@ -136,4 +140,3 @@
     ]
   }
 }
-

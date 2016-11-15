@@ -17,6 +17,8 @@ import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.com
 import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
+import { VisitComponent } from './visit/visit.component';
+
 
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
@@ -27,6 +29,7 @@ import { EncounterListComponent } from './patient-encounters/encounter-list.comp
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { PatientService } from './patient.service';
 import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 
 
 @NgModule({
@@ -54,7 +57,8 @@ import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
     HivSummaryComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
-    EncounterListComponent
+    EncounterListComponent,
+    VisitComponent
   ],
   providers: [
     PatientEncounterService,
@@ -62,7 +66,8 @@ import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
     PatientSearchService,
     AppFeatureAnalytics,
     VitalsResourceService,
-    PatientService
+    PatientService,
+    VisitResourceService
   ],
   exports: [
     PatientDashboardComponent,

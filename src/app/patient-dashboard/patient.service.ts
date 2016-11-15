@@ -8,7 +8,7 @@ export class PatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(null);
   public currentlyLoadedPatientUuid = new ReplaySubject(1);
 
-  constructor(private patientResourceService: PatientResourceService) {}
+  constructor(private patientResourceService: PatientResourceService) { }
 
   public setCurrentlyLoadedPatientByUuid(patientUuid: string): void {
     try {
@@ -24,10 +24,10 @@ export class PatientService {
   public fetchPatientByUuid(patientUuid: string): void {
     this.patientResourceService.getPatientByUuid(patientUuid, false)
       .subscribe(
-        (patientObject: Patient) => {
-          this.currentlyLoadedPatient.next(new Patient(patientObject));
-          this.currentlyLoadedPatientUuid.next(patientUuid);
-        }
+      (patientObject: Patient) => {
+        this.currentlyLoadedPatient.next(new Patient(patientObject));
+        this.currentlyLoadedPatientUuid.next(patientUuid);
+      }
       );
   }
 }
