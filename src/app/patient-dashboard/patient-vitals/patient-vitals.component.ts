@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
-import { Helpers } from '../../utils/helpers';
+import { helpers } from '../../utils/helpers';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -45,7 +45,7 @@ export class PatientVitalsComponent implements OnInit {
           if (data.result.hasOwnProperty(r)) {
             let vital = data.result[r];
 
-            if (!Helpers.hasAllMembersUndefinedOrNull(vital, membersToCheck))
+            if (!helpers.hasAllMembersUndefinedOrNull(vital, membersToCheck))
               _this.encounters.push(vital);
           }
         }
