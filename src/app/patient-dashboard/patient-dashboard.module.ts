@@ -33,6 +33,8 @@ import { EncounterListComponent } from './patient-encounters/encounter-list.comp
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { PatientService } from './patient.service';
+
+
 import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
@@ -43,6 +45,11 @@ import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
+import { AddressComponent } from './patient-info/address.component';
+
+
+
+
 
 
 
@@ -61,6 +68,7 @@ import { ContactsComponent } from './patient-info/contacts.component';
     TooltipModule,
     TabViewModule,
     GrowlModule, PanelModule
+
 
   ],
   declarations: [
@@ -83,7 +91,15 @@ import { ContactsComponent } from './patient-info/contacts.component';
     MedicationHistoryComponent,
     LabResultComponent,
     ContactsComponent,
-    PatientIdentifierComponent
+    PatientIdentifierComponent,
+    AddressComponent
+
+
+
+
+
+
+
   ],
   providers: [
     PatientEncounterService,

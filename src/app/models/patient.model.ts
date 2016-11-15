@@ -113,8 +113,10 @@ export class Patient extends BaseModel {
 
     if (this._identifier.length > 0) {
       // return _identifier[0].display.split('=')[1];
+
       let filteredIdentifiers: any;
       let identifiers = this._identifier;
+
       let kenyaNationalId = this.getAllIdentifiersByType(identifiers, 'KENYAN NATIONAL ID NUMBER');
       let amrsMrn = this.getAllIdentifiersByType(identifiers, 'AMRS Medical Record Number');
       let ampathMrsUId = this.getAllIdentifiersByType(identifiers, 'AMRS Universal ID');
