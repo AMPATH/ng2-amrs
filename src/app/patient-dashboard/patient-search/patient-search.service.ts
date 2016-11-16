@@ -6,15 +6,14 @@ import { Patient } from '../../models/patient.model';
 
 @Injectable()
 export class PatientSearchService {
-  subject: BehaviorSubject<Patient[]>;
+  public patientsSearchResults: BehaviorSubject<Patient[]> = new BehaviorSubject<Patient[]>([]);
+  public searchString: string = '';
 
   constructor(private resouceService: PatientResourceService) {
 
   }
 
   searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
-    this.subject = new BehaviorSubject<Patient[]>([]);
-
     let patientsObservable = this.resouceService.searchPatient(searchText, false);
 
     patientsObservable.subscribe(
@@ -24,23 +23,20 @@ export class PatientSearchService {
         for (let i = 0; i < patients.length; i++) {
           mappedPatients.push(new Patient(patients[i]));
         }
-
-        this.subject.next(mappedPatients);
+        this.searchString = searchText;
+        this.patientsSearchResults.next(mappedPatients);
       },
       (error) => {
-        this.subject.error(error); // test case that returns error
+        this.patientsSearchResults.error(error); // test case that returns error
       }
     );
-    return this.subject.asObservable();
+    return this.patientsSearchResults.asObservable();
   }
 
   resetPatients() {
-    this.subject.next(new Array<Patient>());
+    this.patientsSearchResults.next(new Array<Patient>());
 
   }
-
-
-
 
 
 }

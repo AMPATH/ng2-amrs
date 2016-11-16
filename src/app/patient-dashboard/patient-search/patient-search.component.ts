@@ -20,11 +20,25 @@ export class PatientSearchComponent implements OnInit {
   page: number = 1;
   public errorMessage: string;
 
-  constructor(private patientSearchService: PatientSearchService, private router: Router) { }
+  constructor(private patientSearchService: PatientSearchService, private router: Router) {
+  }
+
+
+  ngOnInit() {
+    // load cached result
+    this.patientSearchService.patientsSearchResults.subscribe(
+      (patients) => {
+          this.patients = patients;
+          this.searchString = this.patientSearchService.searchString;
+          this.totalPatients = this.patients.length;
+      }
+    );
+  }
+
 
   loadPatient(): void {
 
-    if ( this.searchString  &&  this.searchString.length  >  2 ) {
+    if (this.searchString && this.searchString.length > 2) {
       this.isLoading = true;
       this.patients = [];
       let request = this.patientSearchService.searchPatient(this.searchString, false);
@@ -43,19 +57,20 @@ export class PatientSearchComponent implements OnInit {
             console.log('error', error);
             this.errorMessage = error;
           }
-          );
-       setTimeout(() => {
-         this.isLoading = false;
-        }, 1000);
+        );
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
 
-       this.isResetButton = true;
+      this.isResetButton = true;
 
     }
-   }
-   loadPatientData(patientUuid) {
-     if ( patientUuid === undefined || patientUuid === null) {
-       return;
-     }
+  }
+
+  loadPatientData(patientUuid) {
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
 
     this.router.navigate(['/patient-dashboard/' + patientUuid + '/patient-info']);
 
@@ -67,15 +82,10 @@ export class PatientSearchComponent implements OnInit {
     this.searchString = '';
     this.isResetButton = false;
   }
+
   public tooltipStateChanged(state: boolean): void {
     console.log(`Tooltip is open: ${state}`);
   }
-
-
-  ngOnInit(): void {
-
-  }
-
 
 
 }

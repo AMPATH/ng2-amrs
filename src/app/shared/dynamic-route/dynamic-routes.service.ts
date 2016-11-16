@@ -6,25 +6,11 @@ import { Http } from '@angular/http';
 export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
   public routesModel = {};
-  public dashboardConfig = new ReplaySubject(1);
+  public dashboardConfig: Object = require('./schema/dashboard.conf.json');
 
-  constructor(private http: Http) {
-    this.fetchRoutesFromFile();
+  constructor() {
   }
 
-  public fetchRoutesFromFile(forceRefresh?: boolean) {
-    if (!this.dashboardConfig.observers.length || forceRefresh) {
-      this.http.get('dashboard.conf.json')
-        .map((res) => res.json())
-        .subscribe(
-          data => this.dashboardConfig.next(data),
-          err => console.log(err),
-          () => console.log('Completed')
-        );
-    }
-
-    return this.dashboardConfig;
-  }
 
   public clearRoutes(route: DynamicRouteModel) {
     Object.assign(this.routesModel, route);
@@ -32,17 +18,10 @@ export class DynamicRoutesService {
   }
 
   public setRoutes(route: DynamicRouteModel) {
-    this.fetchRoutesFromFile().subscribe(
-      data => {
-        let routes: Array<Object> = this.extractRoutes(route, data);
-        route.routes = routes;
-        Object.assign(this.routesModel, route);
-        this.routes.next(this.routesModel);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    let routes: Array<Object> = this.extractRoutes(route, this.dashboardConfig);
+    route.routes = routes;
+    Object.assign(this.routesModel, route);
+    this.routes.next(this.routesModel);
   }
 
   public extractRoutes(route: DynamicRouteModel, dashboardConfig: Object): Array<Object> {

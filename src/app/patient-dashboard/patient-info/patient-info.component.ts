@@ -23,7 +23,9 @@ export class PatientInfoComponent implements OnInit {
   ngOnInit() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        console.log('---->', patient);
+        if (patient) {
+          console.log('---->', patient);
+        }
       }
     );
     this.appFeatureAnalytics
