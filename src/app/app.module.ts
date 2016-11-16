@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { LoginGuard } from './shared/guards/login.guard';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/dist/providers';
@@ -74,6 +75,7 @@ type StoreType = {
     Angulartics2Piwik,
     AppFeatureAnalytics,
     AuthGuard,
+    LoginGuard,
     LocalStorageService,
     { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() },
     {
