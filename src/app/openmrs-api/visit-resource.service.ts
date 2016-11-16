@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
-import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class VisitResourceService {
 
