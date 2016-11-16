@@ -1,14 +1,24 @@
 <div class="banner-info" *ngIf="patient">
 	<div class="btn-group attributes" role="group" aria-label="...">
-		<button type="button" class="btn btn-banner">{{ patient.fullName}}</button>
-		<button type="button" class="btn btn-banner">{{ patient.gender }}</button>
-		<button type="button" class="btn btn-banner">{{ patient.dob | date:'dd-MM-yyyy' }} ( {{ patient.age }} )</button>
+		<button type="button" class="btn btn-banner">{{ patient?.person.display}}</button>
+		<button type="button" class="btn btn-banner">{{ patient?.person.gender }}</button>
+		<button type="button" class="btn btn-banner">{{ birthdate }} ( {{ patient?.person.age }} )</button>
 	</div>
-
 	<div class="btn-group identifier" role="group" aria-label="...">
-		<button type="button" class="btn btn-banner"><span class="badge">MUI</span> {{ patient.ampathMrsUId }}</button>
-		<button type="button" class="btn btn-banner"><span class="badge">MRN</span> {{ patient.amrsMrn }}</button>
-		<button type="button" class="btn btn-banner"><span class="badge">CCC</span> {{ patient.cCC }}</button>
-		<button type="button" class="btn btn-banner"><span class="badge">NID</span> {{ patient.kenyaNationalId }}</button>
+		<button type="button" class="btn btn-banner">
+			<span class="badge"> MUI </span>
+			<span *ngIf="searchIdentifiers?.ampathMrsUId"> {{ searchIdentifiers?.ampathMrsUId }}</span>
+			<span *ngIf="searchIdentifiers?.ampathMrsUId == null"> Not Available</span>
+		</button>
+		<button type="button" class="btn btn-banner">
+			<span class="badge"> MRN </span>
+			<span *ngIf="searchIdentifiers?.amrsMrn"> {{ searchIdentifiers?.amrsMrn }}</span>
+			<span *ngIf="searchIdentifiers?.amrsMrn == null"> Not Available</span>
+		</button>
+		<button type="button" class="btn btn-banner">
+			<span class="badge"> NID</span>
+			<span *ngIf="searchIdentifiers?.kenyaNationalId"> {{ searchIdentifiers?.kenyaNationalId }}</span>
+			<span *ngIf="searchIdentifiers?.kenyaNationalId == null"> Not Available</span>
+		</button>
 	</div>
 </div>

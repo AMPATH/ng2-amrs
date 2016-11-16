@@ -1,20 +1,33 @@
 import { Component, OnInit, Input } from '@angular/core';
+import * as Moment from 'moment';
 
-import { Patient } from '../patients';
+import { PatientService } from '../patient.service';
+import { Patient } from '../../models/patient.model';
+
 @Component({
   selector: 'patient-banner',
   templateUrl: 'patient-banner.component.html',
   styleUrls: ['patient-banner.component.css']
 })
 
-
 export class PatientBannerComponent implements OnInit {
 
-  @Input() patient: Patient;
+  patient: Patient  = new Patient({});
+  searchIdentifiers: Object;
+  birthdate;
 
-  constructor() { }
+  constructor(private patientService: PatientService) { }
 
   ngOnInit() {
+    this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        if (patient) {
+          this.patient = patient;
+          this.searchIdentifiers = patient.searchIdentifiers;
+          this.birthdate = Moment(patient.person.birthdate).format('l');
+        }
+      }
+    );
   }
 
 }
