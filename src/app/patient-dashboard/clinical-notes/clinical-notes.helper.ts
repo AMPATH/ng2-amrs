@@ -28,10 +28,12 @@ export class ClinicalNotesHelperService {
 
     let temp: Array<any> = [];
 
-    if (!_.isArray(notes))
+    if (!_.isArray(notes)) {
       temp = [notes];
-    else
+    } else {
       temp = notes;
+    }
+
 
     _.each(temp, (note) => {
       // Format date
@@ -48,27 +50,32 @@ export class ClinicalNotesHelperService {
       this.formatProviders(note.providers, ', ');
 
       // Format Viral load
-      if (Helpers.isNullOrEmpty(note.lastViralLoad.value))
+      if (Helpers.isNullOrEmpty(note.lastViralLoad.value)) {
         note.lastViralLoad = false;
-      else
-      // format date
+      } else {
+        // format date
         note.lastViralLoad.date = this.resolveDate(note.lastViralLoad.date);
+      }
 
-      if (Helpers.isNullOrEmpty(note.lastCD4Count.value))
+      if (Helpers.isNullOrEmpty(note.lastCD4Count.value)) {
         note.lastCD4Count = null;
-      else
-      // format date
+      } else {
+        // format date
         note.lastCD4Count.date = this.resolveDate(note.lastCD4Count.date);
+      }
+
 
       // Format ARV Regimen line
-      if (!Helpers.isNullOrEmpty(note.artRegimen.curArvLine) && _.has(this.arvLine, note.artRegimen.curArvLine))
+      if (!Helpers.isNullOrEmpty(note.artRegimen.curArvLine)
+        && _.has(this.arvLine, note.artRegimen.curArvLine)) {
         note.artRegimen.curArvLine = this.arvLine[note.artRegimen.curArvLine];
-      else
+      } else {
         note.artRegimen.curArvLine = 'Not Specified';
+      }
 
-      if (Helpers.isNullOrEmpty(note.artRegimen.curArvMeds))
+      if (Helpers.isNullOrEmpty(note.artRegimen.curArvMeds)) {
         note.artRegimen.curArvMeds = false;
-      else {
+      } else {
         note.artRegimen.curArvMeds = this.titleCasePipe.transform(note.artRegimen.curArvMeds);
         note.artRegimen.startDate = this.resolveDate(note.artRegimen.arvStartDate);
       }
@@ -76,16 +83,17 @@ export class ClinicalNotesHelperService {
       // Format prophylaxis
       note.tbProphylaxisPlan.plan = this.titleCasePipe.transform(note.tbProphylaxisPlan.plan);
       note.tbProphylaxisPlan.startDate = this.resolveDate(note.tbProphylaxisPlan.startDate);
-      note.tbProphylaxisPlan.estimatedEndDate = this.resolveDate(note.tbProphylaxisPlan.estimatedEndDate);
+      note.tbProphylaxisPlan.estimatedEndDate =
+        this.resolveDate(note.tbProphylaxisPlan.estimatedEndDate);
 
 
       // format rtc date
       note.rtcDate = this.resolveDate(note.rtcDate);
 
       // format vitals
-      if (note.vitals.systolicBp === '' || note.vitals.diastolicBp === '')
+      if (note.vitals.systolicBp === '' || note.vitals.diastolicBp === '') {
         note.vitals.bp = '';
-      else {
+      } else {
         note.vitals.bp = note.vitals.systolicBp + '/' + note.vitals.diastolicBp;
       }
 

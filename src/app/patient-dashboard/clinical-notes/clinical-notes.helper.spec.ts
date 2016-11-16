@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { TitleCasePipe } from '../../shared/pipes/title-case.pipe';
 import { ClinicalNotesHelperService } from './clinical-notes.helper';
 
-fdescribe('Clinical Notes Helper functions', () => {
+describe('Clinical Notes Helper functions', () => {
 
   let datePipe: DatePipe;
   let titleCasePipe: TitleCasePipe;
