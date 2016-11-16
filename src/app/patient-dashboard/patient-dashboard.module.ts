@@ -30,7 +30,7 @@ import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { PatientService } from './patient.service';
 import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { VisitResourceService } from '../openmrs-api/visit-resource.service';
-
+import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 
 @NgModule({
   imports: [
@@ -58,7 +58,8 @@ import { VisitResourceService } from '../openmrs-api/visit-resource.service';
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent,
-    VisitComponent
+    VisitComponent,
+    PatientBannerComponent
   ],
   providers: [
     PatientEncounterService,
