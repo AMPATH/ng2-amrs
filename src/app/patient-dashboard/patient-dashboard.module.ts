@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccordionModule, DataTableModule, SharedModule, TabViewModule } from 'primeng/primeng';
+import { AccordionModule, DataTableModule, SharedModule, TabViewModule,
+  GrowlModule, PanelModule } from 'primeng/primeng';
+
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
@@ -30,7 +33,6 @@ import { EncounterListComponent } from './patient-encounters/encounter-list.comp
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { PatientService } from './patient.service';
-import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
@@ -40,6 +42,7 @@ import { MedicationHistoryResourceService } from '../etl-api/medication-history-
 import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource.service';
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
+import { ContactsComponent } from './patient-info/contacts.component';
 
 
 
@@ -58,6 +61,8 @@ import { LabResultComponent } from './lab-data-summary/lab-result.component';
     Ng2PaginationModule, OpenmrsApi,
     TooltipModule,
     TabViewModule,
+    GrowlModule, PanelModule
+
   ],
   declarations: [
     PatientInfoComponent,
@@ -77,7 +82,10 @@ import { LabResultComponent } from './lab-data-summary/lab-result.component';
     PatientBannerComponent,
     LabSyncComponent,
     MedicationHistoryComponent,
-    LabResultComponent
+    LabResultComponent,
+    ContactsComponent
+
+
 
   ],
   providers: [

@@ -7,3 +7,10 @@
   *set the isVisible property true to display error and vice versa
 -->
 <app-display-error (click)="doSomething($event)" [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
+
+<p-growl [value]="msgs"></p-growl>
+<p-accordion>
+    <p-accordionTab header=" Contacts " [selected]="false">
+     <contacts-info></contacts-info>
+   </p-accordionTab>
+</p-accordion>
