@@ -23,7 +23,6 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { PatientIdentifierComponent } from './patient-identifier/patient-identifier.component';
-
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from './patient-search/patient-search.service';
@@ -33,8 +32,6 @@ import { EncounterListComponent } from './patient-encounters/encounter-list.comp
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { PatientService } from './patient.service';
-
-
 import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
@@ -46,11 +43,7 @@ import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
-
-
-
-
-
+import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
 
 
 
@@ -92,11 +85,8 @@ import { AddressComponent } from './patient-info/address.component';
     LabResultComponent,
     ContactsComponent,
     PatientIdentifierComponent,
-    AddressComponent
-
-
-
-
+    AddressComponent,
+    PatientDemographicsComponent
 
 
 
@@ -126,7 +116,8 @@ import { AddressComponent } from './patient-info/address.component';
     HivSummaryLatestComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
-    EncounterListComponent
+    EncounterListComponent,
+    PatientDemographicsComponent
   ]
 })
 export class PatientDashboardModule {
