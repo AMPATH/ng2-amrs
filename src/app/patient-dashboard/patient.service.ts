@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Patient } from '../models/patient.model';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 
@@ -10,15 +10,17 @@ export class PatientService {
 
   constructor(private patientResourceService: PatientResourceService) { }
 
-  public setCurrentlyLoadedPatientByUuid(patientUuid: string): void {
-    try {
+  public setCurrentlyLoadedPatientByUuid(patientUuid: string): BehaviorSubject<Patient> {
+    if (this.currentlyLoadedPatient.value !== null) {
+      // this means there is already a currently loaded patient
       let previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
-      if (previousPatient.uuid === patientUuid)
-        return; // don't fetch from server if patient is the same
-      this.fetchPatientByUuid(patientUuid);
-    } catch (ex) { // At this point we have not set patient object so let's hit the server
+      // fetch from server if patient is NOT the same
+      if (previousPatient.uuid !== patientUuid)
+        this.fetchPatientByUuid(patientUuid);
+    } else { // At this point we have not set patient object so let's hit the server
       this.fetchPatientByUuid(patientUuid);
     }
+    return this.currentlyLoadedPatient;
   }
 
   public fetchPatientByUuid(patientUuid: string): void {
