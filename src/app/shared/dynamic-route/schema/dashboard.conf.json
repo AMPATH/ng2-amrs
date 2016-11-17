@@ -14,7 +14,7 @@
       {
         "url": "visit",
         "label": "Visit",
-        "icon": "fa fa-clipboard",
+        "icon": "icon-i-outpatient",
         "isSideBarOpen": false
       },
       {

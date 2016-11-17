@@ -31,6 +31,8 @@ import { PatientService } from './patient.service';
 import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
+import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
+import { LabsResourceService } from '../etl-api/labs-resource.service';
 
 @NgModule({
   imports: [
@@ -59,7 +61,8 @@ import { PatientBannerComponent } from './patient-banner/patient-banner.componen
     ProgramsComponent,
     EncounterListComponent,
     VisitComponent,
-    PatientBannerComponent
+    PatientBannerComponent,
+    LabSyncComponent
   ],
   providers: [
     PatientEncounterService,
@@ -68,7 +71,8 @@ import { PatientBannerComponent } from './patient-banner/patient-banner.componen
     AppFeatureAnalytics,
     VitalsResourceService,
     PatientService,
-    VisitResourceService
+    VisitResourceService,
+    LabsResourceService
   ],
   exports: [
     PatientDashboardComponent,
