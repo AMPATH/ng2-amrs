@@ -21,8 +21,17 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import 'jquery';
-import 'slimscroll';
 import 'bootstrap-loader';
+import 'datatables.net';
+import 'datatables.net-scroller';
+import 'datatables.net-autofill';
+import 'datatables.net-buttons';
+import 'datatables.net-buttons-bs';
+import 'datatables.net-colreorder';
+import 'datatables.net-fixedcolumns';
+import 'datatables.net-keytable';
+import 'datatables.net-select';
+import 'datatables.net-fixedheader';
 import './assets/slimScroll/jquery.slimscroll.min.js';
 import './assets/app';
 if ('production' === ENV) {

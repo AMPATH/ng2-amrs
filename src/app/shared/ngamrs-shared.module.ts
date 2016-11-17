@@ -4,6 +4,7 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { DisplayErrorComponent } from './display-error/display-error.component';
+import { DataTablesComponent } from './components/datatables.component';
 
 @NgModule({
     imports: [
@@ -17,17 +18,17 @@ import { DisplayErrorComponent } from './display-error/display-error.component';
 
             })
         ),
-      LaddaModule.forRoot({
-        style: 'expand-right',
-        spinnerSize: 20,
-        spinnerColor: 'white',
-        spinnerLines: 12
-      }),
+        LaddaModule.forRoot({
+            style: 'expand-right',
+            spinnerSize: 20,
+            spinnerColor: 'white',
+            spinnerLines: 12
+        }),
         CommonModule
     ],
-    exports: [BusyModule, LaddaModule, DisplayErrorComponent],
+    exports: [BusyModule, LaddaModule, DisplayErrorComponent, DataTablesComponent],
     declarations: [
-        DisplayErrorComponent
+        DisplayErrorComponent, DataTablesComponent
     ],
     providers: [],
 })
