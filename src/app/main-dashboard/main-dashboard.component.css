@@ -18,3 +18,20 @@
   margin-right: 5px;
   font-size: 13px;
 }
+a img {
+  width: 100%;
+}
+@media screen and (max-width: 767px) {
+    .main-header a.logo {
+      background-color: #ecf0f5;
+    }
+    a.logo {
+      height: 80px;
+      margin: 0 auto;
+      background: url("../../assets/img/ampath.png") no-repeat center;
+      background-size: contain;
+    }
+    a img {
+      display: none;
+    }
+}
