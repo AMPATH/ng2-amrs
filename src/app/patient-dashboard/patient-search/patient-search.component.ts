@@ -45,8 +45,6 @@ export class PatientSearchComponent implements OnInit {
       request
         .subscribe(
           (data) => {
-            console.log('data', data);
-
             this.patients = data;
             this.totalPatients = this.patients.length;
 
@@ -84,7 +82,7 @@ export class PatientSearchComponent implements OnInit {
   }
 
   public tooltipStateChanged(state: boolean): void {
-    console.log(`Tooltip is open: ${state}`);
+    // console.log(`Tooltip is open: ${state}`);
   }
 
 

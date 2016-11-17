@@ -9,7 +9,7 @@ import { PatientIdentifier } from './patient-identifier.model';
 
 export class Patient extends BaseModel {
   private _person: Person;
-  private _patientIdentifier: PatientIdentifier;
+  private _patientIdentifier = this.openmrsModel.identifiers;
   private _identifier = this.openmrsModel.identifiers;
   constructor(openmrsModel?: any) {
         super(openmrsModel);
