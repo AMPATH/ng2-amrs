@@ -1,0 +1,21 @@
+<div>
+  <table class='table table-hover table-striped table-responsive'>
+    <thead>
+    <tr>
+      <th>Encounter Date</th>
+      <th>Previous VL</th>
+      <th>Previous Vl Date</th>
+      <th>Current Regimen</th>
+      <th>Previous Regimen</th>
+    </tr>
+    </thead>
+    <tr *ngFor="let encounter of encounters">
+      <td>{{encounter.encounter_datetime  || '&nbsp;'}}</td>
+      <td>{{encounter.previous_vL  || '&nbsp;'}}</td>
+      <td>{{encounter.previous_vl_date || '&nbsp;'}}</td>
+      <td>{{encounter.current_regimen || '&nbsp;'}}</td>
+      <td>{{encounter.previous_regimen || '&nbsp;'}}</td>
+    </tr>
+  </table>
+</div>
+

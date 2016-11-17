@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccordionModule, DataTableModule, SharedModule } from 'primeng/primeng';
+import { AccordionModule, DataTableModule, SharedModule, TabViewModule } from 'primeng/primeng';
 import { Ng2PaginationModule } from 'ng2-pagination';
 
 import { patientDashboardRouting } from './patient-dashboard-routing';
@@ -33,6 +33,10 @@ import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
+import { MedicationHistoryComponent } from './hiv-summary/madication-history.component';
+import { MedicationHistoryResourceService } from '../etl-api/medication-history-resource.service';
+
+
 
 @NgModule({
   imports: [
@@ -45,7 +49,8 @@ import { LabsResourceService } from '../etl-api/labs-resource.service';
     SharedModule,
     NgamrsSharedModule,
     Ng2PaginationModule, OpenmrsApi,
-    TooltipModule
+    TooltipModule,
+    TabViewModule,
   ],
   declarations: [
     PatientInfoComponent,
@@ -62,7 +67,9 @@ import { LabsResourceService } from '../etl-api/labs-resource.service';
     EncounterListComponent,
     VisitComponent,
     PatientBannerComponent,
-    LabSyncComponent
+    LabSyncComponent,
+    MedicationHistoryComponent,
+
   ],
   providers: [
     PatientEncounterService,
@@ -72,7 +79,9 @@ import { LabsResourceService } from '../etl-api/labs-resource.service';
     VitalsResourceService,
     PatientService,
     VisitResourceService,
-    LabsResourceService
+    LabsResourceService,
+    MedicationHistoryResourceService,
+
   ],
   exports: [
     PatientDashboardComponent,
