@@ -4,6 +4,14 @@ import { Patient } from '../models/patient.model';
 import { FakePatientResourceService } from '../openmrs-api/fake-patient-resource';
 import { PatientService } from './patient.service';
 import { BehaviorSubject } from 'rxjs/Rx';
+import {
+  ProgramEnrollmentResourceService
+}
+  from '../openmrs-api/program-enrollment-resource.service';
+import {
+  FakeProgramEnrollmentResourceService
+}
+  from '../openmrs-api/program-enrollment-resource.service.mock';
 
 describe('Service: PatientService', () => {
   beforeEach(() => {
@@ -11,10 +19,15 @@ describe('Service: PatientService', () => {
       providers: [
         PatientService,
         {
+          provide: ProgramEnrollmentResourceService, useFactory: () => {
+          return new FakeProgramEnrollmentResourceService(null, null);
+        }, deps: []
+        },
+        {
           provide: PatientResourceService, useFactory: () => {
           return new FakePatientResourceService(null, null);
         }, deps: []
-        }
+        },
       ]
     });
   });
@@ -144,31 +157,32 @@ describe('Service: PatientService', () => {
 
   });
 
-  it('should change currentlyLoadedPatient when setCurrentlyLoadedPatientByUuid() ' +
-    'is called with a different patient uuid',
-    inject([PatientService],
-      fakeAsync((patientService: PatientService) => {
-        let initialPatient: Patient = new Patient({
-          uuid: 'uuid-init',
-          display: 'uuid-display'
-        });
-        let newPatientUuid: string = 'new-patient-uuid';
+  it('should fetch patient program enrollment information when setCurrentlyLoadedPatientByUuid' +
+    'is called', inject([PatientResourceService, ProgramEnrollmentResourceService],
+    fakeAsync((patientResourceService: PatientResourceService,
+               programEnrollmentResourceService: ProgramEnrollmentResourceService) => {
+      let service: PatientService = TestBed.get(PatientService);
+      let uuid1: string = 'patient-uuid-1';
+      let uuid2: string = 'patient-uuid-2';
+      let patientObject: Patient = new Patient({uuid: uuid1});
+      spyOn(programEnrollmentResourceService, 'getProgramEnrollmentByPatientUuid')
+        .and.callFake(function (params) {
+        let subject = new BehaviorSubject<any>({});
+        subject.next([{
+          uuid: 'uuid',
+          display: 'display'
+        }]);
+        return subject;
+      });
+      // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
+      service.currentlyLoadedPatient.next(patientObject);
+      service.currentlyLoadedPatientUuid.next(patientObject.uuid);
+      // now try to set with a different uuid i.e @{uuid2}
+      service.setCurrentlyLoadedPatientByUuid(uuid2);
+      // check to ensure programEnrollmentResourceService.getProgramEnrollmentByPatientUuid was hit
+      expect(programEnrollmentResourceService.getProgramEnrollmentByPatientUuid).toHaveBeenCalled();
 
-        // setting initial patient object
-        patientService.currentlyLoadedPatient.next(initialPatient);
-        patientService.currentlyLoadedPatientUuid.next(initialPatient.uuid);
-        // now setCurrentlyLoadedPatientByUuid with a different patient uuid
-        patientService.setCurrentlyLoadedPatientByUuid(newPatientUuid);
-        // check to ensure subscribers have been notified of the changes
-        patientService.currentlyLoadedPatient.subscribe(
-          (patient) => {
-            expect(patient.uuid).toEqual(newPatientUuid);
-            expect(patientService.currentlyLoadedPatient.value.uuid).toEqual(newPatientUuid);
-            expect(patient.uuid).not.toEqual(initialPatient);
-          }
-        );
-
-      })));
+    })));
 
   it('should fetch patient object when fetchPatientByPatientUuid is called with a' +
     ' valid patient uuid', inject([PatientResourceService, PatientService],

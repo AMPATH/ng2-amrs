@@ -20,7 +20,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
       if (locationUuid) {
         this.dynamicRoutesService.setRoutes({
           dashboardId: 'clinicDashboard',
-          programUuids: ['hiv-uuid', 'onc-uuid'], // TODO: Fetch this data from user service
+          programs: [], // TODO: Fetch this data from user service
           moduleLabel: 'Patient Dashboard',
           params: {
             locationUuid: locationUuid
@@ -37,7 +37,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
   canDeactivate(target: ClinicDashboardComponent): boolean {
     this.dynamicRoutesService.clearRoutes({
       dashboardId: '',
-      programUuids: [],
+      programs: [],
       moduleLabel: '',
       params: {},
       routes: []

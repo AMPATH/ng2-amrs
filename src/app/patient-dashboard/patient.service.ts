@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Patient } from '../models/patient.model';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
+import {
+  ProgramEnrollmentResourceService
+} from '../openmrs-api/program-enrollment-resource.service';
 
 @Injectable()
 export class PatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(null);
   public currentlyLoadedPatientUuid = new ReplaySubject(1);
 
-  constructor(private patientResourceService: PatientResourceService) { }
+  constructor(private patientResourceService: PatientResourceService,
+              private programEnrollmentResourceService: ProgramEnrollmentResourceService) {
+  }
 
   public setCurrentlyLoadedPatientByUuid(patientUuid: string): BehaviorSubject<Patient> {
     if (this.currentlyLoadedPatient.value !== null) {
@@ -24,12 +29,17 @@ export class PatientService {
   }
 
   public fetchPatientByUuid(patientUuid: string): void {
-    this.patientResourceService.getPatientByUuid(patientUuid, false)
-      .subscribe(
-      (patientObject: Patient) => {
-        this.currentlyLoadedPatient.next(new Patient(patientObject));
+    Observable.forkJoin(
+      this.patientResourceService.getPatientByUuid(patientUuid, false),
+      this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(patientUuid)
+    ).subscribe(
+      (data) => {
+        let patient = data[0];
+        patient.enrolledPrograms = data[1];
+        this.currentlyLoadedPatient.next(new Patient(patient));
         this.currentlyLoadedPatientUuid.next(patientUuid);
-      }
-      );
+      },
+      err => console.error(err)
+    );
   }
 }

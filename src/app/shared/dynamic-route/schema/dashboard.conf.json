@@ -56,8 +56,8 @@
     ],
     "programs": [
       {
-        "programName": "HIV",
-        "programUuid": "hiv-uuid",
+        "programName": "HIV TREATMENT",
+        "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
         "baseRoute": "",
         "routes": [
           {
@@ -94,27 +94,22 @@
     "name": "Clinic Dashboard",
     "baseRoute": "clinic-dashboard",
     "routeParameter": "locationUuid",
-    "nonProgramRoutes": [],
-    "programs": [
+    "nonProgramRoutes": [
       {
-        "programName": "HIV",
-        "programUuid": "hiv-uuid",
-        "baseRoute": "",
-        "routes": [
-          {
-            "url": "daily-schedule",
-            "label": "Daily Schedule",
-            "icon": "fa fa-calendar-o",
-            "isSideBarOpen": false
-          },
-          {
-            "url": "monthly-schedule",
-            "label": "Monthly Schedule",
-            "icon": "fa fa-calendar",
-            "isSideBarOpen": false
-          }
-        ]
+        "url": "daily-schedule",
+        "label": "Daily Schedule",
+        "icon": "fa fa-calendar-o",
+        "isSideBarOpen": false
+      },
+      {
+        "url": "monthly-schedule",
+        "label": "Monthly Schedule",
+        "icon": "fa fa-calendar",
+        "isSideBarOpen": false
       }
+    ],
+    "programs": [
+
     ]
   },
   "dataAnalyticsDashboard": {

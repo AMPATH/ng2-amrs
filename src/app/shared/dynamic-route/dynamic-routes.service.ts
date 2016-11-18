@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { DynamicRouteModel } from './dynamic-route.model';
-import { Http } from '@angular/http';
+import { ProgramEnrollment } from '../../models/program-enrollment.model';
 @Injectable()
 export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
@@ -28,7 +28,6 @@ export class DynamicRoutesService {
     let dashboard: Object = dashboardConfig[route.dashboardId];
     let routes: Array<Object> = [];
     let routeParameter: string;
-
     // extract routes that is common to all programs
     dashboard['nonProgramRoutes'].forEach((nonProgramRoute: Object) => {
       let url = dashboard['baseRoute'] +
@@ -46,20 +45,21 @@ export class DynamicRoutesService {
 
     // extract routes that is program specific
     dashboard['programs'].forEach((program: Array<Object>) => {
-      route.programUuids.forEach((programUuid: string) => {
-        if (programUuid === program['programUuid']) {
+      route.programs.forEach((enrolledProgram: ProgramEnrollment) => {
+        if (enrolledProgram.program.uuid === program['programUuid']) {
           program['routes'].forEach((programRoute: Object) => {
             let url = dashboard['baseRoute'] +
               this.extractParameter(dashboard['routeParameter'], route)
               + '/' + programRoute['url'];
-            routes.push(
-              {
-                url: url,
-                label: programRoute['label'],
-                icon: programRoute['icon'],
-                isSideBarOpen: programRoute['isSideBarOpen']
-              }
-            );
+            let singleRoute = {
+              url: url,
+              label: programRoute['label'],
+              icon: programRoute['icon'],
+              isSideBarOpen: programRoute['isSideBarOpen']
+            };
+            let index = routes.findIndex(x => x['url'] === url);
+            if (index === -1)
+              routes.push(singleRoute);
           });
         }
       });

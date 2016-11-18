@@ -13,7 +13,6 @@ import {
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './patient.service';
-import { Patient } from "./patients";
 @Injectable()
 export class PatientDashboardGuard implements CanActivate {
 
@@ -32,7 +31,7 @@ export class PatientDashboardGuard implements CanActivate {
             if (patientObject) {
               this.dynamicRoutesService.setRoutes({
                 dashboardId: 'patientDashboard',
-                programUuids: ['hiv-uuid', 'onc-uuid'],
+                programs: patientObject.enrolledPrograms,
                 moduleLabel: 'Patient Dashboard',
                 params: {
                   patientUuid: patientUuid
@@ -52,7 +51,7 @@ export class PatientDashboardGuard implements CanActivate {
   canDeactivate(target: PatientDashboardComponent): boolean {
     this.dynamicRoutesService.clearRoutes({
       dashboardId: '',
-      programUuids: [],
+      programs: [],
       moduleLabel: '',
       params: {},
       routes: []

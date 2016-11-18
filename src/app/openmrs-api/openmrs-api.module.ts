@@ -7,7 +7,7 @@ import { FormsResourceService } from './forms-resource.service';
 import { EncounterResourceService } from './encounter-resource.service';
 import { PatientResourceService } from './patient-resource.service';
 import { PatientSearchService } from '../patient-dashboard/patient-search/patient-search.service';
-
+import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -17,10 +17,13 @@ import { PatientSearchService } from '../patient-dashboard/patient-search/patien
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
-  providers: [LocationResourceService,
-  FormsResourceService,
-  PatientResourceService,
-  PatientSearchService, EncounterResourceService],
+  providers: [
+    LocationResourceService,
+    FormsResourceService,
+    PatientResourceService,
+    PatientSearchService, EncounterResourceService,
+    ProgramEnrollmentResourceService,
+  ],
   exports: []
 })
 
