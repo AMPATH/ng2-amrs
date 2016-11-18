@@ -13,6 +13,12 @@ import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
 import { VisitComponent } from './visit.component';
 import { PatientService } from '../patient.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import {
+  ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
+import {
+  FakeProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service.mock';
 
 
 @Pipe({ name: 'translate' })
@@ -84,7 +90,9 @@ describe('Component: Visit', () => {
                 { provide: VisitResourceService, useValue: fakeVisitResourceService },
                 VisitComponent,
                 PatientService,
-                { provide: PatientResourceService, useValue: fakeVisitResourceService }
+                { provide: PatientResourceService, useValue: fakeVisitResourceService },
+                { provide: ProgramEnrollmentResourceService,
+                  useValue: FakeProgramEnrollmentResourceService }
             ],
             imports: [BusyModule]
         })

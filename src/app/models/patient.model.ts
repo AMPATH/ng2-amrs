@@ -5,15 +5,17 @@ import { BaseModel } from './base-model.model';
 import { serializable, serialize } from './serializable.decorator';
 import { Person } from './person.model';
 import { PatientIdentifier } from './patient-identifier.model';
-
+import { ProgramEnrollment } from './program-enrollment.model';
 
 export class Patient extends BaseModel {
   private _person: Person;
-  private _patientIdentifier = this.openmrsModel.identifiers;
+  private _patientIdentifier: PatientIdentifier;
+  private _enrolledPrograms = this.openmrsModel.enrolledPrograms;
   private _identifier = this.openmrsModel.identifiers;
+
   constructor(openmrsModel?: any) {
-        super(openmrsModel);
-    }
+    super(openmrsModel);
+  }
 
 
   @serializable(true, false)
@@ -24,6 +26,7 @@ export class Patient extends BaseModel {
     }
     return this._person;
   }
+
   public set person(v: Person) {
     this._openmrsModel.person = v.openmrsModel;
     this._person = v;
@@ -37,15 +40,31 @@ export class Patient extends BaseModel {
     }
     return this._patientIdentifier;
   }
+
   public set identifiers(v: PatientIdentifier) {
     this._openmrsModel.identifiers = v.openmrsModel;
     this._patientIdentifier = v;
   }
+
+  @serializable()
+  public get enrolledPrograms(): ProgramEnrollment {
+    if (this._enrolledPrograms === null || this._enrolledPrograms === undefined) {
+      this.initializeNavigationProperty('enrolledPrograms');
+      this._enrolledPrograms = this._openmrsModel.enrolledPrograms;
+    }
+    return this._enrolledPrograms;
+  }
+
+  public set enrolledPrograms(v: ProgramEnrollment) {
+    this._openmrsModel.enrolledPrograms = v.openmrsModel;
+    this._enrolledPrograms = v;
+  }
+
   public get searchIdentifiers() {
 
     if (this._identifier.length > 0) {
       // return _identifier[0].display.split('=')[1];
-      let filteredIdentifiers: any ;
+      let filteredIdentifiers: any;
       let identifier = this._identifier;
       let kenyaNationalId = this.getIdentifierByType(identifier, 'KENYAN NATIONAL ID NUMBER');
       let amrsMrn = this.getIdentifierByType(identifier, 'AMRS Medical Record Number');
@@ -72,9 +91,9 @@ export class Patient extends BaseModel {
     }
 
 
-
   }
-  getIdentifierByType(identifierObject, type ) {
+
+  getIdentifierByType(identifierObject, type) {
     for (let e in identifierObject) {
       if ((identifierObject[e].identifierType) !== undefined) {
         let idType = identifierObject[e].identifierType.name;
@@ -95,7 +114,7 @@ export class Patient extends BaseModel {
     if (this._identifier.length > 0) {
       // return _identifier[0].display.split('=')[1];
       let filteredIdentifiers: any;
-      let identifiers = this. _identifier;
+      let identifiers = this._identifier;
       let kenyaNationalId = this.getAllIdentifiersByType(identifiers, 'KENYAN NATIONAL ID NUMBER');
       let amrsMrn = this.getAllIdentifiersByType(identifiers, 'AMRS Medical Record Number');
       let ampathMrsUId = this.getAllIdentifiersByType(identifiers, 'AMRS Universal ID');
@@ -123,33 +142,32 @@ export class Patient extends BaseModel {
 
   };
 
-  getAllIdentifiersByType(identifiers, type ) {
-  let types = [];
-  for (let e in identifiers) {
-    if ((identifiers[e].identifierType) !== undefined) {
-      let idType = identifiers[e].identifierType.name;
-      let id = identifiers[e].identifier;
-      if (idType === type) {
-        types.push(id);
+  getAllIdentifiersByType(identifiers, type) {
+    let types = [];
+    for (let e in identifiers) {
+      if ((identifiers[e].identifierType) !== undefined) {
+        let idType = identifiers[e].identifierType.name;
+        let id = identifiers[e].identifier;
+        if (idType === type) {
+          types.push(id);
+        }
       }
     }
-  }
 
-  return types;
- }
+    return types;
+  }
 
   _fromArrayToCommaSeparatedString(inputArray) {
-   let returnString = '';
+    let returnString = '';
 
-  for (let i = 0; i < inputArray.length; i++) {
-    if (i === 0) {
-      returnString = inputArray[i] + returnString;
-    } else
-      returnString = returnString +  ', ' + inputArray[i] ;
+    for (let i = 0; i < inputArray.length; i++) {
+      if (i === 0) {
+        returnString = inputArray[i] + returnString;
+      } else
+        returnString = returnString + ', ' + inputArray[i];
+    }
+    return returnString;
   }
-  return returnString;
- }
-
 
 
 }
