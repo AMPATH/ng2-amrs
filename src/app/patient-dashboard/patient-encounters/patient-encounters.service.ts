@@ -4,28 +4,34 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../models/encounter.model';
 import { Response } from '@angular/http';
+import { Subscription } from 'rxjs';
 
 
 @Injectable()
 export class PatientEncounterService {
-  subject: BehaviorSubject<Encounter[]>;
+  busy: Subscription;
+  public encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
   constructor(private encounterService: EncounterResourceService) { }
-  getEncountersByPatientUuid(
-    patientUuid: string,
+
+  getEncountersByPatientUuid(patientUuid: string,
     cached: boolean = false,
     v: string = null): Observable<Encounter[]> {
+    let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
-    this.subject = new BehaviorSubject<Encounter[]>([]);
-    let encounterObservable = this.encounterService
-      .getEncountersByPatientUuid(patientUuid);
-    return encounterObservable.map((encounters: any) => {
-      let mappedEncounters: Encounter[] = new Array<Encounter>();
+    this.busy = encounterObservable.subscribe(
+      (encounters) => {
+        let mappedEncounters: Encounter[] = new Array<Encounter>();
 
-      for (let i = 0; i < encounters.length; i++) {
-        mappedEncounters.push(new Encounter(encounters[i]));
+        for (let i = 0; i < encounters.length; i++) {
+          mappedEncounters.push(new Encounter(encounters[i]));
+        }
+        this.encounterResults.next(mappedEncounters);
+      },
+      (error) => {
+        this.encounterResults.error(error); // test case that returns error
       }
-      return mappedEncounters;
-    });
+    );
+    return this.encounterResults.asObservable();
   }
 
 }

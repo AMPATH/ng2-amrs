@@ -6,9 +6,8 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class EncounterResourceService {
     v: string = 'custom:(uuid,encounterDatetime,' +
-    'patient:(uuid,uuid),form:(uuid,name),' +
-    'location:ref,encounterType:ref,provider:ref,' +
-    'obs:(uuid,obsDatetime,concept:(uuid,uuid),value:ref,groupMembers))';
+                'patient:(uuid,uuid),form:(uuid,name),' +
+                'location:ref,encounterType:ref,provider:ref)';
 
     constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
     getUrl(): string {

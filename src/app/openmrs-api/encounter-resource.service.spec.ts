@@ -78,9 +78,8 @@ describe('EncounterResourceService', () => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
                         + patientUuid + '&v=custom:(uuid,encounterDatetime,' +
-                        'patient:(uuid,uuid),form:(uuid,name),' +
-                        'location:ref,encounterType:ref,provider:ref,' +
-                        'obs:(uuid,obsDatetime,concept:(uuid,uuid),value:ref,groupMembers))');
+                'patient:(uuid,uuid),form:(uuid,name),' +
+                'location:ref,encounterType:ref,provider:ref)');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(encountersResponse) })));
