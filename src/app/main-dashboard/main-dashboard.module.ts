@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { dashboardRouting } from './main-dashboard-routing';
 import { MainDashboardComponent } from './main-dashboard.component';
 import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';

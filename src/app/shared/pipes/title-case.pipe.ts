@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'titleCase'})
+@Pipe({name: 'titlecase'})
 export class TitleCasePipe implements PipeTransform {
 
   public transform(input: string): string {
