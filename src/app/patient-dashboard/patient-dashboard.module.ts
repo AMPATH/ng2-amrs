@@ -17,6 +17,7 @@ import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.com
 import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
+import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 
@@ -66,6 +67,7 @@ import { HivSummaryService } from './hiv-summary/hiv-summary.service';
     LabOrdersComponent,
     HivSummaryComponent,
     HivSummaryLatestComponent,
+    HivSummaryHistoricalComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent,
@@ -98,6 +100,7 @@ import { HivSummaryService } from './hiv-summary/hiv-summary.service';
     LabOrdersComponent,
     HivSummaryComponent,
     HivSummaryLatestComponent,
+    HivSummaryHistoricalComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent
