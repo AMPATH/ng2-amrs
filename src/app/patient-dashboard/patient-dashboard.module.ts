@@ -35,6 +35,7 @@ import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import { MedicationHistoryComponent } from './hiv-summary/madication-history.component';
 import { MedicationHistoryResourceService } from '../etl-api/medication-history-resource.service';
+import {ClinicalNotesResourceService} from "../etl-api/clinical-notes-resource.service";
 
 
 
@@ -80,6 +81,7 @@ import { MedicationHistoryResourceService } from '../etl-api/medication-history-
     PatientService,
     VisitResourceService,
     LabsResourceService,
+    ClinicalNotesResourceService,
     MedicationHistoryResourceService,
 
   ],
