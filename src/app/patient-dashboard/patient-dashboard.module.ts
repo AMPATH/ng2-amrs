@@ -17,6 +17,7 @@ import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.com
 import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
+import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource.service';
 import { VisitComponent } from './visit/visit.component';
 
 
@@ -35,7 +36,6 @@ import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import { MedicationHistoryComponent } from './hiv-summary/madication-history.component';
 import { MedicationHistoryResourceService } from '../etl-api/medication-history-resource.service';
-import {ClinicalNotesResourceService} from "../etl-api/clinical-notes-resource.service";
 
 
 
@@ -83,7 +83,6 @@ import {ClinicalNotesResourceService} from "../etl-api/clinical-notes-resource.s
     LabsResourceService,
     ClinicalNotesResourceService,
     MedicationHistoryResourceService,
-
   ],
   exports: [
     PatientDashboardComponent,
