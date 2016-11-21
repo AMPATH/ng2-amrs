@@ -1,0 +1,37 @@
+
+<div>
+
+  <table class="table table-hover table-striped table-responsive">
+    <thead>
+    <tr>
+      <th style="width:200px;">Date</th>
+      <th style="width:100px;">DNA PCR</th>
+      <th style="width:100px;">CD4</th>
+      <th style="width:100px;">CD4%</th>
+      <th style="width:100px;">HIV VL</th>
+      <th style="width:100px;">Hb</th>
+      <th style="width:100px;">AST</th>
+      <th style="width:100px;">Cr</th>
+      <th style="width:100px;">CXR</th>
+      <th style="width:100px;">Tests Ordered</th>
+      <th style="width:100px;">Lab Errors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let test of results">
+      <td><span *ngIf="test.test_datetime">{{test.test_datetime | date:'dd-MM-yyyy'}}</span></td>
+      <td><span *ngIf="test.hiv_dna_pcr">{{test.hiv_dna_pcr}}</span></td>
+      <td><span *ngIf="test.cd4_count">{{test.cd4_count}}</span></td>
+      <td><span *ngIf="test.cd4_percent">{{test.cd4_percent}}</span></td>
+      <td><span *ngIf="test.hiv_viral_load">{{test.hiv_viral_load}}</span></td>
+      <td><span *ngIf="test.hemoglobin">{{test.hemoglobin}}</span></td>
+      <td><span *ngIf="test.ast">{{test.ast}}</span></td>
+      <td><span *ngIf="test.creatinine">{{test.creatinine}}</span></td>
+      <td><span *ngIf="test.chest_xray">{{test.chest_xray}}</span></td>
+      <td><span *ngIf="test.tests_ordered">{{test.tests_ordered}}</span></td>
+      <td><span *ngIf="test.lab_errors">{{test.lab_errors}}</span></td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
