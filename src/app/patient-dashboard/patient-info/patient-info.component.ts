@@ -2,19 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { PatientService } from '../patient.service';
 
+import { Patient } from '../../models/patient.model';
+
 @Component({
   selector: 'app-patient-info',
   templateUrl: './patient-info.component.html',
   styleUrls: ['./patient-info.component.css']
 })
 export class PatientInfoComponent implements OnInit {
-  messageType = 'error';
-  message = 'There is a problem with your internet connection. Please try to connect again';
-  isVisible = true;
 
-  doSomething(): void {
-    alert('Test function working');
-  }
+  patient: Patient;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
               private patientService: PatientService) {
@@ -25,6 +22,7 @@ export class PatientInfoComponent implements OnInit {
       (patient) => {
         if (patient) {
           console.log('---->', patient);
+          this.patient = patient;
         }
       }
     );
