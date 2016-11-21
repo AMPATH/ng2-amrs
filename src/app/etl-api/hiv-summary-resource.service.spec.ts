@@ -1,11 +1,10 @@
-import { DebugElement } from '@angular/core';
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
+import { Http, Response, Headers, BaseRequestOptions,
+   ResponseOptions, RequestMethod } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
+
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HivSummaryResourceService } from './hiv-summary-resource.service';
 
 
@@ -18,6 +17,7 @@ describe('HivSummaryService Unit Tests', () => {
       providers: [
         MockBackend,
         BaseRequestOptions,
+        LocalStorageService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -26,7 +26,6 @@ describe('HivSummaryService Unit Tests', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         AppSettingsService,
-        LocalStorageService,
         HivSummaryResourceService
       ],
     });
@@ -39,6 +38,26 @@ describe('HivSummaryService Unit Tests', () => {
   it('should be injected with all dependencies',
     inject([HivSummaryResourceService], (hivSummaryResourceService: HivSummaryResourceService) =>
       expect(hivSummaryResourceService).toBeTruthy()));
+
+  it('should make API call with the correct url parameters', () => {
+
+    let hivSummaryResourceService: HivSummaryResourceService = TestBed
+    .get(HivSummaryResourceService);
+    let backend: MockBackend = TestBed.get(MockBackend);
+
+    let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
+    let startIndex = '0';
+    let limit = '20';
+
+    backend.connections.subscribe((connection: MockConnection) => {
+
+      expect(connection.request.method).toBe(RequestMethod.Get);
+      expect(connection.request.url)
+      .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
+      + patientUuid + '/hiv-summary?startIndex=0&limit=20' );
+
+    });
+  });
 
   it('should return a list of Hiv summary record', (done) => {
     let hivSummaryResourceService: HivSummaryResourceService = TestBed
@@ -89,10 +108,6 @@ describe('HivSummaryService Unit Tests', () => {
 
     backend.connections.subscribe((connection: MockConnection) => {
 
-      expect(connection.request.url)
-      .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-      + patientUuid + '/hiv-summary?startIndex=0&limit=20' );
-
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
@@ -104,4 +119,5 @@ describe('HivSummaryService Unit Tests', () => {
         done();
       });
   });
+
 });

@@ -15,9 +15,9 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { FormsComponent } from './forms/forms.component';
 import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.component';
 import { LabOrdersComponent } from './lab-orders/lab-orders.component';
+import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
-import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource.service';
 import { VisitComponent } from './visit/visit.component';
 
 
@@ -28,6 +28,7 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
+import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { PatientService } from './patient.service';
 import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { VisitResourceService } from '../openmrs-api/visit-resource.service';
@@ -36,7 +37,8 @@ import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import { MedicationHistoryComponent } from './hiv-summary/madication-history.component';
 import { MedicationHistoryResourceService } from '../etl-api/medication-history-resource.service';
-
+import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource.service';
+import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 
 
 @NgModule({
@@ -63,6 +65,7 @@ import { MedicationHistoryResourceService } from '../etl-api/medication-history-
     LabDataSummaryComponent,
     LabOrdersComponent,
     HivSummaryComponent,
+    HivSummaryLatestComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent,
@@ -83,6 +86,8 @@ import { MedicationHistoryResourceService } from '../etl-api/medication-history-
     LabsResourceService,
     ClinicalNotesResourceService,
     MedicationHistoryResourceService,
+    HivSummaryResourceService,
+    HivSummaryService
   ],
   exports: [
     PatientDashboardComponent,
@@ -92,6 +97,7 @@ import { MedicationHistoryResourceService } from '../etl-api/medication-history-
     LabDataSummaryComponent,
     LabOrdersComponent,
     HivSummaryComponent,
+    HivSummaryLatestComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent
