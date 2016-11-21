@@ -1,19 +1,15 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { RouterModule, Router } from '@angular/router';
+
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginGuard } from './shared/guards/login.guard';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/dist/providers';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import {
-  Http, Request, RequestOptionsArgs,
-  Response, XHRBackend, RequestOptions, ConnectionBackend, Headers
-} from '@angular/http';
-import { Router } from '@angular/router';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -29,10 +25,12 @@ import { NoContent } from './no-content';
 import { AuthenticationModule } from './authentication';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { AppSettingsModule } from './app-settings';
+import { UserDefaultPropertiesModule } from './user-default-properties';
 import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.service';
 import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
 import { HttpClient } from './shared/services/http-client.service';
+import { TitleCasePipe } from './shared/pipes/title-case.pipe';
 import { LocalStorageService } from './utils/local-storage.service';
 import { SessionStorageService } from './utils/session-storage.service';
 
@@ -56,6 +54,7 @@ type StoreType = {
   declarations: [
     App,
     About,
+    TitleCasePipe,
     NoContent
   ],
   imports: [ // import Angular's modules
@@ -67,7 +66,8 @@ type StoreType = {
     Angulartics2Module.forRoot(),
     MainDashboardModule,
     AuthenticationModule,
-    AppSettingsModule
+    AppSettingsModule,
+    UserDefaultPropertiesModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

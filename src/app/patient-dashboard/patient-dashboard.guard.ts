@@ -13,6 +13,7 @@ import {
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './patient.service';
+
 @Injectable()
 export class PatientDashboardGuard implements CanActivate {
 

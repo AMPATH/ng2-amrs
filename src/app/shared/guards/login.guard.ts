@@ -6,7 +6,7 @@ import { Constants } from '../../utils/constants';
 @Injectable()
 export class LoginGuard implements CanActivate {
 
-  private url:any;
+  private url: any;
 
   constructor(private router: Router ) { }
 
