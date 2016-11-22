@@ -1,16 +1,26 @@
-<p>
-  patient-info works!!
-</p>
-<!--How to use the display the error
-  *Pass it the messageType(info, error, warning)
-  *Pass it the message you want to display
-  *set the isVisible property true to display error and vice versa
--->
-<app-display-error (click)="doSomething($event)" [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
-
+<div class="tab-content">
+  <div id="identifiers" class="tab-pane fade in active">
+    <patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
+  </div>
+  <div id="menu1" class="tab-pane fade">
+    <h3>Menu 1</h3>
+    <p>Some content in menu 1.</p>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <h3>Menu 2</h3>
+    <p>Some content in menu 2.</p>
+  </div>
+</div>
 <p-growl [value]="msgs"></p-growl>
 <p-accordion>
     <p-accordionTab header=" Contacts " [selected]="false">
      <contacts-info></contacts-info>
    </p-accordionTab>
 </p-accordion>
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#identifiers">Patient Identifiers</a></li>
+  <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+  <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+</ul>
+
+<!--app-display-error (click)="doSomething($event)" [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error-->

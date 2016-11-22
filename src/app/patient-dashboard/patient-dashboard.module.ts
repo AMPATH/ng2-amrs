@@ -22,7 +22,7 @@ import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.comp
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
-
+import { PatientIdentifierComponent } from './patient-identifier/patient-identifier.component';
 
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
@@ -43,7 +43,6 @@ import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
-
 
 
 
@@ -83,10 +82,8 @@ import { ContactsComponent } from './patient-info/contacts.component';
     LabSyncComponent,
     MedicationHistoryComponent,
     LabResultComponent,
-    ContactsComponent
-
-
-
+    ContactsComponent,
+    PatientIdentifierComponent
   ],
   providers: [
     PatientEncounterService,

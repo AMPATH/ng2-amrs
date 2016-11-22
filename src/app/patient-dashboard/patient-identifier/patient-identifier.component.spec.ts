@@ -1,0 +1,74 @@
+/* tslint:disable:no-unused-variable */
+
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { By }              from '@angular/platform-browser';
+import { DebugElement }    from '@angular/core';
+import { PatientIdentifierComponent } from './patient-identifier.component';
+
+describe('Component: PatientIdentifier', () => {
+  let component: PatientIdentifierComponent;
+  let fixture : ComponentFixture<PatientIdentifierComponent>;
+  let de: DebugElement;
+  let el: HTMLElement;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ PatientIdentifierComponent ],
+    });
+
+    fixture = TestBed.createComponent(PatientIdentifierComponent);
+
+    component = fixture.componentInstance; 
+
+    de = fixture.debugElement.query(By.css('ul'));
+    el = de.nativeElement;
+
+  });
+
+  let identifiers = [
+    {
+      identifier: "16061-02511",
+      identifierType: {
+        name: "CCC NUMBER",
+        uuid: "f2d6ff1a-8440-4d35-a150-1d4b5a930c5e"
+      },
+      uuid:"5bc55bb4-93e3-11e2-8aca-0026b9348838"
+    },
+    {
+      identifier: "16061-02511",
+      identifierType: {
+        name: "CCC NUMBER",
+        uuid: "f2d6ff1a-8440-4d35-a150-1d4b5a930c5e"
+      },
+      uuid:"5bc55bb4-93e3-11e2-8aca-0026b9348838"
+    },
+    {
+      identifier: "16061-02511",
+      identifierType: {
+        name: "CCC NUMBER",
+        uuid: "f2d6ff1a-8440-4d35-a150-1d4b5a930c5e"
+      },
+      uuid:"5bc55bb4-93e3-11e2-8aca-0026b9348838"
+    }
+  ];
+
+  it('should create an instance', () => {
+    expect(component).toBeTruthy();
+  }); 
+
+  it('on component initialization the identifiers should be undefined', ()=> {
+    expect(component.identifiers).toBeDefined();
+  });
+
+  it('should take an array as its input', () => {
+    component.identifiers = identifiers;
+    expect(component.identifiers).toBeTruthy();
+  });
+
+  it('should render list of patient identifiers', ()=> {
+    component.identifiers = identifiers;
+    fixture.detectChanges();
+    expect(el.querySelectorAll('li').length).toBe(3);
+  });
+
+});
