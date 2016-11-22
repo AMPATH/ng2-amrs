@@ -39,6 +39,10 @@ import { MedicationHistoryComponent } from './hiv-summary/madication-history.com
 import { MedicationHistoryResourceService } from '../etl-api/medication-history-resource.service';
 import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource.service';
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
+import { LabResultComponent } from './lab-data-summary/lab-result.component';
+
+
+
 
 
 @NgModule({
@@ -73,6 +77,7 @@ import { HivSummaryService } from './hiv-summary/hiv-summary.service';
     PatientBannerComponent,
     LabSyncComponent,
     MedicationHistoryComponent,
+    LabResultComponent
 
   ],
   providers: [
