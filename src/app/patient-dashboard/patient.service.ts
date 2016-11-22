@@ -41,5 +41,6 @@ export class PatientService {
       },
       err => console.error(err)
     );
+
   }
 }

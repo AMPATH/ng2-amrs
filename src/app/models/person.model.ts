@@ -1,13 +1,16 @@
 import { BaseModel } from './base-model.model';
 import { serializable, serialize } from './serializable.decorator';
 import './date.extensions';
+
 import { PersonAttribute } from './person-attribute.model';
+import { PersonAddress } from './address.model';
 
 
 export class Person extends BaseModel {
   private _birthdate: Date;
   private _attributes = this.openmrsModel.attributes;
   private _convertedAttributes = [];
+  private _address: PersonAddress;
   constructor(openmrsModel?: any) {
     super(openmrsModel);
   }
@@ -114,6 +117,24 @@ export class Person extends BaseModel {
   }
 
 
+  public get addresses(): PersonAddress {
+    if (this._address === null || this._address === undefined) {
+      this.initializeNavigationProperty('');
+      this._address = new PersonAddress(this._openmrsModel.addresses);
+    }
+    return this._address;
+  }
+  public set addresses(v: PersonAddress) {
+    this._openmrsModel.addresses = v.openmrsModel;
+    this._address = v;
+  }
+  @serializable(false, true)
+  public get preferredAddress(): string {
+    return this._openmrsModel.preferredAddress;
+  }
+  public set preferredAddress(v: string) {
+    this._openmrsModel.preferredAddress = v;
+  }
 
 
 
