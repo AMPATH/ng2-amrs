@@ -49,7 +49,7 @@ describe('Vitals Resource Service Unit Tests', () => {
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url).toMatch('/patient/(*)/vitals');
       expect(connection.request.url).toContain('startIndex=');
-      expect(connection.request.url).toContain('limit=10');
+      expect(connection.request.url).toContain('limit=20');
 
     });
 
@@ -60,41 +60,15 @@ describe('Vitals Resource Service Unit Tests', () => {
     async(inject([VitalsResourceService, MockBackend],
       (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-        let mockResponse = new Response(new ResponseOptions({
-          body: {
-            startIndex: '0',
-            limit: '10',
-            result: []
-          }
-        }));
-
-        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
-
-        vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => {
-
-          let _data = data.json();
-
-          expect(_data).toBeTruthy();
-          expect(_data.startIndex).toBeDefined();
-          expect(_data.limit).toBeDefined();
-          expect(_data.result).toBeDefined();
-
-        });
-
-      })));
-
-  it('should return the correct parameters from the api',
-    async(inject([VitalsResourceService, MockBackend],
-      (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
-
         mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        vitalsResourceService.getVitals(patientUuid, '0', '10').subscribe((data) => { },
+        vitalsResourceService.getVitals(patientUuid, 0, 20).subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
 
           });
+
       })));
 
 });

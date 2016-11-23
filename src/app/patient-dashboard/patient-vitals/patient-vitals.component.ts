@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
 import { Helpers } from '../../utils/helpers';
 import { Subscription } from 'rxjs';
+import { PatientService } from '../patient.service';
+import { PatientVitalsService } from './patient-vitals.service';
+import { Patient } from '../../models/patient.model';
 
 @Component({
   selector: 'app-patient-vitals',
@@ -12,84 +13,84 @@ import { Subscription } from 'rxjs';
 })
 export class PatientVitalsComponent implements OnInit {
 
-  encounters: Array<any> = [];
+  loadingVitals: boolean = false;
 
-  isBusy: Subscription;
+  vitals: Array<any> = [];
 
-  nextStartIndex: string = '0';
-
-  dataLoaded: boolean = false;
+  patient: Patient;
 
   experiencedLoadingError: boolean = false;
 
-  patientUuid: string = '';
-  constructor(private vitalsResource: VitalsResourceService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+  dataLoaded: boolean = false;
+
+  errors: any = [];
+
+  constructor(private patientVitalsService: PatientVitalsService,
+    private patientService: PatientService) { }
 
   ngOnInit() {
-
-    let _this = this;
-
-    this.loadVitals('de662c03-b9af-4f00-b10e-2bda0440b03b', '0', '10', (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-
-        _this.encounters = [];
-
-        _this.appFeatureAnalytics.trackEvent('Patient Dashboard', 'Vitals Loaded', 'ngOnInit');
-
-        let membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
-          'diastolic_bp', 'pulse'];
-        for (let r in data.result) {
-          if (data.result.hasOwnProperty(r)) {
-            let vital = data.result[r];
-
-            if (!Helpers.hasAllMembersUndefinedOrNull(vital, membersToCheck))
-              _this.encounters.push(vital);
-          }
+    this.loadVitals(true);
+    this.patientVitalsService.allDataLoaded.subscribe(
+      (status) => {
+        if (status) {
+          this.dataLoaded = true;
+          this.loadingVitals = false;
         }
       }
-
-    });
-
-
+    );
   }
+  loadVitals(isCached: boolean): void {
+    this.loadingVitals = true;
+    this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        if (patient) {
+          this.patient = patient;
+          this.patientVitalsService.getvitals(this.patient.uuid, isCached)
+            .subscribe((data) => {
+              if (data) {
+                let membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
+                  'diastolic_bp', 'pulse'];
 
-  loadMoreVitals() {
+                for (let r in data) {
+                  if (data.hasOwnProperty(r)) {
+                    let encounter = data[r];
 
-    this.loadVitals(this.patientUuid, this.nextStartIndex, '10', (err, data) => {
-      if (err) console.error(err);
+                    if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck))
+                      this.vitals.push(encounter);
+                  }
 
-    });
+                }
 
-  }
+                let size: number = data.length;
+                this.loadingVitals = false;
+                // this.vitals = data;
+              }
 
-  loadVitals(patientUuid: string, startIndex: string, limit: string, cb: Function) {
+            }, (err) => {
+              this.loadingVitals = false;
+              this.experiencedLoadingError = true;
+              // all data loaded
+              this.dataLoaded = true;
+            }, () => {
+              // complete
+              this.dataLoaded = true;
+              this.loadingVitals = false;
+            }
+            );
+        }
+      },
+      (err) => {
+        this.errors.push({
+          id: 'patient',
+          message: 'error fetching patient'
+        });
+      },
+      () => {
+        // all data loaded
+        this.dataLoaded = true;
+      }
 
-    let _this = this;
-
-    this.isBusy = this.vitalsResource.getVitals(patientUuid,
-      startIndex, limit).subscribe((data) => {
-
-        let _data = data.json();
-
-        if (+_data['size'] === 0)
-          _this.dataLoaded = true;
-
-        _this.patientUuid = patientUuid;
-        _this.nextStartIndex = (+_this.nextStartIndex + +_data['size']).toString();
-
-        cb(null, _data);
-
-      }, (err) => {
-
-        _this.experiencedLoadingError = true;
-
-        cb(err, null);
-
-      });
-
+    );
   }
 
 }

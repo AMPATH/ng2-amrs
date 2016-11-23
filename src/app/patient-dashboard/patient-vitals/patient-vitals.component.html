@@ -12,43 +12,47 @@
     <th>BMI</th>
   </tr>
   </thead>
-  <tr *ngFor="let encounter of encounters">
+  <tr *ngFor="let vitals of vitals">
     <td>
         <span class="glyphicon glyphicon-warning-sign text-danger"
-              *ngIf="(encounter.systolic_bp && (encounter.systolic_bp <= 80 || encounter.systolic_bp >= 140))
-                  || (encounter.diastolic_bp && (encounter.diastolic_bp <= 50 || encounter.diastolic_bp >= 90)) || (encounter.pulse && encounter.pulse >= 100)
-                  || (encounter.temperature && (encounter.temperature <= 35.0 || encounter.temperature >= 38.0)) || (encounter.oxygen_sat && encounter.oxygen_sat <= 89)
-                  || (encounter.BMI && (encounter.BMI <= 18 || encounter.BMI >= 30))" >
+              *ngIf="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140))
+                  || (vitals.diastolic_bp && (vitals.diastolic_bp <= 50 || vitals.diastolic_bp >= 90)) || (vitals.pulse && vitals.pulse >= 100)
+                  || (vitals.temp && (vitals.temp <= 35.0 || vitals.temp >= 38.0)) || (vitals.oxygen_sat && vitals.oxygen_sat <= 89)
+                  || (vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))" >
                 </span>
-    <td>{{(encounter.encounter_datetime | date:'dd-MM-yyyy')  || '&nbsp;'}}</td>
+    <td>{{(vitals.encounter_datetime | date:'dd-MM-yyyy')  || '&nbsp;'}}</td>
     <td>
-      <span style="{{(encounter.systolic_bp && (encounter.systolic_bp <= 80 || encounter.systolic_bp >= 140)) ? 'color:red;':''}}" >{{encounter.systolic_bp && encounter.systolic_bp + "/"}}</span>
-      <span style="{{(encounter.diastolic_bp && (encounter.diastolic_bp <= 50 || encounter.diastolic_bp >= 90)) ? 'color:red;':''}}">{{(encounter.diastolic_bp && encounter.diastolic_bp)  || '&nbsp;'}}</span>
+      <span [style.color]="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140)) ? 'red':''" >{{vitals.systolic_bp && vitals.systolic_bp + "/"}}</span>
+      <span [style.color]="(vitals.diastolic_bp && (vitals.diastolic_bp <= 50 || vitals.diastolic_bp >= 90)) ? 'red':''">{{(vitals.diastolic_bp && vitals.diastolic_bp)  || '&nbsp;'}}</span>
     </td>
     <td>
-      <span style="{{(encounter.pulse && encounter.pulse >= 100)?'color:red;':''}}">{{encounter.pulse  || '&nbsp;'}}</span>
+      <span [style.color]="(vitals.pulse && vitals.pulse >= 100)? 'red':''">{{vitals.pulse  || '&nbsp;'}}</span>
     </td>
     <td>
-      <span style="{{(encounter.temperature && (encounter.temperature <= 35.0 || encounter.temperature >= 38.0)) ? 'color:red;':''}}" >{{encounter.temperature  || '&nbsp;'}}</span>
+      <span [style.color]="(vitals.temp && (vitals.temp <= 35.0 || vitals.temp >= 38.0)) ? 'red':''" >{{vitals.temp  || '&nbsp;'}}</span>
     </td>
     <td>
-      <span style="{{(encounter.oxygen_sat && encounter.oxygen_sat <= 89)? 'color:red;':''}}">{{encounter.oxygen_sat  || '&nbsp;'}}</span>
+      <span [style.color]="(vitals.oxygen_sat && vitals.oxygen_sat <= 89)? 'red':''">{{vitals.oxygen_sat  || '&nbsp;'}}</span>
     </td>
-    <td>{{encounter.height  || '&nbsp;'}}</td>
-    <td>{{encounter.weight  || '&nbsp;'}}</td>
+    <td>{{vitals.height  || '&nbsp;'}}</td>
+    <td>{{vitals.weight  || '&nbsp;'}}</td>
     <td>
-      <span style="{{(encounter.BMI && (encounter.BMI <= 18 || encounter.BMI >= 30))? 'color:red;':''}}" >{{encounter.BMI || '&nbsp;'}}</span>
+      <span [style.color]="(vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))? 'red':''" >{{vitals?.BMI || '&nbsp;'}}</span>
     </td>
   </tr>
 </table>
-<div *ngIf='experiencedLoadingError'>
-  <p class="alert alert-error">
-    <b>
-      <span [style.color]="red" class="glyphicon glyphicon-exclamation-sign"></span>An error occured while loading. Please try again.</b>
-  <p>
+<div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div>
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
 </div>
-<div *ngIf='!dataLoaded'>
-  <button class="btn btn-info" (click)="loadMoreVitals()">
-    <span class="glyphicon glyphicon-refresh"></span>Load More</button>
+<div *ngIf='!loadingVitals && !dataLoaded'>
+	<button class="btn btn-info" (click)="loadVitals(false)">
+    <span class="glyphicon glyphicon-refresh"></span>Load More...</button>
 </div>
-<div [ngBusy]="isBusy"></div>
+<div *ngIf='dataLoaded'>
+	<p class="bg-info" style="padding:4px;">
+		<b>
+			<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + vitals.length + ' ]'}}</span></b>
+		<p>
+</div>
+

@@ -1,3 +1,4 @@
+import { PatientVitalsService } from './patient-vitals.service';
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
@@ -6,20 +7,28 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
-import { MockVitalsResourceService } from '../../etl-api/vitals-resource.service.mock';
 import { PatientVitalsComponent } from './patient-vitals.component';
+import { PatientService } from '../patient.service';
+import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import {
+  ProgramEnrollmentResourceService } from '../../openmrs-api/program-enrollment-resource.service';
 
 describe('Component: Vitals Unit Tests', () => {
 
-  let vitalsResourceService: VitalsResourceService,
+  let patientVitalsService: PatientVitalsService, patientService: PatientService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
+        PatientVitalsService,
+        VitalsResourceService,
         BaseRequestOptions,
+        ProgramEnrollmentResourceService,
+        PatientService,
+        PatientResourceService,
         FakeAppFeatureAnalytics,
         {
           provide: Http,
@@ -32,18 +41,14 @@ describe('Component: Vitals Unit Tests', () => {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
-        {
-          provide: VitalsResourceService,
-          useClass: MockVitalsResourceService
-        },
         AppSettingsService,
         LocalStorageService
       ]
     });
 
-    vitalsResourceService = TestBed.get(VitalsResourceService);
-    fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new PatientVitalsComponent(vitalsResourceService, fakeAppFeatureAnalytics);
+    patientVitalsService = TestBed.get(PatientVitalsService);
+    patientService = TestBed.get(PatientService);
+    component = new PatientVitalsComponent(patientVitalsService, patientService);
 
   });
 
@@ -60,12 +65,12 @@ describe('Component: Vitals Unit Tests', () => {
 
   it('should have required properties', (done) => {
 
-    expect(component.encounters.length).toBe(0);
-    expect(component.isBusy).toBeUndefined();
-    expect(component.nextStartIndex).toBe('0');
+    expect(component.vitals.length).toBe(0);
+    expect(component.patient).toBeUndefined();
     expect(component.dataLoaded).toBe(false);
+    expect(component.loadingVitals).toBe(false);
+    expect(component.errors.length).toBe(0);
     expect(component.experiencedLoadingError).toBe(false);
-    expect(component.patientUuid).toBe('');
 
     done();
 
@@ -77,13 +82,9 @@ describe('Component: Vitals Unit Tests', () => {
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
 
-    spyOn(component, 'loadVitals').and.callFake((err, data) => { });
-    component.loadVitals('', '0', '10', (err, data) => { });
+    spyOn(component, 'loadVitals').and.callThrough();
+    component.loadVitals();
     expect(component.loadVitals).toHaveBeenCalled();
-
-    spyOn(component, 'loadMoreVitals').and.callThrough();
-    component.loadMoreVitals();
-    expect(component.loadMoreVitals).toHaveBeenCalled();
 
     done();
 

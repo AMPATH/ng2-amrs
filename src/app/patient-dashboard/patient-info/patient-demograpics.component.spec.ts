@@ -27,7 +27,7 @@ describe('Component: Patient Demographics Unit Tests', () => {
         dead: false, birthdate: '2016-11-22'
       },
     })
-  };
+};
 
   let fakeChangeDetectorRef = {
     markForCheck: () => { }

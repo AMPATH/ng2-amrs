@@ -51,6 +51,7 @@ import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
 import { FormListComponent } from './forms/form-list.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
+import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
 
 
 
@@ -112,7 +113,9 @@ import { PatientDemographicsComponent } from './patient-info/patient-demograpics
     HivSummaryService,
     FormListService,
     FormOrderMetaDataService,
-    FormsResourceService
+    FormsResourceService,
+    PatientVitalsService
+
   ],
   exports: [
     PatientDashboardComponent,
