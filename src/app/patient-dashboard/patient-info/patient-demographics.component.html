@@ -1,7 +1,7 @@
 <ul class="list-group">
     <li class="list-group-item" style="font-size:large" *ngIf="patient.person.display">Name: {{patient.person.display | uppercase}}</li>
     <li class="list-group-item" style="font-size:large" *ngIf="patient.person.age">Age: {{patient.person.age}}</li>
-    <li class="list-group-item" style="font-size:large" *ngIf="patient">DOB: {{birthdate}}</li>
+    <li class="list-group-item" style="font-size:large" *ngIf="patient">DOB: {{patient.person.birthdate | date: 'dd/MM/yyyy'}}</li>
     <li class="list-group-item" style="font-size:large"> Deceased: <span *ngIf="patient.person.dead">Yes</span> <span *ngIf="!patient.person.dead">No</span>
     </li>
 </ul>

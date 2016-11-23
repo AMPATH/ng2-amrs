@@ -111,16 +111,14 @@ export class FormListService {
 
     getFormList() {
         let formList = new BehaviorSubject([]);
-        let favouriteForms = this.formOrderMetaDataService.getFavouriteForm()['value'];
-        Observable.forkJoin(this.formOrderMetaDataService.getDefaultFormOrder(),
-            this.formsResourceService.getForms())
-            .subscribe((res) => {
-                let pocForms = res[1];
-                let defaultOrder = res[0];
-                let formlist = this.processFavouriteForms(this._getFormList(pocForms,
+        let favouriteForms = this.formOrderMetaDataService.getFavouriteForm();
+        this.formsResourceService.getForms().subscribe((forms) => {
+            this.formOrderMetaDataService.getDefaultFormOrder().subscribe((defaultOrder) => {
+                let formlist = this.processFavouriteForms(this._getFormList(forms,
                     [favouriteForms, defaultOrder]), favouriteForms);
                 formList.next(formlist);
             });
+        });
         return formList;
     }
 

@@ -21,8 +21,10 @@ describe('Component: Patient Demographics Unit Tests', () => {
   let fakePatientService = {
     currentlyLoadedPatient: Observable.of({
       uuid: '',
-      person: { uuid: 'person_uuid', display: 'name', age: 20, dead: false },
-      birthdate: '11/22/2016'
+      person: {
+        uuid: 'person_uuid', display: 'name', age: 20,
+        dead: false, birthdate: '2016-11-22'
+      },
     })
   };
 
@@ -75,6 +77,6 @@ describe('Component: Patient Demographics Unit Tests', () => {
         let items = nativeElement.querySelectorAll('li');
         expect(items[0].innerHTML).toBe('Name: NAME');
         expect(items[1].innerHTML).toBe('Age: 20');
-        expect(items[2].innerHTML).toBe('DOB: 11/22/2016');
+        expect(items[2].innerHTML).toBe('DOB: 22/11/2016');
       }));
 });

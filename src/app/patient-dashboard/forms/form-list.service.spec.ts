@@ -225,7 +225,7 @@ describe('FormListService', () => {
 
                 const favouriteFormsSpy = spyOn(formOrderMetaDataService,
                     'getFavouriteForm').and.returnValue(
-                    Observable.of(favourite)
+                    favourite
                     );
                 const defaultOrderSpy = spyOn(formOrderMetaDataService,
                     'getDefaultFormOrder').and.returnValue(

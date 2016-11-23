@@ -1,0 +1,30 @@
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Select Form</h3>
+        <div class="box-tools pull-right">
+            <div class="has-feedback">
+                <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valuechange($event)" placeholder="Filter...">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+        </div>
+        <!-- /.box-tools -->
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="list-group">
+            <div class="list-group-item padding-sm" *ngFor="let form of forms | filterBy: {name:filterTerm}">
+                <a class="favourite toggle" (click)="toggleFavourite($event,form)" *ngIf="form.favourite" class="btn btn-default btn-lg">
+                    <i class="fa fa-star"></i>
+                </a>
+                <a class="toggle" (click)="toggleFavourite($event,form)" *ngIf="!form.favourite" class="btn btn-default btn-lg">
+                    <i class="fa fa-star-o"></i>
+                </a>
+                <a class="formLink" (click)="formSelected($event,form)">
+           {{form.name}} {{form.version}}
+        </a>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
