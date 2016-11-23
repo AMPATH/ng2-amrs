@@ -19,78 +19,81 @@ export class PatientVitalsComponent implements OnInit {
 
   patient: Patient;
 
-  experiencedLoadingError: boolean = false;
-
   dataLoaded: boolean = false;
 
   errors: any = [];
+
+  patientUuid: any;
+
+  nextStartIndex: number = 0;
 
   constructor(private patientVitalsService: PatientVitalsService,
     private patientService: PatientService) { }
 
   ngOnInit() {
-    this.loadVitals(true);
-    this.patientVitalsService.allDataLoaded.subscribe(
-      (status) => {
-        if (status) {
-          this.dataLoaded = true;
-          this.loadingVitals = false;
-        }
-      }
-    );
+    this.getPatient();
   }
-  loadVitals(isCached: boolean): void {
-    this.loadingVitals = true;
+  getPatient() {
+        this.loadingVitals = true;
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        if (patient) {
+        if (patient !== null) {
           this.patient = patient;
-          this.patientVitalsService.getvitals(this.patient.uuid, isCached)
-            .subscribe((data) => {
-              if (data) {
-                let membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
-                  'diastolic_bp', 'pulse'];
-
-                for (let r in data) {
-                  if (data.hasOwnProperty(r)) {
-                    let encounter = data[r];
-
-                    if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck))
-                      this.vitals.push(encounter);
-                  }
-
-                }
-
-                let size: number = data.length;
-                this.loadingVitals = false;
-                // this.vitals = data;
-              }
-
-            }, (err) => {
-              this.loadingVitals = false;
-              this.experiencedLoadingError = true;
-              // all data loaded
-              this.dataLoaded = true;
-            }, () => {
-              // complete
-              this.dataLoaded = true;
-              this.loadingVitals = false;
-            }
-            );
+          this.loadVitals(patient.person.uuid, this.nextStartIndex);
+          this.patientUuid = patient.person.uuid;
         }
-      },
-      (err) => {
+      }
+      , (err) => {
+
         this.errors.push({
           id: 'patient',
           message: 'error fetching patient'
         });
-      },
-      () => {
-        // all data loaded
-        this.dataLoaded = true;
-      }
-
-    );
+      });
   }
+  loadVitals(patientUuid, nextStartIndex): void {
+    let request = this.patientVitalsService.getvitals(patientUuid, this.nextStartIndex)
+      .subscribe((data) => {
+        if (data) {
+          if (data.length > 0) {
 
+            let membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
+              'diastolic_bp', 'pulse'];
+            for (let r in data) {
+              if (data.hasOwnProperty(r)) {
+                let encounter = data[r];
+                if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck))
+                  this.vitals.push(encounter);
+              }
+
+            }
+            let size: number = data.length;
+            console.log('ssssssiiiiiiiiiiiize------>>>', size);
+            this.nextStartIndex = this.nextStartIndex + size;
+          } else {
+
+            this.dataLoaded = true;
+
+          }
+
+        }
+
+
+        this.loadingVitals = false;
+        // this.vitals = data;
+      },
+
+      (err) => {
+        this.loadingVitals = false;
+        this.errors.push({
+          id: 'vitals',
+          message: 'error fetching patient'
+        });
+      });
+  }
+  loadMoreVitals() {
+
+    this.loadVitals(this.patientUuid, this.nextStartIndex);
+
+  }
 }

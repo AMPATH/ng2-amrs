@@ -18,7 +18,7 @@ export class PatientEncountersComponent implements OnInit {
   messageType: string;
   message: string;
   isVisible: boolean;
-  isBusy: boolean;
+  dataLoading: boolean = false;
   patient: any;
   errors: any = [];
 
@@ -29,7 +29,7 @@ export class PatientEncountersComponent implements OnInit {
     // load cached result
     this.patientEncounterService.encounterResults.subscribe(
       (data) => {
-        this.encounters = data.reverse();
+        this.encounters = data;
       }
     );
   }
@@ -39,11 +39,13 @@ export class PatientEncountersComponent implements OnInit {
       .getEncountersByPatientUuid(patientUuid)
       .subscribe(
       (data) => {
-        this.encounters = data.reverse();
+        this.encounters = data;
         this.isVisible = false;
+        this.dataLoading = false;
       },
 
       (err) => {
+        this.dataLoading = false;
         this.errors.push({
           id: 'visit',
           message: 'error fetching visit'
@@ -51,17 +53,16 @@ export class PatientEncountersComponent implements OnInit {
       });
   }
   getPatient() {
-    this.isBusy = true;
+    this.dataLoading = true;
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
           this.loadPatientEncounters(patient.person.uuid);
-          this.isBusy = false;
         }
       }
       , (err) => {
-        this.isBusy = false;
+
         this.errors.push({
           id: 'patient',
           message: 'error fetching patient'
