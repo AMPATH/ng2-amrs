@@ -97,7 +97,7 @@ describe('Form Order Metadata Service', () => {
         it('should call the right endpoint', async(inject(
             [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
                 mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toBe('assets/schemas/form-order.json');
+                    expect(conn.request.url).toBe('/assets/schemas/form-order.json');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(forms) })));
@@ -131,7 +131,7 @@ describe('Form Order Metadata Service', () => {
 
                 result.subscribe(res => {
                 }, (err) => {
-                    expect(err).toBe('404 - val');
+                    expect(err.status).toBe(404);
                 });
             })));
     });

@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule } from 'primeng/primeng';
+import {
+  AccordionModule, DataTableModule, SharedModule, TabViewModule,
+  GrowlModule, PanelModule
+} from 'primeng/primeng';
 
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { Ng2FilterPipe } from '../shared/pipes/ng2-filter.pipe';
 
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
@@ -26,6 +29,9 @@ import { PatientIdentifierComponent } from './patient-identifier/patient-identif
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from './patient-search/patient-search.service';
+import { FormOrderMetaDataService } from './forms/form-order-metadata.service';
+import { FormListService } from './forms/form-list.service';
+import { FormsResourceService } from './../openmrs-api/forms-resource.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
@@ -43,6 +49,7 @@ import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
+import { FormListComponent } from './forms/form-list.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
 
 
@@ -86,10 +93,9 @@ import { PatientDemographicsComponent } from './patient-info/patient-demograpics
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
-    PatientDemographicsComponent
-
-
-
+    PatientDemographicsComponent,
+    FormListComponent,
+    Ng2FilterPipe
   ],
   providers: [
     PatientEncounterService,
@@ -103,7 +109,10 @@ import { PatientDemographicsComponent } from './patient-info/patient-demograpics
     ClinicalNotesResourceService,
     MedicationHistoryResourceService,
     HivSummaryResourceService,
-    HivSummaryService
+    HivSummaryService,
+    FormListService,
+    FormOrderMetaDataService,
+    FormsResourceService
   ],
   exports: [
     PatientDashboardComponent,
@@ -117,7 +126,8 @@ import { PatientDemographicsComponent } from './patient-info/patient-demograpics
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent,
-    PatientDemographicsComponent
+    PatientDemographicsComponent,
+    FormListComponent
   ]
 })
 export class PatientDashboardModule {

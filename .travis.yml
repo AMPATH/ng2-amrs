@@ -12,6 +12,7 @@ before_install:
   # Updating NPM to relevant version >= 3 on Node.JS LTS
   - npm i -g npm@^3
 script:
+  - npm run lint
   - npm test
   - npm run build:docker
 sudo: required

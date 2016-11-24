@@ -11,10 +11,12 @@ export class FormOrderMetaDataService {
     getDefaultFormOrder(forceRefresh?: boolean) {
         if (!this.formsOrder.observers.length || forceRefresh) {
             this.http.get(
-                'assets/schemas/form-order.json'
-            )
-                .map((res: Response) => res.json())
-                .catch(this.handleError);
+                '/assets/schemas/form-order.json'
+            ).map((res: Response) => res.json())
+                .subscribe(
+                data => this.formsOrder.next(data),
+                error => this.formsOrder.error(error)
+                );
         }
 
         return this.formsOrder;

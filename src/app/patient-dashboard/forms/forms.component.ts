@@ -14,5 +14,7 @@ export class FormsComponent implements OnInit {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Forms Component Loaded', 'ngOnInit');
   }
-
+  formSelected(event) {
+    console.log('Form Selected', event);
+  }
 }

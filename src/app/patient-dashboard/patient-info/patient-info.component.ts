@@ -14,14 +14,13 @@ export class PatientInfoComponent implements OnInit {
   patient: Patient;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-              private patientService: PatientService) {
+    private patientService: PatientService) {
   }
 
   ngOnInit() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
-          console.log('---->', patient);
           this.patient = patient;
         }
       }

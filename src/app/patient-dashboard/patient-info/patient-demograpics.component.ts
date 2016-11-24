@@ -18,17 +18,15 @@ export class PatientDemographicsComponent implements OnInit {
   isVisible: boolean;
   busy: Subscription;
   errors: any = [];
-  birthdate: any;
 
   constructor(private patientService: PatientService,
-  private appFeatureAnalytics: AppFeatureAnalytics) { }
-getPatientDemographics() {
-      this.patientService.currentlyLoadedPatient.subscribe(
+    private appFeatureAnalytics: AppFeatureAnalytics) { }
+  getPatientDemographics() {
+    this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           console.log('Patient Object---->', patient);
           this.patient = patient;
-          this.birthdate = Moment(patient.person.birthdate).format('l');
         }
       }, (err) => {
 
@@ -37,10 +35,10 @@ getPatientDemographics() {
           message: 'error fetching patient'
         });
       });
-}
+  }
   ngOnInit() {
-this.getPatientDemographics();
- this.appFeatureAnalytics
+    this.getPatientDemographics();
+    this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
   }
 }
