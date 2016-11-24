@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core'
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 
@@ -26,8 +25,7 @@ export class MainDashboardComponent implements OnInit {
   user: User;
   version: string;
   buildDate: Date;
-  userLocation:string = '';
-
+  userLocation: string = '';
   busyIndicator: Subscription;
 
   constructor(private router: Router,
