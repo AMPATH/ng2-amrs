@@ -1,24 +1,25 @@
-<div class="banner-info" *ngIf="patient">
-	<div class="btn-group attributes" role="group" aria-label="...">
-		<button type="button" class="btn btn-banner">{{ patient?.person.display}}</button>
-		<button type="button" class="btn btn-banner">{{ patient?.person.gender }}</button>
-		<button type="button" class="btn btn-banner">{{ birthdate }} ( {{ patient?.person.age }} )</button>
+<div class="banner-info alert alert-info col-xs-12 col-md-12" *ngIf="patient">
+	<div class="patient-details col col-xs-12 col-md-12">
+		<div class="col-xs-6 col-md-5">{{ patient?.person.display}}</div>
+		<div class="col-xs-1 col-md-3">{{ patient?.person.gender }}</div>
+		<div class="col-xs-5 col-md-4">{{ birthdate }} ( {{ patient?.person.age }} Yrs )</div>
 	</div>
-	<div class="btn-group identifier" role="group" aria-label="...">
-		<button type="button" class="btn btn-banner">
-			<span class="badge"> MUI </span>
+	<div class="patient-identifiers col col-xs-12 col-md-12">
+		<div class="col-xs-6 col-md-4">
+			<span class="identifier">MUI : </span>
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> {{ searchIdentifiers?.ampathMrsUId }}</span>
 			<span *ngIf="searchIdentifiers?.ampathMrsUId == null"> Not Available</span>
-		</button>
-		<button type="button" class="btn btn-banner">
-			<span class="badge"> MRN </span>
+		</div>
+		<div class="col-xs-6 col-md-4">
+			<span class="identifier">MRN : </span>
 			<span *ngIf="searchIdentifiers?.amrsMrn"> {{ searchIdentifiers?.amrsMrn }}</span>
 			<span *ngIf="searchIdentifiers?.amrsMrn == null"> Not Available</span>
-		</button>
-		<button type="button" class="btn btn-banner">
-			<span class="badge"> NID</span>
+		</div>
+		<div class="col-xs-6 col-sm-4 col-md-4">
+			<span class="identifier">NID : </span>
 			<span *ngIf="searchIdentifiers?.kenyaNationalId"> {{ searchIdentifiers?.kenyaNationalId }}</span>
 			<span *ngIf="searchIdentifiers?.kenyaNationalId == null"> Not Available</span>
-		</button>
+		</div>
 	</div>
 </div>
+
