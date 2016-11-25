@@ -42,9 +42,9 @@
   </tr>
 </table>
 <div *ngIf='experiencedLoadingError'>
-  <p class="bg-danger" style="padding:4px;">
+  <p class="alert alert-error">
     <b>
-      <span style="color:red;" class="glyphicon glyphicon-exclamation-sign"></span>An error occured while loading. Please try again.</b>
+      <span [style.color]="red" class="glyphicon glyphicon-exclamation-sign"></span>An error occured while loading. Please try again.</b>
   <p>
 </div>
 <div *ngIf='!dataLoaded'>

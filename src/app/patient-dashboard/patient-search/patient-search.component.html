@@ -21,7 +21,7 @@
     </div>
   </div>
 </form>
-<div>{{totalPatients}} Patient(s) results found for <span style="color:grey">{{searchString}}</span></div>
+<div class="alert alert-info"><span class="total text-bold">{{totalPatients}}</span> Patient(s) results found for <span class="search text-bold">{{searchString}}</span></div>
 
 <div [hidden]="!totalPatients > 0" class="panel panel-primary" style="padding:2px;">
   <div class="panel panel-default">
