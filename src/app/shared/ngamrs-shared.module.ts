@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DataTablesComponent } from './components/datatables.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
+import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -24,7 +25,8 @@ import { StringToDatePipe } from './pipes/string-to-date.pipe';
             spinnerColor: 'white',
             spinnerLines: 12
         }),
-        CommonModule
+        CommonModule,
+        OpenmrsApi
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         DataTablesComponent, StringToDatePipe],

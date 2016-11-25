@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Angulartics2Module } from 'angulartics2';
 
 import { clinicDashboardRouting } from './clinic-dashboard-routing.module';
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
@@ -20,7 +21,8 @@ import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.m
     TabViewModule,
     FieldsetModule,
     ButtonModule,
-    GrowlModule
+    GrowlModule,
+    Angulartics2Module.forChild()
   ],
   declarations: [
     DailyScheduleComponent,

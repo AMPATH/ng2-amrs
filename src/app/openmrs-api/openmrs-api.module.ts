@@ -8,6 +8,7 @@ import { EncounterResourceService } from './encounter-resource.service';
 import { PatientResourceService } from './patient-resource.service';
 import { PatientSearchService } from '../patient-dashboard/patient-search/patient-search.service';
 import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
+import { UserService } from './user.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -23,6 +24,7 @@ import { ProgramEnrollmentResourceService } from './program-enrollment-resource.
     PatientResourceService,
     PatientSearchService, EncounterResourceService,
     ProgramEnrollmentResourceService,
+    UserService
   ],
   exports: []
 })
