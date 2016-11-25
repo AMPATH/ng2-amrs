@@ -14,7 +14,7 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 describe('Service: HivSummary', () => {
 
   let service: HivSummaryService,
-    hivSummaryResult: Observable<any>;
+    result: BehaviorSubject<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,8 +35,7 @@ describe('Service: HivSummary', () => {
       ]
     });
       service = TestBed.get(HivSummaryService);
-      hivSummaryResult = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', true);
-
+      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', '0', '20');
   });
 
   afterEach(() => {
@@ -49,7 +48,7 @@ describe('Service: HivSummary', () => {
 
 
   it('should load hiv summary', (done) => {
-    hivSummaryResult.subscribe((results) => {
+    result.subscribe((results) => {
       if (results) {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
@@ -65,6 +64,8 @@ describe('Service: HivSummary', () => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
+    let startIndex = '0';
+    let limit = '20';
 
     backend.connections.subscribe((connection: MockConnection) => {
 
@@ -75,7 +76,7 @@ describe('Service: HivSummary', () => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
-    service.getHivSummary(patientUuid, true)
+    service.getHivSummary(patientUuid, startIndex, limit)
       .subscribe((response) => {
     },
       (error: Error) => {
@@ -96,7 +97,7 @@ describe('Service: HivSummary', () => {
         }
       ];
 
-      hivSummaryResult.subscribe((results) => {
+      result.subscribe((results) => {
         if (results) {
         expect(JSON.stringify(results.isPendingViralLoad))
           .toContain(JSON.stringify(isPendingViralLoadMock));
@@ -117,7 +118,7 @@ describe('Service: HivSummary', () => {
         }
       ];
 
-      hivSummaryResult.subscribe((results) => {
+      result.subscribe((results) => {
         if (results) {
         expect(JSON.stringify(results.isPendingCD4))
           .toContain(JSON.stringify(isPendingCD4Mock));

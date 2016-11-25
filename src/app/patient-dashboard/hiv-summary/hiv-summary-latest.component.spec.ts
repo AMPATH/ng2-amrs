@@ -63,7 +63,6 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     expect(component.hivSummary).toBeUndefined();
     expect(component.loadingHivSummary).toBe(false);
     expect(component.errors.length).toBe(0);
-    expect(component.patient).toBeUndefined();
 
     done();
 
