@@ -2,26 +2,42 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { DynamicRouteModel } from './dynamic-route.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
+import { DashboardModel } from './dashboard.model';
 @Injectable()
 export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
   public routesModel = {};
-  public dashboardConfig: Object = require('./schema/dashboard.conf.json');
+  public dashboardConfig: DashboardModel = null;
+  public analyticsDashboardConfig: Object = require('./schema/analytics.dashboard.conf.json');
+  public clinicDashboardConfig: Object = require('./schema/clinic.dashboard.conf.json');
+  public patientDashboardConfig: Object = require('./schema/patient.dashboard.conf.json');
 
   constructor() {
+    this.dashboardConfig = {
+      analyticsDashboard: this.analyticsDashboardConfig,
+      clinicDashboard: this.clinicDashboardConfig,
+      patientDashboard: this.patientDashboardConfig
+    };
   }
 
-
-  public clearRoutes(route: DynamicRouteModel) {
-    Object.assign(this.routesModel, route);
+  public resetRoutes() {
+    Object.assign(this.routesModel, {
+      dashboardId: '',
+      programs: [],
+      moduleLabel: '',
+      params: {},
+      routes: []
+    });
     this.routes.next(this.routesModel);
   }
 
   public setRoutes(route: DynamicRouteModel) {
-    let routes: Array<Object> = this.extractRoutes(route, this.dashboardConfig);
-    route.routes = routes;
-    Object.assign(this.routesModel, route);
-    this.routes.next(this.routesModel);
+    if (this.dashboardConfig) {
+      let routes: Array<Object> = this.extractRoutes(route, this.dashboardConfig);
+      route.routes = routes;
+      Object.assign(this.routesModel, route);
+      this.routes.next(this.routesModel);
+    }
   }
 
   public extractRoutes(route: DynamicRouteModel, dashboardConfig: Object): Array<Object> {

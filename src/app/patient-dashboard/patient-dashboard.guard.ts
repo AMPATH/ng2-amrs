@@ -50,13 +50,7 @@ export class PatientDashboardGuard implements CanActivate {
   }
 
   canDeactivate(target: PatientDashboardComponent): boolean {
-    this.dynamicRoutesService.clearRoutes({
-      dashboardId: '',
-      programs: [],
-      moduleLabel: '',
-      params: {},
-      routes: []
-    });
+    this.dynamicRoutesService.resetRoutes();
     return true;
   }
 }

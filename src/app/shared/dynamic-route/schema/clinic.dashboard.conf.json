@@ -1,0 +1,22 @@
+{
+  "id": "clinicDashboard",
+  "name": "Clinic Dashboard",
+  "baseRoute": "clinic-dashboard",
+  "routeParameter": "locationUuid",
+  "nonProgramRoutes": [
+    {
+      "url": "daily-schedule",
+      "label": "Daily Schedule",
+      "icon": "fa fa-calendar-o",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "monthly-schedule",
+      "label": "Monthly Schedule",
+      "icon": "fa fa-calendar",
+      "isSideBarOpen": false
+    }
+  ],
+  "programs": [
+  ]
+}
