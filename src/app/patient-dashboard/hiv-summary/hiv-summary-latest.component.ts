@@ -34,12 +34,12 @@ export class HivSummaryLatestComponent implements OnInit {
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
-          this.hivSummaryService.getHivSummary(
-            patient.uuid, '0', '20').subscribe((data) => {
-              if (data)
-                this.hivSummary = data[0];
+          this.hivSummaryService.hivSummary
+            .subscribe((data) => {
+              if (data) {
                 this.loadingHivSummary = false;
-                console.log('Hiv summary obj ------->', this.hivSummary);
+                this.hivSummary = data[0];
+              }
             });
         }
       }
@@ -49,6 +49,8 @@ export class HivSummaryLatestComponent implements OnInit {
           id: 'patient',
           message: 'error fetching Hiv Summary'
         });
+      }, () => {
+        this.loadingHivSummary = false;
       });
   }
 

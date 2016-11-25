@@ -65,8 +65,8 @@ describe('HivSummaryService Unit Tests', () => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    let startIndex = '0';
-    let limit = '20';
+    let startIndex = 0;
+    let limit = 20;
 
     backend.connections.subscribe((connection: MockConnection) => {
 
@@ -103,8 +103,8 @@ describe('HivSummaryService Unit Tests', () => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    let startIndex = '0';
-    let limit = '20';
+    let startIndex = 0;
+    let limit = 20;
 
     backend.connections.subscribe((connection: MockConnection) => {
 
