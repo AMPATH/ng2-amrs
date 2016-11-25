@@ -1,11 +1,11 @@
 <header class="main-header">
-  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-    <div class="logo-img"><img src="../../assets/img/ampath.png" /></div>
-  </a>
+	<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+		<div class="logo-img"><img src="./assets/img/ampath.png" /></div>
+	</a>
 	<nav class="navbar navbar-static-top" role="navigation">
-    <a routerLink="/" class="logo">
-      <div class="logo-img"><img src="../../assets/img/ampath.png" /></div>
-    </a>
+		<a routerLink="/" class="logo">
+			<div class="logo-img"><img src="./assets/img/ampath.png" /></div>
+		</a>
 
 		<div class="navbar-custom-menu">
 			<ul class="nav navbar-nav">
@@ -20,16 +20,16 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-user"></i>
 						<span class="username">{{user.display}}</span>
-            <span class="caret"></span>
+						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
 						<li class="dropdown-header">
-              <dl>
-                <dt>Location:</dt>
-                <dd>{{userLocation}}</dd>
-                <dt>Role(s):</dt>
-                <dd>-  {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
-              </dl>
+							<dl>
+								<dt>Location:</dt>
+								<dd>{{userLocation}}</dd>
+								<dt>Role(s):</dt>
+								<dd>- {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
+							</dl>
 						</li>
 						<li role="separator" class="divider"></li>
 						<li>
@@ -39,8 +39,7 @@
 						</li>
 						<li>
 							<a routerLink="/user-default-properties">
-								<span class="glyphicon glyphicon-user"></span>
-								User Default Settings
+								<span class="glyphicon glyphicon-user"></span> User Default Settings
 							</a>
 						</li>
 						<li class="user-footer">
@@ -71,9 +70,9 @@
 	</section>
 </div>
 <footer class="main-footer">
-  <div class="pull-left">
-    <p class="text-bold"><i class="fa fa-circle text-success"></i> <span>Online</span></p>
-  </div>
+	<div class="pull-left">
+		<p class="text-bold"><i class="fa fa-circle text-success"></i> <span>Online</span></p>
+	</div>
 	<div class="pull-right">
 		<p class="text-right text-bold">v{{version}} - build {{buildDate | date:'medium'}}</p>
 	</div>

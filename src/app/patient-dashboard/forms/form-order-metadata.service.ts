@@ -11,7 +11,7 @@ export class FormOrderMetaDataService {
     getDefaultFormOrder(forceRefresh?: boolean) {
         if (!this.formsOrder.observers.length || forceRefresh) {
             this.http.get(
-                '/assets/schemas/form-order.json'
+                './assets/schemas/form-order.json'
             ).map((res: Response) => res.json())
                 .subscribe(
                 data => this.formsOrder.next(data),
