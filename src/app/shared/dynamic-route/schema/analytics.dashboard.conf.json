@@ -1,0 +1,22 @@
+{
+  "id": "dataAnalyticsDashboard",
+  "name": "Data Analytics Dashboard",
+  "baseRoute": "data-analytics-dashboard",
+  "routeParameter": "",
+  "nonProgramRoutes": [],
+  "programs": [
+    {
+      "programName": "HIV",
+      "programUuid": "program-uuid",
+      "baseRoute": "",
+      "routes": [
+        {
+          "url": "moh731",
+          "label": "MOH 731",
+          "icon": "fa fa-clipboard",
+          "isSideBarOpen": false
+        }
+      ]
+    }
+  ]
+}

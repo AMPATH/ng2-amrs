@@ -63,7 +63,7 @@ type StoreType = {
     HttpModule,
     Ng2Bs3ModalModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    Angulartics2Module.forRoot(),
+    Angulartics2Module.forRoot([ Angulartics2Piwik ]),
     MainDashboardModule,
     AuthenticationModule,
     AppSettingsModule,

@@ -65,7 +65,7 @@ describe('IndicatorResourceService Unit Tests', () => {
           .subscribe((response) => {
             expect(response).toContain({ name: 'Indicator1' });
             expect(response).toBeDefined();
-            expect(response.length).toBeGreaterThan(1);
+            expect(response['length']).toBeGreaterThan(1);
 
           });
       }));

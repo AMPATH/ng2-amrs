@@ -1,0 +1,90 @@
+{
+  "id": "patientDashboard",
+  "name": "Patient Dashboard",
+  "baseRoute": "patient-dashboard",
+  "routeParameter": "patientUuid",
+  "nonProgramRoutes": [
+    {
+      "url": "patient-info",
+      "label": "Patient Info",
+      "icon": "fa fa-clipboard",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "visit",
+      "label": "Visit",
+      "icon": "icon-i-outpatient",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "patient-vitals",
+      "label": "Vitals",
+      "icon": "fa fa-heartbeat",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "patient-encounters",
+      "label": "Encounters",
+      "icon": "icon-i-immunizations",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "forms",
+      "label": "Forms",
+      "icon": "fa fa-file",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "lab-data-summary",
+      "label": "Lab Data Summary",
+      "icon": "icon-i-laboratory",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "lab-orders",
+      "label": "Lab Orders",
+      "icon": "icon-i-pathology",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "programs",
+      "label": "Programs",
+      "icon": "icon-i-family-practice",
+      "isSideBarOpen": false
+    }
+  ],
+  "programs": [
+    {
+      "programName": "HIV TREATMENT",
+      "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
+      "baseRoute": "",
+      "routes": [
+        {
+          "url": "hiv-summary",
+          "label": "HIV Summary",
+          "icon": "fa fa-medkit",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "clinical-notes",
+          "label": "Clinical Notes",
+          "icon": "fa fa-book",
+          "isSideBarOpen": false
+        }
+      ]
+    },
+    {
+      "programName": "Oncology",
+      "programUuid": "onc-uuid",
+      "baseRoute": "oncology",
+      "routes": [
+        {
+          "url": "oncology-summary",
+          "label": "Oncology Summary",
+          "icon": "icon-i-oncology",
+          "isSideBarOpen": false
+        }
+      ]
+    }
+  ]
+}
