@@ -7,42 +7,30 @@ import { Helpers } from '../../utils/helpers';
 @Injectable()
 export class HivSummaryService {
 
-  protected _hivSummary: Array<Object> = [];
-
   public hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
-
-  public startIndex: number = 0;
-
-  public limit: number = 20;
 
   constructor(private hivSummaryResourceService: HivSummaryResourceService) { }
 
-  getHivSummary(patientUuid: string, isCached: boolean,
-    includeNonClinicalEncounter?: boolean): Observable<any> {
-    if (isCached && this.startIndex > 0) return this.hivSummary;
-      this.hivSummaryResourceService.getHivSummary(patientUuid,
-        this.startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
-          if (data) {
-            let hivSummary = data;
-            if (data.lenght === 0) {
-              this.hivSummary.complete();
-            } else {
-              for (let r = 0; r < hivSummary.length; r++) {
-                let isPendingViralLoad = this.determineIfVlIsPending(hivSummary);
-                let isPendingCD4 = this.determineIfCD4IsPending(hivSummary);
-                hivSummary[r]['isPendingViralLoad'] = isPendingViralLoad;
-                hivSummary[r]['isPendingCD4'] = isPendingViralLoad;
-              }
-              this._hivSummary.push.apply(this._hivSummary, hivSummary);
-              this.startIndex += hivSummary.length;
+  getHivSummary(patientUuid: string,
+    startIndex: string, limit: string,
+    includeNonClinicalEncounter?: boolean): BehaviorSubject<any> {
 
-              this.hivSummary.next(this._hivSummary);
-            }
-          }
-        }, (error) => {
-          this.hivSummary.error(error);
-          console.error(error);
-        });
+    this.hivSummaryResourceService.getHivSummary(patientUuid,
+      startIndex, limit, includeNonClinicalEncounter).subscribe((data) => {
+
+      let hivSummary = data;
+
+      for (let r = 0; r < hivSummary.length; r++) {
+        let isPendingViralLoad = this.determineIfVlIsPending(hivSummary);
+        let isPendingCD4 = this.determineIfCD4IsPending(hivSummary);
+        hivSummary[r]['isPendingViralLoad'] = isPendingViralLoad;
+        hivSummary[r]['isPendingCD4'] = isPendingViralLoad;
+      }
+      this.hivSummary.next(hivSummary);
+
+    }, (error) => {
+      console.error(error);
+    });
 
     return this.hivSummary;
   }
