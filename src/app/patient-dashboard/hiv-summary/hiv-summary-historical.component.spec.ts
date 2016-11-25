@@ -3,7 +3,7 @@ import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@a
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { HivSummaryService } from './hiv-summary.service';
-import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
+import { HivSummaryHistoricalComponent } from './hiv-summary-historical.component';
 import { PatientService } from '../patient.service';
 import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
@@ -13,7 +13,7 @@ import { PatientResourceService } from '../../openmrs-api/patient-resource.servi
 import { ProgramEnrollmentResourceService }
   from '../../openmrs-api/program-enrollment-resource.service';
 
-describe('Component: HivSummaryLatest Unit Tests', () => {
+describe('Component: HivSummaryHistorical Unit Tests', () => {
 
   let hivSummaryService: HivSummaryService,
     patientService: PatientService, component;
@@ -43,7 +43,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     hivSummaryService = TestBed.get(HivSummaryService);
     patientService = TestBed.get(PatientService);
 
-    component = new HivSummaryLatestComponent(hivSummaryService, patientService);
+    component = new HivSummaryHistoricalComponent(hivSummaryService, patientService);
 
   });
 
@@ -59,11 +59,12 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
   });
 
   it('should have required properties', (done) => {
-
-    expect(component.hivSummary).toBeUndefined();
+    expect(component.hivSummaries.length).toBe(0);
+    expect(component.patient).toBeUndefined();
+    expect(component.dataLoaded).toBe(false);
     expect(component.loadingHivSummary).toBe(false);
     expect(component.errors.length).toBe(0);
-    expect(component.patient).toBeUndefined();
+    expect(component.experiencedLoadingError).toBe(false);
 
     done();
 
@@ -75,9 +76,9 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
 
-    spyOn(component, 'getHivSummary').and.callThrough();
-    component.getHivSummary();
-    expect(component.getHivSummary).toHaveBeenCalled();
+    spyOn(component, 'loadHivSummary').and.callThrough();
+    component.loadHivSummary();
+    expect(component.loadHivSummary).toHaveBeenCalled();
 
     done();
 
