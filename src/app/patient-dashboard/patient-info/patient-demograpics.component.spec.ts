@@ -9,6 +9,7 @@ import { PatientService } from '../patient.service';
 import { PatientDemographicsComponent } from './patient-demograpics.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
+import { StringToDatePipe } from '../../shared/pipes/string-to-date.pipe';
 
 
 @Pipe({ name: 'translate' })
@@ -39,7 +40,8 @@ describe('Component: Patient Demographics Unit Tests', () => {
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         PatientDemographicsComponent,
-        FakeTranslatePipe
+        FakeTranslatePipe,
+        StringToDatePipe
       ],
       providers: [
         { provide: ChangeDetectorRef, useValue: fakeChangeDetectorRef },
@@ -77,6 +79,6 @@ describe('Component: Patient Demographics Unit Tests', () => {
         let items = nativeElement.querySelectorAll('li');
         expect(items[0].innerHTML).toBe('Name: NAME');
         expect(items[1].innerHTML).toBe('Age: 20');
-        expect(items[2].innerHTML).toBe('DOB: 22/11/2016');
+        expect(items[2].innerHTML).toBe('DOB: 22-11-2016');
       }));
 });

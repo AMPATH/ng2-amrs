@@ -5,7 +5,7 @@ import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DataTablesComponent } from './components/datatables.component';
-
+import { StringToDatePipe } from './pipes/string-to-date.pipe';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -26,9 +26,10 @@ import { DataTablesComponent } from './components/datatables.component';
         }),
         CommonModule
     ],
-    exports: [BusyModule, LaddaModule, DisplayErrorComponent, DataTablesComponent],
+    exports: [BusyModule, LaddaModule, DisplayErrorComponent,
+        DataTablesComponent, StringToDatePipe],
     declarations: [
-        DisplayErrorComponent, DataTablesComponent
+        DisplayErrorComponent, DataTablesComponent, StringToDatePipe
     ],
     providers: [],
 })
