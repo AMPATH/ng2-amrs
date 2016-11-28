@@ -14,7 +14,7 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 describe('Service: HivSummary', () => {
 
   let service: HivSummaryService,
-    result: BehaviorSubject<any>;
+    result: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +35,7 @@ describe('Service: HivSummary', () => {
       ]
     });
       service = TestBed.get(HivSummaryService);
-      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', '0', '20');
+      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', true);
   });
 
   afterEach(() => {
@@ -76,7 +76,7 @@ describe('Service: HivSummary', () => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
-    service.getHivSummary(patientUuid, startIndex, limit)
+    service.getHivSummary(patientUuid, true)
       .subscribe((response) => {
     },
       (error: Error) => {
