@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FakeEncounterResourceService } from './patient-encounter-service.mock';
-import { EncounterResourceService } from './encounter-resource.service';
-
+import { Angulartics2Module } from 'angulartics2';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    Angulartics2Module.forChild()
+  ],
   declarations: [],
-  providers: [    {
-      provide: EncounterResourceService, useFactory: () => {
-        return new FakeEncounterResourceService();
-      }, deps: []
-    }],
+  providers: [],
   exports: []
 })
-export class DataAnalytics { }
+export class DataAnalyticsModule {}

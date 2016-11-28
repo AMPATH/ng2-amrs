@@ -5,7 +5,7 @@ import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule
 } from 'primeng/primeng';
-
+import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { Ng2FilterPipe } from '../shared/pipes/ng2-filter.pipe';
@@ -64,11 +64,12 @@ import { PatientDemographicsComponent } from './patient-info/patient-demograpics
     DataTableModule,
     SharedModule,
     NgamrsSharedModule,
-    Ng2PaginationModule, OpenmrsApi,
+    Ng2PaginationModule,
+    OpenmrsApi,
     TooltipModule,
     TabViewModule,
-    GrowlModule, PanelModule
-
+    GrowlModule, PanelModule,
+    Angulartics2Module.forChild()
 
   ],
   declarations: [

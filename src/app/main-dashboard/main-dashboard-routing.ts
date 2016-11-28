@@ -23,6 +23,11 @@ const dashboardRoutes: Routes = [
             .then(mod => mod.PatientDashboardModule)
       },
       {
+        path: 'data-analytics', loadChildren: () =>
+        System.import('../data-analytics-dashboard/data-analytics.module')
+          .then(mod => mod.DataAnalyticsModule)
+      },
+      {
         path: 'user-default-properties',
         component: UserDefaultPropertiesComponent
       }
