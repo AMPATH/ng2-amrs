@@ -123,7 +123,7 @@
       {
         "label": "person_name",
         "type": "single",
-        "sql": "concat(t3.given_name,' ',t3.middle_name,' ',t3.family_name)"
+        "sql": "concat(COALESCE(t3.given_name,''),' ',COALESCE(t3.middle_name,''),' ',COALESCE(t3.family_name,''))"
       },
       {
         "label":"location",
