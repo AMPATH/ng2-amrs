@@ -50,9 +50,14 @@ function listReachableServers(filter_locations) {
           resolve(reachable_servers);
         } else {
 
-          if( filter_locations.length > 0 && _.indexOf(filter_locations, row.name) > -1 )
+          if(filter_locations && filter_locations.length > 0) {
+
+            if( _.indexOf(filter_locations, row.name) > -1 )
+              reachable_servers.push(row);
+          } else {
             reachable_servers.push(row);
-            
+          }
+
           resolve(reachable_servers);
         }
       });
@@ -117,7 +122,6 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
     .then(function(testResultsResponse) {
 
       mergedEidResults = testResultsResponse;
-
       return obsService.getPatientAllTestObsByPatientUuId(patientUuId);
     })
     .then(function(obsResponse) {

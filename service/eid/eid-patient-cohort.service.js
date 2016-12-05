@@ -7,6 +7,8 @@ var
   , config = require('../../conf/config')
   , etlLogger = require('../../etl-file-logger');
 
+var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
+
 module.exports = {
   synchronizePatientCohort: synchronizePatientCohort
 };
@@ -22,15 +24,14 @@ function synchronizePatientCohort(patientUuIdCohort, locations, reply) {
 
     return syncService.getSynchronizedPatientLabResults(patientUuId, locations)
       .then(function(response) {
-        etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('%s successfully syncd', response.uuid);
-
+        logger.info('%s successfully syncd', response.uuid);
         _.each(response.data, function(row) {
           responses.success.push(row);
         });
 
         _.each(response.errors, function(error) {
           responses.fail.push(error);
-          etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).error('sync failure: %s', error.message);
+          logger.error('sync failure: %s', error.message);
         });
 
         return response;
