@@ -1,3 +1,5 @@
-<div [ngBusy]="{busy:isBusy,message:'Please Wait...'}">
-      <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message"></encounter-list>
+<div>
+  <div [ngBusy]="{busy:dataLoading, message:'Please Wait...'}"></div>
+  <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message"></encounter-list>
 </div>
+

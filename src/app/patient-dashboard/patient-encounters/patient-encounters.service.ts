@@ -25,7 +25,7 @@ export class PatientEncounterService {
         for (let i = 0; i < encounters.length; i++) {
           mappedEncounters.push(new Encounter(encounters[i]));
         }
-        this.encounterResults.next(mappedEncounters);
+        this.encounterResults.next(mappedEncounters.reverse());
       },
       (error) => {
         this.encounterResults.error(error); // test case that returns error

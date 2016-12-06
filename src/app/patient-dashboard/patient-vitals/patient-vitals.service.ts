@@ -8,49 +8,35 @@ import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
 @Injectable()
 export class PatientVitalsService {
 
-    protected _vitals: Array<Object> = [];
+   private limit: number = 10;
 
-    public vitals: BehaviorSubject<any> = new BehaviorSubject(null);
+  constructor(private vitalsResourceService: VitalsResourceService) { }
 
-    public allDataLoaded: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  getvitals(patientUuid: string,
+    startIndex?: number, limit?: number): BehaviorSubject<any> {
+    let vitals: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    public startIndex: number = 0;
+    this.vitalsResourceService.getVitals(patientUuid,
+      startIndex, this.limit).subscribe((data) => {
+        if (data) {
+          let weight: string;
 
-    public limit: number = 20;
+            for (let r = 0; r < data.length; r++) {
+              if (data[r].height && data[r].weight) {
+                let BMI = (data[r].weight /
+                  (data[r].height / 100 * data[r].height / 100))
+                  .toFixed(1);
+                data[r]['BMI'] = BMI;
+              }
+            }
+            vitals.next(data);
+                  }
+      }, (error) => {
+        vitals.error(error);
+        console.error(error);
+      });
 
-    constructor(private vitalsResourceService: VitalsResourceService) { }
-
-    getvitals(patientUuid: string, isCached: boolean,
-        startIndex?: string, limit?: string): BehaviorSubject<any> {
-        if (isCached && this.startIndex > 0) return this.vitals;
-        this.vitalsResourceService.getVitals(patientUuid,
-            this.startIndex, this.limit).subscribe((data) => {
-                if (data) {
-                    let vitals = data;
-                    let weight: string;
-                    if (data.length === 0) {
-                        this.vitals.complete();
-                    } else {
-                        for (let r = 0; r < vitals.length; r++) {
-                            if (vitals[r].height && vitals[r].weight) {
-                                let BMI = (vitals[r].weight /
-                                    (vitals[r].height / 100 * vitals[r].height / 100))
-                                    .toFixed(1);
-                                vitals[r]['BMI'] = BMI;
-                            }
-                        }
-                        this._vitals.push.apply(this._vitals, vitals);
-                        this.startIndex += vitals.length;
-
-                        this.vitals.next(this._vitals);
-                    }
-                }
-            }, (error) => {
-                this.vitals.error(error);
-                console.error(error);
-            });
-
-        return this.vitals;
-    }
+    return vitals;
+  }
 }
 

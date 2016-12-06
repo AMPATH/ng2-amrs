@@ -35,7 +35,8 @@ describe('Service: PatientVitalsService', () => {
       ]
     });
       service = TestBed.get(PatientVitalsService);
-      vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', true);
+      vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);
+
 
   });
 
@@ -69,12 +70,12 @@ describe('Service: PatientVitalsService', () => {
 
       expect(connection.request.url)
         .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-        + patientUuid + '/vitals?startIndex=0&limit=20');
+        + patientUuid + '/vitals?startIndex=0&limit=10');
+
 
       connection.mockError(new Error('An error occured while processing the request'));
     });
-
-    service.getvitals(patientUuid, true)
+    service.getvitals(patientUuid, 0)
       .subscribe((response) => {
     },
       (error: Error) => {

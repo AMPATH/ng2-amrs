@@ -70,7 +70,6 @@ describe('Component: Vitals Unit Tests', () => {
     expect(component.dataLoaded).toBe(false);
     expect(component.loadingVitals).toBe(false);
     expect(component.errors.length).toBe(0);
-    expect(component.experiencedLoadingError).toBe(false);
 
     done();
 
