@@ -19,6 +19,8 @@ export class HivSummaryHistoricalComponent implements OnInit {
 
     patient: Patient;
 
+    patientUuid: any;
+
     experiencedLoadingError: boolean = false;
 
     dataLoaded: boolean = false;
@@ -30,7 +32,8 @@ export class HivSummaryHistoricalComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadHivSummary(true);
+
+        this.getPatient();
         this.hivSummaryService.allDataLoaded.subscribe(
             (status) => {
                 if (status) {
@@ -41,44 +44,48 @@ export class HivSummaryHistoricalComponent implements OnInit {
         );
     }
 
-    loadHivSummary(isCached: boolean): void {
+    getPatient() {
+
         this.loadingHivSummary = true;
         this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient) {
                     this.patient = patient;
-                    this.hivSummaryService.getHivSummary(
-                        this.patient.uuid, isCached)
-                        .subscribe((data) => {
-                            if (data) {
-                                let size: number = data.length;
-                                this.loadingHivSummary = false;
-                                this.hivSummaries = data;
-                            }
+                    this.patientUuid = patient.person.uuid;
+                    this.loadHivSummary();
 
-                        }, (err) => {
-                            this.loadingHivSummary = false;
-                            this.experiencedLoadingError = true;
-                            // all data loaded
-                            this.dataLoaded = true;
-
-                        }, () => {
-                            // complete
-                            this.dataLoaded = true;
-                            this.loadingHivSummary = false;
-                        }
-                        );
                 }
-            },
-            (err) => {
+            }
+            , (err) => {
+
                 this.errors.push({
                     id: 'patient',
                     message: 'error fetching patient'
                 });
-            }
-        );
+            });
     }
 
+    loadHivSummary(): void {
 
+        this.hivSummaryService.getHivSummary(
+            this.patientUuid)
+            .subscribe((data) => {
+                if (data) {
+                    let size: number = data.length;
+                    this.hivSummaries = data;
+                }
+                this.loadingHivSummary = false;
 
+            }, (err) => {
+                this.loadingHivSummary = false;
+                // all data loaded
+                this.dataLoaded = true;
+                this.errors.push({
+                    id: 'Hiv Summary',
+                    message: 'An error occured while loading Hiv Summary. Please try again.'
+                });
+
+            }
+            );
+    }
 }

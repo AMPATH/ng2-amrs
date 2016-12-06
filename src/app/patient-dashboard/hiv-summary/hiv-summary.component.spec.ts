@@ -6,7 +6,7 @@ import { HivSummaryComponent } from './hiv-summary.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 
-describe('Component: PatientVitals', () => {
+describe('Component: Hiv Summary', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

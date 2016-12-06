@@ -35,7 +35,7 @@ describe('Service: HivSummary', () => {
       ]
     });
       service = TestBed.get(HivSummaryService);
-      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', true);
+      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b');
   });
 
   afterEach(() => {
@@ -64,8 +64,7 @@ describe('Service: HivSummary', () => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
-    let startIndex = '0';
-    let limit = '20';
+    let startIndex = 0;
 
     backend.connections.subscribe((connection: MockConnection) => {
 
@@ -76,7 +75,7 @@ describe('Service: HivSummary', () => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
-    service.getHivSummary(patientUuid, true)
+    service.getHivSummary(patientUuid)
       .subscribe((response) => {
     },
       (error: Error) => {
