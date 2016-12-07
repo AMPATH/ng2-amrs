@@ -7,43 +7,43 @@ import { Helpers } from '../../utils/helpers';
 @Injectable()
 export class HivSummaryService {
 
+  public limit: number = 20;
+
+  public startIndex: number = 0;
+
   protected _hivSummary: Array<Object> = [];
 
   public hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
 
   public allDataLoaded: BehaviorSubject<boolean> = new BehaviorSubject(null);
 
-  public startIndex: number = 0;
-
-  public limit: number = 20;
-
   constructor(private hivSummaryResourceService: HivSummaryResourceService) { }
 
-  getHivSummary(patientUuid: string, isCached: boolean,
-    includeNonClinicalEncounter?: boolean): Observable<any> {
-    if (isCached && this.startIndex > 0) return this.hivSummary;
+  getHivSummary(patientUuid: string, includeNonClinicalEncounter?: boolean): Observable<any> {
+
     this.hivSummaryResourceService.getHivSummary(patientUuid,
       this.startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
-        if (data) {
-          let hivSummary = data;
-          if (data.length === 0) {
-             this.allDataLoaded.next(true);
-          } else {
-            for (let r = 0; r < hivSummary.length; r++) {
-              let isPendingViralLoad = this.determineIfVlIsPending(hivSummary);
-              let isPendingCD4 = this.determineIfCD4IsPending(hivSummary);
-              hivSummary[r]['isPendingViralLoad'] = isPendingViralLoad;
-              hivSummary[r]['isPendingCD4'] = isPendingViralLoad;
 
-              hivSummary[r].encounter_datetime = new Date(hivSummary[r].encounter_datetime)
+        if (data) {
+
+          if (data.length > 0) {
+            for (let r = 0; r < data.length; r++) {
+              let isPendingViralLoad = this.determineIfVlIsPending(data);
+              let isPendingCD4 = this.determineIfCD4IsPending(data);
+              data[r]['isPendingViralLoad'] = isPendingViralLoad;
+              data[r]['isPendingCD4'] = isPendingViralLoad;
+
+              data[r].encounter_datetime = new Date(data[r].encounter_datetime)
                 .setHours(0, 0, 0, 0);
-              hivSummary[r].prev_rtc_date = new Date(hivSummary[r].prev_rtc_date)
+              data[r].prev_rtc_date = new Date(data[r].prev_rtc_date)
                 .setHours(0, 0, 0, 0);
             }
-            this._hivSummary.push.apply(this._hivSummary, hivSummary);
-            this.startIndex += hivSummary.length;
+            this._hivSummary.push.apply(this._hivSummary, data);
+            this.startIndex += data.length;
 
             this.hivSummary.next(this._hivSummary);
+          } else {
+            this.allDataLoaded.next(true);
           }
         }
       }, (error) => {

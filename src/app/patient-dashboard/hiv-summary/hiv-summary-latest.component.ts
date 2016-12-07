@@ -25,32 +25,34 @@ export class HivSummaryLatestComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getHivSummary();
+    this.getPatient();
   }
 
-  getHivSummary() {
+  getPatient() {
+
     this.loadingHivSummary = true;
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        if (patient !== null) {
+        if (patient) {
           this.patient = patient;
-          this.hivSummaryService.hivSummary
-            .subscribe((data) => {
-              if (data) {
-                this.loadingHivSummary = false;
-                this.hivSummary = data[0];
-              }
-            });
+          this.getHivSummary();
         }
-      }
-      , (err) => {
-        this.loadingHivSummary = false;
+      }, (err) => {
         this.errors.push({
           id: 'patient',
-          message: 'error fetching Hiv Summary'
+          message: 'error fetching patient'
         });
-      }, () => {
-        this.loadingHivSummary = false;
+      });
+  }
+
+  getHivSummary() {
+
+    this.hivSummaryService.hivSummary
+      .subscribe((data) => {
+        if (data) {
+          this.hivSummary = data[0];
+          this.loadingHivSummary = false;
+        }
       });
   }
 
