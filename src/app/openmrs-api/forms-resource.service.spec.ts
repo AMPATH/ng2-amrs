@@ -68,12 +68,90 @@ describe('FormResourceService Unit Tests', () => {
         });
 
         formsResourceService.getForms()
-          .subscribe((response) => {
+          .subscribe((response: any) => {
             expect(response).toContain({ name: 'form1' });
             expect(response).toBeDefined();
             expect(response.length).toBeGreaterThan(1);
 
           });
       }));
+
+  it('should make API call with correct URL when getFormClobDataByUuid is invoked',
+    inject([FormsResourceService, MockBackend],
+      fakeAsync((formsResourceService: FormsResourceService,
+        backend: MockBackend) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+
+          expect(connection.request.method).toBe(RequestMethod.Get);
+          expect(connection.request.url)
+            .toContain('/ws/rest/v1/clobdata/form-uuid?v=full');
+        });
+        expect(formsResourceService.getFormClobDataByUuid('form-uuid'));
+      })));
+
+  it('should return a form object when getFormClobDataByUuid is invoked', (done) => {
+
+    let formsResourceService: FormsResourceService = TestBed.get(FormsResourceService);
+    let backend: MockBackend = TestBed.get(MockBackend);
+    backend.connections.subscribe((connection: MockConnection) => {
+      expect(connection.request.url).toContain('v=');
+
+      let options = new ResponseOptions({
+        body: JSON.stringify(
+          {
+            uuid: 'xxx-xxx-xxx-xxx',
+            display: 'form resource'
+          }
+        )
+      });
+      connection.mockRespond(new Response(options));
+    });
+
+    formsResourceService.getFormClobDataByUuid('form-uuid')
+      .subscribe((data) => {
+        expect(data.uuid).toBeTruthy();
+        done();
+      });
+
+  });
+
+  it('should make API call with correct URL when getFormMetaDataByUuid is invoked',
+    inject([FormsResourceService, MockBackend],
+      fakeAsync((formsResourceService: FormsResourceService,
+        backend: MockBackend) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+
+          expect(connection.request.method).toBe(RequestMethod.Get);
+          expect(connection.request.url)
+            .toContain('/ws/rest/v1/form/form-uuid?v=full');
+        });
+        expect(formsResourceService.getFormMetaDataByUuid('form-uuid'));
+      })));
+
+  it('should return a form object when getFormMetaDataByUuid is invoked', (done) => {
+
+    let formsResourceService: FormsResourceService = TestBed.get(FormsResourceService);
+    let backend: MockBackend = TestBed.get(MockBackend);
+    backend.connections.subscribe((connection: MockConnection) => {
+      expect(connection.request.url).toContain('v=');
+
+      let options = new ResponseOptions({
+        body: JSON.stringify(
+          {
+            uuid: 'xxx-xxx-xxx-xxx',
+            display: 'form resource'
+          }
+        )
+      });
+      connection.mockRespond(new Response(options));
+    });
+
+    formsResourceService.getFormMetaDataByUuid('form-uuid')
+      .subscribe((data) => {
+        expect(data.uuid).toBeTruthy();
+        done();
+      });
+
+  });
 
 });

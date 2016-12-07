@@ -53,6 +53,9 @@ import { AddressComponent } from './patient-info/address.component';
 import { FormListComponent } from './forms/form-list.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
 import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
+import { FormSchemaService } from './formentry/form-schema.service';
+import { UtilsModule } from '../utils/utils.module';
+import { FakeFormEntry } from './formentry/formentry.service.mock';
 
 
 
@@ -68,6 +71,7 @@ import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
     NgamrsSharedModule,
     Ng2PaginationModule,
     OpenmrsApi,
+    UtilsModule,
     TooltipModule,
     TabViewModule,
     GrowlModule, PanelModule,
@@ -117,7 +121,9 @@ import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
     FormListService,
     FormOrderMetaDataService,
     FormsResourceService,
-    PatientVitalsService
+    PatientVitalsService,
+    FormSchemaService,
+    FakeFormEntry
 
   ],
   exports: [
