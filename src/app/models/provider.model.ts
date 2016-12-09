@@ -3,7 +3,7 @@ import { serializable } from './serializable.decorator';
 import { Person } from './person.model';
 
 export class Provider extends BaseModel {
-  private _person: Person;
+  private _person = this.openmrsModel.person;
 
     constructor(openmrsModel?: any) {
         super(openmrsModel);

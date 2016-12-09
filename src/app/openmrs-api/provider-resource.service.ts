@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class ProviderResourceService {
 
-  v: string = 'default';
+  v: string = 'full';
 
   constructor(protected http: Http,
               protected appSettingsService: AppSettingsService,
@@ -23,7 +23,7 @@ export class ProviderResourceService {
 
   searchProvider(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
 
-    let url = this.getUrl();
+    let url = this.getUrl() ;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('q', searchText);
@@ -71,7 +71,7 @@ export class ProviderResourceService {
                 if (foundProvider.display === '') {
                   foundProvider.display = foundProvider.person.display;
                 }
-                return providerResults.next(foundProvider);
+                 providerResults.next(foundProvider);
               } else {
                 let msg = 'Error processing request: No provider with given person uuid found';
                 providerResults.error(msg);
@@ -91,6 +91,7 @@ export class ProviderResourceService {
         providerResults.error(error);
       }
     );
+    return providerResults;
     }
 }
 
