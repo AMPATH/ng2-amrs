@@ -362,8 +362,8 @@
       "eidDisplay": "Pregnant Mother",
       "mrsDisplay": ""
     },
-    "uuid": {
-      "a8aaf3e2-1350-11df-a1f1-0026b9348838": 7,
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 7,
       "eidDisplay": "Other",
       "mrsDisplay": ""
     },
