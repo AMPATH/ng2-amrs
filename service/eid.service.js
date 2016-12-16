@@ -200,7 +200,12 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
 
         if(response.posts instanceof Array) {
           _.each(response.posts, function(row) {
-            results.viralLoad.push(row);
+
+            etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('viral load result: %s', JSON.stringify(row));
+
+            if(row && row.SampleStatus && ['Completed', 'Rejected'].indexOf(row.SampleStatus) != -1) {
+              results.viralLoad.push(row);
+            }
           });
         } else
           results[location_name].viralLoadErrorMsg = response;
