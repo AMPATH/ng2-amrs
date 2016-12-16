@@ -56,25 +56,29 @@ export class FormSchemaService {
     this.localStorage.setObject(formUuid, schema);
   }
 
-  private getFormSchemaByUuidFromServer(formUuid: string): ReplaySubject<any> {
+  private getFormSchemaByUuidFromServer(formUuid: string): ReplaySubject<Object> {
     let formSchema: ReplaySubject<any> = new ReplaySubject(1);
     this.fetchFormSchemaUsingFormMetadata(formUuid)
       .subscribe(
         (schema: Object) => {
-          this.getFormSchemaWithReferences(schema)
-            .subscribe(
-              (schemaReferences: Array<any>) => {
-                let forms: Object = {
-                  form: schema,
-                  referencedComponents: schemaReferences
-                };
-                formSchema.next(forms);
-              },
-              err => {
-                console.error(err);
-                formSchema.error(err);
-              }
-            );
+          // check whether whether formSchema has references b4 hitting getFormSchemaWithReferences
+          if (schema['referencedForms'] && schema['referencedForms'].length > 0) {
+            this.getFormSchemaWithReferences(schema)
+              .subscribe(
+                (form: Object) => {
+                  formSchema.next(form);
+                },
+                err => {
+                  console.error(err);
+                  formSchema.error(err);
+                }
+              );
+          } else {
+            formSchema.next({
+              form: schema,
+              referencedComponents: []
+            });
+          }
 
         },
         err => {
