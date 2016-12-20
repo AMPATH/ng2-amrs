@@ -56,6 +56,8 @@ import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
 import { FormSchemaService } from './formentry/form-schema.service';
 import { UtilsModule } from '../utils/utils.module';
 import { FakeFormEntry } from './formentry/formentry.service.mock';
+import { FormDataSourceService } from './formentry/form-data-source.service';
+
 
 
 
@@ -123,7 +125,8 @@ import { FakeFormEntry } from './formentry/formentry.service.mock';
     FormsResourceService,
     PatientVitalsService,
     FormSchemaService,
-    FakeFormEntry
+    FakeFormEntry,
+    FormDataSourceService
 
   ],
   exports: [
