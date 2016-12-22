@@ -4,13 +4,26 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { Provider } from '../../models/provider.model';
 import { Patient } from '../../models/patient.model';
 import { PatientService } from '../patient.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 
 @Injectable()
 
 export class FormDataSourceService {
   public providerSearchResults: BehaviorSubject<Provider[]> = new BehaviorSubject<Provider[]>([]);
-  constructor(private providerResourceService: ProviderResourceService) { }
 
+  constructor(private providerResourceService: ProviderResourceService,
+    private locationResourceService: LocationResourceService) { }
+
+
+  getDataSources() {
+    let formData: any = {
+      location: {
+        resolveSelectedValue: this.getLocationByUuid,
+        searchOption: this.findLocation
+      }
+    };
+    return formData;
+  }
 
   findProvider(searchText): Observable<Provider[]> {
     let findProvider = this.providerResourceService.searchProvider(searchText, false);
@@ -71,6 +84,45 @@ export class FormDataSourceService {
     if (gender === 'M') model['gendercreatconstant'] = 1;
 
     return model;
+  }
+
+  findLocation(searchText): Observable<Location[]> {
+    let locationSearchResults: BehaviorSubject<Location[]> = new BehaviorSubject<Location[]>([]);
+    let findLocation = this.locationResourceService.searchLocation(searchText, false);
+    findLocation.subscribe(
+      (location) => {
+        let selectedOptions = [];
+        for (let i = 0; i < location.length; i++) {
+          selectedOptions.push({
+            label: location[i].display,
+            value: location[i].uuid
+          });
+        }
+        locationSearchResults.next(selectedOptions);
+      },
+      (error) => {
+        locationSearchResults.error(error);
+      }
+    );
+    return locationSearchResults.asObservable();
+  }
+
+  getLocationByUuid(uuid): Observable<any> {
+    let locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    this.locationResourceService.getLocationByUuid(uuid, false)
+      .subscribe(
+      (location) => {
+        let mappedLocation = {
+          label: location.display,
+          value: location.uuid
+        };
+        locationSearchResults.next(mappedLocation);
+      },
+      (error) => {
+        locationSearchResults.error(error);
+      }
+      );
+    return locationSearchResults.asObservable();
   }
 
 }
