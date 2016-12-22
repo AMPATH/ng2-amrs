@@ -14,6 +14,7 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
+import { FormentryComponent } from './formentry/formentry.component';
 
 const patientDashboardRoutes: Routes = [
 
@@ -26,6 +27,7 @@ const patientDashboardRoutes: Routes = [
       { path: 'patient-encounters', component: PatientEncountersComponent },
       { path: 'patient-vitals', component: PatientVitalsComponent },
       { path: 'forms', component: FormsComponent },
+      { path: 'formentry/:formUuid', component: FormentryComponent },
       { path: 'hiv-summary', component: HivSummaryComponent },
       { path: 'lab-data-summary', component: LabDataSummaryComponent },
       { path: 'lab-orders', component: LabOrdersComponent },

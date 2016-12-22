@@ -34,6 +34,7 @@ import 'datatables.net-select';
 import 'datatables.net-fixedheader';
 import './assets/slimScroll/jquery.slimscroll.min.js';
 import './assets/app';
+import 'slick-carousel';
 if ('production' === ENV) {
   // Production
 

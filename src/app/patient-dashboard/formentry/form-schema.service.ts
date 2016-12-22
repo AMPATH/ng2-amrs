@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { FakeFormEntry } from './formentry.service.mock';
+import { FormSchemaCompiler }
+  from 'ng2-openmrs-formentry/src/app/form-entry/services/form-schema-compiler.service';
 
 @Injectable()
 export class FormSchemaService {
 
   constructor(private formsResourceService: FormsResourceService,
-              private localStorage: LocalStorageService,
-              private formEntry: FakeFormEntry) {
+    private localStorage: LocalStorageService,
+    private formSchemaCompiler: FormSchemaCompiler) {
   }
 
   /**
@@ -29,19 +30,18 @@ export class FormSchemaService {
     } else {
       this.getFormSchemaByUuidFromServer(formUuid)
         .subscribe(
-          (unCompiledSchema: any) => {
-            // compile schema --> TODO: Wire formentry service that does this
-            let compiledSchema: any = this.formEntry
-              .compileFormSchema(unCompiledSchema.form, unCompiledSchema.referencedComponents);
-            // now cache the compiled schema
-            this.cacheCompiledSchemaByUuid(formUuid, compiledSchema);
-            // return the compiled schema
-            formSchema.next(compiledSchema);
-          },
-          err => {
-            console.error(err);
-            formSchema.error(err);
-          }
+        (unCompiledSchema: any) => {
+          let compiledSchema: any = this.formSchemaCompiler
+            .compileFormSchema(unCompiledSchema.form, unCompiledSchema.referencedComponents);
+          // now cache the compiled schema
+          this.cacheCompiledSchemaByUuid(formUuid, compiledSchema);
+          // return the compiled schema
+          formSchema.next(compiledSchema);
+        },
+        err => {
+          console.error(err);
+          formSchema.error(err);
+        }
         );
 
     }
@@ -60,31 +60,31 @@ export class FormSchemaService {
     let formSchema: ReplaySubject<any> = new ReplaySubject(1);
     this.fetchFormSchemaUsingFormMetadata(formUuid)
       .subscribe(
-        (schema: Object) => {
-          // check whether whether formSchema has references b4 hitting getFormSchemaWithReferences
-          if (schema['referencedForms'] && schema['referencedForms'].length > 0) {
-            this.getFormSchemaWithReferences(schema)
-              .subscribe(
-                (form: Object) => {
-                  formSchema.next(form);
-                },
-                err => {
-                  console.error(err);
-                  formSchema.error(err);
-                }
-              );
-          } else {
-            formSchema.next({
-              form: schema,
-              referencedComponents: []
-            });
-          }
-
-        },
-        err => {
-          console.error(err);
-          formSchema.error(err);
+      (schema: Object) => {
+        // check whether whether formSchema has references b4 hitting getFormSchemaWithReferences
+        if (schema['referencedForms'] && schema['referencedForms'].length > 0) {
+          this.getFormSchemaWithReferences(schema)
+            .subscribe(
+            (form: Object) => {
+              formSchema.next(form);
+            },
+            err => {
+              console.error(err);
+              formSchema.error(err);
+            }
+            );
+        } else {
+          formSchema.next({
+            form: schema,
+            referencedComponents: []
+          });
         }
+
+      },
+      err => {
+        console.error(err);
+        formSchema.error(err);
+      }
       );
     return formSchema;
   }
@@ -93,17 +93,17 @@ export class FormSchemaService {
     let formSchemaWithReferences: ReplaySubject<any> = new ReplaySubject(1);
     this.fetchFormSchemaReferences(schema)
       .subscribe(
-        (schemaReferences: Array<any>) => {
-          let forms: Object = {
-            form: schema,
-            referencedComponents: schemaReferences
-          };
-          formSchemaWithReferences.next(forms);
-        },
-        err => {
-          console.error(err);
-          formSchemaWithReferences.error(err);
-        }
+      (schemaReferences: Array<any>) => {
+        let forms: Object = {
+          form: schema,
+          referencedComponents: schemaReferences
+        };
+        formSchemaWithReferences.next(forms);
+      },
+      err => {
+        console.error(err);
+        formSchemaWithReferences.error(err);
+      }
       );
     return formSchemaWithReferences;
 
@@ -127,29 +127,29 @@ export class FormSchemaService {
     let formSchema: ReplaySubject<any> = new ReplaySubject(1);
     this.formsResourceService.getFormMetaDataByUuid(formUuid)
       .subscribe(
-        (formMetadataObject: any) => {
-          if (formMetadataObject.resources.length > 0) {
-            this.formsResourceService
-              .getFormClobDataByUuid(formMetadataObject.resources[0].valueReference)
-              .subscribe(
-                (clobData: any) => {
-                  formSchema.next(clobData);
-                  formSchema.complete();
-                },
-                err => {
-                  console.error(err);
-                  formSchema.error(err);
-                });
-          } else {
-            formSchema.error(formMetadataObject.display +
-              ':This formMetadataObject has no resource');
-          }
+      (formMetadataObject: any) => {
+        if (formMetadataObject.resources.length > 0) {
+          this.formsResourceService
+            .getFormClobDataByUuid(formMetadataObject.resources[0].valueReference)
+            .subscribe(
+            (clobData: any) => {
+              formSchema.next(clobData);
+              formSchema.complete();
+            },
+            err => {
+              console.error(err);
+              formSchema.error(err);
+            });
+        } else {
+          formSchema.error(formMetadataObject.display +
+            ':This formMetadataObject has no resource');
+        }
 
-        },
-        err => {
-          console.error(err);
-          formSchema.error(err);
-        });
+      },
+      err => {
+        console.error(err);
+        formSchema.error(err);
+      });
     return formSchema;
   }
 
