@@ -5,6 +5,7 @@ import { PatientResourceService } from '../openmrs-api/patient-resource.service'
 import {
   ProgramEnrollmentResourceService
 } from '../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 
 @Injectable()
 export class PatientService {
@@ -12,10 +13,12 @@ export class PatientService {
   public currentlyLoadedPatientUuid = new ReplaySubject(1);
 
   constructor(private patientResourceService: PatientResourceService,
-              private programEnrollmentResourceService: ProgramEnrollmentResourceService) {
+              private programEnrollmentResourceService: ProgramEnrollmentResourceService,
+              private encounterResource: EncounterResourceService) {
   }
 
   public setCurrentlyLoadedPatientByUuid(patientUuid: string): BehaviorSubject<Patient> {
+
     if (this.currentlyLoadedPatient.value !== null) {
       // this means there is already a currently loaded patient
       let previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
@@ -31,15 +34,18 @@ export class PatientService {
   public fetchPatientByUuid(patientUuid: string): void {
     Observable.forkJoin(
       this.patientResourceService.getPatientByUuid(patientUuid, false),
-      this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(patientUuid)
+      this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(patientUuid),
+      this.encounterResource.getEncountersByPatientUuid(patientUuid)
     ).subscribe(
       (data) => {
+
         let patient = data[0];
         patient.enrolledPrograms = data[1];
+        patient.encounters = data[2];
         this.currentlyLoadedPatient.next(new Patient(patient));
         this.currentlyLoadedPatientUuid.next(patientUuid);
       },
-      err => console.error(err)
+      err => console.log(err)
     );
 
   }

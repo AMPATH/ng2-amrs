@@ -12,6 +12,7 @@ export class Patient extends BaseModel {
   private _patientIdentifier: PatientIdentifier;
   private _enrolledPrograms = this.openmrsModel.enrolledPrograms;
   private _identifier = this.openmrsModel.identifiers;
+  private _encounters = this.openmrsModel.encounters;
 
   constructor(openmrsModel?: any) {
     super(openmrsModel);
@@ -58,6 +59,16 @@ export class Patient extends BaseModel {
   public set enrolledPrograms(v: ProgramEnrollment) {
     this._openmrsModel.enrolledPrograms = v.openmrsModel;
     this._enrolledPrograms = v;
+  }
+
+  public get encounters() {
+
+    let mappedEncounters: Array<any> = new Array<any>();
+
+    for (let i = 0; i < this._encounters.length; i++) {
+      mappedEncounters.push(this._encounters[i]);
+    }
+    return mappedEncounters.reverse();
   }
 
   public get searchIdentifiers() {

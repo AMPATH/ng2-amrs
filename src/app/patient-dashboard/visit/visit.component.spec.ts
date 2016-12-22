@@ -20,6 +20,8 @@ import {
 import {
     FakeProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service.mock';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { FakeEncounterResourceService } from '../../openmrs-api/fake-encounter-resource.service';
 
 
 @Pipe({ name: 'translate' })
@@ -93,6 +95,11 @@ describe('Component: Visit', () => {
                 { provide: ActivatedRoute, useValue: {} },
                 VisitComponent,
                 PatientService,
+                {
+                  provide: EncounterResourceService, useFactory: () => {
+                    return new FakeEncounterResourceService(null, null);
+                  }
+                },
                 { provide: PatientResourceService, useValue: fakeVisitResourceService },
                 {
                     provide: ProgramEnrollmentResourceService,

@@ -7,6 +7,7 @@ import { FormentryHelperService } from './formentry-helper.service';
 import { Form } from 'ng2-openmrs-formentry';
 import { FormFactory, EncounterAdapter } from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 
 @Component({
   selector: 'app-formentry',
@@ -24,9 +25,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private encounterUuid: string = null;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private formSchemaService: FormSchemaService,
     private route: ActivatedRoute,
-    private formentryHelperService: FormentryHelperService,
     private formFactory: FormFactory,
     private encounterResource: EncounterResourceService,
     private encounterAdapter: EncounterAdapter) {
@@ -45,6 +44,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.selectedFormUuid = params['formUuid'];
       });
 
+    this.isBusyIndicator(true, 'Please wait, fetching form'); // show busy indicator
     // load selected form
     this.loadSelectedForm();
   }
@@ -72,25 +72,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
     });
   }
   private loadSelectedForm(): void {
+
     if (this.selectedFormUuid) {
-      this.isBusyIndicator(true, 'Please wait, fetching form'); // show busy indicator
-      this.formSchemaService.getFormSchemaByUuid(this.selectedFormUuid).subscribe(
-        (compiledFormSchema) => {
-          console.log('compiledFormSchema', JSON.stringify(compiledFormSchema));
-          this.isBusyIndicator(false); // hide busy indicator
-          if (compiledFormSchema) {
-            console.log('Compiled Form', compiledFormSchema);
-            this.form = this.formFactory.createForm(compiledFormSchema);
-            if (this.encounterUuid && this.encounterUuid !== '') {
-              this.getEncounter();
-            }
-          }
-        },
-        (err) => {
-          console.log('error', err);
-          this.isBusyIndicator(false); // hide busy indicator
+      this.route.data.subscribe((resolvedForm: any) => {
+        this.isBusyIndicator(false); // hide indicator
+        this.form = this.formFactory.createForm(resolvedForm.compiledSchemaWithEncounter.schema
+          , resolvedForm.compiledSchemaWithEncounter.encounter);
+        if (this.encounterUuid && this.encounterUuid !== '') {
+          this.getEncounter();
         }
-      );
+      });
     }
   }
 

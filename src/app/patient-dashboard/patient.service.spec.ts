@@ -1,4 +1,6 @@
 import { TestBed, fakeAsync, inject } from '@angular/core/testing';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import { Patient } from '../models/patient.model';
 import { FakePatientResourceService } from '../openmrs-api/fake-patient-resource';
@@ -12,12 +14,21 @@ import {
   FakeProgramEnrollmentResourceService
 }
   from '../openmrs-api/program-enrollment-resource.service.mock';
+import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
+import { FakeEncounterResourceService } from '../openmrs-api/fake-encounter-resource.service';
 
 describe('Service: PatientService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         PatientService,
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: EncounterResourceService, useFactory: () => {
+            return new FakeEncounterResourceService(null, null);
+          }
+        },
         {
           provide: ProgramEnrollmentResourceService, useFactory: () => {
           return new FakeProgramEnrollmentResourceService(null, null);
@@ -54,7 +65,7 @@ describe('Service: PatientService', () => {
     fakeAsync((patientResourceService: PatientResourceService) => {
       let service: PatientService = TestBed.get(PatientService);
       let uuid: string = 'patient-uuid-1';
-      let patientObject: Patient = new Patient({uuid: uuid});
+      let patientObject: Patient = new Patient({uuid: uuid, encounters: []});
       spyOn(patientResourceService, 'getPatientByUuid');
 
       // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
@@ -91,7 +102,7 @@ describe('Service: PatientService', () => {
       let service: PatientService = TestBed.get(PatientService);
       let uuid1: string = 'patient-uuid-1';
       let uuid2: string = 'patient-uuid-2';
-      let patientObject: Patient = new Patient({uuid: uuid1});
+      let patientObject: Patient = new Patient({uuid: uuid1, encounters: []});
       spyOn(patientResourceService, 'getPatientByUuid').and.callFake(function (params) {
         let subject = new BehaviorSubject<any>({});
         subject.next({
@@ -131,7 +142,8 @@ describe('Service: PatientService', () => {
 
     patientService.currentlyLoadedPatient.next(new Patient({
         uuid: 'next uuid',
-        display: 'some display'
+        display: 'some display',
+        encounters: []
       })
     );
 
@@ -158,13 +170,16 @@ describe('Service: PatientService', () => {
   });
 
   it('should fetch patient program enrollment information when setCurrentlyLoadedPatientByUuid' +
-    'is called', inject([PatientResourceService, ProgramEnrollmentResourceService],
+    'is called', inject([PatientResourceService,
+      ProgramEnrollmentResourceService,
+      EncounterResourceService],
     fakeAsync((patientResourceService: PatientResourceService,
-               programEnrollmentResourceService: ProgramEnrollmentResourceService) => {
+               programEnrollmentResourceService: ProgramEnrollmentResourceService,
+               encounterResourceService: EncounterResourceService) => {
       let service: PatientService = TestBed.get(PatientService);
       let uuid1: string = 'patient-uuid-1';
       let uuid2: string = 'patient-uuid-2';
-      let patientObject: Patient = new Patient({uuid: uuid1});
+      let patientObject: Patient = new Patient({uuid: uuid1, encounters: []});
       spyOn(programEnrollmentResourceService, 'getProgramEnrollmentByPatientUuid')
         .and.callFake(function (params) {
         let subject = new BehaviorSubject<any>({});

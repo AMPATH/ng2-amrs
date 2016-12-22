@@ -12,6 +12,7 @@ import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { ProgramEnrollmentResourceService }
   from '../../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 describe('Component: HivSummaryHistorical Unit Tests', () => {
 
@@ -26,6 +27,7 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
         PatientService,
         PatientResourceService,
         ProgramEnrollmentResourceService,
+        EncounterResourceService,
         MockBackend,
         BaseRequestOptions,
         {

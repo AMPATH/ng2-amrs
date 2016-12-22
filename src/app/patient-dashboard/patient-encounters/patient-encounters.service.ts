@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../models/encounter.model';
-import { Response } from '@angular/http';
 import { Subscription } from 'rxjs';
 
 

@@ -1,7 +1,7 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { SpyLocation } from '@angular/common/testing';
@@ -22,6 +22,13 @@ import { FakeFormSchemaCompiler } from '../formentry/mock/form-schema-compiler.s
 import { FormSchemaCompiler }
     from 'ng2-openmrs-formentry/src/app/form-entry/services/form-schema-compiler.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { FormCreationDataResolverService } from './form-creation-data-resolver.service';
+import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
+import { PatientService } from '../patient.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import {
+  ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
 
 describe('Component: FormentryComponent', () => {
     beforeEach(() => {
@@ -38,6 +45,11 @@ describe('Component: FormentryComponent', () => {
                 EncounterResourceService,
                 EncounterAdapter,
                 OrderValueAdapter,
+                PatientService,
+                PatientResourceService,
+                FormCreationDataResolverService,
+                PatientPreviousEncounterService,
+                ProgramEnrollmentResourceService,
                 ObsValueAdapter,
                 PersonAttribuAdapter,
                 {
@@ -56,6 +68,10 @@ describe('Component: FormentryComponent', () => {
                     useValue: {
                         queryParams: Observable.of({}),
                         params: Observable.of({ formUuid: 'form-uuid' }),
+                        data: Observable.of({ compiledSchemaWithEncounter: {
+                          encounter: {},
+                          schema: {}
+                        }}),
                         snapshot: { params: { formUuid: 'form-uuid' } }
                     }
                 },
@@ -86,10 +102,16 @@ describe('Component: FormentryComponent', () => {
     });
 
     it('should fetch and compile formschema when the component initializes with a valid form-uuid',
-        inject([FormSchemaService, FormentryComponent],
-            (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent) => {
+        inject([FormSchemaService, FormCreationDataResolverService,
+            PatientPreviousEncounterService],
+            (formSchemaService: FormSchemaService, resolver: FormCreationDataResolverService,
+             prevEncService: PatientPreviousEncounterService) => {
 
                 let uuid: string = 'form-uuid';
+                spyOn(resolver, 'resolve').and.callFake(function (params) {
+
+                  return new Promise();
+                });
                 spyOn(formSchemaService, 'getFormSchemaByUuid').and.callFake(function (params) {
                     let subject = new BehaviorSubject<any>({});
                     subject.next({
@@ -98,7 +120,10 @@ describe('Component: FormentryComponent', () => {
                     });
                     return subject;
                 });
-                formentryComponent.ngOnInit();
+                resolver.resolve(ActivatedRouteSnapshot);
+                expect(resolver.resolve).toHaveBeenCalled();
+                // check if it compiles
+                formSchemaService.getFormSchemaByUuid(uuid);
                 expect(formSchemaService.getFormSchemaByUuid).toHaveBeenCalled();
 
             })
@@ -121,8 +146,6 @@ describe('Component: FormentryComponent', () => {
                 });
                 spyOn(formFactory, 'createForm').and.callThrough();
                 formentryComponent.ngOnInit();
-                // check if it compiles
-                expect(formSchemaService.getFormSchemaByUuid).toHaveBeenCalled();
                 // check if it creates  and reder form
                 expect(formFactory.createForm).toHaveBeenCalled();
 
