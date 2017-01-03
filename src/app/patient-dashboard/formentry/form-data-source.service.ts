@@ -9,7 +9,6 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 @Injectable()
 
 export class FormDataSourceService {
-  public providerSearchResults: BehaviorSubject<Provider[]> = new BehaviorSubject<Provider[]>([]);
 
   constructor(private providerResourceService: ProviderResourceService,
     private locationResourceService: LocationResourceService) { }
@@ -20,55 +19,74 @@ export class FormDataSourceService {
       location: {
         resolveSelectedValue: this.getLocationByUuid,
         searchOption: this.findLocation
+      },
+      provider: {
+        resolveSelectedValue: this.getProviderByPersonUuid,
+        searchOption: this.findProvider
       }
     };
     return formData;
   }
 
-  findProvider(searchText): Observable<Provider[]> {
+
+   findProvider(searchText): Observable<Provider[]> {
+    let providerSearchResults: BehaviorSubject<Provider[]> = new BehaviorSubject<Provider[]>([]);
     let findProvider = this.providerResourceService.searchProvider(searchText, false);
     findProvider.subscribe(
       (provider) => {
-        let mappedProvider: Provider[] = new Array<Provider>();
-
+        let selectedOptions = [];
         for (let i = 0; i < provider.length; i++) {
-          mappedProvider.push(new Provider(provider[i]));
+          selectedOptions.push({
+            label: provider[i].display || provider[i].person.display,
+            value: provider[i].person.uuid
+          });
         }
-        this.providerSearchResults.next(mappedProvider);
+        providerSearchResults.next(selectedOptions);
       },
       (error) => {
-        this.providerSearchResults.error(error); // test case that returns error
+        providerSearchResults.error(error); // test case that returns error
       }
     );
-    return this.providerSearchResults.asObservable();
+    return providerSearchResults.asObservable();
   }
-  getProviderByUuid(uuid): Observable<Provider[]> {
-    this.providerResourceService.getProviderByUuid(uuid, false)
-      .subscribe(
+
+  getProviderByUuid(uuid): Observable<any> {
+    let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+     this.providerResourceService.getProviderByUuid(uuid, false)
+       .subscribe(
       (provider) => {
-        let mappedProvider: Provider[] = [];
-        mappedProvider.push(new Provider(provider));
-        this.providerSearchResults.next(mappedProvider);
+        let mappedProvider = {
+          label: provider.display,
+          value: provider.uuid
+        };
+        providerSearchResults.next(mappedProvider);
+
       },
       (error) => {
-        this.providerSearchResults.error(error); // test case that returns error
+        providerSearchResults.error(error); // test case that returns error
       }
-      );
-    return this.providerSearchResults.asObservable();
+
+    );
+    return providerSearchResults.asObservable();
+
   }
   getProviderByPersonUuid(uuid) {
+    let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.providerResourceService.getProviderByPersonUuid(uuid)
       .subscribe(
-      (provider) => {
-        let mappedProvider: Provider[] = [];
-        mappedProvider.push(new Provider(provider));
-        this.providerSearchResults.next(mappedProvider);
-      },
-      (error) => {
-        this.providerSearchResults.error(error); // test case that returns error
-      }
+        (provider) => {
+          let mappedProvider = {
+            label: (provider as any).person.display,
+            value: (provider as any).person.uuid
+          };
+          providerSearchResults.next(mappedProvider);
+        },
+        (error) => {
+          providerSearchResults.error(error); // test case that returns error
+        }
+
       );
-    return this.providerSearchResults.asObservable();
+    return providerSearchResults.asObservable();
   }
 
 

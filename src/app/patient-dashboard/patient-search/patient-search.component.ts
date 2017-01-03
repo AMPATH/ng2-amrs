@@ -25,7 +25,7 @@ export class PatientSearchComponent implements OnInit {
 
 
   ngOnInit() {
-    // load cached result
+   // load cached result
     this.patientSearchService.patientsSearchResults.subscribe(
       (patients) => {
           this.patients = patients;
