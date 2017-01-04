@@ -1,0 +1,10 @@
+
+<div [ngBusy]="busyIndicator"></div>
+<div *ngIf=form>
+	<form  [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
+		<form-renderer [node]="form.rootNode"></form-renderer>
+		<div class="form-row">
+			<button type="submit" [disabled]="!form.rootNode.control.valid">Save</button>
+		</div>
+	</form>
+</div>

@@ -6,9 +6,11 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { FormSchemaService } from './form-schema.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { FakeFormEntry } from './formentry.service.mock';
+import { FormSchemaCompiler }
+  from 'ng2-openmrs-formentry/src/app/form-entry/services/form-schema-compiler.service';
 import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
+
 describe('Service: FormSchemaService', () => {
 
   // mock data for formMetaData
@@ -63,7 +65,7 @@ describe('Service: FormSchemaService', () => {
       providers: [
         FormSchemaService,
         LocalStorageService,
-        FakeFormEntry,
+        FormSchemaCompiler,
         FormsResourceService,
         BaseRequestOptions,
         MockBackend,

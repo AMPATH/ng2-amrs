@@ -55,10 +55,11 @@ import { PatientDemographicsComponent } from './patient-info/patient-demograpics
 import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
 import { FormSchemaService } from './formentry/form-schema.service';
 import { UtilsModule } from '../utils/utils.module';
-import { FakeFormEntry } from './formentry/formentry.service.mock';
 import { FormDataSourceService } from './formentry/form-data-source.service';
-
-
+import { FormentryComponent } from './formentry/formentry.component';
+import { FormentryHelperService } from './formentry/formentry-helper.service';
+import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -77,7 +78,9 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
     TooltipModule,
     TabViewModule,
     GrowlModule, PanelModule,
-    Angulartics2Module.forChild()
+    Angulartics2Module.forChild(),
+    FormEntryModule,
+    ReactiveFormsModule
 
   ],
   declarations: [
@@ -105,7 +108,8 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
     AddressComponent,
     PatientDemographicsComponent,
     FormListComponent,
-    Ng2FilterPipe
+    Ng2FilterPipe,
+    FormentryComponent
   ],
   providers: [
     PatientEncounterService,
@@ -125,8 +129,8 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
     FormsResourceService,
     PatientVitalsService,
     FormSchemaService,
-    FakeFormEntry,
-    FormDataSourceService
+    FormDataSourceService,
+    FormentryHelperService
 
   ],
   exports: [
@@ -143,7 +147,8 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
     ProgramsComponent,
     EncounterListComponent,
     PatientDemographicsComponent,
-    FormListComponent
+    FormListComponent,
+    FormentryComponent
   ]
 })
 export class PatientDashboardModule {

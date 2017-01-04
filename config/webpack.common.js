@@ -83,7 +83,7 @@ module.exports = function(options) {
       extensions: ['', '.ts', '.js', '.json'],
 
       // An array of directory names to be resolved to the current directory
-      modules: [helpers.root('src'), 'node_modules'],
+      modules: [helpers.root('src'), helpers.root('node_modules')],
 
     },
     postcss: [autoprefixer],
