@@ -7,7 +7,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 export const ROUTES: Routes = [
   {
     path: '', redirectTo: 'patient-dashboard/patient-search',
-    pathMatch: 'full', canActivate: [AuthGuard]
+    pathMatch: 'full'
   },
   { path: 'about', component: About },
   { path: '**', component: NoContent },

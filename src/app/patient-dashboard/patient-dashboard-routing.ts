@@ -18,7 +18,7 @@ import { FormentryComponent } from './formentry/formentry.component';
 
 const patientDashboardRoutes: Routes = [
 
-  { path: 'patient-search', component: PatientSearchComponent, canActivate: [AuthGuard] },
+  { path: 'patient-search', component: PatientSearchComponent },
   {
     path: ':patient_uuid',
     component: PatientDashboardComponent,
@@ -36,7 +36,6 @@ const patientDashboardRoutes: Routes = [
       { path: 'visit', component: VisitComponent }
     ],
     canActivate: [
-      AuthGuard,
       PatientDashboardGuard
     ],
     canDeactivate: [
