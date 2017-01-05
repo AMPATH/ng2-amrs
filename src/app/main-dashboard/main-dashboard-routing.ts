@@ -5,11 +5,13 @@ import { MainDashboardComponent } from './main-dashboard.component';
 import {
   UserDefaultPropertiesComponent
 } from '../user-default-properties/user-default-properties.component';
+import { AuthGuard } from '../shared/guards/auth.guard';
 
 const dashboardRoutes: Routes = [
   {
     path: '',
     component: MainDashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'clinic-dashboard',
@@ -24,8 +26,8 @@ const dashboardRoutes: Routes = [
       },
       {
         path: 'data-analytics', loadChildren: () =>
-        System.import('../data-analytics-dashboard/data-analytics.module')
-          .then(mod => mod.DataAnalyticsModule)
+          System.import('../data-analytics-dashboard/data-analytics.module')
+            .then(mod => mod.DataAnalyticsModule)
       },
       {
         path: 'user-default-properties',

@@ -15,8 +15,6 @@ import { UserService } from '../openmrs-api/user.service';
     CommonModule,
     FormsModule,
     dashboardRouting,
-    ClinicDashboardModule,
-    PatientDashboardModule,
     NgamrsSharedModule
   ],
   declarations: [

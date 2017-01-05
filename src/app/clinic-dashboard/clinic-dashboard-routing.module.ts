@@ -5,9 +5,8 @@ import { DailyScheduleComponent } from './daily-schedule/daily-schedule.componen
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
-import { AuthGuard } from '../shared/guards/auth.guard';
 const clinicDashboardRoutes: Routes = [
-  { path: 'daily-schedule', component: DailyScheduleComponent, canActivate: [AuthGuard] },
+  { path: 'daily-schedule', component: DailyScheduleComponent },
   {
     path: ':location_uuid', component: ClinicDashboardComponent,
     children: [
