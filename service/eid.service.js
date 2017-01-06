@@ -203,7 +203,7 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
 
             etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('viral load result: %s', JSON.stringify(row));
 
-            if(row && row.SampleStatus && ['Completed', 'Rejected'].indexOf(row.SampleStatus) != -1) {
+            if(row && row.SampleStatus && ['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
               results.viralLoad.push(row);
             }
           });
