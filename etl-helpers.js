@@ -47,14 +47,25 @@ module.exports = function() {
     getConceptName: function getConceptName(code) {
       if (code === null || code === undefined) return "";
       var concepts = {
+        221: "RHEUMATIC HEART DISEASE",
         664: "NEGATIVE",
         703: "POSITIVE",
         1115: "NORMAL",
+        1116: "ABNORMAL",
         1118: "NOT DONE",
         1136: "PULMONARY EFFUSION",
         1137: "MILIARY CHANGES",
         1138: "INDETERMINATE",
         1304: "POOR SAMPLE QUALITY",
+        1530: "CARDIAC ARRHYTHMIA",
+        1531: "ATRIAL FIBRILLATION",
+        1532: "LEFT VENTRICULAR HYPERTROPHY",
+        1533: "RIGHT VENTRICULAR HYPERTROPHY",
+        1538: "DILATED CARDIOMYOPATHY",
+        1539: "PERICARDIAL EFFUSION",
+        1540: "MURAL THROMBI",
+        1541: "PULMONARY HYPERTENSION",
+        1542: "VENTRICULAR SEPTAL DEFECT",
         5158: "EVIDENCE OF CARDIAC ENLARGEMENT",
         5622: "OTHER NON-CODED",
         6049: "INFILTRATE",
@@ -129,7 +140,12 @@ module.exports = function() {
         851: "MCV",
         12: "Chest Xray",
         1019: "Complete Blood Count",
-        657: "CD4 PANEL"
+        657: "CD4 PANEL",
+        6126: "HbA1c",
+        887: "RBS",
+        6252: "FBS",
+        1537: "EKG",
+        857: "UREA"
 
 
       };
