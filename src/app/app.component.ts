@@ -3,7 +3,8 @@
  */
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppState } from './app.service';
-
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 
 /*
  * App Component

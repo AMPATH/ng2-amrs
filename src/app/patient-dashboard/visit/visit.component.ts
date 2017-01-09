@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import * as Moment from 'moment';
 import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
@@ -15,7 +16,9 @@ export class VisitComponent implements OnInit {
     loadingVisitTypes: Boolean;
     visitBusy: Boolean;
     constructor(private visitResourceService: VisitResourceService,
-        private patientService: PatientService) { }
+        private patientService: PatientService, private router: Router,
+        private route: ActivatedRoute) { }
+
 
     ngOnInit() {
         this.getPatient();
@@ -126,6 +129,12 @@ export class VisitComponent implements OnInit {
                     message: 'error cancelling visit'
                 });
             });
+    }
+    formSelected(form) {
+        console.log('Form Selected', form);
+        if (form) {
+            this.router.navigate(['../formentry', form.uuid], { relativeTo: this.route });
+        }
     }
     private getLastVisit(visits: any[]) {
         let filtered = visits.filter((visit) => {

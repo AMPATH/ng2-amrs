@@ -51,7 +51,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.isBusyIndicator(true, 'Please wait, fetching form'); // show busy indicator
       this.formSchemaService.getFormSchemaByUuid(this.selectedFormUuid).subscribe(
         (compiledFormSchema) => {
-          console.log('compiledFormSchema', compiledFormSchema);
+          console.log('compiledFormSchema', JSON.stringify(compiledFormSchema));
           this.isBusyIndicator(false); // hide busy indicator
           if (compiledFormSchema) {
             this.form = this.formFactory.createForm(compiledFormSchema);
