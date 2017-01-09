@@ -5,7 +5,7 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 import {
   FormSchemaCompiler
 }
-  from 'ng2-openmrs-formentry/src/app/form-entry/services/form-schema-compiler.service';
+  from 'ng2-openmrs-formentry';
 
 @Injectable()
 export class FormSchemaService {
@@ -181,4 +181,3 @@ export class FormSchemaService {
 
 
 }
-

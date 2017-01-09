@@ -4,8 +4,8 @@ import { FormGroup } from '@angular/forms';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FormSchemaService } from '../formentry/form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
-import { Form } from 'ng2-openmrs-formentry/src/app/form-entry/form-factory/form';
-import { FormFactory } from 'ng2-openmrs-formentry/src/app/form-entry/form-factory/form.factory';
+import { Form } from 'ng2-openmrs-formentry';
+import { FormFactory } from 'ng2-openmrs-formentry';
 
 @Component({
   selector: 'app-formentry',
@@ -44,6 +44,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     console.log('FORM MODEL:', this.form.rootNode.control);
+
+    if (this.form.valid) {
+      // submit form
+    } else {
+      this.form.markInvalidControls(this.form.rootNode);
+    }
   }
 
   private loadSelectedForm(): void {
