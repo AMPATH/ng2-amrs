@@ -7,6 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
@@ -14,10 +15,10 @@ import { VisitComponent } from './visit.component';
 import { PatientService } from '../patient.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import {
-  ProgramEnrollmentResourceService
+    ProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service';
 import {
-  FakeProgramEnrollmentResourceService
+    FakeProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service.mock';
 
 
@@ -88,11 +89,15 @@ describe('Component: Visit', () => {
             providers: [
                 { provide: ChangeDetectorRef, useValue: fakeChangeDetectorRef },
                 { provide: VisitResourceService, useValue: fakeVisitResourceService },
+                { provide: Router, useValue: {} },
+                { provide: ActivatedRoute, useValue: {} },
                 VisitComponent,
                 PatientService,
                 { provide: PatientResourceService, useValue: fakeVisitResourceService },
-                { provide: ProgramEnrollmentResourceService,
-                  useValue: FakeProgramEnrollmentResourceService }
+                {
+                    provide: ProgramEnrollmentResourceService,
+                    useValue: FakeProgramEnrollmentResourceService
+                }
             ],
             imports: [BusyModule]
         })

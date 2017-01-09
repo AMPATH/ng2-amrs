@@ -1,0 +1,18 @@
+/*Global styles that just refuse to work in components*/
+	.slider {
+	width: auto;
+	margin: 30px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+	color: #337AB7;
+}
+
+.slick-dots {
+	bottom: -40px;
+}
+
+.slick-slide {
+	outline: none;
+}

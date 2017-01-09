@@ -13,46 +13,52 @@
 
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="./assets/slick/slick.css" />
+	<link rel="stylesheet" href="./assets/slick/slick-theme.css" />
+	<link rel="stylesheet" href="./assets/app.css" />
 
-  <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
-  <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(["setDomains", ["*.localhost"]]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//test1.ampath.or.ke/piwik/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', '4']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <noscript><p><img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt="" /></p></noscript>
-  <!-- End Piwik Code -->
-
-
-  <% if (webpackConfig.htmlElements.headTags) { %>
-		<!-- Configured Head Tags  -->
-		<%= webpackConfig.htmlElements.headTags %>
-			<% } %>
-
-				<!-- base url -->
-				<base href="<%= webpackConfig.metadata.baseUrl %>">
+	<!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
+	<script type="text/javascript">
+	var _paq = _paq || [];
+	_paq.push(["setDomains", ["*.localhost"]]);
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function () {
+		var u = "//test1.ampath.or.ke/piwik/";
+		_paq.push(['setTrackerUrl', u + 'piwik.php']);
+		_paq.push(['setSiteId', '4']);
+		var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+		g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'piwik.js'; s.parentNode.insertBefore(g, s);
+	})();
+</script>
+<noscript>
+	<p>
+		<img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt="" /></p>
+</noscript>
+<!-- End Piwik Code -->
 
 
-</head>
-
-<body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
-
-	<app>
-		Loading...
-	</app>
-
-	<% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
-		<!-- Webpack Dev Server reload -->
-		<script src="/webpack-dev-server.js"></script>
+<% if (webpackConfig.htmlElements.headTags) { %>
+	<!-- Configured Head Tags  -->
+	<%= webpackConfig.htmlElements.headTags %>
 		<% } %>
-</body>
 
-</html>
+			<!-- base url -->
+			<base href="<%= webpackConfig.metadata.baseUrl %>">
+
+
+			</head>
+
+			<body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
+
+				<app>
+					Loading...
+				</app>
+
+				<% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
+					<!-- Webpack Dev Server reload -->
+					<script src="/webpack-dev-server.js"></script>
+					<% } %>
+			</body>
+
+			</html>
