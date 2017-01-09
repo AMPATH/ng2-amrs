@@ -219,7 +219,7 @@ describe('Service: FormSchemaService', () => {
           .toHaveBeenCalledTimes(formClobData.referencedForms.length + 1);
         // getFormMetaDataByUuid
         expect(formsResourceService.getFormMetaDataByUuid)
-          .toHaveBeenCalledTimes(formClobData.referencedForms.length + 1);
+          .toHaveBeenCalledTimes(formClobData.referencedForms.length + 2);
         // Finally check the counts for the components/referenced forms
         expect(numberOfClobDataCalls).toBe(formClobData.referencedForms.length);
         expect(numberOfMetaDataCalls).toBe(formClobData.referencedForms.length);
