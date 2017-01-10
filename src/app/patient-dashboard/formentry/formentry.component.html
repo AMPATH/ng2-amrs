@@ -4,7 +4,7 @@
 	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
 		<form-renderer [node]="form.rootNode"></form-renderer>
 		<div class="form-row">
-			<button type="submit" [disabled]="!form.rootNode.control.valid">Save</button>
+			<button class="btn btn-primary" type="submit">Save</button>
 		</div>
 	</form>
 </div>
