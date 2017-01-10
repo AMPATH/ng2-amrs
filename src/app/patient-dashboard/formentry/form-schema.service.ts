@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import {
-  FormSchemaCompiler
-}
-  from 'ng2-openmrs-formentry';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
 
 @Injectable()
 export class FormSchemaService {

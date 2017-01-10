@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule
+  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService
 } from 'primeng/primeng';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -60,6 +60,7 @@ import { FormentryComponent } from './formentry/formentry.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
 import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FromentryGuard } from './formentry/formentry.guard';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     GrowlModule, PanelModule,
     Angulartics2Module.forChild(),
     FormEntryModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ConfirmDialogModule
 
   ],
   declarations: [
@@ -130,7 +132,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     PatientVitalsService,
     FormSchemaService,
     FormDataSourceService,
-    FormentryHelperService
+    FormentryHelperService,
+    ConfirmationService,
+    FromentryGuard
 
   ],
   exports: [

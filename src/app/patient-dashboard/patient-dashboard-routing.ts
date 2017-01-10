@@ -1,6 +1,5 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../shared/guards/auth.guard';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientDashboardComponent } from './patient-dashboard.component';
@@ -15,6 +14,7 @@ import { ProgramsComponent } from './programs/programs.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { FormentryComponent } from './formentry/formentry.component';
+import { FromentryGuard } from './formentry/formentry.guard';
 
 const patientDashboardRoutes: Routes = [
 
@@ -27,7 +27,8 @@ const patientDashboardRoutes: Routes = [
       { path: 'patient-encounters', component: PatientEncountersComponent },
       { path: 'patient-vitals', component: PatientVitalsComponent },
       { path: 'forms', component: FormsComponent },
-      { path: 'formentry/:formUuid', component: FormentryComponent },
+      { path: 'formentry/:formUuid', component: FormentryComponent,
+        canDeactivate: [FromentryGuard]},
       { path: 'hiv-summary', component: HivSummaryComponent },
       { path: 'lab-data-summary', component: LabDataSummaryComponent },
       { path: 'lab-orders', component: LabOrdersComponent },
