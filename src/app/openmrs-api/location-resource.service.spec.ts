@@ -7,7 +7,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 
 // Load the implementations that should be tested
 
-describe('FormsResourceService Unit Tests', () => {
+describe('LocationResourceService Unit Tests', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
@@ -41,7 +41,7 @@ describe('FormsResourceService Unit Tests', () => {
         backend.connections.subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toContain('/ws/rest/v1/location?v=default');
+          expect(connection.request.url).toContain('/ws/rest/v1/location?v=full');
         });
         expect(locationResourceService.getLocations());
       })));
@@ -54,8 +54,13 @@ describe('FormsResourceService Unit Tests', () => {
           let options = new ResponseOptions({
             body: JSON.stringify({
               results: [
-                {name: 'location1'},
-                {name: 'location2'}
+                {
+                  uuid: 'uuid',
+                  display: 'location'
+                }, {
+                  uuid: 'uuid',
+                  display: 'location'
+                }
               ]
             })
           });
@@ -64,11 +69,72 @@ describe('FormsResourceService Unit Tests', () => {
 
         locationResourceService.getLocations()
           .subscribe((response) => {
-            expect(response).toContain({name: 'location1'});
+            expect(response).toContain({ uuid: 'uuid', display: 'location' });
             expect(response).toBeDefined();
-            expect(response.length).toBeGreaterThan(1);
+            expect(response.length).toBeGreaterThan(0);
 
           });
+      }));
+
+  it('should return a location when the correct uuid is provided',
+    inject([MockBackend, LocationResourceService],
+      (backend: MockBackend, locationResourceService: LocationResourceService) => {
+        // stubbing
+        let locationUuid = 'xxx-xxx-xxx-xxx';
+        backend.connections.subscribe((connection: MockConnection) => {
+          expect(connection.request.url).toContain('location/' + locationUuid);
+          expect(connection.request.url).toContain('v=');
+
+          let options = new ResponseOptions({
+            body: JSON.stringify({
+              results: [
+                {
+                  uuid: 'xxx-xxx-xxx-xxx',
+                  display: 'location'
+                }
+              ]
+            })
+          });
+          connection.mockRespond(new Response(options));
+        });
+
+        locationResourceService.getLocationByUuid(locationUuid)
+          .subscribe((response) => {
+            expect(response.results[0].uuid).toBe('xxx-xxx-xxx-xxx');
+          });
+      }));
+
+  it('should return a list of locations matching search string provided',
+    inject([MockBackend, LocationResourceService],
+      (backend: MockBackend, locationResourceService: LocationResourceService) => {
+        // stubbing
+        let searchText = 'test';
+        backend.connections.subscribe((connection: MockConnection) => {
+          expect(connection.request.url).toContain('q=' + searchText);
+          expect(connection.request.url).toContain('v=');
+
+          let options = new ResponseOptions({
+            body: JSON.stringify({
+              results: [
+                {
+                  uuid: 'uuid',
+                  display: ''
+                },
+                {
+                  uuid: 'uuid',
+                  display: ''
+                }
+              ]
+            })
+          });
+          connection.mockRespond(new Response(options));
+        });
+
+        locationResourceService.searchLocation(searchText)
+          .subscribe((data) => {
+            expect(data.length).toBeGreaterThan(0);
+          });
+
       }));
 
 });
