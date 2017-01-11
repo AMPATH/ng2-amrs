@@ -6,8 +6,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { FormSchemaService } from './form-schema.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { FormSchemaCompiler }
-  from 'ng2-openmrs-formentry/src/app/form-entry/services/form-schema-compiler.service';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
 import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 
