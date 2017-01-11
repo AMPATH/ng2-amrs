@@ -37,6 +37,7 @@ import { FormsResourceService } from './../openmrs-api/forms-resource.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
+import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { PatientService } from './patient.service';
@@ -58,7 +59,7 @@ import { UtilsModule } from '../utils/utils.module';
 import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
-import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { FormEntryModule, EncounterAdapter } from 'ng2-openmrs-formentry';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FromentryGuard } from './formentry/formentry.guard';
 
@@ -130,12 +131,13 @@ import { FromentryGuard } from './formentry/formentry.guard';
     FormOrderMetaDataService,
     FormsResourceService,
     PatientVitalsService,
+    EncounterResourceService,
     FormSchemaService,
     FormDataSourceService,
     FormentryHelperService,
     ConfirmationService,
-    FromentryGuard
-
+    FromentryGuard,
+    EncounterAdapter
   ],
   exports: [
     PatientDashboardComponent,

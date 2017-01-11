@@ -131,9 +131,16 @@ export class VisitComponent implements OnInit {
             });
     }
     formSelected(form) {
-        console.log('Form Selected', form);
         if (form) {
             this.router.navigate(['../formentry', form.uuid], { relativeTo: this.route });
+        }
+    }
+    encounterSelected(encounter) {
+        if (encounter) {
+            this.router.navigate(['../formentry', encounter.form.uuid], {
+                relativeTo: this.route,
+                queryParams: { encounter: encounter.uuid }
+            });
         }
     }
     private getLastVisit(visits: any[]) {

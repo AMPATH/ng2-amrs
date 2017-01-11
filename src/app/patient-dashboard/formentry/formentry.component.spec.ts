@@ -14,10 +14,14 @@ import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { FakeFormFactory } from '../formentry/mock/form-factory.service.mock';
-import { FormFactory } from 'ng2-openmrs-formentry/src/app/form-entry/form-factory/form.factory';
+import {
+    FormFactory, EncounterAdapter, OrderValueAdapter,
+    ObsValueAdapter, PersonAttribuAdapter
+} from 'ng2-openmrs-formentry';
 import { FakeFormSchemaCompiler } from '../formentry/mock/form-schema-compiler.service.mock';
 import { FormSchemaCompiler }
     from 'ng2-openmrs-formentry/src/app/form-entry/services/form-schema-compiler.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 describe('Component: FormentryComponent', () => {
     beforeEach(() => {
@@ -31,6 +35,11 @@ describe('Component: FormentryComponent', () => {
                 FormsResourceService,
                 AppSettingsService,
                 LocalStorageService,
+                EncounterResourceService,
+                EncounterAdapter,
+                OrderValueAdapter,
+                ObsValueAdapter,
+                PersonAttribuAdapter,
                 {
                     provide: FormSchemaCompiler, useFactory: () => {
                         return new FakeFormSchemaCompiler();
@@ -44,7 +53,11 @@ describe('Component: FormentryComponent', () => {
                 { provide: Location, useClass: SpyLocation },
                 {
                     provide: ActivatedRoute,
-                    useValue: { snapshot: { params: { formUuid: 'form-uuid' } } }
+                    useValue: {
+                        queryParams: Observable.of({}),
+                        params: Observable.of({ formUuid: 'form-uuid' }),
+                        snapshot: { params: { formUuid: 'form-uuid' } }
+                    }
                 },
                 {
                     provide: Http,

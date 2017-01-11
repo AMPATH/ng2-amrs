@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientEncounterService } from './patient-encounters.service';
 import { Encounter } from '../../models/encounter.model';
@@ -21,9 +22,13 @@ export class PatientEncountersComponent implements OnInit {
   dataLoading: boolean = false;
   patient: any;
   errors: any = [];
-
+  public busyIndicator: any = {
+    busy: false,
+    message: 'Fetching encounters hang on...' // default message
+  };
   constructor(private patientEncounterService: PatientEncounterService,
-    private patientService: PatientService) { }
+    private patientService: PatientService,
+    private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
     this.getPatient();
     // load cached result
@@ -35,10 +40,12 @@ export class PatientEncountersComponent implements OnInit {
   }
   loadPatientEncounters(patientUuid) {
     this.encounters = [];
+    this.isBusyIndicator(true);
     let request = this.patientEncounterService
       .getEncountersByPatientUuid(patientUuid)
       .subscribe(
       (data) => {
+        this.isBusyIndicator(false);
         this.encounters = data;
         this.isVisible = false;
         this.dataLoading = false;
@@ -46,6 +53,7 @@ export class PatientEncountersComponent implements OnInit {
 
       (err) => {
         this.dataLoading = false;
+        this.isBusyIndicator(false);
         this.errors.push({
           id: 'visit',
           message: 'error fetching visit'
@@ -68,5 +76,28 @@ export class PatientEncountersComponent implements OnInit {
           message: 'error fetching patient'
         });
       });
+  }
+
+  encounterSelected(encounter) {
+    if (encounter) {
+      this.router.navigate(['../formentry', encounter.form.uuid], {
+        relativeTo: this.route,
+        queryParams: { encounter: encounter.uuid }
+      });
+    }
+  }
+  private isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
+    if (isBusy === true) {
+      this.busyIndicator = {
+        busy: true,
+        message: message
+      };
+    } else {
+      this.busyIndicator = {
+        busy: false,
+        message: message
+      };
+    }
+
   }
 }

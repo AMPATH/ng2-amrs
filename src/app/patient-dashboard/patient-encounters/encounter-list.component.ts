@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Encounter } from '../../models/encounter.model';
 
 @Component({
@@ -11,6 +11,11 @@ export class EncounterListComponent implements OnInit {
     @Input('messageType') messageType: string;
     @Input('message') message: string;
     @Input('isVisible') isVisible: boolean;
+    @Output() onEncounterSelected = new EventEmitter();
+
     constructor() { }
     ngOnInit() { }
+    encounterSelected(encounter) {
+        this.onEncounterSelected.emit(encounter);
+    }
 }
