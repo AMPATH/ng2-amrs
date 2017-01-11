@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
+import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
 
@@ -28,5 +28,18 @@ export class PersonResourceService {
     }).map((response: Response) => {
       return response.json();
     });
+  }
+
+  saveUpdatePerson(uuid, payload) {
+    if (!payload || !uuid) {
+      return null;
+    }
+    let url = this.getUrl() + '/' + uuid;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(url, payload, options)
+      .map((response: Response) => {
+        return response.json().person;
+      });
   }
 }

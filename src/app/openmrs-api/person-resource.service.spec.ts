@@ -7,7 +7,10 @@ import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
+import {
+  Http, Response, Headers, BaseRequestOptions, ResponseOptions,
+  RequestMethod
+} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PersonResourceService } from './person-resource.service';
 
@@ -40,6 +43,40 @@ describe('Service: PersonResourceService Unit Tests', () => {
     TestBed.resetTestingModule();
   });
 
+  let personuid = 'uuid';
+  let personPayload = {
+    age: 21,
+    names: [
+      {
+        // adding new person name
+        middleName: 'Tests',
+        familyName2: 'Tester'
+      },
+      { // Editing existing person name
+        uuid: '0cfcb36e-a92f-4b71-b37e-2eedd24abe31',
+        middleName: 'Test',
+        familyName2: 'Ampath Tester'
+      }],
+    attributes: [
+      // when creating new or updating, Api handles updates automatically
+      {
+        attributeType: 'attribute-type-uuid',
+        value: 'Test Race'
+      }
+    ],
+    addresses: [
+      { // creating new person address
+        address3: 'Third Address',
+        address4: 'Fourth Address'
+      },
+      { // editing an existing person address
+        address5: 'Fifth Address',
+        address6: 'Sixth Address',
+        uuid: 'person-address-uuid'// provide uuid if updating
+      }
+    ]
+  };
+
   it('should be injected with all dependencies',
     inject([PersonResourceService],
       (personResourceService: PersonResourceService) => {
@@ -50,8 +87,6 @@ describe('Service: PersonResourceService Unit Tests', () => {
 
     let personResourceService: PersonResourceService = TestBed.get(PersonResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
-
-    let personuid = 'uuid';
 
     backend.connections.subscribe((connection: MockConnection) => {
 
@@ -69,5 +104,29 @@ describe('Service: PersonResourceService Unit Tests', () => {
         done();
       });
   });
+
+  it('should return null when params are not specified', async(inject(
+    [PersonResourceService, MockBackend], (service, mockBackend) => {
+
+      mockBackend.connections.subscribe(conn => {
+        throw new Error('No requests should be made.');
+      });
+
+      const result = service.saveUpdatePerson(null);
+
+      expect(result).toBeNull();
+    })));
+
+  it('should call the right endpoint', async(inject(
+    [PersonResourceService, MockBackend], (service, mockBackend) => {
+      mockBackend.connections.subscribe(conn => {
+        expect(conn.request.url).toContain('person/' + personuid);
+        expect(conn.request.method).toBe(RequestMethod.Post);
+        conn.mockRespond(new Response(
+          new ResponseOptions({ body: JSON.stringify(personPayload) })));
+      });
+
+      const result = service.saveUpdatePerson(personuid, personPayload);
+    })));
 });
 
