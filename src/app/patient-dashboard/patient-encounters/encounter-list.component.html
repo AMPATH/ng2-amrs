@@ -16,24 +16,24 @@
             </thead>
             <tbody>
                 <tr style="cursor: pointer;" *ngFor="let encounter of encounters| paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
-                    <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
-                    <td>{{encounter.encounterType.display}}</td>
-                    <td>{{encounter.form.name}}</td>
-                    <td>{{encounter.location.display}}</td>
-                    <td>{{encounter.provider.display}}</td>
-                    <td>
-                        <button (click)="loadPatientEncounters()" type="button" class="btn btn-xs">
+<td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
+<td>{{encounter.encounterType.display}}</td>
+<td>{{encounter.form.name}}</td>
+<td>{{encounter.location.display}}</td>
+<td>{{encounter.provider.display}}</td>
+<td>
+    <button (click)="encounterSelected(encounter)" type="button" class="btn btn-xs">
                 <span class="glyphicon text-primary glyphicon-edit"></span>
               </button>
-                    </td>
-                    <td>
-                        <button (click)="loadPatientEncounters()" type="button" class="btn  btn-xs">
+</td>
+<td>
+    <button type="button" class="btn  btn-xs">
                 <span class="glyphicon text-primary glyphicon-eye-open"></span>
               </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
 </div>

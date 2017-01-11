@@ -78,8 +78,8 @@ describe('EncounterResourceService', () => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
                         + patientUuid + '&v=custom:(uuid,encounterDatetime,' +
-                'patient:(uuid,uuid),form:(uuid,name),' +
-                'location:ref,encounterType:ref,provider:ref)');
+                        'patient:(uuid,uuid),form:(uuid,name),' +
+                        'location:ref,encounterType:ref,provider:ref)');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(encountersResponse) })));
@@ -127,9 +127,14 @@ describe('EncounterResourceService', () => {
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
                 let patientUuid = 'uuid';
                 mockBackend.connections.subscribe(conn => {
+                    let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+                        'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+                        'location:ref,encounterType:ref,provider:ref,orders:full,' +
+                        'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display))' +
+                        ',value:ref,groupMembers))';
                     expect(conn.request.url)
-                        .toBe('http://example.url.com/ws/rest/v1/encounter/' + patientUuid);
-                    console.log(conn.request.url);
+                        .toBe('http://example.url.com/ws/rest/v1/encounter/' + patientUuid + '?v='
+                        + _customDefaultRep);
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(encounterResponse) })));

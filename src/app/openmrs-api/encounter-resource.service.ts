@@ -6,8 +6,8 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class EncounterResourceService {
     v: string = 'custom:(uuid,encounterDatetime,' +
-                'patient:(uuid,uuid),form:(uuid,name),' +
-                'location:ref,encounterType:ref,provider:ref)';
+    'patient:(uuid,uuid),form:(uuid,name),' +
+    'location:ref,encounterType:ref,provider:ref)';
 
     constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
     getUrl(): string {
@@ -35,9 +35,15 @@ export class EncounterResourceService {
         if (!uuid) {
             return null;
         }
+        let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+            'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+            'location:ref,encounterType:ref,provider:ref,orders:full,' +
+            'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
+        let params = new URLSearchParams();
+        params.set('v', _customDefaultRep);
         let url = this.getUrl() + 'encounter/' + uuid;
-                  return this.http.get(url).map((response: Response) => {
-            return response.json().encounter;
+        return this.http.get(url, { search: params }).map((response: Response) => {
+            return response.json();
         });
     }
     getEncounterTypes(v: string) {
@@ -45,7 +51,7 @@ export class EncounterResourceService {
             return null;
         }
         let url = this.getUrl() + 'encountertype';
-           return this.http.get(url).map((response: Response) => {
+        return this.http.get(url).map((response: Response) => {
             return response.json().encountertype;
         });
     }

@@ -30,7 +30,7 @@
             <span *ngIf="visit.stopDatetime">Ended At:{{visit.stopDatetime | date:'dd-MM-yyyy hh:mm'}}</span></h4>
     </div>
     <div class="panel-body">
-        <div>Encounters go here</div>
+        <encounter-list *ngIf="visit.encounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
         <div>
             <form-list (onFormSelected)="formSelected($event)"></form-list>
         </div>

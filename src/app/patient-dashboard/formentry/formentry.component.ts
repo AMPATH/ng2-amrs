@@ -5,7 +5,8 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { FormSchemaService } from '../formentry/form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
 import { Form } from 'ng2-openmrs-formentry';
-import { FormFactory } from 'ng2-openmrs-formentry';
+import { FormFactory, EncounterAdapter } from 'ng2-openmrs-formentry';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 @Component({
   selector: 'app-formentry',
@@ -20,19 +21,30 @@ export class FormentryComponent implements OnInit, OnDestroy {
   };
   public form: Form;
   private selectedFormUuid: string = null;
+  private encounterUuid: string = null;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private formSchemaService: FormSchemaService,
     private route: ActivatedRoute,
     private formentryHelperService: FormentryHelperService,
-    private formFactory: FormFactory) {
+    private formFactory: FormFactory,
+    private encounterResource: EncounterResourceService,
+    private encounterAdapter: EncounterAdapter) {
   }
 
   public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
     // get formUuid from route Params
-    this.selectedFormUuid = this.route.snapshot.params['formUuid'];
+    this.route
+      .queryParams.subscribe((params) => {
+        this.encounterUuid = params['encounter'];
+      });
+    this.route
+      .params.subscribe((params) => {
+        this.selectedFormUuid = params['formUuid'];
+      });
+
     // load selected form
     this.loadSelectedForm();
   }
@@ -51,7 +63,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.form.markInvalidControls(this.form.rootNode);
     }
   }
+  getEncounter() {
+    this.encounterResource.getEncounterByUuid(this.encounterUuid).subscribe((encounter) => {
+      console.log('Enecounter', encounter);
+      this.encounterAdapter.populateForm(this.form, encounter);
+    }, (error) => {
 
+    });
+  }
   private loadSelectedForm(): void {
     if (this.selectedFormUuid) {
       this.isBusyIndicator(true, 'Please wait, fetching form'); // show busy indicator
@@ -60,7 +79,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
           console.log('compiledFormSchema', JSON.stringify(compiledFormSchema));
           this.isBusyIndicator(false); // hide busy indicator
           if (compiledFormSchema) {
+            console.log('Compiled Form', compiledFormSchema);
             this.form = this.formFactory.createForm(compiledFormSchema);
+            if (this.encounterUuid && this.encounterUuid !== '') {
+              this.getEncounter();
+            }
           }
         },
         (err) => {
