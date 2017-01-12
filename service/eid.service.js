@@ -38,21 +38,21 @@ function listReachableServers(filter_locations) {
 
   var port = config.eid.port;
 
-  return Promise.reduce(locations, function(previous, row) {
+  return Promise.reduce(locations, function (previous, row) {
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
 
       var url = row.host + '/' + port + '/eid/orders/api.php'
 
       curl.request({ url: url, pretend: true }, function (err, stdout, meta) {
 
-        if(err) {
+        if (err) {
           resolve(reachable_servers);
         } else {
 
-          if(filter_locations && filter_locations.length > 0) {
+          if (filter_locations && filter_locations.length > 0) {
 
-            if( _.indexOf(filter_locations, row.name) > -1 )
+            if (_.indexOf(filter_locations, row.name) > -1)
               reachable_servers.push(row);
           } else {
             reachable_servers.push(row);
@@ -73,28 +73,28 @@ function getSynchronizedPatientLabResults(patientUuId, locations) {
   }
 
   return listReachableServers(locations)
-    .then(function(reachable) {
-      return Promise.reduce(reachable, function(previous, row) {
+    .then(function (reachable) {
+      return Promise.reduce(reachable, function (previous, row) {
 
         return _getSynchronizedPatientLabResults(row, patientUuId)
-          .then(function(obj) {
+          .then(function (obj) {
             results.data.push(obj);
 
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
               resolve(results);
             })
           })
-          .catch(function(error) {
+          .catch(function (error) {
 
             //catch errors and continue
             results.errors.push(error);
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
               resolve(results);
             })
           });
       }, 0)
-        .then(function(data) {
-          return new Promise(function(resolve, reject) {
+        .then(function (data) {
+          return new Promise(function (resolve, reject) {
             resolve(results);
           });
         })
@@ -111,65 +111,72 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
       person_uuid: patientUuId,
       date_updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
       date_created: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-      site: server.name
+      site: server.name,
+      conflicts: null
     }
   ];
 
   return obsService.getPatientIdentifiers(patientUuId)
-    .then(function(response) {
+    .then(function (response) {
       return getEIDTestResultsByPatientIdentifier(response.identifiers, server);
     })
-    .then(function(testResultsResponse) {
+    .then(function (testResultsResponse) {
 
       mergedEidResults = testResultsResponse;
       return obsService.getPatientAllTestObsByPatientUuId(patientUuId);
     })
-    .then(function(obsResponse) {
-
+    .then(function (obsResponse) {
       var missingResult = comparison.findAllMissingEidResults(mergedEidResults, obsResponse);
+      var conflicts =
+        comparison.findConflictingEidAmrsViralLoadResults(mergedEidResults.viralLoad, obsResponse);
+      if (conflicts.length > 0) {
+        // console.log('conflicts', JSON.stringify(conflicts));
+        fields[0].conflicts =  JSON.stringify(conflicts);
+      }
+
       return obsService.postAllObsToAMRS(missingResult, patientUuId);
     })
-    .then(function(postResponse) {
+    .then(function (postResponse) {
 
       fields[0].status = 0;
 
       return saveEidSyncLog(table, fields);
     })
-    .then(function() {
+    .then(function () {
 
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         resolve({
           uuid: patientUuId,
           site: server.name
         });
       });
-    }).catch(function(err) {
+    }).catch(function (err) {
 
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
 
         var err_msg = err.message;
 
-        if(err_msg.indexOf("Object with given uuid doesn't exist") != -1)
+        if (err_msg.indexOf("Object with given uuid doesn't exist") != -1)
           err_msg = "Object with given uuid doesn't exist";
-        else if(err_msg.indexOf('Unable to convert object into response content') != -1)
+        else if (err_msg.indexOf('Unable to convert object into response content') != -1)
           err_msg = 'Unable to convert object into response content';
 
         //log error
         etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).error('sync failure: %s', err.message);
 
         fields[0].status = 1;
-        fields[0].message = err_msg.substring( 0, 100 );
+        fields[0].message = err_msg.substring(0, 100);
 
         //save error to eid_sync_log
         saveEidSyncLog(table, fields)
-          .then(function(resp) {
+          .then(function (resp) {
             reject({
               uuid: patientUuId,
               message: err_msg,
               site: server.name
             });
           })
-          .catch(function(err) {
+          .catch(function (err) {
             reject({
               uuid: patientUuId,
               message: err_msg,
@@ -193,17 +200,17 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
   results[server.name] = {};
   var location_name = server.name;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
 
     getViralLoadTestResultsByPatientIdentifier(patientIdentifier, conf.host, conf.generalApiKey)
-      .then(function(response) {
+      .then(function (response) {
 
-        if(response.posts instanceof Array) {
-          _.each(response.posts, function(row) {
+        if (response.posts instanceof Array) {
+          _.each(response.posts, function (row) {
 
             etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('viral load result: %s', JSON.stringify(row));
 
-            if(row && row.SampleStatus && ['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
+            if (row && row.SampleStatus && ['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
               results.viralLoad.push(row);
             }
           });
@@ -211,36 +218,36 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
           results[location_name].viralLoadErrorMsg = response;
 
         return getPcrTestResultsByPatientIdentifier(patientIdentifier, conf.host, conf.generalApiKey);
-      }).then(function(response) {
+      }).then(function (response) {
 
-        if(response.posts instanceof Array) {
+        if (response.posts instanceof Array) {
 
-          _.each(response.posts, function(row) {
+          _.each(response.posts, function (row) {
             results.pcr.push(row);
           });
         } else
           results[location_name].pcrErrorMsg = response;
 
-        if(conf.loadCd4)
+        if (conf.loadCd4)
           return getCd4TestResultsByPatientIdentifier(patientIdentifier, conf.host, conf.cd4ApiKey);
         else {
 
           resolve(results);
         }
       })
-      .then(function(response) {
-        if(response.posts instanceof Array) {
+      .then(function (response) {
+        if (response.posts instanceof Array) {
 
-          _.each(response.posts, function(row) {
+          _.each(response.posts, function (row) {
             results.cd4Panel.push(row);
           });
 
         } else
           results[location_name].cd4ErrorMsg = response;
 
-          resolve(results);
+        resolve(results);
       })
-      .catch(function(err) {
+      .catch(function (err) {
 
         reject({
           message: err.message,
@@ -251,9 +258,9 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
   });
 }
 
-function getViralLoadTestResultsByPatientIdentifier(patientIdentifier,host,key) {
+function getViralLoadTestResultsByPatientIdentifier(patientIdentifier, host, key) {
 
-  var resource = getResource(host,key);
+  var resource = getResource(host, key);
   var queryString = resource.query;
   queryString.patientID = patientIdentifier;
   queryString.test = 2;
@@ -274,7 +281,7 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier, host, key) {
 
   var startDate = moment(new Date('2004-01-01')).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
   var endDate = moment(new Date()).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
-  var resource = getCd4Resource(host,key);
+  var resource = getCd4Resource(host, key);
   var queryString = resource.query;
   queryString.patientID = patientIdentifier;
   queryString.startDate = startDate;
@@ -288,7 +295,7 @@ function saveEidSyncLog(table, fields) {
 }
 
 function updateEidSyncLog(queryParts, callback) {
-  db.updateQueryServer(queryParts, function(result) {
+  db.updateQueryServer(queryParts, function (result) {
     callback(result);
   });
 }

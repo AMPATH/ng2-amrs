@@ -18,7 +18,7 @@ global.assert = chai.assert;
 var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
-describe('EID-OBS COMPARE TESTS', function () {
+describe.only('EID-OBS COMPARE TESTS', function () {
 
     beforeEach(function (done) {
 
@@ -44,7 +44,7 @@ describe('EID-OBS COMPARE TESTS', function () {
     it('should match eid and amrs viral load correctly when isViralLoadEquivalent',
         function () {
 
-            //CASE 1: EID result is not an error
+            //CASE 1: EID result is not an error and is a number
             var eidResult = labDataSamples.getEidViralLoad();
             var equivalentObs = labDataSamples.getAmrsViralLoadObs();
 
@@ -52,7 +52,35 @@ describe('EID-OBS COMPARE TESTS', function () {
 
             expect(isEquivalent).to.be.true;
 
-            //CASE 2: EID result is an error
+            //CASE 2: EID result is not an error and is not a number
+            eidResult = {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "26-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "3",
+                "FinalResult": "<150",
+                "DateDispatched": "08-Jun-2016"
+            };
+
+            equivalentObs = {
+                person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                obsDatetime: '2016-05-26T00:00:00+03:00',
+                concept: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                value: 0
+            };
+
+            var isEquivalent = eidObsCompare.isViralLoadEquivalent(eidResult, equivalentObs);
+
+            expect(isEquivalent).to.be.true;
+
+            //CASE 3: EID result is an error
             eidResult = {
                 "LabID": "173545",
                 "PatientID": "2524040",
@@ -496,6 +524,171 @@ describe('EID-OBS COMPARE TESTS', function () {
 
             expect(eidObsCompare.isObsCd4PanelError(cd4Error)).to.be.true;
         });
+
+
+    it('should find all conflicting EID and AMRS viral load results', () => {
+        eidResults = [
+            {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "26-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "3",
+                "FinalResult": "130",
+                "DateDispatched": "08-Jun-2016"
+            },
+            {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "5-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "3",
+                "FinalResult": "<150",
+                "DateDispatched": "08-Jun-2016"
+            },
+            {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "10-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "Error",
+                "FinalResult": "Error",
+                "DateDispatched": "08-Jun-2016"
+            },
+            {
+                "LabID": "173545",
+                "PatientID": "2524040",
+                "ProviderID": "1289-8",
+                "MFLCode": "15204",
+                "AMRslocationID": "14",
+                "AMRslocation": "MTRH Module 3",
+                "PatientNames": "XXXXXXX",
+                "DateCollected": "12-May-2016",
+                "DateReceived": "26-May-2016",
+                "DateTested": "30-May-2016",
+                "Result": "78",
+                "FinalResult": "288",
+                "DateDispatched": "08-Jun-2016"
+            }
+        ];
+
+        amrsObs = [
+            {
+                uuid: 'uuid1',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-26T00:00:00+03:00',
+                concept: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                value: 0
+            },
+            {
+                uuid: 'uuid2',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-26T00:00:00+03:00',
+                concept: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                value: 130
+            },
+            {
+                uuid: 'uuid3',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-05T00:00:00+03:00',
+                concept: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                value: 0
+            },
+            {
+                uuid: 'uuid4',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-05T00:00:00+03:00',
+                concept: { uuid: '457c741d-8f71-4829-b59d-594e0a618892' },
+                groupMembers: [
+                    {
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                        obsDatetime: '2016-05-05T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'wewe tu',
+                        obsDatetime: '2016-05-05T00:00:00+03:00'
+                    }
+                ]
+            },
+            {
+                uuid: 'uuid5',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-10T00:00:00+03:00',
+                concept: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                value: 0
+            },
+            {
+                uuid: 'uuid6',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-10T00:00:00+03:00',
+                concept: { uuid: '457c741d-8f71-4829-b59d-594e0a618892' },
+                groupMembers: [
+                    {
+                        concept: { uuid: 'f67ff075-f91e-4b71-897a-9ded87b34984' },
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: { uuid: 'a8982474-1350-11df-a1f1-0026b9348838' },
+                        obsDatetime: '2016-05-10T00:00:00+03:00'
+                    },
+                    {
+                        concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+                        person: 'c6e4e026-3b49-4b64-81de-05cf8bd18594',
+                        value: 'wewe tu',
+                        obsDatetime: '2016-05-10T00:00:00+03:00'
+                    }
+                ]
+            },
+            {
+                uuid: 'uuid6',
+                person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },
+                obsDatetime: '2016-05-10T00:00:00+03:00',
+                concept: { uuid: 'some other uuid' },
+                value: 'some other'
+            }
+        ];
+
+        var conflicting = [
+            {
+                eid: eidResults[0],
+                obs: [amrsObs[0]]
+            },
+            {
+                eid: eidResults[1],
+                obs: [amrsObs[3]]
+            },
+            {
+                eid: eidResults[2],
+                obs: [amrsObs[4]]
+            }
+        ];
+
+        var results =
+            eidObsCompare.findConflictingEidAmrsViralLoadResults(eidResults, amrsObs);
+
+        expect(results).to.deep.equal(conflicting);
+
+    });
 
 
 
