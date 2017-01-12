@@ -8,6 +8,7 @@ var moduleDefinition = {
     isDnaPcrEquivalent: isDnaPcrEquivalent,
     isCd4PanelEquivalent: isCd4PanelEquivalent,
     findAllMissingEidResults: findAllMissingEidResults,
+    findConflictingEidAmrsViralLoadResults: findConflictingEidAmrsViralLoadResults,
 
     //helpers
     findEquivalentObject: findEquivalentObject,
@@ -48,6 +49,47 @@ function findAllMissingEidResults(allEidResults, arrayOfObs) {
     return results;
 }
 
+function findConflictingEidAmrsViralLoadResults(arrayOfEidResult, arrayOfObs) {
+    var conflicting = [];
+
+    _.each(arrayOfEidResult, function (eid) {
+        var cnflts = findConflictsForEidViralLoad(eid, arrayOfObs);
+        if (cnflts.length > 0) {
+            conflicting.push({
+                eid: eid,
+                obs: cnflts
+            });
+        }
+    });
+
+    return conflicting;
+}
+
+function findConflictsForEidViralLoad(eidViralload, arrayOfObs) {
+    var conflicting = [];
+
+    var eid = eidViralload;
+    var filteredObs = findViralLoadObsResultsByDate(eidViralload.DateCollected, arrayOfObs);
+
+    _.each(filteredObs, function (obs) {
+        if (!isViralLoadEquivalent(eid, obs)) {
+            conflicting.push(obs);
+        }
+    });
+    return conflicting;
+}
+
+function findViralLoadObsResultsByDate(obsDate, arrayOfObs) {
+    var results = [];
+    _.each(arrayOfObs, function (obs) {
+        if ((obs.concept.uuid === 'a8982474-1350-11df-a1f1-0026b9348838' || isObsViralLoadError(obs)) &&
+            _areDatesEqual(obsDate, obs.obsDatetime)) {
+            results.push(obs);
+        }
+    });
+    return results;
+}
+
 function findMissingEidResults(arrayOfEidResult, arrayOfObs, comparisonFunction) {
     var missingEid = [];
 
@@ -74,7 +116,7 @@ function mergeEidResults(arrayOfEidResults) {
         pcr: [],
         cd4Panel: []
     };
-    if(_.isEmpty(arrayOfEidResults)) return results;
+    if (_.isEmpty(arrayOfEidResults)) return results;
     _.each(arrayOfEidResults, function (result) {
         results.viralLoad = results.viralLoad.concat(result.viralLoad);
         results.pcr = results.pcr.concat(result.pcr);
@@ -86,9 +128,14 @@ function mergeEidResults(arrayOfEidResults) {
 
 
 function isViralLoadEquivalent(eidViralLoad, amrsViralLoadObs) {
-    if (!isEidViralLoadError(eidViralLoad))
-        return conceptDateComparer(eidViralLoad, amrsViralLoadObs,
-            'a8982474-1350-11df-a1f1-0026b9348838');
+    if (!isEidViralLoadError(eidViralLoad)) {
+        if (conceptDateComparer(eidViralLoad, amrsViralLoadObs,
+            'a8982474-1350-11df-a1f1-0026b9348838')) {
+            return areViralLoadValuesEquivalent(eidViralLoad, amrsViralLoadObs);
+        } else {
+            return false;
+        }
+    }
 
     //the eid result is an error at this point
     if (!isObsViralLoadError(amrsViralLoadObs))
@@ -96,6 +143,21 @@ function isViralLoadEquivalent(eidViralLoad, amrsViralLoadObs) {
 
     //at this point the amrs obs is a viral load error
     return _areDatesEqual(eidViralLoad.DateCollected, amrsViralLoadObs.obsDatetime);
+}
+
+function areViralLoadValuesEquivalent(eidViralLoad, amrsViralLoadObs) {
+
+    if (_hasNumbersOnly(eidViralLoad.FinalResult) &&
+        _hasNumbersOnly(amrsViralLoadObs.value + '')) {
+        return parseInt(eidViralLoad.FinalResult) === amrsViralLoadObs.value;
+    }
+
+    if (_hasLessThanSymbol(eidViralLoad.FinalResult) &&
+        _hasNumbersOnly(amrsViralLoadObs.value + '')) {
+        return amrsViralLoadObs.value === 0;
+    }
+
+    return false;
 }
 
 function isDnaPcrEquivalent(eidDnaPcr, amrsEidPcrObs) {
@@ -143,25 +205,35 @@ function _areDatesEqual(date1, date2) {
     var d2 = null;
 
     try {
-      d1 = new Date(date1);
-      d2 = new Date(date2);
-      d1 = new moment(d1);
-      d2 = new moment(d2);
-    } catch (e){}
+        d1 = new Date(date1);
+        d2 = new Date(date2);
+        d1 = new moment(d1);
+        d2 = new moment(d2);
+    } catch (e) { }
 
     return d1.isSame(d2, 'day');
 }
 
 function isEidViralLoadError(eidViralLoadResult) {
     var isError = false;
-    var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
-    var hasLessThanSymbol = /</g;
-    if(_.isEmpty(eidViralLoadResult)) return false;
-    var viralLoadResult = _removeWhiteSpace(eidViralLoadResult.FinalResult);
-    if (!hasNumbersOnly.test(viralLoadResult) && !hasLessThanSymbol.test(viralLoadResult)) {
+    if (_.isEmpty(eidViralLoadResult)) return false;
+    var viralLoadResult = eidViralLoadResult.FinalResult;
+    if (!_hasNumbersOnly(viralLoadResult) && !_hasLessThanSymbol(viralLoadResult)) {
         isError = true;
     }
     return isError;
+}
+
+function _hasNumbersOnly(stringValue) {
+    var trimmedValue = _removeWhiteSpace(stringValue);
+    var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
+    return hasNumbersOnly.test(trimmedValue)
+}
+
+function _hasLessThanSymbol(stringValue) {
+    var trimmedValue = _removeWhiteSpace(stringValue);
+    var hasLessThanSymbol = /</g;
+    return hasLessThanSymbol.test(trimmedValue)
 }
 
 function isEidCD4PanelError(eidCD4Result) {
@@ -169,7 +241,7 @@ function isEidCD4PanelError(eidCD4Result) {
     var exceptions = [];
     var hasNumbersOnly = /^[0-9]*(?:\.\d{1,2})?$/;
     var hasLessThanSymbol = /</g;
-    if(_.isEmpty(eidCD4Result)) return false;
+    if (_.isEmpty(eidCD4Result)) return false;
     var avgCD3percentLymphResult = _removeWhiteSpace(eidCD4Result.AVGCD3percentLymph);
     var avgCD3AbsCntResult = _removeWhiteSpace(eidCD4Result.AVGCD3AbsCnt);
     var avgCD3CD4percentLymphResult = _removeWhiteSpace(eidCD4Result.AVGCD3CD4percentLymph);
@@ -212,7 +284,7 @@ function isObsViralLoadError(obs) {
 }
 
 function isObsCd4PanelError(obs) {
-    if (_.isEmpty(obs)  || _.isEmpty(obs.concept)) return false;
+    if (_.isEmpty(obs) || _.isEmpty(obs.concept)) return false;
 
     if (obs.concept.uuid !== '457c741d-8f71-4829-b59d-594e0a618892') return false;
 
@@ -247,7 +319,7 @@ function _getObsObjectWithAnyOfValueArray(obsArray, valuesArray) {
     for (var i = 0; i < obsArray.length; i++) {
         if (obsArray[i].value && obsArray[i].value.uuid && valuesArray.indexOf(obsArray[i].value.uuid) >= 0) return obsArray[i];
 
-         if (valuesArray.indexOf(obsArray[i].value) >= 0) return obsArray[i];
+        if (valuesArray.indexOf(obsArray[i].value) >= 0) return obsArray[i];
     }
 }
 
