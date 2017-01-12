@@ -35,12 +35,16 @@ export class FakeProviderResourceService extends ProviderResourceService {
     subject.next(
       [
         {
-          uuid: 'uuid1',
-          display: 'display'
+          person: {
+            uuid: 'uuid',
+            display: 'display'
+          }
         },
         {
-          uuid: 'uuid2',
-          display: 'display'
+          person: {
+            uuid: 'uuid',
+            display: 'display'
+          }
         }
       ]
     );
@@ -52,11 +56,19 @@ export class FakeProviderResourceService extends ProviderResourceService {
     let provider = [
       {
         uuid: 'uuid',
-        display: 'display'
+        display: 'john',
+        person: {
+          uuid: 'uuid',
+          display: 'display'
+        }
       },
       {
         uuid: 'uuid1',
-        display: 'kennedy'
+        display: 'kennedy',
+        person: {
+          uuid: 'uuid',
+          display: 'display'
+        }
       }
     ];
 

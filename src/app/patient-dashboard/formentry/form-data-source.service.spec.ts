@@ -55,13 +55,13 @@ describe('Service: FormDataSourceService', () => {
     result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
-      expect(results[0].uuid).toEqual('uuid');
+      expect(results[0].value).toEqual('uuid');
       done();
     });
 
   });
 
-  it('should hit the server when getProviderByPersonUuid is called' +
+  it('should  find provider when getProviderByPersonUuid is called' +
     ' with a person uuid', inject([ProviderResourceService],
       fakeAsync((providerResourceService: ProviderResourceService) => {
         let service: FormDataSourceService = TestBed.get(FormDataSourceService);
@@ -70,8 +70,10 @@ describe('Service: FormDataSourceService', () => {
           .and.callFake(function (params) {
             let subject = new BehaviorSubject<any>({});
             subject.next({
-              uuid: 'uuid',
-              display: 'display'
+              person: {
+                uuid: 'uuid',
+                display: 'display'
+              }
             });
             return subject;
           });
@@ -80,7 +82,8 @@ describe('Service: FormDataSourceService', () => {
         expect(providerResourceService.getProviderByPersonUuid).toHaveBeenCalled();
 
       })));
-  it('should hit the server when getProviderByProviderUuid is called' +
+
+  it('should find provider when getProviderByProviderUuid is called' +
     ' with a provider uuid', inject([ProviderResourceService],
       fakeAsync((providerResourceService: ProviderResourceService) => {
         let service: FormDataSourceService = TestBed.get(FormDataSourceService);
