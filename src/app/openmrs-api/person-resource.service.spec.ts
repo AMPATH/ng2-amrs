@@ -117,16 +117,25 @@ describe('Service: PersonResourceService Unit Tests', () => {
       expect(result).toBeNull();
     })));
 
-  it('should call the right endpoint', async(inject(
-    [PersonResourceService, MockBackend], (service, mockBackend) => {
-      mockBackend.connections.subscribe(conn => {
-        expect(conn.request.url).toContain('person/' + personuid);
-        expect(conn.request.method).toBe(RequestMethod.Post);
-        conn.mockRespond(new Response(
-          new ResponseOptions({ body: JSON.stringify(personPayload) })));
-      });
+  it('should call the right endpoint when updating a person', (done) => {
 
-      const result = service.saveUpdatePerson(personuid, personPayload);
-    })));
+    let s: PersonResourceService = TestBed.get(PersonResourceService);
+    let backend: MockBackend = TestBed.get(MockBackend);
+    backend.connections.subscribe((connection: MockConnection) => {
+
+      expect(connection.request.url)
+        .toEqual('http://example.url.com/ws/rest/v1/person/' + personuid);
+      expect(connection.request.method).toBe(RequestMethod.Post);
+      let options = new ResponseOptions({
+        body: JSON.stringify({})
+      });
+      connection.mockRespond(new Response(options));
+    });
+
+    s.saveUpdatePerson(personuid, personPayload)
+      .subscribe((response) => {
+        done();
+      });
+  });
 });
 
