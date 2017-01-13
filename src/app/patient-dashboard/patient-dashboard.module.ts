@@ -7,7 +7,6 @@ import {
 } from 'primeng/primeng';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
-import { TooltipModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { Ng2FilterPipe } from '../shared/pipes/ng2-filter.pipe';
 
 import { patientDashboardRouting } from './patient-dashboard-routing';
@@ -77,7 +76,6 @@ import { FromentryGuard } from './formentry/formentry.guard';
     Ng2PaginationModule,
     OpenmrsApi,
     UtilsModule,
-    TooltipModule,
     TabViewModule,
     GrowlModule, PanelModule,
     Angulartics2Module.forChild(),
