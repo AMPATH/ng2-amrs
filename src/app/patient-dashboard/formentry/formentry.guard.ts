@@ -10,7 +10,7 @@ export class FromentryGuard implements CanDeactivate<FormentryComponent> {
   }
 
   public canDeactivate(component: FormentryComponent): Observable<boolean> {
-    if (!component.form.rootNode.control.dirty) return Observable.of(true);
+    if (!component.form || !component.form.rootNode.control.dirty) return Observable.of(true);
     return Observable.create((observer: Subject<boolean>) => {
       this.confirmationService.confirm({
         header: 'Changes Not Saved',
