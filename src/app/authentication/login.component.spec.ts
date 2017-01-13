@@ -16,6 +16,9 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { LoginComponent } from './login.component';
 import { provideRoutes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UserDefaultPropertiesService } from
+  '../user-default-properties/user-default-properties.service';
+import { UserService } from '../openmrs-api/user.service';
 
 describe('LoginComponent Unit Tests', () => {
   // provide our implementations or mocks to the dependency injector
@@ -37,7 +40,9 @@ describe('LoginComponent Unit Tests', () => {
       SessionService,
       LocalStorageService,
       SessionStorageService,
-      provideRoutes([])
+      provideRoutes([]),
+      UserDefaultPropertiesService,
+      UserService
     ],
     imports: [
       RouterTestingModule

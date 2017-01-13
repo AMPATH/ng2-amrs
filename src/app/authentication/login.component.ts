@@ -4,6 +4,8 @@ import { Response } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
 import { Subscription } from 'rxjs';
+import { UserDefaultPropertiesService } from
+'../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'login',
@@ -24,8 +26,8 @@ export class LoginComponent {
 
   @ViewChildren('password') passwordField;
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
-  }
+  constructor(private router: Router, private authenticationService: AuthenticationService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService) { }
 
   login(event, username: string, password: string) {
 
@@ -47,6 +49,8 @@ export class LoginComponent {
           if (currentRoute && currentRoute.indexOf('login') !== -1) {
 
             let previousRoute: string = sessionStorage.getItem('previousRoute');
+            let userDefaultLocation = this.
+              userDefaultPropertiesService.getCurrentUserDefaultLocation();
 
             if (previousRoute && previousRoute.length > 1)
               if (previousRoute && previousRoute.indexOf('login') !== -1) {
@@ -54,6 +58,12 @@ export class LoginComponent {
               } else {
                 this.router.navigate([previousRoute]);
               } else {
+              this.router.navigate(['/']);
+            }
+
+            if (userDefaultLocation === null) {
+              this.router.navigate(['/user-default-properties']);
+            } else {
               this.router.navigate(['/']);
             }
           }
