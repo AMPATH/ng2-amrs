@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { authRouting } from './auth-routing.module';
 import { LoginComponent } from './login.component';
+import { MainDashboardModule } from '../main-dashboard';
 import { LoginDialogComponent } from './login-dialog.component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -13,7 +14,8 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     CommonModule,
     authRouting,
     Ng2Bs3ModalModule,
-    NgamrsSharedModule
+    NgamrsSharedModule,
+    MainDashboardModule
   ],
   declarations: [
     LoginComponent,
