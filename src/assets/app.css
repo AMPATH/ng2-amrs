@@ -16,3 +16,38 @@
 .slick-slide {
 	outline: none;
 }
+
+/**
+GENERAL
+*/
+.clear-fix {
+  height: 1px !important;
+}
+
+patient-banner {
+  margin-bottom: 15px;
+  display: block;
+}
+
+.alert {
+  border-radius: 0px !important;
+}
+
+/**
+PATIENT BANNER
+*/
+
+.banner-info.alert {
+  margin-bottom: 0px;
+}
+
+.box {
+  border-radius: 0px !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+.bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+  background-color: #428bca !important;
+}
+
