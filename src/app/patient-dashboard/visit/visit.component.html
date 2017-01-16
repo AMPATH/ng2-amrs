@@ -1,3 +1,4 @@
+<div class="wrapper">
 <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Hang in there............'}"></div>
 
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
@@ -39,4 +40,5 @@
         <button id="cancelVisitButton" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
         <button *ngIf="!visit.stopDatetime" id="endVisitButton" (click)="endVisit()" class='btn btn-success'>End Visit Visit</button>
     </div>
+</div>
 </div>
