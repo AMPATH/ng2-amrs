@@ -1,81 +1,72 @@
-<form>
-  <div class="form-group">
-    <label for="search-textbox">Search Patient</label>
-    <div class="input-group">
-      <input type="text" id="search-textbox" class="form-control" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
-        placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search" autofocus="true">
-      <div class="input-group-btn">
+<div class="wrapper">
+  <div class="box-body">
+    <form>
+      <div class="form-group">
+        <label for="search-textbox"><h2>Search Patient</h2></label>
+        <div class="input-group">
+          <input type="text" id="search-textbox" autocomplete="off" class="form-control" [(ngModel)]="searchString"
+                 [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePatientCount($event)"
+                 placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"
+                 autofocus="true">
+          <div class="input-group-btn">
+            <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue"
+                    data-style="expand-right" (click)="loadPatient()">
+              <span class="glyphicon glyphicon-search"> Search</span>
+            </button>
+          </div>
+          <div class="input-group-btn">
+            <button [disabled]="!isResetButton" class="btn btn-danger pull-right " (click)="resetSearchList()">
+              <span class="glyphicon glyphicon-trash"> Reset</span>
+            </button>
+          </div>
 
-        <button class="ladda-button " [ladda]='isLoading' data-size="xs" data-color="blue" data-style="expand-right" (click)="loadPatient()">
-          <span class="glyphicon glyphicon-search"> Search</span>
-        </button>
+        </div>
       </div>
-      <div class="input-group-btn">
-        <button [disabled]="!isResetButton" class="btn  pull-right " (click)="resetSearchList()">
-          <span class="glyphicon glyphicon-trash"> Reset</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</form>
-<div class="alert alert-info"><span class="total text-bold">{{totalPatients}}</span> Patient(s) results found for <span class="search text-bold">{{searchString}}</span></div>
+    </form>
+    <div *ngIf="totalPatients > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span> Patient(s) found for <span
+      class="search text-bold">{{searchString}}</span></div>
 
-<div [hidden]="!totalPatients > 0" class="panel panel-primary" style="padding:2px;">
-<div class="panel panel-default">
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Identifier(s)</th>
-        <th>Patient Name</th>
-        <th>Gender</th>
-        <th>Age</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr style="cursor: pointer;" (click)="loadPatientData(patient.uuid)" *ngFor="let patient of patients | paginate: { itemsPerPage: 10, currentPage: page
+    <div [hidden]="!totalPatients > 0" class="panel panel-primary" style="padding:2px;">
+      <div class="panel panel-default">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Identifier(s)</th>
+            <th>Patient Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr style="cursor: pointer;" (click)="loadPatientData(patient.uuid)" *ngFor="let patient of patients | paginate: { itemsPerPage: 10, currentPage: page
 }; let i = index; ">
-<td>{{ (i + 1)+ (page - 1) * 10 }}</td>
-<td>
+            <td>{{ (i + 1)+ (page - 1) * 10 }}</td>
+            <td>
   <span *ngIf="patient.searchIdentifiers.kenyaNationalId"> {{patient.searchIdentifiers.kenyaNationalId}}
             <span *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span></span>
-  <span *ngIf="patient.searchIdentifiers.amrsMrn">{{patient.searchIdentifiers.amrsMrn}}
+              <span *ngIf="patient.searchIdentifiers.amrsMrn">{{patient.searchIdentifiers.amrsMrn}}
              <span *ngIf="patient.searchIdentifiers.ampathMrsUId">,</span></span>
-  <span *ngIf="patient.searchIdentifiers.ampathMrsUId">{{patient.searchIdentifiers.ampathMrsUId}}
+              <span *ngIf="patient.searchIdentifiers.ampathMrsUId">{{patient.searchIdentifiers.ampathMrsUId}}
              <span *ngIf="patient.searchIdentifiers.cCC">,</span></span>
-  <span *ngIf="patient.searchIdentifiers.cCC">{{patient.searchIdentifiers.cCC}}</span>
-  <span *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
+              <span *ngIf="patient.searchIdentifiers.cCC">{{patient.searchIdentifiers.cCC}}</span>
+              <span *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
 
-  <!--<a href="#" [tooltipHtml]="toolTipTemplate"
-             [tooltipContext]="tooltipModel"
-          (tooltipStateChanged)="tooltipStateChanged($event)"> <span class="badge badge-info" >...</span></a>
-          <template #toolTipTemplate let-model="model">
-            <div style="margin-bottom: 4px;" align="left">
-              <span *ngIf="patient.searchIdentifiers.ampathMrsUId">AMRS UID: {{patient.commonIdentifiers.ampathMrsUId}}</span>
-            </div>
-            <div style="margin-bottom: 4px;" align="left">
-              <span *ngIf="patient.searchIdentifiers.amrsMrn">AMRS MRN: {{patient.commonIdentifiers.amrsMrn}}</span>
-            </div>
-            <div style="margin-bottom: 4px;"  align="left">
-              <span *ngIf="patient.searchIdentifiers.cCC">CCC: {{patient.commonIdentifiers.cCC}}</span>
-            </div>
-            <div align="left">
-              <span *ngIf="patient.searchIdentifiers.kenyaNationalId">National ID: {{patient.commonIdentifiers.kenyaNationalId}}</span>
-            </div>
-          </template>-->
-
-</td>
-<td>{{patient.person.display}}</td>
-<td>{{patient.person.gender}}</td>
-<td>{{patient.person.age}}</td>
-<td>
-  <a [routerLink]="['/patient-dashboard', patient.uuid,'patient-info']"><span style="font-size:14px;" class="glyphicon glyphicon-zoom-in"></span>
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+            </td>
+            <td>{{patient.person.display}}</td>
+            <td>{{patient.person.gender}}</td>
+            <td>{{patient.person.age}}</td>
+            <td>
+              <a [routerLink]="['/patient-dashboard', patient.uuid,'patient-info']"><span style="font-size:14px;"
+                                                                                          class="glyphicon glyphicon-zoom-in"></span>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+    </div>
+  </div>
 </div>

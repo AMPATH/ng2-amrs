@@ -1,3 +1,4 @@
+<div class="wrapper">
 <div [ngBusy]="busyIndicator">
 
 	<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
@@ -19,7 +20,7 @@
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
-					The following error(s) occured while submitting form, please review form and retry saving! 
+					The following error(s) occured while submitting form, please review form and retry saving!
 					</strong>
 			</h5>
 		</div>
@@ -41,7 +42,7 @@
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
-					The following error(s) occured while rendering form, please report this error! 
+					The following error(s) occured while rendering form, please report this error!
 					</strong>
 			</h5>
 		</div>
@@ -80,3 +81,13 @@
 	</footer>
 
 </p-dialog>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<div class='col-md-12' *ngIf=form>
+	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
+		<form-renderer [node]="form.rootNode"></form-renderer>
+		<div class="form-row">
+			<button class="btn btn-primary" type="submit">Save</button>
+		</div>
+	</form>
+</div>
+</div>

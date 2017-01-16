@@ -21,3 +21,21 @@ div.list-group-item:hover {
 .fa-star {
   color: gold
 }
+
+.form-group , .input-group{
+  width:100%;
+}
+
+.form-inline .input-group .input-group-btn {
+  width: 1%;
+}
+
+.form-inline,.btn.btn-info, h3 {
+  margin-left:8px;
+  margin-right:8px;
+}
+
+.wrapper{
+  padding-bottom:12px;
+  padding-top:12px;
+}

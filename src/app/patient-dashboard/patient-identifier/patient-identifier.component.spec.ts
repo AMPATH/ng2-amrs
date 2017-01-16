@@ -2,8 +2,15 @@
 
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { Directive, DebugElement } from '@angular/core';
 import { PatientIdentifierComponent } from './patient-identifier.component';
+
+@Directive({
+  selector: `ng-content`
+})
+
+export class FakeNgContentDirective {
+}
 
 describe('Component: PatientIdentifier', () => {
   let component: PatientIdentifierComponent;
@@ -13,14 +20,14 @@ describe('Component: PatientIdentifier', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PatientIdentifierComponent],
+      declarations: [PatientIdentifierComponent, FakeNgContentDirective],
     });
 
     fixture = TestBed.createComponent(PatientIdentifierComponent);
 
     component = fixture.componentInstance;
 
-    de = fixture.debugElement.query(By.css('ul'));
+    de = fixture.debugElement.query(By.css('dl'));
     el = de.nativeElement;
 
   });
@@ -68,7 +75,8 @@ describe('Component: PatientIdentifier', () => {
   it('should render list of patient identifiers', () => {
     component.identifiers = identifiers;
     fixture.detectChanges();
-    expect(el.querySelectorAll('li').length).toBe(3);
+    expect(el.querySelectorAll('dt').length).toBe(3);
+    expect(el.querySelectorAll('dd').length).toBe(3);
   });
 
 });

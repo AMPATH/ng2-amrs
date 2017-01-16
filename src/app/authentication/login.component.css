@@ -1,5 +1,4 @@
 @import "../../../node_modules/materialize-css/dist/css/materialize.min.css";
-<link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.css" media="screen,projection" />
 
 .login section.login-wrapper {
 	margin-top: 60px;

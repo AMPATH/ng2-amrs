@@ -2,8 +2,8 @@
 Fetching results
     </span>
 <div *ngIf="results.length>0">
-    <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>        New labs results synced
+    <div class="alert" role="alert">
+        <p>New labs results synced</p>
     </div>
     <table class="table">
         <thead>
@@ -31,6 +31,6 @@ Fetching results
     </table>
 </div>
 
-<div class="alert alert-info alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>    No lab new results synced
+<div class="alert" role="alert">
+    <p>No lab new results synced</p>
 </div>
