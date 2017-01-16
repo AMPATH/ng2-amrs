@@ -1,0 +1,33 @@
+<div>
+  <div [ngBusy]="{busy:[fetchingResults, isBusy],message:'Loading orders...'}"></div>
+  <div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Order Date</th>
+          <th>Order No</th>
+          <th>Test Name</th>
+          <th>Ordered By</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of labOrders">
+          <td>
+            {{order.dateActivated | date:'dd/MM/yyyy'}}
+          </td>
+          <td>
+            {{order.orderNumber}}
+          </td>
+          <td>
+            {{order.display}}
+          </td>
+          <td>
+            {{order.orderer.display}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

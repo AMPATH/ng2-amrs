@@ -63,6 +63,8 @@ import { FormEntryModule, EncounterAdapter } from 'ng2-openmrs-formentry';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from './patient-previous-encounter.service';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
+import { OrderResourceService } from '../openmrs-api/order-resource.service';
+import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 
 
 @NgModule({
@@ -112,7 +114,8 @@ import { FormCreationDataResolverService } from './formentry/form-creation-data-
     PatientDemographicsComponent,
     FormListComponent,
     Ng2FilterPipe,
-    FormentryComponent
+    FormentryComponent,
+    LabTestOrdersComponent
   ],
   providers: [
     PatientEncounterService,
@@ -139,7 +142,8 @@ import { FormCreationDataResolverService } from './formentry/form-creation-data-
     ConfirmationService,
     FromentryGuard,
     EncounterAdapter,
-    FormCreationDataResolverService
+    FormCreationDataResolverService,
+    OrderResourceService
   ],
   exports: [
     PatientDashboardComponent,

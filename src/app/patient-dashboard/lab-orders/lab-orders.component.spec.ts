@@ -28,5 +28,3 @@ describe('Component: Lab Orders', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
