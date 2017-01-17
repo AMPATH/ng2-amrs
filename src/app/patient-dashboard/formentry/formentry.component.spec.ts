@@ -14,6 +14,12 @@ import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { FakeFormFactory } from '../formentry/mock/form-factory.service.mock';
+import { FakeUserFactory } from '../formentry/mock/user-factory.service.mock';
+import {
+    FakeDefaultUserPropertiesFactory
+} from '../formentry/mock/default-user-properties-factory.service.mock';
+
+
 import {
     FormFactory, EncounterAdapter, OrderValueAdapter,
     ObsValueAdapter, PersonAttribuAdapter
@@ -27,10 +33,14 @@ import { PatientPreviousEncounterService } from '../patient-previous-encounter.s
 import { PatientService } from '../patient.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import {
-  ProgramEnrollmentResourceService
+    ProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service';
-
+import { UserService } from '../../openmrs-api/user.service';
+import { UserDefaultPropertiesService } from
+    '../../user-default-properties/user-default-properties.service';
+import { SessionStorageService } from '../../utils/session-storage.service';
 describe('Component: FormentryComponent', () => {
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
@@ -68,10 +78,12 @@ describe('Component: FormentryComponent', () => {
                     useValue: {
                         queryParams: Observable.of({}),
                         params: Observable.of({ formUuid: 'form-uuid' }),
-                        data: Observable.of({ compiledSchemaWithEncounter: {
-                          encounter: {},
-                          schema: {}
-                        }}),
+                        data: Observable.of({
+                            compiledSchemaWithEncounter: {
+                                encounter: {},
+                                schema: {}
+                            }
+                        }),
                         snapshot: { params: { formUuid: 'form-uuid' } }
                     }
                 },
@@ -82,6 +94,16 @@ describe('Component: FormentryComponent', () => {
                         return new Http(backendInstance, defaultOptions);
                     },
                     deps: [MockBackend, BaseRequestOptions]
+                },
+                {
+                    provide: UserService, useFactory: () => {
+                        return new FakeUserFactory();
+                    }, deps: []
+                },
+                {
+                    provide: UserDefaultPropertiesService, useFactory: () => {
+                        return new FakeDefaultUserPropertiesFactory();
+                    }, deps: []
                 },
                 {
                     provide: AppFeatureAnalytics, useFactory: () => {
@@ -105,12 +127,12 @@ describe('Component: FormentryComponent', () => {
         inject([FormSchemaService, FormCreationDataResolverService,
             PatientPreviousEncounterService],
             (formSchemaService: FormSchemaService, resolver: FormCreationDataResolverService,
-             prevEncService: PatientPreviousEncounterService) => {
+                prevEncService: PatientPreviousEncounterService) => {
 
                 let uuid: string = 'form-uuid';
                 spyOn(resolver, 'resolve').and.callFake(function (params) {
 
-                  return new Promise();
+                    return new Promise();
                 });
                 spyOn(formSchemaService, 'getFormSchemaByUuid').and.callFake(function (params) {
                     let subject = new BehaviorSubject<any>({});
