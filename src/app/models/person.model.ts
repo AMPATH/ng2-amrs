@@ -64,12 +64,24 @@ export class Person extends BaseModel {
     this._attributes = v;
   }
 
+  public get healthCenter() {
+    let healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
+    if (this._attributes) {
+      let location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
+      if(location){
+        return location.display;
+      }
+      else{
+        return '';
+      }
+    }
+  }
+
   public get contacts() {
     let phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
     let patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     let alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
     let nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
-
 
     if (this._attributes) {
       let filteredContacts: {};
