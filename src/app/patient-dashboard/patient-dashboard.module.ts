@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService
@@ -59,8 +60,9 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
 import { FormEntryModule, EncounterAdapter } from 'ng2-openmrs-formentry';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FromentryGuard } from './formentry/formentry.guard';
+import { PatientPreviousEncounterService } from './patient-previous-encounter.service';
+import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
 
 
 @NgModule({
@@ -119,6 +121,7 @@ import { FromentryGuard } from './formentry/formentry.guard';
     AppFeatureAnalytics,
     VitalsResourceService,
     PatientService,
+    PatientPreviousEncounterService,
     VisitResourceService,
     LabsResourceService,
     ClinicalNotesResourceService,
@@ -135,7 +138,8 @@ import { FromentryGuard } from './formentry/formentry.guard';
     FormentryHelperService,
     ConfirmationService,
     FromentryGuard,
-    EncounterAdapter
+    EncounterAdapter,
+    FormCreationDataResolverService
   ],
   exports: [
     PatientDashboardComponent,

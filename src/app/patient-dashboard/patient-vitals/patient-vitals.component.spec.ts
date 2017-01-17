@@ -13,6 +13,7 @@ import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import {
   ProgramEnrollmentResourceService } from '../../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 describe('Component: Vitals Unit Tests', () => {
 
@@ -27,6 +28,7 @@ describe('Component: Vitals Unit Tests', () => {
         VitalsResourceService,
         BaseRequestOptions,
         ProgramEnrollmentResourceService,
+        EncounterResourceService,
         PatientService,
         PatientResourceService,
         FakeAppFeatureAnalytics,
