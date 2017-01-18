@@ -23,8 +23,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public selectedIdx: number = -1;
 
   constructor(private router: Router,
-              private propertyLocationService: UserDefaultPropertiesService,
-              private userService: UserService
+    private propertyLocationService: UserDefaultPropertiesService,
+    private userService: UserService
   ) {
     this.user = this.userService.getLoggedInUser();
 
@@ -67,8 +67,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   select(item) {
     this.query = item.display;
-
-    this.propertyLocationService.setUserProperty('userDefaultLocation', this.query);
+    let location = JSON.stringify({ uuid: item.uuid, display: item.display });
+    this.propertyLocationService.setUserProperty('userDefaultLocation', location);
 
     this.filteredList = [];
     this.selectedIdx = -1;

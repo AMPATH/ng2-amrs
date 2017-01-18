@@ -33,4 +33,12 @@ export class User extends BaseModel {
 
     return null;
   }
+
+  public get personUuid(): any {
+
+    let personUuid = this._openmrsModel.person.uuid;
+    if (personUuid) return personUuid;
+
+    return null;
+  }
 }

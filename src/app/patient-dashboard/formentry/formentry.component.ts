@@ -9,6 +9,10 @@ import { FormFactory, EncounterAdapter } from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 
+import { UserService } from '../../openmrs-api/user.service';
+import { UserDefaultPropertiesService } from
+  '../../user-default-properties/user-default-properties.service';
+
 @Component({
   selector: 'app-formentry',
   templateUrl: './formentry.component.html',
@@ -28,7 +32,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private formFactory: FormFactory,
     private encounterResource: EncounterResourceService,
-    private encounterAdapter: EncounterAdapter) {
+    private encounterAdapter: EncounterAdapter,
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private userService: UserService) {
   }
 
   public ngOnInit() {
@@ -71,6 +77,30 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     });
   }
+
+  private loadDefaultValues(): void {
+
+    let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    let currentUser = this.userService.getLoggedInUser();
+    let currentDate = new Date();
+
+    let encounterDate = this.form.searchNodeByQuestionId('encDate');
+    if (encounterDate.length > 0) {
+      encounterDate[0].control.setValue(currentDate);
+    }
+
+    let encounterLocation = this.form.searchNodeByQuestionId('location');
+    if (encounterLocation.length > 0 && location) {
+      encounterLocation[0].control.setValue(location.uuid);
+    }
+
+    let encounterProvider = this.form.searchNodeByQuestionId('provider');
+    if (encounterProvider.length > 0 && currentUser) {
+      encounterProvider[0].control.setValue(currentUser.personUuid);
+    }
+
+  }
+
   private loadSelectedForm(): void {
 
     if (this.selectedFormUuid) {
@@ -81,6 +111,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
         if (this.encounterUuid && this.encounterUuid !== '') {
           this.getEncounter();
         }
+        // populate default values
+        this.loadDefaultValues();
       });
     }
   }
