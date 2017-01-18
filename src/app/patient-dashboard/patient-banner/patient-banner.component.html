@@ -1,25 +1,32 @@
-<div class="banner-info alert alert-info col-xs-12 col-md-12" *ngIf="patient">
-	<div class="patient-details col col-xs-12 col-md-12">
-		<div class="col-xs-6 col-md-5">{{ patient?.person.display}}</div>
-		<div class="col-xs-1 col-md-3">{{ patient?.person.gender }}</div>
-		<div class="col-xs-5 col-md-4">{{ birthdate }} ( {{ patient?.person.age }} Yrs )</div>
-	</div>
-	<div class="patient-identifiers col col-xs-12 col-md-12">
-		<div class="col-xs-6 col-md-4">
+<div class="container-fluid banner-info" *ngIf="patient">
+  <div class="row banner-left">
+	  <div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
+	  <div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
+	  <div class="col-sm-3">DOB : {{ birthdate }} ( {{ patient?.person.age }} Yrs )</div>
+		<div class="col-sm-3">HEALTH CENTER : {{patient?.person.healthCenter}}<span *ngIf="patient?.person.healthCenter == ''"> Not Available</span></div>
+  </div>
+  <div class="row banner-right">
+		<div class="col-sm-3">
 			<span class="identifier">MUI : </span>
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> {{ searchIdentifiers?.ampathMrsUId }}</span>
 			<span *ngIf="searchIdentifiers?.ampathMrsUId == null"> Not Available</span>
 		</div>
-		<div class="col-xs-6 col-md-4">
+		<div class="col-sm-3">
 			<span class="identifier">MRN : </span>
 			<span *ngIf="searchIdentifiers?.amrsMrn"> {{ searchIdentifiers?.amrsMrn }}</span>
 			<span *ngIf="searchIdentifiers?.amrsMrn == null"> Not Available</span>
 		</div>
-		<div class="col-xs-6 col-sm-4 col-md-4">
+		<div class="col-sm-3">
 			<span class="identifier">NID : </span>
 			<span *ngIf="searchIdentifiers?.kenyaNationalId"> {{ searchIdentifiers?.kenyaNationalId }}</span>
 			<span *ngIf="searchIdentifiers?.kenyaNationalId == null"> Not Available</span>
 		</div>
-	</div>
+		<div class="col-sm-3">
+			<span class="identifier">CCC : </span>
+			<span *ngIf="searchIdentifiers?.cCC"> {{ searchIdentifiers?.cCC }}</span>
+			<span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
+		</div>
+  </div>
 </div>
+
 
