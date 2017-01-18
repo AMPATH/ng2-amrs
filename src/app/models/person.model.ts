@@ -68,10 +68,9 @@ export class Person extends BaseModel {
     let healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
     if (this._attributes) {
       let location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
-      if(location){
+      if (location) {
         return location.display;
-      }
-      else{
+      } else {
         return '';
       }
     }
@@ -96,9 +95,9 @@ export class Person extends BaseModel {
         (alternativePhoneNumber) === undefined && (nextofkinPhoneNumber) === undefined &&
         (patientPhoneNumber) === undefined) {
         if ((this._attributes)) {
-          filteredContacts = {'default': this._attributes};
+          filteredContacts = { 'default': this._attributes };
         } else {
-          filteredContacts = {'default': ''};
+          filteredContacts = { 'default': '' };
         }
       } else {
         filteredContacts = {
@@ -116,7 +115,7 @@ export class Person extends BaseModel {
   };
   getPersonAttribute(personAttributeTypeUuid) {
     if (this._attributes.length > 0) {
-      for (let  i in this._attributes) {
+      for (let i in this._attributes) {
         if (this._attributes.hasOwnProperty(i)) {
           let attr = this._attributes[i];
           if (attr.attributeType.uuid === personAttributeTypeUuid) {

@@ -1,11 +1,59 @@
 <div [ngBusy]="busyIndicator">
-</div>
-<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-<div class='col-md-12' *ngIf=form>
-	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
-		<form-renderer [node]="form.rootNode"></form-renderer>
-		<div class="form-row">
-			<button class="btn btn-primary" type="submit">Save</button>
+
+	<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
+	<div class='col-md-12' *ngIf=form>
+		<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
+			<form-renderer [node]="form.rootNode"></form-renderer>
+			<div class="form-row">
+				<button *ngIf="!formSubmissionErrors" class="btn btn-primary" type="submit">Save</button>
+			</div>
+		</form>
+	</div>
+	<br/> &nbsp;
+	<div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
+		<div class="panel-heading">
+			<h5>
+				<strong class="text-danger">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+					The following error(s) occured while submitting form, please review form and retry saving! 
+					</strong>
+			</h5>
 		</div>
-	</form>
+		<div class="panel-body">
+			<ul class="list-group">
+				<li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
+			</ul>
+		</div>
+		<div class="panel-footer" style="min-height: 50px">
+		<button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
+		</div>
+	</div>
 </div>
+<p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" minWidth="300" responsive="true">
+	<strong class="text-success">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+					Form submitted successfully.
+					</strong>
+	<div *ngIf="orderedTests">
+		Here are the lab test(s) you ordered:
+		<br>
+		<ul class="list-group">
+				<li *ngFor="let orderedTest of orderedTests" class="list-group-item text-info">{{orderedTest}}</li>
+		</ul>
+	</div>
+
+	<br>
+	<footer>
+		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+			<button (click)="navigateTo('patientDashboard')" type="button" pButton icon="fa-user" label="Patient Dashboard"></button>
+			<button (click)="navigateTo('patientSearch')" type="button" pButton icon="fa-search" label="Patient Search"></button>
+		</div>
+	</footer>
+
+</p-dialog>

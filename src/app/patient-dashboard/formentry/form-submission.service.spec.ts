@@ -1,0 +1,119 @@
+import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { Http, BaseRequestOptions, Response, ResponseOptions, HttpModule } from '@angular/http';
+import { FormSubmissionService } from './form-submission.service';
+import {
+  EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, Form
+} from 'ng2-openmrs-formentry';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { PersonResourceService } from '../../openmrs-api/person-resource.service';
+import { FormentryHelperService } from './formentry-helper.service';
+
+describe('Service: FormSubmissionService', () => {
+
+  // sample field error
+  let sampleFieldError: any = {
+    error: {
+      message: 'Invalid Submission',
+      code: 'webservices.rest.error.invalid.submission',
+      globalErrors: [],
+      fieldErrors: {
+        encounterDatetime: [
+          {
+            code: 'Encounter.datetimeShouldBeInVisitDatesRange',
+            message: 'The encounter datetime should be between the visit start and stop dates.'
+          }
+        ]
+      }
+    }
+  };
+
+  // sample payload
+  let sampleEncounterPayload: any = {
+    encounterType: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
+    form: '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
+    obs: [],
+    order: [],
+    patient: '5ead308a-1359-11df-a1f1-0026b9348838',
+    provider: '34',
+    visit: '85a7746e-4d8d-4722-b3eb-ce79195266de',
+  };
+
+  // sample schema
+  let schema: any = {
+    uuid: 'form-uuid',
+    display: 'form',
+    encounterType: {
+      uuid: 'type-uuid',
+      display: 'sample',
+    }
+  };
+
+  // previous encs
+  let renderableForm: Form = {
+    valid: true,
+    schema: schema,
+    valueProcessingInfo: {
+      patientUuid: 'patientUuid',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'encounterTypeUuid',
+      formUuid: 'formUuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300'
+    },
+    searchNodeByQuestionId: function (param) {
+      return [];
+    }
+
+  };
+
+  // sample submission error
+  let sampleSubmissionError: any = {
+    code: 'org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource:748',
+    // tslint:disable-next-line:max-line-length
+    detail: 'org.openmrs.module.webservices.rest.web.response.ConversionException: unknown provider ↵',
+    message: 'Unable to convert object into response content',
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [],
+      providers: [
+        BaseRequestOptions,
+        MockBackend,
+        FormSubmissionService,
+        EncounterAdapter,
+        PersonAttribuAdapter,
+        EncounterResourceService,
+        PersonResourceService,
+        OrderValueAdapter,
+        ObsValueAdapter,
+        LocalStorageService,
+        FormentryHelperService,
+        AppSettingsService,
+        {
+          provide: Http,
+          useFactory: (backend, options) => new Http(backend, options),
+          deps: [MockBackend, BaseRequestOptions]
+        },
+      ],
+      imports: [
+        HttpModule
+      ]
+    });
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
+  it('should create an instance of FormSubmissionService', () => {
+    let service: FormSubmissionService = TestBed.get(FormSubmissionService);
+    expect(service).toBeTruthy();
+  });
+
+});
+

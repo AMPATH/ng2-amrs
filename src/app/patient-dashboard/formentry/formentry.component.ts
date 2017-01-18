@@ -1,13 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FormSchemaService } from '../formentry/form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
-import { Form } from 'ng2-openmrs-formentry';
-import { FormFactory, EncounterAdapter } from 'ng2-openmrs-formentry';
+import { FormFactory, EncounterAdapter, Form } from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
+import { FormSubmissionService } from './form-submission.service';
+import { PatientService } from '../patient.service';
+import { Patient } from '../../models/patient.model';
+import { Observable, Subject } from 'rxjs';
+
 
 import { UserService } from '../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
@@ -24,9 +28,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
     busy: false,
     message: 'Please wait...' // default message
   };
+
   public form: Form;
-  private selectedFormUuid: string = null;
+  public formSubmissionErrors: Array<any> = null;
+  public showSuccessDialog: boolean = false;
+  public patient: Patient = null;
   private encounterUuid: string = null;
+  private encounter: any = null;
+  private visitUuid: string = null;
+  private failedPayloadTypes: Array<string> = null;
+  private compiledSchemaWithEncounter: any = null;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private route: ActivatedRoute,
@@ -34,25 +45,22 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private encounterResource: EncounterResourceService,
     private encounterAdapter: EncounterAdapter,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
-    private userService: UserService) {
+    private userService: UserService,
+    private formSubmissionService: FormSubmissionService,
+    private router: Router,
+    private patientService: PatientService) {
   }
 
   public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
-    // get formUuid from route Params
-    this.route
-      .queryParams.subscribe((params) => {
-        this.encounterUuid = params['encounter'];
-      });
-    this.route
-      .params.subscribe((params) => {
-        this.selectedFormUuid = params['formUuid'];
-      });
 
-    this.isBusyIndicator(true, 'Please wait, fetching form'); // show busy indicator
-    // load selected form
-    this.loadSelectedForm();
+    // get visitUuid & encounterUuid then load form
+    this.route.queryParams.subscribe((params) => {
+      this.visitUuid = params['visitUuid'];
+      this.encounterUuid = params['encounter'];
+      this.loadForm();   // load  form
+    });
   }
 
   public ngOnDestroy() {
@@ -62,21 +70,95 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     console.log('FORM MODEL:', this.form.rootNode.control);
+    this.submitForm();
+  }
 
-    if (this.form.valid) {
-      // submit form
-    } else {
-      this.form.markInvalidControls(this.form.rootNode);
+  public retrySubmittingPayload(): void {
+    this.submitForm(this.failedPayloadTypes);
+  }
+
+  public navigateTo(path): void {
+    switch (path) {
+      case 'patientDashboard':
+        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/patient-info']);
+        break;
+      case 'patientSearch':
+        this.router.navigate(['/patient-dashboard/patient-search']);
+        break;
+      default:
+        console.log('unknown path');
     }
-  }
-  getEncounter() {
-    this.encounterResource.getEncounterByUuid(this.encounterUuid).subscribe((encounter) => {
-      console.log('Enecounter', encounter);
-      this.encounterAdapter.populateForm(this.form, encounter);
-    }, (error) => {
 
-    });
   }
+
+  private loadForm(): void {
+    this.isBusyIndicator(true, 'Please wait, fetching form');
+    let observableBatch: Array<Observable<any>> = [];
+    // push all subscriptions to this batch eg patient, encounters, formSchema
+    observableBatch.push(this.getcompiledSchemaWithEncounter()); // schema data [0]
+    observableBatch.push(this.getPatient()); // patient [1]
+    observableBatch.push(this.getEncounters()); // encounters [2]
+
+    // forkjoin all requests
+    Observable.forkJoin(
+      observableBatch
+    ).subscribe(
+      data => {
+        // now init private and public properties
+        this.compiledSchemaWithEncounter = data[0] || null;
+        this.patient = data[1] || null;
+        this.encounter = data[2] || null;
+        // now render form
+        this.renderForm();
+        // now set default value
+         this.loadDefaultValues();
+        this.isBusyIndicator(false);
+      },
+      err => {
+        console.error(err);
+        this.isBusyIndicator(false);
+      }
+      );
+  }
+
+  private renderForm(): void {
+    try {
+      let schema: any = this.compiledSchemaWithEncounter.schema;
+      let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
+      if (this.encounter) { // editting existing form
+        this.form = this.formFactory.createForm(schema);
+        this.encounterAdapter.populateForm(this.form, this.encounter);
+        this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
+      } else { // creating new from
+        this.form = this.formFactory.createForm(schema, historicalEncounter);
+        this.form.valueProcessingInfo.patientUuid = this.patient.uuid;
+        if (this.visitUuid && this.visitUuid !== '')
+          this.form.valueProcessingInfo.visitUuid = this.visitUuid;
+      }
+
+      // add valueProcessingInfo
+      this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
+      this.form.valueProcessingInfo.formUuid = schema.uuid;
+      this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
+    } catch (ex) {
+      console.log('An error occured while rendering form:', ex);
+    }
+
+  }
+
+  private getcompiledSchemaWithEncounter(): Observable<any> {
+
+    return Observable.create((observer: Subject<any>) => {
+      this.route.data.subscribe(
+        (routeData: any) => {
+          observer.next(routeData.compiledSchemaWithEncounter);
+        },
+        (err) => {
+          observer.error(err);
+        });
+    }).first();
+  }
+
 
   private loadDefaultValues(): void {
 
@@ -101,31 +183,72 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   }
 
-  private loadSelectedForm(): void {
 
-    if (this.selectedFormUuid) {
-      this.route.data.subscribe((resolvedForm: any) => {
-        this.isBusyIndicator(false); // hide indicator
-        this.form = this.formFactory.createForm(resolvedForm.compiledSchemaWithEncounter.schema
-          , resolvedForm.compiledSchemaWithEncounter.encounter);
-        if (this.encounterUuid && this.encounterUuid !== '') {
-          this.getEncounter();
-        }
-        // populate default values
-        this.loadDefaultValues();
-      });
+  private getPatient(): Observable<Patient> {
+
+    return Observable.create((observer: Subject<Patient>) => {
+      this.patientService.currentlyLoadedPatient.subscribe(
+        (patient) => {
+          if (patient) {
+            observer.next(patient);
+          }
+        },
+        (err) => {
+          observer.error(err);
+        });
+    }).first();
+  }
+
+  private getEncounters(): Observable<any> {
+
+    return Observable.create((observer: Subject<any>) => {
+      if (this.encounterUuid && this.encounterUuid !== '') {
+        this.encounterResource.getEncounterByUuid(this.encounterUuid)
+          .subscribe((encounter) => {
+            observer.next(encounter);
+          }, (error) => {
+            observer.error(error);
+          });
+      } else {
+        observer.next(null);
+      }
+    }).first();
+  }
+
+  private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
+    if (this.form.valid) {
+      this.isBusyIndicator(true, 'Please wait, saving form...');
+      // clear formSubmissionErrors
+      this.formSubmissionErrors = null;
+      // submit form
+      this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
+        (data) => {
+          this.isBusyIndicator(false); // hide busy indicator
+          this.handleSuccessfulFormSubmission(data);
+          console.log('All payloads submitted successfully:', data);
+        },
+        (err) => {
+          console.log('error', err);
+          this.isBusyIndicator(false); // hide busy indicator
+          this.handleFormSubmissionErrors(err);
+        });
+    } else {
+      this.form.markInvalidControls(this.form.rootNode);
     }
   }
 
-  /**
-   *
-   *
-   * @private
-   * @param {boolean} isBusy
-   * @param {string} [message='Please wait...']
-   * You can override @message by passing any string
-   * @memberOf FormentryComponent
-   */
+  private handleFormSubmissionErrors(error: any): void {
+    this.formSubmissionErrors = error.errorMessages;
+    this.failedPayloadTypes = error.payloadType;
+  }
+
+  private handleSuccessfulFormSubmission(response: any): void {
+    this.formSubmissionErrors = null;
+    this.failedPayloadTypes = null;
+    this.showSuccessDialog = true;
+
+  }
+
   private isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
     if (isBusy === true) {
       this.busyIndicator = {
@@ -143,3 +266,4 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
 
 }
+

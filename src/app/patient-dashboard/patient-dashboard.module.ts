@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService
+  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
+  DialogModule
 } from 'primeng/primeng';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -65,7 +66,7 @@ import { PatientPreviousEncounterService } from './patient-previous-encounter.se
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
-
+import { FormSubmissionService } from './formentry/form-submission.service';
 
 @NgModule({
   imports: [
@@ -85,7 +86,7 @@ import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
     Angulartics2Module.forChild(),
     FormEntryModule,
     ReactiveFormsModule,
-    ConfirmDialogModule
+    ConfirmDialogModule, DialogModule
 
   ],
   declarations: [
@@ -143,7 +144,8 @@ import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
     FromentryGuard,
     EncounterAdapter,
     FormCreationDataResolverService,
-    OrderResourceService
+    OrderResourceService,
+    FormSubmissionService
   ],
   exports: [
     PatientDashboardComponent,

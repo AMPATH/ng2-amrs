@@ -132,7 +132,11 @@ export class VisitComponent implements OnInit {
     }
     formSelected(form) {
         if (form) {
-            this.router.navigate(['../formentry', form.uuid], { relativeTo: this.route });
+            this.router.navigate(['../formentry', form.uuid],
+                {
+                    relativeTo: this.route,
+                    queryParams: { visitUuid: this.visit.uuid }
+                });
         }
     }
     encounterSelected(encounter) {
