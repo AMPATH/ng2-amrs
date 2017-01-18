@@ -14,7 +14,7 @@ export class FromentryGuard implements CanDeactivate<FormentryComponent> {
     return Observable.create((observer: Subject<boolean>) => {
       this.confirmationService.confirm({
         header: 'Changes Not Saved',
-        message: 'Are you sure that you want to close this form?',
+        message: 'Are you sure you want to close this form?',
         accept: () => {
           observer.next(true);
         },

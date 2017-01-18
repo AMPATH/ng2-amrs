@@ -37,7 +37,7 @@ export class PersonResourceService {
     let url = this.getUrl() + '/' + uuid;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, payload, options)
+    return this.http.post(url, JSON.stringify(payload), options)
       .map((response: Response) => {
         return response.json().person;
       });

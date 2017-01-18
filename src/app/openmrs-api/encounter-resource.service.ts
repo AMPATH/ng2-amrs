@@ -63,9 +63,9 @@ export class EncounterResourceService {
         let url = this.getUrl() + 'encounter';
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(url, payload, options)
+        return this.http.post(url, JSON.stringify(payload), options)
             .map((response: Response) => {
-                return response.json().encounter;
+                return response.json();
             });
     }
 
@@ -76,9 +76,9 @@ export class EncounterResourceService {
         let url = this.getUrl() + 'encounter/' + uuid;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(url, payload, options)
+        return this.http.post(url, JSON.stringify(payload), options)
             .map((response: Response) => {
-                return response.json().encounter;
+                return response.json();
             });
     }
 }
