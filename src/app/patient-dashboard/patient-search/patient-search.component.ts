@@ -24,40 +24,39 @@ export class PatientSearchComponent implements OnInit {
 
 
   ngOnInit() {
-   // load cached result
+    // load cached result
     this.patientSearchService.patientsSearchResults.subscribe(
       (patients) => {
-          this.patients = patients;
-          this.searchString = this.patientSearchService.searchString;
-          this.totalPatients = this.patients.length;
+        this.patients = patients;
+        this.searchString = this.patientSearchService.searchString;
+        this.totalPatients = this.patients.length;
       }
     );
   }
 
 
   loadPatient(): void {
-
+    this.totalPatients = 0;
     if (this.searchString && this.searchString.length > 2) {
       this.isLoading = true;
       this.patients = [];
       let request = this.patientSearchService.searchPatient(this.searchString, false);
       request
         .subscribe(
-          (data) => {
+        (data) => {
+          if (data.length > 0) {
             this.patients = data;
             this.totalPatients = this.patients.length;
-
-
-          },
-          (error) => {
-
-            console.log('error', error);
-            this.errorMessage = error;
+            this.isLoading = false;
           }
+
+        },
+        (error) => {
+          this.isLoading = false;
+          console.log('error', error);
+          this.errorMessage = error;
+        }
         );
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
 
       this.isResetButton = true;
 
