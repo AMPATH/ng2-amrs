@@ -30,7 +30,7 @@ export class UserDefaultPropertiesService {
 
     let userDisplay = this.getAuthenticatedUser().display;
     let location = this.localStorage.getItem('userDefaultLocation' + userDisplay);
-    return location ? JSON.parse(location).display : null;
+    return JSON.parse(location) ? JSON.parse(location).display : undefined;
   }
 
   getCurrentUserDefaultLocationObject() {

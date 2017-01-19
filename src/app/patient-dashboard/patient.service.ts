@@ -13,8 +13,8 @@ export class PatientService {
   public currentlyLoadedPatientUuid = new ReplaySubject(1);
 
   constructor(private patientResourceService: PatientResourceService,
-              private programEnrollmentResourceService: ProgramEnrollmentResourceService,
-              private encounterResource: EncounterResourceService) {
+    private programEnrollmentResourceService: ProgramEnrollmentResourceService,
+    private encounterResource: EncounterResourceService) {
   }
 
   public setCurrentlyLoadedPatientByUuid(patientUuid: string): BehaviorSubject<Patient> {
@@ -32,6 +32,10 @@ export class PatientService {
   }
 
   public fetchPatientByUuid(patientUuid: string): void {
+    // reset patient
+    this.currentlyLoadedPatient = new BehaviorSubject(null);
+    this.currentlyLoadedPatientUuid = new ReplaySubject(1);
+    // hit server
     Observable.forkJoin(
       this.patientResourceService.getPatientByUuid(patientUuid, false),
       this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(patientUuid),
@@ -46,7 +50,7 @@ export class PatientService {
         this.currentlyLoadedPatientUuid.next(patientUuid);
       },
       err => console.log(err)
-    );
+      );
 
   }
 }

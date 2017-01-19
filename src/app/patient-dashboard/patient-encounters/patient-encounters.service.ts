@@ -9,12 +9,12 @@ import { Subscription } from 'rxjs';
 @Injectable()
 export class PatientEncounterService {
   busy: Subscription;
-  public encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
   constructor(private encounterService: EncounterResourceService) { }
 
   getEncountersByPatientUuid(patientUuid: string,
     cached: boolean = false,
     v: string = null): Observable<Encounter[]> {
+    let encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
     let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
     this.busy = encounterObservable.subscribe(
@@ -24,13 +24,13 @@ export class PatientEncounterService {
         for (let i = 0; i < encounters.length; i++) {
           mappedEncounters.push(new Encounter(encounters[i]));
         }
-        this.encounterResults.next(mappedEncounters.reverse());
+        encounterResults.next(mappedEncounters.reverse());
       },
       (error) => {
-        this.encounterResults.error(error); // test case that returns error
+        encounterResults.error(error); // test case that returns error
       }
     );
-    return this.encounterResults.asObservable();
+    return encounterResults.asObservable();
   }
 
 }
