@@ -68,10 +68,9 @@ export class Person extends BaseModel {
     let healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
     if (this._attributes) {
       let location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
-      if(location){
+      if (location) {
         return location.display;
-      }
-      else{
+      } else {
         return '';
       }
     }
