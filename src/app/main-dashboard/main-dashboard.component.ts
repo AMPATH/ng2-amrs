@@ -50,7 +50,7 @@ export class MainDashboardComponent implements OnInit {
       () => console.log('Completed'));
     this.user = this.userService.getLoggedInUser();
     let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
-    this.userLocation = location ? JSON.parse(location).display : '';
+    this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
     this.loadVersion();
   }
 

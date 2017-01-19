@@ -31,6 +31,28 @@
 		<button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
 		</div>
 	</div>
+	<br/> &nbsp;
+	<div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
+		<div class="panel-heading">
+			<h5>
+				<strong class="text-danger">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+					The following error(s) occured while rendering form, please report this error! 
+					</strong>
+			</h5>
+		</div>
+		<div class="panel-body">
+			<ul class="list-group">
+				<li *ngFor="let formError of formRenderingErrors" class="list-group-item text-danger">{{formError}}</li>
+			</ul>
+		</div>
+		<div class="panel-footer" style="min-height: 50px">
+		<button (click)="loadForm()" class="btn btn-primary pull-right">Retry Loading Form</button>
+		</div>
+	</div>
 </div>
 <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" minWidth="300" responsive="true">
 	<strong class="text-success">

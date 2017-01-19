@@ -32,11 +32,6 @@ export class PatientEncountersComponent implements OnInit {
   ngOnInit() {
     this.getPatient();
     // load cached result
-    this.patientEncounterService.encounterResults.subscribe(
-      (data) => {
-        this.encounters = data;
-      }
-    );
   }
   loadPatientEncounters(patientUuid) {
     this.encounters = [];

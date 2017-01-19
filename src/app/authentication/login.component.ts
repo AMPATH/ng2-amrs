@@ -5,7 +5,7 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
 import { Subscription } from 'rxjs';
 import { UserDefaultPropertiesService } from
-'../user-default-properties/user-default-properties.service';
+  '../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'login',
@@ -61,7 +61,7 @@ export class LoginComponent {
               this.router.navigate(['/']);
             }
 
-            if (userDefaultLocation === null) {
+            if (userDefaultLocation === null || userDefaultLocation === undefined) {
               this.router.navigate(['/user-default-properties']);
             } else {
               this.router.navigate(['/']);

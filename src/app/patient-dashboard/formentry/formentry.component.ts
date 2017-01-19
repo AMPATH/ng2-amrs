@@ -31,6 +31,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public form: Form;
   public formSubmissionErrors: Array<any> = null;
+  public formRenderingErrors: Array<any> = [];
   public showSuccessDialog: boolean = false;
   public patient: Patient = null;
   private encounterUuid: string = null;
@@ -91,7 +92,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   }
 
-  private loadForm(): void {
+  public loadForm(): void {
     this.isBusyIndicator(true, 'Please wait, fetching form');
     let observableBatch: Array<Observable<any>> = [];
     // push all subscriptions to this batch eg patient, encounters, formSchema
@@ -110,8 +111,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.encounter = data[2] || null;
         // now render form
         this.renderForm();
-        // now set default value
-         this.loadDefaultValues();
         this.isBusyIndicator(false);
       },
       err => {
@@ -122,6 +121,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private renderForm(): void {
+    this.formRenderingErrors = []; // clear all rendering errors
     try {
       let schema: any = this.compiledSchemaWithEncounter.schema;
       let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
@@ -140,8 +140,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
       this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
+
+      // now set default value
+      this.loadDefaultValues();
     } catch (ex) {
+      // TODO Handle all form rendering errors
       console.log('An error occured while rendering form:', ex);
+      this.formRenderingErrors.push('An error occured while rendering form: ' + ex.message);
     }
 
   }
