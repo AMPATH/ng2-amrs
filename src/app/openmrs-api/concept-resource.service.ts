@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject , ReplaySubject } from 'rxjs/Rx';
+import { Observable, Subject, ReplaySubject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 
 
@@ -11,7 +11,7 @@ export class ConceptResourceService {
   v: string = 'custom:(uuid,name,conceptClass)';
 
   constructor(protected http: Http,
-              protected appSettingsService: AppSettingsService) {
+    protected appSettingsService: AppSettingsService) {
   }
 
   getUrl(): string {
@@ -21,7 +21,7 @@ export class ConceptResourceService {
 
   searchConcept(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
 
-    let url = this.getUrl() ;
+    let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('q', searchText);
@@ -65,12 +65,12 @@ export class ConceptResourceService {
     return filteredConceptResults;
   }
   filterResultsByConceptClassesUuid(results, conceptClassesUuidArray) {
-    let res = _.filter(results,  (result) => {
-      return _.find(conceptClassesUuidArray,  (uuid) => {
-      return result.conceptClass.uuid === uuid;
+    let res = _.filter(results, (result: any) => {
+      return _.find(conceptClassesUuidArray, (uuid) => {
+        return result.conceptClass.uuid === uuid;
+      });
     });
-  });
-  return res;
-}
+    return res;
+  }
 }
 

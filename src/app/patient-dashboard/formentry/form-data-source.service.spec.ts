@@ -10,6 +10,7 @@ import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
+import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
 
 describe('Service: FormDataSourceService', () => {
   beforeEach(() => {
@@ -20,6 +21,7 @@ describe('Service: FormDataSourceService', () => {
         MockBackend,
         BaseRequestOptions,
         AppSettingsService,
+        ConceptResourceService,
         LocalStorageService,
         {
           provide: Http,
@@ -55,7 +57,7 @@ describe('Service: FormDataSourceService', () => {
     result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
-      expect(results[0].value).toEqual('uuid');
+      expect(results[0].id).toEqual('uuid');
       done();
     });
 
@@ -123,6 +125,6 @@ describe('Service: FormDataSourceService', () => {
       done();
     });
 
-  } );
+  });
 
 });

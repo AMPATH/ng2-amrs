@@ -5,43 +5,108 @@ import { Provider } from '../../models/provider.model';
 import { Patient } from '../../models/patient.model';
 import { PatientService } from '../patient.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
+import * as _ from 'lodash';
 
 @Injectable()
 
 export class FormDataSourceService {
 
   constructor(private providerResourceService: ProviderResourceService,
-    private locationResourceService: LocationResourceService) { }
+    private locationResourceService: LocationResourceService,
+    private conceptResourceService: ConceptResourceService) {
+  }
 
 
   getDataSources() {
+
+
     let formData: any = {
-      location: {
-        resolveSelectedValue: this.getLocationByUuid,
-        searchOption: this.findLocation
-      },
-      provider: {
-        resolveSelectedValue: this.getProviderByPersonUuid,
-        searchOption: this.findProvider
-      }
+      location: this.getLocationDataSource(),
+      provider: this.getProviderDataSource(),
+      drug: this.getDrugDataSource(),
+      problem: this.getProblemDataSource()
     };
     return formData;
   }
 
+  getLocationDataSource() {
+    let resolve = (uuid: string) => {
+      return this.getLocationByUuid(uuid);
+    };
 
-   findProvider(searchText): Observable<Provider[]> {
-    let providerSearchResults: BehaviorSubject<Provider[]> = new BehaviorSubject<Provider[]>([]);
+    let find = (text: string) => {
+      return this.findLocation(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+
+  getProviderDataSource() {
+    let resolve = (uuid: string) => {
+      return this.getProviderByPersonUuid(uuid);
+    };
+    let find = (text: string) => {
+      return this.findProvider(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+
+  getDrugDataSource() {
+    let resolve = (uuid: string) => {
+      return this.resolveConcept(uuid);
+    };
+    let find = (text: string) => {
+      return this.findDrug(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+
+  getProblemDataSource() {
+    let resolve = (uuid: string) => {
+      return this.resolveConcept(uuid);
+    };
+    let find = (text: string) => {
+      return this.findProblem(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+
+  findProvider(searchText): Observable<Provider[]> {
+    let providerSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
     let findProvider = this.providerResourceService.searchProvider(searchText, false);
     findProvider.subscribe(
       (provider) => {
         let selectedOptions = [];
-        for (let i = 0; i < provider.length; i++) {
-          selectedOptions.push({
-            label: provider[i].display || provider[i].person.display,
-            value: provider[i].person.uuid
-          });
-        }
-        providerSearchResults.next(selectedOptions);
+        let filtered = _.filter(provider, (p: any) => {
+          if (p.person) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+        let mappedProviders = filtered.map((p: any) => {
+          return {
+            id: p.person.uuid,
+            text: p.display
+          };
+        });
+        providerSearchResults.next(mappedProviders.slice(0, 10));
       },
       (error) => {
         providerSearchResults.error(error); // test case that returns error
@@ -52,12 +117,12 @@ export class FormDataSourceService {
 
   getProviderByUuid(uuid): Observable<any> {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-     this.providerResourceService.getProviderByUuid(uuid, false)
-       .subscribe(
+    this.providerResourceService.getProviderByUuid(uuid, false)
+      .subscribe(
       (provider) => {
         let mappedProvider = {
-          label: provider.display,
-          value: provider.uuid
+          id: provider.display,
+          text: provider.uuid
         };
         providerSearchResults.next(mappedProvider);
 
@@ -66,7 +131,7 @@ export class FormDataSourceService {
         providerSearchResults.error(error); // test case that returns error
       }
 
-    );
+      );
     return providerSearchResults.asObservable();
 
   }
@@ -74,16 +139,16 @@ export class FormDataSourceService {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.providerResourceService.getProviderByPersonUuid(uuid)
       .subscribe(
-        (provider) => {
-          let mappedProvider = {
-            label: (provider as any).person.display,
-            value: (provider as any).person.uuid
-          };
-          providerSearchResults.next(mappedProvider);
-        },
-        (error) => {
-          providerSearchResults.error(error); // test case that returns error
-        }
+      (provider) => {
+        let mappedProvider = {
+          text: (provider as any).person.display,
+          id: (provider as any).person.uuid
+        };
+        providerSearchResults.next(mappedProvider);
+      },
+      (error) => {
+        providerSearchResults.error(error); // test case that returns error
+      }
 
       );
     return providerSearchResults.asObservable();
@@ -105,21 +170,20 @@ export class FormDataSourceService {
   }
 
   findLocation(searchText): Observable<Location[]> {
-    let locationSearchResults: BehaviorSubject<Location[]> = new BehaviorSubject<Location[]>([]);
+    let locationSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
     let findLocation = this.locationResourceService.searchLocation(searchText, false);
     findLocation.subscribe(
-      (location) => {
-        let selectedOptions = [];
-        for (let i = 0; i < location.length; i++) {
-          selectedOptions.push({
-            label: location[i].display,
-            value: location[i].uuid
-          });
-        }
-        locationSearchResults.next(selectedOptions);
+      (locations) => {
+        let mappedLocations = locations.map((l: any) => {
+          return {
+            id: l.uuid,
+            text: l.display
+          };
+        });
+        locationSearchResults.next(mappedLocations.slice(0, 10));
       },
       (error) => {
-        locationSearchResults.error(error);
+        locationSearchResults.error(error); // test case that returns error
       }
     );
     return locationSearchResults.asObservable();
@@ -131,8 +195,8 @@ export class FormDataSourceService {
       .subscribe(
       (location) => {
         let mappedLocation = {
-          label: location.display,
-          value: location.uuid
+          text: location.display,
+          id: location.uuid
         };
         locationSearchResults.next(mappedLocation);
       },
@@ -143,4 +207,60 @@ export class FormDataSourceService {
     return locationSearchResults.asObservable();
   }
 
+  resolveConcept(uuid) {
+    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    this.conceptResourceService.getConceptByUuid(uuid).subscribe((result) => {
+      let mappedConcept = {
+        text: result.name.display,
+        id: result.uuid
+      };
+      conceptResult.next(mappedConcept);
+    }, (error) => {
+      conceptResult.error(error);
+    });
+    return conceptResult.asObservable();
+  }
+
+  findDrug(searchText) {
+    let conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    this.conceptResourceService.searchConcept(searchText).subscribe((concepts) => {
+      let filtered = _.filter(concepts, (concept: any) => {
+        if (concept.conceptClass &&
+          concept.conceptClass.uuid === '8d490dfc-c2cc-11de-8d13-0010c6dffd0f') {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      let mappedDrugs = this.mapConcepts(filtered);
+      conceptResults.next(mappedDrugs);
+    });
+    return conceptResults.asObservable();
+  }
+
+  findProblem(searchText) {
+    let conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    this.conceptResourceService.searchConcept(searchText).subscribe((concepts) => {
+      let filtered = _.filter(concepts, (concept: any) => {
+        if (concept.conceptClass &&
+          concept.conceptClass.uuid === '8d4918b0-c2cc-11de-8d13-0010c6dffd0f') {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      let mappedProblems = this.mapConcepts(filtered);
+      conceptResults.next(mappedProblems);
+    });
+    return conceptResults.asObservable();
+  }
+  mapConcepts(concepts) {
+    let mappedConcepts = concepts.map((concept) => {
+      return {
+        id: concept.uuid,
+        text: concept.name.display
+      };
+    });
+    return mappedConcepts;
+  }
 }

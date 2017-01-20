@@ -11,6 +11,7 @@ import { ProgramEnrollmentResourceService } from './program-enrollment-resource.
 import { UserService } from './user.service';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';
+import { ConceptResourceService } from './concept-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -28,7 +29,8 @@ import { PersonResourceService } from './person-resource.service';
     ProgramEnrollmentResourceService,
     UserService,
     ProviderResourceService,
-    PersonResourceService
+    PersonResourceService,
+    ConceptResourceService
   ],
   exports: []
 })
