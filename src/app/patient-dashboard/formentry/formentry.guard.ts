@@ -1,5 +1,5 @@
-import { Injectable }     from '@angular/core';
-import { Router, CanDeactivate }    from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router, CanDeactivate } from '@angular/router';
 import { ConfirmationService } from 'primeng/primeng';
 import { FormentryComponent } from './formentry.component';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
@@ -12,16 +12,10 @@ export class FromentryGuard implements CanDeactivate<FormentryComponent> {
   public canDeactivate(component: FormentryComponent): Observable<boolean> {
     if (!component.form || !component.form.rootNode.control.dirty) return Observable.of(true);
     return Observable.create((observer: Subject<boolean>) => {
-      this.confirmationService.confirm({
-        header: 'Changes Not Saved',
-        message: 'Are you sure you want to close this form?',
-        accept: () => {
-          observer.next(true);
-        },
-        reject: () => {
-          observer.next(false);
-        }
-      });
+      if (component.preserveFormAsDraft) {
+        component.setCurrentFormDraftedForm();
+      }
+      observer.next(true);
     }).first();
   }
 }

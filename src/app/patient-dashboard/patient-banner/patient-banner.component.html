@@ -1,11 +1,13 @@
+<drafted-form-nav></drafted-form-nav>
 <div class="container-fluid banner-info" *ngIf="patient">
-  <div class="row banner-left">
-	  <div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
-	  <div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
-	  <div class="col-sm-3">DOB : {{ birthdate }} ( {{ patient?.person.age }} Yrs )</div>
+	<div class="row banner-left">
+		<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
+		<div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
+		<div class="col-sm-3">DOB : {{ birthdate }} ( {{ patient?.person.age }} Yrs )</div>
 		<div class="col-sm-3">HEALTH CENTER : {{patient?.person.healthCenter}}<span *ngIf="patient?.person.healthCenter == ''"> Not Available</span></div>
-  </div>
-  <div class="row banner-right">
+	</div>
+
+	<div class="row banner-right">
 		<div class="col-sm-3">
 			<span class="identifier">MUI : </span>
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> {{ searchIdentifiers?.ampathMrsUId }}</span>
@@ -26,7 +28,5 @@
 			<span *ngIf="searchIdentifiers?.cCC"> {{ searchIdentifiers?.cCC }}</span>
 			<span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
 		</div>
-  </div>
+	</div>
 </div>
-
-
