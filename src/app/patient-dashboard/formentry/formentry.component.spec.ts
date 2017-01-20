@@ -263,7 +263,7 @@ describe('Component: FormentryComponent', () => {
     );
 
     it('should NOT populate form with historical values/ encounters when ' +
-        'editting an existing form',
+        'editting an existing form. Case: editting exsting form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
             ActivatedRoute],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
@@ -301,7 +301,7 @@ describe('Component: FormentryComponent', () => {
             })
     );
 
-    it('should tie encounter/form to a visit if visit-uuid exists ',
+    it('should tie encounter/form to a visit if visit-uuid exists: Case: creating new form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
             ActivatedRoute],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
@@ -337,7 +337,8 @@ describe('Component: FormentryComponent', () => {
             })
     );
 
-    it('should NOT tie encounter/form to a visit even if the visit-uuid is defined',
+    it('should NOT tie encounter/form to a visit even if the visit-uuid is defined' +
+        ' when editting form: Case Editting existing form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
             ActivatedRoute],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
@@ -353,6 +354,7 @@ describe('Component: FormentryComponent', () => {
                 });
                 // providing required dependancies like historical encounter
                 activatedRoute.queryParams = Observable.of({
+                    visitUuid: 'visit-uuid',
                     encounter: 'encounetr-uuid'
                 });
                 activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
@@ -372,15 +374,35 @@ describe('Component: FormentryComponent', () => {
             })
     );
 
-    it('should NOT tie encounter/form to a visit even if the visit-uuid is defined',
+    it('should populate form with default values. Case: creting new form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-            ActivatedRoute],
+            ActivatedRoute, UserService, UserDefaultPropertiesService],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
                 formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-                activatedRoute: ActivatedRoute) => {
+                activatedRoute: ActivatedRoute, userService: UserService,
+                userDefaultPropertiesService: UserDefaultPropertiesService) => {
                 spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
                     return form;
                 });
+
+                // spy userDefaultPropertiesService 
+                spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
+                    .and.callFake(function (param) {
+                        return {
+                            uuid: 'location-uuid',
+                            display: 'location'
+                        };
+                    });
+
+                // spy userService
+                spyOn(userService, 'getLoggedInUser')
+                    .and.callFake(function (param) {
+                        return {
+                            personUuid: 'person-uuid',
+                            display: 'person name'
+                        };
+                    });
+
 
                 spyOn(formFactory, 'createForm').and.callFake(function (form, historicalEncounter) {
                     expect(form).toBeDefined();
@@ -388,7 +410,7 @@ describe('Component: FormentryComponent', () => {
                 });
                 // providing required dependancies like historical encounter
                 activatedRoute.queryParams = Observable.of({
-                    encounter: 'encounetr-uuid'
+                    encounter: '' // --> this means we are creating new form
                 });
                 activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
                 activatedRoute.data = Observable.of({
@@ -400,8 +422,67 @@ describe('Component: FormentryComponent', () => {
                 formentryComponent.ngOnInit();
                 // check if it calls createForm
                 expect(formFactory.createForm).toHaveBeenCalled();
-                // visit should not be present
-                expect(formentryComponent.form.valueProcessingInfo.visitUuid).toBeNull;
+                // now check to ensure we are setting default data
+                expect(userDefaultPropertiesService.getCurrentUserDefaultLocationObject)
+                    .toHaveBeenCalled();
+                expect(userService.getLoggedInUser).toHaveBeenCalled();
+
+
+            })
+    );
+
+    it('should NOT populate form with default values when editting form',
+        inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
+            ActivatedRoute, UserService, UserDefaultPropertiesService],
+            (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+                formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+                activatedRoute: ActivatedRoute, userService: UserService,
+                userDefaultPropertiesService: UserDefaultPropertiesService) => {
+                spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
+                    return form;
+                });
+
+                // spy userDefaultPropertiesService 
+                spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
+                    .and.callFake(function (param) {
+                        return {
+                            uuid: 'location-uuid',
+                            display: 'location'
+                        };
+                    });
+
+                // spy userService
+                spyOn(userService, 'getLoggedInUser')
+                    .and.callFake(function (param) {
+                        return {
+                            personUuid: 'person-uuid',
+                            display: 'person name'
+                        };
+                    });
+
+
+                spyOn(formFactory, 'createForm').and.callFake(function (form, historicalEncounter) {
+                    expect(form).toBeDefined();
+                    return renderableForm;
+                });
+                // providing required dependancies like historical encounter
+                activatedRoute.queryParams = Observable.of({
+                    encounter: 'encounter-uuid' // --> this means we are editting existing form
+                });
+                activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
+                activatedRoute.data = Observable.of({
+                    compiledSchemaWithEncounter: {
+                        encounter: previousEncounter,
+                        schema: schema
+                    }
+                });
+                formentryComponent.ngOnInit();
+                // check if it calls createForm
+                expect(formFactory.createForm).toHaveBeenCalled();
+                // now check to ensure we are setting default data
+                expect(userDefaultPropertiesService.getCurrentUserDefaultLocationObject)
+                    .not.toHaveBeenCalled();
+                expect(userService.getLoggedInUser).not.toHaveBeenCalled();
 
 
             })
@@ -443,6 +524,44 @@ describe('Component: FormentryComponent', () => {
                 expect(formentryComponent.form.valueProcessingInfo.formUuid).not.toBeNull;
                 expect(formentryComponent.form.valueProcessingInfo.encounterTypeUuid).not.toBeNull;
 
+
+            })
+    );
+    it('should populate form with encounter, obs, orders when editting form',
+        inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
+            ActivatedRoute],
+            (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+                formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+                activatedRoute: ActivatedRoute) => {
+                spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
+                    return form;
+                });
+
+                spyOn(formFactory, 'createForm').and.callFake(function (form, historicalEncounter) {
+                    expect(form).toBeDefined();
+                    expect(historicalEncounter).not.toBeDefined();
+                    return renderableForm;
+                });
+                // providing required dependancies like historical encounter
+                activatedRoute.queryParams = Observable.of({ encounter: 'encounter-uuid' });
+                activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
+                activatedRoute.data = Observable.of({
+                    compiledSchemaWithEncounter: {
+                        encounter: previousEncounter,
+                        schema: schema
+                    }
+                });
+                formentryComponent.ngOnInit();
+                // check if it calls createForm
+                expect(formFactory.createForm).toHaveBeenCalled();
+                // check if createForm was called with schema parameter only
+                // calling  formFactory.createForm(a) -means creating form without hitorical enc
+                // calling  formFactory.createForm(a,b) --means creating form with encounters
+                expect(formFactory.createForm).not
+                    .toHaveBeenCalledWith(schema, previousEncounter);
+                expect(formFactory.createForm).toHaveBeenCalledWith(schema);
+                // check if form was populated with selected encounter
+                expect(encounterAdapter.populateForm).toHaveBeenCalled();
 
             })
     );
