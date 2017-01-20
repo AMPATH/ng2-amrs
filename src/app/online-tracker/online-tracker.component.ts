@@ -5,7 +5,6 @@ import { Http, Response, Headers } from '@angular/http';
 import { SessionService } from '../openmrs-api/session.service';
 
 @Component({
-    moduleId: module.id,
     selector: 'online-tracker',
     template: `
     <p *ngIf="isOnline" class="text-bold"><i class="fa fa-circle text-success"></i>

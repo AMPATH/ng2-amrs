@@ -132,8 +132,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else { // creating new from
         this.form = this.formFactory.createForm(schema, historicalEncounter);
         this.form.valueProcessingInfo.patientUuid = this.patient.uuid;
+        // add visit uuid if present
         if (this.visitUuid && this.visitUuid !== '')
           this.form.valueProcessingInfo.visitUuid = this.visitUuid;
+        // now set default value
+        this.loadDefaultValues();
       }
 
       // add valueProcessingInfo
@@ -141,11 +144,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.form.valueProcessingInfo.formUuid = schema.uuid;
       this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
 
-      // now set default value
-      this.loadDefaultValues();
     } catch (ex) {
       // TODO Handle all form rendering errors
-      console.log('An error occured while rendering form:', ex);
+      console.error('An error occured while rendering form:', ex);
       this.formRenderingErrors.push('An error occured while rendering form: ' + ex.message);
     }
 

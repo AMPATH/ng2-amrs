@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Form } from 'ng2-openmrs-formentry';
 import { EncounterAdapter, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
@@ -43,8 +43,10 @@ export class FormSubmissionService {
     let payloadBatch: Array<Observable<any>> = [];
     if (Array.isArray(payloadTypes) && payloadTypes.length > 0) {
       payloadTypes.forEach((payloadType: any, key) => {
+
         switch (payloadType) {
           case 'encounter':
+
             let encounterPayload: any = this.encounterAdapter.generateFormPayload(form);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
@@ -59,6 +61,7 @@ export class FormSubmissionService {
             }
             break;
           case 'personAttribute':
+
             let personAttrPayload: Array<any> =
               this.personAttributeAdapter.generateFormPayload(form);
             if (!_.isEmpty(personAttrPayload)) { // this should be > 0
@@ -83,22 +86,24 @@ export class FormSubmissionService {
   }
 
   private submitEncounterPayload(form: Form, encounterPayload: any): Observable<any> {
-    let observable: Observable<any> = null;
-    if (encounterPayload.uuid) {
-      observable = this.encounterResourceService
+    if (encounterPayload.uuid) { // editting existing form
+      return this.encounterResourceService
         .updateEncounter(encounterPayload.uuid, encounterPayload);
-    } else {
-      observable = this.encounterResourceService.saveEncounter(encounterPayload);
+    } else { // creating new form
+      return this.encounterResourceService.saveEncounter(encounterPayload);
     }
-    return observable;
   }
 
   private submitPersonAttributePayload(form: Form, payload: any): Observable<any> {
     let personAttributePayload: any = {
       attributes: payload
     };
-    return this.personResourceService
-      .saveUpdatePerson(form.valueProcessingInfo.personUuid, personAttributePayload);
+    if (form.valueProcessingInfo.personUuid) {
+      return this.personResourceService
+        .saveUpdatePerson(form.valueProcessingInfo.personUuid, personAttributePayload);
+    } else {
+      return Observable.throw('Form does not have: form.valueProcessingInfo.personUuid');
+    }
   }
 
   private processFormSubmissionResponse(responses: Array<any>): any {
@@ -134,7 +139,6 @@ export class FormSubmissionService {
 
   private processFormSubmissionErrors(response: any, payloadType: string): Array<any> {
     let errors: Array<any> = [];
-
     switch (payloadType) {
       case 'encounter':
         errors.push('Encounter Error: '
