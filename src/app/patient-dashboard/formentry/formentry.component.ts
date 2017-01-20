@@ -9,9 +9,10 @@ import { EncounterResourceService } from '../../openmrs-api/encounter-resource.s
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../patient.service';
+import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
-import { Observable, Subject } from 'rxjs';
-
+import { Observable, Subject } from 'rxjs/Rx';
+import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 
 import { UserService } from '../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
@@ -49,13 +50,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private formSubmissionService: FormSubmissionService,
     private router: Router,
-    private patientService: PatientService) {
+    private patientService: PatientService,
+    private formDataSourceService: FormDataSourceService,
+    private dataSources: DataSources) {
   }
 
   public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
 
+    this.wireDataSources();
     // get visitUuid & encounterUuid then load form
     this.route.queryParams.subscribe((params) => {
       this.visitUuid = params['visitUuid'];
@@ -68,7 +72,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Unloaded', 'ngOnDestroy');
   }
-
+  wireDataSources() {
+    this.dataSources.registerDataSource('location',
+      this.formDataSourceService.getDataSources()['location']);
+    this.dataSources.registerDataSource('provider',
+      this.formDataSourceService.getDataSources()['provider']);
+    this.dataSources.registerDataSource('drug',
+      this.formDataSourceService.getDataSources()['drug']);
+    this.dataSources.registerDataSource('problem',
+      this.formDataSourceService.getDataSources()['problem']);
+  }
   public onSubmit(): void {
     console.log('FORM MODEL:', this.form.rootNode.control);
     this.submitForm();

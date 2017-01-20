@@ -67,6 +67,7 @@ import { FormCreationDataResolverService } from './formentry/form-creation-data-
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 import { FormSubmissionService } from './formentry/form-submission.service';
+import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 
 @NgModule({
   imports: [
@@ -136,7 +137,6 @@ import { FormSubmissionService } from './formentry/form-submission.service';
     FormOrderMetaDataService,
     FormsResourceService,
     PatientVitalsService,
-    EncounterResourceService,
     FormSchemaService,
     FormDataSourceService,
     FormentryHelperService,
@@ -145,7 +145,8 @@ import { FormSubmissionService } from './formentry/form-submission.service';
     EncounterAdapter,
     FormCreationDataResolverService,
     OrderResourceService,
-    FormSubmissionService
+    FormSubmissionService,
+    DataSources
   ],
   exports: [
     PatientDashboardComponent,

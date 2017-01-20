@@ -39,6 +39,11 @@ import { SessionStorageService } from '../../utils/session-storage.service';
 import { FormSubmissionService } from './form-submission.service';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { Patient } from '../../models/patient.model';
+import { FormDataSourceService } from './form-data-source.service';
+import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
+import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 
 describe('Component: FormentryComponent', () => {
     let router = {
@@ -103,7 +108,12 @@ describe('Component: FormentryComponent', () => {
                 ProgramEnrollmentResourceService,
                 ObsValueAdapter,
                 PersonAttribuAdapter,
+                FormDataSourceService,
                 FormSubmissionService,
+                ProviderResourceService,
+                LocationResourceService,
+                ConceptResourceService,
+                DataSources,
                 {
                     provide: EncounterResourceService, useFactory: () => {
                         return new EncounterResourceServiceMock();
