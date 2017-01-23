@@ -71,6 +71,8 @@ import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sourc
 import { PatientReminderService } from './patient-reminders/patient-reminders.service';
 import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
+import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
+import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
 
 @NgModule({
   imports: [
@@ -121,7 +123,8 @@ import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component'
     Ng2FilterPipe,
     FormentryComponent,
     LabTestOrdersComponent,
-    DraftedFormNavComponent
+    DraftedFormNavComponent,
+    TodaysVitalsComponent
   ],
   providers: [
     PatientEncounterService,
@@ -152,7 +155,8 @@ import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component'
     FormSubmissionService,
     DataSources,
     PatientReminderService,
-    DraftedFormsService
+    DraftedFormsService,
+    TodaysVitalsService
   ],
   exports: [
     PatientDashboardComponent,
