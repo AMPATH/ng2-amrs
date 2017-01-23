@@ -1,60 +1,60 @@
 <div class="wrapper">
-<div [ngBusy]="busyIndicator">
+	<div [ngBusy]="busyIndicator">
 
-	<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
-	<div class='col-md-12' *ngIf=form>
-		<error-renderer [form]="form"></error-renderer>
-		<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
-			<form-renderer [node]="form.rootNode"></form-renderer>
-			<div class="form-row">
-				<button *ngIf="!formSubmissionErrors" class="btn btn-primary" type="submit">Save</button>
-			</div>
-		</form>
-	</div>
-	<br/> &nbsp;
-	<div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
-		<div class="panel-heading">
-			<h5>
-				<strong class="text-danger">
+		<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
+		<div class='col-md-12' *ngIf=form>
+			<error-renderer [form]="form"></error-renderer>
+			<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
+				<form-renderer [node]="form.rootNode"></form-renderer>
+				<div class="form-row">
+					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" type="submit">Save</button>
+				</div>
+			</form>
+		</div>
+		<br/> &nbsp;
+		<div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
+<div class="panel-heading">
+	<h5>
+		<strong class="text-danger">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
 					The following error(s) occured while submitting form, please review form and retry saving!
 					</strong>
-			</h5>
-		</div>
-		<div class="panel-body">
-			<ul class="list-group">
-				<li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
-			</ul>
-		</div>
-		<div class="panel-footer" style="min-height: 50px">
-		<button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
-		</div>
-	</div>
-	<br/> &nbsp;
-	<div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
-		<div class="panel-heading">
-			<h5>
-				<strong class="text-danger">
+	</h5>
+</div>
+<div class="panel-body">
+	<ul class="list-group">
+		<li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
+	</ul>
+</div>
+<div class="panel-footer" style="min-height: 50px">
+<button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
+</div>
+</div>
+<br/> &nbsp;
+<div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
+<div class="panel-heading">
+	<h5>
+		<strong class="text-danger">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
 					The following error(s) occured while rendering form, please report this error!
 					</strong>
-			</h5>
-		</div>
-		<div class="panel-body">
-			<ul class="list-group">
-				<li *ngFor="let formError of formRenderingErrors" class="list-group-item text-danger">{{formError}}</li>
-			</ul>
-		</div>
-		<div class="panel-footer" style="min-height: 50px">
-		<button (click)="loadForm()" class="btn btn-primary pull-right">Retry Loading Form</button>
-		</div>
-	</div>
+	</h5>
+</div>
+<div class="panel-body">
+	<ul class="list-group">
+		<li *ngFor="let formError of formRenderingErrors" class="list-group-item text-danger">{{formError}}</li>
+	</ul>
+</div>
+<div class="panel-footer" style="min-height: 50px">
+<button (click)="loadForm()" class="btn btn-primary pull-right">Retry Loading Form</button>
+</div>
+</div>
 </div>
 <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" minWidth="300" responsive="true">
 	<strong class="text-success">
@@ -68,7 +68,7 @@
 		Here are the lab test(s) you ordered:
 		<br>
 		<ul class="list-group">
-				<li *ngFor="let orderedTest of orderedTests" class="list-group-item text-info">{{orderedTest}}</li>
+			<li *ngFor="let orderedTest of orderedTests" class="list-group-item text-info">{{orderedTest}}</li>
 		</ul>
 	</div>
 
@@ -81,13 +81,4 @@
 	</footer>
 
 </p-dialog>
-<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-<div class='col-md-12' *ngIf=form>
-	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
-		<form-renderer [node]="form.rootNode"></form-renderer>
-		<div class="form-row">
-			<button class="btn btn-primary" type="submit">Save</button>
-		</div>
-	</form>
-</div>
 </div>
