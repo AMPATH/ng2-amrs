@@ -62,6 +62,13 @@ export class PatientSearchComponent implements OnInit {
     }
   }
 
+  updatePatientCount(search) {
+
+    if (this.totalPatients > 0 && search.length > 0) {
+      this.totalPatients = 0;
+    }
+  }
+
   loadPatientData(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {
       return;

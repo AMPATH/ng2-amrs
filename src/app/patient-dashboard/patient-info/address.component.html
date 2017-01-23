@@ -1,11 +1,13 @@
-<div >
-  <ul class="list-group">
-    <li class="list-group-item" style="font-size:medium" >County:{{patients.person.preferredAddress?.address1}}</li>
-    <li class="list-group-item" style="font-size:medium" >Sub County: {{patients.person.preferredAddress?.address2}} </li>
-    <li class="list-group-item" style="font-size:medium" >Estate/Landmark: {{patients.person.preferredAddress?.address3}} </li>
-    <li class="list-group-item" style="font-size:medium"> Town/Village: {{patients.person.preferredAddress?.cityVillage}}
-    </li>
-    <li class="list-group-item" style="font-size:medium" >State/Province: {{patients.person.preferredAddress?.stateProvince}} </li>
+<dl>
+  <dt>County</dt>
+  <dd>{{patients.person.preferredAddress?.address1}}</dd>
+  <dt>Sub County</dt>
+  <dd>{{patients.person.preferredAddress?.address2}}</dd>
+  <dt>Estate/Landmark</dt>
+  <dd>{{patients.person.preferredAddress?.address3}}</dd>
+  <dt>Town/Village</dt>
+  <dd>{{patients.person.preferredAddress?.cityVillage}}</dd>
+  <dt>State/Province</dt>
+  <dd>{{patients.person.preferredAddress?.stateProvince}}</dd>
+</dl>
 
-  </ul>
-</div>

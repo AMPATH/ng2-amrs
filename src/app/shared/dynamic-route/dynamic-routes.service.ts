@@ -54,7 +54,9 @@ export class DynamicRoutesService {
           url: url,
           label: nonProgramRoute['label'],
           icon: nonProgramRoute['icon'],
-          isSideBarOpen: nonProgramRoute['isSideBarOpen']
+          menuStartLetter: this.getMenuStartLetter(nonProgramRoute['label']),
+          isSideBarOpen: nonProgramRoute['isSideBarOpen'],
+          onClick: this.hideSidebar
         }
       );
     });
@@ -71,7 +73,9 @@ export class DynamicRoutesService {
               url: url,
               label: programRoute['label'],
               icon: programRoute['icon'],
-              isSideBarOpen: programRoute['isSideBarOpen']
+              menuStartLetter: this.getMenuStartLetter(programRoute['label']),
+              isSideBarOpen: programRoute['isSideBarOpen'],
+              onClick: this.hideSidebar
             };
             let index = routes.findIndex(x => x['url'] === url);
             if (index === -1)
@@ -81,6 +85,19 @@ export class DynamicRoutesService {
       });
     });
     return routes;
+  }
+
+  public getMenuStartLetter(label: string) {
+    label = label.trim();
+    return label === 'Lab Orders' ? 'O' : label.substring(0, 1);
+  }
+
+  public hideSidebar($event) {
+
+    let body = document.getElementsByTagName('body')[0];
+    body.classList.remove('sidebar-collapse');
+    body.classList.remove('sidebar-open');
+    body.classList.add('sidebar-collapse');
   }
 
   public extractParameter(routeParameterKey: string, route: DynamicRouteModel): string {

@@ -2,7 +2,7 @@
     color: #214a5f;
     width: 100%;
     background-color: #d9edf7;
-    padding: 1%;
+    padding: 15px;
 }
 
 @media screen and (max-width: 767px ) and (min-width: 480px ) {
@@ -13,5 +13,27 @@
     .banner-right {
         float: right;
         width: 50%;
+    }
+}
+.banner-detail {
+    background-color: white;
+}
+.badge {
+    display: none;
+}
+.btn-banner {
+    background-color: white;
+    margin: 1px;
+}
+.badge {
+    display: unset;
+}
+.button {
+    border: 2px solid;
+}
+@media screen and (max-width: 768px) {
+
+    .attributes {
+        width: 100%;
     }
 }

@@ -10,14 +10,11 @@
   </div>
 </form>
 <hr />
-<div *ngIf="fetching && !experiencedLoadingError" class="alert alert-info">
-  <p>Fetching Notes...</p>
-</div>
-<div *ngIf="!hasNotes && !experiencedLoadingError && !fetching" class="alert alert-warning">
+<div *ngIf="!hasNotes && !experiencedLoadingError && !fetching" class="alert alert-danger">
   <p>No notes found</p>
 </div>
-<div *ngIf="experiencedLoadingError" class="bg-error">
-  <p class="alert alert-error">Sorry, an error occured while fetching!
+<div *ngIf="experiencedLoadingError" class="alert alert-danger">
+  <p>Sorry, an error occured while fetching!</p>
 </div>
 <div [ngBusy]="isBusy"></div>
 <div *ngIf="hasNotes">

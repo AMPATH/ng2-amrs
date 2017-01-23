@@ -76,9 +76,13 @@ describe('Component: Patient Demographics Unit Tests', () => {
       () => {
         comp.ngOnInit();
         fixture.detectChanges();
-        let items = nativeElement.querySelectorAll('li');
-        expect(items[0].innerHTML).toBe('Name: NAME');
-        expect(items[1].innerHTML).toBe('Age: 20');
-        expect(items[2].innerHTML).toBe('DOB: 22-11-2016');
+        let dt = nativeElement.querySelectorAll('dt');
+        let dd = nativeElement.querySelectorAll('dd');
+        expect(dt[0].innerHTML).toBe('Name');
+        expect(dd[0].innerHTML).toBe('NAME');
+        expect(dt[1].innerHTML).toBe('Age');
+        expect(dd[1].innerHTML).toBe('20');
+        expect(dt[2].innerHTML).toBe('DOB');
+        expect(dd[2].innerHTML).toBe('22-11-2016');
       }));
 });

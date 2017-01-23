@@ -16,3 +16,164 @@
 .slick-slide {
 	outline: none;
 }
+
+/**
+GENERAL
+*/
+.clear-fix {
+  height: 1px !important;
+}
+
+patient-banner {
+  display: block;
+}
+
+.alert {
+  border-radius: 0px !important;
+}
+
+/**
+PATIENT BANNER
+*/
+
+.banner-info.alert {
+  margin-bottom: 0px;
+}
+
+.box {
+  border-radius: 0px !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+
+}
+
+.box-header {
+  padding-bottom:0 !important;
+}
+
+.bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+  background-color: #428bca !important;
+}
+
+/**
+PATIENT INFO TAB
+*/
+
+body .ui-accordion .ui-accordion-header.ui-state-active {
+  background-color: #428bca !important;
+  border: 1px solid #428bca;
+  border-bottom: 0;
+}
+
+body .ui-accordion .ui-accordion-header {
+  margin-top:3px !important;
+}
+
+body .ui-accordion .ui-accordion-header, body a {
+  color: #337ab7 !important;
+}
+
+body .ui-accordion .ui-accordion-header.ui-state-active a {
+  border: 1px solid #428bca;
+}
+
+body .ui-accordion .ui-accordion-header.ui-state-active a, body .ui-accordion .ui-accordion-header.ui-state-active span.fa {
+  color: #ffffff !important;
+
+}
+
+body .ui-accordion .ui-accordion-content {
+  margin-bottom:12px;
+}
+
+body .ui-corner-all {
+  border-radius: 0px !important;
+}
+
+body .ui-widget, body .ui-widget .ui-widget {
+  padding:0px;
+}
+
+body .icon-menu-label {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.content-wrapper {
+
+}
+
+.content-wrapper dd {
+  margin: 0 0 0 50%;
+}
+.content-wrapper dd::after {
+  content: '\A';
+  white-space: pre-line;
+}
+.content-wrapper dd:last-of-type::after {
+  content: '';
+}
+.content-wrapper dd, dt {
+  display: inline-block;
+  width: 48%
+}
+.content-wrapper dd, dt, .address {
+  vertical-align: middle;
+}
+.content-wrapper dt {
+  font-weight: bolder;
+}
+.content-wrapper dt::after {
+  content: ': ';
+}
+
+.address {
+  display: inline-block;
+  white-space: pre;
+}
+
+pagination-controls {
+  padding-left: 0;
+}
+
+pagination-controls li a, pagination-controls li.current span{
+  position: relative;
+  padding: 9px 12px !important;
+  line-height: 1.42857143;
+  color: #428bca;
+  text-decoration: none;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px !important;
+  margin: 0 5px;
+}
+
+pagination-controls li.disabled {
+  display: none !important;
+}
+
+pagination-controls li.current a,
+pagination-controls li.current span,
+pagination-controls li.current a:hover,
+pagination-controls li.current span:hover,
+pagination-controls li.current a:focus,
+pagination-controls li.current span:focus {
+  z-index: 2;
+  color: #fff;
+  cursor: default;
+  background-color: #428bca;
+  border-color: #428bca;
+}
+
+pagination-controls li.current {
+  background: none !important;
+}
+
+pagination-controls li.pagination-next a, pagination-controls li.pagination-previous a {
+  border-radius:7px !important;
+}
+
+pagination-controls li:first-child a,
+pagination-controls li:first-child span {
+  margin-left: 0;
+}
