@@ -13,7 +13,8 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
 
   let backend: MockBackend, patientUuid = '79803198-2d23-49cd-a7b3-4f672bd8f659';
   let report = 'clinical-reminder-report';
-
+  let referenceDate: Date = new Date();
+  console.log('reference', referenceDate);
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -54,9 +55,8 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       indicators: 'needs_vl_coded,overdue_vl_lab_order,' +
       'months_since_last_vl_date,new_viral_load_present,' +
       'ordered_vl_has_error,is_on_inh_treatment',
-      referenceDate: '2017-01-17T07:55:09.717Z'
+       referenceDate:  new Date().toISOString()
     };
-
     backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
@@ -67,7 +67,8 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
           'months_since_last_vl_date,new_viral_load_present,' +
           'ordered_vl_has_error,is_on_inh_treatment' +
           '&limit=1&patientUuid=79803198-2d23-49cd-a7b3-4f672bd8f659' +
-          '&referenceDate=2017-01-17T07:55:09.717Z&report=clinical-reminder-report&startIndex=0'
+          '&referenceDate=' + params.referenceDate +
+          '&report=clinical-reminder-report&startIndex=0'
         );
       let options = new ResponseOptions({
         body: JSON.stringify({

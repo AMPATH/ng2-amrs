@@ -68,6 +68,8 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 import { FormSubmissionService } from './formentry/form-submission.service';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { PatientReminderService } from './patient-reminders/patient-reminders.service';
+
 
 @NgModule({
   imports: [
@@ -146,7 +148,9 @@ import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sourc
     FormCreationDataResolverService,
     OrderResourceService,
     FormSubmissionService,
-    DataSources
+    DataSources,
+    PatientReminderService
+
   ],
   exports: [
     PatientDashboardComponent,
