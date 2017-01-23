@@ -187,6 +187,10 @@
 	.login section .box .banner .title {
 		font-size: 25px;
 	}
+
+  .sidebar-mini.sidebar-collapse .main-footer{
+    margin-left: 0 !important;
+  }
 }
 
 @media (min-width: 992px) {
