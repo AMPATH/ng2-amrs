@@ -11,25 +11,22 @@ export class PatientReminderService {
   }
 
 
-  getPatientReminders(indicators: string, limit: number, patientUuid: string,
-                      referenceDate: string, report: string,
-                      startIndex: number): Observable<any> {
+  getPatientReminders(patientUuid: string): Observable<any> {
     let reminders: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let clinicalReminders =
-      this.patientReminderResourceService.getPatientLevelReminders(indicators,
-        limit, patientUuid, referenceDate, report, startIndex);
-      clinicalReminders.subscribe(
-        (data) => {
-          if (data) {
-            let result = data;
-            let processReminders = this.generateReminders(result);
-            reminders.next(processReminders);
-          }
-        },
-        (error) => {
-          reminders.error(error);
-          console.error(error);
-        });
+      this.patientReminderResourceService.getPatientLevelReminders(patientUuid);
+    clinicalReminders.subscribe(
+      (data) => {
+        if (data) {
+          let result = data;
+          let processReminders = this.generateReminders(result);
+          reminders.next(processReminders);
+        }
+      },
+      (error) => {
+        reminders.error(error);
+        console.error(error);
+      });
     return reminders.asObservable();
   }
 
@@ -37,19 +34,6 @@ export class PatientReminderService {
     let reminders = [];
     // viral load follow ups
     _.each(results, (data) => {
-      if (data.last_vl_date) {
-        reminders.push({
-          message: 'Last viral load: ' + data.viral_load + ' on ' +
-          '(' + Moment(data.last_vl_date).format('DD/MM/YYYY') + ')' + ' ' +
-          data.months_since_last_vl_date + ' months ago.',
-          title: 'Viral Load Reminder',
-          type: 'success',
-          display: {
-            banner: false,
-            toast: true
-          }
-        });
-      }
       // New Viral Load Present
       if (data.new_viral_load_present) {
         reminders.push({
@@ -67,8 +51,8 @@ export class PatientReminderService {
       if (data.ordered_vl_has_error === 1) {
         reminders.push({
           message: 'Viral load test that was ordered on: (' +
-          Moment(data.reminders.vl_error_order_date).format('DD/MM/YYYY') + ')' +
-            'resulted to an error. Please re-order.',
+          Moment(data.vl_error_order_date).format('DD/MM/YYYY') + ') ' +
+          'resulted to an error. Please re-order.',
           title: 'Lab Error Reminder',
           type: 'warning',
           display: {
@@ -121,11 +105,19 @@ export class PatientReminderService {
           }
         });
       }
+
+      let labMessage: string = 'Last viral load: none';
+      if (data.last_vl_date) {
+        labMessage = 'Last viral load: ' + data.viral_load + ' on ' +
+        '(' + Moment(data.last_vl_date).format('DD/MM/YYYY') + ')' + ' ' +
+        data.months_since_last_vl_date + ' months ago.';
+      }
+
       switch (data.needs_vl_coded) {
         case 1:
           reminders.push({
             message: 'Patient requires viral load. Viral loads > 1000 ' +
-            'must be repeated in three months.',
+            'must be repeated in three months. ' + labMessage,
             title: 'Viral Load Reminder',
             type: 'warning',
             display: {
@@ -137,7 +129,7 @@ export class PatientReminderService {
         case 2:
           reminders.push({
             message: 'Patient requires viral load. Patients newly on ART require ' +
-            'a viral load test every 6 months.',
+            'a viral load test every 6 months. ' + labMessage,
             title: 'Viral Load Reminder',
             type: 'warning',
             display: {
@@ -149,7 +141,7 @@ export class PatientReminderService {
         case 3:
           reminders.push({
             message: 'Patient requires viral load. Patients on ART > 1 year require ' +
-            'a viral load test every year.',
+            'a viral load test every year. ' + labMessage,
             title: 'Viral Load Reminder',
             type: 'warning',
             display: {
@@ -165,4 +157,3 @@ export class PatientReminderService {
     return reminders;
   }
 }
-

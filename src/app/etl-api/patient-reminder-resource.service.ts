@@ -27,14 +27,13 @@ export class PatientReminderResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'get-report-by-report-name';
   }
 
-  getPatientLevelReminders(indicators: string, limit: number, patientUuid: string,
-                           referenceDate: string, report: string,
-                           startIndex: number): Observable<any> {
+  getPatientLevelReminders(patientUuid: string): Observable<any> {
     console.log('this.referenceDate', this.referenceDate.toISOString());
 
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
-    params.set('indicators', (indicators && indicators.length > 0) ? indicators : this.indicators);
+    params.set('indicators', (this.indicators && this.indicators.length > 0) ?
+      this.indicators : this.indicators);
     params.set('limit', this.limit.toString());
     params.set('patientUuid', patientUuid);
     params.set('referenceDate', this.referenceDate.toISOString());
