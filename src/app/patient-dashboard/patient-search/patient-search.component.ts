@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../../models/patient.model';
-
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
