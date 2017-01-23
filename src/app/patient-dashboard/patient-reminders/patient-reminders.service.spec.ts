@@ -34,8 +34,7 @@ describe('Service: PatientReminderService', () => {
       ]
     });
     service = TestBed.get(PatientReminderService);
-    reminders = service.getPatientReminders('', 1, '79803198-2d23-49cd-a7b3-4f672bd8f659',
-      '', '', 0);
+    reminders = service.getPatientReminders('79803198-2d23-49cd-a7b3-4f672bd8f659');
 
 
   });
@@ -67,7 +66,7 @@ describe('Service: PatientReminderService', () => {
     backend.connections.subscribe((connection: MockConnection) => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
-    service.getPatientReminders('', 1, patientUuid, '', '', 0)
+    service.getPatientReminders(patientUuid)
       .subscribe((response) => {
         },
         (error: Error) => {

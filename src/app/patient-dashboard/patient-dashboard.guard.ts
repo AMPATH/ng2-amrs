@@ -17,6 +17,7 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './patient.service';
 import { DraftedFormsService } from './formentry/drafted-forms.service';
+import { ToastrService } from 'toastr-ng2';
 
 
 @Injectable()
@@ -26,7 +27,8 @@ export class PatientDashboardGuard implements CanActivate,
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
     private route: ActivatedRoute, private patientService: PatientService,
     private draftedFormsService: DraftedFormsService,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService,
+    private toastrService: ToastrService) {
   }
 
   canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -58,6 +60,7 @@ export class PatientDashboardGuard implements CanActivate,
   }
 
   canDeactivate(target: PatientDashboardComponent): Observable<boolean> {
+    this.toastrService.clear();
     if (this.draftedFormsService.lastDraftedForm === null ||
       this.draftedFormsService.lastDraftedForm === undefined ||
       !this.draftedFormsService.lastDraftedForm.rootNode.control.dirty) {
