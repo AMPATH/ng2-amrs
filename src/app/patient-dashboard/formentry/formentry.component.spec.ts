@@ -15,6 +15,7 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { FakeFormFactory } from '../formentry/mock/form-factory.service.mock';
 import { FakeUserFactory } from '../formentry/mock/user-factory.service.mock';
+import { DraftedFormsService } from './drafted-forms.service';
 import {
     FakeDefaultUserPropertiesFactory
 } from '../formentry/mock/default-user-properties-factory.service.mock';
@@ -44,6 +45,7 @@ import { ProviderResourceService } from '../../openmrs-api/provider-resource.ser
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { ConfirmationService } from 'primeng/primeng';
 
 describe('Component: FormentryComponent', () => {
     let router = {
@@ -109,11 +111,13 @@ describe('Component: FormentryComponent', () => {
                 ObsValueAdapter,
                 PersonAttribuAdapter,
                 FormDataSourceService,
-                FormSubmissionService,
                 ProviderResourceService,
                 LocationResourceService,
                 ConceptResourceService,
                 DataSources,
+                DraftedFormsService,
+                FormSubmissionService,
+                ConfirmationService,
                 {
                     provide: EncounterResourceService, useFactory: () => {
                         return new EncounterResourceServiceMock();
@@ -395,7 +399,7 @@ describe('Component: FormentryComponent', () => {
                     return form;
                 });
 
-                // spy userDefaultPropertiesService 
+                // spy userDefaultPropertiesService
                 spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
                     .and.callFake(function (param) {
                         return {
@@ -452,7 +456,7 @@ describe('Component: FormentryComponent', () => {
                     return form;
                 });
 
-                // spy userDefaultPropertiesService 
+                // spy userDefaultPropertiesService
                 spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
                     .and.callFake(function (param) {
                         return {

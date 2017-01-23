@@ -69,7 +69,8 @@ import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 import { FormSubmissionService } from './formentry/form-submission.service';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 import { PatientReminderService } from './patient-reminders/patient-reminders.service';
-
+import { DraftedFormsService } from './formentry/drafted-forms.service';
+import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
 
 @NgModule({
   imports: [
@@ -119,7 +120,8 @@ import { PatientReminderService } from './patient-reminders/patient-reminders.se
     FormListComponent,
     Ng2FilterPipe,
     FormentryComponent,
-    LabTestOrdersComponent
+    LabTestOrdersComponent,
+    DraftedFormNavComponent
   ],
   providers: [
     PatientEncounterService,
@@ -149,8 +151,8 @@ import { PatientReminderService } from './patient-reminders/patient-reminders.se
     OrderResourceService,
     FormSubmissionService,
     DataSources,
-    PatientReminderService
-
+    PatientReminderService,
+    DraftedFormsService
   ],
   exports: [
     PatientDashboardComponent,
@@ -167,7 +169,8 @@ import { PatientReminderService } from './patient-reminders/patient-reminders.se
     EncounterListComponent,
     PatientDemographicsComponent,
     FormListComponent,
-    FormentryComponent
+    FormentryComponent,
+    DraftedFormNavComponent
   ]
 })
 export class PatientDashboardModule {

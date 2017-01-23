@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FormSchemaService } from '../formentry/form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
+import { DraftedFormsService } from './drafted-forms.service';
 import { FormFactory, EncounterAdapter, Form } from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
@@ -11,8 +12,10 @@ import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../patient.service';
 import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
-import { Observable, Subject } from 'rxjs/Rx';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { Observable, Subject } from 'rxjs';
+
+import { ConfirmationService } from 'primeng/primeng';
 
 import { UserService } from '../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
@@ -30,6 +33,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     message: 'Please wait...' // default message
   };
 
+  public preserveFormAsDraft: boolean = true;
   public form: Form;
   public formSubmissionErrors: Array<any> = null;
   public formRenderingErrors: Array<any> = [];
@@ -52,19 +56,45 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private router: Router,
     private patientService: PatientService,
     private formDataSourceService: FormDataSourceService,
-    private dataSources: DataSources) {
+    private dataSources: DataSources,
+    private draftedFormsService: DraftedFormsService,
+    private confirmationService: ConfirmationService) {
   }
 
   public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
-
     this.wireDataSources();
+    let componentRef = this;
+
     // get visitUuid & encounterUuid then load form
     this.route.queryParams.subscribe((params) => {
-      this.visitUuid = params['visitUuid'];
-      this.encounterUuid = params['encounter'];
-      this.loadForm();   // load  form
+      componentRef.visitUuid = params['visitUuid'];
+      componentRef.encounterUuid = params['encounter'];
+
+      if (componentRef.draftedFormsService.lastDraftedForm !== null &&
+        componentRef.draftedFormsService.lastDraftedForm !== undefined &&
+        componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
+        componentRef.loadDraftedForm();
+        return;
+      } else if (componentRef.draftedFormsService.lastDraftedForm !== null &&
+        componentRef.draftedFormsService.lastDraftedForm !== undefined &&
+        !componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
+        this.confirmationService.confirm({
+          header: 'Unsaved Draft Form',
+          message: 'You have unsaved changes on your last form ' +
+          'that will be lost upon confirmation. Do you want to continue?',
+          accept: () => {
+            this.draftedFormsService.setDraftedForm(null);
+            componentRef.loadForm();
+          },
+          reject: () => {
+            componentRef.loadDraftedForm();
+          }
+        });
+        return;
+      }
+      componentRef.loadForm();   // load  form
     });
   }
 
@@ -94,9 +124,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public navigateTo(path): void {
     switch (path) {
       case 'patientDashboard':
+        this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/patient-info']);
         break;
       case 'patientSearch':
+        this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient-search']);
         break;
       default:
@@ -105,7 +137,19 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   }
 
-  public loadForm(): void {
+  public setCurrentFormDraftedForm() {
+    this.draftedFormsService.setDraftedForm(this.form);
+    this.draftedFormsService.loadDraftOnNextFormLoad = false;
+  }
+
+  private loadDraftedForm() {
+    this.form = this.draftedFormsService.lastDraftedForm;
+
+    // clear from service as it is no longer a drafted form
+    this.draftedFormsService.setDraftedForm(null);
+  }
+
+  private loadForm(): void {
     this.isBusyIndicator(true, 'Please wait, fetching form');
     let observableBatch: Array<Observable<any>> = [];
     // push all subscriptions to this batch eg patient, encounters, formSchema
@@ -124,6 +168,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.encounter = data[2] || null;
         // now render form
         this.renderForm();
+
         this.isBusyIndicator(false);
       },
       err => {
