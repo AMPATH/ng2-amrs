@@ -114,7 +114,6 @@ a img {
 .main-footer {
   position: fixed;
   bottom:0;
-  margin-left: 0;
   left:0;
   width:100%;
 }
@@ -268,11 +267,6 @@ dd {white-space: pre; padding:7px;}
     margin-left: 15px;
   }
 
-  .sidebar-mini.sidebar-collapse .main-footer {
-    margin-left: 0 !important;
-    z-index: 999;
-  }
-
 }
 
 @media only screen  and (min-width : 1224px) {
@@ -291,6 +285,14 @@ dd {white-space: pre; padding:7px;}
     padding-left: 0;
     padding-right: 0;
   }
+}
+
+.input-group .form-control, .form-control-feedback {
+  z-index: 0;
+}
+
+.slimScrollDiv {
+  height:auto !important;
 }
 
 

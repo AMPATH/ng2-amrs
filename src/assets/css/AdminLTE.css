@@ -79,7 +79,7 @@ body {
 @media (min-width: 768px) {
   .sidebar-collapse .content-wrapper,
   .sidebar-collapse .right-side,
-  .sidebar-collapse .main-footer {
+  login .main-footer {
     margin-left: 0;
   }
 }
@@ -620,8 +620,7 @@ a:focus {
  */
 @media (min-width: 768px) {
   .sidebar-mini.sidebar-collapse .content-wrapper,
-  .sidebar-mini.sidebar-collapse .right-side,
-  .sidebar-mini.sidebar-collapse .main-footer {
+  .sidebar-mini.sidebar-collapse .right-side{
     margin-left: 54px !important;
     z-index: 840;
   }
