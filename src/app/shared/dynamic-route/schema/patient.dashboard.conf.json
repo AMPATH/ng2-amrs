@@ -51,6 +51,18 @@
       "label": "Programs",
       "icon": "icon-i-family-practice",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv-summary",
+      "label": "HIV Summary",
+      "icon": "fa fa-medkit",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "clinical-notes",
+      "label": "Clinical Notes",
+      "icon": "fa fa-book",
+      "isSideBarOpen": false
     }
   ],
   "programs": [
@@ -58,20 +70,7 @@
       "programName": "HIV TREATMENT",
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
       "baseRoute": "",
-      "routes": [
-        {
-          "url": "hiv-summary",
-          "label": "HIV Summary",
-          "icon": "fa fa-medkit",
-          "isSideBarOpen": false
-        },
-        {
-          "url": "clinical-notes",
-          "label": "Clinical Notes",
-          "icon": "fa fa-book",
-          "isSideBarOpen": false
-        }
-      ]
+      "routes": []
     },
     {
       "programName": "Oncology",

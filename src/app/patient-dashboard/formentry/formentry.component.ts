@@ -16,6 +16,7 @@ import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sourc
 import { Observable, Subject } from 'rxjs';
 
 import { ConfirmationService } from 'primeng/primeng';
+import * as moment from 'moment';
 
 import { UserService } from '../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
@@ -228,7 +229,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     let currentUser = this.userService.getLoggedInUser();
-    let currentDate = new Date();
+    let currentDate = moment().format();
 
     let encounterDate = this.form.searchNodeByQuestionId('encDate');
     if (encounterDate.length > 0) {
