@@ -94,6 +94,6 @@ describe('Component: Lab Results Unit Tests', () => {
         let table = nativeElement.querySelectorAll('table');
         expect(table.length).toBe(1);
         let trs = nativeElement.querySelectorAll('tr');
-        expect(trs.length).toBe(2);
+        expect(trs.length).toBe(3);
       }));
 });

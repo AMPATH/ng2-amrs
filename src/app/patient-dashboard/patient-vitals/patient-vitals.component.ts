@@ -26,6 +26,7 @@ export class PatientVitalsComponent implements OnInit {
   patientUuid: any;
 
   nextStartIndex: number = 0;
+  isLoading: boolean = false;
 
   constructor(private patientVitalsService: PatientVitalsService,
     private patientService: PatientService) { }
@@ -70,6 +71,7 @@ export class PatientVitalsComponent implements OnInit {
             let size: number = data.length;
             console.log('ssssssiiiiiiiiiiiize------>>>', size);
             this.nextStartIndex = this.nextStartIndex + size;
+            this.isLoading = false;
           } else {
 
             this.dataLoaded = true;
@@ -81,6 +83,7 @@ export class PatientVitalsComponent implements OnInit {
 
         this.loadingVitals = false;
         // this.vitals = data;
+         // this.isLoading = false;
       },
 
       (err) => {
@@ -92,6 +95,7 @@ export class PatientVitalsComponent implements OnInit {
       });
   }
   loadMoreVitals() {
+    this.isLoading = true;
 
     this.loadVitals(this.patientUuid, this.nextStartIndex);
 

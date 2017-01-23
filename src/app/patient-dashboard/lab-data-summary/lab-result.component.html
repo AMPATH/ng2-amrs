@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let test of results">
+    <tr *ngFor="let test of labResults">
       <td><span *ngIf="test.test_datetime">{{test.test_datetime | date:'dd-MM-yyyy'}}</span></td>
       <td><span *ngIf="test.hiv_dna_pcr">{{test.hiv_dna_pcr}}</span></td>
       <td><span *ngIf="test.cd4_count">{{test.cd4_count}}</span></td>
@@ -34,4 +34,20 @@
     </tr>
     </tbody>
   </table>
+  <div *ngIf='!dataLoaded' >
+    <div class="input-group-btn">
+      <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreLabResults()">
+        <span class=""></span>Load More...</button>
+    </div>
+  </div>
+
+  <div *ngIf='dataLoaded'>
+    <p class="bg-info" style="padding:4px;">
+      <b>
+        <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + labResults.length + ' ]'}}</span></b>
+    <p>
+  </div>
 </div>
+
+
+
