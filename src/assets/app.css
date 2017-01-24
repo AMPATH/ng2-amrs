@@ -103,7 +103,7 @@ body .icon-menu-label {
 }
 
 .content-wrapper dd {
-  margin: 0 0 0 50%;
+  margin: 0 0 0 0;
 }
 .content-wrapper dd::after {
   content: '\A';
