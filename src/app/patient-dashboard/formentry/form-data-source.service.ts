@@ -6,6 +6,7 @@ import { Patient } from '../../models/patient.model';
 import { PatientService } from '../patient.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
+import { LocalStorageService } from '../../utils/local-storage.service';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -14,7 +15,8 @@ export class FormDataSourceService {
 
   constructor(private providerResourceService: ProviderResourceService,
     private locationResourceService: LocationResourceService,
-    private conceptResourceService: ConceptResourceService) {
+    private conceptResourceService: ConceptResourceService,
+    private localStorageService: LocalStorageService) {
   }
 
 
@@ -103,9 +105,11 @@ export class FormDataSourceService {
         let mappedProviders = filtered.map((p: any) => {
           return {
             id: p.person.uuid,
-            text: p.display
+            text: p.display,
+            providerUuid: p.uuid
           };
         });
+        this.setCachedProviderSearchResults(mappedProviders);
         providerSearchResults.next(mappedProviders.slice(0, 10));
       },
       (error) => {
@@ -262,5 +266,15 @@ export class FormDataSourceService {
       };
     });
     return mappedConcepts;
+  }
+
+  getCachedProviderSearchResults(): any {
+    let sourcekey = 'cachedproviders';
+    return this.localStorageService.getObject(sourcekey);
+  }
+
+  private setCachedProviderSearchResults(searchProviderResults): void {
+    let sourcekey = 'cachedproviders';
+    this.localStorageService.setObject(sourcekey, searchProviderResults);
   }
 }

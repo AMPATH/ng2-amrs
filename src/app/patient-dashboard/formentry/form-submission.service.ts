@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
+import { FormDataSourceService } from './form-data-source.service';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -15,7 +16,8 @@ export class FormSubmissionService {
     private personAttributeAdapter: PersonAttribuAdapter,
     private formentryHelperService: FormentryHelperService,
     private encounterResourceService: EncounterResourceService,
-    private personResourceService: PersonResourceService) {
+    private personResourceService: PersonResourceService,
+    private formDataSourceService: FormDataSourceService) {
   }
 
   public submitPayload(form: Form,
@@ -47,6 +49,9 @@ export class FormSubmissionService {
         switch (payloadType) {
           case 'encounter':
 
+            let providers = this.formDataSourceService.getCachedProviderSearchResults();
+            let providerUuid = this.getProviderUuid(providers, form);
+            form = this.setProviderUuid(form, providerUuid);
             let encounterPayload: any = this.encounterAdapter.generateFormPayload(form);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
@@ -169,7 +174,7 @@ export class FormSubmissionService {
           });
         });
         message = JSON.stringify(arrayErrors);
-      } else if (!_.isEmpty(response.error.detail)) { // process internal server errors 
+      } else if (!_.isEmpty(response.error.detail)) { // process internal server errors
         message = response.error.detail.split('\n')[0]; // gets the first line
         let startPos = message.indexOf(': ') + 1;
         let endPos = message.length;
@@ -180,7 +185,29 @@ export class FormSubmissionService {
     return message;
   }
 
+  private getProviderUuid(providers, form: Form): string {
+    let encounterProvider = form.searchNodeByQuestionId('provider');
+    let personUuid = '';
+    if (encounterProvider.length > 0) {
+      personUuid = encounterProvider[0].control.value;
+    }
 
+    let filtered = _.filter(providers, (p: any) => {
+      if (p.id === personUuid) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (filtered.length > 0) {
+      return filtered[0].providerUuid;
+    }
+    return null;
+  }
 
+  private setProviderUuid(form: Form, providerUuid: string): Form {
+    form.valueProcessingInfo.providerUuid = providerUuid;
+    return form;
+  }
 }
 
