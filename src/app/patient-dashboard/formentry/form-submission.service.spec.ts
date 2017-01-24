@@ -10,6 +10,10 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
+import { FormDataSourceService } from './form-data-source.service';
+import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
+import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { Observable, Subject } from 'rxjs/Rx';
 
 describe('Service: FormSubmissionService', () => {
@@ -96,6 +100,10 @@ describe('Service: FormSubmissionService', () => {
         LocalStorageService,
         FormentryHelperService,
         AppSettingsService,
+        ProviderResourceService,
+        ConceptResourceService,
+        LocationResourceService,
+        FormDataSourceService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
@@ -361,7 +369,7 @@ describe('Service: FormSubmissionService', () => {
             ];
           });
 
-        // spy on 
+        // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
         formSchemaService.submitPayload(renderableForm).subscribe(
@@ -423,7 +431,7 @@ describe('Service: FormSubmissionService', () => {
             ];
           });
 
-        // spy on 
+        // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
         formSchemaService.submitPayload(renderableForm).subscribe(
@@ -486,7 +494,7 @@ describe('Service: FormSubmissionService', () => {
             ];
           });
 
-        // spy on 
+        // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
         formSchemaService.submitPayload(renderableForm).subscribe(
