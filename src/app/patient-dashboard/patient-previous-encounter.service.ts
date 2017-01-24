@@ -20,13 +20,17 @@ export class PatientPreviousEncounterService {
           if (patient) {
             let search = _.find(patient.encounters, (e) => {
               return e.encounterType.uuid === encounterType;
-            }).uuid;
-
-            this.encounterResource.getEncounterByUuid(search).subscribe((_encounter) => {
-              resolve(_encounter);
-            }, (err) => {
-              reject(err);
             });
+
+            if (search) {
+              this.encounterResource.getEncounterByUuid(search.uuid).subscribe((_encounter) => {
+                resolve(_encounter);
+              }, (err) => {
+                reject(err);
+              });
+            } else {
+              resolve({});
+            }
           }
         });
 
