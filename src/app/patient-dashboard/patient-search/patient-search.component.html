@@ -3,24 +3,21 @@
     <form>
       <div class="form-group">
         <label for="search-textbox"><h2>Search Patient</h2></label>
-        <div class="input-group">
-          <input type="text" id="search-textbox" autocomplete="off" class="form-control" [(ngModel)]="searchString"
+        <div class="input-wrapper">
+          <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString"
                  [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePatientCount($event)"
                  placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"
                  autofocus="true">
-          <div class="input-group-btn">
-            <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue"
+          </div>
+          <div class="input-group-btn pull-right">
+            <button class="btn btn-primary btn-lg" [ladda]='isLoading' data-size="xs" data-color="blue"
                     data-style="expand-right" (click)="loadPatient()">
               <span class="glyphicon glyphicon-search"> Search</span>
             </button>
+            <button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
+            <span class="glyphicon glyphicon-trash"> Reset</span>
+          </button>
           </div>
-          <div class="input-group-btn">
-            <button [disabled]="!isResetButton" class="btn btn-danger pull-right " (click)="resetSearchList()">
-              <span class="glyphicon glyphicon-trash"> Reset</span>
-            </button>
-          </div>
-
-        </div>
       </div>
     </form>
     <div *ngIf="totalPatients > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span> Patient(s) found for <span

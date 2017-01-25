@@ -77,7 +77,10 @@ body .ui-accordion .ui-accordion-header.ui-state-active a {
   border: 1px solid #428bca;
 }
 
-body .ui-accordion .ui-accordion-header.ui-state-active a, body .ui-accordion .ui-accordion-header.ui-state-active span.fa {
+body .ui-accordion .ui-accordion-header.ui-state-active a,
+body .ui-accordion .ui-accordion-header.ui-state-active span.fa,
+.suggestions li:hover a,
+.ui-select-choices li a {
   color: #ffffff !important;
 
 }
@@ -102,9 +105,13 @@ body .icon-menu-label {
 
 }
 
-.content-wrapper dd {
+.content-wrapper dd, user-default-properties .btn.btn-info {
   margin: 0 0 0 0;
 }
+user-default-properties .btn.btn-info {
+  margin-top: -30px;
+}
+
 .content-wrapper dd::after {
   content: '\A';
   white-space: pre-line;
@@ -131,7 +138,7 @@ body .icon-menu-label {
   white-space: pre;
 }
 
-pagination-controls {
+pagination-controls, pagination-controls ul {
   padding-left: 0;
 }
 
@@ -176,4 +183,24 @@ pagination-controls li.pagination-next a, pagination-controls li.pagination-prev
 pagination-controls li:first-child a,
 pagination-controls li:first-child span {
   margin-left: 0;
+}
+
+.main-footer {
+  padding-right:70px !important;
+}
+
+a.formLink {
+  display: inline-block;
+}
+
+app-patient-search {
+  display: block;
+}
+
+app-patient-search .wrapper {
+  padding-bottom: 80px;
+}
+
+.ladda-button[data-size=xs] .ladda-label {
+  font-size: 18px;
 }

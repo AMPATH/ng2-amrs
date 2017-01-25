@@ -1,36 +1,37 @@
-<span *ngIf="fetchingResults"><i class="fa fa-spinner" aria-hidden="true"></i>
-Fetching results
-    </span>
 <div *ngIf="results.length>0">
-    <div class="alert" role="alert">
-        <p>New labs results synced</p>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width:200px;">Date</th>
-                <th style="width:100px;">DNA PCR</th>
-                <th style="width:100px;">CD4</th>
-                <th style="width:100px;">CD4%</th>
-                <th style="width:100px;">HIV VL</th>
-                <th style="width:100px;">Error</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let test of results">
-                <td>{{test.obsDatetime | date:'yyyy/MM/dd'}}</td>
-                <td><span *ngIf="test.concept.uuid==='a898fe80-1350-11df-a1f1-0026b9348838'">{{test.value.display}}</span></td>
-                <td><span *ngIf="test.concept.uuid==='a8a8bb18-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
-                <td><span *ngIf="test.concept.uuid==='a8970a26-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
-                <td><span *ngIf="test.concept.uuid==='a8982474-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
-                <td><span *ngIf="test.concept.uuid==='457c741d-8f71-4829-b59d-594e0a618892'">
+  <div class="alert" role="alert" *ngIf="fetchingResults">
+    <p>
+      <i class="fa fa-spinner" aria-hidden="true"></i> Fetching results</p>
+  </div>
+  <div class="alert" role="alert">
+    <p>New labs results synced</p>
+  </div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th [style.width]="200">Date</th>
+      <th [style.width]="100">DNA PCR</th>
+      <th [style.width]="100">CD4</th>
+      <th [style.width]="100">CD4%</th>
+      <th [style.width]="100">HIV VL</th>
+      <th [style.width]="100">Error</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let test of results">
+      <td>{{test.obsDatetime | date:'yyyy/MM/dd'}}</td>
+      <td><span *ngIf="test.concept.uuid==='a898fe80-1350-11df-a1f1-0026b9348838'">{{test.value.display}}</span></td>
+      <td><span *ngIf="test.concept.uuid==='a8a8bb18-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
+      <td><span *ngIf="test.concept.uuid==='a8970a26-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
+      <td><span *ngIf="test.concept.uuid==='a8982474-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
+      <td><span *ngIf="test.concept.uuid==='457c741d-8f71-4829-b59d-594e0a618892'">
             <span *ngIf="test.groupMembers.length>0">{{test.groupMembers[0].display}}</span></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
 <div class="alert" role="alert">
-    <p>No lab new results synced</p>
+  <p>No lab new results synced</p>
 </div>
