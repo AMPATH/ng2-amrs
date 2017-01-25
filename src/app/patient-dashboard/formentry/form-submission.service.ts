@@ -50,7 +50,8 @@ export class FormSubmissionService {
           case 'encounter':
 
             let providers = this.formDataSourceService.getCachedProviderSearchResults();
-            if (providers.length > 0 && !form.valueProcessingInfo.providerUuid) {
+
+            if (providers && providers.length > 0 && !form.valueProcessingInfo.providerUuid) {
               let providerUuid = this.getProviderUuid(providers, form);
               form = this.setProviderUuid(form, providerUuid);
             }
