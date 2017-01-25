@@ -46,7 +46,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       }));
 
   it('should make API call with the correct url parameters', (done) => {
-     backend = TestBed.get(MockBackend);
+    backend = TestBed.get(MockBackend);
     let patientReminderResourceService: PatientReminderResourceService =
       TestBed.get(PatientReminderResourceService);
     let params = {
@@ -55,20 +55,20 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       indicators: 'needs_vl_coded,overdue_vl_lab_order,' +
       'months_since_last_vl_date,new_viral_load_present,' +
       'ordered_vl_has_error,is_on_inh_treatment',
-       referenceDate:  new Date().toISOString()
+      referenceDate: new Date().toISOString()
     };
     backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
         .toBe(
-          'https://amrsreporting.ampath.or.ke:8002/etl/get-report-by-report-name?' +
-          'indicators=needs_vl_coded,overdue_vl_lab_order,' +
-          'months_since_last_vl_date,new_viral_load_present,' +
-          'ordered_vl_has_error,is_on_inh_treatment' +
-          '&limit=1&patientUuid=79803198-2d23-49cd-a7b3-4f672bd8f659' +
-          '&referenceDate=' + params.referenceDate +
-          '&report=clinical-reminder-report&startIndex=0'
+        'https://amrsreporting.ampath.or.ke:8002/etl/get-report-by-report-name?' +
+        'indicators=needs_vl_coded,overdue_vl_lab_order,' +
+        'months_since_last_vl_date,new_viral_load_present,' +
+        'ordered_vl_has_error,is_on_inh_treatment' +
+        '&limit=1&patientUuid=79803198-2d23-49cd-a7b3-4f672bd8f659' +
+        '&referenceDate=' + params.referenceDate +
+        '&report=clinical-reminder-report&startIndex=0'
         );
       let options = new ResponseOptions({
         body: JSON.stringify({
@@ -76,8 +76,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       });
       connection.mockRespond(new Response(options));
     });
-    patientReminderResourceService.getPatientLevelReminders( params.indicators, 1, patientUuid,
-      params.referenceDate , report , 0)
+    patientReminderResourceService.getPatientLevelReminders(patientUuid)
       .subscribe((response) => {
         done();
       });
@@ -86,7 +85,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
   it('should return the correct parameters from the api',
     async(inject([PatientReminderResourceService, MockBackend],
       (patientReminderResourceService: PatientReminderResourceService,
-       mockBackend: MockBackend) => {
+        mockBackend: MockBackend) => {
         let params = {
           startIndex: '0',
           limit: '1',
@@ -99,8 +98,8 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
         mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        patientReminderResourceService.getPatientLevelReminders(params.indicators, 1, patientUuid,
-          params.referenceDate , report , 0).subscribe((data) => { },
+        patientReminderResourceService.getPatientLevelReminders(patientUuid)
+          .subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
 
