@@ -20,11 +20,12 @@ export class TodaysVitalsComponent implements OnInit {
 
   constructor(private patientService: PatientService, private vitalService: TodaysVitalsService) { }
   ngOnInit(): void {
+    this.todaysVitals = [];
     this.loadTodaysVitals();
-
-
   }
+
   loadTodaysVitals() {
+    this.loadingTodaysVitals = true;
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {

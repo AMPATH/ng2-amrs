@@ -33,21 +33,31 @@ export class TodaysVitalsService {
                     if (visits.length > 0) {
                         visitUuid = visits[0].uuid;
                     }
-
                     this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
                         (visitEncounters) => {
+                            let hasTriageEncounter = false;
+                            if (visitEncounters.length > 0) {
+                                for (let encounter of visitEncounters) {
+                                    let encounterType = encounter.encounterType.uuid;
+                                    if (encounterType === 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7') {
+                                        this.getVitalsFromObs(encounter.obs);
+                                        let vitals = [];
+                                        vitals.push(new Vital(this.vitalModel));
+                                        this.todaysVitals.next(vitals);
+                                        hasTriageEncounter = true;
+                                        break;
+                                    }
 
-                            for (let encounter of visitEncounters) {
-                                let encounterType = encounter.encounterType.uuid;
-                                if (encounterType === 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7') {
-                                    this.getVitalsFromObs(encounter.obs);
-                                    let vitals = [];
-                                    vitals.push(new Vital(this.vitalModel));
-                                    this.todaysVitals.next(vitals);
-                                    break;
                                 }
-
                             }
+                            if (hasTriageEncounter === false) {
+                                this.todaysVitals.next(new Array(new Vital({
+                                    diastolic: null, systolic: null,
+                                    pulse: null, temperature: null, oxygenSaturation: null,
+                                    height: null, weight: null, bmi: null
+                                })));
+                            }
+
                         }
                     );
 
