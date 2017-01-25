@@ -128,6 +128,17 @@
 	clear: both;
 }
 
+a.btn-primary, button.btn-primary, .btn-primary:hover  {
+  background-color: #3c8dbc;
+  color: #fff !important;
+}
+
+input[type="text"]:focus:not([readonly]),
+input[type="password"]:focus:not([readonly]) {
+  border-bottom-color: #3c8dbc;
+  box-shadow: 0 1px 0 0 #3c8dbc;
+}
+
 @media only screen and (max-width: 350px) {
 	.login section .login-container {
 		width: 300px !important;

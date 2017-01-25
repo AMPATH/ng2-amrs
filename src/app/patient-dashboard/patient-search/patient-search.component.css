@@ -6,10 +6,6 @@
   margin-left: 5px;
 }
 
-app-patient-search {
-  display: block;
-}
-
 .alert {
   color: #999;
 }
@@ -24,5 +20,11 @@ app-patient-search {
 
 .ladda-button {
   border-radius: 3px;
-  padding: 3px 12px;
+  padding: 11px 16px 10px 16px;
 }
+
+.form-control:focus {
+  border-color: #f1f1f1;
+}
+
+

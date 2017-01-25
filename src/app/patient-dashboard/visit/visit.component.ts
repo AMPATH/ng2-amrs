@@ -6,7 +6,8 @@ import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
 import { PatientService } from '../patient.service';
 @Component({
     selector: 'visit',
-    templateUrl: 'visit.component.html'
+    templateUrl: 'visit.component.html',
+    host: {'class': 'wrapper'}
 })
 export class VisitComponent implements OnInit {
     visitTypes = [];

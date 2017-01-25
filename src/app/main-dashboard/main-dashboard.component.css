@@ -254,6 +254,22 @@ dd {white-space: pre; padding:7px;}
     right: 0;
   }
 
+  app-patient-search .input-wrapper {
+    margin-right: 0;
+  }
+
+  app-patient-search .input-group-btn.pull-right {
+    margin-top: 20px;
+  }
+
+  app-patient-search .wrapper {
+    padding-bottom: 50px;
+  }
+
+  .input-group-btn.pull-right {
+    width:auto;
+  }
+
 
 }
 
@@ -265,6 +281,19 @@ dd {white-space: pre; padding:7px;}
     padding-left: 0;
     padding-right: 0;
     margin-left: 15px;
+  }
+
+  .input-group-btn.pull-right {
+    margin-top: -47px;
+    width:auto;
+  }
+
+  .input-group-btn.pull-right button {
+    display: inline-block;
+  }
+
+  .input-wrapper {
+    margin-right: 240px;
   }
 
 }
@@ -293,6 +322,35 @@ dd {white-space: pre; padding:7px;}
 
 .slimScrollDiv {
   height:auto !important;
+}
+
+visit {
+  display: block;
+}
+
+visit .table > thead > tr > th,
+visit .table > tbody > tr > th,
+visit .table > tfoot > tr > th,
+visit .table > thead > tr > td,
+visit .table > tbody > tr > td,
+visit .table > tfoot > tr > td {
+  border-top: 0;
+}
+
+visit h3 {
+  padding: 8px;
+}
+
+visit form-list h3 {
+  padding: 0;
+}
+
+visit form-list hr {
+  margin: 10px;
+}
+
+visit .visit-panel-footer {
+  padding: 15px;
 }
 
 
