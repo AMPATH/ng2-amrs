@@ -6,6 +6,7 @@
 @import "../assets/css/AdminLTE.css";
 @import "skin-black-light.css";
 @import "../../node_modules/ladda/dist/ladda.min.css";
+@import '../../node_modules/toastr-ng2/toastr.css';
 
 body {
   background: #f9fafc;

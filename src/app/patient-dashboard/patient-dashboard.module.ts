@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EtlApi } from '../etl-api/etl-api.module';
 
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
@@ -73,6 +74,9 @@ import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
 import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
 import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
+import { ToastrModule } from 'toastr-ng2';
+import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
+
 
 @NgModule({
   imports: [
@@ -92,7 +96,9 @@ import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
     Angulartics2Module.forChild(),
     FormEntryModule,
     ReactiveFormsModule,
-    ConfirmDialogModule, DialogModule
+    ConfirmDialogModule, DialogModule,
+    ToastrModule.forRoot(),
+    EtlApi
 
   ],
   declarations: [
@@ -124,7 +130,9 @@ import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
     FormentryComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
-    TodaysVitalsComponent
+    TodaysVitalsComponent,
+    PatientRemindersComponent
+
   ],
   providers: [
     PatientEncounterService,
@@ -174,7 +182,8 @@ import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
     PatientDemographicsComponent,
     FormListComponent,
     FormentryComponent,
-    DraftedFormNavComponent
+    DraftedFormNavComponent,
+    PatientRemindersComponent
   ]
 })
 export class PatientDashboardModule {
