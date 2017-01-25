@@ -324,7 +324,7 @@ dd {white-space: pre; padding:7px;}
   height:auto !important;
 }
 
-visit {
+visit, encounter-list {
   display: block;
 }
 
@@ -351,6 +351,22 @@ visit form-list hr {
 
 visit .visit-panel-footer {
   padding: 15px;
+}
+
+@media screen and (max-width: 550px) {
+  .scroll-x {
+    overflow-x:scroll;
+  }
+}
+
+
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td {
+  padding: 4px;
 }
 
 
