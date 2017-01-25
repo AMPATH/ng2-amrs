@@ -50,8 +50,11 @@ export class FormSubmissionService {
           case 'encounter':
 
             let providers = this.formDataSourceService.getCachedProviderSearchResults();
-            let providerUuid = this.getProviderUuid(providers, form);
-            form = this.setProviderUuid(form, providerUuid);
+            if (providers.length > 0 && !form.valueProcessingInfo.providerUuid) {
+              let providerUuid = this.getProviderUuid(providers, form);
+              form = this.setProviderUuid(form, providerUuid);
+            }
+
             let encounterPayload: any = this.encounterAdapter.generateFormPayload(form);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
