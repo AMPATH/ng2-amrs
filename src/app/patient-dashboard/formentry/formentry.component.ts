@@ -33,7 +33,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     busy: false,
     message: 'Please wait...' // default message
   };
-
+  public formName: string = '';
   public preserveFormAsDraft: boolean = true;
   public form: Form;
   public formSubmissionErrors: Array<any> = null;
@@ -183,6 +183,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.formRenderingErrors = []; // clear all rendering errors
     try {
       let schema: any = this.compiledSchemaWithEncounter.schema;
+      this.formName = this.compiledSchemaWithEncounter.schema.display;
       let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
       if (this.encounter) { // editting existing form
         this.form = this.formFactory.createForm(schema);

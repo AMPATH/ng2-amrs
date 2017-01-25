@@ -10,7 +10,6 @@ import { FormSchemaService } from '../formentry/form-schema.service';
   styleUrls: ['./forms.component.css']
 })
 export class FormsComponent implements OnInit {
-
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private formSchemaService: FormSchemaService,
     private router: Router,
