@@ -145,7 +145,7 @@ export class FormDataSourceService {
       .subscribe(
       (provider) => {
         let mappedProvider = {
-          text: (provider as any).person.display,
+          text: (provider as any).display,
           id: (provider as any).person.uuid
         };
         providerSearchResults.next(mappedProvider);
