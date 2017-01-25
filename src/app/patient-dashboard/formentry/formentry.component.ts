@@ -203,6 +203,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
       this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
+      // Find and set a provider uuid to be used when updating orders as orderer
+      this.setProviderUuid();
 
     } catch (ex) {
       // TODO Handle all form rendering errors
@@ -332,5 +334,30 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   }
 
+  private setProviderUuid() {
+    let request = this.getProviderUuid();
+    request
+      .subscribe(
+      (data) => {
+        this.form.valueProcessingInfo.providerUuid = data.providerUuid;
+      },
+      (error) => {
+        this.formSubmissionErrors.push({
+          id: 'Provider',
+          message: 'error fetching provider uuid'
+        });
+      }
+      );
+
+  }
+
+  private getProviderUuid() {
+    let encounterProvider = this.form.searchNodeByQuestionId('provider');
+    let personUuid = '';
+    if (encounterProvider.length > 0) {
+      personUuid = encounterProvider[0].control.value;
+    }
+    return this.formDataSourceService.getProviderByPersonUuid(personUuid);
+  }
 
 }
