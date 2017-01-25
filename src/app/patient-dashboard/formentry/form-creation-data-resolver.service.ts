@@ -6,9 +6,10 @@ import {
 
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 import { FormSchemaService } from './form-schema.service';
-
+import * as _ from 'lodash';
 @Injectable()
 export class FormCreationDataResolverService implements Resolve<any> {
+  validationConflictQuestions = ['reasonNotOnFamilyPlanning', 'tbTreatmentPlan'];
   constructor(private patientPreviousEncounterService: PatientPreviousEncounterService,
     private router: ActivatedRoute,
     private formSchemaService: FormSchemaService) {
@@ -22,8 +23,9 @@ export class FormCreationDataResolverService implements Resolve<any> {
 
       this.formSchemaService.getFormSchemaByUuid(selectedFormUuid).subscribe(
         (compiledFormSchema) => {
-          console.log('compiledFormSchema', compiledFormSchema);
           if (compiledFormSchema) {
+            this.upgradeConflictingValidations(compiledFormSchema);
+            console.log('compiledFormSchema', compiledFormSchema);
             if (selectedEncounter) {
               console.log('no encounter for this form');
               resolve({ encounter: {}, schema: compiledFormSchema });
@@ -46,5 +48,28 @@ export class FormCreationDataResolverService implements Resolve<any> {
 
     });
 
+  }
+
+  private upgradeConflictingValidations(schema) {
+    window['count'] = 0;
+    for (let page of schema.pages) {
+      for (let section of page.sections) {
+        this.traverseQuestions(section.questions);
+      }
+    }
+  }
+
+  private traverseQuestions(questions) {
+    for (let question of questions) {
+      switch (question.type) {
+        case 'obsGroup':
+          this.traverseQuestions(question.questions);
+          break;
+        default:
+          if (question.required && this.validationConflictQuestions.indexOf(question.id) > -1) {
+            question.required = false;
+          }
+      }
+    }
   }
 }
