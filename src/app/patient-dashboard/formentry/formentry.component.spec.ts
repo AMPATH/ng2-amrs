@@ -240,10 +240,10 @@ describe('Component: FormentryComponent', () => {
 
     it('should populate form with historical values/ encounters when creating new form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-            ActivatedRoute],
+            ActivatedRoute, DataSources],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
                 formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-                activatedRoute: ActivatedRoute) => {
+                activatedRoute: ActivatedRoute, dataSources: DataSources) => {
                 spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
                     return form;
                 });
@@ -269,7 +269,7 @@ describe('Component: FormentryComponent', () => {
                 // calling  formFactory.createForm(a) -means creating form without hitorical enc
                 // calling  formFactory.createForm(a,b) --means creating form with encounters
                 expect(formFactory.createForm)
-                    .toHaveBeenCalledWith(schema, previousEncounter);
+                    .toHaveBeenCalledWith(schema, dataSources.dataSources);
                 expect(formFactory.createForm).not
                     .toHaveBeenCalledWith(schema);
 
@@ -279,17 +279,17 @@ describe('Component: FormentryComponent', () => {
     it('should NOT populate form with historical values/ encounters when ' +
         'editting an existing form. Case: editting exsting form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-            ActivatedRoute],
+            ActivatedRoute, DataSources],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
                 formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-                activatedRoute: ActivatedRoute) => {
+                activatedRoute: ActivatedRoute, dataSources: DataSources) => {
                 spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
                     return form;
                 });
 
-                spyOn(formFactory, 'createForm').and.callFake(function (form, historicalEncounter) {
+                spyOn(formFactory, 'createForm').and.callFake(function (form, dataSource) {
                     expect(form).toBeDefined();
-                    expect(historicalEncounter).not.toBeDefined();
+                    expect(dataSource.rawPrevEnc).not.toBeDefined();
                     return renderableForm;
                 });
                 // providing required dependancies like historical encounter
@@ -308,9 +308,7 @@ describe('Component: FormentryComponent', () => {
                 // calling  formFactory.createForm(a) -means creating form without hitorical enc
                 // calling  formFactory.createForm(a,b) --means creating form with encounters
                 expect(formFactory.createForm)
-                    .toHaveBeenCalledWith(schema);
-                expect(formFactory.createForm)
-                    .not.toHaveBeenCalledWith(schema, previousEncounter);
+                    .toHaveBeenCalled();
 
             })
     );
@@ -543,17 +541,17 @@ describe('Component: FormentryComponent', () => {
     );
     it('should populate form with encounter, obs, orders when editting form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-            ActivatedRoute],
+            ActivatedRoute, DataSources],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
                 formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-                activatedRoute: ActivatedRoute) => {
+                activatedRoute: ActivatedRoute, dataSources: DataSources) => {
                 spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
                     return form;
                 });
 
-                spyOn(formFactory, 'createForm').and.callFake(function (form, historicalEncounter) {
+                spyOn(formFactory, 'createForm').and.callFake(function (form, dataSource) {
                     expect(form).toBeDefined();
-                    expect(historicalEncounter).not.toBeDefined();
+                    expect(dataSource.rawPrevEnc).not.toBeDefined();
                     return renderableForm;
                 });
                 // providing required dependancies like historical encounter
@@ -571,9 +569,8 @@ describe('Component: FormentryComponent', () => {
                 // check if createForm was called with schema parameter only
                 // calling  formFactory.createForm(a) -means creating form without hitorical enc
                 // calling  formFactory.createForm(a,b) --means creating form with encounters
-                expect(formFactory.createForm).not
-                    .toHaveBeenCalledWith(schema, previousEncounter);
-                expect(formFactory.createForm).toHaveBeenCalledWith(schema);
+                expect(formFactory.createForm)
+                    .toHaveBeenCalled();
                 // check if form was populated with selected encounter
                 expect(encounterAdapter.populateForm).toHaveBeenCalled();
 
