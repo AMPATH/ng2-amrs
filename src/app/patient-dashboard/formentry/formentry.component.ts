@@ -190,13 +190,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
       let schema: any = this.compiledSchemaWithEncounter.schema;
       this.formName = this.compiledSchemaWithEncounter.schema.display;
       let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
+      this.dataSources.registerDataSource('patient',
+        this.formDataSourceService.getPatientObject(this.patient), true);
+
       if (this.encounter) { // editting existing form
-        this.form = this.formFactory.createForm(schema);
+        this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
         this.encounterAdapter.populateForm(this.form, this.encounter);
         this.personAttribuAdapter.populateForm(this.form, this.patient.person.attributes);
         this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
       } else { // creating new from
-        this.form = this.formFactory.createForm(schema, historicalEncounter);
+        this.dataSources.registerDataSource('rawPrevEnc', historicalEncounter, false);
+        this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
         this.form.valueProcessingInfo.patientUuid = this.patient.uuid;
         // add visit uuid if present
         if (this.visitUuid && this.visitUuid !== '')

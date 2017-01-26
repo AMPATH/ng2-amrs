@@ -161,7 +161,7 @@ export class FormDataSourceService {
 
 
   getPatientObject(patient: Patient): Object {
-    let model: Object;
+    let model: Object = {};
     let gender = patient.person.gender;
     let age = patient.person.age;
     model['sex'] = gender;
