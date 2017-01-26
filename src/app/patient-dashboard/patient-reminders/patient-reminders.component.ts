@@ -41,8 +41,8 @@ export class PatientRemindersComponent implements OnInit {
           request
             .subscribe(
             (data) => {
-              if (data.length > 0) {
-                this.reminders = data;
+              if (data && data.personUuid === this.patientUuid) {
+                this.reminders = data.generatedReminders;
                 this.constructReminders(this.reminders);
               }
 

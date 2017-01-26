@@ -19,8 +19,12 @@ export class PatientReminderService {
       (data) => {
         if (data) {
           let result = data;
-          let processReminders = this.generateReminders(result);
-          reminders.next(processReminders);
+          let generatedReminders = this.generateReminders(result);
+          let remindersObj = {
+            personUuid: data[0].person_uuid,
+            generatedReminders
+          };
+          reminders.next(remindersObj);
         }
       },
       (error) => {
@@ -109,8 +113,8 @@ export class PatientReminderService {
       let labMessage: string = 'Last viral load: none';
       if (data.last_vl_date) {
         labMessage = 'Last viral load: ' + data.viral_load + ' on ' +
-        '(' + Moment(data.last_vl_date).format('DD/MM/YYYY') + ')' + ' ' +
-        data.months_since_last_vl_date + ' months ago.';
+          '(' + Moment(data.last_vl_date).format('DD/MM/YYYY') + ')' + ' ' +
+          data.months_since_last_vl_date + ' months ago.';
       }
 
       switch (data.needs_vl_coded) {
