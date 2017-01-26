@@ -5,7 +5,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { FormSchemaService } from '../formentry/form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
 import { DraftedFormsService } from './drafted-forms.service';
-import { FormFactory, EncounterAdapter, Form } from 'ng2-openmrs-formentry';
+import { FormFactory, EncounterAdapter, Form, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 import { FormSubmissionService } from './form-submission.service';
@@ -57,6 +57,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private router: Router,
     private patientService: PatientService,
     private formDataSourceService: FormDataSourceService,
+    private personAttribuAdapter: PersonAttribuAdapter,
     private dataSources: DataSources,
     private draftedFormsService: DraftedFormsService,
     private confirmationService: ConfirmationService) {
@@ -103,6 +104,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Unloaded', 'ngOnDestroy');
   }
+
   wireDataSources() {
     this.dataSources.registerDataSource('location',
       this.formDataSourceService.getDataSources()['location']);
@@ -112,7 +114,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['drug']);
     this.dataSources.registerDataSource('problem',
       this.formDataSourceService.getDataSources()['problem']);
+    this.dataSources.registerDataSource('personAttribute',
+      this.formDataSourceService.getDataSources()['location']);
   }
+
   public onSubmit(): void {
     console.log('FORM MODEL:', this.form.rootNode.control);
     this.submitForm();
@@ -188,6 +193,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (this.encounter) { // editting existing form
         this.form = this.formFactory.createForm(schema);
         this.encounterAdapter.populateForm(this.form, this.encounter);
+        this.personAttribuAdapter.populateForm(this.form, this.patient.person.attributes);
         this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
       } else { // creating new from
         this.form = this.formFactory.createForm(schema, historicalEncounter);
