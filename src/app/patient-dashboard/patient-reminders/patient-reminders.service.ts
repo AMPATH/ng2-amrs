@@ -80,7 +80,8 @@ export class PatientReminderService {
         });
       }
       // INH Treatment Reminder - first 5 months
-      if (data.is_on_inh_treatment && data.inh_treatment_days_remaining > 30) {
+      if (data.is_on_inh_treatment && data.inh_treatment_days_remaining > 30 &&
+          data.inh_treatment_days_remaining < 150) {
         reminders.push({
           message: 'Patient started INH treatment on (' +
           Moment(data.tb_prophylaxis_start_date).format('DD/MM/YYYY') + ')' +
@@ -97,7 +98,8 @@ export class PatientReminderService {
         });
       }
       // INH Treatment Reminder - last mont
-      if (data.is_on_inh_treatment && data.inh_treatment_days_remaining <= 30) {
+      if (data.is_on_inh_treatment && data.inh_treatment_days_remaining <= 30 &&
+          data.inh_treatment_days_remaining > 0) {
         reminders.push({
           message: 'Patient has been on INH treatment for the last 5 months, expected to end on (' +
           Moment(data.tb_prophylaxis_end_date).format('MM/DD/YYYY') + ')',
