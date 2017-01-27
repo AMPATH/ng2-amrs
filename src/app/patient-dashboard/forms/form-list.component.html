@@ -20,7 +20,7 @@
         <a class="toggle" (click)="toggleFavourite($event,form)" *ngIf="!form.favourite" class="btn btn-default btn-lg">
           <i class="fa fa-star-o"></i>
         </a>
-        <a class="formLink" (click)="formSelected($event,form)">
+        <a class="formLink" (click)="formSelected($event,form)" [ladda]='isLoading(form)' data-spinner-color="black">
           {{form.name}} {{form.version}}
         </a>
       </div>

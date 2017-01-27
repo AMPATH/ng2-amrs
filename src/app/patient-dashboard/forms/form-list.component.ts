@@ -11,6 +11,7 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
 export class FormListComponent implements OnInit {
     @Output() onFormSelected = new EventEmitter();
     forms: Array<Form>;
+    selectedForm: Form;
     filterTerm: string = '';
     constructor(private formListService: FormListService,
         private formOrderMetaDataService: FormOrderMetaDataService) { }
@@ -38,9 +39,14 @@ export class FormListComponent implements OnInit {
     }
     formSelected($event, form: Form) {
         $event.stopPropagation();
+        this.selectedForm = form;
         this.onFormSelected.emit(form);
     }
     valuechange(newValue) {
         this.filterTerm = newValue;
+    }
+
+    isLoading(form: Form): boolean {
+      return form === this.selectedForm;
     }
 }
