@@ -26,7 +26,8 @@ export class HivSummaryHistoricalComponent implements OnInit {
     dataLoaded: boolean = false;
 
     errors: any = [];
-
+    isLoading: boolean;
+    nextStartIndex: number = 0;
     constructor(private hivSummaryService: HivSummaryService,
         private patientService: PatientService) {
     }
@@ -34,14 +35,6 @@ export class HivSummaryHistoricalComponent implements OnInit {
     ngOnInit() {
 
         this.getPatient();
-        this.hivSummaryService.allDataLoaded.subscribe(
-            (status) => {
-                if (status) {
-                    this.dataLoaded = true;
-                    this.loadingHivSummary = false;
-                }
-            }
-        );
     }
 
     getPatient() {
@@ -51,8 +44,8 @@ export class HivSummaryHistoricalComponent implements OnInit {
             (patient) => {
                 if (patient) {
                     this.patient = patient;
-                    this.patientUuid = patient.person.uuid;
-                    this.loadHivSummary();
+                    this.patientUuid = this.patient.person.uuid;
+                    this.loadHivSummary(this.patientUuid, this.nextStartIndex );
 
                 }
             }
@@ -65,21 +58,31 @@ export class HivSummaryHistoricalComponent implements OnInit {
             });
     }
 
-    loadHivSummary(): void {
+    loadHivSummary(patientUuid, nextStartIndexs) {
 
         this.hivSummaryService.getHivSummary(
-            this.patientUuid)
+          patientUuid, this.nextStartIndex, 20, false)
             .subscribe((data) => {
                 if (data) {
-                    let size: number = data.length;
-                    this.hivSummaries = data;
-                }
-                this.loadingHivSummary = false;
+                  if (data.length > 0) {
+                    for (let r in data) {
+                      if (data.hasOwnProperty(r)) {
+                        let hivsum = data[r];
+                        this.hivSummaries.push(hivsum);
+                      }
 
+                    }
+                    let size: number = data.length;
+                    this.nextStartIndex = this.nextStartIndex + size;
+                    this.isLoading = false;
+                  } else {
+                     this.dataLoaded = true;
+                  }
+                }
             }, (err) => {
                 this.loadingHivSummary = false;
                 // all data loaded
-                this.dataLoaded = true;
+               // this.dataLoaded = true;
                 this.errors.push({
                     id: 'Hiv Summary',
                     message: 'An error occured while loading Hiv Summary. Please try again.'
@@ -87,5 +90,9 @@ export class HivSummaryHistoricalComponent implements OnInit {
 
             }
             );
+    }
+    loadMoreHivSummary() {
+      this.isLoading = true;
+      this.loadHivSummary(this.patientUuid, this.nextStartIndex);
     }
 }

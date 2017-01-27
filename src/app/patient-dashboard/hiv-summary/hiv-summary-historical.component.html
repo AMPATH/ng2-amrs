@@ -28,13 +28,12 @@
 	</tr>
 </table>
 
-<div [ngBusy]="{busy:[loadingHivSummary] ,message:'Please Wait...'}"></div>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
 </div>
 
 <div *ngIf='!dataLoaded'>
-	<button class="btn btn-info" (click)="loadHivSummary()">
+	<button class="btn btn-info" [ladda]='isLoading' data-size="xs" data-color="blue"  (click)="loadMoreHivSummary()">
     <span class="glyphicon glyphicon-refresh"></span>Load More</button>
 </div>
 
