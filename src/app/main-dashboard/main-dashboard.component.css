@@ -377,4 +377,16 @@ visit .visit-panel-footer {
   padding: 4px;
 }
 
+ng-select.form-control {
+  height:auto;
+}
+
+.select2-container {
+  display: block !important;
+}
+
+.form-control:focus {
+  border-color: #3c8dbc !important;
+}
+
 

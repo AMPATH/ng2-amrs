@@ -143,6 +143,16 @@ $(function () {
   //Fix for IE page transitions
   $("body").removeClass("hold-transition");
 
+  $(document).click(function(e){
+
+    if(!($("body").hasClass('sidebar-collapse'))){
+      if($(e.target).hasClass('sidebar-toggle'))
+        $("body").removeClass('sidebar-collapse').addClass('sidebar-open');
+      else
+        $("body").addClass('sidebar-collapse')
+    }
+  });
+
   //Extend options if external options exist
   if (typeof AdminLTEOptions !== "undefined") {
     $.extend(true,
