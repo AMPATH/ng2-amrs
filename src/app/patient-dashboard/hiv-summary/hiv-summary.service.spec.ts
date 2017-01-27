@@ -35,7 +35,7 @@ describe('Service: HivSummary', () => {
       ]
     });
       service = TestBed.get(HivSummaryService);
-      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b');
+      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', 0, 20);
   });
 
   afterEach(() => {
@@ -51,8 +51,8 @@ describe('Service: HivSummary', () => {
     result.subscribe((results) => {
       if (results) {
       expect(results).toBeTruthy();
-      expect(results.length).toBeGreaterThan(0);
-      expect(results[0].uuid).toEqual('uuid');
+       expect(results.length).toBeGreaterThan(0);
+       expect(results[0].uuid).toEqual('uuid');
       }
       done();
     });
@@ -75,7 +75,7 @@ describe('Service: HivSummary', () => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
-    service.getHivSummary(patientUuid)
+    service.getHivSummary(patientUuid, 0, 20)
       .subscribe((response) => {
     },
       (error: Error) => {

@@ -80,11 +80,6 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     spyOn(component, 'getHivSummary').and.callThrough();
     component.getHivSummary();
     expect(component.getHivSummary).toHaveBeenCalled();
-
-    spyOn(component, 'getPatient').and.callThrough();
-    component.getPatient();
-    expect(component.getPatient).toHaveBeenCalled();
-
     done();
 
   });

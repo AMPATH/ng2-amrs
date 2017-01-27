@@ -6,27 +6,20 @@ import { Helpers } from '../../utils/helpers';
 
 @Injectable()
 export class HivSummaryService {
-
-  public limit: number = 20;
-
-  public startIndex: number = 0;
-
-  protected _hivSummary: Array<Object> = [];
-
-  public hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
-
-  public allDataLoaded: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  public hivSummaryLatest: BehaviorSubject<any> = new BehaviorSubject(null);
+  private limit: number = 20;
 
   constructor(private hivSummaryResourceService: HivSummaryResourceService) { }
 
-  getHivSummary(patientUuid: string, includeNonClinicalEncounter?: boolean): Observable<any> {
+  getHivSummary(patientUuid: string,  startIndex: number, limit: number,
+                includeNonClinicalEncounter?: boolean): Observable<any> {
+   let hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.hivSummaryResourceService.getHivSummary(patientUuid,
-      this.startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
+      startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
+
 
         if (data) {
-
-          if (data.length > 0) {
             for (let r = 0; r < data.length; r++) {
               let isPendingViralLoad = this.determineIfVlIsPending(data);
               let isPendingCD4 = this.determineIfCD4IsPending(data);
@@ -38,20 +31,15 @@ export class HivSummaryService {
               data[r].prev_rtc_date = new Date(data[r].prev_rtc_date)
                 .setHours(0, 0, 0, 0);
             }
-            this._hivSummary.push.apply(this._hivSummary, data);
-            this.startIndex += data.length;
-
-            this.hivSummary.next(this._hivSummary);
-          } else {
-            this.allDataLoaded.next(true);
-          }
+            hivSummary.next(data);
         }
+       this.hivSummaryLatest.next(data);
       }, (error) => {
-        this.hivSummary.error(error);
+        hivSummary.error(error);
         console.error(error);
       });
 
-    return this.hivSummary;
+    return hivSummary;
   }
 
   determineIfVlIsPending(hivSummary: any) {
