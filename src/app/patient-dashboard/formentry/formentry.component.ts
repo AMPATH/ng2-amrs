@@ -116,6 +116,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['problem']);
     this.dataSources.registerDataSource('personAttribute',
       this.formDataSourceService.getDataSources()['location']);
+    this.dataSources.registerDataSource('conceptAnswers',
+      this.formDataSourceService.getDataSources()['conceptAnswers']);
   }
 
   public onSubmit(): void {
