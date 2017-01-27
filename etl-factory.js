@@ -262,32 +262,31 @@ module.exports = function() {
   function replaceIndicatorParam(_indicatorExpression, requestParam) {
     var indicatorExpression = _indicatorExpression;
     var result;
-    // console.log('underscore string', s.include(indicatorExpression,'endDate'));
-    if (s.include(indicatorExpression, 'endDate')) {
+  
+    if (s.include(indicatorExpression, '@endDate')) {
       if (requestParam.whereParams) {
         var dateParam = _.find(requestParam.whereParams, function(param) {
           if (param.name === 'endDate') return param;
         });
 
         if (dateParam) {
-          indicatorExpression = s.replaceAll(indicatorExpression, 'endDate', "'" + dateParam.value + "'");
-          // console.log('end date param', indicatorExpression);
+          indicatorExpression = s.replaceAll(indicatorExpression, '@endDate', "'" + dateParam.value + "'");
         }
       }
     }
 
-    if (s.include(indicatorExpression, 'startDate')) {
+    if (s.include(indicatorExpression, '@startDate')) {
       if (requestParam.whereParams) {
         var dateParam = _.find(requestParam.whereParams, function(param) {
           if (param.name === 'startDate') return param;
         });
 
         if (dateParam) {
-          indicatorExpression = s.replaceAll(indicatorExpression, 'startDate', "'" + dateParam.value + "'");
-          // console.log('start date param', indicatorExpression);
+          indicatorExpression = s.replaceAll(indicatorExpression, '@startDate', "'" + dateParam.value + "'");
         }
       }
     }
+
     if (s.include(indicatorExpression, '@referenceDate')) {
       if (requestParam.whereParams) {
         var referenceParam = _.find(requestParam.whereParams, function(param) {

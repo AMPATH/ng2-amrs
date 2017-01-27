@@ -40,10 +40,13 @@ var reportPrivileges = {
     'patient-list-report-virally_suppressed': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'patient-list-report-patients_requiring_vl': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'patient-list-report-tested_appropriately': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-due_for_annual_vl': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-pending_vl_orders': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
+    'patient-list-report-missing_vl_order': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'labs-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'viral-load-monitoring-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'medical-history-report': [PRIVILEGES.canViewPatient],
-    'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard,PRIVILEGES.canViewPatient]
+    'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard, PRIVILEGES.canViewPatient]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];
@@ -76,7 +79,7 @@ authorizer.getAllPrivileges = function () {
 authorizer.getAllPrivilegesArray = function () {
     var allPrivileges = [];
 
-    for(var prop in PRIVILEGES){
+    for (var prop in PRIVILEGES) {
         allPrivileges.push(PRIVILEGES[prop]);
     }
     //console.log('All privileges', allPrivileges);
@@ -102,10 +105,10 @@ authorizer.hasPrivileges = function (arrayOfPrivileges) {
 
     var hasPrivilege = true;
 
-    for(var i = 0; i <arrayOfPrivileges.length; i++){
-        if(!authorizer.hasPrivilege(arrayOfPrivileges[i])) {
-           hasPrivilege = false;
-           break;
+    for (var i = 0; i < arrayOfPrivileges.length; i++) {
+        if (!authorizer.hasPrivilege(arrayOfPrivileges[i])) {
+            hasPrivilege = false;
+            break;
         }
     }
     return hasPrivilege;
@@ -115,41 +118,41 @@ authorizer.hasReportAccess = function (reportName) {
     var hasAccess = false;
     var requiredPrivileges = reportPrivileges[reportName];
 
-    if(requiredPrivileges){
+    if (requiredPrivileges) {
         hasAccess = authorizer.hasPrivileges(requiredPrivileges);
     }
     return hasAccess;
 };
 
 authorizer.isSuperUser = function () {
-     return true;//for now all users are super users
-     /** Disabled for now
-    for (var i = 0; i < SUPERUSER_ROLES.length; i++) {
-        var role = SUPERUSER_ROLES[i];
-        if (currentUserRoles.indexOf(role) > -1) {
-            return true;
-        }
-    }
+    return true;//for now all users are super users
+    /** Disabled for now
+   for (var i = 0; i < SUPERUSER_ROLES.length; i++) {
+       var role = SUPERUSER_ROLES[i];
+       if (currentUserRoles.indexOf(role) > -1) {
+           return true;
+       }
+   }
 
-    return false;**/
+   return false;**/
 };
 
-authorizer.getUserAuthorizedLocations = function  (userProperties, callback) {
+authorizer.getUserAuthorizedLocations = function (userProperties, callback) {
 
-    var authorized=[];
-    resolveLocationName(userProperties,'aggregate',  function(r){
+    var authorized = [];
+    resolveLocationName(userProperties, 'aggregate', function (r) {
         authorized.push.apply(authorized, r);
-        resolveLocationName(userProperties, 'operational', function(s){
+        resolveLocationName(userProperties, 'operational', function (s) {
             authorized.push.apply(authorized, s);
             callback(authorized)
         })
     });
 };
 
-function resolveLocationName (userProperties, type, callback) {
-    var authorized=[];
+function resolveLocationName(userProperties, type, callback) {
+    var authorized = [];
     for (var key in userProperties) {
-        if(type==='operational') {
+        if (type === 'operational') {
             if (/^grantAccessToLocationOperationalData/.test(key)) {
                 if (userProperties[key] === '*') {
                     return callback([{
@@ -163,7 +166,7 @@ function resolveLocationName (userProperties, type, callback) {
                     authorized.push(userProperties[key])
                 }
             }
-        } else if (type==='aggregate'){
+        } else if (type === 'aggregate') {
             if (/^grantAccessToLocationAggregateData/.test(key)) {
                 if (userProperties[key] === '*') {
                     return callback([{
@@ -175,20 +178,20 @@ function resolveLocationName (userProperties, type, callback) {
                     authorized.push(userProperties[key])
                 }
             }
-       }
+        }
     }
 
-    if(authorized.length>0){
-        analytics.resolveLocationUuidsToName(authorized, function(results){
-            var i=[]
-            _.each(results, function(result) {
-                if (type==='operational') {
+    if (authorized.length > 0) {
+        analytics.resolveLocationUuidsToName(authorized, function (results) {
+            var i = []
+            _.each(results, function (result) {
+                if (type === 'operational') {
                     i.push({
                         uuid: result.uuid,
                         name: result.name,
                         type: 'operational'
                     })
-                }else if(type==='aggregate'){
+                } else if (type === 'aggregate') {
                     i.push({
                         uuid: result.uuid,
                         name: result.name,
@@ -199,7 +202,7 @@ function resolveLocationName (userProperties, type, callback) {
             callback(i);
         })
 
-    } else{
+    } else {
         //for users whose privileges are not set
         callback(authorized);
     }
