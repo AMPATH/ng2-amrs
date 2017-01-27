@@ -39,3 +39,11 @@ div.list-group-item:hover {
   padding-bottom:12px;
   padding-top:12px;
 }
+
+.ladda-button {
+  background: none !important;
+}
+
+.ladda-button[disabled], .ladda-button[data-loading], .ladda-button:hover {
+    border-color: transparent;
+}
