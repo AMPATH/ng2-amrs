@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Provider } from '../../models/provider.model';
 import { Patient } from '../../models/patient.model';
 import { PatientService } from '../patient.service';
@@ -27,7 +27,8 @@ export class FormDataSourceService {
       location: this.getLocationDataSource(),
       provider: this.getProviderDataSource(),
       drug: this.getDrugDataSource(),
-      problem: this.getProblemDataSource()
+      problem: this.getProblemDataSource(),
+      conceptAnswers: this.getConceptAnswersDataSource()
     };
     return formData;
   }
@@ -87,6 +88,35 @@ export class FormDataSourceService {
       resolveSelectedValue: resolve,
       searchOptions: find
     };
+  }
+
+  getConceptAnswersDataSource() {
+    let datasource = {
+      cachedOptions: [],
+      dataSourceOptions: {
+        concept: undefined
+      },
+      resolveSelectedValue: undefined,
+      searchOptions: undefined
+    };
+    let resolve = (uuid: string) => {
+      if (datasource.cachedOptions.length > 0) {
+        return Observable.create((observer: Subject<any>) => {
+          observer.next(datasource.cachedOptions);
+        });
+      }
+      let valuesObservable = this.getConceptAnswers(datasource.dataSourceOptions.concept);
+      valuesObservable.subscribe((results) => {
+        datasource.cachedOptions = results;
+      });
+      return valuesObservable;
+    };
+
+    datasource.resolveSelectedValue = resolve;
+    datasource.searchOptions = resolve;
+
+    return datasource;
+
   }
 
   findProvider(searchText): Observable<Provider[]> {
@@ -214,16 +244,32 @@ export class FormDataSourceService {
 
   resolveConcept(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
-    this.conceptResourceService.getConceptByUuid(uuid).subscribe((result) => {
-      let mappedConcept = {
-        text: result.name.display,
-        id: result.uuid
-      };
-      conceptResult.next(mappedConcept);
-    }, (error) => {
-      conceptResult.error(error);
-    });
+    let v = 'custom:(uuid,name,conceptClass,answers)';
+    this.conceptResourceService.getConceptByUuid(uuid, true)
+      .subscribe((result) => {
+        let mappedConcept = {
+          text: result.name.display,
+          id: result.uuid
+        };
+        conceptResult.next(mappedConcept);
+      }, (error) => {
+        conceptResult.error(error);
+      });
     return conceptResult.asObservable();
+  }
+
+  getConceptAnswers(uuid) {
+    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    let v = 'custom:(uuid,name,conceptClass,answers)';
+    this.conceptResourceService.getConceptByUuid(uuid, true, v)
+      .subscribe((result) => {
+        let mappedConcepts = this.mapConcepts(result.answers);
+        conceptResult.next(mappedConcepts);
+      }, (error) => {
+        conceptResult.error(error);
+      });
+    return conceptResult.asObservable();
+
   }
 
   findDrug(searchText) {
