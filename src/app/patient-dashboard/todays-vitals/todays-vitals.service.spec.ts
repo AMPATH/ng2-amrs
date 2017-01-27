@@ -57,9 +57,13 @@ describe('Service: TodaysVitalsService', () => {
     let service: TodaysVitalsService = TestBed.get(TodaysVitalsService);
     let fakeRes: FakeVisitResourceService =
       TestBed.get(VisitResourceService) as FakeVisitResourceService;
-    let result = service.getTodaysVitals('patient-uuid');
+    fakeRes.returnErrorOnNext = false;
+    spyOn(service, 'getTodayVisits').and.callFake(function (params) {
+      // assume the test data is today's vitals
+      return params;
+    });
 
-    result.subscribe((results) => {
+    service.getTodaysVitals('patient-uuid').subscribe((results) => {
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].diastolic).toEqual(101);
       expect(results[0].weight).toEqual(123);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, Subject, Observable } from 'rxjs/Rx';
 
 import {
     VisitResourceService
@@ -13,7 +13,7 @@ export class TodaysVitalsService {
     loadingEncounters: boolean;
     errors: any = [];
 
-    public todaysVitals: BehaviorSubject<Vital[]> = new BehaviorSubject<Vital[]>([]);
+
     vitalModel = {
         diastolic: null, systolic: null,
         pulse: null, temperature: null, oxygenSaturation: null,
@@ -24,50 +24,58 @@ export class TodaysVitalsService {
     }
 
     getTodaysVitals(uuid): Observable<Vital[]> {
+        let todaysVitals: Subject<Vital[]> = new Subject<Vital[]>();
         let patientsObservable = this.visitResourceService.getPatientVisits(uuid);
-        patientsObservable.subscribe(
-            (encounters) => {
-                if (encounters.length > 0) {
-                    let visits = this.getTodayVisits(encounters);
-                    let visitUuid = '';
-                    if (visits.length > 0) {
-                        visitUuid = visits[0].uuid;
-                    }
-                    this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
-                        (visitEncounters) => {
-                            let hasTriageEncounter = false;
-                            if (visitEncounters.length > 0) {
-                                for (let encounter of visitEncounters) {
-                                    let encounterType = encounter.encounterType.uuid;
-                                    if (encounterType === 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7') {
-                                        this.getVitalsFromObs(encounter.obs);
-                                        let vitals = [];
-                                        vitals.push(new Vital(this.vitalModel));
-                                        this.todaysVitals.next(vitals);
-                                        hasTriageEncounter = true;
-                                        break;
+
+        if (patientsObservable === null) {
+            throw 'Null patient visit observable';
+        } else {
+            patientsObservable.subscribe(
+                (encounters) => {
+                    if (encounters.length > 0) {
+                        let visits = this.getTodayVisits(encounters);
+                        let visitUuid = '';
+                        if (visits.length > 0) {
+                            visitUuid = visits[0].uuid;
+                            this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
+                                (visitEncounters) => {
+                                    if (visitEncounters.length > 0) {
+                                        let hasTriageEncounter = false;
+                                        for (let encounter of visitEncounters) {
+                                            let encounterType = encounter.encounterType.uuid;
+                                            if (encounterType ===
+                                                'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7') {
+                                                this.getVitalsFromObs(encounter.obs);
+                                                let vitals = [];
+                                                vitals.push(new Vital(this.vitalModel));
+                                                todaysVitals.next(vitals);
+                                                hasTriageEncounter = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!hasTriageEncounter) {
+                                            todaysVitals.next([]);
+                                        }
+                                    } else {
+                                        todaysVitals.next([]);
                                     }
-
+                                },
+                                (error) => {
+                                    todaysVitals.error(error);
                                 }
-                            }
-                            if (hasTriageEncounter === false) {
-                                this.todaysVitals.next(new Array(new Vital({
-                                    diastolic: null, systolic: null,
-                                    pulse: null, temperature: null, oxygenSaturation: null,
-                                    height: null, weight: null, bmi: null
-                                })));
-                            }
-
+                            );
+                        } else {
+                            todaysVitals.next([]);
                         }
-                    );
 
+                    }
+                },
+                (error) => {
+                    todaysVitals.error(error);
                 }
-            },
-            (error) => {
-                this.todaysVitals.error(error);
-            }
-        );
-        return this.todaysVitals.asObservable();
+            );
+        }
+        return todaysVitals.asObservable();
     }
 
     private getFormattedDate(date, format) {

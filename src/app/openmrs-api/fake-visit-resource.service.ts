@@ -128,9 +128,13 @@ export class FakeVisitResourceService {
       }
     ];
     if (!this.returnErrorOnNext) {
-      test.next(visits);
+      setTimeout(function () {
+        test.next(visits);
+      }, 500);
     } else {
-      test.error(new Error('Error loading patient'));
+      setTimeout(function () {
+        test.error(new Error('Error loading patient'));
+      }, 500);
     }
     return test.asObservable();
   }
