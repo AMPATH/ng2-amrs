@@ -99,7 +99,7 @@ export class FormDataSourceService {
       resolveSelectedValue: undefined,
       searchOptions: undefined
     };
-    let resolve = (uuid: string) => {
+    let find = (uuid: string) => {
       if (datasource.cachedOptions.length > 0) {
         return Observable.create((observer: Subject<any>) => {
           observer.next(datasource.cachedOptions);
@@ -111,9 +111,11 @@ export class FormDataSourceService {
       });
       return valuesObservable;
     };
-
+    let resolve = (uuid: string) => {
+      return this.resolveConcept(uuid);
+    };
     datasource.resolveSelectedValue = resolve;
-    datasource.searchOptions = resolve;
+    datasource.searchOptions = find;
 
     return datasource;
 
@@ -134,8 +136,8 @@ export class FormDataSourceService {
         });
         let mappedProviders = filtered.map((p: any) => {
           return {
-            id: p.person.uuid,
-            text: p.display,
+            value: p.person.uuid,
+            label: p.display,
             providerUuid: p.uuid
           };
         });
@@ -155,8 +157,8 @@ export class FormDataSourceService {
       .subscribe(
       (provider) => {
         let mappedProvider = {
-          id: provider.display,
-          text: provider.uuid
+          label: provider.display,
+          value: provider.uuid
         };
         providerSearchResults.next(mappedProvider);
 
@@ -175,8 +177,8 @@ export class FormDataSourceService {
       .subscribe(
       (provider) => {
         let mappedProvider = {
-          text: (provider as any).display,
-          id: (provider as any).person.uuid,
+          label: (provider as any).display,
+          value: (provider as any).person.uuid,
           providerUuid: (provider as any).uuid
         };
         providerSearchResults.next(mappedProvider);
@@ -211,8 +213,8 @@ export class FormDataSourceService {
       (locations) => {
         let mappedLocations = locations.map((l: any) => {
           return {
-            id: l.uuid,
-            text: l.display
+            value: l.uuid,
+            label: l.display
           };
         });
         locationSearchResults.next(mappedLocations.slice(0, 10));
@@ -230,8 +232,8 @@ export class FormDataSourceService {
       .subscribe(
       (location) => {
         let mappedLocation = {
-          text: location.display,
-          id: location.uuid
+          label: location.display,
+          value: location.uuid
         };
         locationSearchResults.next(mappedLocation);
       },
@@ -244,17 +246,15 @@ export class FormDataSourceService {
 
   resolveConcept(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
-    let v = 'custom:(uuid,name,conceptClass,answers)';
-    this.conceptResourceService.getConceptByUuid(uuid, true)
-      .subscribe((result) => {
-        let mappedConcept = {
-          text: result.name.display,
-          id: result.uuid
-        };
-        conceptResult.next(mappedConcept);
-      }, (error) => {
-        conceptResult.error(error);
-      });
+    this.conceptResourceService.getConceptByUuid(uuid).subscribe((result) => {
+      let mappedConcept = {
+        label: result.name.display,
+        value: result.uuid
+      };
+      conceptResult.next(mappedConcept);
+    }, (error) => {
+      conceptResult.error(error);
+    });
     return conceptResult.asObservable();
   }
 
@@ -318,8 +318,8 @@ export class FormDataSourceService {
   mapConcepts(concepts) {
     let mappedConcepts = concepts.map((concept) => {
       return {
-        id: concept.uuid,
-        text: concept.name.display
+        value: concept.uuid,
+        label: concept.name.display
       };
     });
     return mappedConcepts;
