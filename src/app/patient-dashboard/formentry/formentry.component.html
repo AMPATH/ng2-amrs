@@ -5,10 +5,12 @@
 		<div class='col-md-12' *ngIf=form>
 			<error-renderer [form]="form"></error-renderer>
 			<form [formGroup]="form.rootNode.control">
-        {{formName}}
+        <h3>{{formName}}</h3>
+        <hr />
 				<form-renderer [node]="form.rootNode"></form-renderer>
 				<div class="form-row">
 					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit()">Save</button>
+          <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
 				</div>
 			</form>
 		</div>
