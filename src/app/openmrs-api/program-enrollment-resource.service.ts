@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
+import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
 // TODO inject service
@@ -37,4 +37,31 @@ export class ProgramEnrollmentResourceService {
       return response.json().results;
     });
   }
+
+
+  saveUpdateProgramEnrollment(payload) {
+    if (!payload) {
+      return null;
+    }
+    let url = this.getUrl();
+    if (payload.uuid) {
+      url = url + '/' + payload.uuid;
+    }
+    delete payload['uuid'];
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(url, JSON.stringify(payload), options)
+      .map((response: Response) => {
+        return response.json();
+      }).catch(this.handleError);
+  }
+
+  private handleError(error: any) {
+    return Observable.throw(error.message
+      ? error.message
+      : error.status
+        ? `${error.status} - ${error.statusText}`
+        : 'Server Error');
+  }
+
 }

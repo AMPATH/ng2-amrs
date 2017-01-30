@@ -28,4 +28,17 @@ export class FakeProgramEnrollmentResourceService extends ProgramEnrollmentResou
     );
     return subject;
   }
+
+  public saveUpdateProgramEnrollment(paylod: any): Observable<any> {
+    let subject = new BehaviorSubject<any>(null);
+    subject.next(
+      [
+        {
+          uuid: 'uuid1',
+          display: 'display'
+        }
+      ]
+    );
+    return subject;
+  }
 }

@@ -6,7 +6,8 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, ButtonModule
+  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
+  DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
@@ -28,6 +29,7 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { PatientIdentifierComponent } from './patient-identifier/patient-identifier.component';
+import { ProgramService } from './programs/program.service';
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from './patient-search/patient-search.service';
@@ -87,6 +89,12 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
     AccordionModule,
     DataTableModule,
     SharedModule,
+    InputTextModule,
+    MessagesModule,
+    InputTextareaModule,
+    DropdownModule,
+    ButtonModule,
+    CalendarModule,
     NgamrsSharedModule,
     Ng2PaginationModule,
     Ng2Bs3ModalModule,
@@ -162,7 +170,8 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
     PatientReminderService,
     DraftedFormsService,
     TodaysVitalsService,
-    PatientRelationshipService
+    PatientRelationshipService,
+    ProgramService
   ],
   exports: [
     PatientDashboardComponent,

@@ -7,13 +7,14 @@ import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } fr
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientReminderResourceService } from './patient-reminder-resource.service';
-
+import { DatePipe } from '@angular/common';
 
 describe('Patient Reminder Resource Service Unit Tests', () => {
 
   let backend: MockBackend, patientUuid = '79803198-2d23-49cd-a7b3-4f672bd8f659';
   let report = 'clinical-reminder-report';
-  let referenceDate: Date = new Date();
+  let datePipe = new DatePipe('en-US');
+  let referenceDate: any = datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
   console.log('reference', referenceDate);
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +56,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       indicators: 'needs_vl_coded,overdue_vl_lab_order,' +
       'months_since_last_vl_date,new_viral_load_present,' +
       'ordered_vl_has_error,is_on_inh_treatment',
-      referenceDate: new Date().toISOString()
+      referenceDate: referenceDate
     };
     backend.connections.subscribe((connection: MockConnection) => {
 
@@ -92,7 +93,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
           indicators: 'needs_vl_coded,overdue_vl_lab_order,' +
           'months_since_last_vl_date,new_viral_load_present,' +
           'ordered_vl_has_error,is_on_inh_treatment',
-          referenceDate: '2017-01-17T07:55:09.717Z'
+          referenceDate: referenceDate
         };
 
         mockBackend.connections.subscribe(c =>
