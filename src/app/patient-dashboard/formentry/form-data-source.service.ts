@@ -296,8 +296,18 @@ export class FormDataSourceService {
         if (concept.conceptClass &&
           concept.conceptClass.uuid === '8d4918b0-c2cc-11de-8d13-0010c6dffd0f') {
           return true;
-        } else {
-          return false;
+        }
+        if (concept.conceptClass &&
+          concept.conceptClass.uuid === '8d492b2a-c2cc-11de-8d13-0010c6dffd0f') {
+          return true;
+        }
+        if (concept.conceptClass &&
+          concept.conceptClass.uuid === '8d492954-c2cc-11de-8d13-0010c6dffd0f') {
+          return true;
+        }
+        if (concept.conceptClass &&
+          concept.conceptClass.uuid === '8d491a9a-c2cc-11de-8d13-0010c6dffd0f') {
+          return true;
         }
       });
       let mappedProblems = this.mapConcepts(filtered);
