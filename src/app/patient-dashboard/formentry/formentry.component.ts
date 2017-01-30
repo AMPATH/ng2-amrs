@@ -121,6 +121,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    setTimeout(() => {
+      if (!this.form.valid && this.form.showErrors) {
+        document.body.scrollTop = 0;
+      }
+    }, 100);
     console.log('FORM MODEL:', this.form.rootNode.control);
     this.submitForm();
   }
