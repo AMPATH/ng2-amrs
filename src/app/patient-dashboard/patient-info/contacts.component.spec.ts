@@ -15,11 +15,12 @@ import {
 } from '../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
+
 describe('Component: Contacts Unit Tests', () => {
 
   let patientResourceService: PatientResourceService,
+    patientService: PatientService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -44,6 +45,9 @@ describe('Component: Contacts Unit Tests', () => {
         {
           provide: PatientResourceService,
         },
+        {
+          provide: PatientService,
+        },
         AppSettingsService,
         LocalStorageService
       ]
@@ -52,6 +56,10 @@ describe('Component: Contacts Unit Tests', () => {
     patientResourceService = TestBed.get(PatientResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = TestBed.get(ContactsComponent);
+
+    patientService = TestBed.get(PatientService);
+    component = new ContactsComponent(patientService);
+
 
   });
 

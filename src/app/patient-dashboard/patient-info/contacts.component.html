@@ -1,11 +1,14 @@
+
 <dl *ngIf="patient">
   <dt>Phone Number</dt>
-  <dd>{{patient.person.contacts.patientPhoneNumber}}</dd>
+  <dd>{{patientPhoneNumber}}</dd>
   <dt>Alternative Phone Number</dt>
-  <dd>{{patient.person.contacts.alternativePhoneNumber}}</dd>
+  <dd>{{alternativePhoneNumber}}</dd>
   <dt>Spouse Phone Number</dt>
-  <dd>{{patient.person.contacts.patnerPhoneNumber}}</dd>
+  <dd>{{patnerPhoneNumber}}</dd>
   <dt>Next of Kin phone number</dt>
-  <dd>{{patient.person.contacts.nextofkinPhoneNumber}}</dd>
+  <dd>{{nextofkinPhoneNumber}}</dd>
 </dl>
-
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
