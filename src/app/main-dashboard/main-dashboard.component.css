@@ -170,6 +170,15 @@ dd {white-space: pre; padding:7px;}
 .skin-black-light .main-sidebar {
   top: 50px;
 }
+
+todays-vitals {
+  margin-top: 10px;
+}
+
+todays-vitals ul.list-group {
+  margin-bottom: 0;
+}
+
 @media screen and (max-width: 466px) {
   .content-wrapper{
     padding-top: 140px !important;
@@ -179,7 +188,7 @@ dd {white-space: pre; padding:7px;}
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
 
   .main-header .sidebar-toggle {
     float: none;
@@ -203,7 +212,7 @@ dd {white-space: pre; padding:7px;}
   }
 
   .content-wrapper{
-    padding-top: 140px !important;
+    padding-top: 120px !important;
   }
 
   .skin-black-light.sidebar-open .content-wrapper {
@@ -277,12 +286,10 @@ dd {white-space: pre; padding:7px;}
   .input-group-btn.pull-right {
     width:auto;
   }
-
-
 }
 
-@media (min-width: 481px){
-  
+@media (min-width: 768px){
+
   .sidebar-mini.sidebar-collapse .main-header .logo {
     width: 150px;
     display: block;

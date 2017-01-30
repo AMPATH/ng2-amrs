@@ -185,10 +185,6 @@ input[type="password"]:focus:not([readonly]) {
 		margin-top: 0px;
 		margin-bottom: 20px;
 	}
-	.login section .box .banner .logo-area {
-		height: 100px;
-		width: 200px;
-	}
 }
 
 @media (min-width: 768px) {

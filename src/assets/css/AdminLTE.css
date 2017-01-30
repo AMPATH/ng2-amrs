@@ -69,27 +69,28 @@ body {
 .layout-top-nav .main-footer {
   margin-left: 0;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .content-wrapper,
   .right-side,
   .main-footer {
     margin-left: 0;
   }
 }
-@media (min-width: 481px) {
+@media (min-width: 768px) {
   .sidebar-collapse .content-wrapper,
   .sidebar-collapse .right-side,
-  login .main-footer {
+  .main-footer {
     margin-left: 0;
+    z-index: 999;
   }
-  
+
 }
-@media (max-width: 600px) and (min-width: 481px) {
+@media (max-width: 600px) and (min-width: 768px) {
   .box-header {
     margin-top: 50px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .sidebar-open .content-wrapper,
   .sidebar-open .right-side,
   .sidebar-open .main-footer {
@@ -126,7 +127,7 @@ body {
 .fixed .right-side {
   padding-top: 50px;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .fixed .content-wrapper,
   .fixed .right-side {
     padding-top: 100px;
@@ -240,7 +241,7 @@ a:focus {
     background: transparent;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .main-header .navbar-right {
     float: none;
   }
@@ -398,7 +399,7 @@ a:focus {
     line-height: 20px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .main-header {
     position: relative;
   }
@@ -443,13 +444,13 @@ a:focus {
   -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .main-sidebar,
   .left-side {
     padding-top: 0px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .main-sidebar,
   .left-side {
     -webkit-transform: translate(0, 0);
@@ -459,7 +460,7 @@ a:focus {
     width:0px;
   }
   .content-wrapper, .right-side, .main-footer {
-    margin-left: 0  px;
+    margin-left: 0;
   }
 
   .skin-black-light.sidebar-collapse .sidebar-menu > li > a > span.icon-menu-label {
@@ -469,7 +470,7 @@ a:focus {
     z-index: 1;
   }
 }
-@media (min-width: 481px) {
+@media (max-width: 767px) {
   .sidebar-collapse .main-sidebar,
   .sidebar-collapse .left-side {
     -webkit-transform: translate(0, 0);
@@ -479,7 +480,7 @@ a:focus {
     width:54px;
     top: 50px;
   }
-  .content-wrapper, .right-side, .main-footer {
+  .content-wrapper, .right-side {
     margin-left: 54px;
   }
 
@@ -498,7 +499,7 @@ a:focus {
     transform: translate(0, 0);
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .sidebar-open .main-sidebar,
   .sidebar-open .left-side {
     -webkit-transform: translate(0, 0);
@@ -631,7 +632,7 @@ a:focus {
 /*
  * Component: Sidebar Mini
  */
-@media (min-width: 481px) {
+@media (min-width: 768px) {
   .sidebar-mini.sidebar-collapse .content-wrapper,
   .sidebar-mini.sidebar-collapse .right-side{
     margin-left: 54px !important;
@@ -755,7 +756,7 @@ a:focus {
   padding-top: 50px;
   z-index: 1010;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .control-sidebar {
     padding-top: 100px;
   }
@@ -771,7 +772,7 @@ a:focus {
 .control-sidebar-open .control-sidebar {
   right: 0;
 }
-@media (min-width: 481px) {
+@media (min-width: 768px) {
   .control-sidebar-open .content-wrapper,
   .control-sidebar-open .right-side,
   .control-sidebar-open .main-footer {
@@ -804,7 +805,7 @@ a:focus {
   border-right: none;
   border-bottom: none;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .nav-tabs.control-sidebar-tabs {
     display: table;
   }
@@ -1203,7 +1204,7 @@ a:focus {
   margin-right: 10px;
   margin-top: -2px;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .navbar-nav > .user-menu .user-image {
     float: none;
     margin-right: 0;
@@ -1565,7 +1566,7 @@ a:focus {
 .small-box:hover .icon {
   font-size: 95px;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .small-box {
     text-align: center;
   }
@@ -3020,7 +3021,7 @@ table.text-center th {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
   border: 0;
 }
-@media (min-width: 481px) {
+@media (min-width: 768px) {
   .modal-content {
     -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
@@ -3272,7 +3273,7 @@ table.text-center th {
   width: 360px;
   margin: 7% auto;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .login-box,
   .register-box {
     width: 90%;

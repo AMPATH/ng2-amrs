@@ -149,7 +149,9 @@ $(function () {
       if($(e.target).hasClass('sidebar-toggle'))
         $("body").removeClass('sidebar-collapse').addClass('sidebar-open');
       else
-        $("body").addClass('sidebar-collapse')
+        $("body").addClass('sidebar-collapse').removeClass('sidebar-open')
+    } else {
+      $("body").removeClass('sidebar-open');
     }
   });
 

@@ -185,15 +185,11 @@ pagination-controls li:first-child span {
   margin-left: 0;
 }
 
-.main-footer {
-  padding-right:70px !important;
-}
-
 a.formLink {
   display: inline-block;
 }
 
-app-patient-search {
+app-patient-search, todays-vitals {
   display: block;
 }
 
@@ -203,4 +199,8 @@ app-patient-search .wrapper {
 
 .ladda-button[data-size=xs] .ladda-label {
   font-size: 18px;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+  z-index: 0 !important;
 }

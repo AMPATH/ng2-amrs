@@ -125,6 +125,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.submitForm();
   }
 
+  public onCancel(): void {
+    console.log('FORM MODEL:', this.form.rootNode);
+    this.draftedFormsService.setDraftedForm(null);
+    this.navigateTo('formList');
+  }
+
   public retrySubmittingPayload(): void {
     this.submitForm(this.failedPayloadTypes);
   }
@@ -134,6 +140,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/patient-info']);
+        break;
+      case 'formList':
+        this.preserveFormAsDraft = false;
+        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/forms']);
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
