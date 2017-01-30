@@ -17,8 +17,8 @@ describe('Service: ProgramService', () => {
         ProgramService,
         {
           provide: ProgramEnrollmentResourceService, useFactory: () => {
-          return new FakeProgramEnrollmentResourceService(null, null);
-        }, deps: []
+            return new FakeProgramEnrollmentResourceService(null, null);
+          }, deps: []
         }
       ]
     });
@@ -33,30 +33,24 @@ describe('Service: ProgramService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should initialized currently loaded program observable when Program service is injected ' +
-    'for the first time', () => {
-    let service: ProgramService = TestBed.get(ProgramService);
-    expect(service.enrolledPrograms).toBeTruthy();
-  });
-
-
   it('should hit the server when getPatientEnrolledProgramsByUuid is called' +
     ' with a patient uuid', inject([ProgramEnrollmentResourceService],
-    fakeAsync((programEnrollmentResourceService: ProgramEnrollmentResourceService) => {
-      let service: ProgramService = TestBed.get(ProgramService);
-      let uuid: string = 'patient-uuid-1';
-      spyOn(programEnrollmentResourceService, 'getProgramEnrollmentByPatientUuid')
-        .and.callFake(function (params) {
-        let subject = new BehaviorSubject<any>({});
-        subject.next({
-          uuid: 'uuid',
-          display: 'display'
-        });
-        return subject;
-      });
-      // setting enrolledPrograms for the second time
-      service.getPatientEnrolledProgramsByUuid(uuid);
-      expect(programEnrollmentResourceService.getProgramEnrollmentByPatientUuid).toHaveBeenCalled();
+      fakeAsync((programEnrollmentResourceService: ProgramEnrollmentResourceService) => {
+        let service: ProgramService = TestBed.get(ProgramService);
+        let uuid: string = 'patient-uuid-1';
+        spyOn(programEnrollmentResourceService, 'getProgramEnrollmentByPatientUuid')
+          .and.callFake(function (params) {
+            let subject = new BehaviorSubject<any>({});
+            subject.next({
+              uuid: 'uuid',
+              display: 'display'
+            });
+            return subject;
+          });
+        // setting enrolledPrograms for the second time
+        service.getPatientEnrolledProgramsByUuid(uuid);
+        expect(programEnrollmentResourceService.
+          getProgramEnrollmentByPatientUuid).toHaveBeenCalled();
 
-    })));
+      })));
 });

@@ -28,6 +28,7 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { PatientIdentifierComponent } from './patient-identifier/patient-identifier.component';
+import { ProgramService } from './programs/program.service';
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from './patient-search/patient-search.service';
@@ -143,7 +144,8 @@ import { PatientRemindersComponent } from './patient-reminders/patient-reminders
     FormSubmissionService,
     PatientReminderService,
     DraftedFormsService,
-    TodaysVitalsService
+    TodaysVitalsService,
+    ProgramService
   ],
   exports: [
     PatientDashboardComponent,

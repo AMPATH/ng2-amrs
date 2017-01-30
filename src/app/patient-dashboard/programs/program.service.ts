@@ -1,28 +1,43 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, Subject, Observable } from 'rxjs/Rx';
 import {
   ProgramEnrollmentResourceService
 } from
   '../../openmrs-api/program-enrollment-resource.service';
 import { Program } from '../../models/program.model';
+import { ProgramEnrollment } from '../../models/program-enrollment.model';
 
 @Injectable()
 export class ProgramService {
-  public enrolledPrograms: BehaviorSubject<Program> = new BehaviorSubject(null);
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService) {
   }
 
+  getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
+    let enrolledPrograms: Subject<ProgramEnrollment[]> = new Subject<ProgramEnrollment[]>();
+    let patientsObservable = this.programEnrollmentResourceService.
+      getProgramEnrollmentByPatientUuid(uuid);
 
-  public getPatientEnrolledProgramsByUuid(patientUuid: string): BehaviorSubject<Program> {
-    this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(patientUuid)
-      .subscribe(
-        (program: Program) => {
-          this.enrolledPrograms.next(new Program(program));
-        },
+    if (patientsObservable === null) {
+      throw 'Null patient visit observable';
+    } else {
+      patientsObservable.subscribe(
+        (programs) => {
+          if (programs.length > 0) {
+            let patientPrograms = [];
+            for (let program of programs) {
+              patientPrograms.push(new ProgramEnrollment(program));
+            }
+            enrolledPrograms.next(patientPrograms);
+          } else {
+            enrolledPrograms.next([]);
+          }
+        }
+        ,
         (error) => {
-          this.enrolledPrograms.error(error);
+          enrolledPrograms.error(error);
         }
       );
-    return this.enrolledPrograms;
+    }
+    return enrolledPrograms.asObservable();
   }
 }
