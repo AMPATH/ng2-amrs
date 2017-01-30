@@ -12,6 +12,8 @@ import { UserService } from './user.service';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';
 import { ConceptResourceService } from './concept-resource.service';
+import { VisitResourceService } from './visit-resource.service';
+import { OrderResourceService } from './order-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -30,7 +32,9 @@ import { ConceptResourceService } from './concept-resource.service';
     UserService,
     ProviderResourceService,
     PersonResourceService,
-    ConceptResourceService
+    ConceptResourceService,
+    VisitResourceService,
+    OrderResourceService
   ],
   exports: []
 })

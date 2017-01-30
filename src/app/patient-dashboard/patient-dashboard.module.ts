@@ -11,7 +11,6 @@ import {
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2FilterPipe } from '../shared/pipes/ng2-filter.pipe';
-
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
@@ -27,7 +26,6 @@ import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.comp
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
-import { ClinicalNotesResourceService } from '../etl-api/clinical-notes-resource.service';
 import { VisitComponent } from './visit/visit.component';
 import { PatientIdentifierComponent } from './patient-identifier/patient-identifier.component';
 import { ProgramsComponent } from './programs/programs.component';
@@ -35,20 +33,13 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 import { PatientSearchService } from './patient-search/patient-search.service';
 import { FormOrderMetaDataService } from './forms/form-order-metadata.service';
 import { FormListService } from './forms/form-list.service';
-import { FormsResourceService } from './../openmrs-api/forms-resource.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
-import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
-import { VitalsResourceService } from '../etl-api/vitals-resource.service';
-import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { PatientService } from './patient.service';
-import { VisitResourceService } from '../openmrs-api/visit-resource.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
-import { LabsResourceService } from '../etl-api/labs-resource.service';
 import { MedicationHistoryComponent } from './hiv-summary/madication-history.component';
-import { MedicationHistoryResourceService } from '../etl-api/medication-history-resource.service';
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
@@ -61,14 +52,12 @@ import { UtilsModule } from '../utils/utils.module';
 import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
-import { FormEntryModule, EncounterAdapter } from 'ng2-openmrs-formentry';
+import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from './patient-previous-encounter.service';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
-import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 import { FormSubmissionService } from './formentry/form-submission.service';
-import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 import { PatientReminderService } from './patient-reminders/patient-reminders.service';
 import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
@@ -139,29 +128,19 @@ import { PatientRemindersComponent } from './patient-reminders/patient-reminders
     PatientDashboardGuard,
     PatientSearchService,
     AppFeatureAnalytics,
-    VitalsResourceService,
     PatientService,
     PatientPreviousEncounterService,
-    VisitResourceService,
-    LabsResourceService,
-    ClinicalNotesResourceService,
-    MedicationHistoryResourceService,
-    HivSummaryResourceService,
     HivSummaryService,
     FormListService,
     FormOrderMetaDataService,
-    FormsResourceService,
     PatientVitalsService,
     FormSchemaService,
     FormDataSourceService,
     FormentryHelperService,
     ConfirmationService,
     FromentryGuard,
-    EncounterAdapter,
     FormCreationDataResolverService,
-    OrderResourceService,
     FormSubmissionService,
-    DataSources,
     PatientReminderService,
     DraftedFormsService,
     TodaysVitalsService
