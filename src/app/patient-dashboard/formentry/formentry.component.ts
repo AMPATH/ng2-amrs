@@ -340,7 +340,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private handleSuccessfulFormSubmission(response: any): void {
-    this.formSubmissionErrors = null;
+    this.formSubmissionErrors = [];
     this.failedPayloadTypes = null;
     this.showSuccessDialog = true;
 
@@ -369,10 +369,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.form.valueProcessingInfo.providerUuid = data.providerUuid;
       },
       (error) => {
-        this.formSubmissionErrors.push({
-          id: 'Provider',
-          message: 'error fetching provider uuid'
-        });
+        console.warn('Provider not found. Are you a provider?');
       }
       );
 
