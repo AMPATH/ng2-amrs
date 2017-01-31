@@ -51,7 +51,7 @@ export class MainDashboardComponent implements OnInit {
     this.user = this.userService.getLoggedInUser();
     let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
     this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
-    this.loadVersion();
+
   }
 
   screenChanges(event) {
@@ -71,18 +71,4 @@ export class MainDashboardComponent implements OnInit {
       });
   }
 
-  loadVersion() {
-
-    try {
-
-      let json = require('../version.json');
-
-      if (json && json.version) {
-
-        this.version = json.version.version;
-        this.buildDate = new Date(json.version.buildDate);
-      }
-
-    } catch (e) { }
-  }
 }

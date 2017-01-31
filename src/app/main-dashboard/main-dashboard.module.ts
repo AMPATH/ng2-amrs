@@ -10,7 +10,7 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
 import { UserService } from '../openmrs-api/user.service';
 import { OnlineTrackerComponent } from '../online-tracker';
-
+import { BuildVersionComponent } from '../build-version';
 
 @NgModule({
   imports: [
@@ -21,7 +21,9 @@ import { OnlineTrackerComponent } from '../online-tracker';
   ],
   declarations: [
     MainDashboardComponent,
-    OnlineTrackerComponent
+
+    OnlineTrackerComponent,
+    BuildVersionComponent
   ],
   providers: [
     MainDashboardGuard,
@@ -29,7 +31,8 @@ import { OnlineTrackerComponent } from '../online-tracker';
   ],
   exports: [
     MainDashboardComponent,
-    OnlineTrackerComponent
+    OnlineTrackerComponent,
+    BuildVersionComponent
   ]
 })
 export class MainDashboardModule { }
