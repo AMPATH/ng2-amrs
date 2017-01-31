@@ -311,7 +311,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
-
     this.form.showErrors = !this.form.valid;
     if (this.form.valid) {
       this.isBusyIndicator(true, 'Please wait, saving form...');
