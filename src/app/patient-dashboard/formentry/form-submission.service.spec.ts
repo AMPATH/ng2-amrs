@@ -14,6 +14,7 @@ import { FormDataSourceService } from './form-data-source.service';
 import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import { Observable, Subject } from 'rxjs/Rx';
 
 describe('Service: FormSubmissionService', () => {
@@ -104,6 +105,7 @@ describe('Service: FormSubmissionService', () => {
         ConceptResourceService,
         LocationResourceService,
         FormDataSourceService,
+        ErrorLogResourceService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),

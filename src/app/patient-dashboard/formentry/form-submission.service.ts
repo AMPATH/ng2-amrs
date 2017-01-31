@@ -6,6 +6,7 @@ import { EncounterResourceService } from '../../openmrs-api/encounter-resource.s
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
 import { FormDataSourceService } from './form-data-source.service';
+import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -17,7 +18,8 @@ export class FormSubmissionService {
     private formentryHelperService: FormentryHelperService,
     private encounterResourceService: EncounterResourceService,
     private personResourceService: PersonResourceService,
-    private formDataSourceService: FormDataSourceService) {
+    private formDataSourceService: FormDataSourceService,
+    private errorLogResourceService: ErrorLogResourceService) {
   }
 
   public submitPayload(form: Form,
@@ -64,7 +66,8 @@ export class FormSubmissionService {
                     hasError: true,
                     payloadType: [payloadType],
                     response: res.json(),
-                    errorMessages: this.processFormSubmissionErrors(res.json(), payloadType)
+                    errorMessages: this.processFormSubmissionErrors(
+                      res.json(), payloadType, encounterPayload)
                   }))
               );
             }
@@ -80,7 +83,8 @@ export class FormSubmissionService {
                     hasError: true,
                     payloadType: [payloadType],
                     response: res.json(),
-                    errorMessages: this.processFormSubmissionErrors(res.json(), payloadType)
+                    errorMessages: this.processFormSubmissionErrors(
+                      res.json(), payloadType, personAttrPayload)
                   }))
               );
             }
@@ -146,7 +150,8 @@ export class FormSubmissionService {
 
   }
 
-  private processFormSubmissionErrors(response: any, payloadType: string): Array<any> {
+  private processFormSubmissionErrors(response: any, payloadType: string,
+    payload: any): Array<any> {
     let errors: Array<any> = [];
     switch (payloadType) {
       case 'encounter':
@@ -161,8 +166,27 @@ export class FormSubmissionService {
         errors.push('Unknown Payload: '
           + this.generateUserFriendlyErrorMessage(response));
     }
+    // log to server asynchronous
+    this.logFormError({
+      errorMessages: errors,
+      errorResponse: response,
+      payloadType: payloadType,
+      formPayload: payload
+    });
 
     return errors;
+  }
+  private logFormError(errorObj: Object): void {
+    this.errorLogResourceService.postFormError(errorObj).subscribe(
+      (responses: Array<any>) => {
+        if (responses) {
+          console.log('Form submission error logged to server successfully', responses);
+        }
+      },
+      err => {
+        console.error('An error occurred, while logging error to etl server', err);
+      }
+    );
   }
 
   private generateUserFriendlyErrorMessage(response: any): string {

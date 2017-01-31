@@ -45,6 +45,7 @@ import { ProviderResourceService } from '../../openmrs-api/provider-resource.ser
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 
 describe('Component: FormentryComponent', () => {
@@ -117,6 +118,7 @@ describe('Component: FormentryComponent', () => {
                 DataSources,
                 DraftedFormsService,
                 FormSubmissionService,
+                ErrorLogResourceService,
                 ConfirmationService,
                 {
                     provide: EncounterResourceService, useFactory: () => {
