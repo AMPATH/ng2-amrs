@@ -5,12 +5,12 @@
 		<div class='col-md-12' *ngIf=form>
 			<error-renderer [form]="form"></error-renderer>
 			<form [formGroup]="form.rootNode.control">
-        <h3>{{formName}}</h3>
-        <hr />
+				<h3>{{formName}}</h3>
+				<hr />
 				<form-renderer [node]="form.rootNode"></form-renderer>
 				<div class="form-row">
 					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit()">Save</button>
-          <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+					<button class="btn btn-danger" (click)="onCancel()">Cancel</button>
 				</div>
 			</form>
 		</div>
@@ -36,8 +36,8 @@
 <button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
 </div>
 </div>
-<div *ngIf="!this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
-	<div class="panel-heading">
+<div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
+<div class="panel-heading">
 	<h5>
 		<strong class="text-danger">
 			<span class="fa-stack fa-lg">
@@ -47,7 +47,7 @@
 			The form has some validation errors. Scroll to the top of the form to see error list.
 		</strong>
 	</h5>
-	</div>
+</div>
 </div>
 <br/> &nbsp;
 <div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
