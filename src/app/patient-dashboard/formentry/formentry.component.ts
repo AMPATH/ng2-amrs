@@ -14,7 +14,6 @@ import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 import { Observable, Subject } from 'rxjs';
-
 import { ConfirmationService } from 'primeng/primeng';
 import * as moment from 'moment';
 
@@ -40,6 +39,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public formRenderingErrors: Array<any> = [];
   public showSuccessDialog: boolean = false;
   public patient: Patient = null;
+  public submittedOrders: any = {
+    encounterUuid: null,
+    orders: []
+  };
   private encounterUuid: string = null;
   private encounter: any = null;
   private visitUuid: string = null;
@@ -173,7 +176,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private loadForm(): void {
-    this.isBusyIndicator(true, 'Please wait, fetching form');
+    this.isBusyIndicator(true, 'Please wait, loading form');
     let observableBatch: Array<Observable<any>> = [];
     // push all subscriptions to this batch eg patient, encounters, formSchema
     observableBatch.push(this.getcompiledSchemaWithEncounter()); // schema data [0]
@@ -195,8 +198,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.isBusyIndicator(false);
       },
       err => {
-        console.error(err);
+        console.error(err.json());
         this.isBusyIndicator(false);
+        this.formRenderingErrors
+          .push('An error occured while loading form, please check your connection');
       }
       );
   }
@@ -316,6 +321,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.isBusyIndicator(true, 'Please wait, saving form...');
       // clear formSubmissionErrors
       this.formSubmissionErrors = null;
+      // reset submitted orders
+      this.submittedOrders.encounterUuid = null;
+      this.submittedOrders.orders = [];
       // submit form
       this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
         (data) => {
@@ -339,10 +347,38 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private handleSuccessfulFormSubmission(response: any): void {
-    this.formSubmissionErrors = [];
+
+    // show submitted orders if any
+    this.displaySubmittedOrders(response);
+    this.formSubmissionErrors = null;
     this.failedPayloadTypes = null;
     this.showSuccessDialog = true;
+  }
 
+  private displaySubmittedOrders(response: any): void {
+    if (response && response.length > 0) {
+      let orders: Array<any> = response[0].orders || [];
+      // display ordered orders
+      this.submittedOrders.encounterUuid = response[0].uuid || null;
+      this.submittedOrders.orders = orders;
+
+      // resolve order numbers
+      if (this.submittedOrders.orders.length > 0) {
+        this.encounterResource.getEncounterByUuid(this.submittedOrders.encounterUuid)
+          .subscribe((encounter) => {
+            if (encounter && encounter.orders) {
+              orders = [];
+              // filter out voided orders : voided is not included so we use auditInfo
+              for (let order of encounter.orders) {
+                if (!order.auditInfo.dateVoided) {
+                  orders.push(order);
+                }
+              }
+              this.submittedOrders.orders = orders || [];
+            }
+          });
+      }
+    }
   }
 
   private isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {

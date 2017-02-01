@@ -80,13 +80,8 @@
 					</span>
 					Form submitted successfully.
 					</strong>
-	<div *ngIf="orderedTests">
-		Here are the lab test(s) you ordered:
-		<br>
-		<ul class="list-group">
-			<li *ngFor="let orderedTest of orderedTests" class="list-group-item text-info">{{orderedTest}}</li>
-		</ul>
-	</div>
+	<order-list  [submittedOrdersModel]="submittedOrders" >
+	</order-list>
 
 	<br>
 	<footer>
