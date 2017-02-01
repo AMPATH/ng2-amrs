@@ -8,6 +8,7 @@ import {
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
   DialogModule
 } from 'primeng/primeng';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2FilterPipe } from '../shared/pipes/ng2-filter.pipe';
@@ -81,6 +82,7 @@ import { PatientRemindersComponent } from './patient-reminders/patient-reminders
     SharedModule,
     NgamrsSharedModule,
     Ng2PaginationModule,
+    Ng2Bs3ModalModule,
     OpenmrsApi,
     UtilsModule,
     TabViewModule,

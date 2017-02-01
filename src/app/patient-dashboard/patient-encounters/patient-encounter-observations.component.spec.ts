@@ -1,5 +1,25 @@
+import { Directive, Input } from '@angular/core';
+
 import { PatientEncounterObservationsComponent } from './patient-encounter-observations.component';
 import { TestBed } from '@angular/core/testing';
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+
+@Directive({
+  selector: `modal-header`
+})
+export class FakeModalHeaderDirective {
+  @Input('show-close') showClose: boolean;
+}
+
+@Directive({
+  selector: `modal-body`
+})
+export class FakeModalBodyDirective {
+}
+
+export class FakeEncounterResourceService {
+}
 
 describe('Component: PatientEncounterObservationsComponent', () => {
   let component: PatientEncounterObservationsComponent;
@@ -9,9 +29,20 @@ describe('Component: PatientEncounterObservationsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PatientEncounterObservationsComponent
+        PatientEncounterObservationsComponent,
+        FakeModalHeaderDirective,
+        FakeModalBodyDirective,
+        ModalComponent
       ],
-    });
+      providers: [
+        {
+          provide: EncounterResourceService,
+          useFactory: () => {
+            return new FakeEncounterResourceService(null);
+          }
+        },
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PatientEncounterObservationsComponent);
     component = fixture.componentInstance;
