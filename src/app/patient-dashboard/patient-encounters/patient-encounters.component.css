@@ -1,0 +1,30 @@
+patient-encounter-observations {
+  display: block;
+  padding:15px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+ul.obs-list {
+  list-style-position: outside;
+
+}
+
+ul li {
+  padding: 2px;
+  margin: 0px;
+}
+
+ul.obs-list li ul.obs_children {
+  list-style-position: inside;
+}
+
+ul.obs_children {
+  padding-left:15px;
+}
+
+.obs_value {
+  color: green;
+}

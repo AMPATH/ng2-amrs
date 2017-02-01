@@ -1,4 +1,5 @@
 <div class="wrapper">
   <div [ngBusy]="{busy:dataLoading, message:'Fetching encounters...'}"></div>
-  <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+  <patient-encounter-observations [onEncounterDetail]="onEncounterDetail" [encounter]="selectedEncounter" ></patient-encounter-observations>
+  <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message" (onEncounterObservations)="showEncounterObservations($event)" (onEncounterEdit)="editEncounter($event)"></encounter-list>
 </div>

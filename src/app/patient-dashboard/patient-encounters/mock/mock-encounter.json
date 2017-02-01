@@ -1,0 +1,3005 @@
+{
+  "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+  "encounterDatetime": "2017-01-31T11:44:34.000+0300",
+  "patient": {
+    "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+    "identifiers": [
+      {
+        "display": "CCC Number = 12345-65412",
+        "uuid": "80b4d26d-b81f-4bf6-af5f-76aad6933d04",
+        "identifier": "12345-65412",
+        "identifierType": {
+          "uuid": "f2d6ff1a-8440-4d35-a150-1d4b5a930c5e",
+          "display": "CCC Number",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/f2d6ff1a-8440-4d35-a150-1d4b5a930c5e"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/80b4d26d-b81f-4bf6-af5f-76aad6933d04"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/80b4d26d-b81f-4bf6-af5f-76aad6933d04?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "CCC Number = 78945-01236",
+        "uuid": "2403f710-0ef0-4e78-a051-7c7c19b4e2c5",
+        "identifier": "78945-01236",
+        "identifierType": {
+          "uuid": "f2d6ff1a-8440-4d35-a150-1d4b5a930c5e",
+          "display": "CCC Number",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/f2d6ff1a-8440-4d35-a150-1d4b5a930c5e"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/2403f710-0ef0-4e78-a051-7c7c19b4e2c5"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/2403f710-0ef0-4e78-a051-7c7c19b4e2c5?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "CCC Number = 45213-01234",
+        "uuid": "0c0903c3-5819-4999-83d5-b56fc2daa949",
+        "identifier": "45213-01234",
+        "identifierType": {
+          "uuid": "f2d6ff1a-8440-4d35-a150-1d4b5a930c5e",
+          "display": "CCC Number",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/f2d6ff1a-8440-4d35-a150-1d4b5a930c5e"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/0c0903c3-5819-4999-83d5-b56fc2daa949"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/0c0903c3-5819-4999-83d5-b56fc2daa949?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "ACTG Study ID = 888888888",
+        "uuid": "28b6f999-9d05-4ced-8535-456a4ac772d5",
+        "identifier": "888888888",
+        "identifierType": {
+          "uuid": "58a489c2-1359-11df-a1f1-0026b9348838",
+          "display": "ACTG Study ID",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a489c2-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/28b6f999-9d05-4ced-8535-456a4ac772d5"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/28b6f999-9d05-4ced-8535-456a4ac772d5?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "AMRS Universal ID = 135023852-1",
+        "uuid": "b5a35556-fa22-4f57-ba8e-7023be3c6d82",
+        "identifier": "135023852-1",
+        "identifierType": {
+          "uuid": "58a4732e-1359-11df-a1f1-0026b9348838",
+          "display": "AMRS Universal ID",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a4732e-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+          "display": "Location Test",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/b5a35556-fa22-4f57-ba8e-7023be3c6d82"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/b5a35556-fa22-4f57-ba8e-7023be3c6d82?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "KENYAN NATIONAL ID NUMBER = 201456987",
+        "uuid": "5193f84c-a0ae-4b1c-b8bb-e7fcd31262c2",
+        "identifier": "201456987",
+        "identifierType": {
+          "uuid": "58a47054-1359-11df-a1f1-0026b9348838",
+          "display": "KENYAN NATIONAL ID NUMBER",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a47054-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/5193f84c-a0ae-4b1c-b8bb-e7fcd31262c2"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/5193f84c-a0ae-4b1c-b8bb-e7fcd31262c2?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "KENYAN NATIONAL ID NUMBER = 7777777777777",
+        "uuid": "c8e1bfde-1705-418f-9d2d-06363fc329ec",
+        "identifier": "7777777777777",
+        "identifierType": {
+          "uuid": "58a47054-1359-11df-a1f1-0026b9348838",
+          "display": "KENYAN NATIONAL ID NUMBER",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a47054-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/c8e1bfde-1705-418f-9d2d-06363fc329ec"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/c8e1bfde-1705-418f-9d2d-06363fc329ec?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "AMRS Medical Record Number = 338344298-9",
+        "uuid": "f38e6d03-d5a1-4b64-a781-89fba9a1e12d",
+        "identifier": "338344298-9",
+        "identifierType": {
+          "uuid": "58a46e2e-1359-11df-a1f1-0026b9348838",
+          "display": "AMRS Medical Record Number",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a46e2e-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/f38e6d03-d5a1-4b64-a781-89fba9a1e12d"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/f38e6d03-d5a1-4b64-a781-89fba9a1e12d?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "Old AMPATH Medical Record Number = 421563079-1",
+        "uuid": "43614bcf-66f5-4219-937f-14daad24d365",
+        "identifier": "421563079-1",
+        "identifierType": {
+          "uuid": "58a46a32-1359-11df-a1f1-0026b9348838",
+          "display": "Old AMPATH Medical Record Number",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a46a32-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/43614bcf-66f5-4219-937f-14daad24d365"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/43614bcf-66f5-4219-937f-14daad24d365?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      {
+        "display": "Old AMPATH Medical Record Number = 123654789-0",
+        "uuid": "59407000-73f9-4dc8-bb6a-c91e30063651",
+        "identifier": "123654789-0",
+        "identifierType": {
+          "uuid": "58a46a32-1359-11df-a1f1-0026b9348838",
+          "display": "Old AMPATH Medical Record Number",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a46a32-1359-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "08fec33a-1352-11df-a1f1-0026b9348838",
+          "display": "Unknown",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/08fec33a-1352-11df-a1f1-0026b9348838"
+            }
+          ]
+        },
+        "preferred": false,
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/59407000-73f9-4dc8-bb6a-c91e30063651"
+          },
+          {
+            "rel": "full",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382/identifier/59407000-73f9-4dc8-bb6a-c91e30063651?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      }
+    ]
+  },
+  "form": {
+    "uuid": "9416746d-1e9f-47e8-aa2d-035aab6f3824",
+    "name": "AMPATH POC Adult Initial Visit Form v0.01"
+  },
+  "location": {
+    "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+    "display": "Location Test",
+    "links": [
+      {
+        "rel": "self",
+        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+      }
+    ]
+  },
+  "encounterType": {
+    "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+    "display": "ADULTINITIAL",
+    "links": [
+      {
+        "rel": "self",
+        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encountertype/8d5b27bc-c2cc-11de-8d13-0010c6dffd0f"
+      }
+    ]
+  },
+  "provider": {
+    "uuid": "ef59ac9d-9cca-46c5-ab04-b4d708584e13",
+    "display": "Florida Jepngetich Kiplagat",
+    "links": [
+      {
+        "rel": "self",
+        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/person/ef59ac9d-9cca-46c5-ab04-b4d708584e13"
+      }
+    ]
+  },
+  "orders": [],
+  "obs": [
+    {
+      "uuid": "2bfd1aa3-95a2-4946-80a4-b71c0eaf8036",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899ec00-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SKIN EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a895776a-1350-11df-a1f1-0026b9348838",
+        "display": "RASH",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a895776a-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "077611c9-c7dc-4574-905e-57042a5e1f0a",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a176b4-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "TUBERCULOSIS TREATMENT COMPLETED DATE"
+        }
+      },
+      "value": "2017-02-03T00:00:00.000+0300",
+      "groupMembers": null
+    },
+    {
+      "uuid": "03ee764f-48ef-4940-946d-8fd547922543",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8970954-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PLATELETS COUNT"
+        }
+      },
+      "value": 120.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "4fcbc160-c714-446b-be59-e31bd022e9a5",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a660ca-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "WEIGHT (KG)"
+        }
+      },
+      "value": 80.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "8abe73d8-f516-493a-bc33-735b4b55219a",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a898201e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "MEAN CORPUSCULAR VOLUME"
+        }
+      },
+      "value": 100.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "e3af3991-877d-4044-85f4-182d9ee7aa8f",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8afcc82-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CURRENTLY ON TUBERCULOSIS TREATMENT"
+        }
+      },
+      "value": {
+        "uuid": "a899b35c-1350-11df-a1f1-0026b9348838",
+        "display": "YES",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b35c-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "13629e5a-9bed-4e81-acf2-738707bb20a7",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a8bb18-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CD4, BY FACS"
+        }
+      },
+      "value": 500.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "e9dde3b2-11c8-460d-a380-28205378ea17",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899edcc-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HEENT EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a890eb28-1350-11df-a1f1-0026b9348838",
+        "display": "DENTAL CARIES",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a890eb28-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "65a52773-d6e7-4399-8397-b603acc338b5",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899eb24-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "GENERAL EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8a6ce8e-1350-11df-a1f1-0026b9348838",
+        "display": "TEMPORAL WASTING",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8a6ce8e-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "79dc0fc3-85a7-4713-bcec-e4dae7f9783c",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899eeb2-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CHEST EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a899e890-1350-11df-a1f1-0026b9348838",
+        "display": "ABNORMAL",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899e890-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "0a72724e-8377-40af-af5f-96a719a9ba28",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a898fe80-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HIV DNA POLYMERASE CHAIN REACTION, QUALITATIVE"
+        }
+      },
+      "value": {
+        "uuid": "a899ea48-1350-11df-a1f1-0026b9348838",
+        "display": "NOT DONE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899ea48-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "173319f6-47b2-40b4-8de0-fda13c805901",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89b7e12-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PCP PROPHYLAXIS PLAN"
+        }
+      },
+      "value": {
+        "uuid": "a89b7908-1350-11df-a1f1-0026b9348838",
+        "display": "CONTINUE REGIMEN",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "59427049-5365-4fc2-88e0-bc2a3c6437a8",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899cf5e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CURRENT ANTIRETROVIRAL DRUGS USED FOR TREATMENT"
+        }
+      },
+      "value": {
+        "uuid": "1c4a75d0-cc91-4752-b0a5-4b833326ff7a",
+        "display": "TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/1c4a75d0-cc91-4752-b0a5-4b833326ff7a"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "c43fa42e-f8ed-449e-bc1a-3598e1dc6758",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899e282-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED CURRENT PCP PROPHYLAXIS"
+        }
+      },
+      "value": {
+        "uuid": "a8989396-1350-11df-a1f1-0026b9348838",
+        "display": "TRIMETHOPRIM AND SULFAMETHOXAZOLE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8989396-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "c47f188d-521e-471b-a65b-ac45fa05a8ed",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a65fee-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "TEMPERATURE (C)"
+        }
+      },
+      "value": 36.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "9580bd82-62df-4768-85e4-fe47d93ccbef",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8908a16-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HEMOGLOBIN"
+        }
+      },
+      "value": 12.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "4d02d705-4bb2-406a-b1e7-7797b7273cad",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89c6188-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "MID-UPPER ARM CIRCUMFERENCE"
+        }
+      },
+      "value": 120.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "c51a42e7-682d-4114-94be-241338bc1152",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a462a2-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CULTURE FOR ACID FAST BACILLI"
+        }
+      },
+      "value": {
+        "uuid": "a01149c4-7f0e-4d27-8f42-dc019e3330ec",
+        "display": "NONTUBERCULOSIS MYCOBACTERIA",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a01149c4-7f0e-4d27-8f42-dc019e3330ec"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "54a5690c-afda-4956-92b6-8203a3bc9672",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89d278a-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "TUBERCULIN SKIN TEST, QUALITATIVE"
+        }
+      },
+      "value": {
+        "uuid": "a89d2852-1350-11df-a1f1-0026b9348838",
+        "display": "STRONGLY POSITIVE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89d2852-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "e0d315d6-29e8-42f9-b89b-9a31ee9e0500",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899e35e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED CURRENT TUBERCULOSIS PROPHYLAXIS"
+        }
+      },
+      "value": {
+        "uuid": "162724df-5a66-4ae3-bbf6-5dc6dbba4ebb",
+        "display": "ISONIAZID 100mg TAB",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/drug/162724df-5a66-4ae3-bbf6-5dc6dbba4ebb"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "247ac3fc-b91a-421b-b635-7d1762a055c0",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89fe6f0-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "TB TREATMENT DRUGS STARTED, DETAILED"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "9de47f59-a19c-4b48-aa0e-309dd416a635",
+          "display": "TUBERCULOSIS TREATMENT PLAN: CONTINUE REGIMEN",
+          "concept": {
+            "uuid": "a89c1fd4-1350-11df-a1f1-0026b9348838",
+            "display": "TUBERCULOSIS TREATMENT PLAN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89c1fd4-1350-11df-a1f1-0026b9348838"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "247ac3fc-b91a-421b-b635-7d1762a055c0",
+            "display": "TB TREATMENT DRUGS STARTED, DETAILED: CONTINUE REGIMEN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/247ac3fc-b91a-421b-b635-7d1762a055c0"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "a89b7908-1350-11df-a1f1-0026b9348838",
+            "display": "CONTINUE REGIMEN",
+            "name": {
+              "display": "CONTINUE REGIMEN",
+              "uuid": "a94357d6-1350-11df-a1f1-0026b9348838",
+              "name": "CONTINUE REGIMEN",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838/name/a94357d6-1350-11df-a1f1-0026b9348838"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838/name/a94357d6-1350-11df-a1f1-0026b9348838?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d492ee0-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Misc Order",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d492ee0-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": "",
+            "retired": false,
+            "names": [
+              {
+                "uuid": "a94357d6-1350-11df-a1f1-0026b9348838",
+                "display": "CONTINUE REGIMEN",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838/name/a94357d6-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a900220e-1350-11df-a1f1-0026b9348838",
+                "display": "Answer on encounter form.  Implies that a patient will continue on the same drug regimen as previously described.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838/description/a900220e-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "mappings": [
+              {
+                "uuid": "34d3626d-35d4-4508-a569-a0fb3d1b16c0",
+                "display": "local: 1257",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838/mapping/34d3626d-35d4-4508-a569-a0fb3d1b16c0"
+                  }
+                ]
+              },
+              {
+                "uuid": "ba01f678-ca1d-4659-97ff-0fafbe9371f2",
+                "display": "MCL/CIEL: 1257",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838/mapping/ba01f678-ca1d-4659-97ff-0fafbe9371f2"
+                  }
+                ]
+              }
+            ],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/9de47f59-a19c-4b48-aa0e-309dd416a635"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/9de47f59-a19c-4b48-aa0e-309dd416a635?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "7f715994-7fd2-4317-8711-24dad4ceda56",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8945d4e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SPUTUM FOR ACID FAST BACILLI"
+        }
+      },
+      "value": {
+        "uuid": "a89c3d8e-1350-11df-a1f1-0026b9348838",
+        "display": "POOR SAMPLE QUALITY",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89c3d8e-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "0f35af11-92ea-46ac-8001-87257391691f",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "bc3834dd-ef07-4027-be30-729baa069291",
+        "name": {
+          "display": "ANTIRETROVIRAL ADHERENCE SINCE LAST VISIT, DETAILED"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "f44a380e-1b45-4562-866f-42202a288f63",
+          "display": "ANTIRETROVIRAL ADHERENCE SINCE LAST VISIT: GOOD",
+          "concept": {
+            "uuid": "2c363a0e-7cf9-42cd-9778-1301b09c4484",
+            "display": "ANTIRETROVIRAL ADHERENCE SINCE LAST VISIT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/2c363a0e-7cf9-42cd-9778-1301b09c4484"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "0f35af11-92ea-46ac-8001-87257391691f",
+            "display": "ANTIRETROVIRAL ADHERENCE SINCE LAST VISIT, DETAILED: GOOD",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/0f35af11-92ea-46ac-8001-87257391691f"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "a8b0f882-1350-11df-a1f1-0026b9348838",
+            "display": "GOOD",
+            "name": {
+              "display": "GOOD",
+              "uuid": "a95df35c-1350-11df-a1f1-0026b9348838",
+              "name": "GOOD",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d492774-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Misc",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d492774-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": "",
+            "retired": false,
+            "names": [
+              {
+                "uuid": "a95df35c-1350-11df-a1f1-0026b9348838",
+                "display": "GOOD",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a90f4734-1350-11df-a1f1-0026b9348838",
+                "display": "General descriptive.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/description/a90f4734-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "mappings": [
+              {
+                "uuid": "a7c3c497-f857-4230-89a9-b3b6d4b25f8d",
+                "display": "local: 6343",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/mapping/a7c3c497-f857-4230-89a9-b3b6d4b25f8d"
+                  }
+                ]
+              },
+              {
+                "uuid": "e6ef886b-2ab7-4cdc-9f6d-f272fad1b8c1",
+                "display": "MCL/CIEL: 159405",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/mapping/e6ef886b-2ab7-4cdc-9f6d-f272fad1b8c1"
+                  }
+                ]
+              }
+            ],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/f44a380e-1b45-4562-866f-42202a288f63"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/f44a380e-1b45-4562-866f-42202a288f63?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "4b98a04f-a196-41ec-8a97-b839895cef35",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "774961c6-232f-4332-8a9f-f5c55ebe86d0",
+        "name": {
+          "display": "FAMILY PLANNING STATUS, CODED"
+        }
+      },
+      "value": {
+        "uuid": "a899b35c-1350-11df-a1f1-0026b9348838",
+        "display": "YES",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b35c-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "d29e7935-bf98-485f-978d-768ce57088b7",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899f11e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "UROGENITAL EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a899e890-1350-11df-a1f1-0026b9348838",
+        "display": "ABNORMAL",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899e890-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "a2111934-e0de-4865-9cc5-f3b66b6bbc07",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89ae254-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "ANTIRETROVIRAL USE"
+        }
+      },
+      "value": {
+        "uuid": "a899b35c-1350-11df-a1f1-0026b9348838",
+        "display": "YES",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b35c-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "38cef394-ec6d-4f0f-95a5-4420a540e5e9",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899f380-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "NEUROLOGIC EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8ad3a26-1350-11df-a1f1-0026b9348838",
+        "display": "FOCAL WEAKNESS",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8ad3a26-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "95223b27-55d9-4b8d-8103-61226cc473fb",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899f1e6-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "EXTREMITY EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8957184-1350-11df-a1f1-0026b9348838",
+        "display": "KAPOSI'S SARCOMA",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8957184-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "f4ce859d-72c4-4183-a166-79f69a15ca3b",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8908192-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CHEST XRAY, PRELIMINARY FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a89a76fc-1350-11df-a1f1-0026b9348838",
+        "display": "PULMONARY EFFUSION",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89a76fc-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "02c60a32-d113-4db0-bf14-f54ce9953e95",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899ef84-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CARDIAC EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8962bec-1350-11df-a1f1-0026b9348838",
+        "display": "S3 GALLOP",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8962bec-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "1ed00348-a8b4-4255-b266-ed8e17298648",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a896dea2-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SERUM WHITE BLOOD CELLS COUNT"
+        }
+      },
+      "value": 200.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "858b117e-3273-4157-b7c0-2946cc149359",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89c1cfa-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "TUBERCULOSIS PROPHYLAXIS PLAN"
+        }
+      },
+      "value": {
+        "uuid": "a89b7908-1350-11df-a1f1-0026b9348838",
+        "display": "CONTINUE REGIMEN",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "2e3e653c-993f-4f85-abf7-4b9691b40c81",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "2a4b87dd-977d-4ce8-a321-1f13df4a31b2",
+        "name": {
+          "display": "TUBERCULOSIS TREATMENT ADHERENCE SINCE LAST VISIT, DETAILED"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "cb2e75d1-4ac7-4da6-bd27-cc620e280b38",
+          "display": "TUBERCULOSIS TREATMENT ADHERENCE SINCE LAST VISIT: GOOD",
+          "concept": {
+            "uuid": "479decbd-e964-41c3-9576-98b39089ebd3",
+            "display": "TUBERCULOSIS TREATMENT ADHERENCE SINCE LAST VISIT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/479decbd-e964-41c3-9576-98b39089ebd3"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "2e3e653c-993f-4f85-abf7-4b9691b40c81",
+            "display": "TUBERCULOSIS TREATMENT ADHERENCE SINCE LAST VISIT, DETAILED: GOOD",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/2e3e653c-993f-4f85-abf7-4b9691b40c81"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "a8b0f882-1350-11df-a1f1-0026b9348838",
+            "display": "GOOD",
+            "name": {
+              "display": "GOOD",
+              "uuid": "a95df35c-1350-11df-a1f1-0026b9348838",
+              "name": "GOOD",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d492774-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Misc",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d492774-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": "",
+            "retired": false,
+            "names": [
+              {
+                "uuid": "a95df35c-1350-11df-a1f1-0026b9348838",
+                "display": "GOOD",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a90f4734-1350-11df-a1f1-0026b9348838",
+                "display": "General descriptive.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/description/a90f4734-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "mappings": [
+              {
+                "uuid": "a7c3c497-f857-4230-89a9-b3b6d4b25f8d",
+                "display": "local: 6343",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/mapping/a7c3c497-f857-4230-89a9-b3b6d4b25f8d"
+                  }
+                ]
+              },
+              {
+                "uuid": "e6ef886b-2ab7-4cdc-9f6d-f272fad1b8c1",
+                "display": "MCL/CIEL: 159405",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/mapping/e6ef886b-2ab7-4cdc-9f6d-f272fad1b8c1"
+                  }
+                ]
+              }
+            ],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/cb2e75d1-4ac7-4da6-bd27-cc620e280b38"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/cb2e75d1-4ac7-4da6-bd27-cc620e280b38?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "387cda3e-080d-47d3-b673-1ea7a7713fd1",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a666ba-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "RETURN VISIT DATE"
+        }
+      },
+      "value": "2017-02-10T00:00:00.000+0300",
+      "groupMembers": null
+    },
+    {
+      "uuid": "4b1dc155-e803-4778-91a6-09fd516228fd",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "04616f5d-b961-4f41-bbd7-bcc0dd235577",
+        "name": {
+          "display": "CURRENT HIV ANTIRETROVIRAL DRUG USE TREATMENT CATEGORY"
+        }
+      },
+      "value": {
+        "uuid": "8f8a715d-e49a-4b2c-aa3a-83fa9d7a4254",
+        "display": "SECOND LINE HIV ANTIRETROVIRAL DRUG TREATMENT",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/8f8a715d-e49a-4b2c-aa3a-83fa9d7a4254"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "6129023d-e9e7-4125-9a3e-08cdf3cc00e7",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8ae88a4-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "ADULT WHO CONDITION QUERY"
+        }
+      },
+      "value": {
+        "uuid": "a8a8259a-1350-11df-a1f1-0026b9348838",
+        "display": "HIV STAGING  - CANDIDIASIS, ORORESPIRATORY TRACT",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8a8259a-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "6b0c1b4a-323d-4336-9134-04d61f683e37",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8afdb8c-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED CURRENT TUBERCULOSIS TREATMENT, DETAILED"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "cb68e01b-e746-4dc4-8028-bffecd07e840",
+          "display": "TUBERCULOSIS DRUG TREATMENT START DATE: 2017-01-02",
+          "concept": {
+            "uuid": "a899e5f2-1350-11df-a1f1-0026b9348838",
+            "display": "TUBERCULOSIS DRUG TREATMENT START DATE",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899e5f2-1350-11df-a1f1-0026b9348838"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "6b0c1b4a-323d-4336-9134-04d61f683e37",
+            "display": "PATIENT REPORTED CURRENT TUBERCULOSIS TREATMENT, DETAILED: 2017-01-02",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/6b0c1b4a-323d-4336-9134-04d61f683e37"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": "2017-01-02T00:00:00.000+0300",
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/cb68e01b-e746-4dc4-8028-bffecd07e840"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/cb68e01b-e746-4dc4-8028-bffecd07e840?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "337ad8f9-b327-419c-86f6-7d369c336f1c",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899e516-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED CURRENT CRYPTOCOCCUS TREATMENT"
+        }
+      },
+      "value": {
+        "uuid": "a8971e12-1350-11df-a1f1-0026b9348838",
+        "display": "FLUCONAZOLE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8971e12-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "94ed9915-d810-42c0-8f26-ecbae4649c55",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a8331e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CURRENT WHO HIV STAGE"
+        }
+      },
+      "value": {
+        "uuid": "a89b289a-1350-11df-a1f1-0026b9348838",
+        "display": "WHO STAGE 4 ADULT",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b289a-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "1ce6c6ca-6b6f-4572-b3ae-80bcba8000ce",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8afdf4c-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "TUBERCULOSIS TREATMENT PHASE"
+        }
+      },
+      "value": {
+        "uuid": "a8afdd08-1350-11df-a1f1-0026b9348838",
+        "display": "TUBERCULOSIS CONTINUATION TREATMENT PHASE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8afdd08-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "4a391f7c-2904-4e80-9fd2-31895edbf7cf",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8970a26-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CD4%, BY FACS"
+        }
+      },
+      "value": 10.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "50fc8e09-e276-4023-9cfa-11374893d6c5",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89c2790-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "CRYPTOCOCCAL TREATMENT PLAN"
+        }
+      },
+      "value": {
+        "uuid": "a89b7908-1350-11df-a1f1-0026b9348838",
+        "display": "CONTINUE REGIMEN",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "293b0f53-eb00-4fc8-8f50-950f6fc1f8d5",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "767e8060-5272-4927-ab78-97534a4499ef",
+        "name": {
+          "display": "METHOD OF FAMILY PLANNING,DETAILED"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "abb84500-877b-4209-99f4-1671cbf0f4c1",
+          "display": "METHOD OF FAMILY PLANNING: 5-YEAR CONTRACEPTIVE IMPLANT",
+          "concept": {
+            "uuid": "a894b1cc-1350-11df-a1f1-0026b9348838",
+            "display": "METHOD OF FAMILY PLANNING",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a894b1cc-1350-11df-a1f1-0026b9348838"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "293b0f53-eb00-4fc8-8f50-950f6fc1f8d5",
+            "display": "METHOD OF FAMILY PLANNING,DETAILED: 5-YEAR CONTRACEPTIVE IMPLANT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/293b0f53-eb00-4fc8-8f50-950f6fc1f8d5"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "feb48308-a56f-4754-8e8f-8c1698e570cb",
+            "display": "5-YEAR CONTRACEPTIVE IMPLANT",
+            "name": {
+              "display": "5-YEAR CONTRACEPTIVE IMPLANT",
+              "uuid": "3e566bc2-ebbc-424d-8de7-a701a51d2e1a",
+              "name": "5-YEAR CONTRACEPTIVE IMPLANT",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb/name/3e566bc2-ebbc-424d-8de7-a701a51d2e1a"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb/name/3e566bc2-ebbc-424d-8de7-a701a51d2e1a?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d490dfc-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Drug",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d490dfc-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": null,
+            "retired": false,
+            "names": [
+              {
+                "uuid": "3e566bc2-ebbc-424d-8de7-a701a51d2e1a",
+                "display": "5-YEAR CONTRACEPTIVE IMPLANT",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb/name/3e566bc2-ebbc-424d-8de7-a701a51d2e1a"
+                  }
+                ]
+              },
+              {
+                "uuid": "695b79d2-fe25-4917-9d80-8cda1c530da2",
+                "display": "5-YEAR IMPLANTABLE CONTRACEPTIVE",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb/name/695b79d2-fe25-4917-9d80-8cda1c530da2"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a2ee8786-41a4-434a-b373-a9f0904a3112",
+                "display": "It's a small stick containing the hormone progesterone which is inserted under the skin in the arm for a period of 5 years. The hormone is slowly released into the body, preventing eggs from being released from the ovaries, sperm from reaching an egg or an egg settling in the womb.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb/description/a2ee8786-41a4-434a-b373-a9f0904a3112"
+                  }
+                ]
+              }
+            ],
+            "mappings": [],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/feb48308-a56f-4754-8e8f-8c1698e570cb?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/abb84500-877b-4209-99f4-1671cbf0f4c1"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/abb84500-877b-4209-99f4-1671cbf0f4c1?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "aa1ee219-c6ad-4ac2-a5c1-9af3e9224f19",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899f2ae-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "MUSCULOSKELETAL EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a899e890-1350-11df-a1f1-0026b9348838",
+        "display": "ABNORMAL",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899e890-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "0ce67230-ae30-468f-9c44-1ffc03568e93",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8afcafc-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "REVIEW OF TUBERCULOSIS SCREENING QUESTIONS"
+        }
+      },
+      "value": {
+        "uuid": "a899e0ac-1350-11df-a1f1-0026b9348838",
+        "display": "NONE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899e0ac-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "f6075488-5497-478b-b25b-6200016a8233",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8999dfe-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HIV RAPID TEST, QUALITATIVE"
+        }
+      },
+      "value": {
+        "uuid": "a899b50a-1350-11df-a1f1-0026b9348838",
+        "display": "UNKNOWN",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b50a-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "078d9b3b-fd9f-4f06-853e-a08ae7d41889",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a0ab58-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HIGH VAGINAL SWAB"
+        }
+      },
+      "value": {
+        "uuid": "a8a0a91e-1350-11df-a1f1-0026b9348838",
+        "display": "PRESENCE OF PUS CELLS, URINE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8a0a91e-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "1670befd-cb98-4579-b985-b14910e4eff3",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89b75d4-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "ANTIRETROVIRAL PLAN"
+        }
+      },
+      "value": {
+        "uuid": "a89b7908-1350-11df-a1f1-0026b9348838",
+        "display": "CONTINUE REGIMEN",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89b7908-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "e3ed6770-488c-43f7-88cd-a5cba06ed2d7",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a65f12-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PULSE"
+        }
+      },
+      "value": 97.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "7f5ec75c-c8c7-4dda-bff1-86f133115552",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "275eee16-c358-4f3a-ac16-e8f24659df87",
+        "name": {
+          "display": "PCP PROPHYLAXIS ADHERENCE SINCE LAST VISIT, DETAILED"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "e59e3784-16ea-4d81-b106-be379540410a",
+          "display": "PCP PROPHYLAXIS ADHERENCE SINCE LAST VISIT: GOOD",
+          "concept": {
+            "uuid": "115c744a-cf54-469f-bd5f-820352ffe9be",
+            "display": "PCP PROPHYLAXIS ADHERENCE SINCE LAST VISIT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/115c744a-cf54-469f-bd5f-820352ffe9be"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "7f5ec75c-c8c7-4dda-bff1-86f133115552",
+            "display": "PCP PROPHYLAXIS ADHERENCE SINCE LAST VISIT, DETAILED: GOOD",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/7f5ec75c-c8c7-4dda-bff1-86f133115552"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "a8b0f882-1350-11df-a1f1-0026b9348838",
+            "display": "GOOD",
+            "name": {
+              "display": "GOOD",
+              "uuid": "a95df35c-1350-11df-a1f1-0026b9348838",
+              "name": "GOOD",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d492774-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Misc",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d492774-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": "",
+            "retired": false,
+            "names": [
+              {
+                "uuid": "a95df35c-1350-11df-a1f1-0026b9348838",
+                "display": "GOOD",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/name/a95df35c-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a90f4734-1350-11df-a1f1-0026b9348838",
+                "display": "General descriptive.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/description/a90f4734-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "mappings": [
+              {
+                "uuid": "a7c3c497-f857-4230-89a9-b3b6d4b25f8d",
+                "display": "local: 6343",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/mapping/a7c3c497-f857-4230-89a9-b3b6d4b25f8d"
+                  }
+                ]
+              },
+              {
+                "uuid": "e6ef886b-2ab7-4cdc-9f6d-f272fad1b8c1",
+                "display": "MCL/CIEL: 159405",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838/mapping/e6ef886b-2ab7-4cdc-9f6d-f272fad1b8c1"
+                  }
+                ]
+              }
+            ],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8b0f882-1350-11df-a1f1-0026b9348838?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/e59e3784-16ea-4d81-b106-be379540410a"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/e59e3784-16ea-4d81-b106-be379540410a?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "077e4a63-9712-4fe7-b35b-1e8e6a4ec9ba",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8945678-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SYPHILIS - VDRL, QUALITATIVE"
+        }
+      },
+      "value": {
+        "uuid": "a899ea48-1350-11df-a1f1-0026b9348838",
+        "display": "NOT DONE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899ea48-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "c2190f4e-5b0a-41be-98f6-4d908268bd7b",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a898b20e-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "ABSOLUTE LYMPHOCYTE COUNT, AUTOMATED"
+        }
+      },
+      "value": 100.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "c626d9e1-3d60-4647-950d-92476146cbaf",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a89c60c0-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "BODY MASS INDEX"
+        }
+      },
+      "value": 38.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "3f756cd2-69bc-47f8-b6a1-6580aa3b62af",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a897e450-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SERUM CREATININE"
+        }
+      },
+      "value": 3000.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "f1b77f6a-e678-4af1-ac27-f8e3c0637799",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8999fb6-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HIV ENZYME IMMUNOASSAY, QUALITATIVE"
+        }
+      },
+      "value": {
+        "uuid": "a899b50a-1350-11df-a1f1-0026b9348838",
+        "display": "UNKNOWN",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b50a-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "cf4537c5-75ce-4f53-99bc-4c25cb590c6e",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899f04c-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "ABDOMINAL EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8a4cdfa-1350-11df-a1f1-0026b9348838",
+        "display": "SPLENOMEGALY",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8a4cdfa-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "646906e9-fe66-4827-afe5-33047072d41d",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a65e36-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "DIASTOLIC BLOOD PRESSURE"
+        }
+      },
+      "value": 130.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "81b9081e-a2fc-4e74-ba85-cd1b1227e8d1",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "741517cf-8bac-4755-b289-8dd2a2df7962",
+        "name": {
+          "display": "MYCOBACTERIUM TUBERCULOSIS FINDING"
+        }
+      },
+      "value": {
+        "uuid": "a89c3d8e-1350-11df-a1f1-0026b9348838",
+        "display": "POOR SAMPLE QUALITY",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a89c3d8e-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "c277b67e-045e-4b59-b37c-4291f0fbfa3a",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899ecdc-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "LYMPH NODE EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8a67a60-1350-11df-a1f1-0026b9348838",
+        "display": "AXILLARY",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8a67a60-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "a83e799d-2327-4461-af17-4e3aba0412ed",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a072c8-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED CURRENT OTHER TREATMENT"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "d6351d6f-d2a9-4143-b6d7-a3e13ad38eb9",
+          "display": "PATIENT REPORTED SIDE EFFECT OF TAKING ANY CURRENT MEDICATION: NO",
+          "concept": {
+            "uuid": "30fc0cea-b6c7-48cc-bbfb-4eb53170ce41",
+            "display": "PATIENT REPORTED SIDE EFFECT OF TAKING ANY CURRENT MEDICATION",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/30fc0cea-b6c7-48cc-bbfb-4eb53170ce41"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "a83e799d-2327-4461-af17-4e3aba0412ed",
+            "display": "PATIENT REPORTED CURRENT OTHER TREATMENT: NO",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/a83e799d-2327-4461-af17-4e3aba0412ed"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "a899b42e-1350-11df-a1f1-0026b9348838",
+            "display": "NO",
+            "name": {
+              "display": "NO",
+              "uuid": "a941cdb2-1350-11df-a1f1-0026b9348838",
+              "name": "NO",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838/name/a941cdb2-1350-11df-a1f1-0026b9348838"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838/name/a941cdb2-1350-11df-a1f1-0026b9348838?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d492774-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Misc",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d492774-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": "",
+            "retired": false,
+            "names": [
+              {
+                "uuid": "a941cdb2-1350-11df-a1f1-0026b9348838",
+                "display": "NO",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838/name/a941cdb2-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a8fef514-1350-11df-a1f1-0026b9348838",
+                "display": "Generic answer to a question.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838/description/a8fef514-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "mappings": [
+              {
+                "uuid": "884356a8-6cd2-4ec6-b744-84fb7bde4a21",
+                "display": "MCL/CIEL: 1066",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838/mapping/884356a8-6cd2-4ec6-b744-84fb7bde4a21"
+                  }
+                ]
+              },
+              {
+                "uuid": "7dd226b3-c2c8-41e3-b513-c92d1f1bd632",
+                "display": "local: 1066",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838/mapping/7dd226b3-c2c8-41e3-b513-c92d1f1bd632"
+                  }
+                ]
+              }
+            ],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899b42e-1350-11df-a1f1-0026b9348838?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/d6351d6f-d2a9-4143-b6d7-a3e13ad38eb9"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/d6351d6f-d2a9-4143-b6d7-a3e13ad38eb9?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    },
+    {
+      "uuid": "74acec15-07f2-49bb-87d8-36fb282407e0",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a896c8ae-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE"
+        }
+      },
+      "value": 120.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "87c1766d-87b8-4193-8574-d8d3ad78c6dc",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a899f452-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PSYCHIATRIC EXAM FINDINGS"
+        }
+      },
+      "value": {
+        "uuid": "a8ad3b02-1350-11df-a1f1-0026b9348838",
+        "display": "CONFUSION",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8ad3b02-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "0960331d-d47b-4089-a7a6-2a0f097f7a24",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "02ad9357-b996-4530-b1a4-aff91a105383",
+        "name": {
+          "display": "TUBERCULOSIS DISEASE STATUS"
+        }
+      },
+      "value": {
+        "uuid": "a899e0ac-1350-11df-a1f1-0026b9348838",
+        "display": "NONE",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a899e0ac-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "bb76d096-b964-4160-8f97-f2db79b05c52",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8982474-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HIV VIRAL LOAD, QUANTITATIVE"
+        }
+      },
+      "value": 50000.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "9dcd8ae2-c89f-410b-8a79-40fbcba0b870",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a30d1c-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED REASON FOR CURRENT ANTIRETROVIRALS STARTED"
+        }
+      },
+      "value": {
+        "uuid": "a8a19c20-1350-11df-a1f1-0026b9348838",
+        "display": "POST EXPOSURE PROPHYLAXIS",
+        "links": [
+          {
+            "rel": "self",
+            "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8a19c20-1350-11df-a1f1-0026b9348838"
+          }
+        ]
+      },
+      "groupMembers": null
+    },
+    {
+      "uuid": "f5972d0b-2e0f-4b72-9526-30c72e9b9f80",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a6619c-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "HEIGHT (CM)"
+        }
+      },
+      "value": 145.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "2a4fe47c-9cd5-4853-bf9e-d17bde8fd4a2",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a896ca48-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "SERUM GLUTAMIC-PYRUVIC TRANSAMINASE"
+        }
+      },
+      "value": 120.0,
+      "groupMembers": null
+    },
+    {
+      "uuid": "724be95d-d54e-4dcf-8cb2-51e1657f586a",
+      "obsDatetime": "2017-01-31T11:44:34.000+0300",
+      "concept": {
+        "uuid": "a8a072c8-1350-11df-a1f1-0026b9348838",
+        "name": {
+          "display": "PATIENT REPORTED CURRENT OTHER TREATMENT"
+        }
+      },
+      "value": null,
+      "groupMembers": [
+        {
+          "uuid": "c67348de-3307-4390-92f8-93ff6d1d71a5",
+          "display": "PATIENT REPORTED CURRENT MEDICATION CAUSING SIDE EFFECT: PENICILLIN",
+          "concept": {
+            "uuid": "1682a920-c93d-4aad-b9cb-4a2b2c41ff1a",
+            "display": "PATIENT REPORTED CURRENT MEDICATION CAUSING SIDE EFFECT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/1682a920-c93d-4aad-b9cb-4a2b2c41ff1a"
+              }
+            ]
+          },
+          "person": {
+            "uuid": "3a8cd157-38d4-4a50-9121-ab15c7459382",
+            "display": "12345-65412 - CDM TEST CDM",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/3a8cd157-38d4-4a50-9121-ab15c7459382"
+              }
+            ]
+          },
+          "obsDatetime": "2017-01-31T11:44:34.000+0300",
+          "accessionNumber": null,
+          "obsGroup": {
+            "uuid": "724be95d-d54e-4dcf-8cb2-51e1657f586a",
+            "display": "PATIENT REPORTED CURRENT OTHER TREATMENT: PENICILLIN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/724be95d-d54e-4dcf-8cb2-51e1657f586a"
+              }
+            ]
+          },
+          "valueCodedName": null,
+          "groupMembers": null,
+          "comment": null,
+          "location": {
+            "uuid": "18c343eb-b353-462a-9139-b16606e6b6c2",
+            "display": "Location Test",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location/18c343eb-b353-462a-9139-b16606e6b6c2"
+              }
+            ]
+          },
+          "order": null,
+          "encounter": {
+            "uuid": "faae84ae-81fe-421f-b2ef-5a766fd9b97f",
+            "display": "ADULTINITIAL 31/01/2017",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/faae84ae-81fe-421f-b2ef-5a766fd9b97f"
+              }
+            ]
+          },
+          "voided": false,
+          "value": {
+            "uuid": "a897df3c-1350-11df-a1f1-0026b9348838",
+            "display": "PENICILLIN",
+            "name": {
+              "display": "PENICILLIN",
+              "uuid": "a93ff8fc-1350-11df-a1f1-0026b9348838",
+              "name": "PENICILLIN",
+              "locale": "en",
+              "localePreferred": true,
+              "conceptNameType": "FULLY_SPECIFIED",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a93ff8fc-1350-11df-a1f1-0026b9348838"
+                },
+                {
+                  "rel": "full",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a93ff8fc-1350-11df-a1f1-0026b9348838?v=full"
+                }
+              ],
+              "resourceVersion": "1.9"
+            },
+            "datatype": {
+              "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "N/A",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "conceptClass": {
+              "uuid": "8d490dfc-c2cc-11de-8d13-0010c6dffd0f",
+              "display": "Drug",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/conceptclass/8d490dfc-c2cc-11de-8d13-0010c6dffd0f"
+                }
+              ]
+            },
+            "set": false,
+            "version": "",
+            "retired": false,
+            "names": [
+              {
+                "uuid": "a958dde0-1350-11df-a1f1-0026b9348838",
+                "display": "PENICILLIN V SYRUP",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a958dde0-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a954ecb2-1350-11df-a1f1-0026b9348838",
+                "display": "CRYSTAPEN INJECTION",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a954ecb2-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a958dc32-1350-11df-a1f1-0026b9348838",
+                "display": "PENICILLIN INJECTION",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a958dc32-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a9591db4-1350-11df-a1f1-0026b9348838",
+                "display": "PPF",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a9591db4-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a93ff8fc-1350-11df-a1f1-0026b9348838",
+                "display": "PENICILLIN",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a93ff8fc-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a958dd04-1350-11df-a1f1-0026b9348838",
+                "display": "PENICILLIN V (ORAL) TABS",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a958dd04-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a95b3284-1350-11df-a1f1-0026b9348838",
+                "display": "TRIPLE PEN INJECTION",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a95b3284-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              },
+              {
+                "uuid": "a9589b8c-1350-11df-a1f1-0026b9348838",
+                "display": "NORMAXICILLIN",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/name/a9589b8c-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "descriptions": [
+              {
+                "uuid": "a8f8219e-1350-11df-a1f1-0026b9348838",
+                "display": "A mixture of relatively nontoxic antibiotic acids produced especially by molds of the genus Penicillium (as P. notatum or P. chrysogenum) and having a powerful bacteriostatic effect against various bacteria.",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/description/a8f8219e-1350-11df-a1f1-0026b9348838"
+                  }
+                ]
+              }
+            ],
+            "mappings": [
+              {
+                "uuid": "2a2141cb-ecc4-4ee0-858c-fd2e14f74bfb",
+                "display": "MCL/CIEL: 81724",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/mapping/2a2141cb-ecc4-4ee0-858c-fd2e14f74bfb"
+                  }
+                ]
+              },
+              {
+                "uuid": "a76759e7-cee2-4837-99ca-41bf1d45bd68",
+                "display": "local: 784",
+                "links": [
+                  {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838/mapping/a76759e7-cee2-4837-99ca-41bf1d45bd68"
+                  }
+                ]
+              }
+            ],
+            "answers": [],
+            "setMembers": [],
+            "links": [
+              {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838"
+              },
+              {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a897df3c-1350-11df-a1f1-0026b9348838?v=full"
+              }
+            ],
+            "resourceVersion": "1.11"
+          },
+          "valueModifier": null,
+          "formFieldPath": null,
+          "formFieldNamespace": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/c67348de-3307-4390-92f8-93ff6d1d71a5"
+            },
+            {
+              "rel": "full",
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/obs/c67348de-3307-4390-92f8-93ff6d1d71a5?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        }
+      ]
+    }
+  ]
+}

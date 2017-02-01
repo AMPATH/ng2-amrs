@@ -11,11 +11,17 @@ export class EncounterListComponent implements OnInit {
     @Input('messageType') messageType: string;
     @Input('message') message: string;
     @Input('isVisible') isVisible: boolean;
-    @Output() onEncounterSelected = new EventEmitter();
+    @Output() onEncounterEdit = new EventEmitter();
+    @Output() onEncounterObservations = new EventEmitter();
 
     constructor() { }
     ngOnInit() { }
-    encounterSelected(encounter) {
-        this.onEncounterSelected.emit(encounter);
+    editEncounter(encounter) {
+        this.onEncounterEdit.emit(encounter);
+    }
+
+    showEncounterObservations(encounter) {
+      this.onEncounterObservations.emit(encounter);
+
     }
 }
