@@ -12,7 +12,7 @@ import { Patient } from '../../models/patient.model';
 export class PatientSearchComponent implements OnInit {
   searchString: string;
   patients: Patient[];
-  isResetButton: boolean = false;
+  isResetButton: boolean = true;
   totalPatients: number;
   isLoading: boolean = false;
   page: number = 1;
@@ -46,9 +46,8 @@ export class PatientSearchComponent implements OnInit {
           if (data.length > 0) {
             this.patients = data;
             this.totalPatients = this.patients.length;
-            this.isLoading = false;
           }
-
+          this.isLoading = false;
         },
         (error) => {
           this.isLoading = false;

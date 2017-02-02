@@ -78,6 +78,7 @@
     "angular2-select": "^1.0.0-alpha.12",
     "angulartics2": "^1.6.3",
     "assets-webpack-plugin": "^3.5.0",
+    "bootstrap": "^3.3.7",
     "bootstrap-loader": "^1.3.3",
     "core-js": "^2.4.1",
     "datatables.net": "^1.10.13",
