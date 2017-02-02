@@ -17,7 +17,7 @@ var
   , curl = require('curlrequest')
   , eidResultsSchema = require('../eid-lab-results');
 
-module.exports = {
+var definition = {
 
   getSynchronizedPatientLabResults: getSynchronizedPatientLabResults,
   getEIDTestResultsByPatientIdentifier: getEIDTestResultsByPatientIdentifier,
@@ -27,7 +27,172 @@ module.exports = {
   getCd4TestResultsByPatientIdentifier: getCd4TestResultsByPatientIdentifier,
   getPcrTestResultsByPatientIdentifier: getPcrTestResultsByPatientIdentifier,
   getResource: getResource,
-  getCd4Resource: getCd4Resource
+  getCd4Resource: getCd4Resource,
+  getEidViralLoadResults: getEidViralLoadResults,
+  getEidDnaPcrResults: getEidDnaPcrResults,
+  getEidCD4Results: getEidCD4Results,
+  getAllEidResultsByType: getAllEidResultsByType,
+  getAllEidResults: getAllEidResults
+};
+
+module.exports = definition;
+
+function getAllEidResults(host, apikey, startDate, endDate) {
+  var results = {
+    viralLoad: { posts: [] },
+    cd4: { posts: [] },
+    dnaPcr: { posts: [] }
+  };
+
+  return new Promise(function (resolve, reject) {
+    _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+      definition.getEidViralLoadResults)
+      .then(function (viralLoad) {
+        results.viralLoad = viralLoad;
+        return _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+          definition.getEidCD4Results);
+      })
+      .then(function (cd4) {
+        results.cd4 = cd4;
+        return _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+          definition.getEidDnaPcrResults);
+      })
+      .then(function (dnaPcr) {
+        results.dnaPcr = dnaPcr;
+        resolve(results);
+      });
+  });
+}
+
+function _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+  fetchingFunc) {
+  return new Promise(function (resolve, reject) {
+    getAllEidResultsByType(host, apikey, startDate, endDate, fetchingFunc)
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        resolve({ posts: [], error: error });
+      });
+  });
+}
+
+function getAllEidResultsByType(host, apikey, startDate, endDate, fetchingFunc) {
+  var page = 0;
+  var results = {
+    posts: []
+  };
+  return new Promise(function (resolve, reject) {
+    _increamentPageAndGetAllEidResultsByType(host, apikey, startDate, endDate, fetchingFunc,
+      page, results, resolve, reject);
+  });
+}
+
+function _getAllEidResultsByType(host, apiKey, startDate, endDate, fetchingFunc,
+  page, results, finalResolve, reject) {
+  fetchingFunc(host, apiKey, startDate, endDate, page)
+    .then(function (response) {
+      if (response.posts.length > 0) {
+        results.posts = results.posts.concat(response.posts);
+        _increamentPageAndGetAllEidResultsByType(host, apiKey, startDate, endDate, fetchingFunc,
+          page, results, finalResolve, reject);
+      } else {
+        finalResolve(results);
+      }
+    })
+    .catch(function (error) {
+      reject(error);
+    });
+}
+
+function _increamentPageAndGetAllEidResultsByType(host, apiKey, startDate, endDate,
+  fetchingFunc, page, results, finalResolve, reject) {
+  page = page + 1;
+  _getAllEidResultsByType(host, apiKey, startDate, endDate,
+    fetchingFunc, page, results, finalResolve, reject);
+}
+
+function getEidViralLoadResults(host, apiKey, startDate, endDate, page) {
+  return new Promise(function (resolve, reject) {
+    var resource = definition.getResource(host, apiKey);
+    resource.query.page = page;
+    resource.query.test = 2;
+
+    if (!moment(startDate).isValid()) {
+      reject('Invalid start date supplied', startDate);
+    }
+
+    if (!moment(endDate).isValid()) {
+      reject('Invalid end date supplied', endDate);
+    }
+
+    resource.query.startDate = moment(startDate).format('YYYY-MM-DD');
+    resource.query.endDate = moment(endDate).format('YYYY-MM-DD');
+
+    rp.getRequestPromise(resource.queryString, resource.uri)
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+
+  });
+}
+
+function getEidDnaPcrResults(host, apiKey, startDate, endDate, page) {
+  return new Promise(function (resolve, reject) {
+    var resource = definition.getResource(host, apiKey);
+    resource.query.page = page;
+    resource.query.test = 1;
+
+    if (!moment(startDate).isValid()) {
+      reject('Invalid start date supplied', startDate);
+    }
+
+    if (!moment(endDate).isValid()) {
+      reject('Invalid end date supplied', endDate);
+    }
+
+    resource.query.startDate = moment(startDate).format('YYYY-MM-DD');
+    resource.query.endDate = moment(endDate).format('YYYY-MM-DD');
+
+    rp.getRequestPromise(resource.queryString, resource.uri)
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+
+  });
+}
+
+function getEidCD4Results(host, apiKey, startDate, endDate, page) {
+  return new Promise(function (resolve, reject) {
+    var resource = definition.getCd4Resource(host, apiKey);
+    resource.query.page = page;
+
+    if (!moment(startDate).isValid()) {
+      reject('Invalid start date supplied', startDate);
+    }
+
+    if (!moment(endDate).isValid()) {
+      reject('Invalid end date supplied', endDate);
+    }
+
+    resource.query.startDate = moment(startDate).format('YYYY-MM-DD');
+    resource.query.endDate = moment(endDate).format('YYYY-MM-DD');
+
+    rp.getRequestPromise(resource.queryString, resource.uri)
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+
+  });
 }
 
 function listReachableServers(filter_locations) {
@@ -260,7 +425,7 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
 
 function getViralLoadTestResultsByPatientIdentifier(patientIdentifier, host, key) {
 
-  var resource = getResource(host, key);
+  var resource = definition.getResource(host, key);
   var queryString = resource.query;
   queryString.patientID = patientIdentifier;
   queryString.test = 2;
@@ -269,8 +434,7 @@ function getViralLoadTestResultsByPatientIdentifier(patientIdentifier, host, key
 }
 
 function getPcrTestResultsByPatientIdentifier(patientIdentifier, host, key) {
-
-  var resource = getResource(host, key);
+  var resource = definition.getResource(host, key);
   var queryString = resource.query;
   queryString.patientID = patientIdentifier;
   queryString.test = 1;
@@ -281,7 +445,8 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier, host, key) {
 
   var startDate = moment(new Date('2004-01-01')).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
   var endDate = moment(new Date()).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
-  var resource = getCd4Resource(host, key);
+
+  var resource = definition.getCd4Resource(host, key);
   var queryString = resource.query;
   queryString.patientID = patientIdentifier;
   queryString.startDate = startDate;

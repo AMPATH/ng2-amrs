@@ -10,7 +10,7 @@
     var expect = chai.expect;
     chai.use(chaiAsPromised);
 
-    describe.only('Open MRS Patient Service Unit Tests', function () {
+    describe('Open MRS Patient Service Unit Tests', function () {
         beforeEach(function () {
             nock.disableNetConnect();
         });
