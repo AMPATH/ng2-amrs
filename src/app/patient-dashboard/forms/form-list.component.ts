@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, SimpleChange } from '@angular/core';
 
 import { Form } from '../../models/form.model';
 import { FormListService } from './form-list.service';
@@ -9,6 +9,7 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
     styleUrls: ['./form-list.component.css']
 })
 export class FormListComponent implements OnInit {
+    @Input() excludedForms = [];
     @Output() onFormSelected = new EventEmitter();
     forms: Array<Form>;
     selectedForm: Form;
@@ -19,11 +20,22 @@ export class FormListComponent implements OnInit {
     ngOnInit() {
         this.getForms();
     }
+
     getForms() {
         this.forms = [];
         this.formListService.getFormList().subscribe(
             (forms) => {
-                this.forms = forms;
+                this.forms = forms.filter((a) => {
+                    if (a.encounterType) {
+                        if (this.excludedForms.indexOf(a.encounterType.uuid) > -1) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                    return true;
+
+                });
             }
         );
     }
@@ -47,6 +59,6 @@ export class FormListComponent implements OnInit {
     }
 
     isLoading(form: Form): boolean {
-      return form === this.selectedForm;
+        return form === this.selectedForm;
     }
 }

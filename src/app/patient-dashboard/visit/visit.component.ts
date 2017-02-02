@@ -7,10 +7,11 @@ import { PatientService } from '../patient.service';
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
-    host: {'class': 'wrapper'}
+    host: { 'class': 'wrapper' }
 })
 export class VisitComponent implements OnInit {
     visitTypes = [];
+    excludedForms = [];
     visit: any;
     patient: any;
     errors: any = [];
@@ -33,6 +34,9 @@ export class VisitComponent implements OnInit {
                 this.visitBusy = false;
                 if (visit) {
                     this.visit = visit;
+                    this.excludedForms = visit.encounters.map((a) => {
+                        return a.encounterType.uuid;
+                    });
                 } else {
                     this.getVisitTypes();
                 }
@@ -45,6 +49,7 @@ export class VisitComponent implements OnInit {
             });
 
     }
+
     getPatient() {
         this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
@@ -60,6 +65,7 @@ export class VisitComponent implements OnInit {
                 });
             });
     }
+
     getVisitTypes() {
         this.loadingVisitTypes = true;
         this.visitResourceService.getVisitTypes({}).subscribe(

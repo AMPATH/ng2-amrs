@@ -15,14 +15,14 @@ export class PatientSearchService {
 
   searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
     let patientsSearchResults: BehaviorSubject<Patient[]> = new BehaviorSubject<Patient[]>([]);
-    this.resouceService.searchPatient(searchText, false)
+    this.resouceService.searchPatient(searchText.trim(), false)
       .subscribe(
       (patients) => {
         let mappedPatients: Patient[] = new Array<Patient>();
         for (let i = 0; i < patients.length; i++) {
           mappedPatients.push(new Patient(patients[i]));
         }
-        this.searchString = searchText;
+        this.searchString = searchText.trim();
         patientsSearchResults.next(mappedPatients);
         this.patientsSearchResults.next(mappedPatients);
       },
