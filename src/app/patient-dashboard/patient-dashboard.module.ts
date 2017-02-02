@@ -10,7 +10,6 @@ import {
 } from 'primeng/primeng';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
-import { Ng2FilterPipe } from '../shared/pipes/ng2-filter.pipe';
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
@@ -65,6 +64,7 @@ import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
 import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
 import { ToastrModule } from 'toastr-ng2';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
+import { OrderListComponent } from './formentry/order-list.component';
 
 
 @NgModule({
@@ -115,12 +115,12 @@ import { PatientRemindersComponent } from './patient-reminders/patient-reminders
     AddressComponent,
     PatientDemographicsComponent,
     FormListComponent,
-    Ng2FilterPipe,
     FormentryComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
     TodaysVitalsComponent,
-    PatientRemindersComponent
+    PatientRemindersComponent,
+    OrderListComponent
 
   ],
   providers: [
@@ -162,7 +162,8 @@ import { PatientRemindersComponent } from './patient-reminders/patient-reminders
     FormListComponent,
     FormentryComponent,
     DraftedFormNavComponent,
-    PatientRemindersComponent
+    PatientRemindersComponent,
+    OrderListComponent
   ]
 })
 export class PatientDashboardModule {
