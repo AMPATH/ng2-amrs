@@ -28,7 +28,6 @@ export class PatientRemindersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let reminders = [];
     this.getPatient();
   }
 

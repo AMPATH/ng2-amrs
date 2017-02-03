@@ -1,0 +1,8 @@
+<dl *ngIf="relationships.length > 0">
+	<dl *ngFor=' let relationship of relationships'>
+		<dt>Relationship</dt>
+		<dd>{{relationship.relationshipType}}</dd>
+		<dt>Person Name</dt>
+		<dd>{{relationship.display}}</dd>
+	</dl>
+</dl>
