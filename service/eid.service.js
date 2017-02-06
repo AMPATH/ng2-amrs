@@ -12,13 +12,13 @@ var
   , moment = require('moment')
   , comparison = require('../eid-obs-compare')
   , obsService = require('./openmrs-rest/obs.service')
+  , patientService = require('./openmrs-rest/patient.service')
   , etlLogger = require('../etl-file-logger')
   , db = require('../etl-db')
   , curl = require('curlrequest')
   , eidResultsSchema = require('../eid-lab-results');
 
 var definition = {
-
   getSynchronizedPatientLabResults: getSynchronizedPatientLabResults,
   getEIDTestResultsByPatientIdentifier: getEIDTestResultsByPatientIdentifier,
   saveEidSyncLog: saveEidSyncLog,
@@ -32,12 +32,117 @@ var definition = {
   getEidDnaPcrResults: getEidDnaPcrResults,
   getEidCD4Results: getEidCD4Results,
   getAllEidResultsByType: getAllEidResultsByType,
-  getAllEidResults: getAllEidResults
+  getAllEidResults: getAllEidResults,
+  getAllEidResultsFromAllSites: getAllEidResultsFromAllSites,
+  getAvailableLabServers: listReachableServers,
+  getPatientsWithEidResults: getPatientsWithEidResults
 };
 
 module.exports = definition;
 
-function getAllEidResults(host, apikey, startDate, endDate) {
+function getPatientsWithEidResults(startDate, endDate) {
+  return new Promise(function (resolve, reject) {
+
+    definition.getAllEidResultsFromAllSites(startDate, endDate)
+      .then(function (labResults) {
+        var ids = _extractPatientIdentifiersFromResults(labResults);
+
+        patientService.getPatientUuidsByIdentifiers(ids)
+          .then(function (patientUuids) {
+            var uuids = [];
+            _.each(patientUuids, function (patient) {
+              if (patient.patientUuid) {
+                uuids.push(patient.patientUuid);
+              }
+            });
+
+            resolve(uuids);
+          })
+          .catch(function (error) {
+            reject(error);
+          });
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+
+  });
+}
+
+function _extractPatientIdentifiersFromResults(labResults) {
+  var identifiers = [];
+
+  var uniqueIds = {};
+
+  var allResults = [];
+
+  _.each(labResults, function (result) {
+    if (result.viralLoad)
+      allResults = allResults.concat(result.viralLoad.posts);
+
+    if (result.cd4)
+      allResults = allResults.concat(result.cd4.posts);
+
+    if (result.dnaPcr)
+      allResults = allResults.concat(result.dnaPcr.posts);
+
+  });
+
+  _.each(allResults, function (result) {
+    if (result.SampleStatus === 'Complete') {
+      uniqueIds[result.PatientID] = result.PatientID;
+    }
+  });
+
+  _.each(uniqueIds, function (id) {
+    identifiers.push(id);
+  });
+
+  return identifiers;
+}
+
+function getAllEidResultsFromAllSites(startDate, endDate) {
+  return new Promise(function (resolve, reject) {
+    definition.getAvailableLabServers()
+      .then(function (servers) {
+        var resultsByLab = [];
+        Promise.reduce(servers, function (previousServer, server) {
+          return new Promise(function (resolve, reject) {
+
+            definition.getAllEidResults(server, startDate, endDate)
+              .then(function (response) {
+                response.lab = server.name;
+                resultsByLab.push(response);
+                resolve(resultsByLab);
+              })
+              .catch(function (error) {
+                // catch errors and continue
+                var response = {
+                  lab: server.name,
+                  error: error
+                };
+
+                resultsByLab.push(response);
+                resolve(resultsByLab);
+              });
+          });
+
+        }, 0)
+          .then(function (results) {
+            resolve(results);
+          })
+          .catch(function (error) {
+            reject(error);
+          });
+
+      })
+      .catch(function (error) {
+        reject(error);
+      })
+  });
+}
+
+function getAllEidResults(server, startDate, endDate) {
   var results = {
     viralLoad: { posts: [] },
     cd4: { posts: [] },
@@ -45,16 +150,16 @@ function getAllEidResults(host, apikey, startDate, endDate) {
   };
 
   return new Promise(function (resolve, reject) {
-    _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+    _getEidResultsPerTypeDisregardingErrors(server.host, server.generalApiKey, startDate, endDate,
       definition.getEidViralLoadResults)
       .then(function (viralLoad) {
         results.viralLoad = viralLoad;
-        return _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+        return _getEidResultsPerTypeDisregardingErrors(server.host, server.cd4ApiKey, startDate, endDate,
           definition.getEidCD4Results);
       })
       .then(function (cd4) {
         results.cd4 = cd4;
-        return _getEidResultsPerTypeDisregardingErrors(host, apikey, startDate, endDate,
+        return _getEidResultsPerTypeDisregardingErrors(server.host, server.generalApiKey, startDate, endDate,
           definition.getEidDnaPcrResults);
       })
       .then(function (dnaPcr) {
@@ -92,7 +197,7 @@ function _getAllEidResultsByType(host, apiKey, startDate, endDate, fetchingFunc,
   page, results, finalResolve, reject) {
   fetchingFunc(host, apiKey, startDate, endDate, page)
     .then(function (response) {
-      if (response.posts.length > 0) {
+      if (response.posts.length > 0 && page <= 100) {
         results.posts = results.posts.concat(response.posts);
         _increamentPageAndGetAllEidResultsByType(host, apiKey, startDate, endDate, fetchingFunc,
           page, results, finalResolve, reject);
@@ -126,10 +231,13 @@ function getEidViralLoadResults(host, apiKey, startDate, endDate, page) {
       reject('Invalid end date supplied', endDate);
     }
 
+    if (resource.query.patientID) {
+      delete resource.query.patientID;
+    }
+
     resource.query.startDate = moment(startDate).format('YYYY-MM-DD');
     resource.query.endDate = moment(endDate).format('YYYY-MM-DD');
-
-    rp.getRequestPromise(resource.queryString, resource.uri)
+    rp.getRequestPromise(resource.query, resource.uri)
       .then(function (response) {
         resolve(response);
       })
@@ -154,10 +262,14 @@ function getEidDnaPcrResults(host, apiKey, startDate, endDate, page) {
       reject('Invalid end date supplied', endDate);
     }
 
+    if (resource.query.patientID) {
+      delete resource.query.patientID;
+    }
+
     resource.query.startDate = moment(startDate).format('YYYY-MM-DD');
     resource.query.endDate = moment(endDate).format('YYYY-MM-DD');
 
-    rp.getRequestPromise(resource.queryString, resource.uri)
+    rp.getRequestPromise(resource.query, resource.uri)
       .then(function (response) {
         resolve(response);
       })
@@ -181,10 +293,18 @@ function getEidCD4Results(host, apiKey, startDate, endDate, page) {
       reject('Invalid end date supplied', endDate);
     }
 
+    if (resource.query.patientID) {
+      delete resource.query.patientID;
+    }
+
+    if (resource.query.test) {
+      delete resource.query.test;
+    }
+
     resource.query.startDate = moment(startDate).format('YYYY-MM-DD');
     resource.query.endDate = moment(endDate).format('YYYY-MM-DD');
 
-    rp.getRequestPromise(resource.queryString, resource.uri)
+    rp.getRequestPromise(resource.query, resource.uri)
       .then(function (response) {
         resolve(response);
       })
@@ -296,7 +416,7 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
         comparison.findConflictingEidAmrsViralLoadResults(mergedEidResults.viralLoad, obsResponse);
       if (conflicts.length > 0) {
         // console.log('conflicts', JSON.stringify(conflicts));
-        fields[0].conflicts =  JSON.stringify(conflicts);
+        fields[0].conflicts = JSON.stringify(conflicts);
       }
 
       return obsService.postAllObsToAMRS(missingResult, patientUuId);

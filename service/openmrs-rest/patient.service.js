@@ -20,7 +20,7 @@
 
         var requestParam = {
             q: params.q,
-            v: params.rep || 'ref'
+            v: params.rep || 'default'
         };
 
         var url = (params.openmrsBaseUrl || openmrsBase) + endPoint;
@@ -37,12 +37,22 @@
     }
 
     function getPatientUuidsByIdentifiers(identifiersArray, baseUrl) {
-        var promises = [];
-        _.each(identifiersArray, function(id){
-            promises.push(_getPatientUuidByIdentifier(id, baseUrl));
-        });
-        return Promise.all(promises);
+        var results = [];
+        return Promise.reduce(identifiersArray, function (previous, identifier) {
+            return new Promise(function (resolve, reject) {
+                _getPatientUuidByIdentifier(identifier, baseUrl)
+                    .then(function (value) {
+                        console.error(identifier + ' ' + value.patientUuid + ' reduced to', results.length);
+                        results.push(value);
+                        resolve(results);
+                    })
+                    .catch(function (error) {
+                        resolve(results);
+                    });
+            });
+        }, 0);
     }
+
 
     function _getPatientUuidByIdentifier(identifier, baseUrl) {
         var param = {
@@ -52,12 +62,16 @@
         return new Promise(function (resolve, reject) {
             getPatientByIdentifier(param)
                 .then(function (response) {
-                    resolve(
-                        {
-                            identifier: identifier,
-                            patientUuid: response.length > 0 ? response[0].uuid : ''
-                        }
-                    );
+                    if (Array.isArray(response)) {
+                        resolve(
+                            {
+                                identifier: identifier,
+                                patientUuid: response.length > 0 ? response[0].uuid : ''
+                            }
+                        );
+                    } else {
+                        throw ('Invalid response', response);
+                    }
                 })
                 .catch(function (error) {
                     console.error('getPatientByIdentifier error', error);

@@ -90,7 +90,7 @@
 
                 var params = {
                     q: 'id 1',
-                    rep: 'ref',
+                    rep: 'default',
                     openmrsBaseUrl: testRestUrl
                 };
                 var request = nock(testRestUrl)
@@ -107,7 +107,7 @@
 
                 var params2 = {
                     q: 'id 2',
-                    rep: 'ref',
+                    rep: 'default',
                     openmrsBaseUrl: testRestUrl
                 };
 
