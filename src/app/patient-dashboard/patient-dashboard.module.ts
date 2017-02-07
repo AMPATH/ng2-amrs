@@ -8,6 +8,7 @@ import {
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
   DialogModule
 } from 'primeng/primeng';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { patientDashboardRouting } from './patient-dashboard-routing';
@@ -35,6 +36,9 @@ import { FormListService } from './forms/form-list.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
+import {
+  PatientEncounterObservationsComponent
+} from './patient-encounters/patient-encounter-observations.component';
 import { PatientService } from './patient.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
@@ -78,6 +82,7 @@ import { OrderListComponent } from './formentry/order-list.component';
     SharedModule,
     NgamrsSharedModule,
     Ng2PaginationModule,
+    Ng2Bs3ModalModule,
     OpenmrsApi,
     UtilsModule,
     TabViewModule,
@@ -93,6 +98,7 @@ import { OrderListComponent } from './formentry/order-list.component';
   declarations: [
     PatientInfoComponent,
     PatientEncountersComponent,
+    PatientEncounterObservationsComponent,
     PatientSearchComponent,
     PatientDashboardComponent,
     PatientVitalsComponent,
@@ -148,6 +154,7 @@ import { OrderListComponent } from './formentry/order-list.component';
   exports: [
     PatientDashboardComponent,
     PatientEncountersComponent,
+    PatientEncounterObservationsComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,

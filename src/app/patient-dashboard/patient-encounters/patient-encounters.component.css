@@ -1,0 +1,87 @@
+app-patient-encounters {
+  display: block;
+}
+
+@media screen and (max-width: 767px) {
+  app-patient-encounters .scroll-x {
+    overflow-x: scroll;
+  }
+}
+
+patient-encounter-observations {
+  display: block;
+  padding:15px;
+}
+
+ul.obs-list ul.description {
+  opacity: 0;
+  height:0px;
+
+}
+
+ul.obs-list li.obs_parent a:focus ul.description {
+  height:auto;
+  transition: visibility 1s, opacity 0.5s linear;
+  opacity: 1;
+}
+
+.obs_parent {
+  line-height: 24px;
+}
+
+.obs_parent:focus {
+  outline: none;
+}
+
+li.obs_parent a {
+  color: #fff !important;
+  background-color: #428bca;
+  position: relative;
+  line-height: 24px;
+  display: block;
+  margin-bottom: 5px;
+  padding-left: 7px;
+  padding-right: 2px;
+}
+
+li.obs_parent a > span {
+  line-height:36px;
+}
+
+.obs_parent span.fa {
+  position: absolute;
+  right: 15px;
+  color:#fff;
+  top: 0;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+ul.obs-list {
+  list-style-position: outside;
+
+}
+
+ul li {
+  padding: 2px;
+  margin: 0px;
+}
+
+ul.obs-list li ul.obs_children {
+  list-style-position: inside;
+}
+
+ul.obs_children {
+  padding-left:15px;
+  list-style-position: inside;
+  margin-left: -5px;
+  background: #fff;
+  color: #333;
+  border-bottom: 2px solid #428bca;
+}
+
+.obs_value {
+  color: green;
+}

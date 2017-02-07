@@ -136,7 +136,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public onCancel(): void {
     console.log('FORM MODEL:', this.form.rootNode);
     this.draftedFormsService.setDraftedForm(null);
-    this.navigateTo('formList');
+    window.history.go(-1);
   }
 
   public retrySubmittingPayload(): void {

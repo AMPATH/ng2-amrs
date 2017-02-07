@@ -26,7 +26,12 @@
   <div *ngIf="visit">
     <div class="visit-panel-heading">
       <h3><span>Started At:{{visit.startDatetime | date:'dd-MM-yyyy hh:mm'}}</span>
-        <span *ngIf="visit.stopDatetime">Ended At:{{visit.stopDatetime | date:'dd-MM-yyyy hh:mm'}}</span></h3>
+        <span *ngIf="visit.stopDatetime">Ended At:{{visit.stopDatetime | date:'dd-MM-yyyy hh:mm'}}</span>
+        <button id="cancelVisitButtonTop" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
+        <button *ngIf="!visit.stopDatetime" id="endVisitButtonTop" (click)="endVisit()" class='btn btn-primary'>End Visit
+          Visit
+        </button>
+      </h3>
     </div>
     <div class="visit-panel-body">
       <encounter-list *ngIf="visit.encounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>

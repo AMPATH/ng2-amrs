@@ -1,0 +1,26 @@
+<modal #modal [cssClass]="cssClass" [size]="'lg'" (onClose)="closed()" (onDismiss)="dismissed()">
+  <modal-header [show-close]="true">
+    <h3 class="modal-title">Observations</h3>
+  </modal-header>
+  <modal-body>
+    <div class="obs-wrapper" *ngIf="onEncounterDetail">
+      <ul class="obs-list">
+        <li *ngFor="let _obs of obs, let _index = index" [ngSwitch]="_obs.has_children" tabindex="{{_index}}" class="obs_parent">
+          <div *ngSwitchCase="false"><span class="obs_label">{{_obs.label}}</span> > <span
+            class="obs_value">{{_obs.value}}</span></div>
+          <div *ngSwitchCase="true">
+            <a class="title" (click)="updateOpenState(_index)" href="javascript:;;"><span class="obs_parent_label">{{_obs.label}}</span>
+              <ul *ngSwitchCase="true" [hidden]="isHidden[_index]" class="obs_children description desc-{{_index}}">
+                <li *ngFor="let _value of _obs.value"><span class="obs_label">{{_value.label}}</span> > <span
+                  class="obs_value">{{_value.value}} </span></li>
+              </ul>
+              <span *ngSwitchCase="isHidden[_index]" class="fa fa-fw fa-caret-down"></span>
+              <span *ngSwitchCase="!isHidden[_index]" class="fa fa-fw fa-caret-up"></span>
+            </a>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </modal-body>
+</modal>

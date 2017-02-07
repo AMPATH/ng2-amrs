@@ -720,6 +720,34 @@ function _init() {
 
 })(jQuery);
 
+(function ($) {
+
+  var allPanels = $('.accordion .accordion-panel .description');
+  console.log(allPanels);
+  allPanels.each(function () {
+
+    $(this).hide();
+
+  });
+
+  $('.accordion .accordion-panel .desc-0').show();
+
+
+  $('.accordion .accordion-panel .title a').click(function (e) {
+
+    console.log(this);
+
+    if ($(this).parent().next().not(":visible")) {
+
+      allPanels.not(this).slideUp();
+      $(this).parent().next().not(":visible").slideDown();
+    }
+
+    return false;
+  });
+
+})(jQuery);
+
 /*
  * TODO LIST CUSTOM PLUGIN
  * -----------------------

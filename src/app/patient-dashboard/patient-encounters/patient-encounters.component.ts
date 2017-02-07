@@ -14,8 +14,9 @@ import { PatientService } from '../patient.service';
 
 })
 export class PatientEncountersComponent implements OnInit {
-
   encounters: Encounter[];
+  selectedEncounter: Encounter;
+  onEncounterDetail: boolean = false;
   messageType: string;
   message: string;
   isVisible: boolean;
@@ -73,7 +74,7 @@ export class PatientEncountersComponent implements OnInit {
       });
   }
 
-  encounterSelected(encounter) {
+  editEncounter(encounter) {
     if (encounter) {
       this.router.navigate(['../formentry', encounter.form.uuid], {
         relativeTo: this.route,
@@ -81,6 +82,19 @@ export class PatientEncountersComponent implements OnInit {
       });
     }
   }
+
+  loadingIndicator(isBusy) {
+    this.isBusyIndicator(isBusy, 'Loading encounter obs...');
+  }
+
+  showEncounterObservations(encounter) {
+    if (encounter) {
+      this.selectedEncounter = encounter;
+      this.onEncounterDetail = true;
+    }
+
+  }
+
   private isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
     if (isBusy === true) {
       this.busyIndicator = {
