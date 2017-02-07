@@ -24,6 +24,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
   @Input() encounter: Encounter;
   @Input() onEncounterDetail: boolean;
   @Output() onClose = new EventEmitter();
+  @Output() isDone = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   cssClass: string = 'obs-dialog';
 
@@ -41,6 +42,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       let changedProp = changes[propName];
       let encounter = changedProp.currentValue;
       if (!changedProp.isFirstChange()) {
+        this.isDone.emit(true);
         this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
           this.modal.dismiss();
           this.modal.open();
@@ -93,7 +95,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
         value: _value
       });
     });
-
+    this.isDone.emit(false);
     return processedObs;
   }
 

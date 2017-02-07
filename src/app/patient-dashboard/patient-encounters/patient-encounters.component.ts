@@ -83,6 +83,10 @@ export class PatientEncountersComponent implements OnInit {
     }
   }
 
+  loadingIndicator(isBusy) {
+    this.isBusyIndicator(isBusy, 'Loading encounter obs...');
+  }
+
   showEncounterObservations(encounter) {
     if (encounter) {
       this.selectedEncounter = encounter;

@@ -12,6 +12,7 @@ export class EncounterListComponent implements OnInit {
     @Input('message') message: string;
     @Input('isVisible') isVisible: boolean;
     @Output() onEncounterEdit = new EventEmitter();
+    @Output() isBusy = new EventEmitter();
     @Output() onEncounterObservations = new EventEmitter();
 
     constructor() { }
@@ -21,6 +22,7 @@ export class EncounterListComponent implements OnInit {
     }
 
     showEncounterObservations(encounter) {
+      this.isBusy.emit(true);
       this.onEncounterObservations.emit(encounter);
 
     }
