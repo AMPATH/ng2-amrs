@@ -3,6 +3,7 @@ var db =
   , Promise = require('bluebird')
   , https = require('http')
   , config = require('../conf/config')
+  , moment = require('moment')
   , curl = require('curlrequest');
 
 var Sync = {
@@ -25,7 +26,6 @@ var Sync = {
     }
 
     // load records from sync queue
-
     setInterval(function() {
 
       if(!Sync.processing)
@@ -120,10 +120,38 @@ var Sync = {
     return new Promise(function(resolve, reject) {
 
       curl.request(options, function (err, parts) {
+
+        if (err) {
+
+          Sync.logError(patientUuId, err)
+            .then(function() {
+              resolve('str');
+            })
+            .catch(function(err) {
+              resolve('str');
+            });
+        } else {
+
           console.log('syncing single record done. ' + patientUuId);
           resolve('str');
+        }
+
       });
     });
+  },
+
+  logError: function(patientUuId, error) {
+
+    var table = 'etl.eid_sync_queue_errors';
+    var fields = [
+      {
+        person_uuid: patientUuId,
+        error: error,
+        date_created: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+      }
+    ];
+
+    return db.saveRecord(table, fields);
   },
 
   deleteProcessed: function(data) {
