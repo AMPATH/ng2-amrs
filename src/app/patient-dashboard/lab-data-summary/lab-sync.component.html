@@ -3,8 +3,8 @@
     <p>
       <i class="fa fa-spinner" aria-hidden="true"></i> Fetching results</p>
   </div>
-  <div class="alert" role="alert">
-    <p>New labs results synced</p>
+  <div class="alert" role="alert" style="margin-bottom:0;">
+    <p class="text-success">New labs results synced</p>
   </div>
   <table class="table">
     <thead>
@@ -32,6 +32,6 @@
   </table>
 </div>
 
-<div class="alert" role="alert">
-  <p>No lab new results synced</p>
+<div class="alert" role="alert" *ngIf="!results.length">
+  <p class="text-danger">No new lab results synced</p>
 </div>

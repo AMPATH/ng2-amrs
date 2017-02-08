@@ -197,10 +197,15 @@ app-patient-search .wrapper {
   padding-bottom: 80px;
 }
 
-.ladda-button[data-size=xs] .ladda-label {
-  font-size: 18px;
+app-patient-search .ladda-button .ladda-label {
+  font-size: 18px !important;
 }
 
 .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
   z-index: 0 !important;
+}
+
+.list-group-item a.formLink span.ladda-label {
+  display: inline-block;
+  z-index: 0;
 }
