@@ -5,18 +5,19 @@
   var nock = require('nock');
   var testRestUrl = 'http://testingurl:8080/openmrs';
   var encounterService = require('../../../service/openmrs-rest/encounter.js');
-  
+
   // Some setup
   var expect = chai.expect;
   chai.use(chaiAsPromised);
-  
+
   describe('Open MRS Encounter Service Unit Tests', function() {
     beforeEach(function() {
   		nock.disableNetConnect();
   	});
-   
+
   	afterEach(function() {
   		nock.cleanAll();
+      nock.enableNetConnect();
   	});
 
     var dummyResponse = {
@@ -48,7 +49,7 @@
         .get('/ws/rest/v1/encounter')
         .query({ patient: params.patientUuid, v: params.rep })
         .reply(200, dummyResponse);
-        
+
       var promise = encounterService.getPatientEncounters(params);
 
       expect(promise).to.be.resolved;

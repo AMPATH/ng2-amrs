@@ -9,13 +9,14 @@ var path = require('path');
 var _ = require('underscore');
 var Joi = require('joi');
 var eidLabData = require('./eid-data-synchronization/eid-lab-results');
+var eidService = require('./service/eid.service');
 var Boom = require('boom');
 var authorizer = require('./authorization/etl-authorizer');
 var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
-module.exports = function() {
+module.exports = function () {
 
   return [{
     method: 'GET',
@@ -24,7 +25,7 @@ module.exports = function() {
       plugins: {
         'hapiAuthorization': false
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
 
         console.log('default rote', request.path);
 
@@ -37,21 +38,21 @@ module.exports = function() {
     }
   },
   {
-      method: 'POST',
-      path: '/etl/forms/error',
-      config: {
-          auth: 'simple',
-          handler: function (request, reply) {
+    method: 'POST',
+    path: '/etl/forms/error',
+    config: {
+      auth: 'simple',
+      handler: function (request, reply) {
 
-            dao.logError(request, reply);
-          }
+        dao.logError(request, reply);
       }
+    }
   },
   {
     method: 'POST',
     path: '/javascript-errors',
     config: {
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         if (request.payload) {
           var logger = new winston.Logger({
             transports: [
@@ -87,7 +88,7 @@ module.exports = function() {
           role: privileges.canViewPatient
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatient(request, reply);
       }
     }
@@ -101,12 +102,12 @@ module.exports = function() {
           role: privileges.canViewPatient
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicalNotes(request, reply);
       },
       description: 'Get patient clinical notes',
       notes: 'Returns a list of notes constructed from several ' +
-        'patient information sources, particularly encounters',
+      'patient information sources, particularly encounters',
       tags: ['api'],
       validate: {
         options: {
@@ -129,7 +130,7 @@ module.exports = function() {
           role: privileges.canViewPatient
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatientVitals(request, reply);
       },
       description: 'Get patient vitals',
@@ -156,7 +157,7 @@ module.exports = function() {
           role: privileges.canViewPatient
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatientData(request, reply);
       },
       description: 'Get patient lab test data',
@@ -183,13 +184,13 @@ module.exports = function() {
           role: privileges.canViewPatient
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatientHivSummary(request, reply);
       },
       description: 'Get patient HIV summary',
       notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
-        "A patient's HIV summary includes details such as last appointment date, " +
-        "current ARV regimen etc. as at that encounter's date. ",
+      "A patient's HIV summary includes details such as last appointment date, " +
+      "current ARV regimen etc. as at that encounter's date. ",
       tags: ['api'],
       validate: {
         options: {
@@ -218,7 +219,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicEncounterData(request, reply);
       }
     }
@@ -238,7 +239,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicMonthlySummary(request, reply);
       },
       description: "Get a location's monthly appointment visits",
@@ -271,7 +272,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicHivSummayIndicators(request, reply);
       },
       description: "Get a location's HIV summary indicators",
@@ -304,7 +305,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicAppointmentSchedule(request, reply);
       },
       description: "Get a location's appointment schedule",
@@ -337,9 +338,9 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         preRequest.resolveLocationIdsToLocationUuids(request,
-          function() {
+          function () {
             dao.getPatientFlowData(request, reply);
           });
       },
@@ -353,41 +354,41 @@ module.exports = function() {
         params: {}
       }
     }
-  },{
-      method: 'GET',
-      path: '/etl/clinic-lab-orders-data',
-      config: {
-        auth: 'simple',
-        plugins: {
-          'hapiAuthorization': {
-            role: privileges.canViewClinicDashBoard
-          },
-          'openmrsLocationAuthorizer': {
-            locationParameter: [{
-              type: 'query', //can be in either query or params so you have to specify
-              name: 'locationUuids' //name of the location parameter
-            }]
-          }
+  }, {
+    method: 'GET',
+    path: '/etl/clinic-lab-orders-data',
+    config: {
+      auth: 'simple',
+      plugins: {
+        'hapiAuthorization': {
+          role: privileges.canViewClinicDashBoard
         },
-        handler: function(request, reply) {
-          preRequest.resolveLocationIdsToLocationUuids(request,
-              function() {
-                dao.getClinicLabOrdersData(request, reply);
-              });
-        },
-        description: "Get a location's lab orders data",
-        notes: "Returns a location's lab orders data with the given location uuid.",
-        tags: ['api'],
-        validate: {
-          options: {
-            allowUnknown: true
-          },
-          params: {}
+        'openmrsLocationAuthorizer': {
+          locationParameter: [{
+            type: 'query', //can be in either query or params so you have to specify
+            name: 'locationUuids' //name of the location parameter
+          }]
         }
+      },
+      handler: function (request, reply) {
+        preRequest.resolveLocationIdsToLocationUuids(request,
+          function () {
+            dao.getClinicLabOrdersData(request, reply);
+          });
+      },
+      description: "Get a location's lab orders data",
+      notes: "Returns a location's lab orders data with the given location uuid.",
+      tags: ['api'],
+      validate: {
+        options: {
+          allowUnknown: true
+        },
+        params: {}
       }
-    },
+    }
+  },
 
-    {
+  {
     method: 'GET',
     path: '/etl/location/{uuid}/daily-visits',
     config: {
@@ -403,7 +404,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicDailyVisits(request, reply);
       },
       description: "Get a location's daily visits",
@@ -436,7 +437,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getHasNotReturned(request, reply);
       },
       description: "Get a location's not returned visits",
@@ -469,7 +470,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicMonthlyAppointmentSchedule(request, reply);
       },
       description: "Get a location's monthly appointment schedule",
@@ -502,7 +503,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicMonthlyVisits(request, reply);
       },
       description: "Get a location's monthly visits",
@@ -524,7 +525,7 @@ module.exports = function() {
     path: '/etl/location/{uuid}/defaulter-list',
     config: {
       auth: 'simple',
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getClinicDefaulterList(request, reply);
       },
       plugins: {
@@ -555,7 +556,7 @@ module.exports = function() {
   }, {
     method: 'OPTIONS',
     path: '/{param*}',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
       // echo request headers back to caller (allow any requested)
       var additionalHeaders = [];
       if (request.headers['access-control-request-headers']) {
@@ -571,15 +572,15 @@ module.exports = function() {
     path: '/etl/custom_data/{userParams*3}',
     config: {
       auth: 'simple',
-      handler: function(request, reply) {
-          dao.getCustomData(request, reply);
-        }
-        /*
-         the rest request and query expression should be
-         /table/filter_column/filter/filter_value or
-         /table/filter_column/filter/filter_value?fields=(field1,field2,fieldn) or
+      handler: function (request, reply) {
+        dao.getCustomData(request, reply);
+      }
+      /*
+       the rest request and query expression should be
+       /table/filter_column/filter/filter_value or
+       /table/filter_column/filter/filter_value?fields=(field1,field2,fieldn) or
 
-         */
+       */
     }
   }, {
     method: 'GET',
@@ -597,7 +598,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatientCountGroupedByLocation(request, reply);
       },
       description: "Get patients created by period",
@@ -627,7 +628,7 @@ module.exports = function() {
           roles: [privileges.canViewDataEntryStats, privileges.canViewPatient]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatientDetailsGroupedByLocation(request, reply);
       },
       description: "Get details of patient created in a location",
@@ -742,14 +743,14 @@ module.exports = function() {
           ]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         //security check
         if (!authorizer.hasReportAccess(request.query.report)) {
           return reply(Boom.forbidden('Unauthorized'));
         }
 
         var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-        var onResolvedPromise = function(promise) {
+        var onResolvedPromise = function (promise) {
           asyncRequests--;
           if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
             dao.getReportIndicators(request, reply);
@@ -762,15 +763,15 @@ module.exports = function() {
           dao.getReportIndicators(request, reply);
         if (request.query.locationUuids) {
           dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-            function(results) {
+            function (results) {
               request.query.locations = results;
             }).onResolved = onResolvedPromise;
         }
       },
       description: 'Get report ',
       notes: "General api endpoint that returns a report by passing " +
-        "the report name parameter and a list of custom parameters " +
-        "depending on the report e.g start date, end date for MOH-731 report.",
+      "the report name parameter and a list of custom parameters " +
+      "depending on the report e.g start date, end date for MOH-731 report.",
       tags: ['api'],
       validate: {
         options: {
@@ -794,7 +795,7 @@ module.exports = function() {
           roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getPatientListByIndicator(request, reply);
       },
       description: 'Get patient list by indicator',
@@ -826,10 +827,10 @@ module.exports = function() {
           roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
-        var onResolvedPromise = function(promise) {
+        var onResolvedPromise = function (promise) {
           asyncRequests--;
           if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
             dao.getPatientByIndicatorAndLocation(request, reply);
@@ -846,7 +847,7 @@ module.exports = function() {
           dao.getPatientByIndicatorAndLocation(request, reply);
         if (request.query.locationUuids) {
           dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-            function(results) {
+            function (results) {
               request.query.locations = results;
             }).onResolved = onResolvedPromise;
         }
@@ -884,7 +885,7 @@ module.exports = function() {
           }]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
 
         if (request.params.sub === 'patientList' &&
           !authorizer.hasPrivilege(privileges.canViewPatient)) {
@@ -893,7 +894,7 @@ module.exports = function() {
 
         var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
-        var onResolvedPromise = function(promise) {
+        var onResolvedPromise = function (promise) {
           asyncRequests--;
           if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
             dao.getDataEntryIndicators(request.params.sub, request, reply);
@@ -917,20 +918,20 @@ module.exports = function() {
 
         if (request.query.formUuids) {
           dao.getIdsByUuidAsyc('amrs.form', 'form_id', 'uuid', request.query.formUuids,
-            function(results) {
+            function (results) {
               request.query.formIds = results;
             }).onResolved = onResolvedPromise;
         }
         if (request.query.encounterTypeUuids) {
 
           dao.getIdsByUuidAsyc('amrs.encounter_type', 'encounter_type_id', 'uuid', request.query.encounterTypeUuids,
-            function(results) {
+            function (results) {
               request.query.encounterTypeIds = results;
             }).onResolved = onResolvedPromise;
         }
         if (request.query.locationUuids) {
           dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-            function(results) {
+            function (results) {
               request.query.locationIds = results;
             }).onResolved = onResolvedPromise;
         }
@@ -951,7 +952,7 @@ module.exports = function() {
           role: privileges.canViewDataAnalytics
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         //security check
         if (!authorizer.hasReportAccess(request.query.report)) {
           return reply(Boom.forbidden('Unauthorized'));
@@ -985,7 +986,7 @@ module.exports = function() {
           role: privileges.canViewDataAnalytics
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getIndicatorsSchemaWithSections(request, reply);
       }
 
@@ -1000,7 +1001,7 @@ module.exports = function() {
           roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.getHivSummaryData(request, reply);
       }
 
@@ -1015,10 +1016,10 @@ module.exports = function() {
           roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
-        var onResolvedPromise = function(promise) {
+        var onResolvedPromise = function (promise) {
           asyncRequests--;
           if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
             dao.getPatientListReportByIndicatorAndLocation(request, reply);
@@ -1035,7 +1036,7 @@ module.exports = function() {
           dao.getPatientListReportByIndicatorAndLocation(request, reply);
         if (request.query.locationUuids) {
           dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-            function(results) {
+            function (results) {
               request.query.locations = results;
             }).onResolved = onResolvedPromise;
         }
@@ -1046,7 +1047,7 @@ module.exports = function() {
     path: '/etl/patient-lab-orders',
     config: {
       auth: 'simple',
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         if (config.eidSyncOn === true)
           eidLabData.getPatientLabResults(request, reply);
         else
@@ -1063,7 +1064,7 @@ module.exports = function() {
           role: privileges.canViewPatient
         }
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.postLabOrderToEid(request, reply);
       }
     }
@@ -1072,7 +1073,7 @@ module.exports = function() {
     path: '/etl/session/invalidate',
     config: {
       auth: 'simple',
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         dao.invalidateUserSession(request, reply);
       }
     }
@@ -1084,7 +1085,7 @@ module.exports = function() {
       plugins: {
         'hapiAuthorization': false
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
 
         var eidSyncApiKey = config.eidSyncApiKey;
         var headers = request.headers;
@@ -1122,7 +1123,7 @@ module.exports = function() {
       plugins: {
         'hapiAuthorization': false
       },
-      handler: function(request, reply) {
+      handler: function (request, reply) {
 
         var eidSyncApiKey = config.eidSyncApiKey;
         var headers = request.headers;
@@ -1144,7 +1145,7 @@ module.exports = function() {
     path: '/etl/eid/load-order-justifications',
     config: {
       auth: 'simple',
-      handler: function(request, reply) {
+      handler: function (request, reply) {
 
         dao.loadOrderJustifications(request, reply);
       },
@@ -1157,7 +1158,7 @@ module.exports = function() {
     path: '/etl/fileupload',
     config: {
       auth: 'simple',
-      handler: function(request, reply) {
+      handler: function (request, reply) {
         var replyPayload = {};
         var image = etlHelpers.decodeBase64Image(request.payload.data);
         var imageTypeRegularExpression = /\/(.*?)$/;
@@ -1175,11 +1176,11 @@ module.exports = function() {
           imageTypeDetected[1];
         try {
           require('fs').writeFile(userUploadedImagePath, image.data,
-            function() {
+            function () {
               replyPayload = {
                 image: uniqueSHA1String +
-                  '.' +
-                  imageTypeDetected[1]
+                '.' +
+                imageTypeDetected[1]
               };
               reply(replyPayload);
               console.log('DEBUG - feed:message: Saved to disk image attached by user:', userUploadedImagePath);
@@ -1204,6 +1205,30 @@ module.exports = function() {
           redirectToSlash: true,
           index: true
         }
+      }
+    }
+  }, {
+    method: 'GET',
+    path: '/etl/eid/patients-with-results',
+    config: {
+      auth: 'simple',
+      plugins: {
+        'hapiAuthorization': false
+      },
+      handler: function (request, reply) {
+        if (request.query.startDate && request.query.endDate) {
+          eidService.getPatientsWithEidResults(request.query.startDate,
+            request.query.endDate)
+            .then(function (response) {
+              reply(response);
+            })
+            .catch(function (error) {
+              reply(Boom.badImplementation('A server error occured'))
+            });
+        } else {
+          reply(Boom.badRequest('startDate and endDate required'));
+        }
+
       }
     }
   }];

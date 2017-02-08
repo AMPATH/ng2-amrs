@@ -18,7 +18,7 @@ global.assert = chai.assert;
 var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
-describe.only('EID-OBS COMPARE TESTS', function () {
+describe('EID-OBS COMPARE TESTS', function () {
 
     beforeEach(function (done) {
 
