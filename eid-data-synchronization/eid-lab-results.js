@@ -1,34 +1,41 @@
 'use strict';
-var eidService=require('./../service/eid.service');
-var eidSyncLog=require('../dao/eid/eid-sync-log');
-var obs=require('../service/openmrs-rest/obs.service');
+var eidService = require('./../service/eid.service');
+var eidSyncLog = require('../dao/eid/eid-sync-log');
+var obs = require('../service/openmrs-rest/obs.service');
 
 module.exports = {
   getPatientLabResults: getPatientLabResults
 }
 
-function getPatientLabResults(request,reply) {
+function getPatientLabResults(request, reply) {
 
-  eidSyncLog.getEidSyncLog(request, function(result) {
+  eidSyncLog.getEidSyncLog(request, function (result) {
 
     var patientHasEverBeenSynced = false;
-    if(result.result.length > 0)
+    if (result.result.length > 0)
       patientHasEverBeenSynced = true;
 
-    if(patientHasEverBeenSynced)
-      if(result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6)
+    if (patientHasEverBeenSynced) {
+      if (result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6) {
+        console.log('Patient synced..');
         obs.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId)
-        .then(function(response) {
+          .then(function (response) {
 
-          reply({
-            updatedObs:response,
-            last_sync_date: result.result[0]['date_updated']
+            reply({
+              updatedObs: response,
+              last_sync_date: result.result[0]['date_updated']
+            });
           });
-        });
-      else
+      }
+      else {
+        console.log('Syncing patient...');
         syncAndGetPatientLabResults(request, reply);
-   else
-     syncAndGetPatientLabResults(request, reply);
+      }
+    }
+    else {
+      console.log('Syncing patient...');
+      syncAndGetPatientLabResults(request, reply);
+    }
   });
 }
 
@@ -37,33 +44,33 @@ function syncAndGetPatientLabResults(request, reply) {
   var patientUuId = request.query.patientUuId;
 
   eidService.getSynchronizedPatientLabResults(patientUuId)
-    .then(function(response) {
+    .then(function (response) {
 
-      eidSyncLog.getEidSyncLog(request, function(result) {
+      eidSyncLog.getEidSyncLog(request, function (result) {
 
         var patientHasEverBeenSynced = false;
-        if(result.result.length > 0)
+        if (result.result.length > 0)
           patientHasEverBeenSynced = true;
-        if(patientHasEverBeenSynced)
-          if(result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6)
+        if (patientHasEverBeenSynced)
+          if (result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6)
             obs.getPatientTodaysTestObsByPatientUuId(patientUuId)
-            .then(function(response) {
-              reply({
-                updatedObs:response,
-                last_sync_date: result.result[0]['date_updated']
-               });
-            });
+              .then(function (response) {
+                reply({
+                  updatedObs: response,
+                  last_sync_date: result.result[0]['date_updated']
+                });
+              });
           else
             reply({
               updatedObs: []
             })
-       else
-         reply({
-           updatedObs: []
-         })
+        else
+          reply({
+            updatedObs: []
+          })
       });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       reply({
         updatedObs: []
       })
