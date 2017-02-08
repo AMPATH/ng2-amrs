@@ -1,43 +1,28 @@
-/* tslint:disable:no-unused-variable */
+/**
+ * concept-class
+ */
+import { BaseModel } from './base-model.model';
+import { serializable } from './serializable.decorator';
 
-// import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
+export class ConceptClass extends BaseModel {
+  constructor(openmrsModel?: any) {
+    super(openmrsModel);
+  }
 
-import { Concept } from './concept-model';
+  @serializable()
+  public get name(): string {
+    return this._openmrsModel.name;
+  }
 
-describe('Model: Concept', () => {
+  @serializable()
+  public get description(): string {
+    return this._openmrsModel.description;
+  }
 
-  let existingConcept: any = {
-    uuid: 'uuid',
-    display: 'concept',
-    conceptName: {
-      name: 'name'
-    }
-    conceptClass: {
-      name: 'name'
-    }
-  };
-
-  it('should wrap openmrs Concept for display correctly', () => {
-    let wrappedConcept: Concept = new Concept(existingConcept);
-    expect(wrappedConcept.uuid).toEqual(existingConcept.uuid);
-    expect(wrappedConcept.display).toEqual(existingConcept.display);
-    expect(wrappedConcept.conceptName.name).toEqual(existingConcept.conceptName.name);
-    expect(wrappedConcept.conceptClass.name).toEqual(existingConcept.conceptClass.name);
-
-  });
-
-  it('should generate an existing concept payload correctly', () => {
-    let wrappedConcept: Concept = new Concept(existingConcept);
-    let newPayload: any = wrappedConcept.toUpdatePayload();
-    expect(newPayload.uuid).toEqual(undefined);
-    expect(newPayload.display).toEqual(undefined);
-    expect(wrappedConcept.conceptName.name).toEqual(existingConcept.conceptName.name);
-    expect(wrappedConcept.conceptClass.name).toEqual(existingConcept.conceptClass.name);
-
-  });
-
-});
-
-
+  @serializable()
+  public get retired(): string {
+    return this._openmrsModel.retired;
+  }
+}
 
 

@@ -1,8 +1,8 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location  } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
@@ -19,13 +19,16 @@ describe('Component: Clinical notes Unit Tests', () => {
 
   let notesResourceService: ClinicalNotesResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
-
+  class FakeActivatedRoute {
+    url = '';
+  }
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
         BaseRequestOptions,
         FakeAppFeatureAnalytics,
+        ClinicalNotesComponent,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -41,21 +44,17 @@ describe('Component: Clinical notes Unit Tests', () => {
           provide: ClinicalNotesResourceService,
           useClass: MockClinicalNotesResourceService
         },
-        { provide : Location, useClass: SpyLocation },
-        { provide : ActivatedRoute, useValue : new ActivatedRoute()  },
+        { provide: Location, useClass: SpyLocation },
+        { provide: ActivatedRoute, useValue: FakeActivatedRoute },
         AppSettingsService,
-        { provide : ClinicalNotesHelperService , useValue: new ClinicalNotesHelperService() },
+        { provide: ClinicalNotesHelperService, useValue: new ClinicalNotesHelperService() },
         LocalStorageService
       ]
     });
 
     notesResourceService = TestBed.get(ClinicalNotesResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new ClinicalNotesComponent(
-      ActivatedRoute,
-      notesResourceService,
-      fakeAppFeatureAnalytics
-    );
+    component = TestBed.get(ClinicalNotesComponent);
 
   });
 

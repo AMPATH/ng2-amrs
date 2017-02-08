@@ -6,12 +6,11 @@ import { PersonResourceService } from './person-resource.service';
 /**
  * FakeProgramEnrollmentResourceService
  */
-export class FakeProviderResourceService extends ProviderResourceService {
+export class FakeProviderResourceService {
   returnErrorOnNext: boolean = false;
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-             protected personService: PersonResourceService) {
-    super(http, appSettingsService, personService);
+    protected personService: PersonResourceService) {
   }
 
   public getProviderByUuid(uuid: string): Observable<any> {
@@ -51,7 +50,7 @@ export class FakeProviderResourceService extends ProviderResourceService {
     return subject;
   }
   searchProvider(searchText: string,
-                cached: boolean = false, v: string = null): Observable<any> {
+    cached: boolean = false, v: string = null): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let provider = [
       {

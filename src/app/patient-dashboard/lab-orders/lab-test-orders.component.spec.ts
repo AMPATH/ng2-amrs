@@ -9,6 +9,12 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { OrderResourceService } from '../../openmrs-api/order-resource.service';
 import { LabTestOrdersComponent } from './lab-test-orders.component';
+import { PatientService } from '../patient.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import {
+  ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 describe('Component: Lab Test Orders Unit Tests', () => {
 
@@ -21,7 +27,11 @@ describe('Component: Lab Test Orders Unit Tests', () => {
         MockBackend,
         BaseRequestOptions,
         FakeAppFeatureAnalytics,
-
+        LabTestOrdersComponent,
+        PatientService,
+        EncounterResourceService,
+        ProgramEnrollmentResourceService,
+        PatientResourceService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -43,9 +53,7 @@ describe('Component: Lab Test Orders Unit Tests', () => {
 
     orderResourceService = TestBed.get(OrderResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new LabTestOrdersComponent(orderResourceService,
-      fakeAppFeatureAnalytics);
-
+    component = TestBed.get(LabTestOrdersComponent);
   });
 
   afterEach(() => {
@@ -69,7 +77,7 @@ describe('Component: Lab Test Orders Unit Tests', () => {
     component.getPatientLabOrders('report', 'uuid', (err, data) => { });
     expect(component.getPatientLabOrders).toHaveBeenCalled();
     spyOn(component, 'getCurrentlyLoadedPatient').and.callFake((err, data) => { });
-    component.getCurrentlyLoadedPatient( (err, data) => { });
+    component.getCurrentlyLoadedPatient((err, data) => { });
     expect(component.getCurrentlyLoadedPatient).toHaveBeenCalled();
 
 

@@ -2,10 +2,8 @@
  * @author: @AngularClass
  */
 
-const autowatch = process.env.npm_lifecycle_script.indexOf('--auto-watch') !== -1;
-
-module.exports = function(config) {
-  var testWebpackConfig = require('./webpack.test.js')({env: 'test'});
+module.exports = function (config) {
+  var testWebpackConfig = require('./webpack.test.js')({ env: 'test' });
 
   var configuration = {
 
@@ -20,7 +18,11 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     // list of files to exclude
-    exclude: [ ],
+    exclude: [],
+
+    client: {
+      captureConsole: false
+    },
 
     /*
      * list of files / patterns to load in the browser
@@ -28,22 +30,47 @@ module.exports = function(config) {
      * we are building the test environment in ./spec-bundle.js
      */
     files: [
-      'node_modules/jquery/dist/jquery.slim.min.js',
-      { pattern: './config/spec-bundle.js', watched: false }
+      { pattern: './config/spec-bundle.js', watched: false },
+      { pattern: './src/assets/**/*', watched: false, included: false, served: true, nocache: false }
     ],
+
+    /*
+     * By default all assets are served at http://localhost:[PORT]/base/
+     */
+    proxies: {
+      "/assets/": "/base/src/assets/"
+    },
 
     /*
      * preprocess matching files before serving them to the browser
      * available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
      */
-    // skip coverage in watch mode
-    preprocessors: { './config/spec-bundle.js': autowatch ? ['webpack', 'sourcemap'] : ['coverage', 'webpack', 'sourcemap'] },
+    preprocessors: { './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
 
     // Webpack Config at ./webpack.test.js
     webpack: testWebpackConfig,
 
+    coverageReporter: {
+      type: 'in-memory'
+    },
+
+    remapCoverageReporter: {
+      'text-summary': null,
+      json: './coverage/coverage.json',
+      html: './coverage/html'
+    },
+
     // Webpack please don't spam the console when running in karma!
-    webpackServer: { noInfo: true },
+    webpackMiddleware: {
+      // webpack-dev-middleware configuration
+      // i.e.
+      noInfo: true,
+      // and use stats to turn off verbose output
+      stats: {
+        // options i.e. 
+        chunks: false
+      }
+    },
 
     /*
      * test results reporter to use
@@ -51,7 +78,7 @@ module.exports = function(config) {
      * possible values: 'dots', 'progress'
      * available reporters: https://npmjs.org/browse/keyword/karma-reporter
      */
-    reporters: [ 'mocha'],
+    reporters: ['mocha', 'coverage', 'remap-coverage'],
 
     // web server port
     port: 9876,
@@ -63,7 +90,7 @@ module.exports = function(config) {
      * level of logging
      * possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
      */
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_WARN,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
@@ -87,28 +114,13 @@ module.exports = function(config) {
      * Continuous Integration mode
      * if true, Karma captures browsers, runs the tests and exits
      */
-    singleRun: true,
-    browserDisconnectTimeout: 10000,
-    browserDisconnectTolerance: 1,
-    browserNoActivityTimeout: 60000
+    singleRun: true
   };
 
-  if (process.env.TRAVIS){
-    configuration.browsers = ['ChromeTravisCi'];
-  }
-
-  // skip coverage in watch mode
-  if (!autowatch) {
-      configuration.reporters.push('coverage');
-      configuration.coverageReporter = {
-      dir : 'coverage/',
-      reporters: [
-        { type: 'text-summary' },
-        { type: 'json' },
-        { type: 'html' }
-      ]
-    };
-
+  if (process.env.TRAVIS) {
+    configuration.browsers = [
+      'ChromeTravisCi'
+    ];
   }
 
   config.set(configuration);

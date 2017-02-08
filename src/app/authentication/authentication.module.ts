@@ -14,8 +14,7 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     CommonModule,
     authRouting,
     Ng2Bs3ModalModule,
-    NgamrsSharedModule,
-    MainDashboardModule
+    NgamrsSharedModule
   ],
   declarations: [
     LoginComponent,
