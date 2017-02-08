@@ -23,6 +23,10 @@
   padding: 11px 16px 10px 16px;
 }
 
+.ladda-button[data-size=xs] .ladda-label {
+  font-size: 18px !important;
+}
+
 .form-control:focus {
   border-color: #f1f1f1;
 }

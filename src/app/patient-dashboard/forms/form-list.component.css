@@ -44,6 +44,15 @@ div.list-group-item:hover {
   background: none !important;
 }
 
+.list-group-item a {
+  float: left;
+}
+
+.list-group-item a.formLink span.ladda-label {
+  display: inline-block;
+  z-index: 0;
+}
+
 .ladda-button[disabled], .ladda-button[data-loading], .ladda-button:hover {
     border-color: transparent;
 }
