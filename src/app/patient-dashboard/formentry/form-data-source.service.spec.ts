@@ -57,7 +57,7 @@ describe('Service: FormDataSourceService', () => {
     result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
-      expect(results[0].value).toEqual('uuid');
+      expect(results[0]['value']).toEqual('uuid');
       done();
     });
 

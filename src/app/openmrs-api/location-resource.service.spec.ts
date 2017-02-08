@@ -71,7 +71,6 @@ describe('LocationResourceService Unit Tests', () => {
           .subscribe((response) => {
             expect(response).toContain({ uuid: 'uuid', display: 'location' });
             expect(response).toBeDefined();
-            expect(response.length).toBeGreaterThan(0);
 
           });
       }));

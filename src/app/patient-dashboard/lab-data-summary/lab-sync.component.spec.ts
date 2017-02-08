@@ -16,9 +16,9 @@ export class FakeTranslatePipe implements PipeTransform {
         return value;
     }
 }
-describe('EnterTheComponentName', () => {
+describe('LabSyncComponent', () => {
     let fakePatientService = {
-        currentlyLoadedPatient: Observable.of({ uuid: '', person: { uuid: 'persion_uui' } });
+        currentlyLoadedPatient: Observable.of({ uuid: '', person: { uuid: 'persion_uui' } })
     };
     let fakeLabsServiceName = {
         getNewPatientLabResults: (args) => {

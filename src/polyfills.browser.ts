@@ -32,7 +32,7 @@ import 'zone.js/dist/zone';
 
 // Typescript emit helpers polyfill
 import 'ts-helpers';
-
+import 'web-animations-js/web-animations.min';
 if ('production' === ENV) {
   // Production
 

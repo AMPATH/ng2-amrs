@@ -58,7 +58,7 @@ describe('Service: FormSubmissionService', () => {
   };
 
   // previous encs
-  let renderableForm: Form = {
+  let renderableForm = {
     valid: true,
     schema: schema,
     valueProcessingInfo: {
@@ -75,7 +75,7 @@ describe('Service: FormSubmissionService', () => {
       return [];
     }
 
-  };
+  } as Form;
 
   // sample submission error
   let sampleSubmissionError: any = {
@@ -166,7 +166,7 @@ describe('Service: FormSubmissionService', () => {
             ];
           });
 
-        formSchemaService.submitPayload(renderableForm);
+        formSchemaService.submitPayload(renderableForm as Form);
         expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
         expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
       })
@@ -211,7 +211,7 @@ describe('Service: FormSubmissionService', () => {
             ];
           });
         renderableForm.valueProcessingInfo.encounterUuid = 'sample-uuid';
-        formSchemaService.submitPayload(renderableForm);
+        formSchemaService.submitPayload(renderableForm as Form);
         expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
         expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
       })
@@ -244,7 +244,7 @@ describe('Service: FormSubmissionService', () => {
             return []; // setting it to empty
           });
         // renderable form has no obs, no orders, no encounter and no person attribute
-        formSchemaService.submitPayload(renderableForm);
+        formSchemaService.submitPayload(renderableForm as Form);
         expect(personResourceService.saveUpdatePerson).not.toHaveBeenCalled();
       })
   );
@@ -283,7 +283,7 @@ describe('Service: FormSubmissionService', () => {
             return [];
           });
         // renderable form has no obs, no orders, no encounter
-        formSchemaService.submitPayload(renderableForm);
+        formSchemaService.submitPayload(renderableForm as Form);
         expect(encounterResourceService.saveEncounter).not.toHaveBeenCalled();
         expect(encounterResourceService.updateEncounter).not.toHaveBeenCalled();
       })
@@ -324,7 +324,7 @@ describe('Service: FormSubmissionService', () => {
           });
         // renderable form has no obs, no orders, no encounter
         renderableForm.valueProcessingInfo.encounterUuid = 'sample-uuid';
-        formSchemaService.submitPayload(renderableForm);
+        formSchemaService.submitPayload(renderableForm as Form);
         expect(encounterResourceService.saveEncounter).not.toHaveBeenCalled();
         expect(encounterResourceService.updateEncounter).not.toHaveBeenCalled();
       })
@@ -374,7 +374,7 @@ describe('Service: FormSubmissionService', () => {
         // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm).subscribe(
+        formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
@@ -436,7 +436,7 @@ describe('Service: FormSubmissionService', () => {
         // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm).subscribe(
+        formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
@@ -499,7 +499,7 @@ describe('Service: FormSubmissionService', () => {
         // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm).subscribe(
+        formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;

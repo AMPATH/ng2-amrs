@@ -39,7 +39,7 @@ npm-debug.log
 
 # Coverage #
 /coverage/
-
+/dll
 # Typing #
 /src/typings/tsd/
 /typings/

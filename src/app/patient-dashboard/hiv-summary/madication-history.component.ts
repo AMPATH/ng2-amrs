@@ -4,6 +4,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { MedicationHistoryResourceService } from
   '../../etl-api/medication-history-resource.service';
 import { PatientService } from '../patient.service';
+
 @Component({
   selector: 'medication-change-history',
   templateUrl: 'medication-history.component.html',
@@ -14,16 +15,16 @@ export class MedicationHistoryComponent implements OnInit {
   patient: any;
   errors: any;
 
-  constructor(private medicationHistoryResourceService: MedicationHistoryResourceService ,
-              private patientService: PatientService) {
+  constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
+    private patientService: PatientService) {
   }
 
-  fetchMedicationHistory( report , patientUuid): void {
+  fetchMedicationHistory(report, patientUuid): void {
     this.medicationHistoryResourceService.getReport(report, patientUuid)
       .subscribe(
-        (medication) => {
-          this.encounters = medication.result;
-        }
+      (medication) => {
+        this.encounters = medication.result;
+      }
       );
   }
 

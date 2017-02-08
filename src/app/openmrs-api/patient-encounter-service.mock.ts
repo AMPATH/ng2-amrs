@@ -5,10 +5,9 @@ import { EncounterResourceService } from '../openmrs-api/encounter-resource.serv
 /**
  * FakeEncounterResourceService
  */
-export class FakeEncounterResourceService extends EncounterResourceService {
+export class FakeEncounterResourceService {
     returnErrorOnNext: boolean = false;
     constructor() {
-        super();
     }
     getEncountersByPatientUuid(
         patientuuid: string,

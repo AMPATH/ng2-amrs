@@ -8,6 +8,9 @@ import { DataTablesComponent } from './components/datatables.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
 import { Ng2FilterPipe } from './pipes/ng2-filter.pipe';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
+import { OnlineTrackerComponent } from '../online-tracker';
+import { BuildVersionComponent } from '../build-version';
+
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -30,9 +33,12 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
         OpenmrsApi
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
-        DataTablesComponent, StringToDatePipe, Ng2FilterPipe],
+        DataTablesComponent, StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
+        BuildVersionComponent],
     declarations: [
-        DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe
+        DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe,
+        OnlineTrackerComponent,
+        BuildVersionComponent
     ],
     providers: [Ng2FilterPipe, StringToDatePipe],
 })

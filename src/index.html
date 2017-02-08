@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="<%= webpackConfig.metadata.title %>">
+	<meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
 
 	<title>
 		Ampath P.O.C
@@ -19,51 +19,52 @@
 
 	<!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
 	<script type="text/javascript">
-	var _paq = _paq || [];
-	_paq.push(["setDomains", ["*.localhost"]]);
-	_paq.push(['trackPageView']);
-	_paq.push(['enableLinkTracking']);
-	(function () {
-		var u = "//test1.ampath.or.ke/piwik/";
-		_paq.push(['setTrackerUrl', u + 'piwik.php']);
-		_paq.push(['setSiteId', '4']);
-		var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-		g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'piwik.js'; s.parentNode.insertBefore(g, s);
-	})();
-</script>
-<script type="text/javascript">
-    /*window.onbeforeunload = function() {
+		var _paq = _paq || [];
+		_paq.push(["setDomains", ["*.localhost"]]);
+		_paq.push(['trackPageView']);
+		_paq.push(['enableLinkTracking']);
+		(function () {
+			var u = "//test1.ampath.or.ke/piwik/";
+			_paq.push(['setTrackerUrl', u + 'piwik.php']);
+			_paq.push(['setSiteId', '4']);
+			var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+			g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'piwik.js'; s.parentNode.insertBefore(g, s);
+		})();
+	</script>
+	<script type="text/javascript">
+		/*window.onbeforeunload = function() {
         return "Are you sure you want to exit the page?";
     }*/
-</script>
-<noscript>
-	<p>
-		<img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt="" /></p>
-</noscript>
-<!-- End Piwik Code -->
+
+	</script>
+	<noscript>
+		<p>
+			<img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt="" /></p>
+	</noscript>
+	<!-- End Piwik Code -->
 
 
-<% if (webpackConfig.htmlElements.headTags) { %>
-	<!-- Configured Head Tags  -->
-	<%= webpackConfig.htmlElements.headTags %>
+	<% if (webpackConfig.htmlElements.headTags) { %>
+		<!-- Configured Head Tags  -->
+		<%= webpackConfig.htmlElements.headTags %>
+			<% } %>
+
+				<!-- base url -->
+				<base href="<%= htmlWebpackPlugin.options.baseUrl %>">
+
+
+</head>
+
+<body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
+
+	<app>
+		Loading...
+	</app>
+
+	<% if (htmlWebpackPlugin.options.isDevServer && htmlWebpackPlugin.options.HMR !== true) { %>
+		<!-- Webpack Dev Server reload -->
+		<script src="/webpack-dev-server.js"></script>
 		<% } %>
+</body>
 
-			<!-- base url -->
-			<base href="<%= webpackConfig.metadata.baseUrl %>">
-
-
-			</head>
-
-			<body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
-
-				<app>
-					Loading...
-				</app>
-
-				<% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
-					<!-- Webpack Dev Server reload -->
-					<script src="/webpack-dev-server.js"></script>
-					<% } %>
-			</body>
-
-			</html>
+</html>

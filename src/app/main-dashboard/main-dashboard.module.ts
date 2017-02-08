@@ -9,8 +9,7 @@ import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.m
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
 import { UserService } from '../openmrs-api/user.service';
-import { OnlineTrackerComponent } from '../online-tracker';
-import { BuildVersionComponent } from '../build-version';
+
 
 @NgModule({
   imports: [
@@ -20,19 +19,14 @@ import { BuildVersionComponent } from '../build-version';
     NgamrsSharedModule
   ],
   declarations: [
-    MainDashboardComponent,
-
-    OnlineTrackerComponent,
-    BuildVersionComponent
+    MainDashboardComponent
   ],
   providers: [
     MainDashboardGuard,
     UserService
   ],
   exports: [
-    MainDashboardComponent,
-    OnlineTrackerComponent,
-    BuildVersionComponent
+    MainDashboardComponent
   ]
 })
 export class MainDashboardModule { }

@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class FakeEncounterResourceService {
   v: string = 'custom:(uuid,encounterDatetime,' +
-    'patient:(uuid,uuid),form:(uuid,name),' +
-    'location:ref,encounterType:ref,provider:ref)';
+  'patient:(uuid,uuid),form:(uuid,name),' +
+  'location:ref,encounterType:ref,provider:ref)';
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
   getUrl(): string {
@@ -16,8 +16,8 @@ export class FakeEncounterResourceService {
   }
 
   getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
-                             v: string = null): Observable<any> {
-    return [
+    v: string = null): Observable<any> {
+    return Observable.of([
       {
         'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
         'encounterDatetime': '2011-02-09T00:00:00.000+0300',
@@ -38,11 +38,11 @@ export class FakeEncounterResourceService {
             }
           ]
         }
-      }];
+      }]);
   }
   getEncounterByUuid(uuid: string): Observable<any> {
 
-    return {
+    return Observable.of({
       'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
       'encounterDatetime': '2011-02-09T00:00:00.000+0300',
       'patient': {
@@ -62,7 +62,7 @@ export class FakeEncounterResourceService {
           }
         ]
       }
-    };
+    });
 
   }
   getEncounterTypes(v: string) {

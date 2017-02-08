@@ -10,6 +10,12 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 import { MedicationHistoryComponent } from './madication-history.component';
 import { MedicationHistoryResourceService } from
   '../../etl-api/medication-history-resource.service';
+import { PatientService } from '../patient.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import {
+  ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 describe('Component: Medication History Unit Tests', () => {
 
@@ -20,9 +26,13 @@ describe('Component: Medication History Unit Tests', () => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
+        PatientService,
         BaseRequestOptions,
         FakeAppFeatureAnalytics,
-
+        MedicationHistoryComponent,
+        PatientResourceService,
+        ProgramEnrollmentResourceService,
+        EncounterResourceService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -44,9 +54,7 @@ describe('Component: Medication History Unit Tests', () => {
 
     medicationHistoryResourceService = TestBed.get(MedicationHistoryResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new MedicationHistoryComponent(medicationHistoryResourceService,
-      fakeAppFeatureAnalytics);
-
+    component = TestBed.get(MedicationHistoryComponent);
   });
 
   afterEach(() => {
@@ -61,7 +69,7 @@ describe('Component: Medication History Unit Tests', () => {
   });
 
   it('should have required properties', (done) => {
-     expect(component.encounters.length).toBe(0);
+    expect(component.encounters.length).toBe(0);
     done();
 
   });
@@ -71,7 +79,7 @@ describe('Component: Medication History Unit Tests', () => {
     component.fetchMedicationHistory('report', 'uuid', (err, data) => { });
     expect(component.fetchMedicationHistory).toHaveBeenCalled();
     spyOn(component, 'getPatient').and.callFake((err, data) => { });
-    component.getPatient( (err, data) => { });
+    component.getPatient((err, data) => { });
     expect(component.getPatient).toHaveBeenCalled();
 
 

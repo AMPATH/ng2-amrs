@@ -10,7 +10,10 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { AddressComponent } from './address.component';
 import { PatientService } from '../patient.service';
-
+import {
+  ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 describe('Component: Address Unit Tests', () => {
 
@@ -21,10 +24,12 @@ describe('Component: Address Unit Tests', () => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
+        ProgramEnrollmentResourceService,
+        EncounterResourceService,
         BaseRequestOptions,
         FakeAppFeatureAnalytics,
         PatientService,
-
+        AddressComponent,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -46,9 +51,7 @@ describe('Component: Address Unit Tests', () => {
 
     patientResourceService = TestBed.get(PatientResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new AddressComponent(patientResourceService,
-      fakeAppFeatureAnalytics);
-
+    component = TestBed.get(AddressComponent);
   });
 
   afterEach(() => {
@@ -62,7 +65,7 @@ describe('Component: Address Unit Tests', () => {
   });
   it('should have  the required functions defined and callable', (done) => {
     spyOn(component, 'getPatient').and.callFake((err, data) => { });
-    component.getPatient( (err, data) => { });
+    component.getPatient((err, data) => { });
     expect(component.getPatient).toHaveBeenCalled();
     done();
 

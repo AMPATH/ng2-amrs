@@ -72,7 +72,7 @@ describe('Component: FormentryComponent', () => {
         visit: '85a7746e-4d8d-4722-b3eb-ce79195266de',
     };
 
-    let renderableForm: Form = {
+    let renderableForm = {
         valid: true,
         schema: schema,
         valueProcessingInfo: {
@@ -88,7 +88,7 @@ describe('Component: FormentryComponent', () => {
             return [];
         }
 
-    };
+    } as Form;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
