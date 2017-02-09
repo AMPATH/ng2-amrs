@@ -1,5 +1,5 @@
-var db =
-  require('../etl-db')
+var
+  db = require('../etl-db')
   , Promise = require('bluebird')
   , https = require('http')
   , config = require('../conf/config')
@@ -105,7 +105,9 @@ var Sync = {
 
     console.log('syncing single record. ' + patientUuId);
 
-    var url = 'http://' + config.etl.host + ':' + config.etl.port + '/etl/patient-lab-orders?patientUuId=' + patientUuId;
+    var protocol = config.etl.tls ? 'https' : 'http';
+
+    var url = protocol + '://' + config.etl.host + ':' + config.etl.port + '/etl/patient-lab-orders?patientUuId=' + patientUuId;
 
     var usernamePass = config.eidSyncCredentials.username + ":" + config.eidSyncCredentials.password;
     var auth = "Basic " + new Buffer(usernamePass).toString('base64');
