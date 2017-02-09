@@ -121,7 +121,7 @@ describe('Component: Visit', () => {
             });
     }));
 
-    it('should should render visit types table when visit types are loaded',
+    it('should render visit types table when visit types are loaded',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.getVisitTypes();
             fixture.detectChanges();
@@ -132,7 +132,7 @@ describe('Component: Visit', () => {
             expect(trs.length).toBe(2);
         }));
 
-    it('should should start a visit when startVisit is called',
+    it('should start a visit when startVisit is called',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.startVisit('uuid');
             expect(comp.visit).toBeTruthy();
@@ -141,7 +141,7 @@ describe('Component: Visit', () => {
             expect(comp.visit.voided).toBeFalsy();
         }));
 
-    it('should should start a visit when the visit button is clicked',
+    it('should start a visit when the visit button is clicked',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.getVisitTypes();
             fixture.detectChanges();
@@ -151,7 +151,7 @@ describe('Component: Visit', () => {
             fixture.detectChanges();
         }));
 
-    it('should should hide visit types table if a visit is already started',
+    it('should hide visit types table if a visit is already started',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.ngOnInit();
             fixture.detectChanges();
@@ -161,7 +161,7 @@ describe('Component: Visit', () => {
             expect(table.length).toBe(0);
         }));
 
-    it('should should show the encounters and forms components if a visit has been started',
+    it('should show the encounters and forms components if a visit has been started',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.ngOnInit();
             fixture.detectChanges();
@@ -171,7 +171,7 @@ describe('Component: Visit', () => {
             expect(table.length).toBe(0);
         }));
 
-    it('should should show the stop and cancel button when a visit has been started',
+    it('should show the stop and cancel button when a visit has been started',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.ngOnInit();
             fixture.detectChanges();
@@ -183,7 +183,7 @@ describe('Component: Visit', () => {
             expect(endVisitButton).toBeTruthy();
         }));
 
-    it('should should end visit when end visit is clicked',
+    it('should end visit when end visit button clicked is confirmed',
         inject([VisitComponent], (service: VisitResourceService) => {
             comp.ngOnInit();
             fixture.detectChanges();
@@ -192,6 +192,9 @@ describe('Component: Visit', () => {
             let endVisitButton = nativeElement.querySelector('#endVisitButton');
             expect(endVisitButton).toBeTruthy();
             endVisitButton.click();
+            expect(comp.confirmEndVisit).toBeTruthy();
+            let onYes = nativeElement.querySelector('#onYes');
+            onYes.click();
             expect(comp.visit.stopDatetime).toBeDefined();
             expect(comp.visit.stopDatetime).toBeTruthy();
         }));
