@@ -35,10 +35,27 @@ var definition = {
   getAllEidResults: getAllEidResults,
   getAllEidResultsFromAllSites: getAllEidResultsFromAllSites,
   getAvailableLabServers: listReachableServers,
-  getPatientsWithEidResults: getPatientsWithEidResults
+  getPatientsWithEidResults: getPatientsWithEidResults,
+  getPatientIdentifiersFromEIDResults: getPatientIdentifiersFromEIDResults
 };
 
 module.exports = definition;
+
+function getPatientIdentifiersFromEIDResults(startDate, endDate) {
+  return new Promise(function (resolve, reject) {
+
+    definition.getAllEidResultsFromAllSites(startDate, endDate)
+      .then(function (labResults) {
+        var ids = _extractPatientIdentifiersFromResults(labResults);
+
+        resolve(ids);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+
+  });
+}
 
 function getPatientsWithEidResults(startDate, endDate) {
   return new Promise(function (resolve, reject) {

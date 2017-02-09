@@ -1217,7 +1217,7 @@ module.exports = function () {
       },
       handler: function (request, reply) {
         if (request.query.startDate && request.query.endDate) {
-          eidService.getPatientsWithEidResults(request.query.startDate,
+          eidService.getPatientIdentifiersFromEIDResults(request.query.startDate,
             request.query.endDate)
             .then(function (response) {
               reply(response);
