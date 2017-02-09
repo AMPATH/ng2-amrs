@@ -14,14 +14,14 @@ var Promise = require('bluebird');
 var rp = require('../../request-config');
 var config = require('../../conf/config');
 var moment = require('moment');
-module.exports = function() {
+module.exports = function () {
     function getPatientHivSummary(request, callback) {
         var uuid = request.params.uuid;
         var order = helpers.getSortOrder(request.query.order);
         var includeNonClinicalEncounter = Boolean(true || false);
         var whereClause = includeNonClinicalEncounter === true ? ["uuid = ?",
-            uuid
-        ] : ["uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)", uuid];
+                uuid
+            ] : ["uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)", uuid];
         var queryParts = {
             columns: request.query.fields || "*",
             table: "etl.flat_hiv_summary",
@@ -48,17 +48,17 @@ module.exports = function() {
         var summaryDataPromise = db.queryDb(queryParts);
 
         var promise = Promise.all([encounterNamesPromise, summaryDataPromise])
-            .then(function(data) {
+            .then(function (data) {
                 var encTypeNames = data[0];
                 var summaryData = data[1];
 
                 // Map encounter type ids to names.
-                _.each(encTypeNames.result, function(row) {
+                _.each(encTypeNames.result, function (row) {
                     encounterTypeNames[row.encounter_type_id] = row.name;
                 });
 
                 // Format & Clean up raw summaries
-                _.each(summaryData.result, function(summary) {
+                _.each(summaryData.result, function (summary) {
                     summary.cur_arv_meds_id = summary.cur_arv_meds;
                     summary.arv_first_regimen_id = summary.arv_first_regimen;
                     summary.cur_arv_meds = helpers.getARVNames(summary.cur_arv_meds);
@@ -72,9 +72,9 @@ module.exports = function() {
             });
 
         if (_.isFunction(callback)) {
-            promise.then(function(result) {
+            promise.then(function (result) {
                 callback(result);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 callback(err);
             });
         }
@@ -104,9 +104,9 @@ module.exports = function() {
         var promise = db.queryDb(queryParts);
 
         if (_.isFunction(callback)) {
-            promise.then(function(result) {
+            promise.then(function (result) {
                 callback(result);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 callback(err);
             });
         }
@@ -115,23 +115,61 @@ module.exports = function() {
         return promise;
     }
 
+    function getHivPatientClinicalSummary(request, callback) {
+        var patientUuid = request.params.uuid;
+        var patientEncounters = encounterService.getPatientEncounters(patientUuid);
+        var patientHivSummary = getPatientHivSummary(request);
+        var patientVitals = getPatientVitals(request);
+        var patientLabData = new Promise(function (resolve) {
+            var extendedRequest = request;
+            extendedRequest.query.limit = 300;
+            getPatientLabData(extendedRequest, function (result) {
+                resolve(result);
+            });
+        });
+
+        Promise.all([patientEncounters, patientHivSummary, patientVitals, patientLabData])
+            .then(function (data) {
+                var encounters = data[0];
+                var hivSummaries = data[1].result;
+                var vitals = data[2].result;
+                var labDataSummary = data[3].result;
+                var reminders = [
+                    // TODO add reminders when this is done https://jira.ampath.or.ke/browse/ERS-138
+                ];
+                var notes = noteService.generateNotes(encounters, hivSummaries, vitals);
+                callback({
+                    patientUuid: patientUuid,
+                    notes: notes,
+                    vitals: vitals,
+                    hivSummaries: hivSummaries,
+                    reminders: reminders,
+                    labDataSummary: labDataSummary
+                });
+            })
+            .catch(function (e) {
+                // Return  error
+                callback(Boom.badData(JSON.stringify(e)));
+            });
+    }
+
     function getClinicalNotes(request, callback) {
         var patientEncounters = encounterService.getPatientEncounters(request.params.uuid);
         var patientHivSummary = getPatientHivSummary(request);
         var patientVitals = getPatientVitals(request);
 
 
-        Promise.all([patientEncounters, patientHivSummary, patientVitals]).then(function(data) {
-                var encounters = data[0];
-                var hivSummaries = data[1].result;
-                var vitals = data[2].result;
-                var notes = noteService.generateNotes(encounters, hivSummaries, vitals);
-                callback({
-                    notes: notes,
-                    status: 'notes generated'
-                });
-            })
-            .catch(function(e) {
+        Promise.all([patientEncounters, patientHivSummary, patientVitals]).then(function (data) {
+            var encounters = data[0];
+            var hivSummaries = data[1].result;
+            var vitals = data[2].result;
+            var notes = noteService.generateNotes(encounters, hivSummaries, vitals);
+            callback({
+                notes: notes,
+                status: 'notes generated'
+            });
+        })
+            .catch(function (e) {
                 // Return empty json on error
                 console.log('Error', e);
                 callback({
@@ -142,7 +180,7 @@ module.exports = function() {
             });
     }
 
-    function getPatientData(request, callback) {
+    function getPatientLabData(request, callback) {
         var uuid = request.params.uuid;
         var order = helpers.getSortOrder(request.query.order);
 
@@ -163,8 +201,8 @@ module.exports = function() {
             limit: request.query.limit
         };
 
-        db.queryServer_test(queryParts, function(result) {
-            _.each(result.result, function(row) {
+        db.queryServer_test(queryParts, function (result) {
+            _.each(result.result, function (row) {
                 row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
                 row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
                 row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error, row.cd4_error, row.hiv_dna_pcr_error);
@@ -193,12 +231,12 @@ module.exports = function() {
             limit: request.query.limit
         };
 
-        db.queryServer_test(queryParts, function(result) {
+        db.queryServer_test(queryParts, function (result) {
             callback(result);
         });
     }
 
-    function getPatientStgetPatientCountGroupedByLocationatics(request, callback) {
+    function getPatientCountGroupedByLocation(request, callback) {
         var periodFrom = request.query.startDate || new Date().toISOString().substring(0, 10);
         var periodTo = request.query.endDate || new Date().toISOString().substring(0, 10);
         var order = helpers.getSortOrder(request.query.order);
@@ -221,7 +259,7 @@ module.exports = function() {
             limit: request.query.limit
         };
 
-        db.queryServer_test(queryParts, function(result) {
+        db.queryServer_test(queryParts, function (result) {
             callback(result);
         });
     }
@@ -248,7 +286,7 @@ module.exports = function() {
             limit: request.query.limit
         };
 
-        db.queryServer_test(queryParts, function(result) {
+        db.queryServer_test(queryParts, function (result) {
             callback(result);
         });
     }
@@ -272,18 +310,18 @@ module.exports = function() {
             reportName: reportName
         };
         //build report
-        reportFactory.buildPatientListExpression(queryParams, function(exprResult) {
+        reportFactory.buildPatientListExpression(queryParams, function (exprResult) {
             var queryParts = {
                 columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age, t4.gender",
                 concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name; " +
-                    "group_concat(distinct t3.identifier separator ', ') as identifiers",
+                "group_concat(distinct t3.identifier separator ', ') as identifiers",
                 table: exprResult.resource,
                 where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
-                    "and t1.location_uuid = ? and t1.is_clinical_encounter = 1 and " +
-                    "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ? )" +
-                    " and coalesce(t1.death_date, out_of_care) is null and round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?" +
-                    " and round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ? and t4.gender in ?" +
-                    exprResult.whereClause, startDate, endDate, location, endDate, startAge, endAge, gender
+                "and t1.location_uuid = ? and t1.is_clinical_encounter = 1 and " +
+                "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ? )" +
+                " and coalesce(t1.death_date, out_of_care) is null and round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?" +
+                " and round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ? and t4.gender in ?" +
+                exprResult.whereClause, startDate, endDate, location, endDate, startAge, endAge, gender
                 ],
                 joins: [
                     ['amrs.person_name', 't2', 't1.person_id = t2.person_id'],
@@ -300,7 +338,7 @@ module.exports = function() {
                 limit: request.query.limit,
                 group: ['t1.person_id']
             };
-            db.queryServer_test(queryParts, function(result) {
+            db.queryServer_test(queryParts, function (result) {
                 callback(result);
             });
         });
@@ -317,7 +355,7 @@ module.exports = function() {
         var endAge = request.query.endAge || 150;
         var gender = (request.query.gender || 'M,F').split(',');
         var locations = [];
-        _.each(locationIds.split(','), function(loc) {
+        _.each(locationIds.split(','), function (loc) {
             locations.push(Number(loc));
         });
         //Check for undefined query field
@@ -329,18 +367,18 @@ module.exports = function() {
             reportName: reportName
         };
         //build report
-        reportFactory.buildPatientListExpression(queryParams, function(exprResult) {
+        reportFactory.buildPatientListExpression(queryParams, function (exprResult) {
             var queryParts = {
                 columns: "t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age, t4.gender",
                 concatColumns: "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,'')) as person_name; " +
-                    "group_concat(distinct t3.identifier separator ', ') as identifiers",
+                "group_concat(distinct t3.identifier separator ', ') as identifiers",
                 table: 'etl.flat_hiv_summary',
                 where: ["t1.encounter_datetime >= ? and t1.encounter_datetime <= ? " +
-                    "and t1.location_id in ? and t1.is_clinical_encounter = 1 and " +
-                    "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ?)" +
-                    " and coalesce(t1.death_date, out_of_care) is null and round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?" +
-                    " and round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ? and t4.gender in ?" +
-                    exprResult.whereClause, startDate, endDate, locations, endDate, startAge, endAge, gender
+                "and t1.location_id in ? and t1.is_clinical_encounter = 1 and " +
+                "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv  >= ?)" +
+                " and coalesce(t1.death_date, out_of_care) is null and round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?" +
+                " and round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ? and t4.gender in ?" +
+                exprResult.whereClause, startDate, endDate, locations, endDate, startAge, endAge, gender
                 ],
                 joins: [
                     ['amrs.person_name', 't2', 't1.person_id = t2.person_id'],
@@ -357,18 +395,20 @@ module.exports = function() {
                 limit: request.query.limit,
                 group: ['t1.person_id']
             };
-            db.queryServer_test(queryParts, function(result) {
+            db.queryServer_test(queryParts, function (result) {
                 callback(result);
             });
         });
     }
+
     return {
         getPatientHivSummary: getPatientHivSummary,
         getPatientVitals: getPatientVitals,
         getClinicalNotes: getClinicalNotes,
-        getPatientData: getPatientData,
+        getPatientData: getPatientLabData,
         getPatient: getPatient,
-        getPatientCountGroupedByLocation: getPatientStgetPatientCountGroupedByLocationatics,
+        getHivPatientClinicalSummary: getHivPatientClinicalSummary,
+        getPatientCountGroupedByLocation: getPatientCountGroupedByLocation,
         getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation,
         getPatientListByIndicator: getPatientListByIndicator,
         getPatientByIndicatorAndLocation: getPatientByIndicatorAndLocation
