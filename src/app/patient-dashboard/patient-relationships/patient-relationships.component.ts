@@ -21,20 +21,20 @@ export class PatientRelationshipsComponent implements OnInit {
     this.getPatientRelationships();
   }
 
-  public getPatientRelationships() {
+  public getPatientRelationships(): void {
     this.loadingRelationships = true;
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patientUuid = patient.person.uuid;
-           let request = this.patientRelationshipService.getRelationships(this.patientUuid);
-           request
+          let request = this.patientRelationshipService.getRelationships(this.patientUuid);
+          request
             .subscribe(
-              (relationships) => {
-                if (relationships) {
-                  this.relationships = relationships;
-                }
+            (relationships) => {
+              if (relationships) {
+                this.relationships = relationships;
               }
+            }
             );
         }
       }
