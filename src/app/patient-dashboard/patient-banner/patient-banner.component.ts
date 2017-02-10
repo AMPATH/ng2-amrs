@@ -21,6 +21,7 @@ export class PatientBannerComponent implements OnInit {
   ngOnInit() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
+        this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;

@@ -24,6 +24,7 @@ export class PatientDemographicsComponent implements OnInit {
   getPatientDemographics() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
+        this.patient = new Patient({});
         if (patient) {
           console.log('Patient Object---->', patient);
           this.patient = patient;

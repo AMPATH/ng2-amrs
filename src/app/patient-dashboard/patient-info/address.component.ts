@@ -20,6 +20,7 @@ export class AddressComponent implements OnInit {
   getPatient() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
+        this.patients = new Patient({});
         if (patient) {
           this.patients = patient;
         }

@@ -20,6 +20,7 @@ export class PatientInfoComponent implements OnInit {
   ngOnInit() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
+        this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
         }
