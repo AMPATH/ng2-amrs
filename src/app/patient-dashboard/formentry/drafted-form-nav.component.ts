@@ -24,6 +24,13 @@ export class DraftedFormNavComponent implements OnInit {
     }
     ngOnInit() {
         this.draftedFormsService.draftedForm.subscribe((form) => {
+            this.draftedFormsService.cancelState.subscribe((isCancelled) => {
+              if (isCancelled) {
+                this.isDraftFormPresent = false;
+                this.draftedFormsService.setDraftedForm(null);
+              }
+            });
+
             if (form === null || form === undefined) {
                 this.isDraftFormPresent = false;
             } else {

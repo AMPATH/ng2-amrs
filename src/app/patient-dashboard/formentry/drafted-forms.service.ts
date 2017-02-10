@@ -7,6 +7,7 @@ import { Form } from 'ng2-openmrs-formentry';
 export class DraftedFormsService {
     public lastDraftedForm: Form;
     public loadDraftOnNextFormLoad: boolean = false;
+    public _hasCancelEvent: BehaviorSubject<any>;
     private _draftedForm: BehaviorSubject<Form>;
     constructor() { }
 
@@ -20,5 +21,16 @@ export class DraftedFormsService {
     setDraftedForm(draftedForm: Form) {
         this.lastDraftedForm = draftedForm;
         this._draftedForm.next(draftedForm);
+    }
+
+    get cancelState(): Observable<any> {
+      if (this._hasCancelEvent === undefined) {
+        this._hasCancelEvent = new BehaviorSubject<any>(false);
+      }
+      return this._hasCancelEvent.asObservable();
+    }
+
+    setCancelState() {
+      this._hasCancelEvent.next(true);
     }
 }
