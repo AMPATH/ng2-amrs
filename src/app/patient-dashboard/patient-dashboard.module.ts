@@ -69,6 +69,11 @@ import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
 import { ToastrModule } from 'toastr-ng2';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
+import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
+import {
+  PatientRelationshipsComponent
+} from './patient-relationships/patient-relationships.component';
+
 
 
 @NgModule({
@@ -126,7 +131,8 @@ import { OrderListComponent } from './formentry/order-list.component';
     DraftedFormNavComponent,
     TodaysVitalsComponent,
     PatientRemindersComponent,
-    OrderListComponent
+    OrderListComponent,
+    PatientRelationshipsComponent
 
   ],
   providers: [
@@ -149,7 +155,8 @@ import { OrderListComponent } from './formentry/order-list.component';
     FormSubmissionService,
     PatientReminderService,
     DraftedFormsService,
-    TodaysVitalsService
+    TodaysVitalsService,
+    PatientRelationshipService
   ],
   exports: [
     PatientDashboardComponent,
@@ -170,7 +177,8 @@ import { OrderListComponent } from './formentry/order-list.component';
     FormentryComponent,
     DraftedFormNavComponent,
     PatientRemindersComponent,
-    OrderListComponent
+    OrderListComponent,
+    PatientRelationshipsComponent
   ]
 })
 export class PatientDashboardModule {

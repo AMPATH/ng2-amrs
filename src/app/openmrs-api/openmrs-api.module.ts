@@ -14,6 +14,10 @@ import { PersonResourceService } from './person-resource.service';
 import { ConceptResourceService } from './concept-resource.service';
 import { VisitResourceService } from './visit-resource.service';
 import { OrderResourceService } from './order-resource.service';
+import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
+import {
+  PatientRelationshipTypeResourceService
+ } from './patient-relationship-type-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -34,7 +38,9 @@ import { OrderResourceService } from './order-resource.service';
     PersonResourceService,
     ConceptResourceService,
     VisitResourceService,
-    OrderResourceService
+    OrderResourceService,
+    PatientRelationshipResourceService,
+    PatientRelationshipTypeResourceService
   ],
   exports: []
 })

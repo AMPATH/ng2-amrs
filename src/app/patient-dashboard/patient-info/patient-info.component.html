@@ -1,17 +1,20 @@
 <div class="wrapper">
-<p-growl [value]="msgs"></p-growl>
-<p-accordion>
-  <p-accordionTab header=" Demographics " [selected]="true">
-   <patient-demographics></patient-demographics>
- </p-accordionTab>
-    <p-accordionTab header=" Contacts " [selected]="false">
-     <contacts-info></contacts-info>
-   </p-accordionTab>
-  <p-accordionTab header=" Address " [selected]="false">
-    <address></address>
-  </p-accordionTab>
-    <p-accordionTab header=" Identifiers " [selected]="false">
-    <patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
-  </p-accordionTab>
-</p-accordion>
+	<p-growl [value]="msgs"></p-growl>
+	<p-accordion>
+		<p-accordionTab header=" Demographics " [selected]="true">
+			<patient-demographics></patient-demographics>
+		</p-accordionTab>
+		<p-accordionTab header=" Contacts " [selected]="false">
+			<contacts-info></contacts-info>
+		</p-accordionTab>
+		<p-accordionTab header=" Address " [selected]="false">
+			<address></address>
+		</p-accordionTab>
+		<p-accordionTab header=" Identifiers " [selected]="false">
+			<patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
+		</p-accordionTab>
+		<p-accordionTab header=" Relationships " [selected]="false">
+			<patient-relationships></patient-relationships>
+		</p-accordionTab>
+	</p-accordion>
 </div>
