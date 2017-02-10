@@ -16,6 +16,9 @@ export class VisitComponent implements OnInit {
     patient: any;
     errors: any = [];
     loadingVisitTypes: Boolean;
+    confirmCancel: boolean;
+    confirmEndVisit: boolean;
+    showDialog: boolean = false;
     visitBusy: Boolean;
     constructor(private visitResourceService: VisitResourceService,
         private patientService: PatientService, private router: Router,
@@ -104,15 +107,44 @@ export class VisitComponent implements OnInit {
     }
 
     endVisit() {
+      this.showDialog = true ;
+      this.confirmEndVisit = true;
+    }
+
+    cancelVisit() {
+      this.showDialog = true;
+      this.confirmCancel = true;
+    }
+
+    onYes() {
+      if (this.confirmCancel) {
+        this.onCancelVisit();
+      } else if (this.confirmEndVisit) {
+        this.onEndVisit();
+      }
+    }
+
+    onNo() {
+      this.showDialog = false;
+      this.confirmCancel = false;
+      this.confirmEndVisit = false;
+    }
+
+    onEndVisit() {
+
         this.visitBusy = true;
         this.visitResourceService.updateVisit(this.visit.uuid,
             { stopDatetime: new Date() }).subscribe(
             (visit) => {
                 this.visit = visit;
                 this.visitBusy = false;
+                this.showDialog = false;
+                this.confirmEndVisit = false;
             }
             , (err) => {
                 this.visitBusy = false;
+                this.showDialog = false;
+                this.confirmEndVisit = false;
                 this.errors.push({
                     id: 'endVisit',
                     message: 'error ending visit'
@@ -120,7 +152,7 @@ export class VisitComponent implements OnInit {
             });
     }
 
-    cancelVisit() {
+    onCancelVisit() {
         this.visitBusy = true;
         this.visitResourceService.updateVisit(this.visit.uuid,
             { voided: true }).subscribe(
@@ -128,9 +160,13 @@ export class VisitComponent implements OnInit {
                 this.visit = null;
                 this.getVisit(this.patient.person.uuid);
                 this.visitBusy = false;
+                this.showDialog = false;
+                this.confirmCancel = false;
             }
             , (err) => {
                 this.visitBusy = false;
+                this.showDialog = false;
+                this.confirmCancel = false;
                 this.errors.push({
                     id: 'cancelVisit',
                     message: 'error cancelling visit'

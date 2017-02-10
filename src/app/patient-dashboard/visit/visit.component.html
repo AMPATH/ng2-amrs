@@ -1,6 +1,24 @@
 <div>
   <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Hang in there............'}"></div>
+  <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" responsive="true">
+    <div class="text-bold">
+      <h3 *ngIf="confirmCancel" ><span class="fa-lg">
+							<i class="fa fa-exclamation-triangle"></i>
+					</span> Canceling a visit deletes all encounters associated with it.</h3>
+      <h3 *ngIf="confirmEndVisit" ><span class="fa-lg">
+							<i class="fa fa-exclamation-triangle"></i>
+					</span>Are you sure?</h3>
+    </div>
 
+    <br>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button (click)="onYes()" type="button" id="onYes" class="btn btn-primary">Yes</button>
+        <button (click)="onNo()" type="button" id="onNo" class="btn btn-danger">No</button>
+      </div>
+    </footer>
+
+  </p-dialog>
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
   </div>
