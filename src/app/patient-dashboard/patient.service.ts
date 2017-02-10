@@ -33,7 +33,7 @@ export class PatientService {
 
   public fetchPatientByUuid(patientUuid: string): void {
     // reset patient
-    this.currentlyLoadedPatient = new BehaviorSubject(null);
+    this.currentlyLoadedPatient.next(null);
     this.currentlyLoadedPatientUuid = new ReplaySubject(1);
     // hit server
     Observable.forkJoin(

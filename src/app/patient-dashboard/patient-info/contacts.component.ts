@@ -20,6 +20,7 @@ export class ContactsComponent implements OnInit {
   getPatient() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
+        this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
         }
