@@ -104,6 +104,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
+    this.draftedFormsService.setCancelState();
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Unloaded', 'ngOnDestroy');
   }
@@ -133,9 +134,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.submitForm();
   }
 
-  public onCancel(): void {
-    console.log('FORM MODEL:', this.form.rootNode);
-    this.draftedFormsService.setDraftedForm(null);
+  public onCancel(e): void {
     window.history.go(-1);
   }
 

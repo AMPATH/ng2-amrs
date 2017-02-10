@@ -9,8 +9,8 @@
 				<hr />
 				<form-renderer [node]="form.rootNode"></form-renderer>
 				<div class="form-row">
-					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit()">Save</button>
-					<button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
+					<button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
 				</div>
 			</form>
 		</div>
@@ -72,7 +72,7 @@
 </div>
 </div>
 </div>
-<p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" minWidth="300" responsive="true">
+<p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
 	<strong class="text-success">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
