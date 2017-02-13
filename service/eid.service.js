@@ -376,30 +376,34 @@ function getSynchronizedPatientLabResults(patientUuId, locations) {
 
   return listReachableServers(locations)
     .then(function (reachable) {
-      return Promise.reduce(reachable, function (previous, row) {
 
-        return _getSynchronizedPatientLabResults(row, patientUuId)
-          .then(function (obj) {
-            results.data.push(obj);
+      return new Promise(function (resolve, reject) {
 
-            return new Promise(function (resolve, reject) {
-              resolve(results);
+        Promise.reduce(reachable, function (previous, row) {
+
+          return _getSynchronizedPatientLabResults(row, patientUuId)
+            .then(function (obj) {
+              results.data.push(obj);
+
+              return new Promise(function (resolve, reject) {
+                resolve(results);
+              })
             })
-          })
-          .catch(function (error) {
+            .catch(function (error) {
 
-            //catch errors and continue
-            results.errors.push(error);
-            return new Promise(function (resolve, reject) {
-              resolve(results);
-            })
-          });
-      }, 0)
-        .then(function (data) {
-          return new Promise(function (resolve, reject) {
+              //catch errors and continue
+              results.errors.push(error);
+              return new Promise(function (resolve, reject) {
+                resolve(results);
+              })
+            });
+        }, 0)
+          .then(function (data) {
             resolve(results);
+          }).catch(function (error) {
+            reject(error);
           });
-        })
+      })
     });
 }
 
@@ -525,7 +529,9 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
         if (response.posts instanceof Array) {
 
           _.each(response.posts, function (row) {
-            results.pcr.push(row);
+            if (row && row.SampleStatus && ['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
+              results.pcr.push(row);
+            }
           });
         } else
           results[location_name].pcrErrorMsg = response;
@@ -533,15 +539,20 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
         if (conf.loadCd4)
           return getCd4TestResultsByPatientIdentifier(patientIdentifier, conf.host, conf.cd4ApiKey);
         else {
-
-          resolve(results);
+          return new Promise(function (resolve, reject) {
+            resolve({
+              fetched: false,
+              posts: []
+            });
+          });
         }
       })
       .then(function (response) {
         if (response.posts instanceof Array) {
-
           _.each(response.posts, function (row) {
-            results.cd4Panel.push(row);
+            if (row && row.SampleStatus && ['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
+              results.cd4Panel.push(row);
+            }
           });
 
         } else

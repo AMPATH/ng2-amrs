@@ -324,5 +324,5 @@ function _getObsObjectWithAnyOfValueArray(obsArray, valuesArray) {
 }
 
 function _removeWhiteSpace(string) {
-    return string.replace(/\s+/g, '');
+    return string === null || string === undefined || typeof string !== 'string' ? '' : string.replace(/\s+/g, '');
 }
