@@ -1,14 +1,33 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
 var _ = require('underscore');
-module.exports = function() {
+module.exports = function () {
 
   return {
+    getReportParams: function getReportParams(reportName, whereClause, queryParams) {
+      let whereParams = [];
+      for (let filter of whereClause) {
+        whereParams.push({
+          "name": filter,
+          "value": queryParams[filter]
+        });
+      }
+      var reportParams = {
+        reportName: reportName,
+        whereParams: whereParams,
+        countBy: queryParams.countBy || 'num_persons',
+        groupBy: queryParams.groupBy || 'groupByLocation',
+        offset: queryParams.startIndex,
+        limit: queryParams.limit,
+        requestIndicators: queryParams.indicators
+      }
+      return reportParams;
+    },
     getSortOrder: function getSortOrder(param) {
       if (!param) return null;
       var parts;
       var order = [];
-      _.each(param.split(','), function(order_by) {
+      _.each(param.split(','), function (order_by) {
         parts = order_by.split('|');
         order.push({
           column: parts[0],
@@ -21,7 +40,7 @@ module.exports = function() {
       var s = "";
       var vals = [],
         column;
-      _.each(filters, function(item) {
+      _.each(filters, function (item) {
         column = item.column;
         for (var f in item.filters) {
           if (item.filters[f] === undefined || item.filters[f] === null || item.filters[f] === "") continue;
@@ -110,7 +129,7 @@ module.exports = function() {
       };
       var arvCodes = str.split(" ## ");
       var arvNames = [];
-      _.each(arvCodes, function(code) {
+      _.each(arvCodes, function (code) {
         arvNames.push(arvs[code]);
       });
       return arvNames.join(', ');
@@ -151,7 +170,7 @@ module.exports = function() {
       };
       var testsCodes = str.split(" ## ");
       var testsNames = [];
-      _.each(testsCodes, function(code) {
+      _.each(testsCodes, function (code) {
         testsNames.push(tests[code]);
       });
       return testsNames.join(",");
@@ -184,7 +203,7 @@ module.exports = function() {
     buildWhereClauseForDataEntryIndicators: function buildWhereClauseForDataEntryIndicators(queryParams, where) {
       if (queryParams.locations) {
         var locations = [];
-        _.each(queryParams.locations.split(','), function(loc) {
+        _.each(queryParams.locations.split(','), function (loc) {
           locations.push(Number(loc));
         });
         where[0] = where[0] + " and t2.location_id in ?";
@@ -200,7 +219,7 @@ module.exports = function() {
       }
       if (queryParams.encounterTypeIds) {
         var encounterTypes = [];
-        _.each(queryParams.encounterTypeIds.split(','), function(encType) {
+        _.each(queryParams.encounterTypeIds.split(','), function (encType) {
           encounterTypes.push(Number(encType));
         });
         where[0] = where[0] + " and t2.encounter_type in ?";
@@ -208,7 +227,7 @@ module.exports = function() {
       }
       if (queryParams.formIds) {
         var formIds = [];
-        _.each(queryParams.formIds.split(','), function(formid) {
+        _.each(queryParams.formIds.split(','), function (formid) {
           formIds.push(Number(formid));
         });
         where[0] = where[0] + " and t2.form_id in ?";
@@ -231,7 +250,7 @@ module.exports = function() {
     buildWhereParamsDataEntryIndicators: function buildWhereParamsDataEntryIndicators(queryParams, where) {
       if (queryParams.locations) {
         var locations = [];
-        _.each(queryParams.locations.split(','), function(loc) {
+        _.each(queryParams.locations.split(','), function (loc) {
           locations.push(Number(loc));
         });
         where.locations = locations;
@@ -244,14 +263,14 @@ module.exports = function() {
       }
       if (queryParams.encounterTypeIds) {
         var encounterTypes = [];
-        _.each(queryParams.encounterTypeIds.split(','), function(encType) {
+        _.each(queryParams.encounterTypeIds.split(','), function (encType) {
           encounterTypes.push(Number(encType));
         });
         where.encounterTypes = encounterTypes;
       }
       if (queryParams.formIds) {
         var formIds = [];
-        _.each(queryParams.formIds.split(','), function(formid) {
+        _.each(queryParams.formIds.split(','), function (formid) {
           formIds.push(Number(formid));
         });
         where.formIds = formIds;

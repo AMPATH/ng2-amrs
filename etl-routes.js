@@ -16,6 +16,7 @@ var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
+import { MonthlyScheduleService } from './service/monthly-schedule-service'
 module.exports = function () {
 
   return [{
@@ -34,6 +35,42 @@ module.exports = function () {
       },
       description: 'Home',
       notes: 'Returns a message that shows ETL service is running.',
+      tags: ['api'],
+    }
+  },
+  {
+    method: 'GET',
+    path: '/etl/get-monthly-schedule',
+    config: {
+      plugins: {
+        'hapiAuthorization': {
+          role: privileges.canViewClinicDashBoard
+        },
+        'openmrsLocationAuthorizer': {
+          locationParameter: [{
+            type: 'params', //can be in either query or params so you have to specify
+            name: 'uuid' //name of the location parameter
+          }]
+        }
+      },
+      handler: function (request, reply) {
+        if (request.query.locationUuids) {
+          dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+            function (results) {
+              request.query.locations = results;
+            }).onResolved = (promise) => {
+              let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'locations'], request.query);
+              let service = new MonthlyScheduleService();
+              service.getMonthlyScheduled(reportParams).then((result) => {
+                reply(result);
+              }).catch((error) => {
+                reply(error);
+              })
+            };
+        }
+      },
+      description: 'Get monthly schedule',
+      notes: 'Returns a list of appointments,visits and has not returned',
       tags: ['api'],
     }
   },

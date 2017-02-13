@@ -6,6 +6,7 @@ var _ = require('underscore');
 var reportFactory = require('../../etl-factory');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
+var Promise = require('bluebird');
 module.exports = function () {
   return {
     getCustomData: function getCustomData(request, callback) {
@@ -36,16 +37,30 @@ module.exports = function () {
       var queryParts = {
         columns: 'name,uuid',
         table: 'amrs.location',
-        where:['uuid in ?', uuids],
+        where: ['uuid in ?', uuids],
         offset: 0,
         limit: 300
       };
 
       db.queryServer_test(queryParts, function (result) {
         //stringify
-        result=JSON.stringify(result);
-        result= JSON.parse(result);
+        result = JSON.stringify(result);
+        result = JSON.parse(result);
         callback(result.result);
+      });
+    },
+    runReport: function runReport(reportParams) {
+      //build report
+      var queryParts = reportFactory.singleReportToSql(reportParams);
+      return new Promise(function (resolve, reject) {
+        db.reportQueryServer(queryParts, function (results) {
+          if (results.error) {
+            reject(results);
+          } else {
+            var resolved = reportFactory.resolveIndicators(reportParams.reportName, results, reportParams.requestIndicators);
+            resolve(resolved);
+          }
+        });
       });
     },
     getReportIndicators: function getReportIndicators(request, callback) {
@@ -78,28 +93,28 @@ module.exports = function () {
           "name": "startDate",
           "value": startDate
         }, {
-            "name": "endDate",
-            "value": endDate
-          }, {
-            "name": "locations",
-            "value": locations
-          }, {
-            "name": "@referenceDate",
-            "value": referenceDate
-          }, {
-            "name": "patientUuid",
-            "value": request.query["patientUuid"]
-          },
-          {
-            "name": "startAge",
-            "value": startAge
-          }, {
-            "name": "endAge",
-            "value": endAge
-          }, {
-            "name": "gender",
-            "value": gender
-          }
+          "name": "endDate",
+          "value": endDate
+        }, {
+          "name": "locations",
+          "value": 'locations'
+        }, {
+          "name": "@referenceDate",
+          "value": referenceDate
+        }, {
+          "name": "patientUuid",
+          "value": request.query["patientUuid"]
+        },
+        {
+          "name": "startAge",
+          "value": startAge
+        }, {
+          "name": "endAge",
+          "value": endAge
+        }, {
+          "name": "gender",
+          "value": gender
+        }
         ],
         // order: order || [{
         //   column: 't1.location_id',
@@ -114,7 +129,7 @@ module.exports = function () {
       //build report
       var queryParts = reportFactory.singleReportToSql(requestParams);
       db.reportQueryServer(queryParts, function (results) {
-        callback(reportFactory.resolveIndicators(reportName, results,requestIndicators));
+        callback(reportFactory.resolveIndicators(reportName, results, requestIndicators));
       });
     },
     getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {
@@ -210,7 +225,7 @@ module.exports = function () {
             "value": locations
           }
         ],
-        groupBy:'groupByEncounter',
+        groupBy: 'groupByEncounter',
         offset: request.query.startIndex || 0,
         limit: request.query.limit || 1000000
       };
@@ -247,7 +262,7 @@ module.exports = function () {
             "value": locations
           }
         ],
-        groupBy:'groupByPerson',
+        groupBy: 'groupByPerson',
         offset: request.query.startIndex || 0,
         limit: request.query.limit || 1000000
       };
@@ -394,12 +409,12 @@ module.exports = function () {
           "name": "startDate",
           "value": startDate
         }, {
-            "name": "endDate",
-            "value": endDate
-          }, {
-            "name": "locations",
-            "value": locations
-          }]
+          "name": "endDate",
+          "value": endDate
+        }, {
+          "name": "locations",
+          "value": locations
+        }]
       };
       //build report
       reportFactory.buildPatientListReportExpression(queryParams, function (exprResult) {
@@ -431,4 +446,4 @@ module.exports = function () {
       });
     }
   };
-} ();
+}();
