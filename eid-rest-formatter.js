@@ -6,7 +6,12 @@ var rp = require('./request-config');
 var _ = require('underscore');
 module.exports = function () {
   function getRestResource(path) {
-    var link = config.rest.uri + config.rest.port + path;
+    var link = config.openmrs.host + ':' + config.openmrs.port + path;
+    if (config.openmrs.https === true) {
+      link = 'https://' + link;
+    } else {
+      link = 'http://' + link;
+    }
     return link;
   }
   function removeWhiteSpace(string) {
@@ -494,4 +499,4 @@ module.exports = function () {
     generateCd4Exceptions: generateCd4Exceptions,
     generateCd4ValidData: generateCd4ValidData
   }
-} ();
+}();
