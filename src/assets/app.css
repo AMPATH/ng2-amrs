@@ -283,7 +283,7 @@ body app-formentry {
   font-weight: 700 !important;
 }
 
-p-dialog a.ui-dialog-titlebar-close {
+app-formentry p-dialog a.ui-dialog-titlebar-close {
   display: none !important;
 }
 
