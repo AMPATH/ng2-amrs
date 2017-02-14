@@ -214,8 +214,25 @@ app-patient-search .ladda-button .ladda-label {
   overflow-y: visible !important;
 }
 
+md-tab-group {
+
+  display: block !important;
+  overflow: visible;
+}
+
+.md-tab-body-wrapper {
+  overflow: visible !important;
+}
+
+md-tab-body {
+  display: block;
+  overflow: visible;
+}
+
+
 md-tab-body > div.md-tab-body-content {
   transform: initial !important;
+  overflow: visible;
 }
 
 md-tab-body > div.md-tab-body-content > div {
@@ -224,6 +241,7 @@ md-tab-body > div.md-tab-body-content > div {
 
 md-tab-body.md-tab-body-active {
   display: initial !important;
+  overflow: visible !important;
 }
 
 .modal-main {
