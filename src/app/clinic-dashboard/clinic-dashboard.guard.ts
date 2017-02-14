@@ -31,7 +31,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
         this.router.navigate(['/patient-dashboard/patient-search']);
       }
     }
-    return true;
+    return false;
   }
 
   canDeactivate(target: ClinicDashboardComponent): boolean {

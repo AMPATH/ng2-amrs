@@ -209,3 +209,34 @@ app-patient-search .ladda-button .ladda-label {
   display: inline-block;
   z-index: 0;
 }
+
+.md-tab-body-wrapper {
+  overflow-y: visible !important;
+}
+
+md-tab-body > div.md-tab-body-content {
+  transform: initial !important;
+}
+
+md-tab-body > div.md-tab-body-content > div {
+  padding-bottom: 40px;
+}
+
+md-tab-body.md-tab-body-active {
+  display: initial !important;
+}
+
+.modal-main {
+  left: 15px !important;
+  transform: translate(0,0) !important;
+}
+
+time-picker .modal-main {
+  left: auto !important;
+  right: 15px !important;
+}
+
+.picker-wrap {
+  width: 100% !important;
+}
+

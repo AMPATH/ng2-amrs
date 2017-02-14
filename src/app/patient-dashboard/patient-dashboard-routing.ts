@@ -46,7 +46,7 @@ const patientDashboardRoutes: Routes = [
       PatientDashboardGuard
     ],
     canDeactivate: [
-      PatientDashboardGuard
+        PatientDashboardGuard
     ]
   }
 ];
