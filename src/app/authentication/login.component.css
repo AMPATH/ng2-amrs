@@ -38,9 +38,7 @@
 	height: 100px;
 	width: 300px;
 	margin: 0 auto;
-	background-image: url("../../assets/img/ampath.png");
-	background-repeat: no-repeat;
-	background-position: center;
+	background: url("../../assets/img/ampath.png") no-repeat center center;
 	background-size: contain;
 }
 

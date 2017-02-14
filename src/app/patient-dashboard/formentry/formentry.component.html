@@ -1,7 +1,5 @@
 <div class="wrapper">
 	<div [ngBusy]="busyIndicator">
-
-		<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
 		<div class='col-md-12' *ngIf=form>
 			<error-renderer [form]="form"></error-renderer>
 			<form [formGroup]="form.rootNode.control">

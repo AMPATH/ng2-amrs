@@ -5,8 +5,8 @@ import { DraftedFormsService } from './drafted-forms.service';
 import { PatientService } from '../patient.service';
 
 @Component({
-    selector: 'drafted-form-nav',
-    template: `
+  selector: 'drafted-form-nav',
+  template: `
     <button *ngIf="isDraftFormPresent" (click)="loadDraftedForm()"
         class="btn btn-warning " style="float: right;margin-right:4px; margin-top:4px;" >
             <span class="fa fa-file "></span> <span> Back to Drafted Form </span>
@@ -14,36 +14,43 @@ import { PatientService } from '../patient.service';
     `
 })
 export class DraftedFormNavComponent implements OnInit {
-    public isDraftFormPresent: boolean = false;
-    private patientUuid;
-    constructor(
-        private draftedFormsService: DraftedFormsService,
-        private patientService: PatientService,
-        private router: Router) {
-        this.patientService.currentlyLoadedPatientUuid.subscribe(uuid => this.patientUuid = uuid);
-    }
-    ngOnInit() {
-        this.draftedFormsService.draftedForm.subscribe((form) => {
-            this.draftedFormsService.cancelState.subscribe((isCancelled) => {
-              if (isCancelled) {
-                // this.isDraftFormPresent = false;
-                // this.draftedFormsService.setDraftedForm(null);
-              }
-            });
+  public isDraftFormPresent: boolean = false;
+  private patientUuid;
 
-            if (form === null || form === undefined) {
-                this.isDraftFormPresent = false;
-            } else {
-                this.isDraftFormPresent = true;
-            }
-        });
-    }
+  constructor(private draftedFormsService: DraftedFormsService,
+              private patientService: PatientService,
+              private router: Router) {
+    this.patientService.currentlyLoadedPatientUuid.subscribe(uuid => this.patientUuid = uuid);
+  }
 
-    loadDraftedForm() {
-        this.draftedFormsService.loadDraftOnNextFormLoad = true;
+  ngOnInit() {
+    this.draftedFormsService.draftedForm.subscribe((form) => {
+
+      if (this.draftedFormsService.hasBeenCancelled) {
         this.isDraftFormPresent = false;
-        this.router.navigate(['/patient-dashboard/' +
-            this.patientUuid + '/formentry/' +
-            this.draftedFormsService.lastDraftedForm.valueProcessingInfo['formUuid']]);
-    }
+        if (this.draftedFormsService.lastDraftedForm !== null) {
+          this.draftedFormsService.setDraftedForm(null);
+          this.draftedFormsService.lastDraftedForm = null;
+          this.draftedFormsService.hasBeenCancelled = false;
+        }
+      } else {
+
+        if (form === null || form === undefined) {
+          this.isDraftFormPresent = false;
+        } else {
+          this.isDraftFormPresent = true;
+        }
+
+      }
+
+    });
+  }
+
+  loadDraftedForm() {
+    this.draftedFormsService.loadDraftOnNextFormLoad = true;
+    this.isDraftFormPresent = false;
+    this.router.navigate(['/patient-dashboard/' +
+    this.patientUuid + '/formentry/' +
+    this.draftedFormsService.lastDraftedForm.valueProcessingInfo['formUuid']]);
+  }
 }
