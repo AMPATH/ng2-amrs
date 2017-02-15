@@ -1,6 +1,6 @@
 {
   "name": "Ampath_Point_of_Care",
-  "version": "2.0.1-SNAPSHOT",
+  "version": "2.0.2",
   "description": "Ampath Point Of Care",
   "keywords": [
     "angular2",
@@ -112,7 +112,7 @@
     "moment": "^2.17.1",
     "ng2-bootstrap": "^1.1.16",
     "ng2-bs3-modal": "^0.10.4",
-    "ng2-openmrs-formentry": "git+https://github.com/AMPATH/ng2-opemmrs-formentry.git#v2.0.2",
+    "ng2-openmrs-formentry": "git+https://github.com/AMPATH/ng2-opemmrs-formentry.git#v2.0.1",
     "ng2-pagination": "^0.5.1",
     "ng2-responsive": "^0.4.7",
     "node-sass": "^3.13.0",
