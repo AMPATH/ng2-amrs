@@ -13,7 +13,7 @@
 					<a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span>Patient Search</span> </a>
 				</li>
 				<li routerLinkActive="active" class="clinic">
-					<a routerLink="/clinic-dashboard/456/daily-schedule"> <i class="fa fa-user-md"></i> <span>Clinic Dashboard</span> </a>
+					<a routerLink="/clinic-dashboard"> <i class="fa fa-user-md"></i> <span>Clinic Dashboard</span> </a>
 				</li>
 				<li class="dropdown user user-menu">
 
@@ -55,19 +55,19 @@
 	</nav>
 </header>
 <aside class="main-sidebar">
-  <section class="sidebar">
-    <ul class="sidebar-menu">
-      <li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
-        <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
-          <span class="icon-menu">
+	<section class="sidebar">
+		<ul class="sidebar-menu">
+			<li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
+				<a routerLink="/{{route.url}}" (click)="route.onClick($event)">
+					<span class="icon-menu">
             <span class="icon-menu-letter">{{route.menuStartLetter}}</span>
-            <span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
-          </span>
-          <span class="icon-menu-label">{{route.label}}</span>
-        </a>
-      </li>
-    </ul>
-  </section>
+					<span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
+					</span>
+					<span class="icon-menu-label">{{route.label}}</span>
+				</a>
+			</li>
+		</ul>
+	</section>
 </aside>
 <div class="content-wrapper" style="min-height: 100%;">
 	<section class="content">

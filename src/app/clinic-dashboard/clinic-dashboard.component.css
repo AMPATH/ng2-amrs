@@ -1,0 +1,18 @@
+ng-select {
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+    width: 97%;
+    float: left;
+}
+.app-btn{
+float: left;
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+height: 31.8px;
+}
+.clear{
+    clear: both
+}

@@ -6,12 +6,20 @@ import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 const clinicDashboardRoutes: Routes = [
-  { path: 'daily-schedule', component: DailyScheduleComponent },
+  {
+    path: '', component: ClinicDashboardComponent,
+    canActivate: [
+      ClinicDashboardGuard
+    ],
+  },
   {
     path: ':location_uuid', component: ClinicDashboardComponent,
     children: [
-      { path: 'daily-schedule', component: DailyScheduleComponent },
+      {
+        path: 'daily-schedule', component: DailyScheduleComponent
+      },
       { path: 'monthly-schedule', component: MonthlyScheduleComponent },
+      { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' },
     ],
     canActivate: [
       ClinicDashboardGuard
