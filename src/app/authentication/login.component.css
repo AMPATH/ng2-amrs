@@ -34,14 +34,6 @@
 	margin-bottom: 70px;
 }
 
-.login section .box .banner .logo-area {
-	height: 100px;
-	width: 300px;
-	margin: 0 auto;
-	background: url("../../assets/img/ampath.png") no-repeat center center;
-	background-size: contain;
-}
-
 .login section .box .banner .region {
 	height: 40px;
 	display: inline-block;

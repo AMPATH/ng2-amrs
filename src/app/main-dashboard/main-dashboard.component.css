@@ -64,6 +64,7 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
 [class^="icon-"], [class*=" icon-"] {
   display: inline-block;
   height: 43px;
+  font-weight:700;
   line-height: 43px !important;
 }
 
