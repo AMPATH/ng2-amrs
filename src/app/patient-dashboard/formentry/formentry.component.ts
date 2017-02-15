@@ -135,6 +135,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public onCancel(e): void {
     this.draftedFormsService.setCancelState();
+    this.resetLastTab();
     window.history.go(-1);
   }
 
@@ -349,9 +350,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     // show submitted orders if any
     this.displaySubmittedOrders(response);
+    this.resetLastTab();
     this.formSubmissionErrors = null;
     this.failedPayloadTypes = null;
     this.showSuccessDialog = true;
+  }
+
+  private resetLastTab() {
+    this.form.valueProcessingInfo.lastFormTab = 0;
   }
 
   private displaySubmittedOrders(response: any): void {
