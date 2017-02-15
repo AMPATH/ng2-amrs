@@ -249,6 +249,69 @@
                 });
         });
 
+        it('should fetch patient identifiers with results by lab type',
+            function (done) {
+
+                // stub a list of all available labs
+                var resultsByTypeStub = sinon.stub(eidService, 'getAllEidResultsByType',
+                    function (host, apikey, startDate, endDate, fetchingFunc) {
+                        return new Promise(function (resolve, reject) {
+                            resolve(dummyResponse);
+                        });
+                    });
+
+                eidService.getPatientIdentifiersWithEidResultsByType('host', 'key',
+                    '2017-01-01', '2017-01-31', eidService.getEidViralLoadResults)
+                    .then(function (response) {
+                        expect(response).to.deep.equal(
+                            {
+                                patientIdentifiers: ['id 1', 'id 2', 'id 4']
+                            }
+                        )
+                        resultsByTypeStub.restore();
+                        done();
+                    })
+                    .catch(function (error) {
+                        console.error('unexpected error', error);
+                        expect(true).to.be.false;
+                        resultsByTypeStub.restore();
+                        done();
+                    });
+
+            });
+
+        it('should return error when fetching patient identifiers with results by lab type fails',
+            function (done) {
+
+                // stub a list of all available labs
+                var resultsByTypeStub = sinon.stub(eidService, 'getAllEidResultsByType',
+                    function (host, apikey, startDate, endDate, fetchingFunc) {
+                        return new Promise(function (resolve, reject) {
+                            reject('unknown error')
+                        });
+                    });
+
+                eidService.getPatientIdentifiersWithEidResultsByType('host', 'key',
+                    '2017-01-01', '2017-01-31', eidService.getEidViralLoadResults)
+                    .then(function (response) {
+                        expect(true).to.be.false; // we don't expect error at this point
+                        resultsByTypeStub.restore();
+                        done();
+                    })
+                    .catch(function (error) {
+                        expect(error).to.deep.equal(
+                            {
+                                patientIdentifiers: [],
+                                host : 'host',
+                                error : 'unknown error'
+                            }
+                        );
+                        resultsByTypeStub.restore();
+                        done();
+                    });
+
+            });
+
         it('should fetch all EID lab results by date range', function (done) {
 
             // set up mocks for viral load

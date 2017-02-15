@@ -6,7 +6,7 @@ let expect = chai.expect;
 const dao = require('../../etl-dao');
 const Promise = require("bluebird");
 chai.use(sinonChai);
-describe.only('Monthly Schedule Service Test Suite', () => {
+describe('Monthly Schedule Service Test Suite', () => {
     let service;
     beforeEach(() => {
         service = new MonthlyScheduleService();

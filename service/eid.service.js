@@ -36,7 +36,8 @@ var definition = {
   getAllEidResultsFromAllSites: getAllEidResultsFromAllSites,
   getAvailableLabServers: listReachableServers,
   getPatientsWithEidResults: getPatientsWithEidResults,
-  getPatientIdentifiersFromEIDResults: getPatientIdentifiersFromEIDResults
+  getPatientIdentifiersFromEIDResults: getPatientIdentifiersFromEIDResults,
+  getPatientIdentifiersWithEidResultsByType: getPatientIdentifiersWithEidResultsByType
 };
 
 module.exports = definition;
@@ -52,6 +53,30 @@ function getPatientIdentifiersFromEIDResults(startDate, endDate) {
       })
       .catch(function (error) {
         reject(error);
+      });
+
+  });
+}
+
+function getPatientIdentifiersWithEidResultsByType(host, apikey, startDate, endDate, fetchingFunc) {
+
+  var results = {
+    patientIdentifiers: []
+  };
+
+  return new Promise(function (resolve, reject) {
+
+    definition.getAllEidResultsByType(host, apikey, startDate, endDate, fetchingFunc)
+      .then(function (response) {
+          results.patientIdentifiers = _extractPatientIdentifiersFromResults([{
+            viralLoad: response
+          }]);
+          resolve(results);
+      })
+      .catch(function (error) {
+        results.error = error;
+        results.host = host;
+        reject(results);
       });
 
   });
