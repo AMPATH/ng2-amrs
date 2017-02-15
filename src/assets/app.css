@@ -1,20 +1,20 @@
 /*Global styles that just refuse to work in components*/
-	.slider {
-	width: auto;
-	margin: 30px;
+.slider {
+  width: auto;
+  margin: 30px;
 }
 
 .slick-prev:before,
 .slick-next:before {
-	color: #337AB7;
+  color: #337AB7;
 }
 
 .slick-dots {
-	bottom: -40px;
+  bottom: -40px;
 }
 
 .slick-slide {
-	outline: none;
+  outline: none;
 }
 
 /**
@@ -214,8 +214,25 @@ app-patient-search .ladda-button .ladda-label {
   overflow-y: visible !important;
 }
 
+md-tab-group {
+
+  display: block !important;
+  overflow: visible;
+}
+
+.md-tab-body-wrapper {
+  overflow: visible !important;
+}
+
+md-tab-body {
+  display: block;
+  overflow: visible;
+}
+
+
 md-tab-body > div.md-tab-body-content {
   transform: initial !important;
+  overflow: visible;
 }
 
 md-tab-body > div.md-tab-body-content > div {
@@ -224,19 +241,48 @@ md-tab-body > div.md-tab-body-content > div {
 
 md-tab-body.md-tab-body-active {
   display: initial !important;
+  overflow: visible !important;
 }
 
 .modal-main {
-  left: 15px !important;
   transform: translate(0,0) !important;
 }
 
 time-picker .modal-main {
   left: auto !important;
-  right: 15px !important;
+  right: 0;
 }
 
 .picker-wrap {
   width: 100% !important;
+}
+
+.login section .box .banner .logo-area {
+  height: 100px;
+  width: 300px;
+  margin: 0 auto;
+  background: url('img/ampath.png') no-repeat center center;
+  background-size: contain;
+}
+
+date-time-picker {
+  position: relative;
+  display: block;
+}
+
+.wrapper {
+  overflow: visible !important;
+}
+
+body p, body app-formentry label, body app-formentry .panel-heading {
+  font-size: 18px !important;
+}
+
+body app-formentry {
+  font-size: 16px !important;
+}
+
+.md-tab-label {
+  font-weight: 700 !important;
 }
 
