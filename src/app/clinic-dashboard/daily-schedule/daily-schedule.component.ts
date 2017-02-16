@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/primeng';
+import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 
 @Component({
   selector: 'app-daily-schedule',
@@ -9,7 +10,7 @@ import { Message } from 'primeng/primeng';
 export class DailyScheduleComponent implements OnInit {
 
   private msgs: Message[] = [];
-  private reportFilter: any = {ageRange: [40, 70]};
+  private reportFilter: any = { ageRange: [40, 70] };
   private dataToBind: any = {
     ageRange: [0, 15],
     selectedGender: 'M,F',
@@ -19,10 +20,13 @@ export class DailyScheduleComponent implements OnInit {
     selectedIndicators: ['on_arvs', 'on_arvs_first_line']
   };
 
-  constructor() {
+  constructor(private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
   ngOnInit() {
+    this.clinicDashboardCacheService.getCurrentClinic().subscribe((location) => {
+      console.log('Location', location);
+    });
   }
 
 
