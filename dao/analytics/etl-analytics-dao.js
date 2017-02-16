@@ -97,7 +97,7 @@ module.exports = function () {
           "value": endDate
         }, {
           "name": "locations",
-          "value": 'locations'
+          "value": locations
         }, {
           "name": "@referenceDate",
           "value": referenceDate

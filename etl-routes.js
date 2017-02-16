@@ -10,16 +10,18 @@ var _ = require('underscore');
 var Joi = require('joi');
 var eidLabData = require('./eid-data-synchronization/eid-lab-results');
 var eidService = require('./service/eid.service');
+var patientListCompare = require('./service/patient-list-compare.service.js');
 var Boom = require('boom');
 var authorizer = require('./authorization/etl-authorizer');
 var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
-import { MonthlyScheduleService } from './service/monthly-schedule-service'
+var MonthlyScheduleService = {};// require('./service/monthly-schedule-service');
+// import { MonthlyScheduleService } from './service/monthly-schedule-service'
 module.exports = function () {
 
-  return [{
+  var routes = [{
     method: 'GET',
     path: '/',
     config: {
@@ -1044,6 +1046,41 @@ module.exports = function () {
 
     }
   }, {
+    method: 'POST',
+    path: '/etl/compare-patient-lists',
+    config: {
+      auth: 'simple',
+      handler: function (request, reply) {
+        var r = request;
+        var handler;
+        _.each(routes, function (route) {
+          if (route.path === request.payload.path) {
+            handler = route.config.handler;
+          }
+        });
+
+        var requestObject = {
+          query: request.payload.query,
+          params: request.payload.params
+        };
+
+        if (handler) {
+          patientListCompare.fetchAndCompareList(request.payload.patientList,
+            requestObject, handler)
+            .then(function (comparison) {
+              reply(comparison);
+            })
+            .catch(function (error) {
+              reply(Boom.badImplementation('An internal error occured'));
+            })
+        } else {
+          reply(Boom.badRequest('Unknown patient list etl path'));
+        }
+
+      }
+    }
+  },
+  {
     method: 'GET',
     path: '/etl/patient-list-by-indicator',
     config: {
@@ -1055,7 +1092,7 @@ module.exports = function () {
       },
       handler: function (request, reply) {
         var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-
+        var requestQuery = JSON.stringify(request.query);
         var onResolvedPromise = function (promise) {
           asyncRequests--;
           if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
@@ -1269,4 +1306,6 @@ module.exports = function () {
       }
     }
   }];
+
+  return routes;
 }();
