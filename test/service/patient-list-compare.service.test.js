@@ -8,7 +8,7 @@ var listCompare = require('../../service/patient-list-compare.service.js');
 var expect = chai.expect;
 chai.use(sinonChai);
 
-describe.only('Patient List COMPARE TESTS', function () {
+describe('Patient List COMPARE TESTS', function () {
 
     beforeEach(function (done) {
 

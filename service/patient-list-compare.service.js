@@ -3,13 +3,15 @@
 var _ = require('underscore');
 var
     Promise = require('bluebird');
+var db = require('../etl-db');
 
 var serviceDef = {
     fullPatientListComparison: fullPatientListComparison,
     comparePatientLists: comparePatientLists,
     generateComparisonStats: generateComparisonStats,
     getAllResultsForHandler: getAllResultsForHandler,
-    fetchAndCompareList: fetchAndCompareList
+    fetchAndCompareList: fetchAndCompareList,
+    resolvePersonIds: resolvePersonIds
 };
 
 module.exports = serviceDef;
@@ -18,7 +20,21 @@ function fetchAndCompareList(patientList, requestObject, handler) {
     return new Promise(function (resolve, reject) {
         getAllResultsForHandler(requestObject, handler)
             .then(function (response) {
-                resolve(fullPatientListComparison(patientList, response.result));
+                var compared = fullPatientListComparison(patientList, response.result);
+
+                if (compared.onlyIncoming.length > 0) {
+                    resolvePersonIds(_getPersonids(compared.onlyIncoming))
+                        .then(function (results) {
+                            compared.onlyIncoming = results.result;
+                            resolve(compared);
+                        })
+                        .catch(function (error) {
+                            console.error('Error resolving patient_ids', error);
+                            resolve(compared);
+                        });
+                } else {
+                    resolve(compared);
+                }
             })
             .catch(function (error) {
                 reject(error);
@@ -91,6 +107,52 @@ function getAllResultsForHandler(requestObject, handler) {
         handler(requestObject, function (results) {
             // TODO: check for error on the returned results
             resolve(results);
+        });
+    });
+}
+
+function _getPersonids(patientList) {
+    var patients = [];
+    _.each(patientList, function (patient) {
+        patients.push(patient.person_id);
+    });
+    return patients;
+}
+
+function resolvePersonIds(personIdsArray) {
+    var list = '';
+
+    if (Array.isArray(personIdsArray)) {
+        list = JSON.stringify(personIdsArray);
+    } else {
+        list = personIdsArray;
+    }
+
+    list = list.replace('[', "").replace(']', "");
+
+    var sql = "select t1.person_id, t1.uuid as patient_uuid, t4.patient_id, t1.gender," +
+        " t1.birthdate,  extract(year from (from_days(datediff(now(), t1.birthdate)))) as age," +
+        "concat(COALESCE(t2.given_name,''),' ',COALESCE(t2.middle_name,''),' ',COALESCE(t2.family_name,''))" +
+        "as person_name, group_concat(distinct t3.identifier separator ', ') as identifiers FROM amrs.person `t1`" +
+        "INNER JOIN amrs.person_name `t2` ON (t1.person_id = t2.person_id)" +
+        "LEFT OUTER JOIN amrs.patient `t4` ON (t1.person_id = t4.patient_id)" +
+        "LEFT OUTER JOIN amrs.patient_identifier `t3` ON (t1.person_id = t3.patient_id)" +
+        "WHERE t1.person_id in (?)  GROUP BY t1.person_id";
+
+    sql = sql.replace('?', list);
+
+    var queryObject = {
+        query: sql,
+        sqlParams: []
+    }
+
+    return new Promise(function (resolve, reject) {
+        db.queryReportServer(queryObject, function (response) {
+            if (response.error) {
+                reject(response);
+            } else {
+                resolve(response);
+            }
         });
     });
 }
