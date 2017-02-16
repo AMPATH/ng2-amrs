@@ -59,7 +59,7 @@ module.exports = function () {
         if (request.query.locationUuids) {
           dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
             function (results) {
-              request.query.locations = results;
+              request.query.locations = [results];
             }).onResolved = (promise) => {
               let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'locations'], request.query);
               let service = new MonthlyScheduleService();
@@ -76,6 +76,118 @@ module.exports = function () {
       tags: ['api'],
     }
   },
+  {
+    method: 'GET',
+    path: '/etl/daily-appointments/{startDate}',
+    config: {
+      plugins: {
+        'hapiAuthorization': {
+          role: privileges.canViewClinicDashBoard
+        },
+        'openmrsLocationAuthorizer': {
+          locationParameter: [{
+            type: 'params', //can be in either query or params so you have to specify
+            name: 'uuid' //name of the location parameter
+          }]
+        }
+      },
+      handler: function (request, reply) {
+        if (request.query.locationUuids) {
+          dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+            function (results) {
+              request.query.locations = [results];
+            }).onResolved = (promise) => {
+              let compineRequestParams = Object.assign({}, request.query, request.params);
+              let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations', 'groupBy'], compineRequestParams);
+
+              dao.runReport(reportParams).then((result) => {
+                reply(result);
+              }).catch((error) => {
+                reply(error);
+              })
+            };
+        }
+      },
+      description: 'Get daily appointments list',
+      notes: 'Returns a list of patients with appointments',
+      tags: ['api'],
+    }
+  },
+  {
+    method: 'GET',
+    path: '/etl/daily-visits/{startDate}',
+    config: {
+      plugins: {
+        'hapiAuthorization': {
+          role: privileges.canViewClinicDashBoard
+        },
+        'openmrsLocationAuthorizer': {
+          locationParameter: [{
+            type: 'params', //can be in either query or params so you have to specify
+            name: 'uuid' //name of the location parameter
+          }]
+        }
+      },
+      handler: function (request, reply) {
+        if (request.query.locationUuids) {
+          dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+            function (results) {
+              request.query.locations = [results];
+            }).onResolved = (promise) => {
+              let compineRequestParams = Object.assign({}, request.query, request.params);
+              let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'locations', 'groupBy'], compineRequestParams);
+
+              dao.runReport(reportParams).then((result) => {
+                reply(result);
+              }).catch((error) => {
+                reply(error);
+              })
+            };
+        }
+      },
+      description: 'Get daily attendance list',
+      notes: 'Returns a facility daily attendance list',
+      tags: ['api'],
+    }
+  },
+  {
+    method: 'GET',
+    path: '/etl/daily-has-not-returned/{startDate}',
+    config: {
+      plugins: {
+        'hapiAuthorization': {
+          role: privileges.canViewClinicDashBoard
+        },
+        'openmrsLocationAuthorizer': {
+          locationParameter: [{
+            type: 'params', //can be in either query or params so you have to specify
+            name: 'uuid' //name of the location parameter
+          }]
+        }
+      },
+      handler: function (request, reply) {
+        if (request.query.locationUuids) {
+          dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+            function (results) {
+              request.query.locations = [results];
+            }).onResolved = (promise) => {
+              let compineRequestParams = Object.assign({}, request.query, request.params);
+              let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations', 'groupBy'], compineRequestParams);
+
+              dao.runReport(reportParams).then((result) => {
+                reply(result);
+              }).catch((error) => {
+                reply(error);
+              })
+            };
+        }
+      },
+      description: 'Get a list of patients who did not attend a scheduled visit',
+      notes: 'Returns a list of patients who did not attend their scheduled visits on the selected date',
+      tags: ['api'],
+    }
+  },
+
   {
     method: 'POST',
     path: '/etl/forms/error',
