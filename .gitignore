@@ -1,5 +1,5 @@
 # @AngularClass
-src/app/version.json
+/src/app/version.json
 # Logs
 logs
 *.log
