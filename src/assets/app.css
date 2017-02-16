@@ -246,11 +246,12 @@ md-tab-body.md-tab-body-active {
 
 .modal-main {
   transform: translate(0,0) !important;
+  left: 0 !important;
 }
 
 time-picker .modal-main {
   left: auto !important;
-  right: 0;
+  right: 0 !important;
 }
 
 .picker-wrap {
@@ -284,5 +285,14 @@ body app-formentry {
 
 .md-tab-label {
   font-weight: 700 !important;
+}
+
+p-dialog a.ui-dialog-titlebar-close {
+  display: none !important;
+}
+
+.login input {
+  font-size : 1.5em !important;
+  height: auto !important;
 }
 
