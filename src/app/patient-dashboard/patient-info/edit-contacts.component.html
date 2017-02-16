@@ -1,0 +1,20 @@
+
+<p-dialog header="Edit contacts" [(visible)]="display">
+  <label for="phoneNumber">Phone Number</label>
+  <input type="text" id="phoneNumber" class="form-control" [(ngModel)] = "patientPhoneNumber"
+         name="patientPhoneNumber">
+  <br>
+  <label for="alternativePhoneNumber">Alternative Phone Number</label>
+  <input type="text" id="alternativePhoneNumber" class="form-control" [(ngModel)]="alternativePhoneNumber"
+         name="alternativePhoneNumber">
+  <br>
+  <label for="spousePhoneNumber">Spouse Phone Number</label>
+  <input type="text" id="spousePhoneNumber" class="form-control" [(ngModel)]="patnerPhoneNumber"
+         name="patnerPhoneNumber">
+  <br>
+  <label for="nextOfKin">Next of Kin phone number</label>
+  <input type="text" id="nextOfKin" class="form-control" [(ngModel)]="nextofkinPhoneNumber"
+         name="nextofkinPhoneNumber" >
+  <br>
+  <button type="button" (click)="saveAttribute()" class="btn btn-primary" data-color="blue">Save</button>
+</p-dialog>

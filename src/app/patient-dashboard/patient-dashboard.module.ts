@@ -6,7 +6,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule
+  DialogModule, ButtonModule
 } from 'primeng/primeng';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
@@ -74,6 +74,8 @@ import {
   PatientRelationshipsComponent
 } from './patient-relationships/patient-relationships.component';
 
+import { EditContactsComponent } from './patient-info/edit-contacts.component';
+
 
 
 @NgModule({
@@ -97,7 +99,8 @@ import {
     ReactiveFormsModule,
     ConfirmDialogModule, DialogModule,
     ToastrModule.forRoot(),
-    EtlApi
+    EtlApi,
+    ButtonModule
 
   ],
   declarations: [
@@ -132,7 +135,10 @@ import {
     TodaysVitalsComponent,
     PatientRemindersComponent,
     OrderListComponent,
-    PatientRelationshipsComponent
+    PatientRelationshipsComponent,
+    EditContactsComponent
+
+
 
   ],
   providers: [

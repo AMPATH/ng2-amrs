@@ -12,11 +12,9 @@ import { Patient } from '../../models/patient.model';
 export class PatientInfoComponent implements OnInit {
 
   patient: Patient;
-
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private patientService: PatientService) {
   }
-
   ngOnInit() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {

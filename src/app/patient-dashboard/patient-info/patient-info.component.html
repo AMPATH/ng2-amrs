@@ -4,9 +4,19 @@
 		<p-accordionTab header=" Demographics " [selected]="true">
 			<patient-demographics></patient-demographics>
 		</p-accordionTab>
-		<p-accordionTab header=" Contacts " [selected]="false">
-			<contacts-info></contacts-info>
-		</p-accordionTab>
+    <p-accordionTab>
+      <p-header>
+        Contacts
+        <button pButton type="button" (click)="timer.showDialog()"
+                class="ui-button-info" label="Edit" style="float: right"></button>
+      </p-header>
+      <edit-contacts-info #timer>
+      </edit-contacts-info>
+
+      <contacts-info>
+
+      </contacts-info>
+    </p-accordionTab>
 		<p-accordionTab header=" Address " [selected]="false">
 			<address></address>
 		</p-accordionTab>
