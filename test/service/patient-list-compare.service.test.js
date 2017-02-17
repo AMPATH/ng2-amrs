@@ -84,7 +84,7 @@ describe('Patient List COMPARE TESTS', function () {
                 ]
                 ,
                 summaryStats: {
-                    totalPoc : 4,
+                    totalPoc: 4,
                     totalIncoming: 4,
                     totalBoth: 2,
                     totalOnlyPoc: 2,
@@ -95,6 +95,30 @@ describe('Patient List COMPARE TESTS', function () {
             var actual = listCompare.fullPatientListComparison(incomingList, pocList);
 
             expect(actual).to.deep.equal(expectedSetDifference);
+        });
+
+    it('should transform patient ids to patient objects',
+        function () {
+            var patientObjects = [
+                {
+                    person_id: 1
+                },
+                {
+                    person_id: 2
+                },
+                {
+                    person_id: 3
+                },
+                {
+                    person_id: 4
+                }
+            ];
+
+            var patientIds = [1, 2, 3, 4];
+
+            var actual = listCompare.toArrayOfPatientObjects(patientIds);
+
+            expect(actual).to.deep.equal(patientObjects);
         });
 
 });

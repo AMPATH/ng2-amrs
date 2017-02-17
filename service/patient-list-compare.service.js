@@ -11,16 +11,24 @@ var serviceDef = {
     generateComparisonStats: generateComparisonStats,
     getAllResultsForHandler: getAllResultsForHandler,
     fetchAndCompareList: fetchAndCompareList,
-    resolvePersonIds: resolvePersonIds
+    resolvePersonIds: resolvePersonIds,
+    toArrayOfPatientObjects: toArrayOfPatientObjects
 };
 
 module.exports = serviceDef;
 
 function fetchAndCompareList(patientList, requestObject, handler) {
+    if (typeof patientList[0] === 'number' ||
+        typeof patientList[0] === 'string') {
+        patientList = toArrayOfPatientObjects(patientList);
+    }
     return new Promise(function (resolve, reject) {
         getAllResultsForHandler(requestObject, handler)
             .then(function (response) {
                 var compared = fullPatientListComparison(patientList, response.result);
+                
+                if (compared.summaryStats.totalIncoming !== 0)
+                    compared.summaryStats.pocIncomingRatio = (compared.summaryStats.totalPoc / compared.summaryStats.totalIncoming);
 
                 if (compared.onlyIncoming.length > 0) {
                     resolvePersonIds(_getPersonids(compared.onlyIncoming))
@@ -117,6 +125,18 @@ function _getPersonids(patientList) {
         patients.push(patient.person_id);
     });
     return patients;
+}
+
+function toArrayOfPatientObjects(patientsIdArray) {
+    var patientObjects = [];
+
+    _.each(patientsIdArray, function (id) {
+        patientObjects.push({
+            person_id: id
+        });
+
+    });
+    return patientObjects;
 }
 
 function resolvePersonIds(personIdsArray) {
