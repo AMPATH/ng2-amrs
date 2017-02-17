@@ -8,6 +8,7 @@ import { EncounterResourceService } from './encounter-resource.service';
 import { PatientResourceService } from './patient-resource.service';
 import { PatientSearchService } from '../patient-dashboard/patient-search/patient-search.service';
 import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
+import { ProgramResourceService } from './program-resource.service';
 import { UserService } from './user.service';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';
@@ -32,6 +33,7 @@ import {
     FormsResourceService,
     PatientResourceService,
     PatientSearchService, EncounterResourceService,
+    ProgramResourceService,
     ProgramEnrollmentResourceService,
     UserService,
     ProviderResourceService,

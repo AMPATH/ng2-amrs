@@ -1,14 +1,21 @@
 import { BaseModel } from './base-model.model';
 import { serializable } from './serializable.decorator';
 import { Program } from './program.model';
+import { DatePipe } from '@angular/common';
+import { TitleCasePipe } from '../shared/pipes/title-case.pipe';
 
 export class ProgramEnrollment extends BaseModel {
   private _program: Program;
   private _dateEnrolled: Date;
   private _dateCompleted: Date;
+  private _datePipe: DatePipe;
+  private _titleCasePipe: TitleCasePipe;
 
   constructor(openmrsModel?: any) {
     super(openmrsModel);
+    this._datePipe = new DatePipe('en-US');
+    this._titleCasePipe = new TitleCasePipe();
+
   }
 
   @serializable(true, false)
@@ -27,18 +34,22 @@ export class ProgramEnrollment extends BaseModel {
 
   @serializable()
   public get display(): string {
-    return this._openmrsModel.display;
+    return this._titleCasePipe.transform(this._openmrsModel.display);
   }
 
   public set display(v: string) {
     this._openmrsModel.display = v;
   }
 
+  public get programUuid(): string {
+    return this._openmrsModel.program.uuid;
+  }
+
 
   @serializable()
   public get dateEnrolled(): Date {
     if (this._dateEnrolled === null || this._dateEnrolled === undefined) {
-      this._dateEnrolled = new Date(this._openmrsModel.dateEnrolled);
+      this._dateEnrolled = this.resolveDate(this._openmrsModel.dateEnrolled);
     }
     return this._dateEnrolled;
   }
@@ -51,7 +62,7 @@ export class ProgramEnrollment extends BaseModel {
   @serializable()
   public get dateCompleted(): Date {
     if (this._dateCompleted === null || this._dateCompleted === undefined) {
-      this._dateCompleted = new Date(this._openmrsModel.dateCompleted);
+      this._dateCompleted = this.resolveDate(this._openmrsModel.dateCompleted);
     }
     return this._dateCompleted;
   }
@@ -59,6 +70,12 @@ export class ProgramEnrollment extends BaseModel {
   public set dateCompleted(v: Date) {
     this._openmrsModel.dateCompleted = v.toServerTimezoneString();
     this._dateCompleted = v;
+  }
+
+  private resolveDate(date) {
+    let dateFormat: string = 'MMM dd, yyyy';
+    let parsedDate = Date.parse(date);
+    return isNaN(parsedDate) ? date : this._datePipe.transform(date, dateFormat);
   }
 
 

@@ -1,6 +1,79 @@
+<div style="padding:4px;margin-bottom:0.5cm;">
+  <label for="program">Select A Program To Enroll</label>
+  <select class="form-control" [(ngModel)]="program" (change)="openNewEnrollmentDialog($event.target.value)">
+      <option *ngFor="let p of availablePrograms"  [ngValue]="p.uuid" >{{p.display}}
+      </option>
+    </select>
+</div>
+
+<p-dialog header="{{selectedProgram}}" [(visible)]="displayDialog" minHieght="300" position="center" modal="true">
+  <div style="width: 100%; overflow:hidden;">
+    <label for="enrolledDate">Date Enrolled:</label>
+    <div class="input-group">
+      <div class="ui-grid-col-10">
+        <input [(ngModel)]="dateEnrolled" type="date" />
+      </div>
+    </div>
+    <div ng-messages="programEnrollmentForm.enrolledDate.$error">
+      <div class="help-block" ng-message="required">Date Enrolled is required.</div>
+    </div>
+
+
+
+    <label for="completedDate">Date Completed:</label>
+    <div class="input-group" style="border: 1px solid #66b3ff;">
+      <div class="ui-grid-col-10">
+        <input [(ngModel)]="dateCompleted" type="date" />
+      </div>
+    </div>
+    <div ng-messages="programEnrollmentForm.completedDate.$error">
+      <div class="help-block" ng-message="required">Date Completed is required.</div>
+    </div>
+
+
+    <div *ngIf="hasError" style="margin-bottom:10px;">
+      <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
+    </div>
+
+    <button data-color="blue" (click)="enrollToProgram()" class="btn btn-primary ladda-button" data-style="expand-right">
+          <span>Enroll Patient</span>
+        </button>
+  </div>
+</p-dialog>
+
 <div class="wrapper">
-<p>
-  programs loaded
-</p>
-<i class="icon-kidney"></i>
+  <div>
+    <div [ngBusy]="{busy:[loadingPatientPrograms, programsBusy],message:'Loading program enrollment.........'}"></div>
+
+    <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+    </div>
+
+    <div *ngIf='!notEnrolled && !loadingPatientPrograms' class="panel panel-primary">
+      <div class="panel panel-default">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Program</th>
+              <th>Date Enrolled</th>
+              <th>Date Completed</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="cursor: pointer;" *ngFor="let patientProgram of enrolledProgrames">
+              <td>{{patientProgram.display}}</td>
+              <td>{{patientProgram.dateEnrolled}}</td>
+              <td>{{patientProgram.dateCompleted}}</td>
+              <td>
+                <button type="button" class="btn btn-xs" (click)="updateEnrollment(patientProgram)">
+               <span class="glyphicon text-primary glyphicon-edit"></span>
+            </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
