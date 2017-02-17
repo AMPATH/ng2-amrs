@@ -187,6 +187,43 @@ module.exports = function () {
       tags: ['api'],
     }
   },
+  {
+    method: 'GET',
+    path: '/etl/clinic-lab-orders/{dateActivated}',
+    config: {
+      plugins: {
+        'hapiAuthorization': {
+          role: privileges.canViewClinicDashBoard
+        },
+        'openmrsLocationAuthorizer': {
+          locationParameter: [{
+            type: 'params', //can be in either query or params so you have to specify
+            name: 'uuid' //name of the location parameter
+          }]
+        }
+      },
+      handler: function (request, reply) {
+        if (request.query.locationUuids) {
+          dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+            function (results) {
+              request.query.locations = [results];
+            }).onResolved = (promise) => {
+              let compineRequestParams = Object.assign({}, request.query, request.params);
+              let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['dateActivated', 'locations', 'groupBy'], compineRequestParams);
+
+              dao.runReport(reportParams).then((result) => {
+                reply(result);
+              }).catch((error) => {
+                reply(error);
+              })
+            };
+        }
+      },
+      description: 'Get a list of patients who made lab orders on a selected date',
+      notes: 'Returns a list of patients patients who made lab orders through selected clinics on a selected date',
+      tags: ['api'],
+    }
+  },
 
   {
     method: 'POST',
