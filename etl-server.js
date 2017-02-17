@@ -170,6 +170,7 @@ server.register([
 
     function (err) {
         if (err) {
+            console.error(err)
             throw err; // something bad happened loading the plugin
         }
         server.auth.strategy('simple', 'basic', 'required', {
