@@ -17,9 +17,16 @@
 
       </contacts-info>
     </p-accordionTab>
-		<p-accordionTab header=" Address " [selected]="false">
+		<p-accordionTab >
+      <p-header>
+        Address
+        <button pButton type="button" (click)="address.showDialog()"
+                class="ui-button-info" label="Edit" style="float: right"></button>
+      </p-header>
+      <edit-address #address></edit-address>
 			<address></address>
 		</p-accordionTab>
+
 		<p-accordionTab header=" Identifiers " [selected]="false">
 			<patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
 		</p-accordionTab>

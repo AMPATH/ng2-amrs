@@ -75,6 +75,7 @@ import { PatientRelationshipService } from './patient-relationships/patient-rela
 import {
   PatientRelationshipsComponent
 } from './patient-relationships/patient-relationships.component';
+import { EditAddressComponent } from './patient-info/edit-address.component';
 
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
 
@@ -144,7 +145,9 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
     PatientRemindersComponent,
     OrderListComponent,
     PatientRelationshipsComponent,
-    EditContactsComponent
+    EditContactsComponent,
+    EditAddressComponent
+
 
 
 

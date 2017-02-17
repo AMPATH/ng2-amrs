@@ -1,0 +1,32 @@
+<p-dialog header="Edit Address" [(visible)]="display">
+  <form name="personForm">
+    <div class="form-group">
+      <div>
+        <label for="address1">County</label>
+        <input type="text" id="address1" class="form-control" [(ngModel)]="address1"
+               name="address1">
+        <br>
+        <label for="address2">Sub County</label>
+        <input type="text" id="address2" class="form-control" [(ngModel)]="address2"
+               name="address2">
+        <br>
+        <label for="address3">Estate Landmark</label>
+        <input type="text" id="address3" class="form-control" [(ngModel)]="address3"
+               name="address3">
+        <br>
+        <label for="cityVillage">City Village</label>
+        <input type="text" id="cityVillage" class="form-control" [(ngModel)]="cityVillage"
+               name="cityVillage">
+        <br>
+        <label for="stateProvince">State Province</label>
+        <input type="text" id="stateProvince" class="form-control" [(ngModel)]="stateProvince"
+               name="stateProvince">
+        <br>
+      </div>
+      <br>
+      <button class="btn btn-primary" type="button" (click)="updatePersonAddress()"><span>Save</span></button>
+
+    </div>
+  </form>
+
+</p-dialog>
