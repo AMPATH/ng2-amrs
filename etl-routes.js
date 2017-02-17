@@ -1180,7 +1180,12 @@ module.exports = function () {
           patientListCompare.fetchAndCompareList(request.payload.patientList,
             requestObject, handler)
             .then(function (comparison) {
-              reply(comparison);
+              if (request.query.includeBoth === true || request.query.includeBoth === 'true') {
+                reply(comparison);
+              } else {
+                delete comparison.both;
+                reply(comparison);
+              }
             })
             .catch(function (error) {
               reply(Boom.badImplementation('An internal error occured'));
