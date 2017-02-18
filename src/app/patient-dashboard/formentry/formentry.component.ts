@@ -206,6 +206,55 @@ export class FormentryComponent implements OnInit, OnDestroy {
       );
   }
 
+  /**
+   * This is a temporary work around till form relations are build properly
+   */
+  private formRelationsFix(form: any) {
+    let childControls = [
+      'difOfCaregiver',
+      'missADose',
+      'receiveADose',
+      'trueOfCaregiver',
+      'adherenceAss'
+    ];
+
+    let onArtControl = form.searchNodeByQuestionId('onArt');
+    let pcpProphylaxisCurrentControl = form.searchNodeByQuestionId('pcpProphylaxisCurrent');
+    let onTbProphylaxisControl = form.searchNodeByQuestionId('onTbProphylaxis');
+
+
+    childControls.forEach((cControl) => {
+      let childControl = form.searchNodeByQuestionId(cControl);
+
+      if (onArtControl && onArtControl[0] && childControl[0]) {
+        this.updateRelatedControlFix(onArtControl[0], childControl[0]);
+      }
+
+      if (pcpProphylaxisCurrentControl && pcpProphylaxisCurrentControl[0] && childControl[1]) {
+        this.updateRelatedControlFix(pcpProphylaxisCurrentControl[0], childControl[1]);
+      }
+
+      if (onTbProphylaxisControl && onTbProphylaxisControl[0] && childControl[2]) {
+        this.updateRelatedControlFix(onTbProphylaxisControl[0], childControl[2]);
+      }
+    });
+
+    let tbProphyAdherencenotes = form.searchNodeByQuestionId('tbProphyAdherencenotes');
+    this.updateRelatedControlFix(onTbProphylaxisControl[0], tbProphyAdherencenotes[0]);
+    let tbAdherencenotes = form.searchNodeByQuestionId('tbAdherencenotes');
+    this.updateRelatedControlFix(onTbProphylaxisControl[0], tbAdherencenotes[0]);
+
+  }
+
+  private updateRelatedControlFix(parentControl, childControl) {
+    if (childControl) {
+      childControl.control.controlRelations.addRelatedControls(parentControl.control);
+      childControl.control.controlRelations.relations.forEach((relation) => {
+        relation.updateControlBasedOnRelation(parentControl);
+      });
+    }
+  }
+
   private renderForm(): void {
     this.formRenderingErrors = []; // clear all rendering errors
     try {
@@ -214,15 +263,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
       let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
       this.dataSources.registerDataSource('patient',
         this.formDataSourceService.getPatientObject(this.patient), true);
-
       if (this.encounter) { // editting existing form
         this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
+        this.formRelationsFix(this.form);
         this.encounterAdapter.populateForm(this.form, this.encounter);
         this.personAttribuAdapter.populateForm(this.form, this.patient.person.attributes);
         this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
       } else { // creating new from
         this.dataSources.registerDataSource('rawPrevEnc', historicalEncounter, false);
         this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
+        this.formRelationsFix(this.form);
         this.form.valueProcessingInfo.patientUuid = this.patient.uuid;
         // add visit uuid if present
         if (this.visitUuid && this.visitUuid !== '')
