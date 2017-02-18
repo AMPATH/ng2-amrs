@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EtlApi } from '../etl-api/etl-api.module';
-
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { MaterialModule } from '@angular/material';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -76,9 +77,14 @@ import {
   PatientRelationshipsComponent
 } from './patient-relationships/patient-relationships.component';
 import { EditAddressComponent } from './patient-info/edit-address.component';
-
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
+import {
+  HivPatientClinicalSummaryComponent
+} from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
 
+import {
+  HivPatientClinicalSummaryService
+} from './patient-clinical-summaries/hiv-patient-clinical-summary.service';
 
 
 @NgModule({
@@ -104,6 +110,7 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
     TabViewModule,
     GrowlModule, PanelModule,
     Angulartics2Module.forChild(),
+    MaterialModule,
     FormEntryModule,
     ReactiveFormsModule,
     ConfirmDialogModule, DialogModule,
@@ -146,11 +153,9 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
     OrderListComponent,
     PatientRelationshipsComponent,
     EditContactsComponent,
-    EditAddressComponent
-
-
-
-
+    EditAddressComponent,
+    HivPatientClinicalSummaryComponent,
+    PdfViewerComponent
   ],
   providers: [
     PatientEncounterService,
@@ -174,7 +179,8 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
     DraftedFormsService,
     TodaysVitalsService,
     PatientRelationshipService,
-    ProgramService
+    ProgramService,
+    HivPatientClinicalSummaryService
   ],
   exports: [
     PatientDashboardComponent,

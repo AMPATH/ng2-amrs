@@ -1,8 +1,10 @@
 <dl>
-  <ng-container *ngFor="let identifier of identifiers">
-    <dt>{{identifier.identifierType.name}}</dt>
-    <dd>{{identifier.identifier}}</dd>
-  </ng-container>
+  <div *ngIf="identifiers">
+    <ng-container *ngFor="let identifier of identifiers">
+      <dt>{{identifier.identifierType.name}}</dt>
+      <dd>{{identifier.identifier}}</dd>
+    </ng-container>
+  </div>
 </dl>
 
 

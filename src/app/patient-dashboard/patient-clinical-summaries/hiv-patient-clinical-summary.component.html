@@ -1,0 +1,61 @@
+<div class="wrapper">
+  <div [ngBusy]="{busy:isBusy,message:'Please Wait, fetching data...'}">
+    <div class="panel panel-info">
+
+      <div class="panel-heading" style="min-height: 50px!important">
+
+        <strong class="text-primary">
+					<span class="fa fa-file-pdf-o">
+
+					</span>
+          HIV Patient Clinical Summary
+          <div class="btn-group pull-right">
+            <button class="btn  btn-primary"
+                    (click)="printSummary()" [disabled]="!pdfMakeProxy">
+              <i class="fa fa-print">
+              </i> Print Summary
+            </button>
+            <button class="btn btn-primary"
+                    (click)="downloadPdf()" [disabled]="!pdfMakeProxy">
+              <i class="fa fa-download">
+              </i> Download Pdf
+            </button>
+          </div>
+        </strong>
+
+
+      </div>
+      <div class="panel-body" style="background-color: #ECF0F5">
+        <pdf-viewer [src]="pdfSrc"
+                    [page]="page"
+                    (after-load-complete)="afterLoadCompletes($event)"
+                    [original-size]="false"
+                    style="display: block;"
+                    [render-text]="false"
+                    [show-all]="false"
+        >
+
+        </pdf-viewer>
+        <div *ngIf="errorFlag" class="alert alert-warning">
+          <strong>Patient summary not available,</strong> please contact your system administrator
+          if you consider this an error
+        </div>
+        <!--<object  type="application/pdf" width="100%" height="800" [data]="securedUrl" type="application/pdf"></object>-->
+      </div>
+      <div class="panel-footer" style="min-height: 50px">
+        <button class="btn btn-default pull-left" (click)="prevPage()"
+                [disabled]="!pdfMakeProxy || page<2">
+          <i class="fa fa-arrow-circle-o-left">
+          </i> Previous Page
+        </button>
+        <button class="btn btn-default pull-right" (click)="nextPage()"
+                [disabled]="!pdfMakeProxy">
+          Next Page <i class="fa fa-arrow-circle-o-right">
+        </i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
