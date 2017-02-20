@@ -11,6 +11,7 @@ export class MonthlyScheduleResourceService {
         urlParams.set('startDate', params.startDate);
         urlParams.set('locationUuids', params.locationUuids);
         urlParams.set('limit', params.limit);
+        urlParams.set('groupBy', 'groupByPerson,groupByAttendedDate,groupByRtcDate');
         return this.http.get(this.getUrl(), {
             search: urlParams
         })

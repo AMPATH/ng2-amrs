@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 
+import { CalendarModule } from 'angular-calendar';
+
+
 import { clinicDashboardRouting } from './clinic-dashboard-routing';
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
@@ -14,6 +17,7 @@ import { TabViewModule, FieldsetModule, ButtonModule, GrowlModule } from 'primen
 import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { SelectModule } from 'angular2-select';
+import { BusyModule } from 'angular2-busy';
 
 @NgModule({
   imports: [
@@ -27,7 +31,9 @@ import { SelectModule } from 'angular2-select';
     GrowlModule,
     OpenmrsApi,
     SelectModule,
-    Angulartics2Module.forChild()
+    Angulartics2Module.forChild(),
+    BusyModule,
+    CalendarModule.forRoot()
   ],
   declarations: [
     DailyScheduleComponent,

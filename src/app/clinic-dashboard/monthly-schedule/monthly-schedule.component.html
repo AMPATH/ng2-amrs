@@ -1,3 +1,5 @@
-<p>
-  monthly-schedule works!
-</p>
+<div [ngBusy]="busy">
+  <mwl-calendar-month-view [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" [viewDate]="viewDate"
+    (eventClicked)="handleEvent('Clicked', $event.event)" [events]="events" [dayModifier]="addBadgeTotal">
+    </mwl-calendar-month-view>
+</div>
