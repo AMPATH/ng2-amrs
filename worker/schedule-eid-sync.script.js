@@ -10,6 +10,7 @@ var
     , _ = require('underscore')
     , format = require('date-format')
     , moment = require('moment');
+var nodemailer = require('nodemailer'); // npm install nodemailer
 
 var log_file = 'lab-sync-scheduling.log';
 var error_file = 'lab-sync-scheduling-error.log';
@@ -23,7 +24,6 @@ var service = {
     schedulingInProgress: false,
     start: function () {
         console.info('scheduling process started');
-
         setInterval(function () {
             if (!service.schedulingInProgress)
                 service.scheduleEidSync();
@@ -67,14 +67,36 @@ var service = {
             console.log('*********************************');
             console.log('Could not schedule for:');
             console.log('*********************************');
+
+            _.each(service.errorQueue, function (errorItem) {
+                delete errorItem.apiKey;
+            });
+
             console.log(service.errorQueue);
             service.logErrorWhenScheduling(service.errorQueue);
 
-            //TODO: Log errors
-            //TODO: Send failure email
-            console.log('*********************************');
-            console.log('Exiting scheduler with status 1...')
-            process.exit(1);
+            if (config && config.emailNotification && config.emailNotification.sourceAddress) {
+                console.log('*********************************');
+                console.log('Sending email notification to maintainers..');
+                service.sendMail('There was an error sheduling the eid-amrs sync:  ' +
+                    JSON.stringify(service.errorQueue), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
+                    .then(function (info) {
+                        console.log('*********************************');
+                        console.log('Exiting scheduler with status 1...')
+                        process.exit(1);
+                    })
+                    .catch(function (error) {
+                        console.log('Error sending email notification');
+                        console.log('*********************************');
+                        console.log('Exiting scheduler with status 1...')
+                        process.exit(1);
+                    });
+            } else {
+                console.log('*********************************');
+                console.log('Exiting scheduler with status 1...')
+                process.exit(1);
+            }
+
             return;
         }
 
@@ -280,6 +302,36 @@ var service = {
     },
     logErrorWhenScheduling: function (error) {
         fs.appendFileSync(error_file, JSON.stringify({ date: new Date(), error: error }) + '\r\n');
+    },
+    sendMail: function (message, title, destination) {
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: config.emailNotification.sourceAddress, // Your email id
+                pass: config.emailNotification.sourcePassword // Your password
+            }
+        });
+
+        var mailOptions = {
+            from: config.emailNotification.sourceAddress, // sender address
+            to: destination, // list of receivers
+            subject: title, // Subject line
+            text: message //, // plaintext body
+            // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+        };
+
+        return new Promise(function (resolve, reject) {
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    reject(error);
+                } else {
+                    console.log('Message sent: ' + info.response);
+                    resolve(info.response);
+                };
+            });
+
+        });
     }
 
 };
