@@ -8,9 +8,10 @@ import { LabsResourceService } from './labs-resource.service';
 import { ClinicalNotesResourceService } from './clinical-notes-resource.service';
 import { MedicationHistoryResourceService } from './medication-history-resource.service';
 import { HivSummaryResourceService } from './hiv-summary-resource.service';
+import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.service';
 import { ErrorLogResourceService } from './error-log-resource.service';
 import { HivPatientClinicalSummaryResourceService }
-from './hiv-patient-clinical-summary-resource.service';
+  from './hiv-patient-clinical-summary-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -24,8 +25,9 @@ from './hiv-patient-clinical-summary-resource.service';
     MedicationHistoryResourceService,
     HivSummaryResourceService,
     ErrorLogResourceService,
-    HivPatientClinicalSummaryResourceService
-    ],
+    HivPatientClinicalSummaryResourceService,
+    MonthlyScheduleResourceService
+  ],
   exports: []
 })
 export class EtlApi {

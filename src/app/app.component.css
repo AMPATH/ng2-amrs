@@ -9,7 +9,7 @@
 @import "skin-black-light.css";
 @import "../../node_modules/ladda/dist/ladda.min.css";
 @import '../../node_modules/toastr-ng2/toastr.css';
-
+@import '../../node_modules/angular-calendar/dist/css/angular-calendar.css';
 body {
   background: #f9fafc;
   font-size: 16px;
