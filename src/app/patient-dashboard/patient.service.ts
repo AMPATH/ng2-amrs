@@ -11,6 +11,7 @@ import { EncounterResourceService } from '../openmrs-api/encounter-resource.serv
 export class PatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(null);
   public currentlyLoadedPatientUuid = new ReplaySubject(1);
+  public isBusy: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private patientResourceService: PatientResourceService,
     private programEnrollmentResourceService: ProgramEnrollmentResourceService,
@@ -35,6 +36,8 @@ export class PatientService {
     // reset patient
     this.currentlyLoadedPatient.next(null);
     this.currentlyLoadedPatientUuid = new ReplaySubject(1);
+    // busy
+    this.isBusy.next(true);
     // hit server
     Observable.forkJoin(
       this.patientResourceService.getPatientByUuid(patientUuid, false),
@@ -48,9 +51,12 @@ export class PatientService {
         patient.encounters = data[2];
         this.currentlyLoadedPatient.next(new Patient(patient));
         this.currentlyLoadedPatientUuid.next(patientUuid);
+        this.isBusy.next(false);
       },
-      err => console.log(err)
-      );
+      err => {
+        console.log(err);
+        this.isBusy.next(false);
+      });
 
   }
 }

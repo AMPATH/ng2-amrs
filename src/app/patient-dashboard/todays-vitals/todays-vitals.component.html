@@ -27,7 +27,7 @@
 <ul *ngIf="!todaysVitals.length>0" class="list-group">
   <li class="list-group-item">
     <span *ngIf="!dataLoaded && !loadingTodaysVitals && !errors.length > 0">No vitals taken for the patient today</span>
-    <div *ngIf="loadingTodaysVitals">Loading today's vitals..</div>
+    <div *ngIf="loadingTodaysVitals"><div class="fa fa-spinner fa-spin"></div> Loading today's vitals..</div>
     <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
     </div>

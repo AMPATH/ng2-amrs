@@ -9,6 +9,8 @@ import { ClinicalNotesResourceService } from './clinical-notes-resource.service'
 import { MedicationHistoryResourceService } from './medication-history-resource.service';
 import { HivSummaryResourceService } from './hiv-summary-resource.service';
 import { ErrorLogResourceService } from './error-log-resource.service';
+import { HivPatientClinicalSummaryResourceService }
+from './hiv-patient-clinical-summary-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -21,7 +23,8 @@ import { ErrorLogResourceService } from './error-log-resource.service';
     ClinicalNotesResourceService,
     MedicationHistoryResourceService,
     HivSummaryResourceService,
-    ErrorLogResourceService
+    ErrorLogResourceService,
+    HivPatientClinicalSummaryResourceService
     ],
   exports: []
 })

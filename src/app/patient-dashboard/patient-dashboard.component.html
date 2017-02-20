@@ -1,6 +1,7 @@
 <div class="box box-solid">
 	<div class="box-header">
     <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
+		<md-progress-bar   *ngIf="fetchingPatient" mode="indeterminate"></md-progress-bar>
 		<patient-banner></patient-banner>
 		<patient-reminders></patient-reminders>
 		<todays-vitals></todays-vitals>

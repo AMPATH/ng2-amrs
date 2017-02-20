@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { PatientService } from './patient.service';
+import { Patient } from '../models/patient.model';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -8,10 +10,18 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class PatientDashboardComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  public fetchingPatient: boolean = false;
+  public patient: Patient;
+  constructor(private router: Router, private route: ActivatedRoute,
+    private patientService: PatientService) { }
 
   ngOnInit() {
-
+    this.patientService.isBusy.subscribe(
+      (isLoading) => {
+       this.fetchingPatient = isLoading;
+      }, (err) => {
+        this.fetchingPatient = false;
+      });
   }
 
 }

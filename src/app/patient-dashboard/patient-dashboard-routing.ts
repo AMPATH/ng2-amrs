@@ -16,6 +16,8 @@ import { VisitComponent } from './visit/visit.component';
 import { FormentryComponent } from './formentry/formentry.component';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
+import { HivPatientClinicalSummaryComponent }
+  from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
 
 const patientDashboardRoutes: Routes = [
 
@@ -28,7 +30,8 @@ const patientDashboardRoutes: Routes = [
       { path: 'patient-encounters', component: PatientEncountersComponent },
       { path: 'patient-vitals', component: PatientVitalsComponent },
       { path: 'forms', component: FormsComponent },
-      { path: 'formentry/:formUuid',
+      {
+        path: 'formentry/:formUuid',
         component: FormentryComponent,
         canDeactivate: [FromentryGuard],
         resolve: {
@@ -36,6 +39,7 @@ const patientDashboardRoutes: Routes = [
         }
       },
       { path: 'hiv-summary', component: HivSummaryComponent },
+      { path: 'hiv-clinical-summary', component: HivPatientClinicalSummaryComponent },
       { path: 'lab-data-summary', component: LabDataSummaryComponent },
       { path: 'lab-orders', component: LabOrdersComponent },
       { path: 'programs', component: ProgramsComponent },
