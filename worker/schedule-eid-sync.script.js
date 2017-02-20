@@ -1,11 +1,18 @@
 var
-    db = require('../etl-db')
+    db = require('../etl-db'),
+    fs = require('fs')
+    , util = require('util')
+    , stream = require('stream')
+    , es = require('event-stream')
     , config = require('../conf/config')
     , Promise = require('bluebird')
     , eidService = require('../service/eid.service.js')
     , _ = require('underscore')
     , format = require('date-format')
     , moment = require('moment');
+
+var log_file = 'lab-sync-scheduling.log';
+var error_file = 'lab-sync-scheduling-error.log';
 
 var service = {
     errorQueue: [],
@@ -55,11 +62,13 @@ var service = {
             console.log('Scheduled:');
             console.log('*********************************');
             console.log(service.scheduledSuccessfully);
+            service.logSuccessfulScheduling(service.scheduledSuccessfully);
 
             console.log('*********************************');
             console.log('Could not schedule for:');
             console.log('*********************************');
             console.log(service.errorQueue);
+            service.logErrorWhenScheduling(service.errorQueue);
 
             //TODO: Log errors
             //TODO: Send failure email
@@ -94,6 +103,7 @@ var service = {
                     console.info('Scheduling completed successfully');
                     console.info('*********************************');
                     console.info(service.scheduledSuccessfully);
+                    service.logSuccessfulScheduling(service.scheduledSuccessfully);
                     console.info('*********************************');
                     console.log('Exiting scheduler...');
                     process.exit(0);
@@ -102,6 +112,7 @@ var service = {
                 }
             })
             .catch(function (error) {
+                service.logErrorWhenScheduling(error);
                 console.log('An expected error happened while scheduling...');
             });
 
@@ -262,6 +273,13 @@ var service = {
             }
         });
         return val;
+    },
+    logSuccessfulScheduling: function (logMessage) {
+        // var s = fs.createReadStream(log_file);
+        fs.appendFileSync(log_file, JSON.stringify({ date: new Date(), log: logMessage }) + '\r\n');
+    },
+    logErrorWhenScheduling: function (error) {
+        fs.appendFileSync(error_file, JSON.stringify({ date: new Date(), error: error }) + '\r\n');
     }
 
 };
