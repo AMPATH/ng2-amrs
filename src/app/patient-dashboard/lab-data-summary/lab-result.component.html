@@ -1,45 +1,20 @@
 
 <div>
+  <div>
+    <ag-grid-angular #agGrid style="width: 100%; height: 350px;" class="ag-fresh"
+                     [gridOptions]="gridOptions"
+                     [rowData]="labResults"
+                     enableSorting>
 
-  <table class="table table-hover table-striped table-responsive">
-    <thead>
-    <tr>
-      <th [style.width]="200">Date</th>
-      <th [style.width]="100">DNA PCR</th>
-      <th [style.width]="100">CD4</th>
-      <th [style.width]="100">CD4%</th>
-      <th [style.width]="100">HIV VL</th>
-      <th [style.width]="100">Hb</th>
-      <th [style.width]="100">AST</th>
-      <th [style.width]="100">Cr</th>
-      <th [style.width]="100">CXR</th>
-      <th [style.width]="100">Tests Ordered</th>
-      <th [style.width]="100">Lab Errors</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let test of labResults">
-      <td><span *ngIf="test.test_datetime">{{test.test_datetime | date:'dd-MM-yyyy'}}</span></td>
-      <td><span *ngIf="test.hiv_dna_pcr">{{test.hiv_dna_pcr}}</span></td>
-      <td><span *ngIf="test.cd4_count">{{test.cd4_count}}</span></td>
-      <td><span *ngIf="test.cd4_percent">{{test.cd4_percent}}</span></td>
-      <td><span >{{test.hiv_viral_load}}</span></td>
-      <td><span *ngIf="test.hemoglobin">{{test.hemoglobin}}</span></td>
-      <td><span *ngIf="test.ast">{{test.ast}}</span></td>
-      <td><span *ngIf="test.creatinine">{{test.creatinine}}</span></td>
-      <td><span *ngIf="test.chest_xray">{{test.chest_xray}}</span></td>
-      <td><span *ngIf="test.tests_ordered">{{test.tests_ordered}}</span></td>
-      <td><span *ngIf="test.lab_errors">{{test.lab_errors}}</span></td>
+    </ag-grid-angular>
+  </div>
 
-    </tr>
-    </tbody>
-  </table>
-  <div *ngIf='!dataLoaded' >
+  <!--<div *ngIf='!dataLoaded' >
     <div class="input-group-btn">
       <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreLabResults()">
         <span class=""></span>Load More...</button>
     </div>
-  </div>
+  </div>-->
 
   <div *ngIf='dataLoaded'>
     <p class="bg-info" style="padding:4px;">
@@ -48,6 +23,4 @@
     <p>
   </div>
 </div>
-
-
 
