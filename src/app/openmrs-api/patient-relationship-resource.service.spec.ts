@@ -121,7 +121,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
       connection.mockRespond(new Response(options));
     });
 
-    s.saveUpdateRelationship(relationshipPayload)
+    s.saveRelationship(relationshipPayload)
       .subscribe((response) => {
         done();
       });

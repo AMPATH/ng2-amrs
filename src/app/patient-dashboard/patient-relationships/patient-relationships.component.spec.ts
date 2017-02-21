@@ -17,6 +17,7 @@ import {
     PatientRelationshipResourceService
 } from '../../openmrs-api/patient-relationship-resource.service';
 import { PatientRelationshipsComponent } from './patient-relationships.component';
+import { ConfirmationService } from 'primeng/primeng';
 
 describe('Component: PatientRelationships', () => {
 
@@ -41,7 +42,8 @@ describe('Component: PatientRelationships', () => {
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 },
-                AppSettingsService
+                AppSettingsService,
+                ConfirmationService
             ]
 
         });
@@ -67,6 +69,12 @@ describe('Component: PatientRelationships', () => {
         spyOn(component, 'getPatientRelationships').and.callThrough();
         component.getPatientRelationships();
         expect(component.getPatientRelationships).toHaveBeenCalled();
+        spyOn(component, 'voidRelationship').and.callThrough();
+        component.voidRelationship();
+        expect(component.voidRelationship).toHaveBeenCalled();
+        spyOn(component, 'openConfirmDialog').and.callThrough();
+        component.openConfirmDialog('8ac34c4b-8c57-4c83-886d-930e0d6c2d80');
+        expect(component.openConfirmDialog).toHaveBeenCalled();
 
         done();
 

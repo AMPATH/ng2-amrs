@@ -74,6 +74,18 @@ import { PatientRemindersComponent } from './patient-reminders/patient-reminders
 import { OrderListComponent } from './formentry/order-list.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
 import {
+  PatientRelationshipSearchComponent
+ } from './patient-search/patient-relationship-search.component';
+import {
+  AddPatientRelationshipComponent
+ } from './patient-relationships/add-patient-relationship.component';
+import {
+  EditPatientRelationshipComponent
+} from './patient-relationships/edit-patient-relationship.component';
+import {
+  PatientRelationshipTypeService
+} from './patient-relationships/patient-relation-type.service';
+import {
   PatientRelationshipsComponent
 } from './patient-relationships/patient-relationships.component';
 import { EditAddressComponent } from './patient-info/edit-address.component';
@@ -168,7 +180,10 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
     PdfViewerComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
-    PatientSideNavComponent
+    PatientSideNavComponent,
+    EditPatientRelationshipComponent,
+    AddPatientRelationshipComponent,
+    PatientRelationshipSearchComponent
   ],
   providers: [
     PatientEncounterService,
@@ -196,7 +211,8 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
     HivPatientClinicalSummaryService,
     DatePipe,
     PatientIdentifierService,
-    PatientRoutesFactory
+    PatientRoutesFactory,
+    PatientRelationshipTypeService
   ],
   exports: [
     PatientDashboardComponent,
@@ -220,7 +236,10 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
     OrderListComponent,
     PatientRelationshipsComponent,
     EditPatientIdentifierComponent,
-    PatientSideNavComponent
+    PatientSideNavComponent,
+    EditPatientRelationshipComponent,
+    AddPatientRelationshipComponent,
+    PatientRelationshipSearchComponent
   ]
 })
 export class PatientDashboardModule {
