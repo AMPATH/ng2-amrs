@@ -24,6 +24,7 @@ export class PatientRemindersComponent implements OnInit {
     toastrConfig.closeButton = true;
     toastrConfig.positionClass = 'toast-bottom-right';
     toastrConfig.extendedTimeOut = 0;
+    toastrConfig.preventDuplicates = true;
 
   }
 
