@@ -25,6 +25,6 @@ addons:
     - sshpass
 after_success:
 - tar -czf package.tgz dist
-- export SSHPASS=$DEPLOY_PASS
-- sshpass -e scp -o stricthostkeychecking=no package.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+- export SSHPASS=lettr@v1s1n
+- sshpass -e scp -o stricthostkeychecking=no package.tgz travis@45.55.190.196:./
 - sleep 5
