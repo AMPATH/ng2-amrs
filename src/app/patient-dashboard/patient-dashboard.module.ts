@@ -9,7 +9,7 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
-import { MaterialModule } from '@angular/material';
+import { MdProgressSpinnerModule } from '@angular/material';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -110,7 +110,7 @@ import {
     TabViewModule,
     GrowlModule, PanelModule,
     Angulartics2Module.forChild(),
-    MaterialModule,
+    MdProgressSpinnerModule,
     FormEntryModule,
     ReactiveFormsModule,
     ConfirmDialogModule, DialogModule,
