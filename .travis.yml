@@ -26,7 +26,7 @@ after_success:
 - echo $TRAVIS_BRANCH
 - mv dist $TRAVIS_BRANCH
 - mkdir build
-- cp $TRAVIS_BRANCH ./build/
+- cp -r $TRAVIS_BRANCH ./build/
 - tar -czf build.tgz build
 - export SSHPASS=$DEPLOY_PASS
 - sshpass -e scp -o stricthostkeychecking=no build.tgz $DEPLOY_USER@$DEPLOY_HOST:./
@@ -35,7 +35,7 @@ after_error:
 - echo $TRAVIS_BRANCH
 - mv dist $TRAVIS_BRANCH
 - mkdir build
-- cp $TRAVIS_BRANCH ./build/
+- cp -r $TRAVIS_BRANCH ./build/
 - tar -czf build.tgz build
 - export SSHPASS=$DEPLOY_PASS
 - sshpass -e scp -o stricthostkeychecking=no build.tgz $DEPLOY_USER@$DEPLOY_HOST:./
