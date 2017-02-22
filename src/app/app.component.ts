@@ -5,6 +5,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { AppState } from './app.service';
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
+import { DataCacheService } from './shared/services/data-cache.service';
 
 /*
  * App Component
@@ -22,10 +23,11 @@ export class App {
 
   name = 'Ampath POC';
   routes: any[];
-  constructor(public appState: AppState) {
+  constructor(public appState: AppState, public dataCache: DataCacheService) {
   }
 
   ngOnInit() {
-
+    this.dataCache.setDefaulTime(60 * 15);
+    this.dataCache.clearExpired();
   }
 }

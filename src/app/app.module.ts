@@ -33,6 +33,8 @@ import { HttpClient } from './shared/services/http-client.service';
 import { TitleCasePipe } from './shared/pipes/title-case.pipe';
 import { LocalStorageService } from './utils/local-storage.service';
 import { SessionStorageService } from './utils/session-storage.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { DataCacheService } from './shared/services/data-cache.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -85,11 +87,14 @@ type StoreType = {
         router: Router, sessionStorageService: SessionStorageService) =>
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
+    },
+    CacheService,
+    DataCacheService
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) { }
+  constructor(public appRef: ApplicationRef, public appState: AppState) {
+  }
 
   hmrOnInit(store: StoreType) {
     if (!store || !store.state) return;
