@@ -11,8 +11,6 @@ before_install:
 - sleep 3
 - npm i -g npm@^3
 script:
-- npm run lint
-- npm test
 - npm run build:docker
 sudo: required
 env:
@@ -30,4 +28,8 @@ after_success:
 - mv * build
 - tar -czf package.tgz build
 - export SSHPASS=$DEPLOY_PASS
+- echo $DEPLOY_USER
+- echo $DEPLOY_HOST
+- echo $DEPLOY_PATH
+- echo $SSHPASS
 - sshpass -e scp -o stricthostkeychecking=no package.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
