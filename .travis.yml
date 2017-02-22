@@ -11,7 +11,7 @@ before_install:
 - sleep 3
 - npm i -g npm@^3
 script:
-- npm run build:docker
+- npm run build:prod
 sudo: required
 env:
   global:
@@ -24,9 +24,7 @@ addons:
     packages:
     - sshpass
 after_success:
-- mkdir build
-- mv * build
-- tar -czf package.tgz build
+- tar -czf package.tgz dist
 - export SSHPASS=$DEPLOY_PASS
 - echo $DEPLOY_USER
 - echo $DEPLOY_HOST
