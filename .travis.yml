@@ -1,18 +1,30 @@
 language: node_js
 node_js:
-  - "6"
-  - "node"
+- '6'
+- node
 services:
-  - docker
+- docker
 before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
-  # Updating NPM to relevant version >= 3 on Node.JS LTS
-  - npm i -g npm@^3
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
+- npm i -g npm@^3
 script:
-  - npm run lint
-  - npm test
-  - npm run build:docker
+- npm run build:prod
 sudo: required
+env:
+  global:
+  - secure: z/LEWu/Sjt+Omht0XOIK+UffchPrji+7S5prUTsKrsNXzaqDmf6z9f1fCmcxWRApcDQlnaE129Hv61BYO1F3pB22HgYjqfzeb082uQELTXOcJcNvozUOZe4OwOxLWmnI7Iy1cLWH/8DF3E+3jFQshwYHv6hjSHIhkFbDizP0PRvaZofOW00E4brx4MAIRQpPUn0ShVZ14lSCtnKqzbir6LQhq6chhG/ibgSNk/sLTQboSW/77djTP/f1AFct7oGbY98FYyuptPM++ROhM6JJcvm28JtKHe1/VlyLJ3LGZ0zdfgArgMNfJUTC0j5ad4RIE/ze/LzNzw70OerzduAaoBqsWlmzwWnkvf9Bt005MEQ7Cw43vEfynEIxV26gtp1hpk+k/bm4hkAIBWQO7R3JL7FyWLG6gfJuduMnWhBNoHxyDg8qJacfgqQrUAlHKjxnvcue+QaZidaoswxwfJ83ObsNMUVhl0W+qUIFQXnEF8sq9lsWGJWOFaI7YFknB/51qTDZfPlZwiXMHT/aj8q4570Ym1yE+7XGIF7t6E7ar3d3TpXfMY7GbsfQX8KZcj5EPKAoJ1QB+XOdhVjdndywWMdPmSIhCbgvgDuhBpRItfQ7/ubylBw3jz1Qg89eiasP0QfygvoxF7UYxkhD4hHcyoHx6KxuUgpQqOQmfRFUrXU=
+  - secure: H+qnlxpulIsoB6o8mdkLSoeEOtoxhVuu6z9M3BB1RzOSg+v6CgA3hOUx4zHk88vW5GyEYsGJUjfLmQ+E9jB7unxze1evP7gvoIzq8Ss1JLhHSkTBDv3OMDuAFySuKenZ+TFxma0mduEbyS0FCutlnwXn/TXf6v4CgwmsvZVx13GjKYzbZT4VGiz7HF5EAsE1/JsNVrmsZ2ie6/tfhPgdu5ZIwDq3d5nDwRstTg7HrZtq//mnJvQ7lh4f63ktSjSEP0SOPLbJZT/lgWuY+g0REF/6qsfhgctyEjd8ot2mz+NqlZm78R3nnUzHUCtwx9+skg8fTfTYrVimgtRaAvtAIdK/l4YLeSnpg0V7qGLk+Xq9l4O9b81MVX92bXhwVTvEEKqYjvQ1w+bjUt1FP2S3QKXWyX/UtFDHluAmTVn0za0a9tHw5dMbKekKGkxqyNzFxNI4dbZb0AdcZJkKwGyDx4iz8ao6X3FMvWY6PaMx9DlKid3RcUtXL8RrOTGjckaUrfhquUQrn/qnJi8xT6o0ap5GiBhl4gjN1mfN7R9UM/MoQQd1s/W9/ZvGOsU5ZejVm+hbYGG3upySO1ZJC0SEGntSg79vcfUWhz6QO2lDKc7uWYpD6mk4EiQMX2zW9AHQZ+3Ic0dVdOT3l1ZH7UEg2wvNKH6lkO2o55NlD3uyEE4=
+  - secure: kXpgu1+TB6HQdElcnVGSPKTc7kbhQB/5KkLKQ+9GOMuebIPtE9FuVHtzRWfSkS2lBFZgxMGcjHyit5gui1cHWle1RuLKb+BjTlyklVCTuzEccKhWYZ84Sro8BjmQzKBThQd1kraVQfGOnC0t5l/+Nykxw/etyHNQOGY3W516VzQgYSS7DpxN4G73RHlPOvKJLend9yTNp9LKVjEGcOdVY3mRwoyKfrlsBoFc6UGBzXKXb01KzCe9vPiSboL6LQC8pbu73UbZqVKtXiW4rpbGIZiwyRLmxEUm9ZekSmsrliQdEOOZ2t6QO4kk9zlPQZOt7AG81jxTMXnhtaAdIQ7oRFqROrfqWfjMqNNVMTsC8eQ1tbEv3sZdC1pKoLdzPQVQusS1oHK2JZe0fU3y6TZ3eCGwFi7l+A1lNJq22qsXRN1ets7t13OfKNGdRI4VSsEkYgxf+8L1trvrIwqicJXuaDNXX+TNloxOkWJwq7lrbftT0vMS3mYi6nrbbK2sGzPGzN4V0VKlzqnWw2xRx6b1YgE+zB/Rhr3P656m0UVyzvNe9/8jr+XiewwnMrnno0EN8U6qQBKmsluDIgmgjX79ll2ucasYWvBrYRgPeVWCpClM3gkyAy2/qIqo5ABfOXwpb86+kEhI2qw5HcbmXP7Zf/UVwkfoVOyJn6NwiI4IIk8=
+  - secure: IIbR4KmTsq0z1iO7tDlH3VLxRxmrkSP24Mx0M0e6UywhOBrwIMGFP59NipLBi8loaksD7T9mQ4GsFXUOLHOc6mb3tIEwFPzID5twf1LE6WBN4ZwhnVsVZkcZJ4X1sa9sAeTZAcSjVwXAGPQl9CzahIDFAf9Z/x4U8d0D283n5/GN5BVW6GPqB5q8kC7JAWkTkMoLIzkPOhZzUx0KAxmgoKauSaZvHIFgyFbVpK9kmlgS49m4IMLIlUMhcsYwkMHAwfE5P4ZziUslMa8gtXiMHyvd9IwratKTrzesCPk668liyXKhCh8m/oi5naq/cW/aPUWQT9Zzp3R+0nE9FIn3Gl8Yfu4P+wO6cE1+KbtWXI6zNluZB4B57A16SQoAzKfeYPEllayfkV8FpDCdl/u1YBIvBL7LrbsIqN9znY82k/KOCch+7ukOL5slQhKXHEIbs0GV/RBlQHCbkNKpNNPb3YgLWljs2pCAcZnDsV48OaIBBTK5vxfcy1rMwxxbe/ejBnPM/aiSiPElykYmydihUA9qlQINLAuoxS3Ab3aHFewfdob6F2vhZaLwtuuM7lnx3YUn5syQlQsvvamaFTyn1X4BDc9dqttc2BWlUEDfyunyhscg1iSJCZgt28d8Baq8WKwv6M6cvFISLhBknht3KiGf5gTN5Uwe0VIOcVUZXr0=
+addons:
+  apt:
+    packages:
+    - sshpass
+after_success:
+- tar -czf package.tgz dist
+- export SSHPASS=$DEPLOY_PASS
+- sshpass -e scp -o stricthostkeychecking=no package.tgz $DEPLOY_USER@$DEPLOY_HOST:./
+- sleep 5
