@@ -26,8 +26,5 @@ addons:
 after_success:
 - tar -czf package.tgz dist
 - export SSHPASS=$DEPLOY_PASS
-- echo $DEPLOY_USER
-- echo $DEPLOY_HOST
-- echo $DEPLOY_PATH
-- echo $SSHPASS
 - sshpass -e scp -o stricthostkeychecking=no package.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+- sleep 5
