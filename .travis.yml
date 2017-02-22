@@ -21,6 +21,7 @@ addons:
     packages:
     - sshpass
 after_success:
+- echo $TRAVIS_BRANCH
 - mv dist $TRAVIS_BRANCH
 - mkdir build
 - cp $TRAVIS_BRANCH ./build/
