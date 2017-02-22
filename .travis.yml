@@ -2,6 +2,15 @@ language: node_js
 node_js:
   - "6"
   - "node"
+notifications:
+  webhooks:
+    urls:
+      - http://45.55.190.196:3000/travisci
+    on_success: always # default: always
+    on_failure: never # default: always
+    on_start: never   # default: never
+    on_cancel: never # default: always
+    on_error: never # default: always
 services:
   - docker
 before_install:
