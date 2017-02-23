@@ -1,5 +1,5 @@
 node_modules/
-conf/
+conf/config.json
 conf_copy/
 .idea/**
 .vscode/

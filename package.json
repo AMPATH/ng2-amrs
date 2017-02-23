@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "babel": "^6.5.2",
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
     "boom": "^2.10.1",
