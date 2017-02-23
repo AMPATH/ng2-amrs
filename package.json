@@ -1,6 +1,6 @@
 {
   "name": "Ampath_Point_of_Care",
-  "version": "2.1.0",
+  "version": "2.2.0-SNAPSHOT",
   "description": "Ampath Point Of Care",
   "keywords": [
     "angular2",
@@ -118,6 +118,7 @@
     "ng2-pagination": "^0.5.1",
     "ng2-pdf-viewer": "^1.0.1",
     "ng2-responsive": "^0.4.7",
+    "ngx-toastr": "^4.1.1",
     "node-sass": "^3.13.0",
     "parse5": "^1.5.1",
     "pdfjs-dist": "^1.7.308",
@@ -172,7 +173,7 @@
     "ng-router-loader": "^2.1.0",
     "node-sass": "^3.13.1",
     "parse5": "^1.3.2",
-    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.7",
     "postcss-loader": "^0.13.0",
     "protractor": "^4.0.14",
     "raw-loader": "^0.5.1",
