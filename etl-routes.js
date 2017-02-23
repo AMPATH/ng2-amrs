@@ -20,7 +20,7 @@ var crypto = require('crypto');
 var MonthlyScheduleService = {}; // require('./service/monthly-schedule-service');
 // import { MonthlyScheduleService } from './service/monthly-schedule-service'
 var patientReminderService = require('./service/patient-reminder.service.js');
-module.exports = function () {
+module.exports = function() {
 
     var routes = [{
         method: 'GET',
@@ -29,7 +29,7 @@ module.exports = function () {
             plugins: {
                 'hapiAuthorization': false
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
 
                 console.log('default rote', request.path);
 
@@ -56,10 +56,10 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = [results];
                         }).onResolved = (promise) => {
                             let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'locations'], request.query);
@@ -92,12 +92,13 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = [results];
                         }).onResolved = (promise) => {
+                            request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations', 'groupBy'], compineRequestParams);
 
@@ -129,12 +130,13 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = [results];
                         }).onResolved = (promise) => {
+                            request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'locations', 'groupBy'], compineRequestParams);
 
@@ -166,12 +168,13 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = [results];
                         }).onResolved = (promise) => {
+                            request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations', 'groupBy'], compineRequestParams);
 
@@ -203,10 +206,10 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = [results];
                         }).onResolved = (promise) => {
                             let compineRequestParams = Object.assign({}, request.query, request.params);
@@ -230,7 +233,7 @@ module.exports = function () {
         path: '/etl/defaulter-list',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getDefaulterList(request, reply);
             },
             plugins: {
@@ -269,7 +272,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 let compineRequestParams = Object.assign({}, request.query, request.params);
                 let reportParams = etlHelpers.getReportParams('clinical-reminder-report', ['@referenceDate', 'patientUuid', 'indicators'], compineRequestParams);
                 if (reportParams.whereParams[0].name === '@referenceDate') {
@@ -299,7 +302,7 @@ module.exports = function () {
         path: '/etl/forms/error',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
 
                 dao.logError(request, reply);
             }
@@ -309,7 +312,7 @@ module.exports = function () {
         method: 'POST',
         path: '/javascript-errors',
         config: {
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.payload) {
                     var logger = new winston.Logger({
                         transports: [
@@ -345,7 +348,7 @@ module.exports = function () {
                     role: privileges.canViewPatient
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatient(request, reply);
             }
         }
@@ -359,7 +362,7 @@ module.exports = function () {
                     role: privileges.canViewPatient
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicalNotes(request, reply);
             },
             description: 'Get patient clinical notes',
@@ -387,7 +390,7 @@ module.exports = function () {
                     roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getHivPatientClinicalSummary(request, reply);
             }
 
@@ -402,7 +405,7 @@ module.exports = function () {
                     roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getHivPatientClinicalSummary(request, reply);
             }
 
@@ -417,7 +420,7 @@ module.exports = function () {
                     role: privileges.canViewPatient
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatientVitals(request, reply);
             },
             description: 'Get patient vitals',
@@ -444,7 +447,7 @@ module.exports = function () {
                     role: privileges.canViewPatient
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatientData(request, reply);
             },
             description: 'Get patient lab test data',
@@ -471,7 +474,7 @@ module.exports = function () {
                     role: privileges.canViewPatient
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatientHivSummary(request, reply);
             },
             description: 'Get patient HIV summary',
@@ -506,7 +509,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicEncounterData(request, reply);
             }
         }
@@ -526,7 +529,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicMonthlySummary(request, reply);
             },
             description: "Get a location's monthly appointment visits",
@@ -559,7 +562,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicHivSummayIndicators(request, reply);
             },
             description: "Get a location's HIV summary indicators",
@@ -592,7 +595,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicAppointmentSchedule(request, reply);
             },
             description: "Get a location's appointment schedule",
@@ -625,9 +628,9 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 preRequest.resolveLocationIdsToLocationUuids(request,
-                    function () {
+                    function() {
                         dao.getPatientFlowData(request, reply);
                     });
             },
@@ -657,9 +660,9 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 preRequest.resolveLocationIdsToLocationUuids(request,
-                    function () {
+                    function() {
                         dao.getClinicLabOrdersData(request, reply);
                     });
             },
@@ -691,7 +694,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicDailyVisits(request, reply);
             },
             description: "Get a location's daily visits",
@@ -724,7 +727,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getHasNotReturned(request, reply);
             },
             description: "Get a location's not returned visits",
@@ -757,7 +760,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicMonthlyAppointmentSchedule(request, reply);
             },
             description: "Get a location's monthly appointment schedule",
@@ -790,7 +793,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicMonthlyVisits(request, reply);
             },
             description: "Get a location's monthly visits",
@@ -812,7 +815,7 @@ module.exports = function () {
         path: '/etl/location/{uuid}/defaulter-list',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getClinicDefaulterList(request, reply);
             },
             plugins: {
@@ -843,7 +846,7 @@ module.exports = function () {
     }, {
         method: 'OPTIONS',
         path: '/{param*}',
-        handler: function (request, reply) {
+        handler: function(request, reply) {
             // echo request headers back to caller (allow any requested)
             var additionalHeaders = [];
             if (request.headers['access-control-request-headers']) {
@@ -859,7 +862,7 @@ module.exports = function () {
         path: '/etl/custom_data/{userParams*3}',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getCustomData(request, reply);
             }
             /*
@@ -885,7 +888,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatientCountGroupedByLocation(request, reply);
             },
             description: "Get patients created by period",
@@ -915,7 +918,7 @@ module.exports = function () {
                     roles: [privileges.canViewDataEntryStats, privileges.canViewPatient]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatientDetailsGroupedByLocation(request, reply);
             },
             description: "Get details of patient created in a location",
@@ -1030,14 +1033,14 @@ module.exports = function () {
                     ]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 //security check
                 if (!authorizer.hasReportAccess(request.query.report)) {
                     return reply(Boom.forbidden('Unauthorized'));
                 }
 
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                var onResolvedPromise = function (promise) {
+                var onResolvedPromise = function(promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                         dao.getReportIndicators(request, reply);
@@ -1050,7 +1053,7 @@ module.exports = function () {
                     dao.getReportIndicators(request, reply);
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = results;
                         }).onResolved = onResolvedPromise;
                 }
@@ -1082,7 +1085,7 @@ module.exports = function () {
                     roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getPatientListByIndicator(request, reply);
             },
             description: 'Get patient list by indicator',
@@ -1114,10 +1117,10 @@ module.exports = function () {
                     roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
-                var onResolvedPromise = function (promise) {
+                var onResolvedPromise = function(promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                         dao.getPatientByIndicatorAndLocation(request, reply);
@@ -1134,7 +1137,7 @@ module.exports = function () {
                     dao.getPatientByIndicatorAndLocation(request, reply);
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = results;
                         }).onResolved = onResolvedPromise;
                 }
@@ -1172,7 +1175,7 @@ module.exports = function () {
                     }]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
 
                 if (request.params.sub === 'patientList' &&
                     !authorizer.hasPrivilege(privileges.canViewPatient)) {
@@ -1181,7 +1184,7 @@ module.exports = function () {
 
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
-                var onResolvedPromise = function (promise) {
+                var onResolvedPromise = function(promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                         dao.getDataEntryIndicators(request.params.sub, request, reply);
@@ -1205,20 +1208,20 @@ module.exports = function () {
 
                 if (request.query.formUuids) {
                     dao.getIdsByUuidAsyc('amrs.form', 'form_id', 'uuid', request.query.formUuids,
-                        function (results) {
+                        function(results) {
                             request.query.formIds = results;
                         }).onResolved = onResolvedPromise;
                 }
                 if (request.query.encounterTypeUuids) {
 
                     dao.getIdsByUuidAsyc('amrs.encounter_type', 'encounter_type_id', 'uuid', request.query.encounterTypeUuids,
-                        function (results) {
+                        function(results) {
                             request.query.encounterTypeIds = results;
                         }).onResolved = onResolvedPromise;
                 }
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locationIds = results;
                         }).onResolved = onResolvedPromise;
                 }
@@ -1239,7 +1242,7 @@ module.exports = function () {
                     role: privileges.canViewDataAnalytics
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 //security check
                 if (!authorizer.hasReportAccess(request.query.report)) {
                     return reply(Boom.forbidden('Unauthorized'));
@@ -1273,7 +1276,7 @@ module.exports = function () {
                     role: privileges.canViewDataAnalytics
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getIndicatorsSchemaWithSections(request, reply);
             }
 
@@ -1288,7 +1291,7 @@ module.exports = function () {
                     roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.getHivSummaryData(request, reply);
             }
 
@@ -1298,10 +1301,10 @@ module.exports = function () {
         path: '/etl/compare-patient-lists',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 var r = request;
                 var handler;
-                _.each(routes, function (route) {
+                _.each(routes, function(route) {
                     if (route.path === request.payload.path) {
                         handler = route.config.handler;
                     }
@@ -1315,7 +1318,7 @@ module.exports = function () {
                 if (handler) {
                     patientListCompare.fetchAndCompareList(request.payload.patientList,
                         requestObject, handler)
-                        .then(function (comparison) {
+                        .then(function(comparison) {
                             if (request.query.includeBoth === true || request.query.includeBoth === 'true') {
                                 reply(comparison);
                             } else {
@@ -1323,7 +1326,7 @@ module.exports = function () {
                                 reply(comparison);
                             }
                         })
-                        .catch(function (error) {
+                        .catch(function(error) {
                             reply(Boom.badImplementation('An internal error occured'));
                         })
                 } else {
@@ -1343,10 +1346,10 @@ module.exports = function () {
                     roles: [privileges.canViewPatient, privileges.canViewDataAnalytics]
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
                 var requestQuery = JSON.stringify(request.query);
-                var onResolvedPromise = function (promise) {
+                var onResolvedPromise = function(promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
                         dao.getPatientListReportByIndicatorAndLocation(request, reply);
@@ -1363,7 +1366,7 @@ module.exports = function () {
                     dao.getPatientListReportByIndicatorAndLocation(request, reply);
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
+                        function(results) {
                             request.query.locations = results;
                         }).onResolved = onResolvedPromise;
                 }
@@ -1374,7 +1377,7 @@ module.exports = function () {
         path: '/etl/patient-lab-orders',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (config.eidSyncOn === true)
                     eidLabData.getPatientLabResults(request, reply);
                 else
@@ -1391,7 +1394,7 @@ module.exports = function () {
                     role: privileges.canViewPatient
                 }
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.postLabOrderToEid(request, reply);
             }
         }
@@ -1400,7 +1403,7 @@ module.exports = function () {
         path: '/etl/session/invalidate',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 dao.invalidateUserSession(request, reply);
             }
         }
@@ -1412,7 +1415,7 @@ module.exports = function () {
             plugins: {
                 'hapiAuthorization': false
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
 
                 var eidSyncApiKey = config.eidSyncApiKey;
                 var headers = request.headers;
@@ -1450,7 +1453,7 @@ module.exports = function () {
             plugins: {
                 'hapiAuthorization': false
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
 
                 var eidSyncApiKey = config.eidSyncApiKey;
                 var headers = request.headers;
@@ -1472,7 +1475,7 @@ module.exports = function () {
         path: '/etl/eid/load-order-justifications',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
 
                 dao.loadOrderJustifications(request, reply);
             },
@@ -1485,7 +1488,7 @@ module.exports = function () {
         path: '/etl/fileupload',
         config: {
             auth: 'simple',
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 var replyPayload = {};
                 var image = etlHelpers.decodeBase64Image(request.payload.data);
                 var imageTypeRegularExpression = /\/(.*?)$/;
@@ -1503,7 +1506,7 @@ module.exports = function () {
                     imageTypeDetected[1];
                 try {
                     require('fs').writeFile(userUploadedImagePath, image.data,
-                        function () {
+                        function() {
                             replyPayload = {
                                 image: uniqueSHA1String +
                                 '.' +
@@ -1542,14 +1545,14 @@ module.exports = function () {
             plugins: {
                 'hapiAuthorization': false
             },
-            handler: function (request, reply) {
+            handler: function(request, reply) {
                 if (request.query.startDate && request.query.endDate) {
                     eidService.getPatientIdentifiersFromEIDResults(request.query.startDate,
                         request.query.endDate)
-                        .then(function (response) {
+                        .then(function(response) {
                             reply(response);
                         })
-                        .catch(function (error) {
+                        .catch(function(error) {
                             reply(Boom.badImplementation('A server error occured'))
                         });
                 } else {
