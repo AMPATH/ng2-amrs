@@ -210,17 +210,13 @@ app-patient-search .ladda-button .ladda-label {
   z-index: 0;
 }
 
-.md-tab-body-wrapper {
-  overflow-y: visible !important;
-}
-
 md-tab-group {
 
   display: block !important;
   overflow: visible;
 }
 
-.md-tab-body-wrapper {
+.mat-tab-body-wrapper {
   overflow: visible !important;
 }
 
@@ -230,16 +226,16 @@ md-tab-body {
 }
 
 
-md-tab-body > div.md-tab-body-content {
+md-tab-body > div.mat-tab-body-content {
   transform: initial !important;
   overflow: visible;
 }
 
-md-tab-body > div.md-tab-body-content > div {
+md-tab-body > div.mat-tab-body-content > div {
   padding-bottom: 40px;
 }
 
-md-tab-body.md-tab-body-active {
+md-tab-body.mat-tab-body-active {
   display: initial !important;
   overflow: visible !important;
 }
@@ -283,7 +279,7 @@ body app-formentry {
   font-size: 16px !important;
 }
 
-.md-tab-label {
+.mat-tab-label {
   font-weight: 700 !important;
 }
 
@@ -294,5 +290,15 @@ p-dialog a.ui-dialog-titlebar-close {
 .login input {
   font-size : 1.5em !important;
   height: auto !important;
+}
+
+.picker-month, .picker-year {
+  height: auto !important;
+  line-height: normal !important;
+  padding: 10px;
+}
+
+.picker-header-content span.month:hover, .picker-header-content span.year:hover {
+  cursor: pointer;
 }
 
