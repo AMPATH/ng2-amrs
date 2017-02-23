@@ -81,6 +81,7 @@ import { EditContactsComponent } from './patient-info/edit-contacts.component';
 import {
   HivPatientClinicalSummaryComponent
 } from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
+import { AgGridModule } from 'ag-grid-angular/main';
 
 import {
   HivPatientClinicalSummaryService
@@ -117,7 +118,10 @@ import {
     ConfirmDialogModule, DialogModule,
     ToastrModule.forRoot(),
     EtlApi,
-    ButtonModule
+    ButtonModule,
+    AgGridModule.withComponents([
+
+      ]),
 
   ],
   declarations: [
