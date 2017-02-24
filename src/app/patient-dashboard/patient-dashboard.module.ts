@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EtlApi } from '../etl-api/etl-api.module';
 import {
@@ -86,7 +86,7 @@ import { AgGridModule } from 'ag-grid-angular/main';
 import {
   HivPatientClinicalSummaryService
 } from './patient-clinical-summaries/hiv-patient-clinical-summary.service';
-
+import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
 
 @NgModule({
   imports: [
@@ -121,8 +121,7 @@ import {
     ButtonModule,
     AgGridModule.withComponents([
 
-      ]),
-
+      ])
   ],
   declarations: [
     PatientInfoComponent,
@@ -160,7 +159,8 @@ import {
     EditContactsComponent,
     EditAddressComponent,
     HivPatientClinicalSummaryComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
+    EditDemographicsComponent
   ],
   providers: [
     PatientEncounterService,
@@ -185,7 +185,8 @@ import {
     TodaysVitalsService,
     PatientRelationshipService,
     ProgramService,
-    HivPatientClinicalSummaryService
+    HivPatientClinicalSummaryService,
+    DatePipe
   ],
   exports: [
     PatientDashboardComponent,
