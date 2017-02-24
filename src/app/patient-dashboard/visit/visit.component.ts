@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as Moment from 'moment';
 import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
 import { PatientService } from '../patient.service';
+import { UserDefaultPropertiesService
+} from '../../user-default-properties/user-default-properties.service';
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
@@ -21,9 +23,9 @@ export class VisitComponent implements OnInit {
     showDialog: boolean = false;
     visitBusy: Boolean;
     constructor(private visitResourceService: VisitResourceService,
+        private userDefaultPropertiesService: UserDefaultPropertiesService,
         private patientService: PatientService, private router: Router,
         private route: ActivatedRoute) { }
-
 
     ngOnInit() {
         this.getPatient();
@@ -50,7 +52,6 @@ export class VisitComponent implements OnInit {
                     message: 'error fetching visit'
                 });
             });
-
     }
 
     getPatient() {
@@ -86,9 +87,11 @@ export class VisitComponent implements OnInit {
     }
 
     startVisit(visitTypeUuid) {
+        let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         this.visitBusy = true;
         let visitPayload = {
             patient: this.patient.person.uuid,
+            location: location.uuid,
             startDatetime: new Date(),
             visitType: visitTypeUuid
         };
