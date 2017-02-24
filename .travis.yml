@@ -12,9 +12,7 @@ before_install:
   # Updating NPM to relevant version >= 3 on Node.JS LTS
 - npm i -g npm@^3
 script:
-- npm run lint
-- npm test
-- npm run build:docker
+- npm run build:prod
 sudo: required
 addons:
   apt:
@@ -22,8 +20,7 @@ addons:
     - sshpass
 after_success:
 - mv dist $TRAVIS_BRANCH
-- mkdir build
-- cp -r $TRAVIS_BRANCH ./build/
-- tar -czf build.tgz build
+- tar -czf build.tgz $TRAVIS_BRANCH
 - export SSHPASS=$DEPLOY_PASS
 - sshpass -e scp -o stricthostkeychecking=no build.tgz $DEPLOY_USER@$DEPLOY_HOST:./
+- sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST ./deploy-build.sh
