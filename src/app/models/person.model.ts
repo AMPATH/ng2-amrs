@@ -192,7 +192,28 @@ export class Person extends BaseModel {
     this._openmrsModel.preferredAddress = v;
   }
 
+  @serializable(true, false)
+  public get dead(): boolean {
+    return this._openmrsModel.dead;
+  }
+  public set dead(v: boolean) {
+    this._openmrsModel.dead = v;
+  }
 
+  @serializable(true, false)
+  public get deathDate(): Date {
+    return this._openmrsModel.deathDate;
+  }
+  public set deathDate(v: Date) {
+    this._openmrsModel.deathDate = v;
+  }
+
+  @serializable(true, false)
+  public get causeOfDeath(): string {
+    return this._openmrsModel.deathDate;
+  }
+  public set causeOfDeath(v: string) {
+    this._openmrsModel.deathDate = v;
+  }
 
 }
-

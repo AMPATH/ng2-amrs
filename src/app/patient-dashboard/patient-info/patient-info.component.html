@@ -1,7 +1,13 @@
 <div class="wrapper">
 	<p-growl [value]="msgs"></p-growl>
 	<p-accordion>
-		<p-accordionTab header=" Demographics " [selected]="true">
+		<p-accordionTab [selected]="true">
+      <p-header>
+        Demographics
+        <button pButton type="button" (click)="demographics.showDialog()"
+                class="ui-button-info" label="Edit" style="float: right"></button>
+      </p-header>
+      <edit-demographics #demographics></edit-demographics>
 			<patient-demographics></patient-demographics>
 		</p-accordionTab>
     <p-accordionTab>
