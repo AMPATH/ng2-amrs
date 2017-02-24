@@ -68,16 +68,17 @@ export class LoginComponent {
             }
           }
         } else {
-
           this.error = Messages.WRONG_USERNAME_PASSWORD;
           this.clearAndFocusPassword();
         }
       },
-      (error: Error) => {
-
-        this.error = Messages.WRONG_USERNAME_PASSWORD;
+      (error) => {
         this.loginFailure.emit(false);
-        this.clearAndFocusPassword();
+        if (error.status === 0) {
+          this.error = Messages.INTERNET_CONNECTION_ERROR;
+        } else {
+          this.error = error.statusText;
+        }
       });
   }
 
