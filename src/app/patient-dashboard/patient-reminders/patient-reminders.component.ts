@@ -1,4 +1,4 @@
-import { ToastrService, ToastrConfig } from 'toastr-ng2';
+import { ToastrService, ToastrConfig } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientReminderService } from './patient-reminders.service';
 import { PatientService } from '../patient.service';

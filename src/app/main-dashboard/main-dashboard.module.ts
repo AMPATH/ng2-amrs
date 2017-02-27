@@ -9,6 +9,7 @@ import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.m
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
 import { UserService } from '../openmrs-api/user.service';
+import { AppState } from '../app.service';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { UserService } from '../openmrs-api/user.service';
   ],
   providers: [
     MainDashboardGuard,
-    UserService
+    UserService,
+    AppState
   ],
   exports: [
     MainDashboardComponent
