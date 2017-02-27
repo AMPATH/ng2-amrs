@@ -46,6 +46,9 @@ export class EditAddressComponent implements OnInit {
   showDialog() {
     this.display = true;
   }
+  public dismissDialog() {
+    this.display = false;
+  }
   public updatePersonAddress() {
     let person = {
       uuid: this.patients.person.uuid

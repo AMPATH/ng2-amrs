@@ -29,6 +29,9 @@ export class EditContactsComponent implements OnInit {
   public showDialog() {
     this.display = true;
   }
+  public dismissDialog() {
+    this.display = false;
+  }
   public getPatient() {
     this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {

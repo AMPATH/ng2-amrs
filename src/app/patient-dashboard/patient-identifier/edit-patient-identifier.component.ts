@@ -66,6 +66,9 @@ export class EditPatientIdentifierComponent implements OnInit {
   public showDialog() {
     this.display = true;
   }
+  public dismissDialog() {
+    this.display = false;
+  }
   public setPatientIdentifier(patientIdentifier) {
     this.patientIdentifier = patientIdentifier;
     this.identifierValidity = '';
