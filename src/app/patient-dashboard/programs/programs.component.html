@@ -18,27 +18,26 @@
       <div class="help-block" ng-message="required">Date Enrolled is required.</div>
     </div>
 
-
-
     <label for="completedDate">Date Completed:</label>
     <div class="input-group" style="border: 1px solid #66b3ff;">
       <div class="ui-grid-col-10">
         <input [(ngModel)]="dateCompleted" type="date" />
       </div>
     </div>
-    <div ng-messages="programEnrollmentForm.completedDate.$error">
-      <div class="help-block" ng-message="required">Date Completed is required.</div>
-    </div>
-
 
     <div *ngIf="hasError" style="margin-bottom:10px;">
       <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
     </div>
 
-    <button data-color="blue" (click)="enrollToProgram()" class="btn btn-primary ladda-button" data-style="expand-right">
-          <span>Enroll Patient</span>
-        </button>
+    <div style="padding-top:5px">
+      <button class="btn btn-primary" type="button" (click)="enrollToProgram()">
+       <span>Save</span></button>
+      <button class="btn btn-primary pull-right" type="button" (click)="closeDialog()">
+       <span>Cancel</span></button>
+    </div>
+
   </div>
+
 </p-dialog>
 
 <div class="wrapper">

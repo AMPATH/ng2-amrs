@@ -162,6 +162,10 @@ export class ProgramsComponent implements OnInit {
 
     }
 
+    public closeDialog() {
+        this.displayDialog = false;
+    }
+
     private validateFormFields(enrolledDate, completedDate) {
 
         if (this.isNullOrUndefined(enrolledDate)) {
