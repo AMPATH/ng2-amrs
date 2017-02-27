@@ -62,6 +62,9 @@ export class EditDemographicsComponent implements OnInit {
   showDialog() {
     this.display = true;
   }
+  public dismissDialog() {
+    this.display = false;
+  }
     public getCauseOfDeath() {
         let conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
         this.conceptResourceService.getConceptByUuid(conceptUid).subscribe((data) => {

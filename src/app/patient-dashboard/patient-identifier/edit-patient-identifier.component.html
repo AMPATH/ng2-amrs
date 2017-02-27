@@ -58,6 +58,9 @@
     personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
             class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
       <span>Save</span></button>
+    <button
+            class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+      <span>Cancel</span></button>
   </div>
 
 </p-dialog>
