@@ -6,6 +6,7 @@ import {
   UserDefaultPropertiesComponent
 } from '../user-default-properties/user-default-properties.component';
 import { AuthGuard } from '../shared/guards/auth.guard';
+import { UsefulLinksComponent } from '../useful-links/useful-links.component';
 
 const dashboardRoutes: Routes = [
   {
@@ -32,6 +33,10 @@ const dashboardRoutes: Routes = [
       {
         path: 'user-default-properties',
         component: UserDefaultPropertiesComponent
+      },
+      {
+        path: 'useful-links',
+        component: UsefulLinksComponent
       }
     ]
   }

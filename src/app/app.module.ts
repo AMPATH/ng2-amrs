@@ -33,6 +33,12 @@ import { HttpClient } from './shared/services/http-client.service';
 import { TitleCasePipe } from './shared/pipes/title-case.pipe';
 import { LocalStorageService } from './utils/local-storage.service';
 import { SessionStorageService } from './utils/session-storage.service';
+<<<<<<< HEAD
+=======
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { DataCacheService } from './shared/services/data-cache.service';
+import { UsefulLinksModule } from './useful-links';
+>>>>>>> 3e1a799... Useful links component
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -67,7 +73,8 @@ type StoreType = {
     MainDashboardModule,
     AuthenticationModule,
     AppSettingsModule,
-    UserDefaultPropertiesModule
+    UserDefaultPropertiesModule,
+    UsefulLinksModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
