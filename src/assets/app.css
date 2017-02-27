@@ -302,3 +302,46 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
   cursor: pointer;
 }
 
+.mat-tab-header {
+  margin-right: 36px !important;
+}
+
+.dropdown-tabs {
+  position: absolute !important;
+  right: 0;
+  top: 4px;
+}
+
+form-renderer {
+  display: block;
+  position: relative;
+
+}
+
+.dropdown-tabs a.dropdown-toggle {
+  display: block;
+  width:35px;
+  padding:0;
+  float: right;
+  font-size: 32px;
+  background-color: rgba(209,196,233,.3);
+  text-align: center;
+  height:45px;
+}
+
+.dropdown-tabs a.dropdown-toggle i {
+  display: block;
+  width:100%;
+  line-height: 45px;
+  height: 100%;
+}
+
+.dropdown-tab li {
+  padding: 5px 20px;
+}
+
+.open > .dropdown-menu {
+  clear: both;
+}
+
+
