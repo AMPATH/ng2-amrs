@@ -22,7 +22,12 @@ import {
 } from '../../openmrs-api/program-enrollment-resource.service.mock';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { FakeEncounterResourceService } from '../../openmrs-api/fake-encounter-resource.service';
-
+import { UserDefaultPropertiesModule
+} from '../../user-default-properties/user-default-properties.module';
+import { FakeDefaultUserPropertiesFactory
+} from '../formentry/mock/default-user-properties-factory.service.mock';
+import { UserDefaultPropertiesService
+} from '../../user-default-properties/user-default-properties.service';
 
 @Pipe({ name: 'translate' })
 export class FakeTranslatePipe implements PipeTransform {
@@ -100,13 +105,18 @@ describe('Component: Visit', () => {
                     return new FakeEncounterResourceService(null, null);
                   }
                 },
+              {
+                  provide: UserDefaultPropertiesService, useFactory: () => {
+                  return new FakeDefaultUserPropertiesFactory();
+                }
+                },
                 { provide: PatientResourceService, useValue: fakeVisitResourceService },
                 {
                     provide: ProgramEnrollmentResourceService,
                     useValue: FakeProgramEnrollmentResourceService
                 }
             ],
-            imports: [BusyModule]
+            imports: [BusyModule, UserDefaultPropertiesModule]
         })
             .compileComponents()
             .then(() => {
