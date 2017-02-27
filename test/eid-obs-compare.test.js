@@ -18,7 +18,7 @@ global.assert = chai.assert;
 var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
-describe('EID-OBS COMPARE TESTS', function () {
+xdescribe('EID-OBS COMPARE TESTS', function () {
 
     beforeEach(function (done) {
 
@@ -526,7 +526,7 @@ describe('EID-OBS COMPARE TESTS', function () {
         });
 
 
-    it('should find all conflicting EID and AMRS viral load results', () => {
+    xit('should find all conflicting EID and AMRS viral load results', () => {
         eidResults = [
             {
                 "LabID": "173545",

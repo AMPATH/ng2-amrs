@@ -1,5 +1,5 @@
 var cache = require('memory-cache');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var moduleDefinition = {
   getFromToCache: getFromToCache,
   saveToCache: saveToCache,
@@ -17,12 +17,12 @@ function saveToCache(key, value) {
 
 function encriptKey(key, success, error) {
   var saltRounds = 10;
-  bcrypt.hash(key, saltRounds, function(err, hash) {
+  bcrypt.hash(key, saltRounds, function (err, hash) {
     // Store hash in your password DB.
     if (err) {
       error(err);
     }
-    success('key'+hash+'key');
+    success('key' + hash + 'key');
   });
 }
 

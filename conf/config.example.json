@@ -1,0 +1,117 @@
+{
+  "openmrs": {
+    "host": "",
+    "port": 8080,
+    "https": false
+  },
+  "etl": {
+    "host": "",
+    "port": 8002,
+    "key": "",
+    "cert": "",
+    "tls": false,
+    "uploadsDirectory": ""
+  },
+  "mysql2": {
+    "connectionLimit": 10,
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": "",
+    "multipleStatements": true
+  },
+  "mysql": {
+    "connectionLimit": 20,
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": "",
+    "multipleStatements": true
+  },
+  "logging": {
+    "eidPath": "",
+    "eidFile": ""
+  },
+  "eidSyncOn": true,
+  "eidSyncApiKey": "",
+  "clusteringEnabled": false,
+  "mysql1": {
+    "connectionLimit": 10,
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": "",
+    "multipleStatements": true
+  },
+  "eidServer": {
+    "test": {
+      "name": "",
+      "host": "",
+      "port": 85,
+      "apiKey": "",
+      "post": {
+        "dnaPcr": "",
+        "vl": "",
+        "cd4": ""
+      },
+      "get": {
+        "dnaPcr": "",
+        "vl": "",
+        "cd4": ""
+      }
+    },
+    "ampath": {
+      "name": "",
+      "host": "",
+      "port": 85,
+      "apiKey": "",
+      "post": {
+        "dnaPcr": "",
+        "vl": "",
+        "cd4": ""
+      },
+      "get": {
+        "dnaPcr": "",
+        "vl": "",
+        "cd4": ""
+      }
+    },
+    "alupe": {
+      "name": "",
+      "host": "",
+      "port": 85,
+      "apiKey": "",
+      "post": {
+        "dnaPcr": "",
+        "vl": "",
+        "cd4": ""
+      },
+      "get": {
+        "dnaPcr": "",
+        "vl": "",
+        "cd4": ""
+      }
+    }
+  },
+  "eid": {
+    "locations": [
+      {
+        "name": "",
+        "host": "",
+        "generalApiKey": "",
+        "cd4ApiKey": "",
+        "loadCd4": true
+      },
+      {
+        "name": "",
+        "host": "",
+        "generalApiKey": "",
+        "cd4ApiKey": "",
+        "loadCd4": false
+      }
+    ],
+    "port": "85",
+    "generalPath": "",
+    "cd4PanelPath": ""
+  }
+}
