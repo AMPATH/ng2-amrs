@@ -1,0 +1,28 @@
+hr {
+  border-bottom:1px solid #d2d6de;
+}
+
+.list-group-item:focus, .list-group-item:hover {
+  z-index: 2;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  cursor: pointer;
+}
+
+.list-group-item a {
+  display: block;
+  width: 100%;
+}
+
+.list-group-item:hover a{
+  color: #fff !important;
+}
+
+.btn.btn-info:first-child {
+  margin-left:0;
+}
+
+button span {
+  display: inline-block;
+  margin-left: 12px;
+}
