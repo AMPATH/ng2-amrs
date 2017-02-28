@@ -32,7 +32,7 @@ describe('Service: PatientSearch', () => {
   });
 
 
-  it('should search for patients by search text', (done) => {
+  it('should search for patients by search text', () => {
     let service: PatientSearchService = TestBed.get(PatientSearchService);
     let result = service.searchPatient('text', false);
 
@@ -40,7 +40,6 @@ describe('Service: PatientSearch', () => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');
-      done();
     });
 
   });
