@@ -16,7 +16,8 @@ function getPatientLabResults(request, reply) {
       patientHasEverBeenSynced = true;
 
     if (patientHasEverBeenSynced) {
-      if (result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6) {
+      if (result.result[0][''] === 0 && (result.result.length ===1 || result.result[1][''] === 0) &&
+        result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6) {
         console.log('Patient synced..');
         obs.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId)
           .then(function (response) {
@@ -44,7 +45,7 @@ function syncAndGetPatientLabResults(request, reply) {
   var patientUuId = request.query.patientUuId;
 
   eidService.getSynchronizedPatientLabResults(patientUuId)
-    .then(function (response) {
+    .then(function (syncRespose) {
 
       eidSyncLog.getEidSyncLog(request, function (result) {
 
@@ -57,16 +58,19 @@ function syncAndGetPatientLabResults(request, reply) {
               .then(function (response) {
                 reply({
                   updatedObs: response,
-                  last_sync_date: result.result[0]['date_updated']
+                  last_sync_date: result.result[0]['date_updated'],
+                  errors: syncRespose.errors
                 });
               });
           else
             reply({
-              updatedObs: []
+              updatedObs: [],
+              errors: syncRespose.errors
             })
         else
           reply({
-            updatedObs: []
+            updatedObs: [],
+            errors: syncRespose.errors
           })
       });
     })

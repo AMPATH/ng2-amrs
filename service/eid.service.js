@@ -449,6 +449,9 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
 
   return obsService.getPatientIdentifiers(patientUuId)
     .then(function (response) {
+      if(response.identifiers.length === 0) {
+        throw new Error('Patient without identifiers!');
+      }
       return getEIDTestResultsByPatientIdentifier(response.identifiers, server);
     })
     .then(function (testResultsResponse) {

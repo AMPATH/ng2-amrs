@@ -7,7 +7,7 @@
        "alias": "t1"
      },
      "joins": [],
-     "columns": ["TIMESTAMPDIFF(HOUR,date_updated,now())", "person_uuid", "date_updated", "date_created", "status", "message"],
+     "columns": ["TIMESTAMPDIFF(HOUR,date_updated,now())", "person_uuid", "date_updated", "date_created", "status", "message", "site"],
      "parameters": [
          {
            "name": "TIMESTAMPDIFF(HOUR,date_updated,now())",
