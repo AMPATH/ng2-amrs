@@ -1,8 +1,9 @@
 import { ToastrService, ToastrConfig } from 'toastr-ng2';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientReminderService } from './patient-reminders.service';
 import { PatientService } from '../patient.service';
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'patient-reminders',
@@ -10,9 +11,10 @@ import * as _ from 'lodash';
   styleUrls: ['patient-reminder.component.css']
 })
 
-export class PatientRemindersComponent implements OnInit {
+export class PatientRemindersComponent implements OnInit, OnDestroy {
   patientUuid: any;
   reminders: any;
+  subscription: Subscription;
   public errorMessage: string;
 
   constructor(private toastrService: ToastrService,
@@ -32,8 +34,14 @@ export class PatientRemindersComponent implements OnInit {
     this.getPatient();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patientUuid = patient.person.uuid;

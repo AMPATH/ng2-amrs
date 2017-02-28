@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Moment from 'moment';
 
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'patient-banner',
@@ -10,16 +11,17 @@ import { Patient } from '../../models/patient.model';
   styleUrls: ['patient-banner.component.css']
 })
 
-export class PatientBannerComponent implements OnInit {
+export class PatientBannerComponent implements OnInit, OnDestroy {
 
   patient: Patient  = new Patient({});
   searchIdentifiers: Object;
   birthdate;
+  subscription: Subscription;
 
   constructor(private patientService: PatientService) { }
 
   ngOnInit() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
         if (patient) {
@@ -29,6 +31,12 @@ export class PatientBannerComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

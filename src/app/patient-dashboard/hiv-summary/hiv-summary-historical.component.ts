@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../patient.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../models/patient.model';
-import { Helpers } from '../../utils/helpers';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'hiv-summary-historical',
     templateUrl: './hiv-summary-historical.component.html',
     styleUrls: ['./hiv-summary.component.css']
 })
-export class HivSummaryHistoricalComponent implements OnInit {
+export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
 
     loadingHivSummary: boolean = false;
 
@@ -20,6 +19,7 @@ export class HivSummaryHistoricalComponent implements OnInit {
     patient: Patient;
 
     patientUuid: any;
+    subscription: Subscription;
 
     experiencedLoadingError: boolean = false;
 
@@ -33,14 +33,19 @@ export class HivSummaryHistoricalComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.getPatient();
+    }
+
+    ngOnDestroy(): void {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
     }
 
     getPatient() {
 
         this.loadingHivSummary = true;
-        this.patientService.currentlyLoadedPatient.subscribe(
+        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient) {
                     this.patient = patient;

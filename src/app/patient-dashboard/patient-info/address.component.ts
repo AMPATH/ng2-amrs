@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
-import { PersonResourceService } from '../../openmrs-api/person-resource.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -11,8 +11,9 @@ import { PersonResourceService } from '../../openmrs-api/person-resource.service
   templateUrl: 'address.component.html',
   styleUrls: [],
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
+  subscription: Subscription;
   private address1: string ;
   private address2: string ;
   private address3: string ;
@@ -24,8 +25,15 @@ export class AddressComponent implements OnInit {
   ngOnInit(): void {
     this.getPatient();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
         if (patient) {

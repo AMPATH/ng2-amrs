@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as Moment from 'moment';
@@ -6,16 +6,18 @@ import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
 import { PatientService } from '../patient.service';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
+import { Subscription } from 'rxjs';
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
     host: { 'class': 'wrapper' }
 })
-export class VisitComponent implements OnInit {
+export class VisitComponent implements OnInit, OnDestroy {
     visitTypes = [];
     excludedForms = [];
     visit: any;
     patient: any;
+    subscription: Subscription;
     errors: any = [];
     loadingVisitTypes: Boolean;
     confirmCancel: boolean;
@@ -30,6 +32,12 @@ export class VisitComponent implements OnInit {
     ngOnInit() {
         this.getPatient();
     }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
     getVisit(patientUuid) {
         this.visitBusy = true;
@@ -55,7 +63,7 @@ export class VisitComponent implements OnInit {
     }
 
     getPatient() {
-        this.patientService.currentlyLoadedPatient.subscribe(
+      this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient !== null) {
                     this.patient = patient;
