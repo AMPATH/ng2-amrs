@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../../models/patient.model';
@@ -21,22 +21,30 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   public errorMessage: string;
 
-  constructor(private patientSearchService: PatientSearchService, private router: Router) {
+  constructor(private patientSearchService: PatientSearchService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
 
   ngOnInit() {
     if (window.innerWidth <= 768) {
-      this.adjustInputMargin = '0';
+       this.adjustInputMargin = '0';
     }
-    // load cached result
-    this.patientSearchService.patientsSearchResults.subscribe(
-      (patients) => {
-        this.patients = patients;
-        this.searchString = this.patientSearchService.searchString;
-        this.totalPatients = this.patients.length;
+    this.route.queryParams.subscribe((params) => {
+      if (params['reset'] !== undefined) {
+        this.resetSearchList();
+      } else {
+        // load cached result
+        this.patientSearchService.patientsSearchResults.subscribe(
+          (patients) => {
+            this.patients = patients;
+            this.searchString = this.patientSearchService.searchString;
+            this.totalPatients = this.patients.length;
+          }
+        );
       }
-    );
+    });
   }
 
   ngOnDestroy() {
@@ -102,6 +110,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   resetSearchList() {
     this.patientSearchService.resetPatients();
     this.searchString = '';
+    this.totalPatients = 0;
     this.isResetButton = false;
     this.isLoading = false;
     this.resetInputMargin();

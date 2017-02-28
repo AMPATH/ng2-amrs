@@ -64,6 +64,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
     this.wireDataSources();
@@ -155,7 +156,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/patient-search']);
+        this.router.navigate(['/patient-dashboard/patient-search'], {
+          queryParams: { reset: true }
+        });
         break;
       default:
         console.log('unknown path');

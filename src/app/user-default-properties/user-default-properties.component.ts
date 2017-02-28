@@ -44,9 +44,11 @@ export class UserDefaultPropertiesComponent implements OnInit {
   }
 
   goToPatientSearch() {
-
-    this.router.navigate(['patient-dashboard/patient-search']);
-
+    /**
+     * There seems to be a lag in router navigation that creates the impression
+     * that the 'done' button is unresponsive. Hence the resolve to use this method
+     */
+    window.location.replace('/#/patient-dashboard/patient-search');
   }
 
   filter(event: any) {
@@ -67,6 +69,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   select(item) {
     this.query = item.display;
+    this.currentLocation = item.display;
     let location = JSON.stringify({ uuid: item.uuid, display: item.display });
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
 
