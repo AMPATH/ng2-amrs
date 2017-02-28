@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { dashboardRouting } from './main-dashboard-routing';
 import { MainDashboardComponent } from './main-dashboard.component';
 import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';
+import { AgGridModule } from 'ag-grid-angular/main';
+import { DataListsModule } from '../data-lists/data-lists.module';
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
@@ -16,7 +18,9 @@ import { UserService } from '../openmrs-api/user.service';
     CommonModule,
     FormsModule,
     dashboardRouting,
-    NgamrsSharedModule
+    NgamrsSharedModule,
+    AgGridModule.withComponents([]),
+    DataListsModule
   ],
   declarations: [
     MainDashboardComponent
