@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { ConceptResourceService  } from '../../openmrs-api/concept-resource.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'edit-demographics',
   templateUrl: 'edit-demographics.component.html',
   styleUrls: [],
 })
-export class EditDemographicsComponent implements OnInit {
+export class EditDemographicsComponent implements OnInit, OnDestroy {
 
   patients: Patient = new Patient({});
   public display: boolean = false;
+  subscription: Subscription;
   private givenName: string;
   private familyName: string;
   private middleName: string;
@@ -43,8 +45,15 @@ export class EditDemographicsComponent implements OnInit {
     this.getPatient();
     this.getCauseOfDeath();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
         if (patient) {

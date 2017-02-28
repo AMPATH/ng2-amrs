@@ -20,7 +20,7 @@ export class OnlineTrackerComponent implements OnInit {
     isUpdating: boolean = false;
     constructor(private sessionService: SessionService) { }
     ngOnInit() {
-        let timer = Observable.timer(1000, 5000);
+        let timer = Observable.timer(1000, 30000);
         timer.subscribe(t => this.updateOnlineStatus());
     }
 

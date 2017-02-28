@@ -1,9 +1,10 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import * as _ from 'lodash';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { PersonResourceService } from '../../openmrs-api/person-resource.service
   templateUrl: 'edit-contacts.component.html',
   styleUrls: []
 })
-export class EditContactsComponent implements OnInit {
+export class EditContactsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
   public display: boolean = false;
   public patientPhoneNumber: number;
@@ -19,6 +20,7 @@ export class EditContactsComponent implements OnInit {
   public patnerPhoneNumber: number;
   public nextofkinPhoneNumber: number;
   public errors: any = [];
+  subscription: Subscription;
   private isLoading: boolean = false;
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService) {
@@ -26,6 +28,13 @@ export class EditContactsComponent implements OnInit {
   ngOnInit() {
     this.getPatient();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   public showDialog() {
     this.display = true;
   }
@@ -33,7 +42,7 @@ export class EditContactsComponent implements OnInit {
     this.display = false;
   }
   public getPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patient = patient;

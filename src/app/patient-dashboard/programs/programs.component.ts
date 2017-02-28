@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { PatientService } from '../patient.service';
 import { ProgramService } from './program.service';
@@ -7,6 +7,7 @@ import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,7 +15,7 @@ import * as moment from 'moment';
     templateUrl: './programs.component.html',
     styleUrls: ['./programs.component.css']
 })
-export class ProgramsComponent implements OnInit {
+export class ProgramsComponent implements OnInit, OnDestroy {
     patient: Patient = new Patient({});
     enrolledProgrames: ProgramEnrollment[] = [];
     availablePrograms: Program[] = [];
@@ -30,6 +31,7 @@ export class ProgramsComponent implements OnInit {
     displayDialog: boolean = false;
     hasError: boolean = false;
     errorMessage: string = '';
+    subscription: Subscription;
     private _datePipe: DatePipe;
 
     constructor(private appFeatureAnalytics: AppFeatureAnalytics,
@@ -45,6 +47,12 @@ export class ProgramsComponent implements OnInit {
         this.getAvailablePrograms();
     }
 
+    ngOnDestroy(): void {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+    }
+
     subscribeToEnrollmentChangeEvent(payload) {
         this.programService.saveUpdateProgramEnrollment(payload).subscribe(
             (enrollment) => {
@@ -57,7 +65,7 @@ export class ProgramsComponent implements OnInit {
 
     subscribeToPatientChangeEvent() {
         this.programsBusy = true;
-        this.patientService.currentlyLoadedPatient.subscribe(
+        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient) {
                     this.patient = patient;

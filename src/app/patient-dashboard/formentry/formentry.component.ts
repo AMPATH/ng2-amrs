@@ -1,19 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { FormSchemaService } from '../formentry/form-schema.service';
-import { FormentryHelperService } from './formentry-helper.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import { FormFactory, EncounterAdapter, Form, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
-import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../patient.service';
 import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 import * as moment from 'moment';
 
@@ -43,6 +39,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     encounterUuid: null,
     orders: []
   };
+  subscription: Subscription;
   private encounterUuid: string = null;
   private encounter: any = null;
   private visitUuid: string = null;
@@ -106,6 +103,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Unloaded', 'ngOnDestroy');
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    };
   }
 
   wireDataSources() {
@@ -184,7 +184,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     observableBatch.push(this.getEncounters()); // encounters [2]
 
     // forkjoin all requests
-    Observable.forkJoin(
+    this.subscription = Observable.forkJoin(
       observableBatch
     ).subscribe(
       data => {

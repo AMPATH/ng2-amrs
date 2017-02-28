@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import * as Moment from 'moment';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { Patient } from '../../models/patient.model';
@@ -11,22 +10,22 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
   selector: 'patient-demographics',
   templateUrl: './patient-demographics.component.html'
 })
-export class PatientDemographicsComponent implements OnInit {
+export class PatientDemographicsComponent implements OnInit, OnDestroy {
   patient: Patient = new Patient({});
   messageType: string;
   message: string;
   isVisible: boolean;
   busy: Subscription;
   errors: any = [];
+  subscription: Subscription;
 
   constructor(private patientService: PatientService,
     private appFeatureAnalytics: AppFeatureAnalytics) { }
   getPatientDemographics() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
         if (patient) {
-          console.log('Patient Object---->', patient);
           this.patient = patient;
         }
       }, (err) => {
@@ -41,5 +40,11 @@ export class PatientDemographicsComponent implements OnInit {
     this.getPatientDemographics();
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

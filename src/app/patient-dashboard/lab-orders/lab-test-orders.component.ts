@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { PatientService } from '../patient.service';
 import { OrderResourceService } from '../../openmrs-api/order-resource.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'lab-test-orders',
   templateUrl: './lab-test-orders.html',
   styleUrls: []
 })
-export class LabTestOrdersComponent implements OnInit {
+export class LabTestOrdersComponent implements OnInit, OnDestroy {
   patient: any;
   labOrders = [];
   error: string;
-  fetchingResults: Boolean;
-  isBusy: Boolean;
+  fetchingResults: boolean;
+  isBusy: boolean;
+  subscription: Subscription;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
               private patientService: PatientService,
@@ -24,8 +26,15 @@ export class LabTestOrdersComponent implements OnInit {
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
     this.getCurrentlyLoadedPatient();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getCurrentlyLoadedPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patient = patient;

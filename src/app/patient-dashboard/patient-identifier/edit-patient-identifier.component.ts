@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import * as _ from 'lodash';
@@ -8,6 +8,7 @@ import {
   PatientIdentifierTypeResService
 } from'../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -18,8 +19,9 @@ import { PatientResourceService } from '../../openmrs-api/patient-resource.servi
   templateUrl: 'edit-patient-identifier.component.html',
   styleUrls: [],
 })
-export class EditPatientIdentifierComponent implements OnInit {
+export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
+  subscription: Subscription;
   public errorMessage: string = '';
   public hasError: boolean = false;
   private display: boolean = false;
@@ -50,8 +52,14 @@ export class EditPatientIdentifierComponent implements OnInit {
     this.getCommonIdentifierTypes();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
         if (patient) {
