@@ -1,13 +1,15 @@
 import { PatientService } from '../patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'patient-relationships',
   templateUrl: './patient-relationships.component.html'
 })
 
-export class PatientRelationshipsComponent implements OnInit {
+export class PatientRelationshipsComponent implements OnInit, OnDestroy {
+  subscription: Subscription;
   private patientUuid: string;
   private loadingRelationships: boolean = false;
   private errors: any;
@@ -21,9 +23,15 @@ export class PatientRelationshipsComponent implements OnInit {
     this.getPatientRelationships();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   public getPatientRelationships(): void {
     this.loadingRelationships = true;
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patientUuid = patient.person.uuid;

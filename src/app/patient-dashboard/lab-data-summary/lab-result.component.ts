@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { LabsResourceService } from '../../etl-api/labs-resource.service';
+
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'lab-result',
   templateUrl: 'lab-result.component.html',
   styleUrls: []
 })
-export class LabResultComponent implements OnInit {
+export class LabResultComponent implements OnInit, OnDestroy {
   patient: any;
   error: string;
   loadingPatient: Boolean;
@@ -16,12 +19,13 @@ export class LabResultComponent implements OnInit {
   nextStartIndex: number = 0;
   dataLoaded: boolean = false;
   labResults = [];
+  subscription: Subscription;
   constructor(private labsResourceService: LabsResourceService,
               private patientService: PatientService) { }
 
   ngOnInit() {
     this.loadingPatient = true;
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.loadingPatient = false;
         if (patient) {
@@ -33,6 +37,13 @@ export class LabResultComponent implements OnInit {
       }
     );
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getHistoricalPatientLabResults(patientUuId, params: { startIndex: string, limit: string }) {
     this.patientUuId = this.patient.person.uuid;
     this.fetchingResults = true;

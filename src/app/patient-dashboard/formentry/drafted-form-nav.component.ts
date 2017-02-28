@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DraftedFormsService } from './drafted-forms.service';
 import { PatientService } from '../patient.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'drafted-form-nav',
@@ -13,14 +14,16 @@ import { PatientService } from '../patient.service';
     </button>
     `
 })
-export class DraftedFormNavComponent implements OnInit {
+export class DraftedFormNavComponent implements OnInit, OnDestroy {
   public isDraftFormPresent: boolean = false;
+  subscription: Subscription;
   private patientUuid;
 
   constructor(private draftedFormsService: DraftedFormsService,
               private patientService: PatientService,
               private router: Router) {
-    this.patientService.currentlyLoadedPatientUuid.subscribe(uuid => this.patientUuid = uuid);
+    this.subscription = this.patientService.currentlyLoadedPatientUuid
+      .subscribe(uuid => this.patientUuid = uuid);
   }
 
   ngOnInit() {
@@ -44,6 +47,12 @@ export class DraftedFormNavComponent implements OnInit {
       }
 
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   loadDraftedForm() {

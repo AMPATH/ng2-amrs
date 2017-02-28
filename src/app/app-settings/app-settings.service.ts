@@ -29,6 +29,11 @@ export class AppSettingsService {
 
   private templates = [
     {
+      name: 'Single Server',
+      amrsUrl: '/amrs',
+      etlUrl: '/etl-server/etl'
+    },
+    {
       name: 'Production',
       amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
       etlUrl: 'https://amrsreporting.ampath.or.ke:8002/etl'
@@ -37,11 +42,6 @@ export class AppSettingsService {
       name: 'Production Demo',
       amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
       etlUrl: 'https://amrsreporting.ampath.or.ke:8003/etl'
-    },
-    {
-      name: 'Single Server',
-      amrsUrl: '/amrs',
-      etlUrl: '/etl-server/etl'
     },
     {
       name: 'Single Server Demo',

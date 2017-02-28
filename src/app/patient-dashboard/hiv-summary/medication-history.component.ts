@@ -1,19 +1,20 @@
 
-import { Component, OnInit } from '@angular/core';
-import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MedicationHistoryResourceService } from
   '../../etl-api/medication-history-resource.service';
 import { PatientService } from '../patient.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'medication-change-history',
   templateUrl: 'medication-history.component.html',
   styleUrls: []
 })
-export class MedicationHistoryComponent implements OnInit {
+export class MedicationHistoryComponent implements OnInit, OnDestroy {
   encounters = [];
   patient: any;
   errors: any;
+  subscription: Subscription;
 
   constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
     private patientService: PatientService) {
@@ -31,9 +32,16 @@ export class MedicationHistoryComponent implements OnInit {
   ngOnInit() {
     this.getPatient();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
     let reportName = 'medical-history-report';
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patient = patient;

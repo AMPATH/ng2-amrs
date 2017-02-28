@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 
 import { Vital } from '../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,10 +12,11 @@ import { TodaysVitalsService } from './todays-vitals.service';
   templateUrl: 'todays-vitals.component.html',
   styleUrls: [],
 })
-export class TodaysVitalsComponent implements OnInit {
+export class TodaysVitalsComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   todaysVitals: Vital[] = [];
   errors: any[] = [];
+  subscription: Subscription;
   loadingTodaysVitals: boolean = true;
   dataLoaded: boolean = false;
 
@@ -23,8 +25,14 @@ export class TodaysVitalsComponent implements OnInit {
     this.subscribeToPatientChangeEvent();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   subscribeToPatientChangeEvent() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.loadTodaysVitalsForPatient(patient.person.uuid);

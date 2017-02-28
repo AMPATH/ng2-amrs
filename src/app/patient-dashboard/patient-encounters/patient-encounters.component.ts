@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientEncounterService } from './patient-encounters.service';
 import { Encounter } from '../../models/encounter.model';
 import { PatientService } from '../patient.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -13,7 +14,7 @@ import { PatientService } from '../patient.service';
   styleUrls: ['./patient-encounters.component.css']
 
 })
-export class PatientEncountersComponent implements OnInit {
+export class PatientEncountersComponent implements OnInit, OnDestroy {
   encounters: Encounter[];
   selectedEncounter: Encounter;
   onEncounterDetail: boolean = false;
@@ -23,6 +24,7 @@ export class PatientEncountersComponent implements OnInit {
   dataLoading: boolean = false;
   patient: any;
   errors: any = [];
+  subscription: Subscription;
   public busyIndicator: any = {
     busy: false,
     message: 'Fetching encounters hang on...' // default message
@@ -34,6 +36,13 @@ export class PatientEncountersComponent implements OnInit {
     this.getPatient();
     // load cached result
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   loadPatientEncounters(patientUuid) {
     this.encounters = [];
     this.isBusyIndicator(true);
@@ -58,7 +67,7 @@ export class PatientEncountersComponent implements OnInit {
   }
   getPatient() {
     this.dataLoading = true;
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;

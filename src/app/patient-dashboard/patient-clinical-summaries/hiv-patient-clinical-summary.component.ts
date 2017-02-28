@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Patient } from '../../models/patient.model';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
 import { PatientService } from '../patient.service';
@@ -6,12 +6,13 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import {
   HivPatientClinicalSummaryResourceService
 } from '../../etl-api/hiv-patient-clinical-summary-resource.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hiv-patient-clinical-summaries',
   templateUrl: 'hiv-patient-clinical-summary.component.html'
 })
-export class HivPatientClinicalSummaryComponent implements OnInit {
+export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
 
   public pdfSrc: string = null; // 'https://vadimdez.github.io/ng2-pdf-viewer/pdf-test.pdf';
   public page: number = 1;
@@ -21,6 +22,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit {
   public pdfProxy: PDFDocumentProxy = null;
   public pdfMakeProxy: any = null;
   public errorFlag: boolean = false;
+  subscription: Subscription;
 
   constructor(private patientClinicalSummary: HivPatientClinicalSummaryService,
               private patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService,
@@ -33,10 +35,16 @@ export class HivPatientClinicalSummaryComponent implements OnInit {
     this.generatePdf();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   public  generatePdf(): void {
     this.isBusy = true;
     this.errorFlag = false;
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       patient => {
         this.patient = new Patient({});
         if (patient) {

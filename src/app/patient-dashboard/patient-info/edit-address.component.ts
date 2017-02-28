@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
-
-
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'edit-address',
   templateUrl: 'edit-address.component.html',
   styleUrls: [],
 })
-export class EditAddressComponent implements OnInit {
+export class EditAddressComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
+  subscription: Subscription;
   public display: boolean = false;
   private address1: string ;
   private address2: string ;
@@ -27,8 +27,15 @@ export class EditAddressComponent implements OnInit {
   ngOnInit(): void {
     this.getPatient();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
         if (patient) {
@@ -43,6 +50,7 @@ export class EditAddressComponent implements OnInit {
       }
     );
   }
+
   showDialog() {
     this.display = true;
   }
