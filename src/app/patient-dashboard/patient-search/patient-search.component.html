@@ -3,16 +3,16 @@
     <form>
       <div class="form-group">
         <label for="search-textbox"><h2>Search Patient</h2></label>
-        <div class="input-wrapper">
+        <div class="input-wrapper" [style.margin-right]="adjustInputMargin">
           <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString"
                  [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePatientCount($event)"
                  placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"
                  autofocus="true">
           </div>
           <div class="input-group-btn pull-right">
-            <button class="btn btn-primary btn-lg" [ladda]='isLoading' data-size="xs" data-color="blue"
-                    data-style="expand-right" (click)="loadPatient()">
+            <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
               <span class="glyphicon glyphicon-search"> Search</span>
+              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
             </button>
             <button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
             <span class="glyphicon glyphicon-trash"> Reset</span>
