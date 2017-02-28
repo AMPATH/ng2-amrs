@@ -19,7 +19,7 @@ function getEidSyncLog(request,callback) {
         asc: false
       }
     ],
-    limit: 1
+    limit: 3
   };
 
   return new Promise(function(resolve, reject) {

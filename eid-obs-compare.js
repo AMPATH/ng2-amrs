@@ -33,19 +33,32 @@ function findAllMissingEidResults(allEidResults, arrayOfObs) {
 
     if (allEidResults.viralLoad.length > 0) {
         results.viralLoad =
-            moduleDefinition.findMissingEidResults(allEidResults.viralLoad, arrayOfObs, isViralLoadEquivalent);
+            moduleDefinition.findMissingEidResults(filterOutResultsWithoutDateCollected(allEidResults.viralLoad),
+                arrayOfObs, isViralLoadEquivalent);
     }
 
     if (allEidResults.pcr.length > 0) {
         results.pcr =
-            moduleDefinition.findMissingEidResults(allEidResults.pcr, arrayOfObs, isDnaPcrEquivalent);
+            moduleDefinition.findMissingEidResults(filterOutResultsWithoutDateCollected(allEidResults.pcr),
+                arrayOfObs, isDnaPcrEquivalent);
     }
 
     if (allEidResults.cd4Panel.length > 0) {
         results.cd4Panel =
-            moduleDefinition.findMissingEidResults(allEidResults.cd4Panel, arrayOfObs, isCd4PanelEquivalent);
+            moduleDefinition.findMissingEidResults(filterOutResultsWithoutDateCollected(allEidResults.cd4Panel),
+                arrayOfObs, isCd4PanelEquivalent);
     }
 
+    return results;
+}
+
+function filterOutResultsWithoutDateCollected(resultsArray) {
+    var results = [];
+    _.each(resultsArray, function (result) {
+        if (moment(result.DateCollected).isValid()) {
+            results.push(result);
+        }
+    });
     return results;
 }
 
@@ -190,6 +203,7 @@ function conceptDateComparer(eidResult, amrsObs, conceptUuid) {
         amrsObs.concept.uuid === conceptUuid)) {
         return false;
     }
+
 
     //check for dates equality
     if (!_areDatesEqual(eidResult.DateCollected, amrsObs.obsDatetime)) {
