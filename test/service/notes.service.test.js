@@ -85,8 +85,39 @@
         expect(aNote).to.deep.equal(expectedNote);
       });
 
-    xit('generateNotes() should generate an expected array of notes', function () {
+    it('generateNotes() should generate an expected array of notes', function () {
+      var expectedNote ={
+            visitDate: '2016-04-11T21:00:00.000Z',
+            scheduled: null,
+            providers: [],
+            lastViralLoad: { value: 0, date: '2015-06-14T21:00:00.000Z' },
+            lastCD4Count: { value: 149, date: '2013-09-29T21:00:00.000Z' },
+            artRegimen: {
+              curArvMeds: 'TDF AND 3TC AND EFV',
+              curArvLine: 1,
+              arvStartDate: '2013-12-09T21:00:00.000Z'
+            },
+            tbProphylaxisPlan: {
+              plan: '',
+              startDate: '',
+              estimatedEndDate: ''
+            },
+            ccHpi: [],
+            assessment: [],
+            vitals: {
+              weight: '',
+              height: '',
+              bmi: '',
+              temperature: '',
+              oxygenSaturation: '',
+              systolicBp: '',
+              diastolicBp: '',
+              pulse: '' 
+            },
+            rtcDate: '2016-04-17T21:00:00.000Z'
+      };
       var expected = [expectedNote];
+     // console.log('expected===',expected)
       var notes = noteGS.generateNotes(encounters, [hivSummary], [vitals]);
       expect(notes).to.be.an.array;
       expect(notes.length).to.equal(1);
@@ -134,7 +165,7 @@
         obsDatetime: adultReturn.encounterDatetime,
         encounterType: adultReturn.encounterType.display,
         value: adultReturnAss.value
-      }
+      };
       expected.assessment.push(ass1Toexpect, ass2Toexpect);
 
       // Create note and set expectations

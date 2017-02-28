@@ -24,12 +24,13 @@ global.assert = chai.assert;
 
 chai.use(sinonChai);
 
-xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
+describe('PATIENT LEVEL ETL-SERVER TESTS', function () {
 
   describe('Testing etl-dao layer', function () {
 
     // example showing how to use a stub to fake a method
     var stub;
+    var queryDbStub;
     beforeEach(function (done) {
       stub = sinon.stub(db, 'queryServer_test');
       queryDbStub = sinon.stub(db, 'queryDb');
@@ -44,7 +45,7 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
       queryDbStub.restore();
     });
 
-    xit('should create the right query parts object when getPatient is called',
+    it('should create the right query parts object when getPatient is called',
       function (done) {
         // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
         stub.yields({
@@ -364,7 +365,7 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
         var queryParts = stub.args[0][0];
         expect(queryParts.table).to.equal('amrs.patient');
         // if fields is null output all columns
-        expect(queryParts.columns).to.equal("distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name");
+        expect(queryParts.columns).to.equal("distinct t4.uuid as patientUuid, t1.patient_id, t3.given_name, t3.middle_name, t3.family_name, t4.gender, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age");
         expect(queryParts.joins).to.be.an('array');
         expect(queryParts.joins).to.have.deep.property('[0][0]', 'amrs.encounter');
         expect(queryParts.joins).to.have.deep.property('[0][1]', 't2');
@@ -442,7 +443,7 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
         var queryParts = stub.args[0][0];
         // expect(queryParts.table).to.equal('etl.flat_hiv_summary');
         // if fields is null output all columns
-        expect(queryParts.columns).to.equal("t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid");
+        expect(queryParts.columns).to.equal("t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age, t4.gender");
         expect(queryParts.joins).to.be.an('array');
         expect(queryParts.joins).to.have.deep.property('[0][0]', 'amrs.person_name');
         expect(queryParts.joins).to.have.deep.property('[0][1]', 't2');
@@ -521,7 +522,7 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
         var queryParts = stub.args[0][0];
         // expect(queryParts.table).to.equal('etl.flat_hiv_summary');
         // if fields is null output all columns
-        expect(queryParts.columns).to.equal("t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid");
+        expect(queryParts.columns).to.equal("t1.person_id,t1.encounter_id,t1.location_id,t1.location_uuid, t1.uuid as patient_uuid, extract(year from (from_days(datediff(now(),t4.birthdate)))) as age, t4.gender");
         expect(queryParts.joins).to.be.an('array');
         expect(queryParts.joins).to.have.deep.property('[0][0]', 'amrs.person_name');
         expect(queryParts.joins).to.have.deep.property('[0][1]', 't2');
@@ -567,7 +568,7 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
 
       });
     it('should ensure that convertViralLoadPayloadToRestConsumableObs receives  the right input and generates the correct payload',
-      function () {
+      function (done) {
         var expectedInput = {
           "PatientID": "value",
           "DateCollected": "26-May-2016",
@@ -581,15 +582,19 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
           value: 0
         }
         var payload = eidRestFormatter.convertViralLoadPayloadToRestConsumableObs(expectedInput, patientUuId);
-        expect(payload).to.have.property("concept");
-        expect(payload).to.have.property("person");
-        expect(payload).to.have.property("obsDatetime");
-        expect(payload).to.have.property("value");
+        payload.then(function (p) {
+            expect(p).to.have.property("concept");
+            expect(p).to.have.property("person");
+            expect(p).to.have.property("obsDatetime");
+            expect(p).to.have.property("value");
+            expect(p).deep.equal(expectedOutput);
+            done();
 
-        expect(payload).deep.equal(expectedOutput);
+        });
+
       });
     it('should ensure that convertCD4PayloadTORestConsumableObs receives  the right input and generates the correct payload',
-      function () {
+      function (done) {
         var expectedInput = {
           "PatientID": "value",
           "DateCollected": "26-May-2016",
@@ -637,17 +642,21 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
             }
           ]
         }
-        var payload = eidRestFormatter.convertCD4PayloadTORestConsumableObs(expectedInput, patientUuId);
-        expect(payload).to.have.property("concept");
-        expect(payload).to.have.property("person");
-        expect(payload).to.have.property("obsDatetime");
-        expect(payload).to.have.property("groupMembers");
-        expect(payload.groupMembers).to.be.an("array");
+          var payload = eidRestFormatter.convertCD4PayloadTORestConsumableObs(expectedInput, patientUuId);
+          payload.then(function (p) {
+              expect(p).to.have.property("concept");
+              expect(p).to.have.property("person");
+              expect(p).to.have.property("obsDatetime");
+              expect(p).to.have.property("groupMembers");
+              expect(p.groupMembers).to.be.an("array");
 
-        expect(payload).deep.equal(expectedOutput);
+              expect(p).deep.equal(expectedOutput);
+              done();
+
+          });
       });
     it('should ensure that convertDNAPCRPayloadTORestConsumableObs receives  the right input and generates the correct payload',
-      function () {
+      function (done) {
         var expectedInput = {
           "PatientID": "value",
           "DateCollected": "26-May-2016",
@@ -661,15 +670,20 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
           value: "a896d2cc-1350-11df-a1f1-0026b9348838"
         }
         var payload = eidRestFormatter.convertDNAPCRPayloadTORestConsumableObs(expectedInput, patientUuId);
-        expect(payload).to.have.property("concept");
-        expect(payload).to.have.property("person");
-        expect(payload).to.have.property("obsDatetime");
-        expect(payload).to.have.property("value");
+          payload.then(function (p) {
+              expect(p).to.have.property("concept");
+              expect(p).to.have.property("person");
+              expect(p).to.have.property("obsDatetime");
+              expect(p).to.have.property("value");
 
-        expect(payload).deep.equal(expectedOutput);
+              expect(p).deep.equal(expectedOutput);
+              done();
+
+          });
+
       });
     it('should ensure that convertDNAPCRPayloadTORestConsumableObs receives  the right input and generates the correct payload',
-      function () {
+      function (done) {
         var expectedInput = {
           "PatientID": "value",
           "DateCollected": "26-May-2016",
@@ -683,15 +697,19 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
           value: "a896f3a6-1350-11df-a1f1-0026b9348838"
         }
         var payload = eidRestFormatter.convertDNAPCRPayloadTORestConsumableObs(expectedInput, patientUuId);
-        expect(payload).to.have.property("concept");
-        expect(payload).to.have.property("person");
-        expect(payload).to.have.property("obsDatetime");
-        expect(payload).to.have.property("value");
+          payload.then(function (p) {
+              expect(p).to.have.property("concept");
+              expect(p).to.have.property("person");
+              expect(p).to.have.property("obsDatetime");
+              expect(p).to.have.property("value");
 
-        expect(payload).deep.equal(expectedOutput);
+              expect(p).deep.equal(expectedOutput);
+              done();
+
+          });
       });
     it('should ensure that the convertViralLoadExceptionToRestConsumableObs function generates the right output',
-      function () {
+      function (done) {
         var expectedInput = {
           "LabID": "173545",
           "PatientID": "2524040",
@@ -709,14 +727,18 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
         }
         var patientUuId = "c6e4e026-3b49-4b64-81de-05cf8bd18594";
         var payload = eidRestFormatter.convertViralLoadExceptionToRestConsumableObs(expectedInput, patientUuId);
-        expect(payload).to.have.property("concept");
-        expect(payload).to.have.property("person");
-        expect(payload).to.have.property("obsDatetime");
-        expect(payload).to.have.property("groupMembers");
-        expect(payload.groupMembers).to.be.an("array");
+          payload.then(function (p) {
+              expect(p).to.have.property("concept");
+              expect(p).to.have.property("person");
+              expect(p).to.have.property("obsDatetime");
+              expect(p).to.have.property("groupMembers");
+              expect(p.groupMembers).to.be.an("array");
+              done();
+
+          });
       });
     it('should ensure that the convertCD4ExceptionTORestConsumableObs function generates the right output',
-      function () {
+      function (done) {
         var expectedInput = {
           "LabID": "6304",
           "PatientID": "000981160-5",
@@ -738,11 +760,15 @@ xdescribe('PATIENT LEVEL ETL-SERVER TESTS', function () {
         }
         var patientUuId = "c6e4e026-3b49-4b64-81de-05cf8bd18594";
         var payload = eidRestFormatter.convertCD4ExceptionTORestConsumableObs(expectedInput, patientUuId);
-        expect(payload).to.have.property("concept");
-        expect(payload).to.have.property("person");
-        expect(payload).to.have.property("obsDatetime");
-        expect(payload).to.have.property("groupMembers");
-        expect(payload.groupMembers).to.be.an("array");
+          payload.then(function (p) {
+              expect(p).to.have.property("concept");
+              expect(p).to.have.property("person");
+              expect(p).to.have.property("obsDatetime");
+              expect(p).to.have.property("groupMembers");
+              expect(p.groupMembers).to.be.an("array");
+              done();
+
+          });
       });
 
   });
