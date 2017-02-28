@@ -3,4 +3,8 @@
   margin-top:-33px;
   display: block;
   width: 150px;
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  z-index: 24;
 }
