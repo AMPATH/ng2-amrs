@@ -4,6 +4,8 @@ node_js:
 - '6'
 - node
 before_install:
+  - echo 'Africa/Nairobi' | sudo tee /etc/timezone
+  - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - npm install -g node-gyp
   - cp $TRAVIS_BUILD_DIR/conf/config.example.json $TRAVIS_BUILD_DIR/conf/config.json
 addons:

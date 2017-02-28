@@ -18,7 +18,7 @@ global.assert = chai.assert;
 var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
-xdescribe('EID-OBS COMPARE TESTS', function () {
+describe('EID-OBS COMPARE TESTS', function () {
 
     beforeEach(function (done) {
 
@@ -526,8 +526,8 @@ xdescribe('EID-OBS COMPARE TESTS', function () {
         });
 
 
-    xit('should find all conflicting EID and AMRS viral load results', () => {
-        eidResults = [
+    it('should find all conflicting EID and AMRS viral load results', () => {
+        var eidResults = [
             {
                 "LabID": "173545",
                 "PatientID": "2524040",
@@ -590,7 +590,7 @@ xdescribe('EID-OBS COMPARE TESTS', function () {
             }
         ];
 
-        amrsObs = [
+        var amrsObs = [
             {
                 uuid: 'uuid1',
                 person: { uuid: 'c6e4e026-3b49-4b64-81de-05cf8bd18594' },

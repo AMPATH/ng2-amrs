@@ -38,7 +38,7 @@ describe('ETL-SERVER TESTS', function () {
       stub.restore();
     });
 
-    xit('should create the right query parts object when getPatient is called',
+    it('should create the right query parts object when getPatient is called',
       function (done) {
         // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
         stub.yields({

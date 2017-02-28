@@ -108,7 +108,7 @@ describe('CLINIC LEVEL ETL-SERVER TESTS', function () {
       });
 
 
-    xit('should create the right query parts object when getClinicDefaulterList is called',
+    it('should create the right query parts object when getClinicDefaulterList is called',
       function (done) {
         // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
         stub.yields({
@@ -139,8 +139,9 @@ describe('CLINIC LEVEL ETL-SERVER TESTS', function () {
         var queryParts = stub.args[0][0];
         expect(queryParts.table).to.equal('etl.flat_defaulters');
         // if fields is null output all columns
-        expect(queryParts.columns).to.equal('*');
-
+        console.log('Log', JSON.stringify(queryParts.columns))
+        expect(queryParts.columns[0]).to.equal('*');
+        expect(queryParts.columns[1]).to.equal('extract(year from (from_days(datediff(now(),t3.birthdate)))) as age');
         expect(queryParts.where).to.include(options.params.uuid);
       });
 
