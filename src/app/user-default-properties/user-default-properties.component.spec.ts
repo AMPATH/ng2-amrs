@@ -93,12 +93,9 @@ describe('Component: User Default Settings Unit Tests', () => {
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
 
-    let router = injector.get(Router);
-    router.navigate = jasmine.createSpy('navigate');
-
-    spyOn(component, 'goToPatientSearch').and.callThrough();
+    spyOn(component, 'goToPatientSearch').and.callFake(() => {});
     component.goToPatientSearch();
-    expect(router.navigate).toHaveBeenCalledWith(['patient-dashboard/patient-search']);
+    expect(component.goToPatientSearch).toHaveBeenCalled();
 
     spyOn(component, 'filter').and.callFake(() => {});
     component.filter('click');
