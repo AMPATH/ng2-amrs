@@ -35,13 +35,13 @@ describe('LAB COHORTS ETL-SERVER TESTS', function () {
       stub.restore();
     });
 
-    xit('should create the right query parts object when loadLabCohorts is called',
+    it('should create the right query parts object when loadLabCohorts is called',
       function (done) {
 
         stub.resolves({
           startIndex: 0,
           size: 1,
-          result: mockData.getLabCohortSyncMockData()
+          result: []
         });
         var options = {
           query: {
@@ -59,7 +59,7 @@ describe('LAB COHORTS ETL-SERVER TESTS', function () {
         var queryParts = stub.args[0][0];
         expect(queryParts.table).to.equal('amrs.patient');
         expect(queryParts.columns[0]).to.equal('distinct pe.uuid');
-        expect(queryParts.limit).to.equal(1000); //max limit
+        expect(queryParts.limit).to.equal(10000); //max limit
       });
   });
 });
