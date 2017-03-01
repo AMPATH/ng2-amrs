@@ -14,7 +14,7 @@ export class PatientSearchService {
   }
 
   searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
-    let patientsSearchResults: BehaviorSubject<Patient[]> = new BehaviorSubject<Patient[]>([]);
+    let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
     this.resouceService.searchPatient(searchText.trim(), false)
       .subscribe(
       (patients) => {

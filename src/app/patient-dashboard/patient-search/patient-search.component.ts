@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../../models/patient.model';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
   styleUrls: ['./patient-search.component.css'],
 })
 
-export class PatientSearchComponent implements OnInit {
+export class PatientSearchComponent implements OnInit, OnDestroy {
   searchString: string;
   patients: Patient[];
   isResetButton: boolean = true;
   totalPatients: number;
   isLoading: boolean = false;
   page: number = 1;
+  adjustInputMargin: string = '240px';
+  subscription: Subscription;
   public errorMessage: string;
 
   constructor(private patientSearchService: PatientSearchService, private router: Router) {
@@ -23,6 +26,9 @@ export class PatientSearchComponent implements OnInit {
 
 
   ngOnInit() {
+    if (window.innerWidth <= 768) {
+      this.adjustInputMargin = '0';
+    }
     // load cached result
     this.patientSearchService.patientsSearchResults.subscribe(
       (patients) => {
@@ -33,24 +39,39 @@ export class PatientSearchComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   loadPatient(): void {
     this.totalPatients = 0;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     if (this.searchString && this.searchString.length > 2) {
+      if (window.innerWidth > 768) {
+        this.adjustInputMargin = '267px';
+      }
       this.isLoading = true;
       this.patients = [];
-      let request = this.patientSearchService.searchPatient(this.searchString, false);
-      request
+      this.subscription = this.patientSearchService.searchPatient(this.searchString, false)
         .subscribe(
         (data) => {
           if (data.length > 0) {
             this.patients = data;
             this.totalPatients = this.patients.length;
+            this.isLoading = false;
+            this.resetInputMargin();
           }
           this.isLoading = false;
+          this.resetInputMargin();
+
         },
         (error) => {
           this.isLoading = false;
+          this.resetInputMargin();
           console.log('error', error);
           this.errorMessage = error;
         }
@@ -62,9 +83,9 @@ export class PatientSearchComponent implements OnInit {
   }
 
   updatePatientCount(search) {
-
     if (this.totalPatients > 0 && search.length > 0) {
       this.totalPatients = 0;
+
     }
   }
 
@@ -82,10 +103,18 @@ export class PatientSearchComponent implements OnInit {
     this.patientSearchService.resetPatients();
     this.searchString = '';
     this.isResetButton = false;
+    this.isLoading = false;
+    this.resetInputMargin();
   }
 
   public tooltipStateChanged(state: boolean): void {
     // console.log(`Tooltip is open: ${state}`);
+  }
+
+  public resetInputMargin() {
+    if (window.innerWidth > 768) {
+      this.adjustInputMargin = '240px';
+    }
   }
 
 
