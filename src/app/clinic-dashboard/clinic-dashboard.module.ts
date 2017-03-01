@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
-
+import {
+  DailyScheduleResourceService
+} from
+  '../etl-api/daily-scheduled-resource.service';
 import { clinicDashboardRouting } from './clinic-dashboard-routing';
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
@@ -12,13 +15,16 @@ import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
-import { ArtOverviewComponent
+import {
+  ArtOverviewComponent
 } from './clinical-summary-visualization/art-overview/art-overview.component';
 import { DateRangeComponent } from './dashboard-filters/date-range/date-range.component';
 import { RangeSliderComponent } from './dashboard-filters/range-slider/range-slider.component';
-import { IndicatorSelectComponent
+import {
+  IndicatorSelectComponent
 } from './dashboard-filters/indicator-selector/indicator-selector.component';
-import { GenderSelectComponent
+import {
+  GenderSelectComponent
 } from './dashboard-filters/gender-selector/gender-selector.component';
 import { DashboardFiltersComponent } from './dashboard-filters/dashboard-filters.component';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
@@ -68,7 +74,8 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
   ],
   providers: [
     ClinicDashboardGuard,
-    ClinicDashboardCacheService
+    DailyScheduleResourceService,
+    ClinicDashboardCacheService,
   ],
   exports: [
     DailyScheduleComponent,
