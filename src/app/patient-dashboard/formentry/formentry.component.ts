@@ -321,12 +321,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
       encounterDate[0].control.setValue(currentDate);
     }
 
-    let encounterLocation = this.form.searchNodeByQuestionId('location');
+    let encounterLocation = this.form.searchNodeByQuestionId('location', 'encounterLocation');
     if (encounterLocation.length > 0 && location) {
       encounterLocation[0].control.setValue(location.uuid);
     }
 
-    let encounterProvider = this.form.searchNodeByQuestionId('provider');
+    let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
     if (encounterProvider.length > 0 && currentUser) {
       encounterProvider[0].control.setValue(currentUser.personUuid);
     }
@@ -466,7 +466,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private getProviderUuid() {
-    let encounterProvider = this.form.searchNodeByQuestionId('provider');
+    let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
     let personUuid = '';
     if (encounterProvider.length > 0) {
       personUuid = encounterProvider[0].control.value;
