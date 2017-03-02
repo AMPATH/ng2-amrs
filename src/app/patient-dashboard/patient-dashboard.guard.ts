@@ -17,7 +17,7 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './patient.service';
 import { DraftedFormsService } from './formentry/drafted-forms.service';
-import { ToastrService } from 'toastr-ng2';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable()

@@ -75,6 +75,9 @@
 	</section>
 </aside>
 <div class="content-wrapper" style="min-height: 100%;">
+	<div class="overlay" [ngClass]="{show: active, hide: !active}" (click)="clickOverlay($event)">
+		<div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
+	</div>
 	<section class="content">
 		<router-outlet></router-outlet>
 		<div [ngBusy]="busyIndicator"></div>
