@@ -18,11 +18,15 @@ import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.m
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { SelectModule } from 'angular2-select';
 import { BusyModule } from 'angular2-busy';
+import { AgGridModule } from 'ag-grid-angular/main';
+import { DataListsModule } from '../data-lists/data-lists.module';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    DataListsModule,
     clinicDashboardRouting,
     ReportingUtilities,
     TabViewModule,
@@ -33,7 +37,8 @@ import { BusyModule } from 'angular2-busy';
     SelectModule,
     Angulartics2Module.forChild(),
     BusyModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    AgGridModule.withComponents([])
   ],
   declarations: [
     DailyScheduleComponent,

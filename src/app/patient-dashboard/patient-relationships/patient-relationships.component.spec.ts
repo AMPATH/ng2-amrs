@@ -8,14 +8,14 @@ import {
 } from '../../openmrs-api/program-enrollment-resource.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'toastr-ng2';
+import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toastr';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import {
     PatientRelationshipResourceService
- } from '../../openmrs-api/patient-relationship-resource.service';
+} from '../../openmrs-api/patient-relationship-resource.service';
 import { PatientRelationshipsComponent } from './patient-relationships.component';
 
 describe('Component: PatientRelationships', () => {

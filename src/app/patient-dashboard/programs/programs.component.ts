@@ -170,6 +170,10 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
     }
 
+    public closeDialog() {
+        this.displayDialog = false;
+    }
+
     private validateFormFields(enrolledDate, completedDate) {
 
         if (this.isNullOrUndefined(enrolledDate)) {

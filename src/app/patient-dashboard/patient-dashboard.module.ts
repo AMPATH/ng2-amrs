@@ -69,7 +69,7 @@ import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
 import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
 import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
-import { ToastrModule } from 'toastr-ng2';
+import { ToastrModule } from 'ngx-toastr';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
