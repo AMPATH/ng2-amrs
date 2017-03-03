@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppSettingsService } from './app-settings.service';
@@ -10,7 +10,7 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
   styleUrls: ['./app-settings.component.css'],
   providers: [AppSettingsService]
 })
-export class AppSettingsComponent {
+export class AppSettingsComponent implements OnInit {
   @ViewChild('addUrlModal')
   urlModal: ModalComponent;
   newUrl: string;
@@ -23,6 +23,15 @@ export class AppSettingsComponent {
 
   getServerTemplates(): Array<Object> {
     return this.appSettingsService.getServerTemplates();
+  }
+
+  ngOnInit() {
+    let templates = this.appSettingsService.getServerTemplates();
+
+    if (!window.location.host.match(new RegExp('localhost'))) {
+      this.changeServerSettings(templates[0]);
+    }
+
   }
 
   get openmrsServer(): string {
