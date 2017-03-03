@@ -64,6 +64,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    window.onbeforeunload = function () {
+      return 'Are you sure you want to exit the page?';
+    };
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
     this.wireDataSources();

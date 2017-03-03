@@ -74,6 +74,7 @@ export class PatientDashboardGuard implements CanActivate,
         header: 'Form Changes Not Saved',
         message: 'Are you sure you want to proceed?',
         accept: () => {
+          window.onbeforeunload = null;
           this.dynamicRoutesService.resetRoutes();
           this.draftedFormsService.setDraftedForm(null);
           observer.next(true);
