@@ -14,6 +14,9 @@ var Promise = require('bluebird');
 var rp = require('../../request-config');
 var config = require('../../conf/config');
 var moment = require('moment');
+var analytics = require('../../dao/analytics/etl-analytics-dao');
+var patientReminderService = require('../../service/patient-reminder.service.js');
+
 module.exports = function () {
     function getPatientHivSummary(request, callback) {
         var uuid = request.params.uuid;
@@ -127,23 +130,31 @@ module.exports = function () {
                 resolve(result);
             });
         });
+        var patientReminders = new Promise(function (resolve) {
+            var extendedRequest = request;
+            extendedRequest.query.limit = 1;
+            extendedRequest.params['@referenceDate'] = new Date().toISOString().substring(0, 10);
+            extendedRequest.params.patientUuid = patientUuid;
 
-        Promise.all([patientEncounters, patientHivSummary, patientVitals, patientLabData])
+            getPatientReminders(extendedRequest, function (result) {
+                resolve(result);
+            });
+        });
+
+        Promise.all([patientEncounters, patientHivSummary, patientVitals, patientLabData, patientReminders])
             .then(function (data) {
                 var encounters = data[0];
                 var hivSummaries = data[1].result;
                 var vitals = data[2].result;
                 var labDataSummary = data[3].result;
-                var reminders = [
-                    // TODO add reminders when this is done https://jira.ampath.or.ke/browse/ERS-138
-                ];
+                var reminders = data[4].result;
                 var notes = noteService.generateNotes(encounters, hivSummaries, vitals);
                 callback({
                     patientUuid: patientUuid,
                     notes: notes,
                     vitals: vitals,
                     hivSummaries: hivSummaries,
-                    reminders: reminders,
+                    reminders: reminders.reminders||[],
                     labDataSummary: labDataSummary
                 });
             })
@@ -151,6 +162,25 @@ module.exports = function () {
                 // Return  error
                 callback(Boom.badData(JSON.stringify(e)));
             });
+    }
+
+    function getPatientReminders(request, callback) {
+        var reportParams = helpers.getReportParams('clinical-reminder-report',
+            ['@referenceDate', 'patientUuid'],
+            Object.assign({}, request.query, request.params));
+        analytics.runReport(reportParams).then(function (results) {
+            try {
+                var processedResults = patientReminderService.generateReminders(results.result);
+                results.result = processedResults;
+                callback(results);
+            } catch (err) {
+                callback(err);
+                console.log('Error occurred while processing reminders', err)
+            }
+
+        }).catch(function (error) {
+            callback(error);
+        })
     }
 
     function getClinicalNotes(request, callback) {
@@ -407,6 +437,7 @@ module.exports = function () {
         getClinicalNotes: getClinicalNotes,
         getPatientData: getPatientLabData,
         getPatient: getPatient,
+        getPatientReminders:getPatientReminders,
         getHivPatientClinicalSummary: getHivPatientClinicalSummary,
         getPatientCountGroupedByLocation: getPatientCountGroupedByLocation,
         getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation,
