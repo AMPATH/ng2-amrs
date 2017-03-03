@@ -16,7 +16,7 @@ function getPatientLabResults(request, reply) {
       patientHasEverBeenSynced = true;
 
     if (patientHasEverBeenSynced) {
-      if (result.result[0][''] === 0 && (result.result.length ===1 || result.result[1][''] === 0) &&
+      if (result.result[0]['status'] === 0 && (result.result.length ===1 || result.result[1]['status'] === 0) &&
         result.result[0]['TIMESTAMPDIFF(HOUR,date_updated,now())'] < 6) {
         console.log('Patient synced..');
         obs.getPatientTodaysTestObsByPatientUuId(request.query.patientUuId)
