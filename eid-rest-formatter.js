@@ -137,6 +137,7 @@ module.exports = function () {
     if (hasNumbersOnly.test(CD45AbsCntResult)) {
       cd4Data.CD45AbsCnt = cd4Payload.CD45AbsCnt;
     }
+    cd4Data.DateCollected = cd4Payload.DateCollected;
     return cd4Data;
   }
 
@@ -165,6 +166,7 @@ module.exports = function () {
     if (!hasNumbersOnly.test(CD45AbsCntResult)) {
       cd4Exceptions.CD45AbsCnt = cd4Payload.CD45AbsCnt;
     }
+    cd4Exceptions.DateCollected = cd4Payload.DateCollected;
     return cd4Exceptions;
   }
   function convertViralLoadPayloadToRestConsumableObs(viralLoad, patientUuId) {
