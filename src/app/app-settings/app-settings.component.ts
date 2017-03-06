@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
+import { LocalStorageService } from '../utils/local-storage.service';
 
 @Component({
   selector: 'app-settings',
@@ -18,7 +19,9 @@ export class AppSettingsComponent implements OnInit {
   urlType: string;
   serverTemplates: Array<Object> = this.getServerTemplates();
 
-  constructor(private router: Router, private appSettingsService: AppSettingsService,
+  constructor(private router: Router,
+    private appSettingsService: AppSettingsService,
+    private localStorageService: LocalStorageService,
     private authenticationService: AuthenticationService) { }
 
   getServerTemplates(): Array<Object> {
@@ -83,16 +86,15 @@ export class AppSettingsComponent implements OnInit {
   }
 
   changeServerSettings(row: any) {
-    // changes are reflected on the respective drop down menu's
     // change openmrs url
     this.openmrsServer = row.amrsUrl;
-    // alert(this.openmrsServer);
     // change etl-server url
     this.etlServer = row.etlUrl;
+
   }
 
   onDoneClick() {
-
+    this.localStorageService.setItem('appSettingsAction', 'newSettings');
     // clear session cache
     // return back to login page
     this.authenticationService.clearSessionCache();
