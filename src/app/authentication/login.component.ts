@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, ViewChildren } from '@angular/core';
+import { Component, Output, EventEmitter, Input, ViewChildren, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -6,6 +6,8 @@ import { Messages } from '../utils/messages';
 import { Subscription } from 'rxjs';
 import { UserDefaultPropertiesService } from
   '../user-default-properties/user-default-properties.service';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { LocalStorageService } from '../utils/local-storage.service';
 
 @Component({
   selector: 'login',
@@ -13,7 +15,7 @@ import { UserDefaultPropertiesService } from
   styleUrls: ['./login.component.css'],
   providers: []
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   @Output() loginSuccess = new EventEmitter();
   @Output() loginFailure = new EventEmitter();
@@ -26,8 +28,29 @@ export class LoginComponent {
 
   @ViewChildren('password') passwordField;
 
-  constructor(private router: Router, private authenticationService: AuthenticationService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService) { }
+  constructor(private router: Router,
+    private authenticationService: AuthenticationService,
+    private appSettingsService: AppSettingsService,
+    private localStorageService: LocalStorageService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService) {}
+
+  ngOnInit() {
+    let settingsFromAppSettings = this.localStorageService.getItem('appSettingsAction');
+    // respect users choice from app settings
+    if (!settingsFromAppSettings) {
+      let templates = this.appSettingsService.getServerTemplates();
+
+      if (!window.location.host.match(new RegExp('localhost'))) {
+        let urlObject = templates[0];
+        this.appSettingsService.setEtlServer(urlObject['etlUrl']);
+        this.appSettingsService.setOpenmrsServer(urlObject['amrsUrl']);
+      }
+    }
+  }
+
+  getServerTemplates(): Array<Object> {
+    return this.appSettingsService.getServerTemplates();
+  }
 
   login(event, username: string, password: string) {
 
