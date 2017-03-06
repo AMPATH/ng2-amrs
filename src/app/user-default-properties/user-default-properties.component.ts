@@ -21,6 +21,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public filteredList: Array<any> = [];
   public currentLocation: string = '';
   public selectedIdx: number = -1;
+  public isLoading: boolean = false;
 
   constructor(private router: Router,
     private propertyLocationService: UserDefaultPropertiesService,
@@ -44,11 +45,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
   }
 
   goToPatientSearch() {
-    /**
-     * There seems to be a lag in router navigation that creates the impression
-     * that the 'done' button is unresponsive. Hence the resolve to use this method
-     */
-    window.location.replace('/#/patient-dashboard/patient-search');
+    this.isLoading = true;
+    this.router.navigate(['patient-dashboard/patient-search']);
   }
 
   filter(event: any) {
@@ -72,7 +70,6 @@ export class UserDefaultPropertiesComponent implements OnInit {
     this.currentLocation = item.display;
     let location = JSON.stringify({ uuid: item.uuid, display: item.display });
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
-
     this.filteredList = [];
     this.selectedIdx = -1;
   }
