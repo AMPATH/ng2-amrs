@@ -287,7 +287,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
       // add valueProcessingInfo
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
-      this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
+
+      if (schema.encounterType) {
+        this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
+      } else {
+        throw new Error('Please associate the form with an encounter type.');
+      }
       // Find and set a provider uuid to be used when updating orders as orderer
       this.setProviderUuid();
 
