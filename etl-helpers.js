@@ -168,7 +168,7 @@ module.exports = function () {
 
 
       };
-      var testsCodes = str.split(" ## ");
+      var testsCodes = str.toString().split(" ## ");
       var testsNames = [];
       _.each(testsCodes, function (code) {
         testsNames.push(tests[code]);

@@ -91,6 +91,11 @@
         "sql": "t1.order_number"
       },
       {
+        "label": "order_type",
+        "type": "single",
+        "sql": "t1.concept_id"
+      },
+      {
         "label": "date_activated",
         "type": "single",
         "sql": "t1.date_activated"
