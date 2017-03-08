@@ -31,3 +31,6 @@
 	</div>
 </div>
 <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
+<div *ngIf="errors" class="alert alert-danger">There was an error fetching the patient. This may be because of no internet connection.
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+</div>

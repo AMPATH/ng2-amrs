@@ -97,7 +97,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
         this.loadingVitals = false;
         this.errors.push({
           id: 'vitals',
-          message: 'error fetching patient'
+          message: 'There was an error fetching vitals'
         });
       });
   }
@@ -106,5 +106,9 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
 
     this.loadVitals(this.patientUuid, this.nextStartIndex);
 
+  }
+  retry() {
+    this.errors = [];
+    this.getPatient();
   }
 }
