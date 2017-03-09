@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   selector: 'drafted-form-nav',
   template: `
     <button *ngIf="isDraftFormPresent" (click)="loadDraftedForm()"
-        class="btn btn-warning " style="float: right;margin-right:4px; margin-top:4px;" >
+        class="btn btn-warning " style="margin-bottom:4px;" >
             <span class="fa fa-file "></span> <span> Back to Drafted Form </span>
     </button>
     `
