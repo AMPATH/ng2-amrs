@@ -147,10 +147,11 @@ export class VisitComponent implements OnInit, OnDestroy {
         this.visitResourceService.updateVisit(this.visit.uuid,
             { stopDatetime: new Date() }).subscribe(
             (visit) => {
-                this.visit = visit;
-                this.visitBusy = false;
-                this.showDialog = false;
-                this.confirmEndVisit = false;
+                 this.visitBusy = false;
+                 this.showDialog = false;
+                 this.confirmEndVisit = false;
+                 this.visit = null;
+                 this.getVisit(this.patient.person.uuid);
             }
             , (err) => {
                 this.visitBusy = false;
