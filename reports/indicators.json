@@ -819,7 +819,7 @@
         "name":"has_not_returned",
         "label":"has not returned",
         "description": "has not returned",
-        "expression": "date(t1.rtc_date) >=@startDate and date(t1.rtc_date)< date(now()) and next_clinical_datetime_hiv is null and death_date is null and transfer_out is null"
+        "expression": "date(t1.rtc_date) >=@startDate and date(t1.rtc_date)< date(now()) and next_clinical_datetime_hiv is null and (next_encounter_type_hiv!=116 or next_encounter_type_hiv is null) and encounter_type != 116 and death_date is null and transfer_out is null"
     },
     {
         "name":"virally_suppressed_in_past_year",
@@ -1022,7 +1022,7 @@
     },
     {
         "name":"deceased_patients",
-        "label":"Deceased Patients",   
+        "label":"Deceased Patients",
         "description": "Deceased Patients",
         "expression": "patient_care_status=159"
     },
