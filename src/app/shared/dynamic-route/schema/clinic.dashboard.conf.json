@@ -5,8 +5,8 @@
   "routeParameter": "locationUuid",
   "nonProgramRoutes": [
     {
-      "url": "daily-schedule",
-      "label": "Daily Schedule",
+      "url": "daily-schedule/daiy-visits",
+      "label": "ZZZZZZZZZZZZDaily ScheduleXXXX",
       "icon": "fa fa-calendar-o",
       "isSideBarOpen": false
     },
@@ -23,6 +23,5 @@
       "isSideBarOpen": false
     }
   ],
-  "programs": [
-  ]
+  "programs": []
 }

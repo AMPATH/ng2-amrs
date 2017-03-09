@@ -14,7 +14,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
   let backend: MockBackend, patientUuid = '79803198-2d23-49cd-a7b3-4f672bd8f659';
   let report = 'clinical-reminder-report';
   let datePipe = new DatePipe('en-US');
-  let referenceDate: any = datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
+  let referenceDate: any = datePipe.transform(new Date(), 'yyyy-MM-dd');
   console.log('reference', referenceDate);
   beforeEach(() => {
     TestBed.configureTestingModule({

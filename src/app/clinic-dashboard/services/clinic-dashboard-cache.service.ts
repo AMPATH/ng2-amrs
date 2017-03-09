@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Rx';
 export class ClinicDashboardCacheService {
     private cached = {};
     private currentClinic = new Subject();
+    private currentTab = new Subject();
     constructor() { }
     public add(key: string, value: any) {
         this.cached[key] = value;
@@ -24,7 +25,13 @@ export class ClinicDashboardCacheService {
     public setCurrentClinic(currentClinicUuid: string) {
         this.currentClinic.next(currentClinicUuid);
     }
+    public setCurrentTab(currentTab: string) {
+        this.currentTab.next(currentTab);
+    }
     public getCurrentClinic() {
         return this.currentClinic;
+    }
+    public getCurrentTab() {
+        return this.currentTab;
     }
 }

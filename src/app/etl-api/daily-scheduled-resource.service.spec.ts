@@ -7,6 +7,8 @@ import {
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DailyScheduleResourceService } from './daily-scheduled-resource.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { DataCacheService } from '../shared/services/data-cache.service';
 const expectedResults = {
     startIndex: 0,
     size: 3,
@@ -44,6 +46,8 @@ describe('DailyScheduleResourceService Tests', () => {
                 BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
+                CacheService,
+                DataCacheService,
                 {
                     provide: Http,
                     deps: [MockBackend, BaseRequestOptions],
