@@ -5,6 +5,8 @@ import './date.extensions';
 import { PersonAttribute } from './person-attribute.model';
 import { PersonAddress } from './address.model';
 
+import * as Moment from 'moment';
+
 
 export class Person extends BaseModel {
   private _birthdate: Date;
@@ -23,12 +25,29 @@ export class Person extends BaseModel {
     this._openmrsModel.gender = v;
   }
 
+  // returns a modified age value. Age below 1 year is represented as decimal
   @serializable(true, false)
   public get age(): number {
+
+    if (this._openmrsModel.age === 0 && this.birthdate) {
+      // calculate age using dob
+      try {
+        let diff: any = Moment(new Date()).diff(Moment(this.birthdate), 'years', true).toFixed(2);
+        return diff;
+      } catch (e) {
+        console.warn('error changing openmrs age to years', e);
+      }
+    }
     return this._openmrsModel.age;
   }
   public set age(v: number) {
     this._openmrsModel.age = v;
+  }
+
+  // returns the original openmrs age value
+  @serializable(true, false)
+  public get ageYears(): number {
+    return this._openmrsModel.age;
   }
 
 

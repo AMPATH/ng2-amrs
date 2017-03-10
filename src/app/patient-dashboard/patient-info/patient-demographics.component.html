@@ -2,7 +2,7 @@
   <dt *ngIf="patient.person.display" >Name</dt>
   <dd *ngIf="patient.person.display" >{{patient.person.display | uppercase}}</dd>
   <dt *ngIf="patient.person.age" >Age</dt>
-  <dd *ngIf="patient.person.age" >{{patient.person.age}}</dd>
+  <dd *ngIf="patient.person.age" >{{patient.person.ageYears}}</dd>
   <dt *ngIf="patient.person.birthdate" >DOB</dt>
   <dd *ngIf="patient.person.birthdate" >{{patient.person.birthdate | stringToDate : 'DD-MM-YYYY'}}</dd>
   <dt>Deceased</dt>

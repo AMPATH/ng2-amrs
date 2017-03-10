@@ -3,7 +3,7 @@
 	<div class="row banner-left">
 		<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
 		<div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
-		<div class="col-sm-3">DOB : {{ birthdate }} ( {{ patient?.person.age }} Yrs )</div>
+		<div class="col-sm-3">DOB : {{ birthdate }} ( {{ patient?.person.ageYears }} Yrs )</div>
 		<div class="col-sm-3">HEALTH CENTER : {{patient?.person.healthCenter}}<span *ngIf="patient?.person.healthCenter == ''"> Not Available</span></div>
 	</div>
 
