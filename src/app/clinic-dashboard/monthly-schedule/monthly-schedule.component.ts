@@ -64,42 +64,7 @@ export class MonthlyScheduleComponent implements OnInit {
       startDate: Moment(startOfMonth(this.viewDate)).format('YYYY-MM-DD'),
       locationUuids: this.location, limit: 10000
     }).subscribe((results) => {
-      let processed = [];
-      for (let e of results) {
-        /* tslint:disable for-in*/
-        for (let key in e.count) {
-
-          switch (key) {
-            case 'scheduled':
-              processed.push({
-                start: new Date(e.date),
-                title: 'Scheduled ' + e.count[key],
-                color: colors.blue
-              });
-              break;
-            case 'attended':
-              processed.push({
-                start: new Date(e.date),
-                title: 'Attended ' + e.count[key],
-                color: colors.green
-              });
-              break;
-            case 'has_not_returned':
-              if (e.count[key] > 0) {
-                processed.push({
-                  start: new Date(e.date),
-                  title: 'Not attended ' + e.count[key],
-                  color: colors.yellow
-                });
-              }
-              break;
-            default:
-          }
-
-        }
-        this.events = processed;
-      }
-      /* tslint:enable */
+      this.events = this.processEvents(results);
     }, (error) => {
       this.fetchError = true;
     });
@@ -108,11 +73,46 @@ export class MonthlyScheduleComponent implements OnInit {
     day.badgeTotal = 0;
   }
 
-  handleEvent() {
 
+  processEvents(results) {
+    let processed = [];
+    for (let e of results) {
+      /* tslint:disable for-in*/
+      for (let key in e.count) {
+
+        switch (key) {
+          case 'scheduled':
+            processed.push({
+              start: new Date(e.date),
+              title: 'Scheduled ' + e.count[key],
+              color: colors.blue
+            });
+            break;
+          case 'attended':
+            processed.push({
+              start: new Date(e.date),
+              title: 'Attended ' + e.count[key],
+              color: colors.green
+            });
+            break;
+          case 'has_not_returned':
+            if (e.count[key] > 0) {
+              processed.push({
+                start: new Date(e.date),
+                title: 'Not attended ' + e.count[key],
+                color: colors.yellow
+              });
+            }
+            break;
+          default:
+        }
+
+      }
+      /* tslint:enable */
+      return processed;
+    }
   }
-
-  dayClicked({date, events}: { date: Date, events: CalendarEvent[] }): void {
+  dayClicked({ date, events }: { date: Date, events: CalendarEvent[] }): void {
 
     if (isSameMonth(date, this.viewDate)) {
       if (

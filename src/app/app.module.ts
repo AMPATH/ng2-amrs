@@ -36,6 +36,8 @@ import { SessionStorageService } from './utils/session-storage.service';
 import { CacheService } from 'ionic-cache/ionic-cache';
 import { DataCacheService } from './shared/services/data-cache.service';
 import { UsefulLinksModule } from './useful-links';
+import { FeedBackComponent } from './feedback';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -58,7 +60,8 @@ type StoreType = {
     App,
     About,
     TitleCasePipe,
-    NoContent
+    NoContent,
+    FeedBackComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -71,7 +74,17 @@ type StoreType = {
     AuthenticationModule,
     AppSettingsModule,
     UserDefaultPropertiesModule,
-    UsefulLinksModule
+    UsefulLinksModule,
+    BusyModule.forRoot(
+      new BusyConfig({
+        message: 'Please Wait...',
+        backdrop: true,
+        delay: 200,
+        minDuration: 600,
+        wrapperClass: 'my-class',
+
+      })
+    )
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
