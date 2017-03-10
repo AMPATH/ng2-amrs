@@ -15,7 +15,7 @@ export class UsefulLinksComponent implements OnInit {
     this.nativeWindow = linksService.getNativeWindow();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   goToLink(link: string) {
     let newWindow = this.nativeWindow.open('/');
