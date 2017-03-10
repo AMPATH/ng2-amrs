@@ -1,29 +1,31 @@
 <div class="wrapper">
   <div class="row">
     <div class="col-sm-12">
-      <dashboard-filters
-        [options]="options"
-        [(filterModel)] = "filterModel"
-        (filterModelChange) = "renderCharts($event)">
+      <dashboard-filters [options]="options" [(filterModel)] = "filterModel"
+                         [startDate]="startDate" [endDate]="endDate"
+                         (filterModelChange) = "renderCharts($event)">
       </dashboard-filters>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12">
+      <div class="loader" *ngIf="loadingHivCare"><span><i class="fa fa-spinner fa-spin">
+      </i> HIV Care Comparative Overview...</span></div>
       <div class="panel panel-primary">
         <div class="panel-heading">
           <span class="fa fa-dashboard">HIV Care Comparative Overview</span>
         </div>
         <div class="panel-body">
-        </div>
-        <div class="panel-footer">
-          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
+          <hiv-care-overview [options]="hivComparativeChartOptions"></hiv-care-overview>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6">
+      <div class="loader" *ngIf="loadingArt"><span><i class="fa fa-spinner fa-spin">
+
+      </i>Generating Patient Status Overview report...</span></div>
       <div class="panel panel-primary">
         <div class="panel-heading">
           <span class="fa fa-dashboard">Patient Status Overview</span>
@@ -35,15 +37,15 @@
       </div>
     </div>
     <div class="col-sm-6">
+      <div class="loader" *ngIf="loadingArt"><span><i class="fa fa-spinner fa-spin">
+
+      </i>Generating ART Overview report...</span></div>
       <div class="panel panel-primary">
         <div class="panel-heading">
           <span class="fa fa-dashboard">ART Overview</span>
         </div>
         <div class="panel-body">
-          <art-overview-chart [options]="chartOptions"></art-overview-chart>
-        </div>
-        <div class="panel-footer">
-          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
+          <art-overview-chart [options]="artChartOptions"></art-overview-chart>
         </div>
       </div>
     </div>

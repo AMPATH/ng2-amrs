@@ -87,7 +87,7 @@ const reportParams = {
     endDate: '2017-03-31T23:59:59.999%2B0300',
     gender: 'M,F',
     groupBy: 'groupByEndDate',
-    indicators: 'indicator-123',
+    indicator: 'indicator-123',
     order: 'encounter_datetime%7Casc'
 };
 
@@ -166,7 +166,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                 expect(params).toContain('gender=M,F');
                 expect(params).toContain('startDate=2017-02-01');
                 expect(params).toContain('groupBy=groupByEndDate');
-                expect(params).toContain('indicators=indicator-123');
+                expect(params).toContain('indicator=indicator-123');
                 expect(params).toContain('order=encounter_datetime%257Casc');
                 expect(params).toContain('limit=300');
 
@@ -182,7 +182,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-hiv-comparative-overview?startIndex=0&endDate='
                         + '2017-03-31T23:59:59.999%252B0300&gender=M,F&startDate='
-                        + '2017-02-01&groupBy=groupByEndDate&indicators=indicator-123'
+                        + '2017-02-01&groupBy=groupByEndDate&indicator=indicator-123'
                         + '&order=encounter_datetime%257Casc&locationUuids=uuid&limit=300');
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -206,7 +206,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-hiv-comparative-overview/patient-list?startIndex=0'
                         + '&endDate=2017-03-31T23:59:59.999%252B0300&gender=M,F&startDate='
-                        + '2017-02-01&groupBy=groupByEndDate&indicators=indicator-123'
+                        + '2017-02-01&groupBy=groupByEndDate&indicator=indicator-123'
                         + '&order=encounter_datetime%257Casc&locationUuids=uuid&limit=300');
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -231,7 +231,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-art-overview?startIndex=0&endDate='
                         + '2017-03-31T23:59:59.999%252B0300&gender=M,F&startDate='
-                        + '2017-02-01&groupBy=groupByEndDate&indicators=indicator-123'
+                        + '2017-02-01&groupBy=groupByEndDate&indicator=indicator-123'
                         + '&order=encounter_datetime%257Casc&locationUuids=uuid&limit=300');
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -255,7 +255,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-art-overview/patient-list?startIndex=0'
                         + '&endDate=2017-03-31T23:59:59.999%252B0300&gender=M,F&startDate='
-                        + '2017-02-01&groupBy=groupByEndDate&indicators=indicator-123'
+                        + '2017-02-01&groupBy=groupByEndDate&indicator=indicator-123'
                         + '&order=encounter_datetime%257Casc&locationUuids=uuid&limit=300');
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -279,7 +279,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-patient-care-status-overview?startIndex=0&endDate='
                         + '2017-03-31T23:59:59.999%252B0300&gender=M,F&startDate='
-                        + '2017-02-01&groupBy=groupByEndDate&indicators=indicator-123'
+                        + '2017-02-01&groupBy=groupByEndDate&indicator=indicator-123'
                         + '&order=encounter_datetime%257Casc&locationUuids=uuid&limit=300');
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -303,7 +303,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-patient-care-status-overview/patient-list?startIndex=0'
                         + '&endDate=2017-03-31T23:59:59.999%252B0300&gender=M,F&startDate='
-                        + '2017-02-01&groupBy=groupByEndDate&indicators=indicator-123'
+                        + '2017-02-01&groupBy=groupByEndDate&indicator=indicator-123'
                         + '&order=encounter_datetime%257Casc&locationUuids=uuid&limit=300');
                     connection.mockRespond(new Response(
                         new ResponseOptions({
