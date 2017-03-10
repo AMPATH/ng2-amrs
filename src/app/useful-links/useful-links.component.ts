@@ -27,7 +27,11 @@ export class UsefulLinksComponent implements OnInit {
       {
         url: `https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual
         ?preview=/100302910/100794483/Troubleshooting%20POC%20Errors%2020170303.pdf`,
-        title: 'POC General Troubleshooting Manual(PDF)'
+        title: 'POC General Troubleshooting Manual (PDF)'
+      },
+      {
+        url: 'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
+        title: 'AMPATH Clinical Protocols and SOPs'
       }
     ];
   }
