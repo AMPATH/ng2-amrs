@@ -9,6 +9,7 @@ import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-vi
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
+import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -30,7 +31,8 @@ const clinicDashboardRoutes: Routes = [
 
       },
       { path: 'monthly-schedule', component: MonthlyScheduleComponent },
-      { path: '', redirectTo: 'daily-schedule' + [0], pathMatch: 'prefix' },
+      { path: 'defaulter-list', component: DefaulterListComponent },
+      { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' }
     ],
     canActivate: [
       ClinicDashboardGuard
