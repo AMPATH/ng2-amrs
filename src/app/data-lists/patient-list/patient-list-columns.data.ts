@@ -1,15 +1,16 @@
-
 export class PatientListColumns {
 
     public static columns() {
-
         return [
-            {
-                headerName: '#',
-                field: '#',
-                width: 60,
-                pinned: true
+          {
+            headerName: '#',
+            width: 60,
+            pinned: true,
+            cellRenderer: (column) => {
+              return column.rowIndex + 1;
             },
+            field: '#'
+          },
             {
                 headerName: 'Identifiers',
                 field: 'identifiers',

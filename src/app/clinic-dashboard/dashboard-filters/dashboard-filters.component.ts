@@ -9,7 +9,7 @@ import * as moment from 'moment/moment';
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardFiltersComponent implements OnInit {
-  @Input() options: Array<any>;
+  @Input() options: any;
   @Input() indicators: Array<any>;
   @Input() filterModel: any;
   @Input() startDate: string;
