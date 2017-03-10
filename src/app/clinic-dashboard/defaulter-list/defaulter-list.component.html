@@ -1,0 +1,47 @@
+<div class="wrapper">
+  <div class="well" style="padding:2px;">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label for="number-days">Enter Days Missing >=
+					<small>(greater or equal to)</small>
+				</label>
+        <input type="number" class="form-control" [(ngModel)]="minDefaultPeriod" />
+
+        <label for="number-days">Enter Maximum Days Missing <=
+					<small>(less or equal to)</small>
+				</label>
+        <input type="number" class="form-control" [(ngModel)]="maxDefaultPeriod" />
+      </div>
+    </div>
+
+    <div [ngBusy]="{busy:[loadingDefaulterList],message:'Loading defaulter list.........'}"></div>
+
+    <div *ngIf="errors" style="color: red !important">
+      <div *ngFor="let error of errors">{{error.message}}</div>
+    </div>
+
+    <div *ngIf='!loadingDefaulterList'>
+      <button class="btn btn-info" (click)="loadDefaulterList()">
+				<span class="glyphicon glyphicon-refresh"></span>
+				<span>Load</span>
+			</button>
+    </div>
+
+
+    <patient-list [data]="defaulterList" [extraColumns]="extraColumns()"></patient-list>
+    <div *ngIf='!dataLoaded'>
+      <div class="button">
+        <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreDefaulterList()">
+    <span class=""></span>Load More...</button>
+      </div>
+    </div>
+
+    <div *ngIf='dataLoaded'>
+      <p class="bg-info" style="padding:4px;">
+        <b>
+			<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + defaulterList.length + ' ]'}}</span></b>
+        <p>
+    </div>
+
+  </div>
+</div>
