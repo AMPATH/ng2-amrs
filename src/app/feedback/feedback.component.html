@@ -1,0 +1,46 @@
+<div [ngBusy]="busy">
+    <div class="jumbotron jumbotron-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <h1 class="h1">
+                        Got something to say? <small>Feel free to talk to us</small></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div *ngIf="success" class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" (click)='dismissSuccess()' class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span> Thanks for your feedback</span>
+        </div>
+        <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" (click)='dismissError()' class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span> There was an error posting your message pleas try again</span>
+        </div>
+        <div class="row">
+            <form role="form" id="contact-form" class="contact-form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="tel" class="form-control" [(ngModel)]="payload.phone" name="tel" autocomplete="off" id="email" placeholder="Phone">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control textarea" rows="3" [(ngModel)]="payload.message" name="Message" id="Message" placeholder="Message"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right">Send a message</button>
+                        <button type="button" (click)="goBack()" class="btn pull-left">Back</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
