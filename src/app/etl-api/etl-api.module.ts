@@ -12,6 +12,7 @@ import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.ser
 import { ErrorLogResourceService } from './error-log-resource.service';
 import { HivPatientClinicalSummaryResourceService }
   from './hiv-patient-clinical-summary-resource.service';
+import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -26,7 +27,8 @@ import { HivPatientClinicalSummaryResourceService }
     HivSummaryResourceService,
     ErrorLogResourceService,
     HivPatientClinicalSummaryResourceService,
-    MonthlyScheduleResourceService
+    MonthlyScheduleResourceService,
+    ClinicLabOrdersResourceService
   ],
   exports: []
 })
