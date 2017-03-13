@@ -30,6 +30,7 @@ import { SelectModule } from 'angular2-select';
 import { BusyModule } from 'angular2-busy';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../data-lists/data-lists.module';
+import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { DataListsModule } from '../data-lists/data-lists.module';
     DashboardFiltersComponent,
     IndicatorSelectComponent,
     GenderSelectComponent,
-    ClinicDashboardComponent
+    ClinicDashboardComponent,
+    ClinicLabOrdersComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -77,7 +79,8 @@ import { DataListsModule } from '../data-lists/data-lists.module';
     DashboardFiltersComponent,
     IndicatorSelectComponent,
     GenderSelectComponent,
-    ClinicDashboardComponent
+    ClinicDashboardComponent,
+    ClinicLabOrdersComponent
   ],
 })
 export class ClinicDashboardModule {

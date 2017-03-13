@@ -19,7 +19,13 @@
     {
       "url": "visualization",
       "label": "Clinical Summary Visualization",
-      "icon": "fa fa-bar-chart",
+      "icon": "fa fa-bar-chart"
+    },
+    {
+
+      "url": "clinic-lab-orders",
+      "label": "Lab Orders",
+      "icon": "icon-i-pathology",
       "isSideBarOpen": false
     }
   ],
