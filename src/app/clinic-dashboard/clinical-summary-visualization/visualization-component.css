@@ -1,0 +1,14 @@
+.fa:before {
+  margin-right: 12px;
+  display: inline-block;
+}
+
+simple-chart-example {
+  display: block;
+}
+
+chart {
+  display: block;
+}
+
+
