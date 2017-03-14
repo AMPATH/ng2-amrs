@@ -13,7 +13,7 @@
     <th>BMI</th>
   </tr>
   </thead>
-  <tr *ngFor="let vitals of vitals">
+  <tr *ngFor="let vitals of vitals | paginate: { itemsPerPage: 15, currentPage: page }; let i = index; ">
     <td>
         <span class="glyphicon glyphicon-warning-sign text-danger"
               *ngIf="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140))
@@ -42,6 +42,7 @@
     </td>
   </tr>
 </table>
+<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
 <div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
@@ -60,3 +61,4 @@
 		<p>
 </div>
 </div>
+
