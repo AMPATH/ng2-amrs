@@ -324,6 +324,16 @@
         "expression": "next_clinical_datetime_hiv is null",
         "parameter": "",
         "processForce": true
+      },
+      {
+        "expression": "(next_encounter_type_hiv!=116 or next_encounter_type_hiv is null)",
+        "processForce": true,
+        "parameter": ""
+      },
+      {
+        "expression": "encounter_type != 116",
+        "processForce": true,
+        "parameter": ""
       }
     ],
     "groupClause": [
