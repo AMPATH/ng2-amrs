@@ -337,7 +337,18 @@ module.exports = function () {
         //declare query params
         var queryParams = {
             reportIndicator: reportIndicator,
-            reportName: reportName
+            reportName: reportName,
+            whereParams: [
+              {
+                "name": "startDate",
+                "value": startDate
+              },
+              {
+                "name": "endDate",
+                "value": endDate
+              }
+           ]
+
         };
         //build report
         reportFactory.buildPatientListExpression(queryParams, function (exprResult) {
@@ -394,7 +405,17 @@ module.exports = function () {
         //declare query params
         var queryParams = {
             reportIndicator: reportIndicator,
-            reportName: reportName
+            reportName: reportName,
+            whereParams: [
+              {
+                "name": "startDate",
+                "value": startDate
+              },
+              {
+                "name": "endDate",
+                "value": endDate
+              }
+            ]
         };
         //build report
         reportFactory.buildPatientListExpression(queryParams, function (exprResult) {

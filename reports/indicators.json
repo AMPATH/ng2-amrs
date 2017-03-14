@@ -1022,7 +1022,7 @@
     },
     {
         "name":"deceased_patients",
-        "label":"Deceased Patients",   
+        "label":"Deceased Patients",
         "description": "Deceased Patients",
         "expression": "patient_care_status=159"
     },
@@ -1120,7 +1120,13 @@
         "name":"on_second_line_not_suppressed",
         "label":"on second line not suppressed",
         "description": "patient on second line not suppressed",
-        "expression": "vl_1 > 1000 and cur_arv_line > 1"
+        "expression": "vl_1 > 1000 and cur_arv_line =2"
+    },
+    {
+        "name":"newly_on_second_line",
+        "label":"newly on second line",
+        "description": "patient newly on second line within a given period",
+        "expression": "cur_arv_line =2 and (arv_start_date between @startDate and @endDate)"
     },
     {
         "name":"newly_enrolled",

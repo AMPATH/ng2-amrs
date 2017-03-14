@@ -66,6 +66,11 @@
                 "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
+                "label":"newly_on_second_line",
+                "expression":"newly_on_second_line",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
                 "label":"on_arvs_third_line",
                 "expression":"on_arvs_third_line",
                 "sql":"count(distinct if($expression,t1.person_id,null))"

@@ -118,8 +118,9 @@ module.exports = function() {
     _.each(indicatorsSchema, function(indicator) {
       _.each(queryParams.reportIndicator.split(','), function(indicatorName) {
         if (indicator.name === indicatorName) {
-          if (indicator.expression != '') {
-            whereClause += '(' + indicator.expression + ') or ';
+          if (indicator.expression !== '') {
+            var indicatorExpression = replaceIndicatorParam(indicator.expression, queryParams);
+            whereClause += '(' + indicatorExpression + ') or ';
           }
         }
       });
@@ -262,7 +263,7 @@ module.exports = function() {
   function replaceIndicatorParam(_indicatorExpression, requestParam) {
     var indicatorExpression = _indicatorExpression;
     var result;
-  
+
     if (s.include(indicatorExpression, '@endDate')) {
       if (requestParam.whereParams) {
         var dateParam = _.find(requestParam.whereParams, function(param) {
