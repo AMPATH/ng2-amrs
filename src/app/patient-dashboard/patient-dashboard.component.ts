@@ -63,10 +63,9 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
               let content = '';
               for (let test of result) {
                 content = content +
-                  `<li>${Moment(test.obsDatetime).format('YYYY-MM-DD')} 
-                | ${test.concept.display} | ${test.value}</li>`;
+                  `${test.display}</p>`;
               }
-              this.toastrService.info(content, 'New Data from EID');
+              this.toastrService.info(content, 'New Data from Lab');
             }
           }, (err) => {
             console.error(err);
