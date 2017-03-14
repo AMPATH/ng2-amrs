@@ -14,18 +14,16 @@ import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-ana
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { LabsResourceService } from '../etl-api/labs-resource.service';
 import {
   ProgramEnrollmentResourceService
 }
   from '../openmrs-api/program-enrollment-resource.service';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  params = Observable.of([{'id': 1}]);
 }
 
 describe('Component: PatientDashboard', () => {
@@ -43,7 +41,6 @@ describe('Component: PatientDashboard', () => {
         LocalStorageService,
         EncounterResourceService,
         ProgramEnrollmentResourceService,
-        LabsResourceService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -55,18 +52,10 @@ describe('Component: PatientDashboard', () => {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
-        { provide: Router, useClass: MockRouter }, {
+        {provide: Router, useClass: MockRouter}, {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
-        }, DynamicRoutesService,
-        {
-          provide: ToastrConfig, useFactory: () => {
-            return new ToastrConfigMock();
-          }, deps: []
-        },
-        ToastrService,
-        Overlay,
-        OverlayContainer
+        }, DynamicRoutesService
       ]
     });
   });
@@ -75,12 +64,3 @@ describe('Component: PatientDashboard', () => {
     expect(component).toBeTruthy();
   });
 });
-class ToastrConfigMock {
-  timeOut: number = 5000;
-  closeButton: boolean = false;
-  positionClass: string = 'toast-top-right';
-  extendedTimeOut: number = 1000;
-  constructor() {
-  }
-
-}

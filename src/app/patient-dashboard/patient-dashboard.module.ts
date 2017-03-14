@@ -127,7 +127,7 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
     ButtonModule,
     AgGridModule.withComponents([
 
-    ])
+      ])
   ],
   declarations: [
     PatientInfoComponent,
