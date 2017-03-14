@@ -15,6 +15,7 @@
   "author": "AMPATH DEVS",
   "license": "ISC",
   "dependencies": {
+    "@slack/client": "^3.8.1",
     "babel": "^6.5.2",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.4.0",

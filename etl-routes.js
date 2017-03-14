@@ -17,8 +17,8 @@ var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
-var MonthlyScheduleService = {}; // require('./service/monthly-schedule-service');
-// import { MonthlyScheduleService } from './service/monthly-schedule-service'
+import { MonthlyScheduleService } from './service/monthly-schedule-service'
+import { SlackService } from './service/slack-service'
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -39,6 +39,28 @@ module.exports = function () {
             description: 'Home',
             notes: 'Returns a message that shows ETL service is running.',
             tags: ['api'],
+        }
+    },
+    {
+        method: 'POST',
+        path: '/etl/user-feedback',
+        config: {
+            plugins: {
+                'hapiAuthorization': false
+            },
+            handler: function (request, reply) {
+                let payload = request.payload;
+                let message = `*From*  ${payload.name} \n *Phone:*  ${payload.phone} \n *Message:* \n \`\`\`${payload.message}\`\`\``;
+                let service = new SlackService();
+                service.sendUserFeedBack(message).then((status) => {
+                    reply(status);
+                }).catch((error) => {
+                    reply(Boom.badData(error));
+                });
+            },
+            description: 'User feedback end point',
+            notes: 'This receive user feedback sent from the client and sends it to slack',
+            tags: ['api', 'feedback'],
         }
     },
     {
@@ -1569,4 +1591,4 @@ module.exports = function () {
     ];
 
     return routes;
-} ();
+}();
