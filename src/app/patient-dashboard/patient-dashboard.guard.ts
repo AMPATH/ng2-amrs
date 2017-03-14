@@ -18,6 +18,7 @@ import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './patient.service';
 import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes.factory';
 
 
 @Injectable()
@@ -28,6 +29,7 @@ export class PatientDashboardGuard implements CanActivate,
     private route: ActivatedRoute, private patientService: PatientService,
     private draftedFormsService: DraftedFormsService,
     private confirmationService: ConfirmationService,
+    private patientRoutesFactory: PatientRoutesFactory,
     private toastrService: ToastrService) {
   }
 
@@ -40,15 +42,8 @@ export class PatientDashboardGuard implements CanActivate,
         this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid).subscribe(
           (patientObject) => {
             if (patientObject) {
-              this.dynamicRoutesService.setRoutes({
-                dashboardId: 'patientDashboard',
-                programs: patientObject.enrolledPrograms,
-                moduleLabel: 'Patient Dashboard',
-                params: {
-                  patientUuid: patientUuid
-                },
-                routes: []
-              });
+              let routes = this.patientRoutesFactory.createPatientDashboardRoutes(patientObject);
+              this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
             }
           });
 
