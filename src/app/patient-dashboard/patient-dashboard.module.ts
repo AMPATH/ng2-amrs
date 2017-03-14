@@ -125,7 +125,7 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     ButtonModule,
     AgGridModule.withComponents([
 
-    ])
+      ])
   ],
   declarations: [
     PatientInfoComponent,
