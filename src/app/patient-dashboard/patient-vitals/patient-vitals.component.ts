@@ -22,6 +22,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
 
   errors: any = [];
+  page: number = 1;
 
   patientUuid: any;
   subscription: Subscription;
@@ -89,8 +90,8 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
 
 
         this.loadingVitals = false;
-        // this.vitals = data;
-         // this.isLoading = false;
+        this.vitals = data;
+        this.isLoading = false;
       },
 
       (err) => {
