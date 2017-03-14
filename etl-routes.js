@@ -1349,10 +1349,17 @@ module.exports = function () {
             handler: function (request, reply) {
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
                 var requestQuery = JSON.stringify(request.query);
+                var combineRequestParams = Object.assign({}, request.query, request.params);
+                var reportParams = etlHelpers.getReportParams(request.report, ['startDate', 'endDate', 'gender', 'locations', 'groupBy'], combineRequestParams);
                 var onResolvedPromise = function (promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getPatientListReportByIndicatorAndLocation(request, reply);
+                        dao.getReportPatientList(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        })
+
                     }
                 };
 
@@ -1363,7 +1370,11 @@ module.exports = function () {
                 }
 
                 if (asyncRequests === 0)
-                    dao.getPatientListReportByIndicatorAndLocation(request, reply);
+                    dao.getReportPatientList(reportParams).then((result) => {
+                        reply(result);
+                    }).catch((error) => {
+                        reply(error);
+                    })
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                         function (results) {
