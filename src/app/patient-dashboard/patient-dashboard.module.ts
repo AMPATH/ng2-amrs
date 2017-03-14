@@ -91,6 +91,8 @@ import {
   HivPatientClinicalSummaryService
 } from './patient-clinical-summaries/hiv-patient-clinical-summary.service';
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
+import { PatientSideNavComponent } from './patient-side-nav/patient-side-nav.component';
+import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes.factory';
 
 @NgModule({
   imports: [
@@ -165,8 +167,8 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     HivPatientClinicalSummaryComponent,
     PdfViewerComponent,
     EditDemographicsComponent,
-    EditPatientIdentifierComponent
-
+    EditPatientIdentifierComponent,
+    PatientSideNavComponent
   ],
   providers: [
     PatientEncounterService,
@@ -193,7 +195,8 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     ProgramService,
     HivPatientClinicalSummaryService,
     DatePipe,
-    PatientIdentifierService
+    PatientIdentifierService,
+    PatientRoutesFactory
   ],
   exports: [
     PatientDashboardComponent,
@@ -216,7 +219,8 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     PatientRemindersComponent,
     OrderListComponent,
     PatientRelationshipsComponent,
-    EditPatientIdentifierComponent
+    EditPatientIdentifierComponent,
+    PatientSideNavComponent
   ]
 })
 export class PatientDashboardModule {

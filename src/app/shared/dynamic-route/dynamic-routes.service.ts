@@ -3,9 +3,11 @@ import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { DynamicRouteModel } from './dynamic-route.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { DashboardModel } from './dashboard.model';
+import { RouteModel } from './route.model';
 @Injectable()
 export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
+  public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
   public analyticsDashboardConfig: Object = require('./schema/analytics.dashboard.conf.json');
@@ -29,6 +31,7 @@ export class DynamicRoutesService {
       routes: []
     });
     this.routes.next(this.routesModel);
+    this.patientRoutes.next(new Array<RouteModel>());
   }
 
   public setRoutes(route: DynamicRouteModel) {
@@ -38,6 +41,10 @@ export class DynamicRoutesService {
       Object.assign(this.routesModel, route);
       this.routes.next(this.routesModel);
     }
+  }
+
+  public setPatientDashBoardRoutes(pRoutes: Array<RouteModel>) {
+    this.patientRoutes.next(pRoutes);
   }
 
   public extractRoutes(route: DynamicRouteModel, dashboardConfig: Object): Array<Object> {

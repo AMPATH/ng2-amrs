@@ -21,7 +21,8 @@ import { AppState } from '../app.service';
     dashboardRouting,
     NgamrsSharedModule,
     AgGridModule.withComponents([]),
-    DataListsModule
+    DataListsModule,
+    PatientDashboardModule
   ],
   declarations: [
     MainDashboardComponent

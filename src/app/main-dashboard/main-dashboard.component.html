@@ -66,7 +66,7 @@
 </header>
 <aside class="main-sidebar">
 	<section class="sidebar">
-		<ul class="sidebar-menu">
+		<ul *ngIf= "currentDashboard === 'clinic-dashboard'" class="sidebar-menu">
 			<li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
 				<a routerLink="/{{route.url}}" (click)="route.onClick($event)">
 					<span class="icon-menu">
@@ -77,6 +77,7 @@
 				</a>
 			</li>
 		</ul>
+		<patient-side-nav *ngIf= "currentDashboard === 'patient-dashboard'"></patient-side-nav>
 	</section>
 </aside>
 <div class="content-wrapper" style="min-height: 100%;">
