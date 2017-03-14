@@ -212,10 +212,14 @@ module.exports = function () {
                         function (results) {
                             request.query.locations = [results];
                         }).onResolved = (promise) => {
+                            request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['dateActivated', 'locations', 'groupBy'], compineRequestParams);
 
                             dao.runReport(reportParams).then((result) => {
+                                _.each(result.result,  (row) => {
+                                row.order_type = etlHelpers.getTestsOrderedNames(row.order_type);
+                            });
                                 reply(result);
                             }).catch((error) => {
                                 reply(error);
