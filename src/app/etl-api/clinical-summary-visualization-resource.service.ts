@@ -100,11 +100,10 @@ export class ClinicalSummaryVisualizationResourceService {
             search: urlParams
         })
             .map((response: Response) => {
-                return response.json().result;
+                return response.json();
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getPatientCareStatusReportList(params) {
@@ -117,8 +116,7 @@ export class ClinicalSummaryVisualizationResourceService {
                 return response.json().result;
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+      return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
 }

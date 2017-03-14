@@ -73,7 +73,10 @@ const expectedComparativeResults = {
             not_virally_suppressed: 291,
             perc_virally_suppressed: 91.5358
         }
-    ]
+    ],
+  indicator: [{
+
+  }]
 };
 
 const reportParams = {
@@ -287,7 +290,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
 
                 s.getPatientCareStatusReport(reportParams).subscribe((result) => {
                     expect(result).toBeDefined();
-                    expect(result).toEqual(expectedPatientCareResults.result);
+                    expect(result).toEqual(expectedPatientCareResults);
                 });
             })
     );

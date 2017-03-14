@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
-import * as moment from 'moment/moment';
+import { Component, ViewEncapsulation, OnInit, Input, OnChanges } from '@angular/core';
+
 
 @Component({
   selector: 'clinical-summary-visualization',
@@ -15,11 +15,9 @@ export class VisualizationComponent implements OnInit {
   chartData: any;
   endDate: any;
   options: any = {
-    date_range: true,
-    gender_select: true,
-    indicator_select: true,
-    range_slider: true
+    date_range: true
   };
+  patientStatusChartOptionsFilters: any;
   constructor() {}
 
   ngOnInit() {
@@ -42,8 +40,9 @@ export class VisualizationComponent implements OnInit {
   }
 
   renderCharts() {
-    console.log(this.filterModel);
+    this.patientStatusChartOptionsFilters = {filtered: this.filterModel};
     this.generateArtOverview();
+
   }
 
   generateArtOverview() {
@@ -53,7 +52,8 @@ export class VisualizationComponent implements OnInit {
     this.chartOptions =  {
       title : { text : 'simple chart' },
       series: [{
-        data: this.chartData
+        data: this.chartData,
+        type: 'line'
       }]
     };
   }

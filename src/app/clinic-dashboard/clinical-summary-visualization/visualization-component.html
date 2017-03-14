@@ -3,11 +3,8 @@
     <div class="col-sm-12">
       <dashboard-filters
         [options]="options"
-        [ageRangeStart]="0"
-        [ageRangeEnd]="43"
         [(filterModel)] = "filterModel"
-        (filterModelChange) = "renderCharts($event)"
-        [indicators]="indicators">
+        (filterModelChange) = "renderCharts($event)">
       </dashboard-filters>
     </div>
   </div>
@@ -32,9 +29,8 @@
           <span class="fa fa-dashboard">Patient Status Overview</span>
         </div>
         <div class="panel-body">
-        </div>
-        <div class="panel-footer">
-          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
+          <patient-status-overview-chart [options]="patientStatusChartOptionsFilters"   >
+          </patient-status-overview-chart>
         </div>
       </div>
     </div>
