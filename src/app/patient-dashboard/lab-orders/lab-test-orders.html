@@ -12,7 +12,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let order of labOrders">
+        <tr *ngFor="let order of labOrders | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
           <td>
             {{order.dateActivated | date:'dd/MM/yyyy'}}
           </td>
@@ -29,5 +29,6 @@
         </tbody>
       </table>
     </div>
+    <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
   </div>
 </div>

@@ -12,6 +12,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   patient: any;
   labOrders = [];
   error: string;
+  page: number = 1;
   fetchingResults: boolean;
   isBusy: boolean;
   subscription: Subscription;
