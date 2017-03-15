@@ -34,7 +34,7 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     if (this.start && this.end) {
-      this.onAgeChangeFinish.emit({from: this.start, to: this.end});
+      this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
     }
   }
 
@@ -52,10 +52,10 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
       force_edges: true,
       keyboard: true,
       onFinish: (data) => {
-        this.onAgeChangeFinish.emit({from: data.from, to: data.to});
+        this.onAgeChangeFinish.emit({ageFrom: data.from, ageTo: data.to});
       },
       onChange: (data) => {
-        this.value = {from: data.from, to: data.to};
+        this.value = {ageFrom: data.from, ageTo: data.to};
       }
     });
     this.initialized = true;
