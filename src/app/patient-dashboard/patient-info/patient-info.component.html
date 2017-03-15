@@ -32,8 +32,13 @@
       <edit-address #address></edit-address>
 			<address></address>
 		</p-accordionTab>
-
-		<p-accordionTab header=" Identifiers " [selected]="false">
+		<p-accordionTab >
+      <p-header>
+        Identifiers
+     <button pButton type="button" (click)="identifiers.showDialog()"
+       class="ui-button-info" label="Edit" style="float: right"></button>
+           </p-header>
+      <edit-identifiers #identifiers></edit-identifiers>
 			<patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
 		</p-accordionTab>
 		<p-accordionTab header=" Relationships " [selected]="false">

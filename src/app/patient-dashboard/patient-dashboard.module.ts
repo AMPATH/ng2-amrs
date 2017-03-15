@@ -45,7 +45,7 @@ import {
 import { PatientService } from './patient.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
-import { MedicationHistoryComponent } from './hiv-summary/madication-history.component';
+import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
@@ -69,7 +69,7 @@ import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
 import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
 import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
-import { ToastrModule } from 'toastr-ng2';
+import { ToastrModule } from 'ngx-toastr';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
@@ -77,6 +77,10 @@ import {
   PatientRelationshipsComponent
 } from './patient-relationships/patient-relationships.component';
 import { EditAddressComponent } from './patient-info/edit-address.component';
+import {
+  EditPatientIdentifierComponent
+} from './patient-identifier/edit-patient-identifier.component';
+import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
 import {
   HivPatientClinicalSummaryComponent
@@ -160,7 +164,9 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     EditAddressComponent,
     HivPatientClinicalSummaryComponent,
     PdfViewerComponent,
-    EditDemographicsComponent
+    EditDemographicsComponent,
+    EditPatientIdentifierComponent
+
   ],
   providers: [
     PatientEncounterService,
@@ -186,7 +192,8 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     PatientRelationshipService,
     ProgramService,
     HivPatientClinicalSummaryService,
-    DatePipe
+    DatePipe,
+    PatientIdentifierService
   ],
   exports: [
     PatientDashboardComponent,
@@ -208,7 +215,8 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     DraftedFormNavComponent,
     PatientRemindersComponent,
     OrderListComponent,
-    PatientRelationshipsComponent
+    PatientRelationshipsComponent,
+    EditPatientIdentifierComponent
   ]
 })
 export class PatientDashboardModule {

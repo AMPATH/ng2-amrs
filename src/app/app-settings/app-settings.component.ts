@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
+import { LocalStorageService } from '../utils/local-storage.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,7 +11,7 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
   styleUrls: ['./app-settings.component.css'],
   providers: [AppSettingsService]
 })
-export class AppSettingsComponent {
+export class AppSettingsComponent implements OnInit {
   @ViewChild('addUrlModal')
   urlModal: ModalComponent;
   newUrl: string;
@@ -18,11 +19,22 @@ export class AppSettingsComponent {
   urlType: string;
   serverTemplates: Array<Object> = this.getServerTemplates();
 
-  constructor(private router: Router, private appSettingsService: AppSettingsService,
+  constructor(private router: Router,
+    private appSettingsService: AppSettingsService,
+    private localStorageService: LocalStorageService,
     private authenticationService: AuthenticationService) { }
 
   getServerTemplates(): Array<Object> {
     return this.appSettingsService.getServerTemplates();
+  }
+
+  ngOnInit() {
+    let templates = this.appSettingsService.getServerTemplates();
+
+    if (!window.location.host.match(new RegExp('localhost'))) {
+      this.changeServerSettings(templates[0]);
+    }
+
   }
 
   get openmrsServer(): string {
@@ -74,16 +86,15 @@ export class AppSettingsComponent {
   }
 
   changeServerSettings(row: any) {
-    // changes are reflected on the respective drop down menu's
     // change openmrs url
     this.openmrsServer = row.amrsUrl;
-    // alert(this.openmrsServer);
     // change etl-server url
     this.etlServer = row.etlUrl;
+
   }
 
   onDoneClick() {
-
+    this.localStorageService.setItem('appSettingsAction', 'newSettings');
     // clear session cache
     // return back to login page
     this.authenticationService.clearSessionCache();

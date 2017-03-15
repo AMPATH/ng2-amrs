@@ -8,10 +8,10 @@ import { PatientIdentifier } from './patient-identifier.model';
 import { ProgramEnrollment } from './program-enrollment.model';
 
 export class Patient extends BaseModel {
+  public _identifier = this.openmrsModel.identifiers;
   private _person: Person;
   private _patientIdentifier: PatientIdentifier;
   private _enrolledPrograms = this.openmrsModel.enrolledPrograms;
-  private _identifier = this.openmrsModel.identifiers;
   private _encounters = this.openmrsModel.encounters;
 
   constructor(openmrsModel?: any) {

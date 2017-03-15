@@ -33,6 +33,11 @@ import { HttpClient } from './shared/services/http-client.service';
 import { TitleCasePipe } from './shared/pipes/title-case.pipe';
 import { LocalStorageService } from './utils/local-storage.service';
 import { SessionStorageService } from './utils/session-storage.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { DataCacheService } from './shared/services/data-cache.service';
+import { UsefulLinksModule } from './useful-links';
+import { FeedBackComponent } from './feedback';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -55,7 +60,8 @@ type StoreType = {
     App,
     About,
     TitleCasePipe,
-    NoContent
+    NoContent,
+    FeedBackComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -67,7 +73,18 @@ type StoreType = {
     MainDashboardModule,
     AuthenticationModule,
     AppSettingsModule,
-    UserDefaultPropertiesModule
+    UserDefaultPropertiesModule,
+    UsefulLinksModule,
+    BusyModule.forRoot(
+      new BusyConfig({
+        message: 'Please Wait...',
+        backdrop: true,
+        delay: 200,
+        minDuration: 600,
+        wrapperClass: 'my-class',
+
+      })
+    )
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -85,11 +102,14 @@ type StoreType = {
         router: Router, sessionStorageService: SessionStorageService) =>
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
+    },
+    CacheService,
+    DataCacheService
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) { }
+  constructor(public appRef: ApplicationRef, public appState: AppState) {
+  }
 
   hmrOnInit(store: StoreType) {
     if (!store || !store.state) return;

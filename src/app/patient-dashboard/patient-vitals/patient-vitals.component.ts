@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Helpers } from '../../utils/helpers';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { Patient } from '../../models/patient.model';
   templateUrl: './patient-vitals.component.html',
   styleUrls: ['./patient-vitals.component.css']
 })
-export class PatientVitalsComponent implements OnInit {
+export class PatientVitalsComponent implements OnInit, OnDestroy {
 
   loadingVitals: boolean = false;
 
@@ -24,6 +24,7 @@ export class PatientVitalsComponent implements OnInit {
   errors: any = [];
 
   patientUuid: any;
+  subscription: Subscription;
 
   nextStartIndex: number = 0;
   isLoading: boolean = false;
@@ -34,9 +35,16 @@ export class PatientVitalsComponent implements OnInit {
   ngOnInit() {
     this.getPatient();
   }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getPatient() {
         this.loadingVitals = true;
-    this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
@@ -69,7 +77,6 @@ export class PatientVitalsComponent implements OnInit {
 
             }
             let size: number = data.length;
-            console.log('ssssssiiiiiiiiiiiize------>>>', size);
             this.nextStartIndex = this.nextStartIndex + size;
             this.isLoading = false;
           } else {

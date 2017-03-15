@@ -1,0 +1,66 @@
+<p-dialog header="Edit patient identifiers" [(visible)]="display" closable="true" >
+    <div>
+      <div class="input-group">
+        <label >Patient Identifier Type:</label>
+        <select class="form-control"  [ngModel]="identifierType" (ngModelChange)="setIdentifierType($event)" >
+          <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{c.label}}</option>
+        </select>
+      </div>
+      <div ng-messages="personForm.identifierType.$error">
+        <div class="help-block" ng-message="required">Identifier Type is required.</div>
+      </div>
+    </div>
+
+    <br>
+    <div>
+      <div class="input-group">
+        <label >Patient Identifier</label>
+        <input type="text" id="patientIdentifier" class="form-control"
+               [(ngModel)]="patientIdentifier" name="patientIdentifier"
+               (ngModelChange)="setPatientIdentifier(patientIdentifier)" >
+      </div>
+      <div *ngIf="identifierValidity">
+        <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
+      </div>
+      <div ng-messages="patientIdentifier.$error">
+        <div class="help-block" ng-message="required">Identifier is required.</div>
+      </div>
+      <div *ngIf="hasError" style="margin-bottom:10px;">
+        <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
+      </div>
+    </div>
+    <br>
+    <div>
+      <label >Preferred</label>
+      <div class="input-group">
+        <select class="form-control" [ngModel]="preferredIdentifier" (ngModelChange)="setPreferredIdentifier($event)">
+          <option *ngFor="let c of preferOptions" [ngValue]="c.value">{{c.label}}</option>
+        </select>
+      </div>
+    </div>
+
+     <br>
+    <div>
+      <label >Identifier Location</label>
+      <div class="input-group">
+        <select class="form-control" [ngModel]="selectedDevice" (ngModelChange)="seIdentifierLocation($event)">
+        <option *ngFor="let c of locations" [ngValue]="c">{{c.label}}</option>
+        </select>
+      </div>
+
+      <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
+        {{invalidLocationCheck}}</span>
+      </div>
+    </div>
+  <br>
+  <div>
+    <button ng-disabled="personForm.patientIdentifier.$invalid &&
+    personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
+            class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
+      <span>Save</span></button>
+    <button
+            class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+      <span>Cancel</span></button>
+  </div>
+
+</p-dialog>

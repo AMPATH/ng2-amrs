@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/Rx';
 
-import { Helpers } from '../../utils/helpers';
 import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
 
 

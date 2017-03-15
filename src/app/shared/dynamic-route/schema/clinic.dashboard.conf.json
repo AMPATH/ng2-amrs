@@ -15,6 +15,12 @@
       "label": "Monthly Schedule",
       "icon": "fa fa-calendar",
       "isSideBarOpen": false
+    },
+    {
+      "url": "visualization",
+      "label": "Clinical Summary Visualization",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": [

@@ -46,8 +46,8 @@
       <h3><span>Started At:{{visit.startDatetime | date:'dd-MM-yyyy hh:mm'}}</span>
         <span *ngIf="visit.stopDatetime">Ended At:{{visit.stopDatetime | date:'dd-MM-yyyy hh:mm'}}</span>
         <button id="cancelVisitButtonTop" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
-        <button *ngIf="!visit.stopDatetime" id="endVisitButtonTop" (click)="endVisit()" class='btn btn-primary'>End Visit
-          Visit
+        <button *ngIf="!visit.stopDatetime" id="endVisitButtonTop" (click)="endVisit()" class='btn btn-primary'>
+          End Visit
         </button>
       </h3>
     </div>

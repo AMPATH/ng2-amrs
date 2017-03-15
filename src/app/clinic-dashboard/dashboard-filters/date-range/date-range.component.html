@@ -1,0 +1,13 @@
+<div class="date-range">
+  <div class="col-md-6 pl-0">
+    <label>Start Date</label>
+    <date-time-picker tabindex="0" [modelValue]="startDate" [id]="'startDate'"
+                      (onDateChange)="updateStartDate($event)"></date-time-picker>
+  </div>
+  <div class="col-md-6 pr-0">
+    <label>End Date</label>
+    <date-time-picker tabindex="1" [modelValue]="endDate" [id]="'endDate'"
+                      (onDateChange)="updateEndDate($event)"></date-time-picker>
+  </div>
+  <div class="clear-fix clear"></div>
+</div>

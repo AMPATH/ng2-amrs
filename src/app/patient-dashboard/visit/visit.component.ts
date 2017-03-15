@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as Moment from 'moment';
 import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
 import { PatientService } from '../patient.service';
+import { UserDefaultPropertiesService
+} from '../../user-default-properties/user-default-properties.service';
+import { Subscription } from 'rxjs';
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
     host: { 'class': 'wrapper' }
 })
-export class VisitComponent implements OnInit {
+export class VisitComponent implements OnInit, OnDestroy {
     visitTypes = [];
     excludedForms = [];
     visit: any;
     patient: any;
+    subscription: Subscription;
     errors: any = [];
     loadingVisitTypes: Boolean;
     confirmCancel: boolean;
@@ -21,13 +25,19 @@ export class VisitComponent implements OnInit {
     showDialog: boolean = false;
     visitBusy: Boolean;
     constructor(private visitResourceService: VisitResourceService,
+        private userDefaultPropertiesService: UserDefaultPropertiesService,
         private patientService: PatientService, private router: Router,
         private route: ActivatedRoute) { }
-
 
     ngOnInit() {
         this.getPatient();
     }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
     getVisit(patientUuid) {
         this.visitBusy = true;
@@ -50,11 +60,10 @@ export class VisitComponent implements OnInit {
                     message: 'error fetching visit'
                 });
             });
-
     }
 
     getPatient() {
-        this.patientService.currentlyLoadedPatient.subscribe(
+      this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient !== null) {
                     this.patient = patient;
@@ -86,9 +95,11 @@ export class VisitComponent implements OnInit {
     }
 
     startVisit(visitTypeUuid) {
+        let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         this.visitBusy = true;
         let visitPayload = {
             patient: this.patient.person.uuid,
+            location: location.uuid,
             startDatetime: new Date(),
             visitType: visitTypeUuid
         };

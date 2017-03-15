@@ -1,0 +1,12 @@
+<div class="useful-links">
+  <h3 class="text-primary">
+    Click on a link for more information
+  </h3>
+  <hr />
+    <div class="link-group">
+      <p *ngFor="let link of externalLinks" class="link-group-item">
+        <span (click)="goToLink(link.url)" title="{{link.title}}">{{link.title}}</span>
+      </p>
+    </div>
+</div>
+

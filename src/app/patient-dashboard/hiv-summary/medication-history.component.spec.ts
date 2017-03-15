@@ -7,7 +7,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { MedicationHistoryComponent } from './madication-history.component';
+import { MedicationHistoryComponent } from './medication-history.component';
 import { MedicationHistoryResourceService } from
   '../../etl-api/medication-history-resource.service';
 import { PatientService } from '../patient.service';

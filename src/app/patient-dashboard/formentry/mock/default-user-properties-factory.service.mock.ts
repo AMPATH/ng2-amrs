@@ -6,6 +6,6 @@ export class FakeDefaultUserPropertiesFactory {
   }
 
   public getCurrentUserDefaultLocationObject(): any {
-    return null;
+    return { uuid: 'test-uuid' };
   }
 }

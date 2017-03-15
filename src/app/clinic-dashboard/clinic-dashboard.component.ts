@@ -4,7 +4,6 @@ import { LocationResourceService } from '../openmrs-api/location-resource.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 
-import { LocationService} from './services/location.service';
 
 @Component({
   selector: 'app-clinic-dashboard',

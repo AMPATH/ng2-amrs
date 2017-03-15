@@ -16,7 +16,7 @@
             <input type="text" class="form-control" [(ngModel)]="middleName" name="middleName" placeholder="Middle Name">
         </div>
 
-        <div class="form-group"> 
+        <div class="form-group">
             <label for="familyName">Family Name</label>
             <input type="text" class="form-control" [(ngModel)]="familyName" name="familyName" placeholder="Family Name" required>
         </div>
@@ -28,7 +28,7 @@
             </select>
         </div>
 
-        <div class="form-group"> 
+        <div class="form-group">
             <label for="personDeadSelect">Has patient died?</label>
             <select class="form-control" name="personDeadSelect" [(ngModel)]="dead">
                 <option *ngFor="let option of isDeadOptions" [value]="option.val">{{option.label}}</option>
@@ -46,8 +46,10 @@
                 <option *ngFor="let cause of causesOfDeath" [value]="cause.uuid">{{cause.display}}</option>
             </select>
         </div>
-        
+
         <button type="submit" class="btn btn-primary" (click)="updateName()">Submit</button>
+        <button class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+          <span>Cancel</span></button>
 
     </form>
 </p-dialog>

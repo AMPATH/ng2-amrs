@@ -19,6 +19,7 @@ import { PatientRelationshipResourceService } from './patient-relationship-resou
 import {
   PatientRelationshipTypeResourceService
  } from './patient-relationship-type-resource.service';
+import { PatientIdentifierTypeResService } from './patient-identifierTypes-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -42,7 +43,8 @@ import {
     VisitResourceService,
     OrderResourceService,
     PatientRelationshipResourceService,
-    PatientRelationshipTypeResourceService
+    PatientRelationshipTypeResourceService,
+    PatientIdentifierTypeResService
   ],
   exports: []
 })

@@ -41,4 +41,7 @@ export class User extends BaseModel {
 
     return null;
   }
+  public get person(): any {
+    return this._openmrsModel.person;
+  }
 }

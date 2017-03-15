@@ -21,6 +21,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public filteredList: Array<any> = [];
   public currentLocation: string = '';
   public selectedIdx: number = -1;
+  public isLoading: boolean = false;
 
   constructor(private router: Router,
     private propertyLocationService: UserDefaultPropertiesService,
@@ -44,9 +45,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
   }
 
   goToPatientSearch() {
-
+    this.isLoading = true;
     this.router.navigate(['patient-dashboard/patient-search']);
-
   }
 
   filter(event: any) {
@@ -67,9 +67,9 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   select(item) {
     this.query = item.display;
+    this.currentLocation = item.display;
     let location = JSON.stringify({ uuid: item.uuid, display: item.display });
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
-
     this.filteredList = [];
     this.selectedIdx = -1;
   }

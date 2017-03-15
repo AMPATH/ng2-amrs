@@ -28,6 +28,8 @@
   </div>
 </div>
 <div>
-  <button [disabled]="query=='' && currentLocation==''" class="btn btn-info previous" (click)="goToPatientSearch()">Done<span
-    class="glyphicon glyphicon-chevron-right"></span></button>
+  <button [disabled]="query=='' && currentLocation==''" class="btn btn-info previous" (click)="goToPatientSearch()">Done
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+  </button>
 </div>

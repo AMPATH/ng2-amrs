@@ -1,4 +1,36 @@
 <div [ngBusy]="busy">
+  <div>
+    <span>Key:
+  <span class="label label-success">Visits</span>
+    <span class="label label-info">Appointments</span>
+    <span class="label label-warning">Not returned</span>
+    </span>
+  </div>
+  <div class="row">
+    <div class="text-center">
+      <h2 class="text-center"></h2> <span class="btn-group">
+        <button  (click)='getAppointments()' class="btn btn-primary"  mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate">
+          Previous Month
+        </button>
+        <button  (click)='getAppointments()' class="btn btn-default"  mwlCalendarToday
+        [(viewDate)]="viewDate">
+          This Month
+        </button>
+        <button *ngIf="fetchError"  class="btn btn-danger" (click)="getAppointments()">
+          <span class="glyphicon glyphicon-refresh"></span>
+      <span>Retry</span>
+      </button>
+      <button (click)='getAppointments()' class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+          Next Month
+        </button>
+      </span>
+    </div>
+    <div class="col-md-12 text-center">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+  </div>
   <mwl-calendar-month-view [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" [viewDate]="viewDate"
     (eventClicked)="handleEvent('Clicked', $event.event)" [events]="events" [dayModifier]="addBadgeTotal">
     </mwl-calendar-month-view>
