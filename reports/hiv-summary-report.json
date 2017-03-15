@@ -171,11 +171,6 @@
                 "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
-                "label":"virally_suppressed",
-                "expression":"virally_suppressed",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
-            },
-            {
                 "label":"viral_load_resulted_in_past_year",
                 "expression":"viral_load_resulted_in_past_year",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
