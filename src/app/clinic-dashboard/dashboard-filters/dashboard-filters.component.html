@@ -3,6 +3,5 @@
 <date-range *ngIf="options.date_range" [startDate]="startDate" [endDate]="endDate"
             (onDateChange)="onDateChanged($event)"></date-range>
 <range-slider *ngIf="options.range_slider" [start]="ageRangeStart" [end]="ageRangeEnd"
-              (onAgeChangeFinish)="onAgeChangeFinished($event)"
-              (onAgeChange)="onAgeChanged($event)"></range-slider>
+              (onAgeChangeFinish)="onAgeChangeFinished($event)"></range-slider>
 <gender-select *ngIf="options.gender_select" (onGenderChange)="onGenderChanged($event)"></gender-select>

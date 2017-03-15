@@ -5,11 +5,8 @@
         [options]="options"
         [ageRangeStart]="0"
         [ageRangeEnd]="43"
-        (onDateChange) ="onDateChanged($event)"
-        (onGenderChange) ="onGenderChanged($event)"
-        (onIndicatorChange) ="onIndicatorChanged($event)"
-        (onAgeChange) ="onAgeChanged($event)"
-        (onAgeChangeFinish) ="onAgeChangeFinished($event)"
+        [(filterModel)] = "filterModel"
+        (filterModelChange) = "renderCharts($event)"
         [indicators]="indicators">
       </dashboard-filters>
     </div>
@@ -23,7 +20,7 @@
         <div class="panel-body">
         </div>
         <div class="panel-footer">
-          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{startDate? (startDate | moment: "DD/MM/YYYY") : ''}} To: {{endDate? (endDate | moment: "DD/MM/YYYY") : ''}})</p>
+          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
         </div>
       </div>
     </div>
@@ -37,7 +34,7 @@
         <div class="panel-body">
         </div>
         <div class="panel-footer">
-          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{startDate? (startDate | moment: "DD/MM/YYYY") : ''}} To: {{endDate? (endDate | moment: "DD/MM/YYYY") : ''}})</p>
+          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
         </div>
       </div>
     </div>
@@ -50,7 +47,7 @@
           <art-overview-chart [options]="chartOptions"></art-overview-chart>
         </div>
         <div class="panel-footer">
-          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{startDate? (startDate | moment: "DD/MM/YYYY") : ''}} To: {{endDate? (endDate | moment: "DD/MM/YYYY") : ''}})</p>
+          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
         </div>
       </div>
     </div>

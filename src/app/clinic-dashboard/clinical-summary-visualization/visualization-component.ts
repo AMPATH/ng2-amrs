@@ -9,14 +9,11 @@ import * as moment from 'moment/moment';
 })
 export class VisualizationComponent implements OnInit {
   indicators: Array<any>;
-  selectedIndicators: Array<any>;
   startDate: any;
+  @Input() filterModel: any;
   chartOptions: any;
   chartData: any;
   endDate: any;
-  ageRangeStart: number;
-  ageRangeEnd: number;
-  selectedGenders: Array<string>;
   options: any = {
     date_range: true,
     gender_select: true,
@@ -26,6 +23,8 @@ export class VisualizationComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+
+    this.filterModel = {};
     this.indicators = [
       {
         value: 123,
@@ -42,31 +41,9 @@ export class VisualizationComponent implements OnInit {
     ];
   }
 
-  onDateChanged(range: any) {
+  renderCharts() {
+    console.log(this.filterModel);
     this.generateArtOverview();
-    this.startDate = moment(range.startDate);
-    this.endDate = moment(range.endDate);
-  }
-
-
-  onAgeChanged(data: any) {
-    this.ageRangeStart = data.from;
-    this.ageRangeEnd = data.to;
-  }
-
-  onGenderChanged(genders: Array<any>) {
-    this.selectedGenders = genders;
-  }
-
-  onAgeChangeFinished(data: any) {
-    this.ageRangeStart = data.from;
-    this.ageRangeEnd = data.to;
-  }
-
-  onIndicatorChanged(indicators: Array<any>) {
-    if (indicators.length > 0) {
-      this.selectedIndicators = indicators;
-    }
   }
 
   generateArtOverview() {

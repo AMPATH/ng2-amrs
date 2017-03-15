@@ -1,4 +1,6 @@
 import { Component, Input, Output, ViewEncapsulation, OnInit, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'dashboard-filters',
@@ -9,39 +11,37 @@ import { Component, Input, Output, ViewEncapsulation, OnInit, EventEmitter } fro
 export class DashboardFiltersComponent implements OnInit {
   @Input() options: Array<any>;
   @Input() indicators: Array<any>;
+  @Input() filterModel: any;
   @Input() startDate: string;
   @Input() endDate: string;
   @Input() ageRangeStart: number;
   @Input() ageRangeEnd: number;
-  @Output() onDateChange = new EventEmitter<any>();
-  @Output() onGenderChange = new EventEmitter<any>();
-  @Output() onIndicatorChange = new EventEmitter<any>();
-  @Output() onAgeChange = new EventEmitter<any>();
-  @Output() onAgeChangeFinish = new EventEmitter<any>();
+  @Output() filterModelChange = new EventEmitter<any>();
   constructor() {}
 
   ngOnInit() {
+    this.filterModel = {};
   }
 
   onDateChanged(range: any) {
-    this.onDateChange.emit(range);
-  }
-
-  onAgeChanged(data: any) {
-    this.onAgeChange.emit(data);
+    _.extend(this.filterModel, _.mapValues(range, (_date) =>  moment(_date)));
+    this.filterModelChange.emit(this.filterModel);
   }
 
   onGenderChanged(data: any) {
-    this.onGenderChange.emit(data);
+    _.extend(this.filterModel, data);
+    this.filterModelChange.emit(this.filterModel);
   }
 
   onAgeChangeFinished(data: any) {
-    this.onAgeChangeFinish.emit(data);
+    _.extend(this.filterModel, data);
+    this.filterModelChange.emit(this.filterModel);
   }
 
   onIndicatorChanged(indicators: Array<any>) {
     if (indicators.length > 0) {
-      this.onIndicatorChange.emit(indicators);
+      _.extend(this.filterModel, indicators);
+      this.filterModelChange.emit(this.filterModel);
     }
   }
 }
