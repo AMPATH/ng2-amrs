@@ -129,7 +129,11 @@ module.exports = function () {
       //build report
       var queryParts = reportFactory.singleReportToSql(requestParams);
       db.reportQueryServer(queryParts, function (results) {
-        callback(reportFactory.resolveIndicators(reportName, results, requestIndicators));
+          reportFactory.buildIndicatorsSchema(requestParams, function (indicators) {
+              results.indicatorDefinitions = indicators;
+              callback(reportFactory.resolveIndicators(reportName, results, requestIndicators));
+          });
+
       });
     },
     getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {

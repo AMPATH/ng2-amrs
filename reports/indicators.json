@@ -8,7 +8,7 @@
     {
         "name":"patients",
         "label":"patients",
-        "description": "Total # of patients who have had an encounter within selected period",
+        "description": "A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
         "expression": "true"
 
     },
@@ -1023,25 +1023,25 @@
     {
         "name":"deceased_patients",
         "label":"Deceased Patients",
-        "description": "Deceased Patients",
+        "description": "This indicator includes all patients with patient care status of 'DECEASED'",
         "expression": "patient_care_status=159"
     },
     {
         "name":"untraceable_patients",
         "label":"untraceable patients",
-        "description": "untraceable patients",
+        "description": "This indicator includes all patients with patient care status of 'UNTRACEABLE'",
         "expression": "patient_care_status=9079"
     },
     {
         "name":"transferred_out_patients",
         "label":"transferred out patients",
-        "description": "transferred out patients",
+        "description": "A patient is considered to be transferred out if a provider declares the patient as NON-AMPATH",
         "expression": "patient_care_status=1287"
     },
     {
         "name":"hiv_negative_patients",
         "label":"hiv negative patients",
-        "description": "hiv negative patients",
+        "description": "This indicator includes all patients with patient care status of 'HIV NEGATIVE, NO LONGER AT RISK'",
         "expression": "patient_care_status=9036"
     },
     {
@@ -1053,13 +1053,13 @@
     {
         "name":"self_disengaged_from_care",
         "label":"self disengaged from care",
-        "description": "self disengaged from care",
+        "description": "This indicator includes all patients with patient care status of 'SELF DISENGAGED FROM CARE'",
         "expression": "patient_care_status=9083"
     },
     {
         "name":"defaulters",
         "label":"defaulters",
-        "description": "defaulters",
+        "description": "This indicator includes all patients with patient care status of 'CONTINUE' and their RTC date is greater than 90 days from the reporting date",
         "expression": "(patient_care_status=6101 and timestampdiff(day,if(is_clinical_encounter=1,rtc_date,prev_clinical_rtc_date_hiv), @endDate) > 90)"
     },
     {
@@ -1071,7 +1071,7 @@
     {
         "name":"other_patient_care_status",
         "label":"other status",
-        "description": "other_status",
+        "description": "This indicator includes all patients who do not fall in either of the above categorie",
         "expression": "patient_care_status not in (159,9079,1287,9036,6101,9083)"
     },
     {
