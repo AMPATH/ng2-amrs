@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
+
+import { LocationService} from './services/location.service';
+
 @Component({
   selector: 'app-clinic-dashboard',
   templateUrl: './clinic-dashboard.component.html',
@@ -12,14 +15,19 @@ export class ClinicDashboardComponent implements OnInit {
   locationUuid: string;
   loaderStatus: boolean;
   locations = [];
+  private locationService: LocationService;
+
   constructor(private locationResourceService: LocationResourceService,
     private route: ActivatedRoute, private router: Router,
     private clinicDashboardCacheService: ClinicDashboardCacheService) {
+
+
     this.loaderStatus = false;
   }
 
   ngOnInit() {
     this.getLocations();
+   // this.locationService.locationAnnounced$.subscribe(location => {this.locationUuid;})
   }
 
   public getLocations() {
@@ -53,4 +61,9 @@ export class ClinicDashboardComponent implements OnInit {
       this.router.navigateByUrl(splitUrl.join('/'));
     }
   }
+
+  announce() {
+    this.locationService.announceLocation(this.locationUuid);
+  }
+
 }

@@ -10,6 +10,8 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 
+import { LocationService} from '../clinic-dashboard/services/location.service';
+
 declare let jQuery: any;
 
 @Component({
@@ -27,12 +29,14 @@ export class MainDashboardComponent implements OnInit {
   buildDate: Date;
   userLocation: string = '';
   busyIndicator: Subscription;
+  private locationService: LocationService;
 
   constructor(private router: Router,
     private localStore: LocalStorageService,
     private dynamicRoutesService: DynamicRoutesService,
     private authenticationService: AuthenticationService,
     private userService: UserService) {
+
   }
 
   ngOnInit() {
@@ -52,11 +56,15 @@ export class MainDashboardComponent implements OnInit {
     let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
     this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
 
+    
+
   }
 
   screenChanges(event) {
     this.sidebarOpen = event;
     this.isMobile = event;
+
+   // this.locationService.locationAnnounced$.subscribe(location => {this.userLocation;})
   }
 
   logout() {
@@ -69,6 +77,10 @@ export class MainDashboardComponent implements OnInit {
       (error: Error) => {
         this.router.navigate(['/login']);
       });
+  }
+
+  announce() {
+    this.locationService.announceLocation(this.userLocation);
   }
 
 }
