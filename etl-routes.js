@@ -1112,7 +1112,40 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                dao.getPatientListByIndicator(request, reply);
+                request.query.reportName ='hiv-summary-report';
+                var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
+
+                var onResolvedPromise = function (promise) {
+                    asyncRequests--;
+                    if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                        dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                            .then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                            reply(Boom.badRequest(error.toString()));
+                        });
+                    }
+                };
+
+                //establish the number of asyncRequests
+                //this is done prior to avoid any race conditions
+                if (request.query.locationUuids) {
+                    asyncRequests++;
+                }
+
+                if (asyncRequests === 0)
+                    dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                        .then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                        reply(Boom.badRequest(error.toString()));
+                    });
+                if (request.query.locationUuids) {
+                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
+                        function (results) {
+                            request.query.locations = results;
+                        }).onResolved = onResolvedPromise;
+                }
             },
             description: 'Get patient list by indicator',
             notes: 'Returns a patient list by indicator for a given location.',
@@ -1144,12 +1177,18 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
+                request.query.reportName ='hiv-summary-monthly-report';
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
                 var onResolvedPromise = function (promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getPatientByIndicatorAndLocation(request, reply);
+                        dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                            .then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                            reply(Boom.badRequest(error.toString()));
+                        });
                     }
                 };
 
@@ -1160,7 +1199,12 @@ module.exports = function () {
                 }
 
                 if (asyncRequests === 0)
-                    dao.getPatientByIndicatorAndLocation(request, reply);
+                    dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                        .then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                        reply(Boom.badRequest(error.toString()));
+                    });
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                         function (results) {
@@ -1181,7 +1225,7 @@ module.exports = function () {
                         .description("A list of comma separated indicators"),
                     locationUuids: Joi.string()
                         .required()
-                        .description("A list of comma separated location uuids"),
+                        .description("A list of comma separated location uuids")
                 }
             }
         }
@@ -1374,18 +1418,16 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                var requestQuery = JSON.stringify(request.query);
-                var combineRequestParams = Object.assign({}, request.query, request.params);
-                var reportParams = etlHelpers.getReportParams(request.report, ['startDate', 'endDate', 'gender', 'locations', 'groupBy'], combineRequestParams);
+
                 var onResolvedPromise = function (promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getReportPatientList(reportParams).then((result) => {
-                            reply(result);
-                        }).catch((error) => {
-                            reply(error);
-                        })
-
+                        dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                            .then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                            reply(Boom.badRequest(error.toString()));
+                        });
                     }
                 };
 
@@ -1396,16 +1438,36 @@ module.exports = function () {
                 }
 
                 if (asyncRequests === 0)
-                    dao.getReportPatientList(reportParams).then((result) => {
-                        reply(result);
-                    }).catch((error) => {
-                        reply(error);
-                    })
+                    dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                        .then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                        reply(Boom.badRequest(error.toString()));
+                    });
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                         function (results) {
                             request.query.locations = results;
                         }).onResolved = onResolvedPromise;
+                }
+            },
+            description: 'Get patient list',
+            notes: 'Returns a patient by passing a given indicator, report and location.',
+            tags: ['api'],
+            validate: {
+                options: {
+                    allowUnknown: true
+                },
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .required()
+                        .description("A list of comma separated location uuids"),
+                    reportName: Joi.string()
+                        .required()
+                        .description("the name of the report you want patient list"),
                 }
             }
         }
