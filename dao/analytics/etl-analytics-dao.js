@@ -444,6 +444,23 @@ module.exports = function () {
           callback(result);
         });
       });
+    },
+
+    getReportPatientList: function getReportPatientList(reportParams) {
+
+      //build report
+      var queryParts = reportFactory.singleReportToSql(reportParams);
+      return new Promise(function (resolve, reject) {
+        db.reportQueryServer(queryParts, function (results) {
+          if (results.error) {
+            reject(results);
+          } else {
+            var resolved = reportFactory.resolveIndicators(reportParams.reportName, results, reportParams.requestIndicators);
+            resolve(resolved);
+          }
+        });
+      });
+
     }
   };
-}();
+} ();
