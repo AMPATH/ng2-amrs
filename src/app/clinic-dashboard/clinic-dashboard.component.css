@@ -1,3 +1,6 @@
+.dashboard-wrapper {
+  padding:15px;
+}
 ng-select {
     display: inline-block;
     margin: 0;

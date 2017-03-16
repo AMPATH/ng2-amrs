@@ -1,0 +1,7 @@
+<div class="gender-select">
+  <label for="gender">Select Gender</label>
+    <ng-select [multiple]="true" id="gender" (ngModelChange)="onGenderSelected($event)"
+               [placeholder]="'Select Gender...'"
+               [(ngModel)]="selectedGender" [options]="genderOptions">
+    </ng-select>
+</div>

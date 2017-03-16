@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <div class="row">
+    <div class="col-sm-12">
+      <dashboard-filters
+        [options]="options"
+        [ageRangeStart]="0"
+        [ageRangeEnd]="43"
+        [(filterModel)] = "filterModel"
+        (filterModelChange) = "renderCharts($event)"
+        [indicators]="indicators">
+      </dashboard-filters>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span class="fa fa-dashboard">HIV Care Comparative Overview</span>
+        </div>
+        <div class="panel-body">
+        </div>
+        <div class="panel-footer">
+          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span class="fa fa-dashboard">Patient Status Overview</span>
+        </div>
+        <div class="panel-body">
+        </div>
+        <div class="panel-footer">
+          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span class="fa fa-dashboard">ART Overview</span>
+        </div>
+        <div class="panel-body">
+          <art-overview-chart [options]="chartOptions"></art-overview-chart>
+        </div>
+        <div class="panel-footer">
+          <p>A comparative chart showing ARV Drugs consumption statistics (From: {{filterModel.startDate? (filterModel.startDate | moment: "DD/MM/YYYY") : ''}} To: {{filterModel.endDate? (filterModel.endDate | moment: "DD/MM/YYYY") : ''}})</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
