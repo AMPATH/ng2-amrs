@@ -805,12 +805,12 @@ module.exports = function () {
                     joinType: 'INNER JOIN'
                 });
                 //remove dynamic datasets from joins
-                join= _.filter(join, function(j) {
+                join = _.filter(join, function (j) {
                     return _.isUndefined(j.joinedQuerParts);
                 });
 
-                var schema = report.table['schema']===''?'etl':report.table['schema'];
-                var tableName = report.table['tableName']===''?'flat_hiv_summary':report.table['tableName'];
+                var schema = report.table['schema'] === '' ? 'etl' : report.table['schema'];
+                var tableName = report.table['tableName'] === '' ? 'flat_hiv_summary' : report.table['tableName'];
                 var queryParts = {
                     columns: [
                         't1.person_id', 't1.encounter_id', 't1.location_id', 't1.location_uuid', 't1.uuid as patient_uuid',

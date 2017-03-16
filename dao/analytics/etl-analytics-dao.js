@@ -105,16 +105,16 @@ module.exports = function () {
                     "name": "patientUuid",
                     "value": request.query["patientUuid"]
                 },
-                    {
-                        "name": "startAge",
-                        "value": startAge
-                    }, {
-                        "name": "endAge",
-                        "value": endAge
-                    }, {
-                        "name": "gender",
-                        "value": gender
-                    }
+                {
+                    "name": "startAge",
+                    "value": startAge
+                }, {
+                    "name": "endAge",
+                    "value": endAge
+                }, {
+                    "name": "gender",
+                    "value": gender
+                }
                 ],
                 // order: order || [{
                 //   column: 't1.location_id',
@@ -126,15 +126,15 @@ module.exports = function () {
                 limit: request.query.limit,
                 requestIndicators: requestIndicators
             };
-          //build report
-          var queryParts = reportFactory.singleReportToSql(requestParams);
-          db.reportQueryServer(queryParts, function (results) {
-              reportFactory.buildIndicatorsSchema(requestParams, function (indicators) {
-                  results.indicatorDefinitions = indicators;
-                  callback(reportFactory.resolveIndicators(reportName, results, requestIndicators));
-              });
+            //build report
+            var queryParts = reportFactory.singleReportToSql(requestParams);
+            db.reportQueryServer(queryParts, function (results) {
+                reportFactory.buildIndicatorsSchema(requestParams, function (indicators) {
+                    results.indicatorDefinitions = indicators;
+                    callback(reportFactory.resolveIndicators(reportName, results, requestIndicators));
+                });
 
-          });
+            });
 
         },
         getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {
@@ -366,7 +366,7 @@ module.exports = function () {
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
             var whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ? " +
-            "and t1.location_uuid in ?", startDate, endDate, locations];
+                "and t1.location_uuid in ?", startDate, endDate, locations];
             console.log('here is the no of locations selected', request.query.locationUuids);
             if (request.query.locationUuids === undefined)
                 whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
@@ -388,20 +388,21 @@ module.exports = function () {
 
         },
         getPatientListReport: function getPatientListReport(requestParams) {
+
             var requestIndicators = requestParams.indicator;
             var startDate = requestParams.startDate || new Date().toISOString().substring(0, 10);
             var endDate = requestParams.endDate || new Date().toISOString().substring(0, 10);
             var order = helpers.getSortOrder(requestParams.order);
-            var reportName = requestParams.reportName|| 'hiv-summary-report';
-            var locationIds = requestParams.locations;
+            var reportName = requestParams.reportName || 'hiv-summary-report';
+            var locationIds = requestParams.locationUuids;
             var locations = [];
             var startAge = requestParams.startAge || 0;
             var endAge = requestParams.endAge || 150;
             var gender = (requestParams.gender || 'M,F').split(',');
 
-            _.each(locationIds.split(','), function (loc) {
-                locations.push(Number(loc));
-            });
+            // _.each(locationIds.split(','), function (loc) {
+            //     locations.push(Number(loc));
+            // });
 
             if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
@@ -410,7 +411,7 @@ module.exports = function () {
                 requestIndicators: requestIndicators,
                 reportName: reportName,
                 order: order,
-                groupBy:'groupByPerson',
+                groupBy: 'groupByPerson',
                 whereParams: [{
                     "name": "startDate",
                     "value": startDate
@@ -418,8 +419,8 @@ module.exports = function () {
                     "name": "endDate",
                     "value": endDate
                 }, {
-                    "name": "locations",
-                    "value": locations
+                    "name": "locationUuids",
+                    "value": locationIds
                 }, {
                     "name": "startAge",
                     "value": startAge
@@ -433,13 +434,12 @@ module.exports = function () {
                 startIndex: requestParams.startIndex || 0,
                 limit: requestParams.limit || 300
             };
-
             var queryParts = reportFactory.buildPatientListReportExpression(queryParams);
             return new Promise(function (resolve, reject) {
                 if (!_.isEmpty(queryParts)) {
                     db.reportQueryServer(queryParts, function (results) {
                         if (results.error) {
-                            results.queryParts=queryParts;
+                            results.queryParts = queryParts;
                             reject(results);
                         } else {
                             resolve(reportFactory.resolveIndicators(reportName, results));
