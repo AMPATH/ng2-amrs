@@ -239,9 +239,9 @@ module.exports = function () {
                             let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['dateActivated', 'locations', 'groupBy'], compineRequestParams);
 
                             dao.runReport(reportParams).then((result) => {
-                                _.each(result.result,  (row) => {
-                                row.order_type = etlHelpers.getTestsOrderedNames(row.order_type);
-                            });
+                                _.each(result.result, (row) => {
+                                    row.order_type = etlHelpers.getTestsOrderedNames(row.order_type);
+                                });
                                 reply(result);
                             }).catch((error) => {
                                 reply(error);
@@ -605,7 +605,185 @@ module.exports = function () {
                 }
             }
         }
-    }, {
+    },
+    {
+        method: 'GET',
+        path: '/etl/clinical-hiv-comparative-overview',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewDataAnalytics
+                },
+            },
+            handler: function (request, reply) {
+
+                request.query.reportName = 'clinical-hiv-comparative-overview-report';
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
+                    ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
+
+                dao.runReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the clinical hiv comparative overview summary",
+            notes: "Returns a comparative summary of various indicator eg enrollement, on_art,and vl suppression",
+            tags: ['api'],
+            validate: {
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/clinical-hiv-comparative-overview/patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                },
+            },
+            handler: function (request, reply) {
+
+                request.query.reportName = 'clinical-hiv-comparative-overview-report';
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+
+                dao.getPatientListReport(compineRequestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the clinical hiv comparative overview patient",
+            notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
+            tags: ['api'],
+            validate: {
+
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/clinical-patient-care-status-overview',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewDataAnalytics
+                },
+            },
+            handler: function (request, reply) {
+
+                request.query.reportName = 'clinical-patient-care-status-overview-report';
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams('clinical-patient-care-status-overview-report',
+                    ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
+
+                dao.runReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the clinical patint care status patient list",
+            notes: "Returns a comparative summary of all patient status indicators eg on_art,out_of_care,in_care,transferred_out.....",
+            tags: ['api'],
+            validate: {
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/clinical-patient-care-status-overview/patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                },
+            },
+            handler: function (request, reply) {
+
+                request.query.reportName = 'clinical-patient-care-status-overview-report';
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+
+                dao.getPatientListReport(compineRequestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the clinical-patient-care-status-overview patient list",
+            notes: "Returns the patient list for various indicators in the clinical-patient-care-status-overview",
+            tags: ['api'],
+            validate: {
+
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/clinical-art-overview',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewDataAnalytics
+                },
+            },
+            handler: function (request, reply) {
+
+                request.query.reportName = 'clinical-art-overview-report';
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams('clinical-art-overview-report',
+                    ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
+
+                dao.runReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the clinical art  overview summary",
+            notes: "Returns the a comparative summary of art drugs used by patients",
+            tags: ['api'],
+            validate: {
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/clinical-art-overview/patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                },
+            },
+            handler: function (request, reply) {
+
+                request.query.reportName = 'clinical-art-overview-report';
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+
+                dao.getPatientListReport(compineRequestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the  clinical art overview patient list",
+            notes: "Returns the patient list for clinical-art-overview report",
+            tags: ['api'],
+            validate: {
+
+            }
+        }
+    },
+    {
         method: 'GET',
         path: '/etl/location/{uuid}/appointment-schedule',
         config: {
@@ -1112,18 +1290,18 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                request.query.reportName ='hiv-summary-report';
+                request.query.reportName = 'hiv-summary-report';
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
                 var onResolvedPromise = function (promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                        dao.getPatientListReport(Object.assign({}, request.query, request.params))
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                            reply(Boom.badRequest(error.toString()));
-                        });
+                                reply(Boom.badRequest(error.toString()));
+                            });
                     }
                 };
 
@@ -1134,12 +1312,12 @@ module.exports = function () {
                 }
 
                 if (asyncRequests === 0)
-                    dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                    dao.getPatientListReport(Object.assign({}, request.query, request.params))
                         .then((result) => {
                             reply(result);
                         }).catch((error) => {
-                        reply(Boom.badRequest(error.toString()));
-                    });
+                            reply(Boom.badRequest(error.toString()));
+                        });
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                         function (results) {
@@ -1177,18 +1355,18 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                request.query.reportName ='hiv-summary-monthly-report';
+                request.query.reportName = 'hiv-summary-monthly-report';
                 var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
 
                 var onResolvedPromise = function (promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                        dao.getPatientListReport(Object.assign({}, request.query, request.params))
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                            reply(Boom.badRequest(error.toString()));
-                        });
+                                reply(Boom.badRequest(error.toString()));
+                            });
                     }
                 };
 
@@ -1199,12 +1377,12 @@ module.exports = function () {
                 }
 
                 if (asyncRequests === 0)
-                    dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                    dao.getPatientListReport(Object.assign({}, request.query, request.params))
                         .then((result) => {
                             reply(result);
                         }).catch((error) => {
-                        reply(Boom.badRequest(error.toString()));
-                    });
+                            reply(Boom.badRequest(error.toString()));
+                        });
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                         function (results) {
@@ -1422,12 +1600,12 @@ module.exports = function () {
                 var onResolvedPromise = function (promise) {
                     asyncRequests--;
                     if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                        dao.getPatientListReport(Object.assign({}, request.query, request.params))
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                            reply(Boom.badRequest(error.toString()));
-                        });
+                                reply(Boom.badRequest(error.toString()));
+                            });
                     }
                 };
 
@@ -1438,12 +1616,12 @@ module.exports = function () {
                 }
 
                 if (asyncRequests === 0)
-                    dao.getPatientListReport( Object.assign({}, request.query, request.params))
+                    dao.getPatientListReport(Object.assign({}, request.query, request.params))
                         .then((result) => {
                             reply(result);
                         }).catch((error) => {
-                        reply(Boom.badRequest(error.toString()));
-                    });
+                            reply(Boom.badRequest(error.toString()));
+                        });
                 if (request.query.locationUuids) {
                     dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                         function (results) {
