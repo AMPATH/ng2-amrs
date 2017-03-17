@@ -239,7 +239,30 @@ module.exports = function () {
 
             var queryParts = reportFactory.singleReportToSql(requestParams);
             db.reportQueryServer(queryParts, function (results) {
-                callback(reportFactory.resolveIndicators(reportName, results));
+                var finalResults = reportFactory.resolveIndicators(reportName, results);
+                if (request.query.excludePatientList &&
+                    (request.query.excludePatientList === 'true' ||
+                        request.query.excludePatientList === true)) {
+
+                    var removePatientList = function (results) {
+                        if (results.result) {
+                            results.result = [];
+                        }
+
+                        if (results.results) {
+                            results.results = [];
+                        }
+
+                        _.each(results.resultsByLocation, function (item) {
+                            removePatientList(item);
+                        })
+                    };
+
+                    removePatientList(finalResults);
+
+                }
+                callback(finalResults);
+
             });
 
         },
