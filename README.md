@@ -98,6 +98,10 @@ Once you have those, you should install these globals with `npm install --global
 * `karma` (`npm install --global karma-cli`)
 * `protractor` (`npm install --global protractor`)
 * `typescript` (`npm install --global typescript`)
+* `release-it` (`npm install --global release-it`)
+## Releasing the app
+* `checkout maintenance branch (git checkout -b 2.2.x or git checkout 2.2.x)`
+* `npm run release`
 
 ## Installing
 * `fork` this repo
