@@ -1,7 +1,7 @@
 {
 	"version" : {
 		"name":      "Ampath_Point_of_Care",
-		"buildDate": "Tue Mar 07 2017 10:33:07 GMT-0500 (Eastern Standard Time)",
-		"version":   "2.2.0-SNAPSHOT"
+		"buildDate": "Fri Mar 17 2017 16:51:32 GMT-0400 (Eastern Daylight Time)",
+		"version":   "2.3.0-SNAPSHOT"
 	}
 }

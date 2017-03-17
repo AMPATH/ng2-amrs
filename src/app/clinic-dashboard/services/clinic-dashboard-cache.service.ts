@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Rx';
 export class ClinicDashboardCacheService {
     private cached = {};
     private currentClinic = new Subject();
+  
     constructor() { }
     public add(key: string, value: any) {
         this.cached[key] = value;

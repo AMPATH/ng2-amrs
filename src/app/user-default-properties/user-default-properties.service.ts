@@ -7,7 +7,6 @@ import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { Observable } from 'rxjs';
 
-
 @Injectable()
 export class UserDefaultPropertiesService {
 
@@ -46,16 +45,13 @@ export class UserDefaultPropertiesService {
   }
 
   setUserProperty(propertyKey: string, property: string) {
-
+ 
     if (propertyKey === 'userDefaultLocation') {
 
       propertyKey = propertyKey + this.getAuthenticatedUser().display;
-
       this.localStorage.setItem(propertyKey, property);
-    }
+    } 
 
   }
+
 }
-
-
-

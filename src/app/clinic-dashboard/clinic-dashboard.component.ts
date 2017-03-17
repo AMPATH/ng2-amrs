@@ -1,32 +1,31 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
-
+import { LocationService} from './services/clinic-dashboard-location.service';
 
 @Component({
   selector: 'app-clinic-dashboard',
   templateUrl: './clinic-dashboard.component.html',
-  styleUrls: ['./clinic-dashboard.component.css']
+  styleUrls: ['./clinic-dashboard.component.css'],
+  providers: [LocationService]
 })
 export class ClinicDashboardComponent implements OnInit {
   locationUuid: string;
   loaderStatus: boolean;
   locations = [];
-  private locationService: LocationService;
 
   constructor(private locationResourceService: LocationResourceService,
     private route: ActivatedRoute, private router: Router,
-    private clinicDashboardCacheService: ClinicDashboardCacheService) {
-
-
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private locationService: LocationService) {
     this.loaderStatus = false;
+
   }
 
   ngOnInit() {
     this.getLocations();
-   // this.locationService.locationAnnounced$.subscribe(location => {this.locationUuid;})
   }
 
   public getLocations() {
@@ -61,8 +60,9 @@ export class ClinicDashboardComponent implements OnInit {
     }
   }
 
-  announce() {
-    this.locationService.announceLocation(this.locationUuid);
+  public selected(value:any):void {
+    console.log('Selected value is: ', value);
+    this.locationService.setCurrentLocation(value);
   }
 
 }
