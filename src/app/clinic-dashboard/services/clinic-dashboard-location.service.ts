@@ -9,6 +9,6 @@ export class LocationService {
     public setCurrentLocation(newLocation: any): void {
         
         this.locationSubject.next(newLocation);
-        console.log('hello');
+        console.log(newLocation);
     }
 }

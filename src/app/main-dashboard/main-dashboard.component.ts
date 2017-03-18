@@ -64,10 +64,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.user = this.userService.getLoggedInUser();
     // let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
     // this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
-    var observerA = {
-      next: function (location) { this.userLocation = location.label;}
-    }
-    this.locService.locationSubject.subscribe(observerA);
+    this.locService.locationSubject.subscribe(
+      (location) => { this.userLocation = location;}
+    );
 
     this.appSubscription = this.appState.setupIdleTimer(1000 * 60 * 30)
       .subscribe((status: { idle: boolean }) => {
