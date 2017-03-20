@@ -10,7 +10,7 @@
     "parameters": [
         {"name":"startDate", "defaultValue":["10-10-2015"]},
         {"name":"endDate", "defaultValue":["defaultValue"]},
-        {"name":"locations","defaultValue":[]},
+        {"name":"locationUuids","defaultValue":[]},
         {"name":"startAge", "defaultValue":[]},
         {"name":"endAge", "defaultValue":[]},
         {"name":"gender", "defaultValue":[]},
@@ -27,7 +27,7 @@
     "filters": [
         {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
         {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-        {"expression":"t1.location_id in ?", "parameter":"locations"},
+        {"expression":"t1.location_uuid in (?)", "parameter":"locationUuids"},
         {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) >= ?", "parameter":"startAge"},
         {"expression":"round(datediff(t1.encounter_datetime,t5.birthdate)/365) <= ?", "parameter":"endAge"},
         {"expression":"t5.gender in ?", "parameter":"gender"}

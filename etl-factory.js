@@ -292,12 +292,11 @@ module.exports = function () {
         if (s.include(indicatorExpression, '@referenceDate')) {
             if (requestParam.whereParams) {
                 var referenceParam = _.find(requestParam.whereParams, function (param) {
-                    if (param.name === '@referenceDate') return param;
+                    if (param.name === 'referenceDate') return param;
                 });
 
                 if (referenceParam) {
                     indicatorExpression = s.replaceAll(indicatorExpression, '@referenceDate', "'" + referenceParam.value + "'");
-                    console.log('@referenceDate param', indicatorExpression);
                 }
             }
         }

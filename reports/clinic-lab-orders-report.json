@@ -53,7 +53,7 @@
         ]
       },
       {
-        "name": "locations"
+        "name": "locationUuids"
       },
       {
         "name": "groupByPerson",
@@ -71,8 +71,8 @@
         "parameter": "dateActivated"
       },
       {
-        "expression": "t2.location_id in ?",
-        "parameter": "locations"
+        "expression": "t2.location_uuid in ?",
+        "parameter": "locationUuids"
       }
     ],
     "groupClause": [

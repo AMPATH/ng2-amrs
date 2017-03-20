@@ -9,14 +9,14 @@
     "parameters": [
       {"name":"startDate", "defaultValue":"2015-10-01"},
       {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"locations","defaultValue":[]},
+      {"name":"locationUuids","defaultValue":[]},
       {"name":"groupByLocation", "defaultValue":[
         {"label":"location","expression":"t1.location_id"}
       ]
       }
     ],
     "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"},
+      {"expression":"t1.location_uuid in (?)","parameter":"locationUuids"},
       {"expression":"timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90", "parameter":"endDate"},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
       {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
@@ -246,14 +246,14 @@
     "parameters": [
       {"name":"startDate", "defaultValue":"2015-10-01"},
       {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"locations","defaultValue":[]},
+      {"name":"locationUuids","defaultValue":[]},
       {"name":"groupByLocation", "defaultValue":[
         {"label":"location","expression":"t1.location_id"}
       ]
       }
     ],
     "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"},
+      {"expression":"t1.location_uuid in (?)","parameter":"locationUuids"},
       {"expression":"timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90", "parameter":"endDate"},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
       {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
@@ -455,6 +455,7 @@
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
     ],
     "parameters": [
+      {"name":"locationUuids","defaultValue":[]},
       {"name":"locations","defaultValue":[]},
       {"name":"endDate", "defaultValue":["Now()"]},
       {"name":"groupByPerson", "defaultValue":[

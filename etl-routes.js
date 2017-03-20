@@ -80,10 +80,8 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = [results];
-                        }).onResolved = (promise) => {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
                             let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'locations'], request.query);
                             let service = new MonthlyScheduleService();
                             service.getMonthlyScheduled(reportParams).then((result) => {
@@ -91,7 +89,7 @@ module.exports = function () {
                             }).catch((error) => {
                                 reply(error);
                             })
-                        };
+                        });
                 }
             },
             description: 'Get monthly schedule',
@@ -116,10 +114,8 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = [results];
-                        }).onResolved = (promise) => {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
                             request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations', 'groupBy'], compineRequestParams);
@@ -129,7 +125,7 @@ module.exports = function () {
                             }).catch((error) => {
                                 reply(error);
                             })
-                        };
+                        });
                 }
             },
             description: 'Get daily appointments list',
@@ -154,10 +150,8 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = [results];
-                        }).onResolved = (promise) => {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
                             request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'locations', 'groupBy'], compineRequestParams);
@@ -167,7 +161,7 @@ module.exports = function () {
                             }).catch((error) => {
                                 reply(error);
                             })
-                        };
+                        });
                 }
             },
             description: 'Get daily attendance list',
@@ -192,10 +186,8 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = [results];
-                        }).onResolved = (promise) => {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
                             request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations', 'groupBy'], compineRequestParams);
@@ -205,7 +197,7 @@ module.exports = function () {
                             }).catch((error) => {
                                 reply(error);
                             })
-                        };
+                        });
                 }
             },
             description: 'Get a list of patients who did not attend a scheduled visit',
@@ -230,10 +222,8 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = [results];
-                        }).onResolved = (promise) => {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
                             request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['dateActivated', 'locations', 'groupBy'], compineRequestParams);
@@ -246,7 +236,7 @@ module.exports = function () {
                             }).catch((error) => {
                                 reply(error);
                             })
-                        };
+                        });
                 }
             },
             description: 'Get a list of patients who made lab orders on a selected date',
@@ -1161,35 +1151,7 @@ module.exports = function () {
                             type: 'query', //can be in either query or params so you have to specify
                             name: 'report', //name of the parameter
                             value: 'clinical-reminder-report' //parameter value
-                        }, { //patient-list-report-currently_in_care_total
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-not_on_art_total' //parameter value
-                        }, {
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-currently_in_care_total' //parameter value
-                        }, {
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-on_art_total' //parameter value
-                        }, {
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-patients_requiring_vl' //parameter value
-                        }, {
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-tested_appropriately' //parameter value
-                        }, {
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-not_tested_appropriately' //parameter value
-                        }, {
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
-                            value: 'patient-list-report-virally_suppressed' //parameter value
-                        }, {
+                        },{
                             type: 'query', //can be in either query or params so you have to specify
                             name: 'report', //name of the parameter
                             value: 'patient-register-report' //parameter value
@@ -1242,25 +1204,20 @@ module.exports = function () {
                 if (!authorizer.hasReportAccess(request.query.report)) {
                     return reply(Boom.forbidden('Unauthorized'));
                 }
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let reportParams = etlHelpers.getReportParams(request.query.report,
+                            ['startDate', 'endDate', 'indicator', 'locationUuids', 'locations', 'referenceDate',
+                               'patientUuid', 'startAge', 'endAge', 'age', 'order', 'gender'],
+                            requestParams);
 
-                var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-                var onResolvedPromise = function (promise) {
-                    asyncRequests--;
-                    if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
-                        dao.getReportIndicators(request, reply);
-                    }
-                };
-                if (request.query.locationUuids) {
-                    asyncRequests++;
-                }
-                if (asyncRequests === 0)
-                    dao.getReportIndicators(request, reply);
-                if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = results;
-                        }).onResolved = onResolvedPromise;
-                }
+                        dao.runReport(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
             },
             description: 'Get report ',
             notes: "General api endpoint that returns a report by passing " +
@@ -1281,7 +1238,7 @@ module.exports = function () {
         }
     }, {
         method: 'GET',
-        path: '/etl/location/{location}/patient-by-indicator',
+        path: '/etl/location/{locationUuids}/patient-by-indicator',
         config: {
             auth: 'simple',
             plugins: {
@@ -1291,39 +1248,15 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 request.query.reportName = 'hiv-summary-report';
-                var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-
-                var onResolvedPromise = function (promise) {
-                    asyncRequests--;
-                    if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
                         dao.getPatientListReport(Object.assign({}, request.query, request.params))
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                                reply(Boom.badRequest(error.toString()));
-                            });
-                    }
-                };
-
-                //establish the number of asyncRequests
-                //this is done prior to avoid any race conditions
-                if (request.query.locationUuids) {
-                    asyncRequests++;
-                }
-
-                if (asyncRequests === 0)
-                    dao.getPatientListReport(Object.assign({}, request.query, request.params))
-                        .then((result) => {
-                            reply(result);
-                        }).catch((error) => {
                             reply(Boom.badRequest(error.toString()));
                         });
-                if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = results;
-                        }).onResolved = onResolvedPromise;
-                }
+                    });
             },
             description: 'Get patient list by indicator',
             notes: 'Returns a patient list by indicator for a given location.',
@@ -1333,7 +1266,7 @@ module.exports = function () {
                     allowUnknown: true
                 },
                 params: {
-                    location: Joi.string()
+                    locationUuids: Joi.string()
                         .required()
                         .description("The location's uuid(universally unique identifier).")
                 },
@@ -1356,39 +1289,15 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 request.query.reportName = 'hiv-summary-monthly-report';
-                var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-
-                var onResolvedPromise = function (promise) {
-                    asyncRequests--;
-                    if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
                         dao.getPatientListReport(Object.assign({}, request.query, request.params))
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                                reply(Boom.badRequest(error.toString()));
-                            });
-                    }
-                };
-
-                //establish the number of asyncRequests
-                //this is done prior to avoid any race conditions
-                if (request.query.locationUuids) {
-                    asyncRequests++;
-                }
-
-                if (asyncRequests === 0)
-                    dao.getPatientListReport(Object.assign({}, request.query, request.params))
-                        .then((result) => {
-                            reply(result);
-                        }).catch((error) => {
                             reply(Boom.badRequest(error.toString()));
                         });
-                if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = results;
-                        }).onResolved = onResolvedPromise;
-                }
+                    });
             },
             description: 'Get patient',
             notes: 'Returns a patient by passing a given indicator and location.',
@@ -1595,39 +1504,15 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                var asyncRequests = 0; //this should be the number of async requests needed before they are triggered
-
-                var onResolvedPromise = function (promise) {
-                    asyncRequests--;
-                    if (asyncRequests <= 0) { //voting process to ensure all pre-processing of request async operations are complete
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
                         dao.getPatientListReport(Object.assign({}, request.query, request.params))
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                                reply(Boom.badRequest(error.toString()));
-                            });
-                    }
-                };
-
-                //establish the number of asyncRequests
-                //this is done prior to avoid any race conditions
-                if (request.query.locationUuids) {
-                    asyncRequests++;
-                }
-
-                if (asyncRequests === 0)
-                    dao.getPatientListReport(Object.assign({}, request.query, request.params))
-                        .then((result) => {
-                            reply(result);
-                        }).catch((error) => {
-                            reply(Boom.badRequest(error.toString()));
+                            reply(Boom.badRequest(JSON.stringify(error)));
                         });
-                if (request.query.locationUuids) {
-                    dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
-                        function (results) {
-                            request.query.locations = results;
-                        }).onResolved = onResolvedPromise;
-                }
+                    });
             },
             description: 'Get patient list',
             notes: 'Returns a patient by passing a given indicator, report and location.',

@@ -55,87 +55,17 @@ module.exports = function () {
             return new Promise(function (resolve, reject) {
                 db.reportQueryServer(queryParts, function (results) {
                     if (results.error) {
+                        results.queryParts = queryParts;
                         reject(results);
                     } else {
-                        var resolved = reportFactory.resolveIndicators(reportParams.reportName, results, reportParams.requestIndicators);
-                        resolve(resolved);
+                        reportFactory.buildIndicatorsSchema(reportParams, function (indicators) {
+                            results.indicatorDefinitions = indicators;
+                            var resolved = reportFactory.resolveIndicators(reportParams.reportName, results, reportParams.requestIndicators);
+                            resolve(resolved);
+                        });
                     }
                 });
             });
-        },
-        getReportIndicators: function getReportIndicators(request, callback) {
-            var reportName = request.query.report;
-            var countBy = request.query.countBy;
-            var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
-            var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
-            var referenceDate = request.query.referenceDate || new Date().toISOString().substring(0, 10);
-            var startAge = request.query.startAge || 0;
-            var endAge = request.query.endAge || 150;
-            var gender = (request.query.gender || 'M,F').split(',');
-            var order = helpers.getSortOrder(request.query.order);
-            var locations;
-            if (request.query.locations) {
-                locations = [];
-                _.each(request.query.locations.split(','), function (loc) {
-                    locations.push(Number(loc));
-                });
-            }
-
-            if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
-            if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
-
-            var requestIndicators = request.query.indicators;
-
-            //build query params
-            var requestParams = {
-                reportName: reportName,
-                whereParams: [{
-                    "name": "startDate",
-                    "value": startDate
-                }, {
-                    "name": "endDate",
-                    "value": endDate
-                }, {
-                    "name": "locations",
-                    "value": locations
-                }, {
-                    "name": "@referenceDate",
-                    "value": referenceDate
-                }, {
-                    "name": "patientUuid",
-                    "value": request.query["patientUuid"]
-                },
-                {
-                    "name": "startAge",
-                    "value": startAge
-                }, {
-                    "name": "endAge",
-                    "value": endAge
-                }, {
-                    "name": "gender",
-                    "value": gender
-                }
-                ],
-                // order: order || [{
-                //   column: 't1.location_id',
-                //   asc: true
-                // }],
-                countBy: countBy || 'num_persons',
-                groupBy: request.query.groupBy || 'groupByLocation',
-                offset: request.query.startIndex,
-                limit: request.query.limit,
-                requestIndicators: requestIndicators
-            };
-            //build report
-            var queryParts = reportFactory.singleReportToSql(requestParams);
-            db.reportQueryServer(queryParts, function (results) {
-                reportFactory.buildIndicatorsSchema(requestParams, function (indicators) {
-                    results.indicatorDefinitions = indicators;
-                    callback(reportFactory.resolveIndicators(reportName, results, requestIndicators));
-                });
-
-            });
-
         },
         getDataEntryIndicators: function getDataEntryIndicators(subType, request, callback) {
             var reportName = subType;
@@ -389,7 +319,7 @@ module.exports = function () {
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
             var whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ? " +
-                "and t1.location_uuid in ?", startDate, endDate, locations];
+            "and t1.location_uuid in ?", startDate, endDate, locations];
             console.log('here is the no of locations selected', request.query.locationUuids);
             if (request.query.locationUuids === undefined)
                 whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
@@ -411,21 +341,21 @@ module.exports = function () {
 
         },
         getPatientListReport: function getPatientListReport(requestParams) {
-
             var requestIndicators = requestParams.indicator;
             var startDate = requestParams.startDate || new Date().toISOString().substring(0, 10);
             var endDate = requestParams.endDate || new Date().toISOString().substring(0, 10);
             var order = helpers.getSortOrder(requestParams.order);
             var reportName = requestParams.reportName || 'hiv-summary-report';
-            var locationIds = requestParams.locationUuids;
+            var locationUuids = requestParams.locationUuids;
+            var locationIds = requestParams.locations||'';
             var locations = [];
             var startAge = requestParams.startAge || 0;
             var endAge = requestParams.endAge || 150;
             var gender = (requestParams.gender || 'M,F').split(',');
 
-            // _.each(locationIds.split(','), function (loc) {
-            //     locations.push(Number(loc));
-            // });
+            _.each(locationIds.split(','), function (loc) {
+                locations.push(Number(loc));
+            });
 
             if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
@@ -443,7 +373,10 @@ module.exports = function () {
                     "value": endDate
                 }, {
                     "name": "locationUuids",
-                    "value": locationIds
+                    "value": locationUuids
+                }, {
+                    "name": "locations",
+                    "value": locations
                 }, {
                     "name": "startAge",
                     "value": startAge
@@ -457,13 +390,14 @@ module.exports = function () {
                 startIndex: requestParams.startIndex || 0,
                 limit: requestParams.limit || 300
             };
+
             var queryParts = reportFactory.buildPatientListReportExpression(queryParams);
             return new Promise(function (resolve, reject) {
                 if (!_.isEmpty(queryParts)) {
                     db.reportQueryServer(queryParts, function (results) {
                         if (results.error) {
                             results.queryParts = queryParts;
-                            reject(results);
+                            reject(results.toString());
                         } else {
                             resolve(reportFactory.resolveIndicators(reportName, results));
                         }
