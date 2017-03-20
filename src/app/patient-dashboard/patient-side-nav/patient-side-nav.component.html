@@ -12,7 +12,7 @@
         </li>
     </ul>
     <ul *ngIf="viewingChildRoutes" [@enterChild]="viewingChildRoutes" class="sidebar-menu" class="sidebar-menu">
-        <li style='border-bottom: 0.5px solid lightgray;' (click)="viewingChildRoutes = false">
+        <li style='border-bottom: 0.5px solid lightgray;' (click)="viewProgramRoutes()">
             <span class="icon-menu">
             <span style="color:lightskyblue" class="icon-menu-letter">..</span>
             <span style="color:lightskyblue" class="icon-menu-icon"><i class="fa fa-level-up"></i></span>
@@ -20,7 +20,7 @@
             <span style="color:lightskyblue" class="icon-menu-label">{{selectedRoute.label}}</span>
         </li>
         <li routerLinkActive="active" *ngFor='let route of selectedRoute.childRoutes'>
-            <a routerLink="/{{route.url}}">
+            <a routerLink="/{{route.url}}" (click)="collapseSideBar()">
                 <span class="icon-menu">
             <span class="icon-menu-letter">{{route.initials}}</span>
                 <span class="icon-menu-icon"><i class="{{route.renderingInfo.icon}}"></i></span>
