@@ -102,7 +102,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/patient-info']);
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
 
   }
 

@@ -26,31 +26,36 @@ const patientDashboardRoutes: Routes = [
     path: ':patient_uuid',
     component: PatientDashboardComponent,
     children: [
-      { path: 'patient-info', component: PatientInfoComponent },
-      { path: 'patient-encounters', component: PatientEncountersComponent },
-      { path: 'patient-vitals', component: PatientVitalsComponent },
-      { path: 'forms', component: FormsComponent },
+      { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full'},
+      // { path: '', redirectTo: 'general/landing-page'},
+      { path: ':program/patient-info', component: PatientInfoComponent },
+      { path: 'oncology/landing-page', component: PatientInfoComponent },
+      { path: ':program/patient-encounters', component: PatientEncountersComponent },
+      { path: ':program/patient-vitals', component: PatientVitalsComponent },
+      { path: ':program/forms', component: FormsComponent },
       {
-        path: 'formentry/:formUuid',
+        path: ':program/formentry/:formUuid',
         component: FormentryComponent,
         canDeactivate: [FromentryGuard],
         resolve: {
           compiledSchemaWithEncounter: FormCreationDataResolverService
         }
       },
-      { path: 'hiv-summary', component: HivSummaryComponent },
-      { path: 'hiv-clinical-summary', component: HivPatientClinicalSummaryComponent },
-      { path: 'lab-data-summary', component: LabDataSummaryComponent },
-      { path: 'lab-orders', component: LabOrdersComponent },
-      { path: 'programs', component: ProgramsComponent },
-      { path: 'clinical-notes', component: ClinicalNotesComponent },
-      { path: 'visit', component: VisitComponent }
+      { path: ':program/hiv-summary', component: HivSummaryComponent },
+      { path: 'hiv/landing-page', component: HivSummaryComponent },
+      { path: ':program/hiv-clinical-summary', component: HivPatientClinicalSummaryComponent },
+      { path: ':program/lab-data-summary', component: LabDataSummaryComponent },
+      { path: ':program/lab-orders', component: LabOrdersComponent },
+      { path: 'general/landing-page', component: ProgramsComponent },
+      { path: ':program/programs', component: ProgramsComponent },
+      { path: ':program/clinical-notes', component: ClinicalNotesComponent },
+      { path: ':program/visit', component: VisitComponent }
     ],
     canActivate: [
       PatientDashboardGuard
     ],
     canDeactivate: [
-        PatientDashboardGuard
+      PatientDashboardGuard
     ]
   }
 ];
