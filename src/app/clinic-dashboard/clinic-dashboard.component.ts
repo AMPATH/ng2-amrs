@@ -12,6 +12,9 @@ export class ClinicDashboardComponent implements OnInit {
   locationUuid: string;
   loaderStatus: boolean;
   locations = [];
+  selectedLocation: any = {};
+  selectingLocation: boolean = true;
+
   constructor(private locationResourceService: LocationResourceService,
     private route: ActivatedRoute, private router: Router,
     private clinicDashboardCacheService: ClinicDashboardCacheService) {
@@ -36,6 +39,12 @@ export class ClinicDashboardComponent implements OnInit {
         setTimeout(() => {
           this.locationUuid = params['location_uuid'];
           this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
+          if (this.locationUuid) {
+            this.resolveSelectedLocationByUuid(this.locationUuid);
+            if (this.selectedLocation && this.selectedLocation !== {}) {
+              this.selectingLocation = false;
+            }
+          }
         });
       });
       this.loaderStatus = false;
@@ -51,6 +60,15 @@ export class ClinicDashboardComponent implements OnInit {
       splitUrl[2] = $event;
       this.clinicDashboardCacheService.clear();
       this.router.navigateByUrl(splitUrl.join('/'));
+    }
+  }
+
+  public resolveSelectedLocationByUuid(locationUuid: string) {
+    for (let i = 0; i < this.locations.length; i++) {
+      if (this.locations[i].value === locationUuid) {
+        this.selectedLocation = this.locations[i];
+        break;
+      }
     }
   }
 }
