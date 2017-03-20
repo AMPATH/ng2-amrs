@@ -392,7 +392,7 @@
         "name":"on_art_total",
         "label":"on art total",
         "description": "Total # of patients on ART",
-        "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "A patient is on ART if they are in care and was prescribed ART at their last clinical encounter."
     },
     {
         "name":"not_on_art_total",
@@ -848,7 +848,7 @@
     {
         "name":"perc_virally_suppressed",
         "label":"perc virally suppressed",
-        "description": "% of  patient(s) who are virally suppressed",
+        "description": "The denominator includes those patients who are active in care, on ART, required a viral load and got a viral load. The numerator includes those patients who required a viral load and the result was less than 1000",
         "expression": ""
     },
     {
@@ -1017,7 +1017,7 @@
     {
         "name":"perc_tested_appropriately",
         "label":"perc tested appropriately",
-        "description":"perc tested appropriately",
+        "description":"A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
         "expression":""
     },
     {
