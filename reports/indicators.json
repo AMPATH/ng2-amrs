@@ -1077,43 +1077,43 @@
     {
         "name":"on_nevirapine",
         "label":"patient on_nevirapine",
-        "description": "patient on_nevirapine",
+        "description": "A patient is considered to be on \"Nevirapine\" if current ARV regimen formulation contains: NEVIRAPINE or NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE or STAVUDINE LAMIVUDINE AND NEVIRAPINE",
         "expression": "cur_arv_meds regexp '(631|6467|792)'"
     },
     {
         "name":"on_lopinavir",
         "label":"patient on_lopinavir",
-        "description": "patient on_lopinavir",
+        "description": "A patient is considered to be on \"Lopinavir\" if current ARV regimen formulation contains: Lopinavir or LOPINAVIR AND RITONAVIR.",
         "expression": "cur_arv_meds regexp '(9026|794)'"
     },
     {
         "name":"on_efavirenz",
         "label":"patient on_efavirenz",
-        "description": "patient on_efavirenz",
+        "description": "A patient is considered to be on \"Efavirenz\" if current ARV regimen formulation contains: TDF AND 3TC AND EFV or Efavirenz.",
         "expression": "cur_arv_meds regexp '(633|6964)'"
     },
     {
         "name":"on_atazanavir",
         "label":"patient on_atazanavir",
-        "description": "patient on_raltegravir",
+        "description": "A patient is considered to be using \"Atazanavir\" if current ARV regimen formulation contains: ATAZANAVIR or ATAZANAVIR AND RITONAVIR.",
         "expression": "cur_arv_meds regexp '(6159|6160)'"
     },
     {
         "name":"on_raltegravir",
         "label":"patient on_raltegravir",
-        "description": "patient on_raltegravir",
+        "description": "A patient is considered to be on \"Raltegravir\" if current ARV regimen formulation contains: Raltegravir.",
         "expression": "cur_arv_meds regexp '(6156)'"
     },
     {
         "name":"on_other_arv_drugs",
         "label":"patient on_other_arv_drugs",
-        "description": "patient on_other_arv_drugs",
+        "description": "A patient is considered to be on \"others\" if current ARV regimen formulation neither contains: Raltegravir or Atazanavir or ATAZANAVIR AND RITONAVIR or Efavirenz or TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ or LOPINAVIR or LOPINAVIR AND RITONAVIR or NEVIRAPINE or NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE or STAVUDINE LAMIVUDINE AND NEVIRAPINE.",
         "expression": "not (cur_arv_meds regexp '(6156|6159|6160|633|6964|9026|794|631|6467|792)')"
     },
     {
         "name":"not_on_arv",
         "label":"patient not_on_arv",
-        "description": "patient not_on_arv ",
+        "description": "A patient is considered to be on \"Not on any ARV Drugs\" if he/she is not on any ARV drugs.",
         "expression": "cur_arv_meds is null"
     },
     {
