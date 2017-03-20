@@ -26,22 +26,28 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
     public selectedRoute: RouteModel = null;
     public viewingChildRoutes = false;
     public changingRoutesSub: Subscription;
-    constructor(private router: Router, private dynamicRoutesService: DynamicRoutesService) {
+    constructor(private dynamicRoutesService: DynamicRoutesService) {
         this.subscribeToRoutesChangeEvents();
     }
 
-    ngOnInit() { }
+    public ngOnInit() { }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.changingRoutesSub.unsubscribe();
     }
 
-    viewChildRoutes(route: RouteModel) {
+    public viewChildRoutes(route: RouteModel) {
         this.viewingChildRoutes = true;
         this.selectedRoute = route;
+        this.expandSideBar();
     }
 
-    subscribeToRoutesChangeEvents() {
+    public viewProgramRoutes() {
+        this.viewingChildRoutes = false;
+         this.expandSideBar();
+    }
+
+    public subscribeToRoutesChangeEvents() {
         this.changingRoutesSub =
             this.dynamicRoutesService.patientRoutes.subscribe((next) => {
                 this.routes = next;
@@ -49,5 +55,23 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
                     this.selectedRoute = this.routes[0];
                 }
             });
+    }
+
+    public expandSideBar() {
+        setTimeout(() => {
+            let body = document.getElementsByTagName('body')[0];
+            body.classList.remove('sidebar-collapse');
+            body.classList.remove('sidebar-open');
+            body.classList.add('sidebar-open');
+        }, 200);
+    }
+
+    public collapseSideBar() {
+        setTimeout(() => {
+            let body = document.getElementsByTagName('body')[0];
+            body.classList.remove('sidebar-collapse');
+            body.classList.remove('sidebar-open');
+            body.classList.add('sidebar-collapse');
+        }, 200);
     }
 }
