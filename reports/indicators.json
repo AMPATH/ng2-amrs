@@ -8,7 +8,7 @@
     {
         "name":"patients",
         "label":"patients",
-        "description": "A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
+        "description": "Total number of patients",
         "expression": "true"
 
     },
@@ -256,7 +256,7 @@
     {
         "name":"currently_in_care_total",
         "label":"currently in care total",
-        "description": "Total # of patients currently in care",
+        "description": "A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
         "expression": "encounter_datetime >= enrollment_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
@@ -391,8 +391,8 @@
     {
         "name":"on_art_total",
         "label":"on art total",
-        "description": "Total # of patients on ART",
-        "expression": "A patient is on ART if they are in care and was prescribed ART at their last clinical encounter."
+        "description": "A patient is on ART if they are in care and was prescribed ART at their last clinical encounter.",
+        "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"not_on_art_total",

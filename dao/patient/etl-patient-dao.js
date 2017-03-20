@@ -133,7 +133,7 @@ module.exports = function () {
         var patientReminders = new Promise(function (resolve) {
             var extendedRequest = request;
             extendedRequest.query.limit = 1;
-            extendedRequest.params['@referenceDate'] = new Date().toISOString().substring(0, 10);
+            extendedRequest.params['referenceDate'] = new Date().toISOString().substring(0, 10);
             extendedRequest.params.patientUuid = patientUuid;
 
             getPatientReminders(extendedRequest, function (result) {
@@ -166,7 +166,7 @@ module.exports = function () {
 
     function getPatientReminders(request, callback) {
         var reportParams = helpers.getReportParams('clinical-reminder-report',
-            ['@referenceDate', 'patientUuid'],
+            ['referenceDate', 'patientUuid'],
             Object.assign({}, request.query, request.params));
         analytics.runReport(reportParams).then(function (results) {
             try {

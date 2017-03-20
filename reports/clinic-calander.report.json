@@ -48,7 +48,7 @@
   "parameters": [
       {"name":"startDate", "defaultValue":["10-10-2015"]},
       {"name":"endDate", "defaultValue":["defaultValue"]},
-      {"name":"locations","defaultValue":[]},
+      {"name":"locationUuids","defaultValue":[]},
       {"name":"groupByPerson", "defaultValue":[
           {"label":"person_id","expression":"t1.person_id"}
       ]},
@@ -59,7 +59,7 @@
   "filters": [
       {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
       {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-      {"expression":"t1.location_id = ?", "parameter":"locations"}
+      {"expression":"t1.location_uuid = (?)", "parameter":"locationUuids"}
   ],
   "groupClause":[
     {"parameter":"groupByPerson"},
@@ -92,7 +92,12 @@
              "label":"location_id",
              "type":"single",
              "sql":"t1.location_id"
-         }
+         },
+          {
+            "label":"location_uuid",
+            "type":"single",
+            "sql":"t1.location_uuid"
+          }
      ]
  },
  {
@@ -156,7 +161,7 @@
   "parameters": [
       {"name":"startDate", "defaultValue":["10-10-2015"]},
       {"name":"endDate", "defaultValue":["defaultValue"]},
-      {"name":"locations","defaultValue":[]},
+      {"name":"locationUuids","defaultValue":[]},
       {"name":"groupByPerson", "defaultValue":[
           {"label":"person_id","expression":"t1.person_id"}
       ]},
@@ -167,7 +172,7 @@
   "filters": [
       {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
       {"expression":"t1.rtc_date <= ?", "parameter":"endDate"},
-      {"expression":"t1.location_id = ?", "parameter":"locations"}
+      {"expression":"t1.location_uuid = ?", "parameter":"locationUuids"}
   ],
   "groupClause":[
 {"parameter":"groupByPerson"},
@@ -201,6 +206,11 @@
              "type":"single",
              "sql":"t1.location_id"
          },
+          {
+            "label":"location_uuid",
+            "type":"single",
+            "sql":"t1.location_uuid"
+          },
          {
              "label":"patient_id",
              "type":"single",
