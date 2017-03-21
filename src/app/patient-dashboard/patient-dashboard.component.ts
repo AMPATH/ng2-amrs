@@ -6,6 +6,7 @@ import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import * as Moment from 'moment';
 import { ToastrService, ToastrConfig } from 'ngx-toastr';
+import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private route: ActivatedRoute,
     private patientService: PatientService,
     private labsResourceService: LabsResourceService,
+    private appFeatureAnalytics: AppFeatureAnalytics,
     private toastrConfig: ToastrConfig, private toastrService: ToastrService) {
     toastrConfig.timeOut = 0;
     toastrConfig.closeButton = true;
@@ -66,6 +68,9 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
                   `${test.display}</p>`;
               }
               this.toastrService.info(content, 'New Data from Lab');
+              // app feature analytics
+              this.appFeatureAnalytics
+                .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
             }
           }, (err) => {
             console.error(err);

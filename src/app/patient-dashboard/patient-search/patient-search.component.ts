@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../../models/patient.model';
 import { Subscription } from 'rxjs';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
@@ -23,6 +24,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
   constructor(private patientSearchService: PatientSearchService,
               private route: ActivatedRoute,
+              private appFeatureAnalytics: AppFeatureAnalytics,
               private router: Router) {
   }
 
@@ -75,6 +77,9 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
           }
           this.isLoading = false;
           this.resetInputMargin();
+          // app feature analytics
+          this.appFeatureAnalytics
+            .trackEvent('Patient Search', 'Patients Searched', 'loadPatient');
 
         },
         (error) => {

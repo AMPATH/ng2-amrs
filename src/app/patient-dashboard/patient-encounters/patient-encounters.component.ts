@@ -5,6 +5,7 @@ import { PatientEncounterService } from './patient-encounters.service';
 import { Encounter } from '../../models/encounter.model';
 import { PatientService } from '../patient.service';
 import { Subscription } from 'rxjs';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
 
 
@@ -31,10 +32,14 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   };
   constructor(private patientEncounterService: PatientEncounterService,
     private patientService: PatientService,
+    private appFeatureAnalytics: AppFeatureAnalytics,
     private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
     this.getPatient();
     // load cached result
+    // app feature analytics
+    this.appFeatureAnalytics
+      .trackEvent('Patient Dashboard', 'Patient Encounter List Loaded', 'ngOnInit');
   }
 
   ngOnDestroy(): void {
