@@ -651,7 +651,23 @@ module.exports = function () {
             notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
             tags: ['api'],
             validate: {
-
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    reportName: Joi.string()
+                        .required()
+                        .description("the name of the report you want patient list"),
+                    startDate: Joi.string()
+                        .optional()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .optional()
+                        .description("The end date to filter by"),
+                }
             }
         }
     },
@@ -710,7 +726,23 @@ module.exports = function () {
             notes: "Returns the patient list for various indicators in the clinical-patient-care-status-overview",
             tags: ['api'],
             validate: {
-
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    reportName: Joi.string()
+                        .required()
+                        .description("the name of the report you want patient list"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                }
             }
         }
     },
@@ -769,7 +801,23 @@ module.exports = function () {
             notes: "Returns the patient list for clinical-art-overview report",
             tags: ['api'],
             validate: {
-
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    reportName: Joi.string()
+                        .required()
+                        .description("the name of the report you want patient list"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                }
             }
         }
     },
