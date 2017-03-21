@@ -4,6 +4,7 @@ import { PatientReminderService } from './patient-reminders.service';
 import { PatientService } from '../patient.service';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
 @Component({
   selector: 'patient-reminders',
@@ -20,7 +21,8 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   constructor(private toastrService: ToastrService,
     private patientReminderService: PatientReminderService,
     private patientService: PatientService,
-    private toastrConfig: ToastrConfig) {
+    private toastrConfig: ToastrConfig,
+    private appFeatureAnalytics: AppFeatureAnalytics) {
 
     toastrConfig.timeOut = 0;
     toastrConfig.closeButton = true;
@@ -32,6 +34,9 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getPatient();
+    // app feature analytics
+    this.appFeatureAnalytics
+      .trackEvent('Patient Dashboard', 'Patient Clinical Summary Loaded', 'ngOnInit');
   }
 
   ngOnDestroy(): void {
@@ -76,6 +81,9 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
       if (reminder.type === 'danger') {
         this.toastrService.error(reminder.message, reminder.title);
       }
+      // app feature analytics
+      this.appFeatureAnalytics
+        .trackEvent('Patient Dashboard', 'Patient Reminder Displayed', 'constructReminders');
     });
 
   }
