@@ -7,6 +7,7 @@ import { PatientService } from '../patient.service';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 import { Subscription } from 'rxjs';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
@@ -27,10 +28,14 @@ export class VisitComponent implements OnInit, OnDestroy {
     constructor(private visitResourceService: VisitResourceService,
         private userDefaultPropertiesService: UserDefaultPropertiesService,
         private patientService: PatientService, private router: Router,
+        private appFeatureAnalytics: AppFeatureAnalytics,
         private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.getPatient();
+      // app feature analytics
+      this.appFeatureAnalytics
+        .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
     }
 
   ngOnDestroy(): void {
