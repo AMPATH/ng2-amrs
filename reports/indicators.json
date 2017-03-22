@@ -1047,7 +1047,7 @@
     {
         "name":"patients_continuing_care",
         "label":"patients continuing care",
-        "description": "patients continuing care",
+        "description": "This indicator includes all patients with patient care status of 'CONTINUE'",
         "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, @endDate) < 90 and is_clinical_encounter=1 ) or (patient_care_status=6101 and is_clinical_encounter=0 and @endDate > DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY))"
     },
     {
