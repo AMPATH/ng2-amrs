@@ -27,7 +27,7 @@ export class App {
   }
 
   ngOnInit() {
-    this.dataCache.setDefaulTime(60 * 15);
+    this.dataCache.setDefaulTime(60 * 5);
     this.dataCache.clearExpired();
   }
 }
