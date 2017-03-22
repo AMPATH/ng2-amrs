@@ -9,6 +9,11 @@ import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-
 import { BusyModule } from 'angular2-busy';
 import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {
@@ -194,6 +199,12 @@ let results = {
     }
   ]
 };
+class MockRouter {
+  navigate = jasmine.createSpy('navigate');
+}
+class MockActivatedRoute {
+  params = Observable.of([{ 'id': 1 }]);
+}
 
 describe('MonthlyScheduleComponent', () => {
   let fixture: ComponentFixture<MonthlyScheduleComponent>;
@@ -203,22 +214,28 @@ describe('MonthlyScheduleComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BusyModule, CalendarModule.forRoot()],
-      declarations: [MonthlyScheduleComponent]
-    }).overrideComponent(MonthlyScheduleComponent, {
-      set: {
-        providers: [
-          { provide: MonthlyScheduleResourceService, useClass: DataStub },
-          { provide: ClinicDashboardCacheService, useClass: ClinicDashboardCacheServiceStub },
-          {
-            provide: Http, useFactory: (backend, options) => {
-              return new Http(backend, options);
-            },
-            deps: [MockBackend, BaseRequestOptions]
+      declarations: [MonthlyScheduleComponent],
+      providers: [
+        MonthlyScheduleResourceService,
+        ClinicDashboardCacheService,
+        AppSettingsService,
+        LocalStorageService,
+        DataCacheService,
+        CacheService,
+        {
+          provide: Http, useFactory: (backend, options) => {
+            return new Http(backend, options);
           },
-          MockBackend,
-          BaseRequestOptions
-        ]
-      }
+          deps: [MockBackend, BaseRequestOptions]
+        },
+        { provide: Router, useClass: MockRouter },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        },
+        MockBackend,
+        BaseRequestOptions
+      ]
     }).compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(MonthlyScheduleComponent);

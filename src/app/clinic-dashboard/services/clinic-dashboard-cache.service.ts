@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
 export class ClinicDashboardCacheService {
     private cached = {};
-    private currentClinic = new Subject();
+    private initialUuid;
+    private currentClinic = new BehaviorSubject(this.initialUuid);
     constructor() { }
     public add(key: string, value: any) {
         this.cached[key] = value;
@@ -22,6 +23,7 @@ export class ClinicDashboardCacheService {
         this.cached = {};
     }
     public setCurrentClinic(currentClinicUuid: string) {
+        this.initialUuid = currentClinicUuid;
         this.currentClinic.next(currentClinicUuid);
     }
     public getCurrentClinic() {

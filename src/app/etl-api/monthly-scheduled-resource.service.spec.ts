@@ -7,6 +7,8 @@ import {
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 const expected = {
     'results': [
         {
@@ -119,6 +121,8 @@ describe('MonthlyScheduleResourceService Tests', () => {
                 BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
+                DataCacheService,
+                CacheService,
                 {
                     provide: Http,
                     deps: [MockBackend, BaseRequestOptions],
@@ -132,7 +136,9 @@ describe('MonthlyScheduleResourceService Tests', () => {
     });
 
     it('should be defined',
-        inject([MonthlyScheduleResourceService], (s: MonthlyScheduleResourceService) => {
+        inject([MonthlyScheduleResourceService], (s: MonthlyScheduleResourceService,
+                dataCacheService: DataCacheService,
+                cacheService: CacheService) => {
             expect(s).toBeTruthy();
         })
     );
