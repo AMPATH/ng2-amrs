@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Rx';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
@@ -31,7 +31,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   user: User;
   version: string;
   buildDate: Date;
-  userLocation: string = '';
+  userLocation: string = 'sdsd';
   busyIndicator: Subscription;
   active = false;
   interval;
@@ -64,8 +64,8 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.user = this.userService.getLoggedInUser();
     // let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
     // this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
-    this.locService.locationSubject.subscribe(
-      (location) => { this.userLocation = location;}
+    this.locService.getCurrentLocation().subscribe(
+      (location: any) => { this.userLocation = location;} //
     );
 
     this.appSubscription = this.appState.setupIdleTimer(1000 * 60 * 30)

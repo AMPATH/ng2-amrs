@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject, Observable} from 'rxjs/RX';
 
 @Injectable()
 export class LocationService {
 
-    locationSubject: Subject<any> = new Subject();
+    private locationSubject: Subject<any> = new Subject();
 
     public setCurrentLocation(newLocation: any): void {
         
-        this.locationSubject.next(newLocation);
-        console.log(newLocation);
+        this.locationSubject.next(newLocation.label);
+        console.log(newLocation.label);
     }
+
+    public getCurrentLocation(): Observable<any> {
+        return this.locationSubject.asObservable();
+  }
 }
