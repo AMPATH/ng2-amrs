@@ -987,7 +987,7 @@
     {
         "name":"tested_appropriately",
         "label":"tested appropriately",
-        "description": "tested appropriately",
+        "description": "Patients who are under ART and are missing Viral Load in past year",
         "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365"
     },
     {
@@ -999,25 +999,25 @@
     {
         "name":"due_for_annual_vl",
         "label":"due for annual vl",
-        "description": "due for annual vl this month",
+        "description": "In a specific month, these are patients who need new Annual Viral Load  but none was ordered in that month. For example, If a patient had an annual VL on 10/2015, the he/she will be due on 10/2016 and not any other month",
         "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (DATE_ADD(vl_1_date, INTERVAL 1 YEAR)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and (orders.date_created is null or orders.concept_id!=856)"
     },
     {
         "name":"pending_vl_orders",
         "label":"pending vl orders",
-        "description": "pending vl orders",
+        "description": "In a specific month, these are patients with pending Viral Load Orders that have not resulted.",
         "expression": "orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and date(vl_1_date) != date(orders.date_created) and  date(vl_1_date) < DATE_FORMAT(t2.endDate,'%Y-%m-01')"
     },
     {
         "name":"missing_vl_order",
         "label":"missing vl and vl order",
-        "description": "on ART without VL and missing vl order",
+        "description": " From reporting start-date to a specific month, these are patients on ART, with no Viral Load  and no Viral Load Test Order (Patients whose Viral Load Test Order not placed)",
         "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856)"
     },
     {
         "name":"perc_tested_appropriately",
         "label":"perc tested appropriately",
-        "description":"A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
+        "description":" For this indicator the denominator includes patients who are active in care, on ART and require a viral load. A patient requires a viral load if they have been on ART more than 6 months. The numerator are those patients who are active in care, on ART, required a viral load and got a viral load",
         "expression":""
     },
     {
