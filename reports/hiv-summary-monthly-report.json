@@ -241,6 +241,151 @@
                 "label":"perc_on_arvs_gt_6_months",
                 "expression":"perc_on_arvs_gt_6_months",
                 "sql":"[on_arvs_gt_26_weeks]/[patients]"
+            },
+            {
+                "label":"perc_ART_pats_screened_for_TB_receiving_TB_medication",
+                "expression":"perc_ART_pats_screened_for_TB_receiving_TB_medication",
+                "sql":"[num_ART_pats_screened_for_tb_started_TB]/[num_ART_pats_screened_for_tb]"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_started_TB",
+                "expression":"num_ART_pats_screened_for_tb_started_TB",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
+                "expression":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_previous_ART_pats_screened_for_tb_started_TB",
+                "expression":"num_previous_ART_pats_screened_for_tb_started_TB",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_started_TB_female_below_15",
+                "expression":"num_ART_pats_screened_for_tb_started_TB_female_below_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_started_TB_female_above_15",
+                "expression":"num_ART_pats_screened_for_tb_started_TB_female_above_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_started_TB_male_below_15",
+                "expression":"num_ART_pats_screened_for_tb_started_TB_male_below_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_started_TB_male_above_15",
+                "expression":"num_ART_pats_screened_for_tb_started_TB_male_above_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb",
+                "expression":"num_ART_pats_screened_for_tb",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_female_below_15",
+                "expression":"num_ART_pats_screened_for_tb_female_below_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_female_above_15",
+                "expression":"num_ART_pats_screened_for_tb_female_above_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_male_below_15",
+                "expression":"num_ART_pats_screened_for_tb_male_below_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_pats_screened_for_tb_male_above_15",
+                "expression":"num_ART_pats_screened_for_tb_male_above_15",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"perc_ART_pats_completed_6mths_IPT",
+                "expression":"perc_ART_pats_completed_6mths_IPT",
+                "sql": "[num_ART_patients_completed_6mths_IPT]/[num_ART_patients_newly_started_IPT_less_6mths]"
+            },
+            {
+                "label":"num_ART_patients_completed_6mths_IPT",
+                "expression":"num_ART_patients_completed_6mths_IPT",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_completed_6mths_IPT_females_below_15_yrs",
+                "expression":"num_ART_patients_completed_6mths_IPT_females_below_15_yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_completed_6mths_IPT_females_above_15_yrs",
+                "expression":"num_ART_patients_completed_6mths_IPT_females_above_15_yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_completed_6mths_IPT_males_below_15_yrs",
+                "expression":"num_ART_patients_completed_6mths_IPT_males_below_15_yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_completed_6mths_IPT_males_above_15_yrs",
+                "expression":"num_ART_patients_completed_6mths_IPT_males_above_15_yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_less_6mths",
+                "expression":"num_ART_patients_newly_started_IPT_less_6mths",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_less_6mths_females_below_15yrs",
+                "expression":"num_ART_patients_newly_started_IPT_less_6mths_females_below_15yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_less_6mths_females_above_15yrs",
+                "expression":"num_ART_patients_newly_started_IPT_less_6mths_females_above_15yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_less_6mths_males_below_15yrs",
+                "expression":"num_ART_patients_newly_started_IPT_less_6mths_males_below_15yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_less_6mths_males_above_15yrs",
+                "expression":"num_ART_patients_newly_started_IPT_less_6mths_males_above_15yrs",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_this_period_less_6mths",
+                "expression":"num_ART_patients_newly_started_IPT_this_period_less_6mths",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+                "expression":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_patients_currently_on_IPT",
+                "expression":"num_patients_currently_on_IPT",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_patients_newly_enrolled_newly_started_on_IPT",
+                "expression":"num_patients_newly_enrolled_newly_started_on_IPT",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"num_patients_stopped_on_IPT",
+                "expression":"num_patients_stopped_on_IPT",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
             }
 
         ],
