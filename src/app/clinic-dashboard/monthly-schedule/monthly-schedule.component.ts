@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -49,7 +49,9 @@ export class MonthlyScheduleComponent implements OnInit {
   busy: Subscription;
   fetchError = false;
   constructor(private monthlyScheduleResourceService: MonthlyScheduleResourceService,
-    private clinicDashboardCacheService: ClinicDashboardCacheService) { }
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.clinicDashboardCacheService.getCurrentClinic().subscribe((location: string) => {
@@ -57,6 +59,12 @@ export class MonthlyScheduleComponent implements OnInit {
       this.getAppointments();
     });
   }
+  public getCurrentLocation() {
+    // this.route.parent.params.subscribe(params => {
+    //     this.location = params['location_uuid'];
+    //  });
+
+   }
   getAppointments() {
     this.fetchError = false;
     this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
@@ -109,8 +117,8 @@ export class MonthlyScheduleComponent implements OnInit {
 
       }
       /* tslint:enable */
-      return processed;
     }
+    return processed;
   }
   dayClicked({ date, events }: { date: Date, events: CalendarEvent[] }): void {
 
