@@ -1,6 +1,12 @@
-import { Component, OnInit, Input, Output,
-      EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, Input, Output,
+  EventEmitter
+} from '@angular/core';
 import { PatientListColumns } from './patient-list-columns.data';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/Rx';
+
+let _ = require('lodash');
 
 @Component({
   selector: 'patient-list',
@@ -10,11 +16,26 @@ export class PatientListComponent implements OnInit {
 
   @Input() extraColumns: any;
   @Input() data: any = [];
-
-  constructor() {
+  @Input() newList: any;
+  loadedTab: any;
+  @Input()
+  set options(value) {
+    this._data.next(value);
+  }
+  get options() {
+    return this._data.getValue();
+  }
+  private _data = new BehaviorSubject<any>([]);
+  constructor(private router: Router) {
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    this._data
+      .subscribe(x => {
+        this.loadedTab = x;
+      });
+  }
 
   columns() {
 
@@ -27,6 +48,32 @@ export class PatientListComponent implements OnInit {
 
   get rowData() {
 
+    let d: any = this.data || [];
+    let count = 1;
+
+    _.forEach(d, function (row) {
+      row['#'] = count;
+      if (!row['person_name']) {
+        row['person_name'] = row['given_name'] + ' ' + row['family_name']
+          + ' ' + row['middle_name'];
+      }
+      count++;
+    });
+
     return this.data || [];
   }
+
+  loadSelectedPatient(event: any) {
+    let patientUuid = '';
+    if (event) {
+      patientUuid = event.node.data.uuid;
+    }
+
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
+
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/patient-info']);
+  }
+
 }
