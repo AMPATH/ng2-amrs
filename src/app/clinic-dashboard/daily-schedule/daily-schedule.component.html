@@ -1,127 +1,41 @@
-<p>
-  daily-schedule works!
-</p>
+<div style="padding:4px;margin-bottom:0.5cm;">
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label for="start-date">Select Date</label>
+      <div class="input-group">
+        <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="model"
+          [options]="dateOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
 
-<p-tabView>
-  <p-tabPanel header="Appointments">
-    <div [ngBusy]="{busy:[loadingDailyAppointments],message:'Loading daily visits.........'}"></div>
-    <div *ngIf='!loadingDailyAppointments' class="panel panel-primary">
-      <div class="panel panel-default">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Given Name</th>
-              <th>Middle Name</th>
-              <th>Family Name</th>
-              <th>Identifiers</th>
-              <th>Gender</th>
-              <th>Age</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="cursor: pointer;" *ngFor="let appointment of dailyAppointments">
-              <td>{{appointment.given_name}}</td>
-              <td>{{appointment.middle_name}}</td>
-              <td>{{appointment.family_name}}</td>
-              <td>{{appointment.identifiers}}</td>
-              <td>{{appointment.gender}}</td>
-              <td>{{appointment.age}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+        </span>
+      </div>
+      <br>
+      <div>
+        <div>
+          <button class="btn btn-info previous" style="float:left" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
+          <button class="btn btn-info next" style="float:right" (click)="navigateDay(1)">Next Day <span class="glyphicon glyphicon-chevron-right"></span></button>
+        </div>
       </div>
     </div>
-
-  </p-tabPanel>
-  <p-tabPanel header="Visits">
-    <div *ngIf='!loadingDailyVisits' class="panel panel-primary">
-      <div class="panel panel-default">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Given Name</th>
-              <th>Middle Name</th>
-              <th>Family Name</th>
-              <th>Identifiers</th>
-              <th>Gender</th>
-              <th>Age</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="cursor: pointer;" *ngFor="let dailyVisit of dailyVisits">
-              <td>{{dailyVisit.given_name}}</td>
-              <td>{{dailyVisit.middle_name}}</td>
-              <td>{{dailyVisit.family_name}}</td>
-              <td>{{dailyVisit.identifiers}}</td>
-              <td>{{dailyVisit.gender}}</td>
-              <td>{{dailyVisit.age}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </p-tabPanel>
-  <p-tabPanel header="Has Not Returned" (click)="loadNotReturned()">
-    <div *ngIf='!loadingHasNotReturned' class="panel panel-primary">
-      <div class="panel panel-default">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Given Name</th>
-              <th>Middle Name</th>
-              <th>Family Name</th>
-              <th>Identifiers</th>
-              <th>Gender</th>
-              <th>Age</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="cursor: pointer;" *ngFor="let notReturned of dailyHasNotReturned">
-              <td>{{notReturned.given_name}}</td>
-              <td>{{notReturned.middle_name}}</td>
-              <td>{{notReturned.family_name}}</td>
-              <td>{{notReturned.identifiers}}</td>
-              <td>{{notReturned.gender}}</td>
-              <td>{{notReturned.age}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </p-tabPanel>
-</p-tabView>
-
-<div class="wrapper">
-  <!--<div [ngBusy]="{busy:[loadingDailyVisits],message:'Loading daily visits.........'}"></div>-->
-
-  <!--<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
-    </div>-->
-
+  </div>
+  <nav md-tab-nav-bar aria-label="weather navigation links">
+    <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
+      (click)="activeLinkIndex = i">
+      {{tabLink.label}}
+    </a>
+  </nav>
+  <br>
+  <router-outlet></router-outlet>
 
 </div>
-
-
-<!--<p-growl [value]="msgs" sticky="sticky"></p-growl>
-<p-tabView>
-  <p-tabPanel header="Report Filter Demo">
-    <report-filter
-      [enabledControls]="['indicatorsControl','endDateControl', 'genderControl', 'startDateControl', 'locationsControl', 'ageRangeControl', 'formsControl']"
-      (onGenerateReport)="onGenerateReport($event)" [(reportFilterModel)]="reportFilter"
-      [buttonName]="'Generate Report'" [showButton]="true"
-      [reportFilterTitle]="'Report Filter'" [enableDiagnostic]="true" [reportName]="'hiv-summary-monthly-report'">
-    </report-filter>
-
-    <p-fieldset legend="This should change when ReportFilterComponent changes:">
-      <strong>{{diagnostic}}</strong>
-    </p-fieldset>
-
-
-  </p-tabPanel>
-  <p-tabPanel header="Tab Panel 2">
-    content 3
-  </p-tabPanel>
-  <p-tabPanel header="Tab Panel 3">
-    Content 3
-  </p-tabPanel>
-</p-tabView>-->
+<div *ngIf='errors.length>0'>
+  <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  </div>
+</div>

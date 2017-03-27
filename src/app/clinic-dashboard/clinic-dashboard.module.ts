@@ -4,12 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
+
 import {
   DailyScheduleResourceService
 } from
   '../etl-api/daily-scheduled-resource.service';
 import { clinicDashboardRouting } from './clinic-dashboard-routing';
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
+import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
+import { DailyScheduleAppointmentsComponent }
+  from './daily-schedule/daily-schedule-appointments.component';
+import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
@@ -37,7 +42,9 @@ import { BusyModule } from 'angular2-busy';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../data-lists/data-lists.module';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
-
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { MdTabsModule } from '@angular/material';
+import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 
 @NgModule({
   imports: [
@@ -57,7 +64,10 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
     ChartModule.forRoot(require('highcharts')),
     BusyModule,
     CalendarModule.forRoot(),
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    NgamrsSharedModule,
+    NgxMyDatePickerModule,
+    MdTabsModule.forRoot()
   ],
   declarations: [
     DailyScheduleComponent,
@@ -70,7 +80,10 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
     IndicatorSelectComponent,
     GenderSelectComponent,
     ClinicDashboardComponent,
-    ClinicLabOrdersComponent
+    ClinicLabOrdersComponent,
+    DailyScheduleAppointmentsComponent,
+    DailyScheduleNotReturned,
+    DailyScheduleVisitsComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -87,7 +100,11 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
     IndicatorSelectComponent,
     GenderSelectComponent,
     ClinicDashboardComponent,
-    ClinicLabOrdersComponent
+    ClinicLabOrdersComponent,
+    ClinicDashboardComponent,
+    DailyScheduleAppointmentsComponent,
+    DailyScheduleNotReturned,
+    DailyScheduleVisitsComponent
   ],
 })
 export class ClinicDashboardModule {

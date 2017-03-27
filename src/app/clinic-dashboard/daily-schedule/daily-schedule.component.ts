@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Message } from 'primeng/primeng';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import { DailyScheduleService } from './daily-appointments.service';
+import { DatePipe } from '@angular/common';
+import * as Moment from 'moment';
+import { Router } from '@angular/router';
+import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 
 @Component({
   selector: 'app-daily-schedule',
@@ -9,20 +12,10 @@ import { DailyScheduleService } from './daily-appointments.service';
   styleUrls: ['./daily-schedule.component.css']
 })
 export class DailyScheduleComponent implements OnInit {
-
-
-
   errors: any[] = [];
-  dailyVisits: any[] = [];
-  loadingDailyVisits: boolean = false;
-  dataLoaded: boolean = false;
-
-  dailyAppointments: any[] = [];
-  loadingDailyAppointments: boolean = false;
-  dailyHasNotReturned: any[] = [];
-  loadingHasNotReturned: boolean = false;
-
-
+  selectedDate: any;
+  selectedLocation: any;
+  @Output() selectedSchedule = new EventEmitter();
   private msgs: Message[] = [];
   private reportFilter: any = { ageRange: [40, 70] };
   private dataToBind: any = {
@@ -33,32 +26,41 @@ export class DailyScheduleComponent implements OnInit {
     endDate: new Date('10/11/2016'),
     selectedIndicators: ['on_arvs', 'on_arvs_first_line']
   };
+  private dateOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd-mm-yyyy',
+  };
 
+  // Initialized to specific date (09.10.2018)
+  private model: Object = {
+    date: {
+      year: Moment().year(), month: Moment().format('MMMM'),
+      day: Moment().format('DD')
+    }
+  };
+  private activeLinkIndex = 0;
+  private tabLinks = [
+    { label: 'Appointments', link: 'daily-appointments' },
+    { label: 'Visits', link: 'daily-visits' },
+    { label: 'Has not returned', link: 'daily-not-returned' },
+  ];
+  private _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private dailyScheduleService: DailyScheduleService) {
-  }
+    private router: Router) {
+    this._datePipe = new DatePipe('en-US');
 
+  }
   ngOnInit() {
-    this.clinicDashboardCacheService.getCurrentClinic().subscribe((location) => {
-      console.log('Location', location);
-      let params = {
-        startDate: '2017-02-14',
-        startIndex: undefined,
-        locationUuids: '08feae7c-1352-11df-a1f1-0026b9348838',
-        limit: undefined
-      };
-      this.getDailyAppointments(params);
-      this.getDailyVisits(params);
-      this.getHasNotReturned(params);
-    });
+    this.selectedDate = this._datePipe.transform(
+      new Date(), 'yyyy-MM-dd');
+  }
+  onDateChanged(event: IMyDateModel): void {
+    // date selected
+    this.clinicDashboardCacheService.setDailyTabCurrentDate(event.date);
   }
 
 
 
-
-  public loadNotReturned() {
-    console.log('NNNNNNNNNNNNNNnn ====');
-  }
   public onGenerateReport(event: any) {
     console.log(event, this.reportFilter);
     this.msgs = [];
@@ -69,84 +71,21 @@ export class DailyScheduleComponent implements OnInit {
     });
   }
 
-  private getDailyAppointments(params) {
-    this.loadingDailyAppointments = true;
-    let request = this.dailyScheduleService.getDailyAppointments(params);
-    this.loadingDailyAppointments = true;
-    request
-      .subscribe(
-      (data) => {
+  public navigateDay(value) {
+    if (value) {
+      let m = Moment(new Date(this.selectedDate));
+      let revisedDate = m.add(value, 'd');
 
-        if (data.length > 0) {
-          this.dailyAppointments = data;
-          this.dataLoaded = true;
-        } else {
-          this.dataLoaded = false;
+      this.model = {
+        date: {
+          year: revisedDate.year(), month: revisedDate.format('MMMM'),
+          day: revisedDate.format('DD')
         }
-        this.loadingDailyAppointments = false;
-
-      },
-      (error) => {
-        this.loadingDailyVisits = false;
-        this.dataLoaded = true;
-        this.errors.push({
-          id: 'Daily Appointments',
-          message: 'error fetching daily appointments'
-        });
-      }
-      );
-  }
-
-  private getDailyVisits(params) {
-    this.loadingDailyVisits = true;
-    let request = this.dailyScheduleService.getDailyVisits(params);
-    request
-      .subscribe(
-      (data) => {
-
-        if (data.length > 0) {
-          this.dailyVisits = data;
-          this.dataLoaded = true;
-        } else {
-          this.dataLoaded = false;
-        }
-        this.loadingDailyVisits = false;
-      },
-      (error) => {
-        this.loadingDailyVisits = false;
-        this.dataLoaded = true;
-        this.errors.push({
-          id: 'Daily Visits',
-          message: 'error fetching daily visits'
-        });
-      }
-      );
-  }
-
-  private getHasNotReturned(params) {
-    this.loadingHasNotReturned = true;
-    let request = this.dailyScheduleService.getDailyHasNotReturned(params);
-    request
-      .subscribe(
-      (data) => {
-
-        if (data.length > 0) {
-          this.dailyHasNotReturned = data;
-          this.dataLoaded = true;
-        } else {
-          this.dataLoaded = false;
-        }
-        this.loadingHasNotReturned = false;
-      },
-      (error) => {
-        this.loadingHasNotReturned = false;
-        this.dataLoaded = true;
-        this.errors.push({
-          id: 'Has Not Returned',
-          message: 'error fetching Has Not Returned'
-        });
-      }
-      );
+      };
+      this.selectedDate = this._datePipe.transform(
+        revisedDate, 'yyyy-MM-dd');
+      this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
+    }
   }
 
   private get diagnostic() {

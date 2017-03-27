@@ -44,8 +44,13 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.patientSubscription.unsubscribe();
-    this.labSubscription.unsubscribe();
+    if (this.patientSubscription) {
+      this.patientSubscription.unsubscribe();
+    }
+    if (this.labSubscription) {
+      this.labSubscription.unsubscribe();
+    }
+
   }
 
   getNewResults() {
