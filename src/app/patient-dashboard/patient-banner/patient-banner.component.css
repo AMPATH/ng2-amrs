@@ -5,6 +5,13 @@
     padding: 15px;
 }
 
+.banner-danger {
+  color: #fff;
+  width: 100%;
+  background-color: #d9534f;
+  padding: 15px;
+}
+
 @media screen and (max-width: 767px ) and (min-width: 480px ) {
     .banner-left {
         float: left;
