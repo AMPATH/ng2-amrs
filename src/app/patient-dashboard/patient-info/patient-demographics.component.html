@@ -5,6 +5,10 @@
   <dd *ngIf="patient.person.age" >{{patient.person.age}}</dd>
   <dt *ngIf="patient.person.birthdate" >DOB</dt>
   <dd *ngIf="patient.person.birthdate" >{{patient.person.birthdate | stringToDate : 'DD-MM-YYYY'}}</dd>
-  <dt>Deceased</dt>
-  <dd><span *ngIf="patient.person.dead">Yes</span> <span *ngIf="!patient.person.dead">No</span></dd>
+  <dt class="{{ patient.person.dead ? 'text-danger' : '' }}">Deceased</dt>
+  <dd><span *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>Yes</strong></span><span *ngIf="!patient.person.dead">No</span></dd>
+  <dt *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}">Death Date</dt>
+  <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.deathDate | date: 'dd-MM-yyyy'}}</strong></dd>
+  <dt *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}">Cause of Death</dt>
+  <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.causeOfDeath}}</strong></dd>
 </dl>

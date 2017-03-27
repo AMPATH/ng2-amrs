@@ -210,7 +210,10 @@ export class Person extends BaseModel {
 
   @serializable(true, false)
   public get causeOfDeath(): string {
-    return this._openmrsModel.deathDate;
+    if (this._openmrsModel.causeOfDeath) {
+      return this._openmrsModel.causeOfDeath.display;
+    }
+    return '';
   }
   public set causeOfDeath(v: string) {
     this._openmrsModel.deathDate = v;
