@@ -1373,5 +1373,185 @@
         "label":"perc switched with suppressed fu",
         "description": "% of patients switched with suppressed f/u VL",
         "expression": ""
+    },
+    {
+        "name":"perc_ART_pats_screened_for_TB_receiving_TB_medication",
+        "label":"perc ART pats screened for TB receiving TB medication",
+        "description": "percentage of ART pats who are screened for TB and receiving TB medication",
+        "expression": ""
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_started_TB",
+        "label":"# ART pats screened for tb started TB",
+        "description": "# of ART patients who are screened for tb and are started on TB medication",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
+        "label":"#  newly started on ART pats screened for tb started TB this reporting period",
+        "description": "# of newly started on ART patients who are screened for tb and are started on TB medication this reporting period",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null and arv_start_date>= @startDate and arv_start_date<= @endDate"
+    },
+    {
+        "name":"num_previous_ART_pats_screened_for_tb_started_TB",
+        "label":"#  previously started on ART pats screened for tb started TB",
+        "description": "# of previously started on ART patients who are screened for tb and are started on TB medication",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null and arv_start_date< @startDate"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_started_TB_female_below_15",
+        "label":"# of females below 15 who are ART patients screened for tb started TB",
+        "description": "# of ART patients who are screened for tb and are started on TB medication",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_started_TB_female_above_15",
+        "label":"# of females above 15 who are ART patients screened for tb started TB",
+        "description": "# of ART patients who are screened for tb and are started on TB medication",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_started_TB_male_below_15",
+        "label":"# of males below 15 who are ART patients screened for tb started TB",
+        "description": "# of ART patients who are screened for tb and are started on TB medication",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_started_TB_male_above_15",
+        "label":"# of males above 15 who are ART patients screened for tb started TB",
+        "description": "# of ART patients who are screened for tb and are started on TB medication",
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb",
+        "label":"# ART pats screened for tb",
+        "description": "# of ART patients who are screened for tb",
+        "expression": "screened_for_tb is not null and cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_female_below_15",
+        "label":"# of females below 15 who are ART patients screened for tb",
+        "description": "# of ART patients who are screened for tb",
+        "expression": "screened_for_tb is not nulla and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_female_above_15",
+        "label":"# of females above 15 who are ART patients screened for tb",
+        "description": "# of ART patients who are screened for tb",
+        "expression": "screened_for_tb is not null and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_male_below_15",
+        "label":"# of males below 15 who are ART patients screened for tb",
+        "description": "# of ART patients who are screened for tb",
+        "expression": "screened_for_tb is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"num_ART_pats_screened_for_tb_male_above_15",
+        "label":"# of males above 15 who are ART patients screened for tb",
+        "description": "# of ART patients who are screened for tb",
+        "expression": "screened_for_tb is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
+    },
+    {
+        "name":"perc_ART_pats_completed_6mths_IPT",
+        "label":"perc ART pats completed 6mths IPT",
+        "description": "percentage of ART pats who have completed 6 months of IPT therapy",
+        "expression": ""
+    },
+    {
+        "name":"num_ART_patients_completed_6mths_IPT",
+        "label":"# of ART patients who have completed 6mths IPT", 
+        "description": "# of ART patients who have completed 6mths of IPT patients",
+        "expression": "round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6  and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_completed_6mths_IPT_females_below_15_yrs",
+        "label":"# of female ART patients under 15 who have completed 6mths IPT", 
+        "description": "# of female ART patients under 15 who have completed 6mths of IPT patients",
+        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='F' and timestampdiff(year,birthdate,@endDate) < 15  and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_completed_6mths_IPT_females_above_15_yrs",
+        "label":"# of female ART patients over 15 who have completed 6mths IPT", 
+        "description": "# of female ART patients over 15 who have completed 6mths of IPT patients",
+        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15  and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_completed_6mths_IPT_males_below_15_yrs",
+        "label":"# of male ART patients under 15 who have completed 6mths IPT", 
+        "description": "# of male ART patients under 15 who have completed 6mths of IPT patients",
+        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null) "
+    },
+    {
+        "name":"num_ART_patients_completed_6mths_IPT_males_above_15_yrs",
+        "label":"# of male ART patients over 15 who have completed 6mths IPT", 
+        "description": "# of male ART patients over 15 who have completed 6mths of IPT patients",
+        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15  and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_less_6mths",
+        "label":"# ART patients newly started IPT less 6mths", 
+        "description": "# ART patients newly started IPT and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and (coalesce(t1.death_date, out_of_care) is null) "
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_less_6mths_females_below_15yrs",
+        "label":"# female ART patients who are less than 15 years and newly started IPT less 6mths", 
+        "description": "# of female ART patients younger than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_less_6mths_females_above_15yrs",
+        "label":"# female ART patients who are older than 15 years and newly started IPT less 6mths", 
+        "description": "# of female ART patients older than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_less_6mths_males_below_15yrs",
+        "label":"# male ART patients who are less than 15 years and newly started IPT less 6mths", 
+        "description": "# of male ART patients younger than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_less_6mths_males_above_15yrs",
+        "label":"# male ART patients who are older than 15 years and newly started IPT less 6mths", 
+        "description": "# of male ART patients older than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_this_period_less_6mths",
+        "label":"# ART patients newly started IPT this period less 6mths", 
+        "description": "# of ART patients newly started IPT in this reporting period and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  @startDate"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+        "label":"# ART patients newly started IPT in the previous period less 6mths", 
+        "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
+    },
+    {
+        "name":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+        "label":"# ART patients newly started IPT in the previous period less 6mths", 
+        "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
+        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
+    },
+    {
+        "name":"num_patients_currently_on_IPT",
+        "label":"# patients currently on IPT", 
+        "description": "number of patients currently on IPT", 
+        "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null"
+    },
+    {
+        "name":"num_patients_newly_enrolled_newly_started_on_IPT",
+        "label":"# patients newly enrolled newly started on IPT", 
+        "description": "number of patients newly enrolled and newly started on IPT", 
+        "expression": "(coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and  @startDate<=enrollment_date and enrollment_date<=@endDate"
+    },
+    {
+        "name":"num_patients_stopped_on_IPT",
+        "label":"# patients stopped on IPT", 
+        "description": "number of patients stopped on IPT", 
+        "expression": "coalesce(t1.death_date, out_of_care) is null and t1.tb_prophylaxis_end_date is not null and  @startDate<=tb_prophylaxis_end_date<=@endDate"
     }
 ]
