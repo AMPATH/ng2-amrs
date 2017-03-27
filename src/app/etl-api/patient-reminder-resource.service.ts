@@ -22,7 +22,7 @@ export class PatientReminderResourceService {
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) {
     this._datePipe = new DatePipe('en-US');
-    this.referenceDate = this._datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
+    this.referenceDate = this._datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   getUrl(): string {
