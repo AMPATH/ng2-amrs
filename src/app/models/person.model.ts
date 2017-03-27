@@ -113,9 +113,9 @@ export class Person extends BaseModel {
   public get patientPhoneNumber() {
     let phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
     if (this._attributes) {
-      let  phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
-      if ( phoneNumber) {
-        return  phoneNumber;
+      let phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
+      if (phoneNumber) {
+        return phoneNumber;
       } else {
         return '';
       }
