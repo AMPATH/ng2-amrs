@@ -11,8 +11,7 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppState } from '../app.service';
-// import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
-import { LocationService  } from '../clinic-dashboard/services/clinic-dashboard-location.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 
 declare let jQuery: any;
 
@@ -20,8 +19,7 @@ declare let jQuery: any;
   selector: 'app-dashboard',
   styleUrls: ['./main-dashboard.component.css'],
   templateUrl: './main-dashboard.component.html',
-  encapsulation: ViewEncapsulation.None,
-  providers: [LocationService]
+  encapsulation: ViewEncapsulation.None
 })
 export class MainDashboardComponent implements OnInit, OnDestroy {
   public routeConfig = <DynamicRouteModel>{};
@@ -31,7 +29,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   user: User;
   version: string;
   buildDate: Date;
-  userLocation: string = 'sdsd';
+  userLocation: string = '';
   busyIndicator: Subscription;
   active = false;
   interval;
@@ -40,8 +38,8 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     private localStore: LocalStorageService,
     private dynamicRoutesService: DynamicRoutesService,
     private authenticationService: AuthenticationService,
-    private userService: UserService, private appState: AppState,
-    private locService: LocationService) { //,private clinic: ClinicDashboardComponent
+    private userDefaultSettingsService: UserDefaultPropertiesService,
+    private userService: UserService, private appState: AppState) { //,private clinic: ClinicDashboardComponent
 
 
   }
@@ -64,9 +62,14 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.user = this.userService.getLoggedInUser();
     // let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
     // this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
-    this.locService.getCurrentLocation().subscribe(
-      (location: any) => { this.userLocation = location;} //
-    );
+     this.userDefaultSettingsService.locationSubject.subscribe((location) => {
+       if (location) {
+         this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
+       } else {
+         let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
+         this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
+       }
+     });
 
     this.appSubscription = this.appState.setupIdleTimer(1000 * 60 * 30)
       .subscribe((status: { idle: boolean }) => {
