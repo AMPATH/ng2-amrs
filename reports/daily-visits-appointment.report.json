@@ -5,7 +5,7 @@
       "schema": "etl",
       "tableName": "flat_hiv_summary",
       "alias": "t1",
-      "indexExpression":"FORCE INDEX (location_rtc)"
+      "indexExpression": "FORCE INDEX (location_rtc)"
     },
     "joins": [
       {
@@ -29,7 +29,6 @@
         "alias": "t4",
         "joinExpression": "t1.person_id  = t4.person_id"
       }
-
     ],
     "parameters": [
       {
@@ -39,7 +38,7 @@
         ]
       },
       {
-        "name": "locationUuids",
+        "name": "locations",
         "defaultValue": []
       },
       {
@@ -58,8 +57,8 @@
         "parameter": "startDate"
       },
       {
-        "expression": "t1.location_uuid in (?)",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
@@ -77,8 +76,7 @@
         "parameter": "groupByPerson"
       }
     ],
-    "indicators": [
-    ],
+    "indicators": [],
     "supplementColumns": [
       {
         "label": "person_id",
@@ -128,7 +126,7 @@
       "schema": "etl",
       "tableName": "flat_hiv_summary",
       "alias": "t1",
-      "indexExpression":"FORCE INDEX (location_rtc)"
+      "indexExpression": "FORCE INDEX (location_rtc)"
     },
     "joins": [
       {
@@ -161,7 +159,7 @@
         ]
       },
       {
-        "name": "locationUuids",
+        "name": "locations",
         "defaultValue": []
       },
       {
@@ -180,8 +178,8 @@
         "parameter": "startDate"
       },
       {
-        "expression": "t1.location_uuid in (?)",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
@@ -199,8 +197,7 @@
         "parameter": "groupByPerson"
       }
     ],
-    "indicators": [
-    ],
+    "indicators": [],
     "supplementColumns": [
       {
         "label": "person_id",
@@ -250,7 +247,7 @@
       "schema": "etl",
       "tableName": "flat_hiv_summary",
       "alias": "t1",
-      "indexExpression":"FORCE INDEX (location_rtc)"
+      "indexExpression": "FORCE INDEX (location_rtc)"
     },
     "joins": [
       {
@@ -283,7 +280,7 @@
         ]
       },
       {
-        "name": "locationUuids",
+        "name": "locations",
         "defaultValue": []
       },
       {
@@ -307,8 +304,8 @@
         "processForce": true
       },
       {
-        "expression": "t1.location_uuid in (?)",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
