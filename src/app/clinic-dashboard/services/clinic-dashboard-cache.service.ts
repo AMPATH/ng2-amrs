@@ -4,8 +4,10 @@ import { BehaviorSubject } from 'rxjs/Rx';
 @Injectable()
 export class ClinicDashboardCacheService {
     private cached = {};
+
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);
+
     constructor() { }
     public add(key: string, value: any) {
         this.cached[key] = value;
