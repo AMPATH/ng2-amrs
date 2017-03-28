@@ -15,11 +15,6 @@
           "icon": "fa fa-clipboard"
         },
         {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
-        {
           "url": "patient-vitals",
           "label": "Vitals",
           "icon": "fa fa-heartbeat"
@@ -58,6 +53,16 @@
       "requiresPatientEnrollment": true,
       "routes": [
         {
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
+        {
+          "url": "patient-vitals",
+          "label": "Vitals",
+          "icon": "fa fa-heartbeat"
+        },
+        {
           "url": "hiv-summary",
           "label": "HIV Summary",
           "icon": "fa fa-medkit"
@@ -71,6 +76,16 @@
           "url": "clinical-notes",
           "label": "Clinical Notes",
           "icon": "fa fa-book"
+        },
+        {
+          "url": "lab-data-summary",
+          "label": "Lab Data Summary",
+          "icon": "icon-i-laboratory"
+        },
+        {
+          "url": "lab-orders",
+          "label": "Lab Orders",
+          "icon": "icon-i-pathology"
         }
       ]
     },
