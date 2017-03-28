@@ -10,6 +10,7 @@ import { Ng2FilterPipe } from './pipes/ng2-filter.pipe';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { OnlineTrackerComponent } from '../online-tracker';
 import { BuildVersionComponent } from '../build-version';
+import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
 
 @NgModule({
     imports: [
@@ -40,6 +41,6 @@ import { BuildVersionComponent } from '../build-version';
         OnlineTrackerComponent,
         BuildVersionComponent
     ],
-    providers: [Ng2FilterPipe, StringToDatePipe],
+    providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService],
 })
 export class NgamrsSharedModule { }

@@ -1,5 +1,5 @@
 <drafted-form-nav></drafted-form-nav>
-<div class="container-fluid banner-info" *ngIf="patient">
+<div class="container-fluid {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient">
 	<div class="row banner-left">
 		<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
 		<div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>

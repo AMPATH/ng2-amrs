@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Rx';
+
+import { Router, NavigationEnd } from '@angular/router';
+import { Subject } from 'rxjs';
+
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
@@ -26,6 +28,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   public sidebarOpen = true;
   public isMobile = false;
   public appSubscription: Subscription;
+  public currentDashboard: string = '';
   user: User;
   version: string;
   buildDate: Date;
@@ -47,6 +50,12 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.appSubscription.unsubscribe();
   }
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let navEvent = event as NavigationEnd;
+        this.adjustDashBoard(navEvent.url);
+      }
+    });
     // Work Around for min-height
     window.dispatchEvent(new Event('resize'));
     this.dynamicRoutesService.routes.subscribe(result => {
@@ -93,6 +102,25 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.authenticationService.clearSessionCache();
     this.router.navigateByUrl('/login');
 
+  }
+
+  adjustDashBoard(currentUrl: string) {
+    this.currentDashboard = '';
+
+    if (currentUrl.includes('patient-search')) {
+      this.currentDashboard = 'patient-search';
+      return;
+    }
+
+    if (currentUrl.includes('patient-dashboard')) {
+      this.currentDashboard = 'patient-dashboard';
+      return;
+    }
+
+    if (currentUrl.includes('clinic-dashboard')) {
+      this.currentDashboard = 'clinic-dashboard';
+      return;
+    }
   }
 
   clickOverlay($event) {

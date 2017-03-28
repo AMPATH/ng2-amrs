@@ -65,4 +65,3 @@ describe('Service: PatientRelationshipService', () => {
   });
 
 });
-

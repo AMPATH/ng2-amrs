@@ -13,7 +13,7 @@
   "scripts": {
     "build:dev": "webpack --config config/webpack.dev.js --progress --profile",
     "build:docker": "npm run build:prod && docker build -t angular2-webpack-start:latest .",
-    "build:prod": "webpack --config config/webpack.prod.js  --progress --profile --bail",
+    "build:prod": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config config/webpack.prod.js  --progress --profile --bail",
     "build": "npm run build:dev",
     "ci": "npm test && npm run e2e",
     "clean:dist": "npm run rimraf -- dist",
@@ -133,6 +133,7 @@
     "primeng": "^2.0.0",
     "primeui": "^4.1.15",
     "rxjs": "^5.0.3",
+    "semver": "^5.3.0",
     "slimscroll": "^0.9.1",
     "tether": "^1.4.0",
     "typescript": "~2.1.5",

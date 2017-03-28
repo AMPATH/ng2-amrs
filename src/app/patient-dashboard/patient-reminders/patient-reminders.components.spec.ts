@@ -15,6 +15,8 @@ import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toas
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 
 describe('Component: PatientReminders', () => {
 
@@ -43,6 +45,10 @@ describe('Component: PatientReminders', () => {
                     provide: ToastrConfig, useFactory: () => {
                         return new ToastrConfigMock();
                     }, deps: []
+                },
+                {
+                  provide: AppFeatureAnalytics,
+                  useClass: FakeAppFeatureAnalytics
                 },
                 AppSettingsService,
                 ToastrService,

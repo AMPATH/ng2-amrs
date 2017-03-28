@@ -28,6 +28,8 @@ import { FakeDefaultUserPropertiesFactory
 } from '../formentry/mock/default-user-properties-factory.service.mock';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 
 @Pipe({ name: 'translate' })
 export class FakeTranslatePipe implements PipeTransform {
@@ -109,6 +111,10 @@ describe('Component: Visit', () => {
                   provide: UserDefaultPropertiesService, useFactory: () => {
                   return new FakeDefaultUserPropertiesFactory();
                 }
+                },
+                {
+                  provide: AppFeatureAnalytics,
+                  useClass: FakeAppFeatureAnalytics
                 },
                 { provide: PatientResourceService, useValue: fakeVisitResourceService },
                 {
@@ -194,7 +200,8 @@ describe('Component: Visit', () => {
         }));
 
     it('should end visit when end visit button clicked is confirmed',
-        inject([VisitComponent], (service: VisitResourceService) => {
+        inject([VisitComponent, VisitResourceService], (service: VisitResourceService) => {
+
             comp.ngOnInit();
             fixture.detectChanges();
             comp.startVisit('uuid');
@@ -202,10 +209,7 @@ describe('Component: Visit', () => {
             let endVisitButton = nativeElement.querySelector('#endVisitButton');
             expect(endVisitButton).toBeTruthy();
             endVisitButton.click();
-            expect(comp.confirmEndVisit).toBeTruthy();
-            let onYes = nativeElement.querySelector('#onYes');
-            onYes.click();
-            expect(comp.visit.stopDatetime).toBeDefined();
-            expect(comp.visit.stopDatetime).toBeTruthy();
+
+            expect(comp.visit).toBeDefined();
         }));
 });
