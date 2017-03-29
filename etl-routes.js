@@ -80,16 +80,15 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    preRequest.resolveLocationIdsToLocationUuids(request,
-                        function () {
-                            let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'locations'], request.query);
-                            let service = new MonthlyScheduleService();
-                            service.getMonthlyScheduled(reportParams).then((result) => {
-                                reply(result);
-                            }).catch((error) => {
-                                reply(error);
-                            })
-                        });
+
+                    let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'locationUuids'], request.query);
+                    let service = new MonthlyScheduleService();
+                    service.getMonthlyScheduled(reportParams).then((result) => {
+                        reply(result);
+                    }).catch((error) => {
+                        reply(error);
+                    })
+
                 }
             },
             description: 'Get monthly schedule',
@@ -1218,7 +1217,7 @@ module.exports = function () {
                             type: 'query', //can be in either query or params so you have to specify
                             name: 'report', //name of the parameter
                             value: 'clinical-reminder-report' //parameter value
-                        },{
+                        }, {
                             type: 'query', //can be in either query or params so you have to specify
                             name: 'report', //name of the parameter
                             value: 'patient-register-report' //parameter value
@@ -1276,7 +1275,7 @@ module.exports = function () {
                         let requestParams = Object.assign({}, request.query, request.params);
                         let reportParams = etlHelpers.getReportParams(request.query.report,
                             ['startDate', 'endDate', 'indicator', 'locationUuids', 'locations', 'referenceDate',
-                               'patientUuid', 'startAge', 'endAge', 'age', 'order', 'gender'],
+                                'patientUuid', 'startAge', 'endAge', 'age', 'order', 'gender'],
                             requestParams);
 
                         dao.runReport(reportParams).then((result) => {
@@ -1321,8 +1320,8 @@ module.exports = function () {
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                            reply(Boom.badRequest(error.toString()));
-                        });
+                                reply(Boom.badRequest(error.toString()));
+                            });
                     });
             },
             description: 'Get patient list by indicator',
@@ -1362,8 +1361,8 @@ module.exports = function () {
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                            reply(Boom.badRequest(error.toString()));
-                        });
+                                reply(Boom.badRequest(error.toString()));
+                            });
                     });
             },
             description: 'Get patient',
@@ -1577,8 +1576,8 @@ module.exports = function () {
                             .then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                            reply(Boom.badRequest(JSON.stringify(error)));
-                        });
+                                reply(Boom.badRequest(JSON.stringify(error)));
+                            });
                     });
             },
             description: 'Get patient list',
