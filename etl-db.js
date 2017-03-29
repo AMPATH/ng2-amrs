@@ -320,7 +320,7 @@ module.exports = function () {
         }
       });
 
-      return {query: query, sqlParams: sqlParams, offset: queryOffset}
+      return {query: query, sqlParams: sqlParams, offset: queryPartsArray[0]['offset'] || queryOffset}
     }
 
     function reportQueryServer (queryPartsArray, callback) {

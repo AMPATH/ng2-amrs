@@ -667,6 +667,12 @@ module.exports = function () {
                     endDate: Joi.string()
                         .optional()
                         .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
                 }
             }
         }
@@ -742,6 +748,12 @@ module.exports = function () {
                     endDate: Joi.string()
                         .required()
                         .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
                 }
             }
         }
@@ -817,6 +829,13 @@ module.exports = function () {
                     endDate: Joi.string()
                         .required()
                         .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
+
                 }
             }
         }
@@ -1579,6 +1598,12 @@ module.exports = function () {
                     reportName: Joi.string()
                         .required()
                         .description("the name of the report you want patient list"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
                 }
             }
         }
