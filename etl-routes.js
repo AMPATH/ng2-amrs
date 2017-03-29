@@ -659,7 +659,7 @@ module.exports = function () {
                         .optional()
                         .description("A list of comma separated location uuids"),
                     reportName: Joi.string()
-                        .required()
+                        .optional()
                         .description("the name of the report you want patient list"),
                     startDate: Joi.string()
                         .optional()
@@ -734,7 +734,7 @@ module.exports = function () {
                         .optional()
                         .description("A list of comma separated location uuids"),
                     reportName: Joi.string()
-                        .required()
+                        .optional()
                         .description("the name of the report you want patient list"),
                     startDate: Joi.string()
                         .required()
@@ -809,7 +809,7 @@ module.exports = function () {
                         .optional()
                         .description("A list of comma separated location uuids"),
                     reportName: Joi.string()
-                        .required()
+                        .optional()
                         .description("the name of the report you want patient list"),
                     startDate: Joi.string()
                         .required()
