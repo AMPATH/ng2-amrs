@@ -157,38 +157,6 @@
         "expression": "encounter_datetime >= pcp_prophylaxis_start_date and coalesce(t1.death_date, out_of_care) is null"
     },
     {
-        "name":"on_pcp_prophylaxis_males_below_15",
-        "label":"on pcp prophylaxis males below 15",
-        "description": "Total # of male patients less than 15 who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-
-    },
-    {
-        "name":"on_pcp_prophylaxis_females_below_15",
-        "label":"on pcp prophylaxis females below 15",
-        "description": "Total # of female patients less than 15 who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"on_pcp_prophylaxis_males_15_and_above",
-        "label":"on pcp prophylaxis males 15 and above",
-        "description": "Total # of male patients 15 and older who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"on_pcp_prophylaxis_below_15",
-        "label":"on pcp prophylaxis below 15",
-        "description": "Total # of female patients less than 15 who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"on_pcp_prophylaxis_females_15_and_above",
-        "label":"on pcp prophylaxis females 15 and above",
-        "description": "Total # of female patients 15 and older who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
-
-    },
-    {
         "name":"hiv_exposed_infants_below_2_months",
         "label":"hiv exposed infants 2 months and below",
         "description": "Total # of infants below 2 months who are exposed to hiv",
@@ -202,56 +170,11 @@
 
     },
     {
-        "name":"on_pcp_prophylaxis_15_and_above",
-        "label":"on pcp prophylaxis 15 and above",
-        "description": "Total # of female patients 15 and older who are on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
-
-    },
-    {
         "name":"enrolled_in_care_total",
         "label":"enrolled in care total",
         "description": "Total # of patients enrolled in care",
         "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between @startDate and @endDate"
 
-    },
-    {
-        "name":"enrolled_in_care_males_lt_one",
-        "label":"enrolled in care males lt one",
-        "description": "Total # of male patients < 1 yr enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and gender='M' and timestampdiff(year,birthdate,@endDate) < 1 and date(enrollment_date) between @startDate and @endDate"
-    },
-    {
-        "name":"enrolled_in_care_females_lt_one",
-        "label":"enrolled in care females lt one",
-        "description": "Total # of female patients < 1 yr enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and gender='F' and timestampdiff(year,birthdate,@endDate) < 1 and date(enrollment_date) between @startDate and @endDate"
-
-    },
-    {
-        "name":"enrolled_in_care_males_below_15",
-        "label":"enrolled in care males below 15",
-        "description": "Total # of male patients below 15 enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and gender='M'  and timestampdiff(year,birthdate,@endDate) < 15 and date(enrollment_date) between @startDate and @endDate"
-    },
-    {
-        "name":"enrolled_in_care_females_below_15",
-        "label":"enrolled in care females below 15",
-        "description": "Total # of female patients below 15 enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and date(enrollment_date) between @startDate and @endDate"
-    },
-    {
-        "name":"enrolled_in_care_males_15_and_older",
-        "label":"enrolled in care males 15 and older",
-        "description": "Total # of male patients 15 and older enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and date(enrollment_date) between @startDate and @endDate"
-
-    },
-    {
-        "name":"enrolled_in_care_females_15_and_older",
-        "label":"enrolled in care females 15 and older",
-        "description": "Total # of female patients 15 and older enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and date(enrollment_date) between @startDate and @endDate"
     },
     {
         "name":"currently_in_care_total",
@@ -260,85 +183,10 @@
         "expression": "encounter_datetime >= enrollment_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
-        "name":"currently_in_care_males_lt_one",
-        "label":"currently in care males lt one",
-        "description": "Total # of male patients < 1 yr currently in care",
-        "expression": "encounter_datetime >= enrollment_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"currently_in_care_females_lt_one",
-        "label":"currently in care females lt one",
-        "description": "Total # of female patients < 1 yr currently in care",
-        "expression": "encounter_datetime >= enrollment_date and gender='F' and timestampdiff(year,birthdate,@endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"currently_in_care_males_below_15",
-        "label":"currently in care males below 15",
-        "description": "Total # of male patients below 15 currently in care",
-        "expression": "encounter_datetime >= enrollment_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"currently_in_care_females_below_15",
-        "label":"currently in care females below 15",
-        "description": "Total # of female patients below 15 currently in care",
-        "expression": "encounter_datetime >= enrollment_date and gender='F'  and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"currently_in_care_males_15_and_older",
-        "label":"currently in care males 15 and older",
-        "description": "Total # of male patients 15 and older currently in care",
-        "expression": "encounter_datetime >=enrollment_date and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"currently_in_care_females_15_and_older",
-        "label":"currently in care females 15 and older",
-        "description": "Total # of female patients 15 and older currently in care",
-        "expression": "encounter_datetime >= enrollment_date and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
         "name":"starting_art_total",
         "label":"starting art total",
         "description": "Total # of patients starting ART",
         "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-    },
-    {
-        "name":"starting_art_males_lt_one",
-        "label":"starting art males lt one",
-        "description": "Total # of male patients < 1 yr starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,@endDate) < 1 and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-    },
-    {
-        "name":"starting_art_females_lt_one",
-        "label":"starting art females lt one",
-        "description": "Total # of female patients < 1 yr starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,@endDate) < 1 and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-
-    },
-    {
-        "name":"starting_art_males_below_15",
-        "label":"starting art males below 15",
-        "description": "Total # of male patients below 15 starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-
-    },
-    {
-        "name":"starting_art_females_below_15",
-        "label":"starting art females below 15",
-        "description": "Total # of female patients below 15 starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-
-    },
-    {
-        "name":"starting_art_males_15_and_older",
-        "label":"starting art males 15 and older",
-        "description": "Total # of male patients 15 and older starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-    },
-    {
-        "name":"starting_art_females_15_and_older",
-        "label":"starting art females 15 and older",
-        "description": "Total # of female patients 15 and older starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
     },
     {
         "name": "starting_art_and_has_tb",
@@ -352,42 +200,7 @@
         "description": "Total # of patient revisits on ART",
         "expression": "encounter_datetime > arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
-    {
-        "name":"revisits_on_art_males_lt_one",
-        "label":"revisits on art males lt one",
-        "description": "Total # of male patients < 1 yr revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"revisits_on_art_females_lt_one",
-        "label":"revisits on art females lt one",
-        "description": "Total # of female patients < 1 yr revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"revisits_on_art_males_below_15",
-        "label":"revisits on art males below 15",
-        "description": "Total # of male patients below 15 revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"revisits_on_art_females_below_15",
-        "label":"revisits on art females below 15",
-        "description": "Total # of female patients between 1 and 15 revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name": "revisits_on_art_males_15_and_older",
-        "label":"revisits on art males 15 and older",
-        "description": "Total # of male patients 15 and older revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"revisits_on_art_females_15_and_older",
-        "label":"revisits on art females 15 and older",
-        "description": "Total # of female patients 15 and older revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
+
     {
         "name":"on_art_total",
         "label":"on art total",
@@ -399,42 +212,6 @@
         "label":"not on art total",
         "description": "Total # of patients not on ART",
         "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"on_art_males_lt_one",
-        "label":"on art males lt one",
-        "description": "Total # of male patients < 1 yr on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"on_art_females_lt_one",
-        "label":"on art females lt one",
-        "description": "Total # of female patients < 1 yr on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) < 1 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"on_art_males_below_15",
-        "label":"on art males below 15",
-        "description": "Total # of male patients below 15 on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"on_art_females_below_15",
-        "label":"on art females below 15",
-        "description": "Total # of female patients below 15 on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"on_art_males_15_and_older",
-        "label":"on art males 15 and older",
-        "description": "Total # of male patients 15 and older on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"on_art_females_15_and_older",
-        "label":"on art females 15 and older",
-        "description": "Total # of female patients 15 and older on ART",
-        "expression": "encounter_datetime >= arv_start_date and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"on_original_first_line",
@@ -459,30 +236,6 @@
         "label":"screened for tb",
         "description": "Total # of  patients screened for TB",
         "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name":"screened_for_tb_males_below_15",
-        "label":"screened for tb males below 15",
-        "description": "Total # of male patients below 15 screened for TB",
-        "expression": "screened_for_tb and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name":"screened_for_tb_females_below_15",
-        "label":"screened for tb females below 15",
-        "description": "Total # of female patients under 15 screened for TB",
-        "expression": "screened_for_tb and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name":"screened_for_tb_males_15_and_older",
-        "label":"screened for tb males 15 and older",
-        "description": "Total # of male patients 15 and older screened for TB",
-        "expression": "screened_for_tb and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name":"screened_for_tb_females_15_and_older",
-        "label":"screened for tb females 15 and older",
-        "description": "Total # of female patients 15 and older screened for TB",
-        "expression": "screened_for_tb and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and encounter_datetime between @startDate and @endDate"
     },
     {
         "name":"is_on_inh_treatment",
@@ -539,258 +292,7 @@
         "description": "Total #  patient ever on ART",
         "expression": "arv_first_regimen_start_date is not null"
     },
-    {
-        "name":"ever_on_art_below_15",
-        "label":"ever on art below 15",
-        "description": "Total #  patient ever on ART Below 15yrs",
-        "expression": "arv_first_regimen_start_date is not null and timestampdiff(year,birthdate,@endDate) < 15"
-    },
-    {
-        "name":"ever_on_art_males_below_15",
-        "label":"ever on art males below 15",
-        "description": "Total # of male patients ever on ART Below 15yrs",
-        "expression": "arv_first_regimen_start_date is not null and gender='M' and timestampdiff(year,birthdate,@endDate) < 15"
-    },
-    {
-        "name":"ever_on_art_females_below_15",
-        "label":"ever on art females below 15",
-        "description": "Total # of female patients ever on ART Below 15yrs",
-        "expression": "arv_first_regimen_start_date is not null and gender='F' and timestampdiff(year,birthdate,@endDate) < 15"
-    },
-    {
-        "name":"ever_on_art_15_and_older",
-        "label":"ever on art 15 and older",
-        "description": "Total #  patient ever on ART 15yrs and older",
-        "expression": "arv_first_regimen_start_date is not null and timestampdiff(year,birthdate,@endDate) >= 15"
-    },
-    {
-        "name":"ever_on_art_males_15_and_older",
-        "label":"ever on art males 15 and older",
-        "description": "Total # of male patients ever on ART 15yrs and older",
-        "expression": "arv_first_regimen_start_date is not null and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15"
-    },
-    {
-        "name":"ever_on_art_females_15_and_older",
-        "label":"ever on art females 15 and older",
-        "description": "Total # of female patients ever on ART 15yrs and older",
-        "expression": "arv_first_regimen_start_date is not null and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15"
-    },
-    {
-        "name":"encounter_type",
-        "label":"encounter type",
-        "description": "encounter_type",
-        "expression": "encounter_type"
-    },
-    {
-        "name":"visit_num",
-        "label":"visit num",
-        "description": "visit_num",
-        "expression": "visit_num"
-    },
-    {
-        "name":"enrollment_date",
-        "label":"enrollment date",
-        "description": "enrollment_date",
-        "expression": "DATE_FORMAT(enrollment_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"death_date",
-        "label":"death date",
-        "description": "death_date",
-        "expression": "DATE_FORMAT(death_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"scheduled_visit",
-        "label":"scheduled visit",
-        "description": "scheduled_visit",
-        "expression": "scheduled_visit"
-    },
-    {
-        "name":"transfer_out",
-        "label":"transfer out",
-        "description": "transfer_out",
-        "expression": "transfer_out"
-    },
-    {
-        "name":"out_of_care",
-        "label":"out of care",
-        "description": "out_of_care",
-        "expression": "out_of_care"
-    },
-    {
-        "name":"prev_rtc_date",
-        "label":"prev rtc date",
-        "description": "prev_rtc_date",
-        "expression": "DATE_FORMAT(prev_rtc_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"rtc_date",
-        "label":"rtc date",
-        "description": "rtc_date",
-        "expression": "DATE_FORMAT(rtc_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"arv_start_date",
-        "label":"arv start date",
-        "description": "arv_start_date",
-        "expression": "DATE_FORMAT(arv_start_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"arv_first_regimen",
-        "label":"arv first regimen",
-        "description": "arv_first_regimen",
-        "expression": "arv_first_regimen"
-    },
-    {
-        "name":"cur_arv_meds",
-        "label":"cur arv meds",
-        "description": "cur_arv_meds",
-        "expression": "cur_arv_meds"
-    },
-    {
-        "name":"cur_arv_line",
-        "label":"cur arv line",
-        "description": "cur_arv_line",
-        "expression": "cur_arv_line"
-    },
-    {
-        "name":"first_evidence_patient_pregnant",
-        "label":"first evidence patient pregnant",
-        "description": "first_evidence_patient_pregnant",
-        "expression": "DATE_FORMAT(first_evidence_patient_pregnant,'%m-%d-%Y')"
-    },
-    {
-        "name":"edd",
-        "label":"edd",
-        "description": "edd",
-        "expression": "edd"
-    },
-    {
-        "name":"tb_tx_start_date",
-        "label":"tb tx start date",
-        "description": "tb_tx_start_date",
-        "expression": "DATE_FORMAT(tb_tx_start_date,'%m-%d-%Y')"
-    },
-    {
-        "name": "is_on_tb_medication",
-        "label": "is_on_tb_medication",
-        "description": "Is on TB medication",
-        "expression": "tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,@startDate) <= 1"
-    },
-    {
-        "name":"pcp_prophylaxis_start_date",
-        "label":"pcp prophylaxis start date",
-        "description": "pcp_prophylaxis_start_date",
-        "expression": "DATE_FORMAT(pcp_prophylaxis_start_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_resulted",
-        "label":"cd4 resulted",
-        "description": "cd4_resulted",
-        "expression": "cd4_resulted"
-    },
-    {
-        "name":"cd4_resulted_date",
-        "label":"cd4 resulted date",
-        "description": "cd4_resulted_date",
-        "expression": "DATE_FORMAT(cd4_resulted_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_1",
-        "label":"cd4 1",
-        "description": "cd4 1",
-        "expression": "cd4_1"
-    },
-    {
-        "name":"cd4_1_date",
-        "label":"cd4 1 date",
-        "description": "cd4 1 date",
-        "expression": "DATE_FORMAT(cd4_1_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_2",
-        "label":"cd4 2",
-        "description": "cd4 2",
-        "expression": "cd4_2"
-    },
-    {
-        "name":"cd4_2_date",
-        "label":"cd4 2 date",
-        "description": "cd4 2 date",
-        "expression": "DATE_FORMAT(cd4_2_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_percent_1",
-        "label":"cd4 percent 1",
-        "description": "cd4 percent 1",
-        "expression": "cd4_percent_1"
-    },
-    {
-        "name":"cd4_percent_1_date",
-        "label":"cd4 percent 1 date",
-        "description": "cd4 percent 1 date",
-        "expression": "DATE_FORMAT(cd4_percent_1_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_percent_2",
-        "label":"cd4 percent 2",
-        "description": "cd4 percent 2",
-        "expression": "cd4_percent_2"
-    },
-    {
-        "name":"cd4_percent_2_date",
-        "label":"cd4 percent 2 date",
-        "description": "cd4 percent 2 date",
-        "expression": "DATE_FORMAT(cd4_percent_2_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_resulted",
-        "label":"vl resulted",
-        "description": "vl resulted",
-        "expression": "vl_resulted"
-    },
-    {
-        "name":"vl_resulted_date",
-        "label":"vl resulted date",
-        "description": "vl resulted date",
-        "expression": "DATE_FORMAT(vl_resulted_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_1",
-        "label":"vl 1",
-        "description": "vl 1",
-        "expression": "vl_1"
-    },
-    {
-        "name":"vl_1_date",
-        "label":"vl 1 date",
-        "description": "vl 1 date",
-        "expression": "DATE_FORMAT(vl_1_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_2",
-        "label":"vl 2",
-        "description": "vl 2",
-        "expression": "vl_2"
-    },
-    {
-        "name":"vl_2_date",
-        "label":"vl 2 date",
-        "description": "vl 2 date",
-        "expression": "DATE_FORMAT(vl_2_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_order_date",
-        "label":"vl order date",
-        "description": "vl order date",
-        "expression": "DATE_FORMAT(vl_order_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_order_date",
-        "label":"cd4 order date",
-        "description": "cd4 order date",
-        "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
-    },
+
     {
         "name":"attended",
         "label":"attended",
@@ -1398,59 +900,12 @@
         "description": "# of previously started on ART patients who are screened for tb and are started on TB medication",
         "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null and arv_start_date< @startDate"
     },
-    {
-        "name":"num_ART_pats_screened_for_tb_started_TB_female_below_15",
-        "label":"# of females below 15 who are ART patients screened for tb started TB",
-        "description": "# of ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_started_TB_female_above_15",
-        "label":"# of females above 15 who are ART patients screened for tb started TB",
-        "description": "# of ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_started_TB_male_below_15",
-        "label":"# of males below 15 who are ART patients screened for tb started TB",
-        "description": "# of ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_started_TB_male_above_15",
-        "label":"# of males above 15 who are ART patients screened for tb started TB",
-        "description": "# of ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
+
     {
         "name":"num_ART_pats_screened_for_tb",
         "label":"# ART pats screened for tb",
         "description": "# of ART patients who are screened for tb",
         "expression": "screened_for_tb is not null and cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_female_below_15",
-        "label":"# of females below 15 who are ART patients screened for tb",
-        "description": "# of ART patients who are screened for tb",
-        "expression": "screened_for_tb is not nulla and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_female_above_15",
-        "label":"# of females above 15 who are ART patients screened for tb",
-        "description": "# of ART patients who are screened for tb",
-        "expression": "screened_for_tb is not null and  cur_arv_line is not null and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_male_below_15",
-        "label":"# of males below 15 who are ART patients screened for tb",
-        "description": "# of ART patients who are screened for tb",
-        "expression": "screened_for_tb is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name":"num_ART_pats_screened_for_tb_male_above_15",
-        "label":"# of males above 15 who are ART patients screened for tb",
-        "description": "# of ART patients who are screened for tb",
-        "expression": "screened_for_tb is not null and  cur_arv_line is not null and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and coalesce(t1.death_date, out_of_care) is null"
     },
     {
         "name":"perc_ART_pats_completed_6mths_IPT",
@@ -1464,59 +919,12 @@
         "description": "# of ART patients who have completed 6mths of IPT patients",
         "expression": "round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6  and (coalesce(t1.death_date, out_of_care) is null)"
     },
-    {
-        "name":"num_ART_patients_completed_6mths_IPT_females_below_15_yrs",
-        "label":"# of female ART patients under 15 who have completed 6mths IPT", 
-        "description": "# of female ART patients under 15 who have completed 6mths of IPT patients",
-        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='F' and timestampdiff(year,birthdate,@endDate) < 15  and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"num_ART_patients_completed_6mths_IPT_females_above_15_yrs",
-        "label":"# of female ART patients over 15 who have completed 6mths IPT", 
-        "description": "# of female ART patients over 15 who have completed 6mths of IPT patients",
-        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15  and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"num_ART_patients_completed_6mths_IPT_males_below_15_yrs",
-        "label":"# of male ART patients under 15 who have completed 6mths IPT", 
-        "description": "# of male ART patients under 15 who have completed 6mths of IPT patients",
-        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null) "
-    },
-    {
-        "name":"num_ART_patients_completed_6mths_IPT_males_above_15_yrs",
-        "label":"# of male ART patients over 15 who have completed 6mths IPT", 
-        "description": "# of male ART patients over 15 who have completed 6mths of IPT patients",
-        "expression": "(round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6) and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15  and (coalesce(t1.death_date, out_of_care) is null)"
-    },
+
     {
         "name":"num_ART_patients_newly_started_IPT_less_6mths",
         "label":"# ART patients newly started IPT less 6mths", 
         "description": "# ART patients newly started IPT and have completed less than 6mths on therapy",
         "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and (coalesce(t1.death_date, out_of_care) is null) "
-    },
-    {
-        "name":"num_ART_patients_newly_started_IPT_less_6mths_females_below_15yrs",
-        "label":"# female ART patients who are less than 15 years and newly started IPT less 6mths", 
-        "description": "# of female ART patients younger than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='F' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"num_ART_patients_newly_started_IPT_less_6mths_females_above_15yrs",
-        "label":"# female ART patients who are older than 15 years and newly started IPT less 6mths", 
-        "description": "# of female ART patients older than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='F' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"num_ART_patients_newly_started_IPT_less_6mths_males_below_15yrs",
-        "label":"# male ART patients who are less than 15 years and newly started IPT less 6mths", 
-        "description": "# of male ART patients younger than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='M' and timestampdiff(year,birthdate,@endDate) < 15 and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name":"num_ART_patients_newly_started_IPT_less_6mths_males_above_15yrs",
-        "label":"# male ART patients who are older than 15 years and newly started IPT less 6mths", 
-        "description": "# of male ART patients older than 15 yrs and newly started IPT and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and gender='M' and timestampdiff(year,birthdate,@endDate) >= 15 and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
         "name":"num_ART_patients_newly_started_IPT_this_period_less_6mths",
