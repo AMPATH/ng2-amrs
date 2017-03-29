@@ -247,11 +247,7 @@
                 "expression":"perc_ART_pats_screened_for_TB_receiving_TB_medication",
                 "sql":"[num_ART_pats_screened_for_tb_started_TB]/[num_ART_pats_screened_for_tb]"
             },
-            {
-                "label":"num_ART_pats_screened_for_tb_started_TB",
-                "expression":"num_ART_pats_screened_for_tb_started_TB",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
-            },
+
             {
                 "label":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
                 "expression":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
@@ -263,24 +259,45 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))"
             },
             {
+                "label":"num_ART_pats_screened_for_tb_started_TB",
+                "expression":"num_ART_pats_screened_for_tb_started_TB",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
                 "label":"num_ART_pats_screened_for_tb_started_TB_female_below_15",
                 "expression":"num_ART_pats_screened_for_tb_started_TB_female_below_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb_started_TB",
+                    "filter": "females_below_15"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb_started_TB_female_above_15",
                 "expression":"num_ART_pats_screened_for_tb_started_TB_female_above_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb_started_TB",
+                    "filter": "females_15_and_older"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb_started_TB_male_below_15",
                 "expression":"num_ART_pats_screened_for_tb_started_TB_male_below_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb_started_TB",
+                    "filter": "males_below_15"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb_started_TB_male_above_15",
                 "expression":"num_ART_pats_screened_for_tb_started_TB_male_above_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb_started_TB",
+                    "filter": "males_15_and_older"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb",
@@ -290,22 +307,38 @@
             {
                 "label":"num_ART_pats_screened_for_tb_female_below_15",
                 "expression":"num_ART_pats_screened_for_tb_female_below_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb",
+                    "filter": "females_below_15"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb_female_above_15",
                 "expression":"num_ART_pats_screened_for_tb_female_above_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb",
+                    "filter": "females_15_and_older"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb_male_below_15",
                 "expression":"num_ART_pats_screened_for_tb_male_below_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb",
+                    "filter": "males_below_15"
+                }
             },
             {
                 "label":"num_ART_pats_screened_for_tb_male_above_15",
                 "expression":"num_ART_pats_screened_for_tb_male_above_15",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_pats_screened_for_tb",
+                    "filter": "males_15_and_older"
+                }
             },
             {
                 "label":"perc_ART_pats_completed_6mths_IPT",
@@ -320,22 +353,38 @@
             {
                 "label":"num_ART_patients_completed_6mths_IPT_females_below_15_yrs",
                 "expression":"num_ART_patients_completed_6mths_IPT_females_below_15_yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_completed_6mths_IPT",
+                    "filter": "females_below_15"
+                }
             },
             {
                 "label":"num_ART_patients_completed_6mths_IPT_females_above_15_yrs",
                 "expression":"num_ART_patients_completed_6mths_IPT_females_above_15_yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_completed_6mths_IPT",
+                    "filter": "females_15_and_older"
+                }
             },
             {
                 "label":"num_ART_patients_completed_6mths_IPT_males_below_15_yrs",
                 "expression":"num_ART_patients_completed_6mths_IPT_males_below_15_yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_completed_6mths_IPT",
+                    "filter": "males_below_15"
+                }
             },
             {
                 "label":"num_ART_patients_completed_6mths_IPT_males_above_15_yrs",
                 "expression":"num_ART_patients_completed_6mths_IPT_males_above_15_yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_completed_6mths_IPT",
+                    "filter": "males_15_and_older"
+                }
             },
             {
                 "label":"num_ART_patients_newly_started_IPT_less_6mths",
@@ -345,22 +394,38 @@
             {
                 "label":"num_ART_patients_newly_started_IPT_less_6mths_females_below_15yrs",
                 "expression":"num_ART_patients_newly_started_IPT_less_6mths_females_below_15yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
+                    "filter": "males_15_and_older"
+                }
             },
             {
                 "label":"num_ART_patients_newly_started_IPT_less_6mths_females_above_15yrs",
                 "expression":"num_ART_patients_newly_started_IPT_less_6mths_females_above_15yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
+                    "filter": "females_below_15"
+                }
             },
             {
                 "label":"num_ART_patients_newly_started_IPT_less_6mths_males_below_15yrs",
                 "expression":"num_ART_patients_newly_started_IPT_less_6mths_males_below_15yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
+                    "filter": "males_below_15"
+                }
             },
             {
                 "label":"num_ART_patients_newly_started_IPT_less_6mths_males_above_15yrs",
                 "expression":"num_ART_patients_newly_started_IPT_less_6mths_males_above_15yrs",
-                "sql": "count(distinct if($expression,t1.person_id,0))"
+                "sql": "count(distinct if($expression,t1.person_id,0))",
+                "disaggregation": {
+                    "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
+                    "filter": "males_15_and_older"
+                }
             },
             {
                 "label":"num_ART_patients_newly_started_IPT_this_period_less_6mths",

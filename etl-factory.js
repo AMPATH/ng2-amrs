@@ -6,6 +6,8 @@ var helpers = require('./etl-helpers');
 var indicatorHandlersDefinition = require('./etl-processors.js');
 //Report Indicators Json Schema Path
 var indicatorsSchemaDefinition = require('./reports/indicators.json');
+var patientLevelIndicatorsSchema = require('./reports/patient-level.indicators.json');
+var disaggregationDictionary = require('./reports/dictionaries/disaggregation-dictionary.json');
 var patientLabOrderProperties = require('./patient-lab-orders.json');
 var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
@@ -28,70 +30,45 @@ reportList.push.apply(reportList, require('./reports/medical-history-report.json
 reportList.push.apply(reportList, require('./reports/clinic-lab-orders-report.json'));
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
-    var reports;
-    var indicatorsSchema;
+    var reports = [];
+    var indicatorsSchema = [];
     var indicatorHandlers;
-    var indicatorMap;
-    initialize(reportList, indicatorsSchemaDefinition, indicatorHandlersDefinition);
+    initialize(reportList, indicatorsSchemaDefinition, indicatorHandlersDefinition, patientLevelIndicatorsSchema);
     return {
         buildPatientListExpression: buildPatientListExpression,
         buildIndicatorsSchema: buildIndicatorsSchema,
         buildIndicatorsSchemaWithSections: buildIndicatorsSchemaWithSections,
         singleReportToSql: singleReportToSql,
         resolveIndicators: resolveIndicators,
-        getReportList: getReportList,
-        setReportList: setReportList,
-        getIndicatorsSchema: getIndicatorsSchema,
-        setIndicatorsSchema: setIndicatorsSchema,
-        getIndicatorHandlers: getIndicatorHandlers,
-        setIndicatorHandlers: setIndicatorHandlers,
         buildPatientListReportExpression: buildPatientListReportExpression,
         buildETLPatientLabOrdersExpression: buildETLPatientLabOrdersExpression
     };
 
-    function getReportList() {
-        return reports;
-    }
-
-    function setReportList(_reports) {
+    function initialize(_reports, _indicatorsSchema, _indicatorHandlers, _patientLevelIndicatorsSchema) {
         reports = _reports;
-    }
-
-    function getIndicatorsSchema() {
-        return indicatorsSchema;
-    }
-
-    function setIndicatorsSchema(_indicatorsSchema) {
-        indicatorsSchema = _indicatorsSchema;
-    }
-
-    function getIndicatorHandlers() {
-        return indicatorHandlers;
-    }
-
-    function setIndicatorHandlers(_indicatorHandlers) {
+        indicatorsSchema =[];
+        indicatorsSchema.push.apply(indicatorsSchema, _indicatorsSchema);
+        indicatorsSchema.push.apply(indicatorsSchema, _patientLevelIndicatorsSchema);
         indicatorHandlers = _indicatorHandlers;
-    }
-
-    function createIndicatorMap() {
-        // create a map
-        var map = {};
-        // Add key, value pairs into the map with indicator object
-        _.each(indicatorsSchema, function (indicator) {
-            var key = indicator.name;
-            var value = indicator;
-            map[key] = value;
+        // desegregate indicators
+        _.each(reports, function (report) {
+            _.each(report.indicators, function (reportIndicator) {
+                if (reportIndicator.disaggregation) {
+                    _.each(indicatorsSchema, function (indicator) {
+                        if (reportIndicator.disaggregation.indicator === indicator.name) {
+                            var disaggregation = disaggregationDictionary[reportIndicator.disaggregation.filter];
+                            if (disaggregation)
+                                indicatorsSchema.push({
+                                    name: reportIndicator.expression,
+                                    label: indicator.label + ' ' + disaggregation.label,
+                                    description: indicator.description + ', ' + disaggregation.description,
+                                    expression: indicator.expression + ' and ' + disaggregation.expression
+                                });
+                        }
+                    });
+                }
+            });
         });
-        //make map global
-        indicatorMap = map;
-
-    }
-
-
-    function initialize(_reports, _indicatorsSchema, _indicatorHandlers) {
-        setReportList(_reports);
-        setIndicatorsSchema(_indicatorsSchema);
-        setIndicatorHandlers(_indicatorHandlers);
     }
 
     function resolveIndicators(reportName, result, requestIndicators) {
@@ -632,7 +609,7 @@ module.exports = function () {
     }
 
     function getAllDatasets(reportName, allReports) {
-        _.each(reportList, function (report) {
+        _.each(reports, function (report) {
             if (report.name === reportName) {
                 _.each(report.joins, function (join) {
                     if (join.dynamicDataset) {
@@ -721,7 +698,7 @@ module.exports = function () {
         var param = [];
         var dataSets = getAllDatasets(queryParams.reportName, [queryParams.reportName]);
         _.each(dataSets, function (dataSet) {
-            _.each(reportList, function (report) {
+            _.each(reports, function (report) {
                 if (report.name === dataSet) {
                     _.each(report.indicators, function (singleIndicator) {
                         _.each(indicatorsSchema, function (indicator) {
@@ -779,7 +756,7 @@ module.exports = function () {
         result.whereClause.push(filter.query);
         result.whereClause.push.apply(result.whereClause, filter.params);
         result.resource = filter.table;
-        _.each(reportList, function (report) {
+        _.each(reports, function (report) {
             if (report.name === queryParams.reportName) {
                 var join = joinsToSql(report.joins, queryParams) || [];
                 join.push({
