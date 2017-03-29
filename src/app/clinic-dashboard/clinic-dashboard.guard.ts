@@ -32,7 +32,8 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
           routes: []
         });
       } else if (userLocation && userLocation.uuid) {
-        this.router.navigate(['/clinic-dashboard', userLocation.uuid, 'daily-schedule']);
+        this.router.navigate(['/clinic-dashboard', userLocation.uuid,
+          'daily-schedule']);
       } else {
         return true;
       }
