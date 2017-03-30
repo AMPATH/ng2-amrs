@@ -75,7 +75,7 @@
     "ag-grid": "^8.1.0",
     "ag-grid-angular": "^8.1.0",
     "ag-grid-enterprise": "^8.1.0",
-    "angular-calendar": "^0.7.2",
+    "angular-calendar": "0.9.1",
     "angular2-busy": "^1.0.2",
     "angular2-ladda": "1.0.7",
     "angular2-materialize": "^5.2.1",

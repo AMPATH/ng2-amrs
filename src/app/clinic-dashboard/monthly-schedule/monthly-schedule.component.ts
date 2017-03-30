@@ -17,6 +17,7 @@ import {
 import * as Moment from 'moment';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -44,16 +45,19 @@ export class MonthlyScheduleComponent implements OnInit {
   viewDate: Date = new Date();
   view = 'month';
   events: CalendarEvent[] = [];
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
   location: string = '';
   busy: Subscription;
   fetchError = false;
   constructor(private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private clinicDashboardCacheService: ClinicDashboardCacheService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics) { }
 
   ngOnInit() {
+    this.appFeatureAnalytics
+    .trackEvent('Monthly Schedule', 'Monthly Schedule loaded', 'ngOnInit');
+
     this.clinicDashboardCacheService.getCurrentClinic().subscribe((location: string) => {
       this.location = location;
       this.getAppointments();
@@ -64,8 +68,8 @@ export class MonthlyScheduleComponent implements OnInit {
     //     this.location = params['location_uuid'];
     //  });
 
-   }
-  getAppointments() {
+  }
+  public getAppointments() {
     this.fetchError = false;
     this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
       endDate: Moment(endOfMonth(this.viewDate)).format('YYYY-MM-DD'),
@@ -77,12 +81,32 @@ export class MonthlyScheduleComponent implements OnInit {
       this.fetchError = true;
     });
   }
-  addBadgeTotal(day: CalendarMonthViewDay): void {
+  public addBadgeTotal(day: CalendarMonthViewDay): void {
     day.badgeTotal = 0;
   }
 
+  public navigateToDaily(event) {
+    switch (event.type) {
+      case 'scheduled':
+        this.router.navigate(['clinic-dashboard',
+          this.location, 'daily-schedule', 'daily-appointments'],
+          { queryParams: { date: Moment(event.start).format('YYYY-MM-DD') } });
+        break;
+      case 'attended':
+        this.router.navigate(['clinic-dashboard',
+          this.location, 'daily-schedule', 'daily-visits'],
+          { queryParams: { date: Moment(event.start).format('YYYY-MM-DD') } });
+        break;
+      case 'has_not_returned':
+        this.router.navigate(['clinic-dashboard',
+          this.location, 'daily-schedule', 'daily-not-returned'],
+          { queryParams: { date: Moment(event.start).format('YYYY-MM-DD') } });
+        break;
+      default:
+    }
+  }
 
-  processEvents(results) {
+  public processEvents(results) {
     let processed = [];
     for (let e of results) {
       /* tslint:disable for-in*/
@@ -92,23 +116,29 @@ export class MonthlyScheduleComponent implements OnInit {
           case 'scheduled':
             processed.push({
               start: new Date(e.date),
-              title: 'Scheduled ' + e.count[key],
-              color: colors.blue
+              type: 'scheduled',
+              title: e.count[key],
+              color: colors.blue,
+              class: 'label label-info'
             });
             break;
           case 'attended':
             processed.push({
               start: new Date(e.date),
-              title: 'Attended ' + e.count[key],
-              color: colors.green
+              title: e.count[key],
+              color: colors.green,
+              type: 'attended',
+              class: 'label label-success'
             });
             break;
           case 'has_not_returned':
             if (e.count[key] > 0) {
               processed.push({
                 start: new Date(e.date),
-                title: 'Not attended ' + e.count[key],
-                color: colors.yellow
+                title: e.count[key],
+                color: colors.yellow,
+                type: 'has_not_returned',
+                class: 'label label-warning'
               });
             }
             break;
@@ -120,18 +150,8 @@ export class MonthlyScheduleComponent implements OnInit {
     }
     return processed;
   }
-  dayClicked({ date, events }: { date: Date, events: CalendarEvent[] }): void {
 
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-        this.viewDate = date;
-      }
-    }
+  public dayClicked({ date, events }: { date: Date, events: CalendarEvent[] }): void {
+
   }
 }
