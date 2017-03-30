@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/Rx';
-
+import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import * as Moment from 'moment';
 @Injectable()
 export class ClinicDashboardCacheService {
     private cached = {};
 
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);
+<<<<<<< HEAD
 
+=======
+    private dailTabCurrentDate = Moment(this.currentClinic).format('YYYY-MM-DD');
+    private dailTabCurrentDateSubject = new BehaviorSubject(this.dailTabCurrentDate);
+    private currentTab = new Subject();
+>>>>>>> 33c6c7265e4f0ccb3b30db0a3d5b717b044f4901
     constructor() { }
     public add(key: string, value: any) {
         this.cached[key] = value;
@@ -28,7 +34,20 @@ export class ClinicDashboardCacheService {
         this.initialUuid = currentClinicUuid;
         this.currentClinic.next(currentClinicUuid);
     }
+    public setCurrentTab(currentTab: string) {
+        this.currentTab.next(currentTab);
+    }
     public getCurrentClinic() {
         return this.currentClinic;
+    }
+    public getCurrentTab() {
+        return this.currentTab;
+    }
+    public setDailyTabCurrentDate(date) {
+        this.dailTabCurrentDate = Moment(date).format('YYYY-MM-DD');
+        this.dailTabCurrentDateSubject.next(this.dailTabCurrentDate);
+    }
+    public getDailyTabCurrentDate() {
+        return this.dailTabCurrentDateSubject;
     }
 }

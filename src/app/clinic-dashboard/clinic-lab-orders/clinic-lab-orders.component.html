@@ -1,0 +1,37 @@
+<div style="padding:4px;margin-bottom:0.5cm;">
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label for="start-date">Select Date</label>
+
+      <div>
+        <p class="input-group">
+
+          <input [(ngModel)]="selectedDate" type="date" (ngModelChange)="dateChanged($event)"/>
+        </p>
+        <div style="padding-bottom: 23px">
+          <button class="btn btn-info previous" style="float:left" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
+          <button class="btn btn-info next" style="float:right" (click)="navigateDay(1)">Next Day <span class="glyphicon glyphicon-chevron-right"></span></button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+
+<div>
+  <div>
+    <ag-grid-angular #agGrid style="width: 100%; height: 350px;" class="ag-blue"
+                     [gridOptions]="gridOptions"
+                     (rowClicked)='onRowClicked($event)'
+                     [rowData]="results"
+                     enableSorting
+                     enableFilter>
+
+    </ag-grid-angular>
+  </div>
+
+</div>
+
