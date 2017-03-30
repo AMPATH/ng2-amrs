@@ -1,26 +1,41 @@
-<p>
-  daily-schedule works!
-</p>
-<!--<p-growl [value]="msgs" sticky="sticky"></p-growl>
-<p-tabView>
-  <p-tabPanel header="Report Filter Demo">
-    <report-filter
-      [enabledControls]="['indicatorsControl','endDateControl', 'genderControl', 'startDateControl', 'locationsControl', 'ageRangeControl', 'formsControl']"
-      (onGenerateReport)="onGenerateReport($event)" [(reportFilterModel)]="reportFilter"
-      [buttonName]="'Generate Report'" [showButton]="true"
-      [reportFilterTitle]="'Report Filter'" [enableDiagnostic]="true" [reportName]="'hiv-summary-monthly-report'">
-    </report-filter>
+<div style="padding:4px;margin-bottom:0.5cm;">
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label for="start-date">Select Date</label>
+      <div class="input-group">
+        <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="model"
+          [options]="dateOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
 
-    <p-fieldset legend="This should change when ReportFilterComponent changes:">
-      <strong>{{diagnostic}}</strong>
-    </p-fieldset>
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+        </span>
+      </div>
+      <br>
+      <div>
+        <div>
+          <button class="btn btn-info previous" style="float:left" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
+          <button class="btn btn-info next" style="float:right" (click)="navigateDay(1)">Next Day <span class="glyphicon glyphicon-chevron-right"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav md-tab-nav-bar aria-label="weather navigation links">
+    <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
+      (click)="activeLinkIndex = i">
+      {{tabLink.label}}
+    </a>
+  </nav>
+  <br>
+  <router-outlet></router-outlet>
 
-
-  </p-tabPanel>
-  <p-tabPanel header="Tab Panel 2">
-    content 3
-  </p-tabPanel>
-  <p-tabPanel header="Tab Panel 3">
-    Content 3
-  </p-tabPanel>
-</p-tabView>-->
+</div>
+<div *ngIf='errors.length>0'>
+  <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  </div>
+</div>
