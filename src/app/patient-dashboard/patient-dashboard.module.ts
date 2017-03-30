@@ -75,10 +75,10 @@ import { OrderListComponent } from './formentry/order-list.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
 import {
   PatientRelationshipSearchComponent
- } from './patient-search/patient-relationship-search.component';
+} from './patient-search/patient-relationship-search.component';
 import {
   AddPatientRelationshipComponent
- } from './patient-relationships/add-patient-relationship.component';
+} from './patient-relationships/add-patient-relationship.component';
 import {
   EditPatientRelationshipComponent
 } from './patient-relationships/edit-patient-relationship.component';
@@ -178,7 +178,6 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     PdfViewerComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
-    PatientSideNavComponent,
     EditPatientRelationshipComponent,
     AddPatientRelationshipComponent,
     PatientRelationshipSearchComponent
@@ -209,7 +208,6 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     HivPatientClinicalSummaryService,
     DatePipe,
     PatientIdentifierService,
-    PatientRoutesFactory,
     PatientRelationshipTypeService
   ],
   exports: [
@@ -234,7 +232,6 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
     OrderListComponent,
     PatientRelationshipsComponent,
     EditPatientIdentifierComponent,
-    PatientSideNavComponent,
     EditPatientRelationshipComponent,
     AddPatientRelationshipComponent,
     PatientRelationshipSearchComponent

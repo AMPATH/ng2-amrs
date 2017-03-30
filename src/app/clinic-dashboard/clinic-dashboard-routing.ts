@@ -5,8 +5,6 @@ import { DailyScheduleComponent } from './daily-schedule/daily-schedule.componen
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
-import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
-import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
@@ -32,10 +30,6 @@ const clinicDashboardRoutes: Routes = [
 
       },
       { path: 'monthly-schedule', component: MonthlyScheduleComponent },
-      {
-        path: 'visualization', component: VisualizationComponent
-      },
-      { path: 'clinic-lab-orders', component: ClinicLabOrdersComponent },
       { path: '', redirectTo: 'daily-schedule' + [0], pathMatch: 'prefix' },
     ],
     canActivate: [
