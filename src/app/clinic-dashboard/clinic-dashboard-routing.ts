@@ -12,10 +12,14 @@ import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
 import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
-import { VisualizationPatientListComponent
+import {
+  VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
+import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
+import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
 
 const clinicDashboardRoutes: Routes = [
   {
@@ -33,6 +37,15 @@ const clinicDashboardRoutes: Routes = [
           { path: 'daily-visits', component: DailyScheduleVisitsComponent },
           { path: 'daily-appointments', component: DailyScheduleAppointmentsComponent },
           { path: 'daily-not-returned', component: DailyScheduleNotReturned },
+          {
+            path: 'clinic-flow', component: ClinicFlowComponent,
+            children: [
+              { path: 'visits', component: ClinicFlowVisitsComponent },
+              { path: 'summary', component: ClinicFlowSummaryComponent },
+              { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
+
+            ]
+          },
           { path: '', redirectTo: 'daily-appointments', pathMatch: 'prefix' },
         ]
 
@@ -43,7 +56,7 @@ const clinicDashboardRoutes: Routes = [
         children: [
           {
             path: '',
-           component: VisualizationComponent
+            component: VisualizationComponent
           },
           {
             path: 'patient-list/:report/:indicator/:period',

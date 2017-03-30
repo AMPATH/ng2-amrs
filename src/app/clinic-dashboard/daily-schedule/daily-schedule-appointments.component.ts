@@ -51,14 +51,16 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
             getDailyTabCurrentDate().subscribe((date) => {
             if ( this.loadingDailyAppointments === false) {
               this.selectedDate = date;
+
               this.initParams();
               let params = this.getQueryParams();
               this.getDailyAppointments(params);
             }
 
-          });
 
+          });
         }
+
       });
   }
 
@@ -80,6 +82,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   public getDailyAppointments(params) {
     this.loadingDailyAppointments = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
+
     let result = this.dailyScheduleResource.
       getDailyAppointments(params);
     if (result === null) {
@@ -118,6 +121,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
     let params = this.getQueryParams();
     this.getDailyAppointments(params);
+
   }
 
   private initParams() {

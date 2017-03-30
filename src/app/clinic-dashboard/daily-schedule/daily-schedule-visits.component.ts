@@ -54,6 +54,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
               let params = this.getQueryParams();
               this.getDailyVisits(params);
             }
+
             });
 
         }
@@ -62,10 +63,12 @@ export class DailyScheduleVisitsComponent implements OnInit {
 
 
   loadMoreVisits() {
+
     this.loadingDailyVisits = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
     let params = this.getQueryParams();
     this.getDailyVisits(params);
+
   }
 
   public getQueryParams() {
@@ -79,7 +82,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
   }
 
   private initParams() {
-    this.loadingDailyVisits = true;
+    this.loadingDailyVisits = false;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
     this.dataLoaded = false;
     this.nextStartIndex = 0;

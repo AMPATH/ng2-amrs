@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-sm-12 col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span>Clinic Flow</span>
+            </div>
+            <div class="panel-body">
+                <nav md-tab-nav-bar aria-label="weather navigation links">
+                    <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
+                        (click)="activeLinkIndex = i">{{tabLink.label}}</a>
+                </nav>
+                <br>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

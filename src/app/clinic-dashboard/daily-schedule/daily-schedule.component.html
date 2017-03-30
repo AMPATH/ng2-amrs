@@ -2,41 +2,21 @@
   <div [ngBusy]="{busy:loadingData,message:'Please Wait...'}"></div>
   <div class="row">
     <div class="form-group col-md-12">
-      <label for="start-date">Select Date</label>
-      <div class="input-group">
-        <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="model"
-          [options]="dateOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
-
-        <span class="input-group-btn">
-            <button type="button" class="btn btn-default" (click)="dp.clearDate()">
-                <i class="glyphicon glyphicon-remove"></i>
-            </button>
-            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-        </span>
-      </div>
-      <br>
-      <div>
-        <div>
-          <button class="btn btn-info previous" style="float:left" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
-          <button class="btn btn-info next" style="float:right" (click)="navigateDay(1)">Next Day <span class="glyphicon glyphicon-chevron-right"></span></button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <nav md-tab-nav-bar aria-label="weather navigation links">
-    <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
-      (click)="activeLinkIndex = i">
+      <date-selector (dateSelected)="getSelectedDate($event)" [default]="selectedDate"></date-selector>
+      <nav md-tab-nav-bar aria-label="weather navigation links">
+        <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
+          (click)="activeLinkIndex = i">
       {{tabLink.label}}
     </a>
-  </nav>
-  <br>
-  <router-outlet></router-outlet>
+      </nav>
+      <br>
+      <router-outlet></router-outlet>
 
-</div>
-<div *ngIf='errors.length>0'>
-  <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+    </div>
+    <div *ngIf='errors.length>0'>
+      <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+      </div>
+    </div>
   </div>
 </div>

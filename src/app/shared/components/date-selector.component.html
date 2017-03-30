@@ -1,0 +1,27 @@
+<div style="padding:4px;margin-bottom:0.5cm;">
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="start-date">Select Date</label>
+            <div class="input-group">
+                <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="model"
+                    [options]="dateOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+
+                <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+        </span>
+            </div>
+            <br>
+            <div>
+                <div>
+                    <button class="btn btn-info previous" style="float:left" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
+                    <button class="btn btn-info next" style="float:right" (click)="navigateDay(1)">Next Day <span class="glyphicon glyphicon-chevron-right"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
