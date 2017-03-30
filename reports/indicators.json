@@ -573,7 +573,7 @@
     {
         "name":"other_patient_care_status",
         "label":"other status",
-        "description": "This indicator includes all patients who do not fall in either of the above categorie",
+        "description": "This indicator includes all patients who do not fall in either of the above categories ",
         "expression": "patient_care_status not in (159,9079,1287,9036,6101,9083)"
     },
     {
