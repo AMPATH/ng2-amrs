@@ -7,6 +7,8 @@ var reportFactory = require('../../etl-factory');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
 var Promise = require('bluebird');
+var moh731VlegacSectionDefinitions = require('../../service/moh-731/moh-731-2017');
+var moh731V2017SectionDefinitions = require('../../service/moh-731/moh-731-legacy');
 module.exports = function () {
     return {
         getCustomData: function getCustomData(request, callback) {
@@ -319,7 +321,7 @@ module.exports = function () {
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
 
             var whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ? " +
-            "and t1.location_uuid in ?", startDate, endDate, locations];
+                "and t1.location_uuid in ?", startDate, endDate, locations];
             console.log('here is the no of locations selected', request.query.locationUuids);
             if (request.query.locationUuids === undefined)
                 whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
@@ -347,7 +349,7 @@ module.exports = function () {
             var order = helpers.getSortOrder(requestParams.order);
             var reportName = requestParams.reportName || 'hiv-summary-report';
             var locationUuids = requestParams.locationUuids;
-            var locationIds = requestParams.locations||'';
+            var locationIds = requestParams.locations || '';
             var locations = [];
             var startAge = requestParams.startAge || 0;
             var endAge = requestParams.endAge || 150;
@@ -406,7 +408,36 @@ module.exports = function () {
                     reject(Boom.badRequest('An error occurred while generating patient list, please check parameter and try again'));
                 }
             });
-        }
+        },
+
+        getMOH731Report: function (reportParams) {
+            //build report
+            if (reportParams.isAggregated === true) {
+                reportParams[groupBy] = 'groupByPerson';
+            }
+            if (reportParams.isAggregated === false) {
+                reportParams[groupBy] = 'groupByLocation,groupByPerson';
+            }
+            var queryParts = reportFactory.singleReportToSql(reportParams);
+            return new Promise(function (resolve, reject) {
+                db.reportQueryServer(queryParts, function (results) {
+                    if (results.error) {
+                        results.queryParts = queryParts;
+                        reject(results);
+                    } else {
+                        reportFactory.buildIndicatorsSchema(reportParams, function (indicators) {
+                            results.indicatorDefinitions = indicators;
+                            if (reportParams.reportName === 'MOH-731-report') {
+                                results.sectionDefinitions = moh731VlegacSectionDefinitions;
+                            } else if (reportParams.reportName === 'MOH-731-report-2017') {
+                                results.sectionDefinitions = moh731V2017SectionDefinitions;
+                            }
+                            resolve(results);
+                        });
+                    }
+                });
+            });
+        },
 
     };
-}();
+} ();

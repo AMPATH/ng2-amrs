@@ -1302,7 +1302,72 @@ module.exports = function () {
             }
 
         }
-    }, {
+    },
+    {
+        method: 'GET',
+        path: '/etl/MOH-731-report',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }],
+                    aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                        {
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'report', //name of the parameter
+                            value: 'MOH-731-report' //parameter value
+                        }, {
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'report', //name of the parameter
+                            value: 'MOH-731-report-2017' //parameter value
+                        }
+                    ]
+                }
+            },
+            handler: function (request, reply) {
+                //security check
+                if (!authorizer.hasReportAccess(request.query.report)) {
+                    return reply(Boom.forbidden('Unauthorized'));
+                }
+                let compineRequestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                    ['startDate', 'endDate', 'locationUuids', 'isAggregated'], compineRequestParams);
+
+                dao.getMOH731Report(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the MOH 731 report",
+            notes: "Api endpoint that returns MOH 731 report. It includes both MOH versions (legacy and 2017).",
+            tags: ['api'],
+            validate: {
+                query: {
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    reportName: Joi.string()
+                        .required()
+                        .description("the name of the report you want patient list"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                    isAggregated: Joi.string()
+                        .optional()
+                        .description("Boolean checking if report is aggregated"),
+                        
+                }
+            }
+        }
+    },
+    {
         method: 'GET',
         path: '/etl/location/{locationUuids}/patient-by-indicator',
         config: {
@@ -1799,4 +1864,4 @@ module.exports = function () {
     ];
 
     return routes;
-}();
+} ();
