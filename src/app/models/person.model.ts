@@ -191,6 +191,15 @@ export class Person extends BaseModel {
   public set preferredAddress(v: string) {
     this._openmrsModel.preferredAddress = v;
   }
+
+  @serializable(true, false)
+  public get dead(): boolean {
+    return this._openmrsModel.dead;
+  }
+  public set dead(v: boolean) {
+    this._openmrsModel.dead = v;
+  }
+
   @serializable(true, false)
   public get deathDate(): Date {
     return this._openmrsModel.deathDate;
@@ -198,6 +207,7 @@ export class Person extends BaseModel {
   public set deathDate(v: Date) {
     this._openmrsModel.deathDate = v;
   }
+
   @serializable(true, false)
   public get causeOfDeath(): string {
     if (this._openmrsModel.causeOfDeath) {
@@ -208,4 +218,5 @@ export class Person extends BaseModel {
   public set causeOfDeath(v: string) {
     this._openmrsModel.deathDate = v;
   }
+
 }
