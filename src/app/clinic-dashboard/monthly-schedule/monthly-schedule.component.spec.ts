@@ -13,6 +13,8 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache/ionic-cache';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 class DataStub {
 
@@ -233,6 +235,10 @@ describe('MonthlyScheduleComponent', () => {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
         },
+        {
+          provide: AppFeatureAnalytics,
+          useClass: FakeAppFeatureAnalytics
+        },
         MockBackend,
         BaseRequestOptions
       ]
@@ -269,7 +275,7 @@ describe('MonthlyScheduleComponent', () => {
     comp.dayClicked({ date: new Date(), events: [] });
     comp.dayClicked({ date: undefined, events: [] });
     fixture.detectChanges();
-    expect(events[0].title).toEqual('Attended 84');
+    expect(events[0].title).toEqual(84);
   });
 
 });
