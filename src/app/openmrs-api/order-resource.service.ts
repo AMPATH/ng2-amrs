@@ -31,6 +31,8 @@ export class OrderResourceService {
 
     return this.http.get(url, {
       search: params
+    }).map((response: Response) => {
+      return response.json();
     });
   }
 
