@@ -48,10 +48,43 @@ export class LabSyncComponent implements OnInit, OnDestroy {
             patientUuId: this.patient.person.uuid
         }).subscribe((result) => {
             this.fetchingResults = false;
-            this.results = result;
+            this.results = this.processResult(result);
+            console.warn(this.results);
         }, (err) => {
             this.fetchingResults = false;
             this.error = err;
         });
+    }
+
+    processResult(results: any) {
+
+      let data: any = [];
+
+      for (let result of results) {
+        if (result && result.concept && result.concept.display === 'CD4 PANEL') {
+          let cd4Result: any = {
+            isCd4Result: true,
+            groupMembers: result.groupMembers
+          };
+
+          for (let member of result.groupMembers) {
+            switch (member.concept.uuid) {
+              case 'a8a8bb18-1350-11df-a1f1-0026b9348838':
+                cd4Result.cd4 = member.value;
+                break;
+              case 'a8970a26-1350-11df-a1f1-0026b9348838':
+                cd4Result.cd4Percent = member.value;
+                break;
+              default:
+                break;
+            }
+          }
+
+          data.push(cd4Result);
+        } else {
+          data.push(result);
+        }
+      }
+      return data;
     }
 }
