@@ -13,7 +13,7 @@
       }
     ],
     "filters": [
-      {"expression":"t1.location_uuid in (?)","parameter":"locationUuids"},
+      {"expression":"t1.location_uuid in ?","parameter":"locationUuids"},
       {"expression":"date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
       {"expression":"date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"},
       {"expression":"t1.is_clinical_encounter = 1", "processForce":true}

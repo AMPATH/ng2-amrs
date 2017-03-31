@@ -29,6 +29,15 @@ module.exports = function () {
                 queryParams.locations = locations;
             }
 
+            // format locationUuids
+            var locationUuids = [];
+            if (queryParams.locationUuids) {
+                _.each(queryParams.locationUuids.split(','), function (loc) {
+                    locationUuids.push(String(loc));
+                });
+                queryParams.locationUuids = locationUuids;
+            }
+
             //
             for (let filter of whereClause) {
                 whereParams.push({
@@ -43,7 +52,8 @@ module.exports = function () {
                 groupBy: queryParams.groupBy || 'groupByLocation',
                 offset: queryParams.startIndex,
                 limit: queryParams.limit,
-                requestIndicators: queryParams.indicators
+                requestIndicators: queryParams.indicators,
+                requestParams:queryParams
             }
             return reportParams;
         },

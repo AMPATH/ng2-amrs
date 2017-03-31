@@ -1,0 +1,43 @@
+[
+  {
+    "name": "MOH-731-report-2017",
+    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-2017-any-encounters-within-reporting-period-dataset"},
+    "joins":[
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t2","joinExpression":"t2.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-2017-monthly-dataset"},
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-2017-retention-dataset"},
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
+        "dynamicDataset":"moh-731-cumulative-dataset"}
+    ],
+    "parameters": [
+      {
+        "name":"locationUuids",
+        "defaultValue":[]
+      },
+      {
+        "name":"groupByLocation",
+        "defaultValue":[{"label":"location","expression":"t1.location_uuid"}]
+      },
+      {
+        "name":"groupByMonth",
+        "defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]
+      }
+    ],
+    "filters": [
+      {"expression":"t1.location_uuid in ?","parameter":"locationUuids"}
+    ],
+    "groupClause":[
+      {"parameter":"groupByLocation"},
+      {"parameter":"groupByMonth"}
+    ],
+    "indicators": [],
+    "supplementColumns":[
+      {
+        "label":"all",
+        "type":"all",
+        "sql":"*"
+      }
+    ]
+  }
+]
