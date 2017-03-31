@@ -1369,6 +1369,56 @@ module.exports = function () {
     },
     {
         method: 'GET',
+        path: '/etl/MOH-731-report/patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                },
+            },
+            handler: function (request, reply) {
+		   let compineRequestParams = Object.assign({}, request.query, request.params);
+
+                dao.getPatientListReport(compineRequestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the MOH 731 patient list",
+            notes: "Returns the patient list for MOH 731",
+            tags: ['api'],
+            validate: {
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    reportName: Joi.string()
+                        .required()
+                        .description("the name of the report you want patient list"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
+
+                }
+            }
+        }
+    },
+    {
+        method: 'GET',
         path: '/etl/location/{locationUuids}/patient-by-indicator',
         config: {
             auth: 'simple',
