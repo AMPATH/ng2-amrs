@@ -411,13 +411,8 @@ module.exports = function () {
         },
 
         getMOH731Report: function (reportParams) {
-            //build report
-            if (reportParams.isAggregated === true) {
-                reportParams[groupBy] = 'groupByPerson';
-            }
-            if (reportParams.isAggregated === false) {
-                reportParams[groupBy] = 'groupByLocation,groupByPerson';
-            }
+            reportParams.requestParams.isAggregated === true ? reportParams.groupBy = '' :
+                reportParams.groupBy = 'groupByLocation';
             var queryParts = reportFactory.singleReportToSql(reportParams);
             return new Promise(function (resolve, reject) {
                 db.reportQueryServer(queryParts, function (results) {

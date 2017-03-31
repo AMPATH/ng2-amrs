@@ -7,18 +7,25 @@ var indicatorHandlersDefinition = require('./etl-processors.js');
 //Report Indicators Json Schema Path
 var indicatorsSchemaDefinition = require('./reports/indicators.json');
 var patientLevelIndicatorsSchema = require('./reports/patient-level.indicators.json');
-var disaggregationDictionary = require('./reports/dictionaries/disaggregation-dictionary.json');
+var disaggregationFilters = require('./reports/disaggregation-filters.json');
 var patientLabOrderProperties = require('./patient-lab-orders.json');
 var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
 reportList.push.apply(reportList, require('./reports/hiv-summary-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-report.json'));
+// MOH-731 Legacy
+reportList.push.apply(reportList, require('./reports/moh-731-legacy/moh-731-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-legacy/moh-731-cohort-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-legacy/moh-731-indicator-report.json'));
+
+// MOH-731 2017
+reportList.push.apply(reportList, require('./reports/moh-731-2017/moh-731-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-2017/moh-731-cohort-report.json'));
+reportList.push.apply(reportList, require('./reports/moh-731-2017/moh-731-indicator-report.json'));
+
 reportList.push.apply(reportList, require('./reports/patient-register-report.json'));
 reportList.push.apply(reportList, require('./reports/clinic-calander-report-v2.json'));
 reportList.push.apply(reportList, require('./reports/daily-visits-appointment.report.json'));
 reportList.push.apply(reportList, require('./reports/clinical-reminder-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-cohort-report.json'));
-reportList.push.apply(reportList, require('./reports/moh-731-indicator-report.json'));
 reportList.push.apply(reportList, require('./reports/dataentry-statistics.json'));
 reportList.push.apply(reportList, require('./reports/clinical-overview-visualization-report.json'));
 reportList.push.apply(reportList, require('./reports/hiv-summary-monthly-report.json'));
@@ -46,7 +53,7 @@ module.exports = function () {
 
     function initialize(_reports, _indicatorsSchema, _indicatorHandlers, _patientLevelIndicatorsSchema) {
         reports = _reports;
-        indicatorsSchema =[];
+        indicatorsSchema = [];
         indicatorsSchema.push.apply(indicatorsSchema, _indicatorsSchema);
         indicatorsSchema.push.apply(indicatorsSchema, _patientLevelIndicatorsSchema);
         indicatorHandlers = _indicatorHandlers;
@@ -56,13 +63,25 @@ module.exports = function () {
                 if (reportIndicator.disaggregation) {
                     _.each(indicatorsSchema, function (indicator) {
                         if (reportIndicator.disaggregation.indicator === indicator.name) {
-                            var disaggregation = disaggregationDictionary[reportIndicator.disaggregation.filter];
-                            if (disaggregation)
-                                indicatorsSchema.push({
+                            var derivedIndicator = {
+                                label: '',
+                                description: '',
+                                expression: ''
+                            }
+                            _.each(reportIndicator.disaggregation.filters, function (filter) {
+                                var disaggregation = disaggregationFilters[filter];
+                                if (disaggregation) {
+                                    derivedIndicator.label += ' ' + disaggregation.label;
+                                    derivedIndicator.description += ', ' + disaggregation.description;
+                                    derivedIndicator.expression += ' and ' + disaggregation.expression;
+                                }
+                            });
+                            if (derivedIndicator.expression !== '')
+                                indicatorsSchema.unshift({
                                     name: reportIndicator.expression,
-                                    label: indicator.label + ' ' + disaggregation.label,
-                                    description: indicator.description + ', ' + disaggregation.description,
-                                    expression: indicator.expression + ' and ' + disaggregation.expression
+                                    label: indicator.label + ' ' + derivedIndicator.label,
+                                    description: indicator.description + 'and disaggregated ' + derivedIndicator.description,
+                                    expression: indicator.expression + derivedIndicator.expression
                                 });
                         }
                     });

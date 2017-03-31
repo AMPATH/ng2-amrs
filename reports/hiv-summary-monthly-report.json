@@ -28,7 +28,7 @@
         "filters": [
             {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
             {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-            {"expression":"t1.location_uuid in (?)", "parameter":"locationUuids"},
+            {"expression":"t1.location_uuid in ?", "parameter":"locationUuids"},
             {"expression":"round(datediff(t1.encounter_datetime,t4.birthdate)/365) >= ?", "parameter":"startAge"},
             {"expression":"round(datediff(t1.encounter_datetime,t4.birthdate)/365) <= ?", "parameter":"endAge"},
             {"expression":"t4.gender in ?", "parameter":"gender"},
@@ -269,7 +269,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb_started_TB",
-                    "filter": "females_below_15"
+                    "filters": ["female", "age_below_15"]
                 }
             },
             {
@@ -278,7 +278,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb_started_TB",
-                    "filter": "females_15_and_older"
+                    "filters": ["female","age_15_and_older"]
                 }
             },
             {
@@ -287,7 +287,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb_started_TB",
-                    "filter": "males_below_15"
+                    "filters": ["male", "age_below_15"]
                 }
             },
             {
@@ -296,7 +296,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb_started_TB",
-                    "filter": "males_15_and_older"
+                    "filters": ["male","age_15_and_older"]
                 }
             },
             {
@@ -310,7 +310,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb",
-                    "filter": "females_below_15"
+                    "filters": ["female", "age_below_15"]
                 }
             },
             {
@@ -319,7 +319,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb",
-                    "filter": "females_15_and_older"
+                    "filters": ["female","age_15_and_older"]
                 }
             },
             {
@@ -328,7 +328,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb",
-                    "filter": "males_below_15"
+                    "filters": ["male", "age_below_15"]
                 }
             },
             {
@@ -337,7 +337,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_pats_screened_for_tb",
-                    "filter": "males_15_and_older"
+                    "filters": ["male","age_15_and_older"]
                 }
             },
             {
@@ -356,7 +356,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_completed_6mths_IPT",
-                    "filter": "females_below_15"
+                    "filters": ["female", "age_below_15"]
                 }
             },
             {
@@ -365,7 +365,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_completed_6mths_IPT",
-                    "filter": "females_15_and_older"
+                    "filters": ["female","age_15_and_older"]
                 }
             },
             {
@@ -374,7 +374,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_completed_6mths_IPT",
-                    "filter": "males_below_15"
+                    "filters": ["male", "age_below_15"]
                 }
             },
             {
@@ -383,7 +383,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_completed_6mths_IPT",
-                    "filter": "males_15_and_older"
+                    "filters": ["male","age_15_and_older"]
                 }
             },
             {
@@ -397,7 +397,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
-                    "filter": "males_15_and_older"
+                    "filters": ["male","age_15_and_older"]
                 }
             },
             {
@@ -406,7 +406,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
-                    "filter": "females_below_15"
+                    "filters": ["female", "age_below_15"]
                 }
             },
             {
@@ -415,7 +415,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
-                    "filter": "males_below_15"
+                    "filters": ["male", "age_below_15"]
                 }
             },
             {
@@ -424,7 +424,7 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))",
                 "disaggregation": {
                     "indicator":"num_ART_patients_newly_started_IPT_less_6mths",
-                    "filter": "males_15_and_older"
+                    "filters": ["male","age_15_and_older"]
                 }
             },
             {

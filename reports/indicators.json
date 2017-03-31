@@ -183,6 +183,12 @@
         "expression": "encounter_datetime >= enrollment_date and (coalesce(t1.death_date, out_of_care) is null)"
     },
     {
+        "name":"pre_art_total",
+        "label":"starting art total",
+        "description": "Total # of patients starting ART",
+        "expression": "arv_first_regimen_start_date is null and  date(enrollment_date) <=@endDate"
+    },
+    {
         "name":"starting_art_total",
         "label":"starting art total",
         "description": "Total # of patients starting ART",
@@ -235,7 +241,7 @@
         "name":"screened_for_tb",
         "label":"screened for tb",
         "description": "Total # of  patients screened for TB",
-        "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate"
+        "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate and arv_start_date is not null"
     },
     {
         "name":"is_on_inh_treatment",
@@ -961,5 +967,11 @@
         "label":"# patients stopped on IPT", 
         "description": "number of patients stopped on IPT", 
         "expression": "coalesce(t1.death_date, out_of_care) is null and t1.tb_prophylaxis_end_date is not null and  @startDate<=tb_prophylaxis_end_date<=@endDate"
+    },
+    {
+        "name":"newly_started_IPT",
+        "label":"# patients newly started IPT",
+        "description": "# eligible patients newly started IPT within the reporting period",
+        "expression": "date(tb_prophylaxis_start_date) between @startDate and @endDate"
     }
 ]

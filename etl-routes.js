@@ -1317,11 +1317,11 @@ module.exports = function () {
                     aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
                         {
                             type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
+                            name: 'reportName', //name of the parameter
                             value: 'MOH-731-report' //parameter value
                         }, {
                             type: 'query', //can be in either query or params so you have to specify
-                            name: 'report', //name of the parameter
+                            name: 'reportName', //name of the parameter
                             value: 'MOH-731-report-2017' //parameter value
                         }
                     ]
@@ -1329,12 +1329,13 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 //security check
-                if (!authorizer.hasReportAccess(request.query.report)) {
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
                     return reply(Boom.forbidden('Unauthorized'));
                 }
-                let compineRequestParams = Object.assign({}, request.query, request.params);
+
+                let requestParams = Object.assign({}, request.query, request.params);
                 let reportParams = etlHelpers.getReportParams(request.query.reportName,
-                    ['startDate', 'endDate', 'locationUuids', 'isAggregated'], compineRequestParams);
+                    ['startDate', 'endDate', 'locationUuids', 'isAggregated'], requestParams);
 
                 dao.getMOH731Report(reportParams).then((result) => {
                     reply(result);
@@ -1359,10 +1360,10 @@ module.exports = function () {
                     endDate: Joi.string()
                         .required()
                         .description("The end date to filter by"),
-                    isAggregated: Joi.string()
+                    isAggregated: Joi.boolean()
                         .optional()
                         .description("Boolean checking if report is aggregated"),
-                        
+
                 }
             }
         }
