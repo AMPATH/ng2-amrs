@@ -61,7 +61,7 @@
                 "parameter": "endDate"
             },
             {
-                "expression": "t1.location_uuid in ?",
+                "expression": "t1.location_uuid in (?)",
                 "parameter": "locationUuids"
             },
             {
@@ -211,7 +211,7 @@
                 "parameter": "endDate"
             },
             {
-                "expression": "t1.location_uuid in ?",
+                "expression": "t1.location_uuid in (?)",
                 "parameter": "locationUuids"
             },
             {
@@ -330,7 +330,7 @@
                 "parameter": "endDate"
             },
             {
-                "expression": "t1.location_uuid in ?",
+                "expression": "t1.location_uuid in (?)",
                 "parameter": "locationUuids"
             },
             {

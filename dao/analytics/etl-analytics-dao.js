@@ -399,7 +399,7 @@ module.exports = function () {
                     db.reportQueryServer(queryParts, function (results) {
                         if (results.error) {
                             results.queryParts = queryParts;
-                            reject(results.toString());
+                            reject(results);
                         } else {
                             resolve(reportFactory.resolveIndicators(reportName, results));
                         }
