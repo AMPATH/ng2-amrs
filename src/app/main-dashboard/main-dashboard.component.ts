@@ -13,7 +13,8 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppState } from '../app.service';
-import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService
+} from '../user-default-properties/user-default-properties.service';
 
 declare let jQuery: any;
 
@@ -41,8 +42,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     private localStore: LocalStorageService,
     private dynamicRoutesService: DynamicRoutesService,
     private authenticationService: AuthenticationService,
-    private userDefaultSettingsService: UserDefaultPropertiesService,
-    private userService: UserService, private appState: AppState) { //,private clinic: ClinicDashboardComponent
+    private userDefaultSettingsService:
+                UserDefaultPropertiesService,
+    private userService: UserService, private appState: AppState) {
 
 
   }
