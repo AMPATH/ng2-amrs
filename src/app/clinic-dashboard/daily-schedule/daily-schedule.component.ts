@@ -3,7 +3,7 @@ import { Message } from 'primeng/primeng';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { DatePipe } from '@angular/common';
 import * as Moment from 'moment';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 
 @Component({
@@ -35,7 +35,7 @@ export class DailyScheduleComponent implements OnInit {
   private model: Object = {
     date: {
       year: Moment().year(), month: Moment().format('MMMM'),
-      day: Moment().format('DD')
+      day: Moment().format('D')
     }
   };
   private activeLinkIndex = 0;
@@ -46,13 +46,40 @@ export class DailyScheduleComponent implements OnInit {
   ];
   private _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private router: Router) {
+    private router: Router, private route: ActivatedRoute) {
     this._datePipe = new DatePipe('en-US');
 
   }
   ngOnInit() {
+    this.setActiveTab();
+    this.updateCurrentDate();
     this.selectedDate = this._datePipe.transform(
       new Date(), 'yyyy-MM-dd');
+  }
+
+  setActiveTab() {
+    let path = this.router.url;
+    let n = this.router.url.indexOf('?');
+    path = this.router.url.substring(0, n !== -1 ? n : path.length);
+    path = path.substr(this.router.url.lastIndexOf('/') + 1);
+    this.activeLinkIndex = this.tabLinks.findIndex(x => x.link === path);
+  }
+
+  updateCurrentDate() {
+
+    this.route.queryParams.subscribe((params) => {
+      if (params['date']) {
+        this.selectedDate = params['date'];
+        let m = Moment(this.selectedDate);
+        this.model = {
+          date: {
+            year: m.year(), month: m.format('MMMM'),
+            day: m.format('D')
+          }
+        };
+        this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
+      }
+    });
   }
   onDateChanged(event: IMyDateModel): void {
     // date selected
@@ -79,7 +106,7 @@ export class DailyScheduleComponent implements OnInit {
       this.model = {
         date: {
           year: revisedDate.year(), month: revisedDate.format('MMMM'),
-          day: revisedDate.format('DD')
+          day: revisedDate.format('D')
         }
       };
       this.selectedDate = this._datePipe.transform(
