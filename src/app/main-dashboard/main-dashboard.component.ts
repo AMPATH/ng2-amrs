@@ -42,11 +42,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     private localStore: LocalStorageService,
     private dynamicRoutesService: DynamicRoutesService,
     private authenticationService: AuthenticationService,
-    private userDefaultSettingsService: 
-                UserDefaultPropertiesService,
+    private userDefaultSettingsService: UserDefaultPropertiesService,
     private userService: UserService, private appState: AppState) {
-
-
+    
   }
   ngOnDestroy() {
     this.appSubscription.unsubscribe();
