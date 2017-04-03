@@ -13,7 +13,6 @@ export class UserDefaultPropertiesService {
   locationSubject = new BehaviorSubject<any>('');
 
   private user: User;
-  locationSubject = new BehaviorSubject<any>('');
 
   constructor(private userService: UserService
     , private localStorage: LocalStorageService
@@ -48,15 +47,13 @@ export class UserDefaultPropertiesService {
   }
 
   setUserProperty(propertyKey: string, property: string) {
- 
-    if (propertyKey === 'userDefaultLocation') {
 
+    if (propertyKey === 'userDefaultLocation') {
       propertyKey = propertyKey + this.getAuthenticatedUser().display;
 
       this.locationSubject.next(property);
       this.localStorage.setItem(propertyKey, property);
-    } 
-
+    }
   }
 
 }
