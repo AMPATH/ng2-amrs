@@ -38,6 +38,7 @@ import { DataCacheService } from './shared/services/data-cache.service';
 import { UsefulLinksModule } from './useful-links';
 import { FeedBackComponent } from './feedback';
 import { BusyModule, BusyConfig } from 'angular2-busy';
+import { LabOrdersSearchService } from './lab-order-search/lab-orders-search.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -104,7 +105,8 @@ type StoreType = {
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
     CacheService,
-    DataCacheService
+    DataCacheService,
+    LabOrdersSearchService
   ]
 })
 export class AppModule {
