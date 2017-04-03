@@ -5,13 +5,14 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { Observable, BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class UserDefaultPropertiesService {
 
-  private user: User;
   locationSubject = new BehaviorSubject<any>('');
+
+  private user: User;
 
   constructor(private userService: UserService
     , private localStorage: LocalStorageService
