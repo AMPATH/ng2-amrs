@@ -57,7 +57,7 @@
         "parameter": "startDate"
       },
       {
-        "expression": "t1.location_id in ?",
+        "expression": "t1.location_id in (?)",
         "parameter": "locations"
       },
       {
@@ -178,7 +178,7 @@
         "parameter": "startDate"
       },
       {
-        "expression": "t1.location_id in ?",
+        "expression": "t1.location_id in (?)",
         "parameter": "locations"
       },
       {
@@ -304,7 +304,7 @@
         "processForce": true
       },
       {
-        "expression": "t1.location_id in ?",
+        "expression": "t1.location_id in (?)",
         "parameter": "locations"
       },
       {
