@@ -76,13 +76,20 @@ module.exports = function () {
                                     derivedIndicator.expression += ' and ' + disaggregation.expression;
                                 }
                             });
-                            if (derivedIndicator.expression !== '')
+                            if (derivedIndicator.expression !== '') {
+                                // del repetition
+                                indicatorsSchema =  indicatorsSchema.filter(function(el) {
+                                    return el.name !== reportIndicator.expression;
+                                });
+
+                                // push to the arrau
                                 indicatorsSchema.unshift({
                                     name: reportIndicator.expression,
                                     label: indicator.label + ' ' + derivedIndicator.label,
                                     description: indicator.description + 'and disaggregated ' + derivedIndicator.description,
                                     expression: indicator.expression + derivedIndicator.expression
                                 });
+                            }
                         }
                     });
                 }

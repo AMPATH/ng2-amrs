@@ -348,8 +348,8 @@ module.exports = function () {
             var endDate = requestParams.endDate || new Date().toISOString().substring(0, 10);
             var order = helpers.getSortOrder(requestParams.order);
             var reportName = requestParams.reportName || 'hiv-summary-report';
-            var locationUuids = requestParams.locationUuids;
             var locationIds = requestParams.locations || '';
+            var locationUuids = [];
             var locations = [];
             var startAge = requestParams.startAge || 0;
             var endAge = requestParams.endAge || 150;
@@ -358,6 +358,13 @@ module.exports = function () {
             _.each(locationIds.split(','), function (loc) {
                 locations.push(Number(loc));
             });
+
+            // format locationUuids
+            if (requestParams.locationUuids) {
+                _.each(requestParams.locationUuids.split(','), function (loc) {
+                    locationUuids.push(String(loc));
+                });
+            }
 
             if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
