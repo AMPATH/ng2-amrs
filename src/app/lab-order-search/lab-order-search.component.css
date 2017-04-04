@@ -2,20 +2,8 @@
   margin-top:24px;
 }
 
-.badge-info {
-  background-color: #3a87ad;
-}
-
 .input-group-btn > .btn {
   margin-left: 5px;
-}
-
-.alert {
-  color: #999;
-}
-
-.alert .text-bold {
-  color: #333;
 }
 
 .input-group-btn:last-child > .btn {
@@ -34,5 +22,3 @@
 .form-control:focus {
   border-color: #f1f1f1;
 }
-
-

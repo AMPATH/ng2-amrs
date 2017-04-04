@@ -48,7 +48,11 @@ export class GenericListComponent implements OnInit {
 
     let tthis: any = this;
     this.gridOptions.onGridReady = (event) => {
-      this.gridOptions.api.sizeColumnsToFit();
+      if (window.innerWidth > 768) {
+        this.gridOptions.api.sizeColumnsToFit();
+
+      }
+
       this.gridOptions.getRowStyle = function (params) {
         return {
           'font-size': '14px', 'cursor': 'pointer'
@@ -57,7 +61,60 @@ export class GenericListComponent implements OnInit {
       };
 
       this.gridOptions.getRowHeight = function (params) {
-        return 20 * (Math.floor(params.data.person_name.length / 15) + 1);
+        let dataLength = 0;
+        if (params.data) {
+          if (params.data.identifiers) {
+            dataLength = params.data.identifiers.length;
+          }
+
+          if (params.data.person_name) {
+            if (dataLength > 0) {
+              if (dataLength > 0 && params.data.person_name.length > dataLength) {
+                dataLength = params.data.person_name.length;
+              }
+            } else {
+              dataLength = params.data.person_name.length;
+            }
+          }
+
+          if (params.data.rtc_date) {
+            if (dataLength > 0) {
+              if (dataLength > 0 && params.data.rtc_date.length > dataLength) {
+                dataLength = params.data.rtc_date.length;
+              }
+            } else {
+              dataLength = params.data.rtc_date.length;
+            }
+          }
+
+          if (params.data.last_appointment) {
+            if (dataLength > 0) {
+              if (dataLength > 0 && params.data.last_appointment.length > dataLength) {
+                dataLength = params.data.last_appointment.length;
+              }
+            } else {
+              dataLength = params.data.last_appointment.length;
+            }
+          }
+
+          if (params.data.filed_id) {
+            if (dataLength > 0) {
+              if (dataLength > 0 && params.data.filed_id.length > dataLength) {
+                dataLength = params.data.filed_id.length;
+              }
+            } else {
+              dataLength = params.data.filed_id.length;
+            }
+
+          }
+        }
+
+        if (dataLength > 0) {
+          return 20 * (Math.floor(dataLength / 15) + 1);
+        } else {
+          return 20;
+        }
+
       };
 
     };
@@ -66,6 +123,7 @@ export class GenericListComponent implements OnInit {
     console.warn(this.data);
 
   }
+
 
   get rowData() {
     return this.data || [];

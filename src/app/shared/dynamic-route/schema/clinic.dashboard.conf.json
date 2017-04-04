@@ -28,6 +28,13 @@
       "icon": "icon-i-pathology",
       "isSideBarOpen": false
     }
+    ,
+    {
+      "url": "defaulter-list",
+      "label": "Defaulter List",
+      "icon": "fa fa-list",
+      "isSideBarOpen": false
+    }
   ],
   "programs": []
 }

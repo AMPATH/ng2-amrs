@@ -33,8 +33,7 @@ export class DefaulterListResourceService {
             .map((response: Response) => {
                 return response.json().result;
             });
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+        return this.cacheService.cacheRequest(url, urlParams, request);
 
     }
 

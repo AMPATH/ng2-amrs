@@ -15,6 +15,11 @@ import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-vi
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
+import {
+  DefaulterListResourceService
+} from
+  '../etl-api/defaulter-list-resource.service';
+import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
@@ -46,6 +51,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -61,6 +67,7 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     OpenmrsApi,
     SelectModule,
     Angulartics2Module.forChild(),
+    NgamrsSharedModule,
     ChartModule.forRoot(require('highcharts')),
     BusyModule,
     CalendarModule.forRoot(),
@@ -83,13 +90,16 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     ClinicLabOrdersComponent,
     DailyScheduleAppointmentsComponent,
     DailyScheduleNotReturned,
-    DailyScheduleVisitsComponent
+    DailyScheduleVisitsComponent,
+    DefaulterListComponent
   ],
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,
     ClinicDashboardCacheService,
-  ],
+    DefaulterListResourceService
+  ]
+  ,
   exports: [
     DailyScheduleComponent,
     MonthlyScheduleComponent,
@@ -99,12 +109,12 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     DashboardFiltersComponent,
     IndicatorSelectComponent,
     GenderSelectComponent,
-    ClinicDashboardComponent,
     ClinicLabOrdersComponent,
-    ClinicDashboardComponent,
     DailyScheduleAppointmentsComponent,
     DailyScheduleNotReturned,
-    DailyScheduleVisitsComponent
+    DailyScheduleVisitsComponent,
+    ClinicDashboardComponent,
+    DefaulterListComponent
   ],
 })
 export class ClinicDashboardModule {

@@ -38,6 +38,8 @@ import { DataCacheService } from './shared/services/data-cache.service';
 import { UsefulLinksModule } from './useful-links';
 import { FeedBackComponent } from './feedback';
 import { BusyModule, BusyConfig } from 'angular2-busy';
+import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
+
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -75,6 +77,7 @@ type StoreType = {
     AppSettingsModule,
     UserDefaultPropertiesModule,
     UsefulLinksModule,
+    LabOrderSearchModule,
     BusyModule.forRoot(
       new BusyConfig({
         message: 'Please Wait...',
