@@ -43,13 +43,28 @@ import { TabViewModule, FieldsetModule, ButtonModule, GrowlModule } from 'primen
 import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { SelectModule } from 'angular2-select';
-import { BusyModule } from 'angular2-busy';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../data-lists/data-lists.module';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { HivCareComparativeOverviewComponent
+} from
+ './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
+import { HivCareTabularViewComponent
+} from
+ './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-tabularview.component';
+import {
+  ClinicalSummaryVisualizationResourceService
+} from '../etl-api/clinical-summary-visualization-resource.service';
+import { VisualizationPatientListComponent
+} from
+'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+import { ClinicalSummaryVisualizationService
+} from './services/clinical-summary-visualization.service';
+
 
 
 @NgModule({
@@ -69,7 +84,16 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     Angulartics2Module.forChild(),
     NgamrsSharedModule,
     ChartModule.forRoot(require('highcharts')),
-    BusyModule,
+    BusyModule.forRoot(
+      new BusyConfig({
+        message: 'Please Wait...',
+        backdrop: true,
+        delay: 200,
+        minDuration: 600,
+        wrapperClass: 'my-class',
+
+      })
+    ),
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgamrsSharedModule,
@@ -81,6 +105,9 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     MonthlyScheduleComponent,
     VisualizationComponent,
     ArtOverviewComponent,
+    HivCareComparativeOverviewComponent,
+    VisualizationPatientListComponent,
+    HivCareTabularViewComponent,
     DateRangeComponent,
     RangeSliderComponent,
     DashboardFiltersComponent,
@@ -97,13 +124,20 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     ClinicDashboardGuard,
     DailyScheduleResourceService,
     ClinicDashboardCacheService,
-    DefaulterListResourceService
-  ]
-  ,
+    DefaulterListResourceService,
+    ClinicalSummaryVisualizationService,
+    ClinicalSummaryVisualizationResourceService,
+    ClinicDashboardCacheService
+  ],
   exports: [
+    BusyModule,
     DailyScheduleComponent,
     MonthlyScheduleComponent,
     VisualizationComponent,
+    ArtOverviewComponent,
+    HivCareComparativeOverviewComponent,
+    VisualizationPatientListComponent,
+    HivCareTabularViewComponent,
     DateRangeComponent,
     RangeSliderComponent,
     DashboardFiltersComponent,

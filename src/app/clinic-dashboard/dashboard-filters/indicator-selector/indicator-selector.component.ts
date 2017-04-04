@@ -16,7 +16,7 @@ export class IndicatorSelectComponent implements OnInit {
 
   ngOnInit() {
     if (this.selectedIndicators.length > 0 ) {
-      this.onIndicatorChange.emit(this.selectedIndicators);
+      this.onIndicatorChange.emit({ indicators: this.selectedIndicators});
     }
 
     this.getIndicators();
@@ -24,7 +24,7 @@ export class IndicatorSelectComponent implements OnInit {
 
   onIndicatorSelected(indicators) {
     this.selectedIndicators = indicators;
-    this.onIndicatorChange.emit(this.selectedIndicators);
+    this.onIndicatorChange.emit({ indicators: this.selectedIndicators});
   }
 
   getIndicators() {
