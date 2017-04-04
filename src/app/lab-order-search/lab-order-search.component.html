@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <div class="box-body">
+    <form>
+      <div class="form-group">
+        <label for="search-textbox"><h2>Search by Order ID</h2></label>
+        <div class="input-wrapper" [style.margin-right]="adjustedInputMargin">
+          <input id="search-textbox" type="text" class="form-control input-lg"
+                 placeholder="Enter Order ID and press enter or click search button"
+                 [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="orderId"
+                 (ngModelChange)="onValueChange($event)"
+                 (paste)="onPaste($event)"
+                 (keyup)="onPaste($event)"
+                 (keypress)="onKeyPress($event)" >
+        </div>
+        <div class="input-group-btn pull-right">
+          <button id="search" [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="searchOrderId()">
+            <span class="glyphicon glyphicon-search"> Search</span>
+            <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+          </button>
+          <button id="reset" [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearch()">
+            <span class="glyphicon glyphicon-trash"> Reset</span>
+          </button>
+        </div>
+      </div>
+      <p *ngIf="hasError">
+        <strong class="text-danger">Invalid order ID</strong>
+      </p>
+    </form>
+  </div>
+</div>
