@@ -48,10 +48,12 @@ export class DailyScheduleVisitsComponent implements OnInit {
         if (this.selectedClinic) {
           this.selectedDateSubscription = this.clinicDashboardCacheService.
             getDailyTabCurrentDate().subscribe((date) => {
+            if ( this.loadingDailyVisits === false) {
               this.selectedDate = date;
               this.initParams();
               let params = this.getQueryParams();
               this.getDailyVisits(params);
+            }
             });
 
         }
@@ -61,6 +63,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
 
   loadMoreVisits() {
     this.loadingDailyVisits = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
     let params = this.getQueryParams();
     this.getDailyVisits(params);
   }
@@ -77,6 +80,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
 
   private initParams() {
     this.loadingDailyVisits = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
     this.dataLoaded = false;
     this.nextStartIndex = 0;
     this.errors = [];
@@ -85,6 +89,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
 
   private getDailyVisits(params) {
     this.loadingDailyVisits = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
     let result = this.dailyScheduleResource.
       getDailyVisits(params);
 
@@ -104,10 +109,12 @@ export class DailyScheduleVisitsComponent implements OnInit {
             this.dataLoaded = true;
           }
           this.loadingDailyVisits = false;
+          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
         }
         ,
         (error) => {
           this.loadingDailyVisits = false;
+          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
           this.dataLoaded = true;
           this.errors.push({
             id: 'Daily Visits',

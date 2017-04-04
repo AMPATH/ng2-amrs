@@ -52,10 +52,12 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
         if (this.selectedClinic) {
           this.selectedDateSubscription = this.clinicDashboardCacheService.
             getDailyTabCurrentDate().subscribe((date) => {
+            if ( this.loadingDailyNotReturned === false) {
               this.selectedDate = date;
               this.initParams();
               let params = this.getQueryParams();
               this.getDailyHasNotReturned(params);
+            }
             });
 
         }
@@ -67,6 +69,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
   }
   loadMoreNotReturned() {
     this.loadingDailyNotReturned = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
 
     let params = this.getQueryParams();
     this.getDailyHasNotReturned(params);
@@ -74,6 +77,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
 
   private initParams() {
     this.loadingDailyNotReturned = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
     this.dataLoaded = false;
     this.nextStartIndex = 0;
     this.errors = [];
@@ -92,6 +96,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
   }
   private getDailyHasNotReturned(params) {
     this.loadingDailyNotReturned = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
     let result = this.dailyScheduleResource.
       getDailyHasNotReturned(params);
 
@@ -110,10 +115,12 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
             this.dataLoaded = true;
           }
           this.loadingDailyNotReturned = false;
+          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
         }
         ,
         (error) => {
           this.loadingDailyNotReturned = false;
+          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
           this.dataLoaded = true;
           this.errors.push({
             id: 'Daily Schedule Has Not Returned',
