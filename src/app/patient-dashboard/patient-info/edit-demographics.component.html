@@ -22,6 +22,13 @@
         </div>
 
         <div class="form-group">
+          <label for="gender">Gender</label>
+          <select class="form-control" [(ngModel)]="gender" name="gender">
+            <option *ngFor="let opt of genderOptions" [value]="opt.val">{{opt.label}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
             <label for="preferred">Preferred</label>
             <select class="form-control" [(ngModel)]="preferred" name="preferred">
                     <option *ngFor="let opt of preferredOptions" [value]="opt.val">{{opt.label}}</option>
