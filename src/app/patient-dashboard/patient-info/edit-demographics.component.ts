@@ -24,10 +24,15 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       { label: 'Yes', val: true },
       { label: 'No', val: false }
   ];
+  private genderOptions = [
+    { label: 'Female', val: 'F' },
+    { label: 'Male', val: 'M' }
+  ];
   private preferredNameuuid: string;
   private birthdate: any;
   private dead: any;
   private isDead: boolean;
+  private gender: any;
   private isDeadOptions = [
       { label: 'Yes', val: true },
       { label: 'No', val: false }
@@ -64,6 +69,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
             this.ispreferred = (this.patients.person.preferredName as any).preferred;
             this.preferredNameuuid = (this.patients.person.preferredName as any).uuid;
             this.isDead = false;
+            this.gender = this.patients.person.gender;
         }
       }
     );
@@ -141,7 +147,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
                 }],
                 dead: this.isDead,
                 deathDate: this.deathDate,
-                causeOfDeath: this.causeOfDeath
+                causeOfDeath: this.causeOfDeath,
+                gender: this.gender
             };
             this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).subscribe(
             (success) => {
@@ -154,7 +161,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
             (error) => {
                 console.log('error', error);
                 this.errors.push({
-                    message: 'error updating name'
+                    message: 'error updating demographics'
                 });
             }
             );
