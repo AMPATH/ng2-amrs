@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   DailyScheduleResourceService
@@ -49,11 +49,14 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
         if (this.selectedClinic) {
           this.selectedDateSubscription = this.clinicDashboardCacheService.
             getDailyTabCurrentDate().subscribe((date) => {
+            if ( this.loadingDailyAppointments === false) {
               this.selectedDate = date;
               this.initParams();
               let params = this.getQueryParams();
               this.getDailyAppointments(params);
-            });
+            }
+
+          });
 
         }
       });
@@ -75,6 +78,8 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
 
   public getDailyAppointments(params) {
+    this.loadingDailyAppointments = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
     let result = this.dailyScheduleResource.
       getDailyAppointments(params);
     if (result === null) {
@@ -91,11 +96,13 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
             this.dataLoaded = true;
           }
           this.loadingDailyAppointments = false;
+          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
 
         }
         ,
         (error) => {
           this.loadingDailyAppointments = false;
+          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
 
           this.errors.push({
             id: 'Daily Schedule Appointments',
@@ -108,12 +115,14 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
   public loadMoreAppointments() {
     this.loadingDailyAppointments = true;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
     let params = this.getQueryParams();
     this.getDailyAppointments(params);
   }
 
   private initParams() {
-    this.loadingDailyAppointments = true;
+    this.loadingDailyAppointments = false;
+    this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
     this.nextStartIndex = 0;
     this.dataLoaded = false;
     this.errors = [];

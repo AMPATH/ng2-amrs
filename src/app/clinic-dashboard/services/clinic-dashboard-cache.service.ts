@@ -3,11 +3,13 @@ import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import * as Moment from 'moment';
 @Injectable()
 export class ClinicDashboardCacheService {
+    dataIsLoading: boolean = true;
     private cached = {};
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);
     private dailTabCurrentDate = Moment(this.currentClinic).format('YYYY-MM-DD');
     private dailTabCurrentDateSubject = new BehaviorSubject(this.dailTabCurrentDate);
+    private isLoading = new BehaviorSubject(this.dataIsLoading);
     private currentTab = new Subject();
     constructor() { }
     public add(key: string, value: any) {
@@ -45,4 +47,10 @@ export class ClinicDashboardCacheService {
     public getDailyTabCurrentDate() {
         return this.dailTabCurrentDateSubject;
     }
-}
+    public setIsLoading(loading: boolean) {
+      this.isLoading.next(loading);
+    }
+    public getIsLoading() {
+      return this.isLoading;
+    }
+  }
