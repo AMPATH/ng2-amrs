@@ -1,0 +1,12 @@
+<p-tabView>
+  <p-tabPanel header="Graphical View">
+    <div>
+      <chart [options]="options">
+      </chart>
+    </div>
+
+  </p-tabPanel>
+  <p-tabPanel header="Indicator Definitions">
+    <patient-status-indicator-definition [indicatorDefinition]="indicatorDef"></patient-status-indicator-definition>
+  </p-tabPanel>
+</p-tabView>

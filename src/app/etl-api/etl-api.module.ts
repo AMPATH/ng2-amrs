@@ -13,6 +13,9 @@ import { ErrorLogResourceService } from './error-log-resource.service';
 import { HivPatientClinicalSummaryResourceService }
   from './hiv-patient-clinical-summary-resource.service';
 import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.service';
+import {
+  ClinicalSummaryVisualizationResourceService
+} from './clinical-summary-visualization-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -28,7 +31,8 @@ import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.ser
     ErrorLogResourceService,
     HivPatientClinicalSummaryResourceService,
     MonthlyScheduleResourceService,
-    ClinicLabOrdersResourceService
+    ClinicLabOrdersResourceService,
+    ClinicalSummaryVisualizationResourceService
   ],
   exports: []
 })

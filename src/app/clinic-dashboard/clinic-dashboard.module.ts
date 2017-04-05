@@ -39,7 +39,8 @@ import {
 import { DashboardFiltersComponent } from './dashboard-filters/dashboard-filters.component';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 
-import { TabViewModule, FieldsetModule, ButtonModule, GrowlModule } from 'primeng/primeng';
+import { TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
+  AccordionModule } from 'primeng/primeng';
 import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { SelectModule } from 'angular2-select';
@@ -50,6 +51,12 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { PatientStatusOverviewComponent
+} from './clinical-summary-visualization/patient-status-overview/patient-status-overview.component';
+import { PatientStatusIndicatorDefComponent
+} from './clinical-summary-visualization/patient-status-overview/indicator-definition.component';
+import { EtlApi } from '../etl-api/etl-api.module';
+
 
 
 @NgModule({
@@ -64,7 +71,9 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     FieldsetModule,
     ButtonModule,
     GrowlModule,
+    AccordionModule,
     OpenmrsApi,
+    EtlApi,
     SelectModule,
     Angulartics2Module.forChild(),
     NgamrsSharedModule,
@@ -91,7 +100,9 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     DailyScheduleAppointmentsComponent,
     DailyScheduleNotReturned,
     DailyScheduleVisitsComponent,
-    DefaulterListComponent
+    DefaulterListComponent,
+    PatientStatusOverviewComponent,
+    PatientStatusIndicatorDefComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -114,7 +125,9 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     DailyScheduleNotReturned,
     DailyScheduleVisitsComponent,
     ClinicDashboardComponent,
-    DefaulterListComponent
+    DefaulterListComponent,
+    PatientStatusOverviewComponent,
+    PatientStatusIndicatorDefComponent
   ],
 })
 export class ClinicDashboardModule {

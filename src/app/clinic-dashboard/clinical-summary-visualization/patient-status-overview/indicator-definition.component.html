@@ -1,0 +1,28 @@
+<p-accordion>
+  <div *ngFor="let  p of indicatorDes">
+  <p-accordionTab [selected]="true" header="Patients in Care:">
+      {{p.patients_continuing_care}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="Transferred Out Patients:">
+    {{p.transferred_out_patients}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="Deceased Patients:">
+    {{p.deceased_patients}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="Untraceable Patients:">
+    {{p.untraceable_patients}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="HIV Negative Patients:">
+    {{p.hiv_negative_patients}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="Self Disengaged From Care:">
+    {{p.self_disengaged_from_care}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="Defaulters:">
+      {{p.defaulters}}
+  </p-accordionTab>
+  <p-accordionTab [selected]="false" header="Others:">
+    {{p.other_patient_care_status}}
+  </p-accordionTab>
+  </div>
+</p-accordion>
