@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Output,
+  Component, OnInit, Output, OnDestroy,
   Input, SimpleChange, EventEmitter
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
   selector: 'generic-list',
   templateUrl: './generic-list.component.html'
 })
-export class GenericListComponent implements OnInit {
+export class GenericListComponent implements OnInit, OnDestroy {
 
   public gridOptions: GridOptions;
   @Input() columns: any;
@@ -37,10 +37,9 @@ export class GenericListComponent implements OnInit {
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
     this.gridOptions.enableFilter = true;
+    // this.gridOptions.suppressCellSelection = true;
     this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
     this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
-
-    // Adding row selection
     this.gridOptions.rowSelection = 'single';
     this.gridOptions.onRowSelected = (event) => {
       this.rowSelectedFunc(event);
@@ -117,11 +116,12 @@ export class GenericListComponent implements OnInit {
 
       };
 
+
     };
+  }
 
-    console.warn(this.columns);
-    console.warn(this.data);
-
+  ngOnDestroy() {
+    this.data = [];
   }
 
 

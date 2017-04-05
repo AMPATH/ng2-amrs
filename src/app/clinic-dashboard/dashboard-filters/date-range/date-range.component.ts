@@ -14,7 +14,7 @@ export class DateRangeComponent implements OnInit {
 
   ngOnInit() {
     let now = moment();
-    this.startDate = this.startDate ? this.startDate : now.clone().subtract(1, 'M').format();
+    this.startDate = this.startDate ? this.startDate : now.clone().subtract(1, 'y').format();
     this.endDate  = this.endDate ? this.endDate : now.clone().format();
     this.onDateChange.emit({startDate: this.startDate, endDate: this.endDate});
   }

@@ -15,6 +15,7 @@ let _ = require('lodash');
 export class PatientListComponent implements OnInit {
 
   @Input() extraColumns: any;
+  @Input() overrideColumns: any;
   @Input() data: any = [];
   @Input() newList: any;
   loadedTab: any;
@@ -30,7 +31,6 @@ export class PatientListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this._data
       .subscribe(x => {
         this.loadedTab = x;
@@ -38,12 +38,22 @@ export class PatientListComponent implements OnInit {
   }
 
   columns() {
-
+    let columns = PatientListColumns.columns();
     if (this.extraColumns && typeof Array.isArray(this.extraColumns)) {
-      return PatientListColumns.columns().concat(this.extraColumns);
+      columns.concat(this.extraColumns);
     }
 
-    return PatientListColumns.columns();
+    if (this.overrideColumns && _.isArray(this.overrideColumns)) {
+      _.each(this.overrideColumns, (col) => {
+        _.each(columns, (_col) => {
+          if (col['field'] === _col['field']) {
+            _.extend(_col, col);
+          }
+        });
+      });
+    }
+
+    return columns;
   }
 
   get rowData() {

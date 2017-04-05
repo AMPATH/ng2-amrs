@@ -15,7 +15,7 @@ export class GenderSelectComponent implements OnInit {
 
   ngOnInit() {
     if (this.selectedGender.length > 0 ) {
-      this.onGenderChange.emit(this.selectedGender);
+      this.onGenderChange.emit({gender: this.selectedGender});
     }
 
     this.genderOptions = [
@@ -32,6 +32,6 @@ export class GenderSelectComponent implements OnInit {
 
   onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
-    this.onGenderChange.emit(this.selectedGender);
+    this.onGenderChange.emit({gender: this.selectedGender});
   }
 }

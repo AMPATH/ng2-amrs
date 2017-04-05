@@ -91,8 +91,8 @@ export class PatientStatusOverviewComponent implements OnInit {
 
   }
   generatePatientStatusOverviewChart(result) {
-    let startDate = Moment(this.startDate).format('DD-MM-YYYY');
-    let endDate = Moment(this.endDate).format('DD-MM-YYYY');
+    let startDate = Moment(this.startDate).format('DD/MM/YYYY');
+    let endDate = Moment(this.endDate).format('DD/MM/YYYY');
     let chartData  = [];
     let that = this;
     _.each(result, (data) => {
@@ -135,7 +135,7 @@ export class PatientStatusOverviewComponent implements OnInit {
     this.options =  {
       title : { text : this.chartTitle },
       subtitle: {
-        text: 'From: ' + startDate + ' - ' + 'To: ' + endDate
+        text: 'Starting from ' + startDate + ' To ' + endDate
       },
       chart: { type: 'pie' },
       plotOptions: {
@@ -191,7 +191,8 @@ export class PatientStatusOverviewComponent implements OnInit {
   generatePatientList(point) {
     let startDate = Moment(this.startDate).format('DD/MM/YYYY');
     let endDate = Moment(this.endDate).format('DD/MM/YYYY');
-    this.router.navigate(['./patient-list', 'clinical-art-overview', point.indicator,
+    this.router.navigate(['./patient-list', 'clinical-patient-care-status-overview',
+        point.indicator,
         startDate + '|' + endDate ]
       , {relativeTo: this.route});
 

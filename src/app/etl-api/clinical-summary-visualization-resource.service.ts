@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class ClinicalSummaryVisualizationResourceService {
@@ -29,7 +29,7 @@ export class ClinicalSummaryVisualizationResourceService {
         urlParams.set('gender', params.gender);
         urlParams.set('startDate', params.startDate);
         urlParams.set('groupBy', params.groupBy);
-        urlParams.set('indicators', params.indicators);
+        urlParams.set('indicator', params.indicator || params.indicators);
         urlParams.set('order', params.order);
         urlParams.set('locationUuids', params.locationUuids);
         urlParams.set('limit', params.limit);
@@ -46,9 +46,21 @@ export class ClinicalSummaryVisualizationResourceService {
                 return response.json().result;
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+        return this.cacheService.cacheRequest(url, urlParams, request);
 
+    }
+
+    getReportOverviewPatientList(reportName: string, params: any) {
+      let urlParams = this.getUrlRequestParams(params);
+      let url = this.getPatientListUrl(reportName);
+      let request = this.http.get(url, {
+        search: urlParams
+      })
+        .map((response: Response) => {
+          return response.json().result;
+        });
+
+      return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getHivComparativeOverviewPatientList(params) {
@@ -75,8 +87,7 @@ export class ClinicalSummaryVisualizationResourceService {
                 return response.json().result;
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getArtOverviewReportPatientList(params) {
@@ -89,8 +100,7 @@ export class ClinicalSummaryVisualizationResourceService {
                 return response.json().result;
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getPatientCareStatusReport(params) {
