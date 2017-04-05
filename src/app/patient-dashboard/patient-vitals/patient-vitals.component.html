@@ -27,7 +27,7 @@
       <span [style.color]="(vitals.diastolic_bp && (vitals.diastolic_bp <= 50 || vitals.diastolic_bp >= 90)) ? 'red':''">{{(vitals.diastolic_bp && vitals.diastolic_bp)  || '&nbsp;'}}</span>
     </td>
     <td>
-      <span [style.color]="(vitals.pulse && vitals.pulse >= 100)? 'red':''">{{vitals.pulse  || '&nbsp;'}}</span>
+      <span [style.color]="(vitals.pulse && (vitals.pulse <= 0 || vitals.pulse >= 100))? 'red':''">{{vitals.pulse  || '&nbsp;'}}</span>
     </td>
     <td>
       <span [style.color]="(vitals.temp && (vitals.temp <= 35.0 || vitals.temp >= 38.0)) ? 'red':''" >{{vitals.temp  || '&nbsp;'}}</span>
