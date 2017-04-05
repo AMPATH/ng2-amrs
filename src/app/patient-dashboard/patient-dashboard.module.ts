@@ -98,6 +98,7 @@ import {
   HivPatientClinicalSummaryComponent
 } from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
 import { AgGridModule } from 'ag-grid-angular/main';
+import { LabOrderSearchModule } from '../lab-order-search/lab-order-search.module';
 
 import {
   HivPatientClinicalSummaryService
@@ -139,7 +140,8 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
     ButtonModule,
     AgGridModule.withComponents([
 
-    ])
+    ]),
+    LabOrderSearchModule
   ],
   declarations: [
     PatientInfoComponent,

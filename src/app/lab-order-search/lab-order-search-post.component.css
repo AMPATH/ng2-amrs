@@ -1,0 +1,48 @@
+@import '../patient-dashboard/patient-banner/patient-banner.component.css';
+
+.wrapper {
+  background: #fff;
+  padding: 0px 20px 20px 20px;
+}
+
+h4 {
+  margin: 1.28rem 0 1.024rem!important;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+h4 span {
+  color: #000;
+}
+
+.order-info {
+  font-size: 13px;
+  padding: 5px 0;
+}
+
+.panel-info {
+  width: 50%;
+  float: left;
+  padding: 30px 10px 10px;
+}
+
+.panel-info h5 {
+  font-weight: bold;
+  margin: 0 0 1.024rem!important;
+  font-size: 20px;
+}
+
+.panel-info hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.clear {
+  clear: both;
+}
+
+.btn-pdash-link {
+  color: #fff !important;
+  padding: 0px 12px;
+  margin: 7px 0;
+}

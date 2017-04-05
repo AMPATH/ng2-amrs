@@ -9,12 +9,24 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
 })
 export class LabOrderSearchComponent implements OnInit {
   @Output() onOrderRecieved = new EventEmitter<any>();
-  public orderId: string;
+  @Output() onReset = new EventEmitter<any>();
+  public orderId: string = '';
   public isResetButton: boolean = true;
   public adjustedInputMargin: string = '240px';
   public isLoading: boolean = false;
   public hasError: boolean = false;
   private hasBeenSearched = false;
+
+  private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,' +
+  'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
+  'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
+    'identifiers:(identifier,uuid,' +
+    'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
+    'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
+    'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
+    + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
+    'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,' +
+    'address6))),concept:ref)';
 
   constructor(private orderResourceService: OrderResourceService) {
   }
@@ -57,32 +69,44 @@ export class LabOrderSearchComponent implements OnInit {
     if (window.innerWidth > 768) {
       this.adjustedInputMargin = '267px';
     }
+    this.isResetButton = false;
     this.hasBeenSearched = true;
     this.isLoading = true;
-    this.orderResourceService.searchOrdersById(this.orderId).subscribe((resp) => {
-      this.onOrderRecieved.emit(resp);
-      this.hasBeenSearched = false;
-      this.resetSearch();
-    }, (err) => {
-      this.hasError = true;
-      this.isLoading = false;
-      this.hasBeenSearched = false;
-      this.resetInputMargin();
-    });
+    this.orderResourceService.searchOrdersById(this.orderId, false,
+      this.customOrderObjectDefinition)
+      .subscribe((resp) => {
+        this.onOrderRecieved.emit(resp);
+        this.hasBeenSearched = false;
+        this.isLoading = false;
+        this.hasError = false;
+        this.isResetButton = true;
+        // this.resetSearch();
+      }, (err) => {
+        this.hasError = true;
+        this.isLoading = false;
+        this.hasBeenSearched = false;
+        this.resetInputMargin();
+      });
   }
 
   resetSearch() {
+    this.orderId = '';
     this.isResetButton = false;
     this.isLoading = false;
     this.hasError = false;
     this.hasBeenSearched = false;
     this.resetInputMargin();
+    this.onReset.emit();
   }
 
   public resetInputMargin() {
     if (window.innerWidth > 768) {
       this.adjustedInputMargin = '240px';
     }
+  }
+
+  get isEnabled() {
+    return this.isLoading;
   }
 
 }

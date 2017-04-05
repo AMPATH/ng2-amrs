@@ -163,7 +163,7 @@ export class Person extends BaseModel {
       for (let i in this._attributes) {
         if (this._attributes.hasOwnProperty(i)) {
           let attr = this._attributes[i];
-          if (attr.attributeType.uuid === personAttributeTypeUuid) {
+          if (attr.attributeType && attr.attributeType.uuid === personAttributeTypeUuid) {
             return attr.value;
           }
         }
