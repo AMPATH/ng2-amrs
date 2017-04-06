@@ -81,6 +81,15 @@
         "expression": "on_art_total",
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
+        {
+          "label": "on_art_below_1",
+          "expression": "on_art_below_1",
+          "sql": "count(distinct if($expression,t1.person_id,null))",
+          "disaggregation": {
+            "indicator": "on_art_total",
+            "filters": "age_below_1"
+          }
+        },   
       {
         "label": "on_art_1_to_9",
         "expression": "on_art_1_to_9",
@@ -906,6 +915,11 @@
       {
         "label": "viral_load_resulted_in_past_year",
         "expression": "viral_load_resulted_in_past_year",
+        "sql": "count(distinct if($expression, t1.person_id,null))"
+      },
+        {
+        "label": "pre_art_total",
+        "expression": "pre_art_total",
         "sql": "count(distinct if($expression, t1.person_id,null))"
       },
       {
