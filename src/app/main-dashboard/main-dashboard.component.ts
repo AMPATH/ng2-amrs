@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
+
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
+
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
@@ -11,6 +13,8 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppState } from '../app.service';
+import { UserDefaultPropertiesService
+} from '../user-default-properties/user-default-properties.service';
 
 declare let jQuery: any;
 
@@ -38,9 +42,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     private localStore: LocalStorageService,
     private dynamicRoutesService: DynamicRoutesService,
     private authenticationService: AuthenticationService,
-    private userService: UserService, private appState: AppState) {
+    private userDefaultSettingsService: UserDefaultPropertiesService,
+    private userService: UserService, private appState: AppState) {}
 
-  }
   ngOnDestroy() {
     this.appSubscription.unsubscribe();
   }
@@ -64,8 +68,18 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       err => console.log(err),
       () => console.log('Completed'));
     this.user = this.userService.getLoggedInUser();
-    let location = this.localStore.getItem('userDefaultLocation' + this.user.display);
-    this.userLocation = JSON.parse(location) ? JSON.parse(location).display : undefined;
+    this.userDefaultSettingsService.locationSubject.subscribe((location) => {
+       if (location) {
+         this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
+       } else {
+         let defaultLocation =
+           this.localStore.getItem('userDefaultLocation' + this.user.display);
+         this.userLocation =
+           JSON.parse(defaultLocation) ? JSON.parse(defaultLocation).display :
+             undefined;
+       }
+     });
+
     this.appSubscription = this.appState.setupIdleTimer(1000 * 60 * 30)
       .subscribe((status: { idle: boolean }) => {
         this.active = status.idle;
