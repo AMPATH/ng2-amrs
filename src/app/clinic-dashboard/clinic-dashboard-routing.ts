@@ -15,6 +15,10 @@ import { DefaulterListComponent } from './defaulter-list/defaulter-list.componen
 import { VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+import { Moh731ParamsResolver
+} from '../hiv-care-lib/moh-731-report/moh-731-patientlist-params.resolver';
+import { Moh731PatientListBaseComponent
+} from '../hiv-care-lib/moh-731-report/moh-731-patientlist-base.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -36,6 +40,10 @@ const clinicDashboardRoutes: Routes = [
 
       },
       { path: 'monthly-schedule', component: MonthlyScheduleComponent },
+      { path: 'moh-731-patientlist',
+        component: Moh731PatientListBaseComponent,
+        resolve: { moh731Params: Moh731ParamsResolver}
+      },
       {
         path: 'visualization',
         children: [
