@@ -25,6 +25,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
   _endDate: any;
   loadingHivCare: boolean = false;
   loadingArt: boolean = false;
+  loadingPatientStatus: boolean = false;
   locationUuid: any;
   hivComparativeChartOptions: any = {};
   options: any = {
@@ -68,11 +69,13 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.changeDetectionRef.detectChanges();
+     this.changeDetectionRef.detectChanges();
   }
 
   renderCharts() {
-    this.patientStatusChartOptionsFilters = {filtered: this.filterModel};
+    this.patientStatusChartOptionsFilters = {filtered: this.filterModel,
+      };
+    // loading: this.loadingArt
     this.clinicDashboardCacheService.add('filterModel', this.filterModel);
     this.generateArtOverview();
     this.generateHIVCareComparativeOverviewChart();
@@ -119,7 +122,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       locationUuids: this.locationUuid,
       order: 'encounter_datetime|asc',
       report: 'clinical-art-overview',
-      startDate: this.filterModel.startDate.format()
+      startDate: this.filterModel.startDate.startOf('month').format()
     }).subscribe((report) => {
       _.merge(_options, {data: report});
       this.artChartOptions = _options;

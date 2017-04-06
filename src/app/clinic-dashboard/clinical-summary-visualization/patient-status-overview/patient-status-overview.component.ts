@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation, Input, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnInit, ChangeDetectorRef,
+  AfterViewInit } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -6,13 +7,14 @@ import {
 } from '../../../etl-api/clinical-summary-visualization-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
+import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 @Component({
   selector: 'patient-status-overview-chart',
   styleUrls: [],
   templateUrl: './patient-status-overview.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class PatientStatusOverviewComponent implements OnInit {
+export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
   @Input() data: any;
   patientStatusData: any;
   startDate: any;
@@ -24,17 +26,21 @@ export class PatientStatusOverviewComponent implements OnInit {
   patientList: any;
   @Input() indicatorDef: any;
   patientCounts: any;
+  loadingPatientStatus: boolean = false;
   chartTitle = 'A comparative chart showing patient care status statistics';
   private _data = new BehaviorSubject<any>([]);
   constructor(private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private clinicDashboardCacheService: ClinicDashboardCacheService,
+              private changeDetectionRef: ChangeDetectorRef
   ) {
     if (!this.options) {
 
       this.options = {};
-
     }
+    let urlPieces = window.location.hash.split('/');
+    this.location = urlPieces[2];
   }
   @Input()
   set options(value) {
@@ -44,29 +50,36 @@ export class PatientStatusOverviewComponent implements OnInit {
     return this._data.getValue();
   }
   ngOnInit() {
-    this.getCurrentLocation();
-    this._data
-      .subscribe(x => {
-        if (this.options) {
-          if ( this.options.filtered ) {
-            this.startDate = this.options.filtered.startDate._i;
-            this.endDate = this.options.filtered.endDate._i;
-            this.getPatientStatusOverviewData();
+    if (this._data) {
+
+      this._data
+        .subscribe(x => {
+          if (this.options) {
+            if (this.options.filtered) {
+              if (this.loadingPatientStatus === false) {
+                this.startDate = this.options.filtered.startDate._i;
+                this.endDate = this.options.filtered.endDate._i;
+                this.clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
+                  this.location = clinic;
+                  this.getPatientStatusOverviewData();
+                });
+              }
+            }
+
+
           }
 
-        }
-
-      });
+        });
+    }
 
   }
-  getCurrentLocation() {
-    this.route.parent.params.subscribe(params => {
-      this.location = params['location_uuid'];
-       this.getPatientStatusOverviewData();
-    });
+  ngAfterViewInit(): void {
+    this.changeDetectionRef.detectChanges();
   }
 
   getPatientStatusOverviewData() {
+    console.log('this.location===', this.location);
+    this.loadingPatientStatus = true;
     this.visualizationResourceService.getPatientCareStatusReport(
       {
         startDate: this.startDate,
@@ -83,8 +96,10 @@ export class PatientStatusOverviewComponent implements OnInit {
         (data) => {
 
           this.patientStatusData = data.result;
+          console.log('this.patientStatusData', this.patientStatusData);
           this.indicatorDef = data.indicatorDefinitions;
           this.generatePatientStatusOverviewChart(this.patientStatusData );
+          this.loadingPatientStatus = false;
       }, (error) => {
           this.fetchError = true;
         });
