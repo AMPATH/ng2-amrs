@@ -77,10 +77,11 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-
-    this.authenticationService.clearSessionCache();
-    this.router.navigateByUrl('/login');
-
+    this.router.navigateByUrl('/login').then(result => {
+      if (result) {
+        this.authenticationService.logOut();
+      }
+    });
   }
 
   clickOverlay($event) {
