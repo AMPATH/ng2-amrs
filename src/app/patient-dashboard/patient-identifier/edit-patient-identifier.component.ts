@@ -115,15 +115,14 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       location: this.identifierLocation // location
 
     };
-    console.log('this payload', personIdentifierPayload);
     this.validateFormFields(this.patientIdentifier);
     this.checkIdentifierFormat();
     if (this.isValidIdentifier === true) {
-      console.log('this payload22222', personIdentifierPayload);
       this.patientResourceService.searchPatient(this.patientIdentifier).subscribe(
         (result) => {
           if (result <= 0) {
-            console.log('this payload3333', personIdentifierPayload);
+            if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
+              personIdentifierPayload.uuid === null) delete personIdentifierPayload.uuid;
             this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
               personIdentifierPayload)
@@ -251,6 +250,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   private isNullOrUndefined(val) {
     return val === null || val === undefined || val === ''
       || val === 'null' || val === 'undefined';
+  }
+  private filterUndefinedUuidFromPayLoad(personAttributePayload) {
+    if (personAttributePayload && personAttributePayload.length > 0) {
+      for (let i = 0; i < personAttributePayload.length; i++) {
+        if (personAttributePayload[i].uuid === undefined) {
+          personAttributePayload.splice(i, 1);
+          i--;
+        }
+      }
+    }
   }
 
 

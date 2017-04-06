@@ -42,6 +42,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   private causeOfDeath: any;
   private errors: any = [];
   private successAlert: any = '';
+  private healthCenter: any;
 
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService,
@@ -63,6 +64,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         this.patients = new Patient({});
         if (patient) {
             this.patients = patient;
+          console.log('patient', this.patients);
             this.givenName = (this.patients.person.preferredName as any).givenName;
             this.middleName = (this.patients.person.preferredName as any).middleName;
             this.familyName = (this.patients.person.preferredName as any).familyName;
@@ -70,6 +72,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
             this.preferredNameuuid = (this.patients.person.preferredName as any).uuid;
             this.isDead = false;
             this.gender = this.patients.person.gender;
+            this.healthCenter = this.patients.person.healthCenter;
         }
       }
     );
@@ -149,14 +152,14 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
                 deathDate: this.deathDate,
                 causeOfDeath: this.causeOfDeath,
                 gender: this.gender
+
             };
             this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).subscribe(
             (success) => {
                 if ( success ) {
                 this.patientService.fetchPatientByUuid(this.patients.person.uuid);
                 }
-                console.log('success', success);
-                this.successAlert = 'Successfully updated Patient Demographics';
+               // this.successAlert = 'Successfully updated Patient Demographics';
             },
             (error) => {
                 console.log('error', error);
@@ -166,5 +169,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
             }
             );
         }
+      this.display = false;
     }
 }

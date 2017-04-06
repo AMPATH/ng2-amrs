@@ -21,6 +21,9 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public nextofkinPhoneNumber: number;
   public errors: any = [];
   subscription: Subscription;
+  public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
+  public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+  public pattern = new RegExp(this.r1.source + this.r2.source);
   private isLoading: boolean = false;
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService) {
@@ -154,5 +157,6 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       }
     return payLoad;
   }
+
 
 }
