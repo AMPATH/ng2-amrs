@@ -1,15 +1,17 @@
 import {
   Component, OnInit, Output, OnDestroy,
-  Input, SimpleChange, EventEmitter
+  Input, SimpleChange, EventEmitter, OnChanges
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { ViewChild } from '@angular/core';
+import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({
   selector: 'generic-list',
   templateUrl: './generic-list.component.html'
 })
-export class GenericListComponent implements OnInit, OnDestroy {
+export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   public gridOptions: GridOptions;
   @Input() columns: any;
@@ -18,21 +20,56 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Output() onSelectedTab = new EventEmitter();
   @Input() newList: any;
   selected: any;
+  refresh: boolean = false;
+
   @Input()
   set options(value) {
     this._data.next(value);
   }
+
   get options() {
     return this._data.getValue();
   }
+
+  @ViewChild('agGrid')
+  public agGrid: AgGridNg2;
+
+  @Input()
+  set dataSource(value) {
+    this._dataSource.next(value);
+  }
+  get dataSource() {
+    return null;
+    // return this._dataSource.getValue();
+  }
+
   private _data = new BehaviorSubject<any>([]);
-  constructor(
-  ) {
+  private _dataSource = new BehaviorSubject<any>({});
+  constructor() {
+
+  }
+
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    for (let propName in changes) {
+      if (propName === 'options') {
+        let changedProp = changes[propName];
+        if (!changedProp.isFirstChange()) {
+          // this.dataSource = changedProp.currentValue;
+          console.log('re-rendering the grid from generic list');
+          this.refresh = true;
+          this.generateGrid();
+        }
+      }
+
+    }
 
   }
 
   ngOnInit() {
+      this.generateGrid();
+  }
 
+  generateGrid() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
@@ -41,17 +78,23 @@ export class GenericListComponent implements OnInit, OnDestroy {
     this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
     this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
     this.gridOptions.rowSelection = 'single';
+    if (this.dataSource) {
+      this.gridOptions.rowModelType = 'pagination';
+      this.gridOptions.paginationPageSize = this.dataSource.paginationPageSize;
+    }
     this.gridOptions.onRowSelected = (event) => {
       this.rowSelectedFunc(event);
     };
-
     let tthis: any = this;
     this.gridOptions.onGridReady = (event) => {
+
       if (window.innerWidth > 768) {
         this.gridOptions.api.sizeColumnsToFit();
-
       }
-
+      // setDatasource() is a grid ready function
+      if (this.dataSource) {
+        this.gridOptions.api.setDatasource(this.dataSource);
+      }
       this.gridOptions.getRowStyle = function (params) {
         return {
           'font-size': '14px', 'cursor': 'pointer'
@@ -116,8 +159,6 @@ export class GenericListComponent implements OnInit, OnDestroy {
         }
 
       };
-
-
     };
   }
 

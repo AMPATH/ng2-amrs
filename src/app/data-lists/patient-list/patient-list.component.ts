@@ -26,7 +26,15 @@ export class PatientListComponent implements OnInit {
   get options() {
     return this._data.getValue();
   }
+  @Input()
+  set dataSource(value) {
+    this._dataSource.next(value);
+  }
+  get dataSource() {
+    return this._dataSource.getValue();
+  }
   private _data = new BehaviorSubject<any>([]);
+  private _dataSource = new BehaviorSubject<any>({});
   constructor(private router: Router) {
   }
 
@@ -37,10 +45,10 @@ export class PatientListComponent implements OnInit {
       });
   }
 
-  columns() {
+  get columns() {
     let columns = PatientListColumns.columns();
     if (this.extraColumns && typeof Array.isArray(this.extraColumns)) {
-       columns = columns.concat(this.extraColumns);
+      columns = _.concat(columns, <Array<Object>> this.extraColumns);
     }
 
     if (this.overrideColumns && _.isArray(this.overrideColumns)) {
@@ -52,7 +60,6 @@ export class PatientListComponent implements OnInit {
         });
       });
     }
-
     return columns;
   }
 
