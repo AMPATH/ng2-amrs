@@ -23,8 +23,26 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="tel" class="form-control" [(ngModel)]="payload.phone" name="tel" autocomplete="off" id="email" placeholder="Phone">
+                            <input type="text" class="form-control" [(ngModel)]="payload.phone" name="phone" autocomplete="off" id="email" required
+                                   placeholder="Phone"
+                                   minlength="10" maxlength="15" [pattern]="patterns"
+                                   #name="ngModel">
+                              <div *ngIf="name.errors && (name.dirty || name.touched)"
+                                   class="alert alert-danger">
+                                <div [hidden]="!name.errors.minlength">
+                                  Phone number must be at least 10  digits.
+                                </div>
+                                <div [hidden]="!name.errors.maxlength">
+                                  Phone number  max length is 15 digits.
+                                </div>
+                                <div *ngIf="name.errors.pattern">
+                                  Valid phone number is required
+                                </div>
+                              </div>
                         </div>
+                      <div *ngIf="hasError" style="margin-bottom:10px;">
+                        <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
+                      </div>
                     </div>
                 </div>
                 <div class="row">
@@ -36,7 +54,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right">Send a message</button>
+                        <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right" [disabled]="!name.valid || name.length < 0">Send a message</button>
                         <button type="button" (click)="goBack()" class="btn pull-left">Back</button>
                     </div>
                 </div>

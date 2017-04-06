@@ -13,4 +13,6 @@
   <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.causeOfDeath}}</strong></dd>
   <dt *ngIf="patient.person.gender" >Gender</dt>
   <dd *ngIf="patient.person.gender" >{{patient.person.gender}}</dd>
+  <dt *ngIf="patient.person.healthCenter" >Health Center</dt>
+  <dd *ngIf="patient.person.healthCenter" >{{patient.person.healthCenter}}</dd>
 </dl>
