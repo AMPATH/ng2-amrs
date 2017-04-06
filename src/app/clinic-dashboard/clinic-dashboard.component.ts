@@ -3,19 +3,23 @@ import { Component, OnInit } from '@angular/core';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
+
 @Component({
   selector: 'app-clinic-dashboard',
   templateUrl: './clinic-dashboard.component.html',
-  styleUrls: ['./clinic-dashboard.component.css']
+  styleUrls: ['./clinic-dashboard.component.css'],
+
 })
 export class ClinicDashboardComponent implements OnInit {
   locationUuid: string;
   loaderStatus: boolean;
   locations = [];
+
   constructor(private locationResourceService: LocationResourceService,
     private route: ActivatedRoute, private router: Router,
     private clinicDashboardCacheService: ClinicDashboardCacheService) {
     this.loaderStatus = false;
+
   }
 
   ngOnInit() {
@@ -53,4 +57,10 @@ export class ClinicDashboardComponent implements OnInit {
       this.router.navigateByUrl(splitUrl.join('/'));
     }
   }
+
+
 }
+
+
+
+

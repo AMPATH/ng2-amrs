@@ -2,7 +2,7 @@
   <h3>
     Clinic Dashboard
   </h3>
-  <ng-select (ngModelChange)="locationChanged($event)" [(ngModel)]="locationUuid" [options]="locations">
+  <ng-select (ngModelChange)="locationChanged($event)" [(ngModel)]="locationUuid" [options]="locations" >
   </ng-select>
   <button class="btn app-btn">
     <i *ngIf="!loaderStatus" (click)="getLocations()" class="fa  fa-refresh fa-1x fa-fw"></i>

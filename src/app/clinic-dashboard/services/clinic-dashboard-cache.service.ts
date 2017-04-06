@@ -4,11 +4,13 @@ import * as Moment from 'moment';
 @Injectable()
 export class ClinicDashboardCacheService {
     private cached = {};
+
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);
     private dailTabCurrentDate = Moment(this.currentClinic).format('YYYY-MM-DD');
     private dailTabCurrentDateSubject = new BehaviorSubject(this.dailTabCurrentDate);
     private currentTab = new Subject();
+
     constructor() { }
     public add(key: string, value: any) {
         this.cached[key] = value;
