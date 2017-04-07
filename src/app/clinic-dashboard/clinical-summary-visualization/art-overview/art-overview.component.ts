@@ -14,6 +14,7 @@ import { ClinicalSummaryVisualizationService
 export class ArtOverviewComponent {
   categories: Array<any> = [];
   series: Array<any> = [];
+  indicatorDef: Array<any> = [];
   totalPatients: number;
   private _options = new BehaviorSubject<any>(null);
   private data: any;
@@ -39,6 +40,7 @@ export class ArtOverviewComponent {
     if (this._options) {
       this._options.subscribe((options) => {
         this.data = options.data;
+        this.indicatorDef = options.indicatorDefinitions;
         this.renderChart(options);
         this.resetDataSets();
       });

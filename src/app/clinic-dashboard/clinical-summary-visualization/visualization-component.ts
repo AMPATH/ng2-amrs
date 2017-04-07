@@ -124,7 +124,9 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       report: 'clinical-art-overview',
       startDate: this.filterModel.startDate.startOf('month').format()
     }).subscribe((report) => {
-      _.merge(_options, {data: report});
+      _.merge(_options,
+        { data: report.result },
+        { indicatorDefinitions: report.indicatorDefinitions });
       this.artChartOptions = _options;
       this.loadingArt = false;
     });
