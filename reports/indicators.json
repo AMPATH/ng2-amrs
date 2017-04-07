@@ -186,7 +186,7 @@
         "name":"pre_art_total",
         "label":"starting art total",
         "description": "Total # of patients starting ART",
-        "expression": "arv_first_regimen_start_date is null and  date(enrollment_date) <=@endDate"
+        "expression": "arv_first_regimen_start_date is null"
     },
     {
         "name":"starting_art_total",
@@ -271,7 +271,7 @@
         "name":"scheduled_visits",
         "label":"scheduled visits",
         "description": "Scheduled visit",
-        "expression": "(date(encounter_datetime) = date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+       "expression": "(date(encounter_datetime) = date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
 
     },
     {
@@ -892,26 +892,26 @@
         "name":"num_ART_pats_screened_for_tb_started_TB",
         "label":"# ART pats screened for tb started TB",
         "description": "# of ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null"
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null"
     },
     {
         "name":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
         "label":"#  newly started on ART pats screened for tb started TB this reporting period",
         "description": "# of newly started on ART patients who are screened for tb and are started on TB medication this reporting period",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null and arv_start_date>= @startDate and arv_start_date<= @endDate"
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null and arv_start_date>= @startDate and arv_start_date<= @endDate"
     },
     {
         "name":"num_previous_ART_pats_screened_for_tb_started_TB",
         "label":"#  previously started on ART pats screened for tb started TB",
         "description": "# of previously started on ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null and arv_start_date< @startDate"
+        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null and arv_start_date< @startDate"
     },
 
     {
         "name":"num_ART_pats_screened_for_tb",
         "label":"# ART pats screened for tb",
         "description": "# of ART patients who are screened for tb",
-        "expression": "screened_for_tb is not null and cur_arv_line is not null and and coalesce(t1.death_date, out_of_care) is null"
+        "expression": "screened_for_tb is not null and cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null"
     },
     {
         "name":"perc_ART_pats_completed_6mths_IPT",
@@ -921,51 +921,51 @@
     },
     {
         "name":"num_ART_patients_completed_6mths_IPT",
-        "label":"# of ART patients who have completed 6mths IPT", 
+        "label":"# of ART patients who have completed 6mths IPT",
         "description": "# of ART patients who have completed 6mths of IPT patients",
         "expression": "round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6  and (coalesce(t1.death_date, out_of_care) is null)"
     },
 
     {
         "name":"num_ART_patients_newly_started_IPT_less_6mths",
-        "label":"# ART patients newly started IPT less 6mths", 
+        "label":"# ART patients newly started IPT less 6mths",
         "description": "# ART patients newly started IPT and have completed less than 6mths on therapy",
         "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and (coalesce(t1.death_date, out_of_care) is null) "
     },
     {
         "name":"num_ART_patients_newly_started_IPT_this_period_less_6mths",
-        "label":"# ART patients newly started IPT this period less 6mths", 
+        "label":"# ART patients newly started IPT this period less 6mths",
         "description": "# of ART patients newly started IPT in this reporting period and have completed less than 6mths on therapy",
         "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  @startDate"
     },
     {
         "name":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
-        "label":"# ART patients newly started IPT in the previous period less 6mths", 
+        "label":"# ART patients newly started IPT in the previous period less 6mths",
         "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
         "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
     },
     {
         "name":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
-        "label":"# ART patients newly started IPT in the previous period less 6mths", 
+        "label":"# ART patients newly started IPT in the previous period less 6mths",
         "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
         "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
     },
     {
         "name":"num_patients_currently_on_IPT",
-        "label":"# patients currently on IPT", 
-        "description": "number of patients currently on IPT", 
+        "label":"# patients currently on IPT",
+        "description": "number of patients currently on IPT",
         "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null"
     },
     {
         "name":"num_patients_newly_enrolled_newly_started_on_IPT",
-        "label":"# patients newly enrolled newly started on IPT", 
-        "description": "number of patients newly enrolled and newly started on IPT", 
+        "label":"# patients newly enrolled newly started on IPT",
+        "description": "number of patients newly enrolled and newly started on IPT",
         "expression": "(coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and  @startDate<=enrollment_date and enrollment_date<=@endDate"
     },
     {
         "name":"num_patients_stopped_on_IPT",
-        "label":"# patients stopped on IPT", 
-        "description": "number of patients stopped on IPT", 
+        "label":"# patients stopped on IPT",
+        "description": "number of patients stopped on IPT",
         "expression": "coalesce(t1.death_date, out_of_care) is null and t1.tb_prophylaxis_end_date is not null and  @startDate<=tb_prophylaxis_end_date<=@endDate"
     },
     {
@@ -973,5 +973,48 @@
         "label":"# patients newly started IPT",
         "description": "# eligible patients newly started IPT within the reporting period",
         "expression": "date(tb_prophylaxis_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"started_TB_treatment_within_reporting_period",
+        "label":"# patients started_TB_treatment_within_reporting_period",
+        "description": "Total clients who are started treatment within reporting period",
+        "expression": "tb_tx_start_date is not null and  date(tb_tx_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"HIV_patients_newly_enrolled_into_TB_treatment",
+        "label":"# patients who were hiv positive before initiating TB treatment within reporting period",
+        "description": "Total clients who were hiv positive before initiating TB treatment within reporting period",
+        "expression": "date(hiv_start_date) < date(tb_tx_start_date) and  date(tb_tx_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"TB_patients_newly_enrolled_into_HIV_care",
+        "label":"# TB patients who are being enrolled in ART",
+        "description": "TB clients who are enrolled into HIV care within reporting period",
+        "expression": "date(tb_tx_start_date) < date(hiv_start_date) and  date(hiv_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"newly_identified_HIV_positive_patient_on_TB_treatment",
+        "label":"newly_identified_HIV_positive_patient_on_TB_treatment within reporting period",
+        "description": "[HIV_patients_newly_enrolled_into_TB_treatment]+[TB_patients_newly_enrolled_into_HIV_care]",
+        "expression": ""
+    },
+    {
+        "name":"patients_on_ARV_starting_TB_treatment",
+        "label":"patients_on_ARV_starting_TB_treatment",
+        "description": "TB clients who were  on ARVs before starting TB treatment within reporting period",
+        "expression": " date(arv_first_regimen_start_date) < date(tb_tx_start_date) and  date(tb_tx_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"TB_patients_starting_ARV_medication",
+        "label":"# TB_patients_starting_ARV_medication",
+        "description": "TB clients who are starting ARV medication within reporting period",
+        "expression": "date(tb_tx_start_date) < date(arv_first_regimen_start_date)  and  date(arv_first_regimen_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"newly_identified_TB_patients_on_ARVs",
+        "label":"newly_identified_TB_patients_on_ARVs within reporting period",
+        "description": "[TB_patients_starting_ARV_medication]+[patients_on_ARV_starting_TB_treatment]",
+        "expression": ""
     }
+
 ]
