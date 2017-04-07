@@ -56,6 +56,10 @@ import { PatientStatusOverviewComponent
 import { PatientStatusIndicatorDefComponent
 } from './clinical-summary-visualization/patient-status-overview/indicator-definition.component';
 import { EtlApi } from '../etl-api/etl-api.module';
+import {
+  HivCareIndicatorDefComponent
+} from
+'./clinical-summary-visualization/hiv-care-comparative-overview/indicator-definitions.component';
 import { HivCareComparativeOverviewComponent
 } from
  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
@@ -125,7 +129,8 @@ import { ClinicalSummaryVisualizationService
     DailyScheduleVisitsComponent,
     DefaulterListComponent,
     PatientStatusOverviewComponent,
-    PatientStatusIndicatorDefComponent
+    PatientStatusIndicatorDefComponent,
+    HivCareIndicatorDefComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -156,7 +161,8 @@ import { ClinicalSummaryVisualizationService
     ClinicDashboardComponent,
     DefaulterListComponent,
     PatientStatusOverviewComponent,
-    PatientStatusIndicatorDefComponent
+    PatientStatusIndicatorDefComponent,
+    HivCareIndicatorDefComponent
   ],
 })
 export class ClinicDashboardModule {

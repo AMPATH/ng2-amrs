@@ -50,6 +50,9 @@ import { PatientStatusOverviewComponent
 } from './patient-status-overview/patient-status-overview.component';
 import { PatientStatusIndicatorDefComponent
 } from './patient-status-overview/indicator-definition.component';
+import {
+  HivCareIndicatorDefComponent
+ } from './hiv-care-comparative-overview/indicator-definitions.component';
 
 export class FakeClinicDashboardCacheService {
   public getCurrentClinic() {
@@ -158,6 +161,7 @@ describe('Component: VisualizationComponent', () => {
         PatientStatusOverviewComponent,
         IndicatorSelectComponent,
         PatientStatusIndicatorDefComponent,
+        HivCareIndicatorDefComponent,
         RangeSliderComponent,
         HivCareTabularViewComponent,
         GenderSelectComponent,

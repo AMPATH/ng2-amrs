@@ -163,7 +163,9 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       report: 'clinical-hiv-comparative-overview-report',
       startDate: this.filterModel.startDate.format()
     }).subscribe((report) => {
-      _.merge(_options, {data: report});
+      _.merge(_options,
+        { data: report.result },
+        { indicatorDefinitions: report.indicatorDefinitions });
       this.hivComparativeChartOptions = _options;
       this.loadingHivCare = false;
     });
