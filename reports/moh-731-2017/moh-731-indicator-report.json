@@ -617,6 +617,36 @@
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
       {
+        "label": "total_hiv_exposed",
+        "expression": "total_hiv_exposed",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "hiv_exposed_occupational",
+        "expression": "hiv_exposed_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "hiv_exposed_non_occupational",
+        "expression": "hiv_exposed_non_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "total_started_PEP",
+        "expression": "total_started_PEP",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "started_PEP_occupational",
+        "expression": "started_PEP_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "started_PEP_non_occupational",
+        "expression": "started_PEP_non_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
         "label": "screened_for_tb_below_1",
         "expression": "screened_for_tb_below_1",
         "sql": "count(distinct if($expression,t1.person_id,null))",
@@ -756,6 +786,11 @@
       {
         "label": "newly_started_IPT",
         "expression": "newly_started_IPT",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "completed_12_months_IPT",
+        "expression": "completed_12_months_IPT",
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
       {
