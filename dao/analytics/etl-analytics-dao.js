@@ -7,8 +7,8 @@ var reportFactory = require('../../etl-factory');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
 var Promise = require('bluebird');
-var moh731VlegacSectionDefinitions = require('../../service/moh-731/moh-731-2017');
-var moh731V2017SectionDefinitions = require('../../service/moh-731/moh-731-legacy');
+var moh731VlegacSectionDefinitions = require('../../service/moh-731/moh-731-legacy');
+var moh731V2017SectionDefinitions = require('../../service/moh-731/moh-731-2017');
 module.exports = function () {
     return {
         getCustomData: function getCustomData(request, callback) {

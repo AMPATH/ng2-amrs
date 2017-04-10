@@ -819,7 +819,7 @@ module.exports = function () {
                         'person.gender', 'person.birthdate', 'extract(year from (from_days(datediff(now(),person.birthdate)))) as age',
                         'case when (timestampdiff(day,vl_order_date,now()) between 0 and 14) and (vl_1_date is null or vl_order_date > vl_1_date) then true else false end as has_pending_vl_test',
                         't1.enrollment_date', 'hiv_start_date', 'arv_start_location', 'arv_first_regimen_start_date', 'arv_start_date as cur_regimen_arv_start_date', 'cur_arv_line',
-                        'vl_1', 'vl_1_date'
+                        'vl_1', 'vl_1_date', 'tb_prophylaxis_start_date', 'pcp_prophylaxis_start_date', 'tb_tx_start_date'
                     ],
                     concatColumns: [
                         "concat(COALESCE(person_name.given_name,''),' ',COALESCE(person_name.middle_name,''),' ',COALESCE(person_name.family_name,'')) as person_name",

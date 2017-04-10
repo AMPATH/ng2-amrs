@@ -975,6 +975,12 @@
         "expression": "date(tb_prophylaxis_start_date) between @startDate and @endDate"
     },
     {
+        "name":"completed_12_months_IPT",
+        "label":"# patients completed 12 months IPT within reporting period",
+        "description": "# completed 12 months IPT within the reporting period",
+        "expression": "date(tb_prophylaxis_end_date) between @startDate and @endDate and (timestampdiff(month,tb_prophylaxis_start_date, tb_prophylaxis_end_date) >= 12) "
+    },
+    {
         "name":"started_TB_treatment_within_reporting_period",
         "label":"# patients started_TB_treatment_within_reporting_period",
         "description": "Total clients who are started treatment within reporting period",
@@ -1015,6 +1021,42 @@
         "label":"newly_identified_TB_patients_on_ARVs within reporting period",
         "description": "[TB_patients_starting_ARV_medication]+[patients_on_ARV_starting_TB_treatment]",
         "expression": ""
+    },
+    {
+        "name":"total_hiv_exposed",
+        "label":"# count of all clients exposed to HIV",
+        "description": "all clients exposed to HIV within reporting period",
+        "expression": "hiv_exposed_occupational is not null"
+    },
+    {
+        "name":"hiv_exposed_occupational",
+        "label":"# count of all clients exposed to HIV (occupational)",
+        "description": "occupational clients exposed to HIV within reporting period",
+        "expression": "hiv_exposed_occupational=1"
+    },
+    {
+        "name":"hiv_exposed_non_occupational",
+        "label":"# count of all clients exposed to HIV (non-occupational)",
+        "description": "non-occupational clients exposed to HIV within reporting period",
+        "expression": "hiv_exposed_occupational=0"
+    },
+    {
+        "name":"total_started_PEP",
+        "label":"# count of all clients exposed to HIV and started PEP",
+        "description": "all clients exposed to HIV and received PEP within reporting period",
+        "expression": "hiv_exposed_occupational is not null and date(pep_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"started_PEP_occupational",
+        "label":"# count of all clients exposed to HIV (occupational) and started PEP",
+        "description": "occupational clients exposed to HIV and started PEP within reporting period",
+        "expression": "hiv_exposed_occupational=1 and date(pep_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"started_PEP_non_occupational",
+        "label":"# count of all clients exposed to HIV (non-occupational) and started PEP",
+        "description": "non-occupational clients exposed to HIV and started PEP within reporting period",
+        "expression": "hiv_exposed_occupational=0 and date(pep_start_date) between @startDate and @endDate"
     }
 
 ]
