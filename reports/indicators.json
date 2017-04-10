@@ -501,7 +501,7 @@
     {
         "name":"not_tested_appropriately",
         "label":"not tested appropriately",
-        "description": "not tested appropriately",
+        "description": "Patients who are under ART and are missing Viral Load in past year",
         "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null)"
     },
     {
