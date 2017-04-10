@@ -1,0 +1,226 @@
+[
+  {
+    "name": "patient-status-change-tracker-report",
+    "table": {
+      "schema": "",
+      "tableName": "",
+      "alias": "t1",
+      "dynamicDataset": "total-patients-cohort"
+    },
+    "joins": [
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "",
+        "alias": "t2",
+        "joinExpression": "t2.reporting_date = t1.reporting_date",
+        "dynamicDataset": "active-patients-cohort"
+      }
+    ],
+    "parameters": [],
+    "filters": [],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "all",
+        "type": "all",
+        "sql": "*"
+      }
+    ]
+  },
+  {
+    "name": "total-patients-cohort",
+    "table": {
+      "schema": "etl",
+      "tableName": "dates",
+      "alias": "t2"
+    },
+    "joins": [
+      {
+        "joinType": "JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "t1",
+        "joinExpression": "is_clinical_encounter=1 and encounter_datetime <= t2.endDate and coalesce(death_date, out_of_care) is null and (t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": [
+          "01-01-1980"
+        ]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": [
+          "Now()"
+        ]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": [
+          1
+        ]
+      },
+      {
+        "name": "groupByEndDate",
+        "defaultValue": [
+          {
+            "label": "endDate",
+            "expression": "endDate"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t2.endDate >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t2.endDate <= ?",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_uuid in (?)",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)",
+        "parameter": "startDate"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEndDate"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct if($expression, person_id,null))"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "reporting_date",
+        "type": "single",
+        "sql": "t2.endDate"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "reporting_month",
+        "type": "single",
+        "sql": "date_format(t2.endDate, '%m/%Y')"
+      }
+    ]
+  },
+  {
+    "name": "active-patients-cohort",
+    "table": {
+      "schema": "etl",
+      "tableName": "dates",
+      "alias": "t2"
+    },
+    "joins": [
+      {
+        "joinType": "JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "t1",
+        "joinExpression": "is_clinical_encounter=1 and timestampdiff(day,if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)),t2.endDate) <= 90 and encounter_datetime <= t2.endDate and coalesce(death_date, out_of_care) is null and (t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": [
+          "01-01-1980"
+        ]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": [
+          "Now()"
+        ]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": [
+          1
+        ]
+      },
+      {
+        "name": "groupByEndDate",
+        "defaultValue": [
+          {
+            "label": "endDate",
+            "expression": "endDate"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t2.endDate >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t2.endDate <= ?",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_uuid in (?)",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)",
+        "parameter": "startDate"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEndDate"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "currently_in_care_total",
+        "expression": "currently_in_care_total",
+        "sql": "count(distinct if($expression, person_id,null))"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "reporting_date",
+        "type": "single",
+        "sql": "t2.endDate"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "reporting_month",
+        "type": "single",
+        "sql": "date_format(t2.endDate, '%m/%Y')"
+      }
+    ]
+  }
+]

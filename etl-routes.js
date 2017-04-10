@@ -17,8 +17,9 @@ var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
-import { MonthlyScheduleService } from './service/monthly-schedule-service'
-import { SlackService } from './service/slack-service'
+import { MonthlyScheduleService } from './service/monthly-schedule-service';
+import { PatientStatusChangeTracker } from './service/patient-status-change-tracker-service';
+import { SlackService } from './service/slack-service';
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -1260,7 +1261,7 @@ module.exports = function () {
                             type: 'query', //can be in either query or params so you have to specify
                             name: 'report', //name of the parameter
                             value: 'clinical-patient-care-status-overview-report' //parameter value
-                        }
+                        },
 
                     ]
                 }
@@ -1418,6 +1419,110 @@ module.exports = function () {
             }
         }
     },
+        {
+            method: 'GET',
+            path: '/etl/patient-status-change-tracking',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'openmrsLocationAuthorizer': {
+                        locationParameter: [{
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'locationUuids' //name of the location parameter
+                        }],
+                        aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                            {
+                                type: 'query', //can be in either query or params so you have to specify
+                                name: 'reportName', //name of the parameter
+                                value: 'patient-status-change-tracker-report' //parameter value
+                            }
+                        ]
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.reportName = 'patient-status-change-tracker-report';
+                    //security check
+                    if (!authorizer.hasReportAccess(request.query.reportName)) {
+                        return reply(Boom.forbidden('Unauthorized'));
+                    }
+
+                    let requestParams = Object.assign({}, request.query, request.params);
+                    let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                        ['startDate', 'endDate', 'locationUuids'], requestParams);
+
+                    let service = new PatientStatusChangeTracker();
+                    service.getAggregateReport(reportParams).then((result) => {
+                        reply(result);
+                    }).catch((error) => {
+                        reply(error);
+                    });
+                },
+                description: "Get the Patient Status report",
+                notes: "Api endpoint that returns Patient Status Change Tracker Report",
+                tags: ['api'],
+                validate: {
+                    query: {
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        startDate: Joi.string()
+                            .required()
+                            .description("The start date to filter by"),
+                        endDate: Joi.string()
+                            .required()
+                            .description("The end date to filter by")
+                    }
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/patient-status-change-tracking/patient-list',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewPatient
+                    },
+                },
+                handler: function (request, reply) {
+                    request.query.reportName = 'patient-status-change-tracker-report';
+                    let requestParams = Object.assign({}, request.query, request.params);
+                    let service = new PatientStatusChangeTracker();
+                    service.getPatientListReport(requestParams).then((result) => {
+                        reply(result);
+                    }).catch((error) => {
+                        reply(error);
+                    });
+                },
+                description: "Get Patient Status report patient list",
+                notes: "Returns the patient list for Patient Status report",
+                tags: ['api'],
+                validate: {
+                    query: {
+                        indicator: Joi.string()
+                            .required()
+                            .description("A list of comma separated indicators"),
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        startDate: Joi.string()
+                            .required()
+                            .description("The start date to filter by"),
+                        endDate: Joi.string()
+                            .required()
+                            .description("The end date to filter by"),
+                        startIndex: Joi.number()
+                            .required()
+                            .description("The startIndex to control pagination"),
+                        limit: Joi.number()
+                            .required()
+                            .description("The offset to control pagination")
+
+                    }
+                }
+            }
+        },
     {
         method: 'GET',
         path: '/etl/location/{locationUuids}/patient-by-indicator',

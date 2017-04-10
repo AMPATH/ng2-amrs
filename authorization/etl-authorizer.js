@@ -34,7 +34,8 @@ var reportPrivileges = {
     'labs-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'viral-load-monitoring-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'medical-history-report': [PRIVILEGES.canViewPatient],
-    'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard, PRIVILEGES.canViewPatient]
+    'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard, PRIVILEGES.canViewPatient],
+    'patient-status-change-tracker-report':  [PRIVILEGES.canViewDataAnalytics],
 };
 
 var SUPERUSER_ROLES = ['System Developer'];
