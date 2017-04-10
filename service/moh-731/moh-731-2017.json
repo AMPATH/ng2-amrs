@@ -425,12 +425,12 @@
             {
                 "label": "TB cases New",
                 "ref": "HV03-076",
-                "indicator": ""
+                "indicator": "started_TB_treatment_within_reporting_period"
             },
             {
                 "label": "TB cases KP",
                 "ref": "HV03-077",
-                "indicator": ""
+                "indicator": "HIV_patients_newly_enrolled_into_TB_treatment"
             },
             {
                 "label": "TB Cases Tested HIV",
@@ -445,27 +445,27 @@
             {
                 "label": "TB New HIV Positive",
                 "ref": "HV03-080",
-                "indicator": ""
+                "indicator": "TB_patients_newly_enrolled_into_HIV_care"
             },
             {
                 "label": "TB TOTAL HIV Positive (Sum HV03-077 and HV03-080)",
                 "ref": "HV03-081",
-                "indicator": ""
+                "indicator": "newly_identified_HIV_positive_patient_on_TB_treatment"
             },
             {
                 "label": "TB already on HAART",
                 "ref": "HV03-082",
-                "indicator": ""
+                "indicator": "patients_on_ARV_starting_TB_treatment"
             },
             {
                 "label": "TB starting HAART",
                 "ref": "HV03-083",
-                "indicator": ""
+                "indicator": "TB_patients_starting_ARV_medication"
             },
             {
                 "label": "TB  Total on HAART (Sum HV03-082 and HV03-083)",
                 "ref": "HV03-084",
-                "indicator": ""
+                "indicator": "newly_identified_TB_patients_on_ARVs"
             }
         ]
     },

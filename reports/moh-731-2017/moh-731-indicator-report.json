@@ -283,6 +283,10 @@
       {
         "expression": "t1.is_clinical_encounter = 1",
         "processForce": true
+      },
+      {
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
+        "parameter": "endDate"
       }
     ],
     "groupClause": [
@@ -753,6 +757,41 @@
         "label": "newly_started_IPT",
         "expression": "newly_started_IPT",
         "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "started_TB_treatment_within_reporting_period",
+        "expression": "started_TB_treatment_within_reporting_period",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "HIV_patients_newly_enrolled_into_TB_treatment",
+        "expression": "HIV_patients_newly_enrolled_into_TB_treatment",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "TB_patients_newly_enrolled_into_HIV_care",
+        "expression": "TB_patients_newly_enrolled_into_HIV_care",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "newly_identified_HIV_positive_patient_on_TB_treatment",
+        "expression": "newly_identified_HIV_positive_patient_on_TB_treatment",
+        "sql": "[HIV_patients_newly_enrolled_into_TB_treatment]+[TB_patients_newly_enrolled_into_HIV_care]"
+      },
+      {
+        "label": "patients_on_ARV_starting_TB_treatment",
+        "expression": "patients_on_ARV_starting_TB_treatment",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "TB_patients_starting_ARV_medication",
+        "expression": "TB_patients_starting_ARV_medication",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "newly_identified_TB_patients_on_ARVs",
+        "expression": "newly_identified_TB_patients_on_ARVs",
+        "sql": "[TB_patients_starting_ARV_medication]+[patients_on_ARV_starting_TB_treatment]"
       },
       {
         "label": "female_gte_18yo_visits",
