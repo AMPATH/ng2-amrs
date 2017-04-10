@@ -15,6 +15,7 @@ export class DailyScheduleComponent implements OnInit {
   errors: any[] = [];
   selectedDate: any;
   selectedLocation: any;
+  loadingData: boolean = true;
   @Output() selectedSchedule = new EventEmitter();
   private msgs: Message[] = [];
   private reportFilter: any = { ageRange: [40, 70] };
@@ -55,6 +56,9 @@ export class DailyScheduleComponent implements OnInit {
     this.updateCurrentDate();
     this.selectedDate = this._datePipe.transform(
       new Date(), 'yyyy-MM-dd');
+    this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
+      this.loadingData = value;
+    });
   }
 
   setActiveTab() {
@@ -83,7 +87,8 @@ export class DailyScheduleComponent implements OnInit {
   }
   onDateChanged(event: IMyDateModel): void {
     // date selected
-    this.clinicDashboardCacheService.setDailyTabCurrentDate(event.date);
+    this.selectedDate = this.getDate(event.date);
+    this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
   }
 
 
@@ -121,5 +126,9 @@ export class DailyScheduleComponent implements OnInit {
 
   private get getDataToBind() {
     return JSON.stringify(this.dataToBind);
+  }
+
+  getDate(dateObject: any) {
+    return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
   }
 }

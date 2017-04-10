@@ -32,8 +32,7 @@ export class DailyScheduleResourceService {
             .map((response: Response) => {
                 return response.json().result;
             });
-
-        return this.cacheService.cacheRequest(url, urlParams, request);
+         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getDailyAppointments(params) {
@@ -52,13 +51,12 @@ export class DailyScheduleResourceService {
         urlParams.set('limit', params.limit);
 
         let url = this.getUrl('daily-appointments', params.startDate);
-        let request = this.http.get(url, {
+      let request = this.http.get(url, {
             search: urlParams
         })
             .map((response: Response) => {
                 return response.json().result;
             });
-
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
@@ -77,13 +75,12 @@ export class DailyScheduleResourceService {
         urlParams.set('limit', params.limit);
 
         let url = this.getUrl('daily-has-not-returned', params.startDate);
-        let request = this.http.get(url, {
+      let request = this.http.get(url, {
             search: urlParams
         })
             .map((response: Response) => {
                 return response.json().result;
             });
-
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
