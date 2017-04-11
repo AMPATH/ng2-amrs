@@ -30,7 +30,7 @@ const VersionFile = require('webpack-version-file-plugin');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
+  title: 'Ampath Point of Care app that integrates all facets of patient care',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };

@@ -16,40 +16,108 @@ import { VisitComponent } from './visit/visit.component';
 import { FormentryComponent } from './formentry/formentry.component';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
-import { HivPatientClinicalSummaryComponent }
+import {
+  HivPatientClinicalSummaryComponent
+}
   from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
 
 const patientDashboardRoutes: Routes = [
 
-  { path: 'patient-search', component: PatientSearchComponent },
+  {
+    path: 'patient-search',
+    component: PatientSearchComponent,
+    data: {title: 'Patient Search'}
+  },
   {
     path: ':patient_uuid',
     component: PatientDashboardComponent,
+    data: {title: 'Patient Dashboard'},
     children: [
-      { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full'},
+      {
+        path: ':program',
+        redirectTo: ':program/landing-page',
+        pathMatch: 'full'
+      },
       // { path: '', redirectTo: 'general/landing-page'},
-      { path: ':program/patient-info', component: PatientInfoComponent },
-      { path: 'oncology/landing-page', component: PatientInfoComponent },
-      { path: ':program/patient-encounters', component: PatientEncountersComponent },
-      { path: ':program/patient-vitals', component: PatientVitalsComponent },
-      { path: ':program/forms', component: FormsComponent },
+      {
+        path: ':program/patient-info',
+        component: PatientInfoComponent,
+        data: {title: 'Patient Info'}
+      },
+      {
+        path: 'oncology/landing-page',
+        component: PatientInfoComponent,
+        data: {title: 'Oncology Landing'}
+      },
+      {
+        path: ':program/patient-encounters',
+        component: PatientEncountersComponent,
+        data: {title: 'Patient Encounter List'}
+      },
+      {
+        path: ':program/patient-vitals',
+        component: PatientVitalsComponent,
+        data: {title: 'Patient Vitals'}
+      },
+      {
+        path: ':program/forms',
+        component: FormsComponent,
+        data: {title: 'Form List'}
+      },
       {
         path: ':program/formentry/:formUuid',
         component: FormentryComponent,
+        data: {title: 'Form Entry'},
         canDeactivate: [FromentryGuard],
         resolve: {
           compiledSchemaWithEncounter: FormCreationDataResolverService
         }
       },
-      { path: ':program/hiv-summary', component: HivSummaryComponent },
-      { path: 'hiv/landing-page', component: HivSummaryComponent },
-      { path: ':program/hiv-clinical-summary', component: HivPatientClinicalSummaryComponent },
-      { path: ':program/lab-data-summary', component: LabDataSummaryComponent },
-      { path: ':program/lab-orders', component: LabOrdersComponent },
-      { path: 'general/landing-page', component: ProgramsComponent },
-      { path: ':program/programs', component: ProgramsComponent },
-      { path: ':program/clinical-notes', component: ClinicalNotesComponent },
-      { path: ':program/visit', component: VisitComponent }
+      {
+        path: ':program/hiv-summary',
+        component: HivSummaryComponent,
+        data: {title: 'HIV Summary'}
+      },
+      {
+        path: 'hiv/landing-page',
+        component: HivSummaryComponent,
+        data: {title: 'HIV Landing Page'}
+      },
+      {
+        path: ':program/hiv-clinical-summary',
+        component: HivPatientClinicalSummaryComponent,
+        data: {title: 'HIV Patient Clinical Summary'}
+      },
+      {
+        path: ':program/lab-data-summary',
+        component: LabDataSummaryComponent,
+        data: {title: 'Lab Data Summary'}
+      },
+      {
+        path: ':program/lab-orders',
+        component: LabOrdersComponent,
+        data: {title: 'Patient Lab Orders'}
+      },
+      {
+        path: 'general/landing-page',
+        component: ProgramsComponent,
+        data: {title: 'General Landing Page'}
+      },
+      {
+        path: ':program/programs',
+        component: ProgramsComponent,
+        data: {title: 'Patient Programs'}
+      },
+      {
+        path: ':program/clinical-notes',
+        component: ClinicalNotesComponent,
+        data: {title: 'Patient Clinical Notes'}
+      },
+      {
+        path: ':program/visit',
+        component: VisitComponent,
+        data: {title: 'Patient Visit'}
+      }
     ],
     canActivate: [
       PatientDashboardGuard
