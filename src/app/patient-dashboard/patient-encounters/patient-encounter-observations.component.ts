@@ -85,7 +85,8 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       let _arrValue: Array<any> = [];
       if (_.isNil(_value) && !_.isNil(v.groupMembers)) {
         _.each(v.groupMembers, (group, index) => {
-          _arrValue.push({label: group.concept.display.toUpperCase(), value: group.value.display});
+          _arrValue.push({label: group.concept.display.toUpperCase(),
+            value: (_.isObject(group.value) ? group.value.display : group.value)}); // check;
         });
         _value = _arrValue;
       }
