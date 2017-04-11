@@ -7,8 +7,6 @@ var reportFactory = require('../../etl-factory');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
 var Promise = require('bluebird');
-var moh731VlegacSectionDefinitions = require('../../service/moh-731/moh-731-legacy');
-var moh731V2017SectionDefinitions = require('../../service/moh-731/moh-731-2017');
 module.exports = function () {
     return {
         getCustomData: function getCustomData(request, callback) {
@@ -414,30 +412,6 @@ module.exports = function () {
                 } else {
                     reject(Boom.badRequest('An error occurred while generating patient list, please check parameter and try again'));
                 }
-            });
-        },
-
-        getMOH731Report: function (reportParams) {
-            reportParams.requestParams.isAggregated === true ? reportParams.groupBy = '' :
-                reportParams.groupBy = 'groupByLocation';
-            var queryParts = reportFactory.singleReportToSql(reportParams);
-            return new Promise(function (resolve, reject) {
-                db.reportQueryServer(queryParts, function (results) {
-                    if (results.error) {
-                        results.queryParts = queryParts;
-                        reject(results);
-                    } else {
-                        reportFactory.buildIndicatorsSchema(reportParams, function (indicators) {
-                            results.indicatorDefinitions = indicators;
-                            if (reportParams.reportName === 'MOH-731-report') {
-                                results.sectionDefinitions = moh731VlegacSectionDefinitions;
-                            } else if (reportParams.reportName === 'MOH-731-report-2017') {
-                                results.sectionDefinitions = moh731V2017SectionDefinitions;
-                            }
-                            resolve(results);
-                        });
-                    }
-                });
             });
         },
 
