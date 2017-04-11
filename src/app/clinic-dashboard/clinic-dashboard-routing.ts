@@ -15,6 +15,8 @@ import { DefaulterListComponent } from './defaulter-list/defaulter-list.componen
 import { VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+import { HivProgramModule } from './hiv/hiv-program.module';
+
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -51,6 +53,11 @@ const clinicDashboardRoutes: Routes = [
       },
       { path: 'clinic-lab-orders', component: ClinicLabOrdersComponent },
       { path: 'defaulter-list', component: DefaulterListComponent },
+      {
+        path: 'hiv', loadChildren: () =>
+          System.import('./hiv/hiv-program.module')
+            .then(mod => mod.HivProgramModule)
+      },
       { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' },
 
     ],

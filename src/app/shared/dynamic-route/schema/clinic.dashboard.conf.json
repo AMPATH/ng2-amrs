@@ -34,6 +34,12 @@
       "label": "Defaulter List",
       "icon": "fa fa-list",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/moh-731-report",
+      "label": "MOH 731 Report",
+      "icon": "glyphicon glyphicon-equalizer",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

@@ -17,6 +17,7 @@ import {
   ClinicalSummaryVisualizationResourceService
 } from './clinical-summary-visualization-resource.service';
 import { LabOrderResourceService } from './lab-order-resource.service';
+import { Moh731ResourceService } from './moh-731-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -34,7 +35,8 @@ import { LabOrderResourceService } from './lab-order-resource.service';
     MonthlyScheduleResourceService,
     ClinicLabOrdersResourceService,
     ClinicalSummaryVisualizationResourceService,
-    LabOrderResourceService
+    LabOrderResourceService,
+    Moh731ResourceService
   ],
   exports: []
 })
