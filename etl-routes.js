@@ -20,6 +20,7 @@ var crypto = require('crypto');
 import { MonthlyScheduleService } from './service/monthly-schedule-service';
 import { PatientStatusChangeTracker } from './service/patient-status-change-tracker-service';
 import { SlackService } from './service/slack-service';
+import { Moh731Service } from './service/moh-731/moh-731.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -1338,7 +1339,8 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams(request.query.reportName,
                     ['startDate', 'endDate', 'locationUuids', 'isAggregated'], requestParams);
 
-                dao.getMOH731Report(reportParams).then((result) => {
+                let service = new Moh731Service();
+                service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
@@ -1380,9 +1382,9 @@ module.exports = function () {
                 },
             },
             handler: function (request, reply) {
-		   let compineRequestParams = Object.assign({}, request.query, request.params);
-
-                dao.getPatientListReport(compineRequestParams).then((result) => {
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new Moh731Service();
+                service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
