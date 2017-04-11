@@ -14,6 +14,7 @@ import { BuildVersionComponent } from '../build-version';
 import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { FormsModule } from '@angular/forms';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -39,11 +40,12 @@ import { FormsModule } from '@angular/forms';
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         DataTablesComponent, StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
-        BuildVersionComponent, DateSelectorComponent],
+        BuildVersionComponent, DateSelectorComponent, PdfViewerComponent],
     declarations: [
         DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,
-        BuildVersionComponent, DateSelectorComponent
+        BuildVersionComponent, DateSelectorComponent, PdfViewerComponent
+
     ],
     providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService],
 })

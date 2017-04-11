@@ -16,6 +16,8 @@ import { ProviderResourceService } from '../../openmrs-api/provider-resource.ser
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import { Observable, Subject } from 'rxjs/Rx';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 
 describe('Service: FormSubmissionService', () => {
 
@@ -106,6 +108,8 @@ describe('Service: FormSubmissionService', () => {
         LocationResourceService,
         FormDataSourceService,
         ErrorLogResourceService,
+        DataCacheService,
+        CacheService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),

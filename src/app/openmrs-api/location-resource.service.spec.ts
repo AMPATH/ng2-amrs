@@ -4,7 +4,8 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { LocationResourceService } from './location-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 // Load the implementations that should be tested
 
 describe('LocationResourceService Unit Tests', () => {
@@ -24,7 +25,9 @@ describe('LocationResourceService Unit Tests', () => {
         },
         AppSettingsService,
         LocationResourceService,
-        LocalStorageService
+        LocalStorageService,
+        DataCacheService,
+        CacheService
       ],
     });
   }));

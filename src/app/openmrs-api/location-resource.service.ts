@@ -3,13 +3,14 @@ import { Http, Response, URLSearchParams } from '@angular/http';
 import { ReplaySubject, Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-
+import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
   private v: string = 'full';
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: Http, protected appSettingsService: AppSettingsService,
+    private cacheService: DataCacheService) {
   }
 
   /**
@@ -51,11 +52,11 @@ export class LocationResourceService {
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('v', (v && v.length > 0) ? v : this.v);
-    return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
+    let request = this.http.get(url, { search: params }).map((response: Response) => {
       return response.json();
     });
+
+    return this.cacheService.cacheRequest(url, params, request);
   }
 
   searchLocation(searchText: string, cached: boolean = false, v: string = null): Observable<any> {

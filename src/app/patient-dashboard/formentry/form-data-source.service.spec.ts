@@ -11,6 +11,8 @@ import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 
 describe('Service: FormDataSourceService', () => {
   beforeEach(() => {
@@ -23,6 +25,8 @@ describe('Service: FormDataSourceService', () => {
         AppSettingsService,
         ConceptResourceService,
         LocalStorageService,
+        DataCacheService,
+        CacheService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,

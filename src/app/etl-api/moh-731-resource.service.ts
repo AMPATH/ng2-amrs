@@ -47,3 +47,4 @@ export class Moh731ResourceService {
                 cacheSingleRequest(this.url, urlParams, request, cacheTtl);
     }
 }
+

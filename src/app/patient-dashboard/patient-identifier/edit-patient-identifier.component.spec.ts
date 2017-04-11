@@ -13,9 +13,12 @@ import { PatientService } from '../patient.service';
 import { EditPatientIdentifierComponent } from './edit-patient-identifier.component';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { PatientIdentifierService } from './patient-identifiers.service';
-import { PatientIdentifierTypeResService
+import {
+  PatientIdentifierTypeResService
 } from '../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 
 describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
 
@@ -34,7 +37,8 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
         FakeAppFeatureAnalytics,
         LocationResourceService,
         PatientIdentifierTypeResService,
-
+        DataCacheService,
+        CacheService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -61,7 +65,7 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = new EditPatientIdentifierComponent(patientService, locationResourceService,
-      patientIdentifierService, patientIdentifierTypeResService , patientResourceService);
+      patientIdentifierService, patientIdentifierTypeResService, patientResourceService);
   });
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -107,12 +111,12 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
   it('should fetch location correctly', (done) => {
     spyOn(locationResourceService, 'getLocations')
       .and.callFake(function (param) {
-      return {
-        uuid: 'location-uuid',
-        display: 'location'
-      };
-    });
-      done();
+        return {
+          uuid: 'location-uuid',
+          display: 'location'
+        };
+      });
+    done();
 
   });
 
