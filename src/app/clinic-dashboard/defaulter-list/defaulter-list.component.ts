@@ -132,6 +132,7 @@ export class DefaulterListComponent implements OnInit {
         this.dataLoaded = false;
         this.errors = [];
         this.defaulterList = [];
+        this.nextStartIndex = 0;
     }
     private getQueryParams(defaulterPeriod, maxDefaultPeriod, selectedLocation) {
         let params = {
