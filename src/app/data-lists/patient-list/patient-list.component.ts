@@ -38,6 +38,10 @@ export class PatientListComponent implements OnInit {
   }
 
   columns() {
+    let columns = PatientListColumns.columns();
+    if (this.extraColumns && typeof Array.isArray(this.extraColumns)) {
+       columns = columns.concat(this.extraColumns);
+    }
 
     if (this.extraColumns && typeof Array.isArray(this.extraColumns)) {
       return PatientListColumns.columns().concat(this.extraColumns);
