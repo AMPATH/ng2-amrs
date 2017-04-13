@@ -79,7 +79,7 @@ module.exports = function () {
                             });
                             if (derivedIndicator.expression !== '') {
                                 // del repetition
-                                indicatorsSchema =  indicatorsSchema.filter(function(el) {
+                                indicatorsSchema = indicatorsSchema.filter(function (el) {
                                     return el.name !== reportIndicator.expression;
                                 });
 
@@ -772,6 +772,27 @@ module.exports = function () {
         };
     }
 
+    function getDataSetReportName(queryParams) {
+        var reportName = queryParams.reportName;
+        var dataSets = getAllDatasets(queryParams.reportName, [queryParams.reportName]);
+        _.each(dataSets, function (dataSet) {
+            _.each(reports, function (report) {
+                if (report.name === dataSet) {
+                    _.each(report.indicators, function (singleIndicator) {
+                        _.each(queryParams.requestIndicators.split(','), function (requestIndicatorName) {
+                            if (singleIndicator.expression === requestIndicatorName) {
+                                // handle dates table
+                                if(report.table.tableName==='dates') reportName = dataSet;
+                            }
+                        });
+
+                    });
+                }
+            });
+        });
+        return reportName;
+    }
+
     function buildPatientListReportExpression(queryParams) {
         var result = {
             whereClause: [],
@@ -779,6 +800,7 @@ module.exports = function () {
             queryParts: []
         };
         if (queryParams === null || queryParams === undefined) return "";
+        queryParams.reportName= getDataSetReportName(queryParams);
         var filter = generatePatientListFilter(queryParams);
         result.whereClause.push(filter.query);
         result.whereClause.push.apply(result.whereClause, filter.params);
