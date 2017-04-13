@@ -9,6 +9,7 @@
           <th>Order No</th>
           <th>Test Name</th>
           <th>Ordered By</th>
+          <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -25,10 +26,20 @@
           <td>
             {{order.orderer.display}}
           </td>
+          <td>
+            <button (click)="postOrderToEid(order)" class="btn default">
+              <span class="fa fa-save" aria-hidden="true"></span>
+              Post Order To EID
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>
     </div>
     <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
   </div>
+
+  <p-dialog header="Post Lab Order" [(visible)]="displayDialog" minHieght="300" position="center" modal="true">
+    <lab-order-search-post [order]="currentOrder" [reset]="currentOrder === null" (resetEvent)="handleResetEvent($event)"></lab-order-search-post>
+  </p-dialog>
 </div>

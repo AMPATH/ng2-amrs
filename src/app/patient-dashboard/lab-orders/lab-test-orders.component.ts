@@ -3,6 +3,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { PatientService } from '../patient.service';
 import { OrderResourceService } from '../../openmrs-api/order-resource.service';
 import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'lab-test-orders',
   templateUrl: './lab-test-orders.html',
@@ -16,6 +17,8 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   fetchingResults: boolean;
   isBusy: boolean;
   subscription: Subscription;
+  displayDialog: boolean = false;
+  currentOrder: any;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
               private patientService: PatientService,
@@ -44,6 +47,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   getPatientLabOrders() {
     this.fetchingResults = true;
     this.isBusy = true;
@@ -68,5 +72,16 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         this.error = err;
         console.log('error', this.error);
       });
+  }
+
+  postOrderToEid(order: any) {
+    this.currentOrder = null;
+    this.displayDialog = true;
+    this.currentOrder = order;
+  }
+
+  handleResetEvent(event) {
+    this.displayDialog = false;
+    this.currentOrder = null;
   }
 }

@@ -108,6 +108,9 @@ type StoreType = {
     },
     CacheService,
     DataCacheService
+  ],
+  exports: [
+    LabOrderSearchModule
   ]
 })
 export class AppModule {

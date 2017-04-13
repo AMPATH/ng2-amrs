@@ -14,7 +14,7 @@
                  (keypress)="onKeyPress($event)" >
         </div>
         <div class="input-group-btn pull-right">
-          <button id="search" [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="searchOrderId()">
+          <button id="search" [disabled]="isEnabled" class="btn btn-primary btn-lg" (click)="searchOrderId()">
             <span class="glyphicon glyphicon-search"> Search</span>
             <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
           </button>

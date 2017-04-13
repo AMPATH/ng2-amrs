@@ -16,6 +16,7 @@ import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.ser
 import {
   ClinicalSummaryVisualizationResourceService
 } from './clinical-summary-visualization-resource.service';
+import { LabOrderResourceService } from './lab-order-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -32,7 +33,8 @@ import {
     HivPatientClinicalSummaryResourceService,
     MonthlyScheduleResourceService,
     ClinicLabOrdersResourceService,
-    ClinicalSummaryVisualizationResourceService
+    ClinicalSummaryVisualizationResourceService,
+    LabOrderResourceService
   ],
   exports: []
 })
