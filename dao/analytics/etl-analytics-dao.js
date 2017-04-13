@@ -397,7 +397,7 @@ module.exports = function () {
                 startIndex: requestParams.startIndex || 0,
                 limit: requestParams.limit || 300
             };
-
+            console.log('Params', queryParams);
             var queryParts = reportFactory.buildPatientListReportExpression(queryParams);
             return new Promise(function (resolve, reject) {
                 if (!_.isEmpty(queryParts)) {
@@ -416,4 +416,4 @@ module.exports = function () {
         },
 
     };
-} ();
+}();

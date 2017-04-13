@@ -40,7 +40,7 @@
         "schema": "etl",
         "tableName": "flat_hiv_summary",
         "alias": "t1",
-        "joinExpression": "is_clinical_encounter=1 and encounter_datetime <= t2.endDate and coalesce(death_date, out_of_care) is null and (t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)"
+        "joinExpression": "is_clinical_encounter=1 and encounter_datetime <= t2.endDate and (t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)"
       }
     ],
     "parameters": [
@@ -84,10 +84,6 @@
       {
         "expression": "t1.location_uuid in (?)",
         "parameter": "locationUuids"
-      },
-      {
-        "expression": "if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)) >= (? - interval 90 day)",
-        "parameter": "startDate"
       }
     ],
     "groupClause": [
@@ -97,8 +93,38 @@
     ],
     "indicators": [
       {
-        "label": "patients",
-        "expression": "patients",
+        "label": "total_patients",
+        "expression": "total_patients",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "new_patients",
+        "expression": "new_patients",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "transfer_in_from_non_Ampath_site",
+        "expression": "transfer_in_from_non_Ampath_site",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "transfer_in_from_Ampath_site",
+        "expression": "transfer_in_from_Ampath_site",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "transfer_in",
+        "expression": "transfer_in",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "transfer_out",
+        "expression": "transfer_out",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "deaths",
+        "expression": "deaths",
         "sql": "count(distinct if($expression, person_id,null))"
       }
     ],
