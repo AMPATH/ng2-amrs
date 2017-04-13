@@ -193,7 +193,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
 
                 s.getHivComparativeOverviewReport(reportParams).subscribe((result) => {
                     expect(result).toBeDefined();
-                    expect(result).toEqual(expectedComparativeResults.result);
+                    expect(result).toEqual(expectedComparativeResults);
                 });
             })
     );

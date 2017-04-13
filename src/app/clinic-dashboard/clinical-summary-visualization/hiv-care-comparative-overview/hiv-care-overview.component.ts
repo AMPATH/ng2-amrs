@@ -18,6 +18,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
   patientsOnArt: Array<any> = [];
   percOnArtWithVl: Array<any> = [];
   virallySuppressed: Array<any> = [];
+  indicatorDef: Array<any> = [];
   private _options = new BehaviorSubject<any>(null);
   private data: any;
 
@@ -43,6 +44,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
       this._options.subscribe((options) => {
         if (options) {
           this.data = options.data;
+          this.indicatorDef = options.indicatorDefinitions;
           this.renderChart(options);
           this.resetDataSets();
         }

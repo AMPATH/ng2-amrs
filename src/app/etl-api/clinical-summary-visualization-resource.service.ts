@@ -43,7 +43,7 @@ export class ClinicalSummaryVisualizationResourceService {
             search: urlParams
         })
             .map((response: Response) => {
-                return response.json().result;
+                return response.json();
             });
 
         return this.cacheService.cacheRequest(url, urlParams, request);
