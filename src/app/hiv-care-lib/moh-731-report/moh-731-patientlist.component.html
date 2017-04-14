@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
+      <h4>Patient List: <strong>{{indicator}}</strong> in location(s) <strong>{{locations}}</strong></h4>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <h4>
+        Start date: <strong>{{_startDate | moment: 'DD/MM/YYYY'}}</strong>
+        End date: <strong>{{_endDate | moment: 'DD/MM/YYYY'}} </strong>
+      </h4>
+    </div>
+    <div class="col-sm-12 col-md-6">&nbsp;</div>
+  </div>
+  <patient-list *ngIf="extraColumns.length > 0" [extraColumns]="extraColumns" [overrideColumns]="overrideColumns" [dataSource]="dataSource"></patient-list>
+</div>

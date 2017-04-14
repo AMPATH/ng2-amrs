@@ -1,2 +1,5 @@
-<generic-list [columns]="columns()" [options]="loadedTab" (onSelectedRow)=" loadSelectedPatient($event) " [data]="rowData
-    "></generic-list>
+<generic-list [columns]="columns"
+              [options]="loadedTab"
+              (onSelectedRow)="loadSelectedPatient($event)"
+              [dataSource]="dataSource"
+              [data]="rowData"></generic-list>

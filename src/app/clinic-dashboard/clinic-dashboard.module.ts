@@ -71,7 +71,15 @@ import { VisualizationPatientListComponent
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import { ClinicalSummaryVisualizationService
 } from './services/clinical-summary-visualization.service';
-
+import { Moh731PatientListComponent
+} from '../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
+import { Moh731ParamsResolver
+} from '../hiv-care-lib/moh-731-report/moh-731-patientlist-params.resolver';
+import { Moh731ResourceService } from '../hiv-care-lib/moh-731-report/moh-731-fake-resource';
+import { Moh731PatientListResourceService
+} from '../hiv-care-lib/moh-731-report/moh-731-fake-patientlist-resource';
+import { Moh731PatientListBaseComponent
+} from '../hiv-care-lib/moh-731-report/moh-731-patientlist-base.component';
 
 
 @NgModule({
@@ -124,6 +132,8 @@ import { ClinicalSummaryVisualizationService
     GenderSelectComponent,
     ClinicDashboardComponent,
     ClinicLabOrdersComponent,
+    Moh731PatientListComponent,
+    Moh731PatientListBaseComponent,
     DailyScheduleAppointmentsComponent,
     DailyScheduleNotReturned,
     DailyScheduleVisitsComponent,
@@ -135,6 +145,9 @@ import { ClinicalSummaryVisualizationService
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,
+    Moh731ParamsResolver,
+    Moh731ResourceService,
+    Moh731PatientListResourceService,
     ClinicDashboardCacheService,
     DefaulterListResourceService,
     ClinicalSummaryVisualizationService,
@@ -153,6 +166,8 @@ import { ClinicalSummaryVisualizationService
     RangeSliderComponent,
     DashboardFiltersComponent,
     IndicatorSelectComponent,
+    Moh731PatientListComponent,
+    Moh731PatientListBaseComponent,
     GenderSelectComponent,
     ClinicLabOrdersComponent,
     DailyScheduleAppointmentsComponent,
