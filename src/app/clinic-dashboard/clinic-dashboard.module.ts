@@ -71,6 +71,8 @@ import { VisualizationPatientListComponent
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import { ClinicalSummaryVisualizationService
 } from './services/clinical-summary-visualization.service';
+import { ArtOverviewIndicatorDefComponent
+} from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 
 
 
@@ -130,7 +132,8 @@ import { ClinicalSummaryVisualizationService
     DefaulterListComponent,
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
-    HivCareIndicatorDefComponent
+    HivCareIndicatorDefComponent,
+    ArtOverviewIndicatorDefComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -162,7 +165,8 @@ import { ClinicalSummaryVisualizationService
     DefaulterListComponent,
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
-    HivCareIndicatorDefComponent
+    HivCareIndicatorDefComponent,
+    ArtOverviewIndicatorDefComponent
   ],
 })
 export class ClinicDashboardModule {

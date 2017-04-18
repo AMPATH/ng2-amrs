@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
@@ -53,6 +53,7 @@ import { PatientStatusIndicatorDefComponent
 import {
   HivCareIndicatorDefComponent
  } from './hiv-care-comparative-overview/indicator-definitions.component';
+import { ArtOverviewIndicatorDefComponent } from './art-overview/indicator-definitions.component';
 
 export class FakeClinicDashboardCacheService {
   public getCurrentClinic() {
@@ -162,6 +163,7 @@ describe('Component: VisualizationComponent', () => {
         IndicatorSelectComponent,
         PatientStatusIndicatorDefComponent,
         HivCareIndicatorDefComponent,
+        ArtOverviewIndicatorDefComponent,
         RangeSliderComponent,
         HivCareTabularViewComponent,
         GenderSelectComponent,
@@ -187,6 +189,7 @@ describe('Component: VisualizationComponent', () => {
     }).overrideComponent(VisualizationComponent, {
       set: {
         providers: [
+          { provide: ComponentFixtureAutoDetect, useValue: true },
           {
             provide: ClinicDashboardCacheService,
             useClass: FakeClinicDashboardCacheService
@@ -233,7 +236,6 @@ describe('Component: VisualizationComponent', () => {
 
     dateComponent.updateStartDate(moment([2016, 2, 23]).format());
     dateComponent.updateEndDate(moment([2017, 2, 23]).format());
-    dateFixture.detectChanges();
     dateComponent.onDateChange.subscribe((v) => {
       setTimeout(() => {
         dashboardFiltersComponent.onDateChanged(v);
@@ -253,13 +255,11 @@ describe('Component: VisualizationComponent', () => {
         expect(moment(currentTestComponent.filterModel.endDate)
           .format('DD/MM/YYYY')).toBe('23/03/2017');
         dashboardFiltersComponent.onDateChanged(vv);
-        dashboardFiltersFixture.detectChanges();
         spyOn(currentTestComponent, 'renderCharts').and.callFake(() => {});
         currentTestComponent.renderCharts();
         expect(currentTestComponent.renderCharts).toHaveBeenCalled();
       }, 100);
     });
-    currentTestFixture.detectChanges();
 
     done();
   });

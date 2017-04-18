@@ -1,0 +1,25 @@
+<p-accordion>
+	<div *ngFor="let indicator of indicatorDefinitionsArr">
+		<p-accordionTab header="Not on any ARV Drugs:" [selected]="true">
+			{{indicator.not_on_arv}}
+		</p-accordionTab>
+		<p-accordionTab header="Nevirapine:">
+			{{indicator.on_nevirapine}}
+		</p-accordionTab>
+		<p-accordionTab header="Efavirenz:">
+			{{indicator.on_efavirenz}}
+		</p-accordionTab>
+		<p-accordionTab header="Lopinavir:">
+			{{indicator.on_lopinavir}}
+		</p-accordionTab>
+		<p-accordionTab header="Atazanavir:">
+			{{indicator.on_atazanavir}}
+		</p-accordionTab>
+		<p-accordionTab header="Raltegravir:">
+			{{indicator.on_raltegravir}}
+		</p-accordionTab>
+		<p-accordionTab header="Others:">
+			{{indicator.on_other_arv_drugs}}
+		</p-accordionTab>
+	</div>
+</p-accordion>

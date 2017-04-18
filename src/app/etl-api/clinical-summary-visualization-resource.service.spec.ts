@@ -242,7 +242,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
 
                 s.getArtOverviewReport(reportParams).subscribe((result) => {
                     expect(result).toBeDefined();
-                    expect(result).toEqual(expectedArtResults.result);
+                    expect(result).toEqual(expectedArtResults);
                 });
             })
     );
