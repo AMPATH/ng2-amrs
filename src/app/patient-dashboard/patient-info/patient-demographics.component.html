@@ -11,4 +11,6 @@
   <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.deathDate | date: 'dd-MM-yyyy'}}</strong></dd>
   <dt *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}">Cause of Death</dt>
   <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.causeOfDeath}}</strong></dd>
+  <dt *ngIf="patient.person.gender" >Gender</dt>
+  <dd *ngIf="patient.person.gender" >{{patient.person.gender}}</dd>
 </dl>
