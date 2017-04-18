@@ -260,7 +260,7 @@ todays-vitals ul.list-group {
 
   .navbar-custom-menu > .navbar-nav > li {
     position: static;
-    width: 33%;
+    width: auto;
     text-align: center;
   }
 
