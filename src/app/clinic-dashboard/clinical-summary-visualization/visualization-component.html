@@ -9,9 +9,9 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <div class="loader" *ngIf="loadingHivCare"><span><i class="fa fa-spinner fa-spin">
-      </i> HIV Care Comparative Overview...</span></div>
       <div class="panel panel-primary">
+        <div class="loader" *ngIf="loadingHivCare"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
         <div class="panel-heading">
           <span class="fa fa-dashboard">HIV Care Comparative Overview</span>
         </div>
@@ -23,9 +23,6 @@
   </div>
   <div class="row">
     <div class="col-sm-6">
-      <!--<div class="loader" *ngIf="loadingArt"><span><i class="fa fa-spinner fa-spin">
-
-      </i>Generating Patient Status Overview report...</span></div>-->
       <div class="panel panel-primary">
         <div class="panel-heading">
           <span class="fa fa-dashboard">Patient Status Overview</span>
@@ -37,10 +34,9 @@
       </div>
     </div>
     <div class="col-sm-6">
-      <div class="loader" *ngIf="loadingArt"><span><i class="fa fa-spinner fa-spin">
-
-      </i>Generating ART Overview report...</span></div>
       <div class="panel panel-primary">
+        <div class="loader" *ngIf="loadingArt"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
         <div class="panel-heading">
           <span class="fa fa-dashboard">ART Overview</span>
         </div>
