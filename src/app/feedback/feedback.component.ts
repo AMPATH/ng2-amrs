@@ -17,7 +17,12 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     success = false;
     error = false;
     busy: Subscription;
-    constructor(private feedBackService: FeedBackService, private userService: UserService) { }
+    errorMessage: string = '';
+    hasError: boolean = false;
+   r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
+   r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+   patterns = new RegExp(this.r1.source + this.r2.source);
+  constructor(private feedBackService: FeedBackService, private userService: UserService) { }
 
     ngOnInit() { }
 
@@ -28,9 +33,11 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     }
 
     public sendFeedBack() {
+        this.validatePhoneNumberField(this.payload.phone);
         this.payload.name = this.userService.getLoggedInUser().person.display;
         this.busy = this.feedBackService.postFeedback(this.payload).subscribe((res) => {
             this.success = true;
+            console.log('this.payload', this.payload.phone);
             this.payload = {
                 name: '',
                 phone: '',
@@ -51,4 +58,23 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public dismissError() {
         this.error = false;
     }
+  private setErroMessage(message) {
+
+    this.hasError = true;
+    this.errorMessage = message;
+  }
+  private validatePhoneNumberField(phone) {
+
+    if (this.isNullOrUndefined(phone)) {
+      this.setErroMessage('Phone number is required.');
+      return false;
+    }
+
+
+    return true;
+  }
+  private isNullOrUndefined(val) {
+    return val === null || val === undefined || val === ''
+      || val === 'null' || val === 'undefined';
+  }
 }
