@@ -40,7 +40,7 @@ export class PatientListComponent implements OnInit {
   columns() {
     let columns = PatientListColumns.columns();
     if (this.extraColumns && typeof Array.isArray(this.extraColumns)) {
-      columns.concat(this.extraColumns);
+       columns = columns.concat(this.extraColumns);
     }
 
     if (this.overrideColumns && _.isArray(this.overrideColumns)) {
