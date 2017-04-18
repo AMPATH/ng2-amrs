@@ -5,7 +5,7 @@
       "schema": "etl",
       "tableName": "flat_hiv_summary",
       "alias": "t1",
-      "indexExpression": "FORCE INDEX (location_rtc)"
+      "indexExpression": "FORCE INDEX (location_id_rtc_date)"
     },
     "joins": [
       {
@@ -126,7 +126,7 @@
       "schema": "etl",
       "tableName": "flat_hiv_summary",
       "alias": "t1",
-      "indexExpression": "FORCE INDEX (location_rtc)"
+      "indexExpression": "FORCE INDEX (location_id_rtc_date)"
     },
     "joins": [
       {
@@ -247,7 +247,7 @@
       "schema": "etl",
       "tableName": "flat_hiv_summary",
       "alias": "t1",
-      "indexExpression": "FORCE INDEX (location_rtc)"
+      "indexExpression": "FORCE INDEX (location_id_rtc_date)"
     },
     "joins": [
       {
