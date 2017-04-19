@@ -1,0 +1,25 @@
+<h3 style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> MOH 731 REPORT</h3>
+<moh-731-report-filters [(startDate)]="startDate" [(endDate)]="endDate" [(isLegacyVersion)]="isLegacyReport" [parentIsBusy]="isLoadingReport"
+    (generateReport)="generateReport()">
+
+</moh-731-report-filters>
+<div class="alert alert-danger fade in" *ngIf="encounteredError">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <h4><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occured while trying to load the report.
+        Please try again.
+    </h4>
+    <p>
+        <small>{{errorMessage}}</small>
+    </p>
+</div>
+<div *ngIf="!isLoadingReport && !encounteredError">
+    <p-tabView (onChange)="onTabChanged($event)">
+        <p-tabPanel header="Report View"  leftIcon="fa-file-pdf-o "  [selected]="currentView === 'pdf'">
+
+        </p-tabPanel>
+        <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
+             <moh-731-tabular [sectionDefs]="sectionsDef" [rowData]="data"></moh-731-tabular>
+        </p-tabPanel>
+    </p-tabView>
+
+</div>

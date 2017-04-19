@@ -75,6 +75,8 @@ import { ArtOverviewIndicatorDefComponent
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 
 
+import { HivProgramModule } from './hiv/hiv-program.module';
+
 
 @NgModule({
   imports: [
@@ -105,6 +107,7 @@ import { ArtOverviewIndicatorDefComponent
 
       })
     ),
+    HivProgramModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgamrsSharedModule,
