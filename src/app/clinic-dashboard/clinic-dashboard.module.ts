@@ -9,6 +9,12 @@ import {
   DailyScheduleResourceService
 } from
   '../etl-api/daily-scheduled-resource.service';
+import {
+  HivClinicFlowResourceService
+} from
+  '../etl-api/hiv-clinic-flow-resource.service';
+
+import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
 import { clinicDashboardRouting } from './clinic-dashboard-routing';
 import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
@@ -24,6 +30,9 @@ import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
+import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
+import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 import {
   ArtOverviewComponent
@@ -39,8 +48,10 @@ import {
 import { DashboardFiltersComponent } from './dashboard-filters/dashboard-filters.component';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 
-import { TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
-  AccordionModule } from 'primeng/primeng';
+import {
+  TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
+  AccordionModule
+} from 'primeng/primeng';
 import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { SelectModule } from 'angular2-select';
@@ -51,32 +62,37 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
-import { PatientStatusOverviewComponent
+import {
+  PatientStatusOverviewComponent
 } from './clinical-summary-visualization/patient-status-overview/patient-status-overview.component';
-import { PatientStatusIndicatorDefComponent
+import {
+  PatientStatusIndicatorDefComponent
 } from './clinical-summary-visualization/patient-status-overview/indicator-definition.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import {
   HivCareIndicatorDefComponent
 } from
 './clinical-summary-visualization/hiv-care-comparative-overview/indicator-definitions.component';
-import { HivCareComparativeOverviewComponent
+import {
+  HivCareComparativeOverviewComponent
 } from
- './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
-import { HivCareTabularViewComponent
+'./clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
+import {
+  HivCareTabularViewComponent
 } from
- './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-tabularview.component';
-import { VisualizationPatientListComponent
+  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-tabularview.component';
+import {
+  VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
-import { ClinicalSummaryVisualizationService
+import {
+  ClinicalSummaryVisualizationService
 } from './services/clinical-summary-visualization.service';
-import { ArtOverviewIndicatorDefComponent
+import {
+  ArtOverviewIndicatorDefComponent
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
-
-
 import { HivProgramModule } from './hiv/hiv-program.module';
-
+import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
 
 @NgModule({
   imports: [
@@ -136,7 +152,10 @@ import { HivProgramModule } from './hiv/hiv-program.module';
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
     HivCareIndicatorDefComponent,
-    ArtOverviewIndicatorDefComponent
+    ArtOverviewIndicatorDefComponent,
+    ClinicFlowComponent,
+    ClinicFlowSummaryComponent,
+    ClinicFlowVisitsComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -144,7 +163,13 @@ import { HivProgramModule } from './hiv/hiv-program.module';
     ClinicDashboardCacheService,
     DefaulterListResourceService,
     ClinicalSummaryVisualizationService,
-    ClinicDashboardCacheService
+    ClinicDashboardCacheService,
+    HivClinicFlowResourceService,
+    ClinicFlowCacheService,
+    {
+      provide: 'ClinicFlowResource',
+      useExisting: HivClinicFlowResourceService
+    }
   ],
   exports: [
     BusyModule,
@@ -169,7 +194,10 @@ import { HivProgramModule } from './hiv/hiv-program.module';
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
     HivCareIndicatorDefComponent,
-    ArtOverviewIndicatorDefComponent
+    ArtOverviewIndicatorDefComponent,
+    ClinicFlowComponent,
+    ClinicFlowSummaryComponent,
+    ClinicFlowVisitsComponent
   ],
 })
 export class ClinicDashboardModule {

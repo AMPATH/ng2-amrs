@@ -4,14 +4,16 @@ import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.
 import { DatePipe } from '@angular/common';
 import * as Moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 
+import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
+import { ClinicFlowCacheService } from '../../clinic-flow/clinic-flow-cache.service';
 @Component({
   selector: 'app-daily-schedule',
   templateUrl: './daily-schedule.component.html',
   styleUrls: ['./daily-schedule.component.css']
 })
 export class DailyScheduleComponent implements OnInit {
+
   errors: any[] = [];
   selectedDate: any;
   selectedLocation: any;
@@ -27,27 +29,17 @@ export class DailyScheduleComponent implements OnInit {
     endDate: new Date('10/11/2016'),
     selectedIndicators: ['on_arvs', 'on_arvs_first_line']
   };
-  private dateOptions: IMyOptions = {
-    // other options...
-    dateFormat: 'dd-mm-yyyy',
-  };
-
-  // Initialized to specific date (09.10.2018)
-  private model: Object = {
-    date: {
-      year: Moment().year(), month: Moment().format('MMMM'),
-      day: Moment().format('D')
-    }
-  };
   private activeLinkIndex = 0;
   private tabLinks = [
     { label: 'Appointments', link: 'daily-appointments' },
     { label: 'Visits', link: 'daily-visits' },
+    { label: 'Clinic Flow', link: 'clinic-flow' },
     { label: 'Has not returned', link: 'daily-not-returned' },
   ];
   private _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private router: Router, private route: ActivatedRoute) {
+    private router: Router, private route: ActivatedRoute,
+    private clinicFlowCache: ClinicFlowCacheService) {
     this._datePipe = new DatePipe('en-US');
 
   }
@@ -59,39 +51,49 @@ export class DailyScheduleComponent implements OnInit {
     this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
       this.loadingData = value;
     });
+
+    this.clinicFlowCache.getIsLoading().subscribe((value) => {
+      this.loadingData = value;
+    });
+    this.clinicDashboardCacheService.getCurrentClinic()
+      .subscribe((location) => {
+        this.selectedLocation = location;
+        this.clinicFlowCache.setSelectedLocation(location);
+      });
+    if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
+      this.selectedDate = this.clinicFlowCache.lastClinicFlowSelectedDate;
+    }
   }
 
   setActiveTab() {
-    let path = this.router.url;
-    let n = this.router.url.indexOf('?');
-    path = this.router.url.substring(0, n !== -1 ? n : path.length);
-    path = path.substr(this.router.url.lastIndexOf('/') + 1);
-    this.activeLinkIndex = this.tabLinks.findIndex(x => x.link === path);
+    if (this.router.url) {
+      let path = this.router.url;
+      let n = this.router.url.indexOf('?');
+      path = this.router.url.substring(0, n !== -1 ? n : path.length);
+      path = path.substr(this.router.url.lastIndexOf('/') + 1);
+      this.activeLinkIndex = this.tabLinks.findIndex(x => x.link === path);
+
+    }
   }
 
   updateCurrentDate() {
+    if (this.route && this.route.queryParams) {
+      this.route.queryParams.subscribe((params) => {
+        if (params['date']) {
+          this.selectedDate = params['date'];
+          let m = Moment(this.selectedDate);
+          this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
+        }
+      });
+    }
 
-    this.route.queryParams.subscribe((params) => {
-      if (params['date']) {
-        this.selectedDate = params['date'];
-        let m = Moment(this.selectedDate);
-        this.model = {
-          date: {
-            year: m.year(), month: m.format('MMMM'),
-            day: m.format('D')
-          }
-        };
-        this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
-      }
-    });
-  }
-  onDateChanged(event: IMyDateModel): void {
-    // date selected
-    this.selectedDate = this.getDate(event.date);
-    this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
   }
 
-
+  getSelectedDate(date) {
+    this.selectedDate = date;
+    this.clinicDashboardCacheService.setDailyTabCurrentDate(date);
+    this.clinicFlowCache.setSelectedDate(date);
+  }
 
   public onGenerateReport(event: any) {
     console.log(event, this.reportFilter);
@@ -101,23 +103,6 @@ export class DailyScheduleComponent implements OnInit {
       summary: 'Success',
       detail: 'You have invoked generateRpt Fx from  parent cmpnt'
     });
-  }
-
-  public navigateDay(value) {
-    if (value) {
-      let m = Moment(new Date(this.selectedDate));
-      let revisedDate = m.add(value, 'd');
-
-      this.model = {
-        date: {
-          year: revisedDate.year(), month: revisedDate.format('MMMM'),
-          day: revisedDate.format('D')
-        }
-      };
-      this.selectedDate = this._datePipe.transform(
-        revisedDate, 'yyyy-MM-dd');
-      this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
-    }
   }
 
   private get diagnostic() {

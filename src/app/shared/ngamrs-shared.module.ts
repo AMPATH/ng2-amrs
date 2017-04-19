@@ -5,13 +5,15 @@ import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DataTablesComponent } from './components/datatables.component';
+import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
 import { Ng2FilterPipe } from './pipes/ng2-filter.pipe';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { OnlineTrackerComponent } from '../online-tracker';
 import { BuildVersionComponent } from '../build-version';
 import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
-
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { FormsModule } from '@angular/forms';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -31,15 +33,17 @@ import { RoutesProviderService } from './dynamic-route/route-config-provider.ser
             spinnerLines: 12
         }),
         CommonModule,
-        OpenmrsApi
+        OpenmrsApi,
+        FormsModule,
+        NgxMyDatePickerModule
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         DataTablesComponent, StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
-        BuildVersionComponent],
+        BuildVersionComponent, DateSelectorComponent],
     declarations: [
         DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,
-        BuildVersionComponent
+        BuildVersionComponent, DateSelectorComponent
     ],
     providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService],
 })

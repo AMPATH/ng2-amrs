@@ -58,6 +58,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
               let params = this.getQueryParams();
               this.getDailyHasNotReturned(params);
             }
+
             });
 
         }
@@ -68,6 +69,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
 
   }
   loadMoreNotReturned() {
+
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
 
@@ -78,6 +80,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
   private initParams() {
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
+
     this.dataLoaded = false;
     this.nextStartIndex = 0;
     this.errors = [];

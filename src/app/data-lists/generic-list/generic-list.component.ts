@@ -110,6 +110,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
 
         if (dataLength > 0) {
           return 20 * (Math.floor(dataLength / 15) + 1);
+
         } else {
           return 20;
         }
