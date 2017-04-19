@@ -77,7 +77,8 @@ export class FormListService {
             '98296b2f-4c15-46be-81c6-268cc9085d19',
             '86ff76f4-6a20-4166-b65f-db7d4d3d104e',
             '86e538cb-c8a0-4974-b709-dd5ccd804524',
-            'ce5cf699-b2da-4e2d-9f18-17d1ef7e68a0'
+            'ce5cf699-b2da-4e2d-9f18-17d1ef7e68a0',
+            'fffed4b6-186a-49d8-9047-a965321c0c31',
         ];
 
         return toInclude.indexOf(form.uuid) >= 0;
@@ -90,7 +91,8 @@ export class FormListService {
             '3b1e50a6-df61-4b8f-b37d-235032f2c645',
             '25ac6008-3b65-4435-b5b6-a8f0f3dd2b0d',
             '9416746d-1e9f-47e8-aa2d-035aab6f3824',
-            '81f92a8a-ff5c-415d-a34c-b5bdca2406be'
+            '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
+            '59cbf52d-b214-48c2-b43a-db236b94ec42'
         ];
 
         return toExclude.indexOf(form.uuid)  >= 0;
