@@ -19,6 +19,9 @@ var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
 import { MonthlyScheduleService } from './service/monthly-schedule-service';
 import { PatientStatusChangeTracker } from './service/patient-status-change-tracker-service';
+import { clinicalArtOverview } from './service/clinical-art-overview.service';
+import { hivComparativeOverview } from './service/hiv-comparative-overview.service';
+import { clinicalPatientCareStatusOverview } from './service/clinical-patient-care-status-overview';
 import { SlackService } from './service/slack-service';
 import { Moh731Service } from './service/moh-731/moh-731.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
@@ -614,7 +617,8 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
                     ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
 
-                dao.runReport(reportParams).then((result) => {
+                let service = new hivComparativeOverview();
+                service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
@@ -640,9 +644,9 @@ module.exports = function () {
             handler: function (request, reply) {
 
                 request.query.reportName = 'clinical-hiv-comparative-overview-report';
-                let compineRequestParams = Object.assign({}, request.query, request.params);
-
-                dao.getPatientListReport(compineRequestParams).then((result) => {
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new hivComparativeOverview();
+                service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
@@ -695,7 +699,8 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams('clinical-patient-care-status-overview-report',
                     ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
 
-                dao.runReport(reportParams).then((result) => {
+                let service = new clinicalPatientCareStatusOverview();
+                service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
@@ -721,9 +726,9 @@ module.exports = function () {
             handler: function (request, reply) {
 
                 request.query.reportName = 'clinical-patient-care-status-overview-report';
-                let compineRequestParams = Object.assign({}, request.query, request.params);
-
-                dao.getPatientListReport(compineRequestParams).then((result) => {
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new PatientStatusChangeTracker();
+                service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
@@ -776,7 +781,8 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams('clinical-art-overview-report',
                     ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
 
-                dao.runReport(reportParams).then((result) => {
+                let service = new clinicalArtOverview();
+                service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
@@ -802,9 +808,9 @@ module.exports = function () {
             handler: function (request, reply) {
 
                 request.query.reportName = 'clinical-art-overview-report';
-                let compineRequestParams = Object.assign({}, request.query, request.params);
-
-                dao.getPatientListReport(compineRequestParams).then((result) => {
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new clinicalArtOverview();
+                service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
                     reply(error);
