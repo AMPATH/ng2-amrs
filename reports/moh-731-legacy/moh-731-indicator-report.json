@@ -137,7 +137,7 @@
         "sql":"count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator":"revisits_on_art_total",
-          "filters": ["female", "age_below_15"]
+          "filters": ["male", "age_15_and_older"]
         }
       },
       {
