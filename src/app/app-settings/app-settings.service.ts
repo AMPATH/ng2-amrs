@@ -34,6 +34,11 @@ export class AppSettingsService {
       etlUrl: '/etl-server/etl'
     },
     {
+      name: 'Single Server Beta',
+      amrsUrl: '/amrs',
+      etlUrl: 'https://amrs.ampath.or.ke/etl-latest/etl'
+    },
+    {
       name: 'Production',
       amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
       etlUrl: 'https://amrsreporting.ampath.or.ke:8002/etl'
