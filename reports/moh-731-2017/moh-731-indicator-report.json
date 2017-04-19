@@ -41,7 +41,7 @@
         "defaultValue": [
           {
             "label": "location",
-            "expression": "t1.location_id"
+            "expression": "t1.location_uuid"
           }
         ]
       }
@@ -264,7 +264,7 @@
         "defaultValue": [
           {
             "label": "location",
-            "expression": "t1.location_id"
+            "expression": "t1.location_uuid"
           }
         ]
       }
@@ -883,7 +883,7 @@
         "defaultValue": [
           {
             "label": "location_id",
-            "expression": "t1.location_id"
+            "expression": "t1.location_uuid"
           }
         ]
       },

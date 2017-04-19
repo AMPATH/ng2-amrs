@@ -15,7 +15,7 @@
       {"name":"endDate", "defaultValue":"2015-10-31"},
       {"name":"locationUuids","defaultValue":[]},
       {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_id"}
+        {"label":"location","expression":"t1.location_uuid"}
       ]
       }
     ],
@@ -369,7 +369,7 @@
       {"name":"endDate", "defaultValue":"2015-10-31"},
       {"name":"locationUuids","defaultValue":[]},
       {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_id"}
+        {"label":"location","expression":"t1.location_uuid"}
       ]
       }
     ],
@@ -558,23 +558,56 @@
   },
   {
     "name": "moh-731-12month-one-row-per-encounter",
-    "table":{"schema":"","tableName":"","alias":"t1", "dynamicDataset":"moh-731-12month-cohort-one-row-per-encounter"},
-    "joins":[],
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [],
     "parameters": [
-      {"name":"groupByLocation", "defaultValue":[
-          {"label":"location_id","expression":"t1.location_id"}
+      {
+        "name": "groupByLocation",
+        "defaultValue": [
+          {
+            "label": "location_id",
+            "expression": "t1.location_uuid"
+          }
         ]
       },
-      {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"startDate", "defaultValue":"2015-10-31"}
+      {
+        "name": "endDate",
+        "defaultValue": "2015-10-31"
+      },
+      {
+        "name": "startDate",
+        "defaultValue": "2015-10-31"
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": []
+      }
     ],
     "filters": [
-      {"expression":"date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
-      {"expression":"date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"}
+      {
+        "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_uuid in ?",
+        "parameter": "locationUuids"
+      }
     ],
-    "groupClause":[
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByMonth"}
+    "groupClause": [
+      {
+        "parameter": "groupByLocation"
+      },
+      {
+        "parameter": "groupByMonth"
+      }
     ],
     "indicators": [
       {
@@ -630,25 +663,30 @@
     ],
     "parameters": [
       {"name":"locationUuids","defaultValue":[]},
-      {"name":"locations","defaultValue":[]},
       {"name":"endDate", "defaultValue":["Now()"]},
       {"name":"groupByPerson", "defaultValue":[
         {"label":"person_id","expression":"t1.person_id"}
       ]
       },
       {"name":"groupByLocation", "defaultValue":[
-        {"label":"location_id","expression":"t1.location_id"}
+        {"label":"location","expression":"t1.location_uuid"}
       ]
       }
     ],
     "filters": [
       {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
+      {
+        "expression": "timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90",
+        "parameter": "endDate"
+      },
       {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-      {"expression":"arv_start_location in ?","parameter":"locations"},
+      {"expression":"t1.location_uuid in ?","parameter":"locationUuids"},
+      {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
     ],
     "groupClause":[
       {"parameter":"groupByLocation"},
+      {"parameter":"groupByPerson"},
       {"parameter":"groupByMonth"}
     ],
     "indicators": [
