@@ -211,12 +211,11 @@ app-patient-search .ladda-button .ladda-label {
 }
 
 md-tab-group {
-
   display: block !important;
   overflow: visible;
 }
 
-.mat-tab-body-wrapper {
+.mat-tab-body-wrapper, .md-tab-body-wrapper {
   overflow: visible !important;
 }
 
@@ -226,18 +225,61 @@ md-tab-body {
 }
 
 
-md-tab-body > div.mat-tab-body-content {
+md-tab-body > div.md-tab-body-content, md-tab-body > div.mat-tab-body-content {
   transform: initial !important;
   overflow: visible;
 }
 
-md-tab-body > div.mat-tab-body-content > div {
+md-tab-body > div.md-tab-body-content > div, md-tab-body > div.mat-tab-body-content > div {
   padding-bottom: 40px;
 }
 
-md-tab-body.mat-tab-body-active {
+md-tab-body.mat-tab-body-active, md-tab-body.md-tab-body-active {
   display: initial !important;
   overflow: visible !important;
+}
+
+.mat-tab-header, .md-tab-header {
+  margin-right: 36px !important;
+}
+
+.dropdown-tabs {
+  position: absolute !important;
+  right: 0;
+  top: 4px;
+}
+
+form-renderer {
+  display: block;
+  position: relative;
+
+}
+
+.dropdown-tabs a.dropdown-toggle {
+  display: block;
+  width:35px;
+  padding:0;
+  float: right;
+  font-size: 32px;
+  background-color: rgba(209,196,233,.3);
+  text-align: center;
+  height:45px;
+  padding:0 !important;
+}
+
+.dropdown-tabs a.dropdown-toggle i {
+  display: block;
+  width:100%;
+  line-height: 45px;
+  height: 100%;
+}
+
+.dropdown-tab li {
+  padding: 5px 20px;
+}
+
+.open > .dropdown-menu {
+  clear: both;
 }
 
 .modal-main {
@@ -279,7 +321,7 @@ body app-formentry {
   font-size: 16px !important;
 }
 
-.mat-tab-label {
+.mat-tab-label, .md-tab-label {
   font-weight: 700 !important;
 }
 
@@ -300,46 +342,4 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
 
 .picker-header-content span.month:hover, .picker-header-content span.year:hover {
   cursor: pointer;
-}
-
-.mat-tab-header {
-  margin-right: 36px !important;
-}
-
-.dropdown-tabs {
-  position: absolute !important;
-  right: 0;
-  top: 4px;
-}
-
-form-renderer {
-  display: block;
-  position: relative;
-
-}
-
-.dropdown-tabs a.dropdown-toggle {
-  display: block;
-  width:35px;
-  padding:0;
-  float: right;
-  font-size: 32px;
-  background-color: rgba(209,196,233,.3);
-  text-align: center;
-  height:45px;
-}
-
-.dropdown-tabs a.dropdown-toggle i {
-  display: block;
-  width:100%;
-  line-height: 45px;
-  height: 100%;
-}
-
-.dropdown-tab li {
-  padding: 5px 20px;
-}
-
-.open > .dropdown-menu {
-  clear: both;
 }
