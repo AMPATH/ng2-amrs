@@ -79,6 +79,7 @@ export class FormListService {
             '86e538cb-c8a0-4974-b709-dd5ccd804524',
             'ce5cf699-b2da-4e2d-9f18-17d1ef7e68a0',
             'fffed4b6-186a-49d8-9047-a965321c0c31',
+            '6260ec6e-9eb0-4727-a0e5-02d60e88896a'
         ];
 
         return toInclude.indexOf(form.uuid) >= 0;
