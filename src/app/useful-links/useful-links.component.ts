@@ -11,6 +11,19 @@ import { UsefulLinksService } from './useful-links.service';
 })
 export class UsefulLinksComponent implements OnInit {
   nativeWindow: any;
+
+  private _links = [
+    {
+      url: `https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual
+        ?preview=/100302910/100794483/Troubleshooting%20POC%20Errors%2020170303.pdf`,
+      title: 'POC General Troubleshooting Manual (PDF)'
+    },
+    {
+      url: 'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
+      title: 'AMPATH Clinical Protocols and SOPs'
+    }
+  ];
+
   constructor(private linksService: UsefulLinksService) {
     this.nativeWindow = linksService.getNativeWindow();
   }
@@ -23,17 +36,7 @@ export class UsefulLinksComponent implements OnInit {
   }
 
   get externalLinks(): Array<any> {
-    return [
-      {
-        url: `https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual
-        ?preview=/100302910/100794483/Troubleshooting%20POC%20Errors%2020170303.pdf`,
-        title: 'POC General Troubleshooting Manual (PDF)'
-      },
-      {
-        url: 'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
-        title: 'AMPATH Clinical Protocols and SOPs'
-      }
-    ];
+    return this._links;
   }
 
 }
