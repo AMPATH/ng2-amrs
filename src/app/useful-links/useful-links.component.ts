@@ -21,6 +21,10 @@ export class UsefulLinksComponent implements OnInit {
     {
       url: 'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
       title: 'AMPATH Clinical Protocols and SOPs'
+    },
+    {
+      url: 'https://wiki.ampath.or.ke/display/ATG/AMPATH+TB+Guidelines+Home',
+      title: 'TB Guidelines '
     }
   ];
 
