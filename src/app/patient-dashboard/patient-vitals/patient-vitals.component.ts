@@ -73,7 +73,9 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
               if (data.hasOwnProperty(r)) {
                 let encounter = data[r];
                 if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck))
+
                   this.vitals.push(encounter);
+
               }
 
             }
@@ -90,7 +92,6 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
 
 
         this.loadingVitals = false;
-        this.vitals = data;
         this.isLoading = false;
       },
 
