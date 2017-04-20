@@ -72,11 +72,11 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import {
   HivCareIndicatorDefComponent
 } from
-'./clinical-summary-visualization/hiv-care-comparative-overview/indicator-definitions.component';
+  './clinical-summary-visualization/hiv-care-comparative-overview/indicator-definitions.component';
 import {
   HivCareComparativeOverviewComponent
 } from
-'./clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
+  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
 import {
   HivCareTabularViewComponent
 } from
@@ -85,6 +85,14 @@ import {
   VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+import {
+  PatientStatusChangeVisualizationContainerComponent
+} from
+  './patient-status-change-visualization/patient-status-change-visualization.container.component';
+import {
+  PatientStatusChangeVisualizationComponent
+} from
+  './patient-status-change-visualization/patient-status-change-visualization.component';
 import {
   ClinicalSummaryVisualizationService
 } from './services/clinical-summary-visualization.service';
@@ -155,7 +163,9 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ArtOverviewIndicatorDefComponent,
     ClinicFlowComponent,
     ClinicFlowSummaryComponent,
-    ClinicFlowVisitsComponent
+    ClinicFlowVisitsComponent,
+    PatientStatusChangeVisualizationContainerComponent,
+    PatientStatusChangeVisualizationComponent
   ],
   providers: [
     ClinicDashboardGuard,

@@ -85,7 +85,7 @@ describe('Component: DashboardFiltersComponent', () => {
         {
           provide: ClinicalSummaryVisualizationResourceService,
           useFactory: (http, appSettingsService, cacheService) =>
-            new FakeClinicalSummaryVisualizationResourceService(null, null, null),
+            new FakeClinicalSummaryVisualizationResourceService(),
           deps: [Http, AppSettingsService, DataCacheService]
         }],
       declarations: [

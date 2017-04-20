@@ -18,7 +18,8 @@ import {
 } from './clinical-summary-visualization-resource.service';
 import { LabOrderResourceService } from './lab-order-resource.service';
 import { Moh731ResourceService } from './moh-731-resource.service';
-
+import { PatientStatusVisualizationResourceService } from
+  './patient-status-change-visualization-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -36,7 +37,8 @@ import { Moh731ResourceService } from './moh-731-resource.service';
     ClinicLabOrdersResourceService,
     ClinicalSummaryVisualizationResourceService,
     LabOrderResourceService,
-    Moh731ResourceService
+    Moh731ResourceService,
+    PatientStatusVisualizationResourceService
   ],
   exports: []
 })

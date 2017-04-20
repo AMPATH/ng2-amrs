@@ -1,0 +1,20 @@
+
+<div class="wrapper">
+            <div *ngIf="loading" ><span><i class="fa fa-spinner fa-spin">
+      </i>Loading please wait...</span></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <dashboard-filters [options]="options" [(filterModel)]="filterModel" [startDate]="startDate" [endDate]="endDate" (filterModelChange)="filtersChanged($event)">
+            </dashboard-filters>
+        </div>
+    </div>
+    <div class='row'>
+        <div *ngIf="error" class="alert alert-danger">
+            <div>
+                <span><strong>Error fetching data</strong></span>
+                <button class="btn btn-danger pull-right" (click)="loadData()">Reload</button>
+            </div>
+        </div>
+        <patient-status-change-visualization [data]="results.result" [lineIndicators]="lineIndicators" [barIndicators]="barIndicators"></patient-status-change-visualization>
+    </div>
+</div>

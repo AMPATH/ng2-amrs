@@ -22,13 +22,16 @@
       "icon": "fa fa-bar-chart"
     },
     {
-
+      "url": "patient-status-change-visualization",
+      "label": "Patient Status Change Visualization",
+      "icon": "fa fa-bar-chart"
+    },
+    {
       "url": "clinic-lab-orders",
       "label": "Lab Orders",
       "icon": "icon-i-pathology",
       "isSideBarOpen": false
-    }
-    ,
+    },
     {
       "url": "defaulter-list",
       "label": "Defaulter List",

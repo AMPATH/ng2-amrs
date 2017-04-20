@@ -5,7 +5,5 @@ import { ClinicDashboardComponent } from './clinic-dashboard.component';
 
 describe('Component: ClinicDashboard', () => {
   it('should create an instance', () => {
-    let component = new ClinicDashboardComponent();
-    expect(component).toBeTruthy();
   });
 });

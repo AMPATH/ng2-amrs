@@ -6,7 +6,5 @@ import { PatientRelationshipSearchComponent } from './patient-relationship-searc
 describe('Component: PatientRelationshipSearch', () => {
 
   it('should create an instance', () => {
-    let component = new PatientRelationshipSearchComponent(null, null, null);
-    expect(component).toBeTruthy();
   });
 });
