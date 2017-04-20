@@ -12,12 +12,12 @@
     ],
     "parameters": [
       {
-        "name":"locationUuids",
+        "name":"locations",
         "defaultValue":[]
       },
       {
         "name":"groupByLocation",
-        "defaultValue":[{"label":"location","expression":"t1.location_uuid"}]
+        "defaultValue":[{"label":"location","expression":"t1.location_id"}]
       },
       {
         "name":"groupByMonth",
@@ -25,7 +25,7 @@
       }
     ],
     "filters": [
-      {"expression":"t1.location_uuid in ?","parameter":"locationUuids"}
+      {"expression":"t1.location_id in ?","parameter":"locations"}
     ],
     "groupClause":[
       {"parameter":"groupByLocation"},

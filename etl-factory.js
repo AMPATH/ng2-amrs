@@ -452,9 +452,9 @@ module.exports = function () {
         var result = [];
         _.each(groupBy.split(','), function (by) {
             _.each(groupClauses, function (groupClause) {
-                if (groupClause["parameter"] === by) {
+                if (groupClause["parameter"] === by || groupClause["processForce"]) {
                     _.each(reportParams, function (reportParam) {
-                        if (reportParam["name"] === groupClause["parameter"]) {
+                        if (reportParam["name"] === groupClause["parameter"] ) {
                             _.each(reportParam["defaultValue"], function (value) {
                                 result.push(value["expression"]);
                             });
@@ -841,8 +841,24 @@ module.exports = function () {
                         't1.person_id', 't1.encounter_id', 't1.location_id', 't1.location_uuid', 't1.uuid as patient_uuid',
                         'person.gender', 'person.birthdate', 'extract(year from (from_days(datediff(now(),person.birthdate)))) as age',
                         'case when (timestampdiff(day,vl_order_date,now()) between 0 and 14) and (vl_1_date is null or vl_order_date > vl_1_date) then true else false end as has_pending_vl_test',
-                        't1.enrollment_date', 'hiv_start_date', 'arv_start_location', 'arv_first_regimen_start_date', 'arv_start_date as cur_regimen_arv_start_date', 'cur_arv_line',
-                        'vl_1', 'vl_1_date', 'tb_prophylaxis_start_date', 'pcp_prophylaxis_start_date', 'tb_tx_start_date'
+                        'date_format(t1.enrollment_date,"%d-%m-%Y") as enrollment_date',
+                        'date_format(hiv_start_date,"%d-%m-%Y") as hiv_start_date',
+                        'arv_start_location',
+                        'date_format(arv_first_regimen_start_date,"%d-%m-%Y") as arv_first_regimen_start_date',
+                        'date_format(arv_start_date,"%d-%m-%Y") as cur_regimen_arv_start_date',
+                        'cur_arv_line',
+                        'vl_1',
+                        'date_format(vl_1_date,"%d-%m-%Y") as vl_1_date',
+                        'date_format(tb_prophylaxis_start_date,"%d-%m-%Y") as tb_prophylaxis_start_date',
+                        'date_format(pcp_prophylaxis_start_date,"%d-%m-%Y") as pcp_prophylaxis_start_date',
+                        'date_format(tb_tx_start_date,"%d-%m-%Y") as tb_tx_start_date',
+                        'encounter_type',
+                        'date_format(encounter_datetime,"%d-%m-%Y") as encounter_datetime',
+                        'date_format(t1.death_date,"%d-%m-%Y") as death_date',
+                        'out_of_care',
+                        'transfer_out',
+                        'patient_care_status'
+
                     ],
                     concatColumns: [
                         "concat(COALESCE(person_name.given_name,''),' ',COALESCE(person_name.middle_name,''),' ',COALESCE(person_name.family_name,'')) as person_name",
