@@ -4,8 +4,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
-
-
 import { LabsResourceService } from '../../etl-api/labs-resource.service';
 import { PatientService } from '../patient.service';
 import { LabResultComponent } from './lab-result.component';
@@ -14,6 +12,18 @@ import { LabResultComponent } from './lab-result.component';
 export class FakeTranslatePipe implements PipeTransform {
   transform(value: any, decimalPlaces: number): any {
     return value;
+  }
+}
+@Pipe({name: 'keys'})
+export class FakeKeysPipe implements PipeTransform {
+  transform(value, args: string[]): any {
+    let keys = [];
+    for (let key in value) {
+      if (value.hasOwnProperty(key)) {
+        keys.push({key: key, value: value[key]});
+      }
+    }
+    return keys;
   }
 }
 describe('Component: Lab Results Unit Tests', () => {
@@ -62,7 +72,8 @@ describe('Component: Lab Results Unit Tests', () => {
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         LabResultComponent,
-        FakeTranslatePipe
+        FakeTranslatePipe,
+        FakeKeysPipe
       ],
       providers: [
         { provide: ChangeDetectorRef, useValue: fakeChangeDetectorRef },
@@ -70,7 +81,8 @@ describe('Component: Lab Results Unit Tests', () => {
         {
           provide: PatientService, useValue: fakePatientService
         },
-        LabResultComponent
+        LabResultComponent,
+        FakeKeysPipe
       ]
     })
       .compileComponents()
@@ -82,11 +94,10 @@ describe('Component: Lab Results Unit Tests', () => {
       });
   }));
 
-  it('should be defined', inject([LabsResourceService],
-    (service: LabsResourceService) => {
-      expect(comp).toBeTruthy();
-    }));
-  /*it('should render result table when there are new results',
+  /*it('should be defined', () => {
+    expect(comp).toBeTruthy();
+  });
+  it('should render result table when there are new results',
     inject([LabsResourceService, PatientService],
       (service: LabsResourceService) => {
         comp.ngOnInit();

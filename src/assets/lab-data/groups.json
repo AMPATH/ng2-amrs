@@ -1,0 +1,72 @@
+[
+    {
+    "fullName": "HIV GROUP",
+    "groupName": "hiv_group",
+    "columnDefs": [
+        {
+        "headerName": "Date",
+        "field": "testDatetime"
+        },
+        {
+        "headerName": "CD4",
+        "field": "cd4_count"
+        },
+        {
+        "headerName": "CD4%",
+        "field": "cd4_percent"
+        },
+        {
+        "headerName": "Lab Errors",
+        "field": "lab_errors"
+        }
+    ]
+    },
+    {
+    "fullName": "ONCOLOGY GROUP",
+    "groupName": "oncology_group",
+    "columnDefs": [
+        {
+        "headerName": "Date",
+        "field": "testDatetime"
+        },
+        {
+        "headerName": "CD4",
+        "field": "cd4_count"
+        },
+        {
+        "headerName": "CD4%",
+        "field": "cd4_percent"
+        },
+        {
+        "headerName": "Lab Errors",
+        "field": "lab_errors"
+        }
+    ]
+    },
+    {
+    "fullName": "CANCER GROUP",
+    "groupName": "cancer_group",
+    "columnDefs": [
+        {
+        "headerName": "Date",
+        "field": "testDatetime"
+        },
+        {
+        "headerName": "CXR",
+        "field": "chest_xray"
+        },
+        {
+        "headerName": "Cr",
+        "field": "creatinine"
+        },
+        {
+        "headerName": "Lab Errors",
+        "field": "lab_errors"
+        },
+        {
+        "headerName": "Tests Ordered",
+        "field": "tests_ordered"
+        }
+    ]
+    }
+]
