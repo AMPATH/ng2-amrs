@@ -1340,16 +1340,18 @@ module.exports = function () {
                 if (!authorizer.hasReportAccess(request.query.reportName)) {
                     return reply(Boom.forbidden('Unauthorized'));
                 }
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                            ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
 
-                let requestParams = Object.assign({}, request.query, request.params);
-                let reportParams = etlHelpers.getReportParams(request.query.reportName,
-                    ['startDate', 'endDate', 'locationUuids', 'isAggregated'], requestParams);
-
-                let service = new Moh731Service();
-                service.getAggregateReport(reportParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
+                        let service = new Moh731Service();
+                        service.getAggregateReport(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
                 });
             },
             description: "Get the MOH 731 report",
@@ -1388,13 +1390,16 @@ module.exports = function () {
                 },
             },
             handler: function (request, reply) {
-                let requestParams = Object.assign({}, request.query, request.params);
-                let service = new Moh731Service();
-                service.getPatientListReport(requestParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
-                });
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new Moh731Service();
+                        service.getPatientListReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
             },
             description: "Get the MOH 731 patient list",
             notes: "Returns the patient list for MOH 731",

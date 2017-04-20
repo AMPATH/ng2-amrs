@@ -4,17 +4,9 @@
     "table": {
       "schema": "etl",
       "tableName": "flat_hiv_summary",
-      "indexExpression": "FORCE INDEX (location_uuid_rtc_date)",
       "alias": "t1"
     },
     "joins": [
-      {
-        "joinType": "INNER JOIN",
-        "schema": "amrs",
-        "tableName": "location",
-        "alias": "t2",
-        "joinExpression": "t1.location_uuid = t2.uuid"
-      },
       {
         "joinType": "INNER JOIN",
         "schema": "amrs",
@@ -33,7 +25,7 @@
         "defaultValue": "2015-10-31"
       },
       {
-        "name": "locationUuids",
+        "name": "locations",
         "defaultValue": []
       },
       {
@@ -41,15 +33,15 @@
         "defaultValue": [
           {
             "label": "location",
-            "expression": "t1.location_uuid"
+            "expression": "t1.location_id"
           }
         ]
       }
     ],
     "filters": [
       {
-        "expression": "t1.location_uuid in ?",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       },
       {
         "expression": "timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90",
@@ -201,11 +193,6 @@
     ],
     "supplementColumns": [
       {
-        "label": "location",
-        "type": "single",
-        "sql": "t2.name"
-      },
-      {
         "label": "location_uuid",
         "type": "single",
         "sql": "t1.location_uuid"
@@ -227,23 +214,22 @@
     "table": {
       "schema": "etl",
       "tableName": "flat_hiv_summary",
-      "indexExpression": "FORCE INDEX (location_uuid_rtc_date)",
       "alias": "t1"
     },
     "joins": [
       {
         "joinType": "INNER JOIN",
         "schema": "amrs",
-        "tableName": "location",
-        "alias": "t2",
-        "joinExpression": "t1.location_uuid = t2.uuid"
+        "tableName": "person",
+        "alias": "t3",
+        "joinExpression": "t1.person_id = t3.person_id"
       },
       {
         "joinType": "INNER JOIN",
         "schema": "amrs",
-        "tableName": "person",
-        "alias": "t3",
-        "joinExpression": "t1.person_id = t3.person_id"
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
       }
     ],
     "parameters": [
@@ -256,7 +242,7 @@
         "defaultValue": "2015-10-31"
       },
       {
-        "name": "locationUuids",
+        "name": "locations",
         "defaultValue": []
       },
       {
@@ -264,15 +250,15 @@
         "defaultValue": [
           {
             "label": "location",
-            "expression": "t1.location_uuid"
+            "expression": "t1.location_id"
           }
         ]
       }
     ],
     "filters": [
       {
-        "expression": "t1.location_uuid in ?",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       },
       {
         "expression": "date(t1.encounter_datetime) >= ?",
@@ -847,9 +833,9 @@
     ],
     "supplementColumns": [
       {
-        "label": "location",
-        "type": "single",
-        "sql": "t2.name"
+        "label":"location",
+        "type":"single",
+        "sql":"t2.name"
       },
       {
         "label": "location_uuid",
@@ -873,7 +859,6 @@
     "table": {
       "schema": "etl",
       "tableName": "flat_hiv_summary",
-      "indexExpression": "FORCE INDEX (location_uuid_rtc_date)",
       "alias": "t1"
     },
     "joins": [],
@@ -883,7 +868,7 @@
         "defaultValue": [
           {
             "label": "location_id",
-            "expression": "t1.location_uuid"
+            "expression": "t1.location_id"
           }
         ]
       },
@@ -896,7 +881,7 @@
         "defaultValue": "2015-10-31"
       },
       {
-        "name": "locationUuids",
+        "name": "locations",
         "defaultValue": []
       }
     ],
@@ -910,8 +895,8 @@
         "parameter": "endDate"
       },
       {
-        "expression": "t1.location_uuid in ?",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       }
     ],
     "groupClause": [
@@ -953,22 +938,20 @@
     "table":{
       "schema":"etl",
       "tableName":"flat_hiv_summary",
-      "indexExpression": "FORCE INDEX (location_uuid_rtc_date)",
       "alias":"t1"
       },
     "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
     ],
     "parameters": [
-      {"name":"locationUuids","defaultValue":[]},
+      {"name":"locations","defaultValue":[]},
       {"name":"endDate", "defaultValue":["Now()"]},
       {"name":"groupByPerson", "defaultValue":[
         {"label":"person_id","expression":"t1.person_id"}
       ]
       },
       {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_uuid"}
+        {"label":"location","expression":"t1.location_id"}
       ]
       }
     ],
@@ -979,7 +962,7 @@
         "parameter": "endDate"
       },
       {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-      {"expression":"t1.location_uuid in ?","parameter":"locationUuids"},
+      {"expression":"t1.location_id in ?","parameter":"locations"},
       {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
       {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
     ],
