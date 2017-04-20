@@ -111,6 +111,7 @@ module.exports = function (options) {
           ],
           exclude: [/\.e2e\.ts$/]
         },
+        { test: /pdfkit|png-js|fontkit|unicode-properties|linebreak|brotli/, loader: "transform-loader?brfs" },
 
         /**
          * Json loader support for *.json files.
@@ -254,7 +255,7 @@ module.exports = function (options) {
      */
     node: {
       global: true,
-      process: false,
+      process: true,
       crypto: 'empty',
       module: false,
       clearImmediate: false,

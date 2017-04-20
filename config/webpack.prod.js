@@ -320,7 +320,6 @@ module.exports = function (env) {
       node: {
         global: true,
         crypto: 'empty',
-        process: false,
         module: false,
         clearImmediate: false,
         setImmediate: false

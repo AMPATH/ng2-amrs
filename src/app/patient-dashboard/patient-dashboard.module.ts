@@ -75,10 +75,10 @@ import { OrderListComponent } from './formentry/order-list.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
 import {
   PatientRelationshipSearchComponent
- } from './patient-search/patient-relationship-search.component';
+} from './patient-search/patient-relationship-search.component';
 import {
   AddPatientRelationshipComponent
- } from './patient-relationships/add-patient-relationship.component';
+} from './patient-relationships/add-patient-relationship.component';
 import {
   EditPatientRelationshipComponent
 } from './patient-relationships/edit-patient-relationship.component';
@@ -106,6 +106,7 @@ import {
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
 import { PatientSideNavComponent } from './patient-side-nav/patient-side-nav.component';
 import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes.factory';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 
 @NgModule({
   imports: [
@@ -138,6 +139,7 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
     ToastrModule.forRoot(),
     EtlApi,
     ButtonModule,
+    DateTimePickerModule,
     AgGridModule.withComponents([
 
     ]),
