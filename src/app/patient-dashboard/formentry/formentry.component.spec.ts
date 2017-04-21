@@ -1,7 +1,8 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot,
+     Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { SpyLocation } from '@angular/common/testing';
@@ -201,7 +202,9 @@ describe('Component: FormentryComponent', () => {
                 let uuid: string = 'form-uuid';
                 spyOn(resolver, 'resolve').and.callFake(function (params) {
 
-                    return new Promise();
+                    return new Promise((resolve, reject) => {
+
+                    });
                 });
                 spyOn(formSchemaService, 'getFormSchemaByUuid').and.callFake(function (params) {
                     let subject = new BehaviorSubject<any>({});
@@ -211,7 +214,9 @@ describe('Component: FormentryComponent', () => {
                     });
                     return subject;
                 });
-                resolver.resolve(ActivatedRouteSnapshot);
+                let mockSnapshot: any = jasmine.
+                 createSpyObj<RouterStateSnapshot>('RouterStateSnapshot', ['toString']);
+                resolver.resolve(new ActivatedRouteSnapshot(), mockSnapshot);
                 expect(resolver.resolve).toHaveBeenCalled();
                 // check if it compiles
                 formSchemaService.getFormSchemaByUuid(uuid);

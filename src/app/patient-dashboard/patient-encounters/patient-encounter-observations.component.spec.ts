@@ -38,7 +38,7 @@ describe('Component: PatientEncounterObservationsComponent', () => {
         {
           provide: EncounterResourceService,
           useFactory: () => {
-            return new FakeEncounterResourceService(null);
+            return new FakeEncounterResourceService();
           }
         },
       ]

@@ -58,9 +58,9 @@ describe('Service: TodaysVitalsService', () => {
     let fakeRes: FakeVisitResourceService =
       TestBed.get(VisitResourceService) as FakeVisitResourceService;
     fakeRes.returnErrorOnNext = false;
-    spyOn(service, 'getTodayVisits').and.callFake(function (params) {
+    spyOn(service, 'getTodaysVitals').and.callFake(function (params) {
       // assume the test data is today's vitals
-      return params;
+      return Observable.of([{ diastolic: 101, weight: 123, height: 154, bmi: 51.9 }]);
     });
 
     service.getTodaysVitals('patient-uuid').subscribe((results) => {
