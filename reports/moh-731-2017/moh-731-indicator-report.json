@@ -868,7 +868,7 @@
         "defaultValue": [
           {
             "label": "location_id",
-            "expression": "t1.location_id"
+            "expression": "t1.arv_start_location"
           }
         ]
       },
@@ -886,17 +886,18 @@
       }
     ],
     "filters": [
-      {
-        "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)",
-        "parameter": "startDate"
-      },
-      {
-        "expression": "date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)",
-        "parameter": "endDate"
-      },
+      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
       {
         "expression": "t1.location_id in ?",
         "parameter": "locations"
+      },
+      {
+        "expression": "t1.arv_start_location in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "t1.is_clinical_encounter = 1",
+        "processForce": true
       }
     ],
     "groupClause": [
