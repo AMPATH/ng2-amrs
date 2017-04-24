@@ -88,7 +88,9 @@
           "sql": "count(distinct if($expression,t1.person_id,null))",
           "disaggregation": {
             "indicator": "on_art_total",
-            "filters": "age_below_1"
+            "filters": [
+              "age_below_1"
+              ]
           }
         },
       {
@@ -306,7 +308,9 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": "age_below_1"
+          "filters": [
+            "age_below_1"
+            ]
         }
       },
       {
@@ -427,7 +431,9 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": "age_below_1"
+          "filters": [
+            "age_below_1"
+            ]
         }
       },
       {

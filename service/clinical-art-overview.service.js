@@ -2,7 +2,7 @@ const dao = require('../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
-export class clinicalArtOverview {
+export class clinicalArtOverviewService {
 
     getAggregateReport(reportParams) {
         let self = this;
