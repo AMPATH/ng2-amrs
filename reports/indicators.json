@@ -22,7 +22,7 @@
         "name":"art_net_cohort_at_12_months",
         "label":"art net cohort at 12 months",
         "description": "ART Net Cohort at 12 months",
-        "expression": "coalesce(transfer_out, out_of_care) is null"
+        "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null"
     },
     {
         "name":"on_arvs_first_line",
@@ -34,7 +34,7 @@
         "name":"total_on_therapy_at_12_months",
         "label":"total on therapy at 12 months",
         "description":"# of patients on therapy at 12 months",
-        "expression":"coalesce(t1.death_date, coalesce(transfer_out, out_of_care)) is null and t1.rtc_date>=DATE_SUB(@startDate, INTERVAL 6 MONTH)"
+        "expression":"date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(t1.death_date, coalesce(transfer_out, out_of_care)) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@startDate) <= 90"
     },
     {
         "name":"on_arvs_second_line",
@@ -223,25 +223,25 @@
         "name":"on_original_first_line",
         "label":"on original first line",
         "description": "Total # of patients on original ART regimen",
-        "expression": "cur_arv_meds = arv_first_regimen and cur_arv_line = 1 and coalesce(transfer_out, out_of_care) is null "
+        "expression": "cur_arv_meds = arv_first_regimen and cur_arv_line = 1 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90 "
     },
     {
         "name":"on_alternative_first_line",
         "label":"on alternative first line",
         "description": "Total # of patients on original ART regimen",
-        "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 1 and coalesce(transfer_out, out_of_care) is null"
+        "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 1 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90"
     },
     {
         "name":"on_second_line_or_higher",
         "label":"on second line or higher",
         "description": "Total # of patients on original ART regimen",
-        "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line >= 2 and coalesce(transfer_out, out_of_care) is null "
+        "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line >= 2 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90"
     },
     {
         "name":"screened_for_tb",
         "label":"screened for tb",
         "description": "Total # of  patients screened for TB",
-        "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate and arv_start_date is not null"
+        "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate"
     },
     {
         "name":"is_on_inh_treatment",
