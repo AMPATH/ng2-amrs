@@ -343,6 +343,11 @@
         "expression": "t6.person_attribute_type_id=10",
         "parameter": "",
         "processForce": true
+      },
+      {
+        "expression": "t6.voided=0",
+        "parameter": "",
+        "processForce": true
       }
     ],
     "groupClause": [
