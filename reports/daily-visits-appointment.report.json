@@ -272,7 +272,7 @@
         "joinExpression": "t1.person_id  = t5.person_id"
       },
       {
-        "joinType": "INNER JOIN",
+        "joinType": "LEFT OUTER JOIN",
         "schema": "amrs",
         "tableName": "person_attribute",
         "alias": "t6",
@@ -338,6 +338,11 @@
         "expression": "encounter_type != 116",
         "processForce": true,
         "parameter": ""
+      },
+      {
+        "expression": "t6.person_attribute_type_id=10",
+        "parameter": "",
+        "processForce": true
       }
     ],
     "groupClause": [
@@ -395,7 +400,7 @@
       {
         "label": "phone_number",
         "type": "single",
-        "sql": "case when t6.person_attribute_type_id=10 then t6.value else null end"
+        "sql": "t6.value"
       }
     ]
   }
