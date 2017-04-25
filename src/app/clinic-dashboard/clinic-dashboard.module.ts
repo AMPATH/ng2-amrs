@@ -211,6 +211,7 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ClinicFlowComponent,
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
+    PatientStatusChangeListComponent
   ],
 })
 export class ClinicDashboardModule {
