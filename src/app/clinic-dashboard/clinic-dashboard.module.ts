@@ -101,6 +101,8 @@ import {
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
 import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
+import { PatientStatusChangeListComponent
+} from './patient-status-change-visualization/patient-status-change-list.component';
 
 @NgModule({
   imports: [
@@ -159,6 +161,7 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     DefaulterListComponent,
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
+    PatientStatusChangeListComponent,
     HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
     ClinicFlowComponent,
