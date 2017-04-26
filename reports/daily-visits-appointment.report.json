@@ -270,6 +270,13 @@
         "tableName": "person",
         "alias": "t5",
         "joinExpression": "t1.person_id  = t5.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person_attribute",
+        "alias": "t6",
+        "joinExpression": "t1.person_id  = t6.person_id"
       }
     ],
     "parameters": [
@@ -384,6 +391,11 @@
         "label": "age",
         "type": "single",
         "sql": "extract(year from (from_days(datediff(now(),t5.birthdate))))"
+      },
+      {
+        "label": "phone_number",
+        "type": "single",
+        "sql": "case when t6.person_attribute_type_id=10 then t6.value else null end"
       }
     ]
   }
