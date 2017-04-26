@@ -511,11 +511,23 @@ export class HivPatientClinicalSummaryService {
               }]
             }, {
               columns: [{
-                text: 'ARV Start Date:',
+                text: 'Current ARV Regimen Start Date',
                 width: 60,
                 bold: true,
               }, {
-                text: this._formatDate(patientHivSummary.arv_first_regimen_start_date) || 'N/A',
+                text: this._formatDate(patientHivSummary.arv_start_date) || 'N/A',
+                width: '*',
+                alignment: 'left',
+                color: '#2a2a2a',
+              }]
+            }, {
+              columns: [{
+                text: 'ARV Initiation Start Date',
+                width: 60,
+                bold: true,
+              },
+                {
+                text: this._formatDate(patientHivSummary.arv_first_regimen_start_date ) || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
