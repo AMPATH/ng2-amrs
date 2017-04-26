@@ -78,8 +78,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -111,8 +111,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -147,8 +147,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -183,8 +183,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -219,8 +219,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -262,8 +262,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -287,8 +287,8 @@ module.exports = function () {
                 },
                 'openmrsLocationAuthorizer': {
                     locationParameter: [{
-                        type: 'params', //can be in either query or params so you have to specify
-                        name: 'uuid' //name of the location parameter
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
                     }]
                 }
             },
@@ -609,6 +609,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewDataAnalytics
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
 
@@ -640,6 +646,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewPatient
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
 
@@ -691,6 +703,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewDataAnalytics
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
 
@@ -722,6 +740,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewPatient
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
 
@@ -773,6 +797,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewDataAnalytics
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
 
@@ -804,6 +834,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewPatient
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
 
@@ -1388,6 +1424,12 @@ module.exports = function () {
                 'hapiAuthorization': {
                     role: privileges.canViewPatient
                 },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
             },
             handler: function (request, reply) {
                 preRequest.resolveLocationIdsToLocationUuids(request,
