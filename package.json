@@ -113,7 +113,7 @@
     "hammerjs": "^2.0.8",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
-    "ion-rangeslider": "^2.1.6",
+    "ion-rangeslider": "2.1.6",
     "ionic-cache": "^1.1.2",
     "jquery": "^3.1.1",
     "json-loader": "^0.5.4",

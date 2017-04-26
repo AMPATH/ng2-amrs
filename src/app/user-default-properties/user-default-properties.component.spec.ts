@@ -1,29 +1,57 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location, APP_BASE_HREF } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
-import { UserDefaultPropertiesMockService } from './user-default-properties.service.mock';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { UserMockService } from './user.service.mock';
 import { UserDefaultPropertiesModule } from './user-default-properties.module';
+import { BehaviorSubject } from 'rxjs';
+
+class MockActivatedRoute {
+  params;
+  private paramsSubject = new BehaviorSubject(this.testParams);
+  private _params: {};
+  constructor() {
+    this.params = this.paramsSubject.asObservable();
+  }
+  get testParams() {
+    return this._params;
+  }
+  set testParams(newParams: any) {
+    this._params = newParams;
+    this.paramsSubject.next(newParams);
+  }
+}
+
+class MockPropertyService {
+  getCurrentUserDefaultLocation() {
+    return 'test location';
+  }
+
+  getLocations() {
+    return (new BehaviorSubject(null)).asObservable();
+  }
+}
 
 describe('Component: User Default Settings Unit Tests', () => {
 
   let propertiesResourceService: UserDefaultPropertiesService
     , fixture: ComponentFixture<UserDefaultPropertiesComponent>
     , injector: any
+    , activeRoute: MockActivatedRoute
     , component: UserDefaultPropertiesComponent;
 
   beforeEach(async(() => {
+    activeRoute = new MockActivatedRoute();
     TestBed.configureTestingModule({
       imports: [UserDefaultPropertiesModule],
       providers: [
@@ -39,7 +67,7 @@ describe('Component: User Default Settings Unit Tests', () => {
         },
         {
           provide: UserDefaultPropertiesService,
-          useClass: UserDefaultPropertiesMockService
+          useClass: MockPropertyService
         },
         { provide : Location, useClass: SpyLocation },
         { provide : Router, useValue : jasmine.createSpyObj('Router', ['navigate'])  },
@@ -48,6 +76,7 @@ describe('Component: User Default Settings Unit Tests', () => {
           provide: UserService,
           useValue: new UserMockService(null)
         },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         SessionStorageService,
         LocalStorageService
       ]
@@ -73,8 +102,19 @@ describe('Component: User Default Settings Unit Tests', () => {
 
   });
 
-  it('should have required properties', (done) => {
+  it('should set default value of location from route params if you they are defined',
+    inject([Router, ActivatedRoute, UserDefaultPropertiesService, UserService],
+      (r: Router, route: ActivatedRoute, t: UserDefaultPropertiesService, u: UserService) => {
+        activeRoute.testParams = { confirm: 1 };
+        component.ngOnInit();
+        fixture.detectChanges();
+        route.params.subscribe((params) => {
+          expect(params['confirm']).toEqual(1);
+          expect(component.query).toEqual('test location');
+        });
+  }));
 
+  it('should have required properties', (done) => {
     expect(component.locations.length).toEqual(0);
     expect(component.isBusy).toBeFalsy();
     expect(typeof component.user).toBeDefined(User);
@@ -82,7 +122,6 @@ describe('Component: User Default Settings Unit Tests', () => {
     expect(component.filteredList.length).toEqual(0);
     expect(component.currentLocation).toEqual('');
     expect(component.selectedIdx).toEqual(-1);
-
     done();
 
   });
