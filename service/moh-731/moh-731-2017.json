@@ -495,7 +495,7 @@
             {
                 "label": "Clinical visits F18+",
                 "ref": "HV03-089",
-                "indicator": ""
+                "indicator": "female_gte_18yo_visits"
             },
             {
                 "label": "On modern FP F15+",

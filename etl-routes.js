@@ -18,12 +18,13 @@ var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
 import { MonthlyScheduleService } from './service/monthly-schedule-service';
-import { PatientStatusChangeTracker } from './service/patient-status-change-tracker-service';
-import { clinicalArtOverview } from './service/clinical-art-overview.service';
-import { hivComparativeOverview } from './service/hiv-comparative-overview.service';
-import { clinicalPatientCareStatusOverview } from './service/clinical-patient-care-status-overview';
+import { PatientStatusChangeTrackerService } from './service/patient-status-change-tracker-service';
+import { clinicalArtOverviewService } from './service/clinical-art-overview.service';
+import { hivComparativeOverviewService } from './service/hiv-comparative-overview.service';
+import { clinicalPatientCareStatusOverviewService } from './service/clinical-patient-care-status-overview';
 import { SlackService } from './service/slack-service';
 import { Moh731Service } from './service/moh-731/moh-731.service';
+import { PatientRegisterReportService } from './service/patient-register-report.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -623,7 +624,7 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
                     ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
 
-                let service = new hivComparativeOverview();
+                let service = new hivComparativeOverviewService();
                 service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
@@ -657,7 +658,7 @@ module.exports = function () {
 
                 request.query.reportName = 'clinical-hiv-comparative-overview-report';
                 let requestParams = Object.assign({}, request.query, request.params);
-                let service = new hivComparativeOverview();
+                let service = new hivComparativeOverviewService();
                 service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
@@ -717,7 +718,7 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams('clinical-patient-care-status-overview-report',
                     ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
 
-                let service = new clinicalPatientCareStatusOverview();
+                let service = new clinicalPatientCareStatusOverviewService();
                 service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
@@ -751,7 +752,7 @@ module.exports = function () {
 
                 request.query.reportName = 'clinical-patient-care-status-overview-report';
                 let requestParams = Object.assign({}, request.query, request.params);
-                let service = new PatientStatusChangeTracker();
+                let service = new PatientStatusChangeTrackerService();
                 service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
@@ -811,7 +812,7 @@ module.exports = function () {
                 let reportParams = etlHelpers.getReportParams('clinical-art-overview-report',
                     ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
 
-                let service = new clinicalArtOverview();
+                let service = new clinicalArtOverviewService();
                 service.getAggregateReport(reportParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
@@ -845,7 +846,7 @@ module.exports = function () {
 
                 request.query.reportName = 'clinical-art-overview-report';
                 let requestParams = Object.assign({}, request.query, request.params);
-                let service = new clinicalArtOverview();
+                let service = new clinicalArtOverviewService();
                 service.getPatientListReport(requestParams).then((result) => {
                     reply(result);
                 }).catch((error) => {
@@ -1474,110 +1475,148 @@ module.exports = function () {
             }
         }
     },
-        {
-            method: 'GET',
-            path: '/etl/patient-status-change-tracking',
-            config: {
-                auth: 'simple',
-                plugins: {
-                    'openmrsLocationAuthorizer': {
-                        locationParameter: [{
+    {
+        method: 'GET',
+        path: '/etl/patient-status-change-tracking',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }],
+                    aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                        {
                             type: 'query', //can be in either query or params so you have to specify
-                            name: 'locationUuids' //name of the location parameter
-                        }],
-                        aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
-                            {
-                                type: 'query', //can be in either query or params so you have to specify
-                                name: 'reportName', //name of the parameter
-                                value: 'patient-status-change-tracker-report' //parameter value
-                            }
-                        ]
-                    }
-                },
-                handler: function (request, reply) {
-                    request.query.reportName = 'patient-status-change-tracker-report';
-                    //security check
-                    if (!authorizer.hasReportAccess(request.query.reportName)) {
-                        return reply(Boom.forbidden('Unauthorized'));
-                    }
+                            name: 'reportName', //name of the parameter
+                            value: 'patient-status-change-tracker-report' //parameter value
+                        }
+                    ]
+                }
+            },
+            handler: function (request, reply) {
+                request.query.reportName = 'patient-status-change-tracker-report';
+                //security check
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                    return reply(Boom.forbidden('Unauthorized'));
+                }
 
-                    let requestParams = Object.assign({}, request.query, request.params);
-                    let reportParams = etlHelpers.getReportParams(request.query.reportName,
-                        ['startDate', 'endDate', 'locationUuids'], requestParams);
+                let requestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                    ['startDate', 'endDate', 'locationUuids'], requestParams);
 
-                    let service = new PatientStatusChangeTracker();
-                    service.getAggregateReport(reportParams).then((result) => {
-                        reply(result);
-                    }).catch((error) => {
-                        reply(error);
-                    });
-                },
-                description: "Get the Patient Status report",
-                notes: "Api endpoint that returns Patient Status Change Tracker Report",
-                tags: ['api'],
-                validate: {
-                    query: {
-                        locationUuids: Joi.string()
-                            .optional()
-                            .description("A list of comma separated location uuids"),
-                        startDate: Joi.string()
-                            .required()
-                            .description("The start date to filter by"),
-                        endDate: Joi.string()
-                            .required()
-                            .description("The end date to filter by")
-                    }
+                let service = new PatientStatusChangeTrackerService();
+                service.getAggregateReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the Patient Status report",
+            notes: "Api endpoint that returns Patient Status Change Tracker Report",
+            tags: ['api'],
+            validate: {
+                query: {
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by")
                 }
             }
-        },
-        {
-            method: 'GET',
-            path: '/etl/patient-status-change-tracking/patient-list',
-            config: {
-                auth: 'simple',
-                plugins: {
-                    'hapiAuthorization': {
-                        role: privileges.canViewPatient
-                    },
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/patient-status-change-tracking/patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
                 },
-                handler: function (request, reply) {
-                    request.query.reportName = 'patient-status-change-tracker-report';
-                    let requestParams = Object.assign({}, request.query, request.params);
-                    let service = new PatientStatusChangeTracker();
-                    service.getPatientListReport(requestParams).then((result) => {
-                        reply(result);
-                    }).catch((error) => {
-                        reply(error);
-                    });
-                },
-                description: "Get Patient Status report patient list",
-                notes: "Returns the patient list for Patient Status report",
-                tags: ['api'],
-                validate: {
-                    query: {
-                        indicator: Joi.string()
-                            .required()
-                            .description("A list of comma separated indicators"),
-                        locationUuids: Joi.string()
-                            .optional()
-                            .description("A list of comma separated location uuids"),
-                        startDate: Joi.string()
-                            .required()
-                            .description("The start date to filter by"),
-                        endDate: Joi.string()
-                            .required()
-                            .description("The end date to filter by"),
-                        startIndex: Joi.number()
-                            .required()
-                            .description("The startIndex to control pagination"),
-                        limit: Joi.number()
-                            .required()
-                            .description("The offset to control pagination")
+            },
+            handler: function (request, reply) {
+                request.query.reportName = 'patient-status-change-tracker-report';
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new PatientStatusChangeTrackerService();
+                service.getPatientListReport(requestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get Patient Status report patient list",
+            notes: "Returns the patient list for Patient Status report",
+            tags: ['api'],
+            validate: {
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
 
-                    }
                 }
             }
-        },
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/patient-register-report',
+        config: {
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewClinicDashBoard
+                },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'params', //can be in either query or params so you have to specify
+                        name: 'uuid' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                if (request.query.locationUuids) {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                                ['startDate', 'endDate', 'indicators', 'locationUuids', 'groupBy',
+                                    'limit', 'startAge', 'endAge', 'order', 'gender', 'countBy'], requestParams);
+
+                            let service = new PatientRegisterReportService();
+                            service.getAggregateReport(reportParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                }
+            },
+            description: "Get the Patient Register report",
+            notes: "Api endpoint that returns Patient Register report.",
+            tags: ['api'],
+        }
+    },
     {
         method: 'GET',
         path: '/etl/location/{locationUuids}/patient-by-indicator',
