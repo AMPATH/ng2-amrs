@@ -48,9 +48,9 @@ export class ProgramsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-      }
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     subscribeToEnrollmentChangeEvent(payload) {
@@ -207,7 +207,10 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
     private isFutureDates(enrolledDate, completedDate) {
         let today = new Date();
-        if (moment(completedDate).isAfter(today) || moment(completedDate).isAfter(today)) {
+        if (enrolledDate && this.isNullOrUndefined(completedDate)) {
+            return false;
+        }
+        if (moment(enrolledDate).isAfter(today) || moment(completedDate).isAfter(today)) {
             return true;
         }
         return false;
