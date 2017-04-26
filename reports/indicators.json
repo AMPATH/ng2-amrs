@@ -1057,6 +1057,48 @@
         "label":"# count of all clients exposed to HIV (non-occupational) and started PEP",
         "description": "non-occupational clients exposed to HIV and started PEP within reporting period",
         "expression": "hiv_exposed_occupational=0 and date(pep_start_date) between @startDate and @endDate"
+    },
+    {
+        "name":"total_patients",
+        "label":"total_patients",
+        "description": "Total # of total_patients",
+        "expression": "true"
+
+    },
+    {
+        "name":"new_patients",
+        "label":"new_patients",
+        "description": "Total # of new patients",
+        "expression": "prev_encounter_datetime_hiv is null and date(enrollment_date) between @startDate and @endDate"
+
+    },
+    {
+        "name":"transfer_in_from_non_Ampath_site",
+        "label":"transfer_in_from_non_Ampath_site",
+        "description": "Total # of new patients",
+        "expression": "transfer_in=1287"
+
+    },
+    {
+        "name":"transfer_in_from_Ampath_site",
+        "label":"transfer_in_from_Ampath_site",
+        "description": "Total # of new patients",
+        "expression": "transfer_in=1286"
+
+    },
+    {
+        "name":"transfer_in",
+        "label":"transfer_in",
+        "description": "Total # of new patients",
+        "expression": "transfer_in is not null"
+
+    },
+    {
+        "name":"deaths",
+        "label":"deaths",
+        "description": "Total # of new patients",
+        "expression": "death_date between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate"
+
     }
 
 ]
