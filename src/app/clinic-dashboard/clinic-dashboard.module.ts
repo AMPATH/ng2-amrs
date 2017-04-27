@@ -20,6 +20,8 @@ import { DailyScheduleComponent } from './daily-schedule/daily-schedule.componen
 import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
+import { PatientStatusChangeListComponent } from
+  './patient-status-change-visualization/patient-status-change-list.component';
 import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
 import {
   DefaulterListResourceService
@@ -165,7 +167,8 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
     PatientStatusChangeVisualizationContainerComponent,
-    PatientStatusChangeVisualizationComponent
+    PatientStatusChangeVisualizationComponent,
+    PatientStatusChangeListComponent
   ],
   providers: [
     ClinicDashboardGuard,

@@ -223,6 +223,7 @@ describe('Component: DashboardFiltersComponent', () => {
       range_slider: true,
       gender_select: false
     };
+    fixture.detectChanges();
     parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.ageFrom).toBeDefined();
@@ -232,7 +233,6 @@ describe('Component: DashboardFiltersComponent', () => {
       }, 100);
     });
     parentFixture.detectChanges();
-    fixture.detectChanges();
     done();
   });
 
