@@ -67,7 +67,7 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
     DailyScheduleAppointmentsComponent,
     DailyScheduleNotReturned,
     DailyScheduleVisitsComponent,
-    DefaulterListComponent
+    DefaulterListComponent,
   ],
   providers: [
     ClinicDashboardGuard,

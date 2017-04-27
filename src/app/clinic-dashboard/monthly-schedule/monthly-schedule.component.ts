@@ -56,7 +56,11 @@ export class MonthlyScheduleComponent implements OnInit {
 
   ngOnInit() {
     this.appFeatureAnalytics
-    .trackEvent('Monthly Schedule', 'Monthly Schedule loaded', 'ngOnInit');
+      .trackEvent('Monthly Schedule', 'Monthly Schedule loaded', 'ngOnInit');
+    let date = this.route.snapshot.queryParams['date'];
+    if (date) {
+      this.viewDate = new Date(date);
+    }
 
     this.clinicDashboardCacheService.getCurrentClinic().subscribe((location: string) => {
       this.location = location;
@@ -68,6 +72,15 @@ export class MonthlyScheduleComponent implements OnInit {
     //     this.location = params['location_uuid'];
     //  });
 
+  }
+  navigateToMonth() {
+    let date = Moment(this.viewDate).format('YYYY-MM-DD');
+    this.viewDate = new Date(date);
+    this.router.navigate(['./'], {
+      queryParams: { date: date },
+      relativeTo: this.route
+    });
+    this.getAppointments();
   }
   public getAppointments() {
     this.fetchError = false;
