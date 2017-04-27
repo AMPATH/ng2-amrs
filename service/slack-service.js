@@ -7,7 +7,7 @@ export class SlackService {
         let feedbackChannel = config.slack.feedback_channel;
         return new Promise(function (resolve, reject) {
             let web = new WebClient(bot_token);
-            web.chat.postMessage('G4GFP8BPU', 'Hello there', function (err, res) {
+            web.chat.postMessage('G4GFP8BPU', message, function (err, res) {
                 if (err) {
                     console.log('Error:', err);
                     resolve({ status: err });
