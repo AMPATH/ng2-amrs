@@ -192,6 +192,7 @@ module.exports = function (options) {
           test: /\.(png|woff|woff2|eot|ttf|svg)$/,
           loader: 'url-loader?limit=100000'
         },
+        { test: /pdfkit|png-js|fontkit|unicode-properties|linebreak|brotli/, loader: "transform-loader?brfs" },
       ],
 
     },
@@ -370,10 +371,10 @@ module.exports = function (options) {
     node: {
       global: true,
       crypto: 'empty',
-      process: true,
       module: false,
       clearImmediate: false,
-      setImmediate: false
+      setImmediate: false,
+      fs: 'empty'
     }
 
   };

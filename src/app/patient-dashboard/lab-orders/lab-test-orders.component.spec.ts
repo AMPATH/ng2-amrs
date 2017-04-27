@@ -15,6 +15,7 @@ import {
   ProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { LabelService } from './labels/label-service';
 
 describe('Component: Lab Test Orders Unit Tests', () => {
 
@@ -32,6 +33,7 @@ describe('Component: Lab Test Orders Unit Tests', () => {
         EncounterResourceService,
         ProgramEnrollmentResourceService,
         PatientResourceService,
+        LabelService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
