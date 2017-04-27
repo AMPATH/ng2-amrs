@@ -31,11 +31,11 @@ describe('Service: HivSummary', () => {
           },
           deps: [MockBackend, BaseRequestOptions]
         },
-         AppSettingsService
+        AppSettingsService
       ]
     });
-      service = TestBed.get(HivSummaryService);
-      result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', 0, 20);
+    service = TestBed.get(HivSummaryService);
+    result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', 0, 20);
   });
 
   afterEach(() => {
@@ -50,9 +50,9 @@ describe('Service: HivSummary', () => {
   it('should load hiv summary', (done) => {
     result.subscribe((results) => {
       if (results) {
-      expect(results).toBeTruthy();
-       expect(results.length).toBeGreaterThan(0);
-       expect(results[0].uuid).toEqual('uuid');
+        expect(results).toBeTruthy();
+        expect(results.length).toBeGreaterThan(0);
+        expect(results[0].uuid).toEqual('uuid');
       }
       done();
     });
@@ -69,7 +69,7 @@ describe('Service: HivSummary', () => {
     backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
-        .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
+        .toBe('https://amrs.ampath.or.ke/etl-latest/etl/patient/'
         + patientUuid + '/hiv-summary?startIndex=0&limit=20');
 
       connection.mockError(new Error('An error occured while processing the request'));
@@ -77,53 +77,53 @@ describe('Service: HivSummary', () => {
 
     service.getHivSummary(patientUuid, 0, 20)
       .subscribe((response) => {
-    },
+      },
       (error: Error) => {
         expect(error).toBeTruthy();
       });
-      done();
+    done();
   });
 
   it('should determine if viral load is pending and return an object to indicate this ', () => {
-      let isPendingViralLoadMock = [
-        {
-          status: true,
-          days: 0
-        },
-         {
-          status: false,
-          days: 0
-        }
-      ];
+    let isPendingViralLoadMock = [
+      {
+        status: true,
+        days: 0
+      },
+      {
+        status: false,
+        days: 0
+      }
+    ];
 
-      result.subscribe((results) => {
-        if (results) {
+    result.subscribe((results) => {
+      if (results) {
         expect(JSON.stringify(results.isPendingViralLoad))
           .toContain(JSON.stringify(isPendingViralLoadMock));
       }
-      });
-    }
+    });
+  }
   );
 
-    it('should determine if CD4 is pending and return an object to indicate this ', () => {
-      let isPendingCD4Mock = [
-        {
-          status: true,
-          days: 0
-        },
-         {
-          status: false,
-          days: 0
-        }
-      ];
+  it('should determine if CD4 is pending and return an object to indicate this ', () => {
+    let isPendingCD4Mock = [
+      {
+        status: true,
+        days: 0
+      },
+      {
+        status: false,
+        days: 0
+      }
+    ];
 
-      result.subscribe((results) => {
-        if (results) {
+    result.subscribe((results) => {
+      if (results) {
         expect(JSON.stringify(results.isPendingCD4))
           .toContain(JSON.stringify(isPendingCD4Mock));
       }
-      });
-    }
+    });
+  }
   );
 });
 

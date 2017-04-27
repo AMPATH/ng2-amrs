@@ -31,11 +31,11 @@ describe('Service: PatientVitalsService', () => {
           },
           deps: [MockBackend, BaseRequestOptions]
         },
-         AppSettingsService
+        AppSettingsService
       ]
     });
-      service = TestBed.get(PatientVitalsService);
-      vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);
+    service = TestBed.get(PatientVitalsService);
+    vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);
 
 
   });
@@ -52,9 +52,9 @@ describe('Service: PatientVitalsService', () => {
   it('should load Patient Vitals', (done) => {
     vitals.subscribe((results) => {
       if (results) {
-      expect(results).toBeTruthy();
-      expect(results.length).toBeGreaterThan(0);
-      expect(results[0].uuid).toEqual('uuid');
+        expect(results).toBeTruthy();
+        expect(results.length).toBeGreaterThan(0);
+        expect(results[0].uuid).toEqual('uuid');
       }
       done();
     });
@@ -69,7 +69,7 @@ describe('Service: PatientVitalsService', () => {
     backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
-        .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
+        .toBe('https://amrs.ampath.or.ke/etl-latest/etl/patient/'
         + patientUuid + '/vitals?startIndex=0&limit=10');
 
 
@@ -77,10 +77,10 @@ describe('Service: PatientVitalsService', () => {
     });
     service.getvitals(patientUuid, 0)
       .subscribe((response) => {
-    },
+      },
       (error: Error) => {
         expect(error).toBeTruthy();
       });
-      done();
+    done();
   });
 });

@@ -35,6 +35,24 @@
       "isSideBarOpen": false
     },
     {
+      "url": "hiv-summary",
+      "label": "HIV Summary",
+      "icon": "fa fa-medkit",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "hiv-clinical-summary",
+      "label": "HIV Clinical Summary",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "clinical-notes",
+      "label": "Clinical Notes",
+      "icon": "fa fa-book",
+      "isSideBarOpen": false
+    },
+    {
       "url": "lab-data-summary",
       "label": "Lab Data Summary",
       "icon": "icon-i-laboratory",
@@ -58,26 +76,7 @@
       "programName": "HIV TREATMENT",
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
       "baseRoute": "",
-      "routes": [
-        {
-          "url": "hiv-summary",
-          "label": "HIV Summary",
-          "icon": "fa fa-medkit",
-          "isSideBarOpen": false
-        },
-        {
-          "url": "hiv-clinical-summary",
-          "label": "HIV Clinical Summary",
-          "icon": "fa fa-file-pdf-o",
-          "isSideBarOpen": false
-        },
-        {
-          "url": "clinical-notes",
-          "label": "Clinical Notes",
-          "icon": "fa fa-book",
-          "isSideBarOpen": false
-        }
-      ]
+      "routes": []
     },
     {
       "programName": "Oncology",

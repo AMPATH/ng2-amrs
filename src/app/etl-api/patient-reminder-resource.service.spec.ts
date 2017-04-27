@@ -63,7 +63,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
         .toBe(
-        'https://amrsreporting.ampath.or.ke:8002/etl/get-report-by-report-name?' +
+        'https://amrs.ampath.or.ke/etl-latest/etl/get-report-by-report-name?' +
         'indicators=needs_vl_coded,overdue_vl_lab_order,' +
         'months_since_last_vl_date,new_viral_load_present,' +
         'ordered_vl_has_error,is_on_inh_treatment' +

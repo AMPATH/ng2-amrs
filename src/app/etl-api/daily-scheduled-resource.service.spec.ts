@@ -80,7 +80,7 @@ describe('DailyScheduleResourceService Tests', () => {
                 backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/daily-appointments/2017-02-01');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
+                    expect(connection.request.url).toEqual('https://amrs.ampath.or.ke/etl-latest'
                         + '/etl/daily-appointments/2017-02-01?'
                         + 'startIndex=0&startDate=2017-02-01&locationUuids=uuid&limit=300');
                     expect(connection.request.url).toContain('locationUuids=uuid');
@@ -111,7 +111,7 @@ describe('DailyScheduleResourceService Tests', () => {
                     expect(connection.request.url).toContain('/etl/daily-visits/2017-02-01');
                     expect(connection.request.url).toContain('locationUuids=uuid');
                     expect(connection.request.url).toContain('limit=100');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
+                    expect(connection.request.url).toEqual('https://amrs.ampath.or.ke/etl-latest'
                         + '/etl/daily-visits/2017-02-01?startIndex=0'
                         + '&startDate=2017-02-01&locationUuids=uuid&limit=100');
                     connection.mockRespond(new Response(
@@ -140,7 +140,7 @@ describe('DailyScheduleResourceService Tests', () => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).
                         toContain('/etl/daily-has-not-returned/2017-02-01');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
+                    expect(connection.request.url).toEqual('https://amrs.ampath.or.ke/etl-latest'
                         + '/etl/daily-has-not-returned/2017-02-01?'
                         + 'startIndex=0&startDate=2017-02-01&locationUuids=uuid&limit=100');
                     expect(connection.request.url).toContain('locationUuids=uuid');

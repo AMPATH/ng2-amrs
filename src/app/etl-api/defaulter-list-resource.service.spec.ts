@@ -128,7 +128,7 @@ describe('DefaulterListResourceService Tests', () => {
                 backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/defaulter-list');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
+                    expect(connection.request.url).toEqual('https://amrs.ampath.or.ke/etl-latest'
                         + '/etl/defaulter-list?startIndex=0&defaulterPeriod=30&maxDefaultPeriod=100'
                         + '&locationUuids=uuid&limit=300');
                     expect(connection.request.url).toContain('locationUuids=uuid');
