@@ -206,6 +206,9 @@ class MockRouter {
 }
 class MockActivatedRoute {
   params = Observable.of([{ 'id': 1 }]);
+  snapshot = {
+      queryParams: { date: '' }
+  };
 }
 
 describe('MonthlyScheduleComponent', () => {
