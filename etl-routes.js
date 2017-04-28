@@ -1501,17 +1501,21 @@ module.exports = function () {
                 if (!authorizer.hasReportAccess(request.query.reportName)) {
                     return reply(Boom.forbidden('Unauthorized'));
                 }
+                if (request.query.locationUuids) {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                                ['startDate', 'endDate', 'locationUuids','locations'], requestParams);
 
-                let requestParams = Object.assign({}, request.query, request.params);
-                let reportParams = etlHelpers.getReportParams(request.query.reportName,
-                    ['startDate', 'endDate', 'locationUuids'], requestParams);
-
-                let service = new PatientStatusChangeTrackerService();
-                service.getAggregateReport(reportParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
-                });
+                            let service = new PatientStatusChangeTrackerService();
+                            service.getAggregateReport(reportParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                }
             },
             description: "Get the Patient Status report",
             notes: "Api endpoint that returns Patient Status Change Tracker Report",
@@ -1543,13 +1547,18 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 request.query.reportName = 'patient-status-change-tracker-report';
-                let requestParams = Object.assign({}, request.query, request.params);
-                let service = new PatientStatusChangeTrackerService();
-                service.getPatientListReport(requestParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
-                });
+                if (request.query.locationUuids) {
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let service = new PatientStatusChangeTrackerService();
+                            service.getPatientListReport(requestParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                }
             },
             description: "Get Patient Status report patient list",
             notes: "Returns the patient list for Patient Status report",
