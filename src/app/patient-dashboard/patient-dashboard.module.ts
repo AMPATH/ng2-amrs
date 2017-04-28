@@ -8,7 +8,7 @@ import {
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
-import { PdfViewerComponent } from 'ng2-pdf-viewer';
+// import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
@@ -181,7 +181,6 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/d
     EditContactsComponent,
     EditAddressComponent,
     HivPatientClinicalSummaryComponent,
-    PdfViewerComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
     PatientSideNavComponent,

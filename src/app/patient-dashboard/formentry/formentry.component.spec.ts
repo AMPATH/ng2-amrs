@@ -48,6 +48,8 @@ import { ConceptResourceService } from '../../openmrs-api/concept-resource.servi
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
 import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 
 describe('Component: FormentryComponent', () => {
     let router = {
@@ -121,6 +123,8 @@ describe('Component: FormentryComponent', () => {
                 FormSubmissionService,
                 ErrorLogResourceService,
                 ConfirmationService,
+                DataCacheService,
+                CacheService,
                 {
                     provide: EncounterResourceService, useFactory: () => {
                         return new EncounterResourceServiceMock();

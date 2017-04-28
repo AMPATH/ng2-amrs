@@ -14,11 +14,11 @@
 </div>
 <div *ngIf="!isLoadingReport && !encounteredError">
     <p-tabView (onChange)="onTabChanged($event)">
-        <p-tabPanel header="Report View"  leftIcon="fa-file-pdf-o "  [selected]="currentView === 'pdf'">
-
+        <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
+            <moh-731-pdf #mohPdf [startDate]="startDate" [endDate]="endDate" [data]="data" [sectionsDef]="sectionsDef"></moh-731-pdf>
         </p-tabPanel>
-        <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
-             <moh-731-tabular [sectionDefs]="sectionsDef" [rowData]="data"></moh-731-tabular>
+        <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentView === 'tabular'">
+            <moh-731-tabular [sectionDefs]="sectionsDef" [rowData]="data"></moh-731-tabular>
         </p-tabPanel>
     </p-tabView>
 

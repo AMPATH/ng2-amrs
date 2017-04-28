@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 // import { Observable, Subject } from 'rxjs/Rx';
 
 import * as Moment from 'moment';
@@ -10,6 +10,9 @@ import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
     template: 'moh-731-report-base.component.html'
 })
 export class Moh731ReportBaseComponent implements OnInit {
+
+    @ViewChild('mohPdf')
+    public pdfView: any;
 
     public data = [];
     public sectionsDef = [];
@@ -85,6 +88,10 @@ export class Moh731ReportBaseComponent implements OnInit {
     public onTabChanged(event) {
         if (event.index === 0) {
             this.currentView = 'pdf';
+            if (this.pdfView && this.pdfView.generatePdf) {
+                this.pdfView.generatePdf();
+            }
+
         }
 
         if (event.index === 1) {

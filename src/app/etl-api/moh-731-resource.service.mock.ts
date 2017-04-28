@@ -12,7 +12,7 @@ export class Moh731ResourceServiceMock extends Moh731ResourceService {
     }
 
     getMoh731Report(locationUuids: string, startDate: string, endDate: string,
-        isLegacyReport: boolean, isAggregated: boolean,  cacheTtl: number = 0): Observable<any> {
+        isLegacyReport: boolean, isAggregated: boolean, cacheTtl: number = 0): Observable<any> {
         let subj = new Subject<any>();
         let that = this;
         setTimeout(function () {
@@ -497,3 +497,4 @@ export class Moh731ResourceServiceMock extends Moh731ResourceService {
         };
     }
 }
+

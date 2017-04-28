@@ -9,6 +9,8 @@ import { PatientIdentifierService } from './patient-identifiers.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
 describe('Service: PatientIdentifierService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,11 +22,12 @@ describe('Service: PatientIdentifierService', () => {
         MockBackend,
         BaseRequestOptions,
         AppSettingsService,
-
+        DataCacheService,
+        CacheService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
+            defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]

@@ -9,27 +9,34 @@ import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.compone
 import { Moh731ReportFilters } from './moh-731-report/moh-731-report-filters.component';
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
 import { EtlApi } from '../etl-api/etl-api.module';
-
+import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
+import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
+import { LocationResourceService } from '../openmrs-api/location-resource.service';
 @NgModule({
     imports: [
         AgGridModule.withComponents([]),
         EtlApi,
         FormsModule,
         CommonModule,
-        TabViewModule
+        TabViewModule,
+        NgamrsSharedModule
     ],
     exports: [
         Moh731TabularComponent,
         Moh731ReportFilters,
         EtlApi,
         CommonModule,
-        TabViewModule
+        TabViewModule,
+        NgamrsSharedModule,
+        MOHReportComponent
     ],
     declarations: [
         Moh731TabularComponent,
         Moh731ReportBaseComponent,
         Moh731ReportFilters,
+        MOHReportComponent,
     ],
-    providers: [],
+    providers: [MOHReportService, LocationResourceService],
 })
 export class HivCareLibModule { }
