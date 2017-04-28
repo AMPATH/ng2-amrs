@@ -19,6 +19,8 @@ export class PatientStatusChangeTrackerService {
     }
     getPatientListReport(reportParams) {
         let self = this;
+        // patients_gained= [new_patients]+[transfer_in]+[LTFU_to_active_in_care]
+        // patients_lost= [transfer_out_patients]+[deaths]+[active_in_care_to_LTFU]
         reportParams['reportName'] = 'patient-status-change-tracker-report';
         return new Promise(function (resolve, reject) {
             //TODO: Do some pre processing

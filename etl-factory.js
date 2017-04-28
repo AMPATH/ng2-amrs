@@ -305,6 +305,17 @@ module.exports = function () {
             }
         }
 
+        if (s.include(indicatorExpression, '@locations')) {
+            if (requestParam.whereParams) {
+                var locationsParam = _.find(requestParam.whereParams, function (param) {
+                    if (param.name === 'locations') return param;
+                });
+                if (locationsParam) {
+                    indicatorExpression = s.replaceAll(indicatorExpression, '@locations', "'" + locationsParam.value + "'");
+                }
+            }
+        }
+
         return indicatorExpression;
     }
 
@@ -860,7 +871,11 @@ module.exports = function () {
                         'date_format(t1.death_date,"%d-%m-%Y") as death_date',
                         'out_of_care',
                         'transfer_out',
-                        'patient_care_status'
+                        'patient_care_status',
+                        'rtc_date',
+                        'prev_rtc_date',
+                        'prev_encounter_datetime_hiv',
+                        'date_format(if(t1.rtc_date,DATE_ADD(t1.rtc_date,INTERVAL 90 DAY),DATE_ADD(t1.encounter_datetime,INTERVAL 120 DAY)),"%d-%m-%Y")  as active_in_care_end_date'
 
                     ],
                     concatColumns: [

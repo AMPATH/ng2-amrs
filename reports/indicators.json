@@ -1069,7 +1069,7 @@
         "name":"new_patients",
         "label":"new_patients",
         "description": "Total # of new patients",
-        "expression": "prev_encounter_datetime_hiv is null and date(enrollment_date) between @startDate and @endDate"
+        "expression": "date(hiv_start_date) between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate and t1.arv_start_location in (@locations)"
 
     },
     {
@@ -1094,10 +1094,74 @@
 
     },
     {
-        "name":"deaths",
-        "label":"deaths",
+        "name":"active_in_care_to_transfer_out",
+        "label":"active_in_care_to_transfer_out",
         "description": "Total # of new patients",
-        "expression": "death_date between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate"
+        "expression": "transfer_out is not null and (encounter_datetime between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and ( timestampdiff(day,if(t1.prev_rtc_date,t1.prev_rtc_date,DATE_ADD(t1.prev_encounter_datetime_hiv,INTERVAL 30 DAY)),DATE_SUB(t2.endDate, INTERVAL 1 MONTH)) <= 90)"
+
+    },
+    {
+        "name":"active_in_care_to_deaths",
+        "label":"active_in_care_to_deaths",
+        "description": "Total # of new patients",
+        "expression": "(t1.death_date between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate and( timestampdiff(day,if(t1.prev_rtc_date,t1.prev_rtc_date,DATE_ADD(t1.prev_encounter_datetime_hiv,INTERVAL 30 DAY)),DATE_SUB(t2.endDate, INTERVAL 1 MONTH)) <= 90))"
+
+    },
+    {
+        "name":"active_in_care_to_LTFU",
+        "label":"active_in_care_to_LTFU",
+        "description": "Total # of new patients",
+        "expression": "((coalesce(t1.death_date, transfer_out) is null and timestampdiff(day,if(t1.prev_rtc_date,t1.prev_rtc_date,DATE_ADD(t1.prev_encounter_datetime_hiv,INTERVAL 30 DAY)),DATE_SUB(t2.endDate, INTERVAL 1 MONTH)) <= 90) and timestampdiff(day,if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)),t2.endDate) > 90)"
+
+    },
+    {
+        "name":"LTFU_to_active_in_care",
+        "label":"LTFU_to_active_in_care",
+        "description": "Total # of new patients",
+        "expression": "(transfer_out is null and (t1.death_date is null or t1.death_date <  DATE_FORMAT(t2.endDate,'%Y-%m-01')) and timestampdiff(day,if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)),t2.endDate) <= 90) and timestampdiff(day,if(t1.prev_rtc_date,t1.prev_rtc_date,DATE_ADD(t1.prev_encounter_datetime_hiv,INTERVAL 30 DAY)),DATE_SUB(t2.endDate, INTERVAL 1 MONTH)) > 90 and  date(encounter_datetime) between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate"
+
+    },
+    {
+        "name":"active_in_care",
+        "label":"active_in_care",
+        "description": "Total # of new patients",
+        "expression": "transfer_out is null and (t1.death_date is null or t1.death_date <  DATE_FORMAT(t2.endDate,'%Y-%m-01'))  and timestampdiff(day,if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.encounter_datetime,INTERVAL 30 DAY)),t2.endDate) <= 90"
+
+    },
+
+    {
+        "name":"patients_gained",
+        "label":"patients_gained",
+        "description": "[new_patients]+[transfer_in]+[LTFU_to_active_in_care]",
+        "expression": ""
+
+    },
+    {
+        "name":"patients_lost",
+        "label":"patients_lost",
+        "description": "[transfer_out_patients]+[deaths]+[active_in_care_to_LTFU]",
+        "expression": ""
+
+    },
+    {
+        "name":"patient_change_from_past_month",
+        "label":"patient_change_from_past_month",
+        "description": "([new_patients]+[transfer_in]+[LTFU_to_active_in_care]) - ([transfer_out_patients]+[deaths]+[active_in_care_to_LTFU])",
+        "expression": ""
+
+    },
+    {
+        "name":"active_in_care_prev_month",
+        "label":"active_in_care_prev_month",
+        "description": "Total # of new patients",
+        "expression": "timestampdiff(day,if(t1.prev_rtc_date,t1.prev_rtc_date,DATE_ADD(t1.prev_encounter_datetime_hiv,INTERVAL 30 DAY)),DATE_SUB(t2.endDate, INTERVAL 1 MONTH)) <= 90"
+
+    },
+    {
+        "name":"active_in_care_next_month",
+        "label":"active_in_care_next_month",
+        "description": "Total # of new patients",
+        "expression": "timestampdiff(day,if(t1.rtc_date,t1.rtc_date,DATE_ADD(t1.next_encounter_datetime_hiv,INTERVAL 30 DAY)),DATE_ADD(t2.endDate, INTERVAL 1 MONTH)) <= 90"
 
     }
 

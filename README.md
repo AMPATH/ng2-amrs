@@ -3,7 +3,7 @@
 ETL Rest Server
 ===============
 
-This is node project using hapi to expose rest endpoints providing access to data hosted in ETL flat tables (The tables themselves are flattened derived tables containing data from OpeMRS). There is a separate etl project that is responsible for data generation. You can find the scripts [Here](https://github.com/AMPATH/etl). The project is currently being battle tested in [ng-amrs](https://github.com/AMPATH/ng-amrs).
+This is node project using hapi to expose rest endpoints providing access to data hosted in ETL flat tables (The tables themselves are flattened derived tables containing data from OpenMRS). There is a separate etl project that is responsible for data generation. You can find the scripts [Here](https://github.com/AMPATH/etl). The project is currently being battle tested in [ng-amrs](https://github.com/AMPATH/ng-amrs).
 
 To setup the project run
 
