@@ -14,6 +14,7 @@ import { BuildVersionComponent } from '../build-version';
 import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { FormsModule } from '@angular/forms';
+import { KeysPipe } from './pipes/keys.pipe';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -39,12 +40,12 @@ import { FormsModule } from '@angular/forms';
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         DataTablesComponent, StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
-        BuildVersionComponent, DateSelectorComponent],
+        BuildVersionComponent, DateSelectorComponent, KeysPipe],
     declarations: [
         DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,
-        BuildVersionComponent, DateSelectorComponent
+        BuildVersionComponent, DateSelectorComponent, KeysPipe
     ],
-    providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService],
+    providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService, KeysPipe],
 })
 export class NgamrsSharedModule { }

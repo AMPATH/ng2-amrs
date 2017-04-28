@@ -1,13 +1,24 @@
 
-<div>
-  <div>
+    <form class="form-inline" (ngSubmit)="loadPatientResults()">
+      <div class="form-group">
+        <label>Groups</label>
+        <div class="input-group">
+          <select class="form-control" [(ngModel)]="groupKey" required [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let group of groups | keys" [value]="group.key">{{ group.value.fullName }}</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
+  <br>
     <ag-grid-angular #agGrid style="width: 100%; height: 350px;" class="ag-fresh"
                      [gridOptions]="gridOptions"
-                     [rowData]="labResults"
+                     [columnDefs]="gridOptions.columnDefs"
+                     [rowData]="gridOptions.rowData"
                      enableSorting>
 
     </ag-grid-angular>
-  </div>
 
   <!--<div *ngIf='!dataLoaded' >
     <div class="input-group-btn">
@@ -22,5 +33,4 @@
         <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + labResults.length + ' ]'}}</span></b>
     <p>
   </div>
-</div>
 

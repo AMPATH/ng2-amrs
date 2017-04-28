@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { LabsResourceService } from '../../etl-api/labs-resource.service';
+import { Http } from '@angular/http';
 
 import { GridOptions } from 'ag-grid/main';
 import 'ag-grid-enterprise/main';
 import * as Moment from 'moment';
-import { Subscription } from 'rxjs';
-
+import { Subscription, Observable } from 'rxjs';
+import { KeysPipe } from '../../shared/pipes/keys.pipe';
 
 @Component({
   selector: 'lab-result',
@@ -25,8 +26,14 @@ export class LabResultComponent implements OnInit, OnDestroy {
   labResults = [];
   subscription: Subscription;
   public gridOptions: GridOptions;
+  public groups = [];
+  public groupLabResults = [];
+  public groupKey;
+  public groupName: string;
   constructor(private labsResourceService: LabsResourceService,
-              private patientService: PatientService) {
+              private patientService: PatientService,
+              private http: Http,
+              private keys: KeysPipe) {
     this.gridOptions = <GridOptions>{};
   }
 
@@ -40,14 +47,14 @@ export class LabResultComponent implements OnInit, OnDestroy {
           this.patientUuId = this.patient.person.uuid;
           this.getHistoricalPatientLabResults(this.patientUuId,
             {startIndex: this.nextStartIndex.toString(), limit: '20'});
-
-
-
         }
       }
     );
     this.gridOptions.columnDefs = this.createColumnDefs();
     this.gridOptions.rowData = this.labResults;
+    this.getGroups().subscribe((data) => {
+      this.groups = data;
+    });
 
   }
 
@@ -79,6 +86,37 @@ export class LabResultComponent implements OnInit, OnDestroy {
     return this.labResults;
 
   }
+
+  getGroupPatientLabResults(patientUuId, groupName, params: { startIndex: string, limit: string }) {
+    this.patientUuId = this.patient.person.uuid;
+    this.fetchingResults = true;
+    this.labsResourceService.getGroupPatientLabResults(this.patientUuId, this.groupName,
+      {startIndex: this.nextStartIndex.toString(), limit: '20'}).subscribe((result) => {
+      if (result) {
+        this.groupLabResults = this.formatDateField(result);
+        if (this.groupLabResults.length > 0) {
+          let size: number = this.groupLabResults.length;
+          this.nextStartIndex = +(params.startIndex) + size;
+          this.isLoading = false;
+        } else {
+          this.dataLoaded = true;
+        }
+      }
+    }, (err) => {
+      this.fetchingResults = false;
+      this.error = err;
+    });
+    return this.groupLabResults;
+  }
+
+  loadPatientResults () {
+    this.groupName = this.groups[this.groupKey].groupName;
+    this.getGroupPatientLabResults(this.patientUuId, this.groupName,
+            {startIndex: this.nextStartIndex.toString(), limit: '20'});
+    this.gridOptions.columnDefs = this.buildCustomColumns();
+    this.gridOptions.rowData = this.groupLabResults;
+  }
+
   formatDateField(result) {
     let tests = [];
     for (let i = 0; i < result.length ; ++i) {
@@ -102,6 +140,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
     this.getHistoricalPatientLabResults(this.patientUuId,
         {startIndex: this.nextStartIndex.toString() , limit: '20'});
   }
+
   private createColumnDefs() {
     return [
       {
@@ -150,6 +189,14 @@ export class LabResultComponent implements OnInit, OnDestroy {
         field: 'lab_errors',
       }
     ];
+  }
+
+  private getGroups(): Observable<any> {
+    return this.http.get('../assets/lab-data/groups.json')
+    .map(res => res.json());
+  }
+  private buildCustomColumns() {
+    return this.groups[this.groupKey].columnDefs;
   }
 
 }

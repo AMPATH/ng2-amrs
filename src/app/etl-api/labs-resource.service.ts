@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
@@ -37,6 +37,100 @@ export class LabsResourceService {
             + `patient/${patientUuId}/data`,
             { search: urlParams }).map(this.parseHistoricalLabResults)
             .catch(this.handleError);
+    }
+
+    getGroupPatientLabResults(patientUuId, groupname,
+    params: { startIndex: string, limit: string }) {
+        let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+        let labResults = [
+            {
+                chest_xray : 'Chest Xray',
+                creatinine : 'Creatinine',
+                lab_errors : 'Lab Errors',
+                person_id : 1218,
+                testDatetime : '01-03-2016',
+                test_datetime : '2016-02-29T21:00:00.000Z',
+                tests_ordered : 'Viral Load',
+                uuid : '5b71b2e2-1359-11df-a1f1-0026b9348838',
+                groupname: 'cancer_group'
+            },
+            {
+                ast : 'AST',
+                cd4_count : 'CD4 Count',
+                cd4_error : 'CD4 Error',
+                cd4_percent : 'CD4 Percent',
+                encounter_id : 325852653,
+                encounter_type : 99999,
+                lab_errors : 'Lab Errors',
+                person_id : 1218,
+                testDatetime : '01-03-2016',
+                test_datetime : '2016-02-29T21:00:00.000Z',
+                uuid : '5b71b2e2-1359-11df-a1f1-0026b9348838',
+                groupname: 'oncology_group'
+            },
+            {
+                ast : 'AST',
+                cd4_count : 'Count',
+                cd4_error : 'Error',
+                cd4_percent : 'Percent',
+                encounter_id : 325852653,
+                encounter_type : 99999,
+                lab_errors : 'Lab',
+                person_id : 1218,
+                testDatetime : '01-03-2016',
+                test_datetime : '2016-02-29T21:00:00.000Z',
+                uuid : '5b71b2e2-1359-11df-a1f1-0026b9348838',
+                groupname: 'hiv_group'
+            },
+            {
+                chest_xray : 'Chest Xray',
+                creatinine : 'Creatinine',
+                lab_errors : 'Lab Errors',
+                person_id : 1218,
+                testDatetime : '01-03-2016',
+                test_datetime : '2016-02-29T21:00:00.000Z',
+                tests_ordered : 'Viral Load',
+                uuid : '5b71b2e2-1359-11df-a1f1-0026b9348838',
+                groupname: 'cancer_group'
+            },
+            {
+                ast : 'AST',
+                cd4_count : 'CD4 Count',
+                cd4_error : 'CD4 Error',
+                cd4_percent : 'CD4 Percent',
+                encounter_id : 325852653,
+                encounter_type : 99999,
+                lab_errors : 'Lab Errors',
+                person_id : 1218,
+                testDatetime : '01-03-2016',
+                test_datetime : '2016-02-29T21:00:00.000Z',
+                uuid : '5b71b2e2-1359-11df-a1f1-0026b9348838',
+                groupname: 'oncology_group'
+            },
+            {
+                ast : 'AST',
+                cd4_count : 'Count',
+                cd4_error : 'Error',
+                cd4_percent : 'Percent',
+                encounter_id : 325852653,
+                encounter_type : 99999,
+                lab_errors : 'Lab',
+                person_id : 1218,
+                testDatetime : '01-03-2016',
+                test_datetime : '2016-02-29T21:00:00.000Z',
+                uuid : '5b71b2e2-1359-11df-a1f1-0026b9348838',
+                groupname: 'hiv_group'
+            }
+        ];
+        let groupLabResults = [];
+
+        labResults.forEach((value) => {
+            if (value.groupname === groupname) {
+                groupLabResults.push(value);
+            }
+        });
+        test.next(groupLabResults);
+      return test.asObservable();
     }
 
     private getUrl() {
