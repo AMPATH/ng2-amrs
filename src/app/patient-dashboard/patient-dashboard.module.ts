@@ -107,6 +107,7 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
 import { PatientSideNavComponent } from './patient-side-nav/patient-side-nav.component';
 import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes.factory';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { HivProgramSnapshotComponent } from './programs/hiv/hiv-program-snapshot.component';
 
 @NgModule({
   imports: [
@@ -158,6 +159,7 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/d
     HivSummaryComponent,
     HivSummaryLatestComponent,
     HivSummaryHistoricalComponent,
+    HivProgramSnapshotComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent,
@@ -228,6 +230,7 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/d
     HivSummaryComponent,
     HivSummaryLatestComponent,
     HivSummaryHistoricalComponent,
+    HivProgramSnapshotComponent,
     ClinicalNotesComponent,
     ProgramsComponent,
     EncounterListComponent,

@@ -35,6 +35,7 @@ import {
   from '../../openmrs-api/program-enrollment-resource.service.mock';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { HivProgramSnapshotComponent } from './hiv/hiv-program-snapshot.component';
 describe('Component: ProgramsComponent', () => {
   let patientService: PatientService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
@@ -70,7 +71,7 @@ describe('Component: ProgramsComponent', () => {
             return new FakeProgramEnrollmentResourceService(null, null);
           }, deps: []
         }],
-      declarations: [ProgramsComponent],
+      declarations: [ProgramsComponent, HivProgramSnapshotComponent],
       imports: [BusyModule, FormsModule,
         DialogModule,
         CalendarModule]

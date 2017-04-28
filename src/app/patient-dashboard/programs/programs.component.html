@@ -1,6 +1,7 @@
+<hiv-snapshot *ngIf="patient.uuid" [patient]="patient"></hiv-snapshot>
 <div style="padding:4px;margin-bottom:0.5cm;">
   <label for="program">Select A Program To Enroll</label>
-  <select class="form-control" [(ngModel)]="program" (change)="openNewEnrollmentDialog($event.target.value)">
+  <select id="program" class="form-control" [(ngModel)]="program" (change)="openNewEnrollmentDialog($event.target.value)">
       <option *ngFor="let p of availablePrograms"  [ngValue]="p.uuid" >{{p.display}}
       </option>
     </select>
@@ -11,7 +12,7 @@
     <label for="enrolledDate">Date Enrolled:</label>
     <div class="input-group">
       <div class="ui-grid-col-10">
-        <input [(ngModel)]="dateEnrolled" type="date" />
+        <input id="enrolledDate" [(ngModel)]="dateEnrolled" type="date" />
       </div>
     </div>
     <div ng-messages="programEnrollmentForm.enrolledDate.$error">
@@ -21,7 +22,7 @@
     <label for="completedDate">Date Completed:</label>
     <div class="input-group" style="border: 1px solid #66b3ff;">
       <div class="ui-grid-col-10">
-        <input [(ngModel)]="dateCompleted" type="date" />
+        <input id="completedDate" [(ngModel)]="dateCompleted" type="date" />
       </div>
     </div>
 
