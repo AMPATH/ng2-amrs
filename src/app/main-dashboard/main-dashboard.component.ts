@@ -119,6 +119,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
     if (currentUrl.includes('clinic-dashboard')) {
       this.currentDashboard = 'clinic-dashboard';
+      this.expandSideBar();
       return;
     }
   }
@@ -140,6 +141,15 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
         this.logout();
       }
     }, 1000);
+  }
+
+  public expandSideBar() {
+    setTimeout(() => {
+      let body = document.getElementsByTagName('body')[0];
+      body.classList.remove('sidebar-collapse');
+      body.classList.remove('sidebar-open');
+      body.classList.add('sidebar-open');
+    }, 200);
   }
 
 }
