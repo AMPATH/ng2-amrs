@@ -18,6 +18,7 @@ import {
 } from './clinical-summary-visualization-resource.service';
 import { LabOrderResourceService } from './lab-order-resource.service';
 import { Moh731ResourceService } from './moh-731-resource.service';
+import { HivSummaryIndicatorsResourceService } from './hiv-summary-indicators-resource.service';
 import { PatientStatusVisualizationResourceService } from
   './patient-status-change-visualization-resource.service';
 @NgModule({
@@ -38,7 +39,8 @@ import { PatientStatusVisualizationResourceService } from
     ClinicalSummaryVisualizationResourceService,
     LabOrderResourceService,
     Moh731ResourceService,
-    PatientStatusVisualizationResourceService
+    PatientStatusVisualizationResourceService,
+    HivSummaryIndicatorsResourceService
   ],
   exports: []
 })
