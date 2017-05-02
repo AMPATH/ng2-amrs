@@ -36,6 +36,7 @@ reportList.push.apply(reportList, require('./reports/viral-load-monitoring-repor
 reportList.push.apply(reportList, require('./reports/medical-history-report.json'));
 reportList.push.apply(reportList, require('./reports/clinic-lab-orders-report.json'));
 reportList.push.apply(reportList, require('./reports/patient-status-change-tracker-report.json'));
+reportList.push.apply(reportList, require('./reports/datasets/pep-dataset-report.json'));
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
     var reports = [];
@@ -465,7 +466,7 @@ module.exports = function () {
             _.each(groupClauses, function (groupClause) {
                 if (groupClause["parameter"] === by || groupClause["processForce"]) {
                     _.each(reportParams, function (reportParam) {
-                        if (reportParam["name"] === groupClause["parameter"] ) {
+                        if (reportParam["name"] === groupClause["parameter"]) {
                             _.each(reportParam["defaultValue"], function (value) {
                                 result.push(value["expression"]);
                             });
@@ -783,8 +784,34 @@ module.exports = function () {
         };
     }
 
-    function getDataSetReportName(queryParams) {
+    function getReportDataSet(queryParams) {
         var reportName = queryParams.reportName;
+        var extraPatientListColumns = [
+            'case when (timestampdiff(day,vl_order_date,now()) between 0 and 14) and (vl_1_date is null or vl_order_date > vl_1_date) then true else false end as has_pending_vl_test',
+            'date_format(t1.enrollment_date,"%d-%m-%Y") as enrollment_date',
+            'date_format(hiv_start_date,"%d-%m-%Y") as hiv_start_date',
+            'arv_start_location',
+            'date_format(arv_first_regimen_start_date,"%d-%m-%Y") as arv_first_regimen_start_date',
+            'date_format(arv_start_date,"%d-%m-%Y") as cur_regimen_arv_start_date',
+            'cur_arv_line',
+            'cur_arv_meds',
+            'arv_first_regimen',
+            'vl_1',
+            'date_format(vl_1_date,"%d-%m-%Y") as vl_1_date',
+            'date_format(rtc_date,"%d-%m-%Y") as rtc_date',
+            'date_format(tb_prophylaxis_start_date,"%d-%m-%Y") as tb_prophylaxis_start_date',
+            'date_format(pcp_prophylaxis_start_date,"%d-%m-%Y") as pcp_prophylaxis_start_date',
+            'date_format(tb_tx_start_date,"%d-%m-%Y") as tb_tx_start_date',
+            'encounter_type',
+            'date_format(encounter_datetime,"%d-%m-%Y") as encounter_datetime',
+            'date_format(t1.death_date,"%d-%m-%Y") as death_date',
+            'out_of_care',
+            'transfer_out',
+            'patient_care_status',
+            'prev_rtc_date',
+            'prev_encounter_datetime_hiv',
+            'date_format(if(t1.rtc_date,DATE_ADD(t1.rtc_date,INTERVAL 90 DAY),DATE_ADD(t1.encounter_datetime,INTERVAL 120 DAY)),"%d-%m-%Y")  as active_in_care_end_date'
+        ];
         var dataSets = getAllDatasets(queryParams.reportName, [queryParams.reportName]);
         _.each(dataSets, function (dataSet) {
             _.each(reports, function (report) {
@@ -793,7 +820,8 @@ module.exports = function () {
                         _.each(queryParams.requestIndicators.split(','), function (requestIndicatorName) {
                             if (singleIndicator.expression === requestIndicatorName) {
                                 // handle dates table
-                                if(report.table.tableName==='dates') reportName = dataSet;
+                                if (report.patientListColumns) extraPatientListColumns = report.patientListColumns;
+                                if (report.table.tableName !== 'flat_hiv_summary') reportName = dataSet;
                             }
                         });
 
@@ -801,7 +829,10 @@ module.exports = function () {
                 }
             });
         });
-        return reportName;
+        return {
+            reportName:reportName,
+            extraPatientListColumns:extraPatientListColumns
+        };
     }
 
     function buildPatientListReportExpression(queryParams) {
@@ -811,7 +842,8 @@ module.exports = function () {
             queryParts: []
         };
         if (queryParams === null || queryParams === undefined) return "";
-        queryParams.reportName= getDataSetReportName(queryParams);
+        var reportDataSet = getReportDataSet(queryParams);
+        queryParams.reportName = reportDataSet.reportName;
         var filter = generatePatientListFilter(queryParams);
         result.whereClause.push(filter.query);
         result.whereClause.push.apply(result.whereClause, filter.params);
@@ -844,40 +876,15 @@ module.exports = function () {
                 join = _.filter(join, function (j) {
                     return _.isUndefined(j.joinedQuerParts);
                 });
-
+                var columns = [
+                    't1.person_id', 't1.encounter_id', 't1.location_id', 't1.location_uuid', 't1.uuid as patient_uuid',
+                    'person.gender', 'person.birthdate', 'extract(year from (from_days(datediff(now(),person.birthdate)))) as age'
+                ];
+                columns.push.apply(columns,reportDataSet.extraPatientListColumns);
                 var schema = report.table['schema'] === '' ? 'etl' : report.table['schema'];
                 var tableName = report.table['tableName'] === '' ? 'flat_hiv_summary' : report.table['tableName'];
                 var queryParts = {
-                    columns: [
-                        't1.person_id', 't1.encounter_id', 't1.location_id', 't1.location_uuid', 't1.uuid as patient_uuid',
-                        'person.gender', 'person.birthdate', 'extract(year from (from_days(datediff(now(),person.birthdate)))) as age',
-                        'case when (timestampdiff(day,vl_order_date,now()) between 0 and 14) and (vl_1_date is null or vl_order_date > vl_1_date) then true else false end as has_pending_vl_test',
-                        'date_format(t1.enrollment_date,"%d-%m-%Y") as enrollment_date',
-                        'date_format(hiv_start_date,"%d-%m-%Y") as hiv_start_date',
-                        'arv_start_location',
-                        'date_format(arv_first_regimen_start_date,"%d-%m-%Y") as arv_first_regimen_start_date',
-                        'date_format(arv_start_date,"%d-%m-%Y") as cur_regimen_arv_start_date',
-                        'cur_arv_line',
-                        'cur_arv_meds',
-                        'arv_first_regimen',
-                        'vl_1',
-                        'date_format(vl_1_date,"%d-%m-%Y") as vl_1_date',
-                        'date_format(rtc_date,"%d-%m-%Y") as rtc_date',
-                        'date_format(tb_prophylaxis_start_date,"%d-%m-%Y") as tb_prophylaxis_start_date',
-                        'date_format(pcp_prophylaxis_start_date,"%d-%m-%Y") as pcp_prophylaxis_start_date',
-                        'date_format(tb_tx_start_date,"%d-%m-%Y") as tb_tx_start_date',
-                        'encounter_type',
-                        'date_format(encounter_datetime,"%d-%m-%Y") as encounter_datetime',
-                        'date_format(t1.death_date,"%d-%m-%Y") as death_date',
-                        'out_of_care',
-                        'transfer_out',
-                        'patient_care_status',
-                        'rtc_date',
-                        'prev_rtc_date',
-                        'prev_encounter_datetime_hiv',
-                        'date_format(if(t1.rtc_date,DATE_ADD(t1.rtc_date,INTERVAL 90 DAY),DATE_ADD(t1.encounter_datetime,INTERVAL 120 DAY)),"%d-%m-%Y")  as active_in_care_end_date'
-
-                    ],
+                    columns: columns,
                     concatColumns: [
                         "concat(COALESCE(person_name.given_name,''),' ',COALESCE(person_name.middle_name,''),' ',COALESCE(person_name.family_name,'')) as person_name",
                         "group_concat(distinct id.identifier separator ', ') as identifiers",

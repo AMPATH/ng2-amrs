@@ -1,0 +1,120 @@
+[
+
+  {
+    "name": "PEP-encounters-within-reporting-period-dataset",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_pep_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": "2015-10-01"
+      },
+      {
+        "name": "endDate",
+        "defaultValue": "2015-10-31"
+      },
+      {
+        "name": "locations",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [
+          {
+            "label": "location",
+            "expression": "t1.location_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "date(t1.encounter_datetime) >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "date(t1.encounter_datetime) <= ?",
+        "parameter": "endDate"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByLocation"
+      },
+      {
+        "parameter": "groupByMonth"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "total_hiv_exposed",
+        "expression": "total_hiv_exposed",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "hiv_exposed_occupational",
+        "expression": "hiv_exposed_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "hiv_exposed_non_occupational",
+        "expression": "hiv_exposed_non_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "total_started_PEP",
+        "expression": "total_started_PEP",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "started_PEP_occupational",
+        "expression": "started_PEP_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "started_PEP_non_occupational",
+        "expression": "started_PEP_non_occupational",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label":"location",
+        "type":"single",
+        "sql":"t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "joining_column",
+        "type": "single",
+        "sql": "1"
+      }
+    ],
+    "patientListColumns": []
+  }
+]
