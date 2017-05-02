@@ -383,5 +383,40 @@
             "indicator": "total_visits"
          }
       ]
+   },
+   {
+      "sectionTitle": "5. Post Exposure Prophylaxis",
+      "indicators": [
+         {
+            "label": "Exposed Occupational",
+            "ref": "HV05-01",
+            "indicator": "hiv_exposed_occupational"
+         },
+         {
+            "label": "Exposed Other",
+            "ref": "HV05-02",
+            "indicator": "hiv_exposed_non_occupational"
+         },
+         {
+            "label": "Exposed Total (Sum HV05-01 and HV05-02)",
+            "ref": "HV05-03",
+            "indicator": "total_hiv_exposed"
+         },
+         {
+            "label": "PEP Occupational",
+            "ref": "HV05-04",
+            "indicator": "started_PEP_occupational"
+         },
+         {
+            "label": "PEP Other",
+            "ref": "HV05-05",
+            "indicator": "started_PEP_non_occupational"
+         },
+         {
+            "label": "PEP Total (Sum HV05-04 and HV05-05)",
+            "ref": "HV03-06",
+            "indicator": "total_started_PEP"
+         }
+      ]
    }
 ]

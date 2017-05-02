@@ -8,7 +8,9 @@
       {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
         "dynamicDataset":"moh-731-12month-one-row-per-encounter"},
       {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
-          "dynamicDataset":"moh-731-cumulative-one-row-per-patient"}
+          "dynamicDataset":"moh-731-cumulative-one-row-per-patient"},
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t5","joinExpression":"t5.location_id = t1.location_id",
+        "dynamicDataset":"PEP-encounters-within-reporting-period-dataset"}
     ],
     "parameters": [
       {
