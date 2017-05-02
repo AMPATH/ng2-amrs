@@ -25,6 +25,7 @@ import { clinicalPatientCareStatusOverviewService } from './service/clinical-pat
 import { SlackService } from './service/slack-service';
 import { Moh731Service } from './service/moh-731/moh-731.service';
 import { PatientRegisterReportService } from './service/patient-register-report.service';
+import { HivSummaryIndicatorsService } from './service/hiv-summary-indicators.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -1389,7 +1390,7 @@ module.exports = function () {
                         }).catch((error) => {
                             reply(error);
                         });
-                });
+                    });
             },
             description: "Get the MOH 731 report",
             notes: "Api endpoint that returns MOH 731 report. It includes both MOH versions (legacy and 2017).",
@@ -1624,6 +1625,141 @@ module.exports = function () {
             description: "Get the Patient Register report",
             notes: "Api endpoint that returns Patient Register report.",
             tags: ['api'],
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/hiv-summary-indicators',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }],
+                    aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                        {
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'reportName', //name of the parameter
+                            value: 'hiv-summary-report' //parameter value
+                        }
+                    ]
+                }
+            },
+            handler: function (request, reply) {
+                //security check
+                request.query.reportName = 'hiv-summary-report';
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                    return reply(Boom.forbidden('Unauthorized'));
+                }
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let reportParams = etlHelpers.getReportParams('hiv-summary-report',
+                            ['startDate', 'endDate', 'locationUuids', 'indicators', 'gender'], requestParams);
+
+                        let service = new HivSummaryIndicatorsService();
+                        service.getAggregateReport(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
+            },
+            description: "Get hiv summary indicators for selected clinic",
+            notes: "Returns hiv summary indicators for the selected clinic(s),start date, end date",
+            tags: ['api'],
+            validate: {
+                query: {
+                    indicators: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .required()
+                        .description("A list of comma separated location uuids"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                    gender: Joi.string()
+                        .optional()
+                        .description("The gender to filter by"),
+                    startAge: Joi.string()
+                        .optional()
+                        .description("The start age to filter by"),
+                    endAge: Joi.string()
+                        .optional()
+                        .description("The end age to filter by")
+
+                }
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/hiv-summary-indicators/patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new HivSummaryIndicatorsService();
+                        service.getPatientListReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
+            },
+            description: "Get hiv summary indicators' patient list for selected clinic",
+            notes: "Returns hiv summary indicators' patient list for the selected clinic(s),start date, end date",
+            tags: ['api'],
+            validate: {
+                query: {
+                    indicator: Joi.string()
+                        .required()
+                        .description("A list of comma separated indicators"),
+                    locationUuids: Joi.string()
+                        .required()
+                        .description("A list of comma separated location uuids"),
+                    startDate: Joi.string()
+                        .required()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .required()
+                        .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination"),
+                    startAge: Joi.string()
+                        .optional()
+                        .description("The start age to filter by"),
+                    endAge: Joi.string()
+                        .optional()
+                        .description("The end age to filter by"),
+                    gender: Joi.string()
+                        .optional()
+                        .description("The gender to filter by"),
+                }
+            }
         }
     },
     {
