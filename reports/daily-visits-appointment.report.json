@@ -330,7 +330,7 @@
         "processForce": true
       },
       {
-        "expression": "(next_encounter_type_hiv!=116 or next_encounter_type_hiv is null)",
+        "expression": "(next_encounter_type_hiv not in (116,99999)  or next_encounter_type_hiv is null)",
         "processForce": true,
         "parameter": ""
       },
