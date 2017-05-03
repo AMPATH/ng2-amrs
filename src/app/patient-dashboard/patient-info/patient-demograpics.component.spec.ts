@@ -24,7 +24,7 @@ describe('Component: Patient Demographics Unit Tests', () => {
       uuid: '',
       person: {
         uuid: 'person_uuid', display: 'name', age: 20,
-        dead: false, birthdate: '2016-11-22'
+        ageYears: 20, dead: false, birthdate: '2016-11-22'
       },
     })
 };
