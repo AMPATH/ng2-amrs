@@ -1,0 +1,23 @@
+landing-page {
+  display: block;
+}
+
+.wrapper {
+  /*padding: 15px;*/
+}
+
+h3 {
+  padding-top:0;
+}
+
+a.btn {
+  color: #fff !important;
+  display: inline-block;
+  margin-right: 7px;
+}
+
+label.buttons {
+  height: 22px;
+  display: block;
+}
+

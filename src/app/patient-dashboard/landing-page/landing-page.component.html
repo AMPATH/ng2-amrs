@@ -1,0 +1,73 @@
+<div class="wrapper">
+  <div [ngBusy]="{busy:[programsBusy],message:'Loading patient care programs.........'}"></div>
+  <h3>Program Snapshots and Enrollment</h3>
+  <hr />
+  <div class="programs" *ngIf="availablePrograms.length > 0 && !hasError">
+    <div class="program" *ngFor="let row of availablePrograms; ">
+      <p-panel [collapsed]="row.isEnrolled" [header]="row.program.display" [toggleable]="true">
+        <em class="text-danger" *ngIf="hasValidationErrors">{{row.validationError}}</em>
+        <div *ngIf="row.isEnrolled" class="program-info">
+          <div class="form-inline form-group">
+            <div class="input-group">
+              <label>Date Enrolled:</label>
+              <div class="ui-grid-col-10">
+                <input [(ngModel)]="row.dateEnrolled" type="date" [value]="row.dateEnrolled" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Date Completed:</label>
+              <div class="ui-grid-col-10">
+                <input [(ngModel)]="row.dateCompleted" type="date" [value]="row.dateCompleted"/>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="buttons"></label>
+              <div class="ui-grid-col-12 buttons">
+                <a class="btn btn-primary" routerLink="{{row.buttons.link.url}}" *ngIf="row.isEnrolled">{{row.buttons.link.display}}</a>
+                <a class="btn btn-primary" *ngIf="row.isEnrolled" (click)="editEnrollment(row)">{{row.buttons.edit.display}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="program-snapshot">
+            <div [ngSwitch]="row.baseRoute">
+              <hiv-snapshot *ngSwitchCase="'hiv'" [patient]="patient">
+              </hiv-snapshot>
+            </div>
+          </div>
+          <div class="clear clear-fix">&nbsp;</div>
+        </div>
+        <div [hidden]="row.isEnrolled" class="program-info">
+          <div class="form-inline form-group">
+            <div class="input-group">
+              <label for="enrolledDate">Date Enrolled:</label>
+              <div class="ui-grid-col-10">
+                <input id="enrolledDate" [(ngModel)]="row.dateEnrolled" type="date" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="completedDate">Date Completed:</label>
+              <div class="ui-grid-col-10">
+                <input id="completedDate" [(ngModel)]="row.dateCompleted" type="date" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="buttons"></label>
+              <div class="ui-grid-col-12 buttons">
+                <a class="btn" [ngClass]="{'btn-primary': !row.isFocused, 'btn-info': row.isFocused}" *ngIf="!row.isEnrolled" (click)="createOrEditPatientEnrollment(row, true)">
+                  <span *ngIf="!row.isFocused">{{row.buttons.enroll.display}}</span>
+                  <span *ngIf="row.isFocused">Enrolling patient.....</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="clear clear-fix">&nbsp;</div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+  <div class="errors" *ngIf="errors.length > 0">
+    <p class="alert" *ngFor="let error of errors;">
+      <em class="text-danger">{{error.message}}</em>
+    </p>
+  </div>
+</div>

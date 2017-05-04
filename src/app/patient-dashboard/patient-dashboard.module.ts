@@ -109,12 +109,12 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 import { HivProgramSnapshotComponent } from './programs/hiv/hiv-program-snapshot.component';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     patientDashboardRouting,
-    CommonModule,
     AccordionModule,
     DataTableModule,
     SharedModule,
@@ -147,6 +147,7 @@ import { VisitPeriodComponent } from './visit/visit-period/visit-period.componen
     LabOrderSearchModule
   ],
   declarations: [
+    LandingPageComponent,
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientEncounterObservationsComponent,
@@ -221,6 +222,7 @@ import { VisitPeriodComponent } from './visit/visit-period/visit-period.componen
     PatientRelationshipTypeService
   ],
   exports: [
+    LandingPageComponent,
     PatientDashboardComponent,
     PatientEncountersComponent,
     PatientEncounterObservationsComponent,
