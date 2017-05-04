@@ -983,7 +983,71 @@ module.exports = function () {
             }
         }
     },
-
+    {
+        method: 'GET',
+        path: '/etl/patient/{patient_uuid}/monthly-care-status',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                }
+            },
+            handler: function (request, reply) {
+                let requestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams('patient-monthly-care-status-report',
+                    ['startDate', 'endDate', 'patient_uuid'],
+                    requestParams);
+                reportParams.groupBy = 'groupByEndDate';
+                dao.runReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the the care status of patient on a monthly basis",
+            notes: "Returns a list showing care status of a patient at the end of every month in a given period",
+            tags: ['api'],
+            validate: {
+                options: {
+                    allowUnknown: true
+                },
+                params: {}
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/patient/{patient_uuid}/daily-care-status',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                }
+            },
+            handler: function (request, reply) {
+                let requestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams('patient-daily-care-status',
+                    ['referenceDate', 'patient_uuid'],
+                    requestParams);
+                dao.runReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get the the care status of patient on a given date",
+            notes: "Returns the care status of a patient on a given day",
+            tags: ['api'],
+            validate: {
+                options: {
+                    allowUnknown: true
+                },
+                params: {}
+            }
+        }
+    },
     {
         method: 'GET',
         path: '/etl/location/{uuid}/daily-visits',
@@ -1507,7 +1571,7 @@ module.exports = function () {
                         function () {
                             let requestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams(request.query.reportName,
-                                ['startDate', 'endDate', 'locationUuids','locations'], requestParams);
+                                ['startDate', 'endDate', 'locationUuids', 'locations'], requestParams);
 
                             let service = new PatientStatusChangeTrackerService();
                             service.getAggregateReport(reportParams).then((result) => {
@@ -2259,4 +2323,4 @@ module.exports = function () {
     ];
 
     return routes;
-} ();
+}();

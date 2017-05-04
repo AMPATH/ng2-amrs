@@ -48,7 +48,8 @@ if (config.etl.tls) {
 server.connection({
     port: config.etl.port,
     host: config.etl.host,
-    tls: tls_config
+    tls: tls_config,
+    routes: { log: true }
 });
 var pool = mysql.createPool(config.mysql);
 
@@ -116,8 +117,8 @@ var validate = function (username, password, callback) {
         }, function () {
             callback(null, false);
         });
-    } catch (ex){
-        console.log('An error occurred while trying to validate',ex);
+    } catch (ex) {
+        console.log('An error occurred while trying to validate', ex);
         callback(null, false);
     }
 };
@@ -141,32 +142,32 @@ server.ext('onRequest', function (request, reply) {
 
 });
 server.register([
-        Inert,
-        Vision, {
-            'register': HapiSwagger,
-            'options': HapiSwaggerOptions
-        }, {
-            register: Basic,
-            options: {}
-        }, {
-            register: hapiAuthorization,
-            options: {
-                roles: authorizer.getAllPrivilegesArray()
-            }
-        }, {
-            register: Good,
-            options: {
-                reporters: []
-            }
-        }, {
-            register: locationAuthorizer,
-            options: {}
-        },
-        // {
-        //   'register': Nes,
-        //   'options': etlBroadcast.getOptions(server)
-        // }
-    ],
+    Inert,
+    Vision, {
+        'register': HapiSwagger,
+        'options': HapiSwaggerOptions
+    }, {
+        register: Basic,
+        options: {}
+    }, {
+        register: hapiAuthorization,
+        options: {
+            roles: authorizer.getAllPrivilegesArray()
+        }
+    }, {
+        register: Good,
+        options: {
+            reporters: []
+        }
+    }, {
+        register: locationAuthorizer,
+        options: {}
+    },
+    // {
+    //   'register': Nes,
+    //   'options': etlBroadcast.getOptions(server)
+    // }
+],
 
     function (err) {
         if (err) {
