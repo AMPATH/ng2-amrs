@@ -37,6 +37,8 @@ reportList.push.apply(reportList, require('./reports/medical-history-report.json
 reportList.push.apply(reportList, require('./reports/clinic-lab-orders-report.json'));
 reportList.push.apply(reportList, require('./reports/patient-status-change-tracker-report.json'));
 reportList.push.apply(reportList, require('./reports/datasets/pep-dataset-report.json'));
+reportList.push.apply(reportList, require('./reports/patient-monthly-care-status.json'));
+reportList.push.apply(reportList, require('./reports/patient-daily-care-status.json'));
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
     var reports = [];
@@ -830,8 +832,8 @@ module.exports = function () {
             });
         });
         return {
-            reportName:reportName,
-            extraPatientListColumns:extraPatientListColumns
+            reportName: reportName,
+            extraPatientListColumns: extraPatientListColumns
         };
     }
 
@@ -880,7 +882,7 @@ module.exports = function () {
                     't1.person_id', 't1.encounter_id', 't1.location_id', 't1.location_uuid', 't1.uuid as patient_uuid',
                     'person.gender', 'person.birthdate', 'extract(year from (from_days(datediff(now(),person.birthdate)))) as age'
                 ];
-                columns.push.apply(columns,reportDataSet.extraPatientListColumns);
+                columns.push.apply(columns, reportDataSet.extraPatientListColumns);
                 var schema = report.table['schema'] === '' ? 'etl' : report.table['schema'];
                 var tableName = report.table['tableName'] === '' ? 'flat_hiv_summary' : report.table['tableName'];
                 var queryParts = {
