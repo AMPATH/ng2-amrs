@@ -15,18 +15,19 @@ export class LabOrderSearchComponent implements OnInit {
   public adjustedInputMargin: string = '240px';
   public isLoading: boolean = false;
   public hasError: boolean = false;
+  public orderDeleted: boolean = false;
   private hasBeenSearched = false;
 
-  private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,' +
+  private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,voided,' +
   'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
   'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
-    'identifiers:(identifier,uuid,' +
-    'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
-    'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
-    'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
-    + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
-    'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,' +
-    'address6))),concept:ref)';
+  'identifiers:(identifier,uuid,' +
+  'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
+  'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
+  'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
+  + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
+  'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,' +
+  'address6))),concept:ref)';
 
   constructor(private orderResourceService: OrderResourceService) {
   }
@@ -75,7 +76,12 @@ export class LabOrderSearchComponent implements OnInit {
     this.orderResourceService.searchOrdersById(this.orderId, false,
       this.customOrderObjectDefinition)
       .subscribe((resp) => {
-        this.onOrderRecieved.emit(resp);
+        if (resp && resp.orderVoided) {
+          this.orderDeleted = true;
+        } else {
+          this.orderDeleted = false;
+          this.onOrderRecieved.emit(resp);
+        }
         this.hasBeenSearched = false;
         this.isLoading = false;
         this.hasError = false;
@@ -84,6 +90,7 @@ export class LabOrderSearchComponent implements OnInit {
       }, (err) => {
         this.hasError = true;
         this.isLoading = false;
+        this.orderDeleted = false;
         this.hasBeenSearched = false;
         this.resetInputMargin();
       });
@@ -94,6 +101,7 @@ export class LabOrderSearchComponent implements OnInit {
     this.isResetButton = false;
     this.isLoading = false;
     this.hasError = false;
+    this.orderDeleted = false;
     this.hasBeenSearched = false;
     this.resetInputMargin();
     this.onReset.emit();

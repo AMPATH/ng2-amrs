@@ -3,10 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import * as Moment from 'moment';
 import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientService } from '../patient.service';
-import { UserDefaultPropertiesService
+import {
+    UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 @Component({
     selector: 'visit',
@@ -29,20 +31,21 @@ export class VisitComponent implements OnInit, OnDestroy {
         private userDefaultPropertiesService: UserDefaultPropertiesService,
         private patientService: PatientService, private router: Router,
         private appFeatureAnalytics: AppFeatureAnalytics,
-        private route: ActivatedRoute) { }
+        private route: ActivatedRoute,
+        private encounterResourceService: EncounterResourceService) { }
 
     ngOnInit() {
         this.getPatient();
-      // app feature analytics
-      this.appFeatureAnalytics
-        .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
+        // app feature analytics
+        this.appFeatureAnalytics
+            .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
     }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
-  }
 
     getVisit(patientUuid) {
         this.visitBusy = true;
@@ -68,7 +71,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     }
 
     getPatient() {
-      this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient !== null) {
                     this.patient = patient;
@@ -123,27 +126,27 @@ export class VisitComponent implements OnInit, OnDestroy {
     }
 
     endVisit() {
-      this.showDialog = true ;
-      this.confirmEndVisit = true;
+        this.showDialog = true;
+        this.confirmEndVisit = true;
     }
 
     cancelVisit() {
-      this.showDialog = true;
-      this.confirmCancel = true;
+        this.showDialog = true;
+        this.confirmCancel = true;
     }
 
     onYes() {
-      if (this.confirmCancel) {
-        this.onCancelVisit();
-      } else if (this.confirmEndVisit) {
-        this.onEndVisit();
-      }
+        if (this.confirmCancel) {
+            this.onCancelVisit();
+        } else if (this.confirmEndVisit) {
+            this.onEndVisit();
+        }
     }
 
     onNo() {
-      this.showDialog = false;
-      this.confirmCancel = false;
-      this.confirmEndVisit = false;
+        this.showDialog = false;
+        this.confirmCancel = false;
+        this.confirmEndVisit = false;
     }
 
     onEndVisit() {
@@ -152,11 +155,11 @@ export class VisitComponent implements OnInit, OnDestroy {
         this.visitResourceService.updateVisit(this.visit.uuid,
             { stopDatetime: new Date() }).subscribe(
             (visit) => {
-                 this.visitBusy = false;
-                 this.showDialog = false;
-                 this.confirmEndVisit = false;
-                 this.visit = null;
-                 this.getVisit(this.patient.person.uuid);
+                this.visitBusy = false;
+                this.showDialog = false;
+                this.confirmEndVisit = false;
+                this.visit = null;
+                this.getVisit(this.patient.person.uuid);
             }
             , (err) => {
                 this.visitBusy = false;
@@ -171,9 +174,15 @@ export class VisitComponent implements OnInit, OnDestroy {
 
     onCancelVisit() {
         this.visitBusy = true;
+
+        if (!this.visit) {
+            return null;
+        }
+
         this.visitResourceService.updateVisit(this.visit.uuid,
             { voided: true }).subscribe(
             (visit) => {
+                this.voidVisitEncounters(this.visit.uuid);
                 this.visit = null;
                 this.getVisit(this.patient.person.uuid);
                 this.visitBusy = false;
@@ -207,6 +216,7 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
         }
     }
+
     private getLastVisit(visits: any[]) {
         let filtered = visits.filter((visit) => {
             let today = Moment().format('l');
@@ -214,5 +224,43 @@ export class VisitComponent implements OnInit, OnDestroy {
             return today === visitDate;
         });
         return filtered[0];
+    }
+
+    private voidVisitEncounters(visitUuid) {
+        if (!visitUuid) {
+            return null;
+        }
+        this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
+            (visitEncounters) => {
+                if (visitEncounters && visitEncounters.length > 0) {
+                    let observableBatch: Array<Observable<any>> = [];
+                    for (let encounter of visitEncounters) {
+                        observableBatch.push(
+                            this.encounterResourceService.voidEncounter(encounter.uuid)
+                        );
+                    }
+
+                    // forkjoin all requests
+                    this.subscription = Observable.forkJoin(
+                        observableBatch
+                    ).subscribe(
+                        data => {
+                            console.log('Voided Encounters');
+                        },
+                        err => {
+                            this.errors.push({
+                                id: 'cancelVisit',
+                                message: 'error voiding visit encounters'
+                            });
+                        }
+                        );
+                }
+            }
+            , (err) => {
+                this.errors.push({
+                    id: 'cancelVisit',
+                    message: 'error voiding visit encounters'
+                });
+            });
     }
 }
