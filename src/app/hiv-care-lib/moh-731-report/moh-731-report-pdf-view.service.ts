@@ -1,6 +1,8 @@
 import { Observable, Subject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+require('pdfmake/build/pdfmake.js');
+require('pdfmake/build/vfs_fonts.js');
 declare let pdfMake: any;
 declare let $: any;
 

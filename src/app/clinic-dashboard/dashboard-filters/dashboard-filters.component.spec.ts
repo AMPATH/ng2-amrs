@@ -115,13 +115,12 @@ describe('Component: DashboardFiltersComponent', () => {
     expect(component.endDate).toBeUndefined();
     component.updateStartDate(moment([2016, 2, 22]).format());
     component.updateEndDate(moment([2017, 2, 22]).format());
+    fixture.detectChanges();
     component.onDateChange.subscribe((v) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
-        expect(moment(v.startDate).format('DD/MM/YYYY')).toBe('22/03/2016');
-        expect(moment(v.endDate).format('DD/MM/YYYY')).toBe('22/03/2017');
         parentComponent.onDateChanged(v);
-      }, 100);
+      }, 20);
     });
     parentComponent.options = {
       indicator_select: false,
@@ -129,7 +128,7 @@ describe('Component: DashboardFiltersComponent', () => {
       range_slider: false,
       gender_select: false
     };
-    fixture.detectChanges();
+    parentFixture.detectChanges();
     parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
         expect(moment(parentComponent.filterModel.startDate)
@@ -137,9 +136,8 @@ describe('Component: DashboardFiltersComponent', () => {
         expect(moment(parentComponent.filterModel.endDate)
           .format('DD/MM/YYYY')).toBe('22/03/2017');
         parentComponent.onDateChanged(vv);
-      }, 100);
+      }, 21);
     });
-    parentFixture.detectChanges();
     done();
   });
 
