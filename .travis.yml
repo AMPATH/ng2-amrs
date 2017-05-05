@@ -20,6 +20,7 @@ addons:
   apt:
     packages:
     - sshpass
+    - google-chrome-stable
 after_success:
 - mv dist $TRAVIS_BRANCH
 - tar -czf build.tgz $TRAVIS_BRANCH
