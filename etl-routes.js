@@ -57,7 +57,7 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 let payload = request.payload;
-                let message = `*From*  ${payload.name} \n *Phone:*  ${payload.phone} \n *Message:* \n \`\`\`${payload.message}\`\`\``;
+                let message = `*From*  ${payload.name} \n *Location:*  ${payload.location} \n *Phone:*  ${payload.phone} \n *Message:* \n \`\`\`${payload.message}\`\`\``;
                 let service = new SlackService();
                 service.sendUserFeedBack(message).then((status) => {
                     reply(status);
