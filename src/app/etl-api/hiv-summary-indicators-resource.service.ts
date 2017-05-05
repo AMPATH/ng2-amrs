@@ -21,7 +21,7 @@ export class HivSummaryIndicatorsResourceService {
         urlParams.set('endDate', params.endDate);
         urlParams.set('gender', params.gender);
         urlParams.set('startDate', params.startDate);
-        urlParams.set('indicator', params.indicator || params.indicators);
+        urlParams.set('indicators', params.indicator || params.indicators);
         urlParams.set('locationUuids', params.locationUuids);
         urlParams.set('startAge', params.startAge);
         urlParams.set('endAge', params.endAge);
