@@ -4,7 +4,20 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { UserDefaultPropertiesService }
+    from '../user-default-properties/user-default-properties.service';
 import * as _ from 'lodash';
+import { UserService } from '../openmrs-api/user.service';
+class UserServiceStub {
+    person = {
+        display: 'test persion'
+    };
+    getLoggedInUser() {
+        return {
+            person: this.person
+        };
+    }
+}
 describe('FeedBackService', () => {
     let service;
 
@@ -12,8 +25,11 @@ describe('FeedBackService', () => {
         TestBed.configureTestingModule({
             providers: [
                 FeedBackService,
+                UserService,
                 AppSettingsService,
+                UserDefaultPropertiesService,
                 LocalStorageService,
+                { provide: UserService, useClass: UserServiceStub },
                 {
                     provide: Http, useFactory: (backend, options) => {
                         return new Http(backend, options);
