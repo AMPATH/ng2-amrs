@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Component, Input }    from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
@@ -23,7 +23,8 @@ import {
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { Http } from '@angular/http';
-import { ClinicalSummaryVisualizationService
+import {
+  ClinicalSummaryVisualizationService
 } from '../services/clinical-summary-visualization.service';
 
 @Component({
@@ -203,8 +204,6 @@ describe('Component: DashboardFiltersComponent', () => {
   it('should update parent model when age range changes', (done) => {
     let fixture = TestBed.createComponent(RangeSliderComponent);
     let component = fixture.componentInstance;
-    expect(component.start).toBeUndefined();
-    expect(component.end).toBeUndefined();
     component.start = 11;
     component.end = 13;
     component.onAgeChangeFinish.subscribe((age) => {
