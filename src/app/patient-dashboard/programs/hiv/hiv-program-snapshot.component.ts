@@ -15,8 +15,10 @@ import { Observable } from 'rxjs';
 export class HivProgramSnapshotComponent implements OnInit {
   @Input('patient') currentlyLoadedPatient: Patient;
   hasError: boolean = false;
-  noData: boolean = false;
+  hasData: boolean = false;
   patientData: any = {};
+  loadingData: boolean = false;
+  hasLoadedData: boolean = false;
   location: any = {};
   constructor(private hivSummaryResourceService: HivSummaryResourceService
     , private http: Http
@@ -29,18 +31,21 @@ export class HivProgramSnapshotComponent implements OnInit {
       if (_.isNil(this.currentlyLoadedPatient)) {
         this.hasError = true;
       } else {
+        this.hasData = false;
         this.getHivSummary(patientUuid);
       }
     }, 0, this.currentlyLoadedPatient.uuid);
   }
 
   getHivSummary(patientUuid) {
+    this.loadingData = true;
     this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 1).subscribe((results) => {
       this.getLocation().subscribe((locations) => {
+        this.loadingData = false;
+        this.hasLoadedData = true;
         this.patientData = _.first(results);
-        if (!this.patientData) {
-          this.noData = true;
-        } else {
+        if (!_.isNil(this.patientData)) {
+          this.hasData = true;
           let encounterLocations = _.filter(locations, (location, key) => {
             return location['uuid'] === this.patientData.location_uuid;
           });
