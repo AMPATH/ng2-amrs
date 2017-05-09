@@ -50,6 +50,7 @@ import { ErrorLogResourceService } from '../../etl-api/error-log-resource.servic
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache/ionic-cache';
+import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 
 describe('Component: FormentryComponent', () => {
     let router = {
@@ -112,6 +113,7 @@ describe('Component: FormentryComponent', () => {
                 FormCreationDataResolverService,
                 PatientPreviousEncounterService,
                 ProgramEnrollmentResourceService,
+                MonthlyScheduleResourceService,
                 ObsValueAdapter,
                 PersonAttribuAdapter,
                 FormDataSourceService,
@@ -193,8 +195,8 @@ describe('Component: FormentryComponent', () => {
     });
 
     it('should create an instance of FormentryComponent', () => {
-        let formentryComponent: FormentryComponent = TestBed.get(FormentryComponent);
-        expect(formentryComponent).toBeTruthy();
+      let formentryComponent: FormentryComponent = TestBed.get(FormentryComponent);
+      expect(formentryComponent).toBeTruthy();
     });
 
     it('should fetch and compile formschema when the component initializes with a valid form-uuid',
@@ -397,7 +399,7 @@ describe('Component: FormentryComponent', () => {
             })
     );
 
-    it('should populate form with default values. Case: creting new form',
+    it('should populate form with default values. Case: creating new form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
             ActivatedRoute, UserService, UserDefaultPropertiesService],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
@@ -456,10 +458,12 @@ describe('Component: FormentryComponent', () => {
 
     it('should NOT populate form with default values when editting form',
         inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-            ActivatedRoute, UserService, UserDefaultPropertiesService],
+            ActivatedRoute, UserService, MonthlyScheduleResourceService,
+            UserDefaultPropertiesService],
             (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
                 formFactory: FormFactory, encounterAdapter: EncounterAdapter,
                 activatedRoute: ActivatedRoute, userService: UserService,
+                monthlyScheduleResourceService: MonthlyScheduleResourceService,
                 userDefaultPropertiesService: UserDefaultPropertiesService) => {
                 spyOn(encounterAdapter, 'populateForm').and.callFake(function (form) {
                     return form;
@@ -499,15 +503,16 @@ describe('Component: FormentryComponent', () => {
                         schema: schema
                     }
                 });
+                spyOn(formentryComponent, 'loadDefaultValues').and.callFake(() => {});
                 formentryComponent.ngOnInit();
                 // check if it calls createForm
                 expect(formFactory.createForm).toHaveBeenCalled();
-                // now check to ensure we are setting default data
-                expect(userDefaultPropertiesService.getCurrentUserDefaultLocationObject)
-                    .not.toHaveBeenCalled();
+                // now check to ensure we are not setting default data
+                activatedRoute.params.subscribe(() => {
+                  expect(formentryComponent.loadDefaultValues).not.toHaveBeenCalled();
+                });
+
                 expect(userService.getLoggedInUser).not.toHaveBeenCalled();
-
-
             })
     );
 
