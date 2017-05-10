@@ -210,7 +210,7 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ArtOverviewIndicatorDefComponent,
     ClinicFlowComponent,
     ClinicFlowSummaryComponent,
-    ClinicFlowVisitsComponent
+    ClinicFlowVisitsComponent,
   ],
 })
 export class ClinicDashboardModule {
