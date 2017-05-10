@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
-import { Router }    from '@angular/router';
+import { Router, ActivatedRoute, Params }    from '@angular/router';
 
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
@@ -24,6 +24,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public isLoading: boolean = false;
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
     private propertyLocationService: UserDefaultPropertiesService,
     private userService: UserService
   ) {
@@ -36,6 +37,12 @@ export class UserDefaultPropertiesComponent implements OnInit {
     this.isBusy = true;
 
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocation();
+    // if the user is confirming, prefill the current location
+    this.route.params.subscribe((params: Params) => {
+        if (params['confirm'] !== undefined) {
+          this.query = this.currentLocation;
+        }
+    });
 
     this.propertyLocationService.getLocations().subscribe((response: Response) => {
       this.locations = response.json().results;
