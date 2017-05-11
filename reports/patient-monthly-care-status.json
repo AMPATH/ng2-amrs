@@ -48,11 +48,7 @@
                 "parameter": "patient_uuid"
             },
             {
-                "expression": "t1.next_clinical_datetime_hiv IS NULL",
-                "parameter": "gender"
-            },
-            {
-                "expression": "t1.out_of_care IS NULL",
+                "expression": "(t1.next_clinical_datetime_hiv IS NULL OR t1.next_clinical_datetime_hiv > t2.endDate)",
                 "processForce": true
             },
             {
