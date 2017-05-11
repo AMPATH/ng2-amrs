@@ -86,7 +86,8 @@ import {
 import {
   VisualizationPatientListComponent
 } from
-'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+  // tslint:disable-next-line:max-line-length
+  './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import {
   PatientStatusChangeVisualizationContainerComponent
 } from
@@ -103,7 +104,9 @@ import {
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
 import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
-
+import {
+  PatientStatusDatalistCellComponent
+} from './patient-status-change-visualization/patient-status-data-list-cell.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -168,8 +171,10 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ClinicFlowVisitsComponent,
     PatientStatusChangeVisualizationContainerComponent,
     PatientStatusChangeVisualizationComponent,
-    PatientStatusChangeListComponent
+    PatientStatusChangeListComponent,
+    PatientStatusDatalistCellComponent
   ],
+  entryComponents: [PatientStatusDatalistCellComponent, PatientStatusChangeListComponent],
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,

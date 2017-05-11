@@ -1,9 +1,10 @@
 import {
   Component, OnInit, Output, OnDestroy,
-  Input, SimpleChange, EventEmitter
+  Input, SimpleChange, EventEmitter, ViewChild
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({
   selector: 'generic-list',
@@ -18,16 +19,21 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Output() onSelectedTab = new EventEmitter();
   @Input() newList: any;
   selected: any;
+  @ViewChild('agGrid')
+  public agGrid: AgGridNg2;
+
   @Input()
   set options(value) {
     this._data.next(value);
   }
+
   get options() {
     return this._data.getValue();
   }
+
   private _data = new BehaviorSubject<any>([]);
-  constructor(
-  ) {
+
+  constructor() {
 
   }
 
@@ -36,10 +42,12 @@ export class GenericListComponent implements OnInit, OnDestroy {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
+    this.gridOptions.enableSorting = true;
     this.gridOptions.enableFilter = true;
+    this.gridOptions.showToolPanel = false;
     // this.gridOptions.suppressCellSelection = true;
-    this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
-    this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
+    // this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
+    // this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
     this.gridOptions.rowSelection = 'single';
     this.gridOptions.onRowSelected = (event) => {
       this.rowSelectedFunc(event);
@@ -49,7 +57,6 @@ export class GenericListComponent implements OnInit, OnDestroy {
     this.gridOptions.onGridReady = (event) => {
       if (window.innerWidth > 768) {
         this.gridOptions.api.sizeColumnsToFit();
-
       }
 
       this.gridOptions.getRowStyle = function (params) {

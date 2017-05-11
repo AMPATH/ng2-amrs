@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
 export class PatientStatusVisualizationResourceService {
-    constructor(private http: Http, protected appSettingsService: AppSettingsService) {
+    constructor(private http: Http, protected appSettingsService: AppSettingsService,
+     private cacheService: DataCacheService) {
     }
 
     public getAggregates(options: {
@@ -15,7 +17,9 @@ export class PatientStatusVisualizationResourceService {
         let api: string = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking';
         let params: URLSearchParams = this.getUrlRequestParams(options);
-        return this.http.get(api, { search: params }).map((data) => data.json());
+        let request =  this.http.get(api, { search: params }).map((data) => data.json());
+        return this.cacheService.cacheRequest(api, params, request);
+
     }
 
     public getPatientList(options: {
@@ -27,7 +31,9 @@ export class PatientStatusVisualizationResourceService {
 
         let params: URLSearchParams = this.getUrlPatientListRequestParams(options);
         console.log('Params', params);
-        return this.http.get(api, { search: params }).map((data) => data.json());
+        let request = this.http.get(api, { search: params }).map((data) => data.json());
+        return this.cacheService.cacheRequest(api, params, request);
+
     }
 
     private getUrlRequestParams(options: {
