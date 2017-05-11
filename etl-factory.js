@@ -789,30 +789,29 @@ module.exports = function () {
     function getReportDataSet(queryParams) {
         var reportName = queryParams.reportName;
         var extraPatientListColumns = [
-            'case when (timestampdiff(day,vl_order_date,now()) between 0 and 14) and (vl_1_date is null or vl_order_date > vl_1_date) then true else false end as has_pending_vl_test',
+            'case when (timestampdiff(day,t1.vl_order_date,now()) between 0 and 14) and (t1.vl_1_date is null or t1.vl_order_date > t1.vl_1_date) then true else false end as has_pending_vl_test',
             'date_format(t1.enrollment_date,"%d-%m-%Y") as enrollment_date',
-            'date_format(hiv_start_date,"%d-%m-%Y") as hiv_start_date',
-            'arv_start_location',
-            'date_format(arv_first_regimen_start_date,"%d-%m-%Y") as arv_first_regimen_start_date',
-            'date_format(arv_start_date,"%d-%m-%Y") as cur_regimen_arv_start_date',
-            'cur_arv_line',
-            'cur_arv_meds',
-            'arv_first_regimen',
-            'vl_1',
-            'date_format(vl_1_date,"%d-%m-%Y") as vl_1_date',
-            'date_format(rtc_date,"%d-%m-%Y") as rtc_date',
-            'date_format(tb_prophylaxis_start_date,"%d-%m-%Y") as tb_prophylaxis_start_date',
-            'date_format(pcp_prophylaxis_start_date,"%d-%m-%Y") as pcp_prophylaxis_start_date',
-            'date_format(tb_tx_start_date,"%d-%m-%Y") as tb_tx_start_date',
-            'encounter_type',
-            'date_format(encounter_datetime,"%d-%m-%Y") as encounter_datetime',
+            'date_format(t1.hiv_start_date,"%d-%m-%Y") as hiv_start_date',
+            't1.arv_start_location',
+            'date_format(t1.arv_first_regimen_start_date,"%d-%m-%Y") as arv_first_regimen_start_date',
+            'date_format(t1.arv_start_date,"%d-%m-%Y") as cur_regimen_arv_start_date',
+            't1.cur_arv_line',
+            't1.cur_arv_meds',
+            't1.arv_first_regimen',
+            't1.vl_1',
+            'date_format(t1.vl_1_date,"%d-%m-%Y") as vl_1_date',
+            'date_format(t1.rtc_date,"%d-%m-%Y") as rtc_date',
+            'date_format(t1.tb_prophylaxis_start_date,"%d-%m-%Y") as tb_prophylaxis_start_date',
+            'date_format(t1.pcp_prophylaxis_start_date,"%d-%m-%Y") as pcp_prophylaxis_start_date',
+            'date_format(t1.tb_tx_start_date,"%d-%m-%Y") as tb_tx_start_date',
+            't1.encounter_type',
+            'date_format(t1.encounter_datetime,"%d-%m-%Y") as encounter_datetime',
             'date_format(t1.death_date,"%d-%m-%Y") as death_date',
-            'out_of_care',
-            'transfer_out',
-            'patient_care_status',
-            'prev_rtc_date',
-            'prev_encounter_datetime_hiv',
-            'date_format(if(t1.rtc_date,DATE_ADD(t1.rtc_date,INTERVAL 90 DAY),DATE_ADD(t1.encounter_datetime,INTERVAL 120 DAY)),"%d-%m-%Y")  as active_in_care_end_date'
+            't1.out_of_care',
+            't1.transfer_out',
+            't1.patient_care_status',
+            't1.prev_rtc_date',
+            't1.prev_encounter_datetime_hiv'
         ];
         var dataSets = getAllDatasets(queryParams.reportName, [queryParams.reportName]);
         _.each(dataSets, function (dataSet) {
@@ -899,7 +898,7 @@ module.exports = function () {
                     having: filtersToSql(queryParams.whereParams, report.parameters, report.having),
                     group: ['t1.person_id'],
                     order: [{
-                        column: 'encounter_datetime',
+                        column: 't1.encounter_datetime',
                         asc: false
                     }],
                     offset: queryParams.startIndex,
