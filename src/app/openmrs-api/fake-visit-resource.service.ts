@@ -90,6 +90,26 @@ export class FakeVisitResourceService {
     return test.asObservable();
   }
 
+  getVisitByUuid(uuid: string, urlParams: any): Observable<any> {
+
+    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    let visit = {
+      uuid: 'visit-uuid',
+      startDatetime: '2017-01-20T16:29:45.000+0300',
+      stopDatetime: '2017-01-20T16:30:45.000+0300'
+    };
+
+    if (!this.returnErrorOnNext) {
+      return Observable.of(visit);
+    } else {
+      setTimeout(function () {
+        test.error(new Error('Error loading patient'));
+      }, 500);
+      return test.asObservable();
+    }
+
+  }
+
   getPatientVisits(uuid: string): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let visits = [
