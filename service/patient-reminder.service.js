@@ -174,8 +174,8 @@ function generateReminders(results) {
             vl_Errors,
             pending_vl_orders,
             inh_reminders,
-            vl_reminders,
-        )
+            vl_reminders
+        );
         reminders = reminders.concat(currentReminder);
 
     });

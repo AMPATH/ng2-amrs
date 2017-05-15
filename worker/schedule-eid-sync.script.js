@@ -126,9 +126,29 @@ var service = {
                     console.info('*********************************');
                     console.info(service.scheduledSuccessfully);
                     service.logSuccessfulScheduling(service.scheduledSuccessfully);
-                    console.info('*********************************');
-                    console.log('Exiting scheduler...');
-                    process.exit(0);
+
+                    // attempt for pending vl orders
+                    // Attempt to schedule patients with pending vl orders
+                    var startDateVlPending = format('yyyy-MM-dd', moment(new Date()).subtract(3, 'months').toDate());
+                    service.schedulePatientsWithPendingVlOrders(startDateVlPending)
+                        .then(function (results) {
+                            console.log('Scheduled patients with pending vl orders successfully');
+                            service.logSuccessfulScheduling('Scheduled patients with pending vl  successfully', startDateVlPending);
+                            console.info('*********************************');
+                            console.log('Exiting scheduler...');
+                            process.exit(0);
+                        })
+                        .catch(function (error) {
+                            console.error('Error scheduling patients with pending vl orders', error);
+                            service.logErrorWhenScheduling('Error scheduling patients with pending VL order for date ' + startDateVlPending, error);
+                            service.sendMail('Error scheduling patients with pending vl orders' + error,
+                                'Error Scheduling EID-AMRS Sync For patients with pending VL', 'ampath-developers@ampath.or.ke');
+
+                            console.info('*********************************');
+                            console.log('Exiting scheduler...');
+                            process.exit(0);
+                        });
+
                 } else {
                     console.log('An error occured while scheduling for some labs. Attempting again..');
                 }
@@ -268,6 +288,26 @@ var service = {
 
         var sql = 'replace into etl.eid_sync_queue(person_uuid) select distinct p.uuid from amrs.person p left join amrs.patient_identifier i on p.person_id = i.patient_id where identifier in (?)';
         sql = sql.replace('?', results);
+
+        var queryObject = {
+            query: sql,
+            sqlParams: []
+        }
+
+        return new Promise(function (resolve, reject) {
+            db.queryReportServer(queryObject, function (response) {
+                if (response.error) {
+                    reject(response);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+    schedulePatientsWithPendingVlOrders: function (startDate) {
+        var sql = "replace into etl.eid_sync_queue(person_uuid) (select distinct uuid from etl.flat_labs_and_imaging where hiv_viral_load is null and vl_error is null and tests_ordered like '%856%' and test_datetime > date('?'))";
+        sql = sql.replace('?', startDate);
+        console.log(sql);
 
         var queryObject = {
             query: sql,
