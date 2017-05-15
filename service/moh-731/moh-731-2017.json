@@ -475,12 +475,12 @@
             {
                 "label": "Community ART current(M)",
                 "ref": "HV03-085",
-                "indicator": ""
+                "indicator": "community_ART_dispensing_male"
             },
             {
                 "label": "Community ART current(F)",
                 "ref": "HV03-086",
-                "indicator": ""
+                "indicator": "community_ART_dispensing_female"
             }
         ]
     },

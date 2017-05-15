@@ -451,6 +451,21 @@
                 "label":"num_patients_stopped_on_IPT",
                 "expression":"num_patients_stopped_on_IPT",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"transfer_in_from_non_Ampath_site",
+                "expression":"transfer_in_from_non_Ampath_site",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"transfer_in_from_Ampath_site",
+                "expression":"transfer_in_from_Ampath_site",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"transfer_in",
+                "expression":"transfer_in",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
             }
 
         ],

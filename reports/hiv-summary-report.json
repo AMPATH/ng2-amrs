@@ -236,6 +236,12 @@
                 "label":"perc_on_arvs_gt_6_months",
                 "expression":"perc_on_arvs_gt_6_months",
                 "sql":"[on_arvs_gt_26_weeks]/[patients]"
+            },
+            {
+                "label":"transfer_in_patients",
+                "expression":"transfer_in_patients",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+
             }
 
         ],

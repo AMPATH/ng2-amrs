@@ -798,6 +798,29 @@
         "sql": "count(distinct if($expression,t1.visit_id,null))"
       },
       {
+        "label": "community_ART_dispensing",
+        "expression": "community_ART_dispensing",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label":"community_ART_dispensing_male",
+        "expression":"community_ART_dispensing_male",
+        "sql":"count(distinct if($expression,t1.person_id,null))",
+        "disaggregation": {
+          "indicator":"community_ART_dispensing",
+          "filters": ["male"]
+        }
+      },
+      {
+        "label":"community_ART_dispensing_female",
+        "expression":"community_ART_dispensing_female",
+        "sql":"count(distinct if($expression,t1.person_id,null))",
+        "disaggregation": {
+          "indicator":"community_ART_dispensing",
+          "filters": ["female"]
+        }
+      },
+      {
         "label":"using_modern_contraceptive_method_females_15_and_older",
         "expression":"using_modern_contraceptive_method_females_15_and_older",
         "sql":"count(distinct if($expression,t1.person_id,null))",
