@@ -28,6 +28,35 @@
 			<span *ngIf="searchIdentifiers?.cCC"> {{ searchIdentifiers?.cCC }}</span>
 			<span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
 		</div>
+		<div class="col-sm-3">
+			<span class="identifier">Care Status : </span>
+			<span *ngIf="error">Error fetching status</span>
+			<span *ngIf="careStatus && careStatus==='active'" class='dot dot-success text-success'>Active <a class='super' (click)="getCareStatusHistory()">history</a></span>
+			<span *ngIf="careStatus && careStatus==='ltfu'" class='dot dot-danger text-danger'>Lost to follow up <a class='super' (click)="getCareStatusHistory()">history</a></span>
+			<span *ngIf="careStatus && careStatus==='transfered_out'" class='dot dot-warning text-warning'>Tranfered Out <a class='super' (click)="getCareStatusHistory()">history</a></span>
+		</div>
 	</div>
 </div>
+<modal #modal [cssClass]="cssClass" [size]="'lg'">
+	<modal-header [show-close]="true">
+		<h3 class="modal-title">Patient care status history</h3>
+	</modal-header>
+	<modal-body>
+		<p *ngIf="loadingHistory">Loading history wait...........</p>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Month</th>
+					<th>Patient care status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of careStatusHistory">
+					<td>{{item.month}}</td>
+					<td>{{item.monthly_patient_care_status}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</modal-body>
+</modal>
 <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
