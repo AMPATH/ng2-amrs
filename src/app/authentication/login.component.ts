@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   password: string;
 
   error: string;
-
+  shouldRedirect: boolean = false;
   busy: Subscription;
 
   @ViewChildren('password') passwordField;
@@ -83,9 +83,16 @@ export class LoginComponent implements OnInit {
               } else {
               this.router.navigate(['/']);
             }
+            if (userDefaultLocation === null ||
+                userDefaultLocation === undefined ||
+                this.shouldSetLocation) {
+              this.localStorageService.setItem('lastLoginDate', (new Date()).toLocaleDateString());
+              if (this.shouldRedirect) {
+                this.router.navigate(['/user-default-properties', {confirm: 1}]);
+              } else {
+                this.router.navigate(['/user-default-properties']);
+              }
 
-            if (userDefaultLocation === null || userDefaultLocation === undefined) {
-              this.router.navigate(['/user-default-properties']);
             } else {
               this.router.navigate(['/']);
             }
@@ -103,6 +110,13 @@ export class LoginComponent implements OnInit {
           this.error = error.statusText;
         }
       });
+  }
+
+  get shouldSetLocation() {
+    let lastLoginDate = this.localStorageService.getItem('lastLoginDate');
+    let today = (new Date()).toLocaleDateString();
+    this.shouldRedirect = true;
+    return (!lastLoginDate || lastLoginDate !== today);
   }
 
   clearAndFocusPassword() {
