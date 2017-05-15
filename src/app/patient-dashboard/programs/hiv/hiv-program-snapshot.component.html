@@ -4,10 +4,10 @@
   <div *ngIf="hasError">
     <p class="alert alert-error text-error">Error generating hiv program snapshot</p>
   </div>
-  <div *ngIf="noData && !hasError">
+  <div *ngIf="!hasData && !hasError && hasLoadedData">
     <p class="alert alert-warning">No patient data to generate hiv program snapshot</p>
   </div>
-  <div *ngIf="!hasError && !noData">
+  <div *ngIf="!hasError && hasData">
     <table class="table table-striped">
       <thead>
       <tr>
@@ -26,7 +26,10 @@
       <tr>
         <td><strong class="summary-label">RTC Date:</strong> {{patientData?.rtc_date | date:'dd-MM-yyyy'}}</td>
         <td>
-          <strong class="summary-label">Last Viral Load:</strong> {{patientData?.vl_1 }} (<span>{{patientData?.vl_1_date | date:'dd-MM-yyyy'}}</span>)
+          <strong class="summary-label">Last Viral Load:</strong> {{patientData?.vl_1 }}
+          <ng-container *ngIf="patientData.vl_1">
+            (<span>{{patientData?.vl_1_date | date:'dd-MM-yyyy'}}</span>)
+          </ng-container>
           <p>
             <i style="font-size:smaller" class="text-muted" *ngIf="patientData?.isPendingViralLoad?.status">
               There is a Pending Viral Load Test Ordered on:
@@ -44,4 +47,5 @@
       </tbody>
     </table>
   </div>
+  <div *ngIf="!hasLoadedData && !hasError">Loading patient data....</div>
 </div>
