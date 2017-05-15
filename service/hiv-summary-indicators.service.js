@@ -8,7 +8,6 @@ export class HivSummaryIndicatorsService {
         let self = this;
         return new Promise(function (resolve, reject) {
             reportParams.groupBy = 'groupByLocation';
-            reportParams.order = 'encounter_datetime%7Casc';
             reportParams.countBy = 'num_persons';
             Promise.join(dao.runReport(reportParams),
                 (results) => {

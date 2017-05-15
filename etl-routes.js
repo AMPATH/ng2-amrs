@@ -1721,7 +1721,7 @@ module.exports = function () {
                     function () {
                         let requestParams = Object.assign({}, request.query, request.params);
                         let reportParams = etlHelpers.getReportParams('hiv-summary-report',
-                            ['startDate', 'endDate', 'locationUuids', 'indicators', 'gender'], requestParams);
+                            ['startDate', 'endDate', 'locationUuids', 'indicators', 'gender', 'startAge', 'endAge'], requestParams);
 
                         let service = new HivSummaryIndicatorsService();
                         service.getAggregateReport(reportParams).then((result) => {
@@ -1779,19 +1779,18 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                preRequest.resolveLocationIdsToLocationUuids(request,
-                    function () {
-                        let requestParams = Object.assign({}, request.query, request.params);
-                        let service = new HivSummaryIndicatorsService();
-                        service.getPatientListReport(requestParams).then((result) => {
-                            reply(result);
-                        }).catch((error) => {
-                            reply(error);
-                        });
-                    });
+
+                request.query.reportName = 'hiv-summary-report';
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new HivSummaryIndicatorsService();
+                service.getPatientListReport(requestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
             },
-            description: "Get hiv summary indicators' patient list for selected clinic",
-            notes: "Returns hiv summary indicators' patient list for the selected clinic(s),start date, end date",
+            description: "Get hiv summary indicator's patient list for selected clinic",
+            notes: "Returns hiv summary indicator's patient list for the selected clinic,start date, end date",
             tags: ['api'],
             validate: {
                 query: {
@@ -1825,8 +1824,7 @@ module.exports = function () {
                 }
             }
         }
-    },
-    {
+    }, {
         method: 'GET',
         path: '/etl/location/{locationUuids}/patient-by-indicator',
         config: {
@@ -2323,4 +2321,4 @@ module.exports = function () {
     ];
 
     return routes;
-}();
+} ();
