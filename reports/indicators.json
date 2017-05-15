@@ -1143,12 +1143,12 @@
         "name": "monthly_patient_care_status",
         "label": "Monthly patient care status",
         "description": "Care status of patient on a monthly basis",
-        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 AND t1.transfer_out IS NULL AND COALESCE(t1.death_date, t1.out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 THEN 'ltfu' WHEN t1.transfer_out IS NOT NULL AND COALESCE(t1.death_date) IS NULL THEN 'transfered_out' END"
+        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 AND t1.transfer_out IS NULL AND COALESCE(t1.death_date, t1.out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 AND transfer_out IS  NULL THEN 'ltfu' WHEN t1.transfer_out IS NOT NULL AND COALESCE(t1.death_date) IS NULL THEN 'transfered_out' END"
     },
     {
         "name": "patient_daily_care_status",
         "label": "patient_daily_care_status",
         "description": "Patient daily care status",
-        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)),@referenceDate) <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), @referenceDate) > 90 THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
+        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)),@referenceDate) <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), @referenceDate) > 90 AND transfer_out IS  NULL THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
     }
 ]
