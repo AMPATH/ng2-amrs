@@ -79,6 +79,7 @@ describe('EncounterResourceService', () => {
                         .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
                         + patientUuid + '&v=custom:(uuid,encounterDatetime,' +
                         'patient:(uuid,uuid),form:(uuid,name),' +
+                        'visit:(uuid,startDatetime,stopDatetime),' +
                         'location:ref,encounterType:ref,provider:ref)');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
@@ -129,6 +130,7 @@ describe('EncounterResourceService', () => {
                 mockBackend.connections.subscribe(conn => {
                     let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
                         'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+                        'visit:(uuid,startDatetime,stopDatetime),' +
                         'location:ref,encounterType:ref,provider:ref,orders:full,' +
                         'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display))' +
                         ',value:ref,groupMembers))';
