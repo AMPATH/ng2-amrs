@@ -1085,6 +1085,13 @@
 
     },
     {
+        "name":"transfer_in_patients",
+        "label":"transfer_in_patients",
+        "description": "These are patients who transferred into the selected facility within the reporting period",
+        "expression": "t1.transfer_in is not nul"
+
+    },
+    {
         "name":"transfer_out_patients_this_month",
         "label":"transfer_out_patients_this_month",
         "description": "These are patients transferred to other Ampath or NON Ampath facility within the reporting month",
@@ -1206,6 +1213,12 @@
         "name": "patient_daily_care_status",
         "label": "patient_daily_care_status",
         "description": "Patient daily care status",
-        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)),@referenceDate) <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), @referenceDate) > 90 AND transfer_out IS  NULL THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
+        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)),@referenceDate) <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), @referenceDate) > 90 THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
+    },
+    {
+        "name":"community_ART_dispensing",
+        "label":"community_ART_dispensing",
+        "description": "These are patients who are on ART through community dispensing program",
+        "expression": "t1.encounter_type = 128"
     }
 ]
