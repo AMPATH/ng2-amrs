@@ -1,5 +1,4 @@
 <div class="wrapper">
-  <div [ngBusy]="busyIndicator"></div>
   <patient-encounter-observations [onEncounterDetail]="onEncounterDetail"
                                   (isDone)="loadingIndicator($event)"
                                   [encounter]="selectedEncounter"></patient-encounter-observations>
