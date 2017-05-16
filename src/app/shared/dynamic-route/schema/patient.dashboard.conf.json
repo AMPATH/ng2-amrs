@@ -68,11 +68,6 @@
           "icon": "fa fa-medkit"
         },
         {
-          "url": "hiv-clinical-summary",
-          "label": "HIV Clinical Summary",
-          "icon": "fa fa-file-pdf-o"
-        },
-        {
           "url": "clinical-notes",
           "label": "Clinical Notes",
           "icon": "fa fa-book"

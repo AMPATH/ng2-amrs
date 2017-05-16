@@ -26,7 +26,7 @@ const patientDashboardRoutes: Routes = [
     path: ':patient_uuid',
     component: PatientDashboardComponent,
     children: [
-      { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full'},
+      { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
       // { path: '', redirectTo: 'general/landing-page'},
       { path: ':program/patient-info', component: PatientInfoComponent },
       { path: 'oncology/landing-page', component: PatientInfoComponent },
@@ -43,7 +43,6 @@ const patientDashboardRoutes: Routes = [
       },
       { path: ':program/hiv-summary', component: HivSummaryComponent },
       { path: 'hiv/landing-page', component: HivSummaryComponent },
-      { path: ':program/hiv-clinical-summary', component: HivPatientClinicalSummaryComponent },
       { path: ':program/lab-data-summary', component: LabDataSummaryComponent },
       { path: ':program/lab-orders', component: LabOrdersComponent },
       { path: 'general/landing-page', component: ProgramsComponent },
