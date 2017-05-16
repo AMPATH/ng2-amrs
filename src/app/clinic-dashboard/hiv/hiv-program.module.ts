@@ -5,6 +5,9 @@ import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { clinicDashboardHivRouting } from './hiv-program.routes';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { EtlApi } from '../../etl-api/etl-api.module';
+import {
+  HivSummaryIndicatorComponent
+} from './hiv-summary-indicators/hiv-summary-indicator.component';
 
 @NgModule({
     imports: [
@@ -12,8 +15,8 @@ import { EtlApi } from '../../etl-api/etl-api.module';
         HivCareLibModule,
         CommonModule
     ],
-    exports: [],
-    declarations: [Moh731ReportComponent],
+    exports: [HivSummaryIndicatorComponent],
+    declarations: [Moh731ReportComponent, HivSummaryIndicatorComponent],
     providers: [],
 })
 export class HivProgramModule { }

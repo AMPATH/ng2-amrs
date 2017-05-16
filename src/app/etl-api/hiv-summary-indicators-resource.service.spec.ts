@@ -107,7 +107,7 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
                 expect(params).toContain('endDate=2017-04-27');
                 expect(params).toContain('gender=M,F');
                 expect(params).toContain('startDate=2017-03-01');
-                expect(params).toContain('indicator=on_arvs');
+                expect(params).toContain('indicators=on_arvs');
                 expect(params).toContain('startAge=0');
                 expect(params).toContain('endAge=110');
 

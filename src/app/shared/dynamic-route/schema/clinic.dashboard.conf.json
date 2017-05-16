@@ -43,6 +43,12 @@
       "label": "MOH 731 Report",
       "icon": "glyphicon glyphicon-equalizer",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/hiv-summary-indicator-report",
+      "label": "HIV Summary Indicators",
+      "icon": "glyphicon glyphicon-equalizer",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

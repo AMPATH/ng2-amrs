@@ -13,6 +13,14 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
+import {
+  HivSummaryIndicatorBaseComponent
+} from './hiv-summary-indicators/hiv-summary-report-base.component';
+import {
+  ReportFilters
+} from './report-filters/report-filters.component';
+import { SelectModule } from 'angular2-select';
+import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 @NgModule({
     imports: [
         AgGridModule.withComponents([]),
@@ -20,7 +28,8 @@ import { LocationResourceService } from '../openmrs-api/location-resource.servic
         FormsModule,
         CommonModule,
         TabViewModule,
-        NgamrsSharedModule
+        NgamrsSharedModule,
+        SelectModule,
     ],
     exports: [
         Moh731TabularComponent,
@@ -29,13 +38,18 @@ import { LocationResourceService } from '../openmrs-api/location-resource.servic
         CommonModule,
         TabViewModule,
         NgamrsSharedModule,
-        MOHReportComponent
+        MOHReportComponent,
+        ReportFilters,
+        HivSummaryTabularComponent
     ],
     declarations: [
         Moh731TabularComponent,
         Moh731ReportBaseComponent,
         Moh731ReportFilters,
         MOHReportComponent,
+        HivSummaryIndicatorBaseComponent,
+        ReportFilters,
+        HivSummaryTabularComponent
     ],
     providers: [MOHReportService, LocationResourceService],
 })
