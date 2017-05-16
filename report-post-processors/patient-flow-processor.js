@@ -13,8 +13,9 @@ var moduleExport = {
     _handleTimeToBeSeenByClinician: _handleTimeToBeSeenByClinician,
     _getTimeSpanInMinutes: _getTimeSpanInMinutes,
     _handleTimeToCompleteVisit: _handleTimeToCompleteVisit,
-    splitResultsByLocation:splitResultsByLocation,
-    calculateStatisticsByLocation:calculateStatisticsByLocation
+    splitResultsByLocation: splitResultsByLocation,
+    calculateStatisticsByLocation: calculateStatisticsByLocation,
+    calculateHourlyStatistics: calculateHourlyStatistics
 };
 
 module.exports = moduleExport;
@@ -31,13 +32,13 @@ function groupResultsByVisitId(arrayOfResults) {
                 (result.middle_name && result.middle_name != null ? ' ' + result.middle_name : '') +
                 (result.family_name && result.family_name != null ? ' ' + result.family_name : ''),
                 identifiers: result.identifiers,
-                visit_person_Name:(result.visit_start_given_name && result.visit_start_given_name != null ? result.visit_start_given_name : '') +
+                visit_person_Name: (result.visit_start_given_name && result.visit_start_given_name != null ? result.visit_start_given_name : '') +
                 (result.visit_start_middle_name && result.visit_start_middle_name != null ? ' ' + result.visit_start_middle_name : '') +
                 (result.visit_start_family_name && result.visit_start_family_name != null ? ' ' + result.visit_start_family_name : ''),
 
                 location: result.location,
                 locationId: result.location_id,
-                visit_person_id:result.visit_person_id,
+                visit_person_id: result.visit_person_id,
                 visit_id: result.visit_id,
                 registered: typeof result.triaged === 'string' ? result.visit_start : new Date(result.visit_start).toISOString(),
                 visit_end: result.visit_end,
@@ -98,7 +99,7 @@ function _handleEncouters(result, visit) {
             person_name: (result.provider_given_name && result.provider_given_name != null ? result.provider_given_name : '') +
             (result.provider_middle_name && result.provider_middle_name != null ? ' ' + result.provider_middle_name : '') +
             (result.provider_family_name && result.provider_family_name != null ? ' ' + result.provider_family_name : ''),
-            person_id:result.person_id
+            person_id: result.person_id
         };
 
 
@@ -301,11 +302,11 @@ function _getMedian(data) {
 
 
 function splitResultsByLocation(patientFlowItemsArray) {
-    var locations=[];
-    var finalResultsByLocation= [];
+    var locations = [];
+    var finalResultsByLocation = [];
     for (var i = 0; i < patientFlowItemsArray.length; i++) {
-        var res = _.filter(patientFlowItemsArray, function(o) {
-            return o.locationId ===patientFlowItemsArray[i].locationId;
+        var res = _.filter(patientFlowItemsArray, function (o) {
+            return o.locationId === patientFlowItemsArray[i].locationId;
         });
 
         var locationSplitResults = {
@@ -317,12 +318,12 @@ function splitResultsByLocation(patientFlowItemsArray) {
         locations.push(locationSplitResults);
     }
 
-    locations.forEach(function(item) {
+    locations.forEach(function (item) {
         var unique = true;
-        finalResultsByLocation.forEach(function(item2) {
+        finalResultsByLocation.forEach(function (item2) {
             if (_.isEqual(item, item2)) unique = false;
         });
-        if (unique)  finalResultsByLocation.push(item);
+        if (unique) finalResultsByLocation.push(item);
     });
 
     return finalResultsByLocation;
@@ -330,14 +331,64 @@ function splitResultsByLocation(patientFlowItemsArray) {
 
 function calculateStatisticsByLocation(resultsSplitByLocationArray) {
     var locationsStats = [];
-    var stats={};
-    _.each(resultsSplitByLocationArray, function(loc) {
-         stats =  _calculateStatsForSingleLocation(loc);
+    var stats = {};
+    _.each(resultsSplitByLocationArray, function (loc) {
+        stats = _calculateStatsForSingleLocation(loc);
         locationsStats.push(stats);
 
     });
 
     return locationsStats;
+}
+
+function calculateHourlyStatistics(resultsSplitByLocationArray) {
+    var triageCountResults = [];
+    var registeredCountResults = [];
+    var seenCountResults = [];
+    var countPeriod = [];
+    var combinedCount = [];
+
+    _.each(resultsSplitByLocationArray, function (loc) {
+
+        var triagedHour = loc.triaged ? moment(loc.triaged).format('H') : null;
+        var registeredHour = loc.registered ? moment(loc.registered).format('H') : null;
+        var seenHour = loc.triaged ? moment(loc.seen_by_clinician).format('H') : null;
+
+        //count hourly entries for triage,seen or registered
+        countStatByHour(triagedHour, triageCountResults);
+        countStatByHour(registeredHour, registeredCountResults);
+        countStatByHour(seenHour, seenCountResults);
+
+        //track time period for either triage,seen or registered
+        countPeriod[triagedHour] = triagedHour;
+        countPeriod[registeredHour] = registeredHour;
+        countPeriod[seenHour] = seenHour;
+
+    });
+
+    for (var i = 0; i < countPeriod.length; i++) {
+        var hour = countPeriod[i];
+        if (hour) {
+            combinedCount.push({
+                time: hour,
+                triaged: triageCountResults[hour] ? triageCountResults[hour].count : null,
+                registered: registeredCountResults[hour] ? registeredCountResults[hour].count : null,
+                seen: seenCountResults[hour] ? seenCountResults[hour].count : null
+            })
+        }
+
+    }
+    return combinedCount;
+}
+
+function countStatByHour(hour, countResults) {
+    if (hour) {
+        if (countResults[hour]) {
+            countResults[hour] = { count: countResults[hour].count + 1 };
+        } else {
+            countResults[hour] = { count: 1 };
+        }
+    }
 }
 
 function _calculateStatsForSingleLocation(resultsSplitByLocation) {
@@ -348,7 +399,7 @@ function _calculateStatsForSingleLocation(resultsSplitByLocation) {
     };
 
     stats.medianWaitingTime =
-       calculateMedianWaitingTime(resultsSplitByLocation.results);
+        calculateMedianWaitingTime(resultsSplitByLocation.results);
     stats.incompleteVisitsCount =
         getIncompleteVisitsCount(resultsSplitByLocation.results);
     stats.completeVisitsCount =
@@ -360,8 +411,8 @@ function _calculateStatsForSingleLocation(resultsSplitByLocation) {
 
 function getTotalVisitsCount(patientFlowArray) {
 
-     var inCompleteVists = getIncompleteVisitsCount(patientFlowArray);
-     var completeVists = getCompleteVisitsCount(patientFlowArray);
+    var inCompleteVists = getIncompleteVisitsCount(patientFlowArray);
+    var completeVists = getCompleteVisitsCount(patientFlowArray);
 
     return completeVists + inCompleteVists;
 }
