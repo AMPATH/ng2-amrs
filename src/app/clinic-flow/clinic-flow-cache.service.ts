@@ -166,6 +166,46 @@ export class ClinicFlowCacheService {
             }
         ];
     }
-
+    public getLocationStatsColumn() {
+      return [
+        {
+          headerName: 'Location',
+          width: 100,
+          filter: 'text',
+          field: 'location',
+          pinned: true
+        },
+        {
+          headerName: ' # Visits',
+          width: 40,
+          filter: 'text',
+          field: 'totalVisitsCount'
+        },
+        {
+          headerName: '# Incomplete',
+          width: 60,
+          filter: 'text',
+          field: 'incompleteVisitsCount'
+        },
+        {
+          headerName: 'Median Triage Waiting Time',
+          width: 100,
+          filter: 'text',
+          field: 'medianWaitingTime.medianTriageWaitingTime'
+        },
+        {
+          headerName: 'Median Clinician Waiting Time ',
+          width: 100,
+          filter: 'text',
+          field: 'medianWaitingTime.medianClinicianWaitingTime'
+        },
+        {
+          headerName: 'Median Visit Completion Time ',
+          width: 100,
+          filter: 'text',
+          field: 'medianWaitingTime.medianVisitCompletionTime'
+        }
+      ];
+    }
 
 }

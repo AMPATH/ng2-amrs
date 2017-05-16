@@ -27,6 +27,9 @@ import {
   PatientStatusChangeListComponent
 } from
   './patient-status-change-visualization/patient-status-change-list.component';
+import {
+  ClinicFlowLocationStatsComponent
+} from '../clinic-flow/clinic-flow-location-stats.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -48,6 +51,7 @@ const clinicDashboardRoutes: Routes = [
             children: [
               { path: 'visits', component: ClinicFlowVisitsComponent },
               { path: 'summary', component: ClinicFlowSummaryComponent },
+              { path: 'location', component: ClinicFlowLocationStatsComponent },
               { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
 
             ]
