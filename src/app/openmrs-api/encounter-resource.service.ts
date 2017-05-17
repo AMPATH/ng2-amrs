@@ -83,4 +83,16 @@ export class EncounterResourceService {
                 return response.json();
             });
     }
+
+    voidEncounter(uuid) {
+        if (!uuid) {
+            return null;
+        }
+        let url = this.getUrl() + 'encounter/' + uuid + '?!purge';
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.delete(url, new RequestOptions({
+            headers: headers
+        }));
+    }
 }

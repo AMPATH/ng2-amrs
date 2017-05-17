@@ -4,14 +4,9 @@
       <div class="form-group">
         <label for="search-textbox"><h2>Search by Order ID</h2></label>
         <div class="input-wrapper" [style.margin-right]="adjustedInputMargin">
-          <input id="search-textbox" type="text" class="form-control input-lg"
-                 placeholder="Enter Order ID and press enter or click search button"
-                 [ngModelOptions]="{standalone: true}"
-                 [(ngModel)]="orderId"
-                 (ngModelChange)="onValueChange($event)"
-                 (paste)="onPaste($event)"
-                 (keyup)="onPaste($event)"
-                 (keypress)="onKeyPress($event)" >
+          <input id="search-textbox" type="text" class="form-control input-lg" placeholder="Enter Order ID and press enter or click search button"
+            [ngModelOptions]="{standalone: true}" [(ngModel)]="orderId" (ngModelChange)="onValueChange($event)" (paste)="onPaste($event)"
+            (keyup)="onPaste($event)" (keypress)="onKeyPress($event)">
         </div>
         <div class="input-group-btn pull-right">
           <button id="search" [disabled]="isEnabled" class="btn btn-primary btn-lg" (click)="searchOrderId()">
@@ -25,6 +20,9 @@
       </div>
       <p *ngIf="hasError">
         <strong class="text-danger">Invalid order ID</strong>
+      </p>
+      <p *ngIf="orderDeleted">
+        <strong class="text-danger">Sorry, this order was deleted</strong>
       </p>
     </form>
   </div>
