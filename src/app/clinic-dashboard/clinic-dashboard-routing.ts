@@ -16,7 +16,6 @@ import {
   VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
-import { HivProgramModule } from './hiv/hiv-program.module';
 import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
 import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
 import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';

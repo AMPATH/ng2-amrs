@@ -103,6 +103,7 @@ import {
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
 import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
+import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
 
 @NgModule({
   imports: [
@@ -173,6 +174,7 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,
+    Moh731ResourceService,
     ClinicDashboardCacheService,
     DefaulterListResourceService,
     ClinicalSummaryVisualizationService,
