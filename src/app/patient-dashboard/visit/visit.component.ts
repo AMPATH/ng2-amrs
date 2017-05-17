@@ -207,6 +207,10 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
         }
     }
+    public retry() {
+        this.errors = [];
+        this.getPatient();
+    }
     private getLastVisit(visits: any[]) {
         let filtered = visits.filter((visit) => {
             let today = Moment().format('l');
