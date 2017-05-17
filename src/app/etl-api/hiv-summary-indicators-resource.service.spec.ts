@@ -29,8 +29,10 @@ const expectedHivSummaryIndicatorsResults = {
 };
 
 const reportParams = {
+    startIndex: undefined,
     startDate: '2017-03-01',
     locationUuids: '08fec056-1352-11df-a1f1-0026b9348838',
+    limit: undefined,
     endDate: '2017-04-27',
     gender: 'M,F',
     indicators: 'on_arvs',

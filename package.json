@@ -126,6 +126,7 @@
     "ng2-pagination": "^0.5.1",
     "ng2-pdf-viewer": "^1.0.1",
     "ng2-responsive": "^0.4.7",
+    "ng2-select": "^1.2.0",
     "ng2-slider-component": "^1.0.9",
     "ngx-mydatepicker": "^0.1.0",
     "ngx-toastr": "^4.1.1",

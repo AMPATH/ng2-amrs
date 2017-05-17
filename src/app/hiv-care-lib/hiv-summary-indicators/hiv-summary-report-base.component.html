@@ -3,7 +3,8 @@
                 (onAgeChangeFinish)="onAgeChangeFinished($event)"
                      (onGenderChange)="getSelectedGender($event)"
                      (onIndicatorChange)="getSelectedIndicators($event)"
-                    [selectedIndicators]="selectedIndicator"
+                    [selectedIndicators]="selectedIndicators"
+                    [selectedGender]="selectedGender"
                      [reportName]="reportName" [parentIsBusy]="isLoadingReport"
                     (generateReport)="generateReport()" >
 
@@ -20,7 +21,7 @@
 <div *ngIf="!isLoadingReport && !encounteredError">
   <p-tabView (onChange)="onTabChanged($event)">
     <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentView === 'tabular'">
-      <hiv-summary-tabular [sectionDefs]="sectionsDef"  [rowData]="data"></hiv-summary-tabular>
+      <hiv-summary-tabular [sectionDefs]="sectionsDef"  [rowData]="data" [dates]="dates" [gender]="gender" [age]="age"></hiv-summary-tabular>
     </p-tabPanel>
   </p-tabView>
 

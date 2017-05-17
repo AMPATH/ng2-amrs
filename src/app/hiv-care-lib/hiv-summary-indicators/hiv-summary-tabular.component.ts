@@ -2,6 +2,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
+import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'hiv-summary-tabular',
   templateUrl: 'hiv-summary-tabular.component.html',
@@ -9,6 +12,9 @@ import { AgGridNg2 } from 'ag-grid-angular';
 })
 
 export class HivSummaryTabularComponent implements OnInit {
+  routeParamsSubscription: Subscription;
+  startDate: any;
+  endDate: any;
   public gridOptions: any = {
     columnDefs: []
   };
@@ -29,10 +35,37 @@ export class HivSummaryTabularComponent implements OnInit {
     this.setColumns(v);
 
   }
+  private _dates: any;
+  public get dates(): any {
+    return this._dates;
+  }
+  @Input('dates')
+  public set dates(v: any) {
+    this._dates = v;
+  }
 
-  constructor() { }
+  private _gender: any;
+  public get gender(): any {
+    return this._gender;
+  }
+  @Input('gender')
+  public set gender(v: any) {
+    this._gender = v;
+  }
 
-  ngOnInit() {}
+  private _age: any;
+  public get age(): any {
+    return this._age;
+  }
+  @Input('age')
+  public set age(v: any) {
+    this._age = v;
+  }
+
+  constructor(private router: Router,
+    private route: ActivatedRoute) { }
+
+  ngOnInit() { }
   setColumns(sectionsData: Array<any>) {
     let defs = [];
     defs.push({
@@ -43,7 +76,7 @@ export class HivSummaryTabularComponent implements OnInit {
     if (this.data[0]) {
       _.each(Object.keys(this.data[0]), (selected) => {
         _.each(sectionsData, (data) => {
-          if ( selected === data.name) {
+          if (selected === data.name) {
             defs.push({
               headerName: this.titleCase(data.label),
               field: data.name
@@ -63,4 +96,16 @@ export class HivSummaryTabularComponent implements OnInit {
     }).join(' ');
   }
 
+  onCellClicked(event) {
+    this.goToPatientList(event);
+  }
+
+  goToPatientList(data) {
+    this.startDate = moment(this._dates.startDate);
+    this.endDate = moment(this._dates.endDate);
+    this.router.navigate(['../patient-list', data.colDef.field,
+      this.startDate.format('DD/MM/YYYY') + '|' + this.endDate.format('DD/MM/YYYY'),
+      this.gender ? this.gender : 'F,M', this.age.startAge + '|' + this.age.endAge],
+      { relativeTo: this.route });
+  }
 }

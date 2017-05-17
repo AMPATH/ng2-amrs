@@ -8,6 +8,15 @@ import { AgGridModule } from 'ag-grid-angular/main';
 
 ;
 import { HivSummaryTabularComponent } from './hiv-summary-tabular.component';
+import { Observable } from 'rxjs/Rx';
+import { Router, ActivatedRoute } from '@angular/router';
+
+class MockRouter {
+  navigate = jasmine.createSpy('navigate');
+}
+class MockActivatedRoute {
+  params = Observable.of([{ 'id': 1 }]);
+}
 
 describe('HivSummaryTabularComponent: ', () => {
   let fixture: ComponentFixture<HivSummaryTabularComponent>;
@@ -19,7 +28,11 @@ describe('HivSummaryTabularComponent: ', () => {
       declarations: [
         HivSummaryTabularComponent
       ],
-      providers: [],
+      providers: [
+        { provide: Router, useClass: MockRouter },
+        {
+          provide: ActivatedRoute, useClass: MockActivatedRoute
+        }],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
         AgGridModule.withComponents([])
@@ -44,23 +57,23 @@ describe('HivSummaryTabularComponent: ', () => {
   it('should convert hiv summary section definition object to ag-grid column definition object',
     () => {
       let sectionsDef = [
-            {
-              label: 'patients',
-              name: 'patients',
-              description: 'Total number of patients',
-              expression: 'true'
-            },
-            {
-              label: 'on arvs',
-              name: 'on_arvs',
-              description: 'Total number of patients',
-              expression: 'true'
-            },
-            ];
+        {
+          label: 'patients',
+          name: 'patients',
+          description: 'Total number of patients',
+          expression: 'true'
+        },
+        {
+          label: 'on arvs',
+          name: 'on_arvs',
+          description: 'Total number of patients',
+          expression: 'true'
+        },
+      ];
 
       fixture.detectChanges();
       let component = fixture.componentInstance;
-    //  component.setColumns(sectionsDef);
+      //  component.setColumns(sectionsDef);
 
       let expected = [
         {
@@ -78,7 +91,7 @@ describe('HivSummaryTabularComponent: ', () => {
         },
       ];
 
-    //  expect(component.gridOptions.columnDefs).toEqual(expected);
+      //  expect(component.gridOptions.columnDefs).toEqual(expected);
 
       // should also create columns when setter is set
       /*component.gridOptions = { columnDefs: [] };
