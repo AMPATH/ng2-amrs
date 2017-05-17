@@ -15,6 +15,7 @@ let _ = require('lodash');
 export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
     errors: any[] = [];
     clinicFlowData: any[] = [];
+    hourlyStats: any[] = [];
     loadingClinicFlow: boolean = false;
     summarydataLoaded: boolean = false;
     averageWaitingTime: any;
@@ -72,6 +73,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
                     if (data && data.result.length > 0) {
                         let formatted = this.clinicFlowCacheService.formatData(
                             data.result);
+                        this.hourlyStats = data.hourlyStats;
                         this.clinicFlowData = this.clinicFlowData.concat(formatted);
                         this.summarydataLoaded = true;
                         this.incompleteVisitsCount = data.incompleteVisitsCount;
@@ -102,6 +104,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
         this.errors = [];
         this.clinicFlowData = [];
         this.incompleteVisitsCount = 0;
+        this.hourlyStats = [];
     }
 
 

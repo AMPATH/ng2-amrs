@@ -2,7 +2,10 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
+import { ChartModule } from 'angular2-highcharts';
+
 import { ClinicFlowSummaryComponent } from './clinic-flow-summary.component';
+import { ClinicFlowHourlyStatsVizComponent } from './clinic-flow-hourly-stats-viz.component';
 import { ClinicDashboardCacheService }
   from '../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
@@ -92,8 +95,9 @@ describe('Component: ClinicFlowSummaryComponent', () => {
         }
 
       ],
-      declarations: [ClinicFlowSummaryComponent],
+      declarations: [ClinicFlowSummaryComponent, ClinicFlowHourlyStatsVizComponent],
       imports: [BusyModule,
+        ChartModule.forRoot(require('highcharts')),
         FormsModule,
         DialogModule,
         CalendarModule,
