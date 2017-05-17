@@ -4,7 +4,7 @@ var helpers = require('./etl-helpers');
 var patientFlowProcessor = require('./report-post-processors/patient-flow-processor');
 var clinicalComparatorProcessor = require('./report-post-processors/clinic-comparator-processor');
 
-module.exports = function() {
+module.exports = function () {
   return {
     convertConceptIdToName: convertConceptIdToName,
     processPatientFlow: processPatientFlow,
@@ -13,8 +13,8 @@ module.exports = function() {
   };
 
   function convertConceptIdToName(indicators, queryResults, requestIndicators) {
-    _.each(indicators, function(indicator) {
-      _.each(queryResults.result, function(row) {
+    _.each(indicators, function (indicator) {
+      _.each(queryResults.result, function (row) {
         row[indicator] = helpers.getARVNames(row[indicator]);
       });
     });
@@ -23,7 +23,7 @@ module.exports = function() {
 
   function findChanges(indicators, queryResults, requestIndicators) {
     var rows = [];
-    _.each(queryResults.result, function(row) {
+    _.each(queryResults.result, function (row) {
       var current = row.current_regimen.split('##');
       var previous = row.previous_regimen.split('##');
       if (!arraysEqual(current, previous)) {
@@ -58,11 +58,12 @@ module.exports = function() {
     queryResults.incompleteVisitsCount =
       patientFlowProcessor.getIncompleteVisitsCount(queryResults.result);
     queryResults.completeVisitsCount =
-        patientFlowProcessor.getCompleteVisitsCount(queryResults.result);
+      patientFlowProcessor.getCompleteVisitsCount(queryResults.result);
     queryResults.totalVisitsCount =
-        patientFlowProcessor.getTotalVisitsCount(queryResults.result);
+      patientFlowProcessor.getTotalVisitsCount(queryResults.result);
     queryResults.resultsByLocation = patientFlowProcessor.splitResultsByLocation(queryResults.result);
     queryResults.statsByLocation = patientFlowProcessor.calculateStatisticsByLocation(queryResults.resultsByLocation);
+    queryResults.hourlyStats = patientFlowProcessor.calculateHourlyStatistics(queryResults.result);
 
     return queryResults;
 
@@ -74,4 +75,4 @@ module.exports = function() {
 
     return queryResults;
   }
-}();
+} ();
