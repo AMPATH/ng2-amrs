@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject , ReplaySubject } from 'rxjs/Rx';
+import { Observable, Subject, ReplaySubject } from 'rxjs/Rx';
+import * as _ from 'lodash';
 
 
 @Injectable()
 export class OrderResourceService {
 
   v: string = 'custom:(display,uuid,orderNumber,accessionNumber,' +
-    'orderReason,orderReasonNonCoded,urgency,action,' +
-    'commentToFulfiller,dateActivated,instructions,orderer:default,' +
-    'encounter:full,patient:default,concept:ref)';
+  'orderReason,orderReasonNonCoded,urgency,action,' +
+  'commentToFulfiller,dateActivated,instructions,orderer:default,' +
+  'encounter:full,patient:default,concept:ref)';
 
   constructor(protected http: Http,
-              protected appSettingsService: AppSettingsService) {
+    protected appSettingsService: AppSettingsService) {
   }
 
   getUrl(): string {
@@ -22,9 +23,9 @@ export class OrderResourceService {
   }
 
   searchOrdersById(orderId: string, cached: boolean = false,
-                    v: string = null): Observable<any> {
+    v: string = null): Observable<any> {
 
-    let url = this.getUrl() ;
+    let url = this.getUrl();
     url += '/' + orderId;
     let params: URLSearchParams = new URLSearchParams();
     params.set('v', (v && v.length > 0) ? v : this.v);
@@ -32,12 +33,12 @@ export class OrderResourceService {
     return this.http.get(url, {
       search: params
     }).map((response: Response) => {
-      return response.json();
+      return this._excludeVoidedOrder(response.json());
     });
   }
 
   getOrdersByPatientUuid(patientUuid: string, cached: boolean = false,
-                         v: string = null): Observable<any> {
+    v: string = null): Observable<any> {
 
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
@@ -64,6 +65,18 @@ export class OrderResourceService {
     }).map((response: Response) => {
       return response.json();
     });
+  }
+
+  private _excludeVoidedOrder(order) {
+    if (!order) {
+      return null;
+    }
+    if (order.voided === false) {
+      return order;
+    } else {
+      return { orderVoided: true };
+    }
+
   }
 
 }
