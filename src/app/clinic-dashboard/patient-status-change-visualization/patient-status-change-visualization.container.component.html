@@ -1,20 +1,38 @@
+<div class="wrapper dashboard-wrapper">
+  <div class="loader" *ngIf="loading"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
+  <div class="row">
+    <div class="col-sm-12">
+      <dashboard-filters [options]="options" [(filterModel)]="filterModel" [startDate]="startDate" [endDate]="endDate"
+                         (filterModelChange)="filtersChanged($event)">
+      </dashboard-filters>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-12">
+      <div *ngIf="error" class="alert alert-danger">
+        <div>
+          <span><strong>Error fetching data</strong></span>
+          <button class="btn btn-danger pull-right" (click)="loadData()">Reload</button>
+        </div>
+      </div>
+      <p-tabView   (onChange)="handleTabChange($event)">
+        <p-tabPanel header="Cumulative Analysis"  leftIcon="fa fa-bar-chart" [selected]="currentView === 'cumulative'">
+          <patient-status-change-visualization #cumulative [data]="results.result" [renderType]="'cumulativeBreakdown'"
 
-<div class="wrapper">
-            <div *ngIf="loading" ><span><i class="fa fa-spinner fa-spin">
-      </i>Loading please wait...</span></div>
-    <div class="row">
-        <div class="col-sm-12">
-            <dashboard-filters [options]="options" [(filterModel)]="filterModel" [startDate]="startDate" [endDate]="endDate" (filterModelChange)="filtersChanged($event)">
-            </dashboard-filters>
-        </div>
+          ></patient-status-change-visualization>
+        </p-tabPanel>
+        <p-tabPanel header="Monthly Analysis" leftIcon="fa fa-calendar-o" [selected]="currentView === 'monthly'">
+          <patient-status-change-visualization  #monthly  [data]="results.result" [renderType]="'monthlyBreakdown'"
+
+          ></patient-status-change-visualization>
+        </p-tabPanel>
+        <p-tabPanel header="Active In Care Change Analysis"  leftIcon="fa fa-line-chart" [selected]="currentView === 'transition'">
+          <patient-status-change-visualization  #transition [data]="results.result" [renderType]="'transitionBreakdown'"
+
+          ></patient-status-change-visualization>
+        </p-tabPanel>
+      </p-tabView>
     </div>
-    <div class='row'>
-        <div *ngIf="error" class="alert alert-danger">
-            <div>
-                <span><strong>Error fetching data</strong></span>
-                <button class="btn btn-danger pull-right" (click)="loadData()">Reload</button>
-            </div>
-        </div>
-        <patient-status-change-visualization [data]="results.result" [lineIndicators]="lineIndicators" [barIndicators]="barIndicators"></patient-status-change-visualization>
-    </div>
+  </div>
 </div>

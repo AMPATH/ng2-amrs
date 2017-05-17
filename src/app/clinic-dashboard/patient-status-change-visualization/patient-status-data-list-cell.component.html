@@ -1,0 +1,16 @@
+<div style="color: deepskyblue; width: 100%; height: 100%" (click)='clicked()'
+     title="{{params.colDef.tooltip}}">
+  {{ params.value }}
+  <span *ngIf="params.column.colId==='patients_gained_this_month'||
+  params.column.colId==='patients_lost_this_month'||
+  params.column.colId==='patient_change_this_month'||
+  params.column.colId==='patients_gained'||
+ params.column.colId==='patients_lost'||
+  params.column.colId==='cumulative_deficit'||
+  params.column.colId==='patient_change_from_past_month'
+">
+    <i *ngIf="params.value>=0" style="color: green; float:right" class="fa fa-chevron-circle-up"
+       aria-hidden="true"></i>
+    <i *ngIf="params.value<0" style="color: red; float:right" class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+  </span>
+</div>

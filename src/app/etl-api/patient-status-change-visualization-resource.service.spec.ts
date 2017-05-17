@@ -7,6 +7,8 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientStatusVisualizationResourceService }
     from './patient-status-change-visualization-resource.service';
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { DataCacheService } from '../shared/services/data-cache.service';
 class MockAppSettingsService {
     constructor() { }
     getEtlServer(): string {
@@ -250,6 +252,8 @@ describe('PatientStatusVisualizationResourceService', () => {
                 PatientStatusVisualizationResourceService,
                 MockBackend,
                 BaseRequestOptions,
+                CacheService,
+                DataCacheService,
                 {
                     provide: Http,
                     deps: [MockBackend, BaseRequestOptions],
