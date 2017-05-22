@@ -28,7 +28,7 @@ export class FormDataSourceService {
       provider: this.getProviderDataSource(),
       drug: this.getDrugDataSource(),
       problem: this.getProblemDataSource(),
-      conceptAnswers: this.getConceptAnswersDataSource()
+      conceptAnswers: this.getWhoStagingCriteriaDataSource()
     };
     return formData;
   }
@@ -116,6 +116,53 @@ export class FormDataSourceService {
     };
     datasource.resolveSelectedValue = resolve;
     datasource.searchOptions = find;
+
+    return datasource;
+
+  }
+
+  getWhoStagingCriteriaDataSource() {
+    let sourceChangedSubject = new Subject();
+
+    let datasource = {
+      cachedOptions: [],
+      dataSourceOptions: {
+        concept: undefined
+      },
+      resolveSelectedValue: undefined,
+      searchOptions: undefined,
+      dataFromSourceChanged: sourceChangedSubject.asObservable(),
+      changeConcept: undefined
+    };
+    let find = (uuid: string) => {
+      if (datasource.cachedOptions.length > 0) {
+        return Observable.create((observer: Subject<any>) => {
+          observer.next(datasource.cachedOptions);
+        });
+      }
+      let valuesObservable = this.getConceptSetMembers(datasource.dataSourceOptions.concept);
+      valuesObservable.subscribe((results) => {
+        datasource.cachedOptions = results;
+      });
+      return valuesObservable;
+    };
+    let resolve = (uuid: string) => {
+      return this.resolveConcept(uuid);
+    };
+
+    let changeConcept = (uuid: string) => {
+      datasource.dataSourceOptions.concept = uuid;
+      datasource.cachedOptions = [];
+      sourceChangedSubject.next([]);
+      find(uuid).subscribe(
+        (results) => {
+          sourceChangedSubject.next(results);
+        });
+    };
+
+    datasource.resolveSelectedValue = resolve;
+    datasource.searchOptions = find;
+    datasource.changeConcept = changeConcept;
 
     return datasource;
 
@@ -270,6 +317,22 @@ export class FormDataSourceService {
       });
     return conceptResult.asObservable();
 
+  }
+
+  getConceptSetMembers(uuid) {
+    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    let v = 'custom:(uuid,name,conceptClass,setMembers)';
+    this.conceptResourceService.getConceptByUuid(uuid, true, v)
+      .subscribe((result) => {
+        let mappedConcepts: Array<any> = this.mapConcepts(result.setMembers);
+        mappedConcepts = _.sortBy(mappedConcepts, (item) => {
+          return item.label;
+        });
+        conceptResult.next(mappedConcepts);
+      }, (error) => {
+        conceptResult.error(error);
+      });
+    return conceptResult.asObservable();
   }
 
   findDrug(searchText) {

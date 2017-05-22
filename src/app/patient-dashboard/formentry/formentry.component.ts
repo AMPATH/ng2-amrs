@@ -148,7 +148,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     switch (path) {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/patient-info']);
+        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/landing-page']);
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
@@ -288,6 +288,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
 
+      this.setUpWHOCascading();
+
       if (schema.encounterType) {
         this.form.valueProcessingInfo.encounterTypeUuid = schema.encounterType.uuid;
       } else {
@@ -300,6 +302,32 @@ export class FormentryComponent implements OnInit, OnDestroy {
       // TODO Handle all form rendering errors
       console.error('An error occured while rendering form:', ex);
       this.formRenderingErrors.push('An error occured while rendering form: ' + ex.message);
+    }
+
+  }
+
+  private setUpWHOCascading() {
+    try {
+      let whoQuestions = this.form.searchNodeByQuestionId('adultWhoStage');
+
+      if (whoQuestions.length === 0) {
+        whoQuestions = this.form.searchNodeByQuestionId('pedWhoStage');
+      }
+
+      let whoStageQuestion = whoQuestions[0];
+
+      whoStageQuestion.control.valueChanges.subscribe((val) => {
+        if (val && val !== '') {
+          let source = this.form.dataSourcesContainer.dataSources['conceptAnswers'];
+          if (source.changeConcept) {
+            source.changeConcept(val);
+          }
+        }
+      });
+
+    } catch (e) {
+      console.error('Error setting up Who Staging Cascading');
+      console.error(e);
     }
 
   }
