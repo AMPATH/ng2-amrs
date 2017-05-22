@@ -58,6 +58,11 @@
           "icon": "icon-i-outpatient"
         },
         {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
           "url": "patient-vitals",
           "label": "Vitals",
           "icon": "fa fa-heartbeat"
