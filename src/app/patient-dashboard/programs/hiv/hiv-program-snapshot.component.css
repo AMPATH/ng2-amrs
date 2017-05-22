@@ -1,14 +1,12 @@
-td, th {
-  color: #428bca;
-  width: 50%;
-}
-
-.full-width {
-  width: auto;
+div[class^='col-md'] {
+  padding-left: 0;
+  padding-right: 0;
+  color: #0d6aad;
 }
 
 .summary-label {
   color: #333;
+  margin-right: 12px;
   display: inline-block;
 }
 

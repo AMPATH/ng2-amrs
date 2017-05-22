@@ -8,28 +8,26 @@
     <p class="alert alert-warning">No patient data to generate hiv program snapshot</p>
   </div>
   <div *ngIf="!hasError && hasData">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th colspan="2" class="full-width"><span class="summary-label">Encounter Location:</span> {{location?.name}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td><strong class="summary-label">Encounter Date:</strong> {{patientData?.encounter_datetime |
-          date:'dd-MM-yyyy'}}
-        </td>
-        <td><strong class="summary-label">Encounter Type:</strong> {{patientData?.encounter_type_name ?
-          patientData?.encounter_type_name : 'None' }}
-        </td>
-      </tr>
-      <tr>
-        <td><strong class="summary-label">RTC Date:</strong> {{patientData?.rtc_date | date:'dd-MM-yyyy'}}</td>
-        <td>
-          <strong class="summary-label">Last Viral Load:</strong> {{patientData?.vl_1 }}
+    <div class="snapshot-summary">
+      <div class="col-md-12">
+        <div class="full-width"><p><strong class="summary-label">Encounter Location: </strong> {{location?.name}}</p></div>
+      </div>
+      <div class="snapshot-body">
+      <div class="col-md-12">
+        <div class="col-md-6"><p><strong class="summary-label">Encounter Date: </strong> {{patientData?.encounter_datetime |
+          date:'dd-MM-yyyy'}}</p>
+        </div>
+        <div class="col-md-6"><p><strong class="summary-label">Encounter Type: </strong> {{patientData?.encounter_type_name ?
+          patientData?.encounter_type_name : 'None' }}</p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-6"><p><strong class="summary-label">RTC Date: </strong> {{patientData?.rtc_date | date:'dd-MM-yyyy'}}</p></div>
+        <div class="col-md-6"><p>
+          <strong class="summary-label">Last Viral Load: </strong> {{patientData?.vl_1 }}
           <ng-container *ngIf="patientData.vl_1">
             (<span>{{patientData?.vl_1_date | date:'dd-MM-yyyy'}}</span>)
-          </ng-container>
+          </ng-container></p>
           <p>
             <i style="font-size:smaller" class="text-muted" *ngIf="patientData?.isPendingViralLoad?.status">
               There is a Pending Viral Load Test Ordered on:
@@ -39,13 +37,14 @@
               </span>
             </i>
           </p>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="full-width"><strong class="summary-label">Current ARV Regimen:</strong> {{patientData?.cur_arv_meds}}</td>
-      </tr>
-      </tbody>
-    </table>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-6"><p><strong class="summary-label">Current ARV Regimen: </strong> {{patientData?.cur_arv_meds}}</p></div>
+        <div class="col-md-6"><p><strong class="summary-label">Care Status: </strong>{{ getPatientCareStatus(patientData?.patient_care_status) }}</p></div>
+      </div>
+      </div>
+    </div>
   </div>
-  <div *ngIf="!hasLoadedData && !hasError">Loading patient data....</div>
+  <div *ngIf="!hasLoadedData && !hasError"><p>Loading patient data....</p></div>
 </div>
