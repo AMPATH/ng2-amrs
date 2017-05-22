@@ -16,33 +16,30 @@
         </div>
         <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" (click)='dismissError()' class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <span> There was an error posting your message pleas try again</span>
+            <span> There was an error posting your message please try again</span>
         </div>
         <div class="row">
             <form role="form" id="contact-form" class="contact-form">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" [(ngModel)]="payload.phone" name="phone" autocomplete="off" id="email" required
-                                   placeholder="Phone"
-                                   minlength="10" maxlength="15" [pattern]="patterns"
-                                   #name="ngModel">
-                              <div *ngIf="name.errors && (name.dirty || name.touched)"
-                                   class="alert alert-danger">
+                            <input type="text" class="form-control" [(ngModel)]="payload.phone" name="phone" autocomplete="off" id="email" required placeholder="Phone"
+                                minlength="10" maxlength="15" [pattern]="patterns" #name="ngModel">
+                            <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
                                 <div [hidden]="!name.errors.minlength">
-                                  Phone number must be at least 10  digits.
+                                    Phone number must be at least 10 digits.
                                 </div>
                                 <div [hidden]="!name.errors.maxlength">
-                                  Phone number  max length is 15 digits.
+                                    Phone number max length is 15 digits.
                                 </div>
                                 <div *ngIf="name.errors.pattern">
-                                  Valid phone number is required
+                                    Valid phone number is required
                                 </div>
-                              </div>
+                            </div>
                         </div>
-                      <div *ngIf="hasError" style="margin-bottom:10px;">
-                        <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
-                      </div>
+                        <div *ngIf="hasError" style="margin-bottom:10px;">
+                            <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
