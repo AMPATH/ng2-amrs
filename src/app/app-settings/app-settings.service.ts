@@ -31,7 +31,7 @@ export class AppSettingsService {
     {
       name: 'Single Server',
       amrsUrl: '/amrs',
-      etlUrl: '/etl-server/etl'
+      etlUrl: '/etl-latest/etl'
     },
     {
       name: 'Single Server Beta',
