@@ -242,6 +242,24 @@
                 "expression":"transfer_in_patients",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
 
+            },
+            {
+                "label":"patients_with_vl_result",
+                "expression":"patients_with_vl_result",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+
+            },
+            {
+                "label":"vl_suppressed_patients",
+                "expression":"vl_suppressed_patients",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+
+            },
+            {
+                "label":"vl_unsuppressed_patients",
+                "expression":"vl_unsuppressed_patients",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+
             }
 
         ],

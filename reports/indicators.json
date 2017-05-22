@@ -1220,5 +1220,23 @@
         "label":"community_ART_dispensing",
         "description": "These are patients who are on ART through community dispensing program",
         "expression": "t1.encounter_type = 128"
+    },
+    {
+        "name": "patients_with_vl_result",
+        "label": "patients_with_vl_result",
+        "description": "# of patients with vl",
+        "expression": "vl_1_date between @startDate and @endDate"
+    },
+    {
+        "name": "vl_suppressed_patients",
+        "label": "vl_suppressed_patients",
+        "description": "# of patients with vl < 1000",
+        "expression": "vl_1_date between @startDate and @endDate and vl_1 < 1000"
+    },
+    {
+        "name": "vl_unsuppressed_patients",
+        "label": "vl_unsuppressed_patients",
+        "description": "# of patients with vl >= 1000",
+        "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
     }
 ]
