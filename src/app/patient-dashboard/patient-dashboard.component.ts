@@ -73,20 +73,20 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
                   for (let l of test.groupMembers) {
                     if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
                       content = content +
-                        `CD4%: ${l.value}</p> \n`;
+                        `CD4%: ${l.value} `;
                     }
                     if (l.uuid === 'f9424af5-1fd3-4a8f-8d43-7b098eb20ac3') {
                       content = content +
-                        `CD4: ${l.value}</p> \n`;
+                        `CD4: ${l.value} `;
                     }
                   }
                 } else {
                   content = content +
-                    `\n ${test.display}</p> \n 
-                    Date Collected: ${Moment(test.obsDatetime).format('DD-MM-YYYY')} \n`;
+                    `${test.display} (collected on ${Moment(test.obsDatetime)
+                      .format('DD/MM/YYYY')})`;
                 }
               }
-              this.toastrService.warning(content, 'New Data from Lab');
+              this.toastrService.info(content.toLowerCase(), 'New Data from Lab');
               // app feature analytics
               this.appFeatureAnalytics
                 .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
