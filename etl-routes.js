@@ -26,6 +26,7 @@ import { SlackService } from './service/slack-service';
 import { Moh731Service } from './service/moh-731/moh-731.service';
 import { PatientRegisterReportService } from './service/patient-register-report.service';
 import { HivSummaryIndicatorsService } from './service/hiv-summary-indicators.service';
+import { PatientMonthlyStatusHistory } from './service/patient-monthly-status-history'
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -994,15 +995,9 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                let requestParams = Object.assign({}, request.query, request.params);
-                let reportParams = etlHelpers.getReportParams('patient-monthly-care-status-report',
-                    ['startDate', 'endDate', 'patient_uuid'],
-                    requestParams);
-                reportParams.groupBy = 'groupByEndDate';
-                dao.runReport(reportParams).then((result) => {
+                let history = new PatientMonthlyStatusHistory();
+                history.getPatientMonthlyStatusHistory(request.params.patient_uuid, request.query.startDate, request.query.endDate).then((result) => {
                     reply(result);
-                }).catch((error) => {
-                    reply(error);
                 });
             },
             description: "Get the the care status of patient on a monthly basis",
