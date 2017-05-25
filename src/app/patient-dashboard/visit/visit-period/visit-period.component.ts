@@ -1,13 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import * as _ from 'lodash';
 import { PatientService } from '../../patient.service';
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
+import { ConfirmationService } from 'primeng/primeng';
+import { BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'visit-period',
   templateUrl: 'visit-period.component.html',
-  styleUrls: [],
+  styleUrls: ['visit-period.component.css']
 })
 export class VisitPeriodComponent implements OnInit, OnDestroy {
 
@@ -20,13 +24,35 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   startDatetime: string = '';
   stopDatetime: string = '';
   encounters: any[] = [];
-
   data: any;
+  genderOptions: any;
+  locationUuid: string;
+  loaderStatus: boolean;
+  locations = [];
+  loadedInitialLocation: boolean = false;
+  loadingVisit: boolean = true;
+  visitLocation: any;
+  currentVisit: any;
+
+  @Input()
+  set visitUuid(value) {
+    if (value) {
+      this.getVisitPeriod(value);
+    }
+
+  }
+
   constructor(private patientService: PatientService, private visitResource: VisitResourceService,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router, private route: ActivatedRoute,
+    private locationResourceService: LocationResourceService,
+    private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
     this.subscribeToPatientChangeEvent();
     this.subscribeToRouteChangeEvent();
+    this.getLocations();
+    setTimeout(() => {
+      this.setInitialLocation();
+    }, 3000);
   }
 
   ngOnDestroy(): void {
@@ -67,6 +93,22 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getLocations() {
+    this.loaderStatus = true;
+    this.locationResourceService.getLocations().subscribe((results: any) => {
+      this.locations = results.map((location) => {
+        return {
+          value: location.uuid,
+          label: location.display
+        };
+      });
+      this.loaderStatus = false;
+    }, (error) => {
+      this.loaderStatus = false;
+      console.log(error);
+    });
+  }
+
   subscribeToPatientChangeEvent() {
 
     this.patientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -83,6 +125,37 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
           message: 'error fetching patient'
         });
       });
+  }
+
+  public loadedLocation(event) {
+    if (event && this.encounterVisitUuid && this.locationUuid && this.locationUuid !== event) {
+
+      let visitPayload = {
+        location: event.value
+      };
+
+      this.confirmationService.confirm({
+        header: 'Change visit location',
+        message: 'This will change the visit location ' +
+        'upon confirmation. Do you want to continue?',
+        accept: () => {
+          this.loadingVisit = true;
+
+          this.visitResource.updateVisit(this.encounterVisitUuid, visitPayload)
+            .subscribe((updateVisit) => {
+              this.loadingVisit = false;
+              console.log('updated the location');
+            });
+        },
+        reject: () => {
+          console.log('Location Not Changed');
+        }
+      });
+    }
+  }
+
+  private setInitialLocation() {
+    this.locationUuid = this.currentVisit.location.uuid;
   }
 
   private getEncounterVisit(encounterUuid) {
@@ -111,10 +184,15 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
       'stopDatetime)';
+    this.loadingVisit = true;
     this.visitSubscription = this.visitResource.getVisitByUuid(uuid, { v: custom })
       .subscribe((visit) => {
         this.stopDatetime = visit.stopDatetime;
         this.startDatetime = visit.startDatetime;
+        this.currentVisit = visit ? visit : '';
+        this.locationUuid = visit ? visit.location.uuid : null;
+        this.encounterVisitUuid = visit ? visit.uuid : null;
+        this.loadingVisit = false;
       });
 
 
@@ -125,6 +203,8 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     this.stopDatetime = '';
     this.startDatetime = '';
     this.encounterVisitUuid = '';
+    this.currentVisit = '';
+    this.locationUuid = '';
   }
 }
 

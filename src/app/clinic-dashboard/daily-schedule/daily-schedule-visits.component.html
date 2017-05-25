@@ -1,7 +1,4 @@
 <div class="wrapper">
-
-    <!--<patient-list [data]="dailyAppointmentsPatientList" [options]="selectedAppointmentTab">
-    </patient-list>-->
     <patient-list [data]="dailyVisitsPatientList" [options]="selectedTab"></patient-list>
 
     <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">

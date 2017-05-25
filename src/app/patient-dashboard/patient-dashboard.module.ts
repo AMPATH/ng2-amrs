@@ -114,6 +114,7 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/d
 import { HivProgramSnapshotComponent } from './programs/hiv/hiv-program-snapshot.component';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { SelectModule } from 'angular2-select';
 @NgModule({
   imports: [
     CommonModule,
@@ -145,6 +146,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     EtlApi,
     ButtonModule,
     DateTimePickerModule,
+    SelectModule,
     AgGridModule.withComponents([
 
     ]),
