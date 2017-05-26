@@ -157,30 +157,52 @@ function newViralLoadPresent(data) {
     return reminders;
 }
 
-function generateReminders(results) {
-    let reminders = [];
-    let patientReminder = {
-        person_id: results[0].person_id,
-        person_uuid: results[0].person_uuid
-    }
-
-    _.each(results, (data) => {
-        let new_vl = newViralLoadPresent(data);
-        let vl_Errors = viralLoadErrors(data);
-        let pending_vl_orders = pendingViralOrder(data);
-        let inh_reminders = inhReminders(data);
-        let vl_reminders = viralLoadReminders(data);
-        let currentReminder = new_vl.concat(
-            vl_Errors,
-            pending_vl_orders,
-            inh_reminders,
-            vl_reminders
-        );
-        reminders = reminders.concat(currentReminder);
-
+function pendingViralLoadLabResult(eidResults) {
+  let reminders = [];
+  let data = _.first(eidResults.viralLoad);
+  
+  if (data) {
+    let dateSplit = data.DateCollected.split('-');
+    let dateCollected = Moment([dateSplit[2],
+      parseInt(Moment().month(dateSplit[1]).format('M'), 10)-1, dateSplit[0] ]);
+    reminders.push({
+      message: 'Patient lab Order No.' + data.OrderNo + ' is currently being processed. Sample' +
+      ' collected on ' + dateCollected.format('DD/MM/YYYY') + ').',
+      title  : 'Pending Lab Order Result',
+      type   : 'info',
+      display: {
+        banner: true,
+        toast : true
+      }
     });
-    patientReminder.reminders = reminders;
-    return patientReminder;
+  }
+  return reminders;
+}
+
+function generateReminders(etlResults, eidResults) {
+  let reminders = [];
+  let patientReminder = {
+    person_id: etlResults[0].person_id,
+    person_uuid: etlResults[0].person_uuid
+  };
+  let data = etlResults[0];
+  let new_vl = newViralLoadPresent(data);
+  let vl_Errors = viralLoadErrors(data);
+  let pending_vl_orders = pendingViralOrder(data);
+  let pending_vl_lab_result = pendingViralLoadLabResult(eidResults);
+  let inh_reminders = inhReminders(data);
+  let vl_reminders = viralLoadReminders(data);
+  let currentReminder = new_vl.concat(
+    vl_Errors,
+    pending_vl_orders,
+    pending_vl_lab_result,
+    inh_reminders,
+    vl_reminders);
+  
+  reminders = reminders.concat(currentReminder);
+  
+  patientReminder.reminders = reminders;
+  return patientReminder;
 }
 
 
