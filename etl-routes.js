@@ -6,7 +6,7 @@ var preRequest = require('./pre-request-processing');
 var pack = require('./package');
 var winston = require('winston');
 var path = require('path');
-var _ = require('underscore');
+var _ = require('lodash');
 var Joi = require('joi');
 var eidLabData = require('./eid-data-synchronization/eid-lab-results');
 var eidService = require('./service/eid.service');
@@ -296,24 +296,30 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                let compineRequestParams = Object.assign({}, request.query, request.params);
-                let reportParams = etlHelpers.getReportParams('clinical-reminder-report', ['@referenceDate', 'patientUuid', 'indicators'], compineRequestParams);
-                if (reportParams.whereParams[0].name === '@referenceDate') {
-                    reportParams.whereParams[0].value = request.params.referenceDate;
-                }
-                dao.runReport(reportParams).then((results) => {
-
+              let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
+              EIDLabReminderService.pendingEIDReminders(request.params, config.eid)
+                .then((eidReminders) => {
+                  let compineRequestParams   = Object.assign({}, request.query, request.params);
+                  compineRequestParams.limit = 1;
+                  let reportParams           = etlHelpers.getReportParams('clinical-reminder-report', ['referenceDate', 'patientUuid', 'indicators'], compineRequestParams);
+      
+                  dao.runReport(reportParams).then((results) => {
                     try {
-                        let processedResults = patientReminderService.generateReminders(results.result);
-                        results.result = processedResults;
-                        reply(results);
+                      let processedResults = patientReminderService.generateReminders(results.result, eidReminders);
+                      results.result = processedResults;
+                      reply(results);
                     } catch (err) {
                         console.log('Error occurred while processing reminders', err)
                     }
-
-                }).catch((error) => {
-                    reply(error);
-                })
+      
+                  }).catch((error) => {
+                      reply(error);
+                  });
+                }).catch((err) => {
+                console.log('EID lab results err', err);
+                reply(err);
+              });
+                
             },
             description: 'Get a list of reminders for selected patient and indicators',
             notes: 'Returns a  list of reminders for selected patient and indicators on a given reference date',
@@ -620,7 +626,6 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-
                 request.query.reportName = 'clinical-hiv-comparative-overview-report';
                 let compineRequestParams = Object.assign({}, request.query, request.params);
                 let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
@@ -657,15 +662,14 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-
-                request.query.reportName = 'clinical-hiv-comparative-overview-report';
-                let requestParams = Object.assign({}, request.query, request.params);
-                let service = new hivComparativeOverviewService();
-                service.getPatientListReport(requestParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
-                });
+              request.query.reportName = 'clinical-hiv-comparative-overview-report';
+              let requestParams        = Object.assign({}, request.query, request.params);
+              let service              = new hivComparativeOverviewService();
+              service.getPatientListReport(requestParams).then((result) => {
+                reply(result);
+              }).catch((error) => {
+                  reply(error);
+              });
             },
             description: "Get the clinical hiv comparative overview patient",
             notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
@@ -714,7 +718,6 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-
                 request.query.reportName = 'clinical-patient-care-status-overview-report';
                 let compineRequestParams = Object.assign({}, request.query, request.params);
                 let reportParams = etlHelpers.getReportParams('clinical-patient-care-status-overview-report',

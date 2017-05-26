@@ -21,6 +21,7 @@ var
 var definition = {
   getSynchronizedPatientLabResults: getSynchronizedPatientLabResults,
   getEIDTestResultsByPatientIdentifier: getEIDTestResultsByPatientIdentifier,
+  getPendingEIDTestResultsByPatientIdentifiers: getPendingEIDTestResultsByPatientIdentifiers,
   saveEidSyncLog: saveEidSyncLog,
   updateEidSyncLog: updateEidSyncLog,
   getViralLoadTestResultsByPatientIdentifier: getViralLoadTestResultsByPatientIdentifier,
@@ -519,6 +520,96 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
           });
       });
     });
+}
+
+function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, referenceDate, server) {
+  
+  var pending = {
+    viralLoad: [],
+    pcr: [],
+    cd4Panel: []
+  };
+  
+  var conf = server;
+  
+  pending[server.name] = {};
+  var location_name = server.name;
+  
+  var logAndGetFilteredResults = function(results) {
+    let _referenceDate = moment(referenceDate).format('DD-MMM-YYYY');
+    let complete = [];
+    let inprocess = [];
+    _.each(results, function (row) {
+      etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('viral load result: %s', JSON.stringify(row));
+      if (row && row.SampleStatus && row.DateCollected === _referenceDate) {
+        if (['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
+          complete.push(row);
+        }
+        if ('Inprocess' === row.SampleStatus) {
+          inprocess.push(row);
+        }
+      }
+    });
+    // remove duplicate dates for complete and inprocess
+    let completeOnSameDay = _.uniq(complete, (result) => { return result.DateCollected; });
+    let inProcessOnSameDay = _.uniq(inprocess, (result) => { return result.DateCollected; });
+    
+    // check if we have a pending on same day as complete
+    let hasInprocessAndCompleteOnSameDay = _.filter(completeOnSameDay, function (_row) {
+      return _row.DateCollected === _.first(inProcessOnSameDay).DateCollected;
+    });
+  
+    return hasInprocessAndCompleteOnSameDay.length === 0 ? inProcessOnSameDay : [];
+  };
+  
+  return new Promise(function (resolve, reject) {
+    
+    getViralLoadTestResultsByPatientIdentifier(patientIdentifiers, conf.host, conf.generalApiKey)
+      .then(function (response) {
+        if (response.posts instanceof Array) {
+          let inProcessOnSameDay = logAndGetFilteredResults(response.posts);
+          pending.viralLoad = inProcessOnSameDay;
+        } else
+          pending[location_name].viralLoadErrorMsg = response;
+        
+        return getPcrTestResultsByPatientIdentifier(patientIdentifiers, conf.host, conf.generalApiKey);
+      }).then(function (response) {
+        
+        if (response.posts instanceof Array) {
+          let inProcessOnSameDay = logAndGetFilteredResults(response.posts);
+              pending.pcr = inProcessOnSameDay;
+        } else
+          pending[location_name].pcrErrorMsg = response;
+        
+        if (conf.loadCd4)
+          return getCd4TestResultsByPatientIdentifier(patientIdentifiers, conf.host, conf.cd4ApiKey);
+        else {
+          return new Promise(function (resolve, reject) {
+            resolve({
+              fetched: false,
+              posts: []
+            });
+          });
+        }
+      })
+      .then(function (response) {
+        if (response.posts instanceof Array) {
+          let inProcessOnSameDay = logAndGetFilteredResults(response.posts);
+              pending.cd4Panel = inProcessOnSameDay;
+        } else
+          pending[location_name].cd4ErrorMsg = response;
+        
+        resolve(pending);
+      })
+      .catch(function (err) {
+        
+        reject({
+          message: err.message,
+          results: pending,
+          uuid: patientIdentifiers
+        });
+      });
+  });
 }
 
 function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {

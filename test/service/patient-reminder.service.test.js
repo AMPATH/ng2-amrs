@@ -71,20 +71,51 @@ describe('Patient Reminder Service Unit Tests', function () {
                             }
                         },
                         {
-                            "message": "Patient requires viral load. Patients on ART > 1 year require a viral load test every year. Last viral load: 0 on (12/06/2014) 32 months ago.",
-                            "title": "Viral Load Reminder",
-                            "type": "danger",
-                            "display": {
-                                "banner": true,
-                                "toast": true
-                            }
+                          "message": "Patient lab Order No. is currently being processed. Sample collected on 15/05/2017).",
+                          "title": "Pending Lab Order Result",
+                          "type": "info",
+                          "display": {
+                            "banner": true,
+                            "toast": true
+                          }
+                        },
+                        {
+                        "message": "Patient requires viral load. Patients on ART > 1 year require a viral load test every year. Last viral load: 0 on (12/06/2014) 32 months ago.",
+                        "title": "Viral Load Reminder",
+                        "type": "danger",
+                        "display": {
+                          "banner": true,
+                          "toast": true
                         }
+                      }
                     ]
                 }
-            }
+            };
+            
+            var eidResults = {
+              viralLoad: [
+                {
+                  "LabID": "1",
+                  "OrderNo": "",
+                  "PatientID": "123",
+                  "ProviderID": "",
+                  "MFLCode": "1",
+                  "AMRslocationID": "",
+                  "AMRslocation": "",
+                  "PatientNames": "",
+                  "DateCollected": "15-May-2017",
+                  "DateReceived": "17-May-2017",
+                  "DateTested": "22-May-2017",
+                  "Result": "Target Not Detected",
+                  "FinalResult": "< LDL copies/ml",
+                  "DateDispatched": "23-May-2017",
+                  "SampleStatus": "Complete"
+                }
+              ]
+            };
 
 
-            var processedReminder = patientReminder.generateReminders(initialResult.result);
+            var processedReminder = patientReminder.generateReminders(initialResult.result, eidResults);
 
             expect(processedReminder).to.deep.equal(processedResults.result);
         });
