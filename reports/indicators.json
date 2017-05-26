@@ -331,7 +331,7 @@
     },
     {
         "name": "viral_load_resulted_in_past_year",
-        "label": "viral load done in past year",
+        "label": "viral load resulted in past year",
         "description": "patient(s) whose viral load has resulted in the past one year",
         "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
     },
@@ -643,7 +643,7 @@
     },
     {
         "name": "not_on_arvs_cd4_lte_500",
-        "label": "patient not_on_arvs_cd4_lte_500",
+        "label": "not on arvs cd4 lte 500",
         "description": "patients who qualify for ART but are not on therapy",
         "expression": "arv_start_date is null and cd4_1 < 500"
     },
@@ -1086,9 +1086,9 @@
     },
     {
         "name":"transfer_in_patients",
-        "label":"transfer_in_patients",
+        "label":"transfer in patients",
         "description": "These are patients who transferred into the selected facility within the reporting period",
-        "expression": "t1.transfer_in is not nul"
+        "expression": "t1.transfer_in is not null"
 
     },
     {
@@ -1223,19 +1223,19 @@
     },
     {
         "name": "patients_with_vl_result",
-        "label": "patients_with_vl_result",
+        "label": "patients with vl result",
         "description": "# of patients with vl",
         "expression": "vl_1_date between @startDate and @endDate"
     },
     {
         "name": "vl_suppressed_patients",
-        "label": "vl_suppressed_patients",
+        "label": "vl suppressed patients",
         "description": "# of patients with vl < 1000",
         "expression": "vl_1_date between @startDate and @endDate and vl_1 < 1000"
     },
     {
         "name": "vl_unsuppressed_patients",
-        "label": "vl_unsuppressed_patients",
+        "label": "vl unsuppressed patients",
         "description": "# of patients with vl >= 1000",
         "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
     }
