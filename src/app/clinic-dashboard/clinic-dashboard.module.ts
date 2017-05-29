@@ -107,6 +107,9 @@ import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
 import {
   ClinicFlowLocationStatsComponent
 } from '../clinic-flow/clinic-flow-location-stats.component';
+import {
+  ClinicFlowProviderStatsComponent
+} from '../clinic-flow/clinic-flow-provider-stats.component';
 
 @NgModule({
   imports: [
@@ -173,7 +176,8 @@ import {
     PatientStatusChangeVisualizationContainerComponent,
     PatientStatusChangeVisualizationComponent,
     PatientStatusChangeListComponent,
-    ClinicFlowLocationStatsComponent
+    ClinicFlowLocationStatsComponent,
+    ClinicFlowProviderStatsComponent
   ],
   providers: [
     ClinicDashboardGuard,
@@ -218,7 +222,8 @@ import {
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
     PatientStatusChangeListComponent,
-    ClinicFlowLocationStatsComponent
+    ClinicFlowLocationStatsComponent,
+    ClinicFlowProviderStatsComponent
   ],
 })
 export class ClinicDashboardModule {

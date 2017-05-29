@@ -4,7 +4,7 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 import { Http, BaseRequestOptions, Response, ResponseOptions, HttpModule } from '@angular/http';
 import { FormSubmissionService } from './form-submission.service';
 import {
-  EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, Form
+  EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper, Form
 } from 'ng2-openmrs-formentry';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
@@ -100,6 +100,7 @@ describe('Service: FormSubmissionService', () => {
         PersonResourceService,
         OrderValueAdapter,
         ObsValueAdapter,
+        ObsAdapterHelper,
         LocalStorageService,
         FormentryHelperService,
         AppSettingsService,

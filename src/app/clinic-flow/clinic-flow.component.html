@@ -5,12 +5,23 @@
                 <span>Clinic Flow</span>
             </div>
             <div class="panel-body">
-                <nav md-tab-nav-bar aria-label="weather navigation links">
-                    <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
-                        (click)="activeLinkIndex = i">{{tabLink.label}}</a>
-                </nav>
-                <br>
+              <md-tab-group [selectedIndex]="selectedTab">
+                <md-tab label="Summary">
+                  <clinic-flow-summary></clinic-flow-summary>
+                </md-tab>
+                <md-tab label="Visits">
+                  <clinic-flow-visits></clinic-flow-visits>
+                </md-tab>
+                <md-tab label="Provider Statistics">
+                  <clinic-flow-provider-stats></clinic-flow-provider-stats>
+                </md-tab>
+                <md-tab label="Location Statistics">
+                  <clinic-flow-location-stats></clinic-flow-location-stats>
+                </md-tab>
                 <router-outlet></router-outlet>
+              </md-tab-group>
+
+                <br>
             </div>
         </div>
     </div>

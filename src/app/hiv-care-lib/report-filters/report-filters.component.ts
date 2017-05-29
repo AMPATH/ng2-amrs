@@ -1,5 +1,7 @@
 
-import { Component, OnInit, EventEmitter, ElementRef, forwardRef } from '@angular/core';
+import {
+  Component, OnInit, EventEmitter, ElementRef, forwardRef, ViewEncapsulation
+} from '@angular/core';
 import { Output, Input } from '@angular/core/src/metadata/directives';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
 import * as Moment from 'moment';
@@ -10,7 +12,9 @@ require('ion-rangeslider');
 
 @Component({
   selector: 'report-filters',
+  styleUrls: ['report-filters.component.css'],
   templateUrl: 'report-filters.component.html',
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -30,7 +34,6 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
   indicatorOptions: Array<any>;
   @Output() onIndicatorChange = new EventEmitter<any>();
   @Output() onDateChange = new EventEmitter<any>();
-  selectedGender: Array<any> = [];
   genderOptions: Array<any>;
   selectedIndicatorTagsSelectedAll: boolean = false;
   @Output() onGenderChange = new EventEmitter<any>();
@@ -50,6 +53,7 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
   private _endDate: Date;
   private _report: string;
   private _indicators: Array<any>;
+  private _gender: Array<any> = [];
   public get startDate(): Date {
     return this._startDate;
   }
@@ -71,13 +75,23 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
     this._report = v;
   }
   @Input()
-  public set selectedIndicators(v: Array<any>) {
-    this._indicators = v;
-    this.onIndicatorChange.emit(this.selectedIndicators);
-  }
   public get selectedIndicators(): Array<any> {
     return this._indicators ;
   }
+  public set selectedIndicators(v: Array<any>) {
+    this._indicators = v;
+    this.onIndicatorChange.emit(this._indicators);
+  }
+
+  @Input()
+  public get selectedGender(): Array<any> {
+    return this._gender;
+  }
+  public set selectedGender(v: Array<any>) {
+    this._gender = v;
+    this.onGenderChange.emit(this._gender);
+  }
+
   public get startDateString(): string {
     return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
   }
@@ -108,15 +122,18 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
     }
     this.genderOptions = [
       {
-        value: 'F',
-        label: 'Female'
+        id: 'F',
+        text: 'Female'
       },
       {
-        value: 'M',
-        label: 'Male'
+        id: 'M',
+        text: 'Male'
       }
     ];
-
+    this._gender = this._gender.length > 0 ? this._gender : this.genderOptions;
+    if (this._indicators.length > 0) {
+      this.selectedIndicatorTagsSelectedAll = true;
+    }
     this.getIndicators();
   }
 
@@ -134,8 +151,10 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
          let data = results[i];
          for (let r in data) {
            if (data.hasOwnProperty(r)) {
-             let value = data.name;
-             data['value'] = value;
+             let id = data.name;
+             let text = data.label;
+             data['id'] = id;
+             data['text'] = text;
            }
          }
          indicators.push(data);
@@ -152,10 +171,9 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
       if (this.selectedIndicatorTagsSelectedAll === false) {
         this.selectedIndicatorTagsSelectedAll = true;
         _.each(this.indicatorOptions, (data) => {
-          indicatorsSelected.push( data.name);
-          this.selectedIndicators = indicatorsSelected;
-          this.onIndicatorSelected( this.selectedIndicators);
+          indicatorsSelected.push( data);
         });
+        this.selectedIndicators = indicatorsSelected;
       } else {
         this.selectedIndicatorTagsSelectedAll = false;
         this.selectedIndicators = [];

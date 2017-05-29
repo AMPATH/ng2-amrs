@@ -22,7 +22,7 @@ import {
 import {
   ReportFilters
 } from './report-filters/report-filters.component';
-import { SelectModule } from 'angular2-select';
+import { SelectModule } from 'ng2-select';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 @NgModule({
   imports: [

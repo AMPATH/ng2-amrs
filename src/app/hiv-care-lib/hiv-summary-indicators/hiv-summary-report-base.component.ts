@@ -16,13 +16,16 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public startAge: number;
   public endAge: number;
   public indicators: string ;
-  public selectedIndicator  = [];
+  public selectedIndicators  = [];
+  public selectedGender = [];
 
   public isLoadingReport: boolean = false;
   public encounteredError: boolean = false;
   public errorMessage: string = '';
   public currentView: string = 'tabular'; // can be pdf or tabular or patientList
   public reportName: string = 'hiv-summary-report';
+  public dates: any;
+  public age: any;
   @Input() ageRangeStart: number;
   @Input() ageRangeEnd: number;
 
@@ -65,13 +68,21 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   generateReport() {
     // set busy indications variables
     // clear error
+    this.dates = {
+      startDate: this.startDate,
+      endDate: this.endDate
+    };
+    this.age = {
+      startAge: this.startAge,
+      endAge: this.endAge
+    };
     this.encounteredError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
     this.hivSummaryIndicatorsResourceService
       .getHivSummaryIndicatorsReport({
           endDate: this.toDateString(this.endDate),
-          gender: this.gender,
+          gender: this.gender ? this.gender : 'F,M',
           startDate: this.toDateString(this.startDate),
           indicators: this.indicators,
           locationUuids: this.getSelectedLocations(this.locationUuids),
@@ -88,23 +99,38 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         this.encounteredError = true;
       });
   }
+  /*getAgeRange($event) {
+     this.startAge = $event.from;
+     this.endAge = $event.to;
+   }*/
   onAgeChangeFinished($event) {
+   /* _.extend(this.filterModel, data);
+    this.filterModelChange.emit(this.filterModel);*/
     this.startAge = $event.ageFrom;
     console.log('$event', $event);
     this.endAge = $event.ageTo;
   }
-  getSelectedGender(gender) {
-    this.gender = gender.toString();
+  getSelectedGender(selectedGender) {
+    // console.log('selectedGender', selectedGender);
+    let gender;
+    if (selectedGender)
+      for (let i = 0; i < selectedGender.length; i++) {
+        if (i === 0) {
+          gender = '' + selectedGender[i].id;
+        } else {
+          gender = gender + ',' + selectedGender[i].id;
+        }
+      }
+    return this.gender = gender;
   }
   getSelectedIndicators(selectedIndicator) {
-    this.selectedIndicator = selectedIndicator;
     let indicators;
     if (selectedIndicator)
       for (let i = 0; i < selectedIndicator.length; i++) {
         if (i === 0) {
-          indicators = '' + selectedIndicator[i];
+          indicators = '' + selectedIndicator[i].id;
         } else {
-          indicators = indicators + ',' + selectedIndicator[i];
+          indicators = indicators + ',' + selectedIndicator[i].id;
         }
       }
     return this.indicators = indicators;
@@ -136,4 +162,3 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   }
 
 }
-

@@ -23,7 +23,7 @@ import {
 
 import {
     FormFactory, EncounterAdapter, OrderValueAdapter, Form,
-    ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler
+    ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler, ObsAdapterHelper
 } from 'ng2-openmrs-formentry';
 import { FakeFormSchemaCompiler } from '../formentry/mock/form-schema-compiler.service.mock';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
@@ -108,6 +108,7 @@ describe('Component: FormentryComponent', () => {
                 PersonResourceService,
                 EncounterAdapter,
                 OrderValueAdapter,
+                ObsAdapterHelper,
                 PatientService,
                 PatientResourceService,
                 FormCreationDataResolverService,

@@ -1,7 +1,8 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import * as _ from 'lodash';
 import {
   HivSummaryIndicatorBaseComponent
 } from '../../../hiv-care-lib/hiv-summary-indicators/hiv-summary-report-base.component';
@@ -15,22 +16,23 @@ import {
 })
 
 export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseComponent
-              implements OnInit {
+  implements OnInit {
   public data = [];
   public sectionsDef = [];
 
   constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
-              private route: ActivatedRoute, private location: Location,
-              private router: Router) {
+    private route: ActivatedRoute, private location: Location,
+    private router: Router) {
     super(hivSummaryIndicatorsResourceService);
 
   }
 
   ngOnInit() {
 
-    this.route.parent.parent.url.subscribe((url) => {
+    this.route.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
-      this.locationUuids.push(url[0].path);
+      if (params.location_uuid)
+        this.locationUuids.push(params.location_uuid);
     });
     this.loadReportParamsFromUrl();
   }
@@ -43,7 +45,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   public loadReportParamsFromUrl() {
     let path = this.router.parseUrl(this.location.path());
     let pathHasHistoricalValues = path.queryParams['startDate'] &&
-      path.queryParams['endDate'] ;
+      path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
       this.startDate = new Date(path.queryParams['startDate']);
@@ -54,9 +56,11 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
     }
     if (path.queryParams['indicators']) {
       this.indicators = path.queryParams['indicators'];
+      this.formatIndicatorsToSelectArray(this.indicators);
     }
     if (path.queryParams['gender']) {
       this.gender = (path.queryParams['gender'] as any);
+      this.formatGenderToSelectArray(path.queryParams['gender']);
     }
     if (path.queryParams['startAge']) {
       this.startAge = (path.queryParams['startAge'] as any);
@@ -78,7 +82,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString(),
       'indicators': this.indicators,
-      'gender': (this.gender as any),
+      'gender': (this.gender ? this.gender : 'F,M' as any),
       'startAge': (this.startAge as any),
       'endAge': (this.endAge as any),
       'view': this.currentView
@@ -87,4 +91,44 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
     this.location.replaceState(path.toString());
   }
 
+  public formatIndicatorsToSelectArray(indicatorParam: string) {
+    let arr = indicatorParam.split(',');
+    _.each(arr, (indicator) => {
+      let text = this.translateIndicator(indicator);
+      let id = indicator;
+
+      let data = {
+        id: id,
+        text: text
+      };
+      this.selectedIndicators.push(data);
+    });
+  }
+
+  public translateIndicator(indicator: string) {
+    return indicator.toLowerCase().split('_').map((word) => {
+      return (word.charAt(0) + word.slice(1));
+    }).join(' ');
+  }
+
+  public formatGenderToSelectArray(genderParam: string) {
+    if (genderParam.length > 1) {
+      let arr = genderParam.split(',');
+      _.each(arr, (gender) => {
+        let id = gender;
+        let text = gender === 'M' ? 'Male' : 'Female';
+        let data = {
+          id: id,
+          text: text
+        };
+        this.selectedGender.push(data);
+      });
+    } else {
+      let data = {
+        id: genderParam,
+        text: genderParam === 'M' ? 'Male' : 'Female'
+      };
+      this.selectedGender.push(data);
+    }
+  }
 }
