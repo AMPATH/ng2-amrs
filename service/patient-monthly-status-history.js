@@ -18,12 +18,12 @@ export class PatientMonthlyStatusHistory {
                         let personId = person.result[0].person_id;
                         let params = [startDate, endDate, personId, startDate, endDate, personId];
                         let query = `SELECT p1                                                  AS person_id, 
-       Date_format(e1, '%d-%m-%Y')                         AS 
+       Date_format(e2, '%d-%m-%Y')                         AS 
        most_recent_clinical_encounter, 
        l3.name                                             AS location, 
        Date_format(rtc_date, '%d-%m-%Y') AS 
        rtc_date, 
-       Date_format(r1, '%m / %Y')                          AS 'month', 
+       Date_format(r2, '%m / %Y')                          AS 'month', 
        et1.name                                            AS 
        encounter_type_name, 
        CASE 
@@ -489,7 +489,7 @@ FROM   (SELECT t1.person_id                AS p1,
                                                          '%Y-%m-01'), 
                                                 INTERVAL 1 day)) t 
        JOIN amrs.location AS l3 
-         ON l3.location_id = l1 
+         ON l3.location_id = l2
        JOIN amrs.encounter_type AS et1 
          ON et1.encounter_type_id = encounter_type; 
                 `
