@@ -90,7 +90,7 @@ export class PatientListComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/patient-info']);
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
   }
 
 }

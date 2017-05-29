@@ -152,7 +152,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/forms']);
+        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/forms']);
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
