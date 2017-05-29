@@ -18,10 +18,18 @@ export class HivSummaryIndicatorsResourceService {
 
     getUrlRequestParams(params): URLSearchParams {
         let urlParams: URLSearchParams = new URLSearchParams();
+
+        if (params.indicators) {
+            urlParams.set('indicators', params.indicators);
+        }
+
+        if (params.indicator) {
+            urlParams.set('indicator', params.indicator);
+        }
+
         urlParams.set('endDate', params.endDate);
         urlParams.set('gender', params.gender);
         urlParams.set('startDate', params.startDate);
-        urlParams.set('indicators', params.indicator || params.indicators);
         urlParams.set('locationUuids', params.locationUuids);
         urlParams.set('startAge', params.startAge);
         urlParams.set('endAge', params.endAge);
@@ -45,6 +53,14 @@ export class HivSummaryIndicatorsResourceService {
 
     getHivSummaryIndicatorsPatientList(params) {
         let urlParams = this.getUrlRequestParams(params);
+        if (!params.startIndex) {
+            params.startIndex = '0';
+        }
+        if (!params.limit) {
+            params.limit = '300';
+        }
+        urlParams.set('startIndex', params.startIndex);
+        urlParams.set('limit', params.limit);
         let url = this.getPatientListUrl();
         let request = this.http.get(url, {
             search: urlParams

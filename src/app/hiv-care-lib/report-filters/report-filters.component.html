@@ -12,9 +12,9 @@
         <label for="indicator">Indicator </label>
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-          <ng-select [multiple]="true" id="indicator" (ngModelChange)="onIndicatorSelected($event)"
+          <ng-select [multiple]="true" id="indicator" 
                      [placeholder]="'Select desired Indicator(s) or type to search...'"
-                     [(ngModel)]="selectedIndicators" [options]="indicatorOptions">
+                     [(ngModel)]="selectedIndicators" [items]="indicatorOptions" (active)="selectedIndicators">
           </ng-select>
           <div class="input-group-addon" (click)="selectAll()" style="cursor: pointer;">
             <div>
@@ -70,9 +70,9 @@
       </div>
       <div class="form-group col-md-12">
         <label for="gender">Select Gender</label>
-        <ng-select [multiple]="true" id="gender" (ngModelChange)="onGenderSelected($event)"
+        <ng-select [multiple]="true" id="gender"
                    [placeholder]="'Select Gender...'"
-                   [(ngModel)]="selectedGender" [options]="genderOptions">
+                   [(ngModel)]="selectedGender" [items]="genderOptions" (active)="selectedGender">
         </ng-select>
       </div>
 
