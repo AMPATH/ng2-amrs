@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import { UserService } from '../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
   '../../user-default-properties/user-default-properties.service';
+import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 
 @Component({
   selector: 'app-formentry',
@@ -59,6 +60,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private formDataSourceService: FormDataSourceService,
     private personAttribuAdapter: PersonAttribuAdapter,
     private dataSources: DataSources,
+    private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private draftedFormsService: DraftedFormsService,
     private confirmationService: ConfirmationService) {
   }
@@ -266,7 +268,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
       let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
       this.dataSources.registerDataSource('patient',
         this.formDataSourceService.getPatientObject(this.patient), true);
-      if (this.encounter) { // editting existing form
+      this.dataSources.registerDataSource('monthlyScheduleResourceService',
+        this.monthlyScheduleResourceService);
+      this.dataSources.registerDataSource('userLocation',
+        this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject());
+      if (this.encounter) { // editing existing form
         this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
         this.formRelationsFix(this.form);
         this.encounterAdapter.populateForm(this.form, this.encounter);
