@@ -30,6 +30,9 @@ import {
 import {
   ClinicFlowLocationStatsComponent
 } from '../clinic-flow/clinic-flow-location-stats.component';
+import {
+  ClinicFlowProviderStatsComponent
+} from '../clinic-flow/clinic-flow-provider-stats.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -51,6 +54,7 @@ const clinicDashboardRoutes: Routes = [
             children: [
               { path: 'visits', component: ClinicFlowVisitsComponent },
               { path: 'summary', component: ClinicFlowSummaryComponent },
+              { path: 'provider-stats', component: ClinicFlowProviderStatsComponent },
               { path: 'location', component: ClinicFlowLocationStatsComponent },
               { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
 

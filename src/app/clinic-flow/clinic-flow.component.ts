@@ -13,35 +13,11 @@ let _ = require('lodash');
 })
 
 export class ClinicFlowComponent implements OnInit {
-
-    private activeLinkIndex = 0;
-    private tabLinks = [
-        { label: 'Summary', link: 'summary' },
-        { label: 'Visits', link: 'visits' },
-        { label: 'Location Statistics', link: 'location' }
-
-    ];
-
+  selectedTab: any = 0;
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
         private router: Router,
         @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     ngOnInit() {
-        this.setActiveTab();
     }
-
-    setActiveTab() {
-        if (this.router.url) {
-            let path = this.router.url;
-            let n = this.router.url.indexOf('?');
-            path = this.router.url.substring(0, n !== -1 ? n : path.length);
-            path = path.substr(this.router.url.lastIndexOf('/') + 1);
-            this.activeLinkIndex = this.tabLinks.findIndex(x => x.link === path);
-
-        }
-    }
-
-
-
-
 }

@@ -170,42 +170,41 @@ export class ClinicFlowCacheService {
       return [
         {
           headerName: 'Location',
-          width: 100,
+          width: 120,
           filter: 'text',
           field: 'location',
-          pinned: true
+          pinned: 'left'
         },
         {
           headerName: ' # Visits',
-          width: 40,
+          width: 150,
           filter: 'text',
           field: 'totalVisitsCount'
         },
         {
           headerName: '# Incomplete',
-          width: 60,
+          width: 180,
           filter: 'text',
           field: 'incompleteVisitsCount'
         },
         {
           headerName: 'Median Triage Waiting Time',
-          width: 100,
+          width: 250,
           filter: 'text',
           field: 'medianWaitingTime.medianTriageWaitingTime'
         },
         {
           headerName: 'Median Clinician Waiting Time ',
-          width: 100,
+          width: 250,
           filter: 'text',
           field: 'medianWaitingTime.medianClinicianWaitingTime'
         },
         {
           headerName: 'Median Visit Completion Time ',
-          width: 100,
+          width: 250,
           filter: 'text',
           field: 'medianWaitingTime.medianVisitCompletionTime'
         }
       ];
     }
-
 }
