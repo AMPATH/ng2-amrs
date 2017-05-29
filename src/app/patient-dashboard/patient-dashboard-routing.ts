@@ -14,6 +14,8 @@ import { ProgramsComponent } from './programs/programs.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { FormentryComponent } from './formentry/formentry.component';
+import { PatientMonthlyStatusComponent } from
+  './patient-status-change/patient-monthly-status.component';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
 import { HivPatientClinicalSummaryComponent }
@@ -27,8 +29,8 @@ const patientDashboardRoutes: Routes = [
     path: ':patient_uuid',
     component: PatientDashboardComponent,
     children: [
-      { path: 'welcome', component: LandingPageComponent},
-      { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full'},
+      { path: 'welcome', component: LandingPageComponent },
+      { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
       { path: ':program/patient-info', component: PatientInfoComponent },
       { path: 'oncology/landing-page', component: PatientInfoComponent },
       { path: ':program/patient-encounters', component: PatientEncountersComponent },
@@ -43,6 +45,7 @@ const patientDashboardRoutes: Routes = [
         }
       },
       { path: ':program/hiv-summary', component: HivSummaryComponent },
+      { path: ':program/patient-monthly-status-history', component: PatientMonthlyStatusComponent },
       { path: 'hiv/landing-page', component: HivSummaryComponent },
       { path: ':program/lab-data-summary', component: LabDataSummaryComponent },
       { path: ':program/lab-orders', component: LabOrdersComponent },

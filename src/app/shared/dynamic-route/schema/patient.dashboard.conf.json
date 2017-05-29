@@ -73,6 +73,11 @@
           "icon": "fa fa-medkit"
         },
         {
+          "url": "patient-monthly-status-history",
+          "label": "Monthly Status History",
+          "icon": "fa fa-medkit"
+        },
+        {
           "url": "clinical-notes",
           "label": "Clinical Notes",
           "icon": "fa fa-book"
