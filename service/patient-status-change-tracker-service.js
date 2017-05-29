@@ -2,149 +2,183 @@ const dao = require('../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
-const indicatorsSchemaDefinition = require('../reports/indicators.json');
+const indicatorsKeys = ['active_return', 'new_enrollment', 'transfer_in', 'LTFU', 'transfer_out', 'dead', 'HIV_negative',
+    'self_disengaged', 'self_transfer_out'];
 export class PatientStatusChangeTrackerService {
 
     getAggregateReport(reportParams) {
-        let self = this;
-        return new Promise(function (resolve, reject) {
-            reportParams.groupBy = 'groupByEndDate';
-            dao.runReport(reportParams)
-                .then((results) => {
-                        results = self.runPostProcessing(results);
-                        resolve(results);
-                    }
-                ).catch((errors) => {
-                console.log(errors)
-                reject(errors);
+        // reportParams.requestParams
+        switch (reportParams.requestParams.analysis || 'none') {
+            case 'cumulativeAnalysis':
+                return this.getCumulativeAggregateAnalysis(reportParams);
+                break;
+            case 'monthlyAnalysis':
+                return this.getMonthlyAggregateAnalysis(reportParams);
+                break;
+            case 'cohortAnalysis':
+                return this.getCohortAggregateAnalysis(reportParams);
+                break;
+            default:
+                return this.getCumulativeAggregateAnalysis(reportParams);
+        }
+    }
+
+    getCumulativeAggregateAnalysis(reportParams) {
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                this.getCumulativeAggregates(reportParams),
+            ]).then((data) => {
+                data = this.runPostProcessing(data[0]);
+                data.analysis = reportParams.requestParams.analysis;
+                resolve(data);
+            }).catch((e) => {
+                console.log('Error, ', e);
+                reject(e);
+
             });
         });
+    }
+
+
+    getMonthlyAggregateAnalysis(reportParams) {
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                this.getCumulativeAggregates(reportParams),
+                this.getMonthlyChangeAggregates(reportParams.requestParams)
+            ]).then((data) => {
+                let results = this.groupResultsByReportingMonth(data);
+                results.analysis = reportParams.requestParams.analysis;
+                results = this.runPostProcessing(results);
+                resolve(results);
+            }).catch((e) => {
+                console.log('Error, ', e);
+                reject(e);
+
+            });
+        });
+    }
+
+    getCohortAggregateAnalysis(reportParams) {
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                this.getMonthlyChangeAggregates(reportParams.requestParams)
+            ]).then((data) => {
+                resolve(data[0]);
+            }).catch((e) => {
+                console.log('Error, ', e);
+                reject(e);
+
+            });
+        });
+    }
+
+
+    groupResultsByReportingMonth(data) {
+        let cumulativeAggr = data[0];
+        let monthlyChangeAggr = data[1];
+        cumulativeAggr.sql2 = monthlyChangeAggr.sql;
+
+        _.each(cumulativeAggr.result, (cumulativeRow, i) => {
+            _.each(monthlyChangeAggr.result, (monthlyRow, j) => {
+                if (cumulativeRow.reporting_month === monthlyRow.reporting_month) {
+                    cumulativeRow[monthlyRow.indicator] = monthlyRow.counts;
+                }
+
+            });
+
+            // clean data by adding missing indicators and negations
+            _.each(indicatorsKeys, (key, j) => {
+                _.each(indicatorsKeys, (key2, i) => {
+                    if (!cumulativeRow[key + '_to_' + key2]) cumulativeRow[key + '_to_' + key2] = 0;
+                });
+            });
+        });
+        return cumulativeAggr;
     }
 
 
     getPatientListReport(reportParams) {
-        let self = this;
         reportParams['reportName'] = 'patient-status-change-tracker-report';
-        return new Promise(function (resolve, reject) {
-            //TODO: Do some pre processing
-            Promise.join(dao.getPatientListReport(reportParams),
-                (results) => {
-                    results.indicators = self.getIndicatorDefinitions(reportParams.indicator);
-                    resolve(results);
-                }).catch((errors) => {
-                console.log('--->', errors);
+        let derivedIndicators = this.getDerivedIndicators();
+        return new Promise((resolve, reject) => {
+            // check if it is a derived indicator
+            if (_.contains(derivedIndicators, reportParams.indicator)) {
+                let start = new Date();
+                dao.getPatientCareStatusPatientListQuery(reportParams,
+                    (results) => {
+                        if (results.error) {
+                            console.log(results.error);
+                            reject(results);
+                        } else {
+                            results.duration = (new Date() - start) / 1000;
+                            resolve(results);
+                        }
+
+                    }
+                );
+            } else {
+                Promise.join(dao.getPatientListReport(reportParams),
+                    (results) => {
+                        if (results.error) {
+                            console.log(results.error);
+                            reject(results);
+                        } else {
+                            resolve(results);
+                        }
+
+                    }
+                );
+            }
+
+        });
+    }
+
+    getCumulativeAggregates(reportParams) {
+        return new Promise((resolve, reject) => {
+            reportParams.groupBy = 'groupByEndDate';
+            let start = new Date();
+            dao.runReport(reportParams)
+                .then((results) => {
+                        results.duration = (new Date() - start) / 1000;
+                        resolve(results);
+                    }
+                ).catch((errors) => {
+                console.log(errors);
                 reject(errors);
             });
         });
     }
 
-    getIndicatorDefinitions(requestIndicators) {
-        let results = [];
-        _.each(requestIndicators.split(','), function (requestIndicator) {
-            _.each(indicatorsSchemaDefinition, function (indicator) {
-                if (indicator.name === requestIndicator) {
-                    results.push(indicator);
-                }
+    getMonthlyChangeAggregates(reportParams) {
+        return new Promise((resolve, reject) => {
+            reportParams.whereClause = '';
+            let start = new Date();
+            dao.getPatientCareStatusAggregatesQuery(reportParams,
+                (results) => {
+                    if (results.error) {
+                        reject(results);
+                    } else {
+                        results.duration = (new Date() - start) / 1000;
+                        resolve(results);
+                    }
 
+                }
+            );
+        });
+    }
+
+    getDerivedIndicators() {
+        let indicators = [];
+        _.each(indicatorsKeys, (key, j) => {
+            _.each(indicatorsKeys, (key2, i) => {
+                indicators.push(key + '_to_' + key2);
             });
         });
-        return results;
+        return indicators;
+
     }
 
     runPostProcessing(results) {
-        results.indicators = [];
-
-        _.each(results.result, (row, j) => {
-
-            // calculate lost
-            row.patients_lost = row.active_in_care_to_transfer_out + row.active_in_care_to_death + row.active_in_care_to_LTFU;
-            results.indicators.push({
-                name:'patients_lost',
-                label:'patients_lost',
-                description:'row.active_in_care_to_transfer_out + row.active_in_care_to_death + row.active_in_care_to_LTFU',
-                expression:'row.active_in_care_to_transfer_out + row.active_in_care_to_death + row.active_in_care_to_LTFU'
-            });
-
-            // calculate gain
-            row.patients_gained = row.new_patients + row.transfer_in + row.LTFU_to_active_in_care;
-            results.indicators.push({
-                name:'patients_gained',
-                label:'patients_gained',
-                description:'row.new_patients + row.transfer_in + row.LTFU_to_active_in_care',
-                expression:'row.new_patients + row.transfer_in + row.LTFU_to_active_in_care'
-            });
-
-            // calculate patient_change_from_past_month
-            row.patient_change_from_past_month = row.patients_gained + row.patients_lost;
-            results.indicators.push({
-                name:'patient_change_from_past_month',
-                label:'patient_change_from_past_month',
-                description:'row.patients_gained + row.patients_lost',
-                expression:'row.patients_gained + row.patients_lost'
-            });
-
-            // calculate lost
-            row.patients_lost = row.active_in_care_to_transfer_out + row.active_in_care_to_death + row.active_in_care_to_LTFU;
-            results.indicators.push({
-                name:'patients_lost',
-                label:'patients_lost',
-                description:'row.active_in_care_to_transfer_out + row.active_in_care_to_death + row.active_in_care_to_LTFU',
-                expression:'row.active_in_care_to_transfer_out + row.active_in_care_to_death + row.active_in_care_to_LTFU'
-            });
-
-            // calculate patients_gained_this_month
-            row.patients_gained_this_month = row.new_patients + row.transfer_in;
-            results.indicators.push({
-                name:'patients_gained_this_month',
-                label:'patients_gained_this_month',
-                description:'row.new_patients + row.transfer_in',
-                expression:'row.new_patients + row.transfer_in'
-            });
-
-            // calculate patients_lost_this_month
-            row.patients_lost_this_month = row.transfer_out_patients_this_month + row.HIV_negative_patients_this_month +
-                row.deaths_this_month + row.self_disengaged_patients_this_month;
-            results.indicators.push({
-                name:'patients_lost_this_month',
-                label:'patients_lost_this_month',
-                description:'row.transfer_out_patients_this_month + row.HIV_negative_patients_this_month + row.deaths_this_month + row.self_disengaged_patients_this_month',
-                expression:'row.transfer_out_patients_this_month + row.HIV_negative_patients_this_month + row.deaths_this_month + row.self_disengaged_patients_this_month'
-            });
-
-            // calculate patient_change_from_past_month
-            row.patient_change_this_month = row.patients_gained_this_month + row.patients_lost_this_month;
-            results.indicators.push({
-                name:'patient_change_this_month',
-                label:'patient_change_this_month',
-                description:'row.patients_gained_this_month + row.patients_lost_this_month',
-                expression:' row.patients_gained_this_month + row.patients_lost_this_month'
-            });
-
-            // calculate cumulative_deficit
-            row.cumulative_deficit = row.total_patients - (row.transfer_out_patients + row.deaths + row.LTFU +
-                row.HIV_negative_patients + row.self_disengaged_patients + row.active_in_care);
-            results.indicators.push({
-                name:'cumulative_deficit',
-                label:'cumulative_deficit',
-                description:'total_patients - (transfer_out_patients + deaths + LTFU + HIV_negative_patients + self_disengaged_patients + active_in_care)',
-                expression:'total_patients - (transfer_out_patients + deaths + LTFU + HIV_negative_patients + self_disengaged_patients + active_in_care)'
-            });
-
-
-        });
-
-        // indicator definitions
-        _.each(results.result[0], (row, requestIndicator) => {
-            _.each(indicatorsSchemaDefinition, function (indicator) {
-                if (indicator.name === requestIndicator) {
-                    results.indicators.push(indicator);
-                }
-
-            });
-        });
-
-        //remove duplicates
-        results.indicators=_.uniq(results.indicators, 'name');
         return results;
     }
 

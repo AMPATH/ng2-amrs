@@ -52,7 +52,9 @@ module.exports = function () {
         singleReportToSql: singleReportToSql,
         resolveIndicators: resolveIndicators,
         buildPatientListReportExpression: buildPatientListReportExpression,
-        buildETLPatientLabOrdersExpression: buildETLPatientLabOrdersExpression
+        buildETLPatientLabOrdersExpression: buildETLPatientLabOrdersExpression,
+        indicatorsSchema: indicatorsSchema,
+        reports: reports
     };
 
     function initialize(_reports, _indicatorsSchema, _indicatorHandlers, _patientLevelIndicatorsSchema) {
