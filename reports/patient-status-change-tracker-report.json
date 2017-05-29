@@ -2,28 +2,6 @@
   {
     "name": "patient-status-change-tracker-report",
     "table": {
-      "schema": "",
-      "tableName": "",
-      "alias": "t1",
-      "dynamicDataset": "all-patients-cohort"
-    },
-    "joins": [
-
-    ],
-    "parameters": [],
-    "filters": [],
-    "indicators": [],
-    "supplementColumns": [
-      {
-        "label": "all",
-        "type": "all",
-        "sql": "*"
-      }
-    ]
-  },
-  {
-    "name": "all-patients-cohort",
-    "table": {
       "schema": "etl",
       "tableName": "dates",
       "alias": "t2"
@@ -34,6 +12,7 @@
         "schema": "etl",
         "tableName": "flat_hiv_summary",
         "alias": "t1",
+        "indexExpression": "FORCE INDEX (loc_id_enc_date_next_clinic)",
         "joinExpression": "date(t1.encounter_datetime) <= date(t2.endDate)"
       },
       {
@@ -41,7 +20,14 @@
         "schema": "etl",
         "tableName": "flat_hiv_summary",
         "alias": "outreach",
-        "joinExpression": "t1.person_id = outreach.person_id and outreach.encounter_type = 21 and outreach.encounter_datetime > t1.encounter_datetime and date(outreach.encounter_datetime) <= t2.endDate and (outreach.next_encounter_datetime_hiv > t2.endDate or outreach.next_encounter_datetime_hiv is null)"
+        "joinExpression": "t1.person_id = outreach.person_id and outreach.encounter_type = 21 and outreach.encounter_datetime > t1.encounter_datetime and date(outreach.encounter_datetime) <= t2.endDate and (date(outreach.next_encounter_datetime_hiv) > t2.endDate or outreach.next_encounter_datetime_hiv is null)"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "transfer",
+        "joinExpression": "t1.person_id = transfer.person_id and transfer.encounter_type = 116 and transfer.encounter_datetime > t1.encounter_datetime and date(transfer.encounter_datetime) <= t2.endDate and (date(transfer.next_encounter_datetime_hiv) > t2.endDate or transfer.next_encounter_datetime_hiv is null)"
       }
     ],
     "parameters": [
@@ -87,15 +73,15 @@
         "parameter": "endDate"
       },
       {
-        "expression": "t1.location_uuid in ?",
-        "parameter": "locationUuids"
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
       },
       {
         "expression": "t1.is_clinical_encounter=1",
         "processForce": true
       },
       {
-        "expression": "(t1.next_clinical_datetime_hiv is null or t1.next_clinical_datetime_hiv > t2.endDate)",
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > t2.endDate)",
         "processForce": true
       }
     ],
@@ -108,107 +94,52 @@
       {
         "label": "total_patients",
         "expression": "total_patients",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
         "label": "active_in_care",
         "expression": "active_in_care",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
-        "label": "active_in_care_prev_month",
-        "expression": "active_in_care_prev_month",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "label": "active_return",
+        "expression": "active_return",
+        "sql": "count($expression)"
       },
       {
         "label": "LTFU",
         "expression": "LTFU",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
         "label": "deaths",
         "expression": "deaths",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
         "label": "transfer_out_patients",
         "expression": "transfer_out_patients",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
         "label": "HIV_negative_patients",
         "expression": "HIV_negative_patients",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
         "label": "self_disengaged_patients",
         "expression": "self_disengaged_patients",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "sql": "count($expression)"
       },
       {
-        "label": "HIV_negative_patients_this_month",
-        "expression": "HIV_negative_patients_this_month",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "self_disengaged_patients_this_month",
-        "expression": "self_disengaged_patients_this_month",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "new_patients",
-        "expression": "new_patients",
-        "sql": "count( if($expression, t1.person_id,null))"
-      },
-      {
-        "label": "transfer_in_from_non_Ampath_site",
-        "expression": "transfer_in_from_non_Ampath_site",
-        "sql": "count( if($expression, t1.person_id,null))"
-      },
-      {
-        "label": "transfer_in_from_Ampath_site",
-        "expression": "transfer_in_from_Ampath_site",
-        "sql": "count( if($expression, t1.person_id,null))"
+        "label": "new_enrollments",
+        "expression": "new_enrollments",
+        "sql": "count($expression)"
       },
       {
         "label": "transfer_in",
         "expression": "transfer_in",
-        "sql": "count( if($expression, t1.person_id,null))"
-      },
-      {
-        "label": "transfer_out_patients_this_month",
-        "expression": "transfer_out_patients_this_month",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "deaths_this_month",
-        "expression": "deaths_this_month",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "LTFU_this_month",
-        "expression": "LTFU_this_month",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "LTFU_to_active_in_care",
-        "expression": "LTFU_to_active_in_care",
-        "sql": "count( if($expression, t1.person_id,null))"
-      },
-      {
-        "label": "active_in_care_to_LTFU",
-        "expression": "active_in_care_to_LTFU",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "active_in_care_to_transfer_out",
-        "expression": "active_in_care_to_transfer_out",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
-      },
-      {
-        "label": "active_in_care_to_death",
-        "expression": "active_in_care_to_death",
-        "sql": "count( if($expression, t1.person_id,null))*-1"
+        "sql": "count($expression)"
       }
 
 

@@ -1569,7 +1569,7 @@ module.exports = function () {
                         function () {
                             let requestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams(request.query.reportName,
-                                ['startDate', 'endDate', 'locationUuids', 'locations'], requestParams);
+                                ['startDate', 'endDate', 'locationUuids', 'locations', 'analysis'], requestParams);
 
                             let service = new PatientStatusChangeTrackerService();
                             service.getAggregateReport(reportParams).then((result) => {
@@ -1593,7 +1593,10 @@ module.exports = function () {
                         .description("The start date to filter by"),
                     endDate: Joi.string()
                         .required()
-                        .description("The end date to filter by")
+                        .description("The end date to filter by"),
+                    analysis: Joi.string()
+                        .optional()
+                        .description("analysis type report")
                 }
             }
         }
@@ -1640,6 +1643,9 @@ module.exports = function () {
                     endDate: Joi.string()
                         .required()
                         .description("The end date to filter by"),
+                    analysis: Joi.string()
+                        .optional()
+                        .description("analysis type report"),
                     startIndex: Joi.number()
                         .required()
                         .description("The startIndex to control pagination"),
