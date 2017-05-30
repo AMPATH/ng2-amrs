@@ -82,13 +82,14 @@ const clinicDashboardRoutes: Routes = [
         path: 'patient-status-change-visualization',
         children: [
           {
-            path: '',
+            path: ':view',
             component: PatientStatusChangeVisualizationContainerComponent
           },
           {
-            path: 'patient-list',
+            path: ':view/patient-list',
             component: PatientStatusChangeListComponent
-          }
+          },
+          { path: '', redirectTo: 'cumulative', pathMatch: 'prefix' }
         ]
       },
       { path: 'clinic-lab-orders', component: ClinicLabOrdersComponent },

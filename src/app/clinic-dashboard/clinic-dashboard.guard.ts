@@ -6,14 +6,19 @@ import {
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
-import { UserDefaultPropertiesService } from
+import {
+  UserDefaultPropertiesService
+} from
   '../user-default-properties/user-default-properties.service';
+import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 
 @Injectable()
 export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDashboardComponent> {
 
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
-    private route: ActivatedRoute, private userDefaultProperties: UserDefaultPropertiesService) {
+              private route: ActivatedRoute,
+              private userDefaultProperties: UserDefaultPropertiesService,
+              private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
   canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -22,6 +27,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
       let userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
       let locationUuid = routeSnapshot.params['location_uuid'];
       if (locationUuid) {
+        this.clinicDashboardCacheService.setCurrentClinic(locationUuid);
         this.dynamicRoutesService.setRoutes({
           dashboardId: 'clinicDashboard',
           programs: [], // TODO: Fetch this data from user service
@@ -32,6 +38,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
           routes: []
         });
       } else if (userLocation && userLocation.uuid) {
+        this.clinicDashboardCacheService.setCurrentClinic(userLocation.uuid);
         this.router.navigate(['/clinic-dashboard', userLocation.uuid,
           'daily-schedule']);
       } else {

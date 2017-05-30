@@ -88,7 +88,8 @@ import {
 import {
   VisualizationPatientListComponent
 } from
-'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+  // tslint:disable-next-line:max-line-length
+  './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import {
   PatientStatusChangeVisualizationContainerComponent
 } from
@@ -112,7 +113,10 @@ import {
 import {
   ClinicFlowProviderStatsComponent
 } from '../clinic-flow/clinic-flow-provider-stats.component';
-
+import {
+  PatientStatusDatalistCellComponent
+} from './patient-status-change-visualization/patient-status-data-list-cell.component';
+import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 @NgModule({
   imports: [
     CommonModule,
@@ -131,7 +135,10 @@ import {
     SelectModule,
     Angulartics2Module.forChild(),
     NgamrsSharedModule,
-    ChartModule.forRoot(require('highcharts')),
+    ChartModule.forRoot(require('highcharts'),
+      require('highcharts/highcharts-more'),
+      require('highcharts/modules/exporting')
+    ),
     BusyModule.forRoot(
       new BusyConfig({
         message: 'Please Wait...',
@@ -147,7 +154,9 @@ import {
     AgGridModule.withComponents([]),
     NgamrsSharedModule,
     NgxMyDatePickerModule,
-    MdTabsModule.forRoot()
+    MdTabsModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
   ],
   declarations: [
     DailyScheduleComponent,
@@ -180,8 +189,11 @@ import {
     PatientStatusChangeVisualizationComponent,
     PatientStatusChangeListComponent,
     ClinicFlowLocationStatsComponent,
-    ClinicFlowProviderStatsComponent
+    ClinicFlowProviderStatsComponent,
+    PatientStatusDatalistCellComponent
+
   ],
+  entryComponents: [PatientStatusDatalistCellComponent, PatientStatusChangeListComponent],
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,
