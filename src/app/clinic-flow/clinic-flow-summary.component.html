@@ -3,6 +3,7 @@
 </div>
 
 <div style="font-weight: bold; font-size:14px;">
+    <span class="text-warning">  Date: {{selectedDate}}</span> <br/>
     <span class="text-warning">  Total Visits: {{clinicFlowData.length}}</span> <br/>
     <span class="text-warning">  Incomplete Visits: {{incompleteVisitsCount}}</span>
 </div>
@@ -34,6 +35,6 @@
         </table>
     </div>
 </div>
-<div id="chartWrapper"  style="width:100%; background-color: lightgray; padding:2px;">
-<clinic-flow-hourly-viz [data]="hourlyStats"></clinic-flow-hourly-viz>
+<div id="chartWrapper" style="width:100%; background-color: lightgray; padding:2px;">
+    <clinic-flow-hourly-viz [data]="hourlyStats"></clinic-flow-hourly-viz>
 </div>

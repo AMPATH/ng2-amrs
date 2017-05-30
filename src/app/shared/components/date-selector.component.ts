@@ -8,9 +8,29 @@ import { DatePipe } from '@angular/common';
 })
 export class DateSelectorComponent implements OnInit, OnDestroy {
     selectedDate: any;
-    @Input() default: any;
+    // @Input() default: any;
+
+
+    @Input()
+    public get default(): any {
+        return this._default;
+    }
+    public set default(v: any) {
+        this._default = v;
+
+        if (Moment(v).isValid()) {
+            // this.navigateDay(v);
+            this.selectedDate = Moment(new Date(this.default));
+            this.initDate(this.selectedDate);
+            // console.log('updating', v);
+        }
+    }
+
+
+    @Input() hideDatePicker: boolean = false;
     @Output() dateSelected = new EventEmitter();
     private _datePipe: DatePipe;
+    private _default: any;
     private model: Object = {
         date: {
             year: Moment().year(), month: Moment().format('MMMM'),

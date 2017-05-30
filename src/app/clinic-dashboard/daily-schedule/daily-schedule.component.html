@@ -1,17 +1,22 @@
 <div style="padding:4px;margin-bottom:0.5cm;">
+  <h3 style="color: green;"><span class="fa fa-calendar-o"></span> Daily Schedule</h3>
   <div [ngBusy]="{busy:loadingData,message:'Please Wait...'}"></div>
   <div class="row">
     <div class="form-group col-md-12">
-      <date-selector (dateSelected)="getSelectedDate($event)" [default]="selectedDate"></date-selector>
+      <div style="margin: 4px 1px 4px 1px; border:1px solid lightgray;" class="container-fluid">
+        <date-selector (dateSelected)="getSelectedDate($event)" [(default)]="selectedDate"></date-selector>
+      </div>
       <nav md-tab-nav-bar aria-label="weather navigation links">
         <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
           (click)="activeLinkIndex = i">
       {{tabLink.label}}
     </a>
       </nav>
-      <br>
       <router-outlet></router-outlet>
-
+      <div style="margin: 4px 1px 4px 1px; border:1px solid lightgray;" class="container-fluid">
+        <date-selector (dateSelected)="getSelectedDate($event)" [(default)]="selectedDate">
+        </date-selector>
+      </div>
     </div>
     <div *ngIf='errors.length>0'>
       <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
