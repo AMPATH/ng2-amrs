@@ -1,10 +1,9 @@
 import {
-  Component, OnInit, Output, OnDestroy,
+  Component, OnInit, Output, OnDestroy, ViewChild,
   Input, SimpleChange, EventEmitter, OnChanges
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { BehaviorSubject } from 'rxjs/Rx';
-import { ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({
@@ -21,6 +20,8 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() newList: any;
   selected: any;
   refresh: boolean = false;
+  @ViewChild('agGrid')
+  public agGrid: AgGridNg2;
 
   @Input()
   set options(value) {
@@ -31,8 +32,6 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     return this._data.getValue();
   }
 
-  @ViewChild('agGrid')
-  public agGrid: AgGridNg2;
 
   @Input()
   set dataSource(value) {
@@ -73,10 +72,12 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
+    this.gridOptions.enableSorting = true;
     this.gridOptions.enableFilter = true;
+    this.gridOptions.showToolPanel = false;
     // this.gridOptions.suppressCellSelection = true;
-    this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
-    this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
+    // this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
+    // this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
     this.gridOptions.rowSelection = 'single';
     if (this.dataSource) {
       this.gridOptions.rowModelType = 'pagination';
@@ -162,6 +163,8 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       };
     };
   }
+
+
 
   ngOnDestroy() {
     this.data = [];
