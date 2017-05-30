@@ -536,12 +536,12 @@ function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, refere
   var location_name = server.name;
   
   var logAndGetFilteredResults = function(results) {
-    let _referenceDate = moment(referenceDate).format('DD-MMM-YYYY');
+    //let _referenceDate = moment(referenceDate).format('DD-MMM-YYYY');
     let complete = [];
     let inprocess = [];
     _.each(results, function (row) {
       etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('viral load result: %s', JSON.stringify(row));
-      if (row && row.SampleStatus && row.DateCollected === _referenceDate) {
+      if (row && row.SampleStatus) {
         if (['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
           complete.push(row);
         }

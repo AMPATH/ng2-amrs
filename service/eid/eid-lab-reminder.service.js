@@ -10,27 +10,33 @@ module.exports = serviceDef;
 
 function pendingEIDReminders(params, config) {
   
+  const reflect = (promise) => {
+    return promise.then(result => ({ success: true, result })).catch(error => ({ success: false, error }));
+  };
+  
   return ObsService.getPatientIdentifiers(params.patientUuid).then((identifiers) => {
     let batch = [];
     _.each(config.locations, function(server){
-      batch.push(EIDService.getPendingEIDTestResultsByPatientIdentifiers(identifiers.identifiers,
-        params.referenceDate, server));
+        batch.push(EIDService.getPendingEIDTestResultsByPatientIdentifiers(identifiers.identifiers,
+          params.referenceDate, server));
     });
-    return Promise.all(batch).then((results) => {
+  
+    return Promise.all(batch.map(reflect)).then((results) => {
         // merge results from all sites
         let mergedResults = {};
         _.each(results, function(result){
-          
-          var currentKey = '';
-          _.each(result, function(value, key){
-            currentKey = key;
-            if(mergedResults[currentKey]) {
-              mergedResults[currentKey]= mergedResults[currentKey].concat(result[currentKey]);
-            } else {
-              mergedResults[currentKey] =  result[currentKey];
-            }
-          });
-      
+          if(result.success) {
+            var currentKey = '';
+            let _result = result.result
+            _.each(_result, function(value, key){
+              currentKey = key;
+              if(mergedResults[currentKey]) {
+                mergedResults[currentKey]= mergedResults[currentKey].concat(_result[currentKey]);
+              } else {
+                mergedResults[currentKey] =  _result[currentKey];
+              }
+            });
+          }
         });
   
         return new Promise((resolve, reject)=>{
