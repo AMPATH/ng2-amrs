@@ -160,7 +160,6 @@ function newViralLoadPresent(data) {
 function pendingViralLoadLabResult(eidResults) {
   let reminders = [];
   let data = _.last(eidResults.viralLoad);
-  
   if (data) {
     let dateSplit = data.DateCollected.split('-');
     let dateCollected = Moment([dateSplit[2],
