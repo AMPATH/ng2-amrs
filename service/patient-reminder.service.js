@@ -159,7 +159,7 @@ function newViralLoadPresent(data) {
 
 function pendingViralLoadLabResult(eidResults) {
   let reminders = [];
-  let data = _.first(eidResults.viralLoad);
+  let data = _.last(eidResults.viralLoad);
   
   if (data) {
     let dateSplit = data.DateCollected.split('-');
@@ -192,12 +192,16 @@ function generateReminders(etlResults, eidResults) {
   let pending_vl_lab_result = pendingViralLoadLabResult(eidResults);
   let inh_reminders = inhReminders(data);
   let vl_reminders = viralLoadReminders(data);
-  let currentReminder = new_vl.concat(
-    vl_Errors,
-    pending_vl_orders,
-    pending_vl_lab_result,
-    inh_reminders,
-    vl_reminders);
+  let currentReminder = [];
+  if(pending_vl_lab_result.length> 0) {
+    currentReminder = pending_vl_lab_result.concat(inh_reminders);
+  } else {
+    currentReminder = new_vl.concat(
+      vl_Errors,
+      pending_vl_orders,
+      inh_reminders,
+      vl_reminders);
+  }
   
   reminders = reminders.concat(currentReminder);
   

@@ -540,6 +540,7 @@ function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, refere
     let complete = [];
     let inprocess = [];
     _.each(results, function (row) {
+      
       etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile).info('viral load result: %s', JSON.stringify(row));
       if (row && row.SampleStatus) {
         if (['Completed', 'Rejected', 'Complete'].indexOf(row.SampleStatus) != -1) {
@@ -551,15 +552,15 @@ function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, refere
       }
     });
     // remove duplicate dates for complete and inprocess
-    let completeOnSameDay = _.uniq(complete, (result) => { return result.DateCollected; });
-    let inProcessOnSameDay = _.uniq(inprocess, (result) => { return result.DateCollected; });
+    let completeByDay = _.uniq(complete, (result) => { return result.DateCollected; });
+    let inProcessByDay = _.uniq(inprocess, (result) => { return result.DateCollected; });
     
     // check if we have a pending on same day as complete
-    let hasInprocessAndCompleteOnSameDay = _.filter(completeOnSameDay, function (_row) {
-      return _row.DateCollected === _.first(inProcessOnSameDay).DateCollected;
+    let hasInprocessAndCompleteByDay = _.filter(completeByDay, function (_row) {
+      return _row.DateCollected === _.last(inProcessByDay).DateCollected;
     });
-  
-    return hasInprocessAndCompleteOnSameDay.length === 0 ? inProcessOnSameDay : [];
+    console.log(inProcessByDay);
+    return hasInprocessAndCompleteByDay.length === 0 ? inProcessByDay : [];
   };
   
   return new Promise(function (resolve, reject) {
