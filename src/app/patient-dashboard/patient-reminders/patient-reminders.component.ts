@@ -81,6 +81,10 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
       if (reminder.type === 'danger') {
         this.toastrService.error(reminder.message, reminder.title);
       }
+
+      if (reminder.type === 'info') {
+        this.toastrService.info(reminder.message, reminder.title);
+      }
       // app feature analytics
       this.appFeatureAnalytics
         .trackEvent('Patient Dashboard', 'Patient Reminder Displayed', 'constructReminders');
