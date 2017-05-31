@@ -27,6 +27,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     confirmEndVisit: boolean;
     showDialog: boolean = false;
     visitBusy: Boolean;
+    program;
     constructor(private visitResourceService: VisitResourceService,
         private userDefaultPropertiesService: UserDefaultPropertiesService,
         private patientService: PatientService, private router: Router,
@@ -35,6 +36,7 @@ export class VisitComponent implements OnInit, OnDestroy {
         private encounterResourceService: EncounterResourceService) { }
 
     ngOnInit() {
+        this.program = this.route.snapshot.params['program'];
         this.getPatient();
         // app feature analytics
         this.appFeatureAnalytics

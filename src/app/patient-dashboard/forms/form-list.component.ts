@@ -3,6 +3,7 @@ import { Component, OnInit, Output, Input, EventEmitter, SimpleChange } from '@a
 import { Form } from '../../models/form.model';
 import { FormListService } from './form-list.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
+import { ProgramService } from '../programs/program.service';
 @Component({
     selector: 'form-list',
     templateUrl: 'form-list.component.html',
@@ -10,6 +11,7 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
 })
 export class FormListComponent implements OnInit {
     @Input() excludedForms = [];
+    @Input() program;
     @Output() onFormSelected = new EventEmitter();
     forms: Array<Form>;
     selectedForm: Form;
@@ -23,7 +25,7 @@ export class FormListComponent implements OnInit {
 
     getForms() {
         this.forms = [];
-        this.formListService.getFormList().subscribe(
+        this.formListService.getFormList(this.program).subscribe(
             (forms) => {
                 this.forms = forms.filter((a) => {
                     if (a.encounterType) {

@@ -4,9 +4,9 @@ import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
+import { programFormConfig } from './program-form-config';
 @Injectable()
 export class FormListService {
-
     constructor(private formsResourceService: FormsResourceService,
         private formOrderMetaDataService: FormOrderMetaDataService) { }
     removeVersionFromFormNames(pocForms) {
@@ -109,18 +109,39 @@ export class FormListService {
     }
 
 
-    getFormList() {
+    getFormList(programUuid?) {
         let formList = new BehaviorSubject([]);
         let favouriteForms = this.formOrderMetaDataService.getFavouriteForm();
         this.formsResourceService.getForms().subscribe((forms) => {
             this.formOrderMetaDataService.getDefaultFormOrder().subscribe((defaultOrder) => {
                 let formlist = this.processFavouriteForms(this._getFormList(forms,
                     [favouriteForms, defaultOrder]), favouriteForms);
+                if (programUuid) {
+                    formlist = this.programFilter(programUuid, formlist);
+                }
                 formList.next(formlist);
             });
         });
         return formList;
     }
+
+    private programFilter(programUuid, formlist) {
+        let program = _.find(programFormConfig, (form) => {
+            return form.program = programUuid;
+        });
+        let forms = [];
+        for (let encounterType of program.encounterTypes) {
+            let filtered = _.filter(formlist, (form) => {
+                if (form['encounterType']) {
+                    return form['encounterType'].uuid === encounterType;
+                }
+
+            });
+            forms.push.apply(forms, filtered);
+        }
+        return forms;
+    }
+
 
     private _getFormList(pocForms, formOrderArray) {
         // first filter out unpublished forms

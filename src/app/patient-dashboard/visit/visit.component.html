@@ -2,10 +2,10 @@
   <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Hang in there............'}"></div>
   <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" responsive="true">
     <div class="text-bold">
-      <h3 *ngIf="confirmCancel" ><span class="fa-lg">
+      <h3 *ngIf="confirmCancel"><span class="fa-lg">
 							<i class="fa fa-exclamation-triangle"></i>
 					</span> Canceling a visit deletes all encounters associated with it.</h3>
-      <h3 *ngIf="confirmEndVisit" ><span class="fa-lg">
+      <h3 *ngIf="confirmEndVisit"><span class="fa-lg">
 							<i class="fa fa-exclamation-triangle"></i>
 					</span>Are you sure?</h3>
     </div>
@@ -54,7 +54,7 @@
     <div class="visit-panel-body">
       <encounter-list *ngIf="visit.encounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
       <div>
-        <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
+        <form-list [excludedForms]="excludedForms" program="program" (onFormSelected)="formSelected($event)"></form-list>
       </div>
     </div>
     <div class="visit-panel-footer">
