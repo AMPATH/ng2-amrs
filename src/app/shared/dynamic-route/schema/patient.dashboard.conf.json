@@ -58,6 +58,11 @@
           "icon": "icon-i-outpatient"
         },
         {
+          "url": "forms",
+          "label": "Forms",
+          "icon": "fa fa-file"
+        },
+        {
           "url": "patient-encounters",
           "label": "Encounters",
           "icon": "icon-i-immunizations"
