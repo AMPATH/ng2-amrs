@@ -101,14 +101,29 @@
     },
     {
       "programName": "Oncology",
-      "programUuid": "onc-uuid",
+      "programUuid": "0e614b4c-b064-404d-b4ab-a9676e080898",
       "baseRoute": "oncology",
       "requiresPatientEnrollment": true,
       "routes": [
         {
-          "url": "oncology-summary",
-          "label": "Oncology Summary",
-          "icon": "icon-i-oncology"
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
+        {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
+          "url": "patient-vitals",
+          "label": "Vitals",
+          "icon": "fa fa-heartbeat"
+        },
+        {
+          "url": "lab-data-summary",
+          "label": "Lab Data Summary",
+          "icon": "icon-i-laboratory"
         }
       ]
     }
