@@ -23,8 +23,8 @@ module.exports = function () {
         var order = helpers.getSortOrder(request.query.order);
         var includeNonClinicalEncounter = Boolean(true || false);
         var whereClause = includeNonClinicalEncounter === true ? ["uuid = ?",
-                uuid
-            ] : ["uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)", uuid];
+            uuid
+        ] : ["uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)", uuid];
         var queryParts = {
             columns: request.query.fields || "*",
             table: "etl.flat_hiv_summary",
@@ -154,7 +154,7 @@ module.exports = function () {
                     notes: notes,
                     vitals: vitals,
                     hivSummaries: hivSummaries,
-                    reminders: reminders.reminders||[],
+                    reminders: reminders.reminders || [],
                     labDataSummary: labDataSummary
                 });
             })
@@ -170,7 +170,7 @@ module.exports = function () {
             Object.assign({}, request.query, request.params));
         analytics.runReport(reportParams).then(function (results) {
             try {
-                var processedResults = patientReminderService.generateReminders(results.result);
+                var processedResults = patientReminderService.generateReminders(results.result, { viralLoad: [] });
                 results.result = processedResults;
                 callback(results);
             } catch (err) {
@@ -327,7 +327,7 @@ module.exports = function () {
         getClinicalNotes: getClinicalNotes,
         getPatientData: getPatientLabData,
         getPatient: getPatient,
-        getPatientReminders:getPatientReminders,
+        getPatientReminders: getPatientReminders,
         getHivPatientClinicalSummary: getHivPatientClinicalSummary,
         getPatientCountGroupedByLocation: getPatientCountGroupedByLocation,
         getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation
