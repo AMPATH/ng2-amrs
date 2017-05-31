@@ -128,20 +128,25 @@ export class ClinicFlowCacheService {
             },
             {
                 headerName: 'Seen by Clinician',
-                field: 'seen_by_clinician',
+                field: 'seenByClinician',
                 filter: 'text',
                 width: 140,
                 cellRenderer: function(params) {
+                  let encounterType = '';
                     let date = '', time = '';
-                    if (params.value) {
-                        date = Moment(params.value).format('DD-MM-YYYY');
-                        time = Moment(params.value).format('H:mmA');
+                    if (params.value.time && params.value.encounters) {
+                        date = Moment(params.value.time).format('DD-MM-YYYY');
+                        time = Moment(params.value.time).format('H:mmA');
+                        encounterType = params.value.encounters;
                     }
+
 
                     return '<span class="text-warning" style="font-weight:bold;">'
                         + time
                         + '</span> </br>' +
-                        '<small>' + date + '</small>';
+                        '<small>' + date + '</small>'
+                        + '</span> </br>'
+                        + encounterType ;
                 }
             },
             {
