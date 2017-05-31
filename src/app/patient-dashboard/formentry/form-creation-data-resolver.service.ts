@@ -4,6 +4,8 @@ import {
   ActivatedRouteSnapshot, ActivatedRoute
 } from '@angular/router';
 
+import { DraftedFormsService } from './drafted-forms.service';
+
 import { PatientPreviousEncounterService } from '../patient-previous-encounter.service';
 import { FormSchemaService } from './form-schema.service';
 import * as _ from 'lodash';
@@ -12,7 +14,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
   validationConflictQuestions = ['reasonNotOnFamilyPlanning'];
   constructor(private patientPreviousEncounterService: PatientPreviousEncounterService,
     private router: ActivatedRoute,
-    private formSchemaService: FormSchemaService) {
+    private formSchemaService: FormSchemaService, private draftedForm: DraftedFormsService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> | any {
@@ -30,7 +32,9 @@ export class FormCreationDataResolverService implements Resolve<any> {
               console.log('no encounter for this form');
               resolve({ encounter: {}, schema: compiledFormSchema });
             } else {
-              if (compiledFormSchema.encounterType && compiledFormSchema.encounterType.uuid) {
+              if ((this.draftedForm.lastDraftedForm === null ||
+                this.draftedForm.lastDraftedForm === undefined) &&
+                compiledFormSchema.encounterType && compiledFormSchema.encounterType.uuid) {
                 this.patientPreviousEncounterService.
                   getPreviousEncounter(compiledFormSchema.encounterType.uuid).then((encounter) => {
                     resolve({ encounter: encounter, schema: compiledFormSchema });
