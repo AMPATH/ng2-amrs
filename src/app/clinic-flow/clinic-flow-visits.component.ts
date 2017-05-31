@@ -19,7 +19,15 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     dataLoaded: boolean = false;
     selectedLocation: any;
     selectedDate: any;
-    private currentLocationSubscription: Subscription;
+    filteredData: any;
+    incompleteVisitsCount: any;
+    completeVisitsCount: any;
+    totalVisitsCount: any;
+    selectedVisitType: any;
+    visitCounts: any;
+    encounters: any;
+
+  private currentLocationSubscription: Subscription;
     private selectedDateSubscription: Subscription;
     private clinicFlowSubscription: Subscription;
 
@@ -53,7 +61,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     loadSelectedPatient(event: any) {
         let patientUuid = '';
         if (event) {
-            patientUuid = event.node.data.uuid;
+            patientUuid = event.node.data.patient_uuid;
         }
 
         if (patientUuid === undefined || patientUuid === null) {
@@ -94,9 +102,18 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         } else {
             this.clinicFlowSubscription = result.subscribe(
                 (dataList) => {
+                  this.incompleteVisitsCount = dataList.incompleteVisitsCount;
+                  this.completeVisitsCount = dataList.completeVisitsCount;
+                  this.totalVisitsCount = dataList.totalVisitsCount;
+                  this.visitCounts  = this.totalVisitsCount;
+                  this.selectedVisitType =   'All Visits'  ;
+
+
                     if (dataList.result.length > 0) {
 
-                        let formatted = this.clinicFlowCacheService.formatData(dataList.result);
+                      this.encounters = this.AddEncounterSeenByClinician(dataList.result);
+                      this.filteredData = this.clinicFlowCacheService.formatData(this.encounters);
+                        let formatted = this.clinicFlowCacheService.formatData(this.encounters);
                         this.clinicFlowData = this.clinicFlowData.concat(formatted);
                     } else {
                         this.dataLoaded = true;
@@ -116,12 +133,84 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
             );
         }
     }
+    incompletedVisits() {
+      this.selectedVisitType  = 'Incomplete Visits';
+      this.visitCounts = this.incompleteVisitsCount + '/' + this.totalVisitsCount;
+      let results = this.filteredData.filter(function( obj ) {
+        return obj.seen_by_clinician === null;
+      });
+      let orderedResults = this.renumberRowsOnFilter(results);
+
+      this.clinicFlowData = orderedResults;
+
+    }
+    completedVisits() {
+      this.selectedVisitType  = 'Completed Visits';
+      this.visitCounts = this.completeVisitsCount + '/' + this.totalVisitsCount;
+      let results = this.filteredData.filter(function( obj ) {
+        return obj.seen_by_clinician !== null;
+      });
+
+      let orderedResults = this.renumberRowsOnFilter(results);
+
+      this.clinicFlowData = orderedResults;
+
+    }
+    allVisits() {
+      this.selectedVisitType  = 'All Visits' ;
+      this.visitCounts = this.totalVisitsCount ;
+      this.clinicFlowData = this.renumberRowsOnFilter(this.filteredData ) ;
+    }
+
 
     private initParams() {
-        this.loadingClinicFlow = false;
-        this.dataLoaded = false;
-        this.errors = [];
-        this.clinicFlowData = [];
+          this.loadingClinicFlow = false;
+          this.dataLoaded = false;
+          this.errors = [];
+          this.clinicFlowData = [];
+          this.selectedVisitType = '';
+          this.visitCounts = '';
+      }
+    private AddEncounterSeenByClinician(result) {
+      let encounters = [];
+      let encounter ;
+      for (let i = 0; i < result.length ; ++i) {
+        let data = result[i];
+        for (let r in data) {
+          if (data.hasOwnProperty(r)) {
+            for (let i = 0; i < data.encounters.length ; ++i) {
+              let datas = data.encounters[i];
+              for (let r in datas) {
+                if (datas.hasOwnProperty(r)) {
+                   encounter = datas.encounter_type_name;
+
+                }
+              }
+            }
+
+            let seenByClinician = {time: data.seen_by_clinician, encounters: encounter  };
+            data['seenByClinician'] = seenByClinician;
+          }
+        }
+        encounters.push(data);
+      }
+      return encounters;
+
+    }
+
+    private renumberRowsOnFilter(result) {
+      let numbers = [];
+      for (let i = 0; i < result.length ; ++i) {
+        let data = result[i];
+        for (let r in data) {
+          if (data.hasOwnProperty(r)) {
+             data['#'] = i + 1;
+          }
+        }
+        numbers.push(data);
+      }
+      return numbers;
+
     }
 
 }
