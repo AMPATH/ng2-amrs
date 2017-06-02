@@ -58,6 +58,11 @@
           "icon": "icon-i-outpatient"
         },
         {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
           "url": "patient-vitals",
           "label": "Vitals",
           "icon": "fa fa-heartbeat"
@@ -66,11 +71,6 @@
           "url": "hiv-summary",
           "label": "HIV Summary",
           "icon": "fa fa-medkit"
-        },
-        {
-          "url": "hiv-clinical-summary",
-          "label": "HIV Clinical Summary",
-          "icon": "fa fa-file-pdf-o"
         },
         {
           "url": "clinical-notes",

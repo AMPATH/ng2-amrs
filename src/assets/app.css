@@ -309,8 +309,8 @@ date-time-picker {
   display: block;
 }
 
-.wrapper {
-  overflow: visible !important;
+.test-css{
+   display:none;
 }
 
 body p, body app-formentry label, body app-formentry .panel-heading {

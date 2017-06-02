@@ -17,7 +17,8 @@ export class ClinicFlowComponent implements OnInit {
     private activeLinkIndex = 0;
     private tabLinks = [
         { label: 'Summary', link: 'summary' },
-        { label: 'Visits', link: 'visits' }
+        { label: 'Visits', link: 'visits' },
+        { label: 'Location Statistics', link: 'location' }
 
     ];
 

@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy,
+  Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular';
 @Component({
     selector: 'moh-731-tabular',
@@ -10,6 +11,7 @@ export class Moh731TabularComponent implements OnInit {
     public gridOptions: any = {
         columnDefs: []
     };
+    @Output() onColumnClick = new EventEmitter<any>();
 
     @Input('rowData')
     public data: Array<any> = [];
@@ -50,6 +52,9 @@ export class Moh731TabularComponent implements OnInit {
             for (let j = 0; j < section.indicators.length; j++) {
                 let child: any = {
                     headerName: section.indicators[j].label,
+                    onCellClicked: (column) => {
+                      this.onColumnClick.emit(column);
+                    },
                     field: section.indicators[j].indicator
                 };
                 created.children.push(child);

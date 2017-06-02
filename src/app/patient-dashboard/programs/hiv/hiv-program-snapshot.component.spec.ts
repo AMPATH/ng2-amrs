@@ -76,7 +76,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
 
   it('should have required properties', (done) => {
     expect(component.hasError).toEqual(false);
-    expect(component.noData).toEqual(false);
+    expect(component.hasData).toEqual(false);
     expect(component.patientData).toEqual({});
     expect(component.location).toEqual({});
     done();

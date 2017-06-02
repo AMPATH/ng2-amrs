@@ -18,6 +18,7 @@ import { FromentryGuard } from './formentry/formentry.guard';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
 import { HivPatientClinicalSummaryComponent }
   from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const patientDashboardRoutes: Routes = [
 
@@ -26,8 +27,8 @@ const patientDashboardRoutes: Routes = [
     path: ':patient_uuid',
     component: PatientDashboardComponent,
     children: [
+      { path: 'welcome', component: LandingPageComponent},
       { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full'},
-      // { path: '', redirectTo: 'general/landing-page'},
       { path: ':program/patient-info', component: PatientInfoComponent },
       { path: 'oncology/landing-page', component: PatientInfoComponent },
       { path: ':program/patient-encounters', component: PatientEncountersComponent },
@@ -43,7 +44,6 @@ const patientDashboardRoutes: Routes = [
       },
       { path: ':program/hiv-summary', component: HivSummaryComponent },
       { path: 'hiv/landing-page', component: HivSummaryComponent },
-      { path: ':program/hiv-clinical-summary', component: HivPatientClinicalSummaryComponent },
       { path: ':program/lab-data-summary', component: LabDataSummaryComponent },
       { path: ':program/lab-orders', component: LabOrdersComponent },
       { path: 'general/landing-page', component: ProgramsComponent },

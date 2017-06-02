@@ -7,7 +7,7 @@ import { Encounter } from '../../models/encounter.model';
 
 })
 export class EncounterListComponent implements OnInit {
-    @Input() encounters: Encounter[];
+    @Input() encounters: Encounter;
     @Input('messageType') messageType: string;
     @Input('message') message: string;
     @Input('isVisible') isVisible: boolean;

@@ -7,7 +7,7 @@ export class PatientListColumns {
             width: 60,
             pinned: true,
             cellRenderer: (column) => {
-              return column.rowIndex + 1;
+              return parseInt(column.node.id, 10) + 1;
             },
             field: '#'
           },

@@ -21,7 +21,13 @@ module.exports = function (config) {
     exclude: [],
 
     client: {
-      captureConsole: false
+      config: {
+        browserConsoleLogOptions: {
+          level: 'log',
+          format: '%b %T: %m',
+          terminal: true
+        }
+      }
     },
 
     /*
@@ -67,7 +73,7 @@ module.exports = function (config) {
       noInfo: true,
       // and use stats to turn off verbose output
       stats: {
-        // options i.e. 
+        // options i.e.
         chunks: false
       }
     },

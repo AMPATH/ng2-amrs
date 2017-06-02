@@ -105,14 +105,17 @@ describe('Moh731TabularComponent: ', () => {
                     children: [
                         {
                             headerName: 'Enrolled in care Below 1yr(M)',
+                            onCellClicked: (c) => {},
                             field: 'enrolled_in_care_males_lt_one'
                         },
                         {
                             headerName: 'Enrolled in care Below 1yr(F)',
+                            onCellClicked: (c) => {},
                             field: 'enrolled_in_care_females_lt_one'
                         },
                         {
                             headerName: 'Enrolled in care Below 15yrs(M)',
+                            onCellClicked: (c) => {},
                             field: 'enrolled_in_care_males_below_15'
                         }
                     ]
@@ -123,17 +126,20 @@ describe('Moh731TabularComponent: ', () => {
                     children: [
                         {
                             headerName: 'Currently in care Below 1yr(M)',
+                            onCellClicked: (c) => {},
                             field: 'currently_in_care_males_lt_one'
                         },
                         {
                             headerName: 'Currently in care Below 1yr(F)',
+                            onCellClicked: (c) => {},
                             field: 'currently_in_care_females_lt_one'
                         }
                     ]
                 },
             ];
 
-            expect(component.gridOptions.columnDefs).toEqual(expected);
+          expect(JSON.stringify(component.gridOptions.columnDefs))
+            .toEqual(JSON.stringify(expected));
 
             // should also create columns when setter is set
             component.gridOptions = { columnDefs: [] };
@@ -141,7 +147,8 @@ describe('Moh731TabularComponent: ', () => {
 
             component.sectionDefs = sectionsDef;
             fixture.detectChanges();
-            expect(component.gridOptions.columnDefs).toEqual(expected);
+            expect(JSON.stringify(component.gridOptions.columnDefs))
+              .toEqual(JSON.stringify(expected));
 
         });
 });

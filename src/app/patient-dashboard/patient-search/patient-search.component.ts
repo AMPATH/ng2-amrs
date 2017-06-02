@@ -18,7 +18,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   totalPatients: number;
   isLoading: boolean = false;
   page: number = 1;
-  adjustInputMargin: string = '240px';
+  adjustInputMargin: string = '10px';
   subscription: Subscription;
   public errorMessage: string;
 
@@ -62,7 +62,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     }
     if (this.searchString && this.searchString.length > 2) {
       if (window.innerWidth > 768) {
-        this.adjustInputMargin = '267px';
+        this.adjustInputMargin = '10px';
       }
       this.isLoading = true;
       this.patients = [];
@@ -106,9 +106,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
-
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/welcome']);
   }
 
 
@@ -127,7 +125,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
   public resetInputMargin() {
     if (window.innerWidth > 768) {
-      this.adjustInputMargin = '240px';
+      this.adjustInputMargin = '10px';
     }
   }
 

@@ -26,6 +26,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     dataLoaded: boolean = false;
 
     errors: any = [];
+
     isLoading: boolean;
     nextStartIndex: number = 0;
     constructor(private hivSummaryService: HivSummaryService,

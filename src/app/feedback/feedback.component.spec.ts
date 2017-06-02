@@ -10,6 +10,8 @@ import { FeedBackService } from './feedback.service';
 import { FeedBackComponent } from './feedback.component';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { UserService } from '../openmrs-api/user.service';
+import { UserDefaultPropertiesService }
+    from '../user-default-properties/user-default-properties.service';
 
 import { FormsModule } from '@angular/forms';
 class DataStub {
@@ -29,6 +31,13 @@ class UserServiceStub {
         };
     }
 }
+class UserDefaultPropertiesServiceStub {
+    getCurrentUserDefaultLocationObject() {
+        return {
+            display: 'Location test'
+        };
+    }
+}
 describe('FeedBackComponent', () => {
     let fixture: ComponentFixture<FeedBackComponent>;
     let comp: FeedBackComponent;
@@ -41,6 +50,10 @@ describe('FeedBackComponent', () => {
         }).overrideComponent(FeedBackComponent, {
             set: {
                 providers: [
+                    {
+                        provide: UserDefaultPropertiesService,
+                        useClass: UserDefaultPropertiesServiceStub
+                    },
                     { provide: FeedBackService, useClass: DataStub },
                     { provide: UserService, useClass: UserServiceStub },
                     {

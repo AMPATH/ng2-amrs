@@ -103,6 +103,10 @@ import {
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
 import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
+import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
+import {
+  ClinicFlowLocationStatsComponent
+} from '../clinic-flow/clinic-flow-location-stats.component';
 
 @NgModule({
   imports: [
@@ -168,11 +172,13 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ClinicFlowVisitsComponent,
     PatientStatusChangeVisualizationContainerComponent,
     PatientStatusChangeVisualizationComponent,
-    PatientStatusChangeListComponent
+    PatientStatusChangeListComponent,
+    ClinicFlowLocationStatsComponent
   ],
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,
+    Moh731ResourceService,
     ClinicDashboardCacheService,
     DefaulterListResourceService,
     ClinicalSummaryVisualizationService,
@@ -210,7 +216,9 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
     ArtOverviewIndicatorDefComponent,
     ClinicFlowComponent,
     ClinicFlowSummaryComponent,
-    ClinicFlowVisitsComponent
+    ClinicFlowVisitsComponent,
+    PatientStatusChangeListComponent,
+    ClinicFlowLocationStatsComponent
   ],
 })
 export class ClinicDashboardModule {

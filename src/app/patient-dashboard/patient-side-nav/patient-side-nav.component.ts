@@ -4,6 +4,8 @@ import { RouteModel } from '../../shared/dynamic-route/route.model';
 import { DynamicRoutesService } from '../../shared/dynamic-route/dynamic-routes.service';
 import { Subscription } from 'rxjs';
 
+import { MainDashboard } from '../../main-dashboard/main-dashboard';
+
 @Component({
     selector: 'patient-side-nav',
     templateUrl: 'patient-side-nav.component.html',
@@ -26,6 +28,8 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
     public selectedRoute: RouteModel = null;
     public viewingChildRoutes = false;
     public changingRoutesSub: Subscription;
+
+    dashboard = new MainDashboard();
     constructor(private dynamicRoutesService: DynamicRoutesService) {
         this.subscribeToRoutesChangeEvents();
     }
@@ -74,4 +78,12 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
             body.classList.add('sidebar-collapse');
         }, 200);
     }
+
+toggleMenu(): void {
+      this.dashboard.toggleMenu();
+  }
+
+  toggleSideBarDropDown(event): void {
+      this.dashboard.toggleSideBarDropDown(event);
+  }
 }

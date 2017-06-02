@@ -16,7 +16,6 @@ import {
   VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
-import { HivProgramModule } from './hiv/hiv-program.module';
 import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
 import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
 import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
@@ -28,6 +27,9 @@ import {
   PatientStatusChangeListComponent
 } from
   './patient-status-change-visualization/patient-status-change-list.component';
+import {
+  ClinicFlowLocationStatsComponent
+} from '../clinic-flow/clinic-flow-location-stats.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -49,6 +51,7 @@ const clinicDashboardRoutes: Routes = [
             children: [
               { path: 'visits', component: ClinicFlowVisitsComponent },
               { path: 'summary', component: ClinicFlowSummaryComponent },
+              { path: 'location', component: ClinicFlowLocationStatsComponent },
               { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
 
             ]

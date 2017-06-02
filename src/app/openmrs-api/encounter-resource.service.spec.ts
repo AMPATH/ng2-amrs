@@ -79,6 +79,7 @@ describe('EncounterResourceService', () => {
                         .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
                         + patientUuid + '&v=custom:(uuid,encounterDatetime,' +
                         'patient:(uuid,uuid),form:(uuid,name),' +
+                        'visit:(uuid,startDatetime,stopDatetime),' +
                         'location:ref,encounterType:ref,provider:ref)');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
@@ -129,6 +130,7 @@ describe('EncounterResourceService', () => {
                 mockBackend.connections.subscribe(conn => {
                     let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
                         'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+                        'visit:(uuid,startDatetime,stopDatetime),' +
                         'location:ref,encounterType:ref,provider:ref,orders:full,' +
                         'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display))' +
                         ',value:ref,groupMembers))';
@@ -305,6 +307,34 @@ describe('EncounterResourceService', () => {
                 });
 
                 const result = service.updateEncounter(uuid, encounterMock);
+            })));
+    });
+
+    describe('Should Delete encounters', () => {
+        let uuid = 'encounter-uuid';
+        it('should return null when params are not specified', async(inject(
+            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+
+                mockBackend.connections.subscribe(conn => {
+                    throw new Error('No requests should be made.');
+                });
+
+                const result = service.voidEncounter(null);
+
+                expect(result).toBeNull();
+            })));
+
+        it('should call the right endpoint', async(inject(
+            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+                mockBackend.connections.subscribe(conn => {
+                    expect(conn.request.url)
+                        .toBe('http://example.url.com/ws/rest/v1/encounter/' + uuid + '?!purge');
+                    expect(conn.request.method).toBe(RequestMethod.Delete);
+                    conn.mockRespond(new Response(
+                        new ResponseOptions({ body: JSON.stringify({}) })));
+                });
+
+                const result = service.voidEncounter(uuid);
             })));
     });
 });

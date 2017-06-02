@@ -7,6 +7,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 export class EncounterResourceService {
     v: string = 'custom:(uuid,encounterDatetime,' +
     'patient:(uuid,uuid),form:(uuid,name),' +
+    'visit:(uuid,startDatetime,stopDatetime),' +
     'location:ref,encounterType:ref,provider:ref)';
 
     constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
@@ -37,6 +38,7 @@ export class EncounterResourceService {
         }
         let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
             'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+            'visit:(uuid,startDatetime,stopDatetime),' +
             'location:ref,encounterType:ref,provider:ref,orders:full,' +
             'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
         let params = new URLSearchParams();
@@ -80,5 +82,17 @@ export class EncounterResourceService {
             .map((response: Response) => {
                 return response.json();
             });
+    }
+
+    voidEncounter(uuid) {
+        if (!uuid) {
+            return null;
+        }
+        let url = this.getUrl() + 'encounter/' + uuid + '?!purge';
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.delete(url, new RequestOptions({
+            headers: headers
+        }));
     }
 }

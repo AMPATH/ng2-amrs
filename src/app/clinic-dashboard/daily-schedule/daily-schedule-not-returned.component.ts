@@ -13,13 +13,9 @@ import * as Moment from 'moment';
   styleUrls: ['./daily-schedule.component.css']
 })
 export class DailyScheduleNotReturned implements OnInit, OnDestroy {
-
-
-
   @Input() selectedDate: any;
   @Input() tab: any;
   @Input() newList: any;
-
   errors: any[] = [];
   notReturnedPatientList: any[] = [];
   loadingDailyNotReturned: boolean = false;
@@ -27,6 +23,11 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   nextStartIndex: number = 0;
   selectedNotReturnedTab: any;
+  extraColumns: any = {
+    headerName: 'Phone Number',
+    width: 80,
+    field: 'phone_number'
+  };
   private currentClinicSubscription: Subscription;
   private selectedDateSubscription: Subscription;
   private visitsSubscription: Subscription;
@@ -52,12 +53,12 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
         if (this.selectedClinic) {
           this.selectedDateSubscription = this.clinicDashboardCacheService.
             getDailyTabCurrentDate().subscribe((date) => {
-            if ( this.loadingDailyNotReturned === false) {
-              this.selectedDate = date;
-              this.initParams();
-              let params = this.getQueryParams();
-              this.getDailyHasNotReturned(params);
-            }
+              if (this.loadingDailyNotReturned === false) {
+                this.selectedDate = date;
+                this.initParams();
+                let params = this.getQueryParams();
+                this.getDailyHasNotReturned(params);
+              }
 
             });
 

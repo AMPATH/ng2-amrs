@@ -131,7 +131,7 @@ describe('Component: ClinicFlowComponent', () => {
   });
 
   it('should have required properties', (done) => {
-    expect(component.tabLinks.length).toBe(2);
+    expect(component.tabLinks.length).toBe(3);
     expect(component.activeLinkIndex).toBeDefined;
     expect(component.ngOnInit).toBeDefined();
     expect(component.setActiveTab).toBeDefined();
