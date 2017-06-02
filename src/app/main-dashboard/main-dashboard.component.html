@@ -1,20 +1,22 @@
 <header class="main-header">
-	<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-		<div class="logo-img"><img src="./assets/img/ampath.png" /></div>
-	</a>
-	<nav class="navbar navbar-static-top" role="navigation">
-		<a routerLink="/" class="logo">
-			<div class="logo-img"><img src="./assets/img/ampath.png" /></div>
-		</a>
+  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+    <div class="logo-img"><img src="./assets/img/ampath.png"/></div>
+  </a>
+  <nav class="navbar navbar-static-top" role="navigation">
+    <a routerLink="/" class="logo">
+      <div class="logo-img"><img src="./assets/img/ampath.png"/></div>
+    </a>
 
-		<div class="navbar-custom-menu">
-			<ul class="nav navbar-nav">
-				<li routerLinkActive="active" class="patient">
-					<a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span>Patient Search</span> </a>
-				</li>
-				<li routerLinkActive="active" class="clinic">
-					<a routerLink="/clinic-dashboard"> <i class="fa fa-user-md"></i> <span>Clinic Dashboard</span> </a>
-				</li>
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active" class="patient">
+          <a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span>Patient Search</span>
+          </a>
+        </li>
+        <li routerLinkActive="active" class="clinic">
+          <a routerLink="/clinic-dashboard"> <i class="fa fa-user-md"></i>
+            <span>Clinic Dashboard</span> </a>
+        </li>
         <li class="dropdown more more-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-th"></i>
@@ -30,88 +32,91 @@
             </li>
           </ul>
         </li>
-				<li class="dropdown user user-menu pull-right">
+        <li class="dropdown user user-menu pull-right">
 
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="username">{{user.display}}</span>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li class="dropdown-header">
-							<dl>
-								<dt>Location:</dt>
-								<dd>{{userLocation}}</dd>
-								<dt>Role(s):</dt>
-								<dd>- {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
-							</dl>
-						</li>
-						<li role="separator" class="divider"></li>
-						<li>
-							<a routerLink="/app/settings">
-								<span class="glyphicon glyphicon-hdd"></span> Switch Servers
-							</a>
-						</li>
-						<li>
-							<a routerLink="/user-default-properties">
-								<span class="glyphicon glyphicon-user"></span> User Default Settings
-							</a>
-						</li>
-						<li>
-							<a routerLink="/useful-links">
-								<span class="glyphicon glyphicon-question-sign"></span> Useful Links
-							</a>
-						</li>
-						<li>
-							<a routerLink="/feed-back">
-								<span class="fa fa-comments"></span> Feedback
-							</a>
-						</li>
-						<li class="user-footer">
-							<div class="pull-right">
-								<a (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
-							</div>
-						</li>
-					</ul>
-				</li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-user"></i>
+            <span class="username">{{user.display}}</span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">
+              <dl>
+                <dt>Location:</dt>
+                <dd>{{userLocation}}</dd>
+                <dt>Role(s):</dt>
+                <dd>- {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
+              </dl>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a routerLink="/app/settings">
+                <span class="glyphicon glyphicon-hdd"></span> Switch Servers
+              </a>
+            </li>
+            <li>
+              <a routerLink="/user-default-properties">
+                <span class="glyphicon glyphicon-user"></span> User Default Settings
+              </a>
+            </li>
+            <li>
+              <a routerLink="/useful-links">
+                <span class="glyphicon glyphicon-question-sign"></span> Useful Links
+              </a>
+            </li>
+            <li>
+              <a routerLink="/feed-back">
+                <span class="fa fa-comments"></span> Feedback
+              </a>
+            </li>
+            <li class="user-footer">
+              <div class="pull-right">
+                <a (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
+              </div>
+            </li>
+          </ul>
+        </li>
 
-			</ul>
-		</div>
-	</nav>
+      </ul>
+    </div>
+  </nav>
 </header>
 <aside class="main-sidebar">
-	<section class="sidebar">
-		<ul *ngIf= "currentDashboard === 'clinic-dashboard'" class="sidebar-menu clinic-dashboard">
-			<li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
-				<a routerLink="/{{route.url}}" (click)="route.onClick($event)">
+  <section class="sidebar">
+    <ul *ngIf="currentDashboard === 'clinic-dashboard'" class="sidebar-menu clinic-dashboard">
+      <li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
+        <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
 					<span class="icon-menu">
             <span class="icon-menu-letter">{{route.menuStartLetter}}</span>
 					<span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
 					</span>
-					<span class="icon-menu-label">{{route.label}}</span>
-				</a>
-			</li>
-		</ul>
-		<patient-side-nav *ngIf= "currentDashboard === 'patient-dashboard'"></patient-side-nav>
-	</section>
+          <span class="icon-menu-label">{{route.label}}</span>
+        </a>
+      </li>
+    </ul>
+    <patient-side-nav *ngIf="currentDashboard === 'patient-dashboard'"></patient-side-nav>
+  </section>
 </aside>
 <div class="content-wrapper" style="min-height: 100%;">
-	<div class="overlay" [ngClass]="{show: active, hide: !active}" (click)="clickOverlay($event)">
-		<div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
-	</div>
-	<section class="content">
-		<router-outlet></router-outlet>
-		<div [ngBusy]="busyIndicator"></div>
-	</section>
+  <div class="overlay" [ngClass]="{show: active, hide: !active}" (click)="clickOverlay($event)">
+    <div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
+  </div>
+  <section class="content">
+    <router-outlet></router-outlet>
+    <div [ngBusy]="busyIndicator"></div>
+  </section>
 </div>
 <footer class="main-footer">
-	<div class="pull-left">
-		<online-tracker></online-tracker>
-		<!--<p class="text-bold"><i class="fa fa-circle text-success"></i> <span>Online</span></p>-->
-	</div>
-	<div class="pull-right">
-		<build-version></build-version>
-	</div>
+  <div class="footer-logo pull-left">
+    <a routerLink="/" class="logo">
+      <div class="logo-img"><img src="./assets/img/ampath.png"/></div>
+    </a></div>
+  <div class="pull-right">
+    <online-tracker></online-tracker>
+  </div>
+  <div class="pull-right">
+    <build-version></build-version>
+  </div>
   <div class="clear"></div>
 </footer>
 <div class="control-sidebar-bg"></div>
