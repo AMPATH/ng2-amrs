@@ -31,6 +31,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 
 import * as Moment from 'moment';
 
@@ -55,7 +56,15 @@ describe('Component: DailySchedule', () => {
         DataCacheService,
         ClinicFlowCacheService,
         RouterOutletMap,
-        { provide: ActivatedRoute, useValue: {} },
+        {
+          provide: ActivatedRoute, useValue: {
+            snapshot: {
+              queryParams: {
+
+              }
+            }
+          }
+        },
         {
           provide: Router,
           useClass: class { navigate = jasmine.createSpy('navigate'); }
@@ -86,7 +95,8 @@ describe('Component: DailySchedule', () => {
         NgxMyDatePickerModule,
         MdTabsModule.forRoot(),
         CommonModule, Angulartics2Module,
-        RouterModule
+        RouterModule,
+        DateTimePickerModule
       ]
     });
   });

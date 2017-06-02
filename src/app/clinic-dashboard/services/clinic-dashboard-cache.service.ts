@@ -48,9 +48,9 @@ export class ClinicDashboardCacheService {
         return this.dailTabCurrentDateSubject;
     }
     public setIsLoading(loading: boolean) {
-      this.isLoading.next(loading);
+        this.isLoading.next(loading);
     }
     public getIsLoading() {
-      return this.isLoading;
+        return this.isLoading;
     }
-  }
+}
