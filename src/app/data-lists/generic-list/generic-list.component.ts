@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Output, OnDestroy,
+  Component, OnInit, Output, OnDestroy, ViewChild,
   Input, SimpleChange, EventEmitter, OnChanges
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
@@ -21,6 +21,8 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() newList: any;
   selected: any;
   refresh: boolean = false;
+  @ViewChild('agGrid')
+  public agGrid: AgGridNg2;
 
   @Input()
   set options(value) {
@@ -33,6 +35,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
+
 
   @Input()
   set dataSource(value) {
@@ -73,10 +76,12 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
+    this.gridOptions.enableSorting = true;
     this.gridOptions.enableFilter = true;
+    this.gridOptions.showToolPanel = false;
     // this.gridOptions.suppressCellSelection = true;
-    this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
-    this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
+    // this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
+    // this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
     this.gridOptions.rowSelection = 'single';
     if (this.dataSource) {
       this.gridOptions.rowModelType = 'pagination';
@@ -89,7 +94,9 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.onGridReady = (event) => {
 
       if (window.innerWidth > 768) {
-        this.gridOptions.api.sizeColumnsToFit();
+
+       // this.gridOptions.api.sizeColumnsToFit();
+        setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
       }
       // setDatasource() is a grid ready function
       if (this.dataSource) {
@@ -161,6 +168,8 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       };
     };
   }
+
+
 
   ngOnDestroy() {
     this.data = [];

@@ -6,7 +6,7 @@
 				<h3>{{formName}}</h3>
 				<hr />
 				<form-renderer [node]="form.rootNode"></form-renderer>
-				<div class="form-row">
+				<div class="form-row" style="z-index:0;">
 					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
 					<button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
 				</div>

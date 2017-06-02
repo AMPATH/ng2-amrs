@@ -1,5 +1,6 @@
+/*
 
-/* tslint:disable:no-unused-variable */
+/!* tslint:disable:no-unused-variable *!/
 
 import { TestBed, async } from '@angular/core/testing';
 import { ClinicFlowComponent } from './clinic-flow.component';
@@ -100,7 +101,7 @@ describe('Component: ClinicFlowComponent', () => {
         NgxMyDatePickerModule,
         MdTabsModule.forRoot(),
         CommonModule, Angulartics2Module,
-        RouterModule
+        RouterModule,
       ]
     });
   });
@@ -131,7 +132,7 @@ describe('Component: ClinicFlowComponent', () => {
   });
 
   it('should have required properties', (done) => {
-    expect(component.tabLinks.length).toBe(3);
+    expect(component.tabLinks.length).toBe(4);
     expect(component.activeLinkIndex).toBeDefined;
     expect(component.ngOnInit).toBeDefined();
     expect(component.setActiveTab).toBeDefined();
@@ -154,3 +155,4 @@ describe('Component: ClinicFlowComponent', () => {
 
 
 });
+*/

@@ -35,6 +35,8 @@ import { VisualizationComponent } from './clinical-summary-visualization/visuali
 import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
 import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
 import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
+import { ClinicFlowHourlyStatsVizComponent } from
+  '../clinic-flow/clinic-flow-hourly-stats-viz.component';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 import {
   ArtOverviewComponent
@@ -86,7 +88,8 @@ import {
 import {
   VisualizationPatientListComponent
 } from
-'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+  // tslint:disable-next-line:max-line-length
+  './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import {
   PatientStatusChangeVisualizationContainerComponent
 } from
@@ -107,7 +110,13 @@ import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
 import {
   ClinicFlowLocationStatsComponent
 } from '../clinic-flow/clinic-flow-location-stats.component';
-
+import {
+  ClinicFlowProviderStatsComponent
+} from '../clinic-flow/clinic-flow-provider-stats.component';
+import {
+  PatientStatusDatalistCellComponent
+} from './patient-status-change-visualization/patient-status-data-list-cell.component';
+import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 @NgModule({
   imports: [
     CommonModule,
@@ -126,7 +135,10 @@ import {
     SelectModule,
     Angulartics2Module.forChild(),
     NgamrsSharedModule,
-    ChartModule.forRoot(require('highcharts')),
+    ChartModule.forRoot(require('highcharts'),
+      require('highcharts/highcharts-more'),
+      require('highcharts/modules/exporting')
+    ),
     BusyModule.forRoot(
       new BusyConfig({
         message: 'Please Wait...',
@@ -142,7 +154,9 @@ import {
     AgGridModule.withComponents([]),
     NgamrsSharedModule,
     NgxMyDatePickerModule,
-    MdTabsModule.forRoot()
+    MdTabsModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
   ],
   declarations: [
     DailyScheduleComponent,
@@ -168,13 +182,17 @@ import {
     HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
     ClinicFlowComponent,
+    ClinicFlowHourlyStatsVizComponent,
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
     PatientStatusChangeVisualizationContainerComponent,
     PatientStatusChangeVisualizationComponent,
     PatientStatusChangeListComponent,
-    ClinicFlowLocationStatsComponent
+    ClinicFlowLocationStatsComponent,
+    ClinicFlowProviderStatsComponent,
+    PatientStatusDatalistCellComponent
   ],
+  entryComponents: [PatientStatusDatalistCellComponent, PatientStatusChangeListComponent],
   providers: [
     ClinicDashboardGuard,
     DailyScheduleResourceService,
@@ -215,10 +233,12 @@ import {
     HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
     ClinicFlowComponent,
+    ClinicFlowHourlyStatsVizComponent,
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
     PatientStatusChangeListComponent,
-    ClinicFlowLocationStatsComponent
+    ClinicFlowLocationStatsComponent,
+    ClinicFlowProviderStatsComponent
   ],
 })
 export class ClinicDashboardModule {
