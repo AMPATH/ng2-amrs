@@ -137,9 +137,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public onCancel(e): void {
-    this.draftedFormsService.setCancelState();
-    this.resetLastTab();
-    window.history.go(-1);
+    this.confirmationService.confirm({
+      header: 'Cancel Form',
+      message: 'Are you sure you want to cancel this form ?',
+      accept: () => {
+        this.draftedFormsService.setCancelState();
+        this.resetLastTab();
+        window.history.go(-1);
+      },
+      reject: () => {
+      }
+    });
   }
 
   public retrySubmittingPayload(): void {
