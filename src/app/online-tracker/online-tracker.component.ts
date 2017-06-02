@@ -8,10 +8,10 @@ import { SessionService } from '../openmrs-api/session.service';
     selector: 'online-tracker',
     template: `
     <p *ngIf="isOnline" class="text-bold"><i class="fa fa-circle text-success"></i>
-    <span>Online</span>
+    <span></span>
     </p>
     <p *ngIf="!isOnline" class="text-bold"><i class="fa fa-circle text-danger"></i>
-    <span class="text-danger">Offline <span *ngIf="isUpdating"> (updating...) </span></span>
+    <span class="text-danger"><span *ngIf="isUpdating"> (updating...) </span></span>
     </p>
   `
 })

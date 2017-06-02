@@ -116,6 +116,107 @@ landing-page {
   -webkit-transition: all 0.2s linear;
 }
 
+h3 {
+  padding-top:0;
+}
+
+.program-header-wrapper {
+  background-color: #203864;
+  color: #ccc;
+}
+
+.program .program-header, .program .program-footer{
+  margin: 10px 20px 10px 20px;
+  font-size: 1.72rem;
+  border: none;
+  padding: 0 0;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  line-height: 1.29em;
+  text-transform: none;
+  color: #fff;
+}
+
+.program.non-enrolled .program-body{
+  padding: 12px;
+}
+
+.program.non-enrolled .program-header-wrapper{
+  background-color: darkred;
+  color: #ccc;
+}
+
+.program .program-body {
+  padding-top:12px;
+  padding-bottom:12px;
+  border-left: 1px solid rgba(34, 36, 38, .15);
+  border-right: 1px solid rgba(34, 36, 38, .15);
+  border-bottom: 1px solid rgba(34, 36, 38, .15);
+}
+
+.program .program-footer {
+  background-color: whitesmoke;
+  color: #fff;
+  margin: 0;
+  padding: 5px 12px;
+  border: 1px solid rgba(34, 36, 38, .15);
+  border-top: 0;
+}
+
+.program hr {
+  margin: 1rem 0;
+  line-height: 1;
+  height: 0;
+  font-weight: 700;
+  font-size: 1rem;
+  clear: both;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: rgba(0, 0, 0, .85);
+  user-select: none;
+  border-top: 1px solid rgba(34, 36, 38, .15);
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.program .enrolled {
+  margin-bottom: 20px;
+}
+
+.clear {
+  clear: both;
+  height:1px;
+}
+
+.dropdown button {
+  position: absolute;
+  top: -38px;
+  right:12px;
+}
+
+.dropdown-menu {
+  margin-right: 12px;
+  width: calc(100% - 12px);
+  padding: 12px;
+}
+
+.open > .dropdown-menu {
+  -webkit-transform: scale(1, 1);
+  transform: scale(1, 1);
+  opacity:1;
+}
+
+.dropdown-menu {
+  opacity:.3;
+  -webkit-transform-origin: top;
+  transform-origin: top;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-transform: scale(1, 0);
+  display: block;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+}
+
 a.btn {
   color: #fff !important;
   display: inline-block;

@@ -89,7 +89,7 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
 }
 
 .component-wrapper {
-  margin: 0 8px;
+  margin: 8px;
   position: relative;
   background: #fff;
   box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
@@ -103,7 +103,6 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
 .component-wrapper.patient-search,
 .box-body .component-wrapper,
 .component-wrapper.clinic-dashboard{
-  margin-top:8px;
   margin-bottom: 10px;
 }
 
@@ -207,6 +206,37 @@ a img {
 .btn.btn-info span {
   display: inline-block;
   margin-right: 12px;
+}
+
+.banner-top {
+  display: block;
+  height: 9px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-color: #ecf0f5;
+  border-bottom: 1px solid #dadada;
+}
+
+.component-title {
+  font-size: 22px;
+  text-transform: capitalize;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(34, 36, 38, .15);
+  margin-bottom: 8px;
+}
+
+.component-title span{
+  display: inline-block;
+  margin-right: 12px;
+}
+
+footer online-tracker {
+  margin-left: 8px;
+}
+
+.footer-logo {
+  width: 120px;
 }
 
 dl {
