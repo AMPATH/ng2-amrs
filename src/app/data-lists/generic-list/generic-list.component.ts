@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { BehaviorSubject } from 'rxjs/Rx';
-import { ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({
@@ -33,8 +32,6 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     return this._data.getValue();
   }
 
-  @ViewChild('agGrid')
-  public agGrid: AgGridNg2;
 
 
   @Input()
