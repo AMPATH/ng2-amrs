@@ -1,27 +1,31 @@
-<div class="wrapper">
-  <div class="box-body">
+<div class="box-body">
+  <div class="component-wrapper patient-search">
     <form>
       <div class="form-group">
         <label for="search-textbox"><h2>Patient Search</h2></label>
         <div class="input-wrapper" [style.margin-right]="adjustInputMargin">
-          <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString"
+          <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg"
+                 [(ngModel)]="searchString"
                  [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePatientCount($event)"
                  placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"
                  autofocus="true">
-          </div>
-          <div class="input-group-btn pull-right">
-            <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
-              <span class="glyphicon glyphicon-search"> Search</span>
-              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-            </button>
-            <button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
+        </div>
+        <div class="input-group-btn pull-right">
+          <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
+            <span class="glyphicon glyphicon-search"> Search</span>
+            <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+          </button>
+          <button [disabled]="!isResetButton" class="btn btn-danger btn-lg"
+                  (click)="resetSearchList()">
             <span class="glyphicon glyphicon-trash"> Reset</span>
           </button>
-          </div>
+        </div>
       </div>
     </form>
-    <div *ngIf="totalPatients > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span> Patient(s) found for <span
-      class="search text-bold">{{searchString}}</span></div>
+    <div *ngIf="totalPatients > 0" class="alert"><span class="total text-bold"
+                                                       (ngModel)="totalPatients">{{totalPatients}}</span>
+      Patient(s) found for <span
+        class="search text-bold">{{searchString}}</span></div>
 
     <div [hidden]="!totalPatients > 0" class="panel panel-primary" style="padding:2px;">
       <div class="panel panel-default">
@@ -42,28 +46,32 @@
             <td>{{ (i + 1)+ (page - 1) * 10 }}</td>
             <td>
   <span *ngIf="patient.searchIdentifiers.kenyaNationalId"> {{patient.searchIdentifiers.kenyaNationalId}}
-            <span *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span></span>
+            <span
+              *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span></span>
               <span *ngIf="patient.searchIdentifiers.amrsMrn">{{patient.searchIdentifiers.amrsMrn}}
              <span *ngIf="patient.searchIdentifiers.ampathMrsUId">,</span></span>
               <span *ngIf="patient.searchIdentifiers.ampathMrsUId">{{patient.searchIdentifiers.ampathMrsUId}}
              <span *ngIf="patient.searchIdentifiers.cCC">,</span></span>
               <span *ngIf="patient.searchIdentifiers.cCC">{{patient.searchIdentifiers.cCC}}</span>
-              <span *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
+              <span
+                *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
 
             </td>
             <td>{{patient.person.display}}</td>
             <td>{{patient.person.gender}}</td>
             <td>{{patient.person.age}}</td>
             <td>
-              <a [routerLink]="['/patient-dashboard', patient.uuid,'patient-info']"><span style="font-size:14px;"
-                                                                                          class="glyphicon glyphicon-zoom-in"></span>
+              <a [routerLink]="['/patient-dashboard', patient.uuid,'patient-info']"><span
+                style="font-size:14px;"
+                class="glyphicon glyphicon-zoom-in"></span>
               </a>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
-      <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+      <pagination-controls (pageChange)="page = $event"
+                           style="cursor: pointer;"></pagination-controls>
     </div>
   </div>
 </div>
