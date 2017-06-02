@@ -1,13 +1,19 @@
 <div class="box box-solid">
 	<div class="box-header">
 		<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
+    <div class="banner-top"></div>
 		<md-progress-bar *ngIf="fetchingPatient" mode="indeterminate"></md-progress-bar>
+
 		<patient-banner></patient-banner>
-		<patient-reminders></patient-reminders>
-		<todays-vitals></todays-vitals>
-		<visit-period></visit-period>
+    <div class="notifications">
+      <patient-reminders></patient-reminders>
+      <todays-vitals></todays-vitals>
+      <visit-period></visit-period>
+    </div>
 	</div>
 	<div class="box-body" id="section-box-body">
-		<router-outlet></router-outlet>
+    <div class="component-wrapper">
+      <router-outlet></router-outlet>
+    </div>
 	</div>
 </div>
