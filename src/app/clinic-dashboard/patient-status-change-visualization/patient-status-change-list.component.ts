@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import * as _ from 'lodash';
 import {
   PatientStatusVisualizationResourceService
 } from
@@ -116,10 +116,11 @@ export class PatientStatusChangeListComponent implements OnInit {
       }
       return [];
     }).subscribe((results) => {
-      this.data = this.data ? this.data.concat(results.result) : results.result;
+      let data = this.data ? this.data.concat(results.result) : results.result;
+      this.data = _.uniqBy(data, 'patient_uuid');
       this.startIndex += results.result.length;
       this.triggerBusyIndicators(1, false, false);
-      if (results.result.length < 300) {
+      if (results.result.length < 300 || results.result.length > 300) {
         this.dataLoaded = true;
       }
     }, (error) => {

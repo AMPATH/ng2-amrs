@@ -62,7 +62,6 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
               private router: Router) {
     this.analysisTypes = this.patientStatusService.indicatorsKeys;
     this.selectedAnalysisType = this.analysisTypes[0].value;
-   // this.filterModel = this.filterModel ? this.filterModel : {};
 
   }
 
