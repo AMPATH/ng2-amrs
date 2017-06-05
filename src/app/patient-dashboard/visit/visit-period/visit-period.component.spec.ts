@@ -16,21 +16,48 @@ import { FakeVisitResourceService } from '../../../openmrs-api/fake-visit-resour
 import {
   ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
-
+import { ConfirmationService } from 'primeng/primeng';
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import {
   Router, ActivatedRoute, Params,
   RouterModule, RouterOutletMap,
 } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'angular2-select';
+import { CacheService } from 'ionic-cache/ionic-cache';
+import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 class MockActivatedRoute {
   params: any = {};
   queryParams = Observable.of(this.params);
 }
 
+class LocationServiceMock {
+  public getLocations(): Observable<any> {
+    return Observable.of([{
+      uuid: '08feae7c-1352-11df-a1f1-0026b9348838',
+      display: 'location',
+      name: 'location',
+      countyDistrict: 'district',
+      stateProvince: 'county'
+    }, {
+      uuid: 'uuid 2',
+      display: 'location 2',
+      name: 'location 2',
+      countyDistrict: 'district 2',
+      stateProvince: 'county 2'
+    }]);
+  }
+
+  constructor() {
+  }
+
+}
 describe('Component: Visit Period Component Unit Tests', () => {
   let route: MockActivatedRoute;
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component: VisitPeriodComponent;
+  let fakeAppFeatureAnalytics: AppFeatureAnalytics,
+    component: VisitPeriodComponent;
   let el, patientServiceSpy;
   let fixture: ComponentFixture<VisitPeriodComponent>;
 
@@ -47,6 +74,11 @@ describe('Component: Visit Period Component Unit Tests', () => {
         VisitResourceService,
         EncounterResourceService,
         ProgramEnrollmentResourceService,
+        ConfirmationService,
+        LocationResourceService,
+        LocalStorageService,
+        CacheService,
+        DataCacheService,
         {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
@@ -70,12 +102,17 @@ describe('Component: Visit Period Component Unit Tests', () => {
           provide: VisitResourceService,
           useClass: FakeVisitResourceService
         },
+        {
+          provide: LocationResourceService,
+          useClass: LocationServiceMock
+        },
         AppSettingsService,
         LocalStorageService
       ],
       declarations: [
         VisitPeriodComponent
-      ]
+      ],
+      imports: [FormsModule, SelectModule, BusyModule]
     });
 
 
@@ -97,6 +134,18 @@ describe('Component: Visit Period Component Unit Tests', () => {
     done();
   });
 
+  it('should have properties', (done) => {
+    expect(component.loadingVisit).toBeDefined();
+    expect(component.subscribeToRouteChangeEvent).toBeDefined();
+    expect(component.getLocations).toBeDefined();
+    expect(component.subscribeToPatientChangeEvent).toBeDefined();
+    expect(component.ngOnDestroy).toBeDefined();
+    expect(component.ngOnInit).toBeDefined();
+    expect(component.loadedInitialLocation).toBeDefined();
+    expect(component.loadingVisitPeriod).toBeDefined();
+    done();
+  });
+
   it('should populate visit uuid from route when visitUuid param exists',
     inject([ActivatedRoute, VisitResourceService], (activatedRoute: ActivatedRoute,
       visitResourceService: VisitResourceService) => {
@@ -106,6 +155,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
       expect(component.encounterVisitUuid).toEqual('visit-uuid');
       expect(component.startDatetime).toEqual('2017-01-20T16:29:45.000+0300');
       expect(component.stopDatetime).toEqual('2017-01-20T16:30:45.000+0300');
+      expect(component.locationUuid).toEqual('uuid');
 
       activatedRoute.params['visitUuid'] = null;
       component.subscribeToRouteChangeEvent();
@@ -125,7 +175,8 @@ describe('Component: Visit Period Component Unit Tests', () => {
             visit: {
               uuid: 'visit-uuid',
               startDatetime: '2017-01-22T16:29:45.000+0300',
-              stopDatetime: '2017-01-22T16:30:45.000+0300'
+              stopDatetime: '2017-01-22T16:30:45.000+0300',
+              location: { uuid: 'uuid' }
             }
 
           }]
@@ -134,7 +185,9 @@ describe('Component: Visit Period Component Unit Tests', () => {
       component.subscribeToPatientChangeEvent();
       expect(component.encounters[0].visit.startDatetime).toEqual('2017-01-22T16:29:45.000+0300');
       expect(component.encounters[0].visit.stopDatetime).toEqual('2017-01-22T16:30:45.000+0300');
+      expect(component.encounters[0].visit.location.uuid).toEqual('uuid');
       activatedRoute.params['encounter'] = 'encounter-uuid';
+
       component.subscribeToRouteChangeEvent();
       expect(component.encounterVisitUuid).toEqual('visit-uuid');
       expect(component.startDatetime).toEqual('2017-01-22T16:29:45.000+0300');
@@ -162,7 +215,8 @@ describe('Component: Visit Period Component Unit Tests', () => {
             visit: {
               uuid: 'visit-uuid',
               startDatetime: '2017-01-22T16:29:45.000+0300',
-              stopDatetime: '2017-01-22T16:30:45.000+0300'
+              stopDatetime: '2017-01-22T16:30:45.000+0300',
+              location: { uuid: 'uuid', display: 'display' }
             }
 
           }]
@@ -188,6 +242,14 @@ describe('Component: Visit Period Component Unit Tests', () => {
       expect(component.encounterVisitUuid).toEqual('');
       expect(component.startDatetime).toEqual('');
       expect(component.stopDatetime).toEqual('');
+      expect(component.currentVisit).toEqual('');
+      expect(component.locationUuid).toEqual('');
+    }));
+
+  it('should load a list of encounter locations',
+    inject([LocationResourceService], (locationService: LocationResourceService) => {
+      component.getLocations();
+      expect(component.locations.length).toEqual(2);
     }));
 
   it('should return an error when a visit cannot be loaded', (done) => {
