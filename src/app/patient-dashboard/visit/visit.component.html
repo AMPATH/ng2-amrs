@@ -55,7 +55,7 @@
     <div class="visit-panel-body">
       <encounter-list *ngIf="visit.encounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
       <div>
-        <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
+        <form-list [excludedForms]="excludedForms" program="program" (onFormSelected)="formSelected($event)"></form-list>
       </div>
     </div>
     <div class="visit-panel-footer">

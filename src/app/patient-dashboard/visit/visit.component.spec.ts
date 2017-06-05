@@ -22,11 +22,14 @@ import {
 } from '../../openmrs-api/program-enrollment-resource.service.mock';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { FakeEncounterResourceService } from '../../openmrs-api/fake-encounter-resource.service';
-import { UserDefaultPropertiesModule
+import {
+    UserDefaultPropertiesModule
 } from '../../user-default-properties/user-default-properties.module';
-import { FakeDefaultUserPropertiesFactory
+import {
+    FakeDefaultUserPropertiesFactory
 } from '../formentry/mock/default-user-properties-factory.service.mock';
-import { UserDefaultPropertiesService
+import {
+    UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
@@ -99,22 +102,30 @@ describe('Component: Visit', () => {
                 { provide: ChangeDetectorRef, useValue: fakeChangeDetectorRef },
                 { provide: VisitResourceService, useValue: fakeVisitResourceService },
                 { provide: Router, useValue: {} },
-                { provide: ActivatedRoute, useValue: {} },
+                {
+                    provide: ActivatedRoute, useValue: {
+                        snapshot: {
+                            params: {
+                                program: ''
+                            }
+                        }
+                    }
+                },
                 VisitComponent,
                 PatientService,
                 {
-                  provide: EncounterResourceService, useFactory: () => {
-                    return new FakeEncounterResourceService(null, null);
-                  }
-                },
-              {
-                  provide: UserDefaultPropertiesService, useFactory: () => {
-                  return new FakeDefaultUserPropertiesFactory();
-                }
+                    provide: EncounterResourceService, useFactory: () => {
+                        return new FakeEncounterResourceService(null, null);
+                    }
                 },
                 {
-                  provide: AppFeatureAnalytics,
-                  useClass: FakeAppFeatureAnalytics
+                    provide: UserDefaultPropertiesService, useFactory: () => {
+                        return new FakeDefaultUserPropertiesFactory();
+                    }
+                },
+                {
+                    provide: AppFeatureAnalytics,
+                    useClass: FakeAppFeatureAnalytics
                 },
                 { provide: PatientResourceService, useValue: fakeVisitResourceService },
                 {
