@@ -51,6 +51,8 @@ import * as _ from 'lodash'
 declare var ENV: string;
 declare var HMR: boolean;
 declare var System: SystemJS;
+declare var AgGridLicence:string;
+
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;
@@ -61,6 +63,7 @@ interface GlobalEnvironment {
   HMR: boolean;
   SystemJS: SystemJS;
   System: SystemJS;
+  AgGridLicence;
 }
 
 interface Es6PromiseLoader {

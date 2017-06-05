@@ -22,6 +22,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const VersionFile = require('webpack-version-file-plugin');
+require('dotenv').config();
 
 
 /*
