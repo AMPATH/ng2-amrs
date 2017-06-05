@@ -46,8 +46,6 @@ export class DailyScheduleComponent implements OnInit {
   ngOnInit() {
     this.setActiveTab();
     this.updateCurrentDate();
-    this.selectedDate = this._datePipe.transform(
-      new Date(), 'yyyy-MM-dd');
     this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
       this.loadingData = value;
     });
@@ -83,6 +81,9 @@ export class DailyScheduleComponent implements OnInit {
           this.selectedDate = params['date'];
           let m = Moment(this.selectedDate);
           this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
+        } else {
+          this.selectedDate = this._datePipe.transform(
+            new Date(), 'yyyy-MM-dd');
         }
       });
     }
@@ -90,6 +91,7 @@ export class DailyScheduleComponent implements OnInit {
   }
 
   getSelectedDate(date) {
+    let m = Moment(this.selectedDate).format('yyyy-MM-dd');
     this.selectedDate = date;
     this.clinicDashboardCacheService.setDailyTabCurrentDate(date);
     this.clinicFlowCache.setSelectedDate(date);
