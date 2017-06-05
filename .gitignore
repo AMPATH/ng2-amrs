@@ -60,3 +60,6 @@ npm-debug.log
 .idea/
 *.swp
 /dll
+
+# environmental variables #
+.env
