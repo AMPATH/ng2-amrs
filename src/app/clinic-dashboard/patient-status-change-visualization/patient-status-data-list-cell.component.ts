@@ -21,6 +21,7 @@ export class PatientStatusDatalistCellComponent {
     // console.log('Clicked', this.params);
     if (this.params.column.colId === 'patients_gained' ||
       this.params.column.colId === 'patients_lost'
+      || this.params.column.colId === 'state_change'
       || this.params.column.colId === 'patient_change_from_past_month') return true;
 
     let analysisType = this.params.colDef.analysisType;
@@ -30,8 +31,7 @@ export class PatientStatusDatalistCellComponent {
     let indicator = this.params.column.colId;
     switch (analysisType) {
       case 'cohortAnalysis':
-        this.router.navigate(['./patient-list']
-          , {
+        this.router.navigate(['./patient-list'], {
             relativeTo: this.route, queryParams: {
               startDate: this.params.data.from_month,
               endDate: this.params.data.to_month,

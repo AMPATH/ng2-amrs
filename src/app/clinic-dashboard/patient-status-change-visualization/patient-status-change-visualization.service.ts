@@ -45,21 +45,21 @@ export class PatientStatuChangeVisualizationService {
             tooltip: 'This is the reporting month',
             pinned: true,
             color: 'deepskyblue',
-            width: 150,
+            width: 140,
             patient_list: false
           },
           'total_patients': {
             columnTitle: 'Total Patients',
-            pinned: true,
+            pinned: false,
             color: 'deepskyblue',
-            width: 160,
+            width: 120,
             patient_list: true
           },
           'active_in_care': {
             columnTitle: 'Active Patients',
-            pinned: true,
+            pinned: false,
             color: 'deepskyblue',
-            width: 160,
+            width: 130,
             patient_list: true
           },
           'LTFU': {
@@ -105,8 +105,10 @@ export class PatientStatuChangeVisualizationService {
       chartOptions: {
         barIndicators: [],
         lineIndicators: [
-
-          {name: 'patient_change_from_past_month', yAxis: 0},
+          {
+            name: 'patient_change_from_past_month',
+            yAxis: 0
+          }
 
         ],
         areaIndicators: [],
@@ -119,7 +121,7 @@ export class PatientStatuChangeVisualizationService {
             tooltip: 'This is the reporting month',
             pinned: true,
             color: 'deepskyblue',
-            width: 150,
+            width: 137,
             patient_list: false
           },
         }
@@ -137,31 +139,31 @@ export class PatientStatuChangeVisualizationService {
           'from_month': {
             columnTitle: 'Starting Month',
             tooltip: 'This is theStarting Cohort Month',
-            pinned: true,
+            pinned: false,
             color: 'deepskyblue',
-            width: 200,
+            width: 127,
             patient_list: false
           },
           'to_month': {
             columnTitle: 'Ending Month',
             tooltip: 'This is the Ending Cohort Month',
-            pinned: true,
+            pinned: false,
             color: 'deepskyblue',
-            width: 200,
+            width: 125,
             patient_list: false
           },
           'state_change': {
             columnTitle: 'State Change',
             tooltip: 'This is state change from starting cohort month to ending cohort month',
-            pinned: true,
+            pinned: false,
             color: 'deepskyblue',
-            width: 300,
-            patient_list: false
+            width: 275,
+            patient_list: true
           },
           'counts': {
             columnTitle: 'Count',
             tooltip: 'Patient counts change',
-            pinned: true,
+            pinned: false,
             color: 'deepskyblue',
             width: 200,
             patient_list: true
@@ -327,7 +329,9 @@ export class PatientStatuChangeVisualizationService {
         },
       ],
       tooltip: {
-        shared: false
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: ' +
+        '<b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
       },
       credits: {
         enabled: false
@@ -407,7 +411,7 @@ export class PatientStatuChangeVisualizationService {
       result.forEach((data, i) => {
         let formatted = data.indicator;
         data['state_change'] = this.snakeToTitle(formatted
-          .replace('self_transfer_out_', 'none_'));
+          .replace('self_transfer_out_', 'self_transfer_in_'));
       });
       return result;
     }
@@ -513,7 +517,7 @@ export class PatientStatuChangeVisualizationService {
     column = _.merge(column, {
       ['patient_change_from_past_month']: {
         columnTitle: this.snakeToTitle('patient_change_from_past_month'),
-        tooltip: 'patients_gained -  patients_lost',
+        tooltip: 'Patients Gained -  Patients Lost',
         color: 'deepskyblue',
         pinned: false,
         width: 200,
@@ -565,7 +569,7 @@ export class PatientStatuChangeVisualizationService {
     let indicators = this.getGainLostIndicators(analysisType);
     let colors = [];
     for (let i = 0; i < indicators.patientGain.length; i += 1) {
-      colors.push(highCharts.Color('#337ab7').brighten((i - 3) / 7).get());
+      colors.push(highCharts.Color('#337ab7').brighten((i - 4) / 7).get());
     }
     for (let i = 0; i < indicators.patientLost.length; i += 1) {
       colors.push(highCharts.Color('#c1100e').brighten((i - 3) / 7).get());
@@ -576,9 +580,10 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private snakeToTitle(str) {
-    return str.split('_').map(function (item) {
+    let join = str.split('_').map(function (item) {
       return item.charAt(0).toUpperCase() + item.substring(1);
     }).join(' ');
+    return join;
   }
 
 
