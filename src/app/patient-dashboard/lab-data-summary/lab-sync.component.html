@@ -1,43 +1,54 @@
-<div *ngIf="results.length>0">
+<div style="padding: 4px;">
   <div class="alert" role="alert" *ngIf="fetchingResults">
     <p>
-      <i class="fa fa-spinner" aria-hidden="true"></i> Fetching results</p>
+      <i class="fa fa-spinner" aria-hidden="true"></i> Contacting lab for new results...</p>
   </div>
-  <div class="alert" role="alert" style="margin-bottom:0;">
-    <p class="text-success">New labs results synced</p>
+  <div class="alert alert-error" role="alert" *ngIf="error">
+    <p>
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> An error occured while contacting lab for new results.
+      Reload the patient dashboard to retry.</p>
   </div>
-  <table class="table">
-    <thead>
-    <tr>
-      <th [style.width]="200">Date</th>
-      <th [style.width]="100">DNA PCR</th>
-      <th [style.width]="100">CD4</th>
-      <th [style.width]="100">CD4%</th>
-      <th [style.width]="100">HIV VL</th>
-      <th [style.width]="100">Error</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let test of results">
-      <td>
+  <div *ngIf="results.length>0">
+
+    <div class="alert  alert-success" role="alert" style="margin-bottom:0;">
+      <p class="text-success"> <span class="fa fa-info "></span> New results synced from the labs.</p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th [style.width]="200">Date</th>
+          <th [style.width]="100">DNA PCR</th>
+          <th [style.width]="100">CD4</th>
+          <th [style.width]="100">CD4%</th>
+          <th [style.width]="100">HIV VL</th>
+          <th [style.width]="100">Error</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let test of results">
+          <td>
             {{test.obsDatetime | date:'yyyy/MM/dd'}}</td>
-      <td>
+          <td>
             <span *ngIf="!test.isCd4Result && test.concept.uuid==='a898fe80-1350-11df-a1f1-0026b9348838'">{{test.value.display}}</span></td>
-      <td>
+          <td>
             <span *ngIf="test.isCd4Result">{{test.cd4}}</span></td>
-      <td>
+          <td>
             <span *ngIf="test.isCd4Result">{{test.cd4Percent}}</span></td>
-      <td>
+          <td>
             <span *ngIf="!test.isCd4Result && test.concept.uuid==='a8982474-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
-      <td>
+          <td>
             <span *ngIf="!test.isCd4Result && test.concept.uuid==='457c741d-8f71-4829-b59d-594e0a618892'">
             <span *ngIf="test.groupMembers.length>0">{{test.groupMembers[0].display}}</span></span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div class="alert" role="alert" *ngIf="!results.length">
-  <p class="text-danger">No new lab results synced</p>
+  <div class="alert" role="alert " *ngIf="!results.length && !fetchingResults && !error">
+    <p><span class="fa fa-check-circle"></span> Lab results is upto date with data from the labs.</p>
+  </div>
+
+
+
 </div>
