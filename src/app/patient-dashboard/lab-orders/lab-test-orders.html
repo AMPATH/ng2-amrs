@@ -5,7 +5,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label for="patientIdentifer">Patient Identifer</label>
-          <select *ngIf="patient" class="form-control" [(ngModel)]="patientIdentifer"> 
+          <select *ngIf="patient" class="form-control" [(ngModel)]="patientIdentifer">
             <option *ngFor="let c of patient.identifiers.openmrsModel" [ngValue]="c.identifier">{{c.identifierType.name}}</option>
           </select>
         </div>
@@ -18,19 +18,16 @@
       </div>
       <div class="col-md-4">
         <div class="form-group">
-          <label for="patientIdentifer">Number of copies</label>
+          <label for="patientIdentifer">Number of Copies</label>
           <input type="text" class="form-control" [(ngModel)]="copies" />
         </div>
       </div>
     </div>
     <div>
       <div class="table-responsive">
-        <table class="table">
+        <table class="table table-striped ">
           <thead>
             <tr>
-              <th>
-                <input type="checkbox" [(ngModel)]="allItemsSelected" (ngModelChange)="selectAll()">
-              </th>
               <th>Order Date</th>
               <th>Order No</th>
               <th>Test Name</th>
@@ -40,9 +37,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let order of labOrders | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
-              <td>
-                <input type="checkbox" [(ngModel)]="order.isChecked" (ngModelChange)="selectOrder()">
-              </td>
               <td>
                 {{order.dateActivated | date:'dd/MM/yyyy'}}
               </td>
@@ -56,20 +50,17 @@
                 {{order.orderer.display}}
               </td>
               <td>
-                <button (click)="postOrderToEid(order)" class="btn default">
+                <button (click)="postOrderToEid(order)" class="btn default" style="background-color: white;border-width: 1px; border-color: gray">
               <span class="fa fa-save" aria-hidden="true"></span>
-              Post Order To EID
+              Post Order to EID
             </button>
-                <button [attr.disable]="isPrinting" (click)="generateLabLabel(order)" class="btn">Print 
-                <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                <button [attr.disable]="isPrinting" (click)="generateLabLabel(order)" class="btn" style="background-color: white;">
+                <span class="glyphicon glyphicon-print"  aria-hidden="true"></span>
       </button>
               </td>
             </tr>
           </tbody>
         </table>
-        <button [attr.disable]="isPrinting" style="margin-bottom:10px;" (click)="generateLabLabels()" class="btn">Print Selected 
-                <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-      </button>
 
       </div>
       <div>
@@ -82,3 +73,4 @@
       <lab-order-search-post [order]="currentOrder" [reset]="currentOrder === null" (resetEvent)="handleResetEvent($event)"></lab-order-search-post>
     </p-dialog>
   </div>
+</div>
