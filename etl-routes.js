@@ -198,7 +198,7 @@ module.exports = function () {
                             request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations', 'groupBy'], compineRequestParams);
-
+                            reportParams.limit = 100000;
                             dao.runReport(reportParams).then((result) => {
                                 reply(result);
                             }).catch((error) => {
@@ -296,30 +296,30 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-              let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
-              EIDLabReminderService.pendingEIDReminders(request.params, config.eid)
-                .then((eidReminders) => {
-                  let compineRequestParams   = Object.assign({}, request.query, request.params);
-                  compineRequestParams.limit = 1;
-                  let reportParams           = etlHelpers.getReportParams('clinical-reminder-report', ['referenceDate', 'patientUuid', 'indicators'], compineRequestParams);
-      
-                  dao.runReport(reportParams).then((results) => {
-                    try {
-                      let processedResults = patientReminderService.generateReminders(results.result, eidReminders);
-                      results.result = processedResults;
-                      reply(results);
-                    } catch (err) {
-                        console.log('Error occurred while processing reminders', err)
-                    }
-      
-                  }).catch((error) => {
-                      reply(error);
-                  });
-                }).catch((err) => {
-                console.log('EID lab results err', err);
-                reply(err);
-              });
-                
+                let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
+                EIDLabReminderService.pendingEIDReminders(request.params, config.eid)
+                    .then((eidReminders) => {
+                        let compineRequestParams = Object.assign({}, request.query, request.params);
+                        compineRequestParams.limit = 1;
+                        let reportParams = etlHelpers.getReportParams('clinical-reminder-report', ['referenceDate', 'patientUuid', 'indicators'], compineRequestParams);
+
+                        dao.runReport(reportParams).then((results) => {
+                            try {
+                                let processedResults = patientReminderService.generateReminders(results.result, eidReminders);
+                                results.result = processedResults;
+                                reply(results);
+                            } catch (err) {
+                                console.log('Error occurred while processing reminders', err)
+                            }
+
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    }).catch((err) => {
+                        console.log('EID lab results err', err);
+                        reply(err);
+                    });
+
             },
             description: 'Get a list of reminders for selected patient and indicators',
             notes: 'Returns a  list of reminders for selected patient and indicators on a given reference date',
@@ -662,14 +662,14 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-              request.query.reportName = 'clinical-hiv-comparative-overview-report';
-              let requestParams        = Object.assign({}, request.query, request.params);
-              let service              = new hivComparativeOverviewService();
-              service.getPatientListReport(requestParams).then((result) => {
-                reply(result);
-              }).catch((error) => {
-                  reply(error);
-              });
+                request.query.reportName = 'clinical-hiv-comparative-overview-report';
+                let requestParams = Object.assign({}, request.query, request.params);
+                let service = new hivComparativeOverviewService();
+                service.getPatientListReport(requestParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
             },
             description: "Get the clinical hiv comparative overview patient",
             notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
@@ -2325,4 +2325,4 @@ module.exports = function () {
     ];
 
     return routes;
-} ();
+}();
