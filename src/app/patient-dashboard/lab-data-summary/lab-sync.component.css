@@ -1,0 +1,10 @@
+.alert {
+    margin-bottom: 0px !important;
+    padding: 4px;
+}
+
+.alert.alert-error {
+    margin-left: 0px;
+    margin-right: 0px;
+    color: darkred;
+}

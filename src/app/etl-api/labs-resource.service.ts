@@ -49,6 +49,10 @@ export class LabsResourceService {
     }
     private parseNewLabResults(res) {
         const body = res.json();
+
+        if (body.errors) {
+            return body;
+        }
         return body.updatedObs;
     }
     private handleError(error: any) {
