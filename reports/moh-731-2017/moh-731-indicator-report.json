@@ -195,12 +195,7 @@
     ],
     "supplementColumns": [
       {
-        "label": "location_uuid",
-        "type": "single",
-        "sql": "t1.location_uuid"
-      },
-      {
-        "label": "location_id",
+        "label": "joining_location_id",
         "type": "single",
         "sql": "t1.location_id"
       },
@@ -922,7 +917,7 @@
     ],
     "supplementColumns": [
       {
-        "label": "location_id",
+        "label": "joining_location_id",
         "type": "single",
         "sql": "t1.location_id"
       },
@@ -1012,9 +1007,9 @@
     ],
     "supplementColumns":[
       {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t1.location_id"
+        "label": "joining_location_id",
+        "type": "single",
+        "sql": "t1.location_id"
       },
       {
         "label":"joining_column",

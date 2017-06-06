@@ -95,17 +95,7 @@
     ],
     "supplementColumns": [
       {
-        "label":"location",
-        "type":"single",
-        "sql":"t2.name"
-      },
-      {
-        "label": "location_uuid",
-        "type": "single",
-        "sql": "t1.location_uuid"
-      },
-      {
-        "label": "location_id",
+        "label": "joining_location_id",
         "type": "single",
         "sql": "t1.location_id"
       },

@@ -3,13 +3,13 @@
     "name": "MOH-731-report",
     "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-monthly-one-row-per-patient"},
     "joins":[
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t2","joinExpression":"t2.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t2","joinExpression":"t2.joining_location_id = t1.location_id",
         "dynamicDataset":"moh-731-monthly-one-row-per-encounter"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.joining_location_id = t1.location_id",
         "dynamicDataset":"moh-731-12month-one-row-per-encounter"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.joining_location_id = t1.location_id",
           "dynamicDataset":"moh-731-cumulative-one-row-per-patient"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t5","joinExpression":"t5.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t5","joinExpression":"t5.joining_location_id = t1.location_id",
         "dynamicDataset":"PEP-encounters-within-reporting-period-dataset"}
     ],
     "parameters": [
