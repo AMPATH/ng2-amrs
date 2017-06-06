@@ -9,11 +9,13 @@ export class MonthlyScheduleService {
         // let scheduledParams = Object.assign(reportParams, { reportName: 'scheduled' });
         let self = this;
         return new Promise(function (resolve, reject) {
-            Promise.join(self.getAttended(reportParams), self.getScheduled(reportParams),
-                (attended, scheduled) => {
+            Promise.join(self.getAttended(reportParams), self.getScheduled(reportParams), self.getHasNotReturned(reportParams),
+                (attended, scheduled, hasNotReturned) => {
+                    console.log('Has Not Returned', hasNotReturned)
                     let attendedResponse = self.buildAttendedResponse(attended);
                     let scheduledResponse = self.buildScheduledResponse(scheduled);
-                    let combinedResponse = attendedResponse.concat(scheduledResponse);
+                    let hasNotReturnedResponse = self.buildHasnoReturnedResponse(hasNotReturned);
+                    let combinedResponse = attendedResponse.concat(scheduledResponse).concat(hasNotReturnedResponse);
                     let grouped = _.groupBy(combinedResponse, (row) => {
                         return row.date;
                     });
@@ -43,6 +45,11 @@ export class MonthlyScheduleService {
         return dao.runReport(reportParams);
     }
 
+    getHasNotReturned(reportParams) {
+        reportParams['reportName'] = 'has-not-returned-report';
+        return dao.runReport(reportParams);
+    }
+
     buildAttendedResponse(payload) {
         let data = payload.result.map(function (row) {
             let utc = Moment.utc(row.attended_date).utcOffset(+3).toDate();
@@ -60,11 +67,21 @@ export class MonthlyScheduleService {
         let data = payload.result.map(function (row) {
             return {
                 count: {
-                    scheduled: row.scheduled,
-                    not_attended: row.not_attended,
-                    has_not_returned: row.has_not_returned
+                    scheduled: row.scheduled
                 },
                 date: row.scheduled_date
+            }
+        });
+        return data;
+    }
+
+    buildHasnoReturnedResponse(payload) {
+        let data = payload.result.map(function (row) {
+            return {
+                count: {
+                    has_not_returned: row.has_not_returned
+                },
+                date: row.d
             }
         });
         return data;

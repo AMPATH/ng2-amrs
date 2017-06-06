@@ -75,6 +75,173 @@
         ]
     },
     {
+        "name": "has-not-returned-report",
+        "table": {
+            "schema": "etl",
+            "tableName": "flat_hiv_summary",
+            "alias": "t1"
+        },
+        "joins": [
+            {
+                "joinType": "INNER JOIN",
+                "schema": "",
+                "alias": "t7",
+                "joinExpression": "t1.person_id = t7.person_id",
+                "dynamicDataset": "has-not-returned-cohort"
+            },
+            {
+                "joinType": "LEFT OUTER JOIN",
+                "schema": "etl",
+                "tableName": "flat_hiv_summary",
+                "alias": "t8",
+                "joinExpression": "(t1.person_id = t8.person_id AND t8.encounter_type = 116 AND t1.encounter_datetime < t8.encounter_datetime)"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "startDate",
+                "defaultValue": [
+                    "10-10-2015"
+                ]
+            },
+            {
+                "name": "endDate",
+                "defaultValue": [
+                    "30-10-2015"
+                ]
+            },
+            {
+                "name": "locationUuids",
+                "defaultValue": []
+            },
+            {
+                "name": "groupByDate",
+                "defaultValue": [
+                    {
+                        "label": "d",
+                        "expression": "d"
+                    }
+                ]
+            }
+        ],
+        "filters": [
+            {
+                "expression": "t1.rtc_date >= ?",
+                "parameter": "startDate"
+            },
+            {
+                "expression": "t1.rtc_date <= ?",
+                "parameter": "endDate"
+            },
+            {
+                "expression": "t1.location_uuid in (?)",
+                "parameter": "locationUuids"
+            },
+            {
+                "expression": "coalesce(t1.transfer_out) is null",
+                "processForce": true
+            },
+            {
+                "expression": "coalesce(t1.death_date) is null",
+                "processForce": true
+            },
+            {
+                "expression": "t1.next_clinical_datetime_hiv IS NULL",
+                "processForce": true
+            },
+            {
+                "expression": "t1.encounter_type != 110",
+                "processForce": true
+            },
+            {
+                "expression": "DATE(max_rtc_date) < DATE(NOW())",
+                "processForce": true
+            },
+            {
+                "expression": "t1.rtc_date = max_rtc_date",
+                "processForce": true
+            }
+        ],
+        "groupClause": [
+            {
+                "parameter": "groupByDate",
+                "processForce": true
+            }
+        ],
+        "indicators": [
+            {
+                "label": "has_not_returned",
+                "expression": "has_not_returned",
+                "sql": "count(distinct if($expression, t1.person_id, null))"
+            }
+        ],
+        "supplementColumns": [
+            {
+                "label": "d",
+                "type": "single",
+                "sql": "date_format(t1.rtc_date,'%Y-%m-%d')"
+            }
+        ]
+    },
+    {
+        "name": "has-not-returned-cohort",
+        "table": {
+            "schema": "etl",
+            "tableName": "flat_hiv_summary",
+            "alias": "t2"
+        },
+        "joins": [],
+        "parameters": [
+            {
+                "name": "startDate",
+                "defaultValue": [
+                    "10-10-2015"
+                ]
+            },
+            {
+                "name": "locationUuids",
+                "defaultValue": []
+            },
+            {
+                "name": "groupByPerson",
+                "defaultValue": [
+                    {
+                        "label": "person_id",
+                        "expression": "person_id"
+                    }
+                ]
+            }
+        ],
+        "filters": [
+            {
+                "expression": "t2.rtc_date >= ?",
+                "parameter": "startDate"
+            },
+            {
+                "expression": "t2.location_uuid in (?)",
+                "parameter": "locationUuids"
+            }
+        ],
+        "groupClause": [
+            {
+                "parameter": "groupByPerson"
+            }
+        ],
+        "indicators": [],
+        "supplementColumns": [
+            {
+                "label": "person_id",
+                "type": "single",
+                "sql": "person_id"
+            },
+            {
+                "label": "max_rtc_date",
+                "type": "single",
+                "sql": "MAX(rtc_date)"
+            }
+        ]
+    },
+    {
         "name": "scheduled",
         "table": {
             "schema": "etl",
@@ -143,18 +310,7 @@
                 "parameter": "groupByw"
             }
         ],
-        "indicators": [
-            {
-                "label": "has_not_returned",
-                "expression": "has_not_returned",
-                "sql": "count(distinct if($expression, t1.person_id, null))"
-            },
-            {
-                "label": "not_attended",
-                "expression": "not_attended",
-                "sql": "count(distinct if($expression, t1.person_id, null))"
-            }
-        ],
+        "indicators": [],
         "supplementColumns": [
             {
                 "label": "scheduled_date",

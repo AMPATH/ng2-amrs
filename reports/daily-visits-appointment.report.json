@@ -242,6 +242,64 @@
     ]
   },
   {
+    "name": "daily-has-not-returned-cohort",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t2"
+    },
+    "joins": [],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": [
+          "10-10-2015"
+        ]
+      },
+      {
+        "name": "locations",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "person_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "rtc_date >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "location_id in (?)",
+        "parameter": "locations"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "person_id"
+      },
+      {
+        "label": "max_rtc_date",
+        "type": "single",
+        "sql": "MAX(rtc_date)"
+      }
+    ]
+  },
+  {
     "name": "daily-has-not-returned",
     "table": {
       "schema": "etl",
@@ -276,7 +334,21 @@
         "schema": "amrs",
         "tableName": "person_attribute",
         "alias": "t6",
-        "joinExpression": "t1.person_id  = t6.person_id"
+        "joinExpression": "t1.person_id = t6.person_id AND t6.person_attribute_type_id = 10 AND t6.voided = 0"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "",
+        "alias": "t7",
+        "joinExpression": "t1.person_id = t7.person_id",
+        "dynamicDataset": "daily-has-not-returned-cohort"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "t8",
+        "joinExpression": "t1.person_id = t8.person_id and t8.encounter_type=116 and t1.encounter_datetime < t8.encounter_datetime"
       }
     ],
     "parameters": [
@@ -306,7 +378,12 @@
         "parameter": "startDate"
       },
       {
-        "expression": "date(t1.rtc_date) < date(now())",
+        "expression": "DATE(max_rtc_date) < DATE(NOW())",
+        "parameter": "",
+        "processForce": true
+      },
+      {
+        "expression": "t1.rtc_date = max_rtc_date",
         "parameter": "",
         "processForce": true
       },
@@ -320,34 +397,19 @@
         "processForce": true
       },
       {
-        "expression": "transfer_out is null",
+        "expression": "t1.transfer_out IS NULL",
         "parameter": "",
         "processForce": true
       },
       {
-        "expression": "next_clinical_datetime_hiv is null",
+        "expression": "t1.next_clinical_datetime_hiv IS NULL",
         "parameter": "",
         "processForce": true
       },
       {
-        "expression": "(next_encounter_type_hiv not in (116,99999)  or next_encounter_type_hiv is null)",
+        "expression": "t8.person_id is null",
         "processForce": true,
         "parameter": ""
-      },
-      {
-        "expression": "encounter_type != 116",
-        "processForce": true,
-        "parameter": ""
-      },
-      {
-        "expression": "t6.person_attribute_type_id=10",
-        "parameter": "",
-        "processForce": true
-      },
-      {
-        "expression": "t6.voided=0",
-        "parameter": "",
-        "processForce": true
       }
     ],
     "groupClause": [
