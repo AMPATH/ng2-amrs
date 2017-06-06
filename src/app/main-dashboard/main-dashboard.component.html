@@ -3,36 +3,33 @@
     <div class="logo-img"><img src="./assets/img/ampath.png"/></div>
   </a>
   <nav class="navbar navbar-static-top" role="navigation">
-    <a routerLink="/" class="logo">
-      <div class="logo-img"><img src="./assets/img/ampath.png"/></div>
-    </a>
-
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
-        <li routerLinkActive="active" class="patient">
-          <a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span>Patient Search</span>
+        <li class="menu-left patient" routerLinkActive="active">
+          <a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span class="hidden-xs"
+          >Patient Search</span>
           </a>
         </li>
-        <li routerLinkActive="active" class="clinic">
+        <li class="menu-left clinic" routerLinkActive="active">
           <a routerLink="/clinic-dashboard"> <i class="fa fa-user-md"></i>
-            <span>Clinic Dashboard</span> </a>
+            <span class="hidden-xs">Clinic Dashboard</span> </a>
         </li>
-        <li class="dropdown more more-menu">
+        <li class="dropdown more menu-left more-menu" routerLinkActive="trail">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-th"></i>
-            <span>More</span>
+            <span class="hidden-xs">More</span>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li routerLinkActive="trail" class="lab-order-search">
-              <a routerLink="/lab-order-search" routerLinkActive="active">
+            <li class="lab-order-search">
+              <a routerLink="/lab-order-search"  routerLinkActive="active">
                 <i class="icon-pathology"></i>
                 <span>Lab Order Search</span>
               </a>
             </li>
           </ul>
         </li>
-        <li class="dropdown user user-menu pull-right">
+        <li class="dropdown user user-menu pull-right" routerLinkActive="trail">
 
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-user"></i>
@@ -50,28 +47,28 @@
             </li>
             <li role="separator" class="divider"></li>
             <li>
-              <a routerLink="/app/settings">
+              <a routerLink="/app/settings" routerLinkActive="active">
                 <span class="glyphicon glyphicon-hdd"></span> Switch Servers
               </a>
             </li>
             <li>
-              <a routerLink="/user-default-properties">
+              <a routerLink="/user-default-properties" routerLinkActive="active">
                 <span class="glyphicon glyphicon-user"></span> User Default Settings
               </a>
             </li>
             <li>
-              <a routerLink="/useful-links">
+              <a routerLink="/useful-links" routerLinkActive="active">
                 <span class="glyphicon glyphicon-question-sign"></span> Useful Links
               </a>
             </li>
-            <li>
-              <a routerLink="/feed-back">
+            <li class="last">
+              <a routerLink="/feed-back" routerLinkActive="active">
                 <span class="fa fa-comments"></span> Feedback
               </a>
             </li>
             <li class="user-footer">
               <div class="pull-right">
-                <a (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
+                <a (click)="logout()" class="btn btn-danger">Sign out</a>
               </div>
             </li>
           </ul>
