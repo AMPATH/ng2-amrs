@@ -1,10 +1,12 @@
-<dl>
-  <div *ngIf="identifiers">
-    <ng-container *ngFor="let identifier of identifiers">
-      <dt>{{identifier.identifierType.name}}</dt>
-      <dd>{{identifier.identifier}}</dd>
-    </ng-container>
-  </div>
-</dl>
-
-
+<div class="col-md-offset-1 col-lg-offset-1 col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <table class="table table-striped" *ngIf="identifiers">
+    <thead>
+    </thead>
+    <tbody>
+       <tr *ngFor="let identifier of identifiers">
+         <td>{{identifier.identifierType.name}}</td>
+         <td>: {{identifier.identifier}}</td>
+       </tr>
+    </tbody>
+  </table>
+</div>

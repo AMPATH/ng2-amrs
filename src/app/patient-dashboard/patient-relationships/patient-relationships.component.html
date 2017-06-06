@@ -1,9 +1,10 @@
+<div class="col-md-offset-1 col-lg-offset-1 col-md-10 col-lg-10 col-sm-12 col-xs-12">
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
 </div>
 <div *ngIf="loadingRelationships"><div class="fa fa-spinner fa-spin"></div> Loading relationships...</div>
-<button *ngIf="!loadingRelationships" class="btn btn-primary" style="margin-top:10px;margin-bottom:10px" data-style="expand-right" (click)="addRelationship.showDialog()">
-	<span>Add New Relationship</span>
+<button  class="btn btn-primary" style="margin-top:10px;margin-bottom:10px" data-style="expand-right" (click)="addRelationship.showDialog()">
+	<span *ngIf="!loadingRelationships" class="fa fa-plus fa-fw"></span>
 </button>
 <add-relationship #addRelationship></add-relationship>
 <div *ngIf="relationships.length > 0">
@@ -47,3 +48,5 @@
 		</div>
 	</p-footer>
 </p-dialog>
+
+</div>

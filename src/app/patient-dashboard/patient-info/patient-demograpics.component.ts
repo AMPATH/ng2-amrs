@@ -8,7 +8,8 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 
 @Component({
   selector: 'patient-demographics',
-  templateUrl: './patient-demographics.component.html'
+  templateUrl: './patient-demographics.component.html',
+  styleUrls : ['patient-demographics.component.css']
 })
 export class PatientDemographicsComponent implements OnInit, OnDestroy {
   patient: Patient = new Patient({});
