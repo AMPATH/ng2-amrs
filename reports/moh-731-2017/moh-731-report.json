@@ -3,13 +3,13 @@
     "name": "MOH-731-report-2017",
     "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-2017-any-encounters-within-reporting-period-dataset"},
     "joins":[
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t2","joinExpression":"t2.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t2","joinExpression":"t2.joining_location_id = t1.location_id",
         "dynamicDataset":"moh-731-2017-monthly-dataset"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.joining_location_id = t1.location_id",
         "dynamicDataset":"moh-731-2017-retention-dataset"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.joining_location_id = t1.location_id",
         "dynamicDataset":"moh-731-cumulative-dataset"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t5","joinExpression":"t5.location_id = t1.location_id",
+      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t5","joinExpression":"t5.joining_location_id = t1.location_id",
         "dynamicDataset":"PEP-encounters-within-reporting-period-dataset"}
 
     ],
