@@ -1,11 +1,21 @@
-<p-tabView>
-	<p-tabPanel header="Graphical View">
-		<chart [options]="options" (redraw)="renderChart()"></chart>
-	</p-tabPanel>
-	<p-tabPanel header="Tabular View">
-		<hiv-care-tabularview [data]="data"></hiv-care-tabularview>
-	</p-tabPanel>
-	<p-tabPanel header="Indicator Definitions">
-		<hiv-care-indicator-definitions [indicatorDefinitions]="indicatorDef"></hiv-care-indicator-definitions>
-	</p-tabPanel>
-</p-tabView>
+<div >
+  <hr>
+  <chart [options]="options" (redraw)="renderChart()"></chart>
+  <hr>
+  <hiv-care-tabularview [data]="data"></hiv-care-tabularview>
+
+  <div  *ngIf="showIndicatorDefinitions">
+    <hr>
+    <hiv-care-indicator-definitions  [indicatorDefinitions]="indicatorDef">
+
+    </hiv-care-indicator-definitions>
+  </div>
+  <md-slide-toggle
+    style="float:right"
+    [color]="'primary'"
+    [(ngModel)]="showIndicatorDefinitions"
+    [checked]="showIndicatorDefinitions"
+  ><span *ngIf="!showIndicatorDefinitions">Show</span> <span *ngIf="showIndicatorDefinitions">Hide</span> Indicator
+    Definitions
+  </md-slide-toggle>
+</div>

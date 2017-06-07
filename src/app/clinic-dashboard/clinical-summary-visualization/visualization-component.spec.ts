@@ -54,6 +54,7 @@ import {
   HivCareIndicatorDefComponent
  } from './hiv-care-comparative-overview/indicator-definitions.component';
 import { ArtOverviewIndicatorDefComponent } from './art-overview/indicator-definitions.component';
+import { MaterialModule } from '@angular/material';
 
 export class FakeClinicDashboardCacheService {
   public getCurrentClinic() {
@@ -146,7 +147,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
 
 }
 
-describe('Component: VisualizationComponent', () => {
+fdescribe('Component: VisualizationComponent', () => {
   let currentTestComponent: VisualizationComponent;
   let currentTestFixture;
   let mockRouter = {
@@ -184,6 +185,7 @@ describe('Component: VisualizationComponent', () => {
         AccordionModule,
         DataListsModule,
         ChartModule.forRoot(require('highcharts')),
+        MaterialModule,
         SelectModule
       ]
     }).overrideComponent(VisualizationComponent, {

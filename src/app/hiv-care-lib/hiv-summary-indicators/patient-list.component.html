@@ -4,11 +4,8 @@
 		<span>Go back to tabular view</span>
 	</button>
 </div>
-<div class="loader" *ngIf="isLoading">
-	<span>
-		<i class="fa fa-spinner fa-spin"></i>Loading...
-	</span>
-</div>
+<div class="loader" *ngIf="isLoading"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
 <h3>
 	Patient List | {{translatedIndicator}}
 </h3>
@@ -18,7 +15,7 @@
 <hr />
 <patient-list [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
 <div *ngIf='!dataLoaded'>
-	<button [disabled]="isLoading" class="btn btn-primary pull-left" (click)="loadMorePatients()">
+	<button [disabled]="isLoading" class="btn btn-primary" (click)="loadMorePatients()">
               <span class="glyphicon glyphicon-refresh"></span> Load More
               <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
       </button>

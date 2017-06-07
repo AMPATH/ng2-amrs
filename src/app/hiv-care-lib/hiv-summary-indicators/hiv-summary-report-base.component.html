@@ -1,4 +1,7 @@
-<h3 style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> HIV Summary Indicators</h3>
+
+<h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span>  HIV Summary Indicators</h4>
+<div class="loader" *ngIf="isLoadingReport"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
 <report-filters [(startDate)]="startDate" [(endDate)]="endDate" [start]="ageRangeStart" [end]="ageRangeEnd"
                 (onAgeChangeFinish)="onAgeChangeFinished($event)"
                      (onGenderChange)="getSelectedGender($event)"
