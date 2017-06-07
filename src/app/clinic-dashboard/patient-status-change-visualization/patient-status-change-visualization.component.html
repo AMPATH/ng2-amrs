@@ -1,17 +1,15 @@
-
-
-<md-progress-bar  *ngIf="loading"
-                  class="example-margin"
-                  [color]="'primary'"
-                  [mode]="'determinate'"
-                  [value]="progressBarTick"
-                  [bufferValue]="90">
+<md-progress-bar *ngIf="loading"
+                 class="example-margin"
+                 [color]="'primary'"
+                 [mode]="'determinate'"
+                 [value]="progressBarTick"
+                 [bufferValue]="90">
 </md-progress-bar>
 <div class="loader" *ngIf="loading"><span><i class="fa fa-spinner fa-spin">
       </i>{{progressBarTick}}% Loading...</span>
 </div>
 
-<dashboard-filters [options]="options" [(filterModel)] = "filterModel"
+<dashboard-filters [options]="options" [(filterModel)]="filterModel"
                    [startDate]="startDate" [endDate]="endDate"
                    (filterModelChange)="onFilterModelChange($event)"
 >
@@ -21,7 +19,7 @@
 
   <div class="input-group">
     <div class="input-group-addon"><span class="glyphicon glyphicon-cog"></span></div>
-    <ng-select  [multiple]="false" (ngModelChange)="onAnalysisTypeChange($event)"
+    <ng-select [multiple]="false" (ngModelChange)="onAnalysisTypeChange($event)"
                [placeholder]="'Select Analysis Type...'"
                [(ngModel)]="selectedAnalysisType" [options]="analysisTypes">
     </ng-select>
@@ -30,35 +28,34 @@
     </div>
   </div>
 </div>
-<div class="panel panel-primary" [hidden]="renderType==='cohortAnalysis'">
-  <div class="panel-heading">
-    <span class="fa fa-dashboard"> Graphical View</span>
-  </div>
-  <div class="panel-body">
-    <chart [options]="chartOptions">
-    </chart>
-  </div>
+<div [hidden]="renderType==='cohortAnalysis'">
+  <hr>
+  <chart [options]="chartOptions">
+  </chart>
+
 </div>
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <span class="fa fa-table"> Tabular View:
-     </span>
+<hr>
+<div>
+  <ag-grid-angular #agGrid style="width: 100%; height: 250px;" class="ag-blue" [rowData]="dataTable"
+                   [gridOptions]="gridOptions">
+  </ag-grid-angular>
+
+  <i class="text-info">Hover the cursor on each cell of the table, to view indicator definitions.</i>
+  <div *ngIf="showIndicatorDefinitions">
+    <hr>
+    <ul class="list-group">
+      <li class="list-group-item text-primary" *ngFor="let column of columns">
+        <strong>{{column.headerName}}: </strong>{{column.tooltip}}
+      </li>
+    </ul>
   </div>
-  <div class="panel-body">
-    <p-tabView >
-      <p-tabPanel header="Data Table"  [selected]="true">
-        <ag-grid-angular #agGrid style="width: 100%; height: 250px;" class="ag-blue" [rowData]="dataTable" [gridOptions]="gridOptions">
-        </ag-grid-angular>
+  <md-slide-toggle
+    style="float:right"
+    [color]="'primary'"
+    [(ngModel)]="showIndicatorDefinitions"
+    [checked]="showIndicatorDefinitions"
+  ><span *ngIf="!showIndicatorDefinitions">Show</span> <span *ngIf="showIndicatorDefinitions">Hide</span> Indicator
+    Definitions
+  </md-slide-toggle>
 
-        <i class="text-info">Hover the cursor on each cell of the table, to view indicator definitions. You can also use the "Indicator Definitions" tab </i>
-      </p-tabPanel>
-      <p-tabPanel header="Indicator Definitions" >
-        <ul class="list-group">
-          <li class="list-group-item text-primary" *ngFor="let column of columns" ><strong>{{column.headerName}}: </strong>{{column.tooltip}}</li>
-        </ul>
-      </p-tabPanel>
-    </p-tabView>
-
-
-  </div>
 </div>
