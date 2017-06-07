@@ -27,7 +27,7 @@ describe('Component: PatientIdentifier', () => {
 
     component = fixture.componentInstance;
 
-    de = fixture.debugElement.query(By.css('table'));
+    de = fixture.debugElement.query(By.css('div'));
     el = de.nativeElement;
 
   });
