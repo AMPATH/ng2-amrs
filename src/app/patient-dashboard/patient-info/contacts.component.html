@@ -1,4 +1,4 @@
-<div class="col-md-offset-1 col-lg-offset-1 col-md-10 col-lg-10 col-sm-12 col-xs-12">
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
   <table class="table table-striped" *ngIf="patient">
     <thead>
       <tr>
@@ -8,16 +8,12 @@
     </thead>
     <tbody>
        <tr>
-         <td>Phone Number</td>
-         <td>: {{patientPhoneNumber}}</td>
-         <td>Alternative Phone Number</td>
-         <td>: {{alternativePhoneNumber}}</td>
+         <td><strong>Phone Number : </strong>{{patientPhoneNumber}}</td>
+         <td><strong>Alternative Phone Number : </strong>{{alternativePhoneNumber}}</td>
        </tr>
        <tr>
-         <td>Spouse Phone Number</td>
-         <td>: {{patnerPhoneNumber}}</td>
-         <td>Next of Kin phone number</td>
-         <td>: {{nextofkinPhoneNumber}}</td>
+         <td><strong>Spouse Phone Number : </strong>{{patnerPhoneNumber}}</td>
+         <td><strong>Next of Kin phone number : </strong>{{nextofkinPhoneNumber}}</td>
        </tr>
     </tbody>
   </table>

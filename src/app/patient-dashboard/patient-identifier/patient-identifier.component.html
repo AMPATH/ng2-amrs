@@ -1,11 +1,10 @@
-<div class="col-md-offset-1 col-lg-offset-1 col-md-10 col-lg-10 col-sm-12 col-xs-12">
-  <table class="table table-striped" *ngIf="identifiers">
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <table class="table table-striped" *ngIf="identifiers" id="patient_identifier_table">
     <thead>
     </thead>
     <tbody>
        <tr *ngFor="let identifier of identifiers">
-         <td>{{identifier.identifierType.name}}</td>
-         <td>: {{identifier.identifier}}</td>
+         <td><strong>{{identifier.identifierType.name}} : </strong> {{identifier.identifier}}</td>
        </tr>
     </tbody>
   </table>
