@@ -1,8 +1,14 @@
-<div class="container app-settings">
-  <div>
-    <h1>POC Servers Settings</h1>
-    <hr />
 
+<div class="container app-settings " style="padding-top: 80px">
+
+  <div class="content-body ">
+    <div>
+      <div ><img src="./assets/img/ampath.png" width="200" height="40"/></div>
+      <h2><span class="glyphicon glyphicon-hdd"></span> POC Server Settings</h2>
+      <hr />
+    </div>
+
+  <div>
     <div class="action-buttons">
       <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -57,7 +63,20 @@
   <div class="action-buttons pull-right">
     <button class="btn btn-primary btn-large" type="submit" (click)="onDoneClick()">Done</button>
   </div>
+  </div>
 </div>
+<!--<footer class="navbar-fixed-bottom main-footer">
+  <div class="pull-left">
+    <a routerLink="/app/settings" class="inline" id="server-settings" type="submit">
+      <i class="fa fa-cog"></i>
+    </a>
+  </div>
+  <div class="pull-right">
+    <build-version class="inline"></build-version>
+    <online-tracker class="inline"></online-tracker>
+  </div>
+</footer>-->
+
 
 <modal #addUrlModal>
     <modal-header [show-close]="true">
@@ -74,3 +93,5 @@
       <button type="button" class="btn btn-primary" (click)="saveNewURL(newUrl, urlType)">Add</button>
     </modal-footer>
 </modal>
+
+
