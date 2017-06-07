@@ -296,9 +296,9 @@ time-picker .modal-main {
   width: 100% !important;
 }
 
-.login section .box .banner .logo-area {
-  height: 100px;
-  width: 300px;
+.login section .banner .logo-area {
+  height: 70px;
+  width: 220px;
   margin: 0 auto;
   background: url('img/ampath.png') no-repeat center center;
   background-size: contain;
