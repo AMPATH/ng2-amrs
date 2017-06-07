@@ -1,4 +1,7 @@
-import { Component, Output, EventEmitter, Input, ViewChildren, OnInit } from '@angular/core';
+import {
+  Component, Output, EventEmitter, Input, ViewChildren, OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -13,7 +16,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: []
+  encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
 
