@@ -50,6 +50,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public options: any = {
     date_range: true
   };
+  public showIndicatorDefinitions = false;
 
   private error = false;
   private loading = false;

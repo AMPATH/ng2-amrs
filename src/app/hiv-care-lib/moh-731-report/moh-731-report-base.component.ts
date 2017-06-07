@@ -7,7 +7,8 @@ import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
 
 @Component({
   selector: 'moh-731-report-base',
-  template: 'moh-731-report-base.component.html'
+  template: 'moh-731-report-base.component.html',
+  styleUrls: ['./moh-731-report-base.component.css'],
 })
 export class Moh731ReportBaseComponent implements OnInit {
 
