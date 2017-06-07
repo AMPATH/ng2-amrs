@@ -77,7 +77,6 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       };
     // loading: this.loadingArt
     this.clinicDashboardCacheService.add('filterModel', this.filterModel);
-    this.generateArtOverview();
     this.generateHIVCareComparativeOverviewChart();
   }
 
