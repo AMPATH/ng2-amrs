@@ -49,6 +49,7 @@
   padding:0;
   border-left:0;
   height: 43px;
+  color: #fff !important;
   padding-left: 0px !important;
 }
 
@@ -58,13 +59,11 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
 .skin-black-light .sidebar-menu > li:hover > a,
 .skin-black-light .sidebar-menu > li.active > a {
   background-color: #428bca;
-  color: #fff !important;
 }
 
 [class^="icon-"], [class*=" icon-"] {
   display: inline-block;
   height: 43px;
-  font-weight:700;
   line-height: 43px !important;
 }
 
@@ -104,6 +103,7 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
 .box-body .component-wrapper,
 .component-wrapper.clinic-dashboard{
   margin-bottom: 10px;
+  margin-left:5px;
 }
 
 .box { background-color: transparent;}
@@ -122,6 +122,49 @@ footer p {
 }
 .box-body {
   padding:0;
+}
+
+.navbar-custom-menu > .navbar-nav > li {
+  border-top: 3px solid #fff;
+  border-left: 1px solid #eee;
+}
+
+.navbar-custom-menu > .navbar-nav > li a {
+  line-height: 50px;
+}
+
+.navbar-custom-menu > .navbar-nav > li.dropdown li a {
+  line-height: normal;
+}
+
+.navbar-custom-menu > .navbar-nav > li.trail li a.active {
+  color: #fff !important;
+  background-color: #203864;
+}
+
+.navbar-custom-menu > .navbar-nav > li.active,
+.navbar-custom-menu > .navbar-nav > li.trail {
+  border-top-color: #203864;
+}
+
+.navbar-custom-menu > .navbar-nav > li.active a,
+.navbar-custom-menu > .navbar-nav > li.trail a {
+  line-height: 48px;
+}
+
+.skin-black-light .main-header .navbar .navbar-custom-menu .navbar-nav > li > a
+, .skin-black-light .main-header .navbar .navbar-right > li > a {
+  border-left-width: 0;
+}
+
+.skin-black-light .main-header .navbar .nav > li > a:hover,
+.skin-black-light .main-header .navbar .nav > li > a:active,
+.skin-black-light .main-header .navbar .nav > li > a:focus,
+.skin-black-light .main-header .navbar .nav .open > a,
+.skin-black-light .main-header .navbar .nav .open > a:hover,
+.skin-black-light .main-header .navbar .nav .open > a:focus,
+.skin-black-light .main-header .navbar .nav > .active > a {
+  line-height: 47px;
 }
 
 .box-body .component-wrapper {
@@ -144,10 +187,9 @@ app-patient-dashboard {
 .skin-black-light .sidebar-menu li .icon-menu {
   padding-left: 10px;
   padding-right: 10px;
-  margin-right:12px;
+  margin-right:5px;
   width: 54px;
-  color: #428bca;
-  /*background-color: #D0E5EF;*/
+  color: #fff;
 }
 
 .skin-black-light .sidebar-menu > li:hover > a > span.icon-menu,
@@ -164,6 +206,7 @@ a img {
   max-width:230px;
   height:50px;
   width:55px;
+  color: #fff !important;
 }
 
 .sidebar-toggle > .logo-img{
@@ -172,14 +215,27 @@ a img {
   margin-left: 40px;
   margin-top: -5px;
 }
+
 .main-header .sidebar-toggle:before {
   position: absolute;
-  left:15px;
-  top:10px;
+  left: 12px;
+  top: 10px;
   font-size: 24px;
+  transform: rotate(180deg);
+  transition: display 1s ease;
+}
+
+.sidebar-open .main-header .sidebar-toggle:before {
+  content: "\f057";
 }
 .sidebar-mini.sidebar-collapse .sidebar-toggle .logo-img,.sidebar-mini .main-header .logo{
   display: none;
+}
+
+.main-header .navbar-custom-menu {
+  float: none;
+  width: 100%;
+  position: absolute;
 }
 
 .main-footer {
@@ -206,6 +262,11 @@ a img {
 .btn.btn-info span {
   display: inline-block;
   margin-right: 12px;
+}
+
+.main-header .navbar-custom-menu a.btn.btn-danger {
+  background-color: #dd4b39 !important;
+  color: #fff !important;
 }
 
 .banner-top {
@@ -270,6 +331,10 @@ dd {white-space: pre; padding:7px;}
   margin-top:12px;
 }
 
+li.last {
+  border-bottom: 1px solid #dadada;
+}
+
 .skin-black-light .main-sidebar {
   top: 50px;
 }
@@ -295,6 +360,17 @@ todays-vitals ul.list-group {
   }
 }
 
+@media screen and (max-width: 767px) {
+
+  .content-wrapper {
+    margin-left: 55px !important;
+  }
+
+  .fixed .main-sidebar {
+    z-index: initial;
+  }
+}
+
 @media screen and (max-width: 768px) {
 
   .main-header .sidebar-toggle {
@@ -302,12 +378,20 @@ todays-vitals ul.list-group {
     clear: both;
     display: block;
     height: 80px;
-    max-width: 100%;
-    width: 100%;
+  }
+
+  .main-header .sidebar-toggle:before {
+    left: 12px;
+    top: 15px;
+    font-size: 32px;
+  }
+
+  .sidebar-open .content-wrapper {
+    margin-left: 0 !important;
   }
 
   .skin-black-light .main-sidebar {
-    top: 118px;
+    top: 80px;
   }
 
   .skin-black-light.sidebar-open .main-sidebar {
@@ -319,7 +403,7 @@ todays-vitals ul.list-group {
   }
 
   .content-wrapper{
-    padding-top: 120px !important;
+    padding-top: 78px !important;
   }
 
   .skin-black-light.sidebar-open .content-wrapper {
@@ -352,7 +436,15 @@ todays-vitals ul.list-group {
   }
 
   .main-header .navbar {
-    margin-top: -12px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 55px;
+    width: calc(100% - 65px);
+  }
+
+  .sidebar-toggle .logo-img {
+    display: none !important;
   }
 
   .main-header .navbar-custom-menu {
@@ -362,10 +454,11 @@ todays-vitals ul.list-group {
   .navbar-custom-menu > .navbar-nav{
     float: left;
     width:100%;
+    background-color: #fff;
   }
 
   .navbar-custom-menu > .navbar-nav > li {
-    position: static;
+    position: relative;
     width: auto;
     text-align: center;
   }
@@ -377,6 +470,14 @@ todays-vitals ul.list-group {
   .navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
     right: 0;
   }
+  .navbar-custom-menu > .navbar-nav > li.menu-left > a {
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 24px;
+    line-height: 47px;
+    background-color: #fff;
+  }
+
 
   app-patient-search .input-wrapper {
     margin-right: 0;
@@ -393,6 +494,14 @@ todays-vitals ul.list-group {
   .input-group-btn.pull-right {
     width:auto;
   }
+
+  .wrapper {
+    background-color: #fff;
+  }
+
+  footer p {
+    font-size: 16px !important;
+  }
 }
 
 @media (min-width: 768px){
@@ -408,6 +517,10 @@ todays-vitals ul.list-group {
   .input-group-btn.pull-right {
     margin-top: -47px;
     width:auto;
+  }
+
+  .navbar-nav {
+    float: none;
   }
 
   .navbar-nav > li > a {
