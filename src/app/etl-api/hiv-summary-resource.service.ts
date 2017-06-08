@@ -14,15 +14,15 @@ export class HivSummaryResourceService {
   }
 
   getHivSummary(patientUuid: string,
-   startIndex: number, limit: number, includeNonClinicalEncounter?: boolean): Observable<any> {
-
+    startIndex: number, limit: number, includeNonClinicalEncounter?: boolean): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
 
     let params: URLSearchParams = new URLSearchParams();
 
-    if (includeNonClinicalEncounter)
+    if (includeNonClinicalEncounter !== undefined) {
       params.set('includeNonClinicalEncounter', includeNonClinicalEncounter.toString());
+    }
     params.set('startIndex', startIndex.toString());
     params.set('limit', limit.toString());
 
@@ -30,7 +30,7 @@ export class HivSummaryResourceService {
       search: params
     })
       .map((response: Response) => {
-      return response.json().result;
-    });
+        return response.json().result;
+      });
   }
 }
