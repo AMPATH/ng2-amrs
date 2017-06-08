@@ -13,7 +13,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
-    host: { 'class': 'wrapper' }
+    styleUrls: ['visit.component.css']
 })
 export class VisitComponent implements OnInit, OnDestroy {
     visitTypes = [];
@@ -27,6 +27,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     confirmEndVisit: boolean;
     showDialog: boolean = false;
     visitBusy: Boolean;
+    iseditLocation: boolean = false;
     constructor(private visitResourceService: VisitResourceService,
         private userDefaultPropertiesService: UserDefaultPropertiesService,
         private patientService: PatientService, private router: Router,
@@ -46,7 +47,10 @@ export class VisitComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
-
+    locationChanges(edit) {
+        console.log('ddddddddddddddddddddddddddddd', edit);
+        this.iseditLocation = edit;
+    }
     getVisit(patientUuid) {
         this.visitBusy = true;
         this.visitResourceService.getPatientVisits({ patientUuid: patientUuid })
@@ -102,6 +106,10 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
     }
 
+    editLocation() {
+        this.iseditLocation = !this.iseditLocation;
+
+    }
     startVisit(visitTypeUuid) {
         let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         this.visitBusy = true;

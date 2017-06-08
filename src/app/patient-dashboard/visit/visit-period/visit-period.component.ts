@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
@@ -31,15 +31,22 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   locations = [];
   loadedInitialLocation: boolean = false;
   loadingVisit: boolean = true;
+  editLocation: boolean = true;
   visitLocation: any;
   currentVisit: any;
-
+  currentVisitType: any;
+  locationName: string = '';
+  @Output() editedLocation = new EventEmitter();
   @Input()
   set visitUuid(value) {
     if (value) {
       this.getVisitPeriod(value);
     }
 
+  }
+  @Input()
+  set iseditLocation(value) {
+    this.editLocation = value;
   }
 
   constructor(private patientService: PatientService, private visitResource: VisitResourceService,
@@ -144,7 +151,10 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
           this.visitResource.updateVisit(this.encounterVisitUuid, visitPayload)
             .subscribe((updateVisit) => {
               this.loadingVisit = false;
-              console.log('updated the location');
+              this.locationName = updateVisit.location.display;
+              this.editLocation = !this.editLocation;
+              this.editedLocation.emit(this.editLocation);
+              console.log('updated the location to ' + this.locationName);
             });
         },
         reject: () => {
@@ -191,7 +201,9 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
         this.startDatetime = visit.startDatetime;
         this.currentVisit = visit ? visit : '';
         this.locationUuid = visit ? visit.location.uuid : null;
+        this.locationName = visit ? visit.location.display : null;
         this.encounterVisitUuid = visit ? visit.uuid : null;
+        this.currentVisitType = visit ? visit.visitType.name : null;
         this.loadingVisit = false;
       });
 
@@ -205,6 +217,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     this.encounterVisitUuid = '';
     this.currentVisit = '';
     this.locationUuid = '';
+    this.currentVisitType = '';
   }
 }
 

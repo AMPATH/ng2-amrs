@@ -43,26 +43,53 @@
   </div>
   <div *ngIf="visit">
     <div class="visit-panel-heading">
+      <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
+      <div class="locationdetails">
+        <visit-period [visitUuid]="visit.uuid" (editedLocation)="locationChanges($event)" [iseditLocation]="iseditLocation"></visit-period>
+      </div>
 
-      <visit-period [visitUuid]="visit.uuid"></visit-period>
-      <h3>
-        <button id="cancelVisitButtonTop" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
-        <button *ngIf="!visit.stopDatetime" id="endVisitButtonTop" (click)="endVisit()" class='btn btn-primary'>
-          End Visit
-        </button>
-      </h3>
+
     </div>
-    <div class="visit-panel-body">
-      <encounter-list *ngIf="visit.encounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+    <div class="button-nav">
+      <div class="add-borders">
+        <div class="btn-group blocks">
+          <button *ngIf="!iseditLocation" type="button" (click)="editLocation()" class="btn btn-primary">Edit Visit Location</button>
+          <button *ngIf="iseditLocation" type="button" (click)="editLocation()" class="btn btn-danger">Cancel</button>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" id="cancelVisitButtonTop" (click)="cancelVisit()">End Visit</button>
+          <button type="button" class="btn btn-primary" id="endVisitButtonTop" (click)="endVisit()">Cancel Visit</button>
+
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="list-group-item">
+      <h4 class="component-title">Visit Encounters</h4>
+      <div class="visit-panel-body">
+        <encounter-list *ngIf="visit.encounters.length>0" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+        <div *ngIf="visit.encounters.length<1" class="alert">
+          No Encounters Yet
+        </div>
+      </div>
+    </div>
+    <span style="padding:10px;"></span>
+
+    <div class="list-group-item">
       <div>
         <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
       </div>
     </div>
+
     <div class="visit-panel-footer">
       <button id="cancelVisitButton" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
       <button *ngIf="!visit.stopDatetime" id="endVisitButton" (click)="endVisit()" class='btn btn-primary'>End Visit
         Visit
       </button>
+
     </div>
   </div>
 </div>
