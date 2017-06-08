@@ -68,13 +68,86 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
   line-height: 43px !important;
 }
 
+.skin-black-light .main-sidebar,
+.skin-black-light .left-side,
+.main-header .sidebar-toggle,
+.main-header .sidebar-toggle:focus,
+.main-header .sidebar-toggle:active{
+  background-color: #203864;
+}
+
+.skin-black-light .main-sidebar .sidebar-menu li:first-child,
+.skin-black-light .sidebar-menu > li.active {
+  border-bottom: 1px solid lightskyblue !important;
+  margin-top: 0 !important;
+}
+
+.main-header .sidebar-toggle:focus,
+.main-header .sidebar-toggle:hover,
+.main-header .sidebar-toggle:active {
+  color: lightskyblue !important;
+}
+
+.component-wrapper {
+  margin: 8px;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
+  margin-bottom: 30px;
+  padding: 1em 1em;
+  font-size: 14px;
+  border: 1px solid rgba(34, 36, 38, .15);
+}
+
+.component-wrapper.notifications,
+.component-wrapper.patient-search,
+.box-body .component-wrapper,
+.component-wrapper.clinic-dashboard{
+  margin-bottom: 10px;
+}
+
+.box { background-color: transparent;}
+
+.skin-black-light .sidebar-menu > li {
+  border: none !important;
+}
+
+footer online-tracker, footer build-version {
+  display: block;
+}
+
+footer p {
+  margin: 0px;
+  line-height: 32px;
+}
+.box-body {
+  padding:0;
+}
+
+.box-body .component-wrapper {
+  margin-bottom: 40px;
+}
+
+.clear {
+  clear: both;
+}
+
+app-patient-dashboard {
+  display: block;
+}
+
+.sidebar-collapse .content {
+  padding:0;
+  margin:0;
+}
+
 .skin-black-light .sidebar-menu li .icon-menu {
   padding-left: 10px;
   padding-right: 10px;
   margin-right:12px;
   width: 54px;
   color: #428bca;
-  /*background-color: #428bca;*/
+  /*background-color: #D0E5EF;*/
 }
 
 .skin-black-light .sidebar-menu > li:hover > a > span.icon-menu,
@@ -87,9 +160,6 @@ a img {
   width: 100%;
 }
 
-.main-header .sidebar-toggle:hover{
-  color: #23527c;
-}
 .main-header .sidebar-toggle {
   max-width:230px;
   height:50px;
@@ -121,6 +191,7 @@ a img {
 
 .content {
   margin-bottom: 60px;
+  padding:0;
 }
 
 .sidebar-collapse .content {
@@ -135,6 +206,37 @@ a img {
 .btn.btn-info span {
   display: inline-block;
   margin-right: 12px;
+}
+
+.banner-top {
+  display: block;
+  height: 9px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-color: #ecf0f5;
+  border-bottom: 1px solid #dadada;
+}
+
+.component-title {
+  font-size: 22px;
+  text-transform: capitalize;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(34, 36, 38, .15);
+  margin-bottom: 8px;
+}
+
+.component-title span{
+  display: inline-block;
+  margin-right: 12px;
+}
+
+footer online-tracker {
+  margin-left: 8px;
+}
+
+.footer-logo {
+  width: 120px;
 }
 
 dl {
@@ -173,7 +275,11 @@ dd {white-space: pre; padding:7px;}
 }
 
 todays-vitals {
-  margin-top: 10px;
+  display: block;
+}
+
+.list-group-item {
+  border-radius: 0 !important;
 }
 
 todays-vitals ul.list-group {
@@ -302,6 +408,12 @@ todays-vitals ul.list-group {
   .input-group-btn.pull-right {
     margin-top: -47px;
     width:auto;
+  }
+
+  .navbar-nav > li > a {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 50px;
   }
 
   .input-group-btn.pull-right button {
