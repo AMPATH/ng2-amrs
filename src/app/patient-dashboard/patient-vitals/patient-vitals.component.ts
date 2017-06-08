@@ -44,7 +44,6 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   }
 
   getPatient() {
-        this.loadingVitals = true;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
@@ -62,6 +61,8 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
       });
   }
   loadVitals(patientUuid, nextStartIndex): void {
+    this.loadingVitals = true;
+
     let request = this.patientVitalsService.getvitals(patientUuid, this.nextStartIndex)
       .subscribe((data) => {
         if (data) {
@@ -82,16 +83,17 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
             let size: number = data.length;
             this.nextStartIndex = this.nextStartIndex + size;
             this.isLoading = false;
+            this.loadingVitals = false;
           } else {
 
             this.dataLoaded = true;
+            this.loadingVitals = false;
 
           }
 
         }
 
 
-        this.loadingVitals = false;
         this.isLoading = false;
       },
 
@@ -104,8 +106,6 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
       });
   }
   loadMoreVitals() {
-    this.isLoading = true;
-
     this.loadVitals(this.patientUuid, this.nextStartIndex);
 
   }
