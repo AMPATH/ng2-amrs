@@ -1,9 +1,40 @@
 .location {
     padding: 1% 0 1% 0;
 }
+
 ng-select {
     display:inline-block;
     width:80%;margin:0;
     position:relative;vertical-align:middle;
     width: 80%;
+}
+
+.navbar ul  {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#ddd
+}
+
+.navbar li {
+    float: left;
+}
+
+ .navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+.navbar li a:hover {
+    background-color: #111;
+}
+
+.navbar  li a.active {
+    color: white;
+    background-color: #008CBA;
 }

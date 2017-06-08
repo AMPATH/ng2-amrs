@@ -1,13 +1,16 @@
 <div>
   <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Hang in there............'}"></div>
-  <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" responsive="true">
+  <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" [closable]="false" responsive="true">
     <div class="text-bold">
       <h3 *ngIf="confirmCancel"><span class="fa-lg">
 							<i class="fa fa-exclamation-triangle"></i>
 					</span> Canceling a visit deletes all encounters associated with it.</h3>
+
+      <h3 *ngIf="confirmCancel"><span class="fa-lg">
+					</span>Please confirm you wish to cancel this visit:</h3>
       <h3 *ngIf="confirmEndVisit"><span class="fa-lg">
 							<i class="fa fa-exclamation-triangle"></i>
-					</span>Are you sure?</h3>
+					</span>Please confirm you wish to end this visit:</h3>
     </div>
 
     <br>
@@ -22,47 +25,75 @@
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
   </div>
+  <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
+  <div class="list-group-item">
+    <div *ngIf="!visit">
+      <div class="visit-label">
+        <h3>Select visit type</h3>
+      </div>
 
-  <div *ngIf="!visit">
-    <div class="visit-label">
-      <h3>Select visit type</h3>
+      <table id="visitTypes" class='table'>
+        <tr *ngFor="let visitType of visitTypes">
+          <td>
+            {{visitType.display}}
+          </td>
+          <td>
+            {{visitType.description}}
+          </td>
+          <td>
+            <a id="startButton" class="" (click)="startVisit(visitType.uuid)">
+              <i class="glyphicon glyphicon-circle-arrow-right"></i> Start Visit
+            </a>
+          </td>
+        </tr>
+      </table>
     </div>
-    <table class='table'>
-      <tr *ngFor="let visitType of visitTypes">
-        <td>
-          {{visitType.display}}
-        </td>
-        <td>
-          {{visitType.description}}
-        </td>
-        <td>
-          <button id="startButton" (click)="startVisit(visitType.uuid)" class='btn btn-primary'>Start Visit</button>
-        </td>
-      </tr>
-    </table>
   </div>
   <div *ngIf="visit">
     <div class="visit-panel-heading">
+      <div class="locationdetails">
+        <visit-period [visitUuid]="visit.uuid" (editedLocation)="locationChanges($event)" [iseditLocation]="iseditLocation"></visit-period>
+      </div>
 
-      <visit-period [visitUuid]="visit.uuid"></visit-period>
-      <h3>
-        <button id="cancelVisitButtonTop" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
-        <button *ngIf="!visit.stopDatetime" id="endVisitButtonTop" (click)="endVisit()" class='btn btn-primary'>
-          End Visit
-        </button>
-      </h3>
+
     </div>
-    <div class="visit-panel-body">
-      <encounter-list *ngIf="visit.encounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+    <div class="button-nav">
+      <div class="add-borders ">
+        <div class="btn-group blocks">
+          <a *ngIf="!iseditLocation" (click)="editLocation()">
+            <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
+
+          <a *ngIf="iseditLocation" class="cancel-edit" (click)="editLocation()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Edit
+          </a>
+
+          <a id="endVisitButton" (click)="endVisit()">
+            <i class="glyphicon glyphicon-check"></i> End Visit</a>
+
+          <a id="cancelVisitButton" (click)="cancelVisit()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a>
+
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="list-group-item">
+      <h4 class="component-title">Visit Encounters</h4>
+      <div class="visit-panel-body">
+        <encounter-list *ngIf="!visitWithNoEncounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+        <div *ngIf="visitWithNoEncounters" class="alert">
+          Patient yet to see provider
+        </div>
+      </div>
+    </div>
+    <span style="padding:10px;"></span>
+
+    <div class="list-group-item">
       <div>
         <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
       </div>
-    </div>
-    <div class="visit-panel-footer">
-      <button id="cancelVisitButton" (click)="cancelVisit()" class='btn btn-danger'>Cancel Visit</button>
-      <button *ngIf="!visit.stopDatetime" id="endVisitButton" (click)="endVisit()" class='btn btn-primary'>End Visit
-        Visit
-      </button>
     </div>
   </div>
 </div>
