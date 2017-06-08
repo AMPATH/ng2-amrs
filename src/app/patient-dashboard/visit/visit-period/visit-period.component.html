@@ -1,13 +1,15 @@
-<div style="margin-top:4px;margin-bottom:4px;" *ngIf="encounterVisitUuid">
-  <ul class="list-group">
-    <li class="list-group-item" style="padding: 0;">
-      <div class="panel-heading px-nested-panel-heading clearfix">
-        Visit Started at: <strong>{{startDatetime | date: 'hh:mm:ss a MMM, dd yyyy'}}</strong>
+<div>
+
+  <div style="margin-top:4px;margin-bottom:4px;" *ngIf="encounterVisitUuid">
+    <div>
+      <div class="px-nested-panel-heading clearfix">
+        {{currentVisitType}} Started at: <strong>{{startDatetime | date: 'hh:mm:ss a MMM, dd yyyy'}} </strong>
         <span *ngIf="stopDatetime">
        Ended at: <strong>{{stopDatetime | date: 'hh:mm:ss a MMM, dd yyyy'}}</strong>
        </span>
+        <span>At: <strong>{{locationName}}</strong></span>
 
-        <div class="location">
+        <div *ngIf="editLocation">
           <label> Select location:</label>
           <ng-select (selected)="loadedLocation($event)" [(ngModel)]="locationUuid" [options]="locations">
           </ng-select>
@@ -19,7 +21,6 @@
         </div>
       </div>
       <div [ngBusy]="{busy:[loadingVisit],message:'Loading visit Details.........'}"></div>
-    </li>
-  </ul>
-
+    </div>
+  </div>
 </div>
