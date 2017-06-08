@@ -1,4 +1,4 @@
-<!--<div [ngBusy]="{busy:[loadingHivSummary],message:'Please Wait...'}"></div>-->
+<div [ngBusy]="{busy:[loadingHivSummary],message:'Please Wait...'}"></div>
 
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
@@ -28,6 +28,6 @@
     <li class="list-group-item" style="font-size:large">Enrollment Date: {{hivSummary?.enrollment_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">ARV Initiation Start Date: {{hivSummary?.arv_first_regimen_start_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">INH Prophylaxis Start Date :{{hivSummary?.tb_prophylaxis_start_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">Current Who Stage: {{hivSummary?.cur_who_stage}}</li>
+    <li class="list-group-item" style="font-size:large">Current WHO Stage: {{hivSummary?.cur_who_stage}}</li>
   </ul>
 </div>

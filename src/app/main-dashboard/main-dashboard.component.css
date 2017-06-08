@@ -59,6 +59,7 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
 .skin-black-light .sidebar-menu > li:hover > a,
 .skin-black-light .sidebar-menu > li.active > a {
   background-color: #428bca;
+  color: #fff !important;
 }
 
 [class^="icon-"], [class*=" icon-"] {
