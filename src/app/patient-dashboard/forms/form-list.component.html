@@ -1,29 +1,31 @@
-<div class="wrapper">
+<div>
+  <h4 class="component-title"><span class="fa fa-file"></span> Forms</h4>
   <div class="form-inline">
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valuechange($event)"
-               placeholder="Filter..."/>
+        <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valuechange($event)" placeholder="Forms Filter"
+        />
         <span class="glyphicon glyphicon-search form-control-feedback"></span>
       </div>
     </div>
   </div>
-  <h3 class="box-title">Select Form</h3>
-  <hr/>
-  <div class="box-body">
+  <div class="box-body forms-list">
     <div class="list-group">
-      <div class="list-group-item padding-sm" *ngFor="let form of forms | filterBy: {name:filterTerm}">
-        <a class="favourite toggle" (click)="toggleFavourite($event,form)" *ngIf="form.favourite"
-           class="btn btn-default btn-lg">
+      <div class="list-group-item" *ngFor="let form of forms | filterBy: {name:filterTerm}" (click)="formSelected($event,form)">
+        <div class="link-item">
+          <a class="favourite toggle" (click)="toggleFavourite($event,form)" *ngIf="form.favourite" class="btn btn-default btn-lg">
           <i class="fa fa-star"></i>
         </a>
-        <a class="toggle" (click)="toggleFavourite($event,form)" *ngIf="!form.favourite" class="btn btn-default btn-lg">
+          <a class="toggle" (click)="toggleFavourite($event,form)" *ngIf="!form.favourite" class="btn btn-default btn-lg">
           <i class="fa fa-star-o"></i>
         </a>
-        <a class="formLink" (click)="formSelected($event,form)" [ladda]='isLoading(form)' data-spinner-color="black">
+        </div>
+        <div class="link-item">
+          <a class="formLink" [ladda]='isLoading(form)' data-spinner-color="black">
           {{form.name}} {{form.version}}
         </a>
-        <div class="clear clear-fix"></div>
+        </div>
+        <!--<div class="clear clear-fix"></div>-->
       </div>
     </div>
   </div>
