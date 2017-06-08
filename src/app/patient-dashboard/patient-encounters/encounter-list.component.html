@@ -1,9 +1,10 @@
-<div class="wrapper">
+<div class="encounter-list">
     <div>
         <app-display-error [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
     </div>
+    <div [ngBusy]="{busy:encounters && encounters.length === 0 ,message:'Please Wait...'}"></div>
     <div class="scroll-x">
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Encounter Date</th>
@@ -22,14 +23,15 @@
 <td>{{encounter.location.display}}</td>
 <td>{{encounter.provider.display}}</td>
 <td>
-    <button (click)="editEncounter(encounter)" type="button" class="btn btn-xs">
+    <a (click)="editEncounter(encounter)">
                 <span class="glyphicon text-primary glyphicon-edit"></span>
-              </button>
+              </a>
 </td>
 <td>
-    <button type="button" (click)="showEncounterObservations(encounter)" data-target="#encounter_modal" data-toggle="modal" class="btn  btn-xs">
+    <a type="button" (click)="showEncounterObservations(encounter)"
+       data-target="#encounter_modal" data-toggle="modal">
                 <span class="glyphicon text-primary glyphicon-eye-open"></span>
-              </button>
+              </a>
 </td>
 </tr>
 </tbody>
