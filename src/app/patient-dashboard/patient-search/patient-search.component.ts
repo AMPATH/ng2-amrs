@@ -106,7 +106,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/welcome']);
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general']);
   }
 
 
