@@ -36,11 +36,25 @@
 </div>
 <hr>
 <div>
-  <ag-grid-angular #agGrid style="width: 100%; height: 250px;" class="ag-blue" [rowData]="dataTable"
-                   [gridOptions]="gridOptions">
-  </ag-grid-angular>
+  <div *ngIf="showTable">
+    <hr>
+    <ag-grid-angular #agGrid style="width: 100%; height: 250px;" class="ag-blue" [rowData]="dataTable"
+                     [gridOptions]="gridOptions">
+    </ag-grid-angular>
 
-  <i class="text-info">Hover the cursor on each cell of the table, to view indicator definitions.</i>
+    <em class="text-info">Hover the cursor on each cell of the table, to view indicator
+      definitions.</em>
+  </div>
+  <div class="slide-toggle">
+  <md-slide-toggle
+    style="float:right"
+    [color]="'primary'"
+    [(ngModel)]="showTable"
+    [checked]="showTable"
+  ><span *ngIf="!showTable">Show</span> <span *ngIf="showTable">Hide</span> Tabular View
+  </md-slide-toggle>
+    </div>
+  <div class="clear" *ngIf="showIndicatorDefinitions"></div>
   <div *ngIf="showIndicatorDefinitions">
     <hr>
     <ul class="list-group">
@@ -49,6 +63,7 @@
       </li>
     </ul>
   </div>
+  <div class="slide-toggle">
   <md-slide-toggle
     style="float:right"
     [color]="'primary'"
@@ -56,6 +71,6 @@
     [checked]="showIndicatorDefinitions"
   ><span *ngIf="!showIndicatorDefinitions">Show</span> <span *ngIf="showIndicatorDefinitions">Hide</span> Indicator
     Definitions
-  </md-slide-toggle>
-
+  </md-slide-toggle></div>
+  <div class="clear" *ngIf="showTable"></div>
 </div>

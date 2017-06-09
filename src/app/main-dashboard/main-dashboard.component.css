@@ -68,6 +68,10 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
   line-height: 43px !important;
 }
 
+[class^="icon-menu-letter"] {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 .skin-black-light .main-sidebar,
 .skin-black-light .left-side,
 .main-header .sidebar-toggle,

@@ -4,3 +4,15 @@ chart {
 .wrapper {
   padding:1px;
 }
+
+.slide-toggle {
+  margin-right: 12px;
+  float: right;
+  display: inline-block;
+}
+
+.ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a {
+  color: #fff !important;
+}
+
+
