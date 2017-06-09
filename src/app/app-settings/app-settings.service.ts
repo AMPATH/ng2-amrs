@@ -29,39 +29,19 @@ export class AppSettingsService {
 
   private templates = [
     {
-      name: 'Single Server',
+      name: 'AMRS POC',
       amrsUrl: '/amrs',
       etlUrl: '/etl-latest/etl'
     },
     {
-      name: 'Single Server Beta',
+      name: 'AMRS POC Beta',
       amrsUrl: '/amrs',
       etlUrl: 'https://amrs.ampath.or.ke/etl-latest/etl'
     },
     {
-      name: 'Production',
-      amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
-      etlUrl: 'https://amrsreporting.ampath.or.ke:8002/etl'
-    },
-    {
-      name: 'Production Demo',
-      amrsUrl: 'https://amrs.ampath.or.ke:8443/amrs',
-      etlUrl: 'https://amrsreporting.ampath.or.ke:8003/etl'
-    },
-    {
-      name: 'Single Server Demo',
-      amrsUrl: '/amrs',
-      etlUrl: '/etl-server-demo/etl'
-    },
-    {
-      name: 'Test',
-      amrsUrl: 'https://test1.ampath.or.ke:8443/amrs',
-      etlUrl: 'https://test1.ampath.or.ke:8002/etl'
-    },
-    {
-      name: 'Test Demo',
-      amrsUrl: 'https://test1.ampath.or.ke:8443/amrs',
-      etlUrl: 'https://test1.ampath.or.ke:8003/etl'
+      name: 'AMRS Test',
+      amrsUrl: 'https://test2.ampath.or.ke:8443/amrs',
+      etlUrl: 'https://amrs.ampath.or.ke/etl-test/etl'
     }
   ];
 
