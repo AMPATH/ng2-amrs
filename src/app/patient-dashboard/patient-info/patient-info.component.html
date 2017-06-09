@@ -1,49 +1,49 @@
-<div class="patient-info">
-  <h4 class="component-title">Patient Information</h4>
-	<p-growl [value]="msgs"></p-growl>
-	<p-accordion>
-		<p-accordionTab [selected]="true">
-      <p-header>
-        Demographics
-        <button pButton type="button" (click)="demographics.showDialog()"
-                class="ui-button-info" label="Edit" style="float: right"></button>
-      </p-header>
+<p-growl [value]="msgs"></p-growl>
+
+  <h4 class="component-title" ><i class="fa fa-clipboard fa-fw"></i>Patient Information</h4>
+    
+    <div class="row patient-info-row">
+      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <h5 class="info_section_title">Demographics</h5>
+
+        <a (click)="demographics.showDialog()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Edit</span></a>
+        
+      </div>
       <edit-demographics #demographics></edit-demographics>
-			<patient-demographics></patient-demographics>
-		</p-accordionTab>
-    <p-accordionTab>
-      <p-header>
-        Contacts
-        <button pButton type="button" (click)="timer.showDialog()"
-                class="ui-button-info" label="Edit" style="float: right"></button>
-      </p-header>
-      <edit-contacts-info #timer>
-      </edit-contacts-info>
-
-      <contacts-info>
-
-      </contacts-info>
-    </p-accordionTab>
-		<p-accordionTab >
-      <p-header>
-        Address
-        <button pButton type="button" (click)="address.showDialog()"
-                class="ui-button-info" label="Edit" style="float: right"></button>
-      </p-header>
-      <edit-address #address></edit-address>
+      <patient-demographics></patient-demographics>
+    </div>
+    <hr class="intro-divider patient-info-divider" />
+  
+  <div class="row patient-info-row">
+    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <h5 class="info_section_title">Contacts </h5>
+         <a (click)="timer.showDialog()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Edit</span></a>
+    </div>
+     <edit-contacts-info #timer></edit-contacts-info>
+     <contacts-info></contacts-info>
+  </div>
+  <hr class="intro-divider" />
+	<div class="row patient-info-row">
+     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <h5 class="info_section_title">Address </h5>
+         <a (click)="address.showDialog()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Edit</span></a>
+     </div>
 			<address></address>
-		</p-accordionTab>
-		<p-accordionTab >
-      <p-header>
-        Identifiers
-     <button pButton type="button" (click)="identifiers.showDialog()"
-       class="ui-button-info" label="Edit" style="float: right"></button>
-           </p-header>
-      <edit-identifiers #identifiers></edit-identifiers>
+      <edit-address #address></edit-address>
+  </div>
+  <hr class="intro-divider patient-info-divider" />
+  <div class="row patient-info-row">
+     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <h5 class="info_section_title">Identifiers</h5>
+        <a (click)="identifiers.showDialog()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Edit</span></a>
+     </div>
+			 <edit-identifiers #identifiers></edit-identifiers>
 			<patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
-		</p-accordionTab>
-		<p-accordionTab header=" Relationships " [selected]="false">
-			<patient-relationships></patient-relationships>
-		</p-accordionTab>
-	</p-accordion>
-</div>
+  </div>
+  <hr class="intro-divider patient-info-divider" />
+   <div class="row patient-info-row">
+     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <h5 class="info_section_title">Relationships</h5>
+     </div>
+		<patient-relationships></patient-relationships>
+  </div>
