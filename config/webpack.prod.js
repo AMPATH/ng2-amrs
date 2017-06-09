@@ -24,13 +24,15 @@ const OptimizeJsPlugin = require('optimize-js-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
+const AgGridLicence = process.env.AgGridLicence;
 const METADATA = webpackMerge(commonConfig({
   env: ENV
 }).metadata, {
     host: HOST,
     port: PORT,
     ENV: ENV,
-    HMR: false
+    HMR: false,
+    AgGridLicence: AgGridLicence
   });
 
 module.exports = function (env) {
@@ -157,10 +159,12 @@ module.exports = function (env) {
         new DefinePlugin({
           'ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
+          'AgGridLicence': JSON.stringify(METADATA.AgGridLicence),
           'process.env': {
             'ENV': JSON.stringify(METADATA.ENV),
             'NODE_ENV': JSON.stringify(METADATA.ENV),
             'HMR': METADATA.HMR,
+            'AgGridLicence': JSON.stringify(METADATA.AgGridLicence),
           }
         }),
 
