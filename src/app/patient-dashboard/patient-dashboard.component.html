@@ -1,19 +1,24 @@
-<div class="box box-solid">
-	<div class="box-header">
-		<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
-    <div class="banner-top"></div>
-		<md-progress-bar *ngIf="fetchingPatient" mode="indeterminate"></md-progress-bar>
+<div #containerElement class="box box-solid">
+  <!--<sticky [sticky-offset-top]="topOffset" [sticky-start]="20"
+[sticky-width]="'100%'">-->
+  <div class="sticky" id="sticky" [ngStyle]="{'top': topOffset+'px', 'width': leftOffset + 'px'}" #headerElement >
+    <div class="box-header" style="background:#ecf0f5; ">
+      <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" appendTo="body"></p-confirmDialog>
+      <div class="banner-top"></div>
+      <md-progress-bar *ngIf="fetchingPatient" mode="indeterminate"></md-progress-bar>
 
-		<patient-banner></patient-banner>
-    <div class="notifications">
-      <patient-reminders></patient-reminders>
-      <todays-vitals></todays-vitals>
-      <visit-period></visit-period>
+      <patient-banner></patient-banner>
+      <div class="notifications">
+        <patient-reminders></patient-reminders>
+        <todays-vitals></todays-vitals>
+        <visit-period></visit-period>
+      </div>
     </div>
-	</div>
-	<div class="box-body" id="section-box-body">
+  </div>
+  <!--</sticky>-->
+  <div #bodyElement class="box-body" id="section-box-body" style="position:relative; bottom:auto;" [ngStyle]="{'top': (topOffset + (headerHeight - topOffset))+'px'}">
     <div class="component-wrapper">
       <router-outlet></router-outlet>
     </div>
-	</div>
+  </div>
 </div>
