@@ -107,6 +107,18 @@ export class DailyScheduleComponent implements OnInit {
     });
   }
 
+  public navigateDay(value) {
+
+    if (value) {
+      let m = Moment(new Date(this.selectedDate));
+      let revisedDate = m.add(value, 'd');
+
+      this.selectedDate = this._datePipe.transform(
+        revisedDate, 'yyyy-MM-dd');
+      this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
+
+    }
+  }
   private get diagnostic() {
     return JSON.stringify(this.reportFilter);
   }
@@ -118,4 +130,6 @@ export class DailyScheduleComponent implements OnInit {
   getDate(dateObject: any) {
     return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
   }
+
+
 }
