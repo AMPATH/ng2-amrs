@@ -1,4 +1,4 @@
-import { OnInit, Component, Input } from '@angular/core';
+import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
@@ -6,11 +6,12 @@ import * as _ from 'lodash';
 import { Patient } from '../../../models/patient.model';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'hiv-snapshot',
   styleUrls: ['./hiv-program-snapshot.component.css'],
-  templateUrl: './hiv-program-snapshot.component.html',
+  templateUrl: './hiv-program-snapshot.component.html'
 })
 export class HivProgramSnapshotComponent implements OnInit {
   @Input('patient') currentlyLoadedPatient: Patient;
@@ -19,6 +20,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   patientData: any = {};
   loadingData: boolean = false;
   hasLoadedData: boolean = false;
+  @Output() addPinkBackground = new EventEmitter();
   location: any = {};
   constructor(private hivSummaryResourceService: HivSummaryResourceService
     , private http: Http
@@ -44,7 +46,6 @@ export class HivProgramSnapshotComponent implements OnInit {
         this.loadingData = false;
         this.hasLoadedData = true;
         this.patientData = _.first(results);
-        console.log(this.patientData);
         if (!_.isNil(this.patientData)) {
           this.hasData = true;
           let encounterLocations = _.filter(locations, (location, key) => {
@@ -63,7 +64,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     });
   }
 
-  getPatientCareStatus(id: string) {
+  getPatientCareStatus(id: any) {
     let translateMap = {
       '159': 'DECEASED',
       '9079': 'UNTRACEABLE',
@@ -83,7 +84,17 @@ export class HivProgramSnapshotComponent implements OnInit {
       '9579': 'CONTINUE CARE IN OTHER FACILITY',
       '9580': 'FOLLOW-UP CARE PLAN, NOT SURE',
     };
+    // if it is past RTC Date by 1 week and status = continue, can you make background pink
+    if (id === 6101 && moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
+      this.addPinkBackground.emit(true);
+    }
 
-    return translateMap[id];
+    return this._toProperCase(translateMap[id]);
   }
+
+  private _toProperCase(text: string) {
+    text = text || '';
+    return text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() +
+      txt.substr(1).toLowerCase(); });
+  };
 }

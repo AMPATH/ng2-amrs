@@ -1,18 +1,27 @@
 div[class^='col-md'] {
   padding-left: 0;
   padding-right: 0;
-  color: #0d6aad;
+  font-size: 16px !important;
 }
 
 .summary-label {
   color: #333;
   margin-right: 12px;
+  font-style: normal;
   display: inline-block;
 }
 
-.wrapper {
+.snapshot {
   padding-left:15px;
   padding-right:15px;
+}
+
+.component-title {
+  font-size: 22px;
+  text-transform: capitalize;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(34,36,38,.15);
+  margin-bottom: 8px;
 }
 
 h3 {

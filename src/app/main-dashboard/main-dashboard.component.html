@@ -81,7 +81,7 @@
 </header>
 <aside class="main-sidebar">
 	<section class="sidebar">
-		<ul *ngIf= "currentDashboard === 'clinic-dashboard'" class="sidebar-menu">
+		<ul *ngIf= "currentDashboard === 'clinic-dashboard'" class="sidebar-menu clinic-dashboard">
 			<li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
 				<a routerLink="/{{route.url}}" (click)="route.onClick($event)">
 					<span class="icon-menu">
@@ -112,5 +112,6 @@
 	<div class="pull-right">
 		<build-version></build-version>
 	</div>
+  <div class="clear"></div>
 </footer>
 <div class="control-sidebar-bg"></div>

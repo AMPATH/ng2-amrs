@@ -801,3 +801,9 @@ function _init() {
     });
   };
 } (jQuery));
+
+(function($){
+  $(document).on('click', '.program .dropdown-menu, .program .dropdown-menu a.btn', function (e) {
+    e.stopPropagation();
+  });
+})(jQuery);
