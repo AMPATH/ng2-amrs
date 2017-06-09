@@ -19,6 +19,8 @@ export class HivCareComparativeOverviewComponent implements OnInit {
   percOnArtWithVl: Array<any> = [];
   virallySuppressed: Array<any> = [];
   indicatorDef: Array<any> = [];
+  showHivCareTabularView: boolean = true;
+  showIndicatorDefinitions: boolean = false;
   private _options = new BehaviorSubject<any>(null);
   private data: any;
 
