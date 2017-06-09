@@ -9,16 +9,15 @@ export class HivSummaryService {
   public hivSummaryLatest: BehaviorSubject<any> = new BehaviorSubject(null);
   private limit: number = 20;
 
-  constructor(private hivSummaryResourceService: HivSummaryResourceService) { }
+  constructor(private hivSummaryResourceService: HivSummaryResourceService) {}
 
-  getHivSummary(patientUuid: string,  startIndex: number, limit: number,
+  getHivSummary(patientUuid: string, startIndex: number, limit: number,
                 includeNonClinicalEncounter?: boolean): Observable<any> {
-   let hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
+
+    let hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.hivSummaryResourceService.getHivSummary(patientUuid,
       startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
-
-
         if (data) {
             for (let r = 0; r < data.length; r++) {
               let isPendingViralLoad = this.determineIfVlIsPending(data);
