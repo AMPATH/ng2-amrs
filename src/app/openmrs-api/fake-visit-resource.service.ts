@@ -97,7 +97,8 @@ export class FakeVisitResourceService {
       uuid: 'visit-uuid',
       startDatetime: '2017-01-20T16:29:45.000+0300',
       stopDatetime: '2017-01-20T16:30:45.000+0300',
-      location: { uuid: 'uuid', display: 'display' }
+      location: { uuid: 'uuid', display: 'display' },
+      visitType: { uuid: 'uuid', name: 'display' }
     };
 
     if (!this.returnErrorOnNext) {
