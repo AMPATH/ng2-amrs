@@ -1,14 +1,23 @@
-
-<dl *ngIf="patient">
-  <dt>Phone Number</dt>
-  <dd>{{patientPhoneNumber}}</dd>
-  <dt>Alternative Phone Number</dt>
-  <dd>{{alternativePhoneNumber}}</dd>
-  <dt>Spouse Phone Number</dt>
-  <dd>{{patnerPhoneNumber}}</dd>
-  <dt>Next of Kin phone number</dt>
-  <dd>{{nextofkinPhoneNumber}}</dd>
-</dl>
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <table class="table table-striped" *ngIf="patient">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+       <tr>
+         <td><strong>Phone Number : </strong>{{patientPhoneNumber}}</td>
+         <td><strong>Alternative Phone Number : </strong>{{alternativePhoneNumber}}</td>
+       </tr>
+       <tr>
+         <td><strong>Spouse Phone Number : </strong>{{patnerPhoneNumber}}</td>
+         <td><strong>Next of Kin phone number : </strong>{{nextofkinPhoneNumber}}</td>
+       </tr>
+    </tbody>
+  </table>
+</div>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
 </div>
