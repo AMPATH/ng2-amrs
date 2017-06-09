@@ -1,8 +1,9 @@
+<h4 class="component-title"><span class="fa fa-medkit"></span> Monthly Status History</h4>
 <p-tabView>
     <p-tabPanel header="Patient Monthly Status History">
-        <div class='col-md-12'>
+        <div>
             <div [ngBusy]="{busy:[loadingHistory],message:'Please Wait...'}"></div>
-            <table class="table table-bordered">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Month</th>
