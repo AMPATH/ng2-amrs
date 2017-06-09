@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import * as Moment from 'moment';
 
 import { PatientService } from '../patient.service';
@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'patient-banner',
   templateUrl: 'patient-banner.component.html',
-  styleUrls: ['patient-banner.component.css']
+  styleUrls: ['patient-banner.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
