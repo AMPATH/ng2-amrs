@@ -1,35 +1,44 @@
-<div class="animate-show">
-  <h3 class="text-primary"><span class="glyphicon glyphicon-user"></span> User Default Properties</h3>
-  <hr/>
-  <div class="suggest-container form-group">
-    <label for="location">Search a Location</label>
-    <div class="input-group">
-      <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-      <input id="location" type="text" class="validate filter-input form-control" [(ngModel)]=query
-             (keyup)=filter($event)>
+<div class="box-body">
+  <div class="component-wrapper">
+    <div class="animate-show">
+      <h3 class="text-primary"><span class="glyphicon glyphicon-user"></span> User Default
+        Properties</h3>
+      <hr/>
+      <div class="suggest-container form-group">
+        <label for="location">Search a Location</label>
+        <div class="input-group">
+          <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+          <input id="location" type="text" class="validate filter-input form-control"
+                 [(ngModel)]=query
+                 (keyup)=filter($event)>
 
-      <div *ngIf="isBusy" class="input-group-addon"><i class="fa fa-spinner fa-spin"></i></div>
-    </div>
-    <p *ngIf="query=='' && currentLocation==''" class="form-text text-muted">Please select your current location</p>
+          <div *ngIf="isBusy" class="input-group-addon"><i class="fa fa-spinner fa-spin"></i></div>
+        </div>
+        <p *ngIf="query=='' && currentLocation==''" class="form-text text-muted">Please select your
+          current location</p>
 
-    <div class="float pull-left">
-      <p *ngIf="currentLocation!=''" class="form-text text-bold">Your current location : <span class="current-location">{{currentLocation}}</span>
-      </p>
+        <div class="float pull-left">
+          <p *ngIf="currentLocation!=''" class="form-text text-bold">Your current location : <span
+            class="current-location">{{currentLocation}}</span>
+          </p>
+        </div>
+        <div class="float pull-right">
+          <span class="text-bold" *ngIf="query!=''">New Location: {{query}}</span>
+        </div>
+        <div class="clear clearfix">&nbsp;</div>
+        <ul class="suggestions list-group">
+          <li *ngFor="let item of filteredList; let i = index;" class="list-group-item">
+            <a (click)="select(item)">{{item.display}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="float pull-right">
-      <span class="text-bold" *ngIf="query!=''">New Location: {{query}}</span>
+    <div>
+      <button [disabled]="query=='' && currentLocation==''" class="btn btn-info previous"
+              (click)="goToPatientSearch()">Done
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+      </button>
     </div>
-    <div class="clear clearfix">&nbsp;</div>
-    <ul class="suggestions list-group">
-      <li *ngFor="let item of filteredList; let i = index;" class="list-group-item">
-        <a (click)="select(item)">{{item.display}}</a>
-      </li>
-    </ul>
   </div>
-</div>
-<div>
-  <button [disabled]="query=='' && currentLocation==''" class="btn btn-info previous" (click)="goToPatientSearch()">Done
-    <span class="glyphicon glyphicon-chevron-right"></span>
-    <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-  </button>
 </div>

@@ -1,11 +1,12 @@
-<div  *ngIf="!selectingLocation" style="cursor: pointer; color: white; background: #337ab7; border: 4px solid #337ab7">
+<div *ngIf="!selectingLocation" class="selector location">
   <h2 style="margin-top: 2px;" (click)="selectingLocation = true">
     Clinic Dashboard: {{selectedLocation.label}} <i class="fa fa-map-marker pull-right"></i>
   </h2>
 </div>
-<div *ngIf="selectingLocation">
+<div *ngIf="selectingLocation" class="selector location">
   <label> Select location:</label>
-  <ng-select (ngModelChange)="locationChanged($event)" [(ngModel)]="locationUuid" [options]="locations">
+  <ng-select (ngModelChange)="locationChanged($event)" [(ngModel)]="locationUuid"
+             [options]="locations">
   </ng-select>
   <button class="btn app-btn">
     <i *ngIf="!loaderStatus" (click)="getLocations()" class="fa  fa-refresh fa-1x fa-fw"></i>
@@ -13,7 +14,8 @@
   </button>
 </div>
 
-<div id="section-box-body" style="margin: 4px;">
-  <div class="clear"></div>
-  <router-outlet></router-outlet>
+<div class="box-body">
+  <div class="component-wrapper clinic-dashboard">
+    <router-outlet></router-outlet>
+  </div>
 </div>

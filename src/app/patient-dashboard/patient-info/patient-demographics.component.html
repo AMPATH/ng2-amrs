@@ -1,18 +1,29 @@
-<dl *ngIf="patient">
-  <dt *ngIf="patient.person.display" >Name</dt>
-  <dd *ngIf="patient.person.display" >{{patient.person.display | uppercase}}</dd>
-  <dt *ngIf="patient.person.age" >Age</dt>
-  <dd *ngIf="patient.person.age" >{{patient.person.age}}</dd>
-  <dt *ngIf="patient.person.birthdate" >DOB</dt>
-  <dd *ngIf="patient.person.birthdate" >{{patient.person.birthdate | stringToDate : 'DD-MM-YYYY'}}</dd>
-  <dt class="{{ patient.person.dead ? 'text-danger' : '' }}">Deceased</dt>
-  <dd><span *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>Yes</strong></span><span *ngIf="!patient.person.dead">No</span></dd>
-  <dt *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}">Death Date</dt>
-  <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.deathDate | date: 'dd-MM-yyyy'}}</strong></dd>
-  <dt *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}">Cause of Death</dt>
-  <dd *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>{{patient.person.causeOfDeath}}</strong></dd>
-  <dt *ngIf="patient.person.gender" >Gender</dt>
-  <dd *ngIf="patient.person.gender" >{{patient.person.gender}}</dd>
-  <dt *ngIf="patient.person.healthCenter" >Health Center</dt>
-  <dd *ngIf="patient.person.healthCenter" >{{patient.person.healthCenter}}</dd>
-</dl>
+
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <table class="table table-striped" *ngIf="patient">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+       <tr>
+         <td><strong>Name :</strong> {{patient.person.display | uppercase}}</td>
+         <td><strong>Age  : </strong> {{patient.person.age}}</td>
+       </tr>
+       <tr>
+         <td><strong>DOB :</strong> {{patient.person.birthdate | stringToDate : 'DD-MM-YYYY'}}</td>
+         <td class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>Deceased : </strong><span *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>Yes</strong></span><span *ngIf="!patient.person.dead">No</span></td>
+       </tr>
+       <tr>
+         <td><strong>Death Date : </strong>{{patient.person.deathDate | date: 'dd-MM-yyyy'}}</td>
+         <td><strong>Cause of Death : </strong>{{patient.person.causeOfDeath}}</td>
+       </tr>
+         <tr>
+         <td><strong>Gender : </strong>{{patient.person.deathDate | date: 'dd-MM-yyyy'}}</td>
+         <td><strong>Health Center : </strong> {{patient.person.healthCenter}}</td>
+       </tr>
+    </tbody>
+  </table>
+</div>
