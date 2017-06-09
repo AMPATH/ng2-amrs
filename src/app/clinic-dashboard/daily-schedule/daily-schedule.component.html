@@ -2,26 +2,24 @@
 <div style="margin-bottom:0.5cm;">
   <div [ngBusy]="{busy:loadingData,message:'Please Wait...'}"></div>
   <div class="row">
-    <div class="form-group col-md-12">
-      <div class="container-fluid" style="padding:4px;margin-bottom:0.5cm;">
-        <div class="row">
-          <div class="form-group">
-            <label for="start-date">Select Date</label>
-            <date-time-picker tabindex="0" [modelValue]="selectedDate" [id]="'selectedDate'" (onDateChange)="onDateChanged($event)"></date-time-picker>
-          </div>
+    <div class="col-md-12">
 
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <label for="start-date">Select Date</label>
+          <date-time-picker tabindex="0" [modelValue]="selectedDate" [id]="'selectedDate'" (onDateChange)="getSelectedDate($event)"></date-time-picker>
         </div>
-        <div class="row" style="padding:0px; border: 0px solid lightblue; margin-top:0px;">
-          <div class="col-xs-4" style="margin: 0px; padding:1px">
-            <button class="btn btn-info previous" style="margin: 0px; float: left;" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
-          </div>
-          <div class="col-xs-4" style="text-align: center; padding:1px; margin:2px 0px 2px 0px; "> <span style="font-weight: bold;"> {{selectedDate | date}} </span> </div>
-          <div class="col-xs-4" style="margin: 0px; padding:1px">
-            <button class="btn btn-info next" style="margin: 0px; float: right;" (click)="navigateDay(1)"><span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span> <span class="glyphicon glyphicon-chevron-right"></span></button>
-          </div>
+
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <button class="btn btn-info previous" style="margin: 0px; float: left;" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
+        </div>
+        <div class="col-xs-4" style="text-align: center; padding:1px; margin:2px 0px 2px 0px; "> <span style="font-weight: bold;"> {{selectedDate | date}} </span> </div>
+        <div class="col-xs-4">
+          <button class="btn btn-info next" style="margin: 0px; float: right;" (click)="navigateDay(1)"><span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span> <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
       </div>
-      <!--<date-time-picker tabindex="0" [modelValue]="selectedDate" [id]="'selectedDate'" (onDateChange)="getSelectedDate($event)"></date-time-picker>-->
       <nav md-tab-nav-bar aria-label="weather navigation links">
         <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
           (click)="activeLinkIndex = i">
@@ -35,20 +33,21 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
       </div>
     </div>
-    <div class="container col-md-12">
+    <div class="col-md-12">
+
       <div class="row">
-        <div class="form-group">
+        <div class="col-md-12 form-group">
           <label for="start-date">Select Date</label>
-          <date-time-picker tabindex="0" [modelValue]="selectedDate" [id]="'selectedDate'" (onDateChange)="onDateChanged($event)"></date-time-picker>
+          <date-time-picker tabindex="0" [modelValue]="selectedDate" [id]="'selectedDate'" (onDateChange)="getSelectedDate($event)"></date-time-picker>
         </div>
 
       </div>
-      <div class="row" style="padding:0px; border: 0px solid lightblue; margin-top:0px;">
-        <div class="col-xs-4" style="margin: 0px; padding:1px">
+      <div class="row">
+        <div class="col-xs-4">
           <button class="btn btn-info previous" style="margin: 0px; float: left;" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
         </div>
         <div class="col-xs-4" style="text-align: center; padding:1px; margin:2px 0px 2px 0px; "> <span style="font-weight: bold;"> {{selectedDate | date}} </span> </div>
-        <div class="col-xs-4" style="margin: 0px; padding:1px">
+        <div class="col-xs-4">
           <button class="btn btn-info next" style="margin: 0px; float: right;" (click)="navigateDay(1)"><span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span> <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
       </div>

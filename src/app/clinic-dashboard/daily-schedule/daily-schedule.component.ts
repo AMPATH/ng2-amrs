@@ -116,7 +116,7 @@ export class DailyScheduleComponent implements OnInit {
       this.selectedDate = this._datePipe.transform(
         revisedDate, 'yyyy-MM-dd');
       this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
-
+      this.clinicFlowCache.setSelectedDate(this.selectedDate);
     }
   }
   private get diagnostic() {

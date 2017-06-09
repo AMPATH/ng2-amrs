@@ -16,6 +16,7 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
+import { SelectModule } from 'ng2-select';
 import {
   HivSummaryIndicatorBaseComponent
 } from './hiv-summary-indicators/hiv-summary-report-base.component';
@@ -32,7 +33,8 @@ import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary
     NgamrsSharedModule,
     DateTimePickerModule,
     CommonModule,
-    TabViewModule
+    TabViewModule,
+    SelectModule
   ],
   exports: [
     Moh731TabularComponent,
