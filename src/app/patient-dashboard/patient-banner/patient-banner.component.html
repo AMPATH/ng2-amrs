@@ -1,5 +1,5 @@
 <drafted-form-nav></drafted-form-nav>
-<div class="container-fluid {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient">
+<!--<div class="container-fluid patient-banner-full {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient">
 	<div class="row banner-left">
 		<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
 		<div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
@@ -29,5 +29,35 @@
 			<span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
 		</div>
 	</div>
+</div>-->
+<div class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+ *ngIf="patient" style="padding: 4px 26px;">
+	<div class="row">
+		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
+		<span>&nbsp;&nbsp; <span style="font-weight: bold;font-size:20px"> </span>&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;
+		<span style="font-weight: bold;font-size:20px"> </span> </span>&nbsp;&nbsp;
+		<span>{{ birthdate }} ({{ patient?.person.age }} yo)</span>
+	</div>
+	<div class="row">
+		<span style="margin-left:0px;">
+			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+		</span>
+	</div>
 </div>
+<div class="container-fluid patient-banner-partially hidden-xs {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+ *ngIf="patient" style="padding: 12px 26px;">
+	<div class="row">
+		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
+		<span>&nbsp;&nbsp;&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<span>{{ birthdate }} ({{ patient?.person.age }} yo)&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<span style="margin-left:0px;">
+			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.amrsMrn">  <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.cCC">  <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+		</span>
+	</div>
+</div>
+
 <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>

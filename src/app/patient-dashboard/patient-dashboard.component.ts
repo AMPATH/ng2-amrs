@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PatientService } from './patient.service';
@@ -14,17 +14,29 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
   templateUrl: './patient-dashboard.component.html',
   styleUrls: ['./patient-dashboard.component.css']
 })
-export class PatientDashboardComponent implements OnInit, OnDestroy {
+export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
 
   public fetchingPatient: boolean = false;
   public patient: Patient;
+  public topOffset = 49;
+  public leftOffset = 56;
+  public headerHeight = 180;
   private patientSubscription: Subscription;
   private labSubscription: Subscription;
+
+  @ViewChild('headerElement')
+  private headerElement;
+  @ViewChild('bodyElement')
+  private bodyElement;
+  @ViewChild('containerElement')
+  private containerElement;
+
   constructor(private router: Router, private route: ActivatedRoute,
     private patientService: PatientService,
     private labsResourceService: LabsResourceService,
     private appFeatureAnalytics: AppFeatureAnalytics,
     private toastrConfig: ToastrConfig, private toastrService: ToastrService) {
+
     toastrConfig.timeOut = 0;
     toastrConfig.closeButton = true;
     toastrConfig.positionClass = 'toast-bottom-right';
@@ -41,6 +53,17 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         this.fetchingPatient = false;
       });
     this.getNewResults();
+  }
+
+  ngDoCheck() {
+    this.adjustContainerOffsets();
+  }
+  adjustContainerOffsets() {
+    // console.error(this.elRef);
+    // console.error('body', this.bodyElement);
+    this.topOffset = this.containerElement.nativeElement.offsetTop;
+    this.headerHeight = this.headerElement.nativeElement.clientHeight;
+    this.leftOffset = this.bodyElement.nativeElement.offsetWidth - 2;
   }
 
   ngOnDestroy() {

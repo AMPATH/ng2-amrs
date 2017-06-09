@@ -44,3 +44,40 @@
         width: 100%;
     }
 }
+
+/*patient-banner, sticky {
+    display: inherit;
+}*/
+
+.sticky {
+    /*padding-left: 56px;*/
+    /*left: 0 !important;*/
+    position: fixed;
+    top: 119px;
+    /*right: auto;*/
+    bottom: auto;
+    width: inherit;
+    z-index: 10;
+}
+
+/*.container-fluid.patient-banner-partial.banner-info{
+ display:none;
+}
+
+.sticky .container-fluid.patient-banner-partial.banner-info{
+ display:inherit;
+ border-bottom: 1px solid #dadada;
+ padding: 8px 8px;
+}
+
+.sticky .container-fluid.patient-banner-full.banner-info{
+ display:none;
+}*/
+
+.sticky .container-fluid.patient-banner-partially{
+     border-bottom: 1px solid #dadada;
+}
+
+.id-label {
+    color: darkgray;
+}

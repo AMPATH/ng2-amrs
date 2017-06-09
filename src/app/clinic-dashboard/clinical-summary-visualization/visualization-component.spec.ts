@@ -147,7 +147,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
 
 }
 
-fdescribe('Component: VisualizationComponent', () => {
+describe('Component: VisualizationComponent', () => {
   let currentTestComponent: VisualizationComponent;
   let currentTestFixture;
   let mockRouter = {
