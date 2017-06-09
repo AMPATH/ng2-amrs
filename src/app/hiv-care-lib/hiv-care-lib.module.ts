@@ -22,7 +22,6 @@ import {
 import {
   ReportFilters
 } from './report-filters/report-filters.component';
-import { SelectModule } from 'ng2-select';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 @NgModule({
   imports: [
@@ -33,8 +32,7 @@ import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary
     NgamrsSharedModule,
     DateTimePickerModule,
     CommonModule,
-    TabViewModule,
-    SelectModule,
+    TabViewModule
   ],
   exports: [
     Moh731TabularComponent,
