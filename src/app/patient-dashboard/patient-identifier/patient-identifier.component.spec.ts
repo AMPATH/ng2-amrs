@@ -27,7 +27,7 @@ describe('Component: PatientIdentifier', () => {
 
     component = fixture.componentInstance;
 
-    de = fixture.debugElement.query(By.css('dl'));
+    de = fixture.debugElement.query(By.css('div'));
     el = de.nativeElement;
 
   });
@@ -75,8 +75,7 @@ describe('Component: PatientIdentifier', () => {
   it('should render list of patient identifiers', () => {
     component.identifiers = identifiers;
     fixture.detectChanges();
-    expect(el.querySelectorAll('dt').length).toBe(3);
-    expect(el.querySelectorAll('dd').length).toBe(3);
+    expect(el.querySelectorAll('tr').length).toBeGreaterThan(0);
   });
 
 });
