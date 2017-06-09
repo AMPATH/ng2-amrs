@@ -1,6 +1,7 @@
-<hiv-snapshot *ngIf="patient.uuid" [patient]="patient"></hiv-snapshot>
-<div style="padding:4px;margin-bottom:0.5cm;">
-  <label for="program">Select A Program To Enroll</label>
+<!--<hiv-snapshot *ngIf="patient.uuid" [patient]="patient"></hiv-snapshot>-->
+<h4 class="component-title"><span class="icon-i-family-practice"></span> Programs</h4>
+<div style="padding:4px;margin-bottom:0.5cm;" class="list-group-item">
+  <label for="program">Select a program to enroll:</label>
   <select id="program" class="form-control" [(ngModel)]="program" (change)="openNewEnrollmentDialog($event.target.value)">
       <option *ngFor="let p of availablePrograms"  [ngValue]="p.uuid" >{{p.display}}
       </option>
@@ -41,7 +42,7 @@
 
 </p-dialog>
 
-<div class="wrapper">
+<div class="">
   <div>
     <div [ngBusy]="{busy:[loadingPatientPrograms, programsBusy],message:'Loading program enrollment.........'}"></div>
 
@@ -49,31 +50,30 @@
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
     </div>
 
-    <div *ngIf='!notEnrolled && !loadingPatientPrograms' class="panel panel-primary">
-      <div class="panel panel-default">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Program</th>
-              <th>Date Enrolled</th>
-              <th>Date Completed</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="cursor: pointer;" *ngFor="let patientProgram of enrolledProgrames">
-              <td>{{patientProgram.display}}</td>
-              <td>{{patientProgram.dateEnrolled}}</td>
-              <td>{{patientProgram.dateCompleted}}</td>
-              <td>
-                <button type="button" class="btn btn-xs" (click)="updateEnrollment(patientProgram)">
+    <div *ngIf='!notEnrolled && !loadingPatientPrograms'>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Program</th>
+            <th>Date Enrolled</th>
+            <th>Date Completed</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor: pointer;" *ngFor="let patientProgram of enrolledProgrames">
+            <td>{{patientProgram.display}}</td>
+            <td>{{patientProgram.dateEnrolled}}</td>
+            <td>{{patientProgram.dateCompleted}}</td>
+            <td>
+              <button type="button" class="btn btn-xs edit-button" (click)="updateEnrollment(patientProgram)">
                <span class="glyphicon text-primary glyphicon-edit"></span>
             </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
   </div>
 </div>
