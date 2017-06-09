@@ -33,6 +33,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+
   @Input()
   set dataSource(value) {
     this._dataSource.next(value);
@@ -90,6 +91,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.onGridReady = (event) => {
 
       if (window.innerWidth > 768) {
+
        // this.gridOptions.api.sizeColumnsToFit();
         setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
       }

@@ -90,16 +90,7 @@ body {
     margin-top: 50px;
   }
 }
-@media (max-width: 767px) {
-  .sidebar-open .content-wrapper,
-  .sidebar-open .right-side,
-  .sidebar-open .main-footer {
-    -webkit-transform: translate(230px, 0);
-    -ms-transform: translate(230px, 0);
-    -o-transform: translate(230px, 0);
-    transform: translate(230px, 0);
-  }
-}
+
 .content-wrapper,
 .right-side {
   min-height: 100%;
@@ -634,7 +625,6 @@ a:focus {
 @media (min-width: 768px) {
   .sidebar-mini.sidebar-collapse .content-wrapper,
   .sidebar-mini.sidebar-collapse .right-side{
-    margin-left: 54px !important;
     z-index: 840;
   }
   .sidebar-mini.sidebar-collapse .main-sidebar {

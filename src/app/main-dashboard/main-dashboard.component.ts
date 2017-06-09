@@ -14,7 +14,9 @@ import { AppState } from '../app.service';
 import { UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
 
-declare let jQuery: any;
+import { MainDashboard } from './main-dashboard';
+
+// declare let jQuery: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -36,6 +38,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   active = false;
   interval;
   countDown = 0;
+
+  dashboard = new MainDashboard();
+
   constructor(private router: Router,
     private localStore: LocalStorageService,
     private dynamicRoutesService: DynamicRoutesService,
@@ -48,6 +53,12 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.dashboard.setInitialWindowSize();
+
+    // start watching the window size
+
+    this.dashboard.subscribeToWindowWidth();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         let navEvent = event as NavigationEnd;
@@ -151,5 +162,19 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       body.classList.add('sidebar-open');
     }, 200);
   }
+
+  toggleMenu(): void {
+      this.dashboard.toggleMenu();
+  }
+
+  toggleSideBarDropDown(event): void {
+      this.dashboard.toggleSideBarDropDown(event);
+  }
+
+  closeOpenSideBar(): void {
+      this.dashboard.closeOpenSideBar();
+  }
+
+
 
 }

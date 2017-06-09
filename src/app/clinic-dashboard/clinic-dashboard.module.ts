@@ -191,7 +191,6 @@ import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material'
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
     PatientStatusDatalistCellComponent
-
   ],
   entryComponents: [PatientStatusDatalistCellComponent, PatientStatusChangeListComponent],
   providers: [

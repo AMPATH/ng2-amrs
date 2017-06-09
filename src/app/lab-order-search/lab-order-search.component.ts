@@ -12,7 +12,7 @@ export class LabOrderSearchComponent implements OnInit {
   @Output() onReset = new EventEmitter<any>();
   public orderId: string = '';
   public isResetButton: boolean = true;
-  public adjustedInputMargin: string = '240px';
+  public adjustedInputMargin: string = '10px';
   public isLoading: boolean = false;
   public hasError: boolean = false;
   public orderDeleted: boolean = false;
@@ -68,7 +68,7 @@ export class LabOrderSearchComponent implements OnInit {
 
   searchOrderId() {
     if (window.innerWidth > 768) {
-      this.adjustedInputMargin = '267px';
+      this.adjustedInputMargin = '10px';
     }
     this.isResetButton = false;
     this.hasBeenSearched = true;
@@ -109,7 +109,7 @@ export class LabOrderSearchComponent implements OnInit {
 
   public resetInputMargin() {
     if (window.innerWidth > 768) {
-      this.adjustedInputMargin = '240px';
+      this.adjustedInputMargin = '10px';
     }
   }
 

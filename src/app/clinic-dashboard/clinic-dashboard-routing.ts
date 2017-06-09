@@ -30,6 +30,7 @@ import {
 import {
   ClinicFlowLocationStatsComponent
 } from '../clinic-flow/clinic-flow-location-stats.component';
+
 import {
   ClinicFlowProviderStatsComponent
 } from '../clinic-flow/clinic-flow-provider-stats.component';

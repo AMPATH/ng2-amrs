@@ -1,24 +1,37 @@
 <div class="wrapper">
   <div class="box-body">
+    
     <form>
       <div class="form-group">
-        <label for="search-textbox"><h2>Patient Search</h2></label>
+        <div class="row">
+           <div class="col-md-12 col-lg-12 col-xs-12">
+              <h3><i class="fa fa-search fa-fw"></i> Search Patient </h3>
+           </div>
+        </div>
+        <div class="row">
+        <div class="col-md-10 col-sm-10  col-xs-12">
         <div class="input-wrapper" [style.margin-right]="adjustInputMargin">
           <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString"
                  [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePatientCount($event)"
                  placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"
                  autofocus="true">
           </div>
-          <div class="input-group-btn pull-right">
-            <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
-              <span class="glyphicon glyphicon-search"> Search</span>
-              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-            </button>
-            <button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
-            <span class="glyphicon glyphicon-trash"> Reset</span>
-          </button>
+        </div>             
+        <div class="col-md-2 col-lg-2 col-lg-2 col-xs-12">
+          <div class="form-group">
+              <div class="input-group-btn">
+                <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
+                  <span class="glyphicon glyphicon-search"> Search</span>
+                  <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+                </button>
+                <button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
+                <span class="glyphicon glyphicon-trash"> Reset</span>
+              </button>
+              </div>
           </div>
+        </div>
       </div>
+    </div>
     </form>
     <div *ngIf="totalPatients > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span> Patient(s) found for <span
       class="search text-bold">{{searchString}}</span></div>

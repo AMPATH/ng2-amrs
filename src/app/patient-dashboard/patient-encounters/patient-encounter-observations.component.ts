@@ -45,7 +45,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
         this.isDone.emit(true);
         this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
           this.modal.dismiss();
-          this.modal.open();
+          // this.modal.open();
           this.obs = this.processEncounter(_encounter);
         });
 

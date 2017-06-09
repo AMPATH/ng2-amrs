@@ -1,116 +1,140 @@
-<header class="main-header">
-	<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-		<div class="logo-img"><img src="./assets/img/ampath.png" /></div>
-	</a>
-	<nav class="navbar navbar-static-top" role="navigation">
-		<a routerLink="/" class="logo">
-			<div class="logo-img"><img src="./assets/img/ampath.png" /></div>
-		</a>
+<div class="container body">
+      <div class="main_container">
+         <div class="col-md-3 left_col" style="background:url('assets/img/blue_noise.png');">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <div class="nav toggle">
+                <a  (click)="toggleMenu()" id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+            
+            </div>
 
-		<div class="navbar-custom-menu">
-			<ul class="nav navbar-nav">
-				<li routerLinkActive="active" class="patient">
-					<a routerLink="/patient-dashboard/patient-search"> <i class="fa fa-search"></i> <span>Patient Search</span> </a>
-				</li>
-				<li routerLinkActive="active" class="clinic">
-					<a routerLink="/clinic-dashboard"> <i class="fa fa-user-md"></i> <span>Clinic Dashboard</span> </a>
-				</li>
-        <li class="dropdown more more-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-th"></i>
-            <span>More</span>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li routerLinkActive="trail" class="lab-order-search">
-              <a routerLink="/lab-order-search" routerLinkActive="active">
-                <i class="icon-pathology"></i>
-                <span>Lab Order Search</span>
-              </a>
-            </li>
-          </ul>
+            <div class="clearfix"></div>
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+              <div *ngIf= "currentDashboard === 'clinic-dashboard'">
+              <div class="menu_section" *ngFor='let route of routeConfig.routes' >
+              
+
+                 <ul class="nav side-menu" *ngIf="viewingChildRoutes">
+                   <li (click)="toggleSideBarDropDown($event)" (click)="viewChildRoutes(route)" class="parent-side-menu-item"  >
+                          <a><i class="fa fa-info">{{route.label}}</i><i class="fa fa-chevron-down"></i></a>
+                    </li>
+                  </ul>
+                  <ul class="nav side-menu" *ngIf="!viewingChildRoutes">
+                    <li><a routerLink="/{{route.url}}">{{route.label}}</a></li>
+                  </ul>
+              </div>
+              </div>
+
+              <patient-side-nav *ngIf= "currentDashboard === 'patient-dashboard'"></patient-side-nav>
+
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+          
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+
+        <!-- top navigation -->
+       
+      <nav class="navbar navbar-default" id="main_navbar">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img src="assets/img/ampath.png"  /></a>
+      
+      
+      <a class="navlink" routerLink="/patient-dashboard/patient-search">Patient Search <i class="fa fa-search"></i></a>
+        
+      
+    </div>
+    
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+      <ul class="nav navbar-nav navbar-right right_menu">
+          <li routerLinkActive="active" class="clinic">
+					          <a routerLink="/clinic-dashboard"> <span>Clinic Dashboard </span><i class="fa fa-user-md"></i> </a>
+	        </li>
+         <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search <i class="fa fa-search fa-fw" aria-hidden="true"></i> <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li routerLinkActive="active" class="search_link">
+                             <a routerLink="/patient-dashboard/patient-search"><i class="icon-i-outpatient"></i> Patient Search</a>
+                        </li>
+                        <li routerLinkActive="trail">
+                             <a routerLink="/lab-order-search" routerLinkActive="active"><i class="icon-i-pathology"></i> Lab Order Search</a>
+                        </li>
+                      </ul>
+         </li>
+          <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-fw"></i>{{user.display}}<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">Location : {{userLocation}}</a></li>
+                          <li><a href="#">Role : {{ user.roleDisplay.split(',').join("\n- ").trim() }}</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a routerLink="/app/settings"><i class="fa fa-server" aria-hidden="true"></i> Switch Servers</a></li>
+                          <li><a routerLink="/user-default-properties"><i class="fa fa-wrench" aria-hidden="true"></i> User Default Settings</a></li>
+                          <li><a routerLink="/useful-links"><i class="fa fa-link" aria-hidden="true"></i> Use Default links</a></li>
+                          <li><a routerLink="/feed-back"><i class="fa fa-comments"></i>Feed Back</a></li>
+                          <li><a (click)="logout()"><i class="fa fa-power-off"></i>Log Out</a></li>
+                      </ul>
         </li>
-				<li class="dropdown user user-menu pull-right">
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+      
+        <!-- /top navigation -->
 
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="username">{{user.display}}</span>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li class="dropdown-header">
-							<dl>
-								<dt>Location:</dt>
-								<dd>{{userLocation}}</dd>
-								<dt>Role(s):</dt>
-								<dd>- {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
-							</dl>
-						</li>
-						<li role="separator" class="divider"></li>
-						<li>
-							<a routerLink="/app/settings">
-								<span class="glyphicon glyphicon-hdd"></span> Switch Servers
-							</a>
-						</li>
-						<li>
-							<a routerLink="/user-default-properties">
-								<span class="glyphicon glyphicon-user"></span> User Default Settings
-							</a>
-						</li>
-						<li>
-							<a routerLink="/useful-links">
-								<span class="glyphicon glyphicon-question-sign"></span> Useful Links
-							</a>
-						</li>
-						<li>
-							<a routerLink="/feed-back">
-								<span class="fa fa-comments"></span> Feedback
-							</a>
-						</li>
-						<li class="user-footer">
-							<div class="pull-right">
-								<a (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
+        <!-- page content -->
+        <div class="right_col" role="main"  (click)="closeOpenSideBar()">
+
+					<div class="content-wrapper" style="min-height: 100%;" >
+							<div class="overlay" [ngClass]="{show: active, hide: !active}" (click)="clickOverlay($event)">
+								<div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
 							</div>
-						</li>
-					</ul>
-				</li>
 
-			</ul>
-		</div>
-	</nav>
-</header>
-<aside class="main-sidebar">
-	<section class="sidebar">
-		<ul *ngIf= "currentDashboard === 'clinic-dashboard'" class="sidebar-menu">
-			<li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
-				<a routerLink="/{{route.url}}" (click)="route.onClick($event)">
-					<span class="icon-menu">
-            <span class="icon-menu-letter">{{route.menuStartLetter}}</span>
-					<span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
-					</span>
-					<span class="icon-menu-label">{{route.label}}</span>
-				</a>
-			</li>
-		</ul>
-		<patient-side-nav *ngIf= "currentDashboard === 'patient-dashboard'"></patient-side-nav>
-	</section>
-</aside>
-<div class="content-wrapper" style="min-height: 100%;">
-	<div class="overlay" [ngClass]="{show: active, hide: !active}" (click)="clickOverlay($event)">
-		<div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
-	</div>
-	<section class="content">
-		<router-outlet></router-outlet>
-		<div [ngBusy]="busyIndicator"></div>
-	</section>
-</div>
-<footer class="main-footer">
-	<div class="pull-left">
-		<online-tracker></online-tracker>
-		<!--<p class="text-bold"><i class="fa fa-circle text-success"></i> <span>Online</span></p>-->
-	</div>
-	<div class="pull-right">
-		<build-version></build-version>
-	</div>
-</footer>
-<div class="control-sidebar-bg"></div>
+					 <router-outlet></router-outlet>
+		       <div [ngBusy]="busyIndicator"></div>
+
+				 </div>
+         
+        </div>
+        <!-- /page content -->
+
+         <!-- footer content -->
+         <footer class="main-footer">
+           <div class="container-fluid">
+           <div class="row">        
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-3" id="footer_tracker">
+                  <online-tracker></online-tracker>
+                  <!--<p class="text-bold"><i class="fa fa-circle text-success"></i> <span>Online</span></p>-->
+                </div>
+                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8" id="buld_version_text">
+                  <build-version></build-version>
+                </div>
+              </div>
+            </div>
+          </footer>      
+        <!-- /footer content -->
+
+       
+      </div>
+    </div> 
