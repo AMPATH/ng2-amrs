@@ -615,6 +615,15 @@ visit .visit-panel-footer {
   padding: 4px;
 }
 
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  color: #fff;
+  background-color: rgba(32,56,100,0.5);
+}
+
+body .ui-tabview .ui-tabview-panel {
+    padding: 0.375em 0;
+}
+
 ng-select.form-control {
   height:auto;
 }
