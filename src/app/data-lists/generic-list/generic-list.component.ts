@@ -140,6 +140,17 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
               dataLength = params.data.last_appointment.length;
             }
           }
+          if (params.data.seenByClinician) {
+            let seenbyClinician = params.data.seenByClinician.time +
+              '' + params.data.seenByClinician.encounters;
+            if (dataLength > 0) {
+              if (dataLength > 0 && seenbyClinician.length > dataLength) {
+                dataLength = seenbyClinician.length;
+              }
+            } else {
+              dataLength = seenbyClinician.length;
+            }
+          }
 
           if (params.data.filed_id) {
             if (dataLength > 0) {

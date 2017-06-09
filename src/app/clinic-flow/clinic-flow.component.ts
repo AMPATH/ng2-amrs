@@ -19,5 +19,7 @@ export class ClinicFlowComponent implements OnInit {
         @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     ngOnInit() {
+
+
     }
 }
