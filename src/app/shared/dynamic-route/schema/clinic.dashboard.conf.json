@@ -19,7 +19,7 @@
     {
       "url": "visualization",
       "label": "Clinical Visualization",
-      "icon": "fa fa-bar-chart"
+      "icon": "fa fa-line-chart"
     },
     {
       "url": "patient-status-change-visualization",
@@ -40,14 +40,14 @@
     },
     {
       "url": "hiv/moh-731-report",
-      "label": "MOH 731 Report",
+      "label": "MOH 731 Reports",
       "icon": "glyphicon glyphicon-equalizer",
       "isSideBarOpen": false
     },
     {
       "url": "hiv/hiv-summary-indicator-report",
       "label": "HIV Summary Indicators",
-      "icon": "glyphicon glyphicon-equalizer",
+      "icon": "fa fa-file-pdf-o",
       "isSideBarOpen": false
     }
   ],

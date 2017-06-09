@@ -6,7 +6,7 @@ ng-select {
     margin: 0;
     position: relative;
     vertical-align: middle;
-    width: 96.9%;
+    width: calc(100% - 45px);
 }
 .content {
   margin-bottom: 0;
