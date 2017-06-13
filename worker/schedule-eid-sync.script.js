@@ -130,7 +130,7 @@ var service = {
                     // attempt for pending vl orders
                     // Attempt to schedule patients with pending vl orders
                     var startDateVlPending = format('yyyy-MM-dd', moment(new Date()).subtract(3, 'months').toDate());
-                    service.schedulePatientsWithPendingVlOrders(startDateVlPending)
+                    service.schedulePatientsWithPendingOrders(startDateVlPending)
                         .then(function (results) {
                             console.log('Scheduled patients with pending vl orders successfully');
                             service.logSuccessfulScheduling('Scheduled patients with pending vl  successfully', startDateVlPending);
@@ -304,8 +304,8 @@ var service = {
             });
         });
     },
-    schedulePatientsWithPendingVlOrders: function (startDate) {
-        var sql = "replace into etl.eid_sync_queue(person_uuid) (select distinct uuid from etl.flat_labs_and_imaging where hiv_viral_load is null and vl_error is null and tests_ordered like '%856%' and test_datetime > date('?'))";
+    schedulePatientsWithPendingOrders: function (startDate) {
+        var sql = "replace into  etl.eid_sync_queue(person_uuid) (select distinct uuid from (select t3.uuid, t1.patient_id, t1.order_id, t2.order_id as obs_order_id, t1.date_activated from amrs.orders t1  inner join amrs.person t3 on t3.person_id = t1.patient_id left outer join amrs.obs t2 on t1.order_id = t2.order_id having obs_order_id is null) t where t.date_activated > date('?'))";
         sql = sql.replace('?', startDate);
         console.log(sql);
 
