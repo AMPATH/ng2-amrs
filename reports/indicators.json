@@ -1059,7 +1059,7 @@
         "name": "new_enrollments",
         "label": "new_enrollments",
         "description": "These are patients enrolled into care within the reporting month",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null when t1.transfer_out is not  null or outreach.transfer_out is not null or transfer.transfer_out is not null then null  when t1.patient_care_status in (9083) or outreach.patient_care_status in (9083) then null when outreach.patient_care_status in (9036) or t1.patient_care_status in (9036) then null when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then 1 else null end"
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null  when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then 1 else null end"
     },
     {
         "name": "transfer_in_from_non_Ampath_site",
@@ -1089,97 +1089,97 @@
         "name": "transfer_out_patients_this_month",
         "label": "transfer_out_patients_this_month",
         "description": "These are patients transferred to other Ampath or NON Ampath facility within the reporting month",
-        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach.death_date is null or outreach.death_date > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or (outreach.transfer_out is not null and (outreach.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach.patient_care_status is null or outreach.patient_care_status not in (9036,9083))) "
+        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or ( outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or outreach_patient_care_status_bncd not in (9036,9083))) "
     },
     {
         "name": "active_in_care_to_transfer_out",
         "label": "active_in_care_to_transfer_out",
         "description": "These are patients who were Active in care in the previous reporting month, but changed to transferred out in this reporting month",
-        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach.death_date is null or outreach.death_date > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or (outreach.transfer_out is not null and (outreach.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach.patient_care_status is null or outreach.patient_care_status not in (9036,9083))) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or ( outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or outreach_patient_care_status_bncd not in (9036,9083))) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
     },
     {
         "name": "transfer_out_patients",
         "label": "transfer_out_patients",
         "description": "These are patients ever transferred to other Ampath or NON Ampath facility",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null  when t1.transfer_out is not null or outreach.transfer_out is not null or transfer.transfer_out is not null then 1 else null end"
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null  when t1.transfer_out is not null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then 1 else null end"
     },
     {
         "name": "deaths",
         "label": "deaths",
         "description": "These are dead patients ever reported",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then 1 else null end "
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then 1 else null end "
     },
     {
         "name": "HIV_negative_patients",
         "label": "HIV_negative_patients",
         "description": "These are HIV Negative patients ever reported",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null  when outreach.patient_care_status in (9036) or t1.patient_care_status in (9036) then 1 else null end"
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null  when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then 1 else null end"
     },
     {
         "name": "self_disengaged_patients",
         "label": "self_disengaged_patients",
         "description": "These are patients ever disengaged out of care by themselves",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null when t1.patient_care_status in (9083) or outreach.patient_care_status in (9083) then 1 else null end "
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then 1 else null end "
     },
     {
         "name": "HIV_negative_patients_this_month",
         "label": "HIV_negative_patients_this_month",
         "description": "These are HIV Negative patients that were reported within the reporting month",
-        "expression": "case when outreach.death_date or t1.death_date then null when outreach.patient_care_status in (9036) and (outreach.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9036) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
+        "expression": "case when outreach_death_date_bncd or t1.death_date then null when outreach_patient_care_status_bncd in (9036) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9036) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
     },
     {
         "name": "self_disengaged_patients_this_month",
         "label": "self_disengaged_patients_this_month",
         "description": "These are patients that have disengaged themselves from care within the reporting month",
-        "expression": "case when outreach.death_date or t1.death_date then null when outreach.patient_care_status in (9083) and (outreach.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9083) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
+        "expression": "case when outreach_death_date_bncd or t1.death_date then null when outreach_patient_care_status_bncd in (9083) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9083) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
     },
     {
         "name": "deaths_this_month",
         "label": "deaths_this_month",
         "description": "These are deaths that occurred within the reporting month",
-        "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
+        "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach_death_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
     },
     {
         "name": "active_in_care_to_death",
         "label": "active_in_care_to_death",
         "description": "These are patients who were  Active in care in the previous reporting month, but died within this reporting month",
-        "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+        "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach_death_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
     },
     {
         "name": "LTFU",
         "label": "LTFU",
         "description": "A patient is LTFU if it has been greater than 90 days from the RTC date within the given reporting period ",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null when t1.transfer_out is not  null or outreach.transfer_out is not null or transfer.transfer_out is not null then null when t1.patient_care_status in (9083) or outreach.patient_care_status in (9083) then null when outreach.patient_care_status in (9036) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 then 1 else null end"
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 then 1 else null end"
     },
     {
         "name": "LTFU_this_month",
         "label": "LTFU_this_month",
         "description": "Total # of new patients",
-        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach.death_date is null or outreach.death_date > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach.patient_care_status is null or outreach.patient_care_status not in (9036,9083))) and t1.transfer_out is null and outreach.transfer_out is null and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) between 91 and 121"
+        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or outreach_patient_care_status_bncd not in (9036,9083))) and t1.transfer_out is null and  outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) between 91 and 121"
     },
     {
         "name": "LTFU_to_active_in_care",
         "label": "LTFU_to_active_in_care",
         "description": "These are patients who were LTFU in the previous reporting month, but changed to active in care in this reporting month",
-        "expression": "t1.transfer_out is null and outreach.transfer_out is null and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach.death_date is null or outreach.death_date > t2.endDate)) and date(t1.encounter_datetime) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach.patient_care_status is null or outreach.patient_care_status not in (9036,9083))) and timestampdiff(day, if(t1.prev_clinical_rtc_date_hiv, t1.prev_clinical_rtc_date_hiv, DATE_ADD(t1.prev_clinical_datetime_hiv, INTERVAL 30 DAY)), date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) > 90"
+        "expression": "t1.transfer_out is null and  outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and date(t1.encounter_datetime) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or outreach_patient_care_status_bncd not in (9036,9083))) and timestampdiff(day, if(t1.prev_clinical_rtc_date_hiv, t1.prev_clinical_rtc_date_hiv, DATE_ADD(t1.prev_clinical_datetime_hiv, INTERVAL 30 DAY)), date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) > 90"
     },
     {
         "name": "active_in_care_to_LTFU",
         "label": "active_in_care_to_LTFU",
         "description": "These are patient who were Active in care on the previous reporting month, but changed to LTFU in this reporting month",
-        "expression": "t1.transfer_out is null and outreach.transfer_out is null and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach.death_date is null or outreach.death_date > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach.patient_care_status is null or outreach.patient_care_status not in (9036,9083))) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+        "expression": "t1.transfer_out is null and  outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or outreach_patient_care_status_bncd not in (9036,9083))) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
     },
     {
         "name": "active_in_care",
         "label": "active_in_care",
         "description": "A patient is active in care if it has been less than 90 days from the RTC date within the given reporting period",
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null when t1.transfer_out is not  null or outreach.transfer_out is not null or transfer.transfer_out is not null then null when t1.patient_care_status in (9083) or outreach.patient_care_status in (9083) then null when outreach.patient_care_status in (9036) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
     },
     {
         "name": "active_return",
         "label": "active_return",
         "description": "These are active patients without including new enrollments and transfer ins: i.e Active Patients - (Transfer In + New Enrollment)",
-        "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then null when date(t1.death_date) <= t2.endDate or date(outreach.death_date) <= t2.endDate then null when t1.transfer_out is not  null or outreach.transfer_out is not null or transfer.transfer_out is not null then null when t1.patient_care_status in (9083) or outreach.patient_care_status in (9083) then null  when outreach.patient_care_status in (9036) or t1.patient_care_status in (9036) then null  when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 else null end"
+        "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then null when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null  when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null  when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 else null end"
     },
     {
         "name": "active_in_care_prev_month",
