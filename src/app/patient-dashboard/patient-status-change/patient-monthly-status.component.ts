@@ -59,6 +59,10 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
                 }).subscribe((result) => {
                     this.loadingHistory = false;
                     this.careStatusHistory = result.result;
+
+                    if (Array.isArray(this.careStatusHistory)) {
+                        this.careStatusHistory = this.careStatusHistory.reverse();
+                    }
                 }, (error) => {
                     this.loadingHistory = false;
                     this.error = true;
