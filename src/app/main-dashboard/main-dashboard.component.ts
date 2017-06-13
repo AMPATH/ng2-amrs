@@ -119,7 +119,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
     if (currentUrl.includes('clinic-dashboard')) {
       this.currentDashboard = 'clinic-dashboard';
-      this.expandSideBar();
+      // this.expandSideBar();
       return;
     }
   }

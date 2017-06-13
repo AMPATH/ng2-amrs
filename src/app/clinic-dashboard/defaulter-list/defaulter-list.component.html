@@ -1,20 +1,19 @@
+<h4 class="component-title" style="color: green;"><span class="fa fa-list"></span> Defaulter List</h4>
 <div class="wrapper">
   <div class="well" style="padding:2px;">
     <div class="row">
       <div class="form-group col-md-12">
-        <label for="number-days">Enter Days Missing >=
-					<small>(greater or equal to)</small>
+        <label for="number-days">Enter Minimum Days Missing
 				</label>
         <input type="number" class="form-control" [(ngModel)]="minDefaultPeriod" />
 
-        <label for="number-days">Enter Maximum Days Missing <=
-					<small>(less or equal to)</small>
+        <label for="number-days">Enter Maximum Days Missing
 				</label>
         <input type="number" class="form-control" [(ngModel)]="maxDefaultPeriod" />
       </div>
     </div>
-
-    <div [ngBusy]="{busy:[loadingDefaulterList],message:'Loading defaulter list.........'}"></div>
+    <div class="loader" *ngIf="loadingDefaulterList"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading defaulter list...</span></div>
 
     <div *ngIf="errors" style="color: red !important">
       <div *ngFor="let error of errors">{{error.message}}</div>

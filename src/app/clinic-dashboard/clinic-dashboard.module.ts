@@ -65,6 +65,7 @@ import { DataListsModule } from '../data-lists/data-lists.module';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
+import { MaterialModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import {
   PatientStatusOverviewComponent
@@ -157,6 +158,7 @@ import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material'
     MdTabsModule.forRoot(),
     MdProgressSpinnerModule,
     MdProgressBarModule,
+    MaterialModule
   ],
   declarations: [
     DailyScheduleComponent,

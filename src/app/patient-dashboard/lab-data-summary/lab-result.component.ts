@@ -22,11 +22,12 @@ export class LabResultComponent implements OnInit, OnDestroy {
   patientUuId: any;
   nextStartIndex: number = 0;
   dataLoaded: boolean = false;
+  loadingLabSummary: boolean = false;
   labResults = [];
   subscription: Subscription;
   public gridOptions: GridOptions;
   constructor(private labsResourceService: LabsResourceService,
-              private patientService: PatientService) {
+    private patientService: PatientService) {
     this.gridOptions = <GridOptions>{};
   }
 
@@ -39,7 +40,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.patientUuId = this.patient.person.uuid;
           this.getHistoricalPatientLabResults(this.patientUuId,
-            {startIndex: this.nextStartIndex.toString(), limit: '20'});
+            { startIndex: this.nextStartIndex.toString(), limit: '20' });
 
 
 
@@ -61,33 +62,34 @@ export class LabResultComponent implements OnInit, OnDestroy {
     this.patientUuId = this.patient.person.uuid;
     this.fetchingResults = true;
     this.labsResourceService.getHistoricalPatientLabResults(this.patientUuId,
-      {startIndex: this.nextStartIndex.toString(), limit: '20'}).subscribe((result) => {
-      if (result) {
-        this.labResults = this.formatDateField(result);
-        if (this.labResults.length > 0) {
-          let size: number = this.labResults.length;
-          this.nextStartIndex = +(params.startIndex) + size;
-          this.isLoading = false;
-        } else {
-          this.dataLoaded = true;
+      { startIndex: this.nextStartIndex.toString(), limit: '20' }).subscribe((result) => {
+        if (result) {
+          this.labResults = this.formatDateField(result);
+          if (this.labResults.length > 0) {
+            let size: number = this.labResults.length;
+            this.nextStartIndex = +(params.startIndex) + size;
+            this.isLoading = false;
+          } else {
+            this.dataLoaded = true;
+          }
+          this.fetchingResults = false;
         }
-      }
-    }, (err) => {
-      this.fetchingResults = false;
-      this.error = err;
-    });
+      }, (err) => {
+        this.fetchingResults = false;
+        this.error = err;
+      });
     return this.labResults;
 
   }
   formatDateField(result) {
     let tests = [];
-    for (let i = 0; i < result.length ; ++i) {
+    for (let i = 0; i < result.length; ++i) {
       let data = result[i];
-      let testDatetime ;
+      let testDatetime;
       for (let r in data) {
         if (data.hasOwnProperty(r)) {
           let lab = Moment(data.test_datetime).format('DD-MM-YYYY');
-           data['testDatetime'] = lab;
+          data['testDatetime'] = lab;
         }
       }
       tests.push(data);
@@ -100,54 +102,66 @@ export class LabResultComponent implements OnInit, OnDestroy {
   loadMoreLabResults() {
     this.isLoading = true;
     this.getHistoricalPatientLabResults(this.patientUuId,
-        {startIndex: this.nextStartIndex.toString() , limit: '20'});
+      { startIndex: this.nextStartIndex.toString(), limit: '20' });
   }
   private createColumnDefs() {
     return [
       {
         headerName: 'Date',
+        width: 100,
         field: 'testDatetime',
       },
       {
-        headerName: 'DNA PCR',
-        field: 'hiv_dna_pcr',
-      },
-      {
-        headerName: 'CD4',
-        field: 'cd4_count',
-      },
-      {
-        headerName: 'CD4%',
-        field: 'cd4_percent',
+        headerName: 'Tests Ordered',
+        width: 120,
+        field: 'tests_ordered'
       },
       {
         headerName: 'HIV VL',
-        field: 'hiv_viral_load',
+        width: 100,
+        field: 'hiv_viral_load'
       },
       {
+        headerName: 'DNA PCR',
+        width: 190,
+        field: 'hiv_dna_pcr'
+      },
+      {
+        headerName: 'CD4',
+        width: 100,
+        field: 'cd4_count'
+      },
+      {
+        headerName: 'CD4%',
+        width: 70,
+        field: 'cd4_percent'
+      },
+
+      {
         headerName: 'Hb',
-        field: 'hemoglobin',
+        width: 80,
+        field: 'hemoglobin'
       },
       {
         headerName: 'AST',
         field: 'ast',
-        editable: true,
+        width: 80,
+        editable: true
       },
       {
         headerName: 'Cr',
-        field: 'creatinine',
+        width: 80,
+        field: 'creatinine'
       },
       {
         headerName: 'CXR',
-        field: 'chest_xray',
-      },
-      {
-        headerName: 'Tests Ordered',
-        field: 'tests_ordered',
+        width: 280,
+        field: 'chest_xray'
       },
       {
         headerName: 'Lab Errors',
-        field: 'lab_errors',
+        width: 250,
+        field: 'lab_errors'
       }
     ];
   }

@@ -41,4 +41,5 @@ only screen and (max-width: 448px){
   td:nth-of-type(8):before { content: "Weight"; }
   td:nth-of-type(9):before { content: "BMI"; }
 
+
 }

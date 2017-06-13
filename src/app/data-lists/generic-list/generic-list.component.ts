@@ -104,74 +104,63 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
       };
 
-      this.gridOptions.getRowHeight = function (params) {
-        let dataLength = 0;
-        if (params.data) {
-          if (params.data.identifiers) {
-            dataLength = params.data.identifiers.length;
-          }
+      // this.gridOptions.getRowHeight = function (params) {
+      //   let dataLength = 0;
+      //   if (params.data) {
+      //     if (params.data.identifiers) {
+      //       dataLength = params.data.identifiers.length;
+      //     }
 
-          if (params.data.person_name) {
-            if (dataLength > 0) {
-              if (dataLength > 0 && params.data.person_name.length > dataLength) {
-                dataLength = params.data.person_name.length;
-              }
-            } else {
-              dataLength = params.data.person_name.length;
-            }
-          }
+      //     if (params.data.person_name) {
+      //       if (dataLength > 0) {
+      //         if (dataLength > 0 && params.data.person_name.length > dataLength) {
+      //           dataLength = params.data.person_name.length;
+      //         }
+      //       } else {
+      //         dataLength = params.data.person_name.length;
+      //       }
+      //     }
 
-          if (params.data.rtc_date) {
-            if (dataLength > 0) {
-              if (dataLength > 0 && params.data.rtc_date.length > dataLength) {
-                dataLength = params.data.rtc_date.length;
-              }
-            } else {
-              dataLength = params.data.rtc_date.length;
-            }
-          }
+      //     if (params.data.rtc_date) {
+      //       if (dataLength > 0) {
+      //         if (dataLength > 0 && params.data.rtc_date.length > dataLength) {
+      //           dataLength = params.data.rtc_date.length;
+      //         }
+      //       } else {
+      //         dataLength = params.data.rtc_date.length;
+      //       }
+      //     }
 
-          if (params.data.last_appointment) {
-            if (dataLength > 0) {
-              if (dataLength > 0 && params.data.last_appointment.length > dataLength) {
-                dataLength = params.data.last_appointment.length;
-              }
-            } else {
-              dataLength = params.data.last_appointment.length;
-            }
-          }
-          if (params.data.seenByClinician) {
-            let seenbyClinician = params.data.seenByClinician.time +
-              '' + params.data.seenByClinician.encounters;
-            if (dataLength > 0) {
-              if (dataLength > 0 && seenbyClinician.length > dataLength) {
-                dataLength = seenbyClinician.length;
-              }
-            } else {
-              dataLength = seenbyClinician.length;
-            }
-          }
+      //     if (params.data.last_appointment) {
+      //       if (dataLength > 0) {
+      //         if (dataLength > 0 && params.data.last_appointment.length > dataLength) {
+      //           dataLength = params.data.last_appointment.length;
+      //         }
+      //       } else {
+      //         dataLength = params.data.last_appointment.length;
+      //       }
+      //     }
 
-          if (params.data.filed_id) {
-            if (dataLength > 0) {
-              if (dataLength > 0 && params.data.filed_id.length > dataLength) {
-                dataLength = params.data.filed_id.length;
-              }
-            } else {
-              dataLength = params.data.filed_id.length;
-            }
+      //     if (params.data.filed_id) {
+      //       if (dataLength > 0) {
+      //         if (dataLength > 0 && params.data.filed_id.length > dataLength) {
+      //           dataLength = params.data.filed_id.length;
+      //         }
+      //       } else {
+      //         dataLength = params.data.filed_id.length;
+      //       }
 
-          }
-        }
+      //     }
+      //   }
 
-        if (dataLength > 0) {
-          return 20 * (Math.floor(dataLength / 15) + 1);
+      //   if (dataLength > 0) {
+      //     return 20 * (Math.floor(dataLength / 15) + 1);
 
-        } else {
-          return 20;
-        }
+      //   } else {
+      //     return 20;
+      //   }
 
-      };
+      // };
     };
   }
 

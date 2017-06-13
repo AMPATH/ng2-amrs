@@ -1,24 +1,23 @@
-<div style="padding:4px;margin-bottom:0.5cm;">
-  <div class="row">
-    <div class="form-group col-md-12">
-      <label for="start-date">Select Date</label>
+<h4 class="component-title" style="color: green;"><span class="icon-i-pathology"></span> Lab Orders</h4>
+<div style="margin-bottom:0.5cm;">
 
-      <div>
-        <p class="input-group">
-
-          <input [(ngModel)]="selectedDate" type="date" (ngModelChange)="dateChanged($event)"/>
-        </p>
-        <div style="padding-bottom: 23px">
-          <button class="btn btn-info previous" style="float:left" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
-          <button class="btn btn-info next" style="float:right" (click)="navigateDay(1)">Next Day <span class="glyphicon glyphicon-chevron-right"></span></button>
-
-        </div>
-      </div>
-    </div>
+  <div class="input-group">
+      <span class="input-group-btn">
+         <button class="btn btn-info previous" (click)="navigateDay(-1)"><span
+           class="glyphicon glyphicon-chevron-left"></span>Previous Day
+      </button>
+      </span>
+    <input [(ngModel)]="selectedDate" class="form-control" type="date" (ngModelChange)="dateChanged($event)"/>
+    <span class="input-group-btn">
+          <button class="btn btn-info next" (click)="navigateDay(1)">Next Day <span
+            class="glyphicon glyphicon-chevron-right"></span></button>
+      </span>
   </div>
+
 </div>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  {{error.message}}
 </div>
 
 <div>

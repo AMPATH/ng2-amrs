@@ -1,5 +1,9 @@
-<div class="wrapper">
-<table class='table table-hover table-striped table-responsive'>
+<div>
+<h4 class="component-title"><span class="fa fa-heartbeat"></span> Patient Vitals</h4>
+<div >
+  <div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div>
+
+  <table class='table table-hover table-striped table-responsive'>
   <thead>
   <tr>
     <th></th>
@@ -43,22 +47,22 @@
   </tr>
 </table>
 <!--<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>-->
-<div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
 </div>
-<div *ngIf='!dataLoaded' >
-  <div class="input-group-btn">
-	<button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreVitals()">
-    <span class=""></span>Load More...</button>
-    </div>
-</div>
+  <div *ngIf="!dataLoaded">
+    <button [disabled]="isLoading" class="btn btn-info" (click)="loadMoreVitals()">
+      <span > Load More </span>
+      <i *ngIf="loadingVitals" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+    </button>
+  </div>
 
 <div *ngIf='dataLoaded'>
-	<p class="bg-info" style="padding:4px;">
+	<p class="bg-info" style="padding:4px; border-color: gray">
 		<b>
-			<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + vitals.length + ' ]'}}</span></b>
+			<span style="color:green; " class="glyphicon glyphicon-ok">All records loaded {{'[' + vitals.length + ']'}}</span></b>
 		<p>
 </div>
 </div>
 
+</div>

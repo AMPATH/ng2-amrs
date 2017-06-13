@@ -66,6 +66,8 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     expect(component.loadingHivSummary).toBe(false);
     expect(component.errors.length).toBe(0);
     expect(component.patient).toBeUndefined();
+    expect(component.patientUuid).toBeUndefined();
+    expect(component.subscription).toBeUndefined();
 
     done();
 
@@ -77,9 +79,14 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
 
-    spyOn(component, 'getHivSummary').and.callThrough();
-    component.getHivSummary();
-    expect(component.getHivSummary).toHaveBeenCalled();
+    spyOn(component, 'getPatient').and.callThrough();
+    component.getPatient();
+    expect(component.getPatient).toHaveBeenCalled();
+    done();
+
+    spyOn(component, 'loadHivSummary').and.callThrough();
+    component.loadHivSummary();
+    expect(component.loadHivSummary).toHaveBeenCalled();
     done();
 
   });

@@ -1,7 +1,9 @@
+<div [ngBusy]="{busy:[loadingHivSummary],message:'Please Wait...'}"></div>
 <table class='table table-hover table-striped table-responsive'>
 	<thead>
 		<tr>
 			<th>Encounter Date</th>
+			<th>Encounter Type</th>
 			<th>RTC Date</th>
 			<th>ARV Meds</th>
 			<th>CD4 Count</th>
@@ -12,6 +14,7 @@
 	<tr *ngFor="let hivSummary of hivSummaries" [ngClass]="{danger: (hivSummary.prev_rtc_date &&  hivSummary.encounter_datetime)
 		&& (hivSummary.prev_rtc_date < hivSummary.encounter_datetime)}">
 		<td>{{hivSummary.encounter_datetime | date:'dd-MM-yyyy'}}</td>
+		<td>{{hivSummary.encounter_type_name}}</td>
 		<td>{{hivSummary.rtc_date | date: 'dd-MM-yyyy'}}</td>
 		<td>{{hivSummary.cur_arv_meds}}</td>
 		<td>{{hivSummary.cd4_1}}
@@ -31,10 +34,11 @@
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
 </div>
-
-<div *ngIf='!dataLoaded'>
-	<button class="btn btn-info" [ladda]='isLoading' data-size="xs" data-color="blue"  (click)="loadMoreHivSummary()">
-    <span class="glyphicon glyphicon-refresh"></span>Load More</button>
+<div *ngIf="!dataLoaded">
+	<button [disabled]="isLoading" class="btn btn-primary" (click)="loadMoreHivSummary()">
+        <span><i class="glyphicon glyphicon-refresh"></i>Load More</span>
+        <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+    </button>
 </div>
 
 <div *ngIf='dataLoaded'>

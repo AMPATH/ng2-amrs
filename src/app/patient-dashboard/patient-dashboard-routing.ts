@@ -29,7 +29,7 @@ const patientDashboardRoutes: Routes = [
     path: ':patient_uuid',
     component: PatientDashboardComponent,
     children: [
-      { path: 'welcome', component: LandingPageComponent },
+      { path: 'general/landing-page', component: LandingPageComponent },
       { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
       { path: ':program/patient-info', component: PatientInfoComponent },
       { path: 'oncology/landing-page', component: PatientInfoComponent },

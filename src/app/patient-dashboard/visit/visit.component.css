@@ -1,0 +1,75 @@
+.navbar ul  {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#ddd
+}
+
+.navbar li {
+    float: left;
+}
+
+ .navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+.navbar li a:hover {
+    background-color: #111;
+}
+
+.navbar  li a.active {
+    color: white;
+    background-color: #008CBA;
+}
+.locationdetails {
+    font-size: 12px !important;
+}
+.button-nav {
+  border-radius: 1px !important;
+  padding-bottom: 10px;
+}
+.blocks .btn-primary
+{
+
+    margin: 0 2px;
+    border-radius: 0;
+}
+
+.add-borders{
+ border: 1px solid #ccc;
+ width: 100%;
+ padding: 0 12px;
+ line-height: 42px;
+}
+
+.add-borders a {
+    border-right:1px solid #ccc;
+    padding:0 12px;
+
+}
+
+.add-borders a:last-child{
+    border-right: none;
+
+}
+
+.add-borders a.cancel-edit {
+    color: red !important;
+}
+
+.add-borders a:first-child{
+    padding-left: 0;
+
+}
+
+
+.add-borders i:before{
+display:inline-block;
+margin-right: 5px;
+}
