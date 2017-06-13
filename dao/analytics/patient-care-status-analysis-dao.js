@@ -327,24 +327,13 @@ module.exports = function () {
                 " FROM etl.dates `t2` " +
                 "INNER JOIN etl.flat_hiv_summary `t1` force index (loc_id_enc_date_next_clinic)  ON" +
                 " (date(t1.encounter_datetime) <= date(t2.endDate)) " +
-                " LEFT OUTER JOIN etl.flat_hiv_summary `outreach` ON (t1.person_id = outreach.person_id " +
-                "and outreach.encounter_type = 21 " +
-                "and outreach.encounter_datetime > t1.encounter_datetime " +
-                "and date(outreach.encounter_datetime) <= t2.endDate " +
-                "and (date(outreach.next_encounter_datetime_hiv) > t2.endDate " +
-                "or outreach.next_encounter_datetime_hiv is null)) " +
-                "LEFT OUTER JOIN etl.flat_hiv_summary `transfer` ON" +
-                " (t1.person_id = transfer.person_id and transfer.encounter_type = 116 " +
-                "and transfer.encounter_datetime > t1.encounter_datetime and date(transfer.encounter_datetime)" +
-                " <= t2.endDate and (date(transfer.next_encounter_datetime_hiv) > t2.endDate or" +
-                " transfer.next_encounter_datetime_hiv is null)) " +
                 "WHERE (" +
                 whereClause +
                 " and t1.location_id =" + queryParams.locations.toString() +
                 " and t1.is_clinical_encounter = 1 " +
                 "and (t1.next_clinical_datetime_hiv is null " +
                 "or date(t1.next_clinical_datetime_hiv) > t2.endDate)" +
-                 ')';
+                ')';
         },
     };
 }();

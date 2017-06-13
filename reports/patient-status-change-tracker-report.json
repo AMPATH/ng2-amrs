@@ -14,20 +14,6 @@
         "alias": "t1",
         "indexExpression": "FORCE INDEX (loc_id_enc_date_next_clinic)",
         "joinExpression": "date(t1.encounter_datetime) <= date(t2.endDate)"
-      },
-      {
-        "joinType": "LEFT OUTER JOIN",
-        "schema": "etl",
-        "tableName": "flat_hiv_summary",
-        "alias": "outreach",
-        "joinExpression": "t1.person_id = outreach.person_id and outreach.encounter_type = 21 and outreach.encounter_datetime > t1.encounter_datetime and date(outreach.encounter_datetime) <= t2.endDate and (date(outreach.next_encounter_datetime_hiv) > t2.endDate or outreach.next_encounter_datetime_hiv is null)"
-      },
-      {
-        "joinType": "LEFT OUTER JOIN",
-        "schema": "etl",
-        "tableName": "flat_hiv_summary",
-        "alias": "transfer",
-        "joinExpression": "t1.person_id = transfer.person_id and transfer.encounter_type = 116 and transfer.encounter_datetime > t1.encounter_datetime and date(transfer.encounter_datetime) <= t2.endDate and (date(transfer.next_encounter_datetime_hiv) > t2.endDate or transfer.next_encounter_datetime_hiv is null)"
       }
     ],
     "parameters": [
