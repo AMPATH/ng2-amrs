@@ -118,6 +118,11 @@ import {
   PatientStatusDatalistCellComponent
 } from './patient-status-change-visualization/patient-status-data-list-cell.component';
 import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { RouterModule, Router } from '@angular/router';
+import { SessionStorageService } from '../utils/session-storage.service';
+import { HttpClient } from '../shared/services/http-client.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -209,7 +214,14 @@ import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material'
     {
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService
-    }
+    },
+    {
+      provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
+        router: Router, sessionStorageService: SessionStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+    },
   ],
   exports: [
     BusyModule,
