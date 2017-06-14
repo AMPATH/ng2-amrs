@@ -38,3 +38,7 @@ ng-select {
     color: white;
     background-color: #008CBA;
 }
+
+.list-group-item {
+    padding:4px;
+}

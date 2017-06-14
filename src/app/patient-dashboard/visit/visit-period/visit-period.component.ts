@@ -21,6 +21,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   visitSubscription: Subscription;
   loadingVisitPeriod: boolean = true;
   encounterVisitUuid: string = '';
+  encounterUuid: string = '';
   startDatetime: string = '';
   stopDatetime: string = '';
   encounters: any[] = [];
@@ -36,14 +37,16 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   currentVisit: any;
   currentVisitType: any;
   locationName: string = '';
+
   @Output() editedLocation = new EventEmitter();
+
   @Input()
   set visitUuid(value) {
     if (value) {
       this.getVisitPeriod(value);
     }
-
   }
+
   @Input()
   set iseditLocation(value) {
     this.editLocation = value;
@@ -52,7 +55,10 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   constructor(private patientService: PatientService, private visitResource: VisitResourceService,
     private router: Router, private route: ActivatedRoute,
     private locationResourceService: LocationResourceService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService) {
+
+  }
+
   ngOnInit(): void {
     this.subscribeToPatientChangeEvent();
     this.subscribeToRouteChangeEvent();
@@ -79,27 +85,61 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     if (this.route && this.route.queryParams) {
       this.routeSubscription = this.route.queryParams.subscribe((params) => {
         this.resetVariables();
-        if (params['visitUuid']) {
+        console.log('visit params', params);
+        if (params['visitUuid'] && this.encounterVisitUuid !== params['visitUuid']) {
+          // new form being entered therefore reset enouncter uuid
+          this.encounterUuid = undefined;
           this.encounterVisitUuid = params['visitUuid'];
           this.data = this.getVisitPeriod(this.encounterVisitUuid);
           this.editLocation = false;
-        }
-
-        if (params['encounter']) {
-          let encounterUuid = params['encounter'];
-          let visit = this.getEncounterVisit(encounterUuid);
-
-          if (visit) {
-            this.stopDatetime = visit.stopDatetime;
-            this.encounterVisitUuid = visit.uuid;
-            this.startDatetime = visit.startDatetime;
-          }
-
+        } else if (params['encounter'] && this.encounterUuid !== params['encounter']) {
+          this.encounterUuid = params['encounter'];
+          this.loadVisitByEncounter(this.encounterUuid);
+        } else {
+          console.log('No visit or encounter info on url');
         }
 
       });
     }
   }
+
+  loadVisitByEncounter(encounterUuid) {
+    this.loadingVisit = true;
+    let visit = this.getEncounterVisit(encounterUuid);
+    this.loadingVisit = false;
+    if (visit) {
+      this.setVisit(visit);
+    } else {
+      console.log('No visit found for selected encounter', this.encounters);
+    }
+  }
+
+  subscribeToPatientChangeEvent() {
+
+    this.patientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        // this.resetVariables();
+        if (patient !== null) {
+          this.encounters = patient.encounters;
+
+        } else {
+          console.log('No patient');
+        }
+
+        if (this.encounterUuid) {
+          this.loadVisitByEncounter(this.encounterUuid);
+        }
+      }
+      , (err) => {
+        console.error('An error occured while fetching the patient', err);
+        this.resetVariables();
+        this.errors.push({
+          id: 'patient',
+          message: 'error fetching patient'
+        });
+      });
+  }
+
 
   public getLocations() {
     this.loaderStatus = true;
@@ -117,23 +157,6 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     });
   }
 
-  subscribeToPatientChangeEvent() {
-
-    this.patientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
-        this.resetVariables();
-        if (patient !== null) {
-          this.encounters = patient.encounters;
-        }
-      }
-      , (err) => {
-        this.resetVariables();
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching patient'
-        });
-      });
-  }
 
   public loadedLocation(event) {
     if (event && this.encounterVisitUuid && this.locationUuid && this.locationUuid !== event) {
@@ -191,27 +214,29 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private getVisitPeriod(uuid) {
-    let custom = 'custom:(uuid,encounters:(uuid,encounterDatetime,' +
-      'form:(uuid,name),location:ref,' +
-      'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
+    let custom = 'custom:(uuid,' +
+      'location:ref' +
+      '),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
       'stopDatetime)';
     this.loadingVisit = true;
     this.visitSubscription = this.visitResource.getVisitByUuid(uuid, { v: custom })
       .subscribe((visit) => {
-        this.stopDatetime = visit.stopDatetime;
-        this.startDatetime = visit.startDatetime;
-        this.currentVisit = visit ? visit : '';
-        this.locationUuid = visit ? visit.location.uuid : null;
-        console.log('visitvisitvisit', visit);
-        this.locationName = visit ? visit.location.display : null;
-        this.encounterVisitUuid = visit ? visit.uuid : null;
-        this.currentVisitType = visit ? visit.visitType.name : null;
-        this.loadingVisit = false;
-        console.log('visitvisitvisit  this.locationName ', this.locationName);
+        this.setVisit(visit);
       });
+  }
 
-
+  private setVisit(visit) {
+    this.stopDatetime = visit.stopDatetime;
+    this.startDatetime = visit.startDatetime;
+    this.currentVisit = visit ? visit : '';
+    this.locationUuid = visit ? visit.location.uuid : null;
+    console.log('visitvisitvisit', visit);
+    this.locationName = visit ? visit.location.display : null;
+    this.encounterVisitUuid = visit ? visit.uuid : null;
+    this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
+    this.loadingVisit = false;
+    console.log('visitvisitvisit  this.locationName ', this.locationName);
   }
 
   private resetVariables() {
