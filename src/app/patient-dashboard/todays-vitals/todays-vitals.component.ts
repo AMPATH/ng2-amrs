@@ -16,7 +16,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   todaysVitals: Vital[] = [];
   errors: any[] = [];
-  subscription: Subscription;
+  currentPatientSub: Subscription;
   loadingTodaysVitals: boolean = true;
   dataLoaded: boolean = false;
 
@@ -26,13 +26,13 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.currentPatientSub) {
+      this.currentPatientSub.unsubscribe();
     }
   }
 
   subscribeToPatientChangeEvent() {
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    this.currentPatientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.loadTodaysVitalsForPatient(patient.person.uuid);
