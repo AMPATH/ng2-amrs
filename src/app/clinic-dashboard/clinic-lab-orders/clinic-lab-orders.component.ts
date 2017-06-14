@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, Input } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { ClinicLabOrdersResourceService } from '../../etl-api/clinic-lab-orders-resource.service';
@@ -16,7 +14,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: []
 })
 export class ClinicLabOrdersComponent implements OnInit {
-  response: Subscription;
+  response: Subscription = new Subscription();
   location: string = '';
   public gridOptions: GridOptions;
   results = [];
@@ -37,8 +35,8 @@ export class ClinicLabOrdersComponent implements OnInit {
     if (cachedParam !== undefined) {
       this.selectedDate = this._datePipe.transform(
         cachedParam.selectedDate, 'yyyy-MM-dd');
-      this.location =  cachedParam.selectedLocation;
-    }else {
+      this.location = cachedParam.selectedLocation;
+    } else {
       this.selectedDate = this._datePipe.transform(
         new Date(), 'yyyy-MM-dd');
     }
@@ -59,12 +57,17 @@ export class ClinicLabOrdersComponent implements OnInit {
     this.gridOptions.headerHeight = 40;
     if (window.innerWidth > 768) {
       this.gridOptions.onGridReady = (event) => {
-       this.gridOptions.api.sizeColumnsToFit();
-       };
+        this.gridOptions.api.sizeColumnsToFit();
+      };
     }
     this.gridOptions.enableFilter = true;
     this.gridOptions.localeText = {noRowsToShow: 'No matching records found'};
   }
+
+  ngOnDestroy(): void {
+    this.response.unsubscribe();
+  }
+
   public getClinicLabOrders(location, selectDate) {
     this.response = this.clinicLabOrdersResourceService.getClinicLabOrders({
       dateActivated: selectDate,
@@ -80,18 +83,21 @@ export class ClinicLabOrdersComponent implements OnInit {
         console.log('error', error);
       });
   }
+
   public getCurrentLocation() {
     this.route.parent.params.subscribe(params => {
-        this.location = params['location_uuid'];
-        console.log(' this.location',  this.location);
+      this.location = params['location_uuid'];
+      console.log(' this.location', this.location);
       this.setClinicOrderParam(this.location, this.selectedDate);
       this.getClinicLabOrders(this.location, this.selectedDate);
     });
   }
+
   public onRowClicked(event) {
     this.router.navigate(['/patient-dashboard/' + event.data.patient_uuid +
     '/general/landing-page']);
   }
+
   public navigateDay(value) {
     if (value) {
       let m = Moment(new Date(this.selectedDate));
@@ -102,6 +108,7 @@ export class ClinicLabOrdersComponent implements OnInit {
     this.setClinicOrderParam(this.location, this.selectedDate);
     this.getClinicLabOrders(this.location, this.selectedDate);
   }
+
   public dateChanged(selectedDate) {
     this.setClinicOrderParam(this.location, selectedDate);
     this.getClinicLabOrders(this.location, selectedDate);
@@ -109,7 +116,7 @@ export class ClinicLabOrdersComponent implements OnInit {
 
   private formatDateField(result) {
     let orders = [];
-    for (let i = 0; i < result.length ; ++i) {
+    for (let i = 0; i < result.length; ++i) {
       let data = result[i];
       for (let r in data) {
         if (data.hasOwnProperty(r)) {
@@ -123,9 +130,12 @@ export class ClinicLabOrdersComponent implements OnInit {
     return orders;
 
   }
+
   private setClinicOrderParam(selectedLocation, selectedDate) {
-    this.clinicDashboardCacheService.add('clinicordersparam', {selectedLocation: selectedLocation,
-      selectedDate: selectedDate});
+    this.clinicDashboardCacheService.add('clinicordersparam', {
+      selectedLocation: selectedLocation,
+      selectedDate: selectedDate
+    });
   }
 
   private getClinicOrderParam(key) {
