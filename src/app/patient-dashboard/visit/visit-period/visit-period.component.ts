@@ -166,8 +166,8 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private setInitialLocation() {
-    this.locationUuid = this.currentVisit.location.uuid;
-
+    this.locationUuid = this.currentVisit && this.currentVisit.location ?
+      this.currentVisit.location.uuid : '';
   }
 
   private getEncounterVisit(encounterUuid) {

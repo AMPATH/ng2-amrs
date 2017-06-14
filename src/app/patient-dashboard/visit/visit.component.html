@@ -1,5 +1,5 @@
 <div>
-  <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Hang in there............'}"></div>
+  <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Please wait. Loading..'}"></div>
   <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" [closable]="false" responsive="true">
     <div class="text-bold">
       <h3 *ngIf="confirmCancel"><span class="fa-lg">
