@@ -177,7 +177,7 @@
         "name": "currently_in_care_total",
         "label": "currently in care total",
         "description": "A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
-        "expression": "encounter_datetime >= enrollment_date and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
     },
     {
         "name": "pre_art_total",

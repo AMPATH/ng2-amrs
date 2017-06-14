@@ -329,8 +329,8 @@ module.exports = function () {
                 " (date(t1.encounter_datetime) <= date(t2.endDate)) " +
                 "WHERE (" +
                 whereClause +
-                " and t1.location_id =" + queryParams.locations.toString() +
-                " and t1.is_clinical_encounter = 1 " +
+                " and t1.location_id in(" + queryParams.locations.toString() +
+                ") and t1.is_clinical_encounter = 1 " +
                 "and (t1.next_clinical_datetime_hiv is null " +
                 "or date(t1.next_clinical_datetime_hiv) > t2.endDate)" +
                 ')';

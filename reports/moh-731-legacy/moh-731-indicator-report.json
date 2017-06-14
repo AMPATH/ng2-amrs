@@ -1,11 +1,20 @@
 [
   {
     "name": "moh-731-monthly-one-row-per-patient",
-    "table":{
-      "schema":"etl",
-      "tableName":"flat_hiv_summary",
-      "alias":"t1"},
-    "joins":[
+    "table": {
+      "schema": "etl",
+      "tableName": "dates",
+      "alias": "t2"
+    },
+    "joins": [
+      {
+        "joinType": "JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "t1",
+        "indexExpression": "FORCE INDEX (loc_id_enc_date_next_clinic)",
+        "joinExpression": "date(t1.encounter_datetime) <= date(t2.endDate)"
+      },
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
       {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
     ],
@@ -19,11 +28,30 @@
       }
     ],
     "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90", "parameter":"endDate"},
-      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"},
-      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
-      {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
+      {
+        "expression": "t2.endDate >= date(?)",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t2.endDate <= date(?)",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "t1.is_clinical_encounter=1",
+        "processForce": true
+      },
+      {
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > t2.endDate)",
+        "processForce": true
+      },
+      {
+        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end",
+        "processForce": true
+      }
     ],
     "groupClause":[
       {"parameter":"groupByLocation"},

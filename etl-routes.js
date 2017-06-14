@@ -627,16 +627,22 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 request.query.reportName = 'clinical-hiv-comparative-overview-report';
-                let compineRequestParams = Object.assign({}, request.query, request.params);
-                let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
-                    ['startDate', 'endDate', 'indicator', 'locationUuids', 'order', 'gender'], compineRequestParams);
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                    return reply(Boom.forbidden('Unauthorized'));
+                }
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let compineRequestParams = Object.assign({}, request.query, request.params);
+                        let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
+                            ['startDate', 'endDate', 'indicator', 'locationUuids', 'locations', 'order', 'gender'], compineRequestParams);
 
-                let service = new hivComparativeOverviewService();
-                service.getAggregateReport(reportParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
-                });
+                        let service = new hivComparativeOverviewService();
+                        service.getAggregateReport(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
             },
             description: "Get the clinical hiv comparative overview summary",
             notes: "Returns a comparative summary of various indicator eg enrollement, on_art,and vl suppression",
@@ -663,13 +669,16 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 request.query.reportName = 'clinical-hiv-comparative-overview-report';
-                let requestParams = Object.assign({}, request.query, request.params);
-                let service = new hivComparativeOverviewService();
-                service.getPatientListReport(requestParams).then((result) => {
-                    reply(result);
-                }).catch((error) => {
-                    reply(error);
-                });
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new hivComparativeOverviewService();
+                        service.getPatientListReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
             },
             description: "Get the clinical hiv comparative overview patient",
             notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
