@@ -23,7 +23,7 @@
                     <td>{{encounter.location.display}}</td>
                     <td>{{encounter.provider.display}}</td>
                     <td>
-                        <a (click)="editEncounter(encounter)">
+                        <a *ngIf="(encounter && encounter.form && encounter.form.name && encounter.form.name.indexOf('POC') >= 0)" (click)="editEncounter(encounter)">
                             <span class="glyphicon text-primary glyphicon-edit"></span>
                         </a>
                     </td>
