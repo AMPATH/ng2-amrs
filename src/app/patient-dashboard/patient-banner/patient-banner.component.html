@@ -36,7 +36,7 @@
 		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
 		<span>&nbsp;&nbsp; <span style="font-weight: bold;font-size:20px"> </span>&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;
 		<span style="font-weight: bold;font-size:20px"> </span> </span>&nbsp;&nbsp;
-		<span>{{ birthdate }} ({{ patient?.person.age }} yo)</span>
+		<span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span></span>
 	</div>
 	<div class="row">
 		<span style="margin-left:0px;">
@@ -51,7 +51,7 @@
 	<div class="row">
 		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
 		<span>&nbsp;&nbsp;&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<span>{{ birthdate }} ({{ patient?.person.age }} yo)&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<span style="margin-left:0px;">
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
 		<span *ngIf="searchIdentifiers?.amrsMrn">  <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
