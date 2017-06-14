@@ -7,7 +7,8 @@ import { Observable, Subject } from 'rxjs/Rx';
 export class EncounterResourceService {
     v: string = 'custom:(uuid,encounterDatetime,' +
     'patient:(uuid,uuid),form:(uuid,name),' +
-    'visit:(uuid,startDatetime,stopDatetime),' +
+    'visit:(uuid,startDatetime,stopDatetime,location:(uuid,display)' +
+            ',visitType:(uuid,name)),' +
     'location:ref,encounterType:ref,provider:ref)';
 
     constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }

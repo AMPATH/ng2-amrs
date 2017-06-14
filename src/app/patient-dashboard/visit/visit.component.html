@@ -26,29 +26,28 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
   </div>
   <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
-  <div class="list-group-item">
-    <div *ngIf="!visit">
-      <div class="visit-label">
-        <h3>Select visit type</h3>
-      </div>
+  <div class="list-group-item" *ngIf="!visit">
+    <div class="visit-label">
+      <h3>Select visit type</h3>
+    </div>
 
-      <table id="visitTypes" class='table'>
-        <tr *ngFor="let visitType of visitTypes">
-          <td>
-            {{visitType.display}}
-          </td>
-          <td>
-            {{visitType.description}}
-          </td>
-          <td>
-            <a id="startButton" class="" (click)="startVisit(visitType.uuid)">
+    <table id="visitTypes" class='table'>
+      <tr *ngFor="let visitType of visitTypes">
+        <td>
+          {{visitType.display}}
+        </td>
+        <td>
+          {{visitType.description}}
+        </td>
+        <td>
+          <a id="startButton" class="" (click)="startVisit(visitType.uuid)">
               <i class="glyphicon glyphicon-circle-arrow-right"></i> Start Visit
             </a>
-          </td>
-        </tr>
-      </table>
-    </div>
+        </td>
+      </tr>
+    </table>
   </div>
+
   <div *ngIf="visit">
     <div class="visit-panel-heading">
       <div class="locationdetails">
