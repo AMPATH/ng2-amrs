@@ -49,7 +49,7 @@
         "processForce": true
       },
       {
-        "expression": "case when date(t1.death_date) <= t2.endDate or date(outreach_death_date_bncd) <= t2.endDate then null when t1.transfer_out is not  null or  outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) or transfer_transfer_out_bncd is not null then null when t1.patient_care_status in (9083) or outreach_patient_care_status_bncd in (9083) then null when outreach_patient_care_status_bncd in (9036) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end",
+        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end",
         "processForce": true
       }
     ],
