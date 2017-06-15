@@ -102,7 +102,7 @@ describe('Component: User Default Settings Unit Tests', () => {
 
   });
 
-  it('should set default value of location from route params if you they are defined',
+  xit('should set default value of location from route params if you they are defined',
     inject([Router, ActivatedRoute, UserDefaultPropertiesService, UserService],
       (r: Router, route: ActivatedRoute, t: UserDefaultPropertiesService, u: UserService) => {
         activeRoute.testParams = { confirm: 1 };
