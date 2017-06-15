@@ -33,7 +33,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
   }
   private _data = new BehaviorSubject<any>([]);
   private selectedClinic: any;
-  private currentClinicSubscription: Subscription;
+  private currentClinicSubscription: Subscription= new Subscription();
   private selectedDateSubscription: Subscription;
   private visitsSubscription: Subscription;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -59,6 +59,10 @@ export class DailyScheduleVisitsComponent implements OnInit {
 
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.currentClinicSubscription.unsubscribe();
   }
 
 

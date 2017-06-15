@@ -25,6 +25,7 @@ export class VisualizationPatientListComponent implements OnInit {
   translatedIndicator: string;
   overrideColumns: Array<any> = [];
   routeParamsSubscription: Subscription;
+  private subscription = new Subscription();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -66,6 +67,10 @@ export class VisualizationPatientListComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   setDateRange(monthYear) {
     let startDate = monthYear[0].split('/');
     let endDate = monthYear[1].split('/');
@@ -74,7 +79,7 @@ export class VisualizationPatientListComponent implements OnInit {
   }
 
   loadPatientData(reportName: string) {
-    this.visualizationResourceService.getReportOverviewPatientList(reportName, {
+    this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
       locationUuids: this.locationUuid,

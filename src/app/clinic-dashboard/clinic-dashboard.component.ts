@@ -38,7 +38,6 @@ export class ClinicDashboardComponent implements OnInit {
       this.route.params.subscribe(params => {
         setTimeout(() => {
           this.locationUuid = params['location_uuid'];
-          this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
           if (this.locationUuid) {
             this.resolveSelectedLocationByUuid(this.locationUuid);
             if (this.selectedLocation && this.selectedLocation !== {}) {

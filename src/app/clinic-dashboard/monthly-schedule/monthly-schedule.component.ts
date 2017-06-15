@@ -49,10 +49,13 @@ export class MonthlyScheduleComponent implements OnInit {
   location: string = '';
   busy: Subscription;
   fetchError = false;
+  private subscription: Subscription = new Subscription();
+
   constructor(private monthlyScheduleResourceService: MonthlyScheduleResourceService,
-    private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private router: Router,
-    private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics) { }
+              private clinicDashboardCacheService: ClinicDashboardCacheService,
+              private router: Router,
+              private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics) {
+  }
 
   ngOnInit() {
     this.appFeatureAnalytics
@@ -62,26 +65,34 @@ export class MonthlyScheduleComponent implements OnInit {
       this.viewDate = new Date(date);
     }
 
-    this.clinicDashboardCacheService.getCurrentClinic().subscribe((location: string) => {
-      this.location = location;
-      this.getAppointments();
-    });
+    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
+      .subscribe((location: string) => {
+        this.location = location;
+        this.getAppointments();
+      });
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public getCurrentLocation() {
     // this.route.parent.params.subscribe(params => {
     //     this.location = params['location_uuid'];
     //  });
 
   }
+
   navigateToMonth() {
     let date = Moment(this.viewDate).format('YYYY-MM-DD');
     this.viewDate = new Date(date);
     this.router.navigate(['./'], {
-      queryParams: { date: date },
+      queryParams: {date: date},
       relativeTo: this.route
     });
     this.getAppointments();
   }
+
   public getAppointments() {
     this.fetchError = false;
     this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
@@ -94,6 +105,7 @@ export class MonthlyScheduleComponent implements OnInit {
       this.fetchError = true;
     });
   }
+
   public addBadgeTotal(day: CalendarMonthViewDay): void {
     day.badgeTotal = 0;
   }
@@ -102,18 +114,18 @@ export class MonthlyScheduleComponent implements OnInit {
     switch (event.type) {
       case 'scheduled':
         this.router.navigate(['clinic-dashboard',
-          this.location, 'daily-schedule', 'daily-appointments'],
-          { queryParams: { date: Moment(event.start).format('YYYY-MM-DD') } });
+            this.location, 'daily-schedule', 'daily-appointments'],
+          {queryParams: {date: Moment(event.start).format('YYYY-MM-DD')}});
         break;
       case 'attended':
         this.router.navigate(['clinic-dashboard',
-          this.location, 'daily-schedule', 'daily-visits'],
-          { queryParams: { date: Moment(event.start).format('YYYY-MM-DD') } });
+            this.location, 'daily-schedule', 'daily-visits'],
+          {queryParams: {date: Moment(event.start).format('YYYY-MM-DD')}});
         break;
       case 'has_not_returned':
         this.router.navigate(['clinic-dashboard',
-          this.location, 'daily-schedule', 'daily-not-returned'],
-          { queryParams: { date: Moment(event.start).format('YYYY-MM-DD') } });
+            this.location, 'daily-schedule', 'daily-not-returned'],
+          {queryParams: {date: Moment(event.start).format('YYYY-MM-DD')}});
         break;
       default:
     }
@@ -164,7 +176,7 @@ export class MonthlyScheduleComponent implements OnInit {
     return processed;
   }
 
-  public dayClicked({ date, events }: { date: Date, events: CalendarEvent[] }): void {
+  public dayClicked({date, events}: {date: Date, events: CalendarEvent[]}): void {
 
   }
 }

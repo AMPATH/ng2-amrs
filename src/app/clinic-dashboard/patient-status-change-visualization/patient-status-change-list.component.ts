@@ -38,6 +38,7 @@ export class PatientStatusChangeListComponent implements OnInit {
   private overrideColumns: Array<any> = [];
   private progressBarTick: number = 30;
   private timerSubscription: Subscription;
+  private subscription = new Subscription();
 
 
   constructor(private route: ActivatedRoute, private router: Router,
@@ -61,6 +62,10 @@ export class PatientStatusChangeListComponent implements OnInit {
       }
     });
 
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public filtersChanged(event) {
@@ -107,7 +112,7 @@ export class PatientStatusChangeListComponent implements OnInit {
 
   private getPatients() {
     this.triggerBusyIndicators(1, true, false);
-    this.clinicDashboardCacheService.getCurrentClinic().flatMap((location) => {
+    this.subscription = this.clinicDashboardCacheService.getCurrentClinic().flatMap((location) => {
       if (location) {
         this.filterParams = this.getFilters();
         this.filterParams['locationUuids'] = location;

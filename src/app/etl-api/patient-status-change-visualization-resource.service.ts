@@ -32,7 +32,6 @@ export class PatientStatusVisualizationResourceService {
             '/patient-status-change-tracking/patient-list';
 
         let params: URLSearchParams = this.getUrlPatientListRequestParams(options);
-        console.log('Params', params);
         let request = this.http.get(api, { search: params }).map((data) => data.json());
         return this.cacheService.cacheRequest(api, params, request);
 
