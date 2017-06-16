@@ -82,7 +82,7 @@
             {
                 "label": "currently_in_care_total",
                 "expression": "currently_in_care_total",
-                "sql": "count($expression)"
+                "sql": "count(distinct if($expression, person_id,null))"
             },
             {
                 "label": "on_art_total",
