@@ -13,12 +13,14 @@ export class DynamicRoutesService {
   public analyticsDashboardConfig: Object = require('./schema/analytics.dashboard.conf.json');
   public clinicDashboardConfig: Object = require('./schema/clinic.dashboard.conf.json');
   public patientDashboardConfig: Object = require('./schema/patient.dashboard.conf.json');
+  public patientListCohortConfig: Object = require('./schema/patientlist.dashboard.conf.json');
 
   constructor() {
     this.dashboardConfig = {
       analyticsDashboard: this.analyticsDashboardConfig,
       clinicDashboard: this.clinicDashboardConfig,
-      patientDashboard: this.patientDashboardConfig
+      patientDashboard: this.patientDashboardConfig,
+      patientListCohorts: this.patientListCohortConfig
     };
   }
 

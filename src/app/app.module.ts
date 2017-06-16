@@ -39,6 +39,7 @@ import { UsefulLinksModule } from './useful-links';
 import { FeedBackComponent } from './feedback';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
+import { PatientListCohortModule } from './patient-list-cohort/patient-list-cohort.module';
 
 
 // Application wide providers

@@ -14,6 +14,7 @@ import { UserService } from '../openmrs-api/user.service';
 import { AppState } from '../app.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resource.service';
+import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
 
 
 
@@ -25,6 +26,7 @@ import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resour
     NgamrsSharedModule,
     AgGridModule.withComponents([]),
     DataListsModule,
+    PatientListCohortModule,
     PatientDashboardModule
   ],
   declarations: [
