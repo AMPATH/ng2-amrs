@@ -12,6 +12,9 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
 import { UserService } from '../openmrs-api/user.service';
 import { AppState } from '../app.service';
+import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
+import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resource.service';
+
 
 
 @NgModule({
@@ -30,7 +33,9 @@ import { AppState } from '../app.service';
   providers: [
     MainDashboardGuard,
     UserService,
-    AppState
+    AppState,
+    CohortResourceService,
+    CohortMemberResourceService
   ],
   exports: [
     MainDashboardComponent
