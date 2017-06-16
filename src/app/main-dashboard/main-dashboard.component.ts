@@ -14,6 +14,7 @@ import { AppState } from '../app.service';
 import { UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
 
+
 declare let jQuery: any;
 
 @Component({
@@ -54,6 +55,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
         this.adjustDashBoard(navEvent.url);
       }
     });
+
+
+
     // Work Around for min-height
     window.dispatchEvent(new Event('resize'));
     this.dynamicRoutesService.routes.subscribe(result => {
