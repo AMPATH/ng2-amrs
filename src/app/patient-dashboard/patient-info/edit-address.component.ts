@@ -14,16 +14,16 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   subscription: Subscription;
   public display: boolean = false;
-  private address1: string ;
-  private address2: string ;
-  private address3: string ;
-  private cityVillage: string ;
-  private stateProvince: string ;
+  private address1: string;
+  private address2: string;
+  private address3: string;
+  private cityVillage: string;
+  private stateProvince: string;
   private preferredAddressUuid: string;
   private errors: any = [];
 
   constructor(private patientService: PatientService,
-              private personResourceService: PersonResourceService) { }
+    private personResourceService: PersonResourceService) { }
   ngOnInit(): void {
     this.getPatient();
   }
@@ -40,12 +40,14 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         this.patients = new Patient({});
         if (patient) {
           this.patients = patient;
-          this.address1 = (this.patients.person.preferredAddress as any).address1;
-          this.address2 = (this.patients.person.preferredAddress as any).address2;
-          this.address3 = (this.patients.person.preferredAddress as any).address3;
-          this.cityVillage = (this.patients.person.preferredAddress as any).cityVillage;
-          this.stateProvince = (this.patients.person.preferredAddress as any).stateProvince;
-          this.preferredAddressUuid = (this.patients.person.preferredAddress as any).uuid;
+          if (this.patients.person.preferredAddress) {
+            this.address1 = (this.patients.person.preferredAddress as any).address1;
+            this.address2 = (this.patients.person.preferredAddress as any).address2;
+            this.address3 = (this.patients.person.preferredAddress as any).address3;
+            this.cityVillage = (this.patients.person.preferredAddress as any).cityVillage;
+            this.stateProvince = (this.patients.person.preferredAddress as any).stateProvince;
+            this.preferredAddressUuid = (this.patients.person.preferredAddress as any).uuid;
+          }
         }
       }
     );
@@ -73,7 +75,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     };
     this.personResourceService.saveUpdatePerson(person.uuid, personAddressPayload).subscribe(
       (success) => {
-        if ( success ) {
+        if (success) {
           this.patientService.fetchPatientByUuid(this.patients.person.uuid);
         }
         console.log('success', success);
