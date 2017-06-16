@@ -1,0 +1,34 @@
+<div class="box-body">
+  <div [ngBusy]="{busy:[fetchingResults, isBusy],message:'Please wait loading data...'}"></div>
+<div class="component-wrapper">
+  <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Members of {{selectedCohortName}}</h4>
+  <div class="panel panel-default">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Identifier(s)</th>
+        <th>Patient Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr style="cursor: pointer;" (click)="loadPatientData(patient.uuid)" *ngFor="let patient of cohortMembers; let i = index;  ">
+       <!-- | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;  + (page - 1) * 10-->
+        <td>{{ i + 1 }}</td>
+        <td>
+          <span *ngFor="let identifier of patient.patient.identifiers">
+            {{identifier.display.split('=')[1]}}
+          </span>
+          </td>
+        <td >{{patient.patient.person.display}}</td>
+        <td >{{patient.patient.person.gender}}</td>
+        <td>{{patient.patient.person.age}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
 
 
 @Injectable()
 export class CohortResourceService {
 
     baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
+    private v: string = 'full';
 
 
     constructor(private _http: Http , private _appSettingsService: AppSettingsService) {
@@ -21,13 +23,20 @@ export class CohortResourceService {
     }
 
     getAllCohorts(): Observable <any> {
+      let params = new URLSearchParams();
+      params.set('v', 'full');
 
         let allCohortsUrl: string = this.baseOpenMrsUrl + 'cohort';
 
-       return this._http.get(allCohortsUrl)
+     // let request =
+       return this._http.get(allCohortsUrl,
+         {
+           search: params
+         })
            .map((response) => {
-               return response.json().results;
+               return response.json();
            });
+     // return this.cacheService.cacheRequest(allCohortsUrl, params, request);
     }
 
     // Fetch specific Cohort

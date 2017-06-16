@@ -1,0 +1,12 @@
+{
+  "id": "PatientListCohort",
+  "name": "Patient List Cohort",
+  "baseRoute": "patient-list-cohort",
+  "routeParameter": "",
+  "nonProgramRoutes": [],
+  "programs": [
+    {
+
+    }
+  ]
+}

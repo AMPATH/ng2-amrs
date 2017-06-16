@@ -43,9 +43,16 @@ const dashboardRoutes: Routes = [
       {
         path: 'useful-links',
         component: UsefulLinksComponent
-      }
+      },
+       {
+       path: 'patient-list-cohort',
+         loadChildren: () =>
+           System.import('../patient-list-cohort/patient-list-cohort.module')
+             .then(mod => mod.PatientListCohortModule)
+       }
     ]
   }
+
 ];
 
 export const dashboardRouting: ModuleWithProviders = RouterModule.forChild(dashboardRoutes);

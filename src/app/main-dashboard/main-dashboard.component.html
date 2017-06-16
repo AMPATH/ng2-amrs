@@ -61,6 +61,11 @@
                 <span class="glyphicon glyphicon-question-sign"></span> Useful Links
               </a>
             </li>
+            <li>
+              <a routerLink="/patient-list-cohort/patient-list" routerLinkActive="active">
+                <span class="glyphicon glyphicon-list"></span> Patient List
+              </a>
+            </li>
             <li class="last">
               <a routerLink="/feed-back" routerLinkActive="active">
                 <span class="fa fa-comments"></span> Feedback
@@ -81,6 +86,17 @@
 <aside class="main-sidebar">
   <section class="sidebar">
     <ul *ngIf="currentDashboard === 'clinic-dashboard'" class="sidebar-menu clinic-dashboard">
+      <li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
+        <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
+					<span class="icon-menu">
+            <span class="icon-menu-letter">{{route.menuStartLetter}}</span>
+					<span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
+					</span>
+          <span class="icon-menu-label">{{route.label}}</span>
+        </a>
+      </li>
+    </ul>
+    <ul *ngIf="currentDashboard === 'patient-list-cohort'" class="sidebar-menu patient-list-cohort">
       <li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
         <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
 					<span class="icon-menu">

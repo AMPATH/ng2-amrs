@@ -14,6 +14,7 @@ describe('Patient Routes Factory:', () => {
     let fakeRoutesProvider: RoutesProviderService = {
         analyticsDashboardConfig: {},
         clinicDashboardConfig: {},
+        patientListCohortConfig: {},
         patientDashboardConfig: {
             'id': 'patientDashboard',
             'name': 'Patient Dashboard',
