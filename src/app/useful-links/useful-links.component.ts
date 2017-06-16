@@ -28,6 +28,13 @@ export class UsefulLinksComponent implements OnInit {
     }
   ];
 
+  private _releaseNotes = [
+    {
+      url: 'https://wiki.ampath.or.ke/display/POC/POC+Version+2.3+release+notes+15th+June+2017',
+      title: 'POC Version 2.3 Release Notes '
+    }
+  ];
+
   constructor(private linksService: UsefulLinksService) {
     this.nativeWindow = linksService.getNativeWindow();
   }
@@ -41,6 +48,10 @@ export class UsefulLinksComponent implements OnInit {
 
   get externalLinks(): Array<any> {
     return this._links;
+  }
+
+  get releaseNotesLinks(): Array<any> {
+    return this._releaseNotes;
   }
 
 }
