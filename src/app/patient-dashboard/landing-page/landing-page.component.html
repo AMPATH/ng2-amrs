@@ -5,8 +5,8 @@
     <ng-container *ngFor="let row of availablePrograms; ">
       <div class="enrolled" *ngIf="row.isEnrolled">
         <div class="program-header-wrapper">
-          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on {{row.dateEnrolled}})
-          </h2>
+          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on
+            {{row.dateEnrolledView}})</h2>
           <div class="clear"></div>
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">
