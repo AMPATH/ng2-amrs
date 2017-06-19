@@ -151,7 +151,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
 
   private getLabel(order) {
     return {
-      orderDate: Moment(order.dateActivated).format('DD/MM/YYY'),
+      orderDate: Moment(order.dateActivated).format('DD-MM-YYYY'),
       testName: order.display,
       identifier: this.patientIdentifer,
       orderNumber: order.orderNumber

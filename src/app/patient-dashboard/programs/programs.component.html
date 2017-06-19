@@ -63,8 +63,8 @@
         <tbody>
           <tr style="cursor: pointer;" *ngFor="let patientProgram of enrolledProgrames">
             <td>{{patientProgram.display}}</td>
-            <td>{{patientProgram.dateEnrolled}}</td>
-            <td>{{patientProgram.dateCompleted}}</td>
+            <td>{{patientProgram.dateEnrolledView}}</td>
+            <td>{{patientProgram.dateCompletedView}}</td>
             <td>
               <button type="button" class="btn btn-xs edit-button" (click)="updateEnrollment(patientProgram)">
                <span class="glyphicon text-primary glyphicon-edit"></span>

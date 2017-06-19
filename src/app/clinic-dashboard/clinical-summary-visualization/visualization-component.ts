@@ -85,11 +85,11 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
     let _options = {};
     let subtitle = '';
     if (this.filterModel.startDate) {
-      subtitle = 'Starting from ' + this.filterModel.startDate.format('DD/MM/YYYY');
+      subtitle = 'Starting from ' + this.filterModel.startDate.format('DD-MM-YYYY');
     }
 
     if (this.filterModel.endDate) {
-      subtitle = subtitle + ' To ' + this.filterModel.endDate.format('DD/MM/YYYY');
+      subtitle = subtitle + ' To ' + this.filterModel.endDate.format('DD-MM-YYYY');
     }
 
     if (subtitle.length > 0) {
@@ -137,11 +137,11 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
     let _options = {};
     let subtitle = '';
     if (this.filterModel.startDate) {
-      subtitle = 'Starting from ' + this.filterModel.startDate.format('DD/MM/YYYY');
+      subtitle = 'Starting from ' + this.filterModel.startDate.format('DD-MM-YYYY');
     }
 
     if (this.filterModel.endDate) {
-      subtitle = subtitle + ' To ' + this.filterModel.endDate.format('DD/MM/YYYY');
+      subtitle = subtitle + ' To ' + this.filterModel.endDate.format('DD-MM-YYYY');
     }
 
     if (subtitle.length > 0) {
