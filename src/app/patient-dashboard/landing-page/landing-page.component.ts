@@ -280,6 +280,8 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.currentError = '';
     this.isEdit = false;
     this.errors = [];
+    this.dateEnrolled = undefined;
+    this.dateCompleted = undefined;
   }
 
 }

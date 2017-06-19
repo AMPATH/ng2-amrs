@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
 
-  patient: Patient  = new Patient({});
+  patient: Patient = new Patient({});
   searchIdentifiers: Object;
   birthdate;
   subscription: Subscription;
@@ -29,6 +29,9 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
           this.birthdate = Moment(patient.person.birthdate).format('l');
+        } else {
+          this.searchIdentifiers = undefined;
+          this.birthdate = undefined;
         }
       }
     );
