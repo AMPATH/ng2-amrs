@@ -5,17 +5,15 @@
     <ng-container *ngFor="let row of availablePrograms; ">
       <div class="enrolled" *ngIf="row.isEnrolled">
         <div class="program-header-wrapper">
-          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on
-            {{row.dateEnrolled}})</h2>
+          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on {{row.dateEnrolled}})
+          </h2>
           <div class="clear"></div>
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">
-          <a *ngIf="!row.isEdit" class="dropdown-toggle pull-right"
-             type="button" (click)="toggleDropDown(row)">
+          <a *ngIf="!row.isEdit" class="dropdown-toggle pull-right" type="button" (click)="toggleDropDown(row)">
             <i class="fa fa-pencil"></i>Edit
           </a>
-          <a *ngIf="row.isEdit" class="dropdown-toggle pull-right"
-             type="button" (click)="toggleDropDown(row)">
+          <a *ngIf="row.isEdit" class="dropdown-toggle pull-right" type="button" (click)="toggleDropDown(row)">
             <i class="fa fa-times"></i>Close
           </a>
           <div class="dropdown-menu dropdown-menu-right">
@@ -24,21 +22,20 @@
               <div class="input-group">
                 <label>Date Enrolled:</label>
                 <div class="ui-grid-col-10">
-                  <input [(ngModel)]="row.dateEnrolled" type="date" [value]="row.dateEnrolled"/>
+                  <input [(ngModel)]="row.dateEnrolled" type="date" [value]="row.dateEnrolled" />
                 </div>
               </div>
               <div class="input-group">
                 <label>Date Completed:</label>
                 <div class="ui-grid-col-10">
-                  <input [(ngModel)]="row.dateCompleted" type="date" [value]="row.dateCompleted"/>
+                  <input [(ngModel)]="row.dateCompleted" type="date" [value]="row.dateCompleted" />
                 </div>
               </div>
               <div class="input-group">
                 <label class="buttons"></label>
                 <div class="ui-grid-col-12 buttons">
-                  <a class="btn btn-primary" *ngIf="row.isEnrolled"
-                     [ngClass]="{'btn-primary': !row.isFocused, 'btn-info': row.isFocused}"
-                     (click)="editPatientEnrollment(row)">
+                  <a class="btn btn-primary" *ngIf="row.isEnrolled" [ngClass]="{'btn-primary': !row.isFocused, 'btn-info': row.isFocused}"
+                    (click)="editPatientEnrollment(row)">
                     <span *ngIf="!row.isFocused">Edit/Complete Program</span>
                     <span *ngIf="row.isFocused && row.dateCompleted">Completing Program.....</span>
                     <span *ngIf="row.isFocused && !row.dateCompleted">Editing Program.....</span>
@@ -52,8 +49,7 @@
           <div *ngIf="row.isEnrolled" class="program-info">
             <div class="program-snapshot">
               <div [ngSwitch]="row.baseRoute">
-                <hiv-snapshot (addPinkBackground)="onAddPinkBackground($event)" *ngSwitchCase="'hiv'"
-                              [patient]="patient">
+                <hiv-snapshot (addPinkBackground)="onAddPinkBackground($event)" *ngSwitchCase="'hiv'" [patient]="patient">
                 </hiv-snapshot>
               </div>
             </div>
@@ -63,10 +59,8 @@
         <div class="program-footer">
           <div class="input-group">
             <div class="ui-grid-col-12 buttons">
-              <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}"
-                 *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
-              <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}"
-                 *ngIf="row.isEnrolled">{{row.buttons.visit.display}}</a>
+              <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}" *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
+              <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}" *ngIf="row.isEnrolled">{{row.buttons.visit.display}}</a>
             </div>
           </div>
         </div>
@@ -77,44 +71,38 @@
     <h4 class="component-title">Enroll Patient to Program</h4>
     <div class="program-body">
       <em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em>
-      <div class="form-inline form-group">
-        <div class="input-group">
-          <label for="programs">Select Program:</label>
-          <div class="ui-grid-col-10">
-            <select class="form-control" id="programs" [(ngModel)]="program" type="date">
+      <div class="container-fluid">
+        <div class="row" style="padding:4px">
+          <div class="col-md-4 cell">
+            <label for="programs">Select Program:</label>
+            <div>
+              <select class="form-control" id="programs" [(ngModel)]="program" type="date">
               <ng-container *ngFor="let row of availablePrograms">
                 <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
                   {{row.program.display}}
                 </option>
               </ng-container>
             </select>
+            </div>
           </div>
-        </div>
-        <div class="input-group">
-          <label for="enrolledDate">Date Enrolled:</label>
-          <div class="ui-grid-col-10">
-            <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date"/>
+          <div class="col-md-4 cell">
+            <label for="enrolledDate">Date Enrolled:</label>
+            <div>
+              <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date" />
+            </div>
           </div>
-        </div>
-        <div class="input-group">
-          <label for="completedDate">Date Completed:</label>
-          <div class="ui-grid-col-10">
-            <input class="form-control" id="completedDate" [(ngModel)]="dateCompleted" type="date"/>
-          </div>
-        </div>
-        <div class="input-group">
-          <label class="buttons"></label>
-          <div class="ui-grid-col-12 buttons">
-            <a class="btn"
-               [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}"
-               (click)="enrollPatientToProgram()">
+          <div class="col-md-4 cell enroll-button">
+            <label class="buttons"></label>
+            <div class="buttons" style="width:100%">
+              <a class="btn" [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}" (click)="enrollPatientToProgram()">
               <span *ngIf="!isFocused">Enroll</span>
               <span *ngIf="isFocused">Enrolling.....</span>
             </a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="clear clear-fix">&nbsp;</div>
+      <!--<div class="clear clear-fix">&nbsp;</div>-->
     </div>
   </div>
 </div>
