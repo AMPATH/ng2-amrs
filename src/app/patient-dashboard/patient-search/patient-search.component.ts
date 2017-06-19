@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientSearchService } from './patient-search.service';
@@ -12,37 +12,48 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 })
 
 export class PatientSearchComponent implements OnInit, OnDestroy {
-  searchString: string;
   patients: Patient[];
   isResetButton: boolean = true;
   totalPatients: number;
   isLoading: boolean = false;
+  hasConductedSearch = false;
   page: number = 1;
   adjustInputMargin: string = '240px';
   subscription: Subscription;
-  public errorMessage: string;
+  public errorMessage: string = '';
 
-  constructor(private patientSearchService: PatientSearchService,
-              private route: ActivatedRoute,
-              private appFeatureAnalytics: AppFeatureAnalytics,
-              private router: Router) {
+  private _searchString: string;
+  public get searchString(): string {
+    return this._searchString;
+  }
+  public set searchString(v: string) {
+    this._searchString = v;
+    this.hasConductedSearch = false;
   }
 
 
+  constructor(private patientSearchService: PatientSearchService,
+    private route: ActivatedRoute,
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private router: Router) {
+  }
+
   ngOnInit() {
     if (window.innerWidth <= 768) {
-       this.adjustInputMargin = '0';
+      this.adjustInputMargin = '0';
     }
     this.route.queryParams.subscribe((params) => {
       if (params['reset'] !== undefined) {
         this.resetSearchList();
       } else {
         // load cached result
+        this.errorMessage = '';
         this.patientSearchService.patientsSearchResults.subscribe(
           (patients) => {
-            this.patients = patients;
-            this.searchString = this.patientSearchService.searchString;
-            this.totalPatients = this.patients.length;
+            this.onResultsFound(patients);
+          },
+          (error) => {
+            this.onError(error);
           }
         );
       }
@@ -53,6 +64,27 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  onResultsFound(results) {
+    // console.error('res', results);
+    if (results.length > 0) {
+      this.patients = results;
+      this.totalPatients = this.patients.length;
+    } else {
+      this.patients = [];
+      this.totalPatients = 0;
+    }
+    this.searchString = this.patientSearchService.searchString;
+    this.hasConductedSearch = true;
+  }
+
+  onError(error) {
+    this.isLoading = false;
+    this.resetInputMargin();
+    console.log('error', error);
+    this.errorMessage = error;
+    this.hasConductedSearch = false;
   }
 
   loadPatient(): void {
@@ -66,16 +98,12 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       }
       this.isLoading = true;
       this.patients = [];
+      this.errorMessage = '';
       this.subscription = this.patientSearchService.searchPatient(this.searchString, false)
         .subscribe(
         (data) => {
-          if (data.length > 0) {
-            this.patients = data;
-            this.totalPatients = this.patients.length;
-            this.isLoading = false;
-            this.resetInputMargin();
-          }
           this.isLoading = false;
+          this.onResultsFound(data);
           this.resetInputMargin();
           // app feature analytics
           this.appFeatureAnalytics
@@ -83,15 +111,11 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
         },
         (error) => {
-          this.isLoading = false;
-          this.resetInputMargin();
-          console.log('error', error);
-          this.errorMessage = error;
+          this.onError(error);
         }
         );
 
       this.isResetButton = true;
-
     }
   }
 
@@ -116,6 +140,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.totalPatients = 0;
     this.isResetButton = false;
     this.isLoading = false;
+    this.hasConductedSearch = false;
     this.resetInputMargin();
   }
 
