@@ -62,7 +62,8 @@ describe('Patient Reminder Service Unit Tests', function () {
                     "person_uuid": "patient-uuid",
                     "reminders": [
                         {
-                            "message": "Viral load test that was ordered on: (19/07/2016) resulted to an error. Please re-order.",
+                            "message": "Viral load test that was ordered on: (19-07-2016)" +
+                            " resulted to an error. Please re-order.",
                             "title": "Lab Error Reminder",
                             "type": "danger",
                             "display": {
@@ -71,7 +72,9 @@ describe('Patient Reminder Service Unit Tests', function () {
                             }
                         },
                         {
-                        "message": "Patient requires viral load. Patients on ART > 1 year require a viral load test every year. Last viral load: 0 on (12/06/2014) 32 months ago.",
+                        "message": "Patient requires viral load. Patients on ART > 1 year" +
+                        " require a viral load test every year. Last viral load: 0 on" +
+                        " (12-06-2014) 32 months ago.",
                         "title": "Viral Load Reminder",
                         "type": "danger",
                         "display": {
@@ -131,7 +134,8 @@ describe('Patient Reminder Service Unit Tests', function () {
           "person_uuid": "patient-uuid",
           "reminders": [
             {
-              "message": "Patient lab Order No. is currently being processed. Sample collected on 15/05/2017).",
+              "message": "Patient lab Order No. is currently being processed. Sample collected" +
+              " on 15-05-2017).",
               "title": "Pending Lab Order Result",
               "type": "info",
               "display": {

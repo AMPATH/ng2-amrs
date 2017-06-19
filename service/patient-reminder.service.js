@@ -20,7 +20,7 @@ function viralLoadReminders(data) {
     let labMessage = 'Last viral load: none';
     if (data.last_vl_date) {
         labMessage = 'Last viral load: ' + data.viral_load + ' on ' +
-            '(' + Moment(data.last_vl_date).format('DD/MM/YYYY') + ')' + ' ' +
+            '(' + Moment(data.last_vl_date).format('DD-MM-YYYY') + ')' + ' ' +
             data.months_since_last_vl_date + ' months ago.';
     }
 
@@ -73,9 +73,9 @@ function inhReminders(data) {
         data.inh_treatment_days_remaining < 150) {
         reminders.push({
             message: 'Patient started INH treatment on (' +
-            Moment(data.tb_prophylaxis_start_date).format('DD/MM/YYYY') + ')' +
+            Moment(data.tb_prophylaxis_start_date).format('DD-MM-YYYY') + ')' +
             'Expected to end on (' +
-            Moment(data.tb_prophylaxis_end_date).format('DD/MM/YYYY') + ')'
+            Moment(data.tb_prophylaxis_end_date).format('DD-MM-YYYY') + ')'
             + data.inh_treatment_days_remaining +
             ' days remaining.',
             title: 'INH Treatment Reminder',
@@ -91,7 +91,7 @@ function inhReminders(data) {
         data.inh_treatment_days_remaining > 0) {
         reminders.push({
             message: 'Patient has been on INH treatment for the last 5 months, expected to end on (' +
-            Moment(data.tb_prophylaxis_end_date).format('MM/DD/YYYY') + ')',
+            Moment(data.tb_prophylaxis_end_date).format('MM-DD-YYYY') + ')',
             title: 'INH Treatment Reminder',
             type: 'danger',
             display: {
@@ -109,7 +109,7 @@ function viralLoadErrors(data) {
     if (data.ordered_vl_has_error === 1) {
         reminders.push({
             message: 'Viral load test that was ordered on: (' +
-            Moment(data.vl_error_order_date).format('DD/MM/YYYY') + ') ' +
+            Moment(data.vl_error_order_date).format('DD-MM-YYYY') + ') ' +
             'resulted to an error. Please re-order.',
             title: 'Lab Error Reminder',
             type: 'danger',
@@ -127,7 +127,7 @@ function pendingViralOrder(data) {
     if (data.overdue_vl_lab_order > 0) {
         reminders.push({
             message: 'No result reported for patient\'s viral load test drawn on (' +
-            Moment(data.vl_order_date).format('DD/MM/YYYY') + ') days ago' +
+            Moment(data.vl_order_date).format('DD-MM-YYYY') + ') days ago' +
             ' Please follow up with lab or redraw new specimen.',
             title: 'Overdue Viral Load Order',
             type: 'danger',
@@ -145,7 +145,7 @@ function newViralLoadPresent(data) {
     if (data.new_viral_load_present) {
         reminders.push({
             message: 'New viral load result: ' + data.viral_load + ' (collected on ' +
-            Moment(data.last_vl_date).format('DD/MM/YYYY') + ').',
+            Moment(data.last_vl_date).format('DD-MM-YYYY') + ').',
             title: 'New Viral Load present',
             type: 'success',
             display: {
@@ -166,7 +166,7 @@ function pendingViralLoadLabResult(eidResults) {
       parseInt(Moment().month(dateSplit[1]).format('M'), 10)-1, dateSplit[0] ]);
     reminders.push({
       message: 'Patient lab Order No.' + data.OrderNo + ' is currently being processed. Sample' +
-      ' collected on ' + dateCollected.format('DD/MM/YYYY') + ').',
+      ' collected on ' + dateCollected.format('DD-MM-YYYY') + ').',
       title  : 'Pending Lab Order Result',
       type   : 'info',
       display: {
