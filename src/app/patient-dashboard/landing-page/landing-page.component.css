@@ -240,3 +240,11 @@ label.buttons {
   background-color: pink;
 }
 
+.cell {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.enroll-button {
+margin-top:-2px;
+}
