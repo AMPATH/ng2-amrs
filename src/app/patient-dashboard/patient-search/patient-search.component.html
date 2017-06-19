@@ -5,8 +5,7 @@
 				<label for="search-textbox"><h2>Patient Search</h2></label>
 				<div class="input-wrapper" [style.margin-right]="adjustInputMargin">
 					<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
-						(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier"
-						autofocus="true">
+					 (ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier" autofocus="true">
 				</div>
 				<div class="input-group-btn pull-right">
 					<button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
@@ -20,9 +19,9 @@
 				<div class="clear"></div>
 			</div>
 		</form>
-		<div *ngIf="totalPatients > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span>
-			<span *ngIf="totalPatients <= 1"> patient found</span>
-			<span *ngIf="totalPatients > 1"> patients found</span>
+		<div *ngIf="hasConductedSearch===true && searchString.length > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span>
+			<span *ngIf="totalPatients === 1"> patient found</span>
+			<span *ngIf="totalPatients !== 1"> patients found</span>
 		</div>
 
 		<div [hidden]="!totalPatients > 0" class="panel panel-primary" style="padding:2px;">
@@ -56,7 +55,7 @@
 
 							</td>
 							<td>{{patient.person.display}}</td>
-							<td>{{patient.person.gender}}</td> 
+							<td>{{patient.person.gender}}</td>
 							<td>{{patient.person.age}}</td>
 						</tr>
 					</tbody>
