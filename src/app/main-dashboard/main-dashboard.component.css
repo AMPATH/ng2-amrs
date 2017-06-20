@@ -169,7 +169,7 @@ footer p {
 .skin-black-light .main-header .navbar .nav .open > a:hover,
 .skin-black-light .main-header .navbar .nav .open > a:focus,
 .skin-black-light .main-header .navbar .nav > .active > a {
-  line-height: 47px;
+  line-height: 50px;
 }
 
 .box-body .component-wrapper {
@@ -445,7 +445,8 @@ todays-vitals ul.list-group {
     position: absolute;
     top: 0;
     left: 55px;
-    width: calc(100% - 65px);
+    margin-left:0;
+    width: calc(100% - 55px);
   }
 
   .sidebar-toggle .logo-img {
