@@ -77,7 +77,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Mount Elgon Clinic (Kapsokwony)",
-        "mflCode": "",
+        "mflCode": "16025",
         "eidDisplay": ""
     },
     "08feba98-1352-11df-a1f1-0026b9348838": {
@@ -86,7 +86,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Kapenguria Clinic",
-        "mflCode": "",
+        "mflCode": "19088",
         "eidDisplay": ""
     },
     "08febb92-1352-11df-a1f1-0026b9348838": {
@@ -94,7 +94,7 @@
         "mrsDisplay": "Kitale",
         "cityVillage": "",
         "county": "",
-        "description": "Kitale Clinic",
+        "description": "Kitale District Hospital",
         "mflCode": "14947",
         "eidDisplay": ""
     },
@@ -158,7 +158,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Kabarnet Clinic",
-        "mflCode": "",
+        "mflCode": "14607",
         "eidDisplay": ""
     },
     "08fec60a-1352-11df-a1f1-0026b9348838": {
@@ -248,7 +248,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Ziwa Clinic",
-        "mflCode": "4902",
+        "mflCode": "15788",
         "eidDisplay": ""
     },
     "090054a2-1352-11df-a1f1-0026b9348838": {
@@ -473,7 +473,7 @@
         "cityVillage": "",
         "county": "Rift valley",
         "description": "Burnt Forest Satellite Clinic",
-        "mflCode": "",
+        "mflCode": "15464",
         "eidDisplay": ""
     },
     "0900831e-1352-11df-a1f1-0026b9348838": {
@@ -482,7 +482,7 @@
         "cityVillage": "Bumala",
         "county": "Western",
         "description": "Bumala \"A\" Health Center(Busia Satellite Clinic)",
-        "mflCode": "",
+        "mflCode": "15823",
         "eidDisplay": ""
     },
     "09008422-1352-11df-a1f1-0026b9348838": {
@@ -518,7 +518,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Satellite Clinic of Turbo",
-        "mflCode": "Turbo",
+        "mflCode": "16010",
         "eidDisplay": ""
     },
     "0900880a-1352-11df-a1f1-0026b9348838": {
@@ -527,7 +527,7 @@
         "cityVillage": "Turbo",
         "county": "Uasin Gishu",
         "description": "Chepsaita Dispensary(Turbo Satellite Clinic)",
-        "mflCode": "Turbo",
+        "mflCode": "14358",
         "eidDisplay": ""
     },
     "09008904-1352-11df-a1f1-0026b9348838": {
@@ -554,7 +554,7 @@
         "cityVillage": "Malaba",
         "county": "Western",
         "description": "Lukolis Dispensary(Amukura satellite clinic)",
-        "mflCode": "",
+        "mflCode": "15968",
         "eidDisplay": ""
     },
     "09008fda-1352-11df-a1f1-0026b9348838": {
@@ -563,7 +563,7 @@
         "cityVillage": "Bokoli",
         "county": "Western",
         "description": "Bokoli Hospital(Webuye satellite clinic)",
-        "mflCode": "16161",
+        "mflCode": "15808",
         "eidDisplay": ""
     },
     "090090d4-1352-11df-a1f1-0026b9348838": {
@@ -572,7 +572,7 @@
         "cityVillage": "Malaba",
         "county": "Western",
         "description": "Angurai Health Center(Teso satellite clinic)",
-        "mflCode": "",
+        "mflCode": "15800",
         "eidDisplay": ""
     },
     "090091c4-1352-11df-a1f1-0026b9348838": {
@@ -581,7 +581,7 @@
         "cityVillage": "Cheptais",
         "county": "Western",
         "description": "Cheptais Sub-District Hospital(Mt. Elgon Satellite Clinic)",
-        "mflCode": "",
+        "mflCode": "15855",
         "eidDisplay": ""
     },
     "090092b4-1352-11df-a1f1-0026b9348838": {
@@ -590,7 +590,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Mt. Elgon Satellite Clinic",
-        "mflCode": "",
+        "mflCode": "15856",
         "eidDisplay": ""
     },
     "0900939a-1352-11df-a1f1-0026b9348838": {
@@ -599,7 +599,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Satellite Clinic of Kabarnet",
-        "mflCode": "",
+        "mflCode": "15138",
         "eidDisplay": ""
     },
     "0900948a-1352-11df-a1f1-0026b9348838": {
@@ -635,7 +635,7 @@
         "cityVillage": "Kesses",
         "county": "",
         "description": "Moi University  Main Campus clinic",
-        "mflCode": "",
+        "mflCode": "14841",
         "eidDisplay": ""
     },
     "0900acea-1352-11df-a1f1-0026b9348838": {
@@ -644,7 +644,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Soy Clinic",
-        "mflCode": "",
+        "mflCode": "15623",
         "eidDisplay": ""
     },
     "0900adee-1352-11df-a1f1-0026b9348838": {
@@ -662,7 +662,7 @@
         "cityVillage": "Misikhu",
         "county": "Western",
         "description": "Sinoko Dispensary(Bungoma East)",
-        "mflCode": "",
+        "mflCode": "16126",
         "eidDisplay": ""
     },
     "0900b000-1352-11df-a1f1-0026b9348838": {
@@ -680,7 +680,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Satellite Clinic of Ziwa",
-        "mflCode": "",
+        "mflCode": "15206",
         "eidDisplay": ""
     },
     "0900b212-1352-11df-a1f1-0026b9348838": {
@@ -689,7 +689,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Mukhobola Clinic ",
-        "mflCode": "",
+        "mflCode": "16029",
         "eidDisplay": ""
     },
     "0900b316-1352-11df-a1f1-0026b9348838": {
@@ -698,7 +698,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Nambale Clinic ",
-        "mflCode": "",
+        "mflCode": "16066",
         "eidDisplay": ""
     },
     "0900b424-1352-11df-a1f1-0026b9348838": {
@@ -707,7 +707,7 @@
         "cityVillage": "",
         "county": "Rift valley",
         "description": "Satellite Clinic of Module 3",
-        "mflCode": "",
+        "mflCode": "15204",
         "eidDisplay": ""
     },
     "0900b532-1352-11df-a1f1-0026b9348838": {
@@ -716,7 +716,7 @@
         "cityVillage": "15834",
         "county": "Western",
         "description": "Busia Satellite Clinic",
-        "mflCode": "",
+        "mflCode": "15834",
         "eidDisplay": ""
     },
     "0900b636-1352-11df-a1f1-0026b9348838": {
@@ -734,7 +734,7 @@
         "cityVillage": "Busia",
         "county": "Western",
         "description": "Bumala \"B\" Health Center (Khunyangu Satellite clinic)",
-        "mflCode": "15939",
+        "mflCode": "15824",
         "eidDisplay": ""
     },
     "0900b866-1352-11df-a1f1-0026b9348838": {
@@ -752,7 +752,7 @@
         "cityVillage": "",
         "county": "Western",
         "description": "Satellite Clinic Site for Naitiri",
-        "mflCode": "",
+        "mflCode": "16061",
         "eidDisplay": ""
     },
     "25972cec-2e14-4047-a537-404c6ad18389": {
@@ -761,7 +761,7 @@
         "cityVillage": "Kaptama",
         "county": "Western",
         "description": "Satellite clinic of Mount Elgon(Kapsokwony)\r\n",
-        "mflCode": "",
+        "mflCode": "15925",
         "eidDisplay": ""
     },
     "ffb2c2f0-a62c-4be8-960a-05b704bd66cd": {
@@ -770,7 +770,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Sio port",
-        "mflCode": "",
+        "mflCode": "16128",
         "eidDisplay": ""
     },
     "1be88533-0a70-40a4-9c45-1a7a936fd23a": {
@@ -788,7 +788,7 @@
         "cityVillage": "Kopsiro",
         "county": "Western",
         "description": "Satellite Clinic of Mt. elgon.",
-        "mflCode": "",
+        "mflCode": "15956",
         "eidDisplay": ""
     },
     "7a8c0cc5-be43-48e1-aa41-33cb1e9cc26f": {
@@ -797,7 +797,7 @@
         "cityVillage": "Changara",
         "county": "Western",
         "description": "Teso Satellte Clinic",
-        "mflCode": "",
+        "mflCode": "16421",
         "eidDisplay": ""
     },
     "cb31d052-b668-4321-80ad-c0aaa571f87b": {
@@ -806,7 +806,7 @@
         "cityVillage": "Malaba",
         "county": "Western",
         "description": "Satellite clinic of Teso",
-        "mflCode": "",
+        "mflCode": "15993",
         "eidDisplay": ""
     },
     "096ac36e-47f9-49e0-a62b-d87a09753b61": {
@@ -815,7 +815,7 @@
         "cityVillage": "Amagoro",
         "county": "Western",
         "description": "Amase Dispensary(Amukura satellite clinic)",
-        "mflCode": "",
+        "mflCode": "15797",
         "eidDisplay": ""
     },
     "69d9a87d-18f2-4113-840d-95668d1e9e16": {
@@ -824,7 +824,7 @@
         "cityVillage": "Busia",
         "county": "Western",
         "description": "Obekai Dispensary(Amukura satellite clinic)",
-        "mflCode": "",
+        "mflCode": "16087",
         "eidDisplay": ""
     },
     "19874e26-f614-47bb-99c7-a3756bfe3c64": {
@@ -833,7 +833,7 @@
         "cityVillage": "",
         "county": "Rift valley",
         "description": "Satellite Clinic to Iten",
-        "mflCode": "",
+        "mflCode": "15703",
         "eidDisplay": ""
     },
     "bcc27a76-1980-4efe-b72e-ca40019ef6ce": {
@@ -842,7 +842,7 @@
         "cityVillage": "",
         "county": "Rift Valley",
         "description": "Satellite clinic to Kabarnet.",
-        "mflCode": "",
+        "mflCode": "15718",
         "eidDisplay": ""
     },
     "dba01903-14bd-4978-9264-f6ca896b0ca4": {
@@ -851,7 +851,7 @@
         "cityVillage": "",
         "county": "Western",
         "description": "Satellite clinic to Naitiri",
-        "mflCode": "",
+        "mflCode": "15943",
         "eidDisplay": ""
     },
     "56cf9621-d946-4ac0-a587-4024792c0934": {
@@ -860,7 +860,7 @@
         "cityVillage": "",
         "county": "Western",
         "description": "Satellite clinic to Naitiri.",
-        "mflCode": "",
+        "mflCode": "17986",
         "eidDisplay": ""
     },
     "65bdb112-a254-4cf9-a5a7-29dce997312d": {
@@ -878,7 +878,7 @@
         "cityVillage": "Nambale",
         "county": "Western",
         "description": "Nambale Satellite Clinic",
-        "mflCode": "",
+        "mflCode": "15975",
         "eidDisplay": ""
     },
     "00b47ef5-a29b-40a2-a7f4-6851df8d6532": {
@@ -887,7 +887,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A satellite to Port Victoria",
-        "mflCode": "",
+        "mflCode": "17680",
         "eidDisplay": ""
     },
     "79fcf21c-8a00-44ba-9555-dde4dd877c4a": {
@@ -905,7 +905,7 @@
         "cityVillage": "",
         "county": "",
         "description": "These is a health centre ",
-        "mflCode": "",
+        "mflCode": "14437",
         "eidDisplay": ""
     },
     "2b0419c2-275f-4354-8b49-4c97d033ecbb": {
@@ -914,7 +914,7 @@
         "cityVillage": "",
         "county": "",
         "description": "This is a dispensary and its Chulaimbo's Satellites",
-        "mflCode": "",
+        "mflCode": "14046",
         "eidDisplay": ""
     },
     "01c73fdc-65ce-4349-abdf-bbc554178b47": {
@@ -923,7 +923,7 @@
         "cityVillage": "",
         "county": "",
         "description": "This is a dispensary and its Chulaimbo's Satellites",
-        "mflCode": "",
+        "mflCode": "17175",
         "eidDisplay": ""
     },
     "b5d03983-f24e-4fdc-9ff5-33fc87dee02b": {
@@ -932,7 +932,7 @@
         "cityVillage": "",
         "county": "",
         "description": "This is a dispensary and its Chulaimbo's Satellites",
-        "mflCode": "",
+        "mflCode": "14094",
         "eidDisplay": ""
     },
     "8f537fab-0b7f-4b72-a462-042eefad058c": {
@@ -941,7 +941,7 @@
         "cityVillage": "",
         "county": "",
         "description": "satelite at Kamolo Dispensary,to be run by Teso, AMPATH clinic",
-        "mflCode": "",
+        "mflCode": "17242",
         "eidDisplay": ""
     },
     "8ce15cad-c7ff-41d9-b55c-5230116c3bf7": {
@@ -950,7 +950,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A satellite of Iten Clinic",
-        "mflCode": "",
+        "mflCode": "14781",
         "eidDisplay": ""
     },
     "27edd245-5205-4e66-82bd-d314c547d16b": {
@@ -959,7 +959,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A satellite of Nambale",
-        "mflCode": "",
+        "mflCode": "15985",
         "eidDisplay": ""
     },
     "e2d2926e-49e6-4a27-b701-73b6e263a4fd": {
@@ -968,7 +968,7 @@
         "cityVillage": "Huruma",
         "county": "Rift Valley",
         "description": "Satellite clinic to UGDH",
-        "mflCode": "",
+        "mflCode": "14555",
         "eidDisplay": ""
     },
     "4fb82b14-c0e4-46d0-9864-a36e2d6b6c8a": {
@@ -977,7 +977,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Kosirai Division",
-        "mflCode": "",
+        "mflCode": "15194",
         "eidDisplay": ""
     },
     "53c7ebb2-78c2-4ce3-a504-f37a6cb998aa": {
@@ -986,7 +986,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Dispensary in Kosirai Division",
-        "mflCode": "",
+        "mflCode": "14257",
         "eidDisplay": ""
     },
     "17cc5ee1-b702-4b4b-9ea7-9fc7083dd56e": {
@@ -995,7 +995,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Kosirai Division",
-        "mflCode": "",
+        "mflCode": "14587",
         "eidDisplay": ""
     },
     "469471e2-5b1e-46be-9232-a738f8cd717b": {
@@ -1004,7 +1004,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Kosirai Division",
-        "mflCode": "",
+        "mflCode": "15022",
         "eidDisplay": ""
     },
     "8eedf128-40ed-4fba-9240-3cc92234720f": {
@@ -1013,7 +1013,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Kosirai Division",
-        "mflCode": "",
+        "mflCode": "14977",
         "eidDisplay": ""
     },
     "a30955e0-275f-48ca-974d-438368a0685a": {
@@ -1022,7 +1022,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Kosirai Division",
-        "mflCode": "",
+        "mflCode": "15342",
         "eidDisplay": ""
     },
     "96d2964e-8cec-4eca-ad05-a9c1fb29a045": {
@@ -1031,7 +1031,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "Turbo",
+        "mflCode": "14377",
         "eidDisplay": ""
     },
     "2003e950-5b62-4330-a94c-cf8165f75084": {
@@ -1040,7 +1040,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "15255",
         "eidDisplay": ""
     },
     "441451e5-aabd-4e71-87dd-8b7c5f651434": {
@@ -1049,7 +1049,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "14354",
         "eidDisplay": ""
     },
     "4de54b6f-6f60-4b56-a801-087603d2f294": {
@@ -1058,7 +1058,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "15753",
         "eidDisplay": ""
     },
     "f030c7f2-9790-41d0-a704-f5a164909d17": {
@@ -1067,7 +1067,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "17331",
         "eidDisplay": ""
     },
     "a27cec49-110c-41a1-9a6f-964d6ac2359d": {
@@ -1076,7 +1076,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "15680",
         "eidDisplay": ""
     },
     "d09c6925-1e9a-4973-921d-d0014d7825ec": {
@@ -1085,7 +1085,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "14337",
         "eidDisplay": ""
     },
     "12aeb8ab-690c-47e0-b41f-e261dac1279c": {
@@ -1094,7 +1094,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo Division",
-        "mflCode": "",
+        "mflCode": "14339",
         "eidDisplay": ""
     },
     "eb32b031-30df-40d9-8aef-d88fbb763852": {
@@ -1103,7 +1103,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Teso Division",
-        "mflCode": "",
+        "mflCode": "15792",
         "eidDisplay": ""
     },
     "291bdf8e-93ed-4898-a58f-7d9f7f74128e": {
@@ -1112,7 +1112,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Teso Division",
-        "mflCode": "",
+        "mflCode": "15789",
         "eidDisplay": ""
     },
     "1243cf8b-fced-482c-9d95-c92f28bfcbea": {
@@ -1121,7 +1121,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Teso Division",
-        "mflCode": "",
+        "mflCode": "16021",
         "eidDisplay": ""
     },
     "e8c7759a-c99a-46de-82f8-d7c9f67eb237": {
@@ -1130,7 +1130,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Sambut - Dispensary in Turbo division",
-        "mflCode": "",
+        "mflCode": "15525",
         "eidDisplay": ""
     },
     "00ce435c-3f27-4e89-a7f8-80fd102ff410": {
@@ -1139,7 +1139,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Dispensary in Turbo division",
-        "mflCode": "",
+        "mflCode": "15344",
         "eidDisplay": ""
     },
     "2b338894-e81d-48e9-83d5-9280c8f549d4": {
@@ -1148,7 +1148,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Health Centre in Turbo division",
-        "mflCode": "",
+        "mflCode": "15616",
         "eidDisplay": ""
     },
     "1d3bc503-925b-4a31-91da-337b611cc27a": {
@@ -1166,7 +1166,7 @@
         "cityVillage": "",
         "county": "",
         "description": "Used by CDM team and their forms being entered to AMRS",
-        "mflCode": "",
+        "mflCode": "17243",
         "eidDisplay": ""
     },
     "8bb0593f-5dca-4828-a443-53d41f040d8c": {
@@ -1175,7 +1175,7 @@
         "cityVillage": "",
         "county": "",
         "description": "New location in Kitale",
-        "mflCode": "",
+        "mflCode": "14753",
         "eidDisplay": ""
     },
     "a8f5b2b9-d2f0-454b-a7aa-46a1fbca17d3": {
@@ -1184,7 +1184,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A dispensary in Mosoriot Division",
-        "mflCode": "",
+        "mflCode": "14368",
         "eidDisplay": ""
     },
     "e05cbb83-9418-4ebc-9240-ae2512d70321": {
@@ -1193,7 +1193,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A dispensary in Turbo division and Uasin Gishu county",
-        "mflCode": "",
+        "mflCode": "14799",
         "eidDisplay": ""
     },
     "b77f94ea-62ea-469a-8a88-5aa2d33bdaaf": {
@@ -1202,7 +1202,7 @@
         "cityVillage": "",
         "county": "Western",
         "description": " Dispensary - a satellite of Mt Elgon.\r\n    ",
-        "mflCode": "",
+        "mflCode": "15910",
         "eidDisplay": ""
     },
     "e2546b92-17df-4640-a38b-c4f30b0cfd81": {
@@ -1211,7 +1211,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A dispensary in Turbo",
-        "mflCode": "",
+        "mflCode": "15254",
         "eidDisplay": ""
     },
     "3e04788f-6761-412a-8db6-08a713f59afc": {
@@ -1220,7 +1220,7 @@
         "cityVillage": "",
         "county": "",
         "description": "A dispensary in Turbo",
-        "mflCode": "",
+        "mflCode": "15449",
         "eidDisplay": ""
     },
     "098148c6-9ffd-4c30-9dca-c8fa26c39eaf": {
@@ -1229,7 +1229,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "16348",
         "eidDisplay": ""
     },
     "b0773cd5-e0c0-4cc7-8cbd-482407311b50": {
@@ -1238,7 +1238,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "14438",
         "eidDisplay": ""
     },
     "dfa41633-bef8-4465-b773-8254cef7cc7f": {
@@ -1247,7 +1247,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "14280",
         "eidDisplay": ""
     },
     "2f4c8dde-1bc1-4224-9e1e-a4d915e74210": {
@@ -1274,7 +1274,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "19205",
         "eidDisplay": ""
     },
     "f83a6fbc-ad66-491e-82d3-72155661c498": {
@@ -1283,7 +1283,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "15655",
         "eidDisplay": ""
     },
     "f4121927-e8ac-46d1-8b7d-fa6d9adcb677": {
@@ -1292,7 +1292,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "17945",
         "eidDisplay": ""
     },
     "b99d3714-9715-484e-8ad9-bf0ada16fdf4": {
@@ -1301,7 +1301,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "16357",
         "eidDisplay": ""
     },
     "f6d67dad-cdf4-4756-82c8-cb34d1eecc3a": {
@@ -1310,7 +1310,7 @@
         "cityVillage": "Eldoret",
         "county": "",
         "description": "Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "19173",
         "eidDisplay": ""
     },
     "294efcca-cf90-40da-8abb-1e082866388d": {
@@ -1319,7 +1319,7 @@
         "cityVillage": null,
         "county": null,
         "description": "A Private Hospital in Eldoret",
-        "mflCode": "",
+        "mflCode": "18776",
         "eidDisplay": ""
     },
     "8f1c7aca-97e5-4cca-be46-21969abde1c8": {
@@ -1328,7 +1328,7 @@
         "cityVillage": null,
         "county": null,
         "description": "A private hospital in Eldoret.",
-        "mflCode": "",
+        "mflCode": "14435",
         "eidDisplay": ""
     },
     "717758f6-8dec-443e-bf1c-ca0bf8a5ec6d": {
@@ -1337,7 +1337,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Dispensary in Bunyala sub-county",
-        "mflCode": "",
+        "mflCode": "16131",
         "eidDisplay": ""
     },
     "fece02d9-b3cd-4eaf-802f-8ad33ace4c30": {
@@ -1346,7 +1346,7 @@
         "cityVillage": null,
         "county": null,
         "description": "Dispensary in Bunyala Sub-County.",
-        "mflCode": "",
+        "mflCode": "16095",
         "eidDisplay": ""
     },
     "68df53ea-d990-4769-ae2d-34ec85218325": {
@@ -1355,7 +1355,7 @@
         "cityVillage": null,
         "county": null,
         "description": "A dispensary in Bunyala Sub-county",
-        "mflCode": "",
+        "mflCode": "15811",
         "eidDisplay": ""
     },
     "0c2b5af9-43e1-4182-9292-59f499d23c9c": {
@@ -1364,7 +1364,7 @@
         "cityVillage": "Eldoret",
         "county": "Uasin-Gishu",
         "description": "Private Hospital in Eldoret\r\nunder the Private Sector Engagement program\r\n(formally PPP)",
-        "mflCode": "",
+        "mflCode": "18983",
         "eidDisplay": ""
     },
     "402e0744-82be-4784-bb6e-e5a30d1055cf": {
@@ -1382,7 +1382,7 @@
         "cityVillage": null,
         "county": "UasinGishu",
         "description": "A community in Turbo",
-        "mflCode": "",
+        "mflCode": "15753",
         "eidDisplay": ""
     },
     "ac339ab6-49e3-4b33-949d-505358797d5a": {
@@ -1391,7 +1391,7 @@
         "cityVillage": "kapngetich",
         "county": "Nandi",
         "description": "A community In Kosirai Division",
-        "mflCode": "",
+        "mflCode": "15342",
         "eidDisplay": ""
     },
     "8bfe3e63-ce86-4d5b-b3ae-b9ec13628530": {
@@ -1445,7 +1445,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A health Facility in Busia County",
-        "mflCode": "",
+        "mflCode": "16129",
         "eidDisplay": ""
     },
     "cf044cde-d23b-4bf2-a152-e83a0e9a2288": {
@@ -1454,7 +1454,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A Health Facility in Nasewa",
-        "mflCode": "",
+        "mflCode": "16074",
         "eidDisplay": ""
     },
     "751a05f1-6889-48ec-911b-d626ac02d9cd": {
@@ -1463,7 +1463,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Nasewa",
-        "mflCode": "",
+        "mflCode": "Mabunge",
         "eidDisplay": ""
     },
     "f7896a4a-2348-4493-ac02-0772255f49f6": {
@@ -1472,7 +1472,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Nasewa",
-        "mflCode": "",
+        "mflCode": "Buyama",
         "eidDisplay": ""
     },
     "356f3aaa-bd92-4823-a602-33ea6efe44d4": {
@@ -1481,7 +1481,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Nasewa",
-        "mflCode": "",
+        "mflCode": "16074",
         "eidDisplay": ""
     },
     "eb85f1ae-6d39-4929-bd99-2002f4eb96a8": {
@@ -1490,7 +1490,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Nasewa",
-        "mflCode": "",
+        "mflCode": "16074",
         "eidDisplay": ""
     },
     "97157544-80c4-469d-b7bc-92e3053ded8e": {
@@ -1499,7 +1499,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A health facility in Sikarira",
-        "mflCode": "",
+        "mflCode": "16485",
         "eidDisplay": ""
     },
     "a49aa7a3-c5ae-4c7a-a6a0-3b9e5ba60522": {
@@ -1508,7 +1508,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A Community Unit in Bwaliro",
-        "mflCode": "",
+        "mflCode": "15822",
         "eidDisplay": ""
     },
     "b940a5af-07ce-4fb0-ae5c-3271943c8ce1": {
@@ -1517,7 +1517,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Sikarira",
-        "mflCode": "",
+        "mflCode": "16485",
         "eidDisplay": ""
     },
     "1e92054b-9aed-42b7-b358-95cd311f98e2": {
@@ -1526,7 +1526,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A health Facility in Busia County",
-        "mflCode": "",
+        "mflCode": "16129",
         "eidDisplay": ""
     },
     "8d2265b4-d311-4a92-a792-2097d22ac174": {
@@ -1535,7 +1535,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Sirimba",
-        "mflCode": "",
+        "mflCode": "16129",
         "eidDisplay": ""
     },
     "7f95db31-e91b-4753-8b92-1d52aa9b4abf": {
@@ -1544,7 +1544,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A Health Facility in Busia",
-        "mflCode": "",
+        "mflCode": "17165",
         "eidDisplay": ""
     },
     "c88683c8-988c-4580-afaa-c2909597f758": {
@@ -1553,7 +1553,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Ikonzo",
-        "mflCode": "",
+        "mflCode": "17165",
         "eidDisplay": ""
     },
     "57e7d161-13da-464f-a7b5-bffbade5b2de": {
@@ -1562,7 +1562,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community Unit in Ikonzo",
-        "mflCode": "",
+        "mflCode": "17165",
         "eidDisplay": ""
     },
     "d83e9d9e-8211-414d-8269-7b9308184b82": {
@@ -1589,7 +1589,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "Is a health Facility in Bujumba",
-        "mflCode": "",
+        "mflCode": "15816",
         "eidDisplay": ""
     },
     "1646cb1f-2e3c-4ca3-9157-a4ad2f67fe38": {
@@ -1598,7 +1598,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "Is a community Facility in Bujumba",
-        "mflCode": "",
+        "mflCode": "15816",
         "eidDisplay": ""
     },
     "956794fa-2193-4ff6-bad1-65b947d0faa3": {
@@ -1607,7 +1607,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A dispensary in Busia",
-        "mflCode": "",
+        "mflCode": "17165",
         "eidDisplay": ""
     },
     "49066b8b-2b9a-43cf-b3e4-18d3759ecd00": {
@@ -1616,7 +1616,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A dispensary in Busia",
-        "mflCode": "",
+        "mflCode": "17165",
         "eidDisplay": ""
     },
     "cb0a7e64-dd5d-4c46-9cb3-c382d95e9c50": {
@@ -1625,7 +1625,7 @@
         "cityVillage": null,
         "county": "Busia",
         "description": "A community unit in Ikonzo",
-        "mflCode": "",
+        "mflCode": "16485",
         "eidDisplay": ""
     },
     "e155b8b0-e89d-4916-8b6c-3af9d93b582b": {
@@ -1652,7 +1652,7 @@
         "cityVillage": null,
         "county": "Uasin Gishu",
         "description": "A community unit in Matunda",
-        "mflCode": "",
+        "mflCode": "16364",
         "eidDisplay": ""
     },
     "f8bf061a-8ef2-4145-9522-03e642d23eaf": {
@@ -1661,7 +1661,7 @@
         "cityVillage": null,
         "county": "trans nzoia",
         "description": "A Health Centre in Trans nzoia",
-        "mflCode": "",
+        "mflCode": "14455",
         "eidDisplay": ""
     },
     "67001f34-4df1-4cfa-8552-04d5236dd3a3": {
@@ -1670,7 +1670,7 @@
         "cityVillage": null,
         "county": "Trans-Nzoia",
         "description": "A Health Facility in Trans Nzoia",
-        "mflCode": "",
+        "mflCode": "15003",
         "eidDisplay": ""
     },
     "4dbd0c2b-cb9f-491a-8dbc-c4e552db1515": {
@@ -1688,7 +1688,7 @@
         "cityVillage": null,
         "county": "Uasin Gishu",
         "description": "A health centre in Kapsoya",
-        "mflCode": "",
+        "mflCode": "14769",
         "eidDisplay": ""
     },
     "c8ede412-a5da-47be-ae7f-f76a4ffc5065": {
@@ -1706,7 +1706,7 @@
         "cityVillage": null,
         "county": "Uasin Gishu",
         "description": "A health facility in Uasin Gishu County",
-        "mflCode": "",
+        "mflCode": "16345",
         "eidDisplay": ""
     },
     "18c343eb-b353-462a-9139-b16606e6b6c2": {
@@ -1715,7 +1715,7 @@
         "cityVillage": null,
         "county": "test",
         "description": "This is a test location for POC Testers.",
-        "mflCode": "",
+        "mflCode": "test",
         "eidDisplay": ""
     }
 }
