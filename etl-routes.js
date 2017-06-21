@@ -284,15 +284,10 @@ module.exports = function () {
         method: 'GET',
         path: '/etl/patient/{patientUuid}/hiv-clinical-reminder/{referenceDate}',
         config: {
+            auth: 'simple',
             plugins: {
                 'hapiAuthorization': {
-                    role: privileges.canViewClinicDashBoard
-                },
-                'openmrsLocationAuthorizer': {
-                    locationParameter: [{
-                        type: 'query', //can be in either query or params so you have to specify
-                        name: 'locationUuids' //name of the location parameter
-                    }]
+                    role: privileges.canViewPatient
                 }
             },
             handler: function (request, reply) {
