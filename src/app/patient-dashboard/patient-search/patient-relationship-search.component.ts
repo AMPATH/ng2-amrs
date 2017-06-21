@@ -29,7 +29,6 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
     @Output() onPatientToBindRelationship = new EventEmitter();
     subscription: Subscription;
     searchPanelVisible: boolean = false;
-    adjustInputMargin: string = '225px';
     public errorMessage: string;
 
     constructor(private patientSearchService: PatientSearchService, private router: Router,
@@ -62,9 +61,6 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
         if (this.searchString && this.searchString.length > 2) {
-            if (window.innerWidth > 768) {
-                this.adjustInputMargin = '252px';
-            }
             this.isLoading = true;
             this.patients = [];
             this.subscription = this.patientSearchService
@@ -75,15 +71,12 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
                         this.patients = data;
                         this.totalPatients = this.patients.length;
                         this.isLoading = false;
-                        this.resetInputMargin();
                     }
                     this.isLoading = false;
-                    this.resetInputMargin();
 
                 },
                 (error) => {
                     this.isLoading = false;
-                    this.resetInputMargin();
                     console.log('error', error);
                     this.errorMessage = error;
                 }
@@ -106,7 +99,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.router.navigate(['/patient-dashboard/' + patientUuid + '/patient-info']);
+        this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/patient-info']);
 
     }
 
@@ -132,7 +125,6 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
         this.isResetButton = false;
         this.searchPanelVisible = false;
         this.isLoading = false;
-        this.resetInputMargin();
         this.patientToBindRelationship = {
             person: {
                 display: ''
@@ -143,11 +135,5 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
 
     public tooltipStateChanged(state: boolean): void {
         // console.log(`Tooltip is open: ${state}`);
-    }
-
-    public resetInputMargin() {
-        if (window.innerWidth > 768) {
-            this.adjustInputMargin = '225px';
-        }
     }
 }

@@ -1,11 +1,23 @@
 .badge-info {
   background-color: #3a87ad;
 }
+.button-wrapper {
+  text-align: right;
+  margin-top: 12px;
+  display: block;
+}
+
+.input-group-btn {
+
+}
 
 .input-group-btn > .btn {
   margin-left: 5px;
 }
-
+.input-wrapper {
+  width:100%;
+  margin-right: 0;
+}
 .alert {
   color: #999;
 }
