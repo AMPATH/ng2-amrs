@@ -1,4 +1,5 @@
-<p-dialog header="Add Relationship" [(visible)]="display" modal="true" responsive="true" appendTo="body">
+<p-dialog header="Add Relationship" width="360" [(visible)]="display" modal="true"
+          appendTo="body">
 	<form>
 		<div class="form-group">
 			<div>
@@ -8,11 +9,11 @@
 				<select [(ngModel)]="selectedRelationshipType" [ngModelOptions]="{standalone: true}" class="form-control">
                     <option  *ngFor="let patientRelationshipType of patientRelationshipTypes" [ngValue]="patientRelationshipType">{{patientRelationshipType.display}}</option>
                 </select>
-				<button [disabled]="isLoading" class="btn btn-primary btn-md" style="margin-top:10px" (click)="saveRelationship()"> 
+				<button [disabled]="isLoading" class="btn btn-primary btn-md" style="margin-top:10px" (click)="saveRelationship()">
 					<span>Save</span>
 					<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
 				</button>
-				<button class="btn btn-primary pull-right" (click)="cancelRelationship()" style="margin-top:10px">
+				<button class="btn btn-danger pull-right" (click)="cancelRelationship()" style="margin-top:10px">
             		<span>Cancel</span>
           		</button>
 				<div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">

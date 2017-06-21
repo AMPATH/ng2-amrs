@@ -1,22 +1,25 @@
-<div class="wrapper">
+<div class="search-wrapper">
 	<div class="box-body">
 		<form>
 			<div class="form-group">
 				<label for="search-textbox"><h3>Patient Search</h3></label>
-				<div class="input-wrapper" [style.margin-right]="adjustInputMargin">
+				<div class="input-wrapper">
 					<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
 						(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"
 						autofocus="true">
 				</div>
-				<div class="input-group-btn pull-right">
-					<button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
-              <span class="glyphicon glyphicon-search"> Search</span>
-              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+        <div class="button-wrapper">
+          <div class="input-group-btn">
+            <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadPatient()">
+                <span class="glyphicon glyphicon-search"> Search</span>
+                <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+              </button>
+            <button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
+              <span class="glyphicon glyphicon-trash"> Reset</span>
             </button>
-					<button [disabled]="!isResetButton" class="btn btn-danger btn-lg" (click)="resetSearchList()">
-            <span class="glyphicon glyphicon-trash"> Reset</span>
-          </button>
-				</div>
+          </div>
+        </div>
+        <div class="clear"></div>
 			</div>
 		</form>
 		<div *ngIf="searchPanelVisible">
