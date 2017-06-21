@@ -94,6 +94,9 @@ export class LandingPageComponent implements OnInit, OnDestroy {
             isEdit: false,
             dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
               this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
+            dateEnrolledView: (!_.isNil(_enrolledProgram)
+            && _.isNil(_enrolledProgram.dateCompleted)) ?
+              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
             dateCompleted: null,
             validationError: '',
             baseRoute: route ? route.baseRoute : '',
