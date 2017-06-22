@@ -24,7 +24,8 @@
 				<td>{{relationship.display}}</td>
 				<td><a (click)="editRelationship.showDialog(relationship, relationships)"><span class="glyphicon glyphicon-pencil link"></span></a></td>
 				<td><a (click)="openConfirmDialog(relationship.uuid)"><span class="glyphicon glyphicon-remove link"></span></a></td>
-				<td><a [routerLink]="['/patient-dashboard', relationship.relatedPersonUuid,'patient-info']"><span style="font-size:14px;" class="glyphicon glyphicon-zoom-in"></span></a>
+				<td><a
+          [routerLink]="['/patient-dashboard', relationship.relatedPersonUuid,'general', 'patient-info']"><span style="font-size:14px;" class="glyphicon glyphicon-zoom-in"></span></a>
 				<td>
 			</tr>
 		</tbody>
