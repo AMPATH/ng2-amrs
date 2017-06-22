@@ -35,9 +35,7 @@
 .badge {
     display: unset;
 }
-.button {
-    border: 2px solid;
-}
+
 @media screen and (max-width: 768px) {
 
     .attributes {
