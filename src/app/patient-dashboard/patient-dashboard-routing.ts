@@ -20,6 +20,7 @@ import { FromentryGuard } from './formentry/formentry.guard';
 import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
 import { HivPatientClinicalSummaryComponent }
   from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
+import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const patientDashboardRoutes: Routes = [
@@ -52,7 +53,8 @@ const patientDashboardRoutes: Routes = [
       { path: 'general/landing-page', component: ProgramsComponent },
       { path: ':program/programs', component: ProgramsComponent },
       { path: ':program/clinical-notes', component: ClinicalNotesComponent },
-      { path: ':program/visit', component: VisitComponent }
+      { path: ':program/visit', component: VisitComponent },
+      { path: ':program/locator-map', component: LocatorMapComponent }
     ],
     canActivate: [
       PatientDashboardGuard

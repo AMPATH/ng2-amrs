@@ -23,6 +23,7 @@ import { PatientStatusVisualizationResourceService } from
   './patient-status-change-visualization-resource.service';
 import { Moh731PatientListResourceService } from './moh-731-patientlist-resource.service';
 import { FileUploadResourceService } from './file-upload-resource.service';
+
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
