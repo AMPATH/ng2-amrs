@@ -2,6 +2,10 @@
   margin-top:24px;
 }
 
+.input-group-btn {
+  margin-top:12px;
+}
+
 .input-group-btn > .btn {
   margin-left: 5px;
 }

@@ -2,7 +2,7 @@
 	<div class="box-body">
 		<form>
 			<div class="form-group">
-				<label for="search-textbox"><h3>Patient Search</h3></label>
+				<label for="search-textbox">Patient Search</label>
 				<div class="input-wrapper">
 					<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
 						(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier and press Enter or Search button to search"

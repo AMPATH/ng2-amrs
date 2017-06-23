@@ -115,6 +115,7 @@ import { HivProgramSnapshotComponent } from './programs/hiv/hiv-program-snapshot
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SelectModule } from 'angular2-select';
+/* import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component'; */
 @NgModule({
   imports: [
     CommonModule,
@@ -189,6 +190,7 @@ import { SelectModule } from 'angular2-select';
     PatientRelationshipsComponent,
     EditContactsComponent,
     EditAddressComponent,
+/*    EditHealtCenterComponent,*/
     HivPatientClinicalSummaryComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
