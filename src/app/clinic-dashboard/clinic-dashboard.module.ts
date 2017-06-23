@@ -158,7 +158,6 @@ import { HttpClient } from '../shared/services/http-client.service';
     HivProgramModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
-    NgamrsSharedModule,
     NgxMyDatePickerModule,
     MdTabsModule.forRoot(),
     MdProgressSpinnerModule,

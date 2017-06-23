@@ -1,0 +1,24 @@
+<p-dialog header="Edit Health Center" [(visible)]="display">
+  <form name="personForm">
+    <div class="form-group">
+      <div class="selector location">
+        <label> Select location:</label>
+        <select class="form-control" name="selectedLocation" [ngModel]="healthCenter"
+                (ngModelChange)="locationChanged($event)">
+          <option *ngFor="let location of locations" [ngValue]="location">{{location.label}}</option>
+        </select>
+      </div>
+      <div>
+        <label for="healthcenter">Health Center</label>
+        <input type="text" id="healthcenter" class="form-control" [(ngModel)]="healthCenter.label"
+               name="healthcenter">
+      </div>
+      <br>
+      <button class="btn btn-primary" type="button" (click)="updateHealthCenter()"><span>Save</span></button>
+      <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
+        <span>Cancel</span></button>
+
+    </div>
+  </form>
+
+</p-dialog>

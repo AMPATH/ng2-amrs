@@ -118,6 +118,7 @@ import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SelectModule } from 'angular2-select';
+/* import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component'; */
 @NgModule({
   imports: [
     CommonModule,
@@ -193,6 +194,7 @@ import { SelectModule } from 'angular2-select';
     PatientRelationshipsComponent,
     EditContactsComponent,
     EditAddressComponent,
+/*    EditHealtCenterComponent,*/
     HivPatientClinicalSummaryComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
