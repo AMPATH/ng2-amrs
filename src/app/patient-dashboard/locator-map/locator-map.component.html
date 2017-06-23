@@ -1,0 +1,19 @@
+<h4 class="component-title"><span class="fa fa-calendar"></span> Patient Locator Map</h4>
+<div class="loader" *ngIf="loading"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div *ngIf="imageSaved" class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>            Image saved successfully
+        </div>
+        <div *ngIf="imageUploadFailed" class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>            Image not saved try again;
+        </div>
+        <file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" (fileChanged)="onFileChange($event)"></file-uploader>
+    </div>
+    <div *ngIf="dataModel" class="col-md-12">
+        <img class="img-responsive" [src]="dataModel | secure" alt="" />
+    </div>
+</div>

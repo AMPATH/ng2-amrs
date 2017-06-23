@@ -7,10 +7,13 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { FileUploadResourceService } from './file-upload-resource.service';
-
+class MockAppsettings {
+    getEtlRestbaseurl() {
+        return 'etl.ampath.or.ke';
+    }
+}
 describe('FileUploadResourceService', () => {
     let service;
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
@@ -20,7 +23,7 @@ describe('FileUploadResourceService', () => {
                 {
                     provide: Http, useFactory: (backend, options) => new Http(backend, options),
                     deps: [MockBackend, BaseRequestOptions]
-                },
+                }, { provide: AppSettingsService, useClass: MockAppsettings },
                 FileUploadResourceService
             ]
         });

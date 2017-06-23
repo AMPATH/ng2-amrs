@@ -103,6 +103,7 @@ import {
 } from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { LabOrderSearchModule } from '../lab-order-search/lab-order-search.module';
+import { FileUploaderModule } from 'ngx-file-uploader';
 
 import {
   HivPatientClinicalSummaryService
@@ -113,6 +114,8 @@ import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 import { HivProgramSnapshotComponent } from './programs/hiv/hiv-program-snapshot.component';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
+import { LocatorMapComponent } from './locator-map/locator-map.component';
+import { SecurePipe } from './locator-map/secure.pipe';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SelectModule } from 'angular2-select';
 @NgModule({
@@ -150,7 +153,8 @@ import { SelectModule } from 'angular2-select';
     AgGridModule.withComponents([
 
     ]),
-    LabOrderSearchModule
+    LabOrderSearchModule,
+    FileUploaderModule
   ],
   declarations: [
     LandingPageComponent,
@@ -197,7 +201,9 @@ import { SelectModule } from 'angular2-select';
     AddPatientRelationshipComponent,
     PatientRelationshipSearchComponent,
     VisitPeriodComponent,
-    PatientMonthlyStatusComponent
+    PatientMonthlyStatusComponent,
+    LocatorMapComponent,
+    SecurePipe
   ],
   providers: [
     PatientEncounterService,

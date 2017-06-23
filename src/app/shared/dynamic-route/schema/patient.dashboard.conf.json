@@ -43,6 +43,11 @@
           "url": "programs",
           "label": "Programs",
           "icon": "icon-i-family-practice"
+        },
+        {
+          "url": "locator-map",
+          "label": "Locator Map",
+          "icon": "fa fa-map-marker"
         }
       ]
     },
