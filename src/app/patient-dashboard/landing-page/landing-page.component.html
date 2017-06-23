@@ -11,7 +11,7 @@
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">
           <a *ngIf="!row.isEdit" class="dropdown-toggle pull-right" type="button" (click)="toggleDropDown(row)">
-            <i class="fa fa-pencil"></i>Edit
+            <i class="fa fa-pencil"></i>Edit/Complete
           </a>
           <a *ngIf="row.isEdit" class="dropdown-toggle pull-right" type="button" (click)="toggleDropDown(row)">
             <i class="fa fa-times"></i>Close
