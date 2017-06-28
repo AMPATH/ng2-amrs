@@ -32,8 +32,8 @@
 				<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
 				<div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
 				<div class="col-sm-3">DOB : {{ patient?.person.birthdate | date:'dd-MM-yyyy' }} ( {{ patient?.person.age }} Yrs )</div>
-				<div class="col-sm-3">HEALTH CENTER : {{person?.healthCenter}}
-					<span *ngIf="person?.healthCenter == ''"> Not Available</span>
+				<div class="col-sm-3">HEALTH CENTER : {{patient.person?.healthCenter}}
+					<span *ngIf="patient.person?.healthCenter == ''"> Not Available</span>
 				</div>
 			</div>
 			<div class="row banner-right">
@@ -58,6 +58,7 @@
 					<span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
 				</div>
 			</div>
+      <div class="clear"></div>
 		</div>
 		<div *ngIf="hivSummary" class="panel-info">
 			<h5>
@@ -113,6 +114,16 @@
 		<!-- DNAPCR ends -->
 		<div class="clear">
 			<div *ngIf="!isBusy" class="container-fluid">
+        <div class="row">
+          <div>
+            <div class="form-group">
+              <label for="identifier">Patient Identifier</label>
+              <select class="form-control" id="identifier" [(ngModel)]="selectedIdentifier">
+                <option *ngFor="let identifier of patientIdentifers" [ngValue]="identifier">{{identifier}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
 				<div class="row">
 					<div>
 						<div class="form-group">
