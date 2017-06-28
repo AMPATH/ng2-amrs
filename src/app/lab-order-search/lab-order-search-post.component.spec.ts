@@ -106,6 +106,9 @@ describe('LabOrderSearchPostComponent', () => {
 
   it('should display the order summary', async(() => {
     let comp = fixture.componentInstance;
+    comp.orderType = {
+      type: 'VL'
+    };
     comp.order = sampleOrder;
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
@@ -118,6 +121,9 @@ describe('LabOrderSearchPostComponent', () => {
 
   it('should reset order when reset button is clicked', async(() => {
     let comp = fixture.componentInstance;
+    comp.orderType = {
+      type: 'VL'
+    };
     comp.order = sampleOrder;
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
@@ -136,6 +142,9 @@ describe('LabOrderSearchPostComponent', () => {
 
   it('should submit order when submit button is clicked', async(() => {
     let comp = fixture.componentInstance;
+    comp.orderType = {
+      type: 'VL'
+    };
     comp.order = sampleOrder;
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();

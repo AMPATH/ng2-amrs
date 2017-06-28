@@ -276,23 +276,31 @@ export class LabOrdersSearchHelperService {
     }
 
     private getIdentifierByType(identifierObject, type) {
-      for (let e in identifierObject) {
-        if ((identifierObject[e].identifierType) !== undefined) {
-          let idType = identifierObject[e].identifierType.name;
-          let id = identifierObject[e].identifier;
-          if (idType === type) {
-            return id;
+      if (_.isArray(identifierObject)) {
+        let identifiers = _.filter(identifierObject, (identifier) => {
+          if (_.indexOf(identifier.display, '=') > 0) {
+            let idType = identifier.display.split('=');
+            return (idType[0].trim() === type);
+          } else {
+            let idType = identifier.identifierType.name;
+            return (idType === type);
+          }
+        });
+        let identifier = _.first(identifiers);
+        if (identifier) {
+          return identifier.display ? (identifier.display.split('=')[1]).trim() :
+            identifier.identifier;
+        }
+      } else {
+        for (let e in identifierObject) {
+          if ((identifierObject[e].identifierType) !== undefined) {
+            let idType = identifierObject[e].identifierType.name;
+            let id = identifierObject[e].identifier;
+            if (idType === type) {
+              return id;
+            }
           }
         }
       }
     }
-
-
-
-
-
-
-
-
-
 }

@@ -356,6 +356,11 @@ todays-vitals ul.list-group {
   margin-bottom: 0;
 }
 
+lab-order-search-container {
+  display: block;
+  padding-bottom: 42px;
+}
+
 @media screen and (max-width: 466px) {
   .content-wrapper{
     padding-top: 140px !important;

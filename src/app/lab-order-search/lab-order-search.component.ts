@@ -1,4 +1,4 @@
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Output, OnInit, EventEmitter, Input } from '@angular/core';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 
 
@@ -8,8 +8,34 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
   styleUrls: ['./lab-order-search.component.css']
 })
 export class LabOrderSearchComponent implements OnInit {
+  _reset: boolean = false;
+  _orderPostSuccessful: boolean = false;
   @Output() onOrderRecieved = new EventEmitter<any>();
   @Output() onReset = new EventEmitter<any>();
+  @Input()
+  set orderPostSuccessful(value) {
+    this._orderPostSuccessful = value;
+    // remove the success message after 3secs
+    setTimeout(() => {
+      this._orderPostSuccessful = false;
+    }, 3000);
+  }
+
+  get orderPostSuccessful() {
+    return this._orderPostSuccessful;
+  }
+  @Input()
+  set reset(value) {
+    if (value === true && this.orderId.length > 0) {
+      this.orderId = '';
+    }
+    this._reset = value;
+  }
+
+  get reset() {
+    return this._reset;
+  }
+
   public orderId: string = '';
   public isResetButton: boolean = true;
   public adjustedInputMargin: string = '240px';
