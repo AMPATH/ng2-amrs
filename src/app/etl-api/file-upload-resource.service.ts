@@ -19,11 +19,12 @@ export class FileUploadResourceService {
             );
     }
     getFile(url: string): Observable<any> {
+        let fullUrl = this.appSettingsService.getEtlRestbaseurl().trim() + 'files/' + url;
         return new Observable((observer: Subscriber<any>) => {
             let objectUrl: string = null;
             let headers = new Headers({ 'Accept': 'image/png,image/jpeg,image/gif' });
             this.http
-                .get(url, {
+                .get(fullUrl, {
                     headers,
                     responseType: ResponseContentType.Blob
                 })
