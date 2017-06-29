@@ -352,7 +352,7 @@ function calculateHourlyStatistics(resultsSplitByLocationArray) {
 
         var triagedHour = loc.triaged ? moment(loc.triaged).format('H') : null;
         var registeredHour = loc.registered ? moment(loc.registered).format('H') : null;
-        var seenHour = loc.triaged ? moment(loc.seen_by_clinician).format('H') : null;
+        var seenHour = loc.seen_by_clinician ? moment(loc.seen_by_clinician).format('H') : null;
 
         //count hourly entries for triage,seen or registered
         countStatByHour(triagedHour, triageCountResults);
