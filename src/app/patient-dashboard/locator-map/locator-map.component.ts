@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs/Rx';
 
 import * as _ from 'lodash';
 
@@ -15,29 +15,33 @@ import { PatientService } from '../patient.service';
     styleUrls: ['locator-map.css']
 })
 
-export class LocatorMapComponent implements OnInit {
+export class LocatorMapComponent implements OnInit, OnDestroy {
+
     public dataModel: string;
     public loading = false;
     public imageSaved = false;
     public imageUploadFailed = false;
-    patient: any;
+    public subscriptions = [];
+    public patient: any;
     private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
     constructor(private fileUploadResourceService: FileUploadResourceService,
         private appSettingsService: AppSettingsService,
         private patientService: PatientService,
         private personResourceService: PersonResourceService) { }
     ngOnInit() {
-        this.patientService.currentlyLoadedPatient.subscribe(patient => {
+        this.subscriptions.push(this.patientService.currentlyLoadedPatient.subscribe(patient => {
 
             if (patient) {
                 this.patient = patient;
                 this.setPhoto();
             }
-        });
+        }));
     }
-
+    ngOnDestroy(): void {
+        this.cleanUp();
+    }
     private onFileChange(file) {
-        this.fileUploadResourceService.upload(file).flatMap((result) => {
+        this.subscriptions.push(this.fileUploadResourceService.upload(file).flatMap((result) => {
             let updatePayload = {
                 attributes: [{
                     attributeType: this.attributeType,
@@ -56,7 +60,7 @@ export class LocatorMapComponent implements OnInit {
         }, (error) => {
             this.imageUploadFailed = true;
             this.loading = false;
-        });
+        }));
     }
     private clearPhoto() {
         this.dataModel = null;
@@ -67,13 +71,13 @@ export class LocatorMapComponent implements OnInit {
             }]
         };
         this.loading = true;
-        this.personResourceService
+        this.subscriptions.push(this.personResourceService
             .saveUpdatePerson(this.patient.person.uuid, updatePayload).subscribe((patient) => {
                 this.patientService.fetchPatientByUuid(this.patient.person.uuid);
                 this.loading = false;
             }, (error) => {
                 this.loading = false;
-            });
+            }));
     }
     private setPhoto() {
         let photo = this.patient.
@@ -86,5 +90,10 @@ export class LocatorMapComponent implements OnInit {
 
     private getUrl() {
         return this.appSettingsService.getEtlRestbaseurl().trim() + 'files/';
+    }
+    private cleanUp() {
+        for (let sub = 0; sub < this.subscriptions.length; sub++) {
+            this.subscriptions[sub].unsubscribe();
+        }
     }
 }
