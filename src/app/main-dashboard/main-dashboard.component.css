@@ -121,6 +121,19 @@ footer online-tracker, footer build-version {
   display: block;
 }
 
+date-time-picker .row {
+  margin: 0 !important;
+}
+
+date-picker {
+  display: block;
+}
+
+date-time-picker div[class*='col-']{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 footer p {
   margin: 0px;
   line-height: 32px;
