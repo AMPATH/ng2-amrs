@@ -36,6 +36,7 @@ var reportPrivileges = {
     'medical-history-report': [PRIVILEGES.canViewPatient],
     'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard, PRIVILEGES.canViewPatient],
     'patient-status-change-tracker-report':  [PRIVILEGES.canViewDataAnalytics],
+    'cohort-report':  [PRIVILEGES.canViewPatient]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];

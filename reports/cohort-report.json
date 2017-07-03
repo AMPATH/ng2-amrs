@@ -1,0 +1,78 @@
+[
+  {
+    "name": "cohort-report",
+    "table": {
+      "schema": "amrs",
+      "tableName": "cohort",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "cohort_user",
+        "alias": "t2",
+        "joinExpression": "t1.cohort_id  = t2.cohort_id"
+      },
+      {
+        "joinType": "JOIN",
+        "schema": "amrs",
+        "tableName": "users",
+        "alias": "t3",
+        "joinExpression": "t1.creator = t3.user_id or t2.user_id = t3.user_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "userUuid"
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t3.uuid = ?",
+        "parameter": "userUuid"
+      }
+    ],
+    "groupClause": [],
+    "orderBy": [
+      {
+        "column": "t1.name",
+        "order": "asc"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "name",
+        "type": "single",
+        "sql": "t1.name"
+      },
+      {
+        "label": "description",
+        "type": "single",
+        "sql": "t1.description"
+      },
+      {
+        "label": "cohort_id",
+        "type": "single",
+        "sql": "t1.cohort_id"
+      },
+      {
+        "label": "uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "role",
+        "type": "single",
+        "sql": "case when t2.role is null or t2.user_id != t3.user_id then'admin'  else t2.role  end"
+      },
+      {
+        "label": "access",
+        "type": "single",
+        "sql": "case when t2.role is null then 'private' else 'public' end"
+      }
+      ]
+
+  }
+]
