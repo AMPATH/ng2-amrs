@@ -1,8 +1,10 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
-import { ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot,
-     Router } from '@angular/router';
+import {
+    ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot,
+    Router
+} from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { SpyLocation } from '@angular/common/testing';
@@ -16,6 +18,7 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { FakeFormFactory } from '../formentry/mock/form-factory.service.mock';
 import { FakeUserFactory } from '../formentry/mock/user-factory.service.mock';
+import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
     FakeDefaultUserPropertiesFactory
@@ -127,6 +130,7 @@ describe('Component: FormentryComponent', () => {
                 ErrorLogResourceService,
                 ConfirmationService,
                 DataCacheService,
+                FileUploadResourceService,
                 CacheService,
                 {
                     provide: EncounterResourceService, useFactory: () => {
@@ -196,8 +200,8 @@ describe('Component: FormentryComponent', () => {
     });
 
     it('should create an instance of FormentryComponent', () => {
-      let formentryComponent: FormentryComponent = TestBed.get(FormentryComponent);
-      expect(formentryComponent).toBeTruthy();
+        let formentryComponent: FormentryComponent = TestBed.get(FormentryComponent);
+        expect(formentryComponent).toBeTruthy();
     });
 
     it('should fetch and compile formschema when the component initializes with a valid form-uuid',
@@ -222,7 +226,7 @@ describe('Component: FormentryComponent', () => {
                     return subject;
                 });
                 let mockSnapshot: any = jasmine.
-                 createSpyObj<RouterStateSnapshot>('RouterStateSnapshot', ['toString']);
+                    createSpyObj<RouterStateSnapshot>('RouterStateSnapshot', ['toString']);
                 resolver.resolve(new ActivatedRouteSnapshot(), mockSnapshot);
                 expect(resolver.resolve).toHaveBeenCalled();
                 // check if it compiles
@@ -504,13 +508,13 @@ describe('Component: FormentryComponent', () => {
                         schema: schema
                     }
                 });
-                spyOn(formentryComponent, 'loadDefaultValues').and.callFake(() => {});
+                spyOn(formentryComponent, 'loadDefaultValues').and.callFake(() => { });
                 formentryComponent.ngOnInit();
                 // check if it calls createForm
                 expect(formFactory.createForm).toHaveBeenCalled();
                 // now check to ensure we are not setting default data
                 activatedRoute.params.subscribe(() => {
-                  expect(formentryComponent.loadDefaultValues).not.toHaveBeenCalled();
+                    expect(formentryComponent.loadDefaultValues).not.toHaveBeenCalled();
                 });
 
                 expect(userService.getLoggedInUser).not.toHaveBeenCalled();

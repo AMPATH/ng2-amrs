@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Http, Response, ResponseContentType, Headers } from '@angular/http';
+
+
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import { FormFactory, EncounterAdapter, Form, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
@@ -9,6 +12,7 @@ import { PatientService } from '../patient.service';
 import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 import * as moment from 'moment';
@@ -62,6 +66,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private dataSources: DataSources,
     private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private draftedFormsService: DraftedFormsService,
+    private fileUploadResourceService: FileUploadResourceService,
+    private http: Http,
     private confirmationService: ConfirmationService) {
   }
 
@@ -282,6 +288,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.monthlyScheduleResourceService);
       this.dataSources.registerDataSource('userLocation',
         this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject());
+      this.dataSources.registerDataSource('file', {
+        fileUpload: this.fileUploadResourceService.upload.bind(this.fileUploadResourceService),
+        fetchFile: this.fileUploadResourceService.getFile.bind(this.fileUploadResourceService)
+      });
       if (this.encounter) { // editing existing form
         this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
         this.formRelationsFix(this.form);
