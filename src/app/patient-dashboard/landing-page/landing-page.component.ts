@@ -75,7 +75,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
           let _enrolledPrograms: Array<any> = _.filter(this.enrolledProgrames,
             (enrolledProgram) => {
               return enrolledProgram.programUuid === program.uuid &&
-                _.isNil(enrolledProgram.dateCompleted);
+                _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
             });
           let _enrolledProgram: any;
           if (_enrolledPrograms.length > 0) {
@@ -104,12 +104,12 @@ export class LandingPageComponent implements OnInit, OnDestroy {
               landing: {
                 display: 'Go to Program',
                 url: route ? '/patient-dashboard/' + patientUuid + '/' +
-                route.baseRoute + '/landing-page' : null
+                  route.baseRoute + '/landing-page' : null
               },
               visit: {
                 display: 'Start Visit',
                 url: route ? '/patient-dashboard/' + patientUuid + '/' +
-                route.baseRoute + '/visit' : null
+                  route.baseRoute + '/visit' : null
               }
             },
             isEnrolled: !_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)

@@ -7,6 +7,7 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
+  private locationIds = require('../shared/locations/location_data.json');
   private v: string = 'full';
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
@@ -57,6 +58,16 @@ export class LocationResourceService {
     });
 
     return this.cacheService.cacheRequest(url, params, request);
+  }
+
+  getLocationIdByUuid(uuid: string): any {
+    let _location = this.locationIds.locations.filter((location) => {
+      return location.uuid === uuid;
+    });
+    if (_location.length > 0) {
+      return _location[0].id;
+    }
+    return null;
   }
 
   searchLocation(searchText: string, cached: boolean = false, v: string = null): Observable<any> {

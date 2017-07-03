@@ -20,7 +20,7 @@ export class ProgramEnrollmentResourceService {
   public getProgramEnrollmentByPatientUuid(uuid: string): Observable<any> {
 
     let url = this.getUrl();
-    let v: string = 'custom:(uuid,display,dateEnrolled,dateCompleted,program:(uuid))';
+    let v: string = 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,program:(uuid))';
 
     if (!uuid) {
       return null;

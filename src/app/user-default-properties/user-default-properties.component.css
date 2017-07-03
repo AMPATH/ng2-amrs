@@ -6,8 +6,8 @@ hr {
 }
 .suggest-container .suggestions {
   position: absolute;
-  top:56px;
-  left:0;
+  top:58px;
+  left:39px;
 }
 
 .list-group-item:focus, .list-group-item:hover {
