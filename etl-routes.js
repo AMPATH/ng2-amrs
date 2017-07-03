@@ -27,6 +27,7 @@ import { Moh731Service } from './service/moh-731/moh-731.service';
 import { PatientRegisterReportService } from './service/patient-register-report.service';
 import { HivSummaryIndicatorsService } from './service/hiv-summary-indicators.service';
 import { PatientMonthlyStatusHistory } from './service/patient-monthly-status-history'
+import { cohortUserService } from './service/cohort-user.service.js';
 var patientReminderService = require('./service/patient-reminder.service.js');
 module.exports = function () {
 
@@ -1659,6 +1660,35 @@ module.exports = function () {
 
                 }
             }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/cohort-user',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                request.query.reportName = 'cohort-report';
+                //security check
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                    return reply(Boom.forbidden('Unauthorized'));
+                }
+                request.params.limit = 1000;
+                let requestParams = Object.assign({}, request.query, request.params);
+                let reportParams = etlHelpers.getReportParams('cohort-report',
+                    ['userUuid'], requestParams);
+
+                let service = new cohortUserService();
+                service.getAggregateReport(reportParams).then((result) => {
+                    reply(result);
+                }).catch((error) => {
+                    reply(error);
+                });
+            },
+            description: "Get cohort(s) based on user uuid",
+            notes: "Api endpoint that returns cohort(s) based on the user uuid",
+            tags: ['api'],
         }
     },
     {
