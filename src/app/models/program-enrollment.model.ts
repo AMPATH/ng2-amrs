@@ -45,6 +45,10 @@ export class ProgramEnrollment extends BaseModel {
     return this._openmrsModel.program.uuid;
   }
 
+  public get voided(): boolean {
+    return this._openmrsModel.voided;
+  }
+
 
   @serializable()
   public get dateEnrolled(): Date {

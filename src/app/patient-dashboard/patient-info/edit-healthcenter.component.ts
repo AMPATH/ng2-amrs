@@ -47,8 +47,7 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patients = patient;
           if (this.patients.person.healthCenter) {
-            console.log(this.patients);
-            this.healthCenter.label = this.patients.person.healthCenter;
+            this.selectedLocation = this.patients.person.healthCenter;
           }
         }
       }
@@ -64,21 +63,34 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
   }
 
   public updateHealthCenter() {
+    this.errors = [];
+    if (this.healthCenter.value === '') {
+      this.errors.push({
+        id: 'patient',
+        message: 'Please select location'
+      });
+      return;
+    }
     let person = {
       uuid: this.patients.person.uuid
     };
+    let locationId = this.locationResourceService.getLocationIdByUuid(this.healthCenter.value);
     let healthCenterPayload = {
       attributes: [{
-        value: '13',
+        value: locationId,
         attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
       }]
     };
     this.personResourceService.saveUpdatePerson(person.uuid, healthCenterPayload).subscribe(
       (success) => {
         if (success) {
+          this.errors = [];
+          this.healthCenter = {
+            label: '',
+            value: ''
+          };
           this.patientService.fetchPatientByUuid(this.patients.person.uuid);
         }
-        console.log('success', success);
       },
       (error) => {
         console.log('error', error);
@@ -95,7 +107,6 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
     this.loaderStatus = true;
     this.locationResourceService.getLocations().subscribe((results: any) => {
       this.locations = results.map((location) => {
-        console.log(location);
         return {
           value: location.uuid,
           label: location.display
