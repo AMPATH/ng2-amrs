@@ -12,7 +12,7 @@
         "schema": "etl",
         "tableName": "cohort_user",
         "alias": "t2",
-        "joinExpression": "t1.cohort_id  = t2.cohort_id"
+        "joinExpression": "t1.cohort_id  = t2.cohort_id and t1.voided=0"
       },
       {
         "joinType": "JOIN",
@@ -53,6 +53,11 @@
         "sql": "t1.description"
       },
       {
+        "label": "date_created",
+        "type": "single",
+        "sql": "t1.date_created"
+      },
+      {
         "label": "cohort_id",
         "type": "single",
         "sql": "t1.cohort_id"
@@ -65,7 +70,7 @@
       {
         "label": "role",
         "type": "single",
-        "sql": "case when t2.role is null or t2.user_id != t3.user_id then'admin'  else t2.role  end"
+        "sql": "case when t2.role is null or t2.user_id != t3.user_id then'admin' else t2.role end"
       },
       {
         "label": "access",
