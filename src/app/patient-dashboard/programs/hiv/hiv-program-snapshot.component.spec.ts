@@ -13,6 +13,7 @@ const summaryResult = {
   'arv_start_date': '2017-04-24T21:00:00.000Z',
   'cur_arv_meds': 'ZIDOVUDINE AND LAMIVUDINE, LOPINAVIR AND RITONAVIR',
   'vl_1': 927,
+  'is_clinical_encounter': 1,
   'vl_1_date': '2016-12-01T21:00:00.000Z',
   'encounter_type_name': 'YOUTHRETURN',
 };

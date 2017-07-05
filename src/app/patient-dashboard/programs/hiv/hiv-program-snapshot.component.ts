@@ -41,11 +41,13 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   getHivSummary(patientUuid) {
     this.loadingData = true;
-    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 1).subscribe((results) => {
+    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).subscribe((results) => {
       this.getLocation().subscribe((locations) => {
         this.loadingData = false;
         this.hasLoadedData = true;
-        this.patientData = _.first(results);
+        this.patientData = _.first(_.filter(results, (encounter: any) => {
+          return encounter.is_clinical_encounter === 1;
+        }));
         if (!_.isNil(this.patientData)) {
           this.hasData = true;
           let encounterLocations = _.filter(locations, (location, key) => {
