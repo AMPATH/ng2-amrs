@@ -207,13 +207,13 @@
         "name": "on_art_total",
         "label": "on art total",
         "description": "A patient is on ART if they are in care and was prescribed ART at their last clinical encounter.",
-        "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "encounter_datetime >= arv_start_date"
     },
     {
         "name": "not_on_art_total",
         "label": "not on art total",
         "description": "Total # of patients not on ART",
-        "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null) and (coalesce(t1.death_date, out_of_care) is null)"
+        "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null)"
     },
     {
         "name": "on_original_first_line",
@@ -339,13 +339,13 @@
         "name": "virally_suppressed",
         "label": "virally suppressed",
         "description": "# of patient(s) who are virally suppressed",
-        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 < 1000"
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 < 1000"
     },
     {
         "name": "not_virally_suppressed",
         "label": "not virally suppressed",
         "description": "# of patient(s) who are not virally suppressed",
-        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and (coalesce(t1.death_date, out_of_care) is null) and vl_1 >= 1000"
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 >= 1000"
     },
     {
         "name": "perc_virally_suppressed",
