@@ -2,6 +2,7 @@
 "use strict";
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
+var patientList = require('./dao/patient-list/patient-list-dao');
 var preRequest = require('./pre-request-processing');
 var pack = require('./package');
 var winston = require('winston');
@@ -1664,7 +1665,7 @@ module.exports = function () {
     },
     {
         method: 'GET',
-        path: '/etl/cohort-user',
+        path: '/etl/user-cohorts',
         config: {
             auth: 'simple',
             plugins: {},
@@ -1688,6 +1689,119 @@ module.exports = function () {
             },
             description: "Get cohort(s) based on user uuid",
             notes: "Api endpoint that returns cohort(s) based on the user uuid",
+            tags: ['api'],
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/cohort-user/{cohortUserId}',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                patientList.getCohortUser(request.params['cohortUserId'])
+                    .then(function (cohortUser) {
+                        if (cohortUser === null) {
+                            reply(Boom.notFound('Resource does not exist'));
+                        } else {
+                            reply(cohortUser);
+                        }
+                    })
+                    .catch(function (error) {
+                        reply(Boom.create(500, 'Internal server error.', error));
+                    });
+            },
+            description: "Get cohort users for a certain cohort",
+            notes: "Api endpoint that returns cohort users based on the cohort uuid",
+            tags: ['api'],
+        }
+    },
+    {
+        method: 'DELETE',
+        path: '/etl/cohort-user/{cohortUserId}',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                patientList.voidCohortUser(request.params['cohortUserId'])
+                    .then(function (message) {
+                        reply(message);
+                    })
+                    .catch(function (error) {
+                        reply(Boom.create(500, 'Internal server error.', error));
+                    });
+            },
+            description: "Get cohort users for a certain cohort",
+            notes: "Api endpoint that returns cohort users based on the cohort uuid",
+            tags: ['api'],
+        }
+    },
+    {
+        method: 'POST',
+        path: '/etl/cohort-user/{cohortUserId}',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                patientList.updateCohortUser(request.params['cohortUserId'], request.payload)
+                    .then(function (updatedCohortUser) {
+                        reply(updatedCohortUser);
+                    })
+                    .catch(function (error) {
+                        if (error && error.isValid === false) {
+                            reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
+                        } else {
+                            reply(Boom.create(500, 'Internal server error.', error));
+                        }
+                    });
+            },
+            description: "Get cohort users for a certain cohort",
+            notes: "Api endpoint that returns cohort users based on the cohort uuid",
+            tags: ['api'],
+        }
+    },
+    {
+        method: 'POST',
+        path: '/etl/cohort-user',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                patientList.createCohortUser(request.payload)
+                    .then(function (newCohortUser) {
+                        reply(newCohortUser);
+                    })
+                    .catch(function (error) {
+                        if (error && error.isValid === false) {
+                            reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
+                        } else {
+                            console.error(error);
+                            reply(Boom.create(500, 'Internal server error.', error));
+                        }
+                    });
+            },
+            description: "Get cohort users for a certain cohort",
+            notes: "Api endpoint that returns cohort users based on the cohort uuid",
+            tags: ['api'],
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/cohort/{cohortUuid}/cohort-users',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                patientList.getCohortUsersByCohortUuid(request.params['cohortUuid'])
+                    .then(function (cohortUsers) {
+                        reply(cohortUsers);
+                    })
+                    .catch(function (error) {
+                        reply(Boom.create(500, 'Internal server error.', error));
+                    });
+            },
+            description: "Get cohort users for a certain cohort",
+            notes: "Api endpoint that returns cohort users based on the cohort uuid",
             tags: ['api'],
         }
     },
