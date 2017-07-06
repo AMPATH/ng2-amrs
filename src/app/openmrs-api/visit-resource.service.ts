@@ -23,6 +23,7 @@ export class VisitResourceService {
             .catch(this.handleError);
     }
 
+
     getPatientVisits(searchParams) {
         if (!searchParams) {
             return null;

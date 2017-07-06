@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 export class EncounterResourceService {
     v: string = 'custom:(uuid,encounterDatetime,' +
     'patient:(uuid,uuid),form:(uuid,name),' +
-    'visit:(uuid,startDatetime,stopDatetime,location:(uuid,display)' +
+    'visit:(uuid,display,auditInfo,startDatetime,stopDatetime,location:(uuid,display)' +
             ',visitType:(uuid,name)),' +
     'location:ref,encounterType:ref,provider:ref)';
 
@@ -30,6 +30,7 @@ export class EncounterResourceService {
         return this.http.get(url, {
             search: params
         }).map((response: Response) => {
+            // console.log('Results', response.json());
             return response.json().results;
         });
     }
@@ -39,7 +40,7 @@ export class EncounterResourceService {
         }
         let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
             'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
-            'visit:(uuid,startDatetime,stopDatetime),' +
+            'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
             'location:ref,encounterType:ref,provider:ref,orders:full,' +
             'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
         let params = new URLSearchParams();

@@ -22,6 +22,7 @@ import { HivPatientClinicalSummaryComponent }
   from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
 
 const patientDashboardRoutes: Routes = [
 
@@ -34,7 +35,7 @@ const patientDashboardRoutes: Routes = [
       { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
       { path: ':program/patient-info', component: PatientInfoComponent },
       { path: 'oncology/landing-page', component: PatientInfoComponent },
-      { path: ':program/patient-encounters', component: PatientEncountersComponent },
+      { path: ':program/patient-encounters', component: VisitEncountersComponent },
       { path: ':program/patient-vitals', component: PatientVitalsComponent },
       { path: ':program/forms', component: FormsComponent },
       {

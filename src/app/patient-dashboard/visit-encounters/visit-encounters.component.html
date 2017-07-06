@@ -1,0 +1,37 @@
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#visits">Visits</a></li>
+  <li><a data-toggle="tab" href="#encounters">Encounters</a></li>
+</ul>
+
+<div class="tab-content">
+   <div id="visits" class="tab-pane fade in active">
+
+     
+	 <visit-encounters-list [encounters]="patientEncounters" ></visit-encounters-list>
+
+	 
+     
+
+ </div>
+  <div id="encounters" class="tab-pane fade ">
+
+    <div class="container-fluid">
+
+	  <!-- encounters list -->
+
+	  <h4 class="component-title"><span class="icon-i-immunizations"></span> Patient Encounters</h4>
+
+	   <encounter-list [encounters]="patientEncounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message"
+                  (isBusy)="loadingIndicator($event)"
+                  (onEncounterObservations)="showEncounterObservations($event)"
+                  (onEncounterEdit)="editEncounter($event)"></encounter-list>
+
+	  
+
+	  <!-- end of encounters list -->
+
+    </div>
+    
+  </div>
+ 
+</div>

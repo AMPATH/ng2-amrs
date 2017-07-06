@@ -59,6 +59,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
         this.encounters = data;
         this.isVisible = false;
         this.dataLoading = false;
+        // console.log(data);
       },
 
       (err) => {
