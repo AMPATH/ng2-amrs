@@ -145,7 +145,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public onCancel(e): void {
     this.confirmationService.confirm({
       header: 'Cancel Form',
-      message: 'Are you sure you want to cancel this form ?',
+      message: 'Leaving this form unsaved will delete this data. Are you sure you wish to proceed?',
       accept: () => {
         this.preserveFormAsDraft = false;
         // this.draftedFormsService.setCancelState();

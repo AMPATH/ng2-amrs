@@ -2,9 +2,10 @@
     <div>
         <app-display-error [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
     </div>
-    <div [ngBusy]="{busy:encounters && encounters.length === 0 ,message:'Please Wait...'}"></div>
-    <div class="scroll-x">
-        <table class="table table-striped">
+  <div [ngBusy]="{busy:encountersLoading ,message:'Please Wait...'}"></div>
+  <p *ngIf="!encountersLoading && encounters.length === 0" class="">The patient has no encounters</p>
+    <div class="scroll-x" *ngIf="encounters && encounters.length > 0">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>Encounter Date</th>
@@ -36,5 +37,5 @@
             </tbody>
         </table>
     </div>
-    <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+    <pagination-controls *ngIf="encounters && encounters.length > 0" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
 </div>

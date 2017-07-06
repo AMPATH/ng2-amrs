@@ -4,7 +4,7 @@
                                   (isDone)="loadingIndicator($event)"
                                   [encounter]="selectedEncounter"></patient-encounter-observations>
   <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message"
-                  (isBusy)="loadingIndicator($event)"
+                  (isBusy)="loadingIndicator($event)" [encountersLoading]="dataLoading"
                   (onEncounterObservations)="showEncounterObservations($event)"
                   (onEncounterEdit)="editEncounter($event)"></encounter-list>
 </div>

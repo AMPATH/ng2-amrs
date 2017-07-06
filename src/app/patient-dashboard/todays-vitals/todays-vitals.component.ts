@@ -17,7 +17,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   todaysVitals: Vital[] = [];
   errors: any[] = [];
   currentPatientSub: Subscription;
-  loadingTodaysVitals: boolean = true;
+  loadingTodaysVitals: boolean = false;
   dataLoaded: boolean = false;
 
   constructor(private patientService: PatientService, private vitalService: TodaysVitalsService) { }
