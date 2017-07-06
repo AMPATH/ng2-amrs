@@ -74,6 +74,7 @@ export class ClinicLabOrdersComponent implements OnInit {
       locationUuids: location
     }).subscribe((results) => {
         this.results = this.formatDateField(results);
+        console.log('Results', results);
       },
       (error) => {
         this.errors.push({

@@ -77,11 +77,10 @@ describe('EncounterResourceService', () => {
                 mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
-                        + patientUuid + '&v=custom:(uuid,encounterDatetime,' +
-                        'patient:(uuid,uuid),form:(uuid,name),' +
-                        'visit:(uuid,startDatetime,stopDatetime,location:(uuid,display)' +
-                        ',visitType:(uuid,name)),' +
-                        'location:ref,encounterType:ref,provider:ref)');
+                        + patientUuid + '&v=custom:(uuid,encounterDatetime,patient:(uuid,uuid),' +
+                        'form:(uuid,name),visit:(uuid,display,auditInfo,startDatetime,' +
+                        'stopDatetime,location:(uuid,display),' +
+                        'visitType:(uuid,name)),location:ref,encounterType:ref,provider:ref)');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(encountersResponse) })));
@@ -90,25 +89,37 @@ describe('EncounterResourceService', () => {
                 const result = service.getEncountersByPatientUuid(patientUuid);
             })));
 
+
     });
     describe('get Encounter by uuid', () => {
         let encounterResponse = {
-            'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
-            'encounterDatetime': '2011-02-09T00:00:00.000+0300',
+            'uuid': 'd9ad587c-1350-11df-a1f1-0026b9348838',
+            'encounterDatetime': '2009-07-26T00:00:00.000+0300',
             'patient': {
-                'uuid': '922fc86d-ad42-4c50-98a6-b1f310863c07'
+                'uuid': '5de55880-1359-11df-a1f1-0026b9348838'
             },
             'form': {
-                'uuid': '4710fa02-46ee-421d-a951-9eb012e2e950',
-                'name': 'AMPATH Pediatric Return Visit Form 4.4 with Mother-Baby Link'
+                'uuid': 'dfac3ba8-1350-11df-a1f1-0026b9348838',
+                'name': 'Dummy Registration Form'
             },
+            'visit': null,
             'location': {
-                'uuid': '08feb5b6-1352-11df-a1f1-0026b9348838',
-                'display': 'Amukura',
+                'uuid': '08fec33a-1352-11df-a1f1-0026b9348838',
+                'display': 'Location-16',
                 'links': [
                     {
                         'rel': 'self',
-                        'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/'
+                        'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location'
+                    }
+                ]
+            },
+            'encounterType': {
+                'uuid': 'df555734-1350-11df-a1f1-0026b9348838',
+                'display': 'DUMMYREGISTRATION',
+                'links': [
+                    {
+                        'rel': 'self',
+                        'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encountertype'
                     }
                 ]
             }
@@ -130,11 +141,11 @@ describe('EncounterResourceService', () => {
                 let patientUuid = 'uuid';
                 mockBackend.connections.subscribe(conn => {
                     let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
-                        'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
-                        'visit:(uuid,startDatetime,stopDatetime),' +
-                        'location:ref,encounterType:ref,provider:ref,orders:full,' +
-                        'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display))' +
-                        ',value:ref,groupMembers))';
+                    'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+                    'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
+                    'location:ref,encounterType:ref,provider:ref,orders:full,' +
+                    'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),' +
+                    'value:ref,groupMembers))';
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter/' + patientUuid + '?v='
                         + _customDefaultRep);
@@ -145,6 +156,7 @@ describe('EncounterResourceService', () => {
                 const result = service.getEncounterByUuid(patientUuid);
 
             })));
+
     });
     describe('get Encounter types', () => {
         let encounterTypeResponse = {

@@ -119,6 +119,11 @@ import { SecurePipe } from './locator-map/secure.pipe';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SelectModule } from 'angular2-select';
 /* import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component'; */
+import { VisitEncountersListComponent } from './visit-encounters/visit-encounters-list.component';
+import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
+import { VisitEncountersPipe } from './visit-encounters/visit-encounters.pipe';
+import { OrderByAlphabetPipe } from './visit-encounters/visit-encounter.component.order.pipe';
+import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
 @NgModule({
   imports: [
     CommonModule,
@@ -205,7 +210,12 @@ import { SelectModule } from 'angular2-select';
     VisitPeriodComponent,
     PatientMonthlyStatusComponent,
     LocatorMapComponent,
-    SecurePipe
+    SecurePipe,
+    VisitEncountersListComponent,
+    VisitEncountersComponent,
+    VisitEncountersPipe,
+    OrderByAlphabetPipe,
+    OrderByEncounterTimeAscPipe
   ],
   providers: [
     PatientEncounterService,

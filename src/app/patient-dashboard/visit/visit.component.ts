@@ -56,6 +56,7 @@ export class VisitComponent implements OnInit, OnDestroy {
         this.visitResourceService.getPatientVisits({ patientUuid: patientUuid })
             .map(this.getLastVisit)
             .subscribe((visit) => {
+                console.log(JSON.stringify(visit));
                 this.visitBusy = false;
                 if (visit) {
                     this.visit = visit;
