@@ -373,6 +373,9 @@ lab-order-search-container {
   display: block;
   padding-bottom: 42px;
 }
+.box-body .component-wrapper {
+  padding-bottom: 140px;
+}
 
 @media screen and (max-width: 466px) {
   .content-wrapper{
