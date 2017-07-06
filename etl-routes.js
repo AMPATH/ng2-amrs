@@ -19,7 +19,7 @@ var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
 var motd = require('./dao/motd_notification/motd_notification-dao');
-
+var patientProgramService = require('./programs/patient-program-base.service.js');
 import { MonthlyScheduleService } from './service/monthly-schedule-service';
 import { PatientStatusChangeTrackerService } from './service/patient-status-change-tracker-service';
 import { clinicalArtOverviewService } from './service/clinical-art-overview.service';
@@ -32,6 +32,7 @@ import { HivSummaryIndicatorsService } from './service/hiv-summary-indicators.se
 import { PatientMonthlyStatusHistory } from './service/patient-monthly-status-history'
 import { cohortUserService } from './service/cohort-user.service.js';
 var patientReminderService = require('./service/patient-reminder.service.js');
+
 module.exports = function () {
 
     var routes = [{
@@ -380,7 +381,84 @@ module.exports = function () {
                 dao.getPatient(request, reply);
             }
         }
-    }, {
+    },
+    {
+        method: 'GET',
+        path: '/etl/patient-program/{patientUuid}',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                }
+            },
+            handler: function (request, reply) {
+                var requestParams = Object.assign({}, request.query, request.params);
+                var patientUuid = requestParams.patientUuid;
+                patientProgramService.getPatientPrograms(patientUuid)
+                    .then((results) => {
+                        reply(results);
+                    }).catch((error) => {
+                        reply(error);
+                    });
+
+            },
+            description: 'Get a list of programs ',
+            notes: 'Returns a  list of programs',
+            tags: ['api'],
+            validate: {
+                options: {
+                    allowUnknown: true
+                },
+                params: {
+                    patientUuid: Joi.string()
+                        .required()
+                        .description("The patient's uuid(universally unique identifier)."),
+                }
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/etl/patient-program/{patientUuid}/program/{programUuid}',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                }
+            },
+            handler: function (request, reply) {
+                var requestParams = Object.assign({}, request.query, request.params);
+                var patientUuid = requestParams.patientUuid;
+                var programUuid = requestParams.programUuid;
+                patientProgramService.getPatientProgram(patientUuid, programUuid)
+                    .then((results) => {
+                        reply(results);
+                    }).catch((error) => {
+                        reply(error);
+                    });
+
+            },
+            description: 'Get program config of a user',
+            notes: 'Returns program config  of a user',
+            tags: ['api'],
+            validate: {
+                options: {
+                    allowUnknown: true
+                },
+                params: {
+                    patientUuid: Joi.string()
+                        .required()
+                        .description("The patient's uuid(universally unique identifier)."),
+                    programUuid: Joi.string()
+                        .required()
+                        .description("program Uuid (universally unique identifier)."),
+                }
+            }
+        }
+    },
+    {
         method: 'GET',
         path: '/etl/patient/{uuid}/clinical-notes',
         config: {
@@ -2491,7 +2569,7 @@ module.exports = function () {
                      .catch(function (error) {
                        reply(Boom.create(500, 'Internal server error.', error));
                     });
-                    
+
             },
             description: 'Daily Message Alerts',
             notes: 'Returns Messages to be shown to users on login'

@@ -1,0 +1,507 @@
+{
+  "781d85b0-1359-11df-a1f1-0026b9348838": {
+    "name": "HIV TREATMENT",
+    "visitTypes": [
+      {
+        "uuid": "d9eedf86-a623-46c2-9e89-a3d477f0253b",
+        "name": "Adult HIV Initial Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTINITIAL"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "31263661-f061-4b11-ab8f-e8e9ce01d086",
+        "name": "Adult Transfer In Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "*?????????????AdultTransferIn??????????",
+            "display": "AdultTransferIn"
+          }
+        ]
+      },
+      {
+        "uuid": "1d8afe47-c4f5-4828-b906-91edc5247018",
+        "name": "Adult HIV Return Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "09e95f36-13ad-4cec-bbe7-5daa9e68727a",
+        "name": "Pediatric HIV Initial Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2dde-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSINITIAL"
+          }
+        ]
+      },
+      {
+        "uuid": "d9b45f77-93e9-4f03-b2f7-3179a7eaa6f0",
+        "name": "Pediatric Transfer In Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "*??????????????????????????PedsTransferIn?????????????",
+            "display": "PedsTransferIn"
+          }
+        ]
+      },
+      {
+        "uuid": "5cd33873-64ac-4681-98ca-3d79a3e9dbed",
+        "name": "Pediatric HIV Return Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "e84622c1-7fe8-425d-a4d4-d6740289855e",
+        "name": "Youth HIV Initial Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "fc8c1694-90fc-46a8-962b-73ce9a99a78f",
+            "display": "YOUTHINITIAL"
+          }
+        ]
+      },
+      {
+        "uuid": "9adb4697-3667-4d72-b2ab-bd9033818ff6",
+        "name": "Youth Transfer In Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "*????????????YouthTransferIn??????????",
+            "display": "YouthTransferIn"
+          }
+        ]
+      },
+      {
+        "uuid": "4c84516f-279e-4994-b111-84d4d35a2d97",
+        "name": "Youth HIV Return Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
+            "display": "YOUTHRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "410c1874-65eb-4def-9a53-c09823b764e4",
+        "name": "Differentiated Care Clinical Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
+            "display": "DIFFERENTIATEDCARE"
+          }
+        ]
+      },
+      {
+        "uuid": "b9b75f23-7fcc-492f-9a44-5544590c4760",
+        "name": "Differentiated Care Pharmacy Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
+            "display": "DIFFERENTIATEDCARE"
+          }
+        ]
+      },
+      {
+        "uuid": "d1b92b20-c087-4036-8a61-54d978316fe9",
+        "name": "Express Care Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "df554398-1350-11df-a1f1-0026b9348838",
+            "display": "ECSTABLE"
+          }
+        ]
+      },
+      {
+        "uuid": "a21e0f58-adb0-4a88-8877-b1a8af9c5cab",
+        "name": "Resistance Clinic Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
+            "display": "RESISTANCECLINIC"
+          }
+        ]
+      },
+      {
+        "uuid": "1c9ec4a1-5383-4f92-b972-ada376256cf7",
+        "name": "Between Care Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "*??????????????????Between-Care-Visit?????????????",
+            "display": "Between-Care-Visit"
+          }
+        ]
+      },
+      {
+        "uuid": "1782fc7b-acfb-4820-b5a6-98188d7a9c17",
+        "name": "Transit Care Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "*??????????????????transit-Visit?????????????",
+            "display": "transit-Visit"
+          }
+        ]
+      },
+      {
+        "uuid": "dd577eb9-03ed-4bc1-a784-0c0bd9affca5",
+        "name": "Inpatient Peer Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          }
+        ]
+      },
+      {
+        "uuid": "3d2f6f84-0a0b-47c3-b209-ba26d2accd18",
+        "name": "MDT Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSRETURN"
+          },
+          {
+            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
+            "display": "YOUTHRETURN"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          },
+          {
+            "uuid": "*??????????????????MDT-Form?????????????",
+            "display": "MDT-Form"
+          }
+        ]
+      }
+    ]
+  },
+  "725b5193-3452-43fc-aca3-6a80432d9bfa": {
+    "name": "ONCOLOGY PROGRAM",
+    "visitTypes": [
+      {
+        "uuid": "d16a87ae-470f-4cea-a849-242b15b46934",
+        "name": "Breast Cancer Screening ",
+        "encounterTypes": [
+          {
+            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
+            "display": "OncologyDiagnosisChange"
+          },
+          {
+            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
+            "display": "ONCOLOGYDYSPLASIA"
+          },
+          {
+            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
+            "display": "OncologyInitial "
+          },
+          {
+            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
+            "display": "OncologyLabandChemoTracking "
+          },
+          {
+            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
+            "display": "OncologyReturn"
+          },
+          {
+            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
+            "display": "OncologyReturnWithNewDiagnosticInfo"
+          },
+          {
+            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
+            "display": "ONCOLOGYTRIAGE"
+          },
+          {
+            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
+            "display": "ONCOLOGYVIA"
+          }
+        ]
+      },
+      {
+        "uuid": "0ba3f08e-9335-4132-9aaa-67451df31775",
+        "name": "Cervical Cancer Screening ",
+        "encounterTypes": [
+          {
+            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
+            "display": "OncologyDiagnosisChange"
+          },
+          {
+            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
+            "display": "ONCOLOGYDYSPLASIA"
+          },
+          {
+            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
+            "display": "OncologyInitial "
+          },
+          {
+            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
+            "display": "OncologyLabandChemoTracking "
+          },
+          {
+            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
+            "display": "OncologyReturn"
+          },
+          {
+            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
+            "display": "OncologyReturnWithNewDiagnosticInfo"
+          },
+          {
+            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
+            "display": "ONCOLOGYTRIAGE"
+          },
+          {
+            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
+            "display": "ONCOLOGYVIA"
+          }
+        ]
+      },
+      {
+        "uuid": "ac3914d2-ea15-46be-ba6a-06ae6cc2010c",
+        "name": "Cervical Cancer Treatment ",
+        "encounterTypes": [
+        ]
+      },
+      {
+        "uuid": "32443ed6-9b77-4644-9dce-e1adfd5be843",
+        "name": "Breast Cancer Treatment ",
+        "encounterTypes": [
+        ]
+      },
+      {
+        "uuid": "cd891907-5ea6-457d-af6d-1cd78865fb3c",
+        "name": "Sickle cell ",
+        "encounterTypes": [
+        ]
+      },
+      {
+        "uuid": "0754d17f-3b37-4391-92c0-5dba87c9e5f2",
+        "name": "Multiple Myeloma ",
+        "encounterTypes": [
+        ]
+      },
+      {
+        "uuid": "f2f0795e-de80-4320-815a-6e37ac8c35ed",
+        "name": "Hemophilia ",
+        "encounterTypes": [
+        ]
+      }
+    ]
+  },
+  "fc15ac01-5381-4854-bf5e-917c907aa77f": {
+    "name": "CDM PROGRAM",
+    "visitTypes": [
+      {
+        "uuid": "2b918f1a-2494-4693-993b-91d6f6ed8efc",
+        "name": "CDM Visit",
+        "encounterTypes": [
+        ]
+      }
+    ]
+  },
+  "781d897a-1359-11df-a1f1-0026b9348838": {
+    "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV",
+    "visitTypes": [
+      {
+        "uuid": "70134106-68f6-47e5-9ee0-3a9448f5f380",
+        "name": "PMTCT Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "7bf4632a-00e8-4c0a-a296-c3977fdd6671",
+            "display": "PMTCTENCOUNTER"
+          },
+          {
+            "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
+            "display": "HEIFOLLOWUP"
+          },
+          {
+            "uuid": "b1e9ed0f-5222-4d47-98f7-5678b8a21ebd",
+            "display": "PMTCTPOSTNATAL "
+          },
+          {
+            "uuid": "df553c4a-1350-11df-a1f1-0026b9348838",
+            "display": "PMTCTANC"
+          }
+        ]
+      }
+    ]
+  },
+  "781d8768-1359-11df-a1f1-0026b9348838": {
+    "name": "OVC PROGRAM",
+    "visitTypes": []
+  },
+  "781d8a88-1359-11df-a1f1-0026b9348838": {
+    "name": "BSG PROGRAM",
+    "visitTypes": []
+  },
+  "pep-visit-types": {
+    "name": "BSG PROGRAM",
+    "visitTypes": [
+      {
+        "uuid": "ffb14518-f012-4c01-99c1-2f5a6efb7025",
+        "name": "PEP Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "c3a78744-f94a-4a25-ac9d-1c48df887895",
+            "display": "PEPINITIAL"
+          },
+          {
+            "uuid": "f091b833-9e1a-4eef-8364-fc289095a832",
+            "display": "PEPRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "4d4fac46-5bc5-4b63-a69b-328532d1a2da",
+        "name": "PrEP Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "*?????????????????????????prep-initial?????????????????????????",
+            "display": "prep-initial"
+          },
+          {
+            "uuid": "prep-return",
+            "display": "*?????????????????????????prep-return?????????????????????????"
+          }
+        ]
+      }
+    ]
+  }
+}
