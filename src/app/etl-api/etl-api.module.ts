@@ -25,6 +25,7 @@ import { Moh731PatientListResourceService } from './moh-731-patientlist-resource
 import { FileUploadResourceService } from './file-upload-resource.service';
 import { UserCohortResourceService } from './user-cohort-resource.service';
 import { CohortUserResourceService } from './cohort-list-user-resource.service';
+import { PatientProgramResourceService } from './patient-program-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -49,7 +50,8 @@ import { CohortUserResourceService } from './cohort-list-user-resource.service';
     Moh731PatientListResourceService,
     FileUploadResourceService,
     UserCohortResourceService,
-    CohortUserResourceService
+    CohortUserResourceService,
+    PatientProgramResourceService
   ],
   exports: []
 })
