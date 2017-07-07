@@ -12,7 +12,7 @@
         "schema": "etl",
         "tableName": "cohort_user",
         "alias": "t2",
-        "joinExpression": "t1.cohort_id  = t2.cohort_id and t1.voided=0"
+        "joinExpression": "t1.cohort_id  = t2.cohort_id and t2.voided=0"
       },
       {
         "joinType": "JOIN",
@@ -29,7 +29,7 @@
     ],
     "filters": [
       {
-        "expression": "t3.uuid = ?",
+        "expression": "t1.voided=0 and t3.uuid = ?",
         "parameter": "userUuid"
       }
     ],
