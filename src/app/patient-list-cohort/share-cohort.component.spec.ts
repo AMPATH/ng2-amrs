@@ -5,11 +5,10 @@ import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core
 import { Observable } from 'rxjs/Rx';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-//
 
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
@@ -18,16 +17,22 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 
-import { CohortListComponent } from './cohort-list.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { CohortListService } from './cohort-list.service';
-import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
+// import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
+import { ShareCohortListComponent } from './share-cohort-list.component';
+import { CohortUserResourceService } from '../etl-api/cohort-list-user-resource.service';
+import { UserSearchComponent } from './user-search.component';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 class DataStub {
 
-  public getUserCohorts(payload): Observable<any> {
+  public getCohortUser(payload): Observable<any> {
+    return Observable.of({ status: 'okay' });
+  }
+  public createCohortUser(payload): Observable<any> {
     return Observable.of({ status: 'okay' });
   }
 
@@ -41,41 +46,48 @@ class DataStubUser {
 }
 class DummyComponent {
 }
+class MockActivatedRoute {
+ // params = Observable.of([{ 'id': 1 }]);
+  snapshot = {
+    params: { cohort_uuid: 'uuid' }
+  };
+}
 
-let expectedResults = {
-  results: [
+let expectedResults = [
     {
       uuid: 'uuid',
-      name: 'Test Defaulter List',
-      description: 'Test Defaulter List',
-      access: 'public',
+      username: 'Test Defaulter List',
       cohort_id: 2,
       role: 'admin',
-      date_created: '2010-05-06T13:17:48.000Z'
     }
 
-  ]
+  ];
+let expectedPayload = {
+  role: 'edit',
+  cohort: 'cohortUuid',
+
 };
 
-describe('CohortListComponent', () => {
-  let fixture: ComponentFixture<CohortListComponent>;
-  let comp: CohortListComponent;
-  let dataStub: UserCohortResourceService;
+describe('ShareCohortListComponent', () => {
+  let fixture: ComponentFixture<ShareCohortListComponent>;
+  let comp: ShareCohortListComponent;
+  let dataStub: CohortUserResourceService;
   let mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule, FormsModule,
+      imports: [ NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule,
+        FormsModule, Ng2PaginationModule,
         RouterTestingModule.withRoutes([
           { path: 'add-cohort-list', component: DummyComponent }
         ])],
-      declarations: [CohortListComponent]
-    }).overrideComponent(CohortListComponent, {
+      declarations: [ShareCohortListComponent, UserSearchComponent]
+    }).overrideComponent(ShareCohortListComponent, {
       set: {
         providers: [
-          { provide: UserCohortResourceService, useClass: DataStub },
+          { provide: CohortUserResourceService, useClass: DataStub },
           { provide: UserService, useClass: DataStubUser },
           {
             provide: Http, useFactory: (backend, options) => {
@@ -86,7 +98,7 @@ describe('CohortListComponent', () => {
           { provide: Router, useValue: mockRouter },
           {
             provide: ActivatedRoute,
-            useValue: { parent: { params: Observable.of({id: 'testId'}) }}
+            useValue: MockActivatedRoute
           },
           MockBackend,
           BaseRequestOptions,
@@ -96,32 +108,32 @@ describe('CohortListComponent', () => {
       }
     }).compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(CohortListComponent);
+        fixture = TestBed.createComponent(ShareCohortListComponent);
         comp = fixture.componentInstance;
-        dataStub = fixture.debugElement.injector.get(UserCohortResourceService);
+        dataStub = fixture.debugElement.injector.get(CohortUserResourceService);
       });
   }));
 
-  it('should hit the success callback when getAllCohorts returns success',
+  /*it('should hit the success callback when getCohortUser returns success',
     (done)  => {
-      const spy = spyOn(dataStub, 'getUserCohorts').and.returnValue(
+      const spy = spyOn(dataStub, 'getCohortUser').and.returnValue(
         Observable.of(expectedResults)
       );
-      comp.getCohortList();
+      comp.getCohortUsers();
+      fixture.detectChanges();
+      expect(spy.calls.any()).toEqual(true);
+      done();
+    });*/
+  /*it('should hit the success callback when createCohortUser returns success',
+    (done)  => {
+      const spy = spyOn(dataStub, 'createCohortUser').and.returnValue(
+        Observable.of(expectedPayload)
+      );
+      comp.ShareCohortWithNewUser();
       fixture.detectChanges();
       expect(spy.calls.any()).toEqual(true);
       done();
     });
-
-  it('should hit the error callback when getAllCohorts returns an error',
-    fakeAsync(() => {
-      const spy = spyOn(dataStub, 'getUserCohorts').and.returnValue(
-        Observable.throw({ error: '' })
-      );
-      comp.getCohortList();
-      fixture.detectChanges();
-      tick(500);
-      expect(spy.calls.any()).toEqual(true);
-      tick(500);
-    }));
+*/
 });
+

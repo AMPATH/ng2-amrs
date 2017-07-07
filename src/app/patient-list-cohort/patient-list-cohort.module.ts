@@ -17,6 +17,12 @@ import { AddCohortListComponent } from './add-cohort-list.component';
 import { EditCohortListComponent } from './edit-cohort-list.component';
 import { CohortListService } from './cohort-list.service';
 import { ViewCohortListMembersComponent } from './cohort-list-members.component';
+import { ShareCohortListComponent } from './share-cohort-list.component';
+/*import { SelectModule } from 'ng2-select';*/
+import { SelectModule } from 'angular2-select';
+import { UserSearchComponent } from './user-search.component';
+import { Ng2PaginationModule } from 'ng2-pagination';
+import { EtlApi } from '../etl-api/etl-api.module';
 
 // patientListCohort,
 @NgModule({
@@ -28,9 +34,13 @@ import { ViewCohortListMembersComponent } from './cohort-list-members.component'
     NgamrsSharedModule,
   //  RouterModule.forChild(patientListCohort),
     ConfirmDialogModule, DialogModule,
+    SelectModule,
+    Ng2PaginationModule,
+    EtlApi
   ],
   declarations: [CohortListComponent, AddCohortListComponent,
-    EditCohortListComponent, ViewCohortListMembersComponent],
+    EditCohortListComponent, ViewCohortListMembersComponent,
+    ShareCohortListComponent, UserSearchComponent],
   providers: [
     CohortListService
   ],
@@ -39,7 +49,8 @@ import { ViewCohortListMembersComponent } from './cohort-list-members.component'
     CohortListComponent,
     AddCohortListComponent,
     EditCohortListComponent,
-    ViewCohortListMembersComponent
+    ViewCohortListMembersComponent,
+    ShareCohortListComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

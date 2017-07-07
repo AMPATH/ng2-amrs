@@ -1,0 +1,34 @@
+.badge-info {
+  background-color: #3a87ad;
+}
+
+.input-group-btn > .btn {
+  margin-left: 5px;
+}
+
+.alert {
+  color: #999;
+  padding: 0px;
+}
+
+.alert .text-bold {
+  color: #333;
+}
+
+.input-group-btn:last-child > .btn {
+  border-radius: 3px;
+}
+
+button.btn-primary {
+  padding: 10px 16px !important;
+}
+
+.form-control:focus {
+  border-color: #f1f1f1;
+}
+
+.glyphicon {
+  margin-right:7px;
+}
+
+

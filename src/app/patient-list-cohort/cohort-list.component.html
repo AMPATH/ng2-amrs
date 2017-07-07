@@ -2,10 +2,10 @@
 <div class="box-body">
   <div [ngBusy]="{busy:[fetchingResults, isBusy],message:'Please wait loading data...'}"></div>
   <div class="component-wrapper">
-    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Patient List</h4>
+    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Patient Lists</h4>
     <div>
       <a (click)="addNewCohort()"   class="add_rel">
-        <span class="fa fa-plus fa-fw" style="cursor: pointer"></span>Create List
+        <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Create List
       </a>
       <div>
         <div>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped table-hover " style="cursor: pointer" >
+        <table class="table table-striped table-hover " style="cursor: pointer" id="mytable">
           <thead>
           <tr>
             <th>Name</th>
@@ -28,29 +28,29 @@
           </tr>
           </thead>
           <tbody *ngIf="cohortList">
-          <tr *ngFor="let list of cohortList | filterBy: {name:filterTerm};   let i = index; " >
+          <tr *ngFor="let list of cohortList | filterBy: {name:filterTerm};   let i = index; " (click)="viewCohortListMembers(list)">
             <td>
               {{list.name }}
             </td>
             <td >
-             <!-- {{list.role}} *ngFor="let list of list.users ; let i = index; "-->
+              {{list.role}}
             </td>
             <td>
-             <!-- {{list.access}}-->
+              {{list.access}}
             </td>
             <td>
-              {{list.auditInfo.dateCreated | date:'dd-MM-yyyy'}}
+              {{list.date_created | date:'dd-MM-yyyy'}}
             </td>
             <td>
               {{list.description}}
             </td>
-            <td>
-              <a  (click)="getCohortListToEdit(list.uuid, list.description, list.name )"><span class="glyphicon glyphicon-pencil link" style="cursor: pointer">
-
-              </span></a>
-              <a (click)="viewCohortListMembers(list.uuid, list.description, list.name)"><span style="font-size:14px; padding-left: 1em; cursor: pointer" class="glyphicon glyphicon-zoom-in"></span></a>
-              <a ><span style="font-size:14px; padding-left: 1em; cursor: pointer" class="fa fa-share-alt" ></span></a>
-              <a (click)="openConfirmDialog(list.uuid)"><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
+            <td (click)=" $event.stopPropagation()">
+              <!--<a (click)="viewCohortListMembers(list.uuid, list.description, list.name)" >
+                <span style="font-size:14px; padding-left: 1em; cursor: pointer" class="glyphicon glyphicon-zoom-in"></span></a>-->
+              <a (click)="shareCohortList(list.uuid, list.description, list.name)" [class.disabled]="(list.role !== 'admin') ? true : null" >
+                <span style="font-size:14px; padding-left: 1em; cursor: pointer" class="fa fa-share-alt" ></span></a>
+              <a (click)="openConfirmDialog(list.uuid)" [class.disabled]="(list.role !== 'admin') ? true : null"
+                 ><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer" ></span></a>
             </td>
           </tr>
           </tbody>

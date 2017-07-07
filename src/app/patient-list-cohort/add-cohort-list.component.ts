@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { Router } from '@angular/router';
+import { CohortListService } from './cohort-list.service';
 
 @Component({
   selector: 'add-cohort-list',
@@ -21,7 +22,8 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
   private errorTitle: string;
 
 
-  constructor(private cohortResourceService: CohortResourceService, private router: Router) { }
+  constructor(private cohortResourceService: CohortResourceService, private router: Router,
+              private cohortListService: CohortListService) { }
   ngOnInit(): void {
   }
 
@@ -54,11 +56,13 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
         (success) => {
           this.displaySuccessAlert('Successfully added cohort');
           if ( success ) {
-           console.log('success', success);
+            this.cohortListService.setData(success);
+           console.log('success======', success);
 
-            this.router.navigate(['/patient-list-cohort']);
+           // this.router.navigate(['/patient-list-cohort/cohort']);
+            this.router.navigate(['patient-list-cohort/cohort/' +
+            success.uuid + '/member']);
           }
-         //  this.successAlert = 'Successfully added cohort';
 
         },
         (error) => {

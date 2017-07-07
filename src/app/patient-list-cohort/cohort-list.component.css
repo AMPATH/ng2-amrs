@@ -31,3 +31,7 @@ hr {
   margin-top: 20px;
   font-size: 18px;
 }
+a.disabled {
+  pointer-events: none;
+  cursor:default;
+}

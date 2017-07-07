@@ -6,7 +6,8 @@ import { Router, ActivatedRoute, Params }    from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortListService } from './cohort-list.service';
-import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resource.service';
+import { User } from '../models/user.model';
+import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class CohortListComponent implements OnInit {
   public isLoading: boolean = false;
   filterTerm: string = '';
   cohortList: any;
+  user: User;
   fetchError: boolean = false;
   isSelectedCohort: any;
   private displayConfirmDialog: boolean = false;
@@ -34,7 +36,12 @@ export class CohortListComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private cohortResourceService: CohortResourceService,
-              private cohortListService: CohortListService) {
+              private cohortListService: CohortListService,
+              private userService: UserService,
+              private userCohortResourceService: UserCohortResourceService) {
+    this.user = this.userService.getLoggedInUser();
+
+
 
   }
 
@@ -43,24 +50,22 @@ export class CohortListComponent implements OnInit {
   }
   getCohortList() {
     this.fetchingResults = true;
-   let sub = this.cohortResourceService.getAllCohorts();
-   if (sub) {
-     sub.subscribe(
-       (cohorts) => {
-         // if (cohorts) {
-         console.log('cohorts', cohorts);
-         this.cohortList = cohorts.results;
+    let sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
+     if ( sub ) {
+       sub.subscribe(
+         (cohorts) => {
+            if (cohorts) {
+           this.cohortList = cohorts.result;
+           this.fetchingResults = false;
+            }
 
-         this.fetchingResults = false;
-         //  }
+         },
+         (error) => {
+           this.fetchError = true;
 
-       },
-       (error) => {
-         this.fetchError = true;
-
-       }
-     );
-   }
+         }
+       );
+     }
 
   }
   valueChange(newValue) {
@@ -107,29 +112,44 @@ export class CohortListComponent implements OnInit {
       this.showErrorAlert = false;
     }, 3000);
   }
-  getCohortListToEdit(uuid, desc, name) {
+  getCohortListToEdit(uuid, description, name) {
     this.isSelectedCohort = {
       uuid: uuid,
-      desc: desc,
+      description: description,
       name: name
     };
     this.cohortListService.setData(this.isSelectedCohort);
-    this.router.navigate(['patient-list-cohort/patient-list/edit-cohort-list']);
+    this.router.navigate(['patient-list-cohort/cohort/' +
+    this.isSelectedCohort.uuid + '/edit-cohort']);
   }
   addNewCohort() {
-    this.router.navigate(['patient-list-cohort/patient-list/add-cohort-list']);
+    this.router.navigate(['patient-list-cohort/cohort/add-cohort']);
   }
-  viewCohortListMembers(uuid, desc, name) {
+  viewCohortListMembers(list) {
+    this.isSelectedCohort = {
+      uuid: list.uuid,
+      description: list.description,
+      name: list.name,
+      role: list.role
+    };
+    this.cohortListService.setData(this.isSelectedCohort);
+    this.router.navigate(['patient-list-cohort/cohort/' +
+    this.isSelectedCohort.uuid + '/member']);
+
+
+  }
+  shareCohortList(uuid, description, name) {
     this.isSelectedCohort = {
       uuid: uuid,
-      desc: desc,
+      description: description,
       name: name
     };
     this.cohortListService.setData(this.isSelectedCohort);
-    this.router.navigate(['patient-list-cohort/patient-list/cohort-list-members']);
-
-
+    this.router.navigate(['patient-list-cohort/cohort/' +
+    this.isSelectedCohort.uuid  + '/share-cohort']);
   }
+
+
 
 
 

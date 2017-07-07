@@ -1,18 +1,21 @@
 import { Routes, RouterModule } from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
+
 import { CohortListComponent } from './cohort-list.component';
 import { AddCohortListComponent } from './add-cohort-list.component';
-import { ModuleWithProviders } from '@angular/core';
 import { EditCohortListComponent } from './edit-cohort-list.component';
 import { ViewCohortListMembersComponent } from './cohort-list-members.component';
+import { ShareCohortListComponent } from './share-cohort-list.component';
 
  const patientListCohort: Routes = [
 
-  { path: 'patient-list',
+  { path: 'cohort',
     children: [
       { path: '', component: CohortListComponent },
-      { path: 'add-cohort-list', component: AddCohortListComponent },
-      { path: 'edit-cohort-list', component: EditCohortListComponent },
-      { path: 'cohort-list-members', component: ViewCohortListMembersComponent }
+      { path: 'add-cohort', component: AddCohortListComponent },
+      { path: ':cohort_uuid/edit-cohort', component: EditCohortListComponent },
+      { path: ':cohort_uuid/member', component: ViewCohortListMembersComponent },
+      { path: ':cohort_uuid/share-cohort', component: ShareCohortListComponent }
     ]
   }
 ];

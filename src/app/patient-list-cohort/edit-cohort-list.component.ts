@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortListService } from './cohort-list.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'edit-cohort-list',
@@ -15,13 +15,16 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
+  display: boolean = false;
   private errors: any = [];
-  private successAlert: any = '';
+  private successAlert: string = '';
 
   constructor(private cohortResourceService: CohortResourceService,
               private cohortListService: CohortListService,
-              private router: Router) { }
+              private router: Router,
+              private route: ActivatedRoute) { }
   ngOnInit() {
+    this.selectedCohortUuid = this.route.snapshot.params['cohort_uuid'];
     this.getCohortListToEdit();
 
 
@@ -37,7 +40,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
     this.subscription = this.cohortListService.getData().subscribe(
       data => {
         if (data) {
-          this.selectedCohortDescription = data.desc;
+          this.selectedCohortDescription = data.description;
           this.selectedCohortUuid = data.uuid;
           this.selectedCohortName = data.name;
         }
@@ -54,25 +57,37 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
       let cohortListPayload = {
         name: this.selectedCohortName,
         description: this.selectedCohortDescription,
-       // memberIds: []
+        // memberIds: []
       };
-      this.cohortResourceService.editCohort(this.selectedCohortDescription,
+      this.cohortResourceService.editCohort(this.selectedCohortUuid,
         cohortListPayload).subscribe(
         (success) => {
           if ( success ) {
             this.successAlert = 'Successfully edited cohort';
+            this.cohortResourceService.getCohort(this.selectedCohortUuid).subscribe(
+              (edited) => {
+                this.cohortListService.setData(edited);
+              }
+            );
+            this.display = false;
 
-            this.router.navigate(['/patient-list-cohort']);
           }
 
         },
         (error) => {
           console.log('error', error);
           this.errors.push({
-            message: 'error adding cohort'
+            message: 'error editing cohort'
           });
         }
       );
     }
   }
+  showDialog() {
+    this.display = true;
+  }
+  public dismissDialog() {
+    this.display = false;
+  }
+
 }
