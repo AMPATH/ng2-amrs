@@ -53,7 +53,7 @@ module.exports = function () {
                 offset: queryParams.startIndex,
                 limit: queryParams.limit,
                 requestIndicators: queryParams.indicators,
-                requestParams:queryParams
+                requestParams: queryParams
             }
             return reportParams;
         },
@@ -150,7 +150,7 @@ module.exports = function () {
                 6467: "NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE",
                 1107: "NONE",
                 5424: "OTHER ANTIRETROVIRAL DRUG",
-                6157: "DATUNAVIR",
+                6157: "DARUNAVIR",
                 795: "RITONAVIR",
                 625: "STAVUDINE",
                 792: "STAVUDINE LAMIVUDINE AND NEVIRAPINE",
