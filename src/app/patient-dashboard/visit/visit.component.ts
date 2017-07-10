@@ -97,7 +97,17 @@ export class VisitComponent implements OnInit, OnDestroy {
         this.loadingVisitTypes = true;
         this.visitResourceService.getVisitTypes({}).subscribe(
             (visitTypes) => {
-                this.visitTypes = visitTypes;
+              // Hotfix: This will patch version 2.3.0 in readiness for the  release of 2.4.x
+                this.visitTypes = [
+                  {
+                    uuid: '77b6e076-e866-46cf-9959-4a3703dba3fc',
+                    display: 'INITIAL HIV CLINIC VISIT'
+                  },
+                  {
+                    uuid: 'd4ac2aa5-2899-42fb-b08a-d40161815b48',
+                    display: 'RETURN HIV CLINIC VISIT'
+                  }
+                ];
                 this.loadingVisitTypes = false;
             }
             , (err) => {
