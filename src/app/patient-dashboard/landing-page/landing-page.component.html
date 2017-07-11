@@ -1,12 +1,17 @@
+<add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true" (dialogClosed)="onAddingToCohortClosed()">
+</add-to-cohort-dialog>
+
 <div [ngBusy]="{busy:[programsBusy],message:'Loading patient care programs.........'}"></div>
 <div class="programs" *ngIf="availablePrograms.length > 0 && !hasError">
-  <h4 class="component-title">Patient Care Program Snapshots</h4>
+  <h4 class="component-title">Patient Care Program Snapshots
+    <a (click)="addToCohort()" class="pull-right" > <span class="fa fa-plus" style="cursor: pointer"></span>Add to Patient List</a>
+  </h4>
   <div class="program">
     <ng-container *ngFor="let row of availablePrograms; ">
       <div class="enrolled" *ngIf="row.isEnrolled">
         <div class="program-header-wrapper">
-          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on
-            {{row.dateEnrolledView}})</h2>
+          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on {{row.dateEnrolledView}})
+          </h2>
           <div class="clear"></div>
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">

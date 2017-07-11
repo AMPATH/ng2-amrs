@@ -76,7 +76,7 @@ export class CohortMemberResourceService {
 
     // Retire/Void Cohort
 
-    retireCohortMember(parentUuid , uuid, ): Observable<any> {
+    retireCohortMember(parentUuid , uuid ): Observable<any> {
 
          if (!uuid || !parentUuid) {
             return null;

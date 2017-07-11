@@ -1,3 +1,6 @@
+<add-to-cohort-dialog *ngIf="showingAddToCohort" [allowPatientEdit]="true" [(cohort)]="cohort"  (dialogClosed)="onAddingToCohortClosed()">
+</add-to-cohort-dialog>
+
 <div class="box-body">
   <div [ngBusy]="{busy:[fetchingResults, isBusy],message:'Please wait loading data...'}"></div>
 
@@ -27,8 +30,8 @@
     <div class="component-wrapper">
       <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Members</h4>
       <div>
-        <a>
-          <span class="fa fa-plus fa-2x" style="cursor: pointer" [class.disabled]="(userAssignedRole === 'view') ? true : null"></span> Add Member
+        <a (click)="addToCohort()" [class.disabled]="(userAssignedRole === 'view') ? true : false">
+          <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Add Member
         </a>
         <div>
           <div class="input-group" style="width: 100%; padding-bottom: 4px; padding-top: 4px">

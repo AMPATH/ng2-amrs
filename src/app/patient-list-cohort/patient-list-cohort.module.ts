@@ -3,13 +3,15 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UtilsModule } from '../utils/utils.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
+
+import { UtilsModule } from '../utils/utils.module';
+import { CohortMemberModule } from './cohort-member/cohort-member.module';
 import { CohortListComponent } from './cohort-list.component';
 import { cohortRouting } from './patient-list-cohort.routes';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
@@ -23,6 +25,7 @@ import { SelectModule } from 'angular2-select';
 import { UserSearchComponent } from './user-search.component';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { EtlApi } from '../etl-api/etl-api.module';
+import { AddCohortMemberContainerComponent } from './add-cohort-member-container.component';
 
 // patientListCohort,
 @NgModule({
@@ -32,7 +35,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
     cohortRouting,
     UtilsModule,
     NgamrsSharedModule,
-  //  RouterModule.forChild(patientListCohort),
+    CohortMemberModule,
     ConfirmDialogModule, DialogModule,
     SelectModule,
     Ng2PaginationModule,
@@ -40,12 +43,13 @@ import { EtlApi } from '../etl-api/etl-api.module';
   ],
   declarations: [CohortListComponent, AddCohortListComponent,
     EditCohortListComponent, ViewCohortListMembersComponent,
+    AddCohortMemberContainerComponent,
     ShareCohortListComponent, UserSearchComponent],
   providers: [
     CohortListService
   ],
   exports: [
-  //  RouterModule,
+    //  RouterModule,
     CohortListComponent,
     AddCohortListComponent,
     EditCohortListComponent,
@@ -56,4 +60,4 @@ import { EtlApi } from '../etl-api/etl-api.module';
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class PatientListCohortModule {}
+export class PatientListCohortModule { }

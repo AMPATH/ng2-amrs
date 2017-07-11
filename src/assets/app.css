@@ -69,7 +69,7 @@ body .ui-accordion .ui-accordion-header {
   margin-top:3px !important;
 }
 
-body .ui-accordion .ui-accordion-header, body a {
+body .ui-accordion .ui-accordion-header {
   color: #337ab7 !important;
 }
 
@@ -79,10 +79,8 @@ body .ui-accordion .ui-accordion-header.ui-state-active a {
 
 body .ui-accordion .ui-accordion-header.ui-state-active a,
 body .ui-accordion .ui-accordion-header.ui-state-active span.fa,
-.suggestions li:hover a,
-.ui-select-choices li a {
+.suggestions li:hover a {
   color: #ffffff !important;
-
 }
 
 body .ui-accordion .ui-accordion-content {
