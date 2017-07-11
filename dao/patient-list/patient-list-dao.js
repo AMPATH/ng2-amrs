@@ -23,15 +23,20 @@ function getCohortUsersByCohortUuid(cohortUuid) {
         connection.getServerConnection()
             .then(function (conn) {
                 var query = squel.select()
+                    .field('u.user_id')
                     .field('cu.cohort_user_id')
                     .field('cu.voided')
                     .field('cu.role')
                     .field('u.username')
-                    .from('etl.cohort_user', 'cu')
-                    .join('amrs.users', 'u', 'cu.user_id = u.user_id')
-                    .join('amrs.cohort', 'c', 'c.cohort_id = cu.cohort_id')
+                    .field('case when cu.role is null or cu.user_id != u.user_id then "admin" else cu.role end as role')
+                    .field('case when cu.role is null or cu.user_id != u.user_id  then  "null" else cu.cohort_user_id end as cohort_user_id')
+                    .field('case when cu.role is null or cu.user_id != u.user_id  then  0 else cu.voided end as voided')
+                    .from('amrs.cohort', 'c')
+                    .left_join('etl.cohort_user', 'cu', 'c.cohort_id = cu.cohort_id and cu.voided = 0 ')
+                    .join('amrs.users', 'u', squel.expr().or('cu.user_id = u.user_id').or('c.creator = u.user_id'))
                     .where('c.uuid = ?', cohortUuid)
-                    .where('cu.voided != 1')
+                    .where('c.voided = 0')
+                    .group('u.username')
                     .toString();
 
                 conn.query(query, {}, function (err, rows, fields) {
