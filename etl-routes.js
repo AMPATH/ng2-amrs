@@ -18,6 +18,8 @@ var config = require('./conf/config');
 var privileges = authorizer.getAllPrivileges();
 var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
+var motd = require('./dao/motd_notification/motd_notification-dao');
+
 import { MonthlyScheduleService } from './service/monthly-schedule-service';
 import { PatientStatusChangeTrackerService } from './service/patient-status-change-tracker-service';
 import { clinicalArtOverviewService } from './service/clinical-art-overview.service';
@@ -2468,6 +2470,31 @@ module.exports = function () {
                 }
 
             }
+        }
+    }, {
+        method: 'GET',
+        path: '/etl/motdNotifications',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': false
+            },
+            handler: function (request, reply) {
+            motd.getMotdNotifications().then(function (motdNotifications) {
+
+                         if (motdNotifications === null) {
+                             reply(Boom.notFound('Resource does not exist'));
+                         } else {
+                             reply(motdNotifications);
+                         }
+                    })
+                     .catch(function (error) {
+                       reply(Boom.create(500, 'Internal server error.', error));
+                    });
+                    
+            },
+            description: 'Daily Message Alerts',
+            notes: 'Returns Messages to be shown to users on login'
         }
     }
     ];
