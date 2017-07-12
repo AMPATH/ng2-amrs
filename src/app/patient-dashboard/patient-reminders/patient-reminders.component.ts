@@ -54,7 +54,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
           request
             .subscribe(
             (data) => {
-              if (data && data.personUuid === this.patientUuid) {
+              if (!patient.person.dead && data && data.personUuid === this.patientUuid) {
                 this.reminders = data.generatedReminders;
                 this.constructReminders(this.reminders);
               }
