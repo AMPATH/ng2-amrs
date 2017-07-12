@@ -1,4 +1,8 @@
-import { Component , OnInit , NgModule , OnDestroy } from '@angular/core';
+import { PatientEncounterObservationsComponent } from
+'./../patient-encounters/patient-encounter-observations.component';
+import { EncounterListComponent } from './../patient-encounters/encounter-list.component';
+import { Component, OnInit, NgModule, OnChanges,
+OnDestroy, AfterViewInit, EventEmitter , ViewChild, Output } from '@angular/core';
 import { PatientService } from '../patient.service';
 import { Subscription, Observable } from 'rxjs/Rx';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
@@ -6,6 +10,7 @@ import { EncounterResourceService } from './../../openmrs-api/encounter-resource
 import { VisitResourceService } from './../../openmrs-api/visit-resource.service';
 import { VisitEncountersPipe } from './visit-encounters.pipe';
 import { OrderByAlphabetPipe } from './visit-encounter.component.order.pipe';
+import { Encounter } from '../../models/encounter.model';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
@@ -18,18 +23,22 @@ import * as Moment from 'moment';
 
 
 
-export class VisitEncountersComponent {
+export class VisitEncountersComponent implements OnInit , AfterViewInit {
+
 
   title: string = 'Patient Visits';
   patientUuid: string = '';
   patientEncounters: any = [];
-
-
-
-  busyIndicator: any = {
+  encounterDetail: boolean = false;
+  specEncounter: any = [];
+  selectedEncounter: any = [];
+  showVisitsObservations: boolean = true;
+  public busyIndicator: any = {
     busy: false,
     message: 'Fetching encounters hang on...' // default message
   };
+
+
 
 
    constructor(private _patientService: PatientService,
@@ -42,6 +51,10 @@ export class VisitEncountersComponent {
     }
     ngOnInit() {
         this.getPatientUuid();
+        this.encounterDetail = true;
+
+    }
+    ngAfterViewInit() {
 
     }
 
@@ -56,6 +69,7 @@ export class VisitEncountersComponent {
             });
      }
 
+
      getPatientEncounters(patientUuid) {
          this._encounterResourceService.getEncountersByPatientUuid(patientUuid ,
           false, null).subscribe(resp => {
@@ -64,6 +78,17 @@ export class VisitEncountersComponent {
 
           });
      }
+
+     showVisits() {
+         this.showVisitsObservations = true;
+
+     }
+     showEncounters() {
+          this.showVisitsObservations = false;
+     }
+
+
+
 
 
 

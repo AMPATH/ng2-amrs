@@ -1,6 +1,6 @@
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { Encounter } from './../../models/encounter.model';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
 import { EncounterResourceService } from './../../openmrs-api/encounter-resource.service';
@@ -52,6 +52,7 @@ export class VisitEncountersListComponent implements OnInit {
 
 
   @Input() encounters: Encounter[];
+  @Input() showVisitsObservations: Boolean;
 
 
   constructor( private router: Router,
