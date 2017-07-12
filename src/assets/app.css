@@ -79,10 +79,9 @@ body .ui-accordion .ui-accordion-header.ui-state-active a {
 
 body .ui-accordion .ui-accordion-header.ui-state-active a,
 body .ui-accordion .ui-accordion-header.ui-state-active span.fa,
-.suggestions li:hover a,
+.suggestions li:hover a ,
 .ui-select-choices li a {
   color: #ffffff !important;
-
 }
 
 body .ui-accordion .ui-accordion-content {

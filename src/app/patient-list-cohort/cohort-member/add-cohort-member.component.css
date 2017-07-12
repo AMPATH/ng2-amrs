@@ -1,0 +1,10 @@
+.cohort-field {
+    margin: 4px;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.selectable-field-wrapper {
+    border: 1px solid lightblue;
+    padding: 4px;
+}

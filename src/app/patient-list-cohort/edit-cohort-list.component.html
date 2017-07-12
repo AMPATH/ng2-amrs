@@ -1,0 +1,27 @@
+<p-dialog header="Edit  Cohort" [(visible)]="display">
+  <form name="personForm">
+    <div class="form-group">
+      <div *ngIf="errors" style="color: red !important">
+        <div *ngFor="let error of errors">{{error.message}}</div>
+      </div>
+      <div class="alert alert-success" *ngIf="successAlert" style="margin-top:10px">
+        <strong>Done!</strong> {{successAlert}}
+      </div>
+      <div class="form-group" >
+        <label for="name">Name</label>
+        <input type="text" id="name"  class="form-control" [(ngModel)]="selectedCohortName" name="name" placeholder="Name" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description"  class="form-control" [(ngModel)]="selectedCohortDescription" name="description" placeholder="Description">
+      </div>
+
+      <br>
+      <button class="btn btn-primary" type="button" (click)="editCohortList()"><span>Save</span></button>
+      <button class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+        <span>Cancel</span></button>
+
+    </div>
+  </form>
+
+</p-dialog>

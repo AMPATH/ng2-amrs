@@ -126,6 +126,11 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       // this.expandSideBar();
       return;
     }
+    if (currentUrl.includes('patient-list-cohort')) {
+      this.currentDashboard = 'patient-list-cohort';
+      // this.expandSideBar();
+      return;
+    }
   }
 
   clickOverlay($event) {

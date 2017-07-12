@@ -1,0 +1,37 @@
+hr {
+  border-bottom:1px solid #d2d6de;
+}
+.suggest-container {
+  position: relative;
+}
+.suggest-container .suggestions {
+  position: absolute;
+  top:56px;
+  left:0;
+}
+
+.list-group-item:focus, .list-group-item:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  cursor: pointer;
+}
+
+.list-group-item:hover a{
+  color: #fff;
+}
+
+.clear {
+  float: none;
+  clear: both;
+}
+
+.float {
+  margin-top: 20px;
+  font-size: 18px;
+}
+a.disabled {
+  pointer-events: none;
+  cursor:default;
+}
