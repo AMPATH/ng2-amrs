@@ -43,7 +43,7 @@
               </div>
             </td>
             <td >
-              <a (click)="openConfirmDialog(users)" [class.disabled]="(userAssignedRole !== 'admin') ? true : null"><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
+              <a (click)="openConfirmDialog(users)" [class.disabled]="(users.role === 'admin' || userAssignedRole === 'view') ? true : null"><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
             </td>
           </tr>
           </tbody>

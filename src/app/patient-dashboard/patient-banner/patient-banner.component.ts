@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
-
+  showingAddToCohort: boolean = false;
   patient: Patient = new Patient({});
   searchIdentifiers: Object;
   birthdate;
@@ -41,6 +41,13 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+  addToCohort() {
+    this.showingAddToCohort = true;
+  }
+
+  onAddingToCohortClosed() {
+    this.showingAddToCohort = false;
   }
 
 }

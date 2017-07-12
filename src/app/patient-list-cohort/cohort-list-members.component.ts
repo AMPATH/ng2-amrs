@@ -109,6 +109,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
           this.displayConfirmDialog = false;
           this.displaySuccessAlert('Cohort list deleted successfully');
           this.router.navigate(['/patient-list-cohort/cohort']);
+          console.log('success');
         },
         (error) => {
           console.error('The request failed because of the following ', error);

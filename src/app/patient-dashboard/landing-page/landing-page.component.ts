@@ -18,7 +18,6 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
   styleUrls: ['landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
-  showingAddToCohort: boolean = false;
   patient: Patient = new Patient({});
   subscription: Subscription;
   enrolledProgrames: Array<ProgramEnrollment> = [];
@@ -57,14 +56,6 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  addToCohort() {
-    this.showingAddToCohort = true;
-  }
-
-  onAddingToCohortClosed() {
-    this.showingAddToCohort = false;
   }
 
   loadProgramBatch(patientUuid: string): void {
