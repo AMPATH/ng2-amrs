@@ -20,6 +20,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   patientData: any = {};
   loadingData: boolean = false;
   hasLoadedData: boolean = false;
+  isVirallyUnsuppressed: boolean = false;
   @Output() addPinkBackground = new EventEmitter();
   location: any = {};
   constructor(private hivSummaryResourceService: HivSummaryResourceService
@@ -49,6 +50,13 @@ export class HivProgramSnapshotComponent implements OnInit {
           return encounter.is_clinical_encounter === 1;
         }));
         if (!_.isNil(this.patientData)) {
+          // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
+          if ((this.patientData.vl_1 > 1000 && (
+              moment(this.patientData.vl_1_date) >
+              moment(this.patientData.arv_start_date).add(6, 'months')
+            )) || (this.patientData.prev_arv_line !== this.patientData.cur_arv_line)) {
+            this.isVirallyUnsuppressed = true;
+          }
           this.hasData = true;
           let encounterLocations = _.filter(locations, (location, key) => {
             return location['uuid'] === this.patientData.location_uuid;
