@@ -110,7 +110,7 @@
     <patient-side-nav *ngIf="currentDashboard === 'patient-dashboard'"></patient-side-nav>
   </section>
 </aside>
-<div class="content-wrapper" style="min-height: 100%;">
+<div id="content-wrapper" class="content-wrapper" style="min-height: 100%;">
   <div class="overlay" [ngClass]="{show: active, hide: !active}" (click)="clickOverlay($event)">
     <div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
   </div>
