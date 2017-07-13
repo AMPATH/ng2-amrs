@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientEncounterService } from './patient-encounters.service';
@@ -49,27 +49,27 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   }
 
   loadPatientEncounters(patientUuid) {
-    this.encounters = [];
     this.isBusyIndicator(true);
+    this.encounters = [];
     let request = this.patientEncounterService
       .getEncountersByPatientUuid(patientUuid)
       .subscribe(
-      (data) => {
-        this.isBusyIndicator(false);
-        this.encounters = data;
-        this.isVisible = false;
-        this.dataLoading = false;
-        // console.log(data);
-      },
-
-      (err) => {
-        this.dataLoading = false;
-        this.isBusyIndicator(false);
-        this.errors.push({
-          id: 'visit',
-          message: 'error fetching visit'
+        (data) => {
+          this.encounters = data;
+          this.isVisible = false;
+          // a trick to wait for the encounter list to render
+          setTimeout(() => {
+            this.dataLoading = false;
+          }, 2000);
+        },
+        (err) => {
+          this.dataLoading = false;
+          // this.isBusyIndicator(false);
+          this.errors.push({
+            id: 'visit',
+            message: 'error fetching visit'
+          });
         });
-      });
   }
   getPatient() {
     this.dataLoading = true;

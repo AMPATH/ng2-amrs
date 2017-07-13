@@ -68,6 +68,8 @@ export class TodaysVitalsService {
                             todaysVitals.next([]);
                         }
 
+                    } else {
+                      todaysVitals.next([]);
                     }
                 },
                 (error) => {

@@ -7,6 +7,7 @@ import { Encounter } from '../../models/encounter.model';
 
 })
 export class EncounterListComponent implements OnInit {
+    @Input() encountersLoading: boolean = false;
     @Input() encounters: Encounter[];
     @Input('messageType') messageType: string;
     @Input('message') message: string;
@@ -16,7 +17,7 @@ export class EncounterListComponent implements OnInit {
     @Output() onEncounterObservations = new EventEmitter();
 
     constructor() { }
-    ngOnInit() { }
+    ngOnInit() {}
     editEncounter(encounter) {
         this.onEncounterEdit.emit(encounter);
     }
