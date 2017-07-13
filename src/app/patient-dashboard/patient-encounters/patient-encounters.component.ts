@@ -110,7 +110,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
 
   }
 
-  private isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
+  public isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
     if (isBusy === true) {
       this.busyIndicator = {
         busy: true,

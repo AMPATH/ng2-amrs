@@ -6,6 +6,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { Constants } from '../utils/constants';
 import { Observable } from 'rxjs/Observable';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -14,7 +15,8 @@ export class AuthenticationService {
     private appSettingsService: AppSettingsService,
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
-    private sessionService: SessionService) { }
+    private sessionService: SessionService,
+    private _cookieService: CookieService) { }
 
   authenticate(username: string, password: string) {
 
@@ -63,8 +65,17 @@ export class AuthenticationService {
   }
 
   clearSessionCache() {
+    this.clearLoginAlertCookies();
     this.clearCredentials();
     this.clearUserDetails();
+  }
+  // This will clear motd alert cookies set  at every log in
+  clearLoginAlertCookies() {
+
+      let cookieKey = 'motdLoginCookie';
+
+      this._cookieService.remove(cookieKey);
+
   }
 
   private setCredentials(username: string, password: string) {

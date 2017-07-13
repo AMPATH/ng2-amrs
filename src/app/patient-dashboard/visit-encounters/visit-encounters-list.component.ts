@@ -317,6 +317,8 @@ export class VisitEncountersListComponent implements OnInit {
 
 
 
+
+
   showEncounterObservations(encounter) {
     if (encounter) {
       // console.log('Show Encounter ' , encounter);

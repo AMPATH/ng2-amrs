@@ -115,6 +115,7 @@
     <div class='overlay-text'>You will be logged out in {{countDown}} seconds</div>
   </div>
   <section class="content">
+     <motd-notification></motd-notification>
     <router-outlet></router-outlet>
     <div [ngBusy]="busyIndicator"></div>
   </section>
@@ -133,3 +134,4 @@
   <div class="clear"></div>
 </footer>
 <div class="control-sidebar-bg"></div>
+

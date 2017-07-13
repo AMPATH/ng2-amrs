@@ -1,3 +1,4 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideRoutes } from '@angular/router';
@@ -40,6 +41,7 @@ describe('AppSettingsComponent Tests', () => {
         AppSettingsService,
         AuthenticationService,
         SessionService,
+        CookieService,
         provideRoutes([])
       ],
     })

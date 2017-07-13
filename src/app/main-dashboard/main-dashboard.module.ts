@@ -15,6 +15,9 @@ import { AppState } from '../app.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resource.service';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
+import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
+import { MOTDNotificationService } from './../etl-api/motd.notification.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 
 
@@ -30,14 +33,17 @@ import { PatientListCohortModule } from '../patient-list-cohort/patient-list-coh
     PatientDashboardModule
   ],
   declarations: [
-    MainDashboardComponent
+    MainDashboardComponent,
+    MOTDNotificationComponent
   ],
   providers: [
     MainDashboardGuard,
     UserService,
     AppState,
     CohortResourceService,
-    CohortMemberResourceService
+    CohortMemberResourceService,
+    MOTDNotificationService,
+    CookieService
   ],
   exports: [
     MainDashboardComponent
