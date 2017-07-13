@@ -77,6 +77,7 @@
     "ag-grid-enterprise": "^8.1.0",
     "angular-calendar": "0.9.1",
     "angular2-busy": "^1.0.2",
+    "angular2-cookie": "^1.2.6",
     "angular2-highcharts": "^0.5.5",
     "angular2-ladda": "1.0.7",
     "angular2-materialize": "^5.2.1",

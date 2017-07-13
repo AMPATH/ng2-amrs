@@ -318,7 +318,7 @@ it('should generate a new visits array based on encounters',
     let encounterObs = Observable.of(mockEncounterResponse);
 
     encounterObs.subscribe(res => {
-      alert(res);
+      // alert(res);
       comp.groupEncountersByVisits(res);
     });
     fixture.detectChanges();
