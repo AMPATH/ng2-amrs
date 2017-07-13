@@ -24,6 +24,7 @@ export class EncounterListComponent implements OnInit {
     showEncounterObservations(encounter) {
       this.isBusy.emit(true);
       this.onEncounterObservations.emit(encounter);
+      // console.log('Show observations', encounter);
 
     }
 }

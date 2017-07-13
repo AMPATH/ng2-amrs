@@ -86,7 +86,7 @@
 								 <a *ngIf="encounter.type == 'encounter'" (click)="editEncounter(encounter.encounterObj)">
 														<span class="glyphicon text-primary glyphicon-edit"></span>
 								 </a>
-								 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterObservations(encounter.encounterObj)" data-target="#encounter_modal" data-toggle="modal">
+								 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterObservations(encounter.encounterObj)">
 														<span class="glyphicon text-primary glyphicon-eye-open"></span>
 								 </a>
 							 </div>
@@ -105,9 +105,7 @@
   </div>
 </div>
 
-
-
-<patient-encounter-observations [onEncounterDetail]="true"
-                                  [encounter]="selectedEncounter"></patient-encounter-observations>
+<patient-encounter-observations  [onEncounterDetail]="onEncounterDetail"
+                               [encounter]="selectedEncounter" *ngIf="showVisitsObservations"></patient-encounter-observations>
 
 </div>
