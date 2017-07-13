@@ -6,5 +6,8 @@ chart {
   position: relative;
 }
 
+ng-select {
+  padding-top: 5px;
+}
 
 

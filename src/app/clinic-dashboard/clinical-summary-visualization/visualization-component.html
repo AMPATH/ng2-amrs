@@ -1,11 +1,14 @@
 <h4 class="component-title" style="color: green;"><span class="fa fa-bar-chart"></span> Clinic Overview Visualization</h4>
-<div >
+<div>
   <div class="row">
     <div class="col-sm-12">
-      <dashboard-filters [options]="options" [(filterModel)] = "filterModel"
-                         [startDate]="startDate" [endDate]="endDate"
-                         (filterModelChange) = "renderCharts($event)">
+      <dashboard-filters [options]="options" [(filterModel)]="filterModel" [startDate]="startDate" [endDate]="endDate" (filterModelChange)="renderCharts($event)">
       </dashboard-filters>
+      {{activeReport}}
+      <label>Select Cohort</label>
+      <ng-select [multiple]="false" (ngModelChange)="cohortSelected($event)" [placeholder]="'Select Analysis Type...'" [(ngModel)]="activeReport"
+        [options]="cohorts">
+      </ng-select>
     </div>
   </div>
   <div class="row">

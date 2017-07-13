@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs/Rx';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 @Injectable()
 export class ClinicalSummaryVisualizationService {
   colCallback = new Subject<any>();
-
+  selectedDataSet = new BehaviorSubject<string>('');
   constructor() {
 
   }
@@ -105,5 +105,9 @@ export class ClinicalSummaryVisualizationService {
       startDate: startDate,
       endDate: endDate
     };
+  }
+
+  setSelectedDataSet(selectedDataSet: string) {
+    this.selectedDataSet.next(selectedDataSet);
   }
 }

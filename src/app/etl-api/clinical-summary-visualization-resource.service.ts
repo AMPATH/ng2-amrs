@@ -32,6 +32,7 @@ export class ClinicalSummaryVisualizationResourceService {
         urlParams.set('indicator', params.indicator || params.indicators);
         urlParams.set('order', params.order);
         urlParams.set('locationUuids', params.locationUuids);
+        urlParams.set('reportName', params.report);
         urlParams.set('limit', params.limit);
         return urlParams;
     }
@@ -51,16 +52,16 @@ export class ClinicalSummaryVisualizationResourceService {
     }
 
     getReportOverviewPatientList(reportName: string, params: any) {
-      let urlParams = this.getUrlRequestParams(params);
-      let url = this.getPatientListUrl(reportName);
-      let request = this.http.get(url, {
-        search: urlParams
-      })
-        .map((response: Response) => {
-          return response.json().result;
-        });
+        let urlParams = this.getUrlRequestParams(params);
+        let url = this.getPatientListUrl(reportName);
+        let request = this.http.get(url, {
+            search: urlParams
+        })
+            .map((response: Response) => {
+                return response.json().result;
+            });
 
-      return this.cacheService.cacheRequest(url, urlParams, request);
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getHivComparativeOverviewPatientList(params) {
@@ -126,7 +127,7 @@ export class ClinicalSummaryVisualizationResourceService {
                 return response.json().result;
             });
 
-      return this.cacheService.cacheRequest(url, urlParams, request);
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
 }

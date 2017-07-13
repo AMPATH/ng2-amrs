@@ -5,7 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import {
   ClinicalSummaryVisualizationResourceService
 } from '../../../etl-api/clinical-summary-visualization-resource.service';
-import { ClinicalSummaryVisualizationService
+import {
+  ClinicalSummaryVisualizationService
 } from '../../services/clinical-summary-visualization.service';
 
 @Component({
@@ -26,11 +27,12 @@ export class VisualizationPatientListComponent implements OnInit {
   overrideColumns: Array<any> = [];
   routeParamsSubscription: Subscription;
   private subscription = new Subscription();
+  private subscriptions: Subscription[] = [];
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
-              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService) {
+    private router: Router,
+    private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
+    private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService) {
     /**
      * Please note that this is a workaround for the dashboardService delay
      * to give you the location UUID.
@@ -42,7 +44,7 @@ export class VisualizationPatientListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.routeParamsSubscription = this.route.params.subscribe((params) => {
+    this.subscriptions.push(this.route.params.subscribe((params) => {
       if (params) {
         let monthYear = params['period'].split('|');
         this.reportName = params['report'];
@@ -60,15 +62,16 @@ export class VisualizationPatientListComponent implements OnInit {
             return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
           }
         });
-
         this.loadPatientData(this.reportName);
       }
 
-    });
+    }));
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    for (let subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 
   setDateRange(monthYear) {
@@ -79,20 +82,26 @@ export class VisualizationPatientListComponent implements OnInit {
   }
 
   loadPatientData(reportName: string) {
-    this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
-      endDate: this.endDate.endOf('month').format(),
-      indicator: this.currentIndicator,
-      locationUuids: this.locationUuid,
-      startIndex: this.startIndex,
-      startDate: this.startDate.format()
-    }).subscribe((report) => {
-      this.patientData = this.patientData ? this.patientData.concat(report) : report;
-      this.isLoading = false;
-      this.startIndex += report.length;
-      if (report.length < 300) {
-        this.dataLoaded = true;
-      }
-    });
+    this.subscriptions.push(
+      this.clinicalSummaryVisualizationService.selectedDataSet.flatMap((dataSet) => {
+        console.log('Dataset', dataSet);
+        return this.visualizationResourceService
+          .getReportOverviewPatientList(reportName, {
+            endDate: this.endDate.endOf('month').format(),
+            indicator: this.currentIndicator,
+            locationUuids: this.locationUuid,
+            startIndex: this.startIndex,
+            report: dataSet,
+            startDate: this.startDate.format()
+          });
+      }).subscribe((report) => {
+        this.patientData = this.patientData ? this.patientData.concat(report) : report;
+        this.isLoading = false;
+        this.startIndex += report.length;
+        if (report.length < 300) {
+          this.dataLoaded = true;
+        }
+      }));
   }
 
   loadMorePatients() {
