@@ -13,6 +13,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppState } from '../app.service';
 import { UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
+import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
 
 declare let jQuery: any;
 
@@ -41,7 +42,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     private dynamicRoutesService: DynamicRoutesService,
     private authenticationService: AuthenticationService,
     private userDefaultSettingsService: UserDefaultPropertiesService,
-    private userService: UserService, private appState: AppState) { }
+    private userService: UserService,
+    private appState: AppState
+    ) { }
 
   ngOnDestroy() {
     this.appSubscription.unsubscribe();
@@ -151,5 +154,6 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       body.classList.add('sidebar-open');
     }, 200);
   }
+
 
 }
