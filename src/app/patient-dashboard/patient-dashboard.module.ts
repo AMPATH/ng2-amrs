@@ -119,7 +119,7 @@ import { SecurePipe } from './locator-map/secure.pipe';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SelectModule } from 'angular2-select';
 import { CohortMemberModule } from '../patient-list-cohort/cohort-member/cohort-member.module';
-/* import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component'; */
+import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component';
 import { VisitEncountersListComponent } from './visit-encounters/visit-encounters-list.component';
 import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
 import { VisitEncountersPipe } from './visit-encounters/visit-encounters.pipe';
@@ -201,7 +201,7 @@ import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounter
     PatientRelationshipsComponent,
     EditContactsComponent,
     EditAddressComponent,
-    /*    EditHealtCenterComponent,*/
+    EditHealtCenterComponent,
     HivPatientClinicalSummaryComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
