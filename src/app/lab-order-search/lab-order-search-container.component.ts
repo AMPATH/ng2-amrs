@@ -7,6 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class LabOrderSearchContainerComponent implements OnInit {
 
   public order: any;
+  orderPosted: boolean = false;
   reset: boolean = false;
 
   constructor() {
@@ -18,6 +19,10 @@ export class LabOrderSearchContainerComponent implements OnInit {
   orderReceieved(order) {
     this.reset = false;
     this.order = order;
+  }
+
+  onOrderPosted() {
+    this.orderPosted = true;
   }
 
   onSearchReset() {
