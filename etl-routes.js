@@ -625,14 +625,14 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                // request.query.reportName = 'clinical-hiv-comparative-overview-report';
+                request.query.reportName = 'clinical-hiv-comparative-overview-report';
                 if (!authorizer.hasReportAccess(request.query.reportName)) {
                     return reply(Boom.forbidden('Unauthorized'));
                 }
                 preRequest.resolveLocationIdsToLocationUuids(request,
                     function () {
                         let compineRequestParams = Object.assign({}, request.query, request.params);
-                        let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                        let reportParams = etlHelpers.getReportParams('clinical-hiv-comparative-overview-report',
                             ['startDate', 'endDate', 'indicator', 'locationUuids', 'locations', 'order', 'gender'], compineRequestParams);
 
                         let service = new hivComparativeOverviewService();

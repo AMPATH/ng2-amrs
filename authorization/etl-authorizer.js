@@ -21,7 +21,6 @@ var reportPrivileges = {
     'attended': [PRIVILEGES.canViewClinicDashBoard],
     'scheduled': [PRIVILEGES.canViewClinicDashBoard],
     'clinical-hiv-comparative-overview-report': [PRIVILEGES.canViewDataAnalytics],
-    'clinical-hiv-comparative-overview-active-ltfu-report': [PRIVILEGES.canViewDataAnalytics],
     'clinical-art-overview-report': [PRIVILEGES.canViewDataAnalytics],
     'clinical-patient-care-status-overview-report': [PRIVILEGES.canViewDataAnalytics],
     'MOH-731-report': [PRIVILEGES.canViewDataAnalytics],
@@ -36,8 +35,8 @@ var reportPrivileges = {
     'viral-load-monitoring-report': [PRIVILEGES.canViewPatient, PRIVILEGES.canViewDataAnalytics],
     'medical-history-report': [PRIVILEGES.canViewPatient],
     'clinic-lab-orders-report': [PRIVILEGES.canViewClinicDashBoard, PRIVILEGES.canViewPatient],
-    'patient-status-change-tracker-report': [PRIVILEGES.canViewDataAnalytics],
-    'cohort-report': [PRIVILEGES.canViewPatient]
+    'patient-status-change-tracker-report':  [PRIVILEGES.canViewDataAnalytics],
+    'cohort-report':  [PRIVILEGES.canViewPatient]
 };
 
 var SUPERUSER_ROLES = ['System Developer'];
