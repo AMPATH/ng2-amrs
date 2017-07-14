@@ -667,12 +667,11 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
-                // request.query.reportName = 'clinical-hiv-comparative-overview-report';
+                request.query.reportName = 'clinical-hiv-comparative-overview-report';
                 preRequest.resolveLocationIdsToLocationUuids(request,
                     function () {
                         let requestParams = Object.assign({}, request.query, request.params);
                         let service = new hivComparativeOverviewService();
-                        console.log('Request Params',requestParams);
                         service.getPatientListReport(requestParams).then((result) => {
                             reply(result);
                         }).catch((error) => {
