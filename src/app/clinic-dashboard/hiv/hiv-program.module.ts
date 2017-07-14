@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-    DateTimePickerModule
-} from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { clinicDashboardHivRouting } from './hiv-program.routes';

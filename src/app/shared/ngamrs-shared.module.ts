@@ -36,11 +36,12 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
         CommonModule,
         OpenmrsApi,
         FormsModule,
-        NgxMyDatePickerModule
+        NgxMyDatePickerModule,
+        // BrowserAnimationsModule
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         DataTablesComponent, StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
-        BuildVersionComponent, DateSelectorComponent, PdfViewerComponent],
+        BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, OpenmrsApi],
     declarations: [
         DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,

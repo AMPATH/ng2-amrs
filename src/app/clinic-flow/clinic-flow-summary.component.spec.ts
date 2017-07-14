@@ -17,7 +17,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
   Router, ActivatedRoute, Params,
-  RouterModule, RouterOutletMap
+  RouterModule, ChildrenOutletContexts
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -65,7 +65,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
         CacheService,
         DataCacheService,
         ClinicFlowCacheService,
-        RouterOutletMap,
+        ChildrenOutletContexts,
         HivClinicFlowResourceService,
         MockHivClinicFlowResourceService,
         {
@@ -105,7 +105,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
         NgamrsSharedModule,
         NgxMyDatePickerModule,
         NgxMyDatePickerModule,
-        MdTabsModule.forRoot(),
+        MdTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule
       ]

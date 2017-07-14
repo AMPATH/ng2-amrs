@@ -1,5 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { Output, Input } from '@angular/core/src/metadata/directives';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'indicator-select',
@@ -15,8 +14,8 @@ export class IndicatorSelectComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.selectedIndicators.length > 0 ) {
-      this.onIndicatorChange.emit({ indicators: this.selectedIndicators});
+    if (this.selectedIndicators.length > 0) {
+      this.onIndicatorChange.emit({ indicators: this.selectedIndicators });
     }
 
     this.getIndicators();
@@ -24,7 +23,7 @@ export class IndicatorSelectComponent implements OnInit {
 
   onIndicatorSelected(indicators) {
     this.selectedIndicators = indicators;
-    this.onIndicatorChange.emit({ indicators: this.selectedIndicators});
+    this.onIndicatorChange.emit({ indicators: this.selectedIndicators });
   }
 
   getIndicators() {

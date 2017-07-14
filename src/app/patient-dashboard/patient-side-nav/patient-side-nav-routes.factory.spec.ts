@@ -136,7 +136,7 @@ describe('Patient Routes Factory:', () => {
                 childRoutes: [
                     {
                         childRoutes: [],
-                        url: 'patient-dashboard/' +
+                        url: 'patient-dashboard/patient/' +
                         'patient-uuid/general/patient-info',
                         label: 'Patient Info',
                         initials: 'P',
@@ -146,7 +146,7 @@ describe('Patient Routes Factory:', () => {
                     },
                     {
                         childRoutes: [],
-                        url: 'patient-dashboard/' +
+                        url: 'patient-dashboard/patient/' +
                         'patient-uuid/general/visit',
                         label: 'Visit',
                         initials: 'V',
@@ -157,7 +157,7 @@ describe('Patient Routes Factory:', () => {
                 ],
                 label: 'General Info',
                 initials: 'G',
-                url: 'patient-dashboard/patient-uuid/general',
+                url: 'patient-dashboard/patient/patient-uuid/general',
                 renderingInfo: {
                     icon: 'fa fa-square-o'
                 },
@@ -170,6 +170,6 @@ describe('Patient Routes Factory:', () => {
 
             // examine seccond route
             let second = createdRoutes[1];
-            expect(second.url).toEqual('patient-dashboard/patient-uuid/hiv');
+            expect(second.url).toEqual('patient-dashboard/patient/patient-uuid/hiv');
         }));
 });

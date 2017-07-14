@@ -134,7 +134,7 @@ describe('Component: LandingPageComponent', () => {
             buttons: {
               link: {
                 display: 'Go to program',
-                url: '/patient-dashboard/uuid/test/landing-page'
+                url: '/patient-dashboard/patient/uuid/test/landing-page'
               },
               enroll: {
                 display: 'Enroll patient'

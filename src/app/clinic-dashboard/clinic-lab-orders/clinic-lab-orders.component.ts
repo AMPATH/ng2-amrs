@@ -95,7 +95,7 @@ export class ClinicLabOrdersComponent implements OnInit {
   }
 
   public onRowClicked(event) {
-    this.router.navigate(['/patient-dashboard/' + event.data.patient_uuid +
+    this.router.navigate(['/patient-dashboard/patient/' + event.data.patient_uuid +
     '/general/landing-page']);
   }
 

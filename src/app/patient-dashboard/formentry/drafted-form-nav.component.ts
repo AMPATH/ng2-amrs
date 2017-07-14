@@ -58,7 +58,7 @@ export class DraftedFormNavComponent implements OnInit, OnDestroy {
   loadDraftedForm() {
     this.draftedFormsService.loadDraftOnNextFormLoad = true;
     this.isDraftFormPresent = false;
-    this.router.navigate(['/patient-dashboard/' +
+    this.router.navigate(['/patient-dashboard/patient/' +
     this.patientUuid + '/general/formentry/' +
     this.draftedFormsService.lastDraftedForm.valueProcessingInfo['formUuid']]);
   }

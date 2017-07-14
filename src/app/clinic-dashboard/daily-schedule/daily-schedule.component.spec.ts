@@ -5,14 +5,16 @@ import { DailyScheduleComponent } from './daily-schedule.component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { ClinicFlowCacheService } from '../../clinic-flow/clinic-flow-cache.service';
 
-import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
+import { AppFeatureAnalytics } from
+  '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from
+  '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
   Router, ActivatedRoute, Params,
-  RouterModule, RouterOutletMap
+  RouterModule, ChildrenOutletContexts,
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -31,7 +33,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 
 import * as Moment from 'moment';
 
@@ -55,7 +57,7 @@ describe('Component: DailySchedule', () => {
         CacheService,
         DataCacheService,
         ClinicFlowCacheService,
-        RouterOutletMap,
+        ChildrenOutletContexts,
         {
           provide: ActivatedRoute, useValue: {
             snapshot: {
@@ -93,7 +95,7 @@ describe('Component: DailySchedule', () => {
         NgamrsSharedModule,
         NgxMyDatePickerModule,
         NgxMyDatePickerModule,
-        MdTabsModule.forRoot(),
+        MdTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule,
         DateTimePickerModule

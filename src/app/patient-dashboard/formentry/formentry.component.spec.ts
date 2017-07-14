@@ -48,7 +48,7 @@ import { FormDataSourceService } from './form-data-source.service';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ConceptResourceService } from '../../openmrs-api/concept-resource.service';
-import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/data-sources';
 import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../shared/services/data-cache.service';

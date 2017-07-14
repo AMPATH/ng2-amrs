@@ -7,8 +7,12 @@ import {
 } from '../user-default-properties/user-default-properties.component';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { UsefulLinksComponent } from '../useful-links/useful-links.component';
-import { LabOrderSearchContainerComponent
+import {
+  LabOrderSearchContainerComponent
 } from '../lab-order-search/lab-order-search-container.component';
+import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';
+import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
+import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 
 const dashboardRoutes: Routes = [
   {
@@ -18,19 +22,13 @@ const dashboardRoutes: Routes = [
     children: [
       {
         path: 'clinic-dashboard',
-        loadChildren: () =>
-          System.import('../clinic-dashboard/clinic-dashboard.module')
-            .then(mod => mod.ClinicDashboardModule)
+        loadChildren: () => ClinicDashboardModule
       },
       {
-        path: 'patient-dashboard', loadChildren: () =>
-          System.import('../patient-dashboard/patient-dashboard.module')
-            .then(mod => mod.PatientDashboardModule)
+        path: 'patient-dashboard', loadChildren: () => PatientDashboardModule
       },
       {
-        path: 'data-analytics', loadChildren: () =>
-          System.import('../data-analytics-dashboard/data-analytics.module')
-            .then(mod => mod.DataAnalyticsModule)
+        path: 'data-analytics', loadChildren: () => DataAnalyticsModule
       },
       {
         path: 'user-default-properties',

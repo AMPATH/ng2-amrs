@@ -1,6 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -74,7 +75,7 @@ describe('Component: ProgramsComponent', () => {
       declarations: [ProgramsComponent, HivProgramSnapshotComponent],
       imports: [BusyModule, FormsModule,
         DialogModule,
-        CalendarModule]
+        CalendarModule, BrowserAnimationsModule]
     });
   });
 

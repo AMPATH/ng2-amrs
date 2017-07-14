@@ -28,7 +28,7 @@ const patientDashboardRoutes: Routes = [
 
   { path: 'patient-search', component: PatientSearchComponent },
   {
-    path: ':patient_uuid',
+    path: 'patient/:patient_uuid',
     component: PatientDashboardComponent,
     children: [
       { path: 'general/landing-page', component: LandingPageComponent },

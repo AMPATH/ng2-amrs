@@ -1,5 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { MonthlyScheduleComponent } from './monthly-schedule.component';
@@ -207,7 +209,7 @@ class MockRouter {
 class MockActivatedRoute {
   params = Observable.of([{ 'id': 1 }]);
   snapshot = {
-      queryParams: { date: '' }
+    queryParams: { date: '' }
   };
 }
 
@@ -218,7 +220,7 @@ describe('MonthlyScheduleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BusyModule, CalendarModule.forRoot()],
+      imports: [BusyModule, CalendarModule.forRoot(), BrowserAnimationsModule],
       declarations: [MonthlyScheduleComponent],
       providers: [
         MonthlyScheduleResourceService,

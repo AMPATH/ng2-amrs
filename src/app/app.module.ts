@@ -1,5 +1,9 @@
 import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule, Router } from '@angular/router';
@@ -67,11 +71,14 @@ type StoreType = {
     FeedBackComponent
   ],
   imports: [ // import Angular's modules
-    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    // BrowserModule,
+    // FormEntryModule,
     FormsModule,
     HttpModule,
     Ng2Bs3ModalModule,
-    RouterModule.forRoot(ROUTES, { useHash: true }),
+    RouterModule.forRoot(ROUTES, { useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     MainDashboardModule,
     AuthenticationModule,

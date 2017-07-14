@@ -37,7 +37,7 @@ import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.c
 import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
 import { ClinicFlowHourlyStatsVizComponent } from
   '../clinic-flow/clinic-flow-hourly-stats-viz.component';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import {
   ArtOverviewComponent
 } from './clinical-summary-visualization/art-overview/art-overview.component';
@@ -159,7 +159,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgxMyDatePickerModule,
-    MdTabsModule.forRoot(),
+    MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
     MaterialModule

@@ -35,7 +35,7 @@ export class PatientRoutesFactory {
         let model = new RouteModel();
         model.label = routInfo.programName;
         model.initials = (routInfo.programName as string).charAt(0);
-        model.url = 'patient-dashboard/' + patientUuid + '/' + routInfo.baseRoute;
+        model.url = 'patient-dashboard/patient/' + patientUuid + '/' + routInfo.baseRoute;
         model.renderingInfo = {
             icon: 'fa fa-square-o'
         };
