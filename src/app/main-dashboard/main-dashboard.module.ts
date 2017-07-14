@@ -12,9 +12,6 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
 import { UserService } from '../openmrs-api/user.service';
 import { AppState } from '../app.service';
-import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
-import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resource.service';
-import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
 import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -38,8 +35,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     MainDashboardGuard,
     UserService,
     AppState,
-    CohortResourceService,
-    CohortMemberResourceService,
     MOTDNotificationService,
     CookieService
   ],
