@@ -4,7 +4,6 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { DisplayErrorComponent } from './display-error/display-error.component';
-import { DataTablesComponent } from './components/datatables.component';
 import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
 import { Ng2FilterPipe } from './pipes/ng2-filter.pipe';
@@ -40,10 +39,10 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
         // BrowserAnimationsModule
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
-        DataTablesComponent, StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
+        StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
         BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, OpenmrsApi],
     declarations: [
-        DisplayErrorComponent, DataTablesComponent, StringToDatePipe, Ng2FilterPipe,
+        DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,
         BuildVersionComponent, DateSelectorComponent, PdfViewerComponent
 
