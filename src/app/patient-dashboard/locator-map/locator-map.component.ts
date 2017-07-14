@@ -83,7 +83,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
         let photo = this.patient.
             person.getPersonAttribute(this.attributeType);
         if (photo) {
-            this.dataModel = this.getUrl() + photo;
+            this.dataModel = photo;
         }
 
     }
