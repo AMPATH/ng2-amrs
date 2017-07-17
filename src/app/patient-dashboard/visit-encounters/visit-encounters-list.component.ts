@@ -1,12 +1,14 @@
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, EventEmitter } from '@angular/core';
 import { Encounter } from './../../models/encounter.model';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
 import { EncounterResourceService } from './../../openmrs-api/encounter-resource.service';
 import { VisitResourceService } from './../../openmrs-api/visit-resource.service';
 import { VisitEncountersPipe } from './visit-encounters.pipe';
 import { OrderByAlphabetPipe } from './visit-encounter.component.order.pipe';
+import { EncounterTypeFilter } from
+'./../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,7 +22,7 @@ import { Http } from '@angular/http';
 })
 
 
-export class VisitEncountersListComponent implements OnInit {
+export class VisitEncountersListComponent implements OnInit, OnChanges {
 
   title: string = 'Patient Visits';
   mainArray: any = [];
@@ -295,6 +297,8 @@ export class VisitEncountersListComponent implements OnInit {
              alert(selectedEncounterType);
              alert('Item is already in filter');
        }
+
+       this.displayArray = this.displayArray;
 
   }
 

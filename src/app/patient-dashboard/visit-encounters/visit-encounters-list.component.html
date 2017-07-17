@@ -47,8 +47,8 @@
 </div>
 <div class="row visit_encounter_table">
 	<div class="col-md-12 col-sm-12 col-lg-12">
-			<ul class="list-group visit_list" *ngFor="let visit of displayArray | paginate: { id:'visits' , itemsPerPage: 5, currentPage: v } ">
-					<li class="list-group-item .visit_list_item" *ngIf="(visit.encounters | visitEncountersPipe:encounterFilterTypeArray).length > 0">
+			<ul class="list-group visit_list" *ngFor="let visit of displayArray |  visitEncountersPipe:encounterFilterTypeArray | paginate: { id:'visits' , itemsPerPage: 5, currentPage: v } ">
+					<li class="list-group-item .visit_list_item">
 						<div class="row {{visit.type}}">
 							 <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
 								 {{visit.date}}
@@ -66,7 +66,7 @@
 								 {{visit.provider}}
 							  </div>
 						</div>
-						<div class="row encounter_row" *ngFor="let encounter of visit.encounters | visitEncountersPipe:encounterFilterTypeArray | orderByTime">
+						<div class="row encounter_row" *ngFor="let encounter of visit.encounters | encounterTypeFilter:encounterFilterTypeArray | orderByTime">
 							<div class="col-md-offset-1 col-md-1   col-sm-2 col-lg-offset-1 col-lg-1 col-xs-2">
 								{{encounter.date}}
 							 </div>

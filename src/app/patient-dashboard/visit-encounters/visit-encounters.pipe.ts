@@ -15,14 +15,20 @@ export class VisitEncountersPipe implements PipeTransform {
        if (mainArray.length === 0 || encounterFilterTypeArray.length === 0) {
             return mainArray;
        } else {
-          let filterd = mainArray.filter((item) => {
-                let result =  (item.date !== '00:00') && (item.type === 'parent' ||
-                _.includes(encounterFilterTypeArray , item.encounterType));
 
-                return result;
-          });
+         let encounterInArray = function(encounter){
+              return _.includes(encounterFilterTypeArray , encounter.encounter);
+         };
 
-          return filterd;
+        let filteredVisits = mainArray.filter((visit) => {
+                 let visitEncounters = visit.encounters.filter(encounterInArray);
+
+                 return visitEncounters.length > 0;
+         });
+
+         return filteredVisits;
+
+
        }
 
   }
