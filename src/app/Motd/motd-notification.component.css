@@ -11,26 +11,32 @@
     .notifiction_container{
 
          top: 25%;
+        width: 100%;
          position:absolute;
 
+    }
+
+    .message {
+      float: none;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .hide_notifiction_overlay{
         display: none;
     }
 
-    /* alert types are 2 , warning and info 
+    /* alert types are 2 , warning and info
        type1 is warning and type 2 is info
     */
-    
+
     #type_1 , #type_2{
 
           color:#FFF;
           border-radius: 2px;
           padding-top: 15px;
           padding-bottom: 15px;
-          margin-top: 15px;       
-          left:30%;
+          margin-top: 15px;
           transition-duration: 0.5s;
           transition: ease-in-out;
 
@@ -39,11 +45,11 @@
 
       #type_2{
           background: rgba(0, 189, 157, 0.7);
-          
+
       }
       #type_1{
           background:rgba(201, 48, 44,0.7);
-         
+
 
       }
       .message_title{
@@ -77,7 +83,7 @@
       .message-action{
           padding-bottom: 15px;
           text-align: left;
-          
+
       }
       .message-action a {
           color: #FFF !important;
