@@ -1,12 +1,12 @@
 <div [className]="overlayClass" id="notification_overlay">
 <div class="container notifiction_container">
 <div class="row" *ngFor="let notification of displayNotifications; let i = index" [attr.data-index]="i">
-<div class="col-md-offset-3 col-md-5 col-sm-offset-3 col-sm-5 col-lg-offset-3 col-lg-5 col-xs-offset-1 col-xs-10" id="type_{{notification.alert_type}}">
+<div class="col-md-5 col-sm-5 col-xs-9 message" id="type_{{notification.alert_type}}">
     <div class="row">
         <div class="col-md-12">
         <div class="message_title">
             <h4><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i> {{notification.title}} </h4>
-            
+
             <hr class="intro-divider info_divider" width="30%"/>
         </div>
         </div>
@@ -21,7 +21,7 @@
         </div>
         </div>
     </div>
-   
+
 </div>
 </div>
 </div>
