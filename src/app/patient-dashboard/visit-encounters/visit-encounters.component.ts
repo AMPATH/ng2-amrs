@@ -88,10 +88,4 @@ export class VisitEncountersComponent implements OnInit , AfterViewInit {
      }
 
 
-
-
-
-
-
 }
-

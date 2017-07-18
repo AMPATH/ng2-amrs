@@ -8,6 +8,8 @@ import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { PatientEncounterObservationsComponent } from
   './../patient-encounters/patient-encounter-observations.component';
 import { VisitEncountersPipe } from './visit-encounters.pipe';
+import { EncounterTypeFilter } from
+'./../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { OrderByAlphabetPipe } from './visit-encounter.component.order.pipe';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
@@ -241,6 +243,7 @@ describe('Component : Visit-Encounters', () => {
           VisitEncountersPipe,
           OrderByEncounterTimeAscPipe,
           PatientEncounterObservationsComponent,
+          EncounterTypeFilter,
           ModalComponent], // declare the test component
         providers: [
           PatientService,

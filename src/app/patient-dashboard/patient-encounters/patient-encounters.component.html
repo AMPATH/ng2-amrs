@@ -6,5 +6,5 @@
   <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message"
                   (isBusy)="loadingIndicator($event)" [encountersLoading]="dataLoading"
                   (onEncounterObservations)="showEncounterObservations($event)"
-                  (onEncounterEdit)="editEncounter($event)"></encounter-list>
+                  (onEncounterEdit)="editEncounter($event)" [encounterTypes]="encounterTypes"></encounter-list>
 </div>

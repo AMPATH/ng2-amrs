@@ -6,6 +6,8 @@ import { Encounter } from '../../models/encounter.model';
 import { PatientService } from '../patient.service';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { EncounterTypeFilter } from './encounter-list.component.filterByEncounterType.pipe';
+import * as _ from 'lodash';
 
 
 
@@ -25,6 +27,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   dataLoading: boolean = false;
   patient: any;
   errors: any = [];
+  encounterTypes: any = [];
   subscription: Subscription;
   public busyIndicator: any = {
     busy: false,
@@ -56,7 +59,9 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           this.encounters = data;
+          console.log('Encounters', data);
           this.isVisible = false;
+          this.loadEncounterTypes(data);
           // a trick to wait for the encounter list to render
           setTimeout(() => {
             this.dataLoading = false;
@@ -70,6 +75,27 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
             message: 'error fetching visit'
           });
         });
+  }
+  loadEncounterTypes(encounters) {
+      if (encounters.length > 0) {
+            encounters.forEach(encounter => {
+               this.encounterTypes.push(encounter.encounterType.display);
+            });
+
+            this.sortEncounterTpes();
+      }
+
+  }
+  sortEncounterTpes() {
+
+       let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
+
+       let sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
+
+       console.log(sortByAlphOrder);
+
+       this.encounterTypes = sortByAlphOrder;
+
   }
   getPatient() {
     this.dataLoading = true;
