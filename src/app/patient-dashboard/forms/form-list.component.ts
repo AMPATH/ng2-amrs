@@ -10,6 +10,7 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
 })
 export class FormListComponent implements OnInit {
     @Input() excludedForms = [];
+    @Input() encounterTypeFilter: Array<string> = [];
     @Output() onFormSelected = new EventEmitter();
     forms: Array<Form>;
     selectedForm: Form;
@@ -25,6 +26,7 @@ export class FormListComponent implements OnInit {
         this.forms = [];
         this.formListService.getFormList().subscribe(
             (forms) => {
+              // filter by excludedForms
                 this.forms = forms.filter((a) => {
                     if (a.encounterType) {
                         if (this.excludedForms.indexOf(a.encounterType.uuid) > -1) {
@@ -36,6 +38,16 @@ export class FormListComponent implements OnInit {
                     return true;
 
                 });
+                // filter by visitTypeForms
+                if (this.encounterTypeFilter.length > 0 ) {
+                  this.forms = forms.filter((form) => {
+                    if (this.encounterTypeFilter.indexOf(form.encounterType.uuid) > -1) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  });
+                }
             }
         );
     }
