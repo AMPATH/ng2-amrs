@@ -2,6 +2,7 @@ const dao = require('../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
+const underscore = require('underscore');
 const indicatorsKeys = ['active_return', 'new_enrollment', 'transfer_in', 'LTFU', 'transfer_out', 'dead', 'HIV_negative',
     'self_disengaged', 'self_transfer_out'];
 export class PatientStatusChangeTrackerService {
@@ -102,7 +103,7 @@ export class PatientStatusChangeTrackerService {
         let derivedIndicators = this.getDerivedIndicators();
         return new Promise((resolve, reject) => {
             // check if it is a derived indicator
-            if (_.contains(derivedIndicators, reportParams.indicator)) {
+            if (underscore.contains(derivedIndicators, reportParams.indicator)) {
                 let start = new Date();
                 dao.getPatientCareStatusPatientListQuery(reportParams,
                     (results) => {

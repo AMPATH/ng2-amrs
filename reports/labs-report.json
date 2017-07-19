@@ -30,7 +30,7 @@
         "filters": [
             {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
             {"expression":"t1.rtc_date <= ?", "parameter":"endDate"},
-            {"expression":"t1.location_uuid in (?)", "parameter":"locationUuids"},
+            {"expression":"t1.location_uuid in ?", "parameter":"locationUuids"},
             {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true}
         ],
         "groupClause":[
@@ -71,6 +71,18 @@
                    "type":"single",
                    "sql":"t1.encounter_datetime"
                }
-           ]
+           ],
+         "patientListColumns": [
+           "case when (timestampdiff(day,t1.vl_order_date,now()) between 0 and 14) and (t1.vl_1_date is null or t1.vl_order_date > t1.vl_1_date) then true else false end as has_pending_vl_test",
+           "t1.vl_1 as current_vl",
+           "date_format(t1.vl_1_date,'%d-%m-%Y') as current_vl_date",
+           "timestampdiff(day, vl_order_date, now()) as days_since_last_order",
+           "date_format(t1.vl_order_date,'%d-%m-%Y') as last_vl_order_date",
+           "date_format(t1.arv_start_date,'%d-%m-%Y') as cur_regimen_arv_start_date",
+           "t1.cur_arv_line",
+           "t1.cur_arv_meds",
+           "t1.arv_first_regimen"
+
+         ]
     }
 ]
