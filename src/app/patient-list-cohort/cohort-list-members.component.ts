@@ -28,6 +28,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
   selectedMember: string;
   selectedMemberUuid: string;
   private displayConfirmDialog: boolean = false;
+  private displayConfirmDeleteCohortDialog: boolean = false;
   private showSuccessAlert: boolean = false;
   private showErrorAlert: boolean = false;
   private successAlert: string;
@@ -142,6 +143,11 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     this.displayConfirmDialog = true;
 
   }
+
+  public openConfirmDeleteCohortDialog(cohortUuid) {
+    this.displayConfirmDeleteCohortDialog = true;
+  }
+
   public closeConfirmationDialog() {
     this.displayConfirmDialog = false;
   }

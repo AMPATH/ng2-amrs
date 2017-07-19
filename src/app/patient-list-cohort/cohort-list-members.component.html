@@ -16,7 +16,7 @@
       <label > Name: </label> {{selectedCohortName}}   <a (click)="editCohorts.showDialog()" [class.disabled]="(userAssignedRole === 'view') ? true : null">
         <span class="glyphicon glyphicon-pencil link" style="cursor: pointer; padding-left: 1em"></span>
       </a>
-      <a (click)="openConfirmDialog(selectedCohortUuid)" [class.disabled]="(userAssignedRole !== 'admin') ? true : null">
+      <a (click)="openConfirmDeleteCohortDialog(selectedCohortUuid)" [class.disabled]="(userAssignedRole !== 'admin') ? true : null">
         <span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
       <br>
       <label>Description: </label> {{selectedCohortDescription}}
@@ -82,6 +82,16 @@
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
         <button type="button" pButton icon="fa-check" (click)="voidCohortMember()" label="Yes"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Delete Patient List" [(visible)]="displayConfirmDeleteCohortDialog" modal="modal" width="300" responsive="true">
+    <p>This will remove <strong>{{selectedCohortName}}</strong> patient list. Are you sure you want to remove this patient list?</p>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
+        <button type="button" pButton icon="fa-check" (click)="voidCohortList()" label="Yes"></button>
       </div>
     </p-footer>
   </p-dialog>
