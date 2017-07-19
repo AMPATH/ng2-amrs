@@ -14,8 +14,7 @@ export class UsefulLinksComponent implements OnInit {
 
   private _links = [
     {
-      url: `https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual
-      %20%20%20%20%20%20%20%20?preview=/100794491/102596707/Troubleshooting%20POC%20Errors.docx`,
+      url: 'https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual',
       title: 'POC General Troubleshooting Manual (PDF)'
     },
     {
