@@ -31,6 +31,7 @@ import { PatientRegisterReportService } from './service/patient-register-report.
 import { HivSummaryIndicatorsService } from './service/hiv-summary-indicators.service';
 import { PatientMonthlyStatusHistory } from './service/patient-monthly-status-history'
 import { cohortUserService } from './service/cohort-user.service.js';
+import { patientsRequiringVLService } from './service/patients-requiring-viral-load.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
 
 module.exports = function () {
@@ -861,9 +862,6 @@ module.exports = function () {
                     locationUuids: Joi.string()
                         .optional()
                         .description("A list of comma separated location uuids"),
-                    reportName: Joi.string()
-                        .optional()
-                        .description("the name of the report you want patient list"),
                     startDate: Joi.string()
                         .required()
                         .description("The start date to filter by"),
@@ -875,7 +873,10 @@ module.exports = function () {
                         .description("The startIndex to control pagination"),
                     limit: Joi.number()
                         .required()
-                        .description("The offset to control pagination")
+                        .description("The offset to control pagination"),
+                    analysis: Joi.string()
+                        .optional()
+                        .description("analysis type"),
                 }
             }
         }
@@ -2574,7 +2575,60 @@ module.exports = function () {
             description: 'Daily Message Alerts',
             notes: 'Returns Messages to be shown to users on login'
         }
-    }
+    },  {
+            method: 'GET',
+            path: '/etl/patients-requiring-viral-load-order',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewPatient
+                    },
+                    'openmrsLocationAuthorizer': {
+                        locationParameter: [{
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'locationUuids' //name of the location parameter
+                        }]
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.indicator = 'needs_vl_in_period';
+                    request.query.reportName = 'labs-report';
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let service = new patientsRequiringVLService();
+                            service.getPatientListReport(requestParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                },
+                description: "Gets patients Requiring VL list", //patientsRequiringVLService
+                notes: "Returns the patient list for various indicators in the labs report",
+                tags: ['api'],
+                validate: {
+                    query: {
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        startDate: Joi.string()
+                            .optional()
+                            .description("The start date to filter by"),
+                        endDate: Joi.string()
+                            .optional()
+                            .description("The end date to filter by"),
+                        startIndex: Joi.number()
+                            .required()
+                            .description("The startIndex to control pagination"),
+                        limit: Joi.number()
+                            .required()
+                            .description("The offset to control pagination")
+                    }
+                }
+            }
+        }
     ];
 
     return routes;
