@@ -10,7 +10,6 @@ import { RouterModule, Router } from '@angular/router';
 
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginGuard } from './shared/guards/login.guard';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/dist/providers';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -18,10 +17,9 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app-routing.module';
 // App is our top level component
-import { App } from './app.component';
+import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { About } from './about';
@@ -57,14 +55,17 @@ type StoreType = {
   restoreInputValues: () => void,
   disposeOldHosts: () => void
 };
-
+export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
+  router: Router, sessionStorageService: SessionStorageService) {
+  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService)
+}
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [App],
+  bootstrap: [AppComponent],
   declarations: [
-    App,
+    AppComponent,
     About,
     TitleCasePipe,
     NoContent,
@@ -85,20 +86,9 @@ type StoreType = {
     AppSettingsModule,
     UserDefaultPropertiesModule,
     UsefulLinksModule,
-    LabOrderSearchModule,
-    BusyModule.forRoot(
-      new BusyConfig({
-        message: 'Please Wait...',
-        backdrop: true,
-        delay: 200,
-        minDuration: 600,
-        wrapperClass: 'my-class',
-
-      })
-    )
+    LabOrderSearchModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS,
     APP_PROVIDERS,
     DynamicRoutesService,
     Angulartics2Piwik,
@@ -106,12 +96,9 @@ type StoreType = {
     AuthGuard,
     LoginGuard,
     LocalStorageService,
-    { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() },
     {
       provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      useFactory: httpClient,
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
     CacheService,
@@ -141,22 +128,4 @@ export class AppModule {
     delete store.restoreInputValues;
   }
 
-  hmrOnDestroy(store: StoreType) {
-    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    // save state
-    const state = this.appState._state;
-    store.state = state;
-    // recreate root elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // save input values
-    store.restoreInputValues = createInputTransfer();
-    // remove styles
-    removeNgStyles();
-  }
-
-  hmrAfterDestroy(store: StoreType) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
 }

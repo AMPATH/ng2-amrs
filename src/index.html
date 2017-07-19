@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="">
+<!doctype html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>NgxAmrs</title>
+  <base href="/">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
-
-  <title>
-    Ampath POC
-  </title>
-
-  <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"/>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/slick/slick.css"/>
-  <link rel="stylesheet" href="./assets/slick/slick-theme.css"/>
-  <link rel="stylesheet" href="./assets/app.css"/>
-
-  <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script type="text/javascript">
     var _paq = _paq || [];
     _paq.push(["setDomains", ["*.localhost"]]);
@@ -35,13 +26,11 @@
       s.parentNode.insertBefore(g, s);
     })();
   </script>
-  <script type="text/javascript">
-    window.onbeforeunload = function() {
-      return "Are you sure you want to exit the page?";
-    }
-  </script>
   <style>
-    html, body, app, .app-loader {
+    html,
+    body,
+    app,
+    .app-loader {
       height: 100%;
       min-height: 100%;
       margin: 0;
@@ -62,7 +51,9 @@
       width: 320px;
     }
 
-    .app-loader-logo, .app-loader-spinner, .app-loader-logo-man {
+    .app-loader-logo,
+    .app-loader-spinner,
+    .app-loader-logo-man {
       position: absolute;
       height: 70px;
       top: 0;
@@ -92,7 +83,9 @@
       position: relative;
     }
 
-    .double-bounce1, .double-bounce2, .double-bounce3 {
+    .double-bounce1,
+    .double-bounce2,
+    .double-bounce3 {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -102,7 +95,6 @@
       position: absolute;
       top: 0;
       left: 0;
-
       -webkit-animation: sk-bounce 3.0s infinite ease-in-out;
       animation: sk-bounce 3.0s infinite ease-in-out;
     }
@@ -120,7 +112,8 @@
     }
 
     @-webkit-keyframes sk-bounce {
-      0%, 100% {
+      0%,
+      100% {
         -webkit-transform: scale(0.0)
       }
       50% {
@@ -129,7 +122,8 @@
     }
 
     @keyframes sk-bounce {
-      0%, 100% {
+      0%,
+      100% {
         transform: scale(0.0);
         -webkit-transform: scale(0.0);
       }
@@ -139,49 +133,33 @@
       }
     }
   </style>
-
-  <noscript>
-    <p>
-      <img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt=""/></p>
-  </noscript>
-  <!-- End Piwik Code -->
-
-
-  <% if (webpackConfig.htmlElements.headTags) { %>
-  <!-- Configured Head Tags  -->
-  <%= webpackConfig.htmlElements.headTags %>
-  <% } %>
-
-  <!-- base url -->
-  <base href="<%= htmlWebpackPlugin.options.baseUrl %>">
-
-
 </head>
 
 <body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
-
-<app>
-  <div class="app-loader">
-    <div class="app-loader-center">
-      <div class="app-loader-center-wrapper">
-        <div class="app-loader-spinner">
-          <div class="double-bounce1"></div>
-          <div class="double-bounce2"></div>
-          <div class="double-bounce3"></div>
-        </div>
-        <div class="app-loader-logo-man">&nbsp;</div>
-        <div class="app-loader-logo">
-          <img src="./assets/img/ampath.png"/>
+  <app-root>
+    <div class="app-loader">
+      <div class="app-loader-center">
+        <div class="app-loader-center-wrapper">
+          <div class="app-loader-spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+            <div class="double-bounce3"></div>
+          </div>
+          <div class="app-loader-logo-man">&nbsp;</div>
+          <div class="app-loader-logo">
+            <img src="./assets/img/ampath.png" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</app>
 
-<% if (htmlWebpackPlugin.options.isDevServer && htmlWebpackPlugin.options.HMR !== true) { %>
-<!-- Webpack Dev Server reload -->
-<script src="/webpack-dev-server.js"></script>
-<% } %>
+  </app-root>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+    <script src="./assets/slimScroll/jquery.slimscroll.js"></script>
+  <script src="./assets/app.js"></script>
 </body>
 
 </html>

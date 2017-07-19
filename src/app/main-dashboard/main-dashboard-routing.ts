@@ -13,8 +13,20 @@ import {
 import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
-
-const dashboardRoutes: Routes = [
+import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
+export function clinicDashboardModule() {
+    return ClinicDashboardModule;
+}
+  export function patientDashboardModule() {
+    return PatientDashboardModule;
+}
+  export function dataAnalyticsModule() {
+    return DataAnalyticsModule;
+}
+    export function patientListCohortModule() {
+    return PatientListCohortModule;
+}
+export const dashboardRoutes: Routes = [
   {
     path: '',
     component: MainDashboardComponent,
@@ -22,13 +34,13 @@ const dashboardRoutes: Routes = [
     children: [
       {
         path: 'clinic-dashboard',
-        loadChildren: () => ClinicDashboardModule
+        loadChildren: clinicDashboardModule
       },
       {
-        path: 'patient-dashboard', loadChildren: () => PatientDashboardModule
+        path: 'patient-dashboard', loadChildren: patientDashboardModule
       },
       {
-        path: 'data-analytics', loadChildren: () => DataAnalyticsModule
+        path: 'data-analytics', loadChildren: dataAnalyticsModule
       },
       {
         path: 'user-default-properties',
@@ -44,9 +56,7 @@ const dashboardRoutes: Routes = [
       },
        {
        path: 'patient-list-cohort',
-         loadChildren: () =>
-           System.import('../patient-list-cohort/patient-list-cohort.module')
-             .then(mod => mod.PatientListCohortModule)
+         loadChildren: patientListCohortModule
        }
     ]
   }
