@@ -150,8 +150,8 @@ footer p {
 .navbar-custom-menu > .navbar-nav > li a {
   line-height: 50px;
 }
-
-.navbar-custom-menu > .navbar-nav > li.dropdown li a {
+s
+.navbar-custom-menu > .navbar-nav > li.dropdown.user li a {
   line-height: normal;
 }
 

@@ -59,8 +59,6 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       }
     });
 
-
-
     // Work Around for min-height
     window.dispatchEvent(new Event('resize'));
     this.dynamicRoutesService.routes.subscribe(result => {
@@ -132,6 +130,10 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     if (currentUrl.includes('patient-list-cohort')) {
       this.currentDashboard = 'patient-list-cohort';
       // this.expandSideBar();
+      return;
+    }
+    if (currentUrl.includes('data-analytics')) {
+      this.currentDashboard = 'data-analytics';
       return;
     }
   }

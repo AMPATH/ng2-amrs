@@ -1,22 +1,19 @@
 {
-  "id": "dataAnalyticsDashboard",
+  "id": "analyticsDashboard",
   "name": "Data Analytics Dashboard",
-  "baseRoute": "data-analytics-dashboard",
+  "baseRoute": "data-analytics",
   "routeParameter": "",
-  "nonProgramRoutes": [],
-  "programs": [
+  "nonProgramRoutes": [
     {
-      "programName": "HIV",
-      "programUuid": "program-uuid",
-      "baseRoute": "",
-      "routes": [
-        {
-          "url": "moh731",
-          "label": "MOH 731",
-          "icon": "fa fa-clipboard",
-          "isSideBarOpen": false
-        }
-      ]
+      "url": "admin-dashboard/clinical-visualization",
+      "label": "Clinical Visualization",
+      "icon": "fa fa-line-chart"
+    },
+    {
+      "url": "admin-dashboard/clinic-flow",
+      "label": "Clinic Flow",
+      "icon": "fa fa-clock-o"
     }
-  ]
+  ],
+  "programs": []
 }

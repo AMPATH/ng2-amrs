@@ -27,6 +27,12 @@
                 <span>Lab Order Search</span>
               </a>
             </li>
+            <li class="data-analytics">
+              <a routerLink="/data-analytics/admin-dashboard"  routerLinkActive="active">
+                <i class="fa fa-line-chart"></i>
+                <span>Data Analytics</span>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="dropdown user user-menu pull-right" routerLinkActive="trail">
@@ -97,6 +103,17 @@
       </li>
     </ul>
     <ul *ngIf="currentDashboard === 'patient-list-cohort'" class="sidebar-menu patient-list-cohort">
+      <li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
+        <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
+					<span class="icon-menu">
+            <span class="icon-menu-letter">{{route.menuStartLetter}}</span>
+					<span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
+					</span>
+          <span class="icon-menu-label">{{route.label}}</span>
+        </a>
+      </li>
+    </ul>
+    <ul *ngIf="currentDashboard === 'data-analytics'" class="sidebar-menu data-analytics">
       <li routerLinkActive="active" *ngFor='let route of routeConfig.routes'>
         <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
 					<span class="icon-menu">

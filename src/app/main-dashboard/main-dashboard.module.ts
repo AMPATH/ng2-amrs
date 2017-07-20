@@ -18,6 +18,7 @@ import { PatientListCohortModule } from '../patient-list-cohort/patient-list-coh
 import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 
 
 
@@ -30,7 +31,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     AgGridModule.withComponents([]),
     DataListsModule,
     PatientListCohortModule,
-    PatientDashboardModule
+    PatientDashboardModule,
+    DataAnalyticsModule
   ],
   declarations: [
     MainDashboardComponent,
