@@ -56,10 +56,9 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
         (success) => {
           this.displaySuccessAlert('Successfully added cohort');
           if ( success ) {
+            success['role'] = 'admin';
             this.cohortListService.setData(success);
-           console.log('success======', success);
-
-           // this.router.navigate(['/patient-list-cohort/cohort']);
+            // this.router.navigate(['/patient-list-cohort/cohort']);
             this.router.navigate(['patient-list-cohort/cohort/' +
             success.uuid + '/member']);
           }

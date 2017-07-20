@@ -19,6 +19,7 @@ export class CohortListComponent implements OnInit {
 
   public isBusy: boolean = false;
   public selectedCohortListUuid: any;
+  public selectedCohortListName: any;
   fetchingResults: boolean = false;
   public isLoading: boolean = false;
   filterTerm: string = '';
@@ -71,8 +72,9 @@ export class CohortListComponent implements OnInit {
   valueChange(newValue) {
     this.filterTerm = newValue;
   }
-  public openConfirmDialog(uuid) {
-    this.selectedCohortListUuid = uuid;
+  public openConfirmDialog(cohort) {
+    this.selectedCohortListUuid = cohort.uuid;
+    this.selectedCohortListName = cohort.name;
     this.displayConfirmDialog = true;
 
   }

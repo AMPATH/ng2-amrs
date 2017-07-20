@@ -216,7 +216,18 @@ export class Person extends BaseModel {
     return '';
   }
   public set causeOfDeath(v: string) {
-    this._openmrsModel.deathDate = v;
+    this._openmrsModel.causeOfDeath = v;
+  }
+
+  @serializable(true, false)
+  public get causeOfDeathUuId(): string {
+    if (this._openmrsModel.causeOfDeath) {
+      return this._openmrsModel.causeOfDeath.uuid;
+    }
+    return '';
+  }
+  public set causeOfDeathUuId(v: string) {
+    this._openmrsModel.causeOfDeathUuId = v;
   }
 
 }

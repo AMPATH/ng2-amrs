@@ -38,12 +38,11 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label for="personDeadSelect">Has patient died?</label>
-      <select class="form-control" name="personDeadSelect" [ngModel]="dead"
-              (ngModelChange)="dead = !dead">
-        <option value="false">No</option>
-        <option value="true">Yes</option>
+
+     <div class="form-group">
+      <label for="dead">Has patient died?</label>
+      <select class="form-control" [(ngModel)]="dead" name="dead">
+        <option *ngFor="let opt of preferredOptions" [value]="opt.val">{{opt.label}}</option>
       </select>
     </div>
 

@@ -3,13 +3,13 @@
   <div [ngBusy]="{busy:[fetchingResults, isBusy],message:'Please wait loading data...'}"></div>
   <div class="component-wrapper">
     <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Patient Lists</h4>
-    <div>
+    <div style="width: 100%;margin-top:4px;margin-bottom:4px;">
       <a (click)="addNewCohort()"   class="add_rel">
-        <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Create List
+        <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Create Patient List
       </a>
       <div>
         <div>
-          <div class="input-group" style="width: 100%; padding-bottom: 4px; padding-top: 4px">
+          <div class="input-group" style="width: 100%;margin-top:4px; padding-bottom: 4px; padding-top: 4px">
             <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valueChange($event)" placeholder="Filter List"/>
             <span class="glyphicon glyphicon-search form-control-feedback"></span>
           </div>
@@ -49,7 +49,7 @@
                 <span style="font-size:14px; padding-left: 1em; cursor: pointer" class="glyphicon glyphicon-zoom-in"></span></a>-->
               <a (click)="shareCohortList(list.uuid, list.description, list.name)" [class.disabled]="(list.role !== 'admin') ? true : null" >
                 <span style="font-size:14px; padding-left: 1em; cursor: pointer" class="fa fa-share-alt" ></span></a>
-              <a (click)="openConfirmDialog(list.uuid)" [class.disabled]="(list.role !== 'admin') ? true : null"
+              <a (click)="openConfirmDialog({uuid:list.uuid,name:list.name})" [class.disabled]="(list.role !== 'admin') ? true : null"
                  ><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer" ></span></a>
             </td>
           </tr>
@@ -70,8 +70,8 @@
   <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
     <strong>{{errorTitle}}</strong> {{errorAlert}}
   </div>
-  <p-dialog header="Delete Cohort" [(visible)]="displayConfirmDialog" modal="modal" width="300" responsive="true">
-    <p>Are you sure you want to delete this Cohort?</p>
+  <p-dialog header="Delete Patient List" [(visible)]="displayConfirmDialog" modal="modal" width="300" responsive="true">
+    <p>This will remove <b>{{selectedCohortListName}}</b> patient list. Are you sure you want to remove this patient list?</p>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
