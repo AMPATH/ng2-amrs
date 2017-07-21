@@ -1,12 +1,12 @@
+
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ClinicalSummaryVisualizationService
-} from '../../services/clinical-summary-visualization.service';
-
+} from '../services/clinical-summary-visualization.service';
 @Component({
   selector: 'hiv-care-tabularview',
-  templateUrl: './hiv-care-tabularview.component.html'
+  templateUrl: 'hiv-care-tabularView.component.html'
 })
 export class HivCareTabularViewComponent implements OnInit, OnDestroy {
   public _data = new BehaviorSubject<Array<any>>([]);

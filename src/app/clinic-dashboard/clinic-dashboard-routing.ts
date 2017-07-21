@@ -67,19 +67,6 @@ const clinicDashboardRoutes: Routes = [
       },
       {path: 'monthly-schedule', component: MonthlyScheduleComponent},
       {
-        path: 'visualization',
-        children: [
-          {
-            path: '',
-            component: VisualizationComponent
-          },
-          {
-            path: 'patient-list/:report/:indicator/:period',
-            component: VisualizationPatientListComponent
-          }
-        ]
-      },
-      {
         path: 'patient-status-change-visualization',
         children: [
           {

@@ -4,44 +4,49 @@ import * as moment from 'moment';
 import { Observable, Subscription } from 'rxjs';
 import {
   ClinicalSummaryVisualizationResourceService
-} from '../../../etl-api/clinical-summary-visualization-resource.service';
-import { ClinicalSummaryVisualizationService
-} from '../../../hiv-care-lib/services/clinical-summary-visualization.service';
+} from '../../etl-api/clinical-summary-visualization-resource.service';
+import {
+  ClinicalSummaryVisualizationService
+} from '../services/clinical-summary-visualization.service';
+import {
+  DataAnalyticsDashboardService
+} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'visualization-patient-list',
-  templateUrl: 'visualization-patientlist.component.html'
+  templateUrl: 'visualization-patient-list.component.html'
 })
 export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public patientData: any;
-  public translatedIndicator: string;
-  public overrideColumns: Array<any> = [];
+  public startDate: any;
   public isLoading: boolean = false;
   public dataLoaded: boolean = false;
-  public startDate: any;
   public endDate: any;
+  public translatedIndicator: string;
   private startIndex: number = 0;
-  private locationUuid: any;
+  private locationUuids: any;
   private reportName: string;
   private currentIndicator: string;
+  private overrideColumns: Array<any> = [];
   private routeParamsSubscription: Subscription;
   private subscription = new Subscription();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
-              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService) {
+              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
+              private dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
     /**
      * Please note that this is a workaround for the dashboardService delay
      * to give you the location UUID.
      * If a better way can be found, please consider
      */
     let urlPieces = window.location.hash.split('/');
-    this.locationUuid = urlPieces[2];
+    this.locationUuids = urlPieces[2];
   }
 
   public ngOnInit() {
-
+    this.getCachedLocations();
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params) {
         let monthYear = params['period'].split('|');
@@ -70,6 +75,15 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+  public getCachedLocations() {
+    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+      (data) => {
+        if (data) {
+          this.locationUuids = data.locations;
+        }
+
+      });
+  }
 
   public setDateRange(monthYear) {
     let startDate = monthYear[0].split('/');
@@ -82,7 +96,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
-      locationUuids: this.locationUuid,
+      locationUuids: this.locationUuids,
       startIndex: this.startIndex,
       startDate: this.startDate.format()
     }).subscribe((report) => {
@@ -95,7 +109,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public loadMorePatients() {
+ public loadMorePatients() {
     this.isLoading = true;
     this.loadPatientData(this.reportName);
   }
@@ -104,7 +118,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
   }
 
 }

@@ -36,7 +36,12 @@ import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from '../shared/locations/location-filter/location-filter.component';
 import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
-
+import {
+  HivCareComparativeAnalyticsComponent
+} from './hiv-data-visualization/hiv-overview-visualization';
+import {
+  DataAnalyticsDashboardService
+} from './services/data-analytics-dashboard.services';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -54,14 +59,14 @@ import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
     GrowlModule,
     AccordionModule,
     OpenmrsApi,
-    EtlApi,
-    SelectModule,
+  // EtlApi,
+  // SelectModule,
     Angulartics2Module.forChild(),
     NgamrsSharedModule,
-    ChartModule.forRoot(require('highcharts'),
+    /*ChartModule.forRoot(require('highcharts'),
       require('highcharts/highcharts-more'),
       require('highcharts/modules/exporting')
-    ),
+    ),*/
     BusyModule.forRoot(
       new BusyConfig({
         message: 'Please Wait...',
@@ -84,14 +89,15 @@ import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
   ],
   declarations: [
     DataAnalyticsDashboardComponent,
-    LocationFilterComponent,
-    AdminDashboardClinicFlowComponent
+    AdminDashboardClinicFlowComponent,
+    HivCareComparativeAnalyticsComponent
   ],
   providers: [
     DataAnalyticsDashboardGuard,
     ClinicDashboardCacheService,
     HivClinicFlowResourceService,
     ClinicFlowCacheService,
+    DataAnalyticsDashboardService,
     {
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService

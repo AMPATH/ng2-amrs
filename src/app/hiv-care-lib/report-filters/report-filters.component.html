@@ -8,11 +8,11 @@
   </div>
   <div style="padding: 0px; border: 1px double lightgray" class="row">
     <div [hidden]="filterCollapsed">
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-12" *ngIf="isEnabled('indicatorsControl')">
         <label for="indicator">Indicator </label>
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-          <ng-select [multiple]="true" id="indicator" 
+          <ng-select [multiple]="true" id="indicator"
                      [placeholder]="'Select desired Indicator(s) or type to search...'"
                      [(ngModel)]="selectedIndicators" [items]="indicatorOptions" (active)="selectedIndicators">
           </ng-select>
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="date-range">
+      <div class="date-range" *ngIf="isEnabled('datesControl')">
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="startDate">Start Date:</label>
@@ -46,7 +46,7 @@
         </div>
         <div class="clear-fix clear"></div>
       </div>
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-12" *ngIf="isEnabled('ageControl')">
         <label for="age">Age Range</label>
         <input type="text" class="slider" />
         <!--<input id="age" type="text" class="slider" />-->
@@ -68,22 +68,24 @@
                           [decorate_both]="true"
                           (onFinish)="getAgeRangeOnFinish($event)"></ion-range-slider>-->
       </div>
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-12" *ngIf="isEnabled('genderControl')">
         <label for="gender">Select Gender</label>
         <ng-select [multiple]="true" id="gender"
                    [placeholder]="'Select Gender...'"
                    [(ngModel)]="selectedGender" [items]="genderOptions" (active)="selectedGender">
         </ng-select>
       </div>
-
-
-    </div>
+      <div *ngIf="isEnabled('locationControl')">
+        <location-filter [multiple]="true" [locationUuids]="locations" (onLocationChange)="getSelectedLocations($event)"></location-filter>
+      </div>
   </div>
-  <div class="row" style="margin-top: 4px; padding: 0px;">
+  </div>
+  <div class="row" style="margin-top: 4px; padding: 0px;" >
     <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right"
-            [disabled]="selectedIndicators.length === 0 ? true : false"
+            [disabled]="selectedIndicators.length === 0 ? !disableGenerateButton : disableGenerateButton"
             (click)="onClickedGenerate()">Generate Report</button>
     <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
 
   </div>
+
 </div>

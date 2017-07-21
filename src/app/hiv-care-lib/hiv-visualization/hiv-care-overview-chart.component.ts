@@ -3,17 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { ClinicalSummaryVisualizationService
-} from '../../services/clinical-summary-visualization.service';
-
+} from '../services/clinical-summary-visualization.service';
 const highcharts = require('highcharts');
-
+import * as Moment from 'moment';
 @Component({
-  selector: 'hiv-care-overview',
-  styleUrls: ['./hiv-care-overview.component.css'],
-  templateUrl: './hiv-care-overview.component.html',
+  selector: 'hiv-care-overview-chart',
+  styleUrls: ['hiv-care-overview-chart.component.css'],
+  templateUrl: 'hiv-care-overview-chart.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class HivCareComparativeOverviewComponent implements OnInit {
+export class HivCareComparativeChartComponent implements OnInit {
   public indicatorDef: Array<any> = [];
   public showHivCareTabularView: boolean = true;
   public showIndicatorDefinitions: boolean = false;
@@ -22,8 +21,10 @@ export class HivCareComparativeOverviewComponent implements OnInit {
   private patientsOnArt: Array<any> = [];
   private percOnArtWithVl: Array<any> = [];
   private virallySuppressed: Array<any> = [];
+  private chartTitle = 'A comparative graph showing HIV Care analysis';
   private _options = new BehaviorSubject<any>(null);
   private data: any;
+  private _dates: any;
 
   constructor(private route: ActivatedRoute,
               private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
@@ -34,12 +35,18 @@ export class HivCareComparativeOverviewComponent implements OnInit {
   }
 
   @Input()
-  set options(value) {
+  public set options(value) {
     this._options.next(value);
   }
-
-  get options() {
+  public get options() {
     return this._options.getValue();
+  }
+  public get dates(): any {
+    return this._dates;
+  }
+  @Input('dates')
+  public set dates(v: any) {
+    this._dates = v;
   }
 
   public ngOnInit() {
@@ -57,23 +64,33 @@ export class HivCareComparativeOverviewComponent implements OnInit {
 
   public goToPatientList(indicator, filters) {
     this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
-        filters.startDate.format('DD/MM/YYYY') + '|' + filters.endDate.format('DD/MM/YYYY')]
+        Moment(this._dates.startDate).format('DD/MM/YYYY') + '|' +
+        Moment(this._dates.endDate).format('DD/MM/YYYY')]
       , {relativeTo: this.route});
   }
 
   public renderChart(options) {
-
+    let startDate: any;
+    let endDate: any;
     this.processChartData();
+    if ( this._dates) {
+      startDate = Moment(this._dates.startDate).format('DD-MM-YYYY');
+      endDate = Moment(this._dates.endDate).format('DD-MM-YYYY');
+    }
 
     let that = this;
     _.merge(options, {
       colors: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'],
+      title : { text : this.chartTitle },
+      subtitle: {
+        text: 'Starting from ' + startDate + ' To ' + endDate
+      },
       chart: {
         zoomType: 'xy',
         alignTicks: false,
         events: {
           redraw: true
-        }
+        },
       },
       background2: '#F0F0EA',
       plotOptions: {
@@ -142,7 +159,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
         shared: true
       },
       legend: {
-        layout: 'horizontal'
+        layout: 'horizontal',
       },
       series: [
         {
@@ -180,7 +197,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
           tooltip: {
             valueSuffix: ''
           }
-        }]
+        }],
     });
   }
 
