@@ -83,7 +83,7 @@
         <h4 class="modal-title">Type the new {{urlType}} URL</h4>
     </modal-header>
     <modal-body>
-      <form (ngSubmit)="onSubmit()" #serverUrl="ngForm">
+      <form  #serverUrl="ngForm">
         <input type="text" placeholder="{{urlPlaceholder}}"
          class="form-control" [(ngModel)]="newUrl" name="newUrl"/>
       </form>

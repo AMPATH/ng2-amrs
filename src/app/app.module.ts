@@ -1,3 +1,4 @@
+import '../styles/styles.scss';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { BrowserModule } from '@angular/platform-browser';
@@ -39,7 +40,7 @@ import { CacheService } from 'ionic-cache/ionic-cache';
 import { DataCacheService } from './shared/services/data-cache.service';
 import { UsefulLinksModule } from './useful-links';
 import { FeedBackComponent } from './feedback';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { BusyModule, BusyConfig } from './shared/components/ngx-busy';
 import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
 import { PatientListCohortModule } from './patient-list-cohort/patient-list-cohort.module';
 
@@ -76,6 +77,16 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     CommonModule,
     // BrowserModule,
     // FormEntryModule,
+     BusyModule.forRoot(
+           {
+                message: 'Please Wait...',
+                backdrop: true,
+                delay: 200,
+                minDuration: 600,
+                wrapperClass: 'my-class',
+
+            }
+        ),
     FormsModule,
     HttpModule,
     Ng2Bs3ModalModule,

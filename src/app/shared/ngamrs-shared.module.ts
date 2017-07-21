@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { BusyModule, BusyConfig } from 'angular2-busy';
+// import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { DisplayErrorComponent } from './display-error/display-error.component';
@@ -14,17 +14,18 @@ import { RoutesProviderService } from './dynamic-route/route-config-provider.ser
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { FormsModule } from '@angular/forms';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { BusyModule, BusyConfig } from './components/ngx-busy';
 @NgModule({
     imports: [
         BusyModule.forRoot(
-            new BusyConfig({
+         {
                 message: 'Please Wait...',
                 backdrop: true,
                 delay: 200,
                 minDuration: 600,
                 wrapperClass: 'my-class',
 
-            })
+            }
         ),
         LaddaModule.forRoot({
             style: 'expand-right',

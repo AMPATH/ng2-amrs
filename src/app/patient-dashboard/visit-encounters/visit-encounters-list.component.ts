@@ -51,6 +51,8 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
   dateOrderNo: number = 0;
   dateIcon: string = this.ascIcon;
   users: any [];
+  selectedEncounterType:any;
+  v:any;
 
 
   @Input() encounters: Encounter[];

@@ -14,11 +14,11 @@ import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 })
 export class ReportFilterComponent implements OnInit {
 
-  protected genders: SelectItem[];
-  protected indicators: SelectItem[];
-  protected locations: SelectItem[];
-  protected forms: SelectItem[];
-  protected reportIndicators: string[] = [];
+  public genders: SelectItem[];
+  public indicators: SelectItem[];
+  public locations: SelectItem[];
+  public forms: SelectItem[];
+  public reportIndicators: string[] = [];
 
   @Input() enableDiagnostic: boolean;
   @Input() showButton: boolean;
@@ -47,15 +47,15 @@ export class ReportFilterComponent implements OnInit {
 
   }
 
-  protected handleClick(event: any): void {
+  public handleClick(event: any): void {
     this.onGenerateReport.emit(event);
   }
 
-  protected isEnabled(control: string): boolean {
+  public isEnabled(control: string): boolean {
     return this.enabledControls.indexOf(control) > -1;
   }
 
-  protected defineGenderOptions(): void {
+  public defineGenderOptions(): void {
     this.genders = [];
     this.genders.push({ label: 'Select Gender', value: '' });
     this.genders.push({ label: 'Male', value: 'M' });
@@ -67,14 +67,14 @@ export class ReportFilterComponent implements OnInit {
 
   }
 
-  protected renderFilterControls(): void {
+  public renderFilterControls(): void {
     if (this.isEnabled('indicatorsControl')) this.fetchReportIndicators();
     if (this.isEnabled('locationsControl')) this.fetchLocations();
     if (this.isEnabled('formsControl')) this.fetchForms();
     if (this.isEnabled('genderControl')) this.defineGenderOptions();
   }
 
-  protected fetchLocations(): void {
+  public fetchLocations(): void {
     this.locationResourceService.getLocations().subscribe(
       (locations: any[]) => {
         this.locations = [];
@@ -88,7 +88,7 @@ export class ReportFilterComponent implements OnInit {
     );
   }
 
-  protected fetchForms(): void {
+  public fetchForms(): void {
     this.formsResourceService.getForms().subscribe(
       (forms: any[]) => {
         this.forms = [];
@@ -102,7 +102,7 @@ export class ReportFilterComponent implements OnInit {
     );
   }
 
-  protected fetchReportIndicators(): void {
+  public fetchReportIndicators(): void {
     this.indicatorResourceService
       .getReportIndicators({ report: this.reportName })
       .subscribe(

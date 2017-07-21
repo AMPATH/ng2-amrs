@@ -12,6 +12,7 @@ import * as Moment from 'moment';
 })
 
 export class Moh731ReportFilters implements OnInit {
+    public filterCollapsed: boolean;
     @Output()
     generateReport = new EventEmitter();
 

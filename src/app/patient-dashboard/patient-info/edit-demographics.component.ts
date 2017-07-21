@@ -16,29 +16,29 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   public display: boolean = false;
   subscription: Subscription;
-  private givenName: string;
-  private familyName: string;
-  private middleName: string;
-  private preferred: any;
-  private ispreferred: boolean;
-  private preferredOptions = [
+  public givenName: string;
+  public familyName: string;
+  public middleName: string;
+  public preferred: any;
+  public ispreferred: boolean;
+  public preferredOptions = [
     {label: 'Yes', val: true},
     {label: 'No', val: false}
   ];
-  private genderOptions = [
+  public genderOptions = [
     {label: 'Female', val: 'F'},
     {label: 'Male', val: 'M'}
   ];
-  private preferredNameuuid: string;
-  private birthdate: any;
-  private dead: boolean = false;
-  private gender: any;
-  private deathDate: Date;
-  private causesOfDeath: any = [];
-  private causeOfDeath: any;
-  private errors: any = [];
-  private successAlert: any = '';
-  private healthCenter: any;
+  public preferredNameuuid: string;
+  public birthdate: any;
+  public dead: boolean = false;
+  public gender: any;
+  public deathDate: Date;
+  public causesOfDeath: any = [];
+  public causeOfDeath: any;
+  public errors: any = [];
+  public successAlert: any = '';
+  public healthCenter: any;
 
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService,

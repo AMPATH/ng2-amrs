@@ -35,7 +35,11 @@ import {
 } from '../clinic-flow/clinic-flow-provider-stats.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
 
-const clinicDashboardRoutes: Routes = [
+ export function hivProgramModule() {
+    return HivProgramModule;
+}
+
+export const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
     canActivate: [
@@ -97,7 +101,7 @@ const clinicDashboardRoutes: Routes = [
       { path: 'clinic-lab-orders', component: ClinicLabOrdersComponent },
       { path: 'defaulter-list', component: DefaulterListComponent },
       {
-        path: 'hiv', loadChildren: ()=>HivProgramModule
+        path: 'hiv', loadChildren: hivProgramModule
       },
       { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' },
 

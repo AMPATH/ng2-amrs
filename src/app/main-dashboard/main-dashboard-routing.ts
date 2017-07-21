@@ -15,16 +15,16 @@ import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.m
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
 export function clinicDashboardModule() {
-    return ClinicDashboardModule;
+  return ClinicDashboardModule;
 }
-  export function patientDashboardModule() {
-    return PatientDashboardModule;
+export function patientDashboardModule() {
+  return PatientDashboardModule;
 }
-  export function dataAnalyticsModule() {
-    return DataAnalyticsModule;
+export function dataAnalyticsModule() {
+  return DataAnalyticsModule;
 }
-    export function patientListCohortModule() {
-    return PatientListCohortModule;
+export function patientListCohortModule() {
+  return PatientListCohortModule;
 }
 export const dashboardRoutes: Routes = [
   {
@@ -54,10 +54,10 @@ export const dashboardRoutes: Routes = [
         path: 'useful-links',
         component: UsefulLinksComponent
       },
-       {
-       path: 'patient-list-cohort',
-         loadChildren: patientListCohortModule
-       }
+      {
+        path: 'patient-list-cohort',
+        loadChildren: patientListCohortModule
+      }
     ]
   }
 

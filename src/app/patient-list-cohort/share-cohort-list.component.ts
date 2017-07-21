@@ -29,14 +29,14 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   filterTerm: string = '';
   fetchingResults: boolean = true;
   userAssignedRole: string;
-  private successAlert: string = '';
-  private displayConfirmDialog: boolean = false;
-  private showSuccessAlert: boolean = false;
-  private showErrorAlert: boolean = false;
-  private errorAlert: string;
-  private errorTitle: string;
+  public successAlert: string = '';
+  public displayConfirmDialog: boolean = false;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public errorAlert: string;
+  public errorTitle: string;
 
-  private roles = [
+  public roles = [
     { label: 'Edit', value: 'edit' },
     { label: 'View', value: 'view' }];
 

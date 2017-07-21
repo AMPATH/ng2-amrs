@@ -11,7 +11,7 @@ import { Patient } from './patient.model';
 
 @NgModule({
   imports: [],
-  declarations: [Encounter],
+  declarations: [],
   providers: [],
   exports: []
 })

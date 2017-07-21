@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
   PatientStatusVisualizationResourceService
-} from
-  '../../etl-api/patient-status-change-visualization-resource.service';
+} from '../../etl-api/patient-status-change-visualization-resource.service';
 import {
   ClinicDashboardCacheService
 } from '../services/clinic-dashboard-cache.service';
@@ -20,36 +19,34 @@ import * as _ from 'lodash';
 })
 
 export class PatientStatusChangeVisualizationContainerComponent implements OnInit, OnDestroy {
+  public error: any;
   public results = {
     startIndex: 0,
     size: 13,
-    result: []
+    result: [],
+    indicatorDefinitions: []
   };
+  public currentView: string = 'cumulativeAnalysis';
+  public cumulativeAnalysisResults = this.results;
+  public cumulativeAnalysis: any = {};
+  public monthlyAnalysisResults = this.results;
+  public monthlyAnalysis: any = {};
+  public subscription = new Subscription();
+  public cohortAnalysisResults = this.results;
+  public cohortAnalysis: any = {};
+
   @ViewChild('cumulativeAnalysis')
   private cumulativeAnalysisComponent: PatientStatusChangeVisualizationComponent;
-  private cumulativeAnalysisResults = this.results;
-  private cumulativeAnalysis: any = {};
-
   @ViewChild('monthlyAnalysis')
   private monthlyAnalysisComponent: PatientStatusChangeVisualizationComponent;
-  private monthlyAnalysisResults = this.results;
-  private monthlyAnalysis: any = {};
-  private subscription = new Subscription();
-
   @ViewChild('cohortAnalysis')
   private cohortAnalysisComponent: PatientStatusChangeVisualizationComponent;
-  private cohortAnalysisResults = this.results;
-  private cohortAnalysis: any = {};
-
-
-  private currentView: string = 'cumulativeAnalysis';
-
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private patientStatusResourceService: PatientStatusVisualizationResourceService,
-              private location: Location,
-              private route: ActivatedRoute,
-              private router: Router) {
+    private patientStatusResourceService: PatientStatusVisualizationResourceService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -155,7 +152,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.triggerBusyIndicators(analysisType, true, false);
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }) .subscribe((result) => {
+      }).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.monthlyAnalysisResults = result;
       }, (error) => {
@@ -177,7 +174,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.triggerBusyIndicators(analysisType, true, false);
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }) .subscribe((result) => {
+      }).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.cohortAnalysisResults = result;
       }, (error) => {

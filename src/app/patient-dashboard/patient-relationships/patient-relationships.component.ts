@@ -11,17 +11,17 @@ import { Subscription } from 'rxjs';
 
 export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-  private patientUuid: string;
-  private loadingRelationships: boolean = false;
-  private errors: any;
-  private relationships: any = [];
-  private displayConfirmDialog: boolean = false;
-  private selectedRelationshipUuid: string;
-  private showSuccessAlert: boolean = false;
-  private showErrorAlert: boolean = false;
-  private successAlert: string;
-  private errorAlert: string;
-  private errorTitle: string;
+  public displayConfirmDialog: boolean = false;
+  public patientUuid: string;
+  public loadingRelationships: boolean = false;
+  public errors: any;
+  public relationships: any = [];
+  public selectedRelationshipUuid: string;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public successAlert: string;
+  public errorAlert: string;
+  public errorTitle: string;
 
   constructor(private patientService: PatientService,
     private patientRelationshipService: PatientRelationshipService) {

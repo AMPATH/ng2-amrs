@@ -24,21 +24,22 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   public errorMessage: string = '';
   public hasError: boolean = false;
-  private display: boolean = false;
-  private patientIdentifier: string = '';
-  private preferredIdentifier: string = '';
-  private identifierLocation: string = '';
-  private identifierType: any = '';
-  private locations: any = [];
-  private identifierValidity: string = '';
-  private invalidLocationCheck: string = '';
-  private patientIdentifierUuid: string = '';
-  private patientIdentifiers: string = '';
-  private commonIdentifierTypes: any = [];
-  private commonIdentifierTypeFormats: any = [];
-  private preferOptions = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
-  private isValidIdentifier: boolean = false;
-  private identifiers: string = '';
+  public display: boolean = false;
+  public patientIdentifier: string = '';
+  public preferredIdentifier: string = '';
+  public identifierLocation: string = '';
+  public identifierType: any = '';
+  public locations: any = [];
+  public identifierValidity: string = '';
+  public invalidLocationCheck: string = '';
+  public patientIdentifierUuid: string = '';
+  public patientIdentifiers: string = '';
+  public commonIdentifierTypes: any = [];
+  public commonIdentifierTypeFormats: any = [];
+  public preferOptions = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
+  public isValidIdentifier: boolean = false;
+  public identifiers: string = '';
+  public selectedDevice:any;
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,

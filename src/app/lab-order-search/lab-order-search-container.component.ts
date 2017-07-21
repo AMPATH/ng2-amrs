@@ -25,7 +25,7 @@ export class LabOrderSearchContainerComponent implements OnInit {
     this.orderPosted = true;
   }
 
-  onSearchReset() {
+  onSearchReset(event) {
     this.reset = true;
     this.order = null;
   }

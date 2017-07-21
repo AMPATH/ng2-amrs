@@ -83,7 +83,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
         if (this.patientSearchSub) {
             this.patientSearchSub.unsubscribe();
         }
-        if (this.searchString && this.searchString.length > 2) {
+        if (this.searchString) {
             this.isLoading = true;
             this.patients = [];
             this.errorMessage = '';
@@ -108,10 +108,10 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     }
 
     updatePatientCount(search) {
-        if (this.totalPatients > 0 && search.length > 0) {
-            this.totalPatients = 0;
+        // if (this.totalPatients > 0 && search.length > 0) {
+        //     this.totalPatients = 0;
 
-        }
+        // }
     }
 
     loadPatientData(patient) {

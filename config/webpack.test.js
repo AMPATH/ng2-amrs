@@ -3,7 +3,6 @@
  */
 
 const helpers = require('./helpers');
-const path = require('path');
 
 /**
  * Webpack Plugins
@@ -17,6 +16,7 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
+const AgGridLicence = process.env.AgGridLicence;
 
 /**
  * Webpack configuration
@@ -51,7 +51,7 @@ module.exports = function (options) {
       /**
        * Make sure root is src
        */
-      modules: [path.resolve(__dirname, 'src'), 'node_modules']
+      modules: [helpers.root('src'), 'node_modules']
 
     },
 
@@ -78,7 +78,9 @@ module.exports = function (options) {
           test: /\.js$/,
           loader: 'source-map-loader',
           exclude: [
-            // these packages have problems with their sourcemaps
+            /**
+             * These packages have problems with their sourcemaps
+             */
             helpers.root('node_modules/rxjs'),
             helpers.root('node_modules/@angular')
           ]
@@ -95,13 +97,17 @@ module.exports = function (options) {
             {
               loader: 'awesome-typescript-loader',
               query: {
-                // use inline sourcemaps for "karma-remap-coverage" reporter
+                /**
+                 * Use inline sourcemaps for "karma-remap-coverage" reporter
+                 */
                 sourceMap: false,
                 inlineSourceMap: true,
                 compilerOptions: {
 
-                  // Remove TypeScript helpers to be injected
-                  // below by DefinePlugin
+                  /**
+                   * Remove TypeScript helpers to be injected
+                   * below by DefinePlugin
+                   */
                   removeComments: true
 
                 }
@@ -111,7 +117,6 @@ module.exports = function (options) {
           ],
           exclude: [/\.e2e\.ts$/]
         },
-        { test: /pdfkit|png-js|fontkit|unicode-properties|linebreak|brotli/, loader: "transform-loader?brfs" },
 
         /**
          * Json loader support for *.json files.
@@ -137,6 +142,17 @@ module.exports = function (options) {
         },
 
         /**
+         * Raw loader support for *.scss files
+         *
+         * See: https://github.com/webpack/raw-loader
+         */
+        {
+            test: /\.scss$/,
+            loader: ['raw-loader', 'sass-loader'],
+            exclude: [helpers.root('src/index.html')]
+        },
+
+        /**
          * Raw loader support for *.html
          * Returns file content as string
          *
@@ -146,14 +162,6 @@ module.exports = function (options) {
           test: /\.html$/,
           loader: 'raw-loader',
           exclude: [helpers.root('src/index.html')]
-        },
-        {
-          test: /\.(jpg|png|gif)$/,
-          use: 'file-loader'
-        },
-        {
-          test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-          loader: 'url-loader?limit=100000'
         },
 
         /**
@@ -191,21 +199,19 @@ module.exports = function (options) {
        * Environment helpers
        *
        * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
+       *
+       * NOTE: when adding more properties make sure you include them in custom-typings.d.ts
        */
-      // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
       new DefinePlugin({
         'ENV': JSON.stringify(ENV),
         'HMR': false,
+        'AgGridLicence': JSON.stringify(METADATA.AgGridLicence),
         'process.env': {
           'ENV': JSON.stringify(ENV),
           'NODE_ENV': JSON.stringify(ENV),
           'HMR': false,
+          'AgGridLicence': JSON.stringify(METADATA.AgGridLicence),
         }
-      }), new ProvidePlugin({
-        jQuery: 'jquery',
-        $: 'jquery',
-        jquery: 'jquery',
-        'window.slimScroll': "jquery-slimscroll"
       }),
 
       /**
@@ -216,11 +222,15 @@ module.exports = function (options) {
        * See: https://github.com/angular/angular/issues/11580
        */
       new ContextReplacementPlugin(
-        // The (\\|\/) piece accounts for path separators in *nix and Windows
-        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+        /**
+         * The (\\|\/) piece accounts for path separators in *nix and Windows
+         */
+        /angular(\\|\/)core(\\|\/)@angular/,
         helpers.root('src'), // location of your src
         {
-          // your Angular Async Route paths relative to this root directory
+          /**
+           * your Angular Async Route paths relative to this root directory
+           */
         }
       ),
 
@@ -232,7 +242,9 @@ module.exports = function (options) {
       new LoaderOptionsPlugin({
         debug: false,
         options: {
-          // legacy options go here
+          /**
+           * legacy options go here
+           */
         }
       }),
 
@@ -255,7 +267,7 @@ module.exports = function (options) {
      */
     node: {
       global: true,
-      process: true,
+      process: false,
       crypto: 'empty',
       module: false,
       clearImmediate: false,

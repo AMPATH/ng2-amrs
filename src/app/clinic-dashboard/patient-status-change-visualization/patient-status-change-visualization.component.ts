@@ -52,10 +52,10 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   };
   public showIndicatorDefinitions: boolean = false;
   public showTable: boolean = true;
-  private error = false;
-  private loading = false;
-  private progressBarTick: number = 30;
-  private timerSubscription: Subscription;
+  public error = false;
+  public loading = false;
+  public progressBarTick: number = 30;
+  public timerSubscription: Subscription;
 
 
   constructor(private patientStatusService: PatientStatuChangeVisualizationService,

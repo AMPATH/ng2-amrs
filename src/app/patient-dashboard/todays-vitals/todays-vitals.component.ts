@@ -51,7 +51,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
         .subscribe(
         (data) => {
           this.loadingTodaysVitals = false;
-          if (data.length > 0) {
+          if (data.length >= 1) {
             this.todaysVitals = data;
             this.dataLoaded = true;
           } else {

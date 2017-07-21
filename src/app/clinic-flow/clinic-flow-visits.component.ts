@@ -6,13 +6,14 @@ import * as Moment from 'moment';
 import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';
-let _ = require('lodash');
+import * as _ from 'lodash';
 @Component({
     selector: 'clinic-flow-visits',
     templateUrl: './clinic-flow-visits.component.html'
 })
 
 export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
+    public filterCollapsed: boolean;
     errors: any[] = [];
     clinicFlowData: any[] = [];
     loadingClinicFlow: boolean = false;

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
+import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 
 import {
   DailyScheduleResourceService
@@ -122,7 +123,18 @@ import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule, Router } from '@angular/router';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
-
+export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
+  router: Router, sessionStorageService: SessionStorageService) {
+  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService)
+}
+export function highchartsFactory() {
+  const hc = require('highcharts');
+  const hm = require('highcharts/highcharts-more');
+  const hx = require('highcharts/modules/exporting')
+  hm(hc);
+  hx(hm);
+  return hc;
+}
 @NgModule({
   imports: [
     CommonModule,
@@ -141,20 +153,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     SelectModule,
     Angulartics2Module.forChild(),
     NgamrsSharedModule,
-    ChartModule.forRoot(require('highcharts'),
-      require('highcharts/highcharts-more'),
-      require('highcharts/modules/exporting')
-    ),
-    BusyModule.forRoot(
-      new BusyConfig({
-        message: 'Please Wait...',
-        backdrop: true,
-        delay: 200,
-        minDuration: 600,
-        wrapperClass: 'my-class',
-
-      })
-    ),
+    ChartModule,
     HivProgramModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
@@ -215,15 +214,16 @@ import { HttpClient } from '../shared/services/http-client.service';
       useExisting: HivClinicFlowResourceService
     },
     {
+      provide: HighchartsStatic,
+      useFactory: highchartsFactory
+    },
+    {
       provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      useFactory: httpClient,
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
   ],
   exports: [
-    BusyModule,
     DailyScheduleComponent,
     MonthlyScheduleComponent,
     VisualizationComponent,

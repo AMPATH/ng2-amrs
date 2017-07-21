@@ -120,10 +120,10 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   }
 
   updatePatientCount(search) {
-    if (this.totalPatients > 0 && search.length > 0) {
-      this.totalPatients = 0;
+    // if (this.totalPatients > 0 && search.length > 0) {
+    //   this.totalPatients = 0;
 
-    }
+    // }
   }
 
   loadPatientData(patientUuid) {
