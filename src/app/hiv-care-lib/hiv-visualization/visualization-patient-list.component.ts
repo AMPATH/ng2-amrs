@@ -4,13 +4,14 @@ import * as moment from 'moment';
 import { Observable, Subscription } from 'rxjs';
 import {
   ClinicalSummaryVisualizationResourceService
-} from '../../../etl-api/clinical-summary-visualization-resource.service';
-import { ClinicalSummaryVisualizationService
-} from '../../../hiv-care-lib/services/clinical-summary-visualization.service';
+} from '../../etl-api/clinical-summary-visualization-resource.service';
+import {
+  ClinicalSummaryVisualizationService
+} from '../services/clinical-summary-visualization.service';
 
 @Component({
   selector: 'visualization-patient-list',
-  templateUrl: 'visualization-patientlist.component.html'
+  templateUrl: 'visualization-patient-list.component.html'
 })
 export class VisualizationPatientListComponent implements OnInit {
   patientData: any;

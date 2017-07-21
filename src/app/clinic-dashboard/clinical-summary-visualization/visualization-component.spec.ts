@@ -24,13 +24,8 @@ import {
   VisualizationComponent
 } from '../clinical-summary-visualization/visualization-component';
 import { ArtOverviewComponent } from './art-overview/art-overview.component';
-import {
-  HivCareComparativeOverviewComponent
-} from './hiv-care-comparative-overview/hiv-care-overview.component';
 import { Observable } from 'rxjs';
 import { ChartModule } from 'angular2-highcharts';
-import { HivCareTabularViewComponent
- } from './hiv-care-comparative-overview/hiv-care-tabularview.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { DataListsModule } from '../../data-lists/data-lists.module';
 import { MockBackend } from '@angular/http/testing';
@@ -45,14 +40,11 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { ClinicalSummaryVisualizationService
-} from '../services/clinical-summary-visualization.service';
+} from '../../hiv-care-lib/services/clinical-summary-visualization.service';
 import { PatientStatusOverviewComponent
 } from './patient-status-overview/patient-status-overview.component';
 import { PatientStatusIndicatorDefComponent
 } from './patient-status-overview/indicator-definition.component';
-import {
-  HivCareIndicatorDefComponent
- } from './hiv-care-comparative-overview/indicator-definitions.component';
 import { ArtOverviewIndicatorDefComponent } from './art-overview/indicator-definitions.component';
 import { MaterialModule } from '@angular/material';
 
@@ -159,14 +151,11 @@ describe('Component: VisualizationComponent', () => {
         DashboardFiltersComponent,
         DateRangeComponent,
         ArtOverviewComponent,
-        HivCareComparativeOverviewComponent,
         PatientStatusOverviewComponent,
         IndicatorSelectComponent,
         PatientStatusIndicatorDefComponent,
-        HivCareIndicatorDefComponent,
         ArtOverviewIndicatorDefComponent,
         RangeSliderComponent,
-        HivCareTabularViewComponent,
         GenderSelectComponent,
         VisualizationComponent
       ],

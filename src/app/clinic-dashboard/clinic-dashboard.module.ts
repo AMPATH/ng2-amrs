@@ -73,18 +73,6 @@ import {
 } from './clinical-summary-visualization/patient-status-overview/indicator-definition.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import {
-  HivCareIndicatorDefComponent
-} from
-  './clinical-summary-visualization/hiv-care-comparative-overview/indicator-definitions.component';
-import {
-  HivCareComparativeOverviewComponent
-} from
-  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
-import {
-  HivCareTabularViewComponent
-} from
-  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-tabularview.component';
-import {
   VisualizationPatientListComponent
 } from
   // tslint:disable-next-line:max-line-length
@@ -99,7 +87,7 @@ import {
   './patient-status-change-visualization/patient-status-change-visualization.component';
 import {
   ClinicalSummaryVisualizationService
-} from './services/clinical-summary-visualization.service';
+} from '../hiv-care-lib/services/clinical-summary-visualization.service';
 import {
   ArtOverviewIndicatorDefComponent
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
@@ -158,9 +146,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     MonthlyScheduleComponent,
     VisualizationComponent,
     ArtOverviewComponent,
-    HivCareComparativeOverviewComponent,
     VisualizationPatientListComponent,
-    HivCareTabularViewComponent,
     DateRangeComponent,
     RangeSliderComponent,
     DashboardFiltersComponent,
@@ -174,7 +160,6 @@ import { HttpClient } from '../shared/services/http-client.service';
     DefaulterListComponent,
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
-    HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
     PatientStatusChangeVisualizationContainerComponent,
     PatientStatusChangeVisualizationComponent,
@@ -211,9 +196,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     MonthlyScheduleComponent,
     VisualizationComponent,
     ArtOverviewComponent,
-    HivCareComparativeOverviewComponent,
     VisualizationPatientListComponent,
-    HivCareTabularViewComponent,
     DateRangeComponent,
     RangeSliderComponent,
     DashboardFiltersComponent,
@@ -227,7 +210,6 @@ import { HttpClient } from '../shared/services/http-client.service';
     DefaulterListComponent,
     PatientStatusOverviewComponent,
     PatientStatusIndicatorDefComponent,
-    HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
     PatientStatusChangeListComponent
   ],
