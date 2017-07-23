@@ -5,13 +5,13 @@
 import { TestBed, async } from '@angular/core/testing';
 import { ClinicFlowVisitsComponent } from './clinic-flow-visits.component';
 import { ClinicDashboardCacheService }
-  from '../clinic-dashboard/services/clinic-dashboard-cache.service';
-import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
+  from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 
-import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { LocalStorageService } from '../utils/local-storage.service';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { LocalStorageService } from '../../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
   Router, ActivatedRoute, Params,
@@ -20,7 +20,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { DataListsModule } from '../data-lists/data-lists.module';
+import { DataListsModule } from '../../data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
@@ -28,21 +28,24 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { CacheService } from 'ionic-cache/ionic-cache';
-import { DataCacheService } from '../shared/services/data-cache.service';
-import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MdTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
+import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 
 import * as Moment from 'moment';
 import {
   HivClinicFlowResourceService
 } from
-  '../etl-api/hiv-clinic-flow-resource.service';
+  '../../etl-api/hiv-clinic-flow-resource.service';
 import { Observable } from 'rxjs/Rx';
-import { MockHivClinicFlowResourceService } from '../etl-api/hiv-clinic-flow-resource.service.mock';
+import { MockHivClinicFlowResourceService
+} from '../../etl-api/hiv-clinic-flow-resource.service.mock';
+import { ClinicFlowLocationStatsComponent
+} from './clinic-flow-location-stats.component';
 
 describe('Component: ClinicFlowLocationStatsComponent', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
@@ -94,7 +97,7 @@ describe('Component: ClinicFlowLocationStatsComponent', () => {
         }
 
       ],
-      declarations: [ClinicFlowVisitsComponent],
+      declarations: [ClinicFlowLocationStatsComponent, ClinicFlowVisitsComponent],
       imports: [BusyModule,
         FormsModule,
         DialogModule,

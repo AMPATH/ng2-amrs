@@ -8,7 +8,7 @@ export class ClinicFlowCacheService {
     dataIsLoading: boolean = true;
     private initialUuid;
     private data: any;
-    private selectedLocation = new BehaviorSubject(this.initialUuid);
+    private selectedLocations = new BehaviorSubject(this.initialUuid);
     private formatedDate = Moment(new Date()).format('YYYY-MM-DD');
     private selectedDate = new BehaviorSubject(this.formatedDate);
     private isLoading = new BehaviorSubject(this.dataIsLoading);
@@ -25,13 +25,15 @@ export class ClinicFlowCacheService {
         return this.clinicFlowData;
     }
 
-    public setSelectedLocation(currentClinicUuid: string) {
-        this.initialUuid = currentClinicUuid;
-        this.selectedLocation.next(currentClinicUuid);
+    public setSelectedLocation(locationUuids: any) {
+        let locations: Array<string> = Array.isArray(locationUuids) ? locationUuids :
+          locationUuids.split(',');
+        this.initialUuid = locations[0] ;
+        this.selectedLocations.next(locations);
     }
 
     public getSelectedLocation() {
-        return this.selectedLocation;
+        return this.selectedLocations;
     }
 
     public setSelectedDate(date) {

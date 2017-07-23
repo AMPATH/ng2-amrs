@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DataAnalyticsDashboardComponent } from './data-analytics.component';
 import { DataAnalyticsDashboardGuard } from './data-analytics-guard';
+import { AdminDashboardClinicFlowComponent } from './hiv/clinic-flow/admin-dashboard-clinic-flow';
 const dataAnalyticsRoutes: Routes = [
 
   { path: 'data-analytics',
@@ -18,7 +19,13 @@ const dataAnalyticsRoutes: Routes = [
         component: DataAnalyticsDashboardComponent
       },
       {
-        path: 'clinic-flow', component: DataAnalyticsDashboardComponent
+        path: 'hiv',
+        children: [
+          { path: '', component: DataAnalyticsDashboardComponent },
+          {
+            path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+          }
+        ]
       }
     ],
     canActivate: [

@@ -6,7 +6,7 @@ import * as Moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { ClinicFlowCacheService } from '../../clinic-flow/clinic-flow-cache.service';
+import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 @Component({
   selector: 'app-daily-schedule',
   templateUrl: './daily-schedule.component.html',

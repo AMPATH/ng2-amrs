@@ -11,6 +11,7 @@ import { DebugElement } from '@angular/core';
 import { ChartModule } from 'angular2-highcharts';
 
 import { ClinicFlowHourlyStatsVizComponent } from './clinic-flow-hourly-stats-viz.component';
+import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 
 describe('ClinicFlowHourlyStatsVizComponent:', () => {
     let fixture: ComponentFixture<ClinicFlowHourlyStatsVizComponent>;
@@ -82,13 +83,12 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ClinicFlowHourlyStatsVizComponent
-            ],
+            declarations: [ClinicFlowHourlyStatsVizComponent],
             providers: [],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [
                 ChartModule.forRoot(require('highcharts')),
+                NgamrsSharedModule
             ]
         });
     });

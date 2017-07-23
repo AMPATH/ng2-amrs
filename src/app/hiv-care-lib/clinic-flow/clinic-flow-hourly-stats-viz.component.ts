@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 @Component({
     selector: 'clinic-flow-hourly-viz',
-    templateUrl: 'clinic-flow-hourly-stats-viz.component.html',
+    templateUrl: './clinic-flow-hourly-stats-viz.component.html',
     styleUrls: ['./clinic-flow-hourly-stats-viz.component.css']
 })
 

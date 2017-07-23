@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MaterialModule
+} from '@angular/material';
 import {
     DateTimePickerModule
 } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
@@ -19,6 +21,8 @@ import {
 import {
     PatientsRequiringVLComponent
  } from './patients-requiring-vl/patients-requiring-vl.component';
+import { DailyScheduleClinicFlowComponent
+} from './clinic-flow/daily-schedule-clinic-flow.component';
 
 @NgModule({
     imports: [
@@ -28,16 +32,22 @@ import {
         EtlApi,
         DataListsModule,
         CommonModule,
-        FormsModule
+        FormsModule,
+        MdTabsModule.forRoot(),
+        MdProgressSpinnerModule,
+        MdProgressBarModule,
+        MaterialModule
     ],
     exports: [HivSummaryIndicatorComponent,
-        HivSummaryIndicatorsPatientListComponent,
-        PatientsRequiringVLComponent],
+      DailyScheduleClinicFlowComponent,
+      PatientsRequiringVLComponent,
+        HivSummaryIndicatorsPatientListComponent],
     declarations: [
         Moh731ReportComponent,
         HivSummaryIndicatorComponent,
-        HivSummaryIndicatorsPatientListComponent,
-        PatientsRequiringVLComponent],
+        DailyScheduleClinicFlowComponent,
+        PatientsRequiringVLComponent,
+        HivSummaryIndicatorsPatientListComponent],
     providers: [],
 })
 export class HivProgramModule { }

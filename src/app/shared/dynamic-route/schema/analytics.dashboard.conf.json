@@ -10,7 +10,7 @@
       "icon": "fa fa-line-chart"
     },
     {
-      "url": "admin-dashboard/clinic-flow",
+      "url": "admin-dashboard/hiv/clinic-flow",
       "label": "Clinic Flow",
       "icon": "fa fa-clock-o"
     }
