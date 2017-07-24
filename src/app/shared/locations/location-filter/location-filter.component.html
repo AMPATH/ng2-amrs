@@ -1,0 +1,25 @@
+<div class="suggest-container form-group" *ngIf="counties">
+  <div class="col-md-6 col-sm-12 col-xs-12">
+    <label for="location-filter">Location</label>
+    <div class="input-group">
+      <div class="input-group-addon">
+        <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+        <span *ngIf="!loading" class="glyphicon glyphicon-map-marker"></span>
+      </div>
+      <ng-select [multiple]="true" id="location-filter" (ngModelChange)="onLocationSelected($event)"
+                 [placeholder]="'Select a location or type to search...'"
+                 [(ngModel)]="selectedLocations" [options]="locationDropdownOptions">
+      </ng-select>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-12 col-xs-12">
+    <label>County</label>
+    <select class="form-control" name="selectedCounty" [(ngModel)]="selectedCounty"
+            (ngModelChange)="onCountyChanged($event)">
+      <option *ngFor="let county of countyDropdownOptions"
+              [selected]="county === selectedCounty"
+              [value]="county">{{county}}</option>
+    </select>
+  </div>
+  <div class="clear"></div>
+</div>
