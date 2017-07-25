@@ -59,7 +59,6 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           this.encounters = data;
-          console.log('Encounters', data);
           this.isVisible = false;
           this.loadEncounterTypes(data);
           // a trick to wait for the encounter list to render
@@ -91,8 +90,6 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
        let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
 
        let sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
-
-       console.log(sortByAlphOrder);
 
        this.encounterTypes = sortByAlphOrder;
 

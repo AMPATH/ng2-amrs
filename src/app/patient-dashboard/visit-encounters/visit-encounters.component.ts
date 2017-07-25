@@ -23,7 +23,7 @@ import * as Moment from 'moment';
 
 
 
-export class VisitEncountersComponent implements OnInit , AfterViewInit {
+export class VisitEncountersComponent implements OnInit {
 
 
   title: string = 'Patient Visits';
@@ -54,9 +54,6 @@ export class VisitEncountersComponent implements OnInit , AfterViewInit {
         this.encounterDetail = true;
 
     }
-    ngAfterViewInit() {
-
-    }
 
      getPatientUuid() {
         this._patientService.currentlyLoadedPatient.subscribe(
@@ -73,7 +70,6 @@ export class VisitEncountersComponent implements OnInit , AfterViewInit {
      getPatientEncounters(patientUuid) {
          this._encounterResourceService.getEncountersByPatientUuid(patientUuid ,
           false, null).subscribe(resp => {
-
                 this.patientEncounters = resp.reverse();
 
           });

@@ -85,6 +85,8 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
             encounters.forEach(encounter => {
 
+                // console.log('Encounters', encounter);
+
                    let dateTime = encounter.encounterDatetime;
 
                     // console.log('DateTime', dateTime);
@@ -104,7 +106,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                     // if encounter time is 00:00 then do not show
 
-                if (encounterTime === '00:00') {
+                   if (encounterTime === '00:00') {
 
                        encounterTime = '';
 
@@ -122,10 +124,22 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                     }
 
-                    let provider = encounter.provider.display;
+                     let provider = '';
+
+                    if (encounter.provider !== null) {
+                         provider = encounter.provider.display;
+                    }
+
+                    let encounterType = '';
+
+                    if (encounter.encounterType.display !== null) {
+                         encounterType = encounter.encounterType.display;
+                    }
+
+                    let location = '';
 
 
-                    let encounterType = encounter.encounterType.display;
+
 
                     let editLink = '';
 
@@ -133,7 +147,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                     // console.log('Encounter' , encounter);
 
-                    let location = encounter.location.display;
                     let createdBy = '';
 
 
@@ -141,7 +154,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                     if (encounter.visit !== null) {
 
-                         // console.log('Get Visit Type');
+                        // console.log('Get Visit Type', encounter.visit);
 
                         let visitTypeTitle = encounter.visit.display;
 
