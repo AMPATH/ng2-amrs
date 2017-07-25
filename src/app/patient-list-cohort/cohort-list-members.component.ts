@@ -108,14 +108,14 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
       this.cohortResourceService.retireCohort(this.selectedCohortUuid).subscribe(
         (success) => {
           this.displayConfirmDialog = false;
-          this.displaySuccessAlert('Cohort list deleted successfully');
+          this.displaySuccessAlert('Patient list deleted successfully');
           this.router.navigate(['/patient-list-cohort/cohort']);
           console.log('success');
         },
         (error) => {
           console.error('The request failed because of the following ', error);
           this.displayErrorAlert('Error!',
-            'System encountered an error while deleting the cohort. Please retry.');
+            'System encountered an error while deleting the patient list. Please retry.');
         });
     }
   }
@@ -148,6 +148,9 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     this.displayConfirmDeleteCohortDialog = true;
   }
 
+ public closeConfirmDeleteCohortDialog() {
+      this.displayConfirmDeleteCohortDialog = false;
+ }
   public closeConfirmationDialog() {
     this.displayConfirmDialog = false;
   }
@@ -170,7 +173,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
         (error) => {
           console.error('The request failed because of the following ', error);
           this.displayErrorAlert('Error!',
-            'System encountered an error while deleting the cohort. Please retry.');
+            'System encountered an error while deleting the patient list. Please retry.');
         });
     }
 

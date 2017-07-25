@@ -39,7 +39,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   private errors: any = [];
   private successAlert: any = '';
   private healthCenter: any;
-
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService,
               private conceptResourceService: ConceptResourceService) {
@@ -69,11 +68,13 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
           this.preferredNameuuid = (this.patients.person.preferredName as any).uuid;
           this.gender = this.patients.person.gender;
           this.healthCenter = this.patients.person.healthCenter;
+          this.dead = this.patients.person.dead;
+          this.deathDate = this.patients.person.deathDate;
+          this.causeOfDeath = this.patients.person.causeOfDeathUuId;
         }
       }
     );
   }
-
   showDialog() {
     this.display = true;
   }
