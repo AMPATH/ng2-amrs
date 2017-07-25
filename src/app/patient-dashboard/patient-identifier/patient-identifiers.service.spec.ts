@@ -10,10 +10,11 @@ import { PatientResourceService } from '../../openmrs-api/patient-resource.servi
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 describe('Service: PatientIdentifierService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [CacheModule],
       providers: [
         PatientIdentifierService,
         PatientResourceService,

@@ -113,6 +113,7 @@ export function highchartsFactory() {
   return hc;
 }
 import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
+import { CacheModule } from 'ionic-cache';
 @NgModule({
   declarations: [
     /**
@@ -176,7 +177,11 @@ import { DefaulterListComponent } from './defaulter-list/defaulter-list.componen
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgxMyDatePickerModule,
-    MdTabsModule
+    MdTabsModule,
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
+    MaterialModule,
+    CacheModule
   ],
   entryComponents: [PatientStatusDatalistCellComponent],
   providers: [

@@ -7,7 +7,7 @@ import {
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HivClinicFlowResourceService } from './hiv-clinic-flow-resource.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { MockHivClinicFlowResourceService } from './hiv-clinic-flow-resource.service.mock';
 
@@ -16,6 +16,7 @@ describe('HivClinicFlowResourceService Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
+          imports: [CacheModule],
             providers: [
                 HivClinicFlowResourceService,
                 MockBackend,

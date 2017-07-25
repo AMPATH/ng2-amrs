@@ -10,7 +10,7 @@ import { Dictionary } from 'lodash';
   selector: 'location-filter',
   templateUrl: './location-filter.component.html',
   styles: [`
-    ng-select > div > div.multiple > div.option {
+    .location-filter ng-select > div > div.multiple > div.option {
       color: #fff !important;
       border-color: #357ebd !important;
       background-color: #428bca !important;
@@ -27,6 +27,9 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public countyDropdownOptions: Array<any> = [];
   public selectedLocations: Array<any> = [];
   public selectedCounty: string = '';
+  public showReset: boolean = false;
+  public allFromCounty: boolean = false;
+  public allLocations: boolean = true;
   @Input('disable-county') public disableCounty: boolean;
   @Input('multiple') public multiple: boolean;
   @Input() public locationUuids: any;
@@ -55,6 +58,21 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
   public onLocationSelected(locations: Array<any>) {
+    if (this.selectedCounty) {
+      this.getLocationsByCounty().then((countyLocations) => {
+        if (locations.length < countyLocations.length) {
+          this.allFromCounty = true;
+          this.showReset = false;
+          this.allLocations = false;
+        } else if (locations.length === countyLocations.length) {
+          this.allFromCounty = false;
+        }
+      });
+    } else if (locations.length === 0) {
+      this.showReset = false;
+      this.allFromCounty = false;
+      this.allLocations = true;
+    }
     this.selectedLocations = locations;
     this.getCountyByLocations().then((county) => {
       this.selectedCounty = county ? county : '';
@@ -66,6 +84,8 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   }
 
   public onCountyChanged(county: string) {
+    this.showReset = true;
+    this.allLocations = false;
     this.getLocationsByCounty().then((locations) => {
       this.selectedLocations = _.map(locations, 'uuid');
       this.onLocationChange.emit({
@@ -133,5 +153,24 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
         resolve(_.first(_.keys(groupedByCounty)));
       }
     });
+  }
+  public pickAllLocations() {
+    this.showReset = true;
+    if (this.selectedCounty) {
+      this.getLocationsByCounty().then((locations) => {
+        this.selectedLocations = _.map(locations, 'uuid');
+      });
+    } else {
+      this.allLocations = false;
+      this.selectedLocations = _.map(this.locationDropdownOptions, 'value');
+    }
+  }
+  public resetLocations() {
+    this.showReset = false;
+    this.allLocations = true;
+    this.selectedCounty = '';
+    this.allFromCounty = false;
+    this.selectedLocations = [];
+    this.onLocationChange.emit(null);
   }
 }

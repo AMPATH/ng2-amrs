@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {
   MaterialModule, MdTabsModule, MdProgressSpinnerModule, MdProgressBarModule
  } from '@angular/material';
+import { Http, RequestOptions, XHRBackend } from '@angular/http';
+import { Router } from '@angular/router';
 import { dataAnalyticsDashboardRouting } from './data-analytics-dashboard-routing';
 import { DataAnalyticsDashboardComponent } from './data-analytics.component';
 import {  Angulartics2Module  } from 'angulartics2';
@@ -27,11 +29,10 @@ import { ClinicDashboardCacheService
 } from '../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { HivClinicFlowResourceService } from '../etl-api/hiv-clinic-flow-resource.service';
 import { ClinicFlowCacheService } from '../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
-import { Router } from '@angular/router';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
 import { AdminDashboardClinicFlowComponent } from './hiv/clinic-flow/admin-dashboard-clinic-flow';
+import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from '../shared/locations/location-filter/location-filter.component';
 import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
@@ -78,7 +79,8 @@ import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    MaterialModule
+    MaterialModule,
+    CacheModule
   ],
   declarations: [
     DataAnalyticsDashboardComponent,

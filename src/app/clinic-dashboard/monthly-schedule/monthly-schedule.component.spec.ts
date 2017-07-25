@@ -14,7 +14,7 @@ import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -220,7 +220,7 @@ describe('MonthlyScheduleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BusyModule, CalendarModule.forRoot(), BrowserAnimationsModule],
+      imports: [BusyModule, CalendarModule.forRoot(), BrowserAnimationsModule, CacheModule],
       declarations: [MonthlyScheduleComponent],
       providers: [
         MonthlyScheduleResourceService,

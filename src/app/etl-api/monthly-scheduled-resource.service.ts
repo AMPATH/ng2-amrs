@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService } from 'ionic-cache';
 @Injectable()
 export class MonthlyScheduleResourceService {
   constructor(protected http: Http,

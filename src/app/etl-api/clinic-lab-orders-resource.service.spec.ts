@@ -8,7 +8,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 const expectedResults = {
   startIndex: 0,
   size: 3,
@@ -44,6 +44,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
+      imports: [CacheModule],
       providers: [
         ClinicLabOrdersResourceService,
         MockBackend,

@@ -28,6 +28,7 @@ export class ClinicFlowCacheService {
     public setSelectedLocation(locationUuids: any) {
         let locations: Array<string> = Array.isArray(locationUuids) ? locationUuids :
           locationUuids.split(',');
+        this.setIsLoading(true);
         this.initialUuid = locations[0] ;
         this.selectedLocations.next(locations);
     }
@@ -39,6 +40,7 @@ export class ClinicFlowCacheService {
     public setSelectedDate(date) {
         this.formatedDate = Moment(date).format('YYYY-MM-DD');
         this.lastClinicFlowSelectedDate = this.formatedDate;
+        this.setIsLoading(true);
         this.selectedDate.next(this.formatedDate);
     }
     public getSelectedDate() {

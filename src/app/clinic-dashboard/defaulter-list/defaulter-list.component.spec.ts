@@ -6,7 +6,7 @@ import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../data-lists/data-lists.module';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import {
     DefaulterListResourceService

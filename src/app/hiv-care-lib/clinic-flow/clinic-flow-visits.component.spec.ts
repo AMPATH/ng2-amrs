@@ -26,7 +26,7 @@ import {
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';

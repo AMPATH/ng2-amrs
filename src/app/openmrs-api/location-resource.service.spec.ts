@@ -5,13 +5,13 @@ import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } fr
 import { LocationResourceService } from './location-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 // Load the implementations that should be tested
 
 describe('LocationResourceService Unit Tests', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [CacheModule],
       declarations: [],
       providers: [
         MockBackend,

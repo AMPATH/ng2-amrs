@@ -6,7 +6,7 @@
 // // Load the implementations that should be tested
 // import { App } from './app.component';
 // import { AppState } from './app.service';
-// import { CacheService } from 'ionic-cache/ionic-cache';
+// import { CacheService } from 'ionic-cache';
 // import { DataCacheService } from './shared/services/data-cache.service';
 // let AgGridLicence: any = '';
 // describe('App', () => {

@@ -25,7 +25,7 @@ import {
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'angular2-select';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 class MockActivatedRoute {

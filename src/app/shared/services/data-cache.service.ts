@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService } from 'ionic-cache';
 
 @Injectable()
 export class DataCacheService {
@@ -13,7 +13,7 @@ export class DataCacheService {
     }
 
     public clearExpired() {
-        this.cache.clearExpired();
+        return this.cache.clearExpired();
     }
 
     public cacheRequest(url, params, request) {
@@ -21,11 +21,11 @@ export class DataCacheService {
         return this.cache.loadFromObservable(cacheKey, request);
     }
     public clearAll() {
-        this.cache.clearAll();
+        return this.cache.clearAll();
     }
 
     public disableCache(value) {
-        this.cache.disableCache(true);
+        this.cache.enableCache(false);
     }
     public cacheSingleRequest(url, params, request, time) {
         let ttl = time;

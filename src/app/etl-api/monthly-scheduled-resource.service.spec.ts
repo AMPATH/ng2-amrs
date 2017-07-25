@@ -8,7 +8,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 const expected = {
     'results': [
         {
@@ -115,6 +115,7 @@ describe('MonthlyScheduleResourceService Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
+          imports: [CacheModule],
             providers: [
                 MonthlyScheduleResourceService,
                 MockBackend,
