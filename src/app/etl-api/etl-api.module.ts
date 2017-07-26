@@ -25,6 +25,10 @@ import { Moh731PatientListResourceService } from './moh-731-patientlist-resource
 import { FileUploadResourceService } from './file-upload-resource.service';
 import { UserCohortResourceService } from './user-cohort-resource.service';
 import { CohortUserResourceService } from './cohort-list-user-resource.service';
+import { PatientsRequiringVLResourceService } from './patients-requiring-vl-resource.service';
+import {
+  PatientsRequiringVLResourceServiceMock
+} from './patients-requiring-vl-resource.service.mock';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -49,7 +53,9 @@ import { CohortUserResourceService } from './cohort-list-user-resource.service';
     Moh731PatientListResourceService,
     FileUploadResourceService,
     UserCohortResourceService,
-    CohortUserResourceService
+    CohortUserResourceService,
+    PatientsRequiringVLResourceService,
+    PatientsRequiringVLResourceServiceMock
   ],
   exports: []
 })

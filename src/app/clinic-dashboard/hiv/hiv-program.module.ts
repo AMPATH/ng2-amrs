@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
     DateTimePickerModule
 } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
@@ -15,6 +16,9 @@ import { DataListsModule } from '../../data-lists/data-lists.module';
 import {
     HivSummaryIndicatorsPatientListComponent
 } from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
+import {
+    PatientsRequiringVLComponent
+ } from './patients-requiring-vl/patients-requiring-vl.component';
 
 @NgModule({
     imports: [
@@ -23,14 +27,17 @@ import {
         DateTimePickerModule,
         EtlApi,
         DataListsModule,
-        CommonModule
+        CommonModule,
+        FormsModule
     ],
     exports: [HivSummaryIndicatorComponent,
-        HivSummaryIndicatorsPatientListComponent],
+        HivSummaryIndicatorsPatientListComponent,
+        PatientsRequiringVLComponent],
     declarations: [
         Moh731ReportComponent,
         HivSummaryIndicatorComponent,
-        HivSummaryIndicatorsPatientListComponent],
+        HivSummaryIndicatorsPatientListComponent,
+        PatientsRequiringVLComponent],
     providers: [],
 })
 export class HivProgramModule { }
