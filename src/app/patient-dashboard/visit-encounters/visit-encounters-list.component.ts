@@ -85,7 +85,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
             encounters.forEach(encounter => {
 
-                // console.log('Encounters', encounter);
 
                    let dateTime = encounter.encounterDatetime;
 
@@ -137,6 +136,11 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
                     }
 
                     let location = '';
+
+                    if (encounter.location !== null) {
+
+                         location = encounter.location.display;
+                    }
 
 
 
