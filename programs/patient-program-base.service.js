@@ -3,11 +3,13 @@ const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
 const programsConfig = require('./program-visits-config');
+const programVisits = require('./program-visit-types.service');
 
 var serviceDefinition = {
     getAllProgramsConfig: getAllProgramsConfig,
     getPatientPrograms: getPatientPrograms,
-    getPatientProgram: getPatientProgram
+    getPatientProgram: getPatientProgram,
+    getPatientProgramEnrollmentVisits: getPatientProgramEnrollmentVisits
 };
 
 module.exports = serviceDefinition;
@@ -22,8 +24,15 @@ function getPatientPrograms(patientUuid) {
     });
 }
 
+//obsolete! use get patientEnrollmentVisits
 function getPatientProgram(patientUuid, programUuid) {
     return new Promise((resolve, reject) => {
         resolve(programsConfig[programUuid])
     });
+}
+
+function getPatientProgramEnrollmentVisits(patientUuid, programUuid,
+    enrollmentUuid, intendedVisitLocationUuid) {
+    return programVisits.getPatientVisitTypes(patientUuid, programUuid,
+        enrollmentUuid, intendedVisitLocationUuid || '', programsConfig);
 }

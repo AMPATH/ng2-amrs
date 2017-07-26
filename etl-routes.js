@@ -461,6 +461,53 @@ module.exports = function () {
     },
     {
         method: 'GET',
+        path: '/etl/patient/{patientUuid}/program/{programUuid}/enrollment/{enrollmentUuid}/visit-types',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
+                }
+            },
+            handler: function (request, reply) {
+                var requestParams = Object.assign({}, request.query, request.params);
+                var patientUuid = requestParams.patientUuid;
+                var programUuid = requestParams.programUuid;
+                var enrollment = requestParams.enrollmentUuid;
+                var locationUuid = requestParams.intendedLocationUuid || '';
+                
+                patientProgramService
+                .getPatientProgramEnrollmentVisits(patientUuid,programUuid, enrollment,locationUuid)
+                .then(function(programVisits){
+                    reply(programVisits);
+                })
+                .catch(function(error){
+                    reply(Boom.badImplementation('An internal error occurred'));
+                })
+            },
+            description: 'Get program config of a patient',
+            notes: 'Returns program config  of a patient',
+            tags: ['api'],
+            validate: {
+                options: {
+                    allowUnknown: true
+                },
+                params: {
+                    patientUuid: Joi.string()
+                        .required()
+                        .description("The patient's uuid(universally unique identifier)."),
+                    programUuid: Joi.string()
+                        .required()
+                        .description("program Uuid (universally unique identifier)."),
+                    enrollmentUuid: Joi.string()
+                        .required()
+                        .description("program enrollment Uuid (universally unique identifier).")
+                }
+            }
+        }
+    },
+    {
+        method: 'GET',
         path: '/etl/patient/{uuid}/clinical-notes',
         config: {
             auth: 'simple',
@@ -2559,76 +2606,76 @@ module.exports = function () {
                 'hapiAuthorization': false
             },
             handler: function (request, reply) {
-            motd.getMotdNotifications().then(function (motdNotifications) {
+                motd.getMotdNotifications().then(function (motdNotifications) {
 
-                         if (motdNotifications === null) {
-                             reply(Boom.notFound('Resource does not exist'));
-                         } else {
-                             reply(motdNotifications);
-                         }
-                    })
-                     .catch(function (error) {
-                       reply(Boom.create(500, 'Internal server error.', error));
+                    if (motdNotifications === null) {
+                        reply(Boom.notFound('Resource does not exist'));
+                    } else {
+                        reply(motdNotifications);
+                    }
+                })
+                    .catch(function (error) {
+                        reply(Boom.create(500, 'Internal server error.', error));
                     });
 
             },
             description: 'Daily Message Alerts',
             notes: 'Returns Messages to be shown to users on login'
         }
-    },  {
-            method: 'GET',
-            path: '/etl/patients-requiring-viral-load-order',
-            config: {
-                auth: 'simple',
-                plugins: {
-                    'hapiAuthorization': {
-                        role: privileges.canViewPatient
-                    },
-                    'openmrsLocationAuthorizer': {
-                        locationParameter: [{
-                            type: 'query', //can be in either query or params so you have to specify
-                            name: 'locationUuids' //name of the location parameter
-                        }]
-                    }
+    }, {
+        method: 'GET',
+        path: '/etl/patients-requiring-viral-load-order',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewPatient
                 },
-                handler: function (request, reply) {
-                    request.query.indicator = 'needs_vl_in_period';
-                    request.query.reportName = 'labs-report';
-                    preRequest.resolveLocationIdsToLocationUuids(request,
-                        function () {
-                            let requestParams = Object.assign({}, request.query, request.params);
-                            let service = new patientsRequiringVLService();
-                            service.getPatientListReport(requestParams).then((result) => {
-                                reply(result);
-                            }).catch((error) => {
-                                reply(error);
-                            });
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                request.query.indicator = 'needs_vl_in_period';
+                request.query.reportName = 'labs-report';
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new patientsRequiringVLService();
+                        service.getPatientListReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
                         });
-                },
-                description: "Gets patients Requiring VL list", //patientsRequiringVLService
-                notes: "Returns the patient list for various indicators in the labs report",
-                tags: ['api'],
-                validate: {
-                    query: {
-                        locationUuids: Joi.string()
-                            .optional()
-                            .description("A list of comma separated location uuids"),
-                        startDate: Joi.string()
-                            .optional()
-                            .description("The start date to filter by"),
-                        endDate: Joi.string()
-                            .optional()
-                            .description("The end date to filter by"),
-                        startIndex: Joi.number()
-                            .required()
-                            .description("The startIndex to control pagination"),
-                        limit: Joi.number()
-                            .required()
-                            .description("The offset to control pagination")
-                    }
+                    });
+            },
+            description: "Gets patients Requiring VL list", //patientsRequiringVLService
+            notes: "Returns the patient list for various indicators in the labs report",
+            tags: ['api'],
+            validate: {
+                query: {
+                    locationUuids: Joi.string()
+                        .optional()
+                        .description("A list of comma separated location uuids"),
+                    startDate: Joi.string()
+                        .optional()
+                        .description("The start date to filter by"),
+                    endDate: Joi.string()
+                        .optional()
+                        .description("The end date to filter by"),
+                    startIndex: Joi.number()
+                        .required()
+                        .description("The startIndex to control pagination"),
+                    limit: Joi.number()
+                        .required()
+                        .description("The offset to control pagination")
                 }
             }
         }
+    }
     ];
 
     return routes;
