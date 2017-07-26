@@ -4,8 +4,9 @@
             <div class="panel-heading">
                 <span>Clinic Flow</span>
             </div>
-            <div class="panel-body">
-              <md-tab-group [selectedIndex]="selectedTab" >
+            <div class="panel-body_">
+              <p class="text-danger text-bold" *ngIf="hasError">No Location was specified. Please select one</p>
+              <md-tab-group [selectedIndex]="selectedTab" *ngIf="!hasError">
                 <md-tab label="Summary">
                   <clinic-flow-summary></clinic-flow-summary>
                 </md-tab>

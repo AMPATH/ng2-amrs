@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
+import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { RouterModule, Router } from '@angular/router';
 
 import {
   DailyScheduleResourceService
@@ -32,11 +35,6 @@ import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
-import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
-import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
-import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
-import { ClinicFlowHourlyStatsVizComponent } from
-  '../clinic-flow/clinic-flow-hourly-stats-viz.component';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
 import {
   ArtOverviewComponent
@@ -56,7 +54,7 @@ import {
   TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
   AccordionModule
 } from 'primeng/primeng';
-import { ReportingUtilities } from '../reporting-utilities/reporting-utilities.module';
+import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { SelectModule } from 'angular2-select';
 import { BusyModule, BusyConfig } from 'angular2-busy';
@@ -106,20 +104,11 @@ import {
   ArtOverviewIndicatorDefComponent
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
-import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service';
+import { ClinicFlowCacheService } from '../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
-import {
-  ClinicFlowLocationStatsComponent
-} from '../clinic-flow/clinic-flow-location-stats.component';
-import {
-  ClinicFlowProviderStatsComponent
-} from '../clinic-flow/clinic-flow-provider-stats.component';
 import {
   PatientStatusDatalistCellComponent
 } from './patient-status-change-visualization/patient-status-data-list-cell.component';
-import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { RouterModule, Router } from '@angular/router';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
 
@@ -130,7 +119,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     DateTimePickerModule,
     DataListsModule,
     clinicDashboardRouting,
-    ReportingUtilities,
+    ReportingUtilitiesModule,
     TabViewModule,
     FieldsetModule,
     ButtonModule,
@@ -187,15 +176,9 @@ import { HttpClient } from '../shared/services/http-client.service';
     PatientStatusIndicatorDefComponent,
     HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
-    ClinicFlowComponent,
-    ClinicFlowHourlyStatsVizComponent,
-    ClinicFlowSummaryComponent,
-    ClinicFlowVisitsComponent,
     PatientStatusChangeVisualizationContainerComponent,
     PatientStatusChangeVisualizationComponent,
     PatientStatusChangeListComponent,
-    ClinicFlowLocationStatsComponent,
-    ClinicFlowProviderStatsComponent,
     PatientStatusDatalistCellComponent
 
   ],
@@ -246,13 +229,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     PatientStatusIndicatorDefComponent,
     HivCareIndicatorDefComponent,
     ArtOverviewIndicatorDefComponent,
-    ClinicFlowComponent,
-    ClinicFlowHourlyStatsVizComponent,
-    ClinicFlowSummaryComponent,
-    ClinicFlowVisitsComponent,
-    PatientStatusChangeListComponent,
-    ClinicFlowLocationStatsComponent,
-    ClinicFlowProviderStatsComponent
+    PatientStatusChangeListComponent
   ],
 })
 export class ClinicDashboardModule {

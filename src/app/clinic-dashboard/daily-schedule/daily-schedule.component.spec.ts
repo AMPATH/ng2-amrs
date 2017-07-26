@@ -3,7 +3,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { DailyScheduleComponent } from './daily-schedule.component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import { ClinicFlowCacheService } from '../../clinic-flow/clinic-flow-cache.service';
+import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
@@ -178,6 +178,7 @@ describe('Component: DailySchedule', () => {
       let service = TestBed.get(ClinicFlowCacheService);
       service.setSelectedDate('2017-01-07');
       clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+      clinicDashBoardCacheService.setCurrentClinic('location-uuid');
       activatedRoute = TestBed.get(ActivatedRoute);
       router = TestBed.get(Router);
       component = new DailyScheduleComponent(clinicDashBoardCacheService, router,

@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
@@ -153,6 +153,7 @@ describe('Component: LandingPageComponent', () => {
             }
             )));
           component.loadProgramBatch('uuid');
+          tick();
           expect(component.enrolledProgrames).toEqual([{ programUuid: '123', uuid: '12345' }]);
           expect(component.availablePrograms).toEqual(availablePrograms);
         });
@@ -166,6 +167,7 @@ describe('Component: LandingPageComponent', () => {
         backend.connections.subscribe((connection: MockConnection) => {
           connection.mockError(new Error('An error occured'));
           component.loadProgramBatch('uuid');
+          tick();
           expect(component.enrolledProgrames).toEqual([]);
           expect(component.availablePrograms).toEqual([]);
           expect(component.hasError).toEqual(true);

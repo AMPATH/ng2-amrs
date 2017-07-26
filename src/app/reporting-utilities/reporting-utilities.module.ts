@@ -9,6 +9,7 @@ import {
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { ReportFilterComponent } from './report-filter/report-filter.component';
+import { ChartModule } from 'angular2-highcharts';
 
 
 /**
@@ -21,10 +22,15 @@ import { ReportFilterComponent } from './report-filter/report-filter.component';
     SliderModule, PanelModule, MenuModule, MessagesModule,
     GrowlModule, InputTextareaModule, DropdownModule,
     ButtonModule, FormsModule, ReactiveFormsModule, MultiSelectModule,
-    CalendarModule, OpenmrsApi, EtlApi],
+    CalendarModule, OpenmrsApi, EtlApi,
+    ChartModule.forRoot(require('highcharts'),
+      require('highcharts/highcharts-more'),
+      require('highcharts/modules/exporting')
+    ),
+  ],
   declarations: [ReportFilterComponent],
   providers: [],
   exports: [ReportFilterComponent]
 })
-export class ReportingUtilities {
+export class ReportingUtilitiesModule {
 }

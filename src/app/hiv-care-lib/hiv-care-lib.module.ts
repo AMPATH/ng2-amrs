@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule, MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+} from '@angular/material';
+import { RouterModule } from '@angular/router';
 
 import { AgGridModule } from 'ag-grid-angular/main';
-import { TabViewModule } from 'primeng/primeng';
+import { InputTextModule, TabViewModule } from 'primeng/primeng';
 
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
 import { Moh731ReportFilters } from './moh-731-report/moh-731-report-filters.component';
@@ -30,8 +33,24 @@ import {
 import {
   PatientsRequiringVLReportFilters
 } from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
+import { ClinicFlowComponent } from '../hiv-care-lib/clinic-flow/clinic-flow.component';
+import { ClinicFlowHourlyStatsVizComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-hourly-stats-viz.component';
+import { ClinicFlowSummaryComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowVisitsComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-visits.component';
+import { ClinicFlowLocationStatsComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-location-stats.component';
+import { ClinicFlowProviderStatsComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
+import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { ChartModule } from 'angular2-highcharts';
+
 @NgModule({
   imports: [
+    RouterModule,
     AgGridModule.withComponents([]),
     EtlApi,
     FormsModule,
@@ -40,7 +59,19 @@ import {
     DateTimePickerModule,
     CommonModule,
     TabViewModule,
-    SelectModule
+    SelectModule,
+    ChartModule.forRoot(require('highcharts'),
+      require('highcharts/highcharts-more'),
+      require('highcharts/modules/exporting')
+    ),
+    ReportingUtilitiesModule,
+    InputTextModule,
+    DataListsModule,
+    NgxMyDatePickerModule,
+    MdTabsModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
+    MaterialModule
   ],
   exports: [
     Moh731TabularComponent,
@@ -55,7 +86,13 @@ import {
     ReportFilters,
     HivSummaryTabularComponent,
     PatientsRequiringVLBaseComponent,
-    PatientsRequiringVLReportFilters
+    PatientsRequiringVLReportFilters,
+    ClinicFlowComponent,
+    ClinicFlowHourlyStatsVizComponent,
+    ClinicFlowSummaryComponent,
+    ClinicFlowVisitsComponent,
+    ClinicFlowLocationStatsComponent,
+    ClinicFlowProviderStatsComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -67,8 +104,13 @@ import {
     ReportFilters,
     HivSummaryTabularComponent,
     PatientsRequiringVLBaseComponent,
-    PatientsRequiringVLReportFilters
-
+    PatientsRequiringVLReportFilters,
+    ClinicFlowComponent,
+    ClinicFlowHourlyStatsVizComponent,
+    ClinicFlowSummaryComponent,
+    ClinicFlowVisitsComponent,
+    ClinicFlowLocationStatsComponent,
+    ClinicFlowProviderStatsComponent
   ],
   providers: [MOHReportService, LocationResourceService]
 })

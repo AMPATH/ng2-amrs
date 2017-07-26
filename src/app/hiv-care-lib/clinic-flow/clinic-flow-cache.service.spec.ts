@@ -27,7 +27,7 @@ describe('ClinicFlowCacheService Unit Tests', () => {
             service.setSelectedLocation('location-uuid');
 
             service.getSelectedLocation().subscribe(location => {
-                expect(location).toEqual('location-uuid');
+                expect(location).toEqual(['location-uuid']);
                 done();
             },
                 err => console.log(err),

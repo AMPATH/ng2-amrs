@@ -16,9 +16,10 @@ import {
   VisualizationPatientListComponent
 } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
-import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
-import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
-import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
+import { ClinicFlowSummaryComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowVisitsComponent
+} from '../hiv-care-lib/clinic-flow/clinic-flow-visits.component';
 import {
   PatientStatusChangeVisualizationContainerComponent
 } from
@@ -29,10 +30,12 @@ import {
   './patient-status-change-visualization/patient-status-change-list.component';
 import {
   ClinicFlowLocationStatsComponent
-} from '../clinic-flow/clinic-flow-location-stats.component';
+} from '../hiv-care-lib/clinic-flow/clinic-flow-location-stats.component';
 import {
   ClinicFlowProviderStatsComponent
-} from '../clinic-flow/clinic-flow-provider-stats.component';
+} from '../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
+import { DailyScheduleClinicFlowComponent
+} from './hiv/clinic-flow/daily-schedule-clinic-flow.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -50,7 +53,7 @@ const clinicDashboardRoutes: Routes = [
           { path: 'daily-appointments', component: DailyScheduleAppointmentsComponent },
           { path: 'daily-not-returned', component: DailyScheduleNotReturned },
           {
-            path: 'clinic-flow', component: ClinicFlowComponent,
+            path: 'clinic-flow', component: DailyScheduleClinicFlowComponent,
             children: [
               { path: 'visits', component: ClinicFlowVisitsComponent },
               { path: 'summary', component: ClinicFlowSummaryComponent },
