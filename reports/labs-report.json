@@ -28,10 +28,12 @@
             }
         ],
         "filters": [
-            {"expression":"t1.rtc_date >= ?", "parameter":"startDate"},
-            {"expression":"t1.rtc_date <= ?", "parameter":"endDate"},
             {"expression":"t1.location_uuid in ?", "parameter":"locationUuids"},
-            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true}
+            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
+            {
+              "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
+              "parameter":"endDate"
+            }
         ],
         "groupClause":[
             {"parameter":"groupByLocation"},
