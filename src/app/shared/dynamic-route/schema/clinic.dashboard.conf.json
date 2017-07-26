@@ -49,6 +49,12 @@
       "label": "HIV Summary Indicators",
       "icon": "fa fa-file-pdf-o",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/patients-requiring-vl",
+      "label": "Patients Requiring VL",
+      "icon": "icon-i-laboratory",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

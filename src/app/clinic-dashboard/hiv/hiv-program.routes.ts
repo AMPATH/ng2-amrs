@@ -8,6 +8,9 @@ import {
 import {
     HivSummaryIndicatorsPatientListComponent
 } from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
+import {
+    PatientsRequiringVLComponent
+} from './patients-requiring-vl/patients-requiring-vl.component';
 
 const routes: Routes = [
     {
@@ -31,6 +34,10 @@ const routes: Routes = [
             }
         ]
     },
+    {
+        path: 'patients-requiring-vl',
+        component: PatientsRequiringVLComponent,
+    }
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =

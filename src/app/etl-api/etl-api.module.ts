@@ -26,6 +26,10 @@ import { FileUploadResourceService } from './file-upload-resource.service';
 import { UserCohortResourceService } from './user-cohort-resource.service';
 import { CohortUserResourceService } from './cohort-list-user-resource.service';
 import { PatientProgramResourceService } from './patient-program-resource.service';
+import { PatientsRequiringVLResourceService } from './patients-requiring-vl-resource.service';
+import {
+  PatientsRequiringVLResourceServiceMock
+} from './patients-requiring-vl-resource.service.mock';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -51,7 +55,9 @@ import { PatientProgramResourceService } from './patient-program-resource.servic
     FileUploadResourceService,
     UserCohortResourceService,
     CohortUserResourceService,
-    PatientProgramResourceService
+    PatientProgramResourceService,
+    PatientsRequiringVLResourceService,
+    PatientsRequiringVLResourceServiceMock
   ],
   exports: []
 })
