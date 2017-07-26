@@ -24,6 +24,12 @@ import {
   ReportFilters
 } from './report-filters/report-filters.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
+import {
+  PatientsRequiringVLBaseComponent
+} from './patients-requiring-vl/patients-requiring-vl-base.component';
+import {
+  PatientsRequiringVLReportFilters
+} from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
 @NgModule({
   imports: [
     AgGridModule.withComponents([]),
@@ -47,7 +53,9 @@ import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary
     NgamrsSharedModule,
     MOHReportComponent,
     ReportFilters,
-    HivSummaryTabularComponent
+    HivSummaryTabularComponent,
+    PatientsRequiringVLBaseComponent,
+    PatientsRequiringVLReportFilters
   ],
   declarations: [
     Moh731TabularComponent,
@@ -57,7 +65,10 @@ import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary
     MOHReportComponent,
     HivSummaryIndicatorBaseComponent,
     ReportFilters,
-    HivSummaryTabularComponent
+    HivSummaryTabularComponent,
+    PatientsRequiringVLBaseComponent,
+    PatientsRequiringVLReportFilters
+
   ],
   providers: [MOHReportService, LocationResourceService]
 })
