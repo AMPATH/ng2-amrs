@@ -1,0 +1,71 @@
+.banner-info {
+    color: #214a5f;
+    width: 100%;
+    background-color: #d9edf7;
+    padding: 15px;
+}
+
+.banner-danger {
+  color: #fff;
+  width: 100%;
+  background-color: #d9534f;
+  padding: 15px;
+}
+
+.patient-banner-partially h4 a {
+  display: block;
+  margin-top: 7px;
+  margin-right: 10px;
+}
+
+.patient-banner-partially h4 a span.fa {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+@media screen and (max-width: 767px ) and (min-width: 480px ) {
+    .banner-left {
+        float: left;
+        width: 50%;
+    }
+    .banner-right {
+        float: right;
+        width: 50%;
+    }
+}
+.banner-detail {
+    background-color: white;
+}
+.badge {
+    display: none;
+}
+.btn-banner {
+    background-color: white;
+    margin: 1px;
+}
+.badge {
+    display: unset;
+}
+
+@media screen and (max-width: 768px) {
+
+    .attributes {
+        width: 100%;
+    }
+}
+
+.sticky {
+    position: fixed;
+    top: 119px;
+    bottom: auto;
+    width: inherit;
+    z-index: 10;
+}
+
+.sticky .container-fluid.patient-banner-partially{
+     border-bottom: 1px solid #dadada;
+}
+
+.id-label {
+    color: darkgray;
+}

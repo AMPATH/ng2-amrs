@@ -6,7 +6,7 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Moh731PatientListResourceService } from './moh-731-patientlist-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { Observable } from 'rxjs';

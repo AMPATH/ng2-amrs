@@ -11,12 +11,13 @@ import {
 } from
   '../user-default-properties/user-default-properties.service';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
+import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
 
 @Injectable()
 export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDashboardComponent> {
 
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
-              private route: ActivatedRoute,
+              private route: ActivatedRoute, private routesProvider: RoutesProviderService,
               private userDefaultProperties: UserDefaultPropertiesService,
               private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }

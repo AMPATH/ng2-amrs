@@ -5,11 +5,9 @@ import { DailyScheduleComponent } from './daily-schedule.component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 
-import { AppFeatureAnalytics } from
-  '../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from
-  '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
+import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
@@ -19,7 +17,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { DataListsModule } from '../../data-lists/data-lists.module';
+import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
@@ -60,29 +58,29 @@ describe('Component: DailySchedule', () => {
         ChildrenOutletContexts,
         {
           provide: ActivatedRoute, useValue: {
-            snapshot: {
-              queryParams: {
-
-              }
-            }
+          snapshot: {
+            queryParams: {}
           }
+        }
         },
         {
           provide: Router,
-          useClass: class { navigate = jasmine.createSpy('navigate'); }
+          useClass: class {
+            public navigate = jasmine.createSpy('navigate');
+          }
         },
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
+                       defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]
         },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
-            return new FakeAppFeatureAnalytics();
-          }, deps: []
+          return new FakeAppFeatureAnalytics();
+        }, deps: []
         }
 
       ],
@@ -141,11 +139,11 @@ describe('Component: DailySchedule', () => {
     (done) => {
       let service = TestBed.get(ClinicFlowCacheService);
       component.getSelectedDate('2017-01-07');
-      service.getSelectedDate().subscribe(date => {
+      service.getSelectedDate().subscribe((date) => {
         expect(date).toEqual('2017-01-07');
         done();
       },
-        err => console.log(err),
+        (err) => console.log(err),
         () => console.log('Completed'));
 
     });
@@ -184,11 +182,11 @@ describe('Component: DailySchedule', () => {
         activatedRoute, service);
 
       component.ngOnInit();
-      service.getSelectedDate().subscribe(date => {
+      service.getSelectedDate().subscribe((date) => {
         expect(date).toEqual('2017-01-07');
         done();
       },
-        err => console.log(err),
+        (err) => console.log(err),
         () => console.log('Completed'));
 
     });

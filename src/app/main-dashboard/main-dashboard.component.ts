@@ -52,6 +52,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    console.log('its launhin');
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const navEvent = event as NavigationEnd;

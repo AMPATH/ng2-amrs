@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { SpyLocation } from '@angular/common/testing';
 
 import { Observable } from 'rxjs';
-import { DataListsModule } from '../../data-lists/data-lists.module';
+import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { Router, ActivatedRoute } from '@angular/router';

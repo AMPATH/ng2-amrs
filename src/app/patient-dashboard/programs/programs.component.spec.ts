@@ -1,4 +1,3 @@
-
 import { Observable } from 'rxjs';
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -6,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { ProgramsComponent } from './programs.component';
-import { PatientService } from '../patient.service';
+import { PatientService } from '../services/patient.service';
 import { Patient } from '../../models/patient.model';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { ProgramService } from './program.service';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
@@ -36,7 +35,6 @@ import {
   from '../../openmrs-api/program-enrollment-resource.service.mock';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
-import { HivProgramSnapshotComponent } from './hiv/hiv-program-snapshot.component';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 class LocationStub {
 
@@ -44,6 +42,10 @@ class LocationStub {
     return Observable.of({status: 'okay'});
   }
 }
+import { HivProgramSnapshotComponent
+} from '../hiv/program-snapshot/hiv-program-snapshot.component';
+import { PatientProgramService } from './patient-programs.service';
+import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
 describe('Component: ProgramsComponent', () => {
   let patientService: PatientService, locationResourceService: LocationResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
@@ -55,6 +57,8 @@ describe('Component: ProgramsComponent', () => {
         ProgramService,
         PatientResourceService,
         ProgramResourceService,
+        PatientProgramService,
+        RoutesProviderService,
         ProgramEnrollmentResourceService,
         EncounterResourceService,
         MockBackend,
@@ -64,7 +68,7 @@ describe('Component: ProgramsComponent', () => {
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
+                       defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]
@@ -75,13 +79,13 @@ describe('Component: ProgramsComponent', () => {
         },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
-            return new FakeAppFeatureAnalytics();
-          }, deps: []
+          return new FakeAppFeatureAnalytics();
+        }, deps: []
         },
         {
           provide: ProgramEnrollmentResourceService, useFactory: () => {
-            return new FakeProgramEnrollmentResourceService(null, null);
-          }, deps: []
+          return new FakeProgramEnrollmentResourceService(null, null);
+        }, deps: []
 
         }],
       declarations: [ProgramsComponent, HivProgramSnapshotComponent],
@@ -140,7 +144,7 @@ describe('Component: ProgramsComponent', () => {
     let spy = spyOn(component, 'loadProgramsPatientIsEnrolledIn').and.callThrough();
     console.log('spy', spy);
     console.log('component', component);
-    patientService.currentlyLoadedPatient.next(new Patient({ person: { uuid: 'new-uuid' } }));
+    patientService.currentlyLoadedPatient.next(new Patient({person: {uuid: 'new-uuid'}}));
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith('new-uuid');
     done();

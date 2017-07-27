@@ -1,0 +1,46 @@
+<div class="col-md-12">
+<drafted-form-nav></drafted-form-nav>
+</div>
+<add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true" (dialogClosed)="onAddingToCohortClosed()">
+</add-to-cohort-dialog>
+<div class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+ *ngIf="patient" style="padding: 4px 26px;">
+	<div class="row">
+		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
+		<span>&nbsp;&nbsp; <span style="font-weight: bold;font-size:20px"> </span>&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;
+		<span style="font-weight: bold;font-size:20px"> </span> </span>&nbsp;&nbsp;
+		<span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span></span>
+    <span>
+      <h4><a (click)="addToCohort()" class="pull-right" > <span class="fa fa-plus" style="cursor: pointer; "></span>Add to Patient List</a> </h4>
+    </span>
+	</div>
+	<div class="row">
+		<span style="margin-left:0px;">
+			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+		</span>
+
+	</div>
+</div>
+<div class="container-fluid patient-banner-partially hidden-xs {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+ *ngIf="patient" style="padding: 12px 26px;">
+	<div class="row">
+    <span>
+      <h4><a (click)="addToCohort()" class="pull-right" > <span class="fa fa-plus " style="cursor: pointer; "></span>Add to Patient List</a> </h4>
+    </span>
+		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
+		<span>&nbsp;&nbsp;&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<span style="margin-left:0px;">
+			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.amrsMrn">  <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+		<span *ngIf="searchIdentifiers?.cCC">  <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+		</span>
+
+
+	</div>
+</div>
+
+
+<div class="margin-bottom-5 clear clear-fix">&nbsp;</div>

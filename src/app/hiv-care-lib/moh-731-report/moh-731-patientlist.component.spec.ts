@@ -6,7 +6,7 @@ import * as moment from 'moment';
 
 import { Observable } from 'rxjs';
 import { Moh731PatientListComponent } from './moh-731-patientlist.component';
-import { DataListsModule } from '../../data-lists/data-lists.module';
+import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { Moh731ReportBaseComponent } from './moh-731-report-base.component';

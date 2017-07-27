@@ -28,7 +28,7 @@ export class ArtOverviewIndicatorDefComponent implements OnInit {
                 }
             });
     }
-    public createIndicatorDefinitionsDictionary(indicatorDefinitions) {
+    public createIndicatorDefinitionsDictionary(indicatorDefinitions: any[]) {
         let arr = [];
         let dictionary = {};
         _.each(indicatorDefinitions, (indicatorDefinition: any) => {

@@ -3,7 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { MedicationHistoryResourceService } from './medication-history-resource.service';
 

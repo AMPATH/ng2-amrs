@@ -9,7 +9,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { CacheModule, CacheService } from 'ionic-cache';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Moh731ResourceService } from './moh-731-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 describe('Moh731ResourceService Tests', () => {

@@ -6,7 +6,7 @@ import * as Moment from 'moment';
 
 import { LabOrdersSearchHelperService } from './lab-order-search-helper.service';
 import { Person } from '../models/person.model';
-import { HivSummaryService } from '../patient-dashboard/hiv-summary/hiv-summary.service';
+import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { ConceptResourceService  } from '../openmrs-api/concept-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
 

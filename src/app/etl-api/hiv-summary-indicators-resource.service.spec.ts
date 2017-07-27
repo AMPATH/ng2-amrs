@@ -5,8 +5,8 @@ import {
     ResponseOptions, Response, URLSearchParams
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
 import { CacheModule, CacheService } from 'ionic-cache';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HivSummaryIndicatorsResourceService } from './hiv-summary-indicators-resource.service';
 

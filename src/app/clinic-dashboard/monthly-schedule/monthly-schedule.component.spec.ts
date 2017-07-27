@@ -11,7 +11,7 @@ import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-
 import { BusyModule } from 'angular2-busy';
 import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';

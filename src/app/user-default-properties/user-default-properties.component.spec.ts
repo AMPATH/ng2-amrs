@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location, APP_BASE_HREF } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';

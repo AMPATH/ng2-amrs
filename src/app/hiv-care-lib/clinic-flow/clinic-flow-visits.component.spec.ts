@@ -9,7 +9,7 @@ import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
@@ -19,7 +19,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { DataListsModule } from '../../data-lists/data-lists.module';
+import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,

@@ -21,7 +21,6 @@ import { ROUTES } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.service';
 import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
@@ -60,7 +59,6 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    AboutComponent,
     TitleCasePipe,
     NoContentComponent,
     FeedBackComponent
@@ -121,8 +119,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     DataCacheService
   ],
   exports: [
-    LabOrderSearchModule,
-
+    LabOrderSearchModule
   ]
 })
 export class AppModule {

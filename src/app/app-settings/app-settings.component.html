@@ -76,22 +76,28 @@
     <online-tracker class="inline"></online-tracker>
   </div>
 </footer>-->
-
-
-<modal #addUrlModal>
-    <modal-header [show-close]="true">
-        <h4 class="modal-title">Type the new {{urlType}} URL</h4>
-    </modal-header>
-    <modal-body>
-      <form  #serverUrl="ngForm">
-        <input type="text" placeholder="{{urlPlaceholder}}"
-         class="form-control" [(ngModel)]="newUrl" name="newUrl"/>
-      </form>
-    </modal-body>
-    <modal-footer [show-default-buttons]="false">
-      <button type="button" class="btn btn-default" data-dismiss="addUrlModal" (click)="addUrlModal.dismiss()">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="saveNewURL(newUrl, urlType)">Add</button>
-    </modal-footer>
-</modal>
+<div class="modal fade" bsModal #addUrlModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Type the new {{urlType}} URL</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="addUrlModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  #serverUrl="ngForm">
+          <input type="text" placeholder="{{urlPlaceholder}}"
+                 class="form-control" [(ngModel)]="newUrl" name="newUrl"/>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="addUrlModal" (click)="addUrlModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveNewURL(newUrl, urlType)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 

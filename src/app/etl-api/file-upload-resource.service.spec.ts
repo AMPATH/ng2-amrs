@@ -5,7 +5,7 @@ import {
 } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { FileUploadResourceService } from './file-upload-resource.service';
 class MockAppsettings {
     getEtlRestbaseurl() {

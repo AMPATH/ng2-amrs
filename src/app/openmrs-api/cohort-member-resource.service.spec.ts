@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { CohortMemberResourceService } from './cohort-member-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 describe('Service : CohortMemberResourceService Unit Tests', () => {
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 import { ReplaySubject, Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class FormsResourceService {

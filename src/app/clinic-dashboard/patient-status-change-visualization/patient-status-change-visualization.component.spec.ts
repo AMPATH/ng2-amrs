@@ -3,7 +3,7 @@ import { TestBed, async, inject, ComponentFixture } from '@angular/core/testing'
 import { ChartModule } from 'angular2-highcharts';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { AgGridModule } from 'ag-grid-angular';
-import { GenericListComponent } from '../../data-lists/generic-list/generic-list.component';
+import { GenericListComponent } from '../../shared/data-lists/generic-list/generic-list.component';
 
 import { PatientStatusChangeVisualizationComponent }
     from './patient-status-change-visualization.component';

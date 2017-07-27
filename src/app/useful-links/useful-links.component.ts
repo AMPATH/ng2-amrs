@@ -42,6 +42,10 @@ export class UsefulLinksComponent implements OnInit {
     newWindow.location.href = link;
   }
 
+  public goBack() {
+    this.nativeWindow.history.back();
+  }
+
   get externalLinks(): Array<any> {
     return this._links;
   }

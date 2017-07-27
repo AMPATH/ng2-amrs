@@ -11,7 +11,7 @@ import {
   UserDefaultPropertiesService
 } from
   '../user-default-properties/user-default-properties.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 @Component({

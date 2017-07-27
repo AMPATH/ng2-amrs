@@ -1,12 +1,14 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+
 import { AppState } from './app.service';
 import { LicenseManager } from 'ag-grid-enterprise/main';
 import { DataCacheService } from './shared/services/data-cache.service';
 declare const AgGridLicence: any;
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./app.component.css'],
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   public title = 'Ampath POC';

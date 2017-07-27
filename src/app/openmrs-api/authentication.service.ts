@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { SessionService } from './session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';

@@ -17,7 +17,7 @@ import {
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { AppSettingsService } from '../../app-settings';
 
 import { LocalStorageService } from '../../utils/local-storage.service';
 describe('Service: ProgramService', () => {

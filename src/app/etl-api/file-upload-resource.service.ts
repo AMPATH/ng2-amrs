@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class FileUploadResourceService {

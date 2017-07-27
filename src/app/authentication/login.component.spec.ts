@@ -7,7 +7,7 @@ import {
   ResponseOptions
 } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { SessionService } from '../openmrs-api/session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';

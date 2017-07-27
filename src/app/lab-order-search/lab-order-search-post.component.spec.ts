@@ -8,12 +8,12 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { LabOrderSearchPostComponent } from './lab-order-search-post.component';
 
 import { LabOrdersSearchHelperService } from './lab-order-search-helper.service';
-import { HivSummaryService } from '../patient-dashboard/hiv-summary/hiv-summary.service';
+import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
 import { ConceptResourceService  } from '../openmrs-api/concept-resource.service';
 import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { FakeLabOrderResourceService } from '../etl-api/lab-order-resource.mock';
 

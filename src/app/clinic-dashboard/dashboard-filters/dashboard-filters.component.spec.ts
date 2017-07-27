@@ -20,7 +20,7 @@ import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.
 import {
   ClinicalSummaryVisualizationResourceService
 } from '../../etl-api/clinical-summary-visualization-resource.service';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { AppSettingsService } from '../../app-settings';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { Http } from '@angular/http';
 import {

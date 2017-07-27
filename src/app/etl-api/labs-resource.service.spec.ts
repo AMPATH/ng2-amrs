@@ -12,7 +12,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { LabsResourceService } from './labs-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 class MockError extends Response implements Error {
     name: any;
     message: any;

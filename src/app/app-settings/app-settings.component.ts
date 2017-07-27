@@ -1,9 +1,9 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +13,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 })
 export class AppSettingsComponent implements OnInit {
   @ViewChild('addUrlModal')
-  public urlModal: ModalComponent;
+  public urlModal: ModalDirective;
   public newUrl: string;
   public urlPlaceholder: string;
   public  urlType: string;
@@ -76,13 +76,12 @@ export class AppSettingsComponent implements OnInit {
     } else {
       this.urlPlaceholder = '';
     }
-
-    this.urlModal.open();
+    this.urlModal.show();
   }
 
   public saveNewURL(url: string, urlType: string = 'openmrs') {
     this.appSettingsService.addAndSetUrl(url, urlType);
-    this.urlModal.close();
+    this.urlModal.hide();
   }
 
   public changeServerSettings(row: any) {
