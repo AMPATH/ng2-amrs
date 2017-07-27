@@ -31,7 +31,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   ];
   private preferredNameuuid: string;
   private birthdate: any;
-  private dead: boolean = false;
+  private dead: any = false;
   private gender: any;
   private deathDate: Date;
   private causesOfDeath: any = [];
@@ -86,6 +86,22 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public updateDeathDate(deathDate) {
     this.deathDate = deathDate;
   }
+  public updateDeathDetails(dead) {
+
+   if (this.dead === 'true') {
+      this.dead = true;
+    }
+
+    if (this.dead === 'false') {
+      this.dead = false;
+    }
+
+   if (!event) {
+      this.deathDate = null;
+      this.causeOfDeath = null;
+   }
+
+  }
 
   public getCauseOfDeath() {
     let conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
@@ -115,6 +131,13 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     }
     if (this.preferred === 'false') {
       this.ispreferred = false;
+    }
+
+    if (this.dead === 'true') {
+      this.dead = true;
+    }
+    if (this.dead === 'false') {
+      this.dead = false;
     }
 
     if (!this.dead) {

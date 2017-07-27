@@ -41,7 +41,7 @@
 
      <div class="form-group">
       <label for="dead">Has patient died?</label>
-      <select class="form-control" [(ngModel)]="dead" name="dead">
+      <select class="form-control" [(ngModel)]="dead" name="dead"  (ngModelChange)="updateDeathDetails($event)">
         <option *ngFor="let opt of preferredOptions" [value]="opt.val">{{opt.label}}</option>
       </select>
     </div>
