@@ -108,8 +108,11 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
       this.cohortResourceService.retireCohort(this.selectedCohortUuid).subscribe(
         (success) => {
           this.displayConfirmDialog = false;
+          this.displayConfirmDeleteCohortDialog = false;
           this.displaySuccessAlert('Patient list deleted successfully');
-          this.router.navigate(['/patient-list-cohort/cohort']);
+           setTimeout(() => {
+                 this.router.navigate(['/patient-list-cohort/cohort']);
+           }, 2000);
           console.log('success');
         },
         (error) => {
