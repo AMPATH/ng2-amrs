@@ -75,7 +75,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
     OnlineTrackerComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
   ],
-  providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService, HivSummaryService],
+  providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService, HivSummaryService]
 })
 export class NgamrsSharedModule {
 
