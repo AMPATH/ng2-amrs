@@ -12,6 +12,7 @@ import { PatientService } from '../patient.service';
 import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
 import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { PatientReminderResourceService } from '../../etl-api/patient-reminder-resource.service';
 import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
@@ -68,6 +69,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private draftedFormsService: DraftedFormsService,
     private fileUploadResourceService: FileUploadResourceService,
     private http: Http,
+    private patientReminderResourceService: PatientReminderResourceService,
     private confirmationService: ConfirmationService) {
   }
 
@@ -399,10 +401,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private getPatient(): Observable<Patient> {
 
     return Observable.create((observer: Subject<Patient>) => {
-      this.patientService.currentlyLoadedPatient.subscribe(
-        (patient) => {
-          if (patient) {
-            observer.next(patient);
+      let currentPatient = null;
+      this.patientService.currentlyLoadedPatient.flatMap((patient) => {
+        currentPatient = patient;
+        let request = this.patientReminderResourceService.getPatientLevelReminders(patient.uuid);
+        return request;
+      }).subscribe(
+        (reminders) => {
+          if (currentPatient) {
+            observer.next(currentPatient);
           }
         },
         (err) => {
