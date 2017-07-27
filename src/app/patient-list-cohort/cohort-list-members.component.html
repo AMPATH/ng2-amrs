@@ -21,8 +21,10 @@
       <br>
       <label>Description: </label> {{selectedCohortDescription}}
         <edit-cohort-list #editCohorts></edit-cohort-list>
-
     </div>
+    <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+            <strong>Done!</strong>{{successAlert}}
+          </div>
     <div>
       <share-cohort-list></share-cohort-list>
     </div>
