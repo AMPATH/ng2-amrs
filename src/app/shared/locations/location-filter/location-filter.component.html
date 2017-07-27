@@ -1,18 +1,18 @@
 <div class="suggest-container form-group" *ngIf="counties">
-  <div class="col-md-6 col-sm-12 col-xs-12">
+  <div [ngClass]="{'col-md-12 col-sm-12 col-xs-12':disableCounty, 'col-md-6 col-sm-12 col-xs-12':!disableCounty}">
     <label for="location-filter">Location</label>
     <div class="input-group">
       <div class="input-group-addon">
         <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
         <span *ngIf="!loading" class="glyphicon glyphicon-map-marker"></span>
       </div>
-      <ng-select [multiple]="true" id="location-filter" (ngModelChange)="onLocationSelected($event)"
+      <ng-select [multiple]="multiple" id="location-filter" (ngModelChange)="onLocationSelected($event)"
                  [placeholder]="'Select a location or type to search...'"
                  [(ngModel)]="selectedLocations" [options]="locationDropdownOptions">
       </ng-select>
     </div>
   </div>
-  <div class="col-md-6 col-sm-12 col-xs-12">
+  <div [ngClass]="{'hide hidden':disableCounty, 'col-md-6 col-sm-12 col-xs-12':!disableCounty}">
     <label>County</label>
     <select class="form-control" name="selectedCounty" [(ngModel)]="selectedCounty"
             (ngModelChange)="onCountyChanged($event)">
