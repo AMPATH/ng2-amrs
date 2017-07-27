@@ -13,7 +13,10 @@
     <div class="col-sm-12">
       <div class="loader" *ngIf="loadingHivCare"><span><i class="fa fa-spinner fa-spin">
       </i>Loading...</span></div>
-      <hiv-care-overview-chart [options]="hivComparativeChartOptions" [dates] ="dates"></hiv-care-overview-chart>
+      <div *ngIf="hivComparativeChartOptions">
+        <hiv-care-overview-chart [options]="hivComparativeChartOptions" [dates] ="dates"></hiv-care-overview-chart>
+      </div>
+
     </div>
   </div>
 

@@ -34,7 +34,7 @@ const routes: Routes = [
                 component: HivSummaryIndicatorComponent
             },
             {
-                path: 'patient-list/:indicator/:period/:gender/:age',
+                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
                 component: HivSummaryIndicatorsPatientListComponent,
             }
         ]

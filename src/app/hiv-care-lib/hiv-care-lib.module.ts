@@ -60,7 +60,9 @@ import { VisualizationPatientListComponent
 import {
   ClinicalSummaryVisualizationService
 } from './services/clinical-summary-visualization.service';
-
+import {
+  HivSummaryIndicatorsPatientListComponent
+} from './hiv-summary-indicators/patient-list.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -112,7 +114,7 @@ import {
     HivCareIndicatorDefComponent,
     HivCareTabularViewComponent,
     VisualizationPatientListComponent,
-
+    HivSummaryIndicatorsPatientListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -135,7 +137,8 @@ import {
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,
     HivCareTabularViewComponent,
-    VisualizationPatientListComponent
+    VisualizationPatientListComponent,
+    HivSummaryIndicatorsPatientListComponent,
   ],
   providers: [MOHReportService, LocationResourceService, ClinicalSummaryVisualizationService,
     ]

@@ -17,7 +17,7 @@ import {
 export class HivCareComparativeOverviewBaseComponent implements OnInit {
 
   public data = [];
-  public hivComparativeChartOptions: any = {};
+  public hivComparativeChartOptions: any;
   public isLoadingReport: boolean = false;
   public encounteredError: boolean = false;
   public errorMessage: string = '';

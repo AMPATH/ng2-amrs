@@ -42,6 +42,7 @@ import {
 import {
   DataAnalyticsDashboardService
 } from './services/data-analytics-dashboard.services';
+import { HivSummaryIndicatorsComponent } from './hiv-summary-indicators/hiv-summary-indicators';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -90,7 +91,8 @@ import {
   declarations: [
     DataAnalyticsDashboardComponent,
     AdminDashboardClinicFlowComponent,
-    HivCareComparativeAnalyticsComponent
+    HivCareComparativeAnalyticsComponent,
+    HivSummaryIndicatorsComponent
   ],
   providers: [
     DataAnalyticsDashboardGuard,
@@ -108,10 +110,12 @@ import {
                    router: Router, sessionStorageService: SessionStorageService) =>
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
+    },
+    DataAnalyticsDashboardService
   ],
   exports: [
-    DataAnalyticsDashboardComponent
+    DataAnalyticsDashboardComponent,
+
   ]
 })
 export class DataAnalyticsModule {}

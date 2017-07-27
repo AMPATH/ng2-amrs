@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Rx';
 export class HivSummaryTabularComponent implements OnInit {
   public startDate: any;
   public endDate: any;
+  public locationUuids: any;
   public gridOptions: any = {
     columnDefs: []
   };
@@ -99,11 +100,13 @@ export class HivSummaryTabularComponent implements OnInit {
   }
 
   public goToPatientList(data) {
+    this.locationUuids = data.data.location_uuid;
     this.startDate = moment(this._dates.startDate);
     this.endDate = moment(this._dates.endDate);
     this.router.navigate(['../patient-list', data.colDef.field,
-      this.startDate.format('DD/MM/YYYY') + '|' + this.endDate.format('DD/MM/YYYY'),
-      this.gender ? this.gender : 'F,M', this.age.startAge + '|' + this.age.endAge],
+    this.startDate.format('DD/MM/YYYY') + '|' + this.endDate.format('DD/MM/YYYY'),
+    this.gender ? this.gender : 'F,M', this.age.startAge + '|' + this.age.endAge,
+        data.data.location_uuid],
       { relativeTo: this.route });
   }
 }

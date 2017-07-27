@@ -13,6 +13,12 @@
       "url": "admin-dashboard/hiv/clinic-flow",
       "label": "Clinic Flow",
       "icon": "fa fa-clock-o"
+    },
+    {
+      "url": "admin-dashboard/hiv-summary-indicator-report",
+      "label": "HIV Summary Indicators",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

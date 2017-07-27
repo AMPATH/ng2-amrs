@@ -40,6 +40,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public genderOptions: Array<any>;
   public selectedIndicatorTagsSelectedAll: boolean = false;
   @Output() public onGenderChange = new EventEmitter<any>();
+  public disableGenerateReportBtn: boolean = false;
   @Output()
   public generateReport = new EventEmitter();
   @Output()

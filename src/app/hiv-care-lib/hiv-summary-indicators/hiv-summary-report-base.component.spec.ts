@@ -16,6 +16,9 @@ import {
 import {
   HivSummaryIndicatorsResourceServiceMock
 } from '../../etl-api/hiv-summary-indicators.service.mock';
+import {
+  DataAnalyticsDashboardService
+} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 
 describe('HivSummaryIndicatorBaseComponent:', () => {
   let fixture: ComponentFixture<HivSummaryIndicatorBaseComponent>;
@@ -30,7 +33,8 @@ describe('HivSummaryIndicatorBaseComponent:', () => {
       providers: [
         { provide: HivSummaryIndicatorsResourceService,
           useClass: HivSummaryIndicatorsResourceServiceMock
-        }
+        },
+        DataAnalyticsDashboardService
       ],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
