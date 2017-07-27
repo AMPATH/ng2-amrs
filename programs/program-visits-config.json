@@ -1,6 +1,11 @@
 {
   "781d85b0-1359-11df-a1f1-0026b9348838": {
     "name": "HIV TREATMENT",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": [
       {
         "uuid": "d9eedf86-a623-46c2-9e89-a3d477f0253b",
@@ -59,6 +64,7 @@
       {
         "uuid": "09e95f36-13ad-4cec-bbe7-5daa9e68727a",
         "name": "Pediatric HIV Initial Visit ",
+        "allowedIf": "age >= 20 && previousHIVClinicallocation !== intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -304,6 +310,11 @@
   },
   "725b5193-3452-43fc-aca3-6a80432d9bfa": {
     "name": "ONCOLOGY PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": [
       {
         "uuid": "d16a87ae-470f-4cea-a849-242b15b46934",
@@ -384,48 +395,52 @@
       {
         "uuid": "ac3914d2-ea15-46be-ba6a-06ae6cc2010c",
         "name": "Cervical Cancer Treatment ",
-        "encounterTypes": [
-        ]
+        "encounterTypes": []
       },
       {
         "uuid": "32443ed6-9b77-4644-9dce-e1adfd5be843",
         "name": "Breast Cancer Treatment ",
-        "encounterTypes": [
-        ]
+        "encounterTypes": []
       },
       {
         "uuid": "cd891907-5ea6-457d-af6d-1cd78865fb3c",
         "name": "Sickle cell ",
-        "encounterTypes": [
-        ]
+        "encounterTypes": []
       },
       {
         "uuid": "0754d17f-3b37-4391-92c0-5dba87c9e5f2",
         "name": "Multiple Myeloma ",
-        "encounterTypes": [
-        ]
+        "encounterTypes": []
       },
       {
         "uuid": "f2f0795e-de80-4320-815a-6e37ac8c35ed",
         "name": "Hemophilia ",
-        "encounterTypes": [
-        ]
+        "encounterTypes": []
       }
     ]
   },
   "fc15ac01-5381-4854-bf5e-917c907aa77f": {
     "name": "CDM PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": [
       {
         "uuid": "2b918f1a-2494-4693-993b-91d6f6ed8efc",
         "name": "CDM Visit",
-        "encounterTypes": [
-        ]
+        "encounterTypes": []
       }
     ]
   },
   "781d897a-1359-11df-a1f1-0026b9348838": {
     "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": [
       {
         "uuid": "70134106-68f6-47e5-9ee0-3a9448f5f380",
@@ -457,14 +472,29 @@
   },
   "781d8768-1359-11df-a1f1-0026b9348838": {
     "name": "OVC PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": []
   },
   "781d8a88-1359-11df-a1f1-0026b9348838": {
     "name": "BSG PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": []
   },
   "pep-visit-types": {
     "name": "BSG PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
     "visitTypes": [
       {
         "uuid": "ffb14518-f012-4c01-99c1-2f5a6efb7025",

@@ -33,6 +33,64 @@
             expect(patientService).to.exists;
         });
 
+        it('getPatientUuidByUuid should make a call to retrieve a' +
+            'patient by uuid', function (done) {
+                var uuid = 'some-patient-uuid';
+                var params = {
+                    rep: 'ref',
+                    openmrsBaseUrl: testRestUrl
+                };
+
+                var dummyRes = {
+                        uuid: 'some-patient-uuid'
+                };
+
+                var request = nock(testRestUrl)
+                    .get('/ws/rest/v1/patient/' + uuid)
+                    .query({ v: params.rep })
+                    .reply(200, dummyRes);
+
+                var promise = patientService.getPatientByUuid(uuid, params);
+
+                promise.then(function (response) {
+                    expect(response).to.deep.equal(dummyRes);
+                    done();
+                });
+
+            });
+
+        it('getPatientUuidByUuid should respond with an error incase of error ',
+            function (done) {
+                var uuid = 'some-patient-uuid2';
+                var params = {
+                    rep: 'ref',
+                    openmrsBaseUrl: testRestUrl
+                };
+
+                var request = nock(testRestUrl)
+                    .get('/ws/rest/v1/patient/' + uuid)
+                    .query({ v: params.rep })
+                    .replyWithError(
+                    {
+                        message: 'timed out',
+                        code: 500
+                    }
+                    );
+
+                var promise = patientService.getPatientByUuid(uuid, params);
+
+                promise
+                    .then(function (response) {
+                        expect(true).to.be.false;
+                        done();
+                    })
+                    .catch(function (error) {
+                        expect(error.error.message).to.equal('timed out');
+                        done();
+                    });
+
+            });
+
         it('getPatientUuidByIdentifier should make a call to retrieve a list of ' +
             'patients by identifier', function (done) {
                 var params = {
