@@ -24,14 +24,14 @@ import {
   HivSummaryIndicatorBaseComponent
 } from './hiv-summary-indicators/hiv-summary-report-base.component';
 import {
-  ReportFilters
+  ReportFiltersComponent
 } from './report-filters/report-filters.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 import {
   PatientsRequiringVLBaseComponent
 } from './patients-requiring-vl/patients-requiring-vl-base.component';
 import {
-  PatientsRequiringVLReportFilters
+  PatientsRequiringVLReportFiltersComponent
 } from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
 import { ClinicFlowComponent } from '../hiv-care-lib/clinic-flow/clinic-flow.component';
 import { ClinicFlowHourlyStatsVizComponent
@@ -83,10 +83,10 @@ import { ChartModule } from 'angular2-highcharts';
     TabViewModule,
     NgamrsSharedModule,
     MOHReportComponent,
-    ReportFilters,
+    ReportFiltersComponent,
     HivSummaryTabularComponent,
     PatientsRequiringVLBaseComponent,
-    PatientsRequiringVLReportFilters,
+    PatientsRequiringVLReportFiltersComponent,
     ClinicFlowComponent,
     ClinicFlowHourlyStatsVizComponent,
     ClinicFlowSummaryComponent,
@@ -101,10 +101,10 @@ import { ChartModule } from 'angular2-highcharts';
     Moh731ReportFiltersComponent,
     MOHReportComponent,
     HivSummaryIndicatorBaseComponent,
-    ReportFilters,
+    ReportFiltersComponent,
     HivSummaryTabularComponent,
     PatientsRequiringVLBaseComponent,
-    PatientsRequiringVLReportFilters,
+    PatientsRequiringVLReportFiltersComponent,
     ClinicFlowComponent,
     ClinicFlowHourlyStatsVizComponent,
     ClinicFlowSummaryComponent,

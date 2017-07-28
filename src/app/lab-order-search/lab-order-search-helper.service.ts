@@ -164,7 +164,8 @@ export class LabOrdersSearchHelperService {
 
     public createViralLoadPayload(order, encounterObs, encounterLocationUuid,
                                   patientIdentifier, patientName, sex, birthDate, dateRecieved,
-                                  artStartDateInitial, artStartDateCurrent, sampleType, artRegimenIds) {
+                                  artStartDateInitial, artStartDateCurrent,
+                                  sampleType, artRegimenIds) {
 
       let vlJustificationUuid: any = this.findObsValueByConceptUuid(encounterObs,
         '0a98f01f-57f1-44b7-aacf-e1121650a967');
@@ -188,12 +189,12 @@ export class LabOrdersSearchHelperService {
       };
     }
 
-    formatDate(date) {
+    public formatDate(date) {
       let momentDate = Moment(date);
       return momentDate.isValid() ? momentDate.format('YYYY-MM-DD') : '';
     }
 
-    findObsValueByConceptUuid(encounterObs, conceptUuid) {
+    public findObsValueByConceptUuid(encounterObs, conceptUuid) {
       let obsObject = this.findObsByConceptUuid(encounterObs, conceptUuid);
       if (obsObject && obsObject !== null && obsObject.value) {
         if (typeof obsObject.value === 'object' && obsObject.value.uuid) {
@@ -204,9 +205,9 @@ export class LabOrdersSearchHelperService {
     }
 
     // function to find the obs with given concept uuid
-    findObsByConceptUuid(obsObject, conceptUuid) {
+    public findObsByConceptUuid(obsObject, conceptUuid) {
 
-      if (!obsObject || obsObject === null || !conceptUuid || conceptUuid === null) return;
+      if (!obsObject || obsObject === null || !conceptUuid || conceptUuid === null) { return; }
 
       let found: any = [];
       this.findObsByConceptUuidRecursively(obsObject, conceptUuid, found);
@@ -216,7 +217,7 @@ export class LabOrdersSearchHelperService {
       }
     }
 
-    findObsByConceptUuidRecursively(obsObject, conceptUuid, foundArray: any) {
+    public findObsByConceptUuidRecursively(obsObject, conceptUuid, foundArray: any) {
       if (!Array.isArray(foundArray)) {
         foundArray = [];
       }

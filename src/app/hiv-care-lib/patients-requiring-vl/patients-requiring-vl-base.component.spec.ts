@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs/Rx';
 import { PatientsRequiringVLBaseComponent } from './patients-requiring-vl-base.component';
-import { PatientsRequiringVLReportFilters } from './patients-requiring-vl-report-filters.component';
+import { PatientsRequiringVLReportFiltersComponent
+    } from './patients-requiring-vl-report-filters.component';
 import {
     PatientsRequiringVLResourceServiceMock
 } from '../../etl-api/patients-requiring-vl-resource.service.mock';
@@ -16,10 +17,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 
 class MockRouter {
-    navigate = jasmine.createSpy('navigate');
+    public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-    params = Observable.of([{ startDate: '2017-07-31T03:00:00+03:00' }]);
+    public params = Observable.of([{ startDate: '2017-07-31T03:00:00+03:00' }]);
 
 }
 
@@ -31,7 +32,7 @@ describe('PatientsRequiringVLBaseComponent:', () => {
         TestBed.configureTestingModule({
             declarations: [
                 PatientsRequiringVLBaseComponent,
-                PatientsRequiringVLReportFilters
+                PatientsRequiringVLReportFiltersComponent
             ],
             providers: [
                 {

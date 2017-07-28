@@ -11,8 +11,8 @@ export class LabOrdersSearchService {
 
   }
 
-  searchLabOrder(searchText: string, cached: boolean): Observable<any> {
-    let labOrderSearch: Subject<any> = new Subject<any>();
+  public searchLabOrder(searchText: string, cached: boolean): Observable<any> {
+    const labOrderSearch: Subject<any> = new Subject<any>();
     this.resouceService.getOrderByUuid(searchText.trim())
       .subscribe(
       (labOrder) => {
@@ -29,7 +29,9 @@ export class LabOrdersSearchService {
     return labOrderSearch.asObservable();
   }
 
-  resetLabOrder() {
+
+
+  public resetLabOrder() {
     this.labOrderSearch.next(null);
   }
 

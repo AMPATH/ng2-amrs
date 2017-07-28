@@ -9,7 +9,7 @@ export class LabOrderPostService {
 
   }
 
-  postOrderToEid(location, payload: any): Observable<any> {
+  public postOrderToEid(location, payload: any): Observable<any> {
     let postSubject: Subject<any> = new Subject<any>();
     this.resouceService.postOrderToEid(location, payload)
       .subscribe(

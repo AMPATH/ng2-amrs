@@ -10,7 +10,7 @@ export class LabDataSummaryComponent implements OnInit {
   constructor(private appFeatureAnalytics: AppFeatureAnalytics) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Data Summary Loaded', 'ngOnInit');
   }

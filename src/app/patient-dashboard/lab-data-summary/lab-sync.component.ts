@@ -11,16 +11,16 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./lab-sync.component.css']
 })
 export class LabSyncComponent implements OnInit, OnDestroy {
-    patient: any;
-    results = [];
-    error: string;
-    loadingPatient: boolean;
-    fetchingResults: boolean;
-    subscription: Subscription;
+    public patient: any;
+    public results = [];
+    public error: string;
+    public loadingPatient: boolean;
+    public fetchingResults: boolean;
+    private subscription: Subscription;
     constructor(private labsResourceService: LabsResourceService,
                 private patientService: PatientService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.loadingPatient = true;
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
@@ -33,13 +33,13 @@ export class LabSyncComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
     }
 
-    getNewResults() {
+    public getNewResults() {
         this.fetchingResults = true;
         this.error = undefined;
         let startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
@@ -63,7 +63,7 @@ export class LabSyncComponent implements OnInit, OnDestroy {
         });
     }
 
-    processResult(results: any) {
+    public processResult(results: any) {
 
         let data: any = [];
 

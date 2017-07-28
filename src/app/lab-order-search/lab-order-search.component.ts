@@ -7,10 +7,17 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
   styleUrls: ['./lab-order-search.component.css']
 })
 export class LabOrderSearchComponent implements OnInit {
-  _reset: boolean = false;
-  _orderPostSuccessful: boolean = false;
-  @Output() onOrderRecieved = new EventEmitter<any>();
-  @Output() onReset = new EventEmitter<any>();
+  @Output() public onOrderRecieved = new EventEmitter<any>();
+  @Output() public onReset = new EventEmitter<any>();
+  public orderId: string = '';
+  public isResetButton: boolean = true;
+  public adjustedInputMargin: string = '240px';
+  public isLoading: boolean = false;
+  public hasError: boolean = false;
+  public orderDeleted: boolean = false;
+  private _reset: boolean = false;
+  private _orderPostSuccessful: boolean = false;
+
   @Input()
   set orderPostSuccessful(value) {
     this._orderPostSuccessful = value;
@@ -35,18 +42,13 @@ export class LabOrderSearchComponent implements OnInit {
     return this._reset;
   }
 
-  public orderId: string = '';
-  public isResetButton: boolean = true;
-  public adjustedInputMargin: string = '240px';
-  public isLoading: boolean = false;
-  public hasError: boolean = false;
-  public orderDeleted: boolean = false;
+
   private hasBeenSearched = false;
 
   private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,voided,' +
   'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
   'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
-  'identifiers:(identifier,uuid,' +
+  'identifiers:(identifier,uuid,preferred,' +
   'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
   'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
   'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
@@ -57,21 +59,21 @@ export class LabOrderSearchComponent implements OnInit {
   constructor(private orderResourceService: OrderResourceService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (window.innerWidth <= 768) {
       this.adjustedInputMargin = '0';
     }
   }
 
-  onKeyPress(event: KeyboardEvent) {
+  public onKeyPress(event: KeyboardEvent) {
     if (this.orderId && this.orderId.length > 4 && event.keyCode === 13) {
       this.searchOrderId();
     }
   }
 
-  onPaste(event) {
+  public onPaste(event) {
     // detect the end of barcode reading
-    let search = event.target.value;
+    const search = event.target.value;
     if (search.substr(-1) === '$') {
       if (!this.hasBeenSearched) {
         this.orderId = this.formatOrderId(search);
@@ -80,18 +82,18 @@ export class LabOrderSearchComponent implements OnInit {
     }
   }
 
-  formatOrderId(value: string) {
+  public formatOrderId(value: string) {
     return value.replace('$', '');
   }
 
-  onValueChange(value) {
+  public onValueChange(value) {
     if (this.orderId.length > 0) {
       this.isResetButton = true;
     }
     this.orderId = this.formatOrderId(value);
   }
 
-  searchOrderId() {
+  public searchOrderId() {
     if (window.innerWidth > 768) {
       this.adjustedInputMargin = '267px';
     }
@@ -121,17 +123,6 @@ export class LabOrderSearchComponent implements OnInit {
       });
   }
 
-  resetSearch() {
-    this.orderId = '';
-    this.isResetButton = false;
-    this.isLoading = false;
-    this.hasError = false;
-    this.orderDeleted = false;
-    this.hasBeenSearched = false;
-    this.resetInputMargin();
-    this.onReset.emit();
-  }
-
   public resetInputMargin() {
     if (window.innerWidth > 768) {
       this.adjustedInputMargin = '240px';
@@ -140,6 +131,17 @@ export class LabOrderSearchComponent implements OnInit {
 
   get isEnabled() {
     return this.isLoading;
+  }
+
+  private resetSearch() {
+    this.orderId = '';
+    this.isResetButton = false;
+    this.isLoading = false;
+    this.hasError = false;
+    this.orderDeleted = false;
+    this.hasBeenSearched = false;
+    this.resetInputMargin();
+    this.onReset.emit();
   }
 
 }

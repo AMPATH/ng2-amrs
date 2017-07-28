@@ -11,18 +11,18 @@ import * as Moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class PatientsRequiringVLReportFilters implements OnInit {
+export class PatientsRequiringVLReportFiltersComponent implements OnInit {
     @Output()
-    generateReport = new EventEmitter();
+     public generateReport = new EventEmitter();
 
     @Output()
-    startDateChange = new EventEmitter<Date>();
+     public startDateChange = new EventEmitter<Date>();
 
     @Output()
-    endDateChange = new EventEmitter<Date>();
+     public endDateChange = new EventEmitter<Date>();
 
     @Input()
-    parentIsBusy: boolean = false;
+     public parentIsBusy: boolean = false;
 
     private _startDate: Date;
     public get startDate(): Date {
@@ -62,9 +62,9 @@ export class PatientsRequiringVLReportFilters implements OnInit {
 
     constructor() { }
 
-    ngOnInit() { }
+     public ngOnInit() { }
 
-    onClickedGenerate() {
+     public onClickedGenerate() {
         this.generateReport.emit();
     }
 }
