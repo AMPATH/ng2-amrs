@@ -23,6 +23,8 @@ export class LocationFilterComponent implements OnInit {
   countyDropdownOptions: Array<any> = [];
   selectedLocations: Array<any> = [];
   selectedCounty: string = '';
+  @Input('disable-county') disableCounty: boolean;
+  @Input('multiple') multiple: boolean;
   @Input() locationUuids: any;
   @Input() county: string;
   @Output() onLocationChange = new EventEmitter<any>();
