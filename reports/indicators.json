@@ -1222,5 +1222,30 @@
         "label": "vl unsuppressed patients",
         "description": "# of patients with vl >= 1000",
         "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
+    },
+    {
+        "name": "active_and_on_art",
+        "label": "Active and on ART",
+        "description": "A patient who meets the definition for active in care and was dispensed ART at the last clinical visit",
+        "expression": "(case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end) and encounter_datetime >= arv_start_date"
+    },
+    {
+        "name": "has_vl_since_oct",
+        "label": "has VL since october",
+        "description": "As of the reporting month, the number of patients who have had a VL since october",
+        "expression": "(case when (date(t2.endDate) > date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(DATE_ADD(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR))) then true when (date(t2.endDate) < date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_SUB(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR)) and date(DATE_FORMAT(t2.endDate, '%Y-09-01'))) then true else false end)"
+    },
+    {
+        "name": "virally_suppressed_since_oct",
+        "label": "virally suppressed_since_oct",
+        "description": "# of patient(s) who are virally suppressed",
+        "expression": "vl_1 < 1000 and (case when (date(t2.endDate) > date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(DATE_ADD(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR))) then true when (date(t2.endDate) < date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_SUB(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR)) and date(DATE_FORMAT(t2.endDate, '%Y-09-01'))) then true else false end)"
+    },
+    {
+        "name": "perc_virally_suppressed_since_oct",
+        "label": "perc virally suppressed since oct",
+        "description": "The denominator includes those patients (both active and LTFU) who have had a VL since October 1. The numerator includes those patients (both active and LTFU) who have had a VL since October 1 and had Vl < 100",
+        "expression": ""
     }
+
 ]

@@ -32,6 +32,7 @@ import { HivSummaryIndicatorsService } from './service/hiv-summary-indicators.se
 import { PatientMonthlyStatusHistory } from './service/patient-monthly-status-history'
 import { cohortUserService } from './service/cohort-user.service.js';
 import { patientsRequiringVLService } from './service/patients-requiring-viral-load.service';
+import { patientCareCascadeService } from './service/patient-care-cascade-report.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
 
 module.exports = function () {
@@ -2623,58 +2624,157 @@ module.exports = function () {
             notes: 'Returns Messages to be shown to users on login'
         }
     }, {
-        method: 'GET',
-        path: '/etl/patients-requiring-viral-load-order',
-        config: {
-            auth: 'simple',
-            plugins: {
-                'hapiAuthorization': {
-                    role: privileges.canViewPatient
+            method: 'GET',
+            path: '/etl/patients-requiring-viral-load-order',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewPatient
+                    },
+                    'openmrsLocationAuthorizer': {
+                        locationParameter: [{
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'locationUuids' //name of the location parameter
+                        }]
+                    }
                 },
-                'openmrsLocationAuthorizer': {
-                    locationParameter: [{
-                        type: 'query', //can be in either query or params so you have to specify
-                        name: 'locationUuids' //name of the location parameter
-                    }]
-                }
-            },
-            handler: function (request, reply) {
-                request.query.indicator = 'needs_vl_in_period';
-                request.query.reportName = 'labs-report';
-                preRequest.resolveLocationIdsToLocationUuids(request,
-                    function () {
-                        let requestParams = Object.assign({}, request.query, request.params);
-                        let service = new patientsRequiringVLService();
-                        service.getPatientListReport(requestParams).then((result) => {
-                            reply(result);
-                        }).catch((error) => {
-                            reply(error);
+                handler: function (request, reply) {
+                    request.query.indicator = 'needs_vl_in_period';
+                    request.query.reportName = 'labs-report';
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let service = new patientsRequiringVLService();
+                            service.getPatientListReport(requestParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
                         });
-                    });
-            },
-            description: "Gets patients Requiring VL list", //patientsRequiringVLService
-            notes: "Returns the patient list for various indicators in the labs report",
-            tags: ['api'],
-            validate: {
-                query: {
-                    locationUuids: Joi.string()
-                        .optional()
-                        .description("A list of comma separated location uuids"),
-                    startDate: Joi.string()
-                        .optional()
-                        .description("The start date to filter by"),
-                    endDate: Joi.string()
-                        .optional()
-                        .description("The end date to filter by"),
-                    startIndex: Joi.number()
-                        .required()
-                        .description("The startIndex to control pagination"),
-                    limit: Joi.number()
-                        .required()
-                        .description("The offset to control pagination")
+                },
+                description: "Gets patients Requiring VL list", //patientsRequiringVLService
+                notes: "Returns the patient list for various indicators in the labs report",
+                tags: ['api'],
+                validate: {
+                    query: {
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        startDate: Joi.string()
+                            .optional()
+                            .description("The start date to filter by"),
+                        endDate: Joi.string()
+                            .optional()
+                            .description("The end date to filter by"),
+                        startIndex: Joi.number()
+                            .required()
+                            .description("The startIndex to control pagination"),
+                        limit: Joi.number()
+                            .required()
+                            .description("The offset to control pagination")
+                    }
                 }
             }
-        }
+        },
+        {
+            method: 'GET',
+            path: '/etl/patient-care-cascade-analysis',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewDataAnalytics
+                    },
+                    'openmrsLocationAuthorizer': {
+                        locationParameter: [{
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'locationUuids' //name of the location parameter
+                        }]
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.reportName = 'patient-care-cascade-report';
+                    if (!authorizer.hasReportAccess(request.query.reportName)) {
+                        return reply(Boom.forbidden('Unauthorized'));
+                    }
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let compineRequestParams = Object.assign({}, request.query, request.params);
+                            let reportParams = etlHelpers.getReportParams(request.query.reportName,
+                                ['startDate', 'endDate', 'indicator', 'locationUuids', 'locations', 'order', 'gender'], compineRequestParams);
+
+                            let service = new patientCareCascadeService();
+                            service.getAggregateReport(reportParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                },
+                description: "Gets patient-care-cascade-report",
+                notes: "Returns a comparative summary of various indicator eg ltfu, on_art,and vl suppression",
+                tags: ['api'],
+                validate: {
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/patient-care-cascade-analysis/patient-list',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewPatient
+                    },
+                    'openmrsLocationAuthorizer': {
+                        locationParameter: [{
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'locationUuids' //name of the location parameter
+                        }]
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.reportName = 'patient-care-cascade-report';
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let service = new patientCareCascadeService();
+                            service.getPatientListReport(requestParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                },
+                description: "Get the clinical hiv comparative overview patient",
+                notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
+                tags: ['api'],
+                validate: {
+                    query: {
+                        indicator: Joi.string()
+                            .required()
+                            .description("A list of comma separated indicators"),
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        startDate: Joi.string()
+                            .optional()
+                            .description("The start date to filter by"),
+                        endDate: Joi.string()
+                            .optional()
+                            .description("The end date to filter by"),
+                        startIndex: Joi.number()
+                            .required()
+                            .description("The startIndex to control pagination"),
+                        limit: Joi.number()
+                            .required()
+                            .description("The offset to control pagination")
+                    }
+                }
+            }
+
     }
     ];
 

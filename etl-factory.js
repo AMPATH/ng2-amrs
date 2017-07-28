@@ -40,6 +40,7 @@ reportList.push.apply(reportList, require('./reports/datasets/pep-dataset-report
 reportList.push.apply(reportList, require('./reports/patient-monthly-care-status.json'));
 reportList.push.apply(reportList, require('./reports/patient-daily-care-status.json'));
 reportList.push.apply(reportList, require('./reports/cohort-report.json'));
+reportList.push.apply(reportList, require('./reports/patient-care-cascade-report.json'));
 //etl-factory builds and generates queries dynamically in a generic way using indicator-schema and report-schema json files
 module.exports = function () {
     var reports = [];
@@ -375,9 +376,10 @@ module.exports = function () {
     }
 
     //converts set of derived indicators to sql columns
-    function processesDerivedIndicator(report, derivedIndicator, indicator, requestParam) {
+    function processesDerivedIndicator(report, derIndicator, indicator, requestParam) {
         var reg = /[\[\]']/g; //regex [] indicator
         var matches = [];
+        var derivedIndicator =  _.assign({},derIndicator);
         derivedIndicator.sql.replace(/\[(.*?)\]/g, function (g0, g1) {
             matches.push(g1);
         });
@@ -729,8 +731,9 @@ module.exports = function () {
         };
     }
 
-    function breakDownDerivedIndicator(reportIndicator) {
+    function breakDownDerivedIndicator(ri) {
         var matches = [];
+        var reportIndicator =  _.assign({},ri);
         reportIndicator.sql.replace(/\[(.*?)\]/g, function (g0, g1) {
             matches.push(g1);
         });
