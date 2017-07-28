@@ -22,7 +22,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     this.selectedLabLocation = null;
     this.selectedIdentifier = null;
     this.selectedSampleType = null;
-    this.dateReceived = undefined;
+    this.dateReceived = Moment(new Date()).format('YYYY-MM-DD');
     this.orderPostSuccessful = false;
     this.isBusy = false;
     this._order = order;
@@ -62,7 +62,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   selectedLabLocation: any;
   selectedIdentifier: string;
   selectedSampleType: any;
-  dateReceived: any;
+  dateReceived: any = Moment(new Date()).format('YYYY-MM-DD');
   orderPostSuccessful: boolean;
 
   constructor(
@@ -104,6 +104,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
 
     this.loadHivSummary(this.person.uuid);
     this.displayDnaPcrInputs();
+    this.setDefaultLocation();
   }
 
   setJustification() {
@@ -307,6 +308,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     let identifiers = [];
     return new Promise((resolve, reject) => {
       _.each(this.order.patient.identifiers, (identifier) => {
+        this.setDefaultIdentifier(identifier);
         if (_.indexOf(identifier.display, '=') > 0) {
           identifiers.push((identifier.display.split('=')[1]).trim());
         } else {
@@ -317,9 +319,21 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     });
   }
 
+
+
   resetOrder() {
     this.resetEvent.emit(true);
     this.order = null;
     this.reset = true;
+  }
+
+  private setDefaultIdentifier (identifier: any) {
+    if (identifier.preferred) {
+     this.selectedIdentifier = identifier.identifier;
+    }
+  }
+
+  private setDefaultLocation() {
+    this.selectedLabLocation = 'ampath';
   }
 }

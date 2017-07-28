@@ -47,7 +47,7 @@ export class LabOrderSearchComponent implements OnInit {
   private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,voided,' +
   'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
   'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
-  'identifiers:(identifier,uuid,' +
+  'identifiers:(identifier,uuid,preferred,' +
   'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
   'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
   'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'

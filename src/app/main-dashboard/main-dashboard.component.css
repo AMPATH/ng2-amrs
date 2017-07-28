@@ -510,7 +510,7 @@ lab-order-search-container {
     margin-right: 0;
   }
 
-  app-patient-search .input-group-btn.pull-right {
+  app-patient-search .input-group-btn.pull-right, lab-order-search-container .input-group-btn.pull-right{
     margin-top: 20px;
   }
 
@@ -543,6 +543,7 @@ lab-order-search-container {
 
   .input-group-btn.pull-right {
     margin-top: -47px;
+    /*padding-top: 6px;*/
     width:auto;
   }
 
