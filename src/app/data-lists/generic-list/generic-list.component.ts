@@ -99,7 +99,10 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.onGridReady = (event) => {
       if (window.innerWidth > 768) {
        // this.gridOptions.api.sizeColumnsToFit();
-        setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
+       // do not resize if columns are more than 10
+       if (this.columns.length <= 10) {
+         setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
+        }
       }
       // setDatasource() is a grid ready function
       if (this.dataSource) {
