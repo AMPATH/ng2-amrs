@@ -3,7 +3,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 import { DatePipe } from '@angular/common';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientProgramResourceService } from './patient-program-resource.service';
 
@@ -42,6 +42,36 @@ describe('Patient Program Resource Service Unit Tests', () => {
         expect(patientProgramResourceService).toBeTruthy();
       }));
 
+  it('should make API call to program enrollment visit types for a certain patient', (done) => {
+    backend = TestBed.get(MockBackend);
+    let patientProgramResourceService: PatientProgramResourceService =
+      TestBed.get(PatientProgramResourceService);
+    let appsetting =
+      TestBed.get(AppSettingsService);
+
+    backend.connections.subscribe((connection: MockConnection) => {
+      expect(connection.request.method).toBe(RequestMethod.Get);
+      expect(connection.request.url)
+        .toEqual(
+        appsetting.getEtlRestbaseurl().trim() +
+        'patient/79803198-2d23-49cd-a7b3-4f672bd8f659' +
+        '/program/prog-uuid/enrollment/enroll-uuid' +
+        '?intendedLocationUuid=location-uuid'
+        );
+      let options = new ResponseOptions({
+        body: JSON.stringify({ uuid: 'uuid' })
+      });
+      connection.mockRespond(new Response(options));
+    });
+    patientProgramResourceService.getPatientProgramVisitTypes(patientUuid,
+      'prog-uuid', 'enroll-uuid', 'location-uuid')
+      .subscribe((response) => {
+        expect(response).toEqual({ uuid: 'uuid' });
+        done();
+      });
+
+  });
+
   it('should make API call with the correct url parameters', (done) => {
     backend = TestBed.get(MockBackend);
     let patientProgramResourceService: PatientProgramResourceService =
@@ -51,7 +81,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
         .toContain(
-          'etl/patient-program/79803198-2d23-49cd-a7b3-4f672bd8f659'
+        'etl/patient-program/79803198-2d23-49cd-a7b3-4f672bd8f659'
         );
       let options = new ResponseOptions({
         body: JSON.stringify({})
@@ -67,58 +97,60 @@ describe('Patient Program Resource Service Unit Tests', () => {
   it('should return an error the api throws an error',
     async(inject([PatientProgramResourceService, MockBackend],
       (patientProgramResourceService: PatientProgramResourceService,
-       mockBackend: MockBackend) => {
+        mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe((c) =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         patientProgramResourceService.getPatientPrograms(patientUuid)
           .subscribe((data) => {
-            },
-            (error: Error) => {
-              expect(error).toBeTruthy();
-            });
+          },
+          (error: Error) => {
+            expect(error).toBeTruthy();
+          });
       })));
 
   it('should make API call with the correct url parameters while trying to fetch' +
     'program by patient uuid and prog uuid ', (done) => {
-    backend = TestBed.get(MockBackend);
-    let patientProgramResourceService: PatientProgramResourceService =
-      TestBed.get(PatientProgramResourceService);
-    backend.connections.subscribe((connection: MockConnection) => {
+      backend = TestBed.get(MockBackend);
+      let patientProgramResourceService: PatientProgramResourceService =
+        TestBed.get(PatientProgramResourceService);
+      backend.connections.subscribe((connection: MockConnection) => {
 
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url)
-        .toContain(
+        expect(connection.request.method).toBe(RequestMethod.Get);
+        expect(connection.request.url)
+          .toContain(
           'etl/patient-program/79803198-2d23-49cd-a7b3-4f672bd8f659/program/program-uuid'
-        );
-      let options = new ResponseOptions({
-        body: JSON.stringify({})
+          );
+        let options = new ResponseOptions({
+          body: JSON.stringify({})
+        });
+        connection.mockRespond(new Response(options));
       });
-      connection.mockRespond(new Response(options));
-    });
-    patientProgramResourceService
-      .getPatientProgramByProgUuid(patientUuid, 'program-uuid')
-      .subscribe((response) => {
-        done();
-      });
+      patientProgramResourceService
+        .getPatientProgramByProgUuid(patientUuid, 'program-uuid')
+        .subscribe((response) => {
+          done();
+        });
 
-  });
+    });
   it('should return an error the api throws an error while trying to fetch' +
     ' program by patient uuid and prog uuid  ',
     async(inject([PatientProgramResourceService, MockBackend],
       (patientProgramResourceService: PatientProgramResourceService,
-       mockBackend: MockBackend) => {
+        mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe((c) =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         patientProgramResourceService
           .getPatientProgramByProgUuid(patientUuid, 'program-uuid')
           .subscribe((data) => {
-            },
-            (error: Error) => {
-              expect(error).toBeTruthy();
-            });
+          },
+          (error: Error) => {
+            expect(error).toBeTruthy();
+          });
       })));
+
+
 });
