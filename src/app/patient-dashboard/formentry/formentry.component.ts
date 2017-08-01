@@ -34,6 +34,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     message: 'Please wait...' // default message
   };
   public formName: string = '';
+  public hideForm: boolean = false;
   public preserveFormAsDraft: boolean = true;
   public form: Form;
   public formSubmissionErrors: Array<any> = null;
@@ -133,13 +134,19 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
-    setTimeout(() => {
-      if (!this.form.valid && this.form.showErrors) {
-        document.body.scrollTop = 0;
-      }
-    }, 100);
-    console.log('FORM MODEL:', this.form.rootNode.control);
-    this.submitForm();
+    // if patient is deceased it should not submit
+    if (this.hideForm === false) {
+         setTimeout(() => {
+            if (!this.form.valid && this.form.showErrors) {
+              document.body.scrollTop = 0;
+            }
+          }, 100);
+          console.log('FORM MODEL:', this.form.rootNode.control);
+          this.submitForm();
+
+     } else {
+        alert('Cannot submit data for Deceased patient');
+     }
   }
 
   public onCancel(e): void {
@@ -402,6 +409,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.patientService.currentlyLoadedPatient.subscribe(
         (patient) => {
           if (patient) {
+            if (patient.person.dead === true) {
+                   this.hideForm = true;
+                }
             observer.next(patient);
           }
         },
@@ -534,6 +544,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       personUuid = encounterProvider[0].control.value;
     }
     return this.formDataSourceService.getProviderByPersonUuid(personUuid);
+  }
+
+  private viewPatientInfo() {
+    this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/patient-info']);
   }
 
 }

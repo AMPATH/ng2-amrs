@@ -1,5 +1,9 @@
 <div>
-  <h4 class="component-title"><span class="fa fa-file"></span> Forms</h4>
+  <h4 class="component-title"><span class="fa fa-file"></span> Forms </h4>
+
+   <div class="alert alert-danger" *ngIf="hideFormList">
+         Patient is deceased.If not Edit their deceased state in patient info.
+    </div>
   <div class="form-inline">
     <div class="form-group">
       <div class="input-group">
@@ -9,7 +13,8 @@
       </div>
     </div>
   </div>
-  <div class="box-body forms-list">
+ 
+  <div class="box-body forms-list" *ngIf="!hideFormList">
     <div class="list-group">
       <div class="list-group-item" *ngFor="let form of forms | filterBy: {name:filterTerm}" (click)="formSelected($event,form)">
         <div class="link-item">

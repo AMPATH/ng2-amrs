@@ -1,4 +1,8 @@
-<div>
+ <div class="alert alert-danger" *ngIf="isDeceased">
+         Patient is deceased.If not <a (click)="viewPatientInfo()">Edit</a> their deceased state.
+</div>
+
+<div *ngIf="!isDeceased">
   <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Please wait. Loading..'}"></div>
   <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" [closable]="false" responsive="true">
     <div class="text-bold">

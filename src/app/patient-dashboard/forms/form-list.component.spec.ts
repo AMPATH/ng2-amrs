@@ -1,4 +1,7 @@
-
+import { EncounterResourceService } from './../../openmrs-api/encounter-resource.service';
+import { ProgramEnrollmentResourceService } from
+'./../../openmrs-api/program-enrollment-resource.service';
+import { PatientResourceService } from './../../openmrs-api/patient-resource.service';
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
@@ -11,8 +14,8 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { Ng2FilterPipe } from '../../shared/pipes/ng2-filter.pipe';
-
 import { FormListService } from './form-list.service';
+import { PatientService } from '../patient.service';
 import { FormListComponent } from './form-list.component';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
@@ -34,6 +37,11 @@ describe('FormList Component', () => {
 
     let fixture, nativeElement, comp;
 
+    // services
+
+   // let formListService, formOrderMetaService , patientService , patientResourceService;
+
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
@@ -53,24 +61,33 @@ describe('FormList Component', () => {
                     useFactory: (backend, options) => new Http(backend, options),
                     deps: [MockBackend, BaseRequestOptions]
                 },
+                EncounterResourceService,
+                ProgramEnrollmentResourceService,
+                PatientResourceService,
                 FormsResourceService,
                 FormOrderMetaDataService,
-                FormListService
+                FormListService,
+                PatientService,
             ],
             imports: [
                 HttpModule
             ]
         })
-            .compileComponents()
-            .then(() => {
+            .compileComponents();
+    }));
+
+    beforeEach(() => {
                 fixture = TestBed.createComponent(FormListComponent);
                 comp = fixture.componentInstance;
                 nativeElement = fixture.nativeElement;
                 fixture.detectChanges();
-            });
-    }));
 
-    it('should defined', inject([FormListService], (service: FormListService) => {
+    });
+
+    it('should defined', inject([FormListService,
+    FormOrderMetaDataService, PatientService], ( formListService: FormListService ,
+    formOrderMetaDataService: FormOrderMetaDataService,
+    patientService: PatientService) => {
         expect(comp).toBeTruthy();
     }));
     it('should render form list properly given the forms are available',
@@ -141,4 +158,5 @@ describe('FormList Component', () => {
                 expect(formList.length).toEqual(6);
                 expect(formList[0].innerHTML).toContain('form 1');
             }));
+
 });
