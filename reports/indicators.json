@@ -276,6 +276,18 @@
         "expression": "(date(encounter_datetime) != date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate"
     },
     {
+        "name": "early_scheduled_visits",
+        "label": "early scheduled visits",
+        "description": "Early Scheduled visit",
+        "expression": "(date(encounter_datetime) < date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+    },
+    {
+        "name": "late_scheduled_visits",
+        "label": " late scheduled visits",
+        "description": "Late scheduled visit",
+        "expression": "(date(encounter_datetime) > date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+    },
+    {
         "name": "total_visits",
         "label": "total visits",
         "description": "Total # of Hiv Care Visits",

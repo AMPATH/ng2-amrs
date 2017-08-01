@@ -260,6 +260,17 @@
                 "expression":"vl_unsuppressed_patients",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
 
+            },
+            {
+                "label":"early_scheduled_visits",
+                "expression":"early_scheduled_visits",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+
+            },
+            {
+                "label":"late_scheduled_visits",
+                "expression":"late_scheduled_visits",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
             }
 
         ],
