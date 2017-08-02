@@ -34,7 +34,7 @@ export class MOTDNotificationComponent implements OnInit {
 
      // cookie key will be the current days date
 
-     currentDate = Moment().startOf('day');
+     currentDate = Moment();
 
      cookieKey: string = 'motdKey' + this.currentDate;
      cookieValue: string = 'motdVal' + this.currentDate;
@@ -129,6 +129,7 @@ export class MOTDNotificationComponent implements OnInit {
                                 // check if date is between start and end
 
                                 // console.log('Start Day', this.currentDate);
+
 
                                 if ( this.currentDate >= startDate && this.currentDate <= endDate) {
 
