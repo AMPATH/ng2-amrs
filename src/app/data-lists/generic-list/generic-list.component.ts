@@ -68,6 +68,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       this.generateGrid();
   }
 
+
   generateGrid() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = this.columns;
@@ -75,6 +76,16 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.enableSorting = true;
     this.gridOptions.enableFilter = true;
     this.gridOptions.showToolPanel = false;
+    // ensure that even after sorting the rows maintain order
+    this.gridOptions.onSortChanged = (event) => {
+        this.gridOptions.api.forEachNode(function(node){
+           node.setDataValue('#', node.rowIndex + 1);
+        });
+
+        this.gridOptions.api.refreshCells([], [] , true);
+
+    };
+
     // this.gridOptions.suppressCellSelection = true;
     // this.gridOptions.suppressMenuColumnPanel = true; // ag-enterprise only
     // this.gridOptions.suppressMenuMainPanel = true; // ag-enterprise only
@@ -88,14 +99,13 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     };
     let tthis: any = this;
     this.gridOptions.onGridReady = (event) => {
-
       if (window.innerWidth > 768) {
        // this.gridOptions.api.sizeColumnsToFit();
         setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
       }
       // setDatasource() is a grid ready function
       if (this.dataSource) {
-        this.gridOptions.api.setDatasource(this.dataSource);
+         this.gridOptions.api.setDatasource(this.dataSource);
       }
       this.gridOptions.getRowStyle = function (params) {
         return {
