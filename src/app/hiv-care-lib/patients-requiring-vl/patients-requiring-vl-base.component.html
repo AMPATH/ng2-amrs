@@ -22,6 +22,12 @@
         <input id="currentVLDate" [(ngModel)]="selectedCurrentVLDate" class="form-control" type="date" (ngModelChange)="onCurrentVLDateChanged($event)"/>
     </div>
  </div>
+  <div class="form-group col-md-16">
+    <div class="form-row">
+        <label for="lastClinicalEncounterDate">Show Patients With Last Clinical Encounter On:</label>
+        <input id="lastClinicalEncounterDate" [(ngModel)]="selectedlastClinicalEncounterDate" class="form-control" type="date" (ngModelChange)="onLastClinicalEncounterDateChanged($event)"/>
+    </div>
+ </div>
   <patient-list [extraColumns]="extraColumns()" [overrideColumns]="overrideColumns"  [data]="filteredData"></patient-list>
   <div *ngIf='!isLoadingReport'>
     <p class="bg-info" style="padding:4px;">

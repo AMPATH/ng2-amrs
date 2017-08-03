@@ -86,14 +86,22 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
                 cellStyle: {
                     'white-space': 'normal'
                 }
+            },
+            {
+                headerName: 'Last Clinical Encounter Date',
+                field: 'last_clinical_encounter_datetime',
+                width: 200,
+                cellStyle: {
+                    'white-space': 'normal'
+                }
             }
         ];
     }
 
-   public ngOnInit() {
+    public ngOnInit() {
     }
 
-     public generateReport() {
+    public generateReport() {
         // set busy indications variables
         // clear error
         this.encounteredError = false;
@@ -125,7 +133,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         });
     }
 
-     public goTopatientInfo(patientUuid) {
+    public goTopatientInfo(patientUuid) {
         if (patientUuid === undefined || patientUuid === null) {
             return;
         }
@@ -133,13 +141,26 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         patientUuid + '/general/landing-page']);
     }
 
-     public onCurrentVLDateChanged(currentVLDate) {
+    public onCurrentVLDateChanged(currentVLDate) {
         if (!currentVLDate) {
             this.filteredData = this.data;
         } else {
             let filteredPatients = this.data.filter((patient) => {
                 return Moment(patient.current_vl_date, 'DD-MM-YYYY')
                     .isBefore(Moment(currentVLDate, 'YYYY-MM-DD'));
+            });
+
+            this.filteredData = filteredPatients;
+        }
+    }
+
+    public onLastClinicalEncounterDateChanged(lastClinicalEncounterDate) {
+        if (!lastClinicalEncounterDate) {
+            this.filteredData = this.data;
+        } else {
+            let filteredPatients = this.data.filter((patient) => {
+                return Moment(patient.last_clinical_encounter_datetime, 'DD-MM-YYYY')
+                    .isSame(Moment(lastClinicalEncounterDate, 'YYYY-MM-DD'));
             });
 
             this.filteredData = filteredPatients;
