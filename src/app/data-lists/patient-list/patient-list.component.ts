@@ -67,15 +67,17 @@ export class PatientListComponent implements OnInit {
 
     let d: any = this.data || [];
     let count = 1;
+    // console.log('Data', this.data);
 
     _.forEach(d, function (row) {
-      row['#'] = count;
       if (!row['person_name']) {
         row['person_name'] = row['given_name'] + ' ' + row['family_name']
           + ' ' + row['middle_name'];
       }
       count++;
     });
+
+     // console.log('Filtered Data', this.data);
 
     return this.data || [];
   }

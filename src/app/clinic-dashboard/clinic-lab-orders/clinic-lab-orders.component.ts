@@ -62,6 +62,15 @@ export class ClinicLabOrdersComponent implements OnInit {
     }
     this.gridOptions.enableFilter = true;
     this.gridOptions.localeText = {noRowsToShow: 'No matching records found'};
+     // ensure that even after sorting the rows maintain order
+    this.gridOptions.onSortChanged = (event) => {
+        this.gridOptions.api.forEachNode(function(node){
+           node.setDataValue('#', node.rowIndex + 1);
+        });
+
+        this.gridOptions.api.refreshCells([], [] , true);
+
+    };
   }
 
   ngOnDestroy(): void {
