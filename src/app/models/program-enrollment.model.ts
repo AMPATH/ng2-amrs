@@ -31,7 +31,6 @@ export class ProgramEnrollment extends BaseModel {
     this._openmrsModel.program = v.openmrsModel;
     this._program = v;
   }
-
   @serializable()
   public get display(): string {
     return this._titleCasePipe.transform(this._openmrsModel.display);

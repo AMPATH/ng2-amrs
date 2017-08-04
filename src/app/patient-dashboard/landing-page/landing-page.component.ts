@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { Subscription, Observable, Subject } from 'rxjs';
@@ -11,6 +11,7 @@ import { Program } from '../../models/program.model';
 import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 
 @Component({
   selector: 'landing-page',
@@ -19,29 +20,34 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
-  public enrolledProgrames: Array<ProgramEnrollment> = [];
+  public enrolledProgrames: ProgramEnrollment[] = [];
   public currentError: string;
-  public availablePrograms: Array<any> = [];
+  public availablePrograms: any[] = [];
   public hasError: boolean = false;
   public hasValidationErrors: boolean = false;
   public programsBusy: boolean = false;
   public program: string = '';
-  public errors: Array<any> = [];
+  public errors: any[] = [];
   public isFocused: boolean = false;
+  public locations: any = [];
   public dateEnrolled: string;
+  public isEditLocation: string;
   public addPinkBackground: boolean = false;
   public isEdit: boolean = false;
   public dateCompleted: string;
+  public selectedLocation: string;
   private _datePipe: DatePipe;
   private subscription: Subscription;
 
   constructor(private patientService: PatientService,
               private routesProviderService: RoutesProviderService,
-              private programService: ProgramService) {
+              private programService: ProgramService,
+              private locationResourceService: LocationResourceService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public ngOnInit() {
+    this.fetchLocations();
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
@@ -58,91 +64,22 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
-    return Observable.create((observer: Subject<Array<ProgramEnrollment>>) => {
-      if (patientUuid) {
-        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
-          (data) => {
-            if (data) {
-              observer.next(data);
-            }
-          },
-          (error) => {
-            observer.error(error);
-          }
-        );
-      } else {
-        observer.error('patientUuid is required');
-      }
-    }).first();
-  }
-
-  public getAvailablePrograms() {
-    return Observable.create((observer: Subject<Array<Program>>) => {
-      this.programService.getAvailablePrograms().subscribe(
-        (programs) => {
-          if (programs) {
-            observer.next(programs);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
-    }).first();
-  }
-
-  public toggleDropDown(row: any) {
-    row.isEdit = _.isNil(row.isEdit) ? true : !row.isEdit as boolean;
-  }
-
-  public editPatientEnrollment(row: any) {
-    row.isFocused = true;
-    this.isEdit = true;
-    if (this.isValidForm(row)) {
-      if (_.isNil(row.dateCompleted)) {
-        delete row.programUuid;
-      }
-      let payload = this.programService.createEnrollmentPayload(
-        row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted, row.programUuid);
-      if (payload) {
-        setTimeout(() => {
-          this._updatePatientProgramEnrollment(payload);
-        }, 2000);
-      }
-    }
-  }
-
-  public enrollPatientToProgram() {
-    this.isFocused = true;
-    this.isEdit = false;
-    if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
-      let payload = this.programService.createEnrollmentPayload(
-        this.program, this.patient, this.dateEnrolled, this.dateCompleted, '');
-      if (payload) {
-        this._updatePatientProgramEnrollment(payload);
-      }
-    }
-  }
-
-  public onAddPinkBackground(hasPink: boolean) {
-    this.addPinkBackground = hasPink;
-  }
-
-  private loadProgramBatch(patientUuid: string): void {
+  public loadProgramBatch(patientUuid: string): void {
     this._resetVariables();
     this.programsBusy = true;
-    let dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
-    let programBatch: Array<Observable<any>> = [];
+    let dashboardRoutesConfig: any;
+    dashboardRoutesConfig = this.routesProviderService.patientDashboardConfig;
+    const programBatch: Array<Observable<any>> = [];
     programBatch.push(this.loadProgramsPatientIsEnrolledIn(patientUuid));
     programBatch.push(this.getAvailablePrograms());
     this.subscription = Observable.forkJoin(programBatch).subscribe((data) => {
         this.programsBusy = false;
         this.enrolledProgrames = data[0];
-        let _programs = [];
+        const _programs: any[] = [];
         // data[1] = availablePrograms
         _.each(data[1], (program) => {
-          let _enrolledPrograms: Array<any> = _.filter(this.enrolledProgrames,
+          let _enrolledPrograms: any[];
+          _enrolledPrograms = _.filter(this.enrolledProgrames,
             (enrolledProgram) => {
               return enrolledProgram.programUuid === program.uuid &&
                 _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
@@ -151,13 +88,13 @@ export class LandingPageComponent implements OnInit, OnDestroy {
           if (_enrolledPrograms.length > 0) {
             _enrolledProgram = _.last(_enrolledPrograms);
           }
-
-          let route: any = _.find(dashboardRoutesConfig.programs, (_route) => {
+          let route: any;
+          route = _.find(dashboardRoutesConfig.programs, (_route) => {
             return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
           });
 
           _programs.push({
-            program: program,
+            program,
             enrolledProgram: _enrolledProgram,
             programUuid: _.isNil(_enrolledProgram) ? '' : _enrolledProgram.uuid,
             isFocused: false,
@@ -199,8 +136,90 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     );
   }
 
+  public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
+    return Observable.create((observer: Subject<ProgramEnrollment[]>) => {
+      if (patientUuid) {
+        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
+          (data) => {
+            if (data) {
+              observer.next(data);
+            }
+          },
+          (error) => {
+            observer.error(error);
+          }
+        );
+      } else {
+        observer.error('patientUuid is required');
+      }
+    }).first();
+  }
+
+  public getAvailablePrograms() {
+    return Observable.create((observer: Subject<Program[]>) => {
+      this.programService.getAvailablePrograms().subscribe(
+        (programs) => {
+          if (programs) {
+            observer.next(programs);
+          }
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    }).first();
+  }
+
+  public toggleDropDown(row: any) {
+    row.isEdit = _.isNil(row.isEdit) ? true : !(row.isEdit) as boolean;
+  }
+  public getSelectedLocation(loc) {
+    this.selectedLocation = loc;
+  }
+
+  public editPatientEnrollment(row: any) {
+    row.isFocused = true;
+    this.isEdit = true;
+    let payload = {};
+    if (this.isValidForm(row)) {
+      if (_.isNil(row.dateCompleted)) {
+        delete row.programUuid;
+      }
+      payload = this.programService.createEnrollmentPayload(
+      row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted,
+        this.isEditLocation, row.programUuid);
+      if (payload) {
+        setTimeout(() => {
+          this._updatePatientProgramEnrollment(payload);
+        }, 2000);
+      }
+    }
+  }
+
+  public enrollPatientToProgram() {
+    this.isFocused = true;
+    this.isEdit = false;
+    let payload = {};
+    if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
+       payload = this.programService.createEnrollmentPayload(
+        this.program, this.patient, this.dateEnrolled,
+        this.dateCompleted, this.selectedLocation, '');
+       if (payload) {
+        this._updatePatientProgramEnrollment(payload);
+      }
+    }
+  }
+
+  public onAddPinkBackground(hasPink: boolean) {
+    this.addPinkBackground = hasPink;
+  }
+  public getSelectedLocationToEdit(loc) {
+    this.isEditLocation = loc;
+  }
+
   private isValidForm(row: any) {
-    if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted)) {
+    if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted,
+        this.isEditLocation || this.selectedLocation )) {
       row.validationError = this.currentError;
       this.isFocused = false;
       if (this.isEdit) {
@@ -208,7 +227,6 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         if (!_.isNil(row.isFocused)) {
           row.isFocused = false;
         }
-
       }
     } else {
       row.validationError = '';
@@ -230,7 +248,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  private _formFieldsValid(enrolledDate, completedDate) {
+  private _formFieldsValid(enrolledDate, completedDate, location) {
     if (!this.isEdit && this.program === '') {
       this._showErrorMessage('Program is required.');
       return false;
@@ -243,6 +261,11 @@ export class LandingPageComponent implements OnInit, OnDestroy {
 
     if (_.isNil(enrolledDate) || (!_.isNil(completedDate) && _.isNil(completedDate))) {
       this._showErrorMessage('Date Enrolled is required.');
+      return false;
+    }
+    if (_.isNil(location) || (!_.isNil(completedDate) && _.isNil(completedDate))
+    || (!_.isNil(enrolledDate) && _.isNil(enrolledDate))) {
+      this._showErrorMessage('Location Enrolled is required.');
       return false;
     }
 
@@ -260,7 +283,8 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
 
   private _isFutureDates(enrolledDate, completedDate) {
-    let today = new Date();
+    let today: Date;
+    today = new Date();
     if (moment(enrolledDate).isAfter(today) || (!_.isNil(completedDate)
       && moment(completedDate).isAfter(today))) {
       return true;
@@ -284,6 +308,20 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.errors = [];
     this.dateEnrolled = undefined;
     this.dateCompleted = undefined;
+    this.selectedLocation = undefined;
+  }
+  private fetchLocations(): void {
+    this.locationResourceService.getLocations().subscribe(
+      (locations: any[]) => {
+        this.locations = [];
+        for (const item of locations) {
+          this.locations.push({label: item.name, value: item.uuid});
+        }
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
 }

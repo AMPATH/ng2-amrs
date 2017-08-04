@@ -67,7 +67,8 @@ describe('Service: ProgramEnrollmentResourceService', () => {
       mockBackend.connections.subscribe(conn => {
         expect(conn.request.url)
           .toBe('http://example.url.com/ws/rest/v1/programenrollment?v=custom:' +
-            '(uuid,display,voided,dateEnrolled,dateCompleted,program:(uuid))&patient=uuid');
+            '(uuid,display,voided,dateEnrolled,dateCompleted,' +
+            'location,program:(uuid))&patient=uuid');
         expect(conn.request.method).toBe(RequestMethod.Get);
         conn.mockRespond(new Response(
           new ResponseOptions({body: JSON.stringify(programEnrollmentResponse)})));
