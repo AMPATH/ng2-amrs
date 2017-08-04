@@ -1,3 +1,4 @@
+
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +20,7 @@ import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
 import { HivProgramSnapshotComponent } from '../programs/hiv/hiv-program-snapshot.component';
 import { CohortMemberModule }
  from '../../patient-list-cohort/cohort-member/cohort-member.module';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 
 class FakePatientService {
   currentlyLoadedPatient: BehaviorSubject<Patient> =
@@ -47,6 +49,12 @@ class FakeRoutesProviderService {
   };
   constructor() {
 
+  }
+}
+class LocationStub {
+
+  public getLocations(payload): Observable<any> {
+    return Observable.of({status: 'okay'});
   }
 }
 
@@ -82,6 +90,10 @@ describe('Component: LandingPageComponent', () => {
           useClass: FakePatientService
         },
         {
+          provide: LocationResourceService,
+          useClass: LocationStub
+        },
+        {
           provide: PatientService,
           useClass: FakeRoutesProviderService
         },
@@ -99,6 +111,7 @@ describe('Component: LandingPageComponent', () => {
           },
           deps: [MockBackend, BaseRequestOptions]
         }
+
       ],
       declarations: [LandingPageComponent, HivProgramSnapshotComponent],
       imports: [PanelModule, CommonModule, FormsModule, CohortMemberModule,
@@ -119,8 +132,10 @@ describe('Component: LandingPageComponent', () => {
   });
 
   it('should load programs, enrolled and enrollable when `loadProgramBatch` is called',
-    fakeAsync(inject([PatientService, RoutesProviderService, ProgramService, MockBackend],
-      (ps: PatientService, rs: RoutesProviderService, prs: ProgramService,
+    fakeAsync(inject([PatientService, RoutesProviderService, ProgramService,
+        LocationResourceService, MockBackend],
+      (ps: PatientService, rs: RoutesProviderService,
+       prs: ProgramService, ls: LocationResourceService,
         backend: MockBackend) => {
         const availablePrograms = [
           {
@@ -161,8 +176,10 @@ describe('Component: LandingPageComponent', () => {
   );
 
   it('should generate error when `loadProgramBatch` has an error response',
-    fakeAsync(inject([PatientService, RoutesProviderService, ProgramService, MockBackend],
-      (ps: PatientService, rs: RoutesProviderService, prs: ProgramService,
+    fakeAsync(inject([PatientService, RoutesProviderService, ProgramService,
+        LocationResourceService, MockBackend],
+      (ps: PatientService, rs: RoutesProviderService,
+       prs: ProgramService, ls: LocationResourceService,
         backend: MockBackend) => {
         backend.connections.subscribe((connection: MockConnection) => {
           connection.mockError(new Error('An error occured'));
@@ -177,3 +194,4 @@ describe('Component: LandingPageComponent', () => {
       }))
   );
 });
+

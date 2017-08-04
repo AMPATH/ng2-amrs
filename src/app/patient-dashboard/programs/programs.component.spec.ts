@@ -1,5 +1,5 @@
-/* tslint:disable:no-unused-variable */
 
+import { Observable } from 'rxjs';
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -37,8 +37,15 @@ import {
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { HivProgramSnapshotComponent } from './hiv/hiv-program-snapshot.component';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+class LocationStub {
+
+  public getLocations(payload): Observable<any> {
+    return Observable.of({status: 'okay'});
+  }
+}
 describe('Component: ProgramsComponent', () => {
-  let patientService: PatientService,
+  let patientService: PatientService, locationResourceService: LocationResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
     programService: ProgramService, fixture, componentInstance;
   beforeEach(() => {
@@ -63,6 +70,10 @@ describe('Component: ProgramsComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         {
+          provide: LocationResourceService,
+          useClass: LocationStub
+        },
+        {
           provide: AppFeatureAnalytics, useFactory: () => {
             return new FakeAppFeatureAnalytics();
           }, deps: []
@@ -71,6 +82,7 @@ describe('Component: ProgramsComponent', () => {
           provide: ProgramEnrollmentResourceService, useFactory: () => {
             return new FakeProgramEnrollmentResourceService(null, null);
           }, deps: []
+
         }],
       declarations: [ProgramsComponent, HivProgramSnapshotComponent],
       imports: [BusyModule, FormsModule,
@@ -94,8 +106,9 @@ describe('Component: ProgramsComponent', () => {
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     patientService = TestBed.get(PatientService);
     programService = TestBed.get(ProgramService);
+    locationResourceService = TestBed.get(LocationResourceService);
     let programComponent = new ProgramsComponent(fakeAppFeatureAnalytics,
-      patientService, programService);
+      patientService, programService, locationResourceService);
     expect(programComponent).toBeTruthy();
   });
 

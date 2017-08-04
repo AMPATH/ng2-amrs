@@ -125,6 +125,14 @@ h3 {
   color: #ccc;
 }
 
+.hide-dropdown .open {
+  display: none;
+}
+.show-dropdown .open {
+  display: block;
+}
+
+
 .program .program-header, .program .program-footer{
   margin: 10px 20px 10px 20px;
   font-size: 1.72rem;
