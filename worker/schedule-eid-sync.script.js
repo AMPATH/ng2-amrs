@@ -79,10 +79,10 @@ var service = {
                 console.log('*********************************');
                 console.log('Sending email notification to maintainers..');
                 service.sendMail('There was an error sheduling the eid-amrs sync:  ' +
-                        JSON.stringify(service.errorQueue), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
+                        JSON.stringify(service.errorQueue, null, 4), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
                     .then(function (info) {
                         console.log('*********************************');
-                        console.log('Exiting scheduler with status 1...')
+                        console.log('Exiting scheduler with status 1...');
                         process.exit(1);
                     })
                     .catch(function (error) {
