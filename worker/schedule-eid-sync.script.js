@@ -1,15 +1,15 @@
 var
     db = require('../etl-db'),
-    fs = require('fs')
-    , util = require('util')
-    , stream = require('stream')
-    , es = require('event-stream')
-    , config = require('../conf/config')
-    , Promise = require('bluebird')
-    , eidService = require('../service/eid.service.js')
-    , _ = require('underscore')
-    , format = require('date-format')
-    , moment = require('moment');
+    fs = require('fs'),
+    util = require('util'),
+    stream = require('stream'),
+    es = require('event-stream'),
+    config = require('../conf/config'),
+    Promise = require('bluebird'),
+    eidService = require('../service/eid.service.js'),
+    _ = require('underscore'),
+    format = require('date-format'),
+    moment = require('moment');
 var nodemailer = require('nodemailer'); // npm install nodemailer
 
 var log_file = 'lab-sync-scheduling.log';
@@ -79,7 +79,7 @@ var service = {
                 console.log('*********************************');
                 console.log('Sending email notification to maintainers..');
                 service.sendMail('There was an error sheduling the eid-amrs sync:  ' +
-                    JSON.stringify(service.errorQueue), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
+                        JSON.stringify(service.errorQueue), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
                     .then(function (info) {
                         console.log('*********************************');
                         console.log('Exiting scheduler with status 1...')
@@ -134,9 +134,27 @@ var service = {
                         .then(function (results) {
                             console.log('Scheduled patients with pending vl orders successfully');
                             service.logSuccessfulScheduling('Scheduled patients with pending vl  successfully', startDateVlPending);
-                            console.info('*********************************');
-                            console.log('Exiting scheduler...');
-                            process.exit(0);
+                            // console.info('*********************************');
+                            // console.log('Exiting scheduler...');
+                            // process.exit(0);
+                            service.schedulePatientsWithMissingVlPastOneYear()
+                                .then(function (res) {
+                                    console.log('Scheduled patients with missing vl successfully');
+                                    service.logSuccessfulScheduling('Scheduled patients with missing vl', startDateVlPending);
+                                    console.info('*********************************');
+                                    console.log('Exiting scheduler...');
+                                    process.exit(0);
+                                })
+                                .catch(function (err) {
+                                    console.error('Error scheduling patients with missing vl', error);
+                                    service.logErrorWhenScheduling('Error scheduling patients with missing VL for date ' + startDateVlPending, error);
+                                    service.sendMail('Error scheduling patients with missing vl' + error,
+                                        'Error Scheduling EID-AMRS Sync For patients with missing VL', 'ampath-developers@ampath.or.ke');
+
+                                    console.info('*********************************');
+                                    console.log('Exiting scheduler...');
+                                    process.exit(0);
+                                });
                         })
                         .catch(function (error) {
                             console.error('Error scheduling patients with pending vl orders', error);
@@ -164,25 +182,25 @@ var service = {
         return new Promise(function (resolve, reject) {
             var newQueue = [];
             Promise.reduce(service.errorQueue, function (before, currentRow) {
-                return new Promise(function (resolve, reject) {
-                    service.scheduleEidSyncPerServerPerType(currentRow)
-                        .then(function (result) {
-                            service.scheduledSuccessfully.push({
-                                type: currentRow.type,
-                                host: currentRow.host,
-                                patientsScheduledForSync: result.patientIdentifiers,
-                                startDate: currentRow.startDate,
-                                endDate: currentRow.endDate
+                    return new Promise(function (resolve, reject) {
+                        service.scheduleEidSyncPerServerPerType(currentRow)
+                            .then(function (result) {
+                                service.scheduledSuccessfully.push({
+                                    type: currentRow.type,
+                                    host: currentRow.host,
+                                    patientsScheduledForSync: result.patientIdentifiers,
+                                    startDate: currentRow.startDate,
+                                    endDate: currentRow.endDate
+                                });
+                                resolve(result);
+                            })
+                            .catch(function (error) {
+                                currentRow.error = error;
+                                newQueue.push(currentRow);
+                                resolve(currentRow);
                             });
-                            resolve(result);
-                        })
-                        .catch(function (error) {
-                            currentRow.error = error;
-                            newQueue.push(currentRow);
-                            resolve(currentRow);
-                        });
-                });
-            }, 0)
+                    });
+                }, 0)
                 .then(function (result) {
                     service.errorQueue = newQueue;
                     service.schedulingInProgress = false;
@@ -324,6 +342,27 @@ var service = {
             });
         });
     },
+    schedulePatientsWithMissingVlPastOneYear: function () {
+        var sql = "replace into  etl.eid_sync_queue(person_uuid) " +
+            "(select uuid from etl.flat_hiv_summary where timestampdiff(month, vl_1_date, now()) >= 11 and timestampdiff(month,arv_start_date,now()) >= 4 and is_clinical_encounter=1 and next_clinical_datetime_hiv is null and timestampdiff(month,encounter_datetime,now()) <= 18)";
+        // sql = sql.replace('?', startDate);
+        console.log(sql);
+
+        var queryObject = {
+            query: sql,
+            sqlParams: []
+        }
+
+        return new Promise(function (resolve, reject) {
+            db.queryReportServer(queryObject, function (response) {
+                if (response.error) {
+                    reject(response);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+    },
     getProcessArg(arg) {
 
         var val = null;
@@ -338,10 +377,16 @@ var service = {
     },
     logSuccessfulScheduling: function (logMessage) {
         // var s = fs.createReadStream(log_file);
-        fs.appendFileSync(log_file, JSON.stringify({ date: new Date(), log: logMessage }) + '\r\n');
+        fs.appendFileSync(log_file, JSON.stringify({
+            date: new Date(),
+            log: logMessage
+        }) + '\r\n');
     },
     logErrorWhenScheduling: function (error) {
-        fs.appendFileSync(error_file, JSON.stringify({ date: new Date(), error: error }) + '\r\n');
+        fs.appendFileSync(error_file, JSON.stringify({
+            date: new Date(),
+            error: error
+        }) + '\r\n');
     },
     sendMail: function (message, title, destination) {
         var transporter = nodemailer.createTransport({
@@ -377,4 +422,3 @@ var service = {
 };
 
 service.start();
-
