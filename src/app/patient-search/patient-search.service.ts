@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-
-import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import { Patient } from '../models/patient.model';
+import { PatientResourceService } from './../openmrs-api/patient-resource.service';
+import { Patient } from './../models/patient.model';
 
 @Injectable()
 export class PatientSearchService {
@@ -30,6 +29,7 @@ export class PatientSearchService {
         this.patientsSearchResults.next(mappedPatients);
       },
       (error) => {
+        console.log('Error', error);
         this.patientsSearchResults.error(error); // test case that returns error
         patientsSearchResults.error(error);
 

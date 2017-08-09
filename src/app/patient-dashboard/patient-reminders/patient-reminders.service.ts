@@ -15,6 +15,7 @@ export class PatientReminderService {
       this.patientReminderResourceService.getPatientLevelReminders(patientUuid);
     clinicalReminders.subscribe(
       (data) => {
+        console.log('Clinical Reminders', data);
         if (data && data.reminders.length > 0) {
           let remindersObj = {
             personUuid: data.person_uuid,

@@ -1,11 +1,38 @@
 .badge-info {
   background-color: #3a87ad;
 }
-.input-group-btn {
-    font-size: initial;
-}
+
 .input-group-btn > .btn {
   margin-left: 5px;
+}
+.patient-search{
+    background: #FFF;
+    padding-top: 1%;
+    margin-top: 10px;
+    padding-bottom: 3%;
+}
+.input-group-btn{
+  font-size: 14px;
+}
+
+#search-textbox{
+  
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border:1px solid #BEBEBE;
+    transition: all 0.30s ease-in-out;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+}
+#search-textbox:focus{
+    -moz-box-shadow: 0 0 8px #88D5E9;
+    -webkit-box-shadow: 0 0 8px #88D5E9;
+    box-shadow: 0 0 8px #88D5E9;
+    border: 1px solid #88D5E9;
 }
 
 .alert {
@@ -29,6 +56,9 @@ button.btn-primary {
   border-color: #f1f1f1;
 }
 
+
 .glyphicon {
   margin-right:7px;
 }
+
+

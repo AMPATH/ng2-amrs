@@ -20,6 +20,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 })
 export class AddPatientRelationshipComponent implements OnInit {
     public display: boolean = false;
+    public hideResult = false;
     private showSuccessAlert: boolean = false;
     private showErrorAlert: boolean = false;
     private successAlert: string;
@@ -49,9 +50,11 @@ export class AddPatientRelationshipComponent implements OnInit {
     }
 
     public showDialog() {
+        this.hideResult = true;
         this.display = true;
         this.getRelationShipTypes();
     }
+
 
     public getRelationShipTypes(): void {
         let request = this.patientRelationshipTypeService.getRelationshipTypes();
@@ -155,9 +158,10 @@ export class AddPatientRelationshipComponent implements OnInit {
         this.errorTitle = errorTitle;
     }
 
-    public getSelectedRelative(patientToBindRelationship) {
+    public relativeSelected(patientToBindRelationship) {
         if (patientToBindRelationship) {
             this.patientToBindRelationship = patientToBindRelationship;
+             this.hideResult = true;
         }
     }
 }

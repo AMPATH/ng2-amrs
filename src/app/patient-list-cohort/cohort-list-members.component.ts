@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
@@ -92,7 +91,6 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
       });
 
   }
-
   loadPatientData(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {
       return;

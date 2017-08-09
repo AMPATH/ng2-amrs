@@ -16,7 +16,6 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
-import { PatientSearchComponent } from './patient-search/patient-search.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
@@ -33,7 +32,6 @@ import { PatientIdentifierComponent } from './patient-identifier/patient-identif
 import { ProgramService } from './programs/program.service';
 import { ProgramsComponent } from './programs/programs.component';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
-import { PatientSearchService } from './patient-search/patient-search.service';
 import { FormOrderMetaDataService } from './forms/form-order-metadata.service';
 import { FormListService } from './forms/form-list.service';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
@@ -75,9 +73,8 @@ import { OrderListComponent } from './formentry/order-list.component';
 import { PatientMonthlyStatusComponent } from
   './patient-status-change/patient-monthly-status.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
-import {
-  PatientRelationshipSearchComponent
-} from './patient-search/patient-relationship-search.component';
+import { PatientRelationshipSearchComponent } from
+'./patient-relationships/patient-relationship-search.component';
 import {
   AddPatientRelationshipComponent
 } from './patient-relationships/add-patient-relationship.component';
@@ -127,6 +124,7 @@ import { OrderByAlphabetPipe } from './visit-encounters/visit-encounter.componen
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
 import { EncounterTypeFilter } from
 './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
+import { PatientSearchModule } from './../patient-search/patient-search.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -164,14 +162,14 @@ import { EncounterTypeFilter } from
     ]),
     LabOrderSearchModule,
     FileUploaderModule,
-    CohortMemberModule
+    CohortMemberModule,
+    PatientSearchModule
   ],
   declarations: [
     LandingPageComponent,
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientEncounterObservationsComponent,
-    PatientSearchComponent,
     PatientDashboardComponent,
     PatientVitalsComponent,
     FormsComponent,
@@ -225,7 +223,6 @@ import { EncounterTypeFilter } from
   providers: [
     PatientEncounterService,
     PatientDashboardGuard,
-    PatientSearchService,
     AppFeatureAnalytics,
     PatientService,
     PatientPreviousEncounterService,

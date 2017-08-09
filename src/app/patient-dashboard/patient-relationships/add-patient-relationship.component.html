@@ -1,11 +1,14 @@
-<p-dialog header="Add Relationship" width="360" [(visible)]="display" modal="true"
+<p-dialog header="Add Relationship"  width="600" [(visible)]="display" modal="true"
           appendTo="body">
+    <div class="container-fluid">
+       <app-patient-search (patientSelected)='relativeSelected($event)' [hideResults]="hideResult"></app-patient-search>
+	   <div class="row">
+		   
 	<form>
-		<div class="form-group">
-			<div>
-				<patient-relationship-search (onPatientToBindRelationship)="getSelectedRelative($event)"></patient-relationship-search>
-				<label >Patient Name: </label><span *ngIf="patientToBindRelationship">{{patientToBindRelationship.person.display}}</span><br>
-				<label for="relationship">Relationship Type</label>
+				<div class="form-group">
+			  <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+				<label class="control-label">Patient Name: </label><span *ngIf="patientToBindRelationship">{{patientToBindRelationship.person.display}}</span><br>
+				<label class="control-label" for="relationship">Relationship Type</label>
 				<select [(ngModel)]="selectedRelationshipType" [ngModelOptions]="{standalone: true}" class="form-control">
                     <option  *ngFor="let patientRelationshipType of patientRelationshipTypes" [ngValue]="patientRelationshipType">{{patientRelationshipType.display}}</option>
                 </select>
@@ -22,8 +25,11 @@
 				<div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
 					<strong>{{errorTitle}}</strong> {{errorAlert}}
 				</div>
-			</div>
+			  </div>
+
 		</div>
 	</form>
+	   </div>
+    </div>
 
 </p-dialog>

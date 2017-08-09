@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-import { PatientSearchComponent } from './patient-search/patient-search.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';
@@ -23,10 +22,12 @@ import { HivPatientClinicalSummaryComponent }
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
+import { PatientSearchContainerComponent } from
+'../patient-search/patient-search-container.component';
 
 const patientDashboardRoutes: Routes = [
 
-  { path: 'patient-search', component: PatientSearchComponent },
+  { path: 'patient-search', component: PatientSearchContainerComponent },
   {
     path: ':patient_uuid',
     component: PatientDashboardComponent,

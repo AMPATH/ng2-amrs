@@ -4,12 +4,11 @@ import { Patient } from '../../models/patient.model';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { CohortMemberResourceService } from '../../openmrs-api/cohort-member-resource.service';
 import { CohortResourceService } from '../../openmrs-api/cohort-resource.service';
-import { PatientSearchComponent } from '../../patient-search/patient-search.component';
 import { CohortSelectorComponent } from './cohort-selector.component';
 @Component({
     selector: 'add-cohort-member',
     templateUrl: 'add-cohort-member.component.html',
-    styleUrls: ['add-cohort-member.component.css']
+    styleUrls: ['add-to-cohort-dialog.component.css']
 })
 
 export class AddCohortMemberComponent implements OnInit {
@@ -17,6 +16,7 @@ export class AddCohortMemberComponent implements OnInit {
     public isBusy: boolean = false;
     public hasError: boolean = false;
     public errorMessage: string = '';
+    public hideResult = true;
 
     @Output()
     public saved: EventEmitter<any> = new EventEmitter();
@@ -77,6 +77,13 @@ export class AddCohortMemberComponent implements OnInit {
 
     }
 
+    patientSelected(patient) {
+        this.patient = patient;
+        this._patientUuid = patient.uuid;
+        this.showPatientSearch = false;
+        this.hideResult = true;
+    }
+
     showPatientSearchComponent() {
         this.showPatientSearch = true;
     }
@@ -85,10 +92,6 @@ export class AddCohortMemberComponent implements OnInit {
         this.showCohortSelector = true;
     }
 
-    patientSelected(patient) {
-        this.patient = patient;
-        this.showPatientSearch = false;
-    }
 
     cohortSelected(cohort) {
         this.cohort = cohort;
