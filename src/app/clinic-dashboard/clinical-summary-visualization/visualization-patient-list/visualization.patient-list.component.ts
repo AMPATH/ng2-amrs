@@ -21,6 +21,7 @@ export class VisualizationPatientListComponent implements OnInit {
   reportName: string;
   isLoading: boolean = false;
   dataLoaded: boolean = false;
+  isLoadingPatientList: boolean = false;
   currentIndicator: string;
   translatedIndicator: string;
   overrideColumns: Array<any> = [];
@@ -79,6 +80,7 @@ export class VisualizationPatientListComponent implements OnInit {
   }
 
   loadPatientData(reportName: string) {
+    this.isLoadingPatientList = true;
     this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
@@ -88,6 +90,7 @@ export class VisualizationPatientListComponent implements OnInit {
     }).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
+      this.isLoadingPatientList = false;
       this.startIndex += report.length;
       if (report.length < 300) {
         this.dataLoaded = true;
@@ -97,6 +100,7 @@ export class VisualizationPatientListComponent implements OnInit {
 
   loadMorePatients() {
     this.isLoading = true;
+    this.isLoadingPatientList = true;
     this.loadPatientData(this.reportName);
   }
 
