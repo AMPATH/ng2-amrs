@@ -31,10 +31,10 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
   sliderElt;
   filterCollapsed: boolean = false;
   initialized: boolean = false;
-  indicatorOptions: Array<any>;
+  indicatorOptions: any[] = [];
   @Output() onIndicatorChange = new EventEmitter<any>();
   @Output() onDateChange = new EventEmitter<any>();
-  genderOptions: Array<any>;
+  genderOptions: any[] = [];
   selectedIndicatorTagsSelectedAll: boolean = false;
   @Output() onGenderChange = new EventEmitter<any>();
   @Output()
@@ -43,6 +43,11 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
   ageRange = new EventEmitter();
   @Input()
   parentIsBusy: boolean = false;
+  @Input()
+  public isShown: boolean = false;
+  @Input()
+  public disableGenerateButton: boolean = false;
+
 
   @Output()
   startDateChange = new EventEmitter<Date>();
@@ -52,7 +57,7 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
   private _startDate: Date;
   private _endDate: Date;
   private _report: string;
-  private _indicators: Array<any>;
+  private _indicators: Array<any> = [];
   private _gender: Array<any> = [];
   public get startDate(): Date {
     return this._startDate;

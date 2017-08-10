@@ -1,0 +1,22 @@
+chart {
+  display: block;
+}
+.slide-toggle {
+  margin-right: 12px;
+  float: right;
+  display: inline-block;
+}
+.chart-inner {
+  position: absolute;
+  width: 20%; height: 50%;
+}
+.chart-wrapper {
+  position: relative;
+  padding-bottom: 40%;
+  width:10%;
+  float:left;
+}
+
+.highcharts-container {
+  width: 100% !important;
+}

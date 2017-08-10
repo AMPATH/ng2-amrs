@@ -17,9 +17,10 @@
       "isSideBarOpen": false
     },
     {
-      "url": "visualization",
+      "url": "hiv/hiv-comparative-chart",
       "label": "Clinical Visualization",
-      "icon": "fa fa-line-chart"
+      "icon": "fa fa-line-chart",
+      "isSideBarOpen": false
     },
     {
       "url": "patient-status-change-visualization",

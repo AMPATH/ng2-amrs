@@ -11,6 +11,11 @@ import {
 import {
     PatientsRequiringVLComponent
 } from './patients-requiring-vl/patients-requiring-vl.component';
+import { HivCareComparativeComponent
+} from './hiv-visualization/hiv-care-overview.component';
+import {
+  VisualizationPatientListComponent
+} from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
 
 const routes: Routes = [
     {
@@ -37,7 +42,22 @@ const routes: Routes = [
     {
         path: 'patients-requiring-vl',
         component: PatientsRequiringVLComponent,
-    }
+    },
+    {
+      path: 'hiv-comparative-chart',
+      children: [
+        {
+          path: '',
+          component: HivCareComparativeComponent
+        },
+        {
+          path: 'patient-list/:report/:indicator/:period',
+          component: VisualizationPatientListComponent
+        }
+
+      ]
+
+    },
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =
