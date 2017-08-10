@@ -23,6 +23,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     excludedForms = [];
     encounterTypeFormFilter = [];
     visit: any;
+    isDeceased: boolean = false;
     visitWithNoEncounters: boolean = true;
     patient: any;
     subscription: Subscription;
@@ -95,6 +96,7 @@ export class VisitComponent implements OnInit, OnDestroy {
         (patient) => {
           if (patient !== null) {
             this.patient = patient;
+            this.isDeceased = patient.person.dead;
             let programVisits = patient['programVisits'] || [];
             this.getVisit(patient.person.uuid);
           }
@@ -123,6 +125,10 @@ export class VisitComponent implements OnInit, OnDestroy {
           });
     }
 
+    viewPatientInfo() {
+      this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/patient-info']);
+    }
+
     filterVisitTypesByProgram(visitTypes): void {
 
       this.route.params.subscribe(params => {
@@ -138,6 +144,7 @@ export class VisitComponent implements OnInit, OnDestroy {
               });
             });
           }
+          console.log('Filter Types', filteredTypes);
           this.visitTypes = filteredTypes;
           this.loadingVisitTypes = false;
         }

@@ -1,8 +1,9 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, Output, Input, EventEmitter, SimpleChange } from '@angular/core';
-
 import { Form } from '../../models/form.model';
 import { FormListService } from './form-list.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
+import { PatientService } from '../patient.service';
 @Component({
     selector: 'form-list',
     templateUrl: 'form-list.component.html',
@@ -15,10 +16,16 @@ export class FormListComponent implements OnInit {
     forms: Array<Form>;
     selectedForm: Form;
     filterTerm: string = '';
+    patient: any = [];
+    message: string = '';
+    hideFormList: boolean = false;
+
     constructor(private formListService: FormListService,
-        private formOrderMetaDataService: FormOrderMetaDataService) { }
+        private formOrderMetaDataService: FormOrderMetaDataService,
+        private _patientService: PatientService) { }
 
     ngOnInit() {
+        this.loadedPatient();
         this.getForms();
     }
 
@@ -72,5 +79,16 @@ export class FormListComponent implements OnInit {
 
     isLoading(form: Form): boolean {
         return form === this.selectedForm;
+    }
+    loadedPatient() {
+       this._patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        this.patient = patient;
+        if (patient) {
+          this.patient = patient;
+          this.hideFormList = patient.person.dead;
+        }
+      }
+    );
     }
 }

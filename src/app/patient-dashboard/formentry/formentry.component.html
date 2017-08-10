@@ -1,4 +1,8 @@
-<div class="form-entry">
+<div class="alert alert-danger" *ngIf="hideForm">
+    Patient is deceased.If not <a (click)="viewPatientInfo()">Edit</a> their deceased state.
+</div>
+
+<div class="form-entry" *ngIf="!hideForm">
 	<div [ngBusy]="busyIndicator">
 		<div class='col-md-12' *ngIf=form>
 			<error-renderer [form]="form"></error-renderer>
