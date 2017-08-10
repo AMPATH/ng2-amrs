@@ -361,6 +361,7 @@ module.exports = function () {
                         filename: path.join(__dirname, 'logs', 'client-logs.log')
                     });
                     logger.info(request.payload);
+                    logger.close();
                 }
 
                 reply({

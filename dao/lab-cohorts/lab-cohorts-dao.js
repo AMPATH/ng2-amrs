@@ -9,7 +9,7 @@ var eidPatientCohortService = require('../../service/eid/eid-patient-cohort.serv
 var config = require('../../conf/config');
 var etlLogger = require('../../etl-file-logger');
 
-var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
+
 
 module.exports = {
 
@@ -30,7 +30,9 @@ function loadLabCohorts(request, reply) {
     .then(function(data) {
       reply(data);
     }).catch(function(err) {
+      var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
       logger.error('Error Loading lab cohorts: ' + err.stack.split('/n'));
+      logger.close();
 
       reply({
         errorMessage: 'error generating report',
@@ -81,8 +83,9 @@ function syncLabCohorts(request, reply) {
     success: [],
     fail:  []
   };
-
+  var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
   logger.info('starting patient sync..');
+  logger.close();
   //load uuids and loop through them
   sync(params, responses, reply);
 }
@@ -145,7 +148,10 @@ function sync(params, responses, reply) {
 
   var limit = params.limit;
 
+  var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
   logger.info('Loading db data: params: ' + JSON.stringify(params));
+  logger.close();
+
   queuePatientUuids(params.startDate, params.endDate, limit, params.offset);
 }
 
@@ -160,11 +166,13 @@ function post(locations, data) {
     arr.push(row.uuid);
   });
 
+  var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
   logger.info('syncronizing ' + arr.length + ' records');
 
   return new Promise(function(resolve, reject) {
     eidPatientCohortService.synchronizePatientCohort(arr, locations, function(res) {
       logger.info('sync result: %s', JSON.stringify(res));
+      logger.close();
       resolve(res);
     });
   });

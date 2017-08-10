@@ -27,6 +27,7 @@ function logRequestError(message, fileName, absolutePath) {
     filename: absolutePath + fileName || 'server-request-logs.log'
   });
   logger.error(message);
+  logger.close();
 }
 
 function logger(filePath) {

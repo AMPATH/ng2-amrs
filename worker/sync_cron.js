@@ -1,40 +1,43 @@
 var
-  db = require('../etl-db')
-  , Promise = require('bluebird')
-  , http = require('http')
-  , config = require('../conf/config')
-  , curl = require('curlrequest')
-  , _ = require('underscore')
-  , format = require('date-format')
-  , etlLogger = require('../etl-file-logger');
+  db = require('../etl-db'),
+  Promise = require('bluebird'),
+  http = require('http'),
+  config = require('../conf/config'),
+  curl = require('curlrequest'),
+  _ = require('underscore'),
+  format = require('date-format'),
+  etlLogger = require('../etl-file-logger');
 
 var App = {
 
-  start: function() {
+  start: function () {
 
     var _this = this;
-
+    var logger = etlLogger.logger(config.logging.eidPath + '/sync-cron-info.log');
     this.getPatientsWithResults()
-      .then(function(results) {
+      .then(function (results) {
         return _this.savePatientsWithResults(results);
       })
-      .then(function(result) {
-        etlLogger.logger(config.logging.eidPath + '/sync-cron-info.log').info('sync success: %s', JSON.stringify(result));
+      .then(function (result) {
+
+        logger.info('sync success: %s', JSON.stringify(result));
+        logger.close();
         process.exit(1);
       })
-      .catch(function(err) {
-        etlLogger.logger(config.logging.eidPath + '/sync-cron-error.log').error('sync error: %s', err.message);
+      .catch(function (err) {
+        logger.error('sync error: %s', err.message);
+        logger.close();
         console.log(err);
         process.exit(1);
       });
   },
 
-  buildUrl: function() {
+  buildUrl: function () {
 
     var startDate = this.getProcessArg('--start-date');
     var endDate = this.getProcessArg('--end-date');
 
-    if ( !startDate) {
+    if (!startDate) {
 
       startDate = new Date();
       startDate.setDate(startDate.getDate() - 1);
@@ -48,10 +51,10 @@ var App = {
 
     var url = protocol + '://' + config.etl.host + ':' + config.etl.port +
       '/etl/eid/patients-with-results?startDate=' + startDate + '&endDate=' + endDate;
-      return url;
+    return url;
   },
 
-  getPatientsWithResults: function() {
+  getPatientsWithResults: function () {
 
     var url = this.buildUrl();
 
@@ -65,7 +68,7 @@ var App = {
       }
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
 
       curl.request(options, function (err, parts) {
 
@@ -90,8 +93,8 @@ var App = {
       sqlParams: []
     }
 
-    return new Promise(function(resolve, reject) {
-      db.queryReportServer(queryObject, function(result) {
+    return new Promise(function (resolve, reject) {
+      db.queryReportServer(queryObject, function (result) {
         console.log(result);
         resolve(result);
       });
@@ -103,8 +106,8 @@ var App = {
     var val = null;
 
     var args = process.argv;
-    _.each(args, function(row) {
-      if(row.indexOf(arg) != -1) {
+    _.each(args, function (row) {
+      if (row.indexOf(arg) != -1) {
         val = row.split('=')[1];
       }
     });
