@@ -141,9 +141,27 @@ var service = {
                                 .then(function (res) {
                                     console.log('Scheduled patients with missing vl successfully');
                                     service.logSuccessfulScheduling('Scheduled patients with missing vl', startDateVlPending);
-                                    console.info('*********************************');
-                                    console.log('Exiting scheduler...');
-                                    process.exit(0);
+                                    // console.info('*********************************');
+                                    // console.log('Exiting scheduler...');
+                                    // process.exit(0);
+                                    service.rescheduleEidSyncErrors()
+                                        .then(function (res2) {
+                                            console.log('Scheduled patients in error queue successfully');
+                                            service.logSuccessfulScheduling('Scheduled patients in error queue successfully');
+                                            console.info('*********************************');
+                                            console.log('Exiting scheduler...');
+                                            process.exit(0);
+                                        })
+                                        .catch(function (err) {
+                                            console.error('Error rescheduling patients in error queue', err);
+                                            service.logErrorWhenScheduling('Error rescheduling patients in error queue ', err);
+                                            service.sendMail('Error rescheduling patients in error queue' + err,
+                                                'Error Scheduling EID-AMRS Sync For patients in error queue', 'ampath-developers@ampath.or.ke');
+
+                                            console.info('*********************************');
+                                            console.log('Exiting scheduler...');
+                                            process.exit(1);
+                                        });
                                 })
                                 .catch(function (err) {
                                     console.error('Error scheduling patients with missing vl', error);
@@ -153,7 +171,7 @@ var service = {
 
                                     console.info('*********************************');
                                     console.log('Exiting scheduler...');
-                                    process.exit(0);
+                                    process.exit(1);
                                 });
                         })
                         .catch(function (error) {
@@ -164,7 +182,7 @@ var service = {
 
                             console.info('*********************************');
                             console.log('Exiting scheduler...');
-                            process.exit(0);
+                            process.exit(1);
                         });
 
                 } else {
@@ -325,7 +343,7 @@ var service = {
     schedulePatientsWithPendingOrders: function (startDate) {
         var sql = "replace into  etl.eid_sync_queue(person_uuid) (select distinct uuid from (select t3.uuid, t1.patient_id, t1.order_id, t2.order_id as obs_order_id, t1.date_activated from amrs.orders t1  inner join amrs.person t3 on t3.person_id = t1.patient_id left outer join amrs.obs t2 on t1.order_id = t2.order_id having obs_order_id is null) t where t.date_activated > date('?'))";
         sql = sql.replace('?', startDate);
-        console.log(sql);
+        // console.log(sql);
 
         var queryObject = {
             query: sql,
@@ -346,12 +364,71 @@ var service = {
         var sql = "replace into  etl.eid_sync_queue(person_uuid) " +
             "(select uuid from etl.flat_hiv_summary where timestampdiff(month, vl_1_date, now()) >= 11 and timestampdiff(month,arv_start_date,now()) >= 4 and is_clinical_encounter=1 and next_clinical_datetime_hiv is null and timestampdiff(month,encounter_datetime,now()) <= 18)";
         // sql = sql.replace('?', startDate);
-        console.log(sql);
+        // console.log(sql);
 
         var queryObject = {
             query: sql,
             sqlParams: []
         }
+
+        return new Promise(function (resolve, reject) {
+            db.queryReportServer(queryObject, function (response) {
+                if (response.error) {
+                    reject(response);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+    rescheduleEidSyncErrors: function () {
+        return new Promise(function (resolve, reject) {
+            service.insertEidQueueErrorsIntoEidSyncQueue()
+                .then(function (response) {
+                    service.emptyEidQueueErrors()
+                        .then(function (response2) {
+                            resolve({
+                                insert: response,
+                                delete: response2
+                            });
+                        })
+                        .catch(function (err) {
+                            reject(err);
+                            console.error('error:', err);
+                        });
+                })
+                .catch(function (err) {
+                    reject('Error occured inserting error queue back into syn queue');
+                    console.error('error:', err);
+                });
+        });
+    },
+    insertEidQueueErrorsIntoEidSyncQueue: function () {
+        var sql = 'replace into  etl.eid_sync_queue(person_uuid)' +
+            ' (select person_uuid from etl.eid_sync_queue_errors)';
+        var queryObject = {
+            query: sql,
+            sqlParams: []
+        };
+
+        return new Promise(function (resolve, reject) {
+            db.queryReportServer(queryObject, function (response) {
+                if (response.error) {
+                    reject(response);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+
+    },
+    emptyEidQueueErrors: function () {
+        var sql = 'delete from etl.eid_sync_queue_errors';
+
+        var queryObject = {
+            query: sql,
+            sqlParams: []
+        };
 
         return new Promise(function (resolve, reject) {
             db.queryReportServer(queryObject, function (response) {
