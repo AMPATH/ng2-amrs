@@ -18,6 +18,8 @@ var
   , curl = require('curlrequest')
   , eidResultsSchema = require('../eid-lab-results');
 
+  var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
+
 var definition = {
   getSynchronizedPatientLabResults: getSynchronizedPatientLabResults,
   getEIDTestResultsByPatientIdentifier: getEIDTestResultsByPatientIdentifier,
@@ -497,10 +499,7 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
           err_msg = 'Unable to convert object into response content';
 
         //log error
-        var loggger = 
-        etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
-        loggger.error('sync failure: %s', err.message);
-        loggger.close();
+        logger.error('sync failure: %s', err.message);
 
         fields[0].status = 1;
         fields[0].message = err_msg.substring(0, 100);
@@ -542,7 +541,6 @@ function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, refere
     //let _referenceDate = moment(referenceDate).format('DD-MMM-YYYY');
     let complete = [];
     let inprocess = [];
-    var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
     _.each(results, function (row) {
       logger.info('viral load result: %s', JSON.stringify(row));
       if (row && row.SampleStatus) {
@@ -554,7 +552,6 @@ function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, refere
         }
       }
     });
-    logger.close();
     // remove duplicate dates for complete and inprocess
     let completeByDay = complete.length > 0 ?
     _.uniq(complete, (result) => { return result.DateCollected; }) : [];
@@ -641,7 +638,6 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
       .then(function (response) {
 
         if (response.posts instanceof Array) {
-          var logger = etlLogger.logger(config.logging.eidPath + '/' + config.logging.eidFile);
           _.each(response.posts, function (row) {
             logger.info('viral load result: %s', JSON.stringify(row));
 
@@ -649,7 +645,6 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
               results.viralLoad.push(row);
             }
           });
-          logger.close();
         } else
           results[location_name].viralLoadErrorMsg = response;
 

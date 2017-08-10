@@ -10,6 +10,8 @@ var Sync = {
 
   timeout: 3000,
 
+  nextSyncDateTime: moment().subtract(1, 'minute'),
+
   records_limit: 1,
 
   processing: false,
@@ -42,6 +44,24 @@ var Sync = {
       Sync.processing = false;
       return;
     }
+
+    // incase of server unavailability, postpone sync    
+    if (moment().isBefore(Sync.nextSyncDateTime)) {
+      console.log('Sync paused and will resume ' + Sync.nextSyncDateTime.fromNow());
+      console.log('Sync will resume at ' + Sync.nextSyncDateTime.format());
+      Sync.processing = false;
+      return;
+    }
+
+    // if(!moment().isBefore(Sync.nextSyncDateTime)) {
+    //   console.log('simulating syncing at this point');
+    //   if(moment().minutes() >= 59){
+    //     console.log('simulating error');
+    //     Sync.nextSyncDateTime = moment().add(2, 'minute');
+    //   }
+    //   Sync.processing = false;
+    //   return;
+    // }
 
     this.loadDbRecords()
       .then(function (data) {
@@ -79,7 +99,7 @@ var Sync = {
     var qObject = {
       query: sql,
       sqlParams: [limit]
-    }
+    };
 
     return new Promise(function (resolve, reject) {
       db.queryReportServer(qObject, function (data) {
@@ -124,7 +144,12 @@ var Sync = {
       curl.request(options, function (err, parts) {
 
         if (err) {
+          if (err === 'Failed to connect to host.') {
+            console.error('ETL Backend Service might be down.');
+            Sync.nextSyncDateTime = moment().add(10, 'minute');
+          }
 
+          console.log('error while syncing ' + patientUuId + '. Logging error.');
           Sync.logError(patientUuId, err)
             .then(function () {
               resolve('str');
@@ -133,7 +158,6 @@ var Sync = {
               resolve('str');
             });
         } else {
-
           console.log('syncing single record done. ' + patientUuId);
           resolve('str');
         }
