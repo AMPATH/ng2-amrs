@@ -5,6 +5,8 @@
   (From: {{startDate | moment:'DD/MM/YYYY'}} To: {{endDate | moment:'DD/MM/YYYY'}})
 </h5>
 <hr />
+<div class="loader" *ngIf="isLoadingPatientList"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
 <patient-list [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
 <div *ngIf='!dataLoaded'>
   <div class="button">
