@@ -111,7 +111,8 @@ type StoreType = {
     DataCacheService
   ],
   exports: [
-    LabOrderSearchModule
+    LabOrderSearchModule,
+
   ]
 })
 export class AppModule {

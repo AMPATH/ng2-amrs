@@ -70,7 +70,8 @@ import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utili
       OnlineTrackerComponent,
       BuildVersionComponent,
       DateSelectorComponent,
-      PdfViewerComponent
+      PdfViewerComponent,
+      NgxMyDatePickerModule,
     ],
     declarations: [
       DisplayErrorComponent,

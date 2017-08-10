@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, style } from '@angular/core';
 
 import { AddCohortMemberComponent } from
     './add-cohort-member.component';
 
 @Component({
     selector: 'add-to-cohort-dialog',
-    templateUrl: 'add-to-cohort-dialog.component.html'
+    templateUrl: 'add-to-cohort-dialog.component.html',
+    styleUrls: ['add-to-cohort-dialog.component.css']
 })
 
 export class AddToCohortDialogComponent implements OnInit {
@@ -26,6 +27,8 @@ export class AddToCohortDialogComponent implements OnInit {
 
     @ViewChild('addCohortComp')
     public cohortComponent: AddCohortMemberComponent;
+
+    public styleClass: string = 'add-cohort-dialog';
 
 
     private _display: boolean = true;

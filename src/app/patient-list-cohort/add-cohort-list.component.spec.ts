@@ -1,14 +1,19 @@
-
-
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { AddCohortListComponent } from './add-cohort-list.component';
+import { CohortListService } from './cohort-list.service';
+import { Router } from '@angular/router';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { LocalStorageService } from './../utils/local-storage.service';
 
 describe('Component: AddCohortList Unit Tests', () => {
 
   let cohortResourceService: CohortResourceService, component;
+  let cohortListService: CohortListService;
+  let appSettingsService: AppSettingsService;
+  let localStorageService: LocalStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,14 +28,18 @@ describe('Component: AddCohortList Unit Tests', () => {
           },
           deps: [MockBackend, BaseRequestOptions]
         },
-        {
-          provide: CohortResourceService,
-        }
+        CohortResourceService,
+        CohortListService,
+        AppSettingsService,
+        LocalStorageService
       ]
     });
 
     cohortResourceService = TestBed.get(CohortResourceService);
-    component = new AddCohortListComponent(cohortResourceService , null);
+    cohortListService =  TestBed.get(CohortListService);
+    appSettingsService = TestBed.get(AppSettingsService);
+    localStorageService = TestBed.get(LocalStorageService);
+    component = new AddCohortListComponent(cohortResourceService , null , cohortListService);
 
   });
 

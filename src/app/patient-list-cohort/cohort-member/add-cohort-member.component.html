@@ -1,26 +1,35 @@
-<div>
-    <div id="cohort-section" class="cohort-field">
-        <div *ngIf="!showCohortSelector">
-            <button type="button" [(disabled)]="!allowCohortEdit"  class="btn btn-default btn-sm" (click)="showCohortSelectorComponent()">
-                <span class="fa fa-exchange"></span>
-            </button>
-            <span style="font-size: 18px;"> Patient List: {{cohort? (cohort.display ?  cohort.display : cohort.name):''}} </span>
-        </div>
-        <div *ngIf="showCohortSelector" class="selectable-field-wrapper">
-            <cohort-selector (cohortSelected)="cohortSelected($event)"></cohort-selector>
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+            <div id="cohort-section" class="cohort-field">
+                <div *ngIf="!showCohortSelector">
+                    <button type="button" [(disabled)]="!allowCohortEdit"  class="btn btn-default btn-sm" (click)="showCohortSelectorComponent()">
+                        <span class="fa fa-exchange"></span>
+                    </button>
+                    <span style="font-size: 18px;"> Patient List: {{cohort? (cohort.display ?  cohort.display : cohort.name):''}} </span>
+                </div>
+                <div *ngIf="showCohortSelector" class="selectable-field-wrapper">
+                    <cohort-selector (cohortSelected)="cohortSelected($event)"></cohort-selector>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="patient-section" class="cohort-field">
-        <div *ngIf="!showPatientSearch">
-            <button type="button" [(disabled)]="!allowPatientEdit" class="btn btn-default btn-sm" (click)="showPatientSearchComponent()">
-                <span class="fa fa-exchange"></span>
-            </button>
-            <span style="font-size: 18px;"> Patient: {{patient? patient.person.display :''}}</span>
-        </div>
-        <div *ngIf="showPatientSearch" class="selectable-field-wrapper">
-            <span style="margin-bottom: 20px;">Search and select patient to add to patient list:</span>
-            <br/>
-            <patient-search #patientSearch (patientSelected)="patientSelected($event)"></patient-search>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                <div id="patient-section" class="cohort-field">
+                    <div *ngIf="!showPatientSearch">
+                        <button type="button" [(disabled)]="!allowPatientEdit" class="btn btn-default btn-sm" (click)="showPatientSearchComponent()">
+                            <span class="fa fa-exchange"></span>
+                        </button>
+                        <span style="font-size: 18px;"> Patient: {{patient? patient.person.display :''}}</span>
+                    </div>
+                    <div *ngIf="showPatientSearch" class="selectable-field-wrapper">
+                        <span style="margin-bottom: 20px;">Search and select patient to add to patient list:</span>
+                        <br/>
+                        <app-patient-search (patientSelected)='patientSelected($event)' [hideResults]="hideResult"></app-patient-search>  
+                    </div>
+                </div>
         </div>
     </div>
     <div *ngIf="hasError" style="margin: 4px; border:1px solid darkred; padding:4px;">
@@ -34,4 +43,6 @@
             Cancel
         </button>
     </div>
+    </div>
 </div>
+

@@ -3,8 +3,7 @@ import {
     ViewChild, EventEmitter, Output, OnDestroy
 } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { PatientSearchService } from './patient-search.service';
+import { PatientSearchService } from './../../patient-search/patient-search.service';
 import { Patient } from '../../models/patient.model';
 import * as _ from 'lodash';
 import { PatientRelationshipService } from '../patient-relationships/patient-relationship.service';
