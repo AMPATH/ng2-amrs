@@ -1,10 +1,10 @@
 var
-  db = require('../etl-db')
-  , Promise = require('bluebird')
-  , https = require('http')
-  , config = require('../conf/config')
-  , moment = require('moment')
-  , curl = require('curlrequest');
+  db = require('../etl-db'),
+  Promise = require('bluebird'),
+  https = require('http'),
+  config = require('../conf/config'),
+  moment = require('moment'),
+  curl = require('curlrequest');
 
 var Sync = {
 
@@ -14,26 +14,26 @@ var Sync = {
 
   processing: false,
 
-  start: function() {
+  start: function () {
 
-    if(!config.eidSyncCredentials) {
+    if (!config.eidSyncCredentials) {
       console.log('openmrs sync user credentials should be provided');
       process.exit(1);
     }
 
     if (config.etl.tls) {
-        https = require('https');
+      https = require('https');
     }
 
     // load records from sync queue
-    setInterval(function() {
+    setInterval(function () {
 
-      if(!Sync.processing)
+      if (!Sync.processing)
         Sync.process();
-    },  Sync.timeout);
+    }, Sync.timeout);
   },
 
-  process: function() {
+  process: function () {
 
     var today = new Date().getHours();
 
@@ -44,22 +44,22 @@ var Sync = {
     }
 
     this.loadDbRecords()
-      .then(function(data) {
+      .then(function (data) {
 
-        if(data.length > 0) {
+        if (data.length > 0) {
 
           Sync.processing = true;
 
           Sync.sync(data)
-            .then(function() {
+            .then(function () {
 
               return Sync.deleteProcessed(data);
             })
-            .then(function(deleted) {
+            .then(function (deleted) {
 
               Sync.process();
             })
-            .catch(function(err) {
+            .catch(function (err) {
 
               Sync.processing = false;
             });
@@ -70,7 +70,7 @@ var Sync = {
       });
   },
 
-  loadDbRecords: function() {
+  loadDbRecords: function () {
 
     var limit = Sync.records_limit;
 
@@ -81,18 +81,18 @@ var Sync = {
       sqlParams: [limit]
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.queryReportServer(qObject, function (data) {
         resolve(data.result);
       });
     });
   },
 
-  sync: function(data) {
+  sync: function (data) {
 
     var list = [];
 
-    for(var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
 
       var row = data[i];
       list.push(Sync.syncSingleRecord(row.person_uuid));
@@ -101,7 +101,7 @@ var Sync = {
     return Promise.all(list);
   },
 
-  syncSingleRecord: function(patientUuId) {
+  syncSingleRecord: function (patientUuId) {
 
     console.log('syncing single record. ' + patientUuId);
 
@@ -119,17 +119,17 @@ var Sync = {
       }
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
 
       curl.request(options, function (err, parts) {
 
         if (err) {
 
           Sync.logError(patientUuId, err)
-            .then(function() {
+            .then(function () {
               resolve('str');
             })
-            .catch(function(err) {
+            .catch(function (err) {
               resolve('str');
             });
         } else {
@@ -142,25 +142,31 @@ var Sync = {
     });
   },
 
-  logError: function(patientUuId, error) {
+  logError: function (patientUuId, error) {
+    var sql = "INSERT INTO etl.eid_sync_queue_errors(person_uuid, error, date_created)" +
+      " VALUES('" + patientUuId + "','" + error + "', NOW())";
 
-    var table = 'etl.eid_sync_queue_errors';
-    var fields = [
-      {
-        person_uuid: patientUuId,
-        error: error,
-        date_created: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-      }
-    ];
+    var queryObject = {
+      query: sql,
+      sqlParams: []
+    };
 
-    return db.saveRecord(table, fields);
+    return new Promise(function (resolve, reject) {
+      db.queryReportServer(queryObject, function (response) {
+        if (response.error) {
+          reject(response);
+        } else {
+          resolve(response);
+        }
+      });
+    });
   },
 
-  deleteProcessed: function(data) {
+  deleteProcessed: function (data) {
 
     var lst = [];
 
-    for(var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       var row = data[i];
       lst.push(row.person_uuid);
     }
@@ -172,12 +178,12 @@ var Sync = {
       sqlParams: [lst]
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       try {
         db.queryReportServer(qObject, function (result) {
           resolve(result);
         });
-      } catch(e) {
+      } catch (e) {
 
         //TODO - ignoring delete
         resolve(e);
