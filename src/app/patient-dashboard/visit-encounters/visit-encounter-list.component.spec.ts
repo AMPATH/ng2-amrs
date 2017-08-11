@@ -27,6 +27,7 @@ import { MockBackend } from '@angular/http/testing';
 import { AppFeatureAnalytics } from './../../shared/app-analytics/app-feature-analytics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import {
   ProgramEnrollmentResourceService
 }
@@ -236,7 +237,8 @@ describe('Component : Visit-Encounters', () => {
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           FormsModule,
-          Ng2PaginationModule
+          Ng2PaginationModule,
+          ModalModule.forRoot()
         ],
         declarations: [VisitEncountersListComponent,
           OrderByAlphabetPipe,

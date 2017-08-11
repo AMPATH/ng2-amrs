@@ -8,7 +8,6 @@ import * as Moment from 'moment';
 import { ToastrService, ToastrConfig } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 
-
 @Component({
   selector: 'app-patient-dashboard',
   templateUrl: './patient-dashboard.component.html',

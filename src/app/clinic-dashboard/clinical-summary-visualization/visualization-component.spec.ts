@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
-import { SelectModule } from 'ng2-openmrs-formentry/src/app/components/select';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { SelectModule } from 'ng2-openmrs-formentry/dist/components/select';
 import { BusyModule } from 'angular2-busy';
 
 

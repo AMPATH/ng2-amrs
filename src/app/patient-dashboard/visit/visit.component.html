@@ -22,28 +22,8 @@
     </footer>
 
   </p-dialog>
-  <p-dialog header="Hold on!" [(visible)]="confirmStartVisitForDiffProgram" modal="true" width="400" [closable]="false"
-            responsive="true">
-    <div class="text-bold">
-      <h3><span class="fa-lg">
-							<i class="fa fa-exclamation-triangle"></i>
-					</span>You are trying to start another visit for a different program. Please end the current visit before you
-        can start another visit</h3>
-    </div>
-
-    <br>
-    <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button (click)="endVisitBeforeStartingAnotherOne()" type="button" class="btn btn-primary">End Current Visit
-        </button>
-        <button (click)="goToLandingPage()" type="button" class="btn btn-danger">Go to Program Dashboard</button>
-      </div>
-    </footer>
-
-  </p-dialog>
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    {{error.message}}
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
   </div>
   <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
   <div class="list-group-item" *ngIf="!visit">
@@ -51,24 +31,27 @@
       <h3>Select visit type</h3>
     </div>
 
-    <div class="box-body forms-list">
-      <div class="list-group">
-        <div id="visitList" class="list-group-item" *ngFor="let visitType of visitTypes">
-
-          <a id="startButton" style="width:100%; text-align: left;" (click)="startVisit(visitType.uuid)" class="btn btn-default btn-lg">
-
-            Start {{visitType.display}} <i class="glyphicon glyphicon-circle-arrow-right pull-right"></i>
-          </a>
-        </div>
-      </div>
-    </div>
+    <table id="visitTypes" class='table'>
+      <tr *ngFor="let visitType of visitTypes">
+        <td>
+          {{visitType.display}}
+        </td>
+        <td>
+          {{visitType.description}}
+        </td>
+        <td>
+          <a id="startButton" class="" (click)="startVisit(visitType.uuid)">
+              <i class="glyphicon glyphicon-circle-arrow-right"></i> Start Visit
+            </a>
+        </td>
+      </tr>
+    </table>
   </div>
 
   <div *ngIf="visit">
     <div class="visit-panel-heading">
       <div class="locationdetails">
-        <visit-period [visitUuid]="visit.uuid" (editedLocation)="locationChanges($event)"
-                      [iseditLocation]="iseditLocation"></visit-period>
+        <visit-period [visitUuid]="visit.uuid" (editedLocation)="locationChanges($event)" [iseditLocation]="iseditLocation"></visit-period>
       </div>
 
 
@@ -76,17 +59,17 @@
     <div class="button-nav">
       <div class="add-borders ">
         <div class="btn-group blocks">
-          <a style="cursor: pointer;" *ngIf="!iseditLocation" (click)="editLocation()">
+          <a *ngIf="!iseditLocation" (click)="editLocation()">
             <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
 
-          <a style="cursor: pointer;" *ngIf="iseditLocation" class="cancel-edit" (click)="editLocation()">
+          <a *ngIf="iseditLocation" class="cancel-edit" (click)="editLocation()">
             <i class="glyphicon glyphicon-remove"></i> Cancel Edit
           </a>
 
-          <a style="cursor: pointer;" id="endVisitButton" (click)="endVisit()">
+          <a id="endVisitButton" (click)="endVisit()">
             <i class="glyphicon glyphicon-check"></i> End Visit</a>
 
-          <a style="cursor: pointer;" id="cancelVisitButton" (click)="cancelVisit()">
+          <a id="cancelVisitButton" (click)="cancelVisit()">
             <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a>
 
         </div>
@@ -98,8 +81,7 @@
     <div class="list-group-item">
       <h4 class="component-title">Visit Encounters</h4>
       <div class="visit-panel-body">
-        <encounter-list *ngIf="!visitWithNoEncounters" [encounters]="visit.encounters"
-                        (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+        <encounter-list *ngIf="!visitWithNoEncounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
         <div *ngIf="visitWithNoEncounters" class="alert">
           Patient yet to see provider
         </div>
@@ -108,9 +90,8 @@
     <span style="padding:10px;"></span>
 
     <div class="list-group-item">
-      <div id="formsComponent" *ngIf="!confirmStartVisitForDiffProgram">
-        <form-list [excludedForms]="excludedForms" [encounterTypeFilter]="encounterTypeFormFilter"
-                   (onFormSelected)="formSelected($event)"></form-list>
+      <div>
+        <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
       </div>
     </div>
   </div>

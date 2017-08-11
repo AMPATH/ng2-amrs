@@ -1,14 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+/**
+ * We're loading this component asynchronously
+ * We are using some magic with es6-promise-loader that will wrap the module with a Promise
+ * see https://github.com/gdi2290/es6-promise-loader for more info
+ */
 
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
+import {
+  UserDefaultPropertiesService
+} from
+  '../user-default-properties/user-default-properties.service';
 @Component({
-  selector: 'app-clinic-dashboard',
-  templateUrl: './clinic-dashboard.component.html',
-  styleUrls: ['./clinic-dashboard.component.css']
+  selector: 'clinic-dashboard',
+  templateUrl: 'clinic-dashboard.component.html'
 })
 export class ClinicDashboardComponent implements OnInit {
+
   locationUuid: string;
   loaderStatus: boolean;
   locations = [];
@@ -17,7 +29,8 @@ export class ClinicDashboardComponent implements OnInit {
 
   constructor(private locationResourceService: LocationResourceService,
     private route: ActivatedRoute, private router: Router,
-    private clinicDashboardCacheService: ClinicDashboardCacheService) {
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private userDefaultProperties: UserDefaultPropertiesService) {
     this.loaderStatus = false;
   }
 
@@ -35,7 +48,7 @@ export class ClinicDashboardComponent implements OnInit {
         };
       });
 
-      this.route.params.subscribe(params => {
+      this.route.params.subscribe((params) => {
         setTimeout(() => {
           this.locationUuid = params['location_uuid'];
           if (this.locationUuid) {
@@ -43,6 +56,11 @@ export class ClinicDashboardComponent implements OnInit {
             if (this.selectedLocation && this.selectedLocation !== {}) {
               this.selectingLocation = false;
             }
+          } else {
+            console.log('Location not selected');
+            const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
+            this.router.navigate(['/clinic-dashboard', userLocation.uuid,
+              'daily-schedule']);
           }
         });
       });
@@ -70,4 +88,5 @@ export class ClinicDashboardComponent implements OnInit {
       }
     }
   }
+
 }

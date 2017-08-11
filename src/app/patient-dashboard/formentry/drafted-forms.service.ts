@@ -1,13 +1,12 @@
-
-
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { Form } from 'ng2-openmrs-formentry';
-
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 export class DraftedFormsService {
     public lastDraftedForm: Form;
     public loadDraftOnNextFormLoad: boolean = false;
-    public hasBeenCancelled: boolean =  false;
+    public hasBeenCancelled: boolean = false;
+    public routeSnapshot: ActivatedRouteSnapshot;
     private _draftedForm: BehaviorSubject<Form>;
     constructor() { }
 
@@ -21,10 +20,21 @@ export class DraftedFormsService {
     setDraftedForm(draftedForm: Form) {
         this.lastDraftedForm = draftedForm;
         this._draftedForm.next(draftedForm);
+        if (!draftedForm) {
+            this.routeSnapshot = null;
+        }
+    }
+
+    public saveRouteSnapshot(routeSnapshot: ActivatedRouteSnapshot) {
+        this.routeSnapshot = routeSnapshot;
+    }
+
+    public getRouteSnapshot() {
+        return this.routeSnapshot;
     }
 
     setCancelState() {
-      this.setDraftedForm(null);
-      this.hasBeenCancelled = true;
+        this.setDraftedForm(null);
+        this.hasBeenCancelled = true;
     }
 }

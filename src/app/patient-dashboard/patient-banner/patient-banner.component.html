@@ -1,4 +1,6 @@
+<div class="col-md-12">
 <drafted-form-nav></drafted-form-nav>
+</div>
 <!--<div class="container-fluid patient-banner-full {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient">
 	<div class="row banner-left">
 		<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
@@ -32,7 +34,7 @@
 </div>-->
 <add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true" (dialogClosed)="onAddingToCohortClosed()">
 </add-to-cohort-dialog>
-<div class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+<div class="col-md-12 patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
  *ngIf="patient" style="padding: 4px 26px;">
 	<div class="row">
 		<span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>

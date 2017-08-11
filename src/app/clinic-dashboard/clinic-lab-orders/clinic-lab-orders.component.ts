@@ -63,12 +63,12 @@ export class ClinicLabOrdersComponent implements OnInit {
     this.gridOptions.enableFilter = true;
     this.gridOptions.localeText = {noRowsToShow: 'No matching records found'};
      // ensure that even after sorting the rows maintain order
-    this.gridOptions.onSortChanged = (event) => {
+    this.gridOptions.onSortChanged = () => {
         this.gridOptions.api.forEachNode(function(node){
            node.setDataValue('#', node.rowIndex + 1);
         });
 
-        this.gridOptions.api.refreshCells([], [] , true);
+        this.gridOptions.api.refreshCells();
 
     };
   }
@@ -104,7 +104,7 @@ export class ClinicLabOrdersComponent implements OnInit {
   }
 
   public onRowClicked(event) {
-    this.router.navigate(['/patient-dashboard/' + event.data.patient_uuid +
+    this.router.navigate(['/patient-dashboard/patient/' + event.data.patient_uuid +
     '/general/landing-page']);
   }
 

@@ -10,8 +10,8 @@ import { MedicationHistoryResourceService } from './medication-history-resource.
 import { HivSummaryResourceService } from './hiv-summary-resource.service';
 import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.service';
 import { ErrorLogResourceService } from './error-log-resource.service';
-import { HivPatientClinicalSummaryResourceService }
-  from './hiv-patient-clinical-summary-resource.service';
+import { HivPatientClinicalSummaryResourceService
+} from './hiv-patient-clinical-summary-resource.service';
 import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.service';
 import {
   ClinicalSummaryVisualizationResourceService
@@ -19,22 +19,25 @@ import {
 import { LabOrderResourceService } from './lab-order-resource.service';
 import { Moh731ResourceService } from './moh-731-resource.service';
 import { HivSummaryIndicatorsResourceService } from './hiv-summary-indicators-resource.service';
-import { PatientStatusVisualizationResourceService } from
-  './patient-status-change-visualization-resource.service';
+import { PatientStatusVisualizationResourceService
+ } from './patient-status-change-visualization-resource.service';
 import { Moh731PatientListResourceService } from './moh-731-patientlist-resource.service';
 import { FileUploadResourceService } from './file-upload-resource.service';
 import { UserCohortResourceService } from './user-cohort-resource.service';
 import { CohortUserResourceService } from './cohort-list-user-resource.service';
-import { PatientProgramResourceService } from './patient-program-resource.service';
 import { PatientsRequiringVLResourceService } from './patients-requiring-vl-resource.service';
 import {
   PatientsRequiringVLResourceServiceMock
 } from './patients-requiring-vl-resource.service.mock';
+import { DailyScheduleResourceService } from './daily-scheduled-resource.service';
+import { HivClinicFlowResourceService } from './hiv-clinic-flow-resource.service';
+import { DefaulterListResourceService } from './defaulter-list-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
   providers: [
+    DailyScheduleResourceService,
     IndicatorResourceService,
     PatientReminderResourceService,
     VitalsResourceService,
@@ -55,9 +58,9 @@ import {
     FileUploadResourceService,
     UserCohortResourceService,
     CohortUserResourceService,
-    PatientProgramResourceService,
     PatientsRequiringVLResourceService,
-    PatientsRequiringVLResourceServiceMock
+    PatientsRequiringVLResourceServiceMock,
+    DefaulterListResourceService
   ],
   exports: []
 })

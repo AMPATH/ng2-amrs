@@ -11,10 +11,10 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppState } from '../app.service';
-import { UserDefaultPropertiesService
+import {
+  UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
 import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
-
 
 declare let jQuery: any;
 
@@ -25,64 +25,64 @@ declare let jQuery: any;
   encapsulation: ViewEncapsulation.None
 })
 export class MainDashboardComponent implements OnInit, OnDestroy {
-  public routeConfig = <DynamicRouteModel>{};
+  public routeConfig = {} as DynamicRouteModel;
   public sidebarOpen = true;
   public isMobile = false;
   public appSubscription: Subscription;
   public currentDashboard: string = '';
-  user: User;
-  version: string;
-  buildDate: Date;
-  userLocation: string = '';
-  busyIndicator: Subscription;
-  active = false;
-  interval;
-  countDown = 0;
+  public user: User;
+  public version: string;
+  public buildDate: Date;
+  public userLocation: string = '';
+  public busyIndicator: Subscription;
+  public active = false;
+  public interval;
+  public countDown = 0;
   constructor(private router: Router,
-    private localStore: LocalStorageService,
-    private dynamicRoutesService: DynamicRoutesService,
-    private authenticationService: AuthenticationService,
-    private userDefaultSettingsService: UserDefaultPropertiesService,
-    private userService: UserService,
-    private appState: AppState
-    ) { }
+              private localStore: LocalStorageService,
+              private dynamicRoutesService: DynamicRoutesService,
+              private authenticationService: AuthenticationService,
+              private userDefaultSettingsService: UserDefaultPropertiesService,
+              private userService: UserService,
+              private appState: AppState
+  ) { }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.appSubscription.unsubscribe();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        let navEvent = event as NavigationEnd;
+        const navEvent = event as NavigationEnd;
         this.adjustDashBoard(navEvent.url);
       }
     });
 
     // Work Around for min-height
     window.dispatchEvent(new Event('resize'));
-    this.dynamicRoutesService.routes.subscribe(result => {
-      this.routeConfig = (<DynamicRouteModel>result);
+    this.dynamicRoutesService.routes.subscribe((result) => {
+      this.routeConfig = (result as DynamicRouteModel);
       if (this.routeConfig.routes.length > 0 && !this.isMobile) {
         this.sidebarOpen = true;
       } else {
         this.sidebarOpen = false;
       }
     },
-      err => console.log(err),
+      (err) => console.log(err),
       () => console.log('Completed'));
     this.user = this.userService.getLoggedInUser();
     this.userDefaultSettingsService.locationSubject.subscribe((location) => {
-       if (location) {
-         this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
-       } else {
-         let defaultLocation =
-           this.localStore.getItem('userDefaultLocation' + this.user.display);
-         this.userLocation =
-           JSON.parse(defaultLocation) ? JSON.parse(defaultLocation).display :
-             undefined;
-       }
-     });
+      if (location) {
+        this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
+      } else {
+        const defaultLocation =
+          this.localStore.getItem('userDefaultLocation' + this.user.display);
+        this.userLocation =
+          JSON.parse(defaultLocation) ? JSON.parse(defaultLocation).display :
+            undefined;
+      }
+    });
 
     this.appSubscription = this.appState.setupIdleTimer(1000 * 60 * 30)
       .subscribe((status: { idle: boolean }) => {
@@ -93,23 +93,30 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.interval);
         }
       });
-
+    this.reloadWorkAround();
   }
 
-  screenChanges(event) {
+  public screenChanges(event) {
     this.sidebarOpen = event;
     this.isMobile = event;
   }
 
-  logout() {
-    this.router.navigateByUrl('/login').then(result => {
+  public reloadWorkAround() {
+    setTimeout(() => {
+      this.adjustDashBoard(this.router.url);
+    }, 100);
+
+  }
+
+  public logout() {
+    this.router.navigateByUrl('/login').then((result) => {
       if (result) {
         this.authenticationService.logOut();
       }
     });
   }
 
-  adjustDashBoard(currentUrl: string) {
+  public adjustDashBoard(currentUrl: string) {
     this.currentDashboard = '';
 
     if (currentUrl.includes('patient-search')) {
@@ -138,11 +145,11 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickOverlay($event) {
+  public clickOverlay($event) {
     this.appState.goActive(true);
   }
 
-  timer(seconds?) {
+  public timer(seconds?) {
     if (seconds) {
       this.countDown = seconds;
     }
@@ -159,12 +166,11 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   public expandSideBar() {
     setTimeout(() => {
-      let body = document.getElementsByTagName('body')[0];
+      const body = document.getElementsByTagName('body')[0];
       body.classList.remove('sidebar-collapse');
       body.classList.remove('sidebar-open');
       body.classList.add('sidebar-open');
     }, 200);
   }
-
 
 }

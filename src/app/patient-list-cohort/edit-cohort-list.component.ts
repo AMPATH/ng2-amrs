@@ -15,9 +15,9 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
-  display: boolean = false;
-  private errors: any = [];
-  private successAlert: string = '';
+  public display: boolean = false;
+  public errors: any = [];
+  public successAlert: string = '';
 
   constructor(private cohortResourceService: CohortResourceService,
               private cohortListService: CohortListService,

@@ -8,13 +8,13 @@ export class PatientRoutesFactory {
 
     constructor(public routesProvider: RoutesProviderService) { }
 
-    createPatientDashboardRoutes(patient: Patient): Array<RouteModel> {
+    public createPatientDashboardRoutes(patient: Patient): RouteModel[] {
         if (patient === null || patient === undefined) {
             throw new Error('patient is requred');
         }
 
-        let patientRoutesConfig: any = this.routesProvider.patientDashboardConfig;
-        let routes: Array<RouteModel> = [];
+        const patientRoutesConfig: any = this.routesProvider.patientDashboardConfig;
+        const routes: RouteModel[] = [];
         if (Array.isArray(patientRoutesConfig['programs'])) {
             for (let i = 0; i < patientRoutesConfig.programs.length; i++) {
 
@@ -32,10 +32,10 @@ export class PatientRoutesFactory {
     }
 
     private createProgramRouteModel(routInfo: any, patientUuid: string): RouteModel {
-        let model = new RouteModel();
+        const model = new RouteModel();
         model.label = routInfo.programName;
         model.initials = (routInfo.programName as string).charAt(0);
-        model.url = 'patient-dashboard/' + patientUuid + '/' + routInfo.baseRoute;
+        model.url = 'patient-dashboard/patient/' + patientUuid + '/' + routInfo.baseRoute;
         model.renderingInfo = {
             icon: 'fa fa-square-o'
         };
@@ -54,7 +54,7 @@ export class PatientRoutesFactory {
         return false;
     }
 
-    private createProgramChildRoutes(routInfo: Array<any>, programRouteModel: RouteModel) {
+    private createProgramChildRoutes(routInfo: any[], programRouteModel: RouteModel) {
         programRouteModel.childRoutes = [];
         routInfo.forEach((route) => {
             programRouteModel.childRoutes.push(this.createProgramChildRoute(route,
@@ -63,7 +63,7 @@ export class PatientRoutesFactory {
     }
 
     private createProgramChildRoute(routInfo: any, programRouteModel: RouteModel): RouteModel {
-        let model = new RouteModel();
+        const model = new RouteModel();
         model.url = programRouteModel.url + '/' + routInfo.url;
         model.label = routInfo.label;
         model.initials = routInfo.initials || (routInfo.label as string).charAt(0);

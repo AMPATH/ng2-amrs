@@ -1,6 +1,6 @@
 <div>
   <hr>
-  <chart [options]="options" (redraw)="renderChart()"></chart>
+  <chart [options]="options" (redraw)="renderChart(options)"></chart>
   <div *ngIf="showHivCareTabularView">
     <hr>
     <hiv-care-tabularview [data]="data"></hiv-care-tabularview>

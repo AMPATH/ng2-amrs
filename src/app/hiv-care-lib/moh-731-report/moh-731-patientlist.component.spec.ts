@@ -11,8 +11,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { Moh731ReportBaseComponent } from './moh-731-report-base.component';
 import {
-  MomentPipe
-} from 'ng2-openmrs-formentry/src/app/components/date-time-picker/pipes/moment.pipe';
+  DateTimePickerModule
+} from 'ng2-openmrs-formentry/dist/components/date-time-picker/date-time-picker.module';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { Moh731PatientListResourceService
@@ -56,15 +56,15 @@ describe('Component: Moh731PatientListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         Moh731ReportBaseComponent,
-        Moh731PatientListComponent,
-        MomentPipe
+        Moh731PatientListComponent
       ],
       imports: [
         NgamrsSharedModule,
         CommonModule,
         EtlApi,
         AgGridModule,
-        DataListsModule
+        DataListsModule,
+        DateTimePickerModule
       ]
     }).overrideComponent(Moh731PatientListComponent, {
       set: {

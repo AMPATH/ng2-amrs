@@ -1,5 +1,5 @@
 <div class="daily-schedule">
-    <patient-list [data]="dailyAppointmentsPatientList" [options]="selectedTab">
+    <patient-list [data]="dailyAppointmentsPatientList">
     </patient-list>
     <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}

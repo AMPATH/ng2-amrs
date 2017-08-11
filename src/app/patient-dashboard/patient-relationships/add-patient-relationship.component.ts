@@ -20,18 +20,18 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 })
 export class AddPatientRelationshipComponent implements OnInit {
     public display: boolean = false;
+    public showSuccessAlert: boolean = false;
+    public showErrorAlert: boolean = false;
     public hideResult = false;
-    private showSuccessAlert: boolean = false;
-    private showErrorAlert: boolean = false;
-    private successAlert: string;
-    private errorAlert: string;
-    private errorTitle: string;
-    private errors: any = [];
-    private isLoading: boolean = false;
-    private patientRelationshipTypes: any = [];
-    private selectedRelationshipType: any;
-    private patientUuid: string;
-    private patientToBindRelationship: any = {
+    public successAlert: string;
+    public errorAlert: string;
+    public errorTitle: string;
+    public errors: any = [];
+    public isLoading: boolean = false;
+    public patientRelationshipTypes: any = [];
+    public selectedRelationshipType: any;
+    public patientUuid: string;
+    public patientToBindRelationship: any = {
         person: {
             display: ''
         }

@@ -99,7 +99,7 @@ describe('Component: ClinicFlowComponent', () => {
         NgamrsSharedModule,
         NgxMyDatePickerModule,
         NgxMyDatePickerModule,
-        MdTabsModule.forRoot(),
+        MdTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule,
       ]

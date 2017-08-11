@@ -8,7 +8,7 @@ import * as Moment from 'moment';
 
 export class PatientStatusDatalistCellComponent {
   public indicatorDefiniton: any = {};
-  private params: any;
+  public params: any;
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }

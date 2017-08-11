@@ -10,12 +10,16 @@ import { LabOrderSearchContainerComponent } from './lab-order-search-container.c
 import { LabOrdersSearchService } from './lab-orders-search.service';
 import { LabOrdersSearchHelperService } from './lab-order-search-helper.service';
 import { LabOrderPostService } from './lab-order-post.service';
+import { EtlApi } from '../etl-api/etl-api.module';
+import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    EtlApi,
+    ReactiveFormsModule,
+    OpenmrsApi
   ],
   declarations: [
     LabOrderSearchContainerComponent,

@@ -6,11 +6,12 @@ import { ComponentFixture, TestBed, async , inject } from '@angular/core/testing
 import { DebugElement } from '@angular/core';
 import { MOTDNotificationComponent } from './motd-notification.component';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 import { Http, RequestMethod , BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import * as Moment from 'moment';
+import { CookieModule } from 'ngx-cookie';
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
@@ -79,6 +80,7 @@ describe('Component : MOTD Notification', () => {
 
       TestBed.configureTestingModule({
         imports: [
+          CookieModule.forRoot(),
         ],
         declarations: [MOTDNotificationComponent], // declare the test component
         providers: [

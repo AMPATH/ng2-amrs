@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as Moment from 'moment';
-import * as _ from 'lodash';
 import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { PatientService } from '../patient.service';
@@ -11,7 +10,6 @@ import {
 } from '../../user-default-properties/user-default-properties.service';
 import { Subscription, Observable } from 'rxjs';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 @Component({
     selector: 'visit',
     templateUrl: 'visit.component.html',
@@ -19,9 +17,7 @@ import { PatientProgramResourceService } from '../../etl-api/patient-program-res
 })
 export class VisitComponent implements OnInit, OnDestroy {
     visitTypes = [];
-    programVisitsConfig: any = {};
     excludedForms = [];
-    encounterTypeFormFilter = [];
     visit: any;
     visitWithNoEncounters: boolean = true;
     patient: any;
@@ -30,7 +26,6 @@ export class VisitComponent implements OnInit, OnDestroy {
     loadingVisitTypes: Boolean;
     confirmCancel: boolean;
     confirmEndVisit: boolean;
-    confirmStartVisitForDiffProgram: boolean;
     showDialog: boolean = false;
     visitBusy: Boolean;
     iseditLocation: boolean = false;
@@ -39,7 +34,6 @@ export class VisitComponent implements OnInit, OnDestroy {
         private patientService: PatientService, private router: Router,
         private appFeatureAnalytics: AppFeatureAnalytics,
         private route: ActivatedRoute,
-        private patientProgramResourceService: PatientProgramResourceService,
         private encounterResourceService: EncounterResourceService) { }
 
     ngOnInit() {
@@ -58,111 +52,71 @@ export class VisitComponent implements OnInit, OnDestroy {
         this.iseditLocation = edit;
     }
     getVisit(patientUuid) {
-      this.visitBusy = true;
-      Observable.forkJoin(
-        this.visitResourceService.getPatientVisits({patientUuid: patientUuid})
-          .map(this.getLastVisit),
-        this.patientProgramResourceService.getPatientPrograms(patientUuid)
-      ).subscribe((data) => {
-        let visit = data[0];
-        this.programVisitsConfig = data[1];
-        this.visitBusy = false;
-        if (visit && visit.stopDatetime === null) {
-          this.visit = visit;
-          if (visit.encounters && visit.encounters.length > 0)
-            this.visitWithNoEncounters = false;
-          this.excludedForms = visit.encounters.map((a) => {
-            return a.encounterType.uuid;
-          });
-
-          // filter forms by visit uuid
-          this.filterFormsByVisit(visit.visitType.uuid, true);
-
-        } else {
-          this.getVisitTypes();
-        }
-      }, (err) => {
-        this.visitBusy = false;
-        this.errors.push({
-          id: 'visit',
-          message: 'error fetching visit'
-        });
-      });
+        this.visitBusy = true;
+        this.visitResourceService.getPatientVisits({ patientUuid: patientUuid })
+            .map(this.getLastVisit)
+            .subscribe((visit) => {
+                console.log(JSON.stringify(visit));
+                this.visitBusy = false;
+                if (visit) {
+                    this.visit = visit;
+                    if (visit.encounters && visit.encounters.length > 0)
+                        this.visitWithNoEncounters = false;
+                    this.excludedForms = visit.encounters.map((a) => {
+                        return a.encounterType.uuid;
+                    });
+                } else {
+                    this.getVisitTypes();
+                }
+            }, (err) => {
+                this.visitBusy = false;
+                this.errors.push({
+                    id: 'visit',
+                    message: 'error fetching visit'
+                });
+            });
     }
 
     getPatient() {
-      this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
-        (patient) => {
-          if (patient !== null) {
-            this.patient = patient;
-            let programVisits = patient['programVisits'] || [];
-            this.getVisit(patient.person.uuid);
-          }
-        }
-        , (err) => {
-          this.errors.push({
-            id: 'patient',
-            message: 'error fetching patient'
-          });
-        });
+        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+            (patient) => {
+                if (patient !== null) {
+                    this.patient = patient;
+                    this.getVisit(patient.person.uuid);
+                }
+            }
+            , (err) => {
+                this.errors.push({
+                    id: 'patient',
+                    message: 'error fetching patient'
+                });
+            });
     }
 
     getVisitTypes() {
-      this.loadingVisitTypes = true;
-      this.visitResourceService.getVisitTypes({})
-        .subscribe(
-          (visitTypes) => {
-            this.filterVisitTypesByProgram(visitTypes);
-          }
-          , (err) => {
-            this.loadingVisitTypes = false;
-            this.errors.push({
-              id: 'visitTypes',
-              message: 'error fetching visit types'
-            });
-          });
-    }
-
-    filterVisitTypesByProgram(visitTypes): void {
-
-      this.route.params.subscribe(params => {
-        if (params) {
-          let filteredTypes = [];
-          let programUuid: string = params['program'];
-          let program = this.programVisitsConfig[programUuid];
-          if (program) {
-            program.visitTypes.forEach(visitType => {
-              visitTypes.forEach(visit => {
-                if (visitType.uuid === visit.uuid)
-                  filteredTypes.push(visit);
-              });
-            });
-          }
-          this.visitTypes = filteredTypes;
-          this.loadingVisitTypes = false;
-        }
-      });
-    }
-
-    filterFormsByVisit(visitTypeUuid, isExistingVisit): void {
-      this.route.params.subscribe(params => {
-        if (params) {
-          let programUuid: string = params['program'];
-          let program = this.programVisitsConfig[programUuid];
-          // allowed forms
-          if (program)
-            program.visitTypes.forEach(visitType => {
-              if (visitType.uuid === visitTypeUuid) {
-                this.encounterTypeFormFilter =
-                  _.map(visitType.encounterTypes, 'uuid');
-              }
-            });
-            // trying to create another visit of a different program
-            if (isExistingVisit && this.encounterTypeFormFilter.length < 1) {
-              this.confirmStartVisitForDiffProgram = true;
+        this.loadingVisitTypes = true;
+        this.visitResourceService.getVisitTypes({}).subscribe(
+            (visitTypes) => {
+              // Hotfix: This will patch version 2.3.0 in readiness for the  release of 2.4.x
+                this.visitTypes = [
+                  {
+                    uuid: '77b6e076-e866-46cf-9959-4a3703dba3fc',
+                    display: 'INITIAL HIV CLINIC VISIT'
+                  },
+                  {
+                    uuid: 'd4ac2aa5-2899-42fb-b08a-d40161815b48',
+                    display: 'RETURN HIV CLINIC VISIT'
+                  }
+                ];
+                this.loadingVisitTypes = false;
             }
-        }
-      });
+            , (err) => {
+                this.loadingVisitTypes = false;
+                this.errors.push({
+                    id: 'visitTypes',
+                    message: 'error fetching visit types'
+                });
+            });
     }
 
     editLocation() {
@@ -170,29 +124,25 @@ export class VisitComponent implements OnInit, OnDestroy {
 
     }
     startVisit(visitTypeUuid) {
-      let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-      this.visitBusy = true;
-      let visitPayload = {
-        patient: this.patient.person.uuid,
-        location: location.uuid,
-        startDatetime: new Date(),
-        visitType: visitTypeUuid
-      };
-
-      // filter Forms By visitTypeUuid
-      this.filterFormsByVisit(visitTypeUuid, false);
-
-      this.visitResourceService.saveVisit(visitPayload).subscribe((response) => {
-        this.visitBusy = false;
-        this.visit = response;
-      }, (err) => {
-        this.visitBusy = false;
-        console.log(err);
-        this.errors.push({
-          id: 'startVisit',
-          message: 'error stating visit'
+        let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+        this.visitBusy = true;
+        let visitPayload = {
+            patient: this.patient.person.uuid,
+            location: location.uuid,
+            startDatetime: new Date(),
+            visitType: visitTypeUuid
+        };
+        this.visitResourceService.saveVisit(visitPayload).subscribe((response) => {
+            this.visitBusy = false;
+            this.visit = response;
+        }, (err) => {
+            this.visitBusy = false;
+            console.log(err);
+            this.errors.push({
+                id: 'startVisit',
+                message: 'error stating visit'
+            });
         });
-      });
 
     }
 
@@ -218,19 +168,10 @@ export class VisitComponent implements OnInit, OnDestroy {
         this.showDialog = false;
         this.confirmCancel = false;
         this.confirmEndVisit = false;
-
-    }
-
-    endVisitBeforeStartingAnotherOne() {
-      this.endVisit();
-    }
-
-    goToLandingPage() {
-        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/landing-page']);
     }
 
     onEndVisit() {
-        this.confirmStartVisitForDiffProgram = false;
+
         this.visitBusy = true;
         this.visitResourceService.updateVisit(this.visit.uuid,
             { stopDatetime: new Date() }).subscribe(

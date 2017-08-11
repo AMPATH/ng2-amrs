@@ -7,7 +7,7 @@ export class ClinicDashboardCacheService {
     private cached = {};
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);
-    private dailTabCurrentDate = Moment(this.currentClinic).format('YYYY-MM-DD');
+    private dailTabCurrentDate = Moment(new Date()).format('YYYY-MM-DD');
     private dailTabCurrentDateSubject = new BehaviorSubject(this.dailTabCurrentDate);
     private isLoading = new BehaviorSubject(this.dataIsLoading);
     private currentTab = new Subject();

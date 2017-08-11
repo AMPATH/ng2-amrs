@@ -16,16 +16,16 @@ import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.s
 export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDashboardComponent> {
 
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
-              private route: ActivatedRoute,
-              private userDefaultProperties: UserDefaultPropertiesService,
-              private clinicDashboardCacheService: ClinicDashboardCacheService) {
+    private route: ActivatedRoute,
+    private userDefaultProperties: UserDefaultPropertiesService,
+    private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
-  canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let component: any = routeSnapshot.component;
+  public canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const component: any = routeSnapshot.component;
     if (component.name === 'ClinicDashboardComponent') {
-      let userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
-      let locationUuid = routeSnapshot.params['location_uuid'];
+      const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
+      const locationUuid = routeSnapshot.params['location_uuid'];
       if (locationUuid) {
         this.clinicDashboardCacheService.setCurrentClinic(locationUuid);
         this.dynamicRoutesService.setRoutes({
@@ -33,7 +33,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
           programs: [], // TODO: Fetch this data from user service
           moduleLabel: 'Clinic Dashboard',
           params: {
-            locationUuid: locationUuid
+            locationUuid
           },
           routes: []
         });
@@ -48,7 +48,7 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
     }
   }
 
-  canDeactivate(target: ClinicDashboardComponent): boolean {
+  public canDeactivate(target: ClinicDashboardComponent): boolean {
     this.dynamicRoutesService.resetRoutes();
     return true;
   }

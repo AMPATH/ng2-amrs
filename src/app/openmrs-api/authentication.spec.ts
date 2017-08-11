@@ -9,9 +9,10 @@ import { SessionService } from './session.service';
 import { AuthenticationService } from './authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService, CookieModule } from 'ngx-cookie';
 
 import { Constants } from '../utils/constants';
+
 
 // Load the implementations that should be tested
 
@@ -22,7 +23,7 @@ describe('AuthenticationService Unit Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [CookieModule.forRoot()],
       declarations: [],
       providers: [
         MockBackend,

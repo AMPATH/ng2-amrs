@@ -14,11 +14,11 @@ import { Subscription } from 'rxjs';
 export class AddressComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   subscription: Subscription;
-  private address1: string;
-  private address2: string;
-  private address3: string;
-  private cityVillage: string;
-  private stateProvince: string;
+  public address1: string;
+  public address2: string;
+  public address3: string;
+  public cityVillage: string;
+  public stateProvince: string;
 
   constructor(private patientService: PatientService,
   ) { }

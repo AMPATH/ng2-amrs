@@ -7,30 +7,41 @@ import {
 } from '../user-default-properties/user-default-properties.component';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { UsefulLinksComponent } from '../useful-links/useful-links.component';
-import { LabOrderSearchContainerComponent
+import {
+  LabOrderSearchContainerComponent
 } from '../lab-order-search/lab-order-search-container.component';
-
-const dashboardRoutes: Routes = [
+// import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';
+import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
+import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
+import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
+// export function clinicDashboardModule() {
+//   return ClinicDashboardModule;
+// }
+export function patientDashboardModule() {
+  return PatientDashboardModule;
+}
+export function dataAnalyticsModule() {
+  return DataAnalyticsModule;
+}
+export function patientListCohortModule() {
+  return PatientListCohortModule;
+}
+export const dashboardRoutes: Routes = [
   {
     path: '',
     component: MainDashboardComponent,
     canActivate: [AuthGuard],
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'patient-dashboard/patient-search' },
       {
         path: 'clinic-dashboard',
-        loadChildren: () =>
-          System.import('../clinic-dashboard/clinic-dashboard.module')
-            .then(mod => mod.ClinicDashboardModule)
+        loadChildren: '../clinic-dashboard#ClinicDashboardModule'
       },
       {
-        path: 'patient-dashboard', loadChildren: () =>
-          System.import('../patient-dashboard/patient-dashboard.module')
-            .then(mod => mod.PatientDashboardModule)
+        path: 'patient-dashboard', loadChildren: '../patient-dashboard#PatientDashboardModule'
       },
       {
-        path: 'data-analytics', loadChildren: () =>
-          System.import('../data-analytics-dashboard/data-analytics.module')
-            .then(mod => mod.DataAnalyticsModule)
+        path: 'data-analytics', loadChildren: dataAnalyticsModule
       },
       {
         path: 'user-default-properties',
@@ -44,12 +55,10 @@ const dashboardRoutes: Routes = [
         path: 'useful-links',
         component: UsefulLinksComponent
       },
-       {
-       path: 'patient-list-cohort',
-         loadChildren: () =>
-           System.import('../patient-list-cohort/patient-list-cohort.module')
-             .then(mod => mod.PatientListCohortModule)
-       }
+      {
+        path: 'patient-list-cohort',
+        loadChildren: patientListCohortModule
+      }
     ]
   }
 

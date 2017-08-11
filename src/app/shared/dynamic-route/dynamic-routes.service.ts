@@ -79,14 +79,14 @@ export class DynamicRoutesService {
               this.extractParameter(dashboard['routeParameter'], route)
               + '/' + programRoute['url'];
             let singleRoute = {
-              url: url,
+              url,
               label: programRoute['label'],
               icon: programRoute['icon'],
               menuStartLetter: this.getMenuStartLetter(programRoute['label']),
               isSideBarOpen: programRoute['isSideBarOpen'],
               onClick: this.hideSidebar
             };
-            let index = routes.findIndex(x => x['url'] === url);
+            let index = routes.findIndex((x) => x['url'] === url);
             if (index === -1)
               routes.push(singleRoute);
           });
@@ -103,7 +103,7 @@ export class DynamicRoutesService {
 
   public hideSidebar($event) {
 
-    let body = document.getElementsByTagName('body')[0];
+    const body = document.getElementsByTagName('body')[0];
     body.classList.remove('sidebar-collapse');
     body.classList.remove('sidebar-open');
     body.classList.add('sidebar-collapse');

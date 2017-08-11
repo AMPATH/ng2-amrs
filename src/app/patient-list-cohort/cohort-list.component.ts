@@ -27,12 +27,12 @@ export class CohortListComponent implements OnInit {
   user: User;
   fetchError: boolean = false;
   isSelectedCohort: any;
-  private displayConfirmDialog: boolean = false;
-  private showSuccessAlert: boolean = false;
-  private showErrorAlert: boolean = false;
-  private successAlert: string;
-  private errorAlert: string;
-  private errorTitle: string;
+  public displayConfirmDialog: boolean = false;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public successAlert: string;
+  public errorAlert: string;
+  public errorTitle: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute,

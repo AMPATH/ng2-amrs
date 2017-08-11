@@ -1,23 +1,26 @@
+import '../styles/styles.scss';
 import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule, Router } from '@angular/router';
 
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginGuard } from './shared/guards/login.guard';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/dist/providers';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { NgamrsSharedModule } from './shared/ngamrs-shared.module';
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app-routing.module';
 // App is our top level component
-import { App } from './app.component';
+import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { About } from './about';
@@ -40,6 +43,9 @@ import { FeedBackComponent } from './feedback';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
 import { PatientListCohortModule } from './patient-list-cohort/patient-list-cohort.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
+import { CookieModule } from 'ngx-cookie';
 
 
 // Application wide providers
@@ -53,45 +59,70 @@ type StoreType = {
   restoreInputValues: () => void,
   disposeOldHosts: () => void
 };
-
+export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
+  router: Router, sessionStorageService: SessionStorageService) {
+  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService)
+}
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [App],
+  bootstrap: [AppComponent],
   declarations: [
-    App,
+    AppComponent,
     About,
     TitleCasePipe,
     NoContent,
     FeedBackComponent
   ],
   imports: [ // import Angular's modules
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    Ng2Bs3ModalModule,
-    RouterModule.forRoot(ROUTES, { useHash: true }),
-    Angulartics2Module.forRoot([Angulartics2Piwik]),
-    MainDashboardModule,
-    AuthenticationModule,
-    AppSettingsModule,
-    UserDefaultPropertiesModule,
-    UsefulLinksModule,
-    LabOrderSearchModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    CookieModule.forRoot(),
+    ModalModule.forRoot(),
+    NgamrsSharedModule.forRoot(),
+    // BrowserModule,
+    // FormEntryModule,
     BusyModule.forRoot(
-      new BusyConfig({
+      {
         message: 'Please Wait...',
         backdrop: true,
         delay: 200,
         minDuration: 600,
         wrapperClass: 'my-class',
-
-      })
-    )
+        template: `<div class="ng-busy-default-wrapper">
+            <div class="ng-busy-default-sign">
+                <div class="ng-busy-default-spinner">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                    <div class="bar4"></div>
+                    <div class="bar5"></div>
+                    <div class="bar6"></div>
+                    <div class="bar7"></div>
+                    <div class="bar8"></div>
+                    <div class="bar9"></div>
+                    <div class="bar10"></div>
+                    <div class="bar11"></div>
+                    <div class="bar12"></div>
+                </div>
+                <div class="ng-busy-default-text">{{message}}</div>
+            </div>
+        </div>`,
+      }
+    ),
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(ROUTES, { useHash: true, enableTracing: false }),
+    Angulartics2Module.forRoot([Angulartics2Piwik]),
+    // MainDashboardModule,
+    // AuthenticationModule,
+    // AppSettingsModule,
+    // UserDefaultPropertiesModule,
+    // UsefulLinksModule,
+    // LabOrderSearchModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS,
     APP_PROVIDERS,
     DynamicRoutesService,
     Angulartics2Piwik,
@@ -99,12 +130,9 @@ type StoreType = {
     AuthGuard,
     LoginGuard,
     LocalStorageService,
-    { provide: ResponsiveConfig, useFactory: () => new ResponsiveConfig() },
     {
       provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      useFactory: httpClient,
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
     CacheService,
@@ -126,7 +154,7 @@ export class AppModule {
     this.appState._state = store.state;
     // set input values
     if ('restoreInputValues' in store) {
-      let restoreInputValues = store.restoreInputValues;
+      const restoreInputValues = store.restoreInputValues;
       setTimeout(restoreInputValues);
     }
 
@@ -135,22 +163,4 @@ export class AppModule {
     delete store.restoreInputValues;
   }
 
-  hmrOnDestroy(store: StoreType) {
-    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    // save state
-    const state = this.appState._state;
-    store.state = state;
-    // recreate root elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // save input values
-    store.restoreInputValues = createInputTransfer();
-    // remove styles
-    removeNgStyles();
-  }
-
-  hmrAfterDestroy(store: StoreType) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
 }

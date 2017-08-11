@@ -2,7 +2,7 @@
 import {
   Component, OnInit, EventEmitter, ElementRef, forwardRef, ViewEncapsulation
 } from '@angular/core';
-import { Output, Input } from '@angular/core/src/metadata/directives';
+import { Output, Input } from '@angular/core';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
