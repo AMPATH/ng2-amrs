@@ -55,6 +55,8 @@ import {
  } from './hiv-care-comparative-overview/indicator-definitions.component';
 import { ArtOverviewIndicatorDefComponent } from './art-overview/indicator-definitions.component';
 import { MaterialModule } from '@angular/material';
+import { IndicatorDisaggregatorComponent }
+from '../dashboard-filters/indicator-disaggregator/indicator-disaggregator.component';
 
 export class FakeClinicDashboardCacheService {
   public getCurrentClinic() {
@@ -157,6 +159,7 @@ describe('Component: VisualizationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         DashboardFiltersComponent,
+        IndicatorDisaggregatorComponent,
         DateRangeComponent,
         ArtOverviewComponent,
         HivCareComparativeOverviewComponent,

@@ -9,6 +9,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 export class IndicatorResourceService {
 
   private reportIndicators = new ReplaySubject(1);
+  private indicatorsFilters = new ReplaySubject(1);
   constructor(private http: Http, private appSettingsService: AppSettingsService) {
   }
   /**
@@ -39,5 +40,28 @@ export class IndicatorResourceService {
     }
 
     return this.reportIndicators;
+  }
+
+  public getIndicatorDisaggregationFilters(param: any, forceRefresh?: boolean) {
+    // If the Subject was NOT subscribed before OR if forceRefresh is requested
+
+    let params = new URLSearchParams();
+
+    if (!this.indicatorsFilters.observers.length || forceRefresh) {
+      this.http.get(
+        this.appSettingsService.getEtlRestbaseurl().trim()
+        + 'indicator-disaggregation-filter-options',
+        {
+          search: params
+        }
+      )
+        .map((res: Response) => res.json())
+        .subscribe(
+          data => this.indicatorsFilters.next(data),
+          error => this.indicatorsFilters.error(error)
+        );
+    }
+
+    return this.indicatorsFilters;
   }
 }

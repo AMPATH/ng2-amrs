@@ -1,0 +1,31 @@
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse1">Indicator Level Disaggregation</a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse">
+      <div class="suggest-container form-group" *ngFor="let filter of filterOptions">
+        <div *ngIf="filter.type==='coded'">
+          <label for="{{filter.control}}">{{filter.label}}</label>
+          <div class="input-group">
+            <div class="input-group-addon"><span class="fa fa-list-ul "></span></div>
+            <ng-select [multiple]="true" id="{{filter.control}}" (ngModelChange)="onModelChange(filter.control, $event)"
+                       [placeholder]="'Select...'"
+                       [(ngModel)]="filterModel[filter.control]" [options]="filter.options">
+            </ng-select>
+            <div (click)="selectAll(filter.control)" class="input-group-addon">
+              <i class="glyphicon glyphicon-pushpin"></i>
+              <span>Select All</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="filter.type==='numeric'">
+          <range-slider [start]="filter.options.min" [end]="filter.options.max"
+                        (onAgeChangeFinish)="onModelChange(filter.control, $event)"></range-slider>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

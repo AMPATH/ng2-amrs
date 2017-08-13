@@ -26,6 +26,8 @@ import { Http } from '@angular/http';
 import {
   ClinicalSummaryVisualizationService
 } from '../services/clinical-summary-visualization.service';
+import { IndicatorDisaggregatorComponent }
+from './indicator-disaggregator/indicator-disaggregator.component';
 
 @Component({
   selector: 'hiv-care-overview',
@@ -91,6 +93,7 @@ describe('Component: DashboardFiltersComponent', () => {
         }],
       declarations: [
         DashboardFiltersComponent,
+        IndicatorDisaggregatorComponent,
         DateRangeComponent,
         GenderSelectComponent,
         VisualizationComponent,

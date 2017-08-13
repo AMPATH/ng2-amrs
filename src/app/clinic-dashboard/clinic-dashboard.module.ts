@@ -111,6 +111,9 @@ import {
 } from './patient-status-change-visualization/patient-status-data-list-cell.component';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
+import {
+  IndicatorDisaggregatorComponent
+} from './dashboard-filters/indicator-disaggregator/indicator-disaggregator.component';
 
 @NgModule({
   imports: [
@@ -166,6 +169,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     DashboardFiltersComponent,
     IndicatorSelectComponent,
     GenderSelectComponent,
+    IndicatorDisaggregatorComponent,
     ClinicDashboardComponent,
     ClinicLabOrdersComponent,
     DailyScheduleAppointmentsComponent,

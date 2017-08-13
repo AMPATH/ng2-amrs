@@ -29,7 +29,8 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
   locationUuid: any;
   hivComparativeChartOptions: any = {};
   options: any = {
-    date_range: true
+    date_range: true,
+    indicator_disaggregator: true
   };
   patientStatusChartOptionsFilters: any;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -157,7 +158,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.visualizationResourceService.getHivComparativeOverviewReport({
+    let params: any = {
       endDate: this.filterModel.endDate.format(),
       gender: 'M,F',
       indicators: '',
@@ -166,7 +167,18 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       order: 'encounter_datetime|asc',
       report: 'clinical-hiv-comparative-overview-report',
       startDate: this.filterModel.startDate.format()
-    }).subscribe((report) => {
+    };
+    if (this.filterModel.patientCareStatusFilter)
+      params.patientCareStatusFilter = this.filterModel.patientCareStatusFilter.join();
+    if (this.filterModel.genderFilter)
+      params.genderFilter = this.filterModel.genderFilter.join();
+    if (this.filterModel.ageGroupFilter)
+      params.ageGroupFilter = this.filterModel.ageGroupFilter.join();
+    if (this.filterModel.ageRangeFilter)
+      params.ageRangeFilter = (this.filterModel.ageRangeFilter.ageFrom - 1) + ','
+        + this.filterModel.ageRangeFilter.ageTo;
+    this.visualizationResourceService
+      .getHivComparativeOverviewReport(params).subscribe((report) => {
       _.merge(_options,
         { data: report.result },
         { indicatorDefinitions: report.indicatorDefinitions });

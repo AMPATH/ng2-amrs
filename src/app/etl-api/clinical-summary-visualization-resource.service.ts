@@ -33,6 +33,11 @@ export class ClinicalSummaryVisualizationResourceService {
         urlParams.set('order', params.order);
         urlParams.set('locationUuids', params.locationUuids);
         urlParams.set('limit', params.limit);
+        urlParams.set('patientCareStatusFilter', params.patientCareStatusFilter);
+        urlParams.set('genderFilter', params.genderFilter);
+        urlParams.set('ageGroupFilter', params.ageGroupFilter);
+        urlParams.set('ageRangeFilter', params.ageRangeFilter);
+
         return urlParams;
     }
 

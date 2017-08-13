@@ -44,4 +44,9 @@ export class DashboardFiltersComponent implements OnInit {
       this.filterModelChange.emit(this.filterModel);
     }
   }
+
+  onIndicatorDisaggregationChange(data: any) {
+    _.extend(this.filterModel, data);
+    this.filterModelChange.emit(this.filterModel);
+  }
 }
