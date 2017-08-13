@@ -4,10 +4,10 @@ var s = require("underscore.string");
 var walk = require('walk');
 var helpers = require('./etl-helpers');
 var indicatorHandlersDefinition = require('./etl-processors.js');
+var indicatorProcessor = require('./service/indicator-processor/indicator-processor.service');
 //Report Indicators Json Schema Path
 var indicatorsSchemaDefinition = require('./reports/indicators.json');
 var patientLevelIndicatorsSchema = require('./reports/patient-level.indicators.json');
-var disaggregationFilters = require('./reports/disaggregation-filters.json');
 var patientLabOrderProperties = require('./patient-lab-orders.json');
 var reportList = [];
 //iterate the report folder picking  files satisfying  regex *report.json
@@ -65,45 +65,21 @@ module.exports = function () {
         indicatorsSchema.push.apply(indicatorsSchema, _indicatorsSchema);
         indicatorsSchema.push.apply(indicatorsSchema, _patientLevelIndicatorsSchema);
         indicatorHandlers = _indicatorHandlers;
-        // desegregate indicators
-        _.each(reports, function (report) {
-            _.each(report.indicators, function (reportIndicator) {
-                if (reportIndicator.disaggregation) {
-                    _.each(indicatorsSchema, function (indicator) {
-                        if (reportIndicator.disaggregation.indicator === indicator.name) {
-                            var derivedIndicator = {
-                                label: '',
-                                description: '',
-                                expression: ''
-                            }
-                            _.each(reportIndicator.disaggregation.filters, function (filter) {
-                                var disaggregation = disaggregationFilters[filter];
-                                if (disaggregation) {
-                                    derivedIndicator.label += ' ' + disaggregation.label;
-                                    derivedIndicator.description += ', ' + disaggregation.description;
-                                    derivedIndicator.expression += ' and ' + disaggregation.expression;
-                                }
-                            });
-                            if (derivedIndicator.expression !== '') {
-                                // del repetition
-                                indicatorsSchema = indicatorsSchema.filter(function (el) {
-                                    return el.name !== reportIndicator.expression;
-                                });
+        // disaggregation fixed indicators
+        indicatorProcessor.disaggregateFixedIndicators(reports, indicatorsSchema);
+        // remove duplicates
+        indicatorsSchema= _.uniq(indicatorsSchema, 'name');
 
-                                // push to the arrau
-                                indicatorsSchema.unshift({
-                                    name: reportIndicator.expression,
-                                    label: indicator.label + ' ' + derivedIndicator.label,
-                                    description: indicator.description + 'and disaggregated ' + derivedIndicator.description,
-                                    expression: indicator.expression + derivedIndicator.expression
-                                });
-                            }
-                        }
-                    });
-                }
-            });
+    }
+    function getExpression(){
+        var expression =s.replaceAll(filterOption.expression,filterOption.options,);
+        _.each(report.disintegrationFilterOptions, function (filterOption) {
+
         });
     }
+
+
+
 
     function resolveIndicators(reportName, result, requestIndicators) {
         _.each(reports, function (report) {
@@ -131,7 +107,7 @@ module.exports = function () {
             _.each(queryParams.reportIndicator.split(','), function (indicatorName) {
                 if (indicator.name === indicatorName) {
                     if (indicator.expression !== '') {
-                        var indicatorExpression = replaceIndicatorParam(indicator.expression, queryParams);
+                        var indicatorExpression = indicatorProcessor.replaceIndicatorParam(indicator.expression, queryParams);
                         whereClause += '(' + indicatorExpression + ') or ';
                     }
                 }
@@ -272,59 +248,7 @@ module.exports = function () {
     }
 
 
-    function replaceIndicatorParam(_indicatorExpression, requestParam) {
-        var indicatorExpression = _indicatorExpression;
-        var result;
-
-        if (s.include(indicatorExpression, '@endDate')) {
-            if (requestParam.whereParams) {
-                var dateParam = _.find(requestParam.whereParams, function (param) {
-                    if (param.name === 'endDate') return param;
-                });
-
-                if (dateParam) {
-                    indicatorExpression = s.replaceAll(indicatorExpression, '@endDate', "'" + dateParam.value + "'");
-                }
-            }
-        }
-
-        if (s.include(indicatorExpression, '@startDate')) {
-            if (requestParam.whereParams) {
-                var dateParam = _.find(requestParam.whereParams, function (param) {
-                    if (param.name === 'startDate') return param;
-                });
-
-                if (dateParam) {
-                    indicatorExpression = s.replaceAll(indicatorExpression, '@startDate', "'" + dateParam.value + "'");
-                }
-            }
-        }
-
-        if (s.include(indicatorExpression, '@referenceDate')) {
-            if (requestParam.whereParams) {
-                var referenceParam = _.find(requestParam.whereParams, function (param) {
-                    if (param.name === 'referenceDate') return param;
-                });
-
-                if (referenceParam) {
-                    indicatorExpression = s.replaceAll(indicatorExpression, '@referenceDate', "'" + referenceParam.value + "'");
-                }
-            }
-        }
-
-        if (s.include(indicatorExpression, '@locations')) {
-            if (requestParam.whereParams) {
-                var locationsParam = _.find(requestParam.whereParams, function (param) {
-                    if (param.name === 'locations') return param;
-                });
-                if (locationsParam) {
-                    indicatorExpression = s.replaceAll(indicatorExpression, '@locations', "'" + locationsParam.value + "'");
-                }
-            }
-        }
-
-        return indicatorExpression;
-    }
+  
 
     //converts a set of indicators into sql columns
     function indicatorsToColumns(report, countBy, requestParam) {
@@ -348,7 +272,7 @@ module.exports = function () {
                                 } else {
                                     var column = singleIndicator.sql + ' as ' + singleIndicator.label;
                                     //check if indicator expression has endDate and startDate parameters
-                                    var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                                    var indicatorExpression = indicatorProcessor.replaceIndicatorParam(indicator.expression, requestParam);
                                     column = column.replace('$expression', indicatorExpression);
                                     result.push(column);
                                 }
@@ -363,7 +287,7 @@ module.exports = function () {
                         } else {
                             var column = singleIndicator.sql + ' as ' + indicator.name;
                             //check if indicator expression has endDate and startDate parameters
-                            var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                            var indicatorExpression = indicatorProcessor.replaceIndicatorParam(indicator.expression, requestParam);
                             column = column.replace('$expression', indicatorExpression);
                             result.push(column);
                         }
@@ -371,6 +295,9 @@ module.exports = function () {
                 }
             });
         });
+        // add dynamically derived indicators
+        var dynamicIndicators = indicatorProcessor.disaggregateDynamicIndicators(report, indicatorsSchema, requestParam);
+        result.push.apply(result,dynamicIndicators);
         return result;
 
     }
@@ -391,7 +318,7 @@ module.exports = function () {
                         if (indicator.name === indicatorKey) {
                             var column = singleIndicator.sql;
                             // console.log('Derived Indicator request param', requestParam);
-                            var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                            var indicatorExpression = indicatorProcessor.replaceIndicatorParam(indicator.expression, requestParam);
                             column = column.replace('$expression', indicatorExpression);
                             derivedIndicator.sql = derivedIndicator.sql.replace(indicatorKey, column);
                         }
@@ -587,7 +514,7 @@ module.exports = function () {
                                     //result.push(processesDerivedIndicator(report, singleIndicator, indicator));
                                 } else {
                                     //check if indicator expression has endDate and startDate parameters
-                                    var indicatorExpression = replaceIndicatorParam(indicator.expression, requestParam);
+                                    var indicatorExpression = indicatorProcessor.replaceIndicatorParam(indicator.expression, requestParam);
                                     result += '(' + indicatorExpression + ') or ';
                                 }
                             }

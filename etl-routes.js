@@ -477,7 +477,7 @@ module.exports = function () {
                 var programUuid = requestParams.programUuid;
                 var enrollment = requestParams.enrollmentUuid;
                 var locationUuid = requestParams.intendedLocationUuid || '';
-                
+
                 patientProgramService
                 .getPatientProgramEnrollmentVisits(patientUuid,programUuid, enrollment,locationUuid)
                 .then(function(programVisits){
@@ -2776,7 +2776,25 @@ module.exports = function () {
                 }
             }
 
-    }
+    }, {
+            method: 'GET',
+            path: '/etl/indicator-disaggregation-filter-options',
+            config: {
+                auth: 'simple',
+                handler: function (request, reply) {
+                    reply(require('./service/indicator-processor/indicator-filter-options.json'));
+                },
+                description: "Get indicator disaggregation options",
+                notes: "Returns an array of filter options",
+                tags: ['api'],
+                validate: {
+                    query: {
+
+                    }
+                }
+            }
+
+        }
     ];
 
     return routes;
