@@ -21,6 +21,13 @@
                 "tableName": "orders",
                 "alias": "orders",
                 "joinExpression": "orders.voided=0 and t1.encounter_id=orders.encounter_id"
+            },
+            {
+                "joinType": "INNER JOIN",
+                "schema": "amrs",
+                "tableName": "person",
+                "alias": "t3",
+                "joinExpression": "t1.person_id = t3.person_id"
             }
         ],
         "parameters": [
@@ -82,47 +89,56 @@
             {
                 "label": "currently_in_care_total",
                 "expression": "currently_in_care_total",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "on_art_total",
                 "expression": "on_art_total",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "not_on_art_total",
                 "expression": "not_on_art_total",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "patients_requiring_vl",
                 "expression": "patients_requiring_vl",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "tested_appropriately",
                 "expression": "tested_appropriately",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "not_tested_appropriately",
                 "expression": "not_tested_appropriately",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "due_for_annual_vl",
                 "expression": "due_for_annual_vl",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "pending_vl_orders",
                 "expression": "pending_vl_orders",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "missing_vl_order",
                 "expression": "missing_vl_order",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))",
+                "canBeDisaggregated": true
             },
             {
                 "label": "perc_tested_appropriately",
@@ -132,12 +148,12 @@
             {
                 "label": "virally_suppressed",
                 "expression": "virally_suppressed",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))"
             },
             {
                 "label": "not_virally_suppressed",
                 "expression": "not_virally_suppressed",
-                "sql": "count(distinct if($expression, person_id,null))"
+                "sql": "count(distinct if($expression, t1.person_id,null))"
             },
             {
                 "label": "perc_virally_suppressed",
