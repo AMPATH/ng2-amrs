@@ -40,7 +40,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.cleanUp();
     }
-    private onFileChange(file) {
+    public onFileChange(file) {
         this.subscriptions.push(this.fileUploadResourceService.upload(file).flatMap((result) => {
             let updatePayload = {
                 attributes: [{
@@ -62,7 +62,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
             this.loading = false;
         }));
     }
-    private clearPhoto() {
+    public clearPhoto() {
         this.dataModel = null;
         let updatePayload = {
             attributes: [{
@@ -79,7 +79,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
                 this.loading = false;
             }));
     }
-    private setPhoto() {
+    public setPhoto() {
         let photo = this.patient.
             person.getPersonAttribute(this.attributeType);
         if (photo) {

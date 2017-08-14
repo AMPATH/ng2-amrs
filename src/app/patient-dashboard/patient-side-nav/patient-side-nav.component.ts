@@ -27,10 +27,12 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
     public viewingChildRoutes = false;
     public changingRoutesSub: Subscription;
     constructor(private dynamicRoutesService: DynamicRoutesService) {
-        this.subscribeToRoutesChangeEvents();
+
     }
 
-    public ngOnInit() { }
+    public ngOnInit() {
+        this.subscribeToRoutesChangeEvents();
+    }
 
     public ngOnDestroy() {
         this.changingRoutesSub.unsubscribe();
@@ -44,7 +46,7 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
 
     public viewProgramRoutes() {
         this.viewingChildRoutes = false;
-         this.expandSideBar();
+        this.expandSideBar();
     }
 
     public subscribeToRoutesChangeEvents() {
@@ -59,7 +61,7 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
 
     public expandSideBar() {
         setTimeout(() => {
-            let body = document.getElementsByTagName('body')[0];
+            const body = document.getElementsByTagName('body')[0];
             body.classList.remove('sidebar-collapse');
             body.classList.remove('sidebar-open');
             body.classList.add('sidebar-open');
@@ -68,7 +70,7 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
 
     public collapseSideBar() {
         setTimeout(() => {
-            let body = document.getElementsByTagName('body')[0];
+            const body = document.getElementsByTagName('body')[0];
             body.classList.remove('sidebar-collapse');
             body.classList.remove('sidebar-open');
             body.classList.add('sidebar-collapse');

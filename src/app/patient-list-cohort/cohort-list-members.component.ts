@@ -21,25 +21,25 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
+  public displayConfirmDeleteCohortDialog: any;
   userAssignedRole: string;
   filterTerm: string = '';
   display: boolean = false;
   selectedMember: string;
   selectedMemberUuid: string;
-  private displayConfirmDialog: boolean = false;
-  private displayConfirmDeleteCohortDialog: boolean = false;
-  private showSuccessAlert: boolean = false;
-  private showErrorAlert: boolean = false;
-  private successAlert: string;
-  private errorAlert: string;
-  private errorTitle: string;
+  public displayConfirmDialog: boolean = false;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public successAlert: string;
+  public errorAlert: string;
+  public errorTitle: string;
 
   constructor(
-              private cohortListService: CohortListService,
-              private router: Router,
-              private cohortMemberResourceService: CohortMemberResourceService,
-              private cohortResourceService: CohortResourceService,
-              private route: ActivatedRoute) { }
+    private cohortListService: CohortListService,
+    private router: Router,
+    private cohortMemberResourceService: CohortMemberResourceService,
+    private cohortResourceService: CohortResourceService,
+    private route: ActivatedRoute) { }
   ngOnInit() {
     this.selectedCohortUuid = this.route.snapshot.params['cohort_uuid'];
     this.viewCohortListMembers();
@@ -163,12 +163,12 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
       this.cohortMemberResourceService.retireCohortMember(this.selectedCohortUuid,
         this.selectedMemberUuid).subscribe(
         (success) => {
-         // if (success) {
+          // if (success) {
 
-            this.displaySuccessAlert('patient list member deleted successfully');
-            this.fetchMembers();
-            this.displayConfirmDialog = false;
-         // }
+          this.displaySuccessAlert('patient list member deleted successfully');
+          this.fetchMembers();
+          this.displayConfirmDialog = false;
+          // }
 
         },
         (error) => {
@@ -179,8 +179,5 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     }
 
   }
-
-
-
 
 }

@@ -14,13 +14,13 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   subscription: Subscription;
   public display: boolean = false;
-  private address1: string;
-  private address2: string;
-  private address3: string;
-  private cityVillage: string;
-  private stateProvince: string;
-  private preferredAddressUuid: string;
-  private errors: any = [];
+  public address1: string;
+  public address2: string;
+  public address3: string;
+  public cityVillage: string;
+  public stateProvince: string;
+  public preferredAddressUuid: string;
+  public errors: any = [];
 
   constructor(private patientService: PatientService,
     private personResourceService: PersonResourceService) { }

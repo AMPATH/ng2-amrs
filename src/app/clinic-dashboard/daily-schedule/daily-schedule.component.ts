@@ -19,9 +19,9 @@ export class DailyScheduleComponent implements OnInit {
   selectedLocation: any;
   loadingData: boolean = true;
   @Output() selectedSchedule = new EventEmitter();
-  private msgs: Message[] = [];
-  private reportFilter: any = { ageRange: [40, 70] };
-  private dataToBind: any = {
+  public msgs: Message[] = [];
+  public reportFilter: any = { ageRange: [40, 70] };
+  public dataToBind: any = {
     ageRange: [0, 15],
     selectedGender: 'M,F',
     selectedLocations: ['cb31d052-b668-4321-80ad-c0aaa571f87b'],
@@ -29,14 +29,14 @@ export class DailyScheduleComponent implements OnInit {
     endDate: new Date('10/11/2016'),
     selectedIndicators: ['on_arvs', 'on_arvs_first_line']
   };
-  private activeLinkIndex = 0;
-  private tabLinks = [
+  public activeLinkIndex = 0;
+  public tabLinks = [
     { label: 'Appointments', link: 'daily-appointments' },
     { label: 'Visits', link: 'daily-visits' },
     { label: 'Clinic Flow', link: 'clinic-flow' },
     { label: 'Has not returned', link: 'daily-not-returned' },
   ];
-  private _datePipe: DatePipe;
+  public _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
     private router: Router, private route: ActivatedRoute,
     private clinicFlowCache: ClinicFlowCacheService) {
@@ -46,13 +46,13 @@ export class DailyScheduleComponent implements OnInit {
   ngOnInit() {
     this.setActiveTab();
     this.updateCurrentDate();
-    this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
-      this.loadingData = value;
-    });
+    // this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
+    //   this.loadingData = value;
+    // });
 
-    this.clinicFlowCache.getIsLoading().subscribe((value) => {
-      this.loadingData = value;
-    });
+    // this.clinicFlowCache.getIsLoading().subscribe((value) => {
+    //   this.loadingData = value;
+    // });
     this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedLocation = location;

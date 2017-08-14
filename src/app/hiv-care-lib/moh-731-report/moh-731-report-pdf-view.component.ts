@@ -23,6 +23,8 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     public sectionDefinitions: any;
     public rowData: any;
     public previousData: any;
+    public numberOfPages = 0;
+    public _data;
     @Input() sectionsDef: any;
     @Input() startDate: any;
     @Input() endDate: any;
@@ -38,8 +40,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         }
 
     }
-    private numberOfPages = 0;
-    private _data;
+    
     get data() {
         return this._data;
     }

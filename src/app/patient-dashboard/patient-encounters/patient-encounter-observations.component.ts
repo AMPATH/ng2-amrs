@@ -4,6 +4,7 @@ import { Encounter } from '../../models/encounter.model';
 import * as _ from 'lodash';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'patient-encounter-observations',
@@ -19,7 +20,9 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
 
   obs: any;
   isHidden: Array<boolean> = [];
-  @ViewChild('modal')
+  @ViewChild('staticModal')
+  staticModal: ModalDirective;
+    @ViewChild('modal')
   modal: ModalComponent;
   @Input() encounter: Encounter;
   @Input() onEncounterDetail: boolean;
@@ -47,8 +50,11 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       if (!changedProp.isFirstChange()) {
         this.isDone.emit(true);
         this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
-          this.modal.dismiss();
-          this.modal.open();
+          //this.modal.dismiss();
+          // console.log(this.modal);
+          // this.modal.visible = true;
+          this.staticModal.show();
+          // this.modal.open();
           this.obs = this.processEncounter(_encounter);
         });
 

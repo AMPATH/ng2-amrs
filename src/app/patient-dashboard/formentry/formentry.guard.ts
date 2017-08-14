@@ -10,7 +10,9 @@ export class FromentryGuard implements CanDeactivate<FormentryComponent> {
   }
 
   public canDeactivate(component: FormentryComponent): Observable<boolean> {
-    if (!component.form || !component.form.rootNode.control.dirty) return Observable.of(true);
+    if (!component.form || !component.form.rootNode.control.dirty) {
+      return Observable.of(true);
+    }
     return Observable.create((observer: Subject<boolean>) => {
       if (component.preserveFormAsDraft) {
         component.setCurrentFormDraftedForm();

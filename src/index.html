@@ -10,12 +10,10 @@
   <title>
     Ampath POC
   </title>
-
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/slick/slick.css"/>
-  <link rel="stylesheet" href="./assets/slick/slick-theme.css"/>
-  <link rel="stylesheet" href="./assets/app.css"/>
+  <!-- <link rel="stylesheet" href="./assets/app.css"/> -->
 
   <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
   <script type="text/javascript">
@@ -160,7 +158,7 @@
 
 <body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
 
-<app>
+<app-root>
   <div class="app-loader">
     <div class="app-loader-center">
       <div class="app-loader-center-wrapper">
@@ -176,8 +174,7 @@
       </div>
     </div>
   </div>
-</app>
-
+</app-root>
 <% if (htmlWebpackPlugin.options.isDevServer && htmlWebpackPlugin.options.HMR !== true) { %>
 <!-- Webpack Dev Server reload -->
 <script src="/webpack-dev-server.js"></script>

@@ -13,7 +13,7 @@ import { Moh731ReportFilters } from './moh-731-report/moh-731-report-filters.com
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { Moh731PatientListComponent } from './moh-731-report/moh-731-patientlist.component';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import { DataListsModule } from '../data-lists/data-lists.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
@@ -68,7 +68,7 @@ import { ChartModule } from 'angular2-highcharts';
     InputTextModule,
     DataListsModule,
     NgxMyDatePickerModule,
-    MdTabsModule.forRoot(),
+    MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
     MaterialModule

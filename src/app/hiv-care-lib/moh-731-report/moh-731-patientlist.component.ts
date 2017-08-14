@@ -143,7 +143,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
 
   addExtraColumns(indicators: Array<any>) {

@@ -16,32 +16,33 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   patients: Patient = new Patient({});
   public display: boolean = false;
   subscription: Subscription;
-  private givenName: string;
-  private familyName: string;
-  private middleName: string;
-  private preferred: any;
-  private ispreferred: boolean;
-  private preferredOptions = [
-    {label: 'Yes', val: true},
-    {label: 'No', val: false}
+  public givenName: string;
+  public familyName: string;
+  public middleName: string;
+  public preferred: any;
+  public ispreferred: boolean;
+  public preferredOptions = [
+    { label: 'Yes', val: true },
+    { label: 'No', val: false }
   ];
-  private genderOptions = [
-    {label: 'Female', val: 'F'},
-    {label: 'Male', val: 'M'}
+  public genderOptions = [
+    { label: 'Female', val: 'F' },
+    { label: 'Male', val: 'M' }
   ];
-  private preferredNameuuid: string;
-  private birthdate: any;
-  private dead: any = false;
-  private gender: any;
-  private deathDate: Date;
-  private causesOfDeath: any = [];
-  private causeOfDeath: any;
-  private errors: any = [];
-  private successAlert: any = '';
-  private healthCenter: any;
+  public preferredNameuuid: string;
+  public birthdate: any;
+  public dead: boolean = false;
+  public gender: any;
+  public deathDate: Date;
+  public causesOfDeath: any = [];
+  public causeOfDeath: any;
+  public errors: any = [];
+  public successAlert: any = '';
+  public healthCenter: any;
+
   constructor(private patientService: PatientService,
-              private personResourceService: PersonResourceService,
-              private conceptResourceService: ConceptResourceService) {
+    private personResourceService: PersonResourceService,
+    private conceptResourceService: ConceptResourceService) {
   }
 
   ngOnInit(): void {
@@ -88,18 +89,18 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   }
   public updateDeathDetails(dead) {
 
-   if (this.dead === 'true') {
+    if (this.dead === true) {
       this.dead = true;
     }
 
-    if (this.dead === 'false') {
+    if (this.dead === false) {
       this.dead = false;
     }
 
-   if (!event) {
+    if (!event) {
       this.deathDate = null;
       this.causeOfDeath = null;
-   }
+    }
 
   }
 
@@ -118,13 +119,13 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     this.errors = [];
     this.successAlert = '';
     if (this.familyName === '') {
-      this.errors.push({message: 'Family Name is required'});
+      this.errors.push({ message: 'Family Name is required' });
     }
     if (this.givenName === '') {
-      this.errors.push({message: 'Given Name is required'});
+      this.errors.push({ message: 'Given Name is required' });
     }
     if (this.preferred === '') {
-      this.errors.push({message: 'Preferred is required'});
+      this.errors.push({ message: 'Preferred is required' });
     }
     if (this.preferred === 'true') {
       this.ispreferred = true;
@@ -133,10 +134,10 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       this.ispreferred = false;
     }
 
-    if (this.dead === 'true') {
+    if (this.dead === true) {
       this.dead = true;
     }
-    if (this.dead === 'false') {
+    if (this.dead === false) {
       this.dead = false;
     }
 
@@ -146,13 +147,13 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
 
     } else if (this.dead) {
       if (moment(this.deathDate).isAfter(new Date())) {
-        this.errors.push({message: 'Date date cannot be in future'});
+        this.errors.push({ message: 'Date date cannot be in future' });
       }
       if (this.deathDate == null) {
-        this.errors.push({message: 'Death Date is required'});
+        this.errors.push({ message: 'Death Date is required' });
       }
       if (this.causeOfDeath == null) {
-        this.errors.push({message: 'Cause of Death is required'});
+        this.errors.push({ message: 'Cause of Death is required' });
       }
 
     }

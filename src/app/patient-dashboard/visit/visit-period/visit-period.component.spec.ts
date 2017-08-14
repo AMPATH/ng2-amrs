@@ -21,7 +21,7 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import {
   Router, ActivatedRoute, Params,
-  RouterModule, RouterOutletMap,
+  RouterModule, ChildrenOutletContexts,
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'angular2-select';

@@ -50,7 +50,7 @@ export class UserSearchComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    if (this.searchString && this.searchString.length > 2) {
+    if (this.searchString) {
       if (window.innerWidth > 768) {
         this.adjustInputMargin = '267px';
       }
@@ -86,9 +86,9 @@ export class UserSearchComponent implements OnInit, OnDestroy {
   }
 
   updateUsersCount(search) {
-    if (this.totalUsers > 0 && search.length > 0) {
-      this.totalUsers = 0;
-    }
+    // if (this.totalUsers > 0 && search.length > 0) {
+    //   this.totalUsers = 0;
+    // }
   }
 
   selectUser(user) {

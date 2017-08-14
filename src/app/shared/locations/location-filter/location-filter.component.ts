@@ -1,4 +1,7 @@
-import { Component, Output, Input, OnInit, EventEmitter, ViewEncapsulation } from '@angular/core';
+import {
+  Component, Output, Input, OnInit, EventEmitter,
+  ViewEncapsulation, ChangeDetectorRef, AfterViewInit
+} from '@angular/core';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import * as _ from 'lodash';
 import { Dictionary } from 'lodash';
@@ -15,7 +18,8 @@ import { Dictionary } from 'lodash';
   `],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationFilterComponent implements OnInit {
+export class LocationFilterComponent implements OnInit, AfterViewInit {
+
   locations: Dictionary<any> = {};
   counties: any;
   loading: boolean = false;
@@ -29,7 +33,8 @@ export class LocationFilterComponent implements OnInit {
   @Input() county: string;
   @Output() onLocationChange = new EventEmitter<any>();
 
-  constructor(private locationResourceService: LocationResourceService) {
+  constructor(private locationResourceService: LocationResourceService,
+              private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -46,6 +51,9 @@ export class LocationFilterComponent implements OnInit {
     this.resolveLocationDetails();
   }
 
+  ngAfterViewInit(): void {
+    this.cd.detectChanges();
+  }
   onLocationSelected(locations: Array<any>) {
     this.selectedLocations = locations;
     this.getCountyByLocations().then((county) => {
@@ -70,35 +78,35 @@ export class LocationFilterComponent implements OnInit {
   resolveLocationDetails(): void {
     this.loading = true;
     this.locationResourceService.getLocations().subscribe((locations: any[]) => {
-        this.locationDropdownOptions = locations.map((location) => {
-          return {
-            value: location.uuid,
-            label: location.display
-          };
-        });
-        this.counties = _.groupBy(locations, 'stateProvince');
-        this.countyDropdownOptions = _.compact(_.keys(this.counties));
-        _.each(locations, (location) => {
-          let details = {
-            uuid: location.uuid,
-            district: location.countyDistrict ? location.countyDistrict : 'N/A',
-            county: location.stateProvince ? location.stateProvince : 'N/A',
-            facility: location.name,
-            facilityName: location.name
-          };
-          this.locations[location.uuid] = details;
-        });
-        if (this.county) {
-          this.onCountyChanged(this.selectedCounty);
-        }
-        if (this.locationUuids) {
-          this.onLocationSelected(this.selectedLocations);
-        }
-        this.loading = false;
-      }, (error: any) => {
-        console.log(error);
-        this.loading = false;
+      this.locationDropdownOptions = locations.map((location) => {
+        return {
+          value: location.uuid,
+          label: location.display
+        };
+      });
+      this.counties = _.groupBy(locations, 'stateProvince');
+      this.countyDropdownOptions = _.compact(_.keys(this.counties));
+      _.each(locations, (location) => {
+        let details = {
+          uuid: location.uuid,
+          district: location.countyDistrict ? location.countyDistrict : 'N/A',
+          county: location.stateProvince ? location.stateProvince : 'N/A',
+          facility: location.name,
+          facilityName: location.name
+        };
+        this.locations[location.uuid] = details;
+      });
+      if (this.county) {
+        this.onCountyChanged(this.selectedCounty);
       }
+      if (this.locationUuids) {
+        this.onLocationSelected(this.selectedLocations);
+      }
+      this.loading = false;
+    }, (error: any) => {
+      console.log(error);
+      this.loading = false;
+    }
     );
 
   }

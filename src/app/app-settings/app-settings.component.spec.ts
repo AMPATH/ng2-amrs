@@ -1,4 +1,4 @@
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideRoutes } from '@angular/router';
@@ -17,6 +17,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
+import { CookieModule } from 'ngx-cookie';
 
 describe('AppSettingsComponent Tests', () => {
   let comp: AppSettingsComponent;
@@ -25,7 +26,8 @@ describe('AppSettingsComponent Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, Ng2Bs3ModalModule, UtilsModule, RouterTestingModule],
+      imports: [FormsModule, Ng2Bs3ModalModule, UtilsModule,
+        RouterTestingModule, CookieModule.forRoot()],
       declarations: [AppSettingsComponent],
       providers: [
         MockBackend,

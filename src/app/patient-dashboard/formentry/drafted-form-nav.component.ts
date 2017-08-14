@@ -16,17 +16,17 @@ import { Subscription } from 'rxjs';
 })
 export class DraftedFormNavComponent implements OnInit, OnDestroy {
   public isDraftFormPresent: boolean = false;
-  subscription: Subscription;
+  public subscription: Subscription;
   private patientUuid;
 
   constructor(private draftedFormsService: DraftedFormsService,
-              private patientService: PatientService,
-              private router: Router) {
+    private patientService: PatientService,
+    private router: Router) {
     this.subscription = this.patientService.currentlyLoadedPatientUuid
       .subscribe(uuid => this.patientUuid = uuid);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.draftedFormsService.draftedForm.subscribe((form) => {
 
       if (this.draftedFormsService.hasBeenCancelled) {
@@ -49,17 +49,21 @@ export class DraftedFormNavComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  loadDraftedForm() {
+  public loadDraftedForm() {
     this.draftedFormsService.loadDraftOnNextFormLoad = true;
     this.isDraftFormPresent = false;
-    this.router.navigate(['/patient-dashboard/' +
-    this.patientUuid + '/general/formentry/' +
-    this.draftedFormsService.lastDraftedForm.valueProcessingInfo['formUuid']]);
+    const snapshot = this.draftedFormsService.getRouteSnapshot();
+    const urlPaths = [];
+    for (const url of snapshot.url) {
+      urlPaths.push(url.path);
+    }
+    const url = ['/patient-dashboard', 'patient', this.patientUuid].concat(urlPaths);
+    this.router.navigate(url, { queryParams: snapshot.queryParams });
   }
 }

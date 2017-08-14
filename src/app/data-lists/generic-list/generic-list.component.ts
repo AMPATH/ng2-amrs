@@ -77,12 +77,12 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.enableFilter = true;
     this.gridOptions.showToolPanel = false;
     // ensure that even after sorting the rows maintain order
-    this.gridOptions.onSortChanged = (event) => {
+    this.gridOptions.onSortChanged = () => {
         this.gridOptions.api.forEachNode(function(node){
            node.setDataValue('#', node.rowIndex + 1);
         });
 
-        this.gridOptions.api.refreshCells([], [] , true);
+        this.gridOptions.api.refreshCells();
 
     };
 

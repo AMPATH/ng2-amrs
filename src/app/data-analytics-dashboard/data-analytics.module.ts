@@ -12,7 +12,7 @@ import {
   AccordionModule, ButtonModule, FieldsetModule, GrowlModule,
   TabViewModule
  } from 'primeng/primeng';
-import {  DateTimePickerModule  } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import {  DateTimePickerModule  } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { SelectModule } from 'angular2-select';
@@ -75,7 +75,7 @@ import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgxMyDatePickerModule,
-    MdTabsModule.forRoot(),
+    MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
     MaterialModule

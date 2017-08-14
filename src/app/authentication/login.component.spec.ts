@@ -16,10 +16,11 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { LoginComponent } from './login.component';
 import { provideRoutes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CookieModule } from 'ngx-cookie';
 import { UserDefaultPropertiesService } from
   '../user-default-properties/user-default-properties.service';
 import { UserService } from '../openmrs-api/user.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 describe('LoginComponent Unit Tests', () => {
   // provide our implementations or mocks to the dependency injector
@@ -47,7 +48,8 @@ describe('LoginComponent Unit Tests', () => {
       UserService
     ],
     imports: [
-      RouterTestingModule
+      RouterTestingModule,
+      CookieModule.forRoot()
     ]
   }));
 

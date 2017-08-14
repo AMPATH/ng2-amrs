@@ -23,27 +23,28 @@ export class PatientStatusChangeListComponent implements OnInit {
     date_range: true
   };
   public extraColumns: Array<any> = [];
-  private columns = [];
-  private filterParams: any;
-  private startIndex: number = 0;
-  private startDate = new Date();
-  private endDate = new Date();
-  private data = [];
-  private indicator = '';
-  private selectedIndicator = '';
-  private analysis = '';
-  private loading = false;
-  private error = false;
-  private dataLoaded: boolean = false;
-  private overrideColumns: Array<any> = [];
-  private progressBarTick: number = 30;
-  private timerSubscription: Subscription;
-  private subscription = new Subscription();
+  public columns = [];
+  public filterParams: any;
+  public startIndex: number = 0;
+  public startDate = new Date();
+  public endDate = new Date();
+  public data = [];
+  public indicator = '';
+  public selectedIndicator = '';
+  public analysis = '';
+  public loading = false;
+  public error = false;
+  public filterModel: any;
+  public dataLoaded: boolean = false;
+  public overrideColumns: Array<any> = [];
+  public progressBarTick: number = 30;
+  public timerSubscription: Subscription;
+  public subscription = new Subscription();
 
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private patientStatusResourceService: PatientStatusVisualizationResourceService,
-              private clinicDashboardCacheService: ClinicDashboardCacheService) {
+    private patientStatusResourceService: PatientStatusVisualizationResourceService,
+    private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
   ngOnInit() {
@@ -145,6 +146,6 @@ export class PatientStatusChangeListComponent implements OnInit {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
 }

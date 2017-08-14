@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { EtlApi } from '../etl-api/etl-api.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
@@ -10,14 +11,12 @@ import {
 } from 'primeng/primeng';
 // import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
-import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { FormsComponent } from './forms/forms.component';
@@ -70,11 +69,9 @@ import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
 import { ToastrModule } from 'ngx-toastr';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
-import { PatientMonthlyStatusComponent } from
-  './patient-status-change/patient-monthly-status.component';
+// tslint:disable-next-line:max-line-length
+import { PatientMonthlyStatusComponent } from './patient-status-change/patient-monthly-status.component';
 import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
-import { PatientRelationshipSearchComponent } from
-'./patient-relationships/patient-relationship-search.component';
 import {
   AddPatientRelationshipComponent
 } from './patient-relationships/add-patient-relationship.component';
@@ -91,8 +88,7 @@ import { EditAddressComponent } from './patient-info/edit-address.component';
 import {
   EditPatientIdentifierComponent
 } from './patient-identifier/edit-patient-identifier.component';
-import { PatientCareStatusResourceService } from
-  '../etl-api/patient-care-status-resource.service';
+import { PatientCareStatusResourceService } from '../etl-api/patient-care-status-resource.service';
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
 import {
@@ -106,9 +102,8 @@ import {
   HivPatientClinicalSummaryService
 } from './patient-clinical-summaries/hiv-patient-clinical-summary.service';
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
-import { PatientSideNavComponent } from './patient-side-nav/patient-side-nav.component';
 import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes.factory';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import { HivProgramSnapshotComponent } from './programs/hiv/hiv-program-snapshot.component';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
@@ -122,50 +117,18 @@ import { VisitEncountersComponent } from './visit-encounters/visit-encounters.co
 import { VisitEncountersPipe } from './visit-encounters/visit-encounters.pipe';
 import { OrderByAlphabetPipe } from './visit-encounters/visit-encounter.component.order.pipe';
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
-import { EncounterTypeFilter } from
-'./patient-encounters/encounter-list.component.filterByEncounterType.pipe';
-import { PatientSearchModule } from './../patient-search/patient-search.module';
-@NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    patientDashboardRouting,
-    AccordionModule,
-    DataTableModule,
-    SharedModule,
-    InputTextModule,
-    MessagesModule,
-    InputTextareaModule,
-    DropdownModule,
-    ButtonModule,
-    CalendarModule,
-    NgamrsSharedModule,
-    Ng2PaginationModule,
-    Ng2Bs3ModalModule,
-    OpenmrsApi,
-    UtilsModule,
-    TabViewModule,
-    GrowlModule, PanelModule,
-    Angulartics2Module.forChild(),
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
-    FormEntryModule,
-    ReactiveFormsModule,
-    ConfirmDialogModule, DialogModule,
-    ToastrModule.forRoot(),
-    EtlApi,
-    ButtonModule,
-    DateTimePickerModule,
-    SelectModule,
-    AgGridModule.withComponents([
+// tslint:disable-next-line:max-line-length
+import { EncounterTypeFilter } from './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 
-    ]),
-    LabOrderSearchModule,
-    FileUploaderModule,
-    CohortMemberModule,
-    PatientSearchModule
-  ],
+import { routes } from './patient-dashboard.routes';
+import { PatientSearchModule } from './../patient-search/patient-search.module';
+import { PatientDashboardComponent } from './patient-dashboard.component';
+
+@NgModule({
   declarations: [
+    /**
+     * Components / Directives/ Pipes
+     */
     LandingPageComponent,
     PatientInfoComponent,
     PatientEncountersComponent,
@@ -205,10 +168,8 @@ import { PatientSearchModule } from './../patient-search/patient-search.module';
     HivPatientClinicalSummaryComponent,
     EditDemographicsComponent,
     EditPatientIdentifierComponent,
-    PatientSideNavComponent,
     EditPatientRelationshipComponent,
     AddPatientRelationshipComponent,
-    PatientRelationshipSearchComponent,
     VisitPeriodComponent,
     PatientMonthlyStatusComponent,
     LocatorMapComponent,
@@ -219,6 +180,44 @@ import { PatientSearchModule } from './../patient-search/patient-search.module';
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter
+  ],
+  imports: [
+    CommonModule,
+    PatientSearchModule,
+    FormsModule,
+    AccordionModule,
+    DataTableModule,
+    SharedModule,
+    InputTextModule,
+    MessagesModule,
+    InputTextareaModule,
+    DropdownModule,
+    ButtonModule,
+    CalendarModule,
+    NgamrsSharedModule,
+    Ng2PaginationModule,
+    OpenmrsApi,
+    UtilsModule,
+    TabViewModule,
+    GrowlModule, PanelModule,
+    Angulartics2Module.forChild(),
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
+    FormEntryModule,
+    ReactiveFormsModule,
+    ConfirmDialogModule, DialogModule,
+    ToastrModule.forRoot(),
+    EtlApi,
+    ButtonModule,
+    DateTimePickerModule,
+    SelectModule,
+    AgGridModule.withComponents([
+
+    ]),
+    LabOrderSearchModule,
+    FileUploaderModule,
+    CohortMemberModule,
+    RouterModule.forChild(routes),
   ],
   providers: [
     PatientEncounterService,
@@ -248,37 +247,8 @@ import { PatientSearchModule } from './../patient-search/patient-search.module';
     PatientRoutesFactory,
     PatientRelationshipTypeService,
     PatientCareStatusResourceService
-  ],
-  exports: [
-    LandingPageComponent,
-    PatientDashboardComponent,
-    PatientEncountersComponent,
-    PatientEncounterObservationsComponent,
-    PatientVitalsComponent,
-    FormsComponent,
-    LabDataSummaryComponent,
-    LabOrdersComponent,
-    HivSummaryComponent,
-    HivSummaryLatestComponent,
-    HivSummaryHistoricalComponent,
-    HivProgramSnapshotComponent,
-    ClinicalNotesComponent,
-    ProgramsComponent,
-    EncounterListComponent,
-    PatientDemographicsComponent,
-    FormListComponent,
-    FormentryComponent,
-    DraftedFormNavComponent,
-    PatientRemindersComponent,
-    OrderListComponent,
-    PatientRelationshipsComponent,
-    EditPatientIdentifierComponent,
-    PatientSideNavComponent,
-    EditPatientRelationshipComponent,
-    AddPatientRelationshipComponent,
-    PatientRelationshipSearchComponent,
-    VisitPeriodComponent
   ]
 })
 export class PatientDashboardModule {
+  public static routes = routes;
 }

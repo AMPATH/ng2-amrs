@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientDashboardComponent } from './patient-dashboard.component';
+import { PatientSearchComponent } from './patient-search/patient-search.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';
@@ -22,43 +23,18 @@ import { HivPatientClinicalSummaryComponent }
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
-import { PatientSearchContainerComponent } from
-'../patient-search/patient-search-container.component';
 
 const patientDashboardRoutes: Routes = [
 
-  { path: 'patient-search', component: PatientSearchContainerComponent },
+  { path: 'patient-search', component: PatientSearchComponent },
   {
     path: ':patient_uuid',
     component: PatientDashboardComponent,
     children: [
       { path: 'general/landing-page', component: LandingPageComponent },
-      {
-        path: '781d85b0-1359-11df-a1f1-0026b9348838/landing-page',  // HIV Program Landing Page
-        component: HivSummaryComponent
-      },
-      {
-        path: '725b5193-3452-43fc-aca3-6a80432d9bfa/landing-page', // Oncology Program Landing Page
-        component: PatientInfoComponent
-      },
-      {
-        path: '781d897a-1359-11df-a1f1-0026b9348838/landing-page', // PMTCT Program Landing Page
-        component: PatientInfoComponent
-      },
-      {
-        path: '781d8768-1359-11df-a1f1-0026b9348838/landing-page', // OVC Program Landing Page
-        component: PatientInfoComponent
-      },
-      {
-        path: '781d8a88-1359-11df-a1f1-0026b9348838/landing-page', // BSG Landing Page
-        component: PatientInfoComponent
-      },
-      {
-        path: 'fc15ac01-5381-4854-bf5e-917c907aa77f/landing-page', // CDM Landing Page
-        component: PatientInfoComponent
-      },
       { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
       { path: ':program/patient-info', component: PatientInfoComponent },
+      { path: 'oncology/landing-page', component: PatientInfoComponent },
       { path: ':program/patient-encounters', component: VisitEncountersComponent },
       { path: ':program/patient-vitals', component: PatientVitalsComponent },
       { path: ':program/forms', component: FormsComponent },
@@ -72,13 +48,14 @@ const patientDashboardRoutes: Routes = [
       },
       { path: ':program/hiv-summary', component: HivSummaryComponent },
       { path: ':program/patient-monthly-status-history', component: PatientMonthlyStatusComponent },
+      { path: 'hiv/landing-page', component: HivSummaryComponent },
       { path: ':program/lab-data-summary', component: LabDataSummaryComponent },
       { path: ':program/lab-orders', component: LabOrdersComponent },
       { path: 'general/landing-page', component: ProgramsComponent },
       { path: ':program/programs', component: ProgramsComponent },
       { path: ':program/clinical-notes', component: ClinicalNotesComponent },
       { path: ':program/visit', component: VisitComponent },
-      { path: ':program/locator-map', component: LocatorMapComponent },
+      { path: ':program/locator-map', component: LocatorMapComponent }
     ],
     canActivate: [
       PatientDashboardGuard

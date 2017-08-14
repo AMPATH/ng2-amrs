@@ -42,6 +42,6 @@
 
   </template>
   <mwl-calendar-month-view [activeDayIsOpen]="activeDayIsOpen" [cellTemplate]="customCellTemplate" (dayClicked)="dayClicked($event.day)"
-    [viewDate]="viewDate" (eventClicked)="handleEvent('Clicked', $event.event)" [events]="events" [dayModifier]="addBadgeTotal">
+    [viewDate]="viewDate"  [events]="events" [dayModifier]="addBadgeTotal">
   </mwl-calendar-month-view>
 </div>

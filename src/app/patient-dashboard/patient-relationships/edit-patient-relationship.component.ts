@@ -16,18 +16,18 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
   styleUrls: [],
 })
 export class EditPatientRelationshipComponent implements OnInit {
-  private selectedRelative: any;
-  private relationships: any;
-  private display: boolean = false;
-  private showSuccessAlert: boolean = false;
-  private showErrorAlert: boolean = false;
-  private successAlert: string;
-  private errorAlert: string;
-  private errors: any = [];
-  private isLoading: boolean = false;
-  private patientRelationshipTypes: any = [];
-  private selectedRelationshipType: any;
-  private patientUuid: string;
+  public selectedRelative: any;
+  public relationships: any;
+  public display: boolean = false;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public successAlert: string;
+  public errorAlert: string;
+  public errors: any = [];
+  public isLoading: boolean = false;
+  public patientRelationshipTypes: any = [];
+  public selectedRelationshipType: any;
+  public patientUuid: string;
 
   constructor(private patientRelationshipService: PatientRelationshipService,
     private patientRelationshipTypeService: PatientRelationshipTypeService,

@@ -6,13 +6,14 @@ import * as Moment from 'moment';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';
-let _ = require('lodash');
+import * as _ from 'lodash';
 @Component({
     selector: 'clinic-flow-visits',
     templateUrl: './clinic-flow-visits.component.html'
 })
 
 export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
+    public filterCollapsed: boolean;
     errors: any[] = [];
     clinicFlowData: any[] = [];
     loadingClinicFlow: boolean = false;
@@ -27,7 +28,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     visitCounts: any;
     encounters: any;
 
-  private currentLocationSubscription: Subscription;
+    private currentLocationSubscription: Subscription;
     private selectedDateSubscription: Subscription;
     private clinicFlowSubscription: Subscription;
 
@@ -68,7 +69,8 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
+        this.router.navigate(['/patient-dashboard/patient/'
+            + patientUuid + '/general/landing-page']);
     }
 
     columns() {
@@ -102,17 +104,17 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         } else {
             this.clinicFlowSubscription = result.subscribe(
                 (dataList) => {
-                  this.incompleteVisitsCount = dataList.incompleteVisitsCount;
-                  this.completeVisitsCount = dataList.completeVisitsCount;
-                  this.totalVisitsCount = dataList.totalVisitsCount;
-                  this.visitCounts  = this.totalVisitsCount;
-                  this.selectedVisitType =   'All Visits'  ;
+                    this.incompleteVisitsCount = dataList.incompleteVisitsCount;
+                    this.completeVisitsCount = dataList.completeVisitsCount;
+                    this.totalVisitsCount = dataList.totalVisitsCount;
+                    this.visitCounts = this.totalVisitsCount;
+                    this.selectedVisitType = 'All Visits';
 
 
                     if (dataList.result.length > 0) {
 
-                      this.encounters = this.AddEncounterSeenByClinician(dataList.result);
-                      this.filteredData = this.clinicFlowCacheService.formatData(this.encounters);
+                        this.encounters = this.AddEncounterSeenByClinician(dataList.result);
+                        this.filteredData = this.clinicFlowCacheService.formatData(this.encounters);
                         let formatted = this.clinicFlowCacheService.formatData(this.encounters);
                         this.clinicFlowData = this.clinicFlowData.concat(formatted);
                     } else {
@@ -134,82 +136,82 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         }
     }
     incompletedVisits() {
-      this.selectedVisitType  = 'Incomplete Visits';
-      this.visitCounts = this.incompleteVisitsCount + '/' + this.totalVisitsCount;
-      let results = this.filteredData.filter(function( obj ) {
-        return obj.seen_by_clinician === null;
-      });
-      let orderedResults = this.renumberRowsOnFilter(results);
+        this.selectedVisitType = 'Incomplete Visits';
+        this.visitCounts = this.incompleteVisitsCount + '/' + this.totalVisitsCount;
+        let results = this.filteredData.filter(function (obj) {
+            return obj.seen_by_clinician === null;
+        });
+        let orderedResults = this.renumberRowsOnFilter(results);
 
-      this.clinicFlowData = orderedResults;
+        this.clinicFlowData = orderedResults;
 
     }
     completedVisits() {
-      this.selectedVisitType  = 'Completed Visits';
-      this.visitCounts = this.completeVisitsCount + '/' + this.totalVisitsCount;
-      let results = this.filteredData.filter(function( obj ) {
-        return obj.seen_by_clinician !== null;
-      });
+        this.selectedVisitType = 'Completed Visits';
+        this.visitCounts = this.completeVisitsCount + '/' + this.totalVisitsCount;
+        let results = this.filteredData.filter(function (obj) {
+            return obj.seen_by_clinician !== null;
+        });
 
-      let orderedResults = this.renumberRowsOnFilter(results);
+        let orderedResults = this.renumberRowsOnFilter(results);
 
-      this.clinicFlowData = orderedResults;
+        this.clinicFlowData = orderedResults;
 
     }
     allVisits() {
-      this.selectedVisitType  = 'All Visits' ;
-      this.visitCounts = this.totalVisitsCount ;
-      this.clinicFlowData = this.renumberRowsOnFilter(this.filteredData ) ;
+        this.selectedVisitType = 'All Visits';
+        this.visitCounts = this.totalVisitsCount;
+        this.clinicFlowData = this.renumberRowsOnFilter(this.filteredData);
     }
 
 
     private initParams() {
-          this.loadingClinicFlow = false;
-          this.dataLoaded = false;
-          this.errors = [];
-          this.clinicFlowData = [];
-          this.selectedVisitType = '';
-          this.visitCounts = '';
-      }
+        this.loadingClinicFlow = false;
+        this.dataLoaded = false;
+        this.errors = [];
+        this.clinicFlowData = [];
+        this.selectedVisitType = '';
+        this.visitCounts = '';
+    }
     private AddEncounterSeenByClinician(result) {
-      let encounters = [];
-      let encounter ;
-      for (let i = 0; i < result.length ; ++i) {
-        let data = result[i];
-        for (let r in data) {
-          if (data.hasOwnProperty(r)) {
-            for (let i = 0; i < data.encounters.length ; ++i) {
-              let datas = data.encounters[i];
-              for (let r in datas) {
-                if (datas.hasOwnProperty(r)) {
-                   encounter = datas.encounter_type_name;
+        let encounters = [];
+        let encounter;
+        for (let i = 0; i < result.length; ++i) {
+            let data = result[i];
+            for (let r in data) {
+                if (data.hasOwnProperty(r)) {
+                    for (let i = 0; i < data.encounters.length; ++i) {
+                        let datas = data.encounters[i];
+                        for (let r in datas) {
+                            if (datas.hasOwnProperty(r)) {
+                                encounter = datas.encounter_type_name;
 
+                            }
+                        }
+                    }
+
+                    let seenByClinician = { time: data.seen_by_clinician, encounters: encounter };
+                    data['seenByClinician'] = seenByClinician;
                 }
-              }
             }
-
-            let seenByClinician = {time: data.seen_by_clinician, encounters: encounter  };
-            data['seenByClinician'] = seenByClinician;
-          }
+            encounters.push(data);
         }
-        encounters.push(data);
-      }
-      return encounters;
+        return encounters;
 
     }
 
     private renumberRowsOnFilter(result) {
-      let numbers = [];
-      for (let i = 0; i < result.length ; ++i) {
-        let data = result[i];
-        for (let r in data) {
-          if (data.hasOwnProperty(r)) {
-             data['#'] = i + 1;
-          }
+        let numbers = [];
+        for (let i = 0; i < result.length; ++i) {
+            let data = result[i];
+            for (let r in data) {
+                if (data.hasOwnProperty(r)) {
+                    data['#'] = i + 1;
+                }
+            }
+            numbers.push(data);
         }
-        numbers.push(data);
-      }
-      return numbers;
+        return numbers;
 
     }
 

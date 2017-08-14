@@ -3,6 +3,7 @@ import { Directive, Input } from '@angular/core';
 import { PatientEncounterObservationsComponent } from './patient-encounter-observations.component';
 import { TestBed } from '@angular/core/testing';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 @Directive({
@@ -34,6 +35,7 @@ describe('Component: PatientEncounterObservationsComponent', () => {
         FakeModalBodyDirective,
         ModalComponent
       ],
+      imports: [ModalModule.forRoot()],
       providers: [
         {
           provide: EncounterResourceService,

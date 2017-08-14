@@ -16,20 +16,20 @@ import { Subscription } from 'rxjs';
   providers: [LabelService]
 })
 export class LabTestOrdersComponent implements OnInit, OnDestroy {
-  patient: any;
-  labOrders = [];
-  error: string;
-  page: number = 1;
-  fetchingResults: boolean;
-  isBusy: boolean;
-  subscription: Subscription;
-  displayDialog: boolean = false;
-  currentOrder: any;
-  private allItemsSelected = false;
-  private copies = 2;
-  private patientIdentifer: any;
-  private isPrinting = false;
-  private collectionDate = new Date();
+  public patient: any;
+  public labOrders = [];
+  public error: string;
+  public page: number = 1;
+  public fetchingResults: boolean;
+  public isBusy: boolean;
+  public subscription: Subscription;
+  public displayDialog: boolean = false;
+  public currentOrder: any;
+  public allItemsSelected = false;
+  public copies = 2;
+  public patientIdentifer: any;
+  public isPrinting = false;
+  public collectionDate = new Date();
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private patientService: PatientService,
@@ -127,7 +127,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         window.open(blobUrl);
       });
   }
-  private collectionDateChanged() {
+  public collectionDateChanged(event) {
   }
 
   private selectAll() {

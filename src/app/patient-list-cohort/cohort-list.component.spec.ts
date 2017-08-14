@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 //
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
@@ -68,6 +68,7 @@ describe('CohortListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule, FormsModule,
+        BrowserAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'add-cohort-list', component: DummyComponent }
         ])],

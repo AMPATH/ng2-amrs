@@ -12,14 +12,14 @@ import { CohortListService } from './cohort-list.service';
 export class AddCohortListComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
-  private name: string;
-  private description: string;
-  private errors: any = [];
-  private showSuccessAlert: boolean = false;
-  private showErrorAlert: boolean = false;
-  private successAlert: string;
-  private errorAlert: string;
-  private errorTitle: string;
+  public name: string;
+  public description: string;
+  public errors: any = [];
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public successAlert: string;
+  public errorAlert: string;
+  public errorTitle: string;
 
 
   constructor(private cohortResourceService: CohortResourceService, private router: Router,

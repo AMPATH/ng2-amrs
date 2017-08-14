@@ -11,7 +11,7 @@ import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../patient.service';
 import { FormDataSourceService } from './form-data-source.service';
 import { Patient } from '../../models/patient.model';
-import { DataSources } from 'ng2-openmrs-formentry/src/app/form-entry/data-sources/data-sources';
+import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/data-sources';
 import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
@@ -165,12 +165,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
     switch (path) {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/landing-page']);
+        this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid + '/general/landing-page']);
         this.patientService.fetchPatientByUuid(this.patient.uuid);
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/' + this.patient.uuid + '/general/forms']);
+        this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid + '/general/forms']);
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -185,6 +185,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public setCurrentFormDraftedForm() {
+    this.draftedFormsService.saveRouteSnapshot(this.route.snapshot);
     this.draftedFormsService.setDraftedForm(this.form);
     this.draftedFormsService.loadDraftOnNextFormLoad = false;
   }
@@ -193,6 +194,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.form = this.draftedFormsService.lastDraftedForm;
 
     // clear from service as it is no longer a drafted form
+    this.draftedFormsService.saveRouteSnapshot(null);
     this.draftedFormsService.setDraftedForm(null);
   }
 
@@ -372,7 +374,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
 
-  private loadDefaultValues(): void {
+  public loadDefaultValues(): void {
 
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     let currentUser = this.userService.getLoggedInUser();

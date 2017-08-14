@@ -9,8 +9,8 @@ import { ClinicalSummaryVisualizationService
   templateUrl: './hiv-care-tabularview.component.html'
 })
 export class HivCareTabularViewComponent implements OnInit, OnDestroy {
-  private _data = new BehaviorSubject<Array<any>>([]);
-  private columns = [];
+  public _data = new BehaviorSubject<Array<any>>([]);
+  public columns = [];
 
   constructor(private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
               private route: ActivatedRoute,
