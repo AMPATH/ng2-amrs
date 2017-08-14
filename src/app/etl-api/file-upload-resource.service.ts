@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
-
 @Injectable()
 export class FileUploadResourceService {
     constructor(private http: Http, private appSettingsService: AppSettingsService) { }
@@ -15,7 +14,7 @@ export class FileUploadResourceService {
     upload(formData) {
         const url = this.getUrl();
         return this.http.post(url, formData)
-            .map(x => x.json()
+            .map((x) => x.json()
             );
     }
     getFile(url: string): Observable<any> {
@@ -28,7 +27,7 @@ export class FileUploadResourceService {
                     headers,
                     responseType: ResponseContentType.Blob
                 })
-                .subscribe(m => {
+                .subscribe((m) => {
                     objectUrl = URL.createObjectURL(m.blob());
                     observer.next(objectUrl);
                 });
@@ -41,6 +40,5 @@ export class FileUploadResourceService {
             };
         });
     }
-
 
 }

@@ -26,7 +26,7 @@ export class ClinicLabOrdersComponent implements OnInit {
               private clinicLabOrdersResourceService: ClinicLabOrdersResourceService,
               private router: Router,
               private route: ActivatedRoute) {
-    this.gridOptions = <GridOptions>{};
+    this.gridOptions = {} as GridOptions;
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -44,13 +44,13 @@ export class ClinicLabOrdersComponent implements OnInit {
     this.getCurrentLocation();
     this.gridOptions.columnDefs = this.createColumnDefs();
     this.gridOptions.rowData = this.results;
-    this.gridOptions.getRowStyle = function (params) {
+    this.gridOptions.getRowStyle = function(params) {
       return {
         'font-size': '14px',
         'cursor': 'pointer'
       };
     };
-    this.gridOptions.getRowHeight = function (params) {
+    this.gridOptions.getRowHeight = function(params) {
       return 20 * ((Math.floor(params.data.identifiers.length / 15) + 1) &&
         (Math.floor(params.data.person_name.length / 15) + 1));
     };
@@ -95,7 +95,7 @@ export class ClinicLabOrdersComponent implements OnInit {
   }
 
   public getCurrentLocation() {
-    this.route.parent.params.subscribe(params => {
+    this.route.parent.params.subscribe((params) => {
       this.location = params['location_uuid'];
       console.log(' this.location', this.location);
       this.setClinicOrderParam(this.location, this.selectedDate);

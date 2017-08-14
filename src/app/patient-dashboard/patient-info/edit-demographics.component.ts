@@ -41,8 +41,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public healthCenter: any;
 
   constructor(private patientService: PatientService,
-    private personResourceService: PersonResourceService,
-    private conceptResourceService: ConceptResourceService) {
+              private personResourceService: PersonResourceService,
+              private conceptResourceService: ConceptResourceService) {
   }
 
   ngOnInit(): void {

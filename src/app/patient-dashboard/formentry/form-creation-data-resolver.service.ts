@@ -13,8 +13,8 @@ import * as _ from 'lodash';
 export class FormCreationDataResolverService implements Resolve<any> {
   validationConflictQuestions = ['reasonNotOnFamilyPlanning'];
   constructor(private patientPreviousEncounterService: PatientPreviousEncounterService,
-    private router: ActivatedRoute,
-    private formSchemaService: FormSchemaService, private draftedForm: DraftedFormsService) {
+              private router: ActivatedRoute,
+              private formSchemaService: FormSchemaService, private draftedForm: DraftedFormsService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> | any {

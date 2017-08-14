@@ -9,8 +9,6 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { EncounterTypeFilter } from './encounter-list.component.filterByEncounterType.pipe';
 import * as _ from 'lodash';
 
-
-
 @Component({
   selector: 'app-patient-encounters',
   templateUrl: './patient-encounters.component.html',
@@ -34,9 +32,9 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     message: 'Fetching encounters hang on...' // default message
   };
   constructor(private patientEncounterService: PatientEncounterService,
-    private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics,
-    private router: Router, private route: ActivatedRoute) { }
+              private patientService: PatientService,
+              private appFeatureAnalytics: AppFeatureAnalytics,
+              private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
     this.getPatient();
     // load cached result
@@ -77,7 +75,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   }
   loadEncounterTypes(encounters) {
       if (encounters.length > 0) {
-            encounters.forEach(encounter => {
+            encounters.forEach((encounter) => {
                this.encounterTypes.push(encounter.encounterType.display);
             });
 

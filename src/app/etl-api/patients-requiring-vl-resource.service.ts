@@ -9,16 +9,15 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 export class PatientsRequiringVLResourceService {
 
     constructor(private _http: Http, private appSettingsService: AppSettingsService,
-     private cacheService: DataCacheService) {
+                private cacheService: DataCacheService) {
     }
 
     public geturl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim();
     }
 
-
     public getPatientList(startDate: string, endDate: string, locationUuids: string,
-        startIndex?: string, limit?: string): Observable<any> {
+                          startIndex?: string, limit?: string): Observable<any> {
         let api: string = this.geturl() + 'patients-requiring-viral-load-order';
 
         let urlParams: URLSearchParams = new URLSearchParams();

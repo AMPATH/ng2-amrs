@@ -6,7 +6,6 @@ import { UsefulLinksComponent } from './useful-links.component';
 import { USEFUL_LINKS_ROUTE } from './useful-links.routes';
 import { UsefulLinksService } from './useful-links.service';
 
-
 @NgModule({
   imports: [
     CommonModule,

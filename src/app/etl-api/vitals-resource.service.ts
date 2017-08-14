@@ -4,7 +4,6 @@ import { Http, URLSearchParams, Response } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs/Rx';
 
-
 @Injectable()
 export class VitalsResourceService {
 
@@ -21,12 +20,10 @@ export class VitalsResourceService {
     params.set('startIndex', startIndex.toString());
     params.set('limit', limit.toString());
 
-      return this.http.get(url, {
+    return this.http.get(url, {
       search: params
     }).map((response: Response) => {
       return response.json().result;
     });
   }
 }
-
-

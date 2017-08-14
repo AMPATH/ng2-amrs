@@ -9,7 +9,6 @@ import { CohortListService } from './cohort-list.service';
 import { User } from '../models/user.model';
 import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
 
-
 @Component({
   selector: 'patient-list-cohort',
   templateUrl: './cohort-list.component.html',
@@ -42,8 +41,6 @@ export class CohortListComponent implements OnInit {
               private userCohortResourceService: UserCohortResourceService) {
     this.user = this.userService.getLoggedInUser();
 
-
-
   }
 
   ngOnInit() {
@@ -52,7 +49,7 @@ export class CohortListComponent implements OnInit {
   getCohortList() {
     this.fetchingResults = true;
     let sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
-     if ( sub ) {
+    if ( sub ) {
        sub.subscribe(
          (cohorts) => {
             if (cohorts) {
@@ -105,7 +102,6 @@ export class CohortListComponent implements OnInit {
     }, 3000);
   }
 
-
   public displayErrorAlert(errorTitle, errorMessage) {
     this.showErrorAlert = true;
     this.errorAlert = errorMessage;
@@ -138,7 +134,6 @@ export class CohortListComponent implements OnInit {
     this.router.navigate(['patient-list-cohort/cohort/' +
     this.isSelectedCohort.uuid + '/member']);
 
-
   }
   shareCohortList(uuid, description, name) {
     this.isSelectedCohort = {
@@ -150,9 +145,5 @@ export class CohortListComponent implements OnInit {
     this.router.navigate(['patient-list-cohort/cohort/' +
     this.isSelectedCohort.uuid  + '/share-cohort']);
   }
-
-
-
-
 
 }

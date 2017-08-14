@@ -4,16 +4,13 @@ import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angul
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
-
 @Injectable()
 export class CohortMemberResourceService {
 
     baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
 
-
     constructor(private _http: Http , private _appSettingsService: AppSettingsService) {
     }
-
 
     getOpenMrsBaseUrl(): string {
 
@@ -28,9 +25,9 @@ export class CohortMemberResourceService {
             return null;
           }
 
-        let allCohortMembersUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
+         let allCohortMembersUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
 
-       return this._http.get(allCohortMembersUrl)
+         return this._http.get(allCohortMembersUrl)
            .map((response) => {
                return response.json().results;
            });
@@ -44,12 +41,12 @@ export class CohortMemberResourceService {
             return null;
           }
 
-        let cohortUrl = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member/' + uuid;
+         let cohortUrl = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member/' + uuid;
 
-        console.log(cohortUrl);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this._http.get(cohortUrl , options)
+         console.log(cohortUrl);
+         let headers = new Headers({ 'Content-Type': 'application/json' });
+         let options = new RequestOptions({ headers: headers });
+         return this._http.get(cohortUrl , options)
             .map((response: Response) => {
                 return response.json();
             });
@@ -63,16 +60,15 @@ export class CohortMemberResourceService {
             return null;
           }
 
-        let addCohortUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this._http.post(addCohortUrl , JSON.stringify(payload), options)
+         let addCohortUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
+         let headers = new Headers({ 'Content-Type': 'application/json' });
+         let options = new RequestOptions({ headers: headers });
+         return this._http.post(addCohortUrl , JSON.stringify(payload), options)
             .map((response: Response) => {
                 return response.json();
             });
 
     }
-
 
     // Retire/Void Cohort
 
@@ -82,20 +78,18 @@ export class CohortMemberResourceService {
             return null;
           }
 
-        let retireRestUrl = 'cohort/' + parentUuid + '/member/' + uuid + '?!purge';
+         let retireRestUrl = 'cohort/' + parentUuid + '/member/' + uuid + '?!purge';
 
-        let retireCohortUrl: string = this.baseOpenMrsUrl + retireRestUrl;
+         let retireCohortUrl: string = this.baseOpenMrsUrl + retireRestUrl;
 
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+         let headers = new Headers({ 'Content-Type': 'application/json' });
+         let options = new RequestOptions({ headers: headers });
 
-        return this._http.delete(retireCohortUrl , options)
+         return this._http.delete(retireCohortUrl , options)
                 .map((response) => {
                     return response.json();
                 });
 
     }
-
-
 
 }

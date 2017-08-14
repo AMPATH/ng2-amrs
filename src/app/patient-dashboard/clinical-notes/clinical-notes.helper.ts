@@ -34,7 +34,6 @@ export class ClinicalNotesHelperService {
       temp = notes;
     }
 
-
     _.each(temp, (note) => {
       // Format date
       note.visitDate = this.resolveDate(note.visitDate);
@@ -64,7 +63,6 @@ export class ClinicalNotesHelperService {
         note.lastCD4Count.date = this.resolveDate(note.lastCD4Count.date);
       }
 
-
       // Format ARV Regimen line
       if (!Helpers.isNullOrEmpty(note.artRegimen.curArvLine)
         && _.has(this.arvLine, note.artRegimen.curArvLine)) {
@@ -86,7 +84,6 @@ export class ClinicalNotesHelperService {
       note.tbProphylaxisPlan.estimatedEndDate =
         this.resolveDate(note.tbProphylaxisPlan.estimatedEndDate);
 
-
       // format rtc date
       note.rtcDate = this.resolveDate(note.rtcDate);
 
@@ -106,7 +103,7 @@ export class ClinicalNotesHelperService {
         note.hasCcHpiAssessment = false;
       } else {
         // Formant blank values
-        _.each(grouped, function (group) {
+        _.each(grouped, function(group) {
           Helpers.formatBlankOrNull(group, 'Not Provided');
         });
         note.hasCcHpiAssessment = true;
@@ -144,7 +141,7 @@ export class ClinicalNotesHelperService {
     let ccHpiAssessment = [];
     if (!_.isEmpty(ccHpiArray)) {
       if (_.isEmpty(assessmentArray)) {
-        _.each(ccHpiArray, function (ccHpi) {
+        _.each(ccHpiArray, function(ccHpi) {
           let o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
@@ -154,13 +151,13 @@ export class ClinicalNotesHelperService {
         });
       } else {
         // In case assessmentArray is not empty
-        _.each(ccHpiArray, function (ccHpi) {
+        _.each(ccHpiArray, function(ccHpi) {
           let o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
             assessment: ''
           };
-          let ass = _.find(assessmentArray, function (assItem) {
+          let ass = _.find(assessmentArray, function(assItem) {
             return ccHpi['encounterType'] === assItem['encounterType'];
           });
           if (ass) {
@@ -171,7 +168,7 @@ export class ClinicalNotesHelperService {
       }
     } else {
       // ccHpiArray is empty we redo the code the same way.
-      _.each(assessmentArray, function (ass) {
+      _.each(assessmentArray, function(ass) {
         let o = {
           encounterType: ass.encounterType,
           ccHpi: '',
@@ -182,6 +179,5 @@ export class ClinicalNotesHelperService {
     }
     return ccHpiAssessment;
   }
-
 
 }

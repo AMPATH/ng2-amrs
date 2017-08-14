@@ -31,9 +31,8 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
     public errorMessage: string;
 
     constructor(private patientSearchService: PatientSearchService, private router: Router,
-        private patientRelationshipService: PatientRelationshipService) {
+                private patientRelationshipService: PatientRelationshipService) {
     }
-
 
     ngOnInit() {
         // load cached result
@@ -51,7 +50,6 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
-
 
     loadPatient(): void {
         this.searchPanelVisible = true;
@@ -103,16 +101,14 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
     }
 
     selectPatient(patientUuid) {
-        this.patientToBindRelationship = _.find(this.patients, function (patient) {
+        this.patientToBindRelationship = _.find(this.patients, function(patient) {
             if (patient.uuid === patientUuid) {
                 return patient;
             }
         });
         this.onPatientToBindRelationship.emit(this.patientToBindRelationship);
         this.searchPanelVisible = false;
-    };
-
-
+    }
 
     resetSearchList() {
         if (this.subscription) {

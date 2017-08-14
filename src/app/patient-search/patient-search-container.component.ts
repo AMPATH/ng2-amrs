@@ -1,5 +1,5 @@
 /* this will hold the serach patient
-child component 
+child component
 */
 import { Component, OnInit, OnDestroy, DoCheck
   , Output, Input, EventEmitter } from '@angular/core';
@@ -16,7 +16,7 @@ export class PatientSearchContainerComponent implements OnInit {
   public hideResult = true;
 
      constructor(private _route: ActivatedRoute,
-            private _router: Router) {
+                 private _router: Router) {
         }
 
   ngOnInit() {
@@ -36,6 +36,5 @@ export class PatientSearchContainerComponent implements OnInit {
     }
     this._router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general']);
   }
-
 
 }

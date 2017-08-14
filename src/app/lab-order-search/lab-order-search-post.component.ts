@@ -249,12 +249,12 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
           artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId);
     }
 
-      if (this.orderType.type === 'CD4')
+    if (this.orderType.type === 'CD4')
         payload =
           this.labOrdersSearchHelperService.createCD4Payload(order, obs, locationUuid,
             patientIdentifier, patientName, gender, birthdate, this.dateReceived);
 
-      return payload;
+    return payload;
   }
 
   clearErrorMessage() {

@@ -31,5 +31,3 @@ export class Concept extends BaseModel {
         return this._conceptClass;
     }
 }
-
-

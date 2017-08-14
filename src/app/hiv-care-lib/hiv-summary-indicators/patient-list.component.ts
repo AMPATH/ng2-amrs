@@ -8,7 +8,6 @@ import {
 } from '../../etl-api/hiv-summary-indicators-resource.service';
 import { Location } from '@angular/common';
 
-
 @Component({
     selector: 'hiv-summary-patient-list',
     templateUrl: 'patient-list.component.html'
@@ -30,9 +29,9 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
     overrideColumns: Array<any> = [];
 
     constructor(public route: ActivatedRoute,
-        public router: Router,
-        public resourceService: HivSummaryIndicatorsResourceService,
-        private _location: Location) {
+                public router: Router,
+                public resourceService: HivSummaryIndicatorsResourceService,
+                private _location: Location) {
     }
 
     ngOnInit() {

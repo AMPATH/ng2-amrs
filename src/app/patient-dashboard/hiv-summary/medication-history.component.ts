@@ -18,7 +18,7 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
   previousViralLoad: any;
 
   constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
-    private patientService: PatientService) {
+              private patientService: PatientService) {
   }
 
   fetchMedicationHistory(report, patientUuid): void {
@@ -29,7 +29,6 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
       }
       );
   }
-
 
   ngOnInit() {
     this.getPatient();

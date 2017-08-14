@@ -18,7 +18,7 @@ export class LabSyncComponent implements OnInit, OnDestroy {
     fetchingResults: boolean;
     subscription: Subscription;
     constructor(private labsResourceService: LabsResourceService,
-        private patientService: PatientService) { }
+                private patientService: PatientService) { }
 
     ngOnInit() {
         this.loadingPatient = true;

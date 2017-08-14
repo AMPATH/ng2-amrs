@@ -5,7 +5,6 @@ import { Observable, Subject , ReplaySubject } from 'rxjs/Rx';
 import { PersonResourceService } from './person-resource.service';
 import * as _ from 'lodash';
 
-
 @Injectable()
 export class ProviderResourceService {
 
@@ -54,7 +53,7 @@ export class ProviderResourceService {
   }
   getProviderByPersonUuid(uuid) {
     let providerResults = new ReplaySubject(1);
-     this.personService.getPersonByUuid(uuid, false).subscribe(
+    this.personService.getPersonByUuid(uuid, false).subscribe(
       (result) => {
         if (result) {
           let response = this.searchProvider(result.display);
@@ -62,7 +61,7 @@ export class ProviderResourceService {
           response.subscribe(
             (providers) => {
               let foundProvider;
-              _.each(providers, function (provider) {
+              _.each(providers, function(provider) {
                 if (provider.person && provider.person.uuid === uuid) {
                   foundProvider = provider;
                 }
@@ -71,7 +70,7 @@ export class ProviderResourceService {
                 if (foundProvider.display === '') {
                   foundProvider.display = foundProvider.person.display;
                 }
-                 providerResults.next(foundProvider);
+                providerResults.next(foundProvider);
               } else {
                 let msg = 'Error processing request: No provider with given person uuid found';
                 providerResults.error(msg);
@@ -94,4 +93,3 @@ export class ProviderResourceService {
     return providerResults;
     }
 }
-

@@ -17,7 +17,6 @@ export class PatientCareStatusResourceService {
         return this.http.get(api, { search: params }).map((data) => data.json());
     }
 
-
     public getDailyPatientCareStatus(options: {
         patient_uuid: string, referenceDate: string
     }): Observable<any> {

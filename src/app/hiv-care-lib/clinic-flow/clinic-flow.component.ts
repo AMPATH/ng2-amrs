@@ -18,12 +18,12 @@ export class ClinicFlowComponent implements OnInit, OnDestroy {
   @Input('date') selectedDate: any;
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
                 private route: ActivatedRoute,
-        @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+                @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     ngOnInit() {
 
       this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
-        .subscribe(clinic => {
+        .subscribe((clinic) => {
           // check if its not clinic dashboard
           if (!clinic) {
             if ((!this.locationUuids || this.locationUuids === '')) {

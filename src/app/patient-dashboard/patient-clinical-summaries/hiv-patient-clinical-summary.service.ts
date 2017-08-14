@@ -295,7 +295,7 @@ export class HivPatientClinicalSummaryService {
                 width: 30,
                 bold: true,
               }, {
-                text: (<any>patient.person.preferredAddress).address1 || 'N/A',
+                text: (patient.person.preferredAddress as any).address1 || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -308,7 +308,7 @@ export class HivPatientClinicalSummaryService {
                   width: 47,
                   bold: true,
                 }, {
-                  text: (<any>patient.person.preferredAddress).address2 || 'N/A',
+                  text: (patient.person.preferredAddress as any).address2 || 'N/A',
                   width: '*',
                   alignment: 'left',
                   color: '#2a2a2a',
@@ -321,7 +321,7 @@ export class HivPatientClinicalSummaryService {
                   width: 27,
                   bold: true,
                 }, {
-                  text: (<any>patient.person.preferredAddress).address3 || 'N/A',
+                  text: (patient.person.preferredAddress as any).address3 || 'N/A',
                   width: '*',
                   alignment: 'left',
                   color: '#2a2a2a',
@@ -334,7 +334,7 @@ export class HivPatientClinicalSummaryService {
                   width: 52,
                   bold: true,
                 }, {
-                  text: (<any>patient.person.preferredAddress).cityVillage || 'N/A',
+                  text: (patient.person.preferredAddress as any).cityVillage || 'N/A',
                   width: '*',
                   alignment: 'left',
                   color: '#2a2a2a',
@@ -391,7 +391,7 @@ export class HivPatientClinicalSummaryService {
           width: 45,
           style: 'subheader'
         }, {
-          text: (<any>patient.person.contacts).patientPhoneNumber || 'N/A',
+          text: (patient.person.contacts as any).patientPhoneNumber || 'N/A',
           width: '*',
           style: 'headerDetails',
           alignment: 'left'
@@ -603,7 +603,6 @@ export class HivPatientClinicalSummaryService {
             width: '*',
           }
 
-
           ]
         ];
         _.each(vitals, (vital) => {
@@ -657,7 +656,6 @@ export class HivPatientClinicalSummaryService {
             bold: true,
             width: '*',
           }
-
 
           ]
         ];
@@ -976,7 +974,7 @@ export class HivPatientClinicalSummaryService {
 
   private static _getLogo(url: string, callback: any): void {
     let image: any = new Image();
-    image.onload = function () {
+    image.onload = function() {
       let canvas: any = document.createElement('canvas');
       canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
       canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
@@ -1024,7 +1022,6 @@ export class HivPatientClinicalSummaryService {
         observer.error('some properties are missing');
       }
     }).first();
-
 
   }
 

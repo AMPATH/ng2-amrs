@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import * as moment from 'moment/moment';
 
-
 @Component({
   selector: 'patient-status-change-visualization',
   templateUrl: './patient-status-change-visualization.component.html',
@@ -56,7 +55,6 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public loading;
   public progressBarTick: number = 30;
   public timerSubscription: Subscription;
-
 
   constructor(private patientStatusService: PatientStatuChangeVisualizationService,
               private location: Location, private route: ActivatedRoute,
@@ -103,7 +101,6 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     this.filterModelChange.emit(event);
   }
 
-
   public renderChart(): void {
     this.chartOptions = {};
     let immutableData = [...this.data]; // making sure it is immutable
@@ -125,7 +122,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     let indicatorDefinitions = _.keyBy(this.indicatorDefinitions, 'name');
     this.columns = this.patientStatusService
       .generateColumnDefinitions(this.renderType, this.selectedAnalysisType, indicatorDefinitions);
-    this.gridOptions = <GridOptions>{};
+    this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
 
     if (this.agGrid && this.agGrid.api) {
@@ -181,7 +178,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.progressBarTick = 30;
       if (this.timerSubscription) this.timerSubscription.unsubscribe();
       this.timerSubscription =
-        TimerObservable.create(2000 * interval, 1000 * interval).subscribe(t => {
+        TimerObservable.create(2000 * interval, 1000 * interval).subscribe((t) => {
           if (this.progressBarTick > 100) this.progressBarTick = 30;
           this.progressBarTick++;
         });
@@ -210,6 +207,5 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     let c = new Date(year, month - 1, 0);
     return c;
   }
-
 
 }

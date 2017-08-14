@@ -4,14 +4,13 @@ import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable, Subject, ReplaySubject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 
-
 @Injectable()
 export class ConceptResourceService {
 
   v: string = 'custom:(uuid,name,conceptClass,answers)';
 
   constructor(protected http: Http,
-    protected appSettingsService: AppSettingsService) {
+              protected appSettingsService: AppSettingsService) {
   }
 
   getUrl(): string {
@@ -73,4 +72,3 @@ export class ConceptResourceService {
     return res;
   }
 }
-

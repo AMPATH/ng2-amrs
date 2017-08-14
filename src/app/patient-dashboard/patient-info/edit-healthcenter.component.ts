@@ -125,6 +125,3 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-
-

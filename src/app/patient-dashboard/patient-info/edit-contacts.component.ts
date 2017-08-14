@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 import { PersonResourceService } from '../../openmrs-api/person-resource.service';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'edit-contacts-info',
   templateUrl: 'edit-contacts.component.html',
@@ -78,7 +77,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
         attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
       }]
     };
-   let payLoad = this.generatePersonAttributePayload(personAttributePayload,
+    let payLoad = this.generatePersonAttributePayload(personAttributePayload,
      this.patient.person.attributes);
 
     personAttributePayload.attributes = payLoad;
@@ -99,7 +98,6 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       }
     );
     this.display = false;
-
 
   }
   private getPersonAttributeByAttributeTypeUuid(attributes, attributeType) {
@@ -129,7 +127,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   private generatePersonAttributePayload(personAttributePayload, existingAttributes) {
     let payLoad = [];
     let attributes = personAttributePayload.attributes;
-      for (let a in attributes) {
+    for (let a in attributes) {
 
         if ( attributes.hasOwnProperty(a)) {
           let attr;
@@ -137,7 +135,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
             attr = this.getPersonAttributeByAttributeTypeUuid(existingAttributes,
               attributes[a].attributeType);
             if (attr === undefined) {
-              attr = _.filter(attr, function (attribute) {
+              attr = _.filter(attr, function(attribute) {
                 return attribute !== undefined && attribute !== null;
               });
 
@@ -152,11 +150,9 @@ export class EditContactsComponent implements OnInit, OnDestroy {
 
           }
 
-
         }
       }
     return payLoad;
   }
-
 
 }

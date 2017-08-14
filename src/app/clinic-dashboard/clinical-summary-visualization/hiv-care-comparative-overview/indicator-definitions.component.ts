@@ -22,7 +22,7 @@ export class HivCareIndicatorDefComponent implements OnInit {
     }
     ngOnInit() {
         this._data
-            .subscribe(x => {
+            .subscribe((x) => {
                 if (x) {
                     this.createIndicatorDefinitionsDictionary(x);
                 }

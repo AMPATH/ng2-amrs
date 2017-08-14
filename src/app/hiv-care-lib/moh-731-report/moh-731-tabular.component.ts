@@ -19,7 +19,6 @@ export class Moh731TabularComponent implements OnInit {
     @ViewChild('agGrid')
     public agGrid: AgGridNg2;
 
-
     private _sectionDefs: Array<any>;
     public get sectionDefs(): Array<any> {
         return this._sectionDefs;

@@ -11,7 +11,7 @@ export class LocationResourceService {
   private v: string = 'full';
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-    private cacheService: DataCacheService) {
+              private cacheService: DataCacheService) {
   }
 
   /**
@@ -37,8 +37,8 @@ export class LocationResourceService {
       )
         .map((res: Response) => res.json())
         .subscribe(
-        data => this.locations.next(data.results),
-        error => this.locations.error(error)
+        (data) => this.locations.next(data.results),
+        (error) => this.locations.error(error)
         );
     }
 

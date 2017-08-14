@@ -14,14 +14,12 @@ import * as _ from 'lodash';
 export class FormDataSourceService {
 
   constructor(private providerResourceService: ProviderResourceService,
-    private locationResourceService: LocationResourceService,
-    private conceptResourceService: ConceptResourceService,
-    private localStorageService: LocalStorageService) {
+              private locationResourceService: LocationResourceService,
+              private conceptResourceService: ConceptResourceService,
+              private localStorageService: LocalStorageService) {
   }
 
-
   getDataSources() {
-
 
     let formData: any = {
       location: this.getLocationDataSource(),
@@ -237,7 +235,6 @@ export class FormDataSourceService {
       );
     return providerSearchResults.asObservable();
   }
-
 
   getPatientObject(patient: Patient): Object {
     let model: Object = {};

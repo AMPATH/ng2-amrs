@@ -10,7 +10,7 @@ export class FakeProviderResourceService {
   returnErrorOnNext: boolean = false;
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-    protected personService: PersonResourceService) {
+              protected personService: PersonResourceService) {
   }
 
   public getProviderByUuid(uuid: string): Observable<any> {
@@ -50,7 +50,7 @@ export class FakeProviderResourceService {
     return subject;
   }
   searchProvider(searchText: string,
-    cached: boolean = false, v: string = null): Observable<any> {
+                 cached: boolean = false, v: string = null): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let provider = [
       {
@@ -71,12 +71,11 @@ export class FakeProviderResourceService {
       }
     ];
 
-
     if (!this.returnErrorOnNext) {
       test.next(provider);
     } else {
       test.error(new Error('Error loading provider'));
     }
     return test.asObservable();
-  };
+  }
 }

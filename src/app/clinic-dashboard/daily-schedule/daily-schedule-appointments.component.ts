@@ -15,8 +15,6 @@ import * as Moment from 'moment';
 
 export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
-
-
   @Input() selectedDate: any;
   errors: any[] = [];
   dailyAppointmentsPatientList: any[] = [];
@@ -38,7 +36,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   private selectedDateSubscription: Subscription;
   private appointmentSubscription: Subscription;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private dailyScheduleResource: DailyScheduleResourceService) {
+              private dailyScheduleResource: DailyScheduleResourceService) {
   }
 
   public ngOnInit() {
@@ -56,7 +54,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
               let params = this.getQueryParams();
               this.getDailyAppointments(params);
             }
-
 
           });
         }
@@ -77,8 +74,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
   }
 
-
-
   public getDailyAppointments(params) {
     this.loadingDailyAppointments = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
@@ -86,7 +81,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     let result = this.dailyScheduleResource.
       getDailyAppointments(params);
     if (result === null) {
-      throw 'Null daily appointments observable';
+      throw new Error('Null daily appointments observable');
     } else {
       this.appointmentSubscription = result.subscribe(
         (patientList) => {

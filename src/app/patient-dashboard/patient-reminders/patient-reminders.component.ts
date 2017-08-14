@@ -19,10 +19,10 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public errorMessage: string;
 
   constructor(private toastrService: ToastrService,
-    private patientReminderService: PatientReminderService,
-    private patientService: PatientService,
-    private toastrConfig: ToastrConfig,
-    private appFeatureAnalytics: AppFeatureAnalytics) {
+              private patientReminderService: PatientReminderService,
+              private patientService: PatientService,
+              private toastrConfig: ToastrConfig,
+              private appFeatureAnalytics: AppFeatureAnalytics) {
 
     toastrConfig.timeOut = 0;
     toastrConfig.closeButton = true;
@@ -92,6 +92,5 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     });
 
   }
-
 
 }

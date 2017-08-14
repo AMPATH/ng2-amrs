@@ -18,7 +18,7 @@ export class EncounterResourceService {
     }
 
     getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
-        v: string = null): Observable<any> {
+                               v: string = null): Observable<any> {
         if (!patientUuid) {
             return null;
         }

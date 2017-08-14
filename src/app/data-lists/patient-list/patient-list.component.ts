@@ -40,7 +40,7 @@ export class PatientListComponent implements OnInit {
 
   ngOnInit() {
     this._data
-      .subscribe(x => {
+      .subscribe((x) => {
         this.loadedTab = x;
       });
   }
@@ -48,7 +48,7 @@ export class PatientListComponent implements OnInit {
   get columns() {
     let columns = PatientListColumns.columns();
     if (this.extraColumns && typeof Array.isArray(this.extraColumns)) {
-      columns = _.concat(columns, <Array<Object>> this.extraColumns);
+      columns = _.concat(columns, this.extraColumns as Array<Object>);
     }
 
     if (this.overrideColumns && _.isArray(this.overrideColumns)) {
@@ -69,7 +69,7 @@ export class PatientListComponent implements OnInit {
     let count = 1;
     // console.log('Data', this.data);
 
-    _.forEach(d, function (row) {
+    _.forEach(d, function(row) {
       if (!row['person_name']) {
         row['person_name'] = row['given_name'] + ' ' + row['family_name']
           + ' ' + row['middle_name'];

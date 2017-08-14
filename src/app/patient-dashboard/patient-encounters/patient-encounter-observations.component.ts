@@ -38,7 +38,6 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
 
   }
 
-
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
     for (let propName in changes) {
@@ -61,8 +60,6 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       }
     }
   }
-
-
 
   updateOpenState(index: number) {
     const state = this.isHidden[index];

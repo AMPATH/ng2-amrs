@@ -31,7 +31,7 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
     };
     error = false;
     constructor(private patientService: PatientService,
-        private patientCareStatusResourceService: PatientCareStatusResourceService) { }
+                private patientCareStatusResourceService: PatientCareStatusResourceService) { }
 
     ngOnInit() {
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(

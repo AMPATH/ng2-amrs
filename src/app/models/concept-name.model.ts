@@ -19,5 +19,3 @@ export class ConceptName extends BaseModel {
         return this._openmrsModel.conceptNameType;
     }
 }
-
-

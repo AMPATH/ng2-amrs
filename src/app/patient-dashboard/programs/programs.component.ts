@@ -9,7 +9,6 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 
-
 @Component({
     selector: 'app-programs',
     templateUrl: './programs.component.html',
@@ -35,7 +34,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
     private _datePipe: DatePipe;
 
     constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-        private patientService: PatientService, private programService: ProgramService
+                private patientService: PatientService, private programService: ProgramService
     ) {
         this._datePipe = new DatePipe('en-US');
     }

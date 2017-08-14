@@ -8,7 +8,6 @@ import { PersonResourceService } from '../../openmrs-api/person-resource.service
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { PatientService } from '../patient.service';
 
-
 @Component({
     selector: 'locator-map',
     templateUrl: 'locator-map.component.html',
@@ -25,11 +24,11 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     public patient: any;
     private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
     constructor(private fileUploadResourceService: FileUploadResourceService,
-        private appSettingsService: AppSettingsService,
-        private patientService: PatientService,
-        private personResourceService: PersonResourceService) { }
+                private appSettingsService: AppSettingsService,
+                private patientService: PatientService,
+                private personResourceService: PersonResourceService) { }
     ngOnInit() {
-        this.subscriptions.push(this.patientService.currentlyLoadedPatient.subscribe(patient => {
+        this.subscriptions.push(this.patientService.currentlyLoadedPatient.subscribe((patient) => {
 
             if (patient) {
                 this.patient = patient;

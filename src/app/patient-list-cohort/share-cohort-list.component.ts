@@ -53,8 +53,6 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
     this.getCohortListToShare();
     this.getCohortUsers();
 
-
-
   }
 
   ngOnDestroy(): void {
@@ -65,16 +63,15 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   }
   getCohortListToShare() {
     this.subscription = this.cohortListService.getData().subscribe(
-      data => {
+      (data) => {
         if (data) {
           this.selectedCohortDescription = data.desc;
-           this.selectedCohortUuid = data.uuid;
+          this.selectedCohortUuid = data.uuid;
           this.selectedCohortName = data.name;
           this.userAssignedRole = data.role;
         }
 
       });
-
 
   }
   public getCohortUsers() {
@@ -217,7 +214,6 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 3000);
   }
-
 
   public displayErrorAlert(errorTitle, errorMessage) {
     this.showErrorAlert = true;

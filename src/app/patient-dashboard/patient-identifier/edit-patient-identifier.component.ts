@@ -6,13 +6,9 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 import { PatientIdentifierService } from './patient-identifiers.service';
 import {
   PatientIdentifierTypeResService
-} from'../../openmrs-api/patient-identifierTypes-resource.service';
+} from '../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Subscription } from 'rxjs';
-
-
-
-
 
 @Component({
   selector: 'edit-identifiers',
@@ -39,7 +35,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public preferOptions = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
   public isValidIdentifier: boolean = false;
   public identifiers: string = '';
-  public selectedDevice:any;
+  public selectedDevice: any;
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,
@@ -245,7 +241,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       return false;
     }
 
-
     return true;
   }
   private isNullOrUndefined(val) {
@@ -263,6 +258,4 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
-
 }
-

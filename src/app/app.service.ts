@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
-export type InternalStateType = {
-  [key: string]: any
-};
+export interface InternalStateType {
+  [key: string]: any;
+}
 
 @Injectable()
 export class AppState {
@@ -22,7 +22,6 @@ export class AppState {
   set state(value) {
     throw new Error('do not mutate the `.state` directly');
   }
-
 
   get(prop?: any) {
     // use our state getter for the clone
@@ -73,6 +72,5 @@ export class AppState {
     // simple object clone
     return JSON.parse(JSON.stringify(object));
   }
-
 
 }

@@ -53,9 +53,9 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   constructor(private patientService: PatientService, private visitResource: VisitResourceService,
-    private router: Router, private route: ActivatedRoute,
-    private locationResourceService: LocationResourceService,
-    private confirmationService: ConfirmationService) {
+              private router: Router, private route: ActivatedRoute,
+              private locationResourceService: LocationResourceService,
+              private confirmationService: ConfirmationService) {
 
   }
 
@@ -140,7 +140,6 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       });
   }
 
-
   public getLocations() {
     this.loaderStatus = true;
     this.locationResourceService.getLocations().subscribe((results: any) => {
@@ -156,7 +155,6 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       console.log(error);
     });
   }
-
 
   public loadedLocation(event) {
     if (event && this.encounterVisitUuid && this.locationUuid && this.locationUuid !== event) {
@@ -249,5 +247,3 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     this.currentVisitType = '';
   }
 }
-
-

@@ -15,12 +15,12 @@ export class Moh731ResourceService {
     }
 
     constructor(public http: Http,
-        public appSettingsService: AppSettingsService,
-        public cacheService: DataCacheService) {
+                public appSettingsService: AppSettingsService,
+                public cacheService: DataCacheService) {
     }
 
     getMoh731Report(locationUuids: string, startDate: string, endDate: string,
-        isLegacyReport: boolean, isAggregated: boolean, cacheTtl: number = 0): Observable<any> {
+                    isLegacyReport: boolean, isAggregated: boolean, cacheTtl: number = 0): Observable<any> {
 
         let urlParams: URLSearchParams = new URLSearchParams();
 
@@ -47,4 +47,3 @@ export class Moh731ResourceService {
                 cacheSingleRequest(this.url, urlParams, request, cacheTtl);
     }
 }
-

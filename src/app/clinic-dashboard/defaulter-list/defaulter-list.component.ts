@@ -172,7 +172,7 @@ export class DefaulterListComponent implements OnInit {
     let result = this.defaulterListResource.getDefaulterList(params);
 
     if (result === null) {
-      throw 'Null Defaulter List observable';
+      throw new Error('Null Defaulter List observable');
     } else {
       result.subscribe(
         (patientList) => {

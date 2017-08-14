@@ -16,8 +16,8 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     public sectionsDef = [];
 
     constructor(public moh731Resource: Moh731ResourceService,
-        private route: ActivatedRoute, private location: Location,
-        private router: Router) {
+                private route: ActivatedRoute, private location: Location,
+                private router: Router) {
         super(moh731Resource);
 
     }

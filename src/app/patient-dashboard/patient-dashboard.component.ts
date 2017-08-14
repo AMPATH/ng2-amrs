@@ -31,10 +31,10 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   private containerElement;
 
   constructor(private router: Router, private route: ActivatedRoute,
-    private patientService: PatientService,
-    private labsResourceService: LabsResourceService,
-    private appFeatureAnalytics: AppFeatureAnalytics,
-    private toastrConfig: ToastrConfig, private toastrService: ToastrService) {
+              private patientService: PatientService,
+              private labsResourceService: LabsResourceService,
+              private appFeatureAnalytics: AppFeatureAnalytics,
+              private toastrConfig: ToastrConfig, private toastrService: ToastrService) {
 
     toastrConfig.timeOut = 0;
     toastrConfig.closeButton = true;

@@ -14,16 +14,16 @@ export class FormSubmissionService {
   private payloadTypes: Array<string> = ['encounter', 'personAttribute'];
 
   constructor(private encounterAdapter: EncounterAdapter,
-    private personAttributeAdapter: PersonAttribuAdapter,
-    private formentryHelperService: FormentryHelperService,
-    private encounterResourceService: EncounterResourceService,
-    private personResourceService: PersonResourceService,
-    private formDataSourceService: FormDataSourceService,
-    private errorLogResourceService: ErrorLogResourceService) {
+              private personAttributeAdapter: PersonAttribuAdapter,
+              private formentryHelperService: FormentryHelperService,
+              private encounterResourceService: EncounterResourceService,
+              private personResourceService: PersonResourceService,
+              private formDataSourceService: FormDataSourceService,
+              private errorLogResourceService: ErrorLogResourceService) {
   }
 
   public submitPayload(form: Form,
-    payloadTypes: Array<string> = this.payloadTypes): Observable<any> {
+                       payloadTypes: Array<string> = this.payloadTypes): Observable<any> {
     // create payload batch to be submitted on concurrently
     let payloadBatch: Array<Observable<any>> = this.createPayloadBatch(form, payloadTypes);
     return Observable.create((observer: Subject<any>) => {
@@ -34,7 +34,7 @@ export class FormSubmissionService {
             response.hasError ? observer.error(response) : observer.next(response);
           }
         },
-        err => {
+        (err) => {
           // all error at this point have been catched, unless it's a typo
           console.error('An unknown error occurred, please try again---->', err);
         }
@@ -151,7 +151,7 @@ export class FormSubmissionService {
   }
 
   private processFormSubmissionErrors(response: any, payloadType: string,
-    payload: any): Array<any> {
+                                      payload: any): Array<any> {
     let errors: Array<any> = [];
     switch (payloadType) {
       case 'encounter':
@@ -183,7 +183,7 @@ export class FormSubmissionService {
           console.log('Form submission error logged to server successfully', responses);
         }
       },
-      err => {
+      (err) => {
         console.error('An error occurred, while logging error to etl server', err);
       }
     );
@@ -238,4 +238,3 @@ export class FormSubmissionService {
     return form;
   }
 }
-

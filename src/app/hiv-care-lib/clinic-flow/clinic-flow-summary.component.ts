@@ -29,15 +29,15 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
     private selectedDateSubscription: Subscription;
 
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
-        private router: Router,
-        @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+                private router: Router,
+                @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     ngOnInit() {
         this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
-            .subscribe(clinic => {
+            .subscribe((clinic) => {
                 this.selectedLocation = clinic;
                 this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
-                    .subscribe(date => {
+                    .subscribe((date) => {
                         this.selectedDate = date;
                         if (this.selectedLocation && this.selectedDate) {
                             if (this.loadingClinicFlow === false) {
@@ -66,7 +66,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
         let result = this.clinicFlowResource.
             getClinicFlow(dateStated, locations);
         if (result === null) {
-            throw 'Null clinic flow observable';
+            throw new Error('Null clinic flow observable');
         } else {
             this.clinicFlowSubscription = result.subscribe(
                 (data) => {
@@ -106,6 +106,5 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
         this.incompleteVisitsCount = 0;
         this.hourlyStats = [];
     }
-
 
 }

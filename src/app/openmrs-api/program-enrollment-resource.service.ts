@@ -8,7 +8,6 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class ProgramEnrollmentResourceService {
 
-
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
 
@@ -37,7 +36,6 @@ export class ProgramEnrollmentResourceService {
       return response.json().results;
     });
   }
-
 
   saveUpdateProgramEnrollment(payload) {
     if (!payload) {

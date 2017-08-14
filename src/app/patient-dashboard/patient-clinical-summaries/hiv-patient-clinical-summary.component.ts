@@ -45,7 +45,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
     this.isBusy = true;
     this.errorFlag = false;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
-      patient => {
+      (patient) => {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
@@ -99,6 +99,5 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
   public prevPage(): void {
     this.page--;
   }
-
 
 }

@@ -13,7 +13,6 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
 
     public graphOptions: any;
 
-
     private _data: Array<any>;
     @Input()
     public get data(): Array<any> {
@@ -182,7 +181,7 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
     }
 
     public generateHighChartBarChartSeries(categories: Array<string>,
-        data: Array<any>): Array<any> {
+                                           data: Array<any>): Array<any> {
         let series = [];
 
         let registered = [];
@@ -231,7 +230,6 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
             name: 'Triaged',
             data: triaged
         });
-
 
         series.push({
             name: 'Seen by Clinician',

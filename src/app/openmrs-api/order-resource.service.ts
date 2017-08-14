@@ -4,7 +4,6 @@ import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable, Subject, ReplaySubject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 
-
 @Injectable()
 export class OrderResourceService {
 
@@ -14,7 +13,7 @@ export class OrderResourceService {
   'encounter:full,patient:default,concept:ref)';
 
   constructor(protected http: Http,
-    protected appSettingsService: AppSettingsService) {
+              protected appSettingsService: AppSettingsService) {
   }
 
   getUrl(): string {
@@ -23,7 +22,7 @@ export class OrderResourceService {
   }
 
   searchOrdersById(orderId: string, cached: boolean = false,
-    v: string = null): Observable<any> {
+                   v: string = null): Observable<any> {
 
     let url = this.getUrl();
     url += '/' + orderId;
@@ -38,7 +37,7 @@ export class OrderResourceService {
   }
 
   getOrdersByPatientUuid(patientUuid: string, cached: boolean = false,
-    v: string = null): Observable<any> {
+                         v: string = null): Observable<any> {
 
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
@@ -80,4 +79,3 @@ export class OrderResourceService {
   }
 
 }
-

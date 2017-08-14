@@ -5,7 +5,6 @@ import { IndicatorResourceService } from '../../etl-api/indicator-resource.servi
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
 
-
 @Component({
   selector: 'report-filter',
   templateUrl: 'report-filter.component.html',
@@ -31,8 +30,8 @@ export class ReportFilterComponent implements OnInit {
   @Output() reportFilterModelChange: EventEmitter<any> = new EventEmitter();
 
   constructor(private indicatorResourceService: IndicatorResourceService,
-    private locationResourceService: LocationResourceService,
-    private formsResourceService: FormsResourceService) {
+              private locationResourceService: LocationResourceService,
+              private formsResourceService: FormsResourceService) {
     this.reportFilterModel = new ReportFilterModel();
     this.reportFilterModel.ageRange = [1, 50];
     this.showButton = true;

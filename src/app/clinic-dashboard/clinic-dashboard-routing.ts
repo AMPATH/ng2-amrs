@@ -100,7 +100,7 @@ const clinicDashboardRoutes: Routes = [
       {
         path: 'hiv', loadChildren: () =>
           System.import('./hiv/hiv-program.module')
-            .then(mod => mod.HivProgramModule)
+            .then((mod) => mod.HivProgramModule)
       },
       { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' },
 

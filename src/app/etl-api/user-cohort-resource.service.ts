@@ -5,7 +5,6 @@ import { Http, URLSearchParams, Response } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs/Rx';
 
-
 @Injectable()
 export class UserCohortResourceService {
 

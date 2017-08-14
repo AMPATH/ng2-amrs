@@ -72,7 +72,7 @@ export class LabOrdersSearchHelperService {
 
     if (order === null || order === undefined) {
       return;
-    };
+    }
 
     let foundType;
     _.each(this.orderTypes, (type) => {
@@ -105,10 +105,10 @@ export class LabOrdersSearchHelperService {
     }
 
     return null;
-  };
+  }
 
   public createDnaPcrPayload(order, encounterObs, encounterLocationUuid,
-    patientIdentifier, patientName, sex, birthDate, dateRecieved) {
+                             patientIdentifier, patientName, sex, birthDate, dateRecieved) {
 
     let infantProphylaxisUuid = this.findObsValueByConceptUuid(encounterObs,
       'a89addfe-1350-11df-a1f1-0026b9348838');
@@ -146,7 +146,7 @@ export class LabOrdersSearchHelperService {
 
   // function to create CD4 payload
   public createCD4Payload(order, encounterObs, encounterLocationUuid,
-      patientIdentifier, patientName, sex, birthDate, dateRecieved) {
+                          patientIdentifier, patientName, sex, birthDate, dateRecieved) {
 
       return {
         type: 'CD4',
@@ -163,8 +163,8 @@ export class LabOrdersSearchHelperService {
     }
 
     public createViralLoadPayload(order, encounterObs, encounterLocationUuid,
-      patientIdentifier, patientName, sex, birthDate, dateRecieved,
-      artStartDateInitial, artStartDateCurrent, sampleType, artRegimenIds) {
+                                  patientIdentifier, patientName, sex, birthDate, dateRecieved,
+                                  artStartDateInitial, artStartDateCurrent, sampleType, artRegimenIds) {
 
       let vlJustificationUuid: any = this.findObsValueByConceptUuid(encounterObs,
         '0a98f01f-57f1-44b7-aacf-e1121650a967');
@@ -187,7 +187,6 @@ export class LabOrdersSearchHelperService {
         dateReceived: this.formatDate(dateRecieved)
       };
     }
-
 
     formatDate(date) {
       let momentDate = Moment(date);

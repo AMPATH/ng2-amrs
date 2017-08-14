@@ -129,7 +129,6 @@ export class MockHivClinicFlowResourceService implements ClinicFlowResource {
 
     constructor() { }
 
-
     getClinicFlow(dateStarted, locations): Observable<any> {
         return Observable.of(this.dummyHivClinicFlowData);
     }
@@ -139,5 +138,3 @@ export class MockHivClinicFlowResourceService implements ClinicFlowResource {
     }
 
 }
-
-

@@ -83,7 +83,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
           cursor: 'pointer',
           point: {
             events: {
-              click: function () {
+              click: function() {
                 let indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 that.goToPatientList(
                   indicators['clinical-hiv-comparative-overview'][this.series.name],

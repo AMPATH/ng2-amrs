@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export class Helpers {
 
-  static isNullOrUndefined (subject) {
+  static isNullOrUndefined(subject) {
 
     return _.isUndefined(subject)
       || _.isNull(subject)
@@ -10,13 +10,11 @@ export class Helpers {
       && (subject.length === 0
       || !subject.trim()));
 
-  };
+  }
 
+  static formatBlankOrNull(obj, text) {
 
-
-  static formatBlankOrNull (obj, text) {
-
-    _.each(Object.keys(obj), function (key) {
+    _.each(Object.keys(obj), function(key) {
 
       if (obj[key] === '' || obj[key] === null) {
         obj[key] = text;
@@ -24,11 +22,11 @@ export class Helpers {
 
     });
 
-  };
+  }
 
   static isNullOrEmpty(str) {
     return (!str || 0 === str.length);
-  };
+  }
 
   static hasAllMembersUndefinedOrNull(obj, members) {
 
@@ -46,6 +44,6 @@ export class Helpers {
     return !hasANonNullMember;
   }
 
-  constructor() {};
+  constructor() {}
 
 }

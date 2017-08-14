@@ -7,16 +7,15 @@ import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { Observable } from 'rxjs';
 
-
 @Injectable()
 export class UserDefaultPropertiesMockService {
 
   private user: User;
 
   constructor(private userService: UserService
-    , private localStorage: LocalStorageService
-    , private http: Http
-    , private appSettingsService: AppSettingsService) { }
+    ,         private localStorage: LocalStorageService
+    ,         private http: Http
+    ,         private appSettingsService: AppSettingsService) { }
 
   getLocations(): Observable<any> {
 
@@ -43,6 +42,3 @@ export class UserDefaultPropertiesMockService {
 
   }
 }
-
-
-

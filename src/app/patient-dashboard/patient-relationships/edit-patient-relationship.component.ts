@@ -7,9 +7,6 @@ import { RelationshipType } from '../../models/relationship-type.model';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
-
-
-
 @Component({
   selector: 'edit-relationship',
   templateUrl: 'edit-patient-relationship.component.html',
@@ -30,9 +27,9 @@ export class EditPatientRelationshipComponent implements OnInit {
   public patientUuid: string;
 
   constructor(private patientRelationshipService: PatientRelationshipService,
-    private patientRelationshipTypeService: PatientRelationshipTypeService,
-    private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+              private patientRelationshipTypeService: PatientRelationshipTypeService,
+              private patientService: PatientService,
+              private appFeatureAnalytics: AppFeatureAnalytics) { }
 
   ngOnInit(): void {
     this.getPatient();
@@ -103,7 +100,6 @@ export class EditPatientRelationshipComponent implements OnInit {
     this.display = false;
   }
 
-
   public displaySuccessAlert(message) {
     this.showSuccessAlert = true;
     this.successAlert = message;
@@ -115,10 +111,8 @@ export class EditPatientRelationshipComponent implements OnInit {
     }, 3000);
   }
 
-
   public displayErrorAlert(message) {
     this.showErrorAlert = true;
     this.errorAlert = message;
   }
 }
-

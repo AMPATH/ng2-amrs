@@ -42,7 +42,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
   private selectedClinic: any;
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private dailyScheduleResource: DailyScheduleResourceService) {
+              private dailyScheduleResource: DailyScheduleResourceService) {
   }
 
   ngOnInit() {
@@ -88,7 +88,6 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
     this.notReturnedPatientList = [];
   }
 
-
   private getQueryParams() {
     return {
       startDate: this.selectedDate,
@@ -105,7 +104,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
       getDailyHasNotReturned(params);
 
     if (result === null) {
-      throw 'Null daily not returned';
+      throw new Error('Null daily not returned');
     } else {
       result.subscribe(
         (patientList) => {

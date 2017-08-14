@@ -5,7 +5,6 @@ import { Http, URLSearchParams, Response, Headers, RequestOptions } from '@angul
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs/Rx';
 
-
 @Injectable()
 export class CohortUserResourceService {
 
@@ -22,7 +21,6 @@ export class CohortUserResourceService {
     url += '/' + cohortUuid + '/cohort-users';
     let params: URLSearchParams = new URLSearchParams();
 
-
     return this.http.get(url, {
       search: params
     }).map((response: Response) => {
@@ -38,7 +36,6 @@ export class CohortUserResourceService {
       .map(( response) => {
         return response;
       });
-
 
   }
   createCohortUser(payload) {
@@ -63,5 +60,3 @@ export class CohortUserResourceService {
 
   }
 }
-
-

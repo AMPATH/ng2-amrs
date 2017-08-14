@@ -6,8 +6,8 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class DefaulterListResourceService {
     constructor(protected http: Http,
-        protected appSettingsService: AppSettingsService,
-        private cacheService: DataCacheService) { }
+                protected appSettingsService: AppSettingsService,
+                private cacheService: DataCacheService) { }
 
     getUrl(reportName): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
@@ -36,7 +36,5 @@ export class DefaulterListResourceService {
         return this.cacheService.cacheRequest(url, urlParams, request);
 
     }
-
-
 
 }

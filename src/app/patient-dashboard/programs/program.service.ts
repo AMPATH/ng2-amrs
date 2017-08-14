@@ -16,7 +16,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class ProgramService {
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
-    private programResourceService: ProgramResourceService) { }
+              private programResourceService: ProgramResourceService) { }
 
   getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
     let enrolledPrograms: Subject<ProgramEnrollment[]> = new Subject<ProgramEnrollment[]>();
@@ -24,7 +24,7 @@ export class ProgramService {
       getProgramEnrollmentByPatientUuid(uuid);
 
     if (patientsObservable === null) {
-      throw 'Null patient programs observable';
+      throw new Error('Null patient programs observable');
     } else {
       patientsObservable.subscribe(
         (programs) => {
@@ -53,7 +53,7 @@ export class ProgramService {
       getPrograms();
 
     if (programsObservable === null) {
-      throw 'Null program observable';
+      throw new Error('Null program observable');
     } else {
       programsObservable.subscribe(
         (programs) => {
@@ -75,8 +75,6 @@ export class ProgramService {
     }
     return patientEnrollablePrograms.asObservable();
   }
-
-
 
   createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted, enrollmentUuid): any {
     let payLoad = {

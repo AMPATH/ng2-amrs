@@ -53,7 +53,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
     if (this._data) {
 
       this._data
-        .subscribe(x => {
+        .subscribe((x) => {
           if (this.options) {
             if (this.options.filtered) {
               if (this.loadingPatientStatus === false) {
@@ -65,7 +65,6 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
                 });
               }
             }
-
 
           }
 
@@ -173,7 +172,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
         layout: 'vertical',
         verticalAlign: 'top',
         y: 100,
-        labelFormatter: function () {
+        labelFormatter: function() {
 
           return this.name + ' (' + this.percentage.toFixed(2) + '%)';
 
@@ -194,7 +193,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
         data: chartData,
         point: {
           events: {
-            click: function () {
+            click: function() {
               that.generatePatientList(this);
 
             }
@@ -213,4 +212,3 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
 
   }
 }
-

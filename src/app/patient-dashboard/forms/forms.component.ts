@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FormSchemaService } from '../formentry/form-schema.service';
 
-
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
@@ -11,9 +10,9 @@ import { FormSchemaService } from '../formentry/form-schema.service';
 })
 export class FormsComponent implements OnInit {
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private formSchemaService: FormSchemaService,
-    private router: Router,
-    private route: ActivatedRoute) {
+              private formSchemaService: FormSchemaService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {

@@ -38,8 +38,8 @@ export class DailyScheduleComponent implements OnInit {
   ];
   public _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private router: Router, private route: ActivatedRoute,
-    private clinicFlowCache: ClinicFlowCacheService) {
+              private router: Router, private route: ActivatedRoute,
+              private clinicFlowCache: ClinicFlowCacheService) {
     this._datePipe = new DatePipe('en-US');
 
   }
@@ -69,7 +69,7 @@ export class DailyScheduleComponent implements OnInit {
       let n = this.router.url.indexOf('?');
       path = this.router.url.substring(0, n !== -1 ? n : path.length);
       path = path.substr(this.router.url.lastIndexOf('/') + 1);
-      this.activeLinkIndex = this.tabLinks.findIndex(x => x.link === path);
+      this.activeLinkIndex = this.tabLinks.findIndex((x) => x.link === path);
 
     }
   }
@@ -130,6 +130,5 @@ export class DailyScheduleComponent implements OnInit {
   getDate(dateObject: any) {
     return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
   }
-
 
 }

@@ -4,7 +4,6 @@ import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'contacts-info',
   templateUrl: 'contacts.component.html',

@@ -35,7 +35,6 @@ export class PatientsRequiringVLReportFilters implements OnInit {
         this.startDateChange.emit(this.startDate);
     }
 
-
     public get startDateString(): string {
         return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
     }
@@ -43,14 +42,12 @@ export class PatientsRequiringVLReportFilters implements OnInit {
         this.startDate = new Date(v);
     }
 
-
     public get endDateString(): string {
         return this.endDate ? Moment(this.endDate).format('YYYY-MM-DD') : null;
     }
     public set endDateString(v: string) {
         this.endDate = new Date(v);
     }
-
 
     private _endDate: Date;
     public get endDate(): Date {

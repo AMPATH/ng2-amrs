@@ -22,7 +22,7 @@ export class ArtOverviewIndicatorDefComponent implements OnInit {
     }
     ngOnInit() {
         this._data
-            .subscribe(x => {
+            .subscribe((x) => {
                 if (x) {
                     this.createIndicatorDefinitionsDictionary(x);
                 }

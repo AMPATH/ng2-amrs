@@ -8,12 +8,11 @@ export class FakeFormFactory {
   public createForm(formSchema: Object): any {
     // TODO: Return Form type
     formSchema = {
-      searchNodeByQuestionId: function (questionId) {
+      searchNodeByQuestionId: function(questionId) {
         return [];
       }
     };
     return formSchema;
   }
-
 
 }

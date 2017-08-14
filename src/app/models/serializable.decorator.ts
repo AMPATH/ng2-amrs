@@ -17,9 +17,9 @@ export interface SerializableProperty {
 }
 
 export function serializable(addToNewPayload: boolean = true,
-  addToUpdatePayload: boolean = true, name?: string) {
+                             addToUpdatePayload: boolean = true, name?: string) {
 
-  return function (target: any, key: any) {
+  return function(target: any, key: any) {
 
     Reflect.defineMetadata(METADATA_KEY_SERIALIZABLE,
       {
@@ -47,7 +47,6 @@ export function getSerializables(target: any): Array<SerializableProperty> {
 
   return serializables;
 }
-
 
 export function serialize(target: any, newPayload: boolean, prototype?: any): Object {
 

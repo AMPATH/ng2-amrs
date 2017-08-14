@@ -23,7 +23,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     nextStartIndex: number = 0;
 
     constructor(private hivSummaryService: HivSummaryService,
-        private patientService: PatientService) {
+                private patientService: PatientService) {
     }
 
     ngOnInit() {

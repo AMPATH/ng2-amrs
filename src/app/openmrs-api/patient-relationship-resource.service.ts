@@ -3,10 +3,8 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
-
 @Injectable()
 export class PatientRelationshipResourceService {
-
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }

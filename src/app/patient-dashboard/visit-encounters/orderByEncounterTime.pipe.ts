@@ -29,7 +29,7 @@ export class OrderByEncounterTimeAscPipe implements PipeTransform {
             }
         });
 
-      return array;
+         return array;
 
        }
 

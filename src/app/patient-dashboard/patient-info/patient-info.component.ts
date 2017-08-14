@@ -15,7 +15,7 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
   patient: Patient;
   subscription: Subscription;
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private patientService: PatientService) {
+              private patientService: PatientService) {
   }
   ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(

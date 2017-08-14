@@ -176,7 +176,6 @@ export class PatientStatuChangeVisualizationService {
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-
   public generateChart(options) {
     options = _.extend(options, this.renderOptions[options.renderType].chartOptions);
     if (options.renderType === 'cumulativeAnalysis') {
@@ -370,7 +369,6 @@ export class PatientStatuChangeVisualizationService {
     return seriesDef;
   }
 
-
   public generateColumnDefinitions(renderType: string, analysisType: string,
                                    indicatorDef: any) {
     let columnLabelMap: any =
@@ -404,7 +402,6 @@ export class PatientStatuChangeVisualizationService {
     }
     return columns;
   }
-
 
   public processData(plot: string, result, analysisType, removeLast): Array<any> {
     if (analysisType === 'cohortAnalysis') {
@@ -491,7 +488,6 @@ export class PatientStatuChangeVisualizationService {
         }
       });
     });
-
 
     // add calculated indicators: patients_gained, patients_lost, patient_change_from_past_month
     column = _.merge(column, {
@@ -580,12 +576,11 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private snakeToTitle(str) {
-    let join = str.split('_').map(function (item) {
+    let join = str.split('_').map(function(item) {
       return item.charAt(0).toUpperCase() + item.substring(1);
     }).join(' ');
     return join;
   }
-
 
   private generateCategories(dataSet) {
     let processed = [];

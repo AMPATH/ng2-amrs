@@ -47,21 +47,20 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CookieModule } from 'ngx-cookie';
 
-
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState
 ];
 
-type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
+interface StoreType {
+  state: InternalStateType;
+  restoreInputValues: () => void;
+  disposeOldHosts: () => void;
+}
 export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
-  router: Router, sessionStorageService: SessionStorageService) {
-  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService)
+                           router: Router, sessionStorageService: SessionStorageService) {
+  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
 }
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process

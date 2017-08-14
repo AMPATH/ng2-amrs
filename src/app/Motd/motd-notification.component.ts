@@ -2,7 +2,7 @@
 
 Based on motd_messages table
 alerts are of 2 types 1-info and 2-warning
-intervals are 
+intervals are
     1.After each session
     2.Once daily for the start to end date period
     3.Once per start to end date
@@ -13,7 +13,6 @@ import { Component, OnInit , OnDestroy } from '@angular/core';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
 import * as Moment from 'moment';
-
 
 @Component({
     selector : 'motd-notification',
@@ -39,9 +38,8 @@ export class MOTDNotificationComponent implements OnInit {
      cookieKey: string = 'motdKey' + this.currentDate;
      cookieValue: string = 'motdVal' + this.currentDate;
 
-
      constructor(private _motdSservice: MOTDNotificationService,
-     private _cookieService: CookieService) {
+                 private _cookieService: CookieService) {
 
      }
      ngOnInit() {
@@ -49,10 +47,7 @@ export class MOTDNotificationComponent implements OnInit {
        // this.removeAllCookies();
            this.getMotdNotifications();
 
-
-
      }
-
 
      getMotdNotifications() {
          this._motdSservice.getMotdNotification()
@@ -74,7 +69,7 @@ export class MOTDNotificationComponent implements OnInit {
          let notifications = this.notifications;
          if (notifications.length > 0 ) {
 
-                notifications.forEach(notification => {
+                notifications.forEach((notification) => {
 
                     // console.log('Filter Notification', notification);
 
@@ -88,8 +83,6 @@ export class MOTDNotificationComponent implements OnInit {
                     let cookieKey = '';
                     let cookieVal = '';
 
-
-
                      /* check the type of interval
                              1.After each session
                              2.Once daily for the start to end date period
@@ -98,10 +91,8 @@ export class MOTDNotificationComponent implements OnInit {
 
                     if (alertInterval === 1) {
 
-
                             cookieKey = 'motdLoginCookie';
                             cookieVal = '' + Math.random();
-
 
                         }
 
@@ -122,14 +113,13 @@ export class MOTDNotificationComponent implements OnInit {
 
                     let currentNotificationCookie = this._cookieService.get(cookieKey);
 
-                      if (typeof currentNotificationCookie === 'undefined') {
+                    if (typeof currentNotificationCookie === 'undefined') {
 
                                 // get notifications then add cookie
 
                                 // check if date is between start and end
 
                                 // console.log('Start Day', this.currentDate);
-
 
                                 if ( this.currentDate >= startDate && this.currentDate <= endDate) {
 
@@ -147,7 +137,6 @@ export class MOTDNotificationComponent implements OnInit {
 
                       } else {
 
-
                       }
                     // console.log('Notification', notification);
                 });
@@ -160,17 +149,14 @@ export class MOTDNotificationComponent implements OnInit {
          // check notification length
           this.displayNotifications.splice(index, 1);
 
-         if ( this.displayNotifications.length === 0 ) {
+          if ( this.displayNotifications.length === 0 ) {
               this.overlayClass = 'hide_notifiction_overlay';
             }
-
 
      }
 
      removeAllCookies() {
          this._cookieService.removeAll();
      }
-
-
 
 }

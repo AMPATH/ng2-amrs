@@ -1,12 +1,10 @@
 
-
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DatePipe } from '@angular/common';
-
 
 @Injectable()
 export class PatientReminderResourceService {

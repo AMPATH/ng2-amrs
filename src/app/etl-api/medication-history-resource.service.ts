@@ -4,7 +4,6 @@ import { Http, URLSearchParams, Response } from '@angular/http';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
-
 @Injectable()
 export class MedicationHistoryResourceService {
 

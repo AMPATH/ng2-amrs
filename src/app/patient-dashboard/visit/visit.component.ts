@@ -30,11 +30,11 @@ export class VisitComponent implements OnInit, OnDestroy {
     visitBusy: Boolean;
     iseditLocation: boolean = false;
     constructor(private visitResourceService: VisitResourceService,
-        private userDefaultPropertiesService: UserDefaultPropertiesService,
-        private patientService: PatientService, private router: Router,
-        private appFeatureAnalytics: AppFeatureAnalytics,
-        private route: ActivatedRoute,
-        private encounterResourceService: EncounterResourceService) { }
+                private userDefaultPropertiesService: UserDefaultPropertiesService,
+                private patientService: PatientService, private router: Router,
+                private appFeatureAnalytics: AppFeatureAnalytics,
+                private route: ActivatedRoute,
+                private encounterResourceService: EncounterResourceService) { }
 
     ngOnInit() {
         this.getPatient();
@@ -265,10 +265,10 @@ export class VisitComponent implements OnInit, OnDestroy {
                     this.subscription = Observable.forkJoin(
                         observableBatch
                     ).subscribe(
-                        data => {
+                        (data) => {
                             console.log('Voided Encounters');
                         },
-                        err => {
+                        (err) => {
                             this.errors.push({
                                 id: 'cancelVisit',
                                 message: 'error voiding visit encounters'

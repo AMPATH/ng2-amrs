@@ -13,7 +13,6 @@ export class FakePatientResourceService extends PatientResourceService {
     super(http, appSettingsService);
   }
 
-
   searchPatient(searchText: string,
                 cached: boolean = false, v: string = null): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -72,14 +71,13 @@ export class FakePatientResourceService extends PatientResourceService {
       },
     ];
 
-
     if (!this.returnErrorOnNext) {
       test.next(patients);
     } else {
       test.error(new Error('Error loading patient'));
     }
     return test.asObservable();
-  };
+  }
 
   getPatientByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
     let subject = new BehaviorSubject<any>({});

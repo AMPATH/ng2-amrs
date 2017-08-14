@@ -5,15 +5,14 @@ import { EncounterResourceService } from '../../openmrs-api/encounter-resource.s
 import { Encounter } from '../../models/encounter.model';
 import { Subscription } from 'rxjs';
 
-
 @Injectable()
 export class PatientEncounterService {
   busy: Subscription;
   constructor(private encounterService: EncounterResourceService) { }
 
   getEncountersByPatientUuid(patientUuid: string,
-    cached: boolean = false,
-    v: string = null): Observable<Encounter[]> {
+                             cached: boolean = false,
+                             v: string = null): Observable<Encounter[]> {
     let encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
     let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
@@ -34,4 +33,3 @@ export class PatientEncounterService {
   }
 
 }
-

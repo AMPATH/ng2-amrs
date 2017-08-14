@@ -16,7 +16,7 @@ export class FakeEncounterResourceService {
   }
 
   getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
-    v: string = null): Observable<any> {
+                             v: string = null): Observable<any> {
     return Observable.of([
       {
         'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',

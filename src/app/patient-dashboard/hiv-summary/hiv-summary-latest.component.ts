@@ -19,7 +19,7 @@ export class HivSummaryLatestComponent implements OnInit {
   errors: any = [];
 
   constructor(private hivSummaryService: HivSummaryService,
-    private patientService: PatientService) {}
+              private patientService: PatientService) {}
 
   ngOnInit() {
     this.getPatient();

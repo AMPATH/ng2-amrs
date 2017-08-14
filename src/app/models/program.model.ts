@@ -2,7 +2,6 @@ import { BaseModel } from './base-model.model';
 import { serializable, serialize } from './serializable.decorator';
 import './date.extensions';
 
-
 export class Program extends BaseModel {
 
   constructor(openmrsModel?: any) {
@@ -27,6 +26,4 @@ export class Program extends BaseModel {
     this._openmrsModel.description = v;
   }
 
-
 }
-

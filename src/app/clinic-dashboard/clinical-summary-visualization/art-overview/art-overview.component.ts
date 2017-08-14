@@ -87,7 +87,7 @@ export class ArtOverviewComponent {
           cursor: 'pointer',
           point: {
             events: {
-              click: function () {
+              click: function() {
                 let indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 if (that.options && that.options.filters.endDate) {
                   that.goToPatientList(indicators['clinical-art-overview'][this.name],
@@ -100,7 +100,7 @@ export class ArtOverviewComponent {
         }
       },
       tooltip: {
-        pointFormatter: function () {
+        pointFormatter: function() {
           return this.y + ' (' + this.percentage.toFixed(2) + '%)';
         }
       },
@@ -109,7 +109,7 @@ export class ArtOverviewComponent {
         align: 'right',
         y: 100,
         verticalAlign: 'top',
-        labelFormatter: function () {
+        labelFormatter: function() {
           return this.name + ' (' + this.percentage.toFixed(2) + '%)';
         }
       },

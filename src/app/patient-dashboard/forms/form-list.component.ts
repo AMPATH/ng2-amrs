@@ -15,7 +15,7 @@ export class FormListComponent implements OnInit {
     selectedForm: Form;
     filterTerm: string = '';
     constructor(private formListService: FormListService,
-        private formOrderMetaDataService: FormOrderMetaDataService) { }
+                private formOrderMetaDataService: FormOrderMetaDataService) { }
 
     ngOnInit() {
         this.getForms();

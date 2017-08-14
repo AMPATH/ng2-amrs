@@ -3,9 +3,6 @@ import { PatientService } from '../patient.service';
 import { Patient } from '../../models/patient.model';
 import { Subscription } from 'rxjs';
 
-
-
-
 @Component({
   selector: 'address',
   templateUrl: 'address.component.html',
@@ -52,5 +49,3 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
 }
-
-

@@ -9,9 +9,6 @@ import { RelationshipType } from '../../models/relationship-type.model';
 import * as Moment from 'moment';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
-
-
-
 @Component({
     selector: 'add-relationship',
     templateUrl: 'add-patient-relationship.component.html',
@@ -38,9 +35,9 @@ export class AddPatientRelationshipComponent implements OnInit {
     };
 
     constructor(private patientRelationshipService: PatientRelationshipService,
-        private patientRelationshipTypeService: PatientRelationshipTypeService,
-        private patientService: PatientService,
-        private appFeatureAnalytics: AppFeatureAnalytics) { }
+                private patientRelationshipTypeService: PatientRelationshipTypeService,
+                private patientService: PatientService,
+                private appFeatureAnalytics: AppFeatureAnalytics) { }
 
     ngOnInit(): void {
         this.getPatient();
@@ -54,7 +51,6 @@ export class AddPatientRelationshipComponent implements OnInit {
         this.display = true;
         this.getRelationShipTypes();
     }
-
 
     public getRelationShipTypes(): void {
         let request = this.patientRelationshipTypeService.getRelationshipTypes();
@@ -151,7 +147,6 @@ export class AddPatientRelationshipComponent implements OnInit {
         }, 3000);
     }
 
-
     public displayErrorAlert(errorTitle, errorMessage) {
         this.showErrorAlert = true;
         this.errorAlert = errorMessage;
@@ -161,7 +156,7 @@ export class AddPatientRelationshipComponent implements OnInit {
     public relativeSelected(patientToBindRelationship) {
         if (patientToBindRelationship) {
             this.patientToBindRelationship = patientToBindRelationship;
-             this.hideResult = true;
+            this.hideResult = true;
         }
     }
 }

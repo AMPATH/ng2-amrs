@@ -11,7 +11,6 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import { ReportFilterComponent } from './report-filter/report-filter.component';
 import { ChartModule } from 'angular2-highcharts';
 
-
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */

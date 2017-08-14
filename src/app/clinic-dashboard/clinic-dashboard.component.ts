@@ -28,9 +28,9 @@ export class ClinicDashboardComponent implements OnInit {
   selectingLocation: boolean = true;
 
   constructor(private locationResourceService: LocationResourceService,
-    private route: ActivatedRoute, private router: Router,
-    private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private userDefaultProperties: UserDefaultPropertiesService) {
+              private route: ActivatedRoute, private router: Router,
+              private clinicDashboardCacheService: ClinicDashboardCacheService,
+              private userDefaultProperties: UserDefaultPropertiesService) {
     this.loaderStatus = false;
   }
 

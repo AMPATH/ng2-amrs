@@ -21,11 +21,9 @@ export class MockVitalsResourceService {
     }));
     let mockBackend = new MockBackend();
 
-    mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
+    mockBackend.connections.subscribe((c) => c.mockRespond(mockResponse));
 
     return mockBackend.connections;
 
   }
 }
-
-

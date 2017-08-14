@@ -20,8 +20,8 @@ export class PatientsRequiringVLComponent
     public sectionsDef = [];
 
     constructor(public patientsRequiringVLResourceService: PatientsRequiringVLResourceService,
-        public route: ActivatedRoute, private location: Location,
-        public router: Router) {
+                public route: ActivatedRoute, private location: Location,
+                public router: Router) {
         super(route, router, patientsRequiringVLResourceService);
 
     }
