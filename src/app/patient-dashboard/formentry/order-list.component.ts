@@ -8,8 +8,8 @@ import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/
 })
 export class OrderListComponent implements AfterViewInit {
 
-  @Input() submittedOrdersModel: any;
-  @Output() submittedOrdersModelChange: EventEmitter<any> = new EventEmitter();
+  @Input() public submittedOrdersModel: any;
+  @Output() public submittedOrdersModelChange: EventEmitter<any> = new EventEmitter();
   public orders: Array<any> = [];
 
   constructor() { }

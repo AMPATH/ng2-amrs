@@ -11,34 +11,34 @@ import { Moh731PatientListResourceService
   templateUrl: 'moh-731-patientlist.component.html'
 })
 export class Moh731PatientListComponent implements OnInit, OnChanges {
-  patientList: Array<any> = [];
-  patientListPerIndicator: Array<any> = [];
-  dataSource: any;
-  hasError: boolean = false;
-  overrideColumns: Array<any> = [];
-  extraColumns: Array<any> = [];
-  startIndex: Array<any> = [];
-  currentStartIndexPerIndicator: number;
-  isLoading: boolean = false;
-  dataLoadedPerIndicator: boolean = false;
-  dataLoaded: Array<any> = [];
-  _locations: string = '';
-  _indicator: string = '';
-  _startDate;
-  _endDate;
-  @Input() startDate;
-  @Input() endDate: any;
-  @Input() locations;
-  @Input() isLegacy;
-  @Input() indicator: string;
-  @Output() onLoadComplete = new EventEmitter<any>();
+  public patientList: Array<any> = [];
+  public patientListPerIndicator: Array<any> = [];
+  public dataSource: any;
+  public hasError: boolean = false;
+  public overrideColumns: Array<any> = [];
+  public extraColumns: Array<any> = [];
+  public startIndex: Array<any> = [];
+  public currentStartIndexPerIndicator: number;
+  public isLoading: boolean = false;
+  public dataLoadedPerIndicator: boolean = false;
+  public dataLoaded: Array<any> = [];
+  @Input() public startDate;
+  @Input() public endDate: any;
+  @Input() public locations;
+  @Input() public isLegacy;
+  @Input() public indicator: string;
+  @Output() public onLoadComplete = new EventEmitter<any>();
+  public _locations: string = '';
+  public _indicator: string = '';
+  public _startDate;
+  public _endDate;
 
   constructor(public route: ActivatedRoute,
               private router: Router,
               private moh731PatientListResourceService: Moh731PatientListResourceService) {
   }
 
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
     // tslint:disable-next-line
     for (let propName in changes) {
       let changedProp = changes[propName];
@@ -49,11 +49,11 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loadPatientList();
   }
 
-  loadPatientList() {
+  public loadPatientList() {
     let rowCount: number = 0;
     this.moh731PatientListResourceService.getMoh731PatientListReport({
       indicator: this.indicator,
@@ -134,19 +134,19 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     });
   }
 
-  loadMorePatients() {
+  public loadMorePatients() {
     this.isLoading = true;
     this.loadPatientList();
   }
 
-  goTopatientInfo(patientUuid) {
+  public goTopatientInfo(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
 
-  addExtraColumns(indicators: Array<any>) {
+  public addExtraColumns(indicators: Array<any>) {
 
     let extraColumns = {
       enrollment_date: 'Enrollment Date',
@@ -178,7 +178,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     });*/
   }
 
-  searchIndicator(indicators: Array<any>, trackedIndicator: string) {
+  public searchIndicator(indicators: Array<any>, trackedIndicator: string) {
     let matchingIndicator = _.filter(indicators, (_indicator) => {
       let search = _indicator['indicator'];
       return search && search.match(new RegExp(trackedIndicator));

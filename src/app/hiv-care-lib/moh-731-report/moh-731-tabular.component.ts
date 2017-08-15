@@ -11,7 +11,7 @@ export class Moh731TabularComponent implements OnInit {
     public gridOptions: any = {
         columnDefs: []
     };
-    @Output() onColumnClick = new EventEmitter<any>();
+    @Output() public onColumnClick = new EventEmitter<any>();
 
     @Input('rowData')
     public data: Array<any> = [];
@@ -32,17 +32,18 @@ export class Moh731TabularComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() {
+    public ngOnInit() {
 
     }
 
-    setColumns(sectionsData: Array<any>) {
+    public setColumns(sectionsData: Array<any>) {
         let defs = [];
         defs.push({
             headerName: 'Location',
             field: 'location',
             pinned: 'left'
         });
+      // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < sectionsData.length; i++) {
             let section = sectionsData[i];
             let created: any = {};

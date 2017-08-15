@@ -8,11 +8,11 @@ import { Observable } from 'rxjs/Rx';
 export class VitalsResourceService {
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) { }
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient';
   }
-  getVitals(patientUuid: string, startIndex: number, limit: number): Observable<any> {
+  public getVitals(patientUuid: string, startIndex: number, limit: number): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/vitals';
     let params: URLSearchParams = new URLSearchParams();

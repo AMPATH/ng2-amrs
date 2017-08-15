@@ -11,11 +11,11 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
                 protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
-    getUrl(reportName): string {
+    public getUrl(reportName): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
     }
 
-    getClinicFlow(dateStarted, locations) {
+    public getClinicFlow(dateStarted, locations) {
         let urlParams: URLSearchParams = new URLSearchParams();
         urlParams.set('dateStarted', dateStarted);
         urlParams.set('locationUuids', locations);

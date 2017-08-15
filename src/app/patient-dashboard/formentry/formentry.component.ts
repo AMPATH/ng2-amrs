@@ -43,7 +43,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     encounterUuid: null,
     orders: []
   };
-  subscription: Subscription;
+  private subscription: Subscription;
   private encounterUuid: string = null;
   private encounter: any = null;
   private visitUuid: string = null;
@@ -116,7 +116,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
   }
 
-  wireDataSources() {
+  public wireDataSources() {
     this.dataSources.registerDataSource('location',
       this.formDataSourceService.getDataSources()['location']);
     this.dataSources.registerDataSource('provider',
@@ -164,12 +164,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
     switch (path) {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid + '/general/landing-page']);
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/landing-page']);
         this.patientService.fetchPatientByUuid(this.patient.uuid);
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid + '/general/forms']);
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/forms']);
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -187,6 +189,29 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.draftedFormsService.saveRouteSnapshot(this.route.snapshot);
     this.draftedFormsService.setDraftedForm(this.form);
     this.draftedFormsService.loadDraftOnNextFormLoad = false;
+  }
+
+  public loadDefaultValues(): void {
+
+    let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    let currentUser = this.userService.getLoggedInUser();
+    let currentDate = moment().format();
+
+    let encounterDate = this.form.searchNodeByQuestionId('encDate');
+    if (encounterDate.length > 0) {
+      encounterDate[0].control.setValue(currentDate);
+    }
+
+    let encounterLocation = this.form.searchNodeByQuestionId('location', 'encounterLocation');
+    if (encounterLocation.length > 0 && location) {
+      encounterLocation[0].control.setValue(location.uuid);
+    }
+
+    let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
+    if (encounterProvider.length > 0 && currentUser) {
+      encounterProvider[0].control.setValue(currentUser.personUuid);
+    }
+
   }
 
   private loadDraftedForm() {
@@ -369,29 +394,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
           observer.error(err);
         });
     }).first();
-  }
-
-  public loadDefaultValues(): void {
-
-    let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    let currentUser = this.userService.getLoggedInUser();
-    let currentDate = moment().format();
-
-    let encounterDate = this.form.searchNodeByQuestionId('encDate');
-    if (encounterDate.length > 0) {
-      encounterDate[0].control.setValue(currentDate);
-    }
-
-    let encounterLocation = this.form.searchNodeByQuestionId('location', 'encounterLocation');
-    if (encounterLocation.length > 0 && location) {
-      encounterLocation[0].control.setValue(location.uuid);
-    }
-
-    let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
-    if (encounterProvider.length > 0 && currentUser) {
-      encounterProvider[0].control.setValue(currentUser.personUuid);
-    }
-
   }
 
   private getPatient(): Observable<Patient> {

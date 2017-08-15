@@ -10,6 +10,6 @@ export class DataAnalyticsDashboardComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 }

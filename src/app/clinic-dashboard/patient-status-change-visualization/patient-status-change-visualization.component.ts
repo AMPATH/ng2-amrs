@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, OnChanges, SimpleChanges,
-  ViewChild, Output, EventEmitter, ViewEncapsulation
+  ViewChild, Output, EventEmitter, ViewEncapsulation, OnDestroy
 } from '@angular/core';
 import {
   PatientStatuChangeVisualizationService
@@ -23,7 +23,7 @@ import * as moment from 'moment/moment';
   encapsulation: ViewEncapsulation.None
 })
 
-export class PatientStatusChangeVisualizationComponent implements OnInit, OnChanges {
+export class PatientStatusChangeVisualizationComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   public renderType: string;
@@ -41,7 +41,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public gridOptions: GridOptions;
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
-  @Output() filterModelChange = new EventEmitter<any>();
+  @Output() public filterModelChange = new EventEmitter<any>();
 
   public filterModel: any;
   public startDate: Date = new Date();
@@ -64,21 +64,23 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
 
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       this.renderView();
     }
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loading = false;
     this.initRoutesParam();
     this.renderView();
   }
 
-  ngOnDestroy(): void {
-    if (this.timerSubscription) this.timerSubscription.unsubscribe();
+  public ngOnDestroy(): void {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 
   public onAnalysisTypeChange($event) {
@@ -176,16 +178,22 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.loading = true;
       this.error = false;
       this.progressBarTick = 30;
-      if (this.timerSubscription) this.timerSubscription.unsubscribe();
+      if (this.timerSubscription) {
+        this.timerSubscription.unsubscribe();
+      }
       this.timerSubscription =
         TimerObservable.create(2000 * interval, 1000 * interval).subscribe((t) => {
-          if (this.progressBarTick > 100) this.progressBarTick = 30;
+          if (this.progressBarTick > 100) {
+            this.progressBarTick = 30;
+          }
           this.progressBarTick++;
         });
     } else {
       this.error = hasError;
       this.progressBarTick = 100;
-      if (this.timerSubscription) this.timerSubscription.unsubscribe();
+      if (this.timerSubscription) {
+        this.timerSubscription.unsubscribe();
+      }
       this.loading = false;
     }
   }

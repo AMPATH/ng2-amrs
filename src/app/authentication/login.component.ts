@@ -20,16 +20,16 @@ import { LocalStorageService } from '../utils/local-storage.service';
 })
 export class LoginComponent implements OnInit {
 
-  @Output() loginSuccess = new EventEmitter();
-  @Output() loginFailure = new EventEmitter();
+  @Output() public loginSuccess = new EventEmitter();
+  @Output() public loginFailure = new EventEmitter();
 
-  password: string;
+  public password: string;
 
-  error: string;
-  shouldRedirect: boolean = false;
-  busy: Subscription;
+  public error: string;
+  public shouldRedirect: boolean = false;
+  public busy: Subscription;
 
-  @ViewChildren('password') passwordField;
+  @ViewChildren('password') public passwordField;
 
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
               private localStorageService: LocalStorageService,
               private userDefaultPropertiesService: UserDefaultPropertiesService) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     let settingsFromAppSettings = this.localStorageService.getItem('appSettingsAction');
     // respect users choice from app settings
     if (!settingsFromAppSettings) {
@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  getServerTemplates(): Array<Object> {
+  public getServerTemplates(): Array<object> {
     return this.appSettingsService.getServerTemplates();
   }
 
-  login(event, username: string, password: string) {
+  public login(event, username: string, password: string) {
 
     event.stopPropagation();
     event.preventDefault();
@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit {
     return (!lastLoginDate || lastLoginDate !== today);
   }
 
-  clearAndFocusPassword() {
+  public clearAndFocusPassword() {
 
     this.passwordField.first.nativeElement.focus();
     this.passwordField.first.nativeElement.value = '';

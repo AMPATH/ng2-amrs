@@ -11,22 +11,22 @@ import * as Moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class Moh731ReportFilters implements OnInit {
+export class Moh731ReportFiltersComponent implements OnInit {
     public filterCollapsed: boolean;
     @Output()
-    generateReport = new EventEmitter();
+    public generateReport = new EventEmitter();
 
     @Output()
-    startDateChange = new EventEmitter<Date>();
+    public startDateChange = new EventEmitter<Date>();
 
     @Output()
-    endDateChange = new EventEmitter<Date>();
+    public endDateChange = new EventEmitter<Date>();
 
     @Output()
-    isLegacyVersionChange = new EventEmitter<boolean>();
+    public isLegacyVersionChange = new EventEmitter<boolean>();
 
     @Input()
-    parentIsBusy: boolean = false;
+    public parentIsBusy: boolean = false;
 
     // private _showIsAggregateControl: boolean = false;
     // public get showIsAggregateControl(): boolean {
@@ -103,13 +103,13 @@ export class Moh731ReportFilters implements OnInit {
 
     constructor() { }
 
-    ngOnInit() { }
+  public ngOnInit() { }
 
-    onClickedGenerate() {
+  public onClickedGenerate() {
         this.generateReport.emit();
     }
 
-    changeIsLegacyValue(val: boolean) {
+  public changeIsLegacyValue(val: boolean) {
         this.isLegacyVersion = val;
     }
 }

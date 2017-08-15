@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class PatientReminderResourceService {
-  referenceDate: string;
+  public referenceDate: string;
   private _datePipe: DatePipe;
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) {
@@ -16,12 +16,12 @@ export class PatientReminderResourceService {
     this.referenceDate = this._datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
-  getUrl(patientUuid: string): string {
+  public getUrl(patientUuid: string): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient/' + patientUuid +
     '/hiv-clinical-reminder';
   }
 
-  getPatientLevelReminders(patientUuid: string): Observable<any> {
+  public getPatientLevelReminders(patientUuid: string): Observable<any> {
     let url = this.getUrl(patientUuid)  + '/' + this.referenceDate;
     return this.http.get(url).map((response: Response) => {
         return response.json().result;

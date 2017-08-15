@@ -10,7 +10,7 @@ export class MockVitalsResourceService {
 
   constructor() { }
 
-  getVitals(patientUuid: string, startIndex: string, limit: string) {
+  public getVitals(patientUuid: string, startIndex: string, limit: string) {
 
     let mockResponse = new Response(new ResponseOptions({
       body: {

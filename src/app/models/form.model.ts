@@ -2,16 +2,16 @@ import { BaseModel } from './base-model.model';
 import { serializable } from './serializable.decorator';
 
 export class Form extends BaseModel {
-  uuid: string;
-  version: string;
-  published: Boolean;
-  encounterType: {
+  public uuid: string;
+  public version: string;
+  public published: boolean;
+  public encounterType: {
     uuid: string;
     name: string;
   };
-  retired: Boolean;
-  retiredReason: string;
-  resources: any;
+  public retired: boolean;
+  public retiredReason: string;
+  public resources: any;
   constructor(openmrsModel?: any) {
     super(openmrsModel);
   }

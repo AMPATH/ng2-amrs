@@ -7,17 +7,17 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 @Injectable()
 export class FileUploadResourceService {
     constructor(private http: Http, private appSettingsService: AppSettingsService) { }
-    getUrl(): string {
+    public getUrl(): string {
 
         return this.appSettingsService.getEtlRestbaseurl().trim() + 'fileupload';
     }
-    upload(formData) {
+    public upload(formData) {
         const url = this.getUrl();
         return this.http.post(url, formData)
             .map((x) => x.json()
             );
     }
-    getFile(url: string): Observable<any> {
+    public getFile(url: string): Observable<any> {
         let fullUrl = this.appSettingsService.getEtlRestbaseurl().trim() + 'files/' + url;
         return new Observable((observer: Subscriber<any>) => {
             let objectUrl: string = null;

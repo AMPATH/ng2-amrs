@@ -9,7 +9,7 @@ import { UsefulLinksService } from './useful-links.service';
   encapsulation: ViewEncapsulation.None
 })
 export class UsefulLinksComponent implements OnInit {
-  nativeWindow: any;
+  public nativeWindow: any;
 
   private _links = [
     {
@@ -29,13 +29,15 @@ export class UsefulLinksComponent implements OnInit {
       title: 'POC Release Notes '
     }
   ];
+
   constructor(private linksService: UsefulLinksService) {
     this.nativeWindow = linksService.getNativeWindow();
   }
 
-  ngOnInit() { }
+  public ngOnInit() {
+  }
 
-  goToLink(link: string) {
+  public goToLink(link: string) {
     let newWindow = this.nativeWindow.open('/');
     newWindow.location.href = link;
   }

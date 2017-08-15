@@ -7,16 +7,16 @@ export class HivSummaryIndicatorsResourceService {
     constructor(protected http: Http, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
-    getUrl(): string {
+    public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `hiv-summary-indicators`;
     }
 
-    getPatientListUrl(): string {
+    public getPatientListUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
             + `hiv-summary-indicators/patient-list`;
     }
 
-    getUrlRequestParams(params): URLSearchParams {
+    public getUrlRequestParams(params): URLSearchParams {
         let urlParams: URLSearchParams = new URLSearchParams();
 
         if (params.indicators) {
@@ -37,7 +37,7 @@ export class HivSummaryIndicatorsResourceService {
         return urlParams;
     }
 
-    getHivSummaryIndicatorsReport(params) {
+    public getHivSummaryIndicatorsReport(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl();
         let request = this.http.get(url, {
@@ -51,7 +51,7 @@ export class HivSummaryIndicatorsResourceService {
 
     }
 
-    getHivSummaryIndicatorsPatientList(params) {
+    public getHivSummaryIndicatorsPatientList(params) {
         let urlParams = this.getUrlRequestParams(params);
         if (!params.startIndex) {
             params.startIndex = '0';

@@ -1,8 +1,8 @@
 
 export class DynamicRouteModel {
-  dashboardId: string;
-  programs: any;
-  moduleLabel: string;
-  routes?: Array<any>;
-  params: Object;
+  public dashboardId: string;
+  public programs: any;
+  public moduleLabel: string;
+  public routes?: Array<any>;
+  public params: object;
 }

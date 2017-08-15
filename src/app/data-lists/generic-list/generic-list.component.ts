@@ -13,13 +13,13 @@ import { AgGridNg2 } from 'ag-grid-angular';
 export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   public gridOptions: GridOptions;
-  @Input() columns: any;
-  @Input() data: any = [];
-  @Output() onSelectedRow = new EventEmitter();
-  @Output() onSelectedTab = new EventEmitter();
-  @Input() newList: any;
-  selected: any;
-  refresh: boolean = false;
+  @Input() public columns: any;
+  @Input() public data: any = [];
+  @Output() public onSelectedRow = new EventEmitter();
+  @Output() public onSelectedTab = new EventEmitter();
+  @Input() public newList: any;
+  public selected: any;
+  public refresh: boolean = false;
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
 
@@ -47,7 +47,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
     for (let propName in changes) {
       if (propName === 'options') {
         let changedProp = changes[propName];
@@ -63,11 +63,11 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
       this.generateGrid();
   }
 
-  generateGrid() {
+  public generateGrid() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
@@ -76,7 +76,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.showToolPanel = false;
     // ensure that even after sorting the rows maintain order
     this.gridOptions.onSortChanged = () => {
-        this.gridOptions.api.forEachNode(function(node){
+        this.gridOptions.api.forEachNode((node) => {
            node.setDataValue('#', node.rowIndex + 1);
         });
 
@@ -172,7 +172,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.data = [];
   }
 
@@ -180,7 +180,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     return this.data || [];
   }
 
-  rowSelectedFunc(event) {
+  public rowSelectedFunc(event) {
     this.onSelectedRow.emit(event);
   }
 

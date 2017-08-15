@@ -22,7 +22,7 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
 
         this.route.parent.parent.url.subscribe((url) => {
             this.locationUuids = [];

@@ -20,24 +20,24 @@ import { Dictionary } from 'lodash';
 })
 export class LocationFilterComponent implements OnInit, AfterViewInit {
 
-  locations: Dictionary<any> = {};
-  counties: any;
-  loading: boolean = false;
-  locationDropdownOptions: Array<any> = [];
-  countyDropdownOptions: Array<any> = [];
-  selectedLocations: Array<any> = [];
-  selectedCounty: string = '';
-  @Input('disable-county') disableCounty: boolean;
-  @Input('multiple') multiple: boolean;
-  @Input() locationUuids: any;
-  @Input() county: string;
-  @Output() onLocationChange = new EventEmitter<any>();
+  public locations: Dictionary<any> = {};
+  public counties: any;
+  public loading: boolean = false;
+  public locationDropdownOptions: Array<any> = [];
+  public countyDropdownOptions: Array<any> = [];
+  public selectedLocations: Array<any> = [];
+  public selectedCounty: string = '';
+  @Input('disable-county') public disableCounty: boolean;
+  @Input('multiple') public multiple: boolean;
+  @Input() public locationUuids: any;
+  @Input() public county: string;
+  @Output() public onLocationChange = new EventEmitter<any>();
 
   constructor(private locationResourceService: LocationResourceService,
               private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.county) {
       this.selectedCounty = this.county;
     }
@@ -51,10 +51,10 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.resolveLocationDetails();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.cd.detectChanges();
   }
-  onLocationSelected(locations: Array<any>) {
+  public onLocationSelected(locations: Array<any>) {
     this.selectedLocations = locations;
     this.getCountyByLocations().then((county) => {
       this.selectedCounty = county ? county : '';
@@ -65,7 +65,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onCountyChanged(county: string) {
+  public onCountyChanged(county: string) {
     this.getLocationsByCounty().then((locations) => {
       this.selectedLocations = _.map(locations, 'uuid');
       this.onLocationChange.emit({
@@ -75,7 +75,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  resolveLocationDetails(): void {
+  public resolveLocationDetails(): void {
     this.loading = true;
     this.locationResourceService.getLocations().subscribe((locations: any[]) => {
       this.locationDropdownOptions = locations.map((location) => {
@@ -111,13 +111,13 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   }
 
-  getLocationsByCounty(): Promise<any> {
+  public getLocationsByCounty(): Promise<any> {
     return new Promise((resolve) => {
       resolve(_.get(this.counties, this.selectedCounty));
     });
   }
 
-  getCountyByLocations(): Promise<any> {
+  public getCountyByLocations(): Promise<any> {
     return new Promise((resolve) => {
       // filter the locations
       let filteredCounties = _.filter(this.locations, (location) => {

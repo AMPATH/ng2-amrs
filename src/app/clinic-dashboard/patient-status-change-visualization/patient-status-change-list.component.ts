@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import {
@@ -18,7 +18,7 @@ import * as moment from 'moment/moment';
   styleUrls: ['./patient-status-change-visualization.container.component.css']
 })
 
-export class PatientStatusChangeListComponent implements OnInit {
+export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
   public options: any = {
     date_range: true
   };
@@ -46,7 +46,7 @@ export class PatientStatusChangeListComponent implements OnInit {
               private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.startDate = new Date(this.route.snapshot.queryParams['startDate']);
     this.endDate = new Date(this.route.snapshot.queryParams['endDate']);
     this.indicator = this.route.snapshot.queryParams['indicator'];
@@ -64,7 +64,7 @@ export class PatientStatusChangeListComponent implements OnInit {
 
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -86,16 +86,22 @@ export class PatientStatusChangeListComponent implements OnInit {
       this.loading = true;
       this.error = false;
       this.progressBarTick = 30;
-      if (this.timerSubscription) this.timerSubscription.unsubscribe();
+      if (this.timerSubscription) {
+        this.timerSubscription.unsubscribe();
+      }
       this.timerSubscription =
         TimerObservable.create(2000 * interval, 1000 * interval).subscribe((t) => {
-          if (this.progressBarTick > 100) this.progressBarTick = 30;
+          if (this.progressBarTick > 100) {
+            this.progressBarTick = 30;
+          }
           this.progressBarTick++;
         });
     } else {
       this.error = hasError;
       this.progressBarTick = 100;
-      if (this.timerSubscription) this.timerSubscription.unsubscribe();
+      if (this.timerSubscription) {
+        this.timerSubscription.unsubscribe();
+      }
       this.loading = false;
     }
   }
@@ -135,7 +141,7 @@ export class PatientStatusChangeListComponent implements OnInit {
   }
 
   private snakeToTitle(str) {
-    return str.split('_').map(function(item) {
+    return str.split('_').map((item) => {
       return item.charAt(0).toUpperCase() + item.substring(1);
     }).join(' ');
   }

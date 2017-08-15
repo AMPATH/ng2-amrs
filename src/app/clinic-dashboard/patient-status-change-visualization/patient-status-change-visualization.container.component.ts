@@ -49,7 +49,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
               private router: Router) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.route.params.forEach((params) => {
       if (params['view']) {
@@ -71,7 +71,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

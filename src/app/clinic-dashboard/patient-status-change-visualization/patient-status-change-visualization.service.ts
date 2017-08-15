@@ -377,8 +377,9 @@ export class PatientStatuChangeVisualizationService {
     for (let row in columnLabelMap) {
       if (columnLabelMap.hasOwnProperty(row)) {
         let rowData = columnLabelMap[row];
-        if (_.isEmpty(rowData.tooltip) || _.isUndefined(rowData.tooltip))
+        if (_.isEmpty(rowData.tooltip) || _.isUndefined(rowData.tooltip)) {
           rowData.tooltip = this.getIndicatorDefinition(indicatorDef, row);
+        }
         let column = {
           headerName: rowData.columnTitle,
           tooltip: rowData.tooltip || '',
@@ -441,8 +442,9 @@ export class PatientStatuChangeVisualizationService {
                                  indicatorDef: any): any {
     let column = {};
     Object.assign(column, this.renderOptions[renderType].tableOptions.columnOptions);
-    if (renderType === 'cumulativeAnalysis' || renderType === 'cohortAnalysis')
+    if (renderType === 'cumulativeAnalysis' || renderType === 'cohortAnalysis') {
       return column; // not a dynamic view
+    }
     let indicators = this.getGainLostIndicators(analysisType);
     column = _.merge(column, {
       [indicators.indicator]: {
@@ -524,7 +526,9 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private getIndicatorDefinition(defns: any, indicator: string): any {
-    if (_.isEmpty(defns) || _.isUndefined(defns[indicator])) return '';
+    if (_.isEmpty(defns) || _.isUndefined(defns[indicator])) {
+      return '';
+    }
     return defns[indicator].description;
 
   }
@@ -576,7 +580,7 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private snakeToTitle(str) {
-    let join = str.split('_').map(function(item) {
+    let join = str.split('_').map((item) => {
       return item.charAt(0).toUpperCase() + item.substring(1);
     }).join(' ');
     return join;
@@ -594,8 +598,8 @@ export class PatientStatuChangeVisualizationService {
     let processed = [];
     let dataSet = options.data;
     for (let indicator of indicators) {
-      let data = dataSet.map((data) => {
-        return data[indicator.name];
+      let data = dataSet.map((_data) => {
+        return _data[indicator.name];
       });
       let column = {
         type: type,
@@ -605,10 +609,10 @@ export class PatientStatuChangeVisualizationService {
         point: {
           events: {
             click: (event) => {
-              let data = dataSet.find((a) => {
+              let _data = dataSet.find((a) => {
                 return a.reporting_month === event.point.category;
               });
-              let dateMoment = Moment(data.reporting_date);
+              let dateMoment = Moment(_data.reporting_date);
               let startOfMonth = dateMoment.startOf('month').format('YYYY-MM-DD');
               let endOfMonth = dateMoment.endOf('month').format('YYYY-MM-DD');
               this.router.navigate(['../patient-list']

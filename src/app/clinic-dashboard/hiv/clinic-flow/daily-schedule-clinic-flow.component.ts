@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { ClinicFlowCacheService
@@ -10,14 +10,14 @@ import { ClinicFlowCacheService
   templateUrl: './daily-schedule-clinic-flow.component.html'
 })
 
-export class DailyScheduleClinicFlowComponent {
+export class DailyScheduleClinicFlowComponent implements OnInit {
   public selectedDate: any;
   private _datePipe: DatePipe;
   constructor(private clinicFlowCache: ClinicFlowCacheService) {
     this._datePipe = new DatePipe('en-US');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
       this.selectedDate = this.clinicFlowCache.lastClinicFlowSelectedDate;
     } else {

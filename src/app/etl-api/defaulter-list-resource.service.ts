@@ -5,36 +5,37 @@ import { Observable } from 'rxjs/Observable';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class DefaulterListResourceService {
-    constructor(protected http: Http,
-                protected appSettingsService: AppSettingsService,
-                private cacheService: DataCacheService) { }
+  constructor(protected http: Http,
+              protected appSettingsService: AppSettingsService,
+              private cacheService: DataCacheService) {
+  }
 
-    getUrl(reportName): string {
-        return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
+  public getUrl(reportName): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
+  }
+
+  public getDefaulterList(params) {
+    let urlParams: URLSearchParams = new URLSearchParams();
+    if (!params.startIndex) {
+      params.startIndex = '0';
     }
-
-    getDefaulterList(params) {
-        let urlParams: URLSearchParams = new URLSearchParams();
-        if (!params.startIndex) {
-            params.startIndex = '0';
-        }
-        if (!params.limit) {
-            params.limit = '300';
-        }
-        urlParams.set('startIndex', params.startIndex);
-        urlParams.set('defaulterPeriod', params.defaulterPeriod);
-        urlParams.set('maxDefaultPeriod', params.maxDefaultPeriod);
-        urlParams.set('locationUuids', params.locationUuids);
-        urlParams.set('limit', params.limit);
-        let url = this.getUrl('defaulter-list');
-        let request = this.http.get(url, {
-            search: urlParams
-        })
-            .map((response: Response) => {
-                return response.json().result;
-            });
-        return this.cacheService.cacheRequest(url, urlParams, request);
-
+    if (!params.limit) {
+      params.limit = '300';
     }
+    urlParams.set('startIndex', params.startIndex);
+    urlParams.set('defaulterPeriod', params.defaulterPeriod);
+    urlParams.set('maxDefaultPeriod', params.maxDefaultPeriod);
+    urlParams.set('locationUuids', params.locationUuids);
+    urlParams.set('limit', params.limit);
+    let url = this.getUrl('defaulter-list');
+    let request = this.http.get(url, {
+      search: urlParams
+    })
+      .map((response: Response) => {
+        return response.json().result;
+      });
+    return this.cacheService.cacheRequest(url, urlParams, request);
+
+  }
 
 }

@@ -14,11 +14,11 @@ let _ = require('lodash');
 })
 export class PatientListComponent implements OnInit {
 
-  @Input() extraColumns: any;
-  @Input() overrideColumns: any;
-  @Input() data: any = [];
-  @Input() newList: any;
-  loadedTab: any;
+  @Input() public extraColumns: any;
+  @Input() public overrideColumns: any;
+  @Input() public data: any = [];
+  @Input() public newList: any;
+  public loadedTab: any;
   @Input()
   set options(value) {
     this._data.next(value);
@@ -38,7 +38,7 @@ export class PatientListComponent implements OnInit {
   constructor(private router: Router) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this._data
       .subscribe((x) => {
         this.loadedTab = x;
@@ -82,7 +82,7 @@ export class PatientListComponent implements OnInit {
     return this.data || [];
   }
 
-  loadSelectedPatient(event: any) {
+  public loadSelectedPatient(event: any) {
     let patientUuid = '';
     if (event) {
       patientUuid = event.node.data.uuid;

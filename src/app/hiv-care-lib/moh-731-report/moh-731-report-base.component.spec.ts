@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs/Rx';
 
 import { Moh731ReportBaseComponent } from './moh-731-report-base.component';
-import { Moh731ReportFilters } from './moh-731-report-filters.component';
+import { Moh731ReportFiltersComponent } from './moh-731-report-filters.component';
 import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
 import { Moh731ResourceServiceMock } from '../../etl-api/moh-731-resource.service.mock';
 
@@ -25,7 +25,7 @@ describe('Moh731ReportBaseComponent:', () => {
         TestBed.configureTestingModule({
             declarations: [
                 Moh731ReportBaseComponent,
-                Moh731ReportFilters
+              Moh731ReportFiltersComponent
             ],
             providers: [
                 { provide: Moh731ResourceService, useClass: Moh731ResourceServiceMock }

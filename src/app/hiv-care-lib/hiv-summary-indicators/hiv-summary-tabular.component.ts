@@ -12,9 +12,8 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 export class HivSummaryTabularComponent implements OnInit {
-  routeParamsSubscription: Subscription;
-  startDate: any;
-  endDate: any;
+  public startDate: any;
+  public endDate: any;
   public gridOptions: any = {
     columnDefs: []
   };
@@ -23,7 +22,7 @@ export class HivSummaryTabularComponent implements OnInit {
 
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
-
+  private routeParamsSubscription: Subscription;
   private _sectionDefs: Array<any>;
   public get sectionDefs(): Array<any> {
     return this._sectionDefs;
@@ -64,8 +63,8 @@ export class HivSummaryTabularComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute) { }
 
-  ngOnInit() { }
-  setColumns(sectionsData: Array<any>) {
+  public ngOnInit() { }
+  public setColumns(sectionsData: Array<any>) {
     let defs = [];
     defs.push({
       headerName: 'Location',
@@ -89,17 +88,17 @@ export class HivSummaryTabularComponent implements OnInit {
       this.agGrid.api.setColumnDefs(defs);
     }
   }
-  titleCase(str) {
+  public titleCase(str) {
     return str.toLowerCase().split(' ').map((word) => {
       return (word.charAt(0).toUpperCase() + word.slice(1));
     }).join(' ');
   }
 
-  onCellClicked(event) {
+  public onCellClicked(event) {
     this.goToPatientList(event);
   }
 
-  goToPatientList(data) {
+  public goToPatientList(data) {
     this.startDate = moment(this._dates.startDate);
     this.endDate = moment(this._dates.endDate);
     this.router.navigate(['../patient-list', data.colDef.field,

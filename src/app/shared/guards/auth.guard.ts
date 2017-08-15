@@ -7,15 +7,16 @@ export class AuthGuard implements CanActivate {
 
   constructor(private router: Router) { }
 
-  canActivate() {
+  public canActivate() {
 
     // TODO - use angular2 location object
     let previousRoute: string = window.location.toString();
 
     if (previousRoute && previousRoute.indexOf('#') !== -1) {
       previousRoute = previousRoute.substring(previousRoute.indexOf('#') + 1);
-    } else
+    } else {
       previousRoute = '/';
+    }
 
     sessionStorage.setItem('previousRoute', previousRoute);
 

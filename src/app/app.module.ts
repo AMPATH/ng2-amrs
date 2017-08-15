@@ -1,8 +1,6 @@
 import '../styles/styles.scss';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { BrowserModule } from '@angular/platform-browser';
-// import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule } from '@angular/forms';
@@ -23,14 +21,9 @@ import { ROUTES } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { About } from './about';
-import { NoContent } from './no-content';
-import { AuthenticationModule } from './authentication';
-import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
-import { AppSettingsModule } from './app-settings';
-import { UserDefaultPropertiesModule } from './user-default-properties';
+import { AboutComponent } from './about';
+import { NoContentComponent } from './no-content';
 import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.service';
-import { ResponsiveModule, ResponsiveConfig, ResponsiveConfigInterface } from 'ng2-responsive';
 import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
 import { HttpClient } from './shared/services/http-client.service';
 import { TitleCasePipe } from './shared/pipes/title-case.pipe';
@@ -38,11 +31,9 @@ import { LocalStorageService } from './utils/local-storage.service';
 import { SessionStorageService } from './utils/session-storage.service';
 import { CacheService } from 'ionic-cache/ionic-cache';
 import { DataCacheService } from './shared/services/data-cache.service';
-import { UsefulLinksModule } from './useful-links';
 import { FeedBackComponent } from './feedback';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
-import { PatientListCohortModule } from './patient-list-cohort/patient-list-cohort.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CookieModule } from 'ngx-cookie';
@@ -69,9 +60,9 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    About,
+    AboutComponent,
     TitleCasePipe,
-    NoContent,
+    NoContentComponent,
     FeedBackComponent
   ],
   imports: [ // import Angular's modules
@@ -80,8 +71,6 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     CookieModule.forRoot(),
     ModalModule.forRoot(),
     NgamrsSharedModule.forRoot(),
-    // BrowserModule,
-    // FormEntryModule,
     BusyModule.forRoot(
       {
         message: 'Please Wait...',
@@ -114,12 +103,6 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
-    // MainDashboardModule,
-    // AuthenticationModule,
-    // AppSettingsModule,
-    // UserDefaultPropertiesModule,
-    // UsefulLinksModule,
-    // LabOrderSearchModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
@@ -146,8 +129,10 @@ export class AppModule {
   constructor(public appRef: ApplicationRef, public appState: AppState) {
   }
 
-  hmrOnInit(store: StoreType) {
-    if (!store || !store.state) return;
+  public hmrOnInit(store: StoreType) {
+    if (!store || !store.state) {
+      return;
+    }
     console.log('HMR store', JSON.stringify(store, null, 2));
     // set state
     this.appState._state = store.state;

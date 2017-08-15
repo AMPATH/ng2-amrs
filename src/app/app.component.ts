@@ -9,8 +9,8 @@ declare const AgGridLicence: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Ampath POC';
-  routes: any[];
+  public title = 'Ampath POC';
+  private routes: any[];
   constructor(public appState: AppState, public dataCache: DataCacheService) {
     this.setUpAgGridLicense();
   }

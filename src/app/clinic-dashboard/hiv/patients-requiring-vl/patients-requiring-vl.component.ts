@@ -26,7 +26,7 @@ export class PatientsRequiringVLComponent
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
 
         this.route.parent.parent.url.subscribe((url) => {
             this.locationUuids = [];

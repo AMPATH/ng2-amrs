@@ -6,7 +6,7 @@ export class Moh731PatientListResourceService {
   constructor() {
   }
 
-  getMoh731PatientListReport(params): Observable<any> {
+  public getMoh731PatientListReport(params): Observable<any> {
     return Observable.of({
       'startIndex': 0,
       'size': 2,

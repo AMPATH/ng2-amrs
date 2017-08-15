@@ -19,7 +19,7 @@ export interface SerializableProperty {
 export function serializable(addToNewPayload: boolean = true,
                              addToUpdatePayload: boolean = true, name?: string) {
 
-  return function(target: any, key: any) {
+  return (target: any, key: any) => {
 
     Reflect.defineMetadata(METADATA_KEY_SERIALIZABLE,
       {
@@ -48,7 +48,7 @@ export function getSerializables(target: any): Array<SerializableProperty> {
   return serializables;
 }
 
-export function serialize(target: any, newPayload: boolean, prototype?: any): Object {
+export function serialize(target: any, newPayload: boolean, prototype?: any): object {
 
   return getSerializables(prototype || target).reduce((prev: any, prop: SerializableProperty) => {
 
@@ -58,15 +58,17 @@ export function serialize(target: any, newPayload: boolean, prototype?: any): Ob
     const openmrsDate = target[prop.key] as Date;
 
     if (newPayload) {
-      if (prop.addToNewPayload)
+      if (prop.addToNewPayload) {
         prev[prop.name] = isBaseModel || isOpenmrsDate ? (
           isOpenmrsDate ? openmrsDate.toServerTimezoneString()
             : baseModelVersion.uuid) : target[prop.key];
+      }
     } else {
-      if (prop.addToUpdatePayload)
+      if (prop.addToUpdatePayload) {
         prev[prop.name] = isBaseModel || isOpenmrsDate ? (
           isOpenmrsDate ? openmrsDate.toServerTimezoneString()
             : baseModelVersion.uuid) : target[prop.key];
+      }
     }
     return prev;
   }, {});

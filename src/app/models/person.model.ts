@@ -156,7 +156,7 @@ export class Person extends BaseModel {
     }
 
   }
-  getPersonAttribute(personAttributeTypeUuid) {
+  public getPersonAttribute(personAttributeTypeUuid) {
     if (this._attributes.length > 0) {
       for (let i in this._attributes) {
         if (this._attributes.hasOwnProperty(i)) {

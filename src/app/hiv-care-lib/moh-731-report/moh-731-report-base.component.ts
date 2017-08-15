@@ -65,10 +65,10 @@ export class Moh731ReportBaseComponent implements OnInit {
   constructor(public moh731Resource: Moh731ResourceService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  generateReport() {
+  public generateReport() {
     // set busy indications variables
     // clear error
     this.encounteredError = false;
@@ -98,13 +98,13 @@ export class Moh731ReportBaseComponent implements OnInit {
     this.currentIndicator = column.column.colId;
   }
 
-  toggleMohTables() {
+  public toggleMohTables() {
     this.showPatientList = false;
     this.showTabularView = true;
     this.showPatientListLoader = false;
   }
 
-  onLoadCompleted(complete) {
+  public onLoadCompleted(complete) {
     this.showPatientListLoader = false;
     this.showPatientList = true;
   }

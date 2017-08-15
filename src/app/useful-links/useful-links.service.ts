@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class UsefulLinksService {
   constructor() {}
 
-  getNativeWindow() {
+  public getNativeWindow() {
     return window;
   }
 }
