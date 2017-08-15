@@ -11,28 +11,28 @@ import { Subscription } from 'rxjs';
     providers: [FeedBackService, UserService, UserDefaultPropertiesService]
 })
 export class FeedBackComponent implements OnInit, OnDestroy {
-    payload = {
+    private payload = {
         name: '',
         phone: '',
         message: '',
         location: ''
     };
-    success = false;
-    error = false;
-    busy: Subscription;
-    errorMessage: string = '';
-    hasError: boolean = false;
-    r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
-    r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
-    patterns = new RegExp(this.r1.source + this.r2.source);
+    private success = false;
+    private error = false;
+    private busy: Subscription;
+    private errorMessage: string = '';
+    private hasError: boolean = false;
+    private r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
+    private r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+    private patterns = new RegExp(this.r1.source + this.r2.source);
     constructor(private feedBackService: FeedBackService,
                 private userService: UserService,
                 private userDefaultPropertiesService: UserDefaultPropertiesService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         if (this.busy) {
             this.busy.unsubscribe();
         }

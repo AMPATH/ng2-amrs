@@ -8,15 +8,15 @@ export class ClinicalSummaryVisualizationResourceService {
     constructor(protected http: Http, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
-    getUrl(reportName): string {
+    public getUrl(reportName): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}`;
     }
 
-    getPatientListUrl(reportName): string {
+    public getPatientListUrl(reportName): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}/patient-list`;
     }
 
-    getUrlRequestParams(params): URLSearchParams {
+    public getUrlRequestParams(params): URLSearchParams {
         let urlParams: URLSearchParams = new URLSearchParams();
         if (!params.startIndex) {
             params.startIndex = '0';
@@ -36,7 +36,7 @@ export class ClinicalSummaryVisualizationResourceService {
         return urlParams;
     }
 
-    getHivComparativeOverviewReport(params) {
+    public getHivComparativeOverviewReport(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl('clinical-hiv-comparative-overview');
         let request = this.http.get(url, {
@@ -50,7 +50,7 @@ export class ClinicalSummaryVisualizationResourceService {
 
     }
 
-    getReportOverviewPatientList(reportName: string, params: any) {
+    public getReportOverviewPatientList(reportName: string, params: any) {
       let urlParams = this.getUrlRequestParams(params);
       let url = this.getPatientListUrl(reportName);
       let request = this.http.get(url, {
@@ -63,7 +63,7 @@ export class ClinicalSummaryVisualizationResourceService {
       return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
-    getHivComparativeOverviewPatientList(params) {
+    public getHivComparativeOverviewPatientList(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getPatientListUrl('clinical-hiv-comparative-overview');
         let request = this.http.get(url, {
@@ -77,7 +77,7 @@ export class ClinicalSummaryVisualizationResourceService {
         return request;
     }
 
-    getArtOverviewReport(params) {
+    public getArtOverviewReport(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl('clinical-art-overview');
         let request = this.http.get(url, {
@@ -90,7 +90,7 @@ export class ClinicalSummaryVisualizationResourceService {
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
-    getArtOverviewReportPatientList(params) {
+    public getArtOverviewReportPatientList(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getPatientListUrl('clinical-art-overview');
         let request = this.http.get(url, {
@@ -103,7 +103,7 @@ export class ClinicalSummaryVisualizationResourceService {
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
-    getPatientCareStatusReport(params) {
+    public getPatientCareStatusReport(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl('clinical-patient-care-status-overview');
         let request = this.http.get(url, {
@@ -116,7 +116,7 @@ export class ClinicalSummaryVisualizationResourceService {
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
-    getPatientCareStatusReportList(params) {
+    public getPatientCareStatusReportList(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getPatientListUrl('clinical-patient-care-status-overview');
         let request = this.http.get(url, {

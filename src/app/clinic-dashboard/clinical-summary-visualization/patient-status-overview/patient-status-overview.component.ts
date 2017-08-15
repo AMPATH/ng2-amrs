@@ -15,19 +15,19 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
   encapsulation: ViewEncapsulation.None
 })
 export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
-  @Input() data: any;
-  patientStatusData: any;
-  startDate: any;
-  endDate: any;
-  location: any;
-  startIndex: any = 0;
-  limit: any = 0;
-  fetchError: boolean = false;
-  patientList: any;
-  @Input() indicatorDef: any;
-  patientCounts: any;
-  loadingPatientStatus: boolean = false;
-  chartTitle = 'A comparative chart showing patient care status statistics';
+  @Input() public data: any;
+  @Input() public indicatorDef: any;
+  public loadingPatientStatus: boolean = false;
+  private patientStatusData: any;
+  private startDate: any;
+  private endDate: any;
+  private location: any;
+  private startIndex: any = 0;
+  private limit: any = 0;
+  private fetchError: boolean = false;
+  private patientList: any;
+  private patientCounts: any;
+  private chartTitle = 'A comparative chart showing patient care status statistics';
   private _data = new BehaviorSubject<any>([]);
   constructor(private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
               private router: Router,
@@ -49,7 +49,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
   get options() {
     return this._data.getValue();
   }
-  ngOnInit() {
+  public ngOnInit() {
     if (this._data) {
 
       this._data
@@ -72,11 +72,11 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
     }
 
   }
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.changeDetectionRef.detectChanges();
   }
 
-  getPatientStatusOverviewData() {
+  public getPatientStatusOverviewData() {
     console.log('this.location===', this.location);
     this.loadingPatientStatus = true;
     this.visualizationResourceService.getPatientCareStatusReport(
@@ -104,7 +104,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
         });
 
   }
-  generatePatientStatusOverviewChart(result) {
+  public generatePatientStatusOverviewChart(result) {
     let startDate = Moment(this.startDate).format('DD/MM/YYYY');
     let endDate = Moment(this.endDate).format('DD/MM/YYYY');
     let chartData  = [];
@@ -202,7 +202,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
       }]
     };
   }
-  generatePatientList(point) {
+  public generatePatientList(point) {
     let startDate = Moment(this.startDate).format('DD/MM/YYYY');
     let endDate = Moment(this.endDate).format('DD/MM/YYYY');
     this.router.navigate(['./patient-list', 'clinical-patient-care-status-overview',

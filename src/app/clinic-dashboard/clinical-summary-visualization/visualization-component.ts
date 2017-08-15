@@ -17,21 +17,21 @@ import { ClinicalSummaryVisualizationService
   encapsulation: ViewEncapsulation.None
 })
 export class VisualizationComponent implements OnInit, AfterViewInit {
-  @Input() filterModel: any;
-  artChartOptions: any = {};
-  startDate: any;
-  endDate: any;
-  _startDate: any;
-  _endDate: any;
-  loadingHivCare: boolean = false;
-  loadingArt: boolean = false;
-  loadingPatientStatus: boolean = false;
-  locationUuid: any;
-  hivComparativeChartOptions: any = {};
-  options: any = {
+  @Input() public filterModel: any;
+  public hivComparativeChartOptions: any = {};
+  public options: any = {
     date_range: true
   };
-  patientStatusChartOptionsFilters: any;
+  public  startDate: any;
+  public endDate: any;
+  public loadingHivCare: boolean = false;
+  public loadingArt: boolean = false;
+  public loadingPatientStatus: boolean = false;
+  private artChartOptions: any = {};
+  private _startDate: any;
+  private _endDate: any;
+  private locationUuid: any;
+  private patientStatusChartOptionsFilters: any;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private changeDetectionRef: ChangeDetectorRef,
               private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
@@ -49,7 +49,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
     this.filterModel['locationUuid'] = this.locationUuid;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     /**
      * Subscribe to the service for consistency when filters change
      */
@@ -68,11 +68,11 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
      this.changeDetectionRef.detectChanges();
   }
 
-  renderCharts() {
+  public renderCharts() {
     this.patientStatusChartOptionsFilters = {filtered: this.filterModel,
       };
     // loading: this.loadingArt
@@ -80,7 +80,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
     this.generateHIVCareComparativeOverviewChart();
   }
 
-  generateArtOverview() {
+  public generateArtOverview() {
     this.loadingArt = true;
     let _options = {};
     let subtitle = '';
@@ -132,7 +132,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
 
   }
 
-  generateHIVCareComparativeOverviewChart() {
+  public generateHIVCareComparativeOverviewChart() {
     this.loadingHivCare = true;
     let _options = {};
     let subtitle = '';

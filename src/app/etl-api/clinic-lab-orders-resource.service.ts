@@ -10,12 +10,12 @@ export class ClinicLabOrdersResourceService {
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
               protected dataCache: DataCacheService) { }
 
-  getUrl(reportName, selectedDate): string {
+  public getUrl(reportName, selectedDate): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}/${selectedDate}`;
 
   }
 
-  getClinicLabOrders(params): Observable<any> {
+  public getClinicLabOrders(params): Observable<any> {
     let url = this.getUrl('clinic-lab-orders', params.dateActivated);
     let urlParams: URLSearchParams = new URLSearchParams();
     urlParams.set('locationUuids', params.locationUuids);

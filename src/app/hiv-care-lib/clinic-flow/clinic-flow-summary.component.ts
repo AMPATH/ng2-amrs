@@ -6,24 +6,24 @@ import * as Moment from 'moment';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';
-let _ = require('lodash');
+import * as _ from 'lodash';
 @Component({
     selector: 'clinic-flow-summary',
     templateUrl: './clinic-flow-summary.component.html'
 })
 
 export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
-    errors: any[] = [];
-    clinicFlowData: any[] = [];
-    hourlyStats: any[] = [];
-    loadingClinicFlow: boolean = false;
-    summarydataLoaded: boolean = false;
-    averageWaitingTime: any;
-    medianWaitingTime: any;
-    incompleteVisitsCount: any;
-    selectedLocation: any;
-    selectedDate: any;
-    dataLoaded: boolean = false;
+    public errors: any[] = [];
+    public clinicFlowData: any[] = [];
+    public hourlyStats: any[] = [];
+    public loadingClinicFlow: boolean = false;
+    public summarydataLoaded: boolean = false;
+    public averageWaitingTime: any;
+    public medianWaitingTime: any;
+    public incompleteVisitsCount: any;
+    public selectedLocation: any;
+    public selectedDate: any;
+    public dataLoaded: boolean = false;
     private clinicFlowSubscription: Subscription;
     private currentLocationSubscription: Subscription;
     private selectedDateSubscription: Subscription;
@@ -32,7 +32,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
                 private router: Router,
                 @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
             .subscribe((clinic) => {
                 this.selectedLocation = clinic;
@@ -51,7 +51,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.clinicFlowSubscription) {
             this.clinicFlowSubscription.unsubscribe();
         }
@@ -98,7 +98,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
         }
     }
 
-    initParams() {
+    public initParams() {
         this.loadingClinicFlow = false;
         this.dataLoaded = false;
         this.errors = [];

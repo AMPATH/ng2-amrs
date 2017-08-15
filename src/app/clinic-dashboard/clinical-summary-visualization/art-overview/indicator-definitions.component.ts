@@ -9,7 +9,7 @@ import * as _ from 'lodash';
     encapsulation: ViewEncapsulation.None
 })
 export class ArtOverviewIndicatorDefComponent implements OnInit {
-    indicatorDefinitionsArr: Array<any>;
+    public indicatorDefinitionsArr: Array<any>;
     private _data = new BehaviorSubject<any>([]);
     constructor() {
     }
@@ -20,7 +20,7 @@ export class ArtOverviewIndicatorDefComponent implements OnInit {
     get indicatorDefinitions() {
         return this._data.getValue();
     }
-    ngOnInit() {
+    public ngOnInit() {
         this._data
             .subscribe((x) => {
                 if (x) {
@@ -28,7 +28,7 @@ export class ArtOverviewIndicatorDefComponent implements OnInit {
                 }
             });
     }
-    createIndicatorDefinitionsDictionary(indicatorDefinitions) {
+    public createIndicatorDefinitionsDictionary(indicatorDefinitions) {
         let arr = [];
         let dictionary = {};
         _.each(indicatorDefinitions, (indicatorDefinition) => {

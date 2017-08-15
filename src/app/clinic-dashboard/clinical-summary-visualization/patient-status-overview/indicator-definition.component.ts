@@ -9,7 +9,7 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class PatientStatusIndicatorDefComponent implements OnInit {
-  indicatorDes: any;
+  public indicatorDes: any;
   private _data = new BehaviorSubject<any>([]);
   constructor() {
   }
@@ -20,7 +20,7 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
   get indicatorDefinition() {
     return this._data.getValue();
   }
-  ngOnInit() {
+  public ngOnInit() {
     this._data
       .subscribe((x) => {
         if (x) {
@@ -28,7 +28,7 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
         }
       });
   }
-  processResult(result) {
+  public processResult(result) {
     let des = [];
     let obj = {};
     _.each(result, (data) => {

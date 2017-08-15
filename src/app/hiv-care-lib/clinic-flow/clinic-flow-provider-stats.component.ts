@@ -6,7 +6,7 @@ import { BehaviorSubject, Subscription } from 'rxjs/Rx';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';
-let _ = require('lodash');
+import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 @Component({
   selector: 'clinic-flow-provider-stats',
@@ -14,20 +14,20 @@ import { AgGridNg2 } from 'ag-grid-angular';
 })
 
 export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
-  errors: any[] = [];
-  clinicFlowData: any[] = [];
-  loadingClinicFlow: boolean = false;
-  dataLoaded: boolean = false;
-  selectedLocation: any;
-  selectedDate: any;
-  providerEncounters: any = [];
-  patientStatuses: any = [];
-  finalProviderReport: any = [];
+  public errors: any[] = [];
+  public clinicFlowData: any[] = [];
   public gridOptions: any = {
     columnDefs: []
   };
+  private loadingClinicFlow: boolean = false;
+  private dataLoaded: boolean = false;
+  private selectedLocation: any;
+  private selectedDate: any;
+  private providerEncounters: any = [];
+  private patientStatuses: any = [];
+  private finalProviderReport: any = [];
   @ViewChild('agGrid')
-  public agGrid: AgGridNg2;
+  private agGrid: AgGridNg2;
   private currentLocationSubscription: Subscription;
   private selectedDateSubscription: Subscription;
   private clinicFlowSubscription: Subscription;
@@ -36,7 +36,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
               private router: Router,
               @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
       .subscribe((clinic) => {
         this.selectedLocation = clinic;
@@ -59,7 +59,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
 
   }
 
-  loadSelectedPatient(event: any) {
+  public loadSelectedPatient(event: any) {
     let patientUuid = '';
     if (event) {
       patientUuid = event.node.data.uuid;
@@ -72,17 +72,17 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
 
-  setColumns(sectionsData: Array<any>) {
+  public setColumns(sectionsData: Array<any>) {
     let header = [];
     let defs = [];
-    let uniqueKeys = Object.keys(sectionsData.reduce(function(result, obj) {
+    let uniqueKeys = Object.keys(sectionsData.reduce((result, obj) => {
       return Object.assign(result, obj);
     }, {}));
     // move the #seen column to be at index 2
     uniqueKeys.splice(uniqueKeys.indexOf('#_Seen'), 1 );
     uniqueKeys.splice(2, 0, '#_Seen');
-    for (let i = 0; i < uniqueKeys.length ; ++i) {
-      header.push({label: uniqueKeys[i]});
+    for (let i of uniqueKeys) {
+      header.push({label: i});
     }
     if (header) {
       defs.push({
@@ -91,7 +91,8 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
         pinned: 'left'
       });
       let personName = 'Person_Name';
-      header = header.filter(function(el){ return el.label !== personName; });
+      header = header.filter((el) => {
+         return el.label !== personName; });
       _.each(  header, (keys) => {
         defs.push({
           headerName: this.titleCase(keys.label),
@@ -106,13 +107,13 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     }
   }
 
-  titleCase(str) {
+  public titleCase(str) {
     return str.toLowerCase().split('_').map((word) => {
       return (word.charAt(0).toUpperCase() + word.slice(1));
     }).join(' ');
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.currentLocationSubscription) {
       this.currentLocationSubscription.unsubscribe();
     }
@@ -164,7 +165,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       );
     }
   }
-  transformVisitsToDummyEncounters(result) {
+  public transformVisitsToDummyEncounters(result) {
     _.each(result, (data) => {
       // reconstructing an array of objects to contain all provider encounters
       this.providerEncounters.push.apply(this.providerEncounters, data.encounters);
@@ -186,7 +187,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     });
 
   }
-  groupEncountersByProvider() {
+  public groupEncountersByProvider() {
     let providersPersonIds = [ ];
     let uniqueProviderPersonIds = {};
     for ( let i in this.providerEncounters ) {
@@ -200,12 +201,12 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     }
     this._constructFinalProviderReport(providersPersonIds);
   }
-  getTotalPatientSeenByProvider(arrayOfObjects, visits) {
+  public getTotalPatientSeenByProvider(arrayOfObjects, visits) {
 
     let result = [];
 
-    for (let i = 0; i < arrayOfObjects.length ; ++i) {
-      let data = arrayOfObjects[i];
+    for (let i of arrayOfObjects) {
+      let data = i;
       let sum = 0;
       for (let x in data) {
         if (x !== visits) {

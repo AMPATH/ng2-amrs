@@ -26,7 +26,7 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
     }
     constructor() { }
 
-    ngOnInit() {
+    public ngOnInit() {
         // let testData: Array<any> = [
         //     {
         //         'time': '8',
@@ -190,24 +190,24 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
 
         _.each(categories, (category) => {
             let found = false;
-            for (let i = 0; i < data.length; i++) {
-                if (moment(data[i].time, 'H').isSame(moment(category, 'HH:mm'))) {
+            for (let i of data) {
+                if (moment(i.time, 'H').isSame(moment(category, 'HH:mm'))) {
                     found = true;
 
-                    if (data[i].registered && data[i].registered !== null) {
-                        registered.push(data[i].registered);
+                    if (i.registered && i.registered !== null) {
+                        registered.push(i.registered);
                     } else {
                         registered.push(0);
                     }
 
-                    if (data[i].triaged && data[i].triaged !== null) {
-                        triaged.push(data[i].triaged);
+                    if (i.triaged && i.triaged !== null) {
+                        triaged.push(i.triaged);
                     } else {
                         triaged.push(0);
                     }
 
-                    if (data[i].seen && data[i].seen !== null) {
-                        seen.push(data[i].seen);
+                    if (i.seen && i.seen !== null) {
+                        seen.push(i.seen);
                     } else {
                         seen.push(0);
                     }

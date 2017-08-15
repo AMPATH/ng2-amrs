@@ -11,16 +11,16 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class ClinicFlowComponent implements OnInit, OnDestroy {
-  selectedTab: any = 0;
-  currentLocationSubscription: Subscription;
-  hasError: boolean = false;
-  @Input('locations') locationUuids: any;
-  @Input('date') selectedDate: any;
+  public selectedTab: any = 0;
+  public hasError: boolean = false;
+  @Input('locations') public locationUuids: any;
+  @Input('date') public selectedDate: any;
+  private currentLocationSubscription: Subscription;
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
                 private route: ActivatedRoute,
                 @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
-    ngOnInit() {
+    public ngOnInit() {
 
       this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
         .subscribe((clinic) => {
@@ -38,7 +38,7 @@ export class ClinicFlowComponent implements OnInit, OnDestroy {
       }
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
       this.hasError = false;
     }
 }
