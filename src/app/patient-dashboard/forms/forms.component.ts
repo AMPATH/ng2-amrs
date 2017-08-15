@@ -15,12 +15,12 @@ export class FormsComponent implements OnInit {
               private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Forms Component Loaded', 'ngOnInit');
   }
 
-  formSelected(form) {
+  public formSelected(form) {
     console.log('Form Selected', form);
     if (form) {
       // @Analytics: indicate the start of form loading

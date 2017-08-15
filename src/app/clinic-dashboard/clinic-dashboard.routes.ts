@@ -7,7 +7,7 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
 import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
-import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
+import { DailyScheduleNotReturnedComponent } from './daily-schedule/daily-schedule-not-returned.component';
 
 // import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
 // import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
@@ -63,7 +63,7 @@ export const routes = [
               { path: '', redirectTo: 'daily-appointments', pathMatch: 'prefix' },
               { path: 'daily-visits', component: DailyScheduleVisitsComponent },
               { path: 'daily-appointments', component: DailyScheduleAppointmentsComponent },
-              { path: 'daily-not-returned', component: DailyScheduleNotReturned },
+              { path: 'daily-not-returned', component: DailyScheduleNotReturnedComponent },
               {
                 path: 'clinic-flow', component: DailyScheduleClinicFlowComponent,
                 children: [

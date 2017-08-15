@@ -9,7 +9,7 @@ export class VisitResourceService {
 
     constructor(private http: Http, private appSettingsService: AppSettingsService) { }
 
-    getVisitByUuid(uuid: string, searchParams): Observable<any> {
+    public getVisitByUuid(uuid: string, searchParams): Observable<any> {
         if (!uuid || !searchParams) {
             return null;
         }
@@ -23,7 +23,7 @@ export class VisitResourceService {
             .catch(this.handleError);
     }
 
-    getPatientVisits(searchParams) {
+    public getPatientVisits(searchParams) {
         if (!searchParams) {
             return null;
         }
@@ -43,7 +43,7 @@ export class VisitResourceService {
             .catch(this.handleError);
     }
 
-    getVisitTypes(searchParams) {
+    public getVisitTypes(searchParams) {
         if (!searchParams) {
             return null;
         }
@@ -54,7 +54,7 @@ export class VisitResourceService {
             .catch(this.handleError);
     }
 
-    saveVisit(payload) {
+    public saveVisit(payload) {
         if (!payload) {
             return null;
         }
@@ -65,7 +65,7 @@ export class VisitResourceService {
             .catch(this.handleError);
     }
 
-    updateVisit(uuid, payload) {
+    public updateVisit(uuid, payload) {
         if (!payload || !uuid) {
             return null;
         }
@@ -76,7 +76,7 @@ export class VisitResourceService {
             .catch(this.handleError);
     }
 
-    getVisitEncounters(uuid) {
+    public getVisitEncounters(uuid) {
         if (!uuid) {
             return null;
         }

@@ -7,19 +7,19 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 @Injectable()
 export class CohortMemberResourceService {
 
-    baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
+    public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
 
     constructor(private _http: Http , private _appSettingsService: AppSettingsService) {
     }
 
-    getOpenMrsBaseUrl(): string {
+    public getOpenMrsBaseUrl(): string {
 
         return this._appSettingsService.getOpenmrsRestbaseurl().trim();
     }
 
     // Fetch all non-retired
 
-    getAllCohortMembers(parentUuid): Observable <any> {
+    public getAllCohortMembers(parentUuid): Observable <any> {
 
          if (!parentUuid) {
             return null;
@@ -35,7 +35,7 @@ export class CohortMemberResourceService {
 
     // Fetch specific Cohort
 
-    getCohortMember(parentUuid, uuid): Observable <any> {
+    public getCohortMember(parentUuid, uuid): Observable <any> {
 
          if (!parentUuid || !uuid) {
             return null;
@@ -54,7 +54,7 @@ export class CohortMemberResourceService {
     }
 
     // Add Cohort member
-    addCohortMember(parentUuid, payload): Observable <any> {
+    public addCohortMember(parentUuid, payload): Observable <any> {
 
          if (!payload || !parentUuid) {
             return null;
@@ -72,7 +72,7 @@ export class CohortMemberResourceService {
 
     // Retire/Void Cohort
 
-    retireCohortMember(parentUuid , uuid ): Observable<any> {
+    public retireCohortMember(parentUuid , uuid ): Observable<any> {
 
          if (!uuid || !parentUuid) {
             return null;

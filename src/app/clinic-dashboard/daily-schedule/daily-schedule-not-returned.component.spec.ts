@@ -10,7 +10,7 @@ import {
   DailyScheduleResourceService
 } from
   '../../etl-api/daily-scheduled-resource.service';
-import { DailyScheduleNotReturned } from './daily-schedule-not-returned.component';
+import { DailyScheduleNotReturnedComponent } from './daily-schedule-not-returned.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
@@ -62,7 +62,7 @@ describe('Component: DailyScheduleNotReturned', () => {
         }
 
       ],
-      declarations: [DailyScheduleNotReturned],
+      declarations: [DailyScheduleNotReturnedComponent],
       imports: [BusyModule,
         FormsModule,
         DialogModule,
@@ -74,7 +74,7 @@ describe('Component: DailyScheduleNotReturned', () => {
 
   beforeEach(async(() => {
     TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(DailyScheduleNotReturned);
+      fixture = TestBed.createComponent(DailyScheduleNotReturnedComponent);
       component = fixture.componentInstance;
     });
   }));
@@ -86,7 +86,7 @@ describe('Component: DailyScheduleNotReturned', () => {
   it('should create an instance', () => {
     clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
     dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
-    let appointmentsComponent = new DailyScheduleNotReturned(clinicDashBoardCacheService,
+    let appointmentsComponent = new DailyScheduleNotReturnedComponent(clinicDashBoardCacheService,
       dailyScheduleResource);
     expect(appointmentsComponent).toBeTruthy();
   });

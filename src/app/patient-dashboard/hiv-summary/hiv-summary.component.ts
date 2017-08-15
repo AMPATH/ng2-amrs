@@ -10,7 +10,7 @@ export class HivSummaryComponent implements OnInit {
   constructor(private appFeatureAnalytics: AppFeatureAnalytics) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Hiv Summary Loaded', 'ngOnInit');
   }

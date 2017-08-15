@@ -5,20 +5,20 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class EncounterResourceService {
-    v: string = 'custom:(uuid,encounterDatetime,' +
+    public v: string = 'custom:(uuid,encounterDatetime,' +
     'patient:(uuid,uuid),form:(uuid,name),' +
     'visit:(uuid,display,auditInfo,startDatetime,stopDatetime,location:(uuid,display)' +
             ',visitType:(uuid,name)),' +
     'location:ref,encounterType:ref,provider:ref)';
 
     constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
-    getUrl(): string {
+    public getUrl(): string {
 
         return this.appSettingsService.getOpenmrsRestbaseurl().trim();
     }
 
-    getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
-                               v: string = null): Observable<any> {
+    public getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
+                                      v: string = null): Observable<any> {
         if (!patientUuid) {
             return null;
         }
@@ -34,7 +34,7 @@ export class EncounterResourceService {
             return response.json().results;
         });
     }
-    getEncounterByUuid(uuid: string): Observable<any> {
+    public getEncounterByUuid(uuid: string): Observable<any> {
         if (!uuid) {
             return null;
         }
@@ -50,7 +50,7 @@ export class EncounterResourceService {
             return response.json();
         });
     }
-    getEncounterTypes(v: string) {
+    public getEncounterTypes(v: string) {
         if (!v) {
             return null;
         }
@@ -60,7 +60,7 @@ export class EncounterResourceService {
         });
     }
 
-    saveEncounter(payload) {
+    public saveEncounter(payload) {
         if (!payload) {
             return null;
         }
@@ -73,7 +73,7 @@ export class EncounterResourceService {
             });
     }
 
-    updateEncounter(uuid, payload) {
+    public updateEncounter(uuid, payload) {
         if (!payload || !uuid) {
             return null;
         }
@@ -86,7 +86,7 @@ export class EncounterResourceService {
             });
     }
 
-    voidEncounter(uuid) {
+    public voidEncounter(uuid) {
         if (!uuid) {
             return null;
         }

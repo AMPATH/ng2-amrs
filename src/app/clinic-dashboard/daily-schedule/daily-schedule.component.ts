@@ -14,11 +14,11 @@ import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-fl
 })
 export class DailyScheduleComponent implements OnInit {
 
-  errors: any[] = [];
-  selectedDate: any;
-  selectedLocation: any;
-  loadingData: boolean = true;
-  @Output() selectedSchedule = new EventEmitter();
+  public errors: any[] = [];
+  public selectedDate: any;
+  public selectedLocation: any;
+  public loadingData: boolean = true;
+  @Output() public selectedSchedule = new EventEmitter();
   public msgs: Message[] = [];
   public reportFilter: any = { ageRange: [40, 70] };
   public dataToBind: any = {
@@ -43,7 +43,7 @@ export class DailyScheduleComponent implements OnInit {
     this._datePipe = new DatePipe('en-US');
 
   }
-  ngOnInit() {
+  public ngOnInit() {
     this.setActiveTab();
     this.updateCurrentDate();
     // this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
@@ -63,7 +63,7 @@ export class DailyScheduleComponent implements OnInit {
     }
   }
 
-  setActiveTab() {
+  public setActiveTab() {
     if (this.router.url) {
       let path = this.router.url;
       let n = this.router.url.indexOf('?');
@@ -74,7 +74,7 @@ export class DailyScheduleComponent implements OnInit {
     }
   }
 
-  updateCurrentDate() {
+  public updateCurrentDate() {
     if (this.route && this.route.queryParams) {
       this.route.queryParams.subscribe((params) => {
         if (params['date']) {
@@ -90,7 +90,7 @@ export class DailyScheduleComponent implements OnInit {
 
   }
 
-  getSelectedDate(date) {
+  public getSelectedDate(date) {
     let m = Moment(this.selectedDate).format('yyyy-MM-dd');
     this.selectedDate = date;
     this.clinicDashboardCacheService.setDailyTabCurrentDate(date);
@@ -127,7 +127,7 @@ export class DailyScheduleComponent implements OnInit {
     return JSON.stringify(this.dataToBind);
   }
 
-  getDate(dateObject: any) {
+  public getDate(dateObject: any) {
     return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
   }
 

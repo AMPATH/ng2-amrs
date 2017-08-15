@@ -11,32 +11,32 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
-    loadingHivSummary: boolean = false;
-    hivSummaries: Array<any> = [];
-    patient: Patient;
-    patientUuid: any;
-    subscription: Subscription;
-    experiencedLoadingError: boolean = false;
-    dataLoaded: boolean = false;
-    errors: any = [];
-    isLoading: boolean;
-    nextStartIndex: number = 0;
+    public loadingHivSummary: boolean = false;
+    public hivSummaries: Array<any> = [];
+    public patient: Patient;
+    public patientUuid: any;
+    public subscription: Subscription;
+    public experiencedLoadingError: boolean = false;
+    public dataLoaded: boolean = false;
+    public errors: any = [];
+    public isLoading: boolean;
+    public nextStartIndex: number = 0;
 
     constructor(private hivSummaryService: HivSummaryService,
                 private patientService: PatientService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.getPatient();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
       if (this.subscription) {
         this.subscription.unsubscribe();
       }
     }
 
-    getPatient() {
+    public getPatient() {
         this.loadingHivSummary = true;
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
@@ -56,7 +56,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
             });
     }
 
-    loadHivSummary(patientUuid, nextStartIndexs) {
+    public loadHivSummary(patientUuid, nextStartIndexs) {
         this.hivSummaryService.getHivSummary(
           patientUuid, this.nextStartIndex, 20, false)
             .subscribe((data) => {
@@ -87,7 +87,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
             }
             );
     }
-    loadMoreHivSummary() {
+    public loadMoreHivSummary() {
       this.isLoading = true;
       this.loadHivSummary(this.patientUuid, this.nextStartIndex);
     }

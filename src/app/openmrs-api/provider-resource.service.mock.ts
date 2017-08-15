@@ -7,7 +7,7 @@ import { PersonResourceService } from './person-resource.service';
  * FakeProgramEnrollmentResourceService
  */
 export class FakeProviderResourceService {
-  returnErrorOnNext: boolean = false;
+  public returnErrorOnNext: boolean = false;
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
               protected personService: PersonResourceService) {
@@ -49,8 +49,8 @@ export class FakeProviderResourceService {
     );
     return subject;
   }
-  searchProvider(searchText: string,
-                 cached: boolean = false, v: string = null): Observable<any> {
+  public searchProvider(searchText: string,
+                        cached: boolean = false, v: string = null): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let provider = [
       {

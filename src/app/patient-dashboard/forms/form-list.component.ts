@@ -9,19 +9,19 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
     styleUrls: ['./form-list.component.css']
 })
 export class FormListComponent implements OnInit {
-    @Input() excludedForms = [];
-    @Output() onFormSelected = new EventEmitter();
-    forms: Array<Form>;
-    selectedForm: Form;
-    filterTerm: string = '';
+    @Input() public excludedForms = [];
+    @Output() public onFormSelected = new EventEmitter();
+    public forms: Array<Form>;
+    public selectedForm: Form;
+    public filterTerm: string = '';
     constructor(private formListService: FormListService,
                 private formOrderMetaDataService: FormOrderMetaDataService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.getForms();
     }
 
-    getForms() {
+    public getForms() {
         this.forms = [];
         this.formListService.getFormList().subscribe(
             (forms) => {
@@ -39,9 +39,11 @@ export class FormListComponent implements OnInit {
             }
         );
     }
-    toggleFavourite($event, form: Form) {
+    public toggleFavourite($event, form: Form) {
         $event.stopPropagation();
-        if (form === undefined || form === null) throw new Error('Form is required');
+        if (form === undefined || form === null) {
+            throw new Error('Form is required');
+        }
         if (form['favourite'] === true) {
             this.formOrderMetaDataService.removeFavouriteForm(form.name);
         } else {
@@ -49,16 +51,16 @@ export class FormListComponent implements OnInit {
         }
         this.getForms();
     }
-    formSelected($event, form: Form) {
+    public formSelected($event, form: Form) {
         $event.stopPropagation();
         this.selectedForm = form;
         this.onFormSelected.emit(form);
     }
-    valuechange(newValue) {
+    public valuechange(newValue) {
         this.filterTerm = newValue;
     }
 
-    isLoading(form: Form): boolean {
+    public isLoading(form: Form): boolean {
         return form === this.selectedForm;
     }
 }

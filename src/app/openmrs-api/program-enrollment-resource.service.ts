@@ -37,7 +37,7 @@ export class ProgramEnrollmentResourceService {
     });
   }
 
-  saveUpdateProgramEnrollment(payload) {
+  public saveUpdateProgramEnrollment(payload) {
     if (!payload) {
       return null;
     }

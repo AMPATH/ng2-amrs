@@ -1,10 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-
-import {
-  DailyScheduleResourceService
-} from
-  '../../etl-api/daily-scheduled-resource.service';
+import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs/Rx';
 import * as Moment from 'moment';
 @Component({
@@ -12,18 +8,18 @@ import * as Moment from 'moment';
   templateUrl: './daily-schedule-not-returned.component.html',
   styleUrls: ['./daily-schedule.component.css']
 })
-export class DailyScheduleNotReturned implements OnInit, OnDestroy {
-  @Input() selectedDate: any;
-  @Input() tab: any;
-  @Input() newList: any;
-  errors: any[] = [];
-  notReturnedPatientList: any[] = [];
-  loadingDailyNotReturned: boolean = false;
-  currentTabLoaded: boolean = false;
-  dataLoaded: boolean = false;
-  nextStartIndex: number = 0;
-  selectedNotReturnedTab: any;
-  extraColumns: any = {
+export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
+  @Input() public selectedDate: any;
+  @Input() public tab: any;
+  @Input() public newList: any;
+  public errors: any[] = [];
+  public notReturnedPatientList: any[] = [];
+  public loadingDailyNotReturned: boolean = false;
+  public currentTabLoaded: boolean = false;
+  public dataLoaded: boolean = false;
+  public nextStartIndex: number = 0;
+  public selectedNotReturnedTab: any;
+  public extraColumns: any = {
     headerName: 'Phone Number',
     width: 80,
     field: 'phone_number'
@@ -45,7 +41,7 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
               private dailyScheduleResource: DailyScheduleResourceService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.selectedDate = Moment().format('YYYY-MM-DD');
     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
@@ -66,10 +62,10 @@ export class DailyScheduleNotReturned implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
 
   }
-  loadMoreNotReturned() {
+  public loadMoreNotReturned() {
 
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);

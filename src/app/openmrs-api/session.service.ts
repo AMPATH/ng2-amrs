@@ -10,12 +10,12 @@ export class SessionService {
   constructor(private http: Http, private appSettingsService: AppSettingsService) {
   }
 
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'session';
   }
 
-  getSession(credentials: any = null) {
+  public getSession(credentials: any = null) {
 
     let headers = new Headers();
 
@@ -32,7 +32,7 @@ export class SessionService {
     });
   }
 
-  deleteSession() {
+  public deleteSession() {
 
     let url = this.getUrl();
 
