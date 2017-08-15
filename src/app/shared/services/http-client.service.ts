@@ -9,7 +9,7 @@ import { SessionStorageService } from '../../utils/session-storage.service';
 import { Constants } from '../../utils/constants';
 export class HttpClient extends Http {
     constructor(backend: ConnectionBackend, defaultOptions: RequestOptions,
-        private _router: Router, private sessionStorageService: SessionStorageService) {
+                private _router: Router, private sessionStorageService: SessionStorageService) {
         super(backend, defaultOptions);
     }
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {

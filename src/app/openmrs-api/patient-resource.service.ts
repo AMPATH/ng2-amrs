@@ -56,7 +56,7 @@ export class PatientResourceService {
       return response.json();
     });
   }
-  saveUpdatePatientIdentifier(uuid, identifierUuid, payload):  Observable<any> {
+  saveUpdatePatientIdentifier(uuid, identifierUuid, payload): Observable<any> {
     if (!payload || !uuid) {
       return null;
     }
@@ -69,4 +69,3 @@ export class PatientResourceService {
       });
   }
 }
-

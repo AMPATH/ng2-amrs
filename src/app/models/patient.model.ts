@@ -18,7 +18,6 @@ export class Patient extends BaseModel {
     super(openmrsModel);
   }
 
-
   @serializable(true, false)
   public get person(): Person {
     if (this._person === null || this._person === undefined) {
@@ -101,7 +100,6 @@ export class Patient extends BaseModel {
       return this._identifier = '';
     }
 
-
   }
 
   getIdentifierByType(identifierObject, type) {
@@ -153,7 +151,7 @@ export class Patient extends BaseModel {
       return this._identifier = '';
     }
 
-  };
+  }
 
   getAllIdentifiersByType(identifiers, type) {
     let types = [];
@@ -181,6 +179,5 @@ export class Patient extends BaseModel {
     }
     return returnString;
   }
-
 
 }

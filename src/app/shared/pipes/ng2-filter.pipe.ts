@@ -28,13 +28,13 @@ export class Ng2FilterPipe {
     }
     private filterByString(filter) {
         filter = filter.toLowerCase();
-        return value => {
+        return (value) => {
             return !filter || value.toLowerCase().indexOf(filter) !== -1;
         };
     }
 
     private filterByObject(filter) {
-        return value => {
+        return (value) => {
             for (let key in filter) {
                 if (!value.hasOwnProperty(key)) {
                     return false;
@@ -67,7 +67,7 @@ export class Ng2FilterPipe {
      * @returns {(value:any)=>boolean}
      */
     private filterDefault(filter) {
-        return value => {
+        return (value) => {
             return !filter || filter === value;
         };
     }

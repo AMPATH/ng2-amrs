@@ -16,9 +16,9 @@ import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.s
 export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDashboardComponent> {
 
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
-    private route: ActivatedRoute,
-    private userDefaultProperties: UserDefaultPropertiesService,
-    private clinicDashboardCacheService: ClinicDashboardCacheService) {
+              private route: ActivatedRoute,
+              private userDefaultProperties: UserDefaultPropertiesService,
+              private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
   public canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

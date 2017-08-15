@@ -8,8 +8,8 @@ import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
 export class FormSchemaService {
 
   constructor(private formsResourceService: FormsResourceService,
-    private localStorage: LocalStorageService,
-    private formSchemaCompiler: FormSchemaCompiler) {
+              private localStorage: LocalStorageService,
+              private formSchemaCompiler: FormSchemaCompiler) {
   }
 
   /**
@@ -47,13 +47,13 @@ export class FormSchemaService {
               // return the compiled schema
               formSchema.next(compiledSchema);
             },
-            err => {
+            (err) => {
               console.error(err);
               formSchema.error(err);
             }
             );
         },
-        err => {
+        (err) => {
           console.error(err);
           formSchema.error(err);
         }
@@ -83,7 +83,7 @@ export class FormSchemaService {
             (form: Object) => {
               formSchema.next(form);
             },
-            err => {
+            (err) => {
               console.error(err);
               formSchema.error(err);
             }
@@ -96,7 +96,7 @@ export class FormSchemaService {
         }
 
       },
-      err => {
+      (err) => {
         console.error(err);
         formSchema.error(err);
       }
@@ -115,7 +115,7 @@ export class FormSchemaService {
         };
         formSchemaWithReferences.next(forms);
       },
-      err => {
+      (err) => {
         console.error(err);
         formSchemaWithReferences.error(err);
       }
@@ -182,7 +182,7 @@ export class FormSchemaService {
                 observer.next(clobData);
                 // observer.complete();
               },
-              err => {
+              (err) => {
                 console.error(err);
                 observer.error(err);
               });
@@ -192,7 +192,7 @@ export class FormSchemaService {
           }
 
         },
-        err => {
+        (err) => {
           console.error(err);
           observer.error(err);
         });
@@ -207,6 +207,5 @@ export class FormSchemaService {
     });
     return formUuids;
   }
-
 
 }

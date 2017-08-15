@@ -6,7 +6,7 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class ClinicalSummaryVisualizationResourceService {
     constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-        private cacheService: DataCacheService) { }
+                private cacheService: DataCacheService) { }
 
     getUrl(reportName): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}`;
@@ -126,7 +126,7 @@ export class ClinicalSummaryVisualizationResourceService {
                 return response.json().result;
             });
 
-      return this.cacheService.cacheRequest(url, urlParams, request);
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
 }

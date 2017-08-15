@@ -24,8 +24,8 @@ export class HivProgramSnapshotComponent implements OnInit {
   @Output() addPinkBackground = new EventEmitter();
   location: any = {};
   constructor(private hivSummaryResourceService: HivSummaryResourceService
-    , private http: Http
-    , private appSettingsService: AppSettingsService) {
+    ,         private http: Http
+    ,         private appSettingsService: AppSettingsService) {
 
   }
 
@@ -106,5 +106,5 @@ export class HivProgramSnapshotComponent implements OnInit {
     text = text || '';
     return text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() +
       txt.substr(1).toLowerCase(); });
-  };
+  }
 }

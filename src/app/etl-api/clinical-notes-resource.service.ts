@@ -3,7 +3,6 @@ import { Http, URLSearchParams } from '@angular/http';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 
-
 @Injectable()
 export class ClinicalNotesResourceService {
 
@@ -23,11 +22,9 @@ export class ClinicalNotesResourceService {
 
     let params: URLSearchParams = new URLSearchParams();
 
-    params.set('startIndex', <string><any> startIndex);
-    params.set('limit', <string><any> limit);
+    params.set('startIndex', startIndex as any as string);
+    params.set('limit', limit as any as string);
 
     return this.http.get(api, {search: params}).map((data) => data.json());
   }
 }
-
-

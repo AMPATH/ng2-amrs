@@ -13,7 +13,7 @@ console.log('`About` component loaded asynchronously');
   styles: [`
   `],
   template: `
-  
+
   `
 })
 export class About {
@@ -42,7 +42,6 @@ export class About {
     // you would do this if you don't want the mock-data bundled
     // remember that 'es6-promise-loader' is a promise
     setTimeout(() => {
-
 
     });
   }

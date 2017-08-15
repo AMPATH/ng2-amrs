@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 
@@ -56,7 +55,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
         if (this.previousUrl !== url) {
             this.previousUrl = url;
             this._internalSubscription = this.fileUploadResourceService
-                .getFile(url).subscribe(m => {
+                .getFile(url).subscribe((m) => {
                     let sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
                     this._result.next(sanitized);
                 });
@@ -89,7 +88,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
         this._obj = obj;
 
         this._subscription = obj.subscribe({
-            next: function (value) {
+            next: function(value) {
                 return _this._updateLatestValue(obj, value);
             }, error: (e: any) => { throw e; }
         });

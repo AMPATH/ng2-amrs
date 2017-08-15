@@ -23,7 +23,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public errors: any = [];
 
   constructor(private patientService: PatientService,
-    private personResourceService: PersonResourceService) { }
+              private personResourceService: PersonResourceService) { }
   ngOnInit(): void {
     this.getPatient();
   }
@@ -91,11 +91,4 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     this.display = false;
   }
 
-
-
-
-
 }
-
-
-

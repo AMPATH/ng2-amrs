@@ -23,7 +23,7 @@ export class HivSummaryIndicatorsResourceServiceMock extends HivSummaryIndicator
   getHivSummaryIndicatorsReport(reportParams): Observable<any> {
     let subj = new Subject<any>();
     let that = this;
-    setTimeout(function () {
+    setTimeout(function() {
       subj.next(that.getTestData());
     }, 100);
 
@@ -64,4 +64,3 @@ export class HivSummaryIndicatorsResourceServiceMock extends HivSummaryIndicator
     };
   }
 }
-

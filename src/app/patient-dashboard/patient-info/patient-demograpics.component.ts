@@ -5,7 +5,6 @@ import { Patient } from '../../models/patient.model';
 import { PatientService } from '../patient.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
-
 @Component({
   selector: 'patient-demographics',
   templateUrl: './patient-demographics.component.html',
@@ -21,7 +20,7 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+              private appFeatureAnalytics: AppFeatureAnalytics) { }
   getPatientDemographics() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {

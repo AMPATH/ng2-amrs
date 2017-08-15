@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 
-
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import { FormFactory, EncounterAdapter, Form, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
@@ -52,23 +51,23 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private compiledSchemaWithEncounter: any = null;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private route: ActivatedRoute,
-    private formFactory: FormFactory,
-    private encounterResource: EncounterResourceService,
-    private encounterAdapter: EncounterAdapter,
-    private userDefaultPropertiesService: UserDefaultPropertiesService,
-    private userService: UserService,
-    private formSubmissionService: FormSubmissionService,
-    private router: Router,
-    private patientService: PatientService,
-    private formDataSourceService: FormDataSourceService,
-    private personAttribuAdapter: PersonAttribuAdapter,
-    private dataSources: DataSources,
-    private monthlyScheduleResourceService: MonthlyScheduleResourceService,
-    private draftedFormsService: DraftedFormsService,
-    private fileUploadResourceService: FileUploadResourceService,
-    private http: Http,
-    private confirmationService: ConfirmationService) {
+              private route: ActivatedRoute,
+              private formFactory: FormFactory,
+              private encounterResource: EncounterResourceService,
+              private encounterAdapter: EncounterAdapter,
+              private userDefaultPropertiesService: UserDefaultPropertiesService,
+              private userService: UserService,
+              private formSubmissionService: FormSubmissionService,
+              private router: Router,
+              private patientService: PatientService,
+              private formDataSourceService: FormDataSourceService,
+              private personAttribuAdapter: PersonAttribuAdapter,
+              private dataSources: DataSources,
+              private monthlyScheduleResourceService: MonthlyScheduleResourceService,
+              private draftedFormsService: DraftedFormsService,
+              private fileUploadResourceService: FileUploadResourceService,
+              private http: Http,
+              private confirmationService: ConfirmationService) {
   }
 
   public ngOnInit() {
@@ -114,7 +113,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       .trackEvent('Patient Dashboard', 'Formentry Component Unloaded', 'ngOnDestroy');
     if (this.subscription) {
       this.subscription.unsubscribe();
-    };
+    }
   }
 
   wireDataSources() {
@@ -210,7 +209,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.subscription = Observable.forkJoin(
       observableBatch
     ).subscribe(
-      data => {
+      (data) => {
         // now init private and public properties
         this.compiledSchemaWithEncounter = data[0] || null;
         this.patient = data[1] || null;
@@ -220,7 +219,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
         this.isBusyIndicator(false);
       },
-      err => {
+      (err) => {
         console.error(err.json());
         this.isBusyIndicator(false);
         this.formRenderingErrors
@@ -244,7 +243,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let onArtControl = form.searchNodeByQuestionId('onArt');
     let pcpProphylaxisCurrentControl = form.searchNodeByQuestionId('pcpProphylaxisCurrent');
     let onTbProphylaxisControl = form.searchNodeByQuestionId('onTbProphylaxis');
-
 
     childControls.forEach((cControl) => {
       let childControl = form.searchNodeByQuestionId(cControl);
@@ -373,7 +371,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }).first();
   }
 
-
   public loadDefaultValues(): void {
 
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
@@ -396,7 +393,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
 
   }
-
 
   private getPatient(): Observable<Patient> {
 

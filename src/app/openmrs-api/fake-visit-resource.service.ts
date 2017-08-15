@@ -81,7 +81,6 @@ export class FakeVisitResourceService {
       }
     ];
 
-
     if (!this.returnErrorOnNext) {
       test.next(encounters);
     } else {
@@ -104,7 +103,7 @@ export class FakeVisitResourceService {
     if (!this.returnErrorOnNext) {
       return Observable.of(visit);
     } else {
-      setTimeout(function () {
+      setTimeout(function() {
         test.error(new Error('Error loading patient'));
       }, 500);
       return test.asObservable();
@@ -150,11 +149,11 @@ export class FakeVisitResourceService {
       }
     ];
     if (!this.returnErrorOnNext) {
-      setTimeout(function () {
+      setTimeout(function() {
         test.next(visits);
       }, 500);
     } else {
-      setTimeout(function () {
+      setTimeout(function() {
         test.error(new Error('Error loading patient'));
       }, 500);
     }

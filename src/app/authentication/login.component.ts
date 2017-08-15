@@ -12,7 +12,6 @@ import { UserDefaultPropertiesService } from
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -33,10 +32,10 @@ export class LoginComponent implements OnInit {
   @ViewChildren('password') passwordField;
 
   constructor(private router: Router,
-    private authenticationService: AuthenticationService,
-    private appSettingsService: AppSettingsService,
-    private localStorageService: LocalStorageService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService) {}
+              private authenticationService: AuthenticationService,
+              private appSettingsService: AppSettingsService,
+              private localStorageService: LocalStorageService,
+              private userDefaultPropertiesService: UserDefaultPropertiesService) {}
 
   ngOnInit() {
     let settingsFromAppSettings = this.localStorageService.getItem('appSettingsAction');

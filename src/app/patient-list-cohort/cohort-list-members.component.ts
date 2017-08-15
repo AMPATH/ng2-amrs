@@ -63,7 +63,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
   viewCohortListMembers() {
     this.fetchingResults = true;
     this.subscription = this.cohortListService.getData().subscribe(
-      data => {
+      (data) => {
         if (data) {
           this.selectedCohortUuid = data.uuid;
           this.selectedCohortName = data.name;
@@ -74,9 +74,6 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
 
       });
     this.fetchMembers();
-
-
-
 
   }
   fetchMembers() {
@@ -108,7 +105,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
           this.displayConfirmDialog = false;
           this.displayConfirmDeleteCohortDialog = false;
           this.displaySuccessAlert('Patient list deleted successfully');
-           setTimeout(() => {
+          setTimeout(() => {
                  this.router.navigate(['/patient-list-cohort/cohort']);
            }, 2000);
           console.log('success');
@@ -128,7 +125,6 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 3000);
   }
-
 
   public displayErrorAlert(errorTitle, errorMessage) {
     this.showErrorAlert = true;

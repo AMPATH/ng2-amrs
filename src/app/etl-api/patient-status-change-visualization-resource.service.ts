@@ -7,7 +7,7 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class PatientStatusVisualizationResourceService {
     constructor(private http: Http, protected appSettingsService: AppSettingsService,
-     private cacheService: DataCacheService) {
+                private cacheService: DataCacheService) {
     }
 
     public getAggregates(options: {
@@ -16,11 +16,11 @@ export class PatientStatusVisualizationResourceService {
         analysis: string
     }): Observable<any> {
           console.log('====', options);
-        let api: string = this.appSettingsService.getEtlServer() +
+          let api: string = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking';
-        let params: URLSearchParams = this.getUrlRequestParams(options);
-        let request =  this.http.get(api, { search: params }).map((data) => data.json());
-        return this.cacheService.cacheRequest(api, params, request);
+          let params: URLSearchParams = this.getUrlRequestParams(options);
+          let request =  this.http.get(api, { search: params }).map((data) => data.json());
+          return this.cacheService.cacheRequest(api, params, request);
 
     }
 

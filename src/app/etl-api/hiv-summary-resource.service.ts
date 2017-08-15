@@ -14,7 +14,7 @@ export class HivSummaryResourceService {
   }
 
   getHivSummary(patientUuid: string,
-    startIndex: number, limit: number, includeNonClinicalEncounter?: boolean): Observable<any> {
+                startIndex: number, limit: number, includeNonClinicalEncounter?: boolean): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
 

@@ -20,10 +20,10 @@ export class DraftedFormNavComponent implements OnInit, OnDestroy {
   private patientUuid;
 
   constructor(private draftedFormsService: DraftedFormsService,
-    private patientService: PatientService,
-    private router: Router) {
+              private patientService: PatientService,
+              private router: Router) {
     this.subscription = this.patientService.currentlyLoadedPatientUuid
-      .subscribe(uuid => this.patientUuid = uuid);
+      .subscribe((uuid) => this.patientUuid = uuid);
   }
 
   public ngOnInit() {

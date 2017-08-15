@@ -36,12 +36,10 @@ export class MOHReportService {
                     });
                 });
 
-
             } else {
                 observer.error('some properties are missing');
             }
         }).first();
-
 
     }
 
@@ -61,7 +59,6 @@ export class MOHReportService {
                 }
                 sectionIndicatorValues.push([sectionIndicator.ref, indicatorValue + '']);
             });
-
 
             let sectionData = {
                 sectionHead: section.sectionTitle,
@@ -86,7 +83,7 @@ export class MOHReportService {
     }
     private _getLogo(url: string, callback: any): void {
         let image: any = new Image();
-        image.onload = function () {
+        image.onload = function() {
             let canvas: any = document.createElement('canvas');
             canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
             canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
@@ -140,7 +137,6 @@ export class MOHReportService {
                     text: 'End date: ' + params.endDate,
                     alignment: 'right'
 
-
                 }]
             }, {}
 
@@ -178,7 +174,6 @@ export class MOHReportService {
 
         };
     }
-
 
     private generateReportSection(sectionData) {
         return {
@@ -233,9 +228,4 @@ export class MOHReportService {
 
     }
 
-
-
-
 }
-
-

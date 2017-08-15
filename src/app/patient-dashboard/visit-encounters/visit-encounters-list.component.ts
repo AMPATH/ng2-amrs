@@ -14,13 +14,11 @@ import * as Moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 
-
 @Component({
     selector: 'visit-encounters-list',
     templateUrl: 'visit-encounters-list.component.html',
     styleUrls: ['visit-encounters-list.component.css']
 })
-
 
 export class VisitEncountersListComponent implements OnInit, OnChanges {
 
@@ -54,18 +52,15 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     selectedEncounterType: any;
     v: any;
 
-
     @Input() encounters: Encounter[];
     @Input() showVisitsObservations: Boolean;
 
-
     constructor(private router: Router,
-        private route: ActivatedRoute) { }
+                private route: ActivatedRoute) { }
 
     ngOnInit() {
 
         this.displayArray = this.mainArray;
-
 
     }
 
@@ -78,14 +73,11 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     // get all users for display in visit provider
 
-
-
-
     groupEncountersByVisits(encounters) {
 
         let visitsArray: any = [];
 
-        encounters.forEach(encounter => {
+        encounters.forEach((encounter) => {
 
             let dateTime = encounter.encounterDatetime;
 
@@ -94,7 +86,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
             let visitDate = Moment(dateTime).format('YYYY-MM-DD');
 
             // console.log('encounter Time', encounterTime);
-
 
             let date = dateTime.substring(0, 10);
 
@@ -112,7 +103,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
             }
 
-
             let time: string = dateTime.slice(-13, -5);
 
             let form = '';
@@ -120,10 +110,9 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
             if (encounter.form !== null) {
 
                 form = encounter.form.name;
-            } 
+            }
 
             let provider = encounter.provider != null ? encounter.provider.display : '';
-
 
             let encounterType = encounter.encounterType.display;
 
@@ -135,7 +124,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
             let location =  encounter.location != null ? encounter.location.display : '';
             let createdBy = '';
-
 
             let visitType = '';
 
@@ -149,12 +137,9 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                 createdBy = encounter.visit.auditInfo.creator.display;
 
-
-
             } else {
                 visitType = '';
             }
-
 
             let visitObject = {
             [dateString]: {
@@ -217,19 +202,12 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
             this.singleEncounterVisits.push(singleVisitEncounterObject);
 
-            /* separate array with single encounter and visits entries 
+            /* separate array with single encounter and visits entries
             for easier encounter sorting
             */
 
-
-
-
-
-
             // add encounter types to encounter type array
             this.encounterTypesArray.push(encounterType);
-
-
 
         });
 
@@ -270,7 +248,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
         this.encounterTypesArray = newTypes;
 
-
         // console.log('New Types', newTypes);
 
     }
@@ -281,7 +258,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
         let count = 0;
 
-        this.encounterFilterTypeArray.forEach(element => {
+        this.encounterFilterTypeArray.forEach((element) => {
             if (element === selectedEncounterType) {
                 count++;
             }
@@ -320,10 +297,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         }
     }
 
-
-
-
-
     showEncounterObservations(encounter) {
         if (encounter) {
             // console.log('Show Encounter ' , encounter);
@@ -332,7 +305,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         }
 
     }
-
 
     sortByProvider() {
 
@@ -368,7 +340,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         if (providerOrderNo === 2) {
             // the encounters have not been ordered hence sort in asc
 
-
             this.displayArray = this.mainArray;
 
             this.providerIcon = '';
@@ -378,8 +349,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         }
 
     }
-
-
 
     sortByVisits() {
 
@@ -415,7 +384,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         if (visitOrderNo === 2) {
             // the encounters have not been ordered hence sort in asc
 
-
             this.displayArray = this.mainArray;
 
             this.visitIcon = '';
@@ -424,7 +392,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
         }
     }
-
 
     sortByLocation() {
 
@@ -460,7 +427,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         if (locationOrderNo === 2) {
             // the encounters have not been ordered hence sort in asc
 
-
             this.displayArray = this.mainArray;
 
             this.locationIcon = '';
@@ -475,7 +441,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
         let dateDesc = this.dateDesc;
 
-
         if (dateDesc === true) {
 
             this.displayArray = this.mainArray;
@@ -488,7 +453,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
             this.dateDesc = true;
             this.dateIcon = this.descIcon;
         }
-
 
     }
 
@@ -592,8 +556,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
         return array;
     }
-
-
 
     sortProviderAz(array) {
 

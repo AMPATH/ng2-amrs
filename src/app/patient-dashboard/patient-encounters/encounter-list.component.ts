@@ -36,13 +36,13 @@ export class EncounterListComponent implements OnInit {
     onEncounterTypeChange(selectedEncounterType) {
          let count = 0;
 
-       this.encounterFilterTypeArray.forEach(element => {
+         this.encounterFilterTypeArray.forEach((element) => {
              if ( element === selectedEncounterType) {
                   count++;
              }
        });
 
-       if (count === 0  &&  selectedEncounterType !== '') {
+         if (count === 0  &&  selectedEncounterType !== '') {
            this.encounterFilterTypeArray.push(selectedEncounterType);
        } else if (count === 0 && selectedEncounterType === '') {
 

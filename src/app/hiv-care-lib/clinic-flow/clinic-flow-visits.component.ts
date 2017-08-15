@@ -33,15 +33,15 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     private clinicFlowSubscription: Subscription;
 
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
-        private router: Router,
-        @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+                private router: Router,
+                @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     ngOnInit() {
         this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
-            .subscribe(clinic => {
+            .subscribe((clinic) => {
                 this.selectedLocation = clinic;
                 this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
-                    .subscribe(date => {
+                    .subscribe((date) => {
                         this.selectedDate = date;
 
                         if (this.selectedLocation && this.selectedDate
@@ -100,7 +100,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         let result = this.clinicFlowResource.
             getClinicFlow(dateStated, locations);
         if (result === null) {
-            throw 'Null clinic flow observable';
+            throw new Error('Null clinic flow observable');
         } else {
             this.clinicFlowSubscription = result.subscribe(
                 (dataList) => {
@@ -109,7 +109,6 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
                     this.totalVisitsCount = dataList.totalVisitsCount;
                     this.visitCounts = this.totalVisitsCount;
                     this.selectedVisitType = 'All Visits';
-
 
                     if (dataList.result.length > 0) {
 
@@ -138,7 +137,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     incompletedVisits() {
         this.selectedVisitType = 'Incomplete Visits';
         this.visitCounts = this.incompleteVisitsCount + '/' + this.totalVisitsCount;
-        let results = this.filteredData.filter(function (obj) {
+        let results = this.filteredData.filter(function(obj) {
             return obj.seen_by_clinician === null;
         });
         let orderedResults = this.renumberRowsOnFilter(results);
@@ -149,7 +148,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     completedVisits() {
         this.selectedVisitType = 'Completed Visits';
         this.visitCounts = this.completeVisitsCount + '/' + this.totalVisitsCount;
-        let results = this.filteredData.filter(function (obj) {
+        let results = this.filteredData.filter(function(obj) {
             return obj.seen_by_clinician !== null;
         });
 
@@ -163,7 +162,6 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         this.visitCounts = this.totalVisitsCount;
         this.clinicFlowData = this.renumberRowsOnFilter(this.filteredData);
     }
-
 
     private initParams() {
         this.loadingClinicFlow = false;

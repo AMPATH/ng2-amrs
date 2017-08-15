@@ -51,4 +51,3 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
   }
 
 }
-

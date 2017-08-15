@@ -20,14 +20,13 @@ export class VisitEncountersPipe implements PipeTransform {
               return _.includes(encounterFilterTypeArray , encounter.encounter);
          };
 
-        let filteredVisits = mainArray.filter((visit) => {
+         let filteredVisits = mainArray.filter((visit) => {
                  let visitEncounters = visit.encounters.filter(encounterInArray);
 
                  return visitEncounters.length > 0;
          });
 
          return filteredVisits;
-
 
        }
 

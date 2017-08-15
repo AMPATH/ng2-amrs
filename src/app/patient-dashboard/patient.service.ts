@@ -14,8 +14,8 @@ export class PatientService {
   public isBusy: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private patientResourceService: PatientResourceService,
-    private programEnrollmentResourceService: ProgramEnrollmentResourceService,
-    private encounterResource: EncounterResourceService) {
+              private programEnrollmentResourceService: ProgramEnrollmentResourceService,
+              private encounterResource: EncounterResourceService) {
   }
 
   public setCurrentlyLoadedPatientByUuid(patientUuid: string): BehaviorSubject<Patient> {
@@ -53,7 +53,7 @@ export class PatientService {
         this.currentlyLoadedPatientUuid.next(patientUuid);
         this.isBusy.next(false);
       },
-      err => {
+      (err) => {
         console.log(err);
         this.isBusy.next(false);
       });

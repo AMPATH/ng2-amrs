@@ -8,7 +8,6 @@ import { UtilsModule } from '../utils/utils.module';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 
-
 @NgModule({
   imports: [
     CommonModule,

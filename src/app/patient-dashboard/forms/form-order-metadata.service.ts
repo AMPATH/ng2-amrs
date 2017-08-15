@@ -14,8 +14,8 @@ export class FormOrderMetaDataService {
                 './assets/schemas/form-order.json'
             ).map((res: Response) => res.json())
                 .subscribe(
-                data => this.formsOrder.next(data),
-                error => this.formsOrder.error(error)
+                (data) => this.formsOrder.next(data),
+                (error) => this.formsOrder.error(error)
                 );
         }
 

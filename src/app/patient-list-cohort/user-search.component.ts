@@ -29,7 +29,6 @@ export class UserSearchComponent implements OnInit, OnDestroy {
               ) {
   }
 
-
   ngOnInit() {
     if (window.innerWidth <= 768) {
       this.adjustInputMargin = '0';
@@ -42,7 +41,6 @@ export class UserSearchComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 
   loadUsers(): void {
     this.searchPanelVisible = true;
@@ -94,9 +92,7 @@ export class UserSearchComponent implements OnInit, OnDestroy {
   selectUser(user) {
     this.onSelectedUserFromSearch.emit(user);
     this.searchPanelVisible = false;
-  };
-
-
+  }
 
   resetSearchList() {
     if (this.subscription) {
@@ -116,6 +112,4 @@ export class UserSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-
 }
-

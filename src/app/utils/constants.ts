@@ -1,5 +1,4 @@
 
-
 export class Constants {
 
   public static readonly CREDENTIALS_KEY = 'auth.credentials';

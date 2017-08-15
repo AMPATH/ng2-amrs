@@ -65,7 +65,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     let programBatch: Array<Observable<any>> = [];
     programBatch.push(this.loadProgramsPatientIsEnrolledIn(patientUuid));
     programBatch.push(this.getAvailablePrograms());
-    this.subscription = Observable.forkJoin(programBatch).subscribe(data => {
+    this.subscription = Observable.forkJoin(programBatch).subscribe((data) => {
         this.programsBusy = false;
         this.enrolledProgrames = data[0];
         let _programs = [];
@@ -116,7 +116,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         });
         this.availablePrograms = _programs;
       },
-      err => {
+      (err) => {
         this.hasError = true;
         this.errors.push({
           id: 'Patient Care Programs',
@@ -163,7 +163,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
 
   toggleDropDown(row: any) {
-    row.isEdit = _.isNil(row.isEdit) ? true : !<boolean>row.isEdit;
+    row.isEdit = _.isNil(row.isEdit) ? true : !row.isEdit as boolean;
   }
 
   editPatientEnrollment(row: any) {
@@ -208,7 +208,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         if (!_.isNil(row.isFocused)) {
           row.isFocused = false;
         }
-        ;
+
       }
     } else {
       row.validationError = '';
@@ -287,4 +287,3 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
 
 }
-

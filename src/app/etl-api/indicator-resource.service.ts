@@ -33,8 +33,8 @@ export class IndicatorResourceService {
       )
         .map((res: Response) => res.json())
         .subscribe(
-        data => this.reportIndicators.next(data.result),
-        error => this.reportIndicators.error(error)
+        (data) => this.reportIndicators.next(data.result),
+        (error) => this.reportIndicators.error(error)
         );
     }
 

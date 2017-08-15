@@ -7,7 +7,6 @@ import 'ag-grid-enterprise/main';
 import * as Moment from 'moment';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'lab-result',
   templateUrl: 'lab-result.component.html',
@@ -27,8 +26,8 @@ export class LabResultComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   public gridOptions: GridOptions;
   constructor(private labsResourceService: LabsResourceService,
-    private patientService: PatientService) {
-    this.gridOptions = <GridOptions>{};
+              private patientService: PatientService) {
+    this.gridOptions = {} as GridOptions;
   }
 
   ngOnInit() {
@@ -41,8 +40,6 @@ export class LabResultComponent implements OnInit, OnDestroy {
           this.patientUuId = this.patient.person.uuid;
           this.getHistoricalPatientLabResults(this.patientUuId,
             { startIndex: this.nextStartIndex.toString(), limit: '20' });
-
-
 
         }
       }
@@ -93,7 +90,6 @@ export class LabResultComponent implements OnInit, OnDestroy {
         }
       }
       tests.push(data);
-
 
     }
     return tests;

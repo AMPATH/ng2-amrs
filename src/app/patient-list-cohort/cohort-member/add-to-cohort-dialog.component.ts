@@ -30,7 +30,6 @@ export class AddToCohortDialogComponent implements OnInit {
 
     public styleClass: string = 'add-cohort-dialog';
 
-
     private _display: boolean = true;
     public get display(): boolean {
         return this._display;
@@ -41,7 +40,6 @@ export class AddToCohortDialogComponent implements OnInit {
             this.dialogClosed.next();
         }
     }
-
 
     constructor() { }
 

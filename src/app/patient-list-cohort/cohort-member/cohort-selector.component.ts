@@ -26,7 +26,7 @@ export class CohortSelectorComponent implements OnInit {
     public loadingListError = false;
 
     constructor(private userService: UserService,
-        private userCohortResourceService: UserCohortResourceService) {
+                private userCohortResourceService: UserCohortResourceService) {
         this.user = this.userService.getLoggedInUser();
     }
 

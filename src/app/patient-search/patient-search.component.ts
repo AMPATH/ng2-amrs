@@ -7,7 +7,6 @@ import { Patient } from '../models/patient.model';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 
-
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
@@ -48,11 +47,10 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.hasConductedSearch = false;
   }
 
-
   constructor(private patientSearchService: PatientSearchService,
-    private route: ActivatedRoute,
-    private appFeatureAnalytics: AppFeatureAnalytics,
-    private router: Router) {
+              private route: ActivatedRoute,
+              private appFeatureAnalytics: AppFeatureAnalytics,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -77,14 +75,11 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     });
   }
 
-
-
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-
 
   onResultsFound(results) {
     if (results.length > 0) {
@@ -173,6 +168,5 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       this.adjustInputMargin = '240px';
     }
   }
-
 
 }

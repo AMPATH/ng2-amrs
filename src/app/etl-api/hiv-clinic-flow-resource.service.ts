@@ -8,8 +8,8 @@ import { ClinicFlowResource } from './clinic-flow-resource-interface';
 @Injectable()
 export class HivClinicFlowResourceService implements ClinicFlowResource {
     constructor(protected http: Http,
-        protected appSettingsService: AppSettingsService,
-        private cacheService: DataCacheService) { }
+                protected appSettingsService: AppSettingsService,
+                private cacheService: DataCacheService) { }
 
     getUrl(reportName): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
@@ -31,7 +31,5 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
         return this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
 
     }
-
-
 
 }

@@ -45,7 +45,6 @@ export class AppSettingsService {
     }
   ];
 
-
   get openmrsServerUrls(): string[] {
     return this._openmrsServerUrls;
   }

@@ -38,10 +38,10 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
-      .subscribe(clinic => {
+      .subscribe((clinic) => {
         this.selectedLocation = clinic;
         this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
-          .subscribe(date => {
+          .subscribe((date) => {
             this.selectedDate = date;
 
             if (this.selectedLocation && this.selectedDate
@@ -135,7 +135,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     let result = this.clinicFlowResource.
     getClinicFlow(dateStated, locations);
     if (result === null) {
-      throw 'Null clinic flow observable';
+      throw new Error('Null clinic flow observable');
     } else {
 
       this.clinicFlowSubscription = result.subscribe(
@@ -223,7 +223,6 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     }
     return result;
 
-
   }
   private _constructFinalProviderReport(providersPersonIds) {
     _.each(providersPersonIds, (provider) => {
@@ -235,7 +234,6 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
           row['Location'] = result.location;
           // count encounter type per provider
           row[result.encounter_type_name] = (row[result.encounter_type_name] || 0) + 1;
-
 
         }
 

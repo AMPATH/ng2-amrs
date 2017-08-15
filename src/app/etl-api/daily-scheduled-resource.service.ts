@@ -7,7 +7,7 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class DailyScheduleResourceService {
     constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-        private cacheService: DataCacheService) { }
+                private cacheService: DataCacheService) { }
 
     getUrl(reportName, selectedDate): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}/${selectedDate}`;
@@ -32,7 +32,7 @@ export class DailyScheduleResourceService {
             .map((response: Response) => {
                 return response.json().result;
             });
-         return this.cacheService.cacheRequest(url, urlParams, request);
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     getDailyAppointments(params) {
@@ -51,7 +51,7 @@ export class DailyScheduleResourceService {
         urlParams.set('limit', params.limit);
 
         let url = this.getUrl('daily-appointments', params.startDate);
-      let request = this.http.get(url, {
+        let request = this.http.get(url, {
             search: urlParams
         })
             .map((response: Response) => {
@@ -75,7 +75,7 @@ export class DailyScheduleResourceService {
         urlParams.set('limit', params.limit);
 
         let url = this.getUrl('daily-has-not-returned', params.startDate);
-      let request = this.http.get(url, {
+        let request = this.http.get(url, {
             search: urlParams
         })
             .map((response: Response) => {

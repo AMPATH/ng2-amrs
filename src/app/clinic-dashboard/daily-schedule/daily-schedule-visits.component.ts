@@ -37,7 +37,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
   private selectedDateSubscription: Subscription;
   private visitsSubscription: Subscription;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private dailyScheduleResource: DailyScheduleResourceService) {
+              private dailyScheduleResource: DailyScheduleResourceService) {
   }
 
   ngOnInit() {
@@ -64,7 +64,6 @@ export class DailyScheduleVisitsComponent implements OnInit {
   ngOnDestroy(): void {
     this.currentClinicSubscription.unsubscribe();
   }
-
 
   loadMoreVisits() {
 
@@ -101,7 +100,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
       getDailyVisits(params);
 
     if (result === null) {
-      throw 'Null daily appointments observable';
+      throw new Error('Null daily appointments observable');
     } else {
       this.visitsSubscription = result.subscribe(
         (patientList) => {

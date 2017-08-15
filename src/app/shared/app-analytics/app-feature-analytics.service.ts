@@ -15,7 +15,6 @@ export class AppFeatureAnalytics {
               private userService: UserService) {
   }
 
-
   /**
    *
    *

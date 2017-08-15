@@ -6,7 +6,6 @@ import { Vital } from '../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'todays-vitals',
   templateUrl: 'todays-vitals.component.html',
@@ -77,7 +76,4 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     this.loadingTodaysVitals = false;
   }
 
-
 }
-
-

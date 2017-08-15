@@ -29,7 +29,6 @@ import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturned } from './daily-schedule/daily-schedule-not-returned.component';
 
-
 import {
   ArtOverviewComponent
 } from './clinical-summary-visualization/art-overview/art-overview.component';

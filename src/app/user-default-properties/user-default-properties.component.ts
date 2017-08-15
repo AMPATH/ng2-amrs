@@ -6,7 +6,6 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 
-
 @Component({
   selector: 'user-default-properties',
   templateUrl: './user-default-properties.component.html',
@@ -25,8 +24,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-    private propertyLocationService: UserDefaultPropertiesService,
-    private userService: UserService
+              private propertyLocationService: UserDefaultPropertiesService,
+              private userService: UserService
   ) {
     this.user = this.userService.getLoggedInUser();
 
@@ -59,7 +58,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
   filter(event: any) {
 
     if (this.query !== '') {
-      this.filteredList = this.locations.filter(function (_location) {
+      this.filteredList = this.locations.filter(function(_location) {
         return _location.display.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
       }.bind(this));
       if (event.code === 'ArrowDown' && this.selectedIdx < this.filteredList.length) {

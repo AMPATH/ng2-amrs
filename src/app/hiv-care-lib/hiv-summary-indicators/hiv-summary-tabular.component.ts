@@ -24,7 +24,6 @@ export class HivSummaryTabularComponent implements OnInit {
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
 
-
   private _sectionDefs: Array<any>;
   public get sectionDefs(): Array<any> {
     return this._sectionDefs;
@@ -63,7 +62,7 @@ export class HivSummaryTabularComponent implements OnInit {
   }
 
   constructor(private router: Router,
-    private route: ActivatedRoute) { }
+              private route: ActivatedRoute) { }
 
   ngOnInit() { }
   setColumns(sectionsData: Array<any>) {

@@ -8,7 +8,7 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
 export class FormListService {
 
     constructor(private formsResourceService: FormsResourceService,
-        private formOrderMetaDataService: FormOrderMetaDataService) { }
+                private formOrderMetaDataService: FormOrderMetaDataService) { }
     removeVersionFromFormNames(pocForms) {
         _.each(pocForms, (form) => {
             form.display = form.name;
@@ -50,9 +50,6 @@ export class FormListService {
 
         return sortedArray;
     }
-
-
-
 
     filterPublishedOpenmrsForms(unsortArray) {
         if (!Array.isArray(unsortArray)) throw new Error('Input must be an array');
@@ -107,7 +104,6 @@ export class FormListService {
         }
         return trimmed;
     }
-
 
     getFormList() {
         let formList = new BehaviorSubject([]);

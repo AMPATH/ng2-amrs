@@ -30,10 +30,10 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
-      .subscribe(clinic => {
+      .subscribe((clinic) => {
         this.selectedLocation = clinic;
         this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
-          .subscribe(date => {
+          .subscribe((date) => {
             this.selectedDate = date;
 
             if (this.selectedLocation && this.selectedDate
@@ -91,7 +91,7 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
     let result = this.clinicFlowResource.
     getClinicFlow(dateStated, locations);
     if (result === null) {
-      throw 'Null clinic flow observable';
+      throw new Error('Null clinic flow observable');
     } else {
       this.clinicFlowSubscription = result.subscribe(
         (locationStats) => {

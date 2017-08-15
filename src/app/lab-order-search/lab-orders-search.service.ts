@@ -29,7 +29,6 @@ export class LabOrdersSearchService {
     return labOrderSearch.asObservable();
   }
 
-
   resetLabOrder() {
     this.labOrderSearch.next(null);
   }

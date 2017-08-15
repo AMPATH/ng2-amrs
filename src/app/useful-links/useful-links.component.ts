@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { UsefulLinksService } from './useful-links.service';
 
-
 @Component({
   selector: 'useful-links',
   templateUrl: 'useful-links.html',
@@ -44,6 +43,5 @@ export class UsefulLinksComponent implements OnInit {
   get externalLinks(): Array<any> {
     return this._links;
   }
-
 
 }

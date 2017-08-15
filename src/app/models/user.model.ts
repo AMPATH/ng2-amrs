@@ -16,7 +16,7 @@ export class User extends BaseModel {
     if (roles && roles.length > 0) {
 
       let counter: number = 0;
-      _.forEach(roles, function (role) {
+      _.forEach(roles, function(role) {
 
         if (counter <= 1) roleDisplay = roleDisplay.length === 0 ?
           role.display : roleDisplay + ', ' + role.display;

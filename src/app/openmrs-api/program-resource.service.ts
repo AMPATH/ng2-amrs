@@ -8,7 +8,6 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class ProgramResourceService {
 
-
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
 

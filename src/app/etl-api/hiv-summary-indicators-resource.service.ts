@@ -5,7 +5,7 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class HivSummaryIndicatorsResourceService {
     constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-        private cacheService: DataCacheService) { }
+                private cacheService: DataCacheService) { }
 
     getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `hiv-summary-indicators`;

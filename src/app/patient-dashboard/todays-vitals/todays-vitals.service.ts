@@ -13,7 +13,6 @@ export class TodaysVitalsService {
     loadingEncounters: boolean;
     errors: any = [];
 
-
     vitalModel = {
         diastolic: null, systolic: null,
         pulse: null, temperature: null, oxygenSaturation: null,
@@ -28,7 +27,7 @@ export class TodaysVitalsService {
         let patientsObservable = this.visitResourceService.getPatientVisits(uuid);
 
         if (patientsObservable === null) {
-            throw 'Null patient visit observable';
+            throw new Error('Null patient visit observable');
         } else {
             patientsObservable.subscribe(
                 (encounters) => {
@@ -131,7 +130,6 @@ export class TodaysVitalsService {
                 }
             }
 
-
         }
     }
 
@@ -166,6 +164,5 @@ export class TodaysVitalsService {
         }
 
     }
-
 
 }

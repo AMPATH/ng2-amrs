@@ -22,7 +22,7 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
   }
   ngOnInit() {
     this._data
-      .subscribe(x => {
+      .subscribe((x) => {
         if (x) {
            this.processResult(x);
         }
@@ -38,7 +38,5 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
 
     this.indicatorDes = des;
 
-
   }
 }
-

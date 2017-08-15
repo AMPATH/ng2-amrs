@@ -135,15 +135,14 @@ export class ClinicFlowCacheService {
                 width: 140,
                 cellRenderer: function(params) {
                   let encounterType = '';
-                    let date = '', time = '';
-                    if (params.value.time && params.value.encounters) {
+                  let date = '', time = '';
+                  if (params.value.time && params.value.encounters) {
                         date = Moment(params.value.time).format('DD-MM-YYYY');
                         time = Moment(params.value.time).format('H:mmA');
                         encounterType = params.value.encounters;
                     }
 
-
-                    return '<span class="text-warning" style="font-weight:bold;">'
+                  return '<span class="text-warning" style="font-weight:bold;">'
                         + time
                         + '</span> </br>' +
                         '<small>' + date + '</small>'

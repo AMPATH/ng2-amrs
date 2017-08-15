@@ -43,15 +43,15 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   private cohortAnalysisComponent: PatientStatusChangeVisualizationComponent;
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-    private patientStatusResourceService: PatientStatusVisualizationResourceService,
-    private location: Location,
-    private route: ActivatedRoute,
-    private router: Router) {
+              private patientStatusResourceService: PatientStatusVisualizationResourceService,
+              private location: Location,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
 
-    this.route.params.forEach(params => {
+    this.route.params.forEach((params) => {
       if (params['view']) {
         switch (params['view']) {
           case 'cumulative':
@@ -114,7 +114,6 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
       this.cohortAnalysisComponent.renderChart();
     }
   }
-
 
   public loadCumulativeAnalysis(event) {
     let analysisType = 'cumulativeAnalysis';

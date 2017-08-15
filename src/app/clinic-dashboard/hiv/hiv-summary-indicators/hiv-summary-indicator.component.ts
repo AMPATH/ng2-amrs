@@ -21,8 +21,8 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   public sectionsDef = [];
 
   constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
-    private route: ActivatedRoute, private location: Location,
-    private router: Router) {
+              private route: ActivatedRoute, private location: Location,
+              private router: Router) {
     super(hivSummaryIndicatorsResourceService);
 
   }

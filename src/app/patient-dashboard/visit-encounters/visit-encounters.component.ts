@@ -14,17 +14,13 @@ import { Encounter } from '../../models/encounter.model';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
-
 @Component({
     selector: 'visit-encounters',
     templateUrl : 'visit-encounters.component.html',
     styleUrls : ['visit-encounters.component.css']
 })
 
-
-
 export class VisitEncountersComponent implements OnInit {
-
 
   title: string = 'Patient Visits';
   patientUuid: string = '';
@@ -38,15 +34,11 @@ export class VisitEncountersComponent implements OnInit {
     message: 'Fetching encounters hang on...' // default message
   };
 
-
-
-
    constructor(private _patientService: PatientService,
-             private _patientEncountersService: PatientEncounterService,
-             private _encounterResourceService: EncounterResourceService,
-             private _visitResourceService: VisitResourceService
+               private _patientEncountersService: PatientEncounterService,
+               private _encounterResourceService: EncounterResourceService,
+               private _visitResourceService: VisitResourceService
             ) {
-
 
     }
     ngOnInit() {
@@ -66,10 +58,9 @@ export class VisitEncountersComponent implements OnInit {
             });
      }
 
-
      getPatientEncounters(patientUuid) {
          this._encounterResourceService.getEncountersByPatientUuid(patientUuid ,
-          false, null).subscribe(resp => {
+          false, null).subscribe((resp) => {
                 this.patientEncounters = resp.reverse();
 
           });
@@ -82,6 +73,5 @@ export class VisitEncountersComponent implements OnInit {
      showEncounters() {
           this.showVisitsObservations = false;
      }
-
 
 }

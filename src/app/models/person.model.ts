@@ -5,7 +5,6 @@ import './date.extensions';
 import { PersonAttribute } from './person-attribute.model';
 import { PersonAddress } from './address.model';
 
-
 export class Person extends BaseModel {
   private _birthdate: Date;
   private _attributes = this.openmrsModel.attributes;
@@ -30,7 +29,6 @@ export class Person extends BaseModel {
   public set age(v: number) {
     this._openmrsModel.age = v;
   }
-
 
   @serializable()
   public get birthdate(): Date {
@@ -157,7 +155,7 @@ export class Person extends BaseModel {
       return this._attributes = '';
     }
 
-  };
+  }
   getPersonAttribute(personAttributeTypeUuid) {
     if (this._attributes.length > 0) {
       for (let i in this._attributes) {
@@ -171,7 +169,6 @@ export class Person extends BaseModel {
     }
 
   }
-
 
   public get addresses(): PersonAddress {
     if (this._address === null || this._address === undefined) {

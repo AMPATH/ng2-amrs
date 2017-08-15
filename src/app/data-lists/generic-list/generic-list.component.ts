@@ -32,7 +32,6 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     return this._data.getValue();
   }
 
-
   @Input()
   set dataSource(value) {
     this._dataSource.next(value);
@@ -68,9 +67,8 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       this.generateGrid();
   }
 
-
   generateGrid() {
-    this.gridOptions = <GridOptions>{};
+    this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
     this.gridOptions.enableColResize = true;
     this.gridOptions.enableSorting = true;
@@ -107,7 +105,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       if (this.dataSource) {
          this.gridOptions.api.setDatasource(this.dataSource);
       }
-      this.gridOptions.getRowStyle = function (params) {
+      this.gridOptions.getRowStyle = function(params) {
         return {
           'font-size': '14px', 'cursor': 'pointer'
         };
@@ -174,12 +172,9 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
 
-
-
   ngOnDestroy() {
     this.data = [];
   }
-
 
   get rowData() {
     return this.data || [];
@@ -188,6 +183,5 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   rowSelectedFunc(event) {
     this.onSelectedRow.emit(event);
   }
-
 
 }

@@ -2,7 +2,6 @@ import { BaseModel } from './base-model.model';
 import { serializable, serialize } from './serializable.decorator';
 import { PatientIdentifierType } from './patient-identifier-type.model';
 
-
 export class PatientIdentifier extends BaseModel {
   private _identifier: PatientIdentifierType;
   constructor(openmrsModel?: any) {
@@ -22,7 +21,6 @@ export class PatientIdentifier extends BaseModel {
     this._identifier = v;
   }
 
-
   @serializable()
   public get identifier(): string {
     return this._openmrsModel.identifier;
@@ -31,7 +29,4 @@ export class PatientIdentifier extends BaseModel {
     this._openmrsModel.identifier = v;
   }
 
-
-
 }
-

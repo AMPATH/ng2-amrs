@@ -41,10 +41,9 @@ export class PatientStatusChangeListComponent implements OnInit {
   public timerSubscription: Subscription;
   public subscription = new Subscription();
 
-
   constructor(private route: ActivatedRoute, private router: Router,
-    private patientStatusResourceService: PatientStatusVisualizationResourceService,
-    private clinicDashboardCacheService: ClinicDashboardCacheService) {
+              private patientStatusResourceService: PatientStatusVisualizationResourceService,
+              private clinicDashboardCacheService: ClinicDashboardCacheService) {
   }
 
   ngOnInit() {
@@ -89,7 +88,7 @@ export class PatientStatusChangeListComponent implements OnInit {
       this.progressBarTick = 30;
       if (this.timerSubscription) this.timerSubscription.unsubscribe();
       this.timerSubscription =
-        TimerObservable.create(2000 * interval, 1000 * interval).subscribe(t => {
+        TimerObservable.create(2000 * interval, 1000 * interval).subscribe((t) => {
           if (this.progressBarTick > 100) this.progressBarTick = 30;
           this.progressBarTick++;
         });
@@ -136,11 +135,10 @@ export class PatientStatusChangeListComponent implements OnInit {
   }
 
   private snakeToTitle(str) {
-    return str.split('_').map(function (item) {
+    return str.split('_').map(function(item) {
       return item.charAt(0).toUpperCase() + item.substring(1);
     }).join(' ');
   }
-
 
   private redirectTopatientInfo(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {

@@ -26,8 +26,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
     patterns = new RegExp(this.r1.source + this.r2.source);
     constructor(private feedBackService: FeedBackService,
-        private userService: UserService,
-        private userDefaultPropertiesService: UserDefaultPropertiesService) { }
+                private userService: UserService,
+                private userDefaultPropertiesService: UserDefaultPropertiesService) { }
 
     ngOnInit() {
     }
@@ -83,7 +83,6 @@ export class FeedBackComponent implements OnInit, OnDestroy {
             this.setErroMessage('Phone number is required.');
             return false;
         }
-
 
         return true;
     }

@@ -18,7 +18,6 @@ export class UserService {
     private _http: Http,
     protected appSettingsService: AppSettingsService) { }
 
-
   public getLoggedInUser(): User {
     let userObject = this.sessionStorageService.getObject(Constants.USER_KEY);
     return new User(userObject);

@@ -21,7 +21,6 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
   public errorAlert: string;
   public errorTitle: string;
 
-
   constructor(private cohortResourceService: CohortResourceService, private router: Router,
               private cohortListService: CohortListService) { }
   ngOnInit(): void {

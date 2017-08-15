@@ -29,7 +29,6 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   @Input() ageRangeStart: number;
   @Input() ageRangeEnd: number;
 
-
   private _startDate: Date = Moment().subtract(1, 'months').toDate();
   public get startDate(): Date {
     return this._startDate;
@@ -37,7 +36,6 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public set startDate(v: Date) {
     this._startDate = v;
   }
-
 
   private _endDate: Date = new Date();
   public get endDate(): Date {
@@ -89,7 +87,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
           startAge: this.startAge,
           endAge: this.endAge
        }).subscribe(
-      (data) => {;
+      (data) => {
         this.isLoadingReport = false;
         this.sectionsDef =   data.indicatorDefinitions;
         this.data = data.result;

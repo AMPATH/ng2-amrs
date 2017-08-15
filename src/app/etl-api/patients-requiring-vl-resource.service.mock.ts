@@ -21,7 +21,7 @@ export class PatientsRequiringVLResourceServiceMock extends PatientsRequiringVLR
     getPatientList(params): Observable<any> {
         let subj = new Subject<any>();
         let that = this;
-        setTimeout(function () {
+        setTimeout(function() {
             subj.next(that.getTestData());
         }, 100);
 

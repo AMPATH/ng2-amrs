@@ -8,7 +8,7 @@ import { UserDefaultPropertiesService }
 export class FeedBackService {
 
     constructor(private http: Http, private appSettingsService: AppSettingsService,
-        private userDefaultPropertiesService: UserDefaultPropertiesService) { }
+                private userDefaultPropertiesService: UserDefaultPropertiesService) { }
     public postFeedback(payload) {
         let url = this.appSettingsService.getEtlServer() +
             '/user-feedback';

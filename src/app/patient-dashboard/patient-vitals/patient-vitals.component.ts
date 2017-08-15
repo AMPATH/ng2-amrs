@@ -31,7 +31,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
 
   constructor(private patientVitalsService: PatientVitalsService,
-    private patientService: PatientService) { }
+              private patientService: PatientService) { }
 
   ngOnInit() {
     this.getPatient();
@@ -92,7 +92,6 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
           }
 
         }
-
 
         this.isLoading = false;
       },

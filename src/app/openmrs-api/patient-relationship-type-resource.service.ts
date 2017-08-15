@@ -6,7 +6,6 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class PatientRelationshipTypeResourceService {
 
-
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
 

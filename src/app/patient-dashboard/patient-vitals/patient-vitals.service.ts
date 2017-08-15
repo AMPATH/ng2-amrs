@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs/Rx';
 
 import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
 
-
 @Injectable()
 export class PatientVitalsService {
 
@@ -12,7 +11,7 @@ export class PatientVitalsService {
   constructor(private vitalsResourceService: VitalsResourceService) { }
 
   getvitals(patientUuid: string,
-    startIndex?: number, limit?: number): BehaviorSubject<any> {
+            startIndex?: number, limit?: number): BehaviorSubject<any> {
     let vitals: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.vitalsResourceService.getVitals(patientUuid,
@@ -20,7 +19,7 @@ export class PatientVitalsService {
         if (data) {
           let weight: string;
 
-            for (let r = 0; r < data.length; r++) {
+          for (let r = 0; r < data.length; r++) {
               if (data[r].height && data[r].weight) {
                 let BMI = (data[r].weight /
                   (data[r].height / 100 * data[r].height / 100))
@@ -28,7 +27,7 @@ export class PatientVitalsService {
                 data[r]['BMI'] = BMI;
               }
             }
-            vitals.next(data);
+          vitals.next(data);
                   }
       }, (error) => {
         vitals.error(error);
@@ -38,4 +37,3 @@ export class PatientVitalsService {
     return vitals;
   }
 }
-

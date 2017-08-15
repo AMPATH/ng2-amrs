@@ -99,7 +99,6 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
     this.startDate = new Date(v);
   }
 
-
   public get endDateString(): string {
     return this.endDate ? Moment(this.endDate).format('YYYY-MM-DD') : null;
   }
@@ -143,7 +142,7 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
 
   getIndicators() {
     let indicators = [];
-   this.indicatorResourceService.getReportIndicators({
+    this.indicatorResourceService.getReportIndicators({
      report: this.reportName
    }).subscribe(
      (results: any[]) => {

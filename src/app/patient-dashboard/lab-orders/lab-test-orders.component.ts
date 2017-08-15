@@ -32,10 +32,9 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   public collectionDate = new Date();
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private patientService: PatientService,
-    private orderResourceService: OrderResourceService, private labelService: LabelService) {
+              private patientService: PatientService,
+              private orderResourceService: OrderResourceService, private labelService: LabelService) {
   }
-
 
   ngOnInit() {
     this.appFeatureAnalytics
@@ -48,7 +47,6 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 
   getCurrentlyLoadedPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -147,7 +145,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
 
     // If not the check the "allItemsSelected" checkbox
     this.allItemsSelected = true;
-  };
+  }
 
   private getLabel(order) {
     return {

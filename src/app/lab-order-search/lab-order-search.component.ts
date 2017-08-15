@@ -1,7 +1,6 @@
 import { Component, Output, OnInit, EventEmitter, Input } from '@angular/core';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 
-
 @Component({
   selector: 'lab-order-search',
   templateUrl: './lab-order-search.component.html',

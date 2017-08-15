@@ -14,7 +14,7 @@ export class PatientRelationshipService {
   public patientToBindRelationship: Patient;
 
   constructor(private patientService: PatientService,
-    private patientRelationshipResourceService: PatientRelationshipResourceService) {
+              private patientRelationshipResourceService: PatientRelationshipResourceService) {
   }
 
   public getRelationships(uuid) {

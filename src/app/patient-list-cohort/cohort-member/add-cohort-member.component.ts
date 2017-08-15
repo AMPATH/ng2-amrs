@@ -66,10 +66,9 @@ export class AddCohortMemberComponent implements OnInit {
         }
     }
 
-
     constructor(private cohortMemberResource: CohortMemberResourceService,
-        private patientResourceService: PatientResourceService,
-        private cohortResourceService: CohortResourceService) {
+                private patientResourceService: PatientResourceService,
+                private cohortResourceService: CohortResourceService) {
 
     }
 
@@ -91,7 +90,6 @@ export class AddCohortMemberComponent implements OnInit {
     showCohortSelectorComponent() {
         this.showCohortSelector = true;
     }
-
 
     cohortSelected(cohort) {
         this.cohort = cohort;

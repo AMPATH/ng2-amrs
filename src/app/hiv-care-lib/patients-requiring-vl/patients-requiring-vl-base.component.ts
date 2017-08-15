@@ -6,8 +6,6 @@ import {
     PatientsRequiringVLResourceService
 } from '../../etl-api/patients-requiring-vl-resource.service';
 
-
-
 @Component({
     selector: 'patient-requiring-vl',
     template: 'patients-requiring-vl-base.component.html'
@@ -31,7 +29,6 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
     public set startDate(v: Date) {
         this._startDate = v;
     }
-
 
     private _endDate: Date = new Date();
     public get endDate(): Date {
@@ -89,8 +86,8 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
     }
 
     constructor(public route: ActivatedRoute,
-        public router: Router,
-        public patientsRequiringVLResourceService: PatientsRequiringVLResourceService) {
+                public router: Router,
+                public patientsRequiringVLResourceService: PatientsRequiringVLResourceService) {
     }
 
     ngOnInit() {

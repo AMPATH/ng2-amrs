@@ -24,7 +24,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   public errorTitle: string;
 
   constructor(private patientService: PatientService,
-    private patientRelationshipService: PatientRelationshipService) {
+              private patientRelationshipService: PatientRelationshipService) {
   }
 
   ngOnInit(): void {
@@ -96,7 +96,6 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 3000);
   }
-
 
   public displayErrorAlert(errorTitle, errorMessage) {
     this.showErrorAlert = true;

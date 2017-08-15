@@ -32,7 +32,7 @@ export class HivSummaryService {
             }
             hivSummary.next(data);
         }
-       this.hivSummaryLatest.next(data);
+        this.hivSummaryLatest.next(data);
       }, (error) => {
         hivSummary.error(error);
         console.error(error);
@@ -103,4 +103,3 @@ export class HivSummaryService {
   }
 
 }
-

@@ -27,7 +27,6 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
     this.selectedCohortUuid = this.route.snapshot.params['cohort_uuid'];
     this.getCohortListToEdit();
 
-
   }
 
   ngOnDestroy(): void {
@@ -38,7 +37,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
   }
   getCohortListToEdit() {
     this.subscription = this.cohortListService.getData().subscribe(
-      data => {
+      (data) => {
         if (data) {
           this.selectedCohortDescription = data.description;
           this.selectedCohortUuid = data.uuid;
@@ -46,7 +45,6 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
         }
 
       });
-
 
   }
   public editCohortList() {

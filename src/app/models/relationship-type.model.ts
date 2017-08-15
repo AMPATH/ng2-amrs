@@ -2,7 +2,6 @@ import { BaseModel } from './base-model.model';
 import { serializable, serialize } from './serializable.decorator';
 import './date.extensions';
 
-
 export class RelationshipType extends BaseModel {
 
   constructor(openmrsModel?: any) {

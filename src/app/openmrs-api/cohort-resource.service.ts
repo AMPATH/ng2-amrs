@@ -5,17 +5,14 @@ import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angul
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
-
 @Injectable()
 export class CohortResourceService {
 
     baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
     private v: string = 'full';
 
-
     constructor(private _http: Http, private _appSettingsService: AppSettingsService) {
     }
-
 
     getOpenMrsBaseUrl(): string {
 
@@ -96,8 +93,6 @@ export class CohortResourceService {
                 return response.json();
             });
 
-
-
     }
 
     // Retire/Void Cohort
@@ -119,7 +114,5 @@ export class CohortResourceService {
             });
 
     }
-
-
 
 }

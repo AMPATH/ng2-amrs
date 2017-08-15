@@ -37,7 +37,6 @@ export class Moh731ReportFilters implements OnInit {
     //     this._showIsAggregateControl = v;
     // }
 
-
     // private _showLocationsControl: boolean = false;
     // public get showLocationsControl(): boolean {
     //     return this._showLocationsControl;
@@ -46,7 +45,6 @@ export class Moh731ReportFilters implements OnInit {
     // public set showLocationsControl(v: boolean) {
     //     this._showLocationsControl = v;
     // }
-
 
     private _startDate: Date;
     public get startDate(): Date {
@@ -59,7 +57,6 @@ export class Moh731ReportFilters implements OnInit {
         this.startDateChange.emit(this.startDate);
     }
 
-
     public get startDateString(): string {
         return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
     }
@@ -67,14 +64,12 @@ export class Moh731ReportFilters implements OnInit {
         this.startDate = new Date(v);
     }
 
-
     public get endDateString(): string {
         return this.endDate ? Moment(this.endDate).format('YYYY-MM-DD') : null;
     }
     public set endDateString(v: string) {
         this.endDate = new Date(v);
     }
-
 
     private _endDate: Date;
     public get endDate(): Date {
@@ -87,7 +82,6 @@ export class Moh731ReportFilters implements OnInit {
         this.endDateChange.emit(this.endDate);
     }
 
-
     // private _isAggregated: boolean;
     // public get isAggregated(): boolean {
     //     return this._isAggregated;
@@ -96,7 +90,6 @@ export class Moh731ReportFilters implements OnInit {
     // public set isAggregated(v: boolean) {
     //     this._isAggregated = v;
     // }
-
 
     private _isLegacyVersion: boolean = true;
     public get isLegacyVersion(): boolean {
@@ -107,7 +100,6 @@ export class Moh731ReportFilters implements OnInit {
         this._isLegacyVersion = v;
         this.isLegacyVersionChange.emit(this.isLegacyVersion);
     }
-
 
     constructor() { }
 

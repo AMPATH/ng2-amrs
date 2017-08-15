@@ -40,14 +40,14 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         }
 
     }
-    
+
     get data() {
         return this._data;
     }
 
     constructor(private mohReportService: MOHReportService,
-        private locationResourceService: LocationResourceService,
-        private domSanitizer: DomSanitizer) {
+                private locationResourceService: LocationResourceService,
+                private domSanitizer: DomSanitizer) {
 
     }
 
@@ -84,7 +84,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         }
 
     }
-
 
     public afterLoadCompletes(pdf: PDFDocumentProxy): void {
         this.numberOfPages = pdf.numPages;
@@ -142,7 +141,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
     }
 
-
     private moh731Report(rowData, sectionDefinitions) {
         if (rowData) {
             for (let i = 0; i < rowData.length; i++) {
@@ -157,7 +155,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         }
 
     }
-
 
     private getParams(locationUid) {
 

@@ -18,7 +18,6 @@ export abstract class BaseModel {
         this._openmrsModel.uuid = v;
     }
 
-
     public get display(): string {
         return this._openmrsModel.display;
     }

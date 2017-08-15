@@ -49,7 +49,6 @@ export class ProgramEnrollment extends BaseModel {
     return this._openmrsModel.voided;
   }
 
-
   @serializable()
   public get dateEnrolled(): Date {
     if (this._dateEnrolled === null || this._dateEnrolled === undefined) {
@@ -81,6 +80,5 @@ export class ProgramEnrollment extends BaseModel {
     let parsedDate = Date.parse(date);
     return isNaN(parsedDate) ? date : this._datePipe.transform(date, dateFormat);
   }
-
 
 }

@@ -14,8 +14,8 @@ export class HivPatientClinicalSummaryResourceService {
 
     let params: URLSearchParams = new URLSearchParams();
 
-    params.set('startIndex', <string><any> 0);
-    params.set('limit', <string><any> 10);
+    params.set('startIndex', 0 as any as string);
+    params.set('limit', 10 as any as string);
 
     return this.http.get(api, {search: params}).map((data) => data.json());
   }

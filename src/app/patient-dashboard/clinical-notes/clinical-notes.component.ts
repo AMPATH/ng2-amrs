@@ -46,7 +46,6 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
 
     this.appFeatureAnalytics.trackEvent('Patient Dashboard', 'Clinical Notes Loaded', 'ngOnInit');
 
-
     this.subscription = this.route.parent.params.subscribe((params: Params) => {
 
       this.patientUuid = params['patient_uuid'];

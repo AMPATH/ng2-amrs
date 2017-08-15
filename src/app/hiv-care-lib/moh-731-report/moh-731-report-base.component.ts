@@ -35,7 +35,6 @@ export class Moh731ReportBaseComponent implements OnInit {
     this._startDate = v;
   }
 
-
   private _endDate: Date = new Date();
   public get endDate(): Date {
     return this._endDate;

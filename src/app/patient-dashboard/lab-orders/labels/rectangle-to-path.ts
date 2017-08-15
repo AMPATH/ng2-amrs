@@ -54,7 +54,6 @@ export class RectangleToPath {
         return points;
     }
 
-
     private convertRect(rects, context) {
         let len = rects.length,
             x, y, w, h, deg = 0,
@@ -97,7 +96,6 @@ export class RectangleToPath {
             rects.item(0).parentNode.removeChild(rects.item(0));
         }
     }
-
 
     private mergePath(parent) {
         let paths = parent.getElementsByTagName('path'),

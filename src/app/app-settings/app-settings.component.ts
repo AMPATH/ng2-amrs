@@ -20,9 +20,9 @@ export class AppSettingsComponent implements OnInit {
   serverTemplates: Array<Object> = this.getServerTemplates();
 
   constructor(private router: Router,
-    private appSettingsService: AppSettingsService,
-    private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService) { }
+              private appSettingsService: AppSettingsService,
+              private localStorageService: LocalStorageService,
+              private authenticationService: AuthenticationService) { }
 
   getServerTemplates(): Array<Object> {
     return this.appSettingsService.getServerTemplates();

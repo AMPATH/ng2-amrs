@@ -38,7 +38,6 @@ export class PatientSearchService {
     return patientsSearchResults.asObservable();
   }
 
-
   searchPatientToBindRelationship(searchText: string, cached: boolean): Observable<Patient[]> {
     let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
     this.resouceService.searchPatient(searchText.trim(), false)
@@ -68,6 +67,5 @@ export class PatientSearchService {
   resetRelationshipSearch() {
     this.patientsToBindRelationshipSearchResults.next(new Array<Patient>());
   }
-
 
 }

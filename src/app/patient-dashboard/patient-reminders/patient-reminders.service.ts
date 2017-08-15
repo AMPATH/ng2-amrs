@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import { PatientReminderResourceService } from '../../etl-api/patient-reminder-resource.service';
 
-
 @Injectable()
 export class PatientReminderService {
   constructor(private patientReminderResourceService: PatientReminderResourceService) {
   }
-
 
   getPatientReminders(patientUuid: string): Observable<any> {
     let reminders: BehaviorSubject<any> = new BehaviorSubject<any>([]);

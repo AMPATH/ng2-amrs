@@ -5,7 +5,6 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs/Observable';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
-
 @Injectable()
 export class ClinicLabOrdersResourceService {
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,

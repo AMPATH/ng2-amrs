@@ -10,7 +10,6 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
     selectedDate: any;
     // @Input() default: any;
 
-
     @Input()
     public get default(): any {
         return this._default;
@@ -25,7 +24,6 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
             // console.log('updating', v);
         }
     }
-
 
     @Input() hideDatePicker: boolean = false;
     @Output() dateSelected = new EventEmitter();

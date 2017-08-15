@@ -10,10 +10,10 @@ import { MainDashboardComponent } from './main-dashboard.component';
 export class MainDashboardGuard implements CanActivate, CanDeactivate<MainDashboardComponent> {
 
     constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
-        private route: ActivatedRoute, private state: RouterStateSnapshot) { }
+                private route: ActivatedRoute, private state: RouterStateSnapshot) { }
       canActivate() {
       console.log('router', this.state);
-        return true;
+      return true;
     }
     canDeactivate(target: MainDashboardComponent) {
 
