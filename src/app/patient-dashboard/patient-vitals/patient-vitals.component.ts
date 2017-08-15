@@ -13,37 +13,37 @@ import { Patient } from '../../models/patient.model';
 })
 export class PatientVitalsComponent implements OnInit, OnDestroy {
 
-  loadingVitals: boolean = false;
+  public loadingVitals: boolean = false;
 
-  vitals: Array<any> = [];
+  public vitals: Array<any> = [];
 
-  patient: Patient;
+  public patient: Patient;
 
-  dataLoaded: boolean = false;
+  public dataLoaded: boolean = false;
 
-  errors: any = [];
-  page: number = 1;
+  public errors: any = [];
+  public page: number = 1;
 
-  patientUuid: any;
-  subscription: Subscription;
+  public patientUuid: any;
+  public subscription: Subscription;
 
-  nextStartIndex: number = 0;
-  isLoading: boolean = false;
+  public nextStartIndex: number = 0;
+  public isLoading: boolean = false;
 
   constructor(private patientVitalsService: PatientVitalsService,
               private patientService: PatientService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getPatient();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
@@ -60,7 +60,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
         });
       });
   }
-  loadVitals(patientUuid, nextStartIndex): void {
+  public loadVitals(patientUuid, nextStartIndex): void {
     this.loadingVitals = true;
 
     let request = this.patientVitalsService.getvitals(patientUuid, this.nextStartIndex)
@@ -73,9 +73,11 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
             for (let r in data) {
               if (data.hasOwnProperty(r)) {
                 let encounter = data[r];
-                if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck))
+                if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)){
 
                   this.vitals.push(encounter);
+
+                }
 
               }
 
@@ -104,7 +106,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
         });
       });
   }
-  loadMoreVitals() {
+  public loadMoreVitals() {
     this.loadVitals(this.patientUuid, this.nextStartIndex);
 
   }

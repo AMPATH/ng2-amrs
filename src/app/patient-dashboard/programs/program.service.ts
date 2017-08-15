@@ -18,7 +18,7 @@ export class ProgramService {
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
               private programResourceService: ProgramResourceService) { }
 
-  getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
+  public getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
     let enrolledPrograms: Subject<ProgramEnrollment[]> = new Subject<ProgramEnrollment[]>();
     let patientsObservable = this.programEnrollmentResourceService.
       getProgramEnrollmentByPatientUuid(uuid);
@@ -47,7 +47,7 @@ export class ProgramService {
     return enrolledPrograms.asObservable();
   }
 
-  getAvailablePrograms(): Observable<Program[]> {
+  public getAvailablePrograms(): Observable<Program[]> {
     let patientEnrollablePrograms: Subject<Program[]> = new Subject<Program[]>();
     let programsObservable = this.programResourceService.
       getPrograms();
@@ -76,7 +76,8 @@ export class ProgramService {
     return patientEnrollablePrograms.asObservable();
   }
 
-  createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted, enrollmentUuid): any {
+  public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted, enrollmentUuid ):
+   any {
     let payLoad = {
       patient: patient.person.uuid,
       program: program,
@@ -104,14 +105,14 @@ export class ProgramService {
 
   }
 
-  saveUpdateProgramEnrollment(payload: any): Observable<any> {
+  public saveUpdateProgramEnrollment(payload: any): Observable<any> {
     if (!payload) {
       return null;
     }
     return this.programEnrollmentResourceService.saveUpdateProgramEnrollment(payload);
   }
 
-  getSelectedProgram(programs, programUuid) {
+  public getSelectedProgram(programs, programUuid) {
     let uuid = programUuid.split(':')[1].trim();
     let filtered = _.filter(programs, (p: any) => {
       if (p.uuid === uuid) {

@@ -15,30 +15,30 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class VisitPeriodComponent implements OnInit, OnDestroy {
 
-  errors: any[] = [];
-  patientSubscription: Subscription;
-  routeSubscription: Subscription;
-  visitSubscription: Subscription;
-  loadingVisitPeriod: boolean = true;
-  encounterVisitUuid: string = '';
-  encounterUuid: string = '';
-  startDatetime: string = '';
-  stopDatetime: string = '';
-  encounters: any[] = [];
-  data: any;
-  genderOptions: any;
-  locationUuid: string;
-  loaderStatus: boolean;
-  locations = [];
-  loadedInitialLocation: boolean = false;
-  loadingVisit: boolean = true;
-  editLocation: boolean = true;
-  visitLocation: any;
-  currentVisit: any;
-  currentVisitType: any;
-  locationName: string = '';
+  public errors: any[] = [];
+  public patientSubscription: Subscription;
+  public routeSubscription: Subscription;
+  public visitSubscription: Subscription;
+  public loadingVisitPeriod: boolean = true;
+  public encounterVisitUuid: string = '';
+  public encounterUuid: string = '';
+  public startDatetime: string = '';
+  public stopDatetime: string = '';
+  public encounters: any[] = [];
+  public data: any;
+  public genderOptions: any;
+  public locationUuid: string;
+  public loaderStatus: boolean;
+  public locations = [];
+  public loadedInitialLocation: boolean = false;
+  public loadingVisit: boolean = true;
+  public editLocation: boolean = true;
+  public visitLocation: any;
+  public currentVisit: any;
+  public currentVisitType: any;
+  public locationName: string = '';
 
-  @Output() editedLocation = new EventEmitter();
+  @Output() public editedLocation = new EventEmitter();
 
   @Input()
   set visitUuid(value) {
@@ -59,7 +59,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscribeToPatientChangeEvent();
     this.subscribeToRouteChangeEvent();
     this.getLocations();
@@ -68,7 +68,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     }, 3000);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.patientSubscription) {
       this.patientSubscription.unsubscribe();
     }
@@ -80,7 +80,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     }
   }
 
-  subscribeToRouteChangeEvent() {
+  public subscribeToRouteChangeEvent() {
 
     if (this.route && this.route.queryParams) {
       this.routeSubscription = this.route.queryParams.subscribe((params) => {
@@ -103,7 +103,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadVisitByEncounter(encounterUuid) {
+  public loadVisitByEncounter(encounterUuid) {
     this.loadingVisit = true;
     let visit = this.getEncounterVisit(encounterUuid);
     this.loadingVisit = false;
@@ -114,7 +114,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     }
   }
 
-  subscribeToPatientChangeEvent() {
+  public subscribeToPatientChangeEvent() {
 
     this.patientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {

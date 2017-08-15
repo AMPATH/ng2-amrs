@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SessionStorageService {
-  getItem(keyName: string): string {
+  public getItem(keyName: string): string {
     return window.sessionStorage.getItem(keyName);
   }
 
-  setItem(keyName: string, value: string): void {
+  public setItem(keyName: string, value: string): void {
     window.sessionStorage.setItem(keyName, value);
   }
 
-  getObject(keyName: string): any {
+  public getObject(keyName: string): any {
     let stored = window.sessionStorage.getItem(keyName);
     try {
       let object = JSON.parse(stored);
@@ -21,15 +21,15 @@ export class SessionStorageService {
     }
   }
 
-  setObject(keyName: string, value: any) {
+  public setObject(keyName: string, value: any) {
     window.sessionStorage.setItem(keyName, JSON.stringify(value));
   }
 
-  remove(keyName: string): void {
+  public remove(keyName: string): void {
     window.sessionStorage.removeItem(keyName);
   }
 
-  clear(): void {
+  public clear(): void {
     window.sessionStorage.clear();
   }
 

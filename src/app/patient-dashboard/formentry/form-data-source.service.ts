@@ -19,7 +19,7 @@ export class FormDataSourceService {
               private localStorageService: LocalStorageService) {
   }
 
-  getDataSources() {
+  public getDataSources() {
 
     let formData: any = {
       location: this.getLocationDataSource(),
@@ -31,7 +31,7 @@ export class FormDataSourceService {
     return formData;
   }
 
-  getLocationDataSource() {
+  public getLocationDataSource() {
     let resolve = (uuid: string) => {
       return this.getLocationByUuid(uuid);
     };
@@ -46,7 +46,7 @@ export class FormDataSourceService {
     };
   }
 
-  getProviderDataSource() {
+  public getProviderDataSource() {
     let resolve = (uuid: string) => {
       return this.getProviderByPersonUuid(uuid);
     };
@@ -60,7 +60,7 @@ export class FormDataSourceService {
     };
   }
 
-  getDrugDataSource() {
+ public  getDrugDataSource() {
     let resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
@@ -74,7 +74,7 @@ export class FormDataSourceService {
     };
   }
 
-  getProblemDataSource() {
+  public getProblemDataSource() {
     let resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
@@ -88,7 +88,7 @@ export class FormDataSourceService {
     };
   }
 
-  getConceptAnswersDataSource() {
+  public getConceptAnswersDataSource() {
     let datasource = {
       cachedOptions: [],
       dataSourceOptions: {
@@ -119,7 +119,7 @@ export class FormDataSourceService {
 
   }
 
-  getWhoStagingCriteriaDataSource() {
+  public getWhoStagingCriteriaDataSource() {
     let sourceChangedSubject = new Subject();
 
     let datasource = {
@@ -166,7 +166,7 @@ export class FormDataSourceService {
 
   }
 
-  findProvider(searchText): Observable<Provider[]> {
+  public findProvider(searchText): Observable<Provider[]> {
     let providerSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
     let findProvider = this.providerResourceService.searchProvider(searchText, false);
     findProvider.subscribe(
@@ -196,7 +196,7 @@ export class FormDataSourceService {
     return providerSearchResults.asObservable();
   }
 
-  getProviderByUuid(uuid): Observable<any> {
+  public getProviderByUuid(uuid): Observable<any> {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.providerResourceService.getProviderByUuid(uuid, false)
       .subscribe(
@@ -216,7 +216,7 @@ export class FormDataSourceService {
     return providerSearchResults.asObservable();
 
   }
-  getProviderByPersonUuid(uuid) {
+  public getProviderByPersonUuid(uuid) {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.providerResourceService.getProviderByPersonUuid(uuid)
       .subscribe(
@@ -236,21 +236,25 @@ export class FormDataSourceService {
     return providerSearchResults.asObservable();
   }
 
-  getPatientObject(patient: Patient): Object {
-    let model: Object = {};
+  public getPatientObject(patient: Patient): object {
+    let model: object = {};
     let gender = patient.person.gender;
     let age = patient.person.age;
     model['sex'] = gender;
     model['age'] = age;
 
     // define gender based constant:
-    if (gender === 'F') model['gendercreatconstant'] = 0.85;
-    if (gender === 'M') model['gendercreatconstant'] = 1;
+    if (gender === 'F') {
+        model['gendercreatconstant'] = 0.85;
+    }
+    if (gender === 'M') {
+        model['gendercreatconstant'] = 1;
+    }
 
     return model;
   }
 
-  findLocation(searchText): Observable<Location[]> {
+  public findLocation(searchText): Observable<Location[]> {
     let locationSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
     let findLocation = this.locationResourceService.searchLocation(searchText, false);
     findLocation.subscribe(
@@ -270,7 +274,7 @@ export class FormDataSourceService {
     return locationSearchResults.asObservable();
   }
 
-  getLocationByUuid(uuid): Observable<any> {
+  public getLocationByUuid(uuid): Observable<any> {
     let locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.locationResourceService.getLocationByUuid(uuid, false)
       .subscribe(
@@ -288,7 +292,7 @@ export class FormDataSourceService {
     return locationSearchResults.asObservable();
   }
 
-  resolveConcept(uuid) {
+  public resolveConcept(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
     this.conceptResourceService.getConceptByUuid(uuid).subscribe((result) => {
       let mappedConcept = {
@@ -302,7 +306,7 @@ export class FormDataSourceService {
     return conceptResult.asObservable();
   }
 
-  getConceptAnswers(uuid) {
+  public getConceptAnswers(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
     let v = 'custom:(uuid,name,conceptClass,answers)';
     this.conceptResourceService.getConceptByUuid(uuid, true, v)
@@ -316,7 +320,7 @@ export class FormDataSourceService {
 
   }
 
-  getConceptSetMembers(uuid) {
+  public getConceptSetMembers(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
     let v = 'custom:(uuid,name,conceptClass,setMembers)';
     this.conceptResourceService.getConceptByUuid(uuid, true, v)
@@ -332,7 +336,7 @@ export class FormDataSourceService {
     return conceptResult.asObservable();
   }
 
-  findDrug(searchText) {
+  public findDrug(searchText) {
     let conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.conceptResourceService.searchConcept(searchText).subscribe((concepts) => {
       let filtered = _.filter(concepts, (concept: any) => {
@@ -349,7 +353,7 @@ export class FormDataSourceService {
     return conceptResults.asObservable();
   }
 
-  findProblem(searchText) {
+  public findProblem(searchText) {
     let conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.conceptResourceService.searchConcept(searchText).subscribe((concepts) => {
       let filtered = _.filter(concepts, (concept: any) => {
@@ -375,7 +379,7 @@ export class FormDataSourceService {
     });
     return conceptResults.asObservable();
   }
-  mapConcepts(concepts) {
+  public mapConcepts(concepts) {
     let mappedConcepts = concepts.map((concept) => {
       return {
         value: concept.uuid,
@@ -385,7 +389,7 @@ export class FormDataSourceService {
     return mappedConcepts;
   }
 
-  getCachedProviderSearchResults(): any {
+  public getCachedProviderSearchResults(): any {
     let sourcekey = 'cachedproviders';
     return this.localStorageService.getObject(sourcekey);
   }

@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class PatientResourceService {
 
-  v: string = 'custom:(uuid,display,' +
+  public v: string = 'custom:(uuid,display,' +
     'identifiers:(identifier,uuid,' +
     'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
     'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
@@ -19,12 +19,13 @@ export class PatientResourceService {
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
 
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'patient';
   }
 
-  searchPatient(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
+  public searchPatient(searchText: string, cached: boolean = false, v: string = null):
+   Observable<any> {
 
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
@@ -41,7 +42,8 @@ export class PatientResourceService {
       });
   }
 
-  getPatientByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
+  public getPatientByUuid(uuid: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl();
     url += '/' + uuid;
@@ -56,7 +58,7 @@ export class PatientResourceService {
       return response.json();
     });
   }
-  saveUpdatePatientIdentifier(uuid, identifierUuid, payload): Observable<any> {
+  public saveUpdatePatientIdentifier(uuid, identifierUuid, payload): Observable<any> {
     if (!payload || !uuid) {
       return null;
     }

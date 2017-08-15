@@ -10,8 +10,7 @@ export class PatientVitalsService {
 
   constructor(private vitalsResourceService: VitalsResourceService) { }
 
-  getvitals(patientUuid: string,
-            startIndex?: number, limit?: number): BehaviorSubject<any> {
+  public getvitals(patientUuid: string, startIndex?: number, limit?: number): BehaviorSubject<any> {
     let vitals: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.vitalsResourceService.getVitals(patientUuid,
@@ -19,13 +18,13 @@ export class PatientVitalsService {
         if (data) {
           let weight: string;
 
-          for (let r = 0; r < data.length; r++) {
-              if (data[r].height && data[r].weight) {
-                let BMI = (data[r].weight /
-                  (data[r].height / 100 * data[r].height / 100))
-                  .toFixed(1);
-                data[r]['BMI'] = BMI;
-              }
+          for (let r of  data) {
+            if (r.height && r.weight) {
+              let BMI = (r.weight /
+                (r.height / 100 * r.height / 100))
+                .toFixed(1);
+              r['BMI'] = BMI;
+            }
             }
           vitals.next(data);
                   }

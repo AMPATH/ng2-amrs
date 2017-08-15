@@ -11,17 +11,17 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
   styleUrls : ['patient-demographics.component.css']
 })
 export class PatientDemographicsComponent implements OnInit, OnDestroy {
-  patient: Patient = new Patient({});
-  messageType: string;
-  message: string;
-  isVisible: boolean;
-  busy: Subscription;
-  errors: any = [];
-  subscription: Subscription;
+  public patient: Patient = new Patient({});
+  public messageType: string;
+  public message: string;
+  public isVisible: boolean;
+  public busy: Subscription;
+  public errors: any = [];
+  public subscription: Subscription;
 
   constructor(private patientService: PatientService,
               private appFeatureAnalytics: AppFeatureAnalytics) { }
-  getPatientDemographics() {
+  public getPatientDemographics() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -36,13 +36,13 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
         });
       });
   }
-  ngOnInit() {
+  public ngOnInit() {
     this.getPatientDemographics();
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

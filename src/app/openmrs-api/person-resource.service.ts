@@ -6,15 +6,15 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 
 export class PersonResourceService {
-  v: string = 'full';
+  public v: string = 'full';
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'person';
   }
 
-  getPersonByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
+  public getPersonByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
 
     let url = this.getUrl();
     url += '/' + uuid;
@@ -29,7 +29,7 @@ export class PersonResourceService {
     });
   }
 
-  saveUpdatePerson(uuid, payload) {
+  public saveUpdatePerson(uuid, payload) {
     if (!payload || !uuid) {
       return null;
     }

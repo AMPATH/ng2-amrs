@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-
 import * as Moment from 'moment';
 import { PatientCareStatusResourceService } from
     '../../etl-api/patient-care-status-resource.service';
@@ -13,12 +12,12 @@ import { Patient } from '../../models/patient.model';
 })
 
 export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
-    patient: Patient = new Patient({});
-    loadingHistory = true;
-    historySubscription: Subscription;
-    subscription: Subscription;
-    careStatusHistory = [];
-    statusMap = {
+    public patient: Patient = new Patient({});
+    public loadingHistory = true;
+    public historySubscription: Subscription;
+    public subscription: Subscription;
+    public careStatusHistory = [];
+    public statusMap = {
         active_return: 'Active',
         new_enrollment: 'New Enrollment',
         transfer_in: 'Transferred In',
@@ -29,11 +28,11 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
         self_disengaged: 'Self Disengaged',
         node: 'None'
     };
-    error = false;
+    public error = false;
     constructor(private patientService: PatientService,
                 private patientCareStatusResourceService: PatientCareStatusResourceService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 this.patient = new Patient({});
@@ -44,10 +43,10 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
             }
         );
     }
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.resetSubscriptions();
     }
-    getCareStatusHistory() {
+    public getCareStatusHistory() {
         if (this.patient) {
             let endDate = Moment().format('YYYY-MM-DD');
             let startDate = Moment().subtract(12, 'months').format('YYYY-MM-DD');

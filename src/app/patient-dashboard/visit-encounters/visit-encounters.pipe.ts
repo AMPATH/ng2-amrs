@@ -4,19 +4,19 @@ import * as _ from 'lodash';
 
 @Pipe(
     {
-         name: 'visitEncountersPipe',
+         name: 'myVisitEncountersPipe',
          pure: false
     }
 )
 
 export class VisitEncountersPipe implements PipeTransform {
 
-  transform(mainArray, encounterFilterTypeArray) {
+  public transform(mainArray, encounterFilterTypeArray) {
        if (mainArray.length === 0 || encounterFilterTypeArray.length === 0) {
             return mainArray;
        } else {
 
-         let encounterInArray = function(encounter){
+         let encounterInArray = (encounter) => {
               return _.includes(encounterFilterTypeArray , encounter.encounter);
          };
 

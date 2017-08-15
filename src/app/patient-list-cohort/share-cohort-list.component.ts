@@ -13,22 +13,22 @@ import { CohortUserResourceService } from '../etl-api/cohort-list-user-resource.
 
 export class ShareCohortListComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  public subscription: Subscription;
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
-  isCreateNewUser: boolean = true;
-  isUseList: boolean = false;
-  selectedUser: any;
-  selectedUserToBind: any;
-  preferredRole: string;
-  selectedCohortUserId: string;
-  selectedCohortUserName: string;
-  userRole: string;
-  cohortUsers: any;
-  filterTerm: string = '';
-  fetchingResults: boolean = true;
-  userAssignedRole: string;
+  public isCreateNewUser: boolean = true;
+  public isUseList: boolean = false;
+  public selectedUser: any;
+  public selectedUserToBind: any;
+  public preferredRole: string;
+  public selectedCohortUserId: string;
+  public selectedCohortUserName: string;
+  public userRole: string;
+  public cohortUsers: any;
+  public filterTerm: string = '';
+  public fetchingResults: boolean = true;
+  public userAssignedRole: string;
   public successAlert: string = '';
   public displayConfirmDialog: boolean = false;
   public showSuccessAlert: boolean = false;
@@ -45,7 +45,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
               private router: Router,
               private cohortUserResourceService: CohortUserResourceService,
               private route: ActivatedRoute) { }
-  ngOnInit() {
+  public ngOnInit() {
     let cohortUuid = this.route.snapshot.params['cohort_uuid'];
     if (cohortUuid) {
       this.selectedCohortUuid = cohortUuid;
@@ -55,13 +55,13 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
 
     }
   }
-  getCohortListToShare() {
+  public getCohortListToShare() {
     this.subscription = this.cohortListService.getData().subscribe(
       (data) => {
         if (data) {
@@ -101,13 +101,13 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   public setPreferredRole(preferredRole) {
     this.preferredRole = preferredRole;
   }
-  getSelectedUser($event) {
+  public getSelectedUser($event) {
     if ($event) {
       this.selectedUserToBind = $event.label;
       this.selectedUser = $event;
     }
   }
-  isAddButton() {
+  public isAddButton() {
     this.preferredRole = '';
     this.selectedUserToBind = '';
     this.selectedUser = {};
@@ -139,7 +139,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
     );
 
   }
-  cancelSharing() {
+  public cancelSharing() {
     this.isUseList = false;
     this.isCreateNewUser = true;
 
@@ -173,18 +173,18 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
         });
     }
   }
-  canEdit(user) {
+  public canEdit(user) {
     this.selectedCohortUserId = user.cohort_user_id;
     this.userRole = 'edit';
     this.updateCohortUserRole(this.selectedCohortUserId, this.userRole);
   }
-  canView(user) {
+  public canView(user) {
     this.selectedCohortUserId = user.cohort_user_id;
     this.userRole = 'view';
     this.updateCohortUserRole(this.selectedCohortUserId, this.userRole);
 
   }
-  updateCohortUserRole(userId, role) {
+  public updateCohortUserRole(userId, role) {
     let cohortUserPayload = {
       role : role
     };
@@ -223,7 +223,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
       this.showErrorAlert = false;
     }, 3000);
   }
-  valueChange(newValue) {
+  public valueChange(newValue) {
     this.filterTerm = newValue;
   }
 }

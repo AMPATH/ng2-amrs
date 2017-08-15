@@ -11,7 +11,7 @@ import { CohortListService } from './cohort-list.service';
 })
 export class AddCohortListComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  public subscription: Subscription;
   public name: string;
   public description: string;
   public errors: any = [];
@@ -23,10 +23,10 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
 
   constructor(private cohortResourceService: CohortResourceService, private router: Router,
               private cohortListService: CohortListService) { }
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

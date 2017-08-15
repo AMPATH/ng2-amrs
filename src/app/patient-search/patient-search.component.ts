@@ -14,15 +14,15 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 })
 
 export class PatientSearchComponent implements OnInit, OnDestroy {
-  patients: Patient[];
-  isResetButton: boolean = true;
-  totalPatients: number;
-  isLoading: boolean = false;
-  hasConductedSearch = false;
-  page: number = 1;
-  adjustInputMargin: string = '240px';
-  subscription: Subscription;
-  title: string = 'Patient Search';
+  public patients: Patient[];
+  public isResetButton: boolean = true;
+  public totalPatients: number;
+  public isLoading: boolean = false;
+  public hasConductedSearch = false;
+  public page: number = 1;
+  public adjustInputMargin: string = '240px';
+  public subscription: Subscription;
+  public title: string = 'Patient Search';
   public errorMessage: string = '';
 
   /*
@@ -53,7 +53,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
               private router: Router) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (window.innerWidth <= 768) {
       this.adjustInputMargin = '0';
     }
@@ -75,13 +75,13 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  onResultsFound(results) {
+  public onResultsFound(results) {
     if (results.length > 0) {
       this.patients = results;
       this.totalPatients = this.patients.length;
@@ -96,7 +96,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.hasConductedSearch = true;
   }
 
-  onError(error) {
+  public onError(error) {
     this.isLoading = false;
     this.resetInputMargin();
     console.log('error', error);
@@ -104,7 +104,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.hasConductedSearch = false;
   }
 
-  loadPatient(): void {
+  public loadPatient(): void {
     this.totalPatients = 0;
     if (this.subscription) {
        this.subscription.unsubscribe();
@@ -136,19 +136,19 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  updatePatientCount(search) {
+  public updatePatientCount(search) {
     if (this.totalPatients > 0 && search.length > 0) {
         this.totalPatients = 0;
 
     }
   }
 
-  selectPatient(patient) {
+  public selectPatient(patient) {
       this.patientSelected.emit(patient);
       this.hideResults = true;
   }
 
-  resetSearchList() {
+  public resetSearchList() {
     this.hideResults = true;
     this.patientSearchService.resetPatients();
     this.searchString = '';

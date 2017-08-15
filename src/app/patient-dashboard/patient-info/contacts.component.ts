@@ -10,9 +10,9 @@ import { Subscription } from 'rxjs';
   styleUrls: []
 })
 export class ContactsComponent implements OnInit, OnDestroy {
-  patient: Patient = new Patient({});
-  display: boolean = false;
-  subscription: Subscription;
+  public patient: Patient = new Patient({});
+  public display: boolean = false;
+  public subscription: Subscription;
   private nextofkinPhoneNumber: number;
   private patnerPhoneNumber: number;
   private patientPhoneNumber: number;
@@ -20,17 +20,17 @@ export class ContactsComponent implements OnInit, OnDestroy {
   constructor(private patientService: PatientService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getPatient();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});

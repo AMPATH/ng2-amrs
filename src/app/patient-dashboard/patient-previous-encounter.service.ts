@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { PatientService } from './patient.service';
 import  *  as _  from 'lodash';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';

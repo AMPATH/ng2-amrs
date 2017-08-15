@@ -13,9 +13,9 @@ import * as moment from 'moment';
 })
 export class EditDemographicsComponent implements OnInit, OnDestroy {
 
-  patients: Patient = new Patient({});
+  public patients: Patient = new Patient({});
   public display: boolean = false;
-  subscription: Subscription;
+  public subscription: Subscription;
   public givenName: string;
   public familyName: string;
   public middleName: string;
@@ -45,18 +45,18 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
               private conceptResourceService: ConceptResourceService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
     this.getCauseOfDeath();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
@@ -76,7 +76,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  showDialog() {
+  public showDialog() {
     this.display = true;
   }
 

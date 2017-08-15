@@ -17,7 +17,7 @@ export class UserDefaultPropertiesMockService {
     ,         private http: Http
     ,         private appSettingsService: AppSettingsService) { }
 
-  getLocations(): Observable<any> {
+ public  getLocations(): Observable<any> {
 
     let api = this.appSettingsService.getOpenmrsServer() + '/ws/rest/v1/location?v=default';
 
@@ -25,18 +25,18 @@ export class UserDefaultPropertiesMockService {
 
   }
 
-  getCurrentUserDefaultLocation() {
+ public  getCurrentUserDefaultLocation() {
 
     let userDisplay = this.getAuthenticatedUser().display;
 
     return 'userDefaultLocation' + userDisplay;
   }
 
-  getAuthenticatedUser(): User {
+  public getAuthenticatedUser(): User {
     return new User({display: 'test'});
   }
 
-  setUserProperty(propertyKey: string, property: string) {
+  public setUserProperty(propertyKey: string, property: string) {
 
     this.localStorage.setItem(propertyKey, property);
 

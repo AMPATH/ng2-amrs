@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class OrderResourceService {
 
-  v: string = 'custom:(display,uuid,orderNumber,accessionNumber,' +
+  public v: string = 'custom:(display,uuid,orderNumber,accessionNumber,' +
   'orderReason,orderReasonNonCoded,urgency,action,' +
   'commentToFulfiller,dateActivated,instructions,orderer:default,' +
   'encounter:full,patient:default,concept:ref)';
@@ -16,13 +16,13 @@ export class OrderResourceService {
               protected appSettingsService: AppSettingsService) {
   }
 
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'order';
   }
 
-  searchOrdersById(orderId: string, cached: boolean = false,
-                   v: string = null): Observable<any> {
+  public searchOrdersById(orderId: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl();
     url += '/' + orderId;
@@ -36,8 +36,8 @@ export class OrderResourceService {
     });
   }
 
-  getOrdersByPatientUuid(patientUuid: string, cached: boolean = false,
-                         v: string = null): Observable<any> {
+  public getOrdersByPatientUuid(patientUuid: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
@@ -50,7 +50,7 @@ export class OrderResourceService {
       return response.json();
     });
   }
-  getOrderByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
+  public getOrderByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
 
     let url = this.getUrl();
     url += '/' + uuid;

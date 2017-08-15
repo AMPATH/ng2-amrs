@@ -24,8 +24,9 @@ export class PatientService {
       // this means there is already a currently loaded patient
       let previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
       // fetch from server if patient is NOT the same
-      if (previousPatient.uuid !== patientUuid)
+      if (previousPatient.uuid !== patientUuid) {
         this.fetchPatientByUuid(patientUuid);
+      }
     } else { // At this point we have not set patient object so let's hit the server
       this.fetchPatientByUuid(patientUuid);
     }

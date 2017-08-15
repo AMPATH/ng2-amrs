@@ -17,7 +17,7 @@ export class DraftedFormsService {
         return this._draftedForm.asObservable();
     }
 
-    setDraftedForm(draftedForm: Form) {
+    public setDraftedForm(draftedForm: Form) {
         this.lastDraftedForm = draftedForm;
         this._draftedForm.next(draftedForm);
         if (!draftedForm) {
@@ -33,7 +33,7 @@ export class DraftedFormsService {
         return this.routeSnapshot;
     }
 
-    setCancelState() {
+    public setCancelState() {
         this.setDraftedForm(null);
         this.hasBeenCancelled = true;
     }

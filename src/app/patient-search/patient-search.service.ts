@@ -15,14 +15,14 @@ export class PatientSearchService {
 
   }
 
-  searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
+  public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
     let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
     this.resouceService.searchPatient(searchText.trim(), false)
       .subscribe(
       (patients) => {
         let mappedPatients: Patient[] = new Array<Patient>();
-        for (let i = 0; i < patients.length; i++) {
-          mappedPatients.push(new Patient(patients[i]));
+        for (let patient of patients) {
+          mappedPatients.push(new Patient(patient));
         }
         this.searchString = searchText.trim();
         patientsSearchResults.next(mappedPatients);
@@ -38,14 +38,15 @@ export class PatientSearchService {
     return patientsSearchResults.asObservable();
   }
 
-  searchPatientToBindRelationship(searchText: string, cached: boolean): Observable<Patient[]> {
+  public searchPatientToBindRelationship(searchText: string, cached: boolean):
+  Observable<Patient[]> {
     let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
     this.resouceService.searchPatient(searchText.trim(), false)
       .subscribe(
       (patients) => {
         let mappedPatients: Patient[] = new Array<Patient>();
-        for (let i = 0; i < patients.length; i++) {
-          mappedPatients.push(new Patient(patients[i]));
+        for (let patient of patients) {
+          mappedPatients.push(new Patient(patient));
         }
         this.relationshipSearchString = searchText.trim();
         patientsSearchResults.next(mappedPatients);
@@ -60,11 +61,11 @@ export class PatientSearchService {
     return patientsSearchResults.asObservable();
   }
 
-  resetPatients() {
+  public resetPatients() {
     this.patientsSearchResults.next(new Array<Patient>());
   }
 
-  resetRelationshipSearch() {
+  public resetRelationshipSearch() {
     this.patientsToBindRelationshipSearchResults.next(new Array<Patient>());
   }
 

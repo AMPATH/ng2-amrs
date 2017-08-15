@@ -19,7 +19,7 @@ export class FormsResourceService {
    *
    * @memberOf AmrsDataService
    */
-  getForms(forceRefresh?: boolean) {
+  public getForms(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
 
     let params = new URLSearchParams();

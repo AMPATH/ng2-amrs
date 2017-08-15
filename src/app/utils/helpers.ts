@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export class Helpers {
 
-  static isNullOrUndefined(subject) {
+  public static isNullOrUndefined(subject) {
 
     return _.isUndefined(subject)
       || _.isNull(subject)
@@ -12,9 +12,9 @@ export class Helpers {
 
   }
 
-  static formatBlankOrNull(obj, text) {
+  public static formatBlankOrNull(obj, text) {
 
-    _.each(Object.keys(obj), function(key) {
+    _.each(Object.keys(obj), (key) => {
 
       if (obj[key] === '' || obj[key] === null) {
         obj[key] = text;
@@ -24,17 +24,17 @@ export class Helpers {
 
   }
 
-  static isNullOrEmpty(str) {
+  public static isNullOrEmpty(str) {
     return (!str || 0 === str.length);
   }
 
-  static hasAllMembersUndefinedOrNull(obj, members) {
+  public static hasAllMembersUndefinedOrNull(obj, members) {
 
     let hasANonNullMember = false;
 
-    for (let i = 0; i < members.length; i++) {
+    for (let member of members) {
 
-      if (!this.isNullOrUndefined(obj[members[i]])) {
+      if (!this.isNullOrUndefined(obj[members])) {
 
         hasANonNullMember = true;
         break;

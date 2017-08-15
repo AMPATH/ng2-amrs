@@ -1,10 +1,10 @@
 export class Patient {
-  fullName: string;
-  gender: string;
-  dob: number;
-  age: number;
-  ampathMrsUId: number;
-  amrsMrn: number;
-  cCC: number;
-  kenyaNationalId: number;
+  public fullName: string;
+  public gender: string;
+  public dob: number;
+  public age: number;
+  public ampathMrsUId: number;
+  public amrsMrn: number;
+  public cCC: number;
+  public kenyaNationalId: number;
 }

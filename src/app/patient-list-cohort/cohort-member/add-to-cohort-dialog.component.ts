@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, style } from '@angular/core';
-
-import { AddCohortMemberComponent } from
-    './add-cohort-member.component';
+import { AddCohortMemberComponent } from './add-cohort-member.component';
 
 @Component({
     selector: 'add-to-cohort-dialog',
@@ -43,7 +41,7 @@ export class AddToCohortDialogComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() {
+    public ngOnInit() {
         if (this.allowCohortEdit) {
             this.cohortComponent.showCohortSelectorComponent();
         }
@@ -53,11 +51,11 @@ export class AddToCohortDialogComponent implements OnInit {
         }
     }
 
-    onSavedCohortMember() {
+    public onSavedCohortMember() {
         this.display = false;
     }
 
-    showDialog() {
+    public showDialog() {
         this.display = true;
     }
 

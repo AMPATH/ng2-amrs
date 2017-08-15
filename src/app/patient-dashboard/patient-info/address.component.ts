@@ -9,8 +9,8 @@ import { Subscription } from 'rxjs';
   styleUrls: [],
 })
 export class AddressComponent implements OnInit, OnDestroy {
-  patients: Patient = new Patient({});
-  subscription: Subscription;
+  public patients: Patient = new Patient({});
+  public subscription: Subscription;
   public address1: string;
   public address2: string;
   public address3: string;
@@ -19,17 +19,17 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   constructor(private patientService: PatientService,
   ) { }
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});

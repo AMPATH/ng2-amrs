@@ -13,17 +13,17 @@ import { Subscription } from 'rxjs';
 })
 export class ClinicalNotesComponent implements OnInit, OnDestroy  {
 
-  dataLoaded: boolean = false;
+  public dataLoaded: boolean = false;
 
-  hasNotes: boolean = false;
+  public hasNotes: boolean = false;
 
-  fetching: boolean = true;
+  public fetching: boolean = true;
 
-  experiencedLoadingError: boolean = false;
+  public experiencedLoadingError: boolean = false;
 
-  isBusy: Subscription;
+  public isBusy: Subscription;
 
-  notes: Array<any> = [];
+  public notes: Array<any> = [];
 
   private helper: ClinicalNotesHelperService;
 
@@ -42,7 +42,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
     this.helper = new ClinicalNotesHelperService();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.appFeatureAnalytics.trackEvent('Patient Dashboard', 'Clinical Notes Loaded', 'ngOnInit');
 
@@ -67,7 +67,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
 
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
 
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -75,7 +75,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
     this.isBusy.unsubscribe();
   }
 
-  getMoreNotes() {
+  public getMoreNotes() {
 
     this.nextStartIndex += this.notes.length;
 
@@ -100,7 +100,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
 
   }
 
-  getNotes(startIndex: number, limit: number, cb: Function) {
+  public getNotes(startIndex: number, limit: number, cb) {
 
     this.isBusy = this.notesResource.getClinicalNotes(
       this.patientUuid,

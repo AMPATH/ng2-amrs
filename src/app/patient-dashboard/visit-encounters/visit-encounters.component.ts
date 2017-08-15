@@ -1,5 +1,6 @@
-import { PatientEncounterObservationsComponent } from
-'./../patient-encounters/patient-encounter-observations.component';
+import {
+    PatientEncounterObservationsComponent
+} from './../patient-encounters/patient-encounter-observations.component';
 import { EncounterListComponent } from './../patient-encounters/encounter-list.component';
 import { Component, OnInit, NgModule, OnChanges,
 OnDestroy, AfterViewInit, EventEmitter , ViewChild, Output } from '@angular/core';
@@ -22,13 +23,13 @@ import * as Moment from 'moment';
 
 export class VisitEncountersComponent implements OnInit {
 
-  title: string = 'Patient Visits';
-  patientUuid: string = '';
-  patientEncounters: any = [];
-  encounterDetail: boolean = false;
-  specEncounter: any = [];
-  selectedEncounter: any = [];
-  showVisitsObservations: boolean = true;
+  public title: string = 'Patient Visits';
+  public patientUuid: string = '';
+  public patientEncounters: any = [];
+  public encounterDetail: boolean = false;
+  public specEncounter: any = [];
+  public selectedEncounter: any = [];
+  public showVisitsObservations: boolean = true;
   public busyIndicator: any = {
     busy: false,
     message: 'Fetching encounters hang on...' // default message
@@ -41,13 +42,13 @@ export class VisitEncountersComponent implements OnInit {
             ) {
 
     }
-    ngOnInit() {
+    public ngOnInit() {
         this.getPatientUuid();
         this.encounterDetail = true;
 
     }
 
-     getPatientUuid() {
+     public getPatientUuid() {
         this._patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient !== null) {
@@ -58,7 +59,7 @@ export class VisitEncountersComponent implements OnInit {
             });
      }
 
-     getPatientEncounters(patientUuid) {
+     public getPatientEncounters(patientUuid) {
          this._encounterResourceService.getEncountersByPatientUuid(patientUuid ,
           false, null).subscribe((resp) => {
                 this.patientEncounters = resp.reverse();
@@ -66,11 +67,11 @@ export class VisitEncountersComponent implements OnInit {
           });
      }
 
-     showVisits() {
+     public showVisits() {
          this.showVisitsObservations = true;
 
      }
-     showEncounters() {
+     public showEncounters() {
           this.showVisitsObservations = false;
      }
 

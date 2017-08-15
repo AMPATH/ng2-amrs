@@ -11,8 +11,8 @@ import { Subscription } from 'rxjs';
   styleUrls: [],
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
-  patients: Patient = new Patient({});
-  subscription: Subscription;
+  public patients: Patient = new Patient({});
+  public subscription: Subscription;
   public display: boolean = false;
   public address1: string;
   public address2: string;
@@ -24,17 +24,17 @@ export class EditAddressComponent implements OnInit, OnDestroy {
 
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService) { }
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
@@ -53,7 +53,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     );
   }
 
-  showDialog() {
+  public showDialog() {
     this.display = true;
   }
   public dismissDialog() {

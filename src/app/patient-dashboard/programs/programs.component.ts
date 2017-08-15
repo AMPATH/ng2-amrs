@@ -15,22 +15,22 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./programs.component.css']
 })
 export class ProgramsComponent implements OnInit, OnDestroy {
-    patient: Patient = new Patient({});
-    enrolledProgrames: ProgramEnrollment[] = [];
-    availablePrograms: Program[] = [];
-    selectedProgram: string = '';
-    errors: any[] = [];
-    notEnrolled: boolean = false;
-    loadingPatientPrograms: boolean = false;
-    programsBusy: boolean = false;
-    enrollmentUuid: string = '';
-    program: string = '';
-    dateCompleted: any;
-    dateEnrolled: any;
-    displayDialog: boolean = false;
-    hasError: boolean = false;
-    errorMessage: string = '';
-    subscription: Subscription;
+    public patient: Patient = new Patient({});
+    public enrolledProgrames: ProgramEnrollment[] = [];
+    public availablePrograms: Program[] = [];
+    public selectedProgram: string = '';
+    public errors: any[] = [];
+    public notEnrolled: boolean = false;
+    public loadingPatientPrograms: boolean = false;
+    public programsBusy: boolean = false;
+    public enrollmentUuid: string = '';
+    public program: string = '';
+    public dateCompleted: any;
+    public dateEnrolled: any;
+    public displayDialog: boolean = false;
+    public hasError: boolean = false;
+    public errorMessage: string = '';
+    public subscription: Subscription;
     private _datePipe: DatePipe;
 
     constructor(private appFeatureAnalytics: AppFeatureAnalytics,
@@ -39,20 +39,20 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         this._datePipe = new DatePipe('en-US');
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.appFeatureAnalytics
             .trackEvent('Patient Dashboard', 'Program Loaded', 'ngOnInit');
         this.subscribeToPatientChangeEvent();
         this.getAvailablePrograms();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
       if (this.subscription) {
         this.subscription.unsubscribe();
       }
     }
 
-    subscribeToEnrollmentChangeEvent(payload) {
+    public subscribeToEnrollmentChangeEvent(payload) {
         this.programService.saveUpdateProgramEnrollment(payload).subscribe(
             (enrollment) => {
                 if (enrollment) {
@@ -62,7 +62,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         );
     }
 
-    subscribeToPatientChangeEvent() {
+    public subscribeToPatientChangeEvent() {
         this.programsBusy = true;
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
@@ -74,7 +74,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         );
     }
 
-    openNewEnrollmentDialog(programUuid: string) {
+    public openNewEnrollmentDialog(programUuid: string) {
 
         let selectedProgram = this.programService.
             getSelectedProgram(this.availablePrograms, programUuid);
@@ -86,7 +86,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         this.displayDialog = true;
     }
 
-    enrollToProgram() {
+    public enrollToProgram() {
         let isFormValid = this.validateFormFields(this.dateEnrolled, this.dateCompleted);
         let payload = this.programService.createEnrollmentPayload(
             this.program, this.patient, this.dateEnrolled, this.dateCompleted, this.enrollmentUuid);
@@ -97,7 +97,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         }
     }
 
-    updateEnrollment(enrollmentProgram) {
+    public updateEnrollment(enrollmentProgram) {
         this.hasError = false;
         this.displayDialog = true;
         this.selectedProgram = enrollmentProgram.display;
@@ -113,7 +113,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         this.program = enrollmentProgram.programUuid;
     }
 
-    loadProgramsPatientIsEnrolledIn(patientUuid: string) {
+    public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
         this.resetVariables();
         if (patientUuid) {
             this.loadingPatientPrograms = true;
@@ -142,7 +142,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         }
     }
 
-    getAvailablePrograms() {
+    public getAvailablePrograms() {
         this.programService.getAvailablePrograms().subscribe(
             (programs) => {
                 if (programs) {
@@ -160,7 +160,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         );
     }
 
-    resetVariables() {
+    public resetVariables() {
         this.enrolledProgrames = [];
         this.programsBusy = false;
         this.loadingPatientPrograms = false;
