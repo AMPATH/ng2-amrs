@@ -30,11 +30,11 @@ export class CohortSelectorComponent implements OnInit {
         this.user = this.userService.getLoggedInUser();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.getUserCohorts();
     }
 
-    selectCohort(selectedItem) {
+    public selectCohort(selectedItem) {
         let selctedCohort = {
             uuid: selectedItem.id,
             display: selectedItem.text
@@ -42,7 +42,7 @@ export class CohortSelectorComponent implements OnInit {
         this.cohortSelected.next(selctedCohort);
     }
 
-    getUserCohorts() {
+    public getUserCohorts() {
         let obs = this.userCohortResourceService.getUserCohorts(this.user.uuid);
         if (obs) {
             this.loadingList = true;
@@ -65,7 +65,7 @@ export class CohortSelectorComponent implements OnInit {
         }
     }
 
-    filterOutViewOnlyCohorts(cohortsArray: Array<any>) {
+    public filterOutViewOnlyCohorts(cohortsArray: Array<any>) {
         let cohorts = [];
         if (cohortsArray) {
             cohortsArray.forEach(

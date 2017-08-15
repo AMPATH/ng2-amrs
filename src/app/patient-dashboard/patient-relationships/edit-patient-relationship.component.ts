@@ -31,7 +31,7 @@ export class EditPatientRelationshipComponent implements OnInit {
               private patientService: PatientService,
               private appFeatureAnalytics: AppFeatureAnalytics) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Edit Patient Relationship Loaded', 'ngOnInit');

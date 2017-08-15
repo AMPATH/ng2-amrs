@@ -10,7 +10,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 @Injectable()
 export class UserDefaultPropertiesService {
 
-  locationSubject = new BehaviorSubject<any>('');
+  public locationSubject = new BehaviorSubject<any>('');
   private user: User;
 
   constructor(private userService: UserService
@@ -18,7 +18,7 @@ export class UserDefaultPropertiesService {
     ,         private http: Http
     ,         private appSettingsService: AppSettingsService) { }
 
-  getLocations(): Observable<any> {
+  public getLocations(): Observable<any> {
 
     let api = this.appSettingsService.getOpenmrsServer() + '/ws/rest/v1/location?v=default';
 
@@ -26,14 +26,14 @@ export class UserDefaultPropertiesService {
 
   }
 
-  getCurrentUserDefaultLocation() {
+  public getCurrentUserDefaultLocation() {
 
     let userDisplay = this.getAuthenticatedUser().display;
     let location = this.localStorage.getItem('userDefaultLocation' + userDisplay);
     return JSON.parse(location) ? JSON.parse(location).display : undefined;
   }
 
-  getCurrentUserDefaultLocationObject() {
+  public getCurrentUserDefaultLocationObject() {
     let userDisplay = this.getAuthenticatedUser().display;
     let location = this.localStorage.getItem('userDefaultLocation' + userDisplay);
     if (location) {
@@ -41,11 +41,11 @@ export class UserDefaultPropertiesService {
     }
     return null;
   }
-  getAuthenticatedUser(): User {
+  public getAuthenticatedUser(): User {
     return this.userService.getLoggedInUser();
   }
 
-  setUserProperty(propertyKey: string, property: string) {
+  public setUserProperty(propertyKey: string, property: string) {
 
     if (propertyKey === 'userDefaultLocation') {
 

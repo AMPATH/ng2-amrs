@@ -13,36 +13,36 @@ import { UserService } from '../openmrs-api/user.service';
 })
 
 export class UserSearchComponent implements OnInit, OnDestroy {
-  searchString: string;
-  users: any = [];
-  isResetButton: boolean = true;
-  totalUsers: number;
-  isLoading: boolean = false;
-  page: number = 1;
-  @Output() onSelectedUserFromSearch = new EventEmitter();
-  subscription: Subscription;
-  searchPanelVisible: boolean = false;
+  public searchString: string;
+  public users: any = [];
+  public isResetButton: boolean = true;
+  public totalUsers: number;
+  public isLoading: boolean = false;
+  public page: number = 1;
+  @Output() public onSelectedUserFromSearch = new EventEmitter();
+  public subscription: Subscription;
+  public searchPanelVisible: boolean = false;
   public errorMessage: string;
-  adjustInputMargin: string = '240px';
+  public adjustInputMargin: string = '240px';
 
   constructor(private userService: UserService, private router: Router,
               ) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (window.innerWidth <= 768) {
       this.adjustInputMargin = '0';
     }
 
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  loadUsers(): void {
+  public loadUsers(): void {
     this.searchPanelVisible = true;
     this.totalUsers = 0;
     if (this.subscription) {
@@ -60,9 +60,9 @@ export class UserSearchComponent implements OnInit, OnDestroy {
           (data) => {
             if (data.length > 0) {
               this.users = [];
-              for (let i = 0; i < data.length; i++) {
-                this.users.push({label: data[i].person.display, value: data[i].uuid,
-                  username: data[i].username});
+              for (let user of data ) {
+                this.users.push({label: user.person.display, value: user.uuid,
+                  username: user.username});
               }
               this.totalUsers = this.users.length;
               this.resetInputMargin();
@@ -83,18 +83,18 @@ export class UserSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateUsersCount(search) {
+  public updateUsersCount(search) {
     // if (this.totalUsers > 0 && search.length > 0) {
     //   this.totalUsers = 0;
     // }
   }
 
-  selectUser(user) {
+  public selectUser(user) {
     this.onSelectedUserFromSearch.emit(user);
     this.searchPanelVisible = false;
   }
 
-  resetSearchList() {
+  public resetSearchList() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

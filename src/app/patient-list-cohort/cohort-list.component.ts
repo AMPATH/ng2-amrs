@@ -1,8 +1,6 @@
-
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Response } from '@angular/http';
-import { Router, ActivatedRoute, Params }    from '@angular/router';
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortListService } from './cohort-list.service';
@@ -19,13 +17,13 @@ export class CohortListComponent implements OnInit {
   public isBusy: boolean = false;
   public selectedCohortListUuid: any;
   public selectedCohortListName: any;
-  fetchingResults: boolean = false;
+  public fetchingResults: boolean = false;
   public isLoading: boolean = false;
-  filterTerm: string = '';
-  cohortList: any;
-  user: User;
-  fetchError: boolean = false;
-  isSelectedCohort: any;
+  public filterTerm: string = '';
+  public cohortList: any;
+  public user: User;
+  public fetchError: boolean = false;
+  public isSelectedCohort: any;
   public displayConfirmDialog: boolean = false;
   public showSuccessAlert: boolean = false;
   public showErrorAlert: boolean = false;
@@ -43,10 +41,10 @@ export class CohortListComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getCohortList();
   }
-  getCohortList() {
+  public getCohortList() {
     this.fetchingResults = true;
     let sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
     if ( sub ) {
@@ -66,7 +64,7 @@ export class CohortListComponent implements OnInit {
      }
 
   }
-  valueChange(newValue) {
+  public valueChange(newValue) {
     this.filterTerm = newValue;
   }
   public openConfirmDialog(cohort) {
@@ -110,7 +108,7 @@ export class CohortListComponent implements OnInit {
       this.showErrorAlert = false;
     }, 3000);
   }
-  getCohortListToEdit(uuid, description, name) {
+  public getCohortListToEdit(uuid, description, name) {
     this.isSelectedCohort = {
       uuid: uuid,
       description: description,
@@ -120,10 +118,10 @@ export class CohortListComponent implements OnInit {
     this.router.navigate(['patient-list-cohort/cohort/' +
     this.isSelectedCohort.uuid + '/edit-cohort']);
   }
-  addNewCohort() {
+  public addNewCohort() {
     this.router.navigate(['patient-list-cohort/cohort/add-cohort']);
   }
-  viewCohortListMembers(list) {
+  public viewCohortListMembers(list) {
     this.isSelectedCohort = {
       uuid: list.uuid,
       description: list.description,
@@ -135,7 +133,7 @@ export class CohortListComponent implements OnInit {
     this.isSelectedCohort.uuid + '/member']);
 
   }
-  shareCohortList(uuid, description, name) {
+  public shareCohortList(uuid, description, name) {
     this.isSelectedCohort = {
       uuid: uuid,
       description: description,

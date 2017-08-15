@@ -7,7 +7,7 @@ export class PatientReminderService {
   constructor(private patientReminderResourceService: PatientReminderResourceService) {
   }
 
-  getPatientReminders(patientUuid: string): Observable<any> {
+  public getPatientReminders(patientUuid: string): Observable<any> {
     let reminders: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let clinicalReminders =
       this.patientReminderResourceService.getPatientLevelReminders(patientUuid);

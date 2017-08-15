@@ -12,35 +12,35 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
   styleUrls: [],
 })
 export class EditHealtCenterComponent implements OnInit, OnDestroy {
-  patients: Patient = new Patient({});
-  subscription: Subscription;
-  loaderStatus: boolean = false;
-  locations = [];
-  display: boolean = false;
-  healthCenter: any = {
+  public patients: Patient = new Patient({});
+  public subscription: Subscription;
+  public loaderStatus: boolean = false;
+  public locations = [];
+  public display: boolean = false;
+  public healthCenter: any = {
     label: '',
     value: ''
   };
-  selectedLocation: any;
-  errors: any = [];
+  public selectedLocation: any;
+  public errors: any = [];
 
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private personResourceService: PersonResourceService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
     this.getLocations();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
@@ -54,7 +54,7 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
     );
   }
 
-  showDialog() {
+  public showDialog() {
     this.display = true;
   }
 

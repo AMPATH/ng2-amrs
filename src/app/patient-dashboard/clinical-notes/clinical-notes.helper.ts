@@ -6,15 +6,15 @@ import * as _ from 'lodash';
 
 export class ClinicalNotesHelperService {
 
-  arvLine: any = {
+  public arvLine: any = {
     1: 'First',
     2: 'Second',
     3: 'Third',
     4: 'Fourth'
   };
 
-  datePipe: DatePipe;
-  titleCasePipe: TitleCasePipe;
+  public datePipe: DatePipe;
+  public titleCasePipe: TitleCasePipe;
 
   constructor() {
 
@@ -22,7 +22,7 @@ export class ClinicalNotesHelperService {
     this.titleCasePipe = new TitleCasePipe();
   }
 
-  format(notes: Array<any>): Array<any> {
+  public format(notes: Array<any>): Array<any> {
 
     let notAvailableMessage: string = 'Not available';
 
@@ -103,7 +103,7 @@ export class ClinicalNotesHelperService {
         note.hasCcHpiAssessment = false;
       } else {
         // Formant blank values
-        _.each(grouped, function(group) {
+        _.each(grouped, (group) => {
           Helpers.formatBlankOrNull(group, 'Not Provided');
         });
         note.hasCcHpiAssessment = true;
@@ -124,7 +124,9 @@ export class ClinicalNotesHelperService {
 
   private formatProviders(providers, separator) {
 
-    if (providers.length <= 1) return;
+    if (providers.length <= 1) {
+      return;
+    }
 
     // Add separator to every provider but the last
     for (let i = 0; i < providers.length - 1; i++) {
@@ -141,7 +143,7 @@ export class ClinicalNotesHelperService {
     let ccHpiAssessment = [];
     if (!_.isEmpty(ccHpiArray)) {
       if (_.isEmpty(assessmentArray)) {
-        _.each(ccHpiArray, function(ccHpi) {
+        _.each(ccHpiArray, (ccHpi) => {
           let o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
@@ -151,13 +153,13 @@ export class ClinicalNotesHelperService {
         });
       } else {
         // In case assessmentArray is not empty
-        _.each(ccHpiArray, function(ccHpi) {
+        _.each(ccHpiArray, (ccHpi) => {
           let o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
             assessment: ''
           };
-          let ass = _.find(assessmentArray, function(assItem) {
+          let ass = _.find(assessmentArray, (assItem) => {
             return ccHpi['encounterType'] === assItem['encounterType'];
           });
           if (ass) {
@@ -168,7 +170,7 @@ export class ClinicalNotesHelperService {
       }
     } else {
       // ccHpiArray is empty we redo the code the same way.
-      _.each(assessmentArray, function(ass) {
+      _.each(assessmentArray, (ass) => {
         let o = {
           encounterType: ass.encounterType,
           ccHpi: '',

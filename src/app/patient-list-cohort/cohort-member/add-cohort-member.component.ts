@@ -72,41 +72,41 @@ export class AddCohortMemberComponent implements OnInit {
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
 
     }
 
-    patientSelected(patient) {
+    public patientSelected(patient) {
         this.patient = patient;
         this._patientUuid = patient.uuid;
         this.showPatientSearch = false;
         this.hideResult = true;
     }
 
-    showPatientSearchComponent() {
+    public showPatientSearchComponent() {
         this.showPatientSearch = true;
     }
 
-    showCohortSelectorComponent() {
+    public showCohortSelectorComponent() {
         this.showCohortSelector = true;
     }
 
-    cohortSelected(cohort) {
+    public cohortSelected(cohort) {
         this.cohort = cohort;
         this.showCohortSelector = false;
     }
 
-    save() {
+    public save() {
         if (this.isValid()) {
             this.saveCohort(this.cohort.uuid, this.patient.uuid);
         }
     }
 
-    cancel() {
+    public cancel() {
         this.cancelled.next();
     }
 
-    saveCohort(cohortUuid: string, patientUuid: string) {
+    public saveCohort(cohortUuid: string, patientUuid: string) {
         this.isBusy = true;
         this.hasError = false;
         this.errorMessage = '';
@@ -126,7 +126,7 @@ export class AddCohortMemberComponent implements OnInit {
             });
     }
 
-    isValid(): boolean {
+    public isValid(): boolean {
         if (!(this.patient && this.patient.uuid)) {
             this.errorMessage = 'patient is required';
             this.hasError = true;
@@ -141,7 +141,7 @@ export class AddCohortMemberComponent implements OnInit {
         return true;
     }
 
-    resolveCohortUuidToCohort() {
+    public resolveCohortUuidToCohort() {
         this.cohortResourceService.getCohort(this._cohortUuid, 'ref')
             .subscribe((cohort) => {
                 this.cohort = cohort;
@@ -153,7 +153,7 @@ export class AddCohortMemberComponent implements OnInit {
             });
     }
 
-    resolvePatientUuidToPatient() {
+    public resolvePatientUuidToPatient() {
         this.patientResourceService.getPatientByUuid(this._patientUuid, true)
             .subscribe((patient) => {
                 this.patient = new Patient(patient);

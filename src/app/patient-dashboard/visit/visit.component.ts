@@ -16,19 +16,19 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
     styleUrls: ['visit.component.css']
 })
 export class VisitComponent implements OnInit, OnDestroy {
-    visitTypes = [];
-    excludedForms = [];
-    visit: any;
-    visitWithNoEncounters: boolean = true;
-    patient: any;
-    subscription: Subscription;
-    errors: any = [];
-    loadingVisitTypes: Boolean;
-    confirmCancel: boolean;
-    confirmEndVisit: boolean;
-    showDialog: boolean = false;
-    visitBusy: Boolean;
-    iseditLocation: boolean = false;
+    public visitTypes = [];
+    public excludedForms = [];
+    public visit: any;
+    public visitWithNoEncounters: boolean = true;
+    public patient: any;
+    public subscription: Subscription;
+    public errors: any = [];
+    public loadingVisitTypes: boolean;
+    public confirmCancel: boolean;
+    public confirmEndVisit: boolean;
+    public showDialog: boolean = false;
+    public visitBusy: boolean;
+    public iseditLocation: boolean = false;
     constructor(private visitResourceService: VisitResourceService,
                 private userDefaultPropertiesService: UserDefaultPropertiesService,
                 private patientService: PatientService, private router: Router,
@@ -36,22 +36,22 @@ export class VisitComponent implements OnInit, OnDestroy {
                 private route: ActivatedRoute,
                 private encounterResourceService: EncounterResourceService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.getPatient();
         // app feature analytics
         this.appFeatureAnalytics
             .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
     }
-    locationChanges(edit) {
+    public locationChanges(edit) {
         this.iseditLocation = edit;
     }
-    getVisit(patientUuid) {
+    public getVisit(patientUuid) {
         this.visitBusy = true;
         this.visitResourceService.getPatientVisits({ patientUuid: patientUuid })
             .map(this.getLastVisit)
@@ -60,11 +60,12 @@ export class VisitComponent implements OnInit, OnDestroy {
                 this.visitBusy = false;
                 if (visit) {
                     this.visit = visit;
-                    if (visit.encounters && visit.encounters.length > 0)
+                    if (visit.encounters && visit.encounters.length > 0) {
                         this.visitWithNoEncounters = false;
-                    this.excludedForms = visit.encounters.map((a) => {
-                        return a.encounterType.uuid;
-                    });
+                        this.excludedForms = visit.encounters.map((a) => {
+                            return a.encounterType.uuid;
+                        });
+                    }
                 } else {
                     this.getVisitTypes();
                 }
@@ -77,7 +78,7 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
     }
 
-    getPatient() {
+    public getPatient() {
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient !== null) {
@@ -93,7 +94,7 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
     }
 
-    getVisitTypes() {
+    public getVisitTypes() {
         this.loadingVisitTypes = true;
         this.visitResourceService.getVisitTypes({}).subscribe(
             (visitTypes) => {
@@ -119,11 +120,11 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
     }
 
-    editLocation() {
+    public editLocation() {
         this.iseditLocation = !this.iseditLocation;
 
     }
-    startVisit(visitTypeUuid) {
+    public startVisit(visitTypeUuid) {
         let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         this.visitBusy = true;
         let visitPayload = {
@@ -146,17 +147,17 @@ export class VisitComponent implements OnInit, OnDestroy {
 
     }
 
-    endVisit() {
+    public endVisit() {
         this.showDialog = true;
         this.confirmEndVisit = true;
     }
 
-    cancelVisit() {
+    public cancelVisit() {
         this.showDialog = true;
         this.confirmCancel = true;
     }
 
-    onYes() {
+    public onYes() {
         if (this.confirmCancel) {
             this.onCancelVisit();
         } else if (this.confirmEndVisit) {
@@ -164,13 +165,13 @@ export class VisitComponent implements OnInit, OnDestroy {
         }
     }
 
-    onNo() {
+    public onNo() {
         this.showDialog = false;
         this.confirmCancel = false;
         this.confirmEndVisit = false;
     }
 
-    onEndVisit() {
+    public onEndVisit() {
 
         this.visitBusy = true;
         this.visitResourceService.updateVisit(this.visit.uuid,
@@ -193,7 +194,7 @@ export class VisitComponent implements OnInit, OnDestroy {
             });
     }
 
-    onCancelVisit() {
+    public onCancelVisit() {
         this.visitBusy = true;
 
         if (!this.visit) {
@@ -220,7 +221,7 @@ export class VisitComponent implements OnInit, OnDestroy {
                 });
             });
     }
-    formSelected(form) {
+    public formSelected(form) {
         if (form) {
             this.router.navigate(['../formentry', form.uuid],
                 {
@@ -229,7 +230,7 @@ export class VisitComponent implements OnInit, OnDestroy {
                 });
         }
     }
-    encounterSelected(encounter) {
+    public encounterSelected(encounter) {
         if (encounter) {
             this.router.navigate(['../formentry', encounter.form.uuid], {
                 relativeTo: this.route,

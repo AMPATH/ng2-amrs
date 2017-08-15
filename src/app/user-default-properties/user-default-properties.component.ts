@@ -31,7 +31,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.isBusy = true;
 
@@ -50,12 +50,12 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   }
 
-  goToPatientSearch() {
+  public goToPatientSearch() {
     this.isLoading = true;
     this.router.navigate(['patient-dashboard/patient-search']);
   }
 
-  filter(event: any) {
+  public filter(event: any) {
 
     if (this.query !== '') {
       this.filteredList = this.locations.filter(function(_location) {
@@ -71,7 +71,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
     }
   }
 
-  select(item) {
+ public select(item) {
     this.query = item.display;
     this.currentLocation = item.display;
     let location = JSON.stringify({ uuid: item.uuid, display: item.display });

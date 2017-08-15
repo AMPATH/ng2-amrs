@@ -45,7 +45,8 @@ export class LocationResourceService {
     return this.locations;
   }
 
-  getLocationByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
+  public getLocationByUuid(uuid: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
     url += '/' + uuid;
@@ -60,7 +61,7 @@ export class LocationResourceService {
     return this.cacheService.cacheRequest(url, params, request);
   }
 
-  getLocationIdByUuid(uuid: string): any {
+  public getLocationIdByUuid(uuid: string): any {
     let _location = this.locationIds.locations.filter((location) => {
       return location.uuid === uuid;
     });
@@ -70,7 +71,8 @@ export class LocationResourceService {
     return null;
   }
 
-  searchLocation(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
+  public searchLocation(searchText: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
     let params: URLSearchParams = new URLSearchParams();

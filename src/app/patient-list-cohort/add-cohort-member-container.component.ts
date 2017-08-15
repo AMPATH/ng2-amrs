@@ -17,14 +17,14 @@ export class AddCohortMemberContainerComponent implements OnInit {
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.route.url.subscribe((url) => {
             this.cohortUuid = url[1].path;
         });
         this.addCohortComp.showPatientSearchComponent();
     }
 
-    onSavedCohortMember() {
+    public onSavedCohortMember() {
         this.router.navigate(['/patient-list-cohort/patient-list/cohort-members/' +
             this.cohortUuid]);
     }

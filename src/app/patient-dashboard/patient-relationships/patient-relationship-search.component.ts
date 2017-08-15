@@ -18,23 +18,23 @@ import { Person } from '../../models/person.model';
 })
 
 export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
-    searchString: string;
-    patients: Patient[];
-    isResetButton: boolean = true;
-    totalPatients: number;
-    isLoading: boolean = false;
-    page: number = 1;
-    patientToBindRelationship: any;
-    @Output() onPatientToBindRelationship = new EventEmitter();
-    subscription: Subscription;
-    searchPanelVisible: boolean = false;
+    public searchString: string;
+    public patients: Patient[];
+    public isResetButton: boolean = true;
+    public totalPatients: number;
+    public isLoading: boolean = false;
+    public page: number = 1;
+    public patientToBindRelationship: any;
+    @Output() public onPatientToBindRelationship = new EventEmitter();
+    public subscription: Subscription;
+    public searchPanelVisible: boolean = false;
     public errorMessage: string;
 
     constructor(private patientSearchService: PatientSearchService, private router: Router,
                 private patientRelationshipService: PatientRelationshipService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         // load cached result
         this.patientSearchService.patientsToBindRelationshipSearchResults.subscribe(
             (patients) => {
@@ -45,13 +45,13 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
     }
 
-    loadPatient(): void {
+    public loadPatient(): void {
         this.searchPanelVisible = true;
         this.totalPatients = 0;
         if (this.subscription) {
@@ -84,24 +84,24 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
         }
     }
 
-    updatePatientCount(search) {
+    public updatePatientCount(search) {
 
         if (this.totalPatients > 0 && search.length > 0) {
             this.totalPatients = 0;
         }
     }
 
-    loadPatientData(patientUuid) {
+    public loadPatientData(patientUuid) {
         if (patientUuid === undefined || patientUuid === null) {
             return;
         }
-
-        this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/patient-info']);
+        this.router.navigate(['/patient-dashboard/patient/' +
+            patientUuid + '/general/patient-info']);
 
     }
 
-    selectPatient(patientUuid) {
-        this.patientToBindRelationship = _.find(this.patients, function(patient) {
+    public selectPatient(patientUuid) {
+        this.patientToBindRelationship = _.find(this.patients, (patient) => {
             if (patient.uuid === patientUuid) {
                 return patient;
             }
@@ -110,7 +110,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
         this.searchPanelVisible = false;
     }
 
-    resetSearchList() {
+    public resetSearchList() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }

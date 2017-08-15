@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject }    from 'rxjs/Rx';
+import { Subject, BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
 export class CohortListService {
-  editCohort: any;
+  public editCohort: any;
   private isEditCohort = new BehaviorSubject(this.editCohort);
 
   public setData(data: any) {

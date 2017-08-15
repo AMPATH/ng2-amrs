@@ -12,25 +12,25 @@ import { Subscription } from 'rxjs';
   styleUrls: [],
 })
 export class TodaysVitalsComponent implements OnInit, OnDestroy {
-  patients: Patient = new Patient({});
-  todaysVitals: Vital[] = [];
-  errors: any[] = [];
-  currentPatientSub: Subscription;
-  loadingTodaysVitals: boolean = false;
-  dataLoaded: boolean = false;
+  public patients: Patient = new Patient({});
+  public todaysVitals: Vital[] = [];
+  public errors: any[] = [];
+  public currentPatientSub: Subscription;
+  public loadingTodaysVitals: boolean = false;
+  public dataLoaded: boolean = false;
 
   constructor(private patientService: PatientService, private vitalService: TodaysVitalsService) { }
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscribeToPatientChangeEvent();
   }
 
-  ngOnDestroy(): void {
+ public ngOnDestroy(): void {
     if (this.currentPatientSub) {
       this.currentPatientSub.unsubscribe();
     }
   }
 
-  subscribeToPatientChangeEvent() {
+  public subscribeToPatientChangeEvent() {
     this.currentPatientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
@@ -40,7 +40,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     );
   }
 
-  loadTodaysVitalsForPatient(patientUuid: string) {
+  public loadTodaysVitalsForPatient(patientUuid: string) {
     this.resetVariables();
     if (patientUuid) {
       let params = { patientUuid: patientUuid };
@@ -70,7 +70,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetVariables() {
+ public resetVariables() {
     this.todaysVitals = [];
     this.dataLoaded = false;
     this.loadingTodaysVitals = false;

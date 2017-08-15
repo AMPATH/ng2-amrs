@@ -12,12 +12,12 @@ import { Subscription } from 'rxjs';
 })
 export class PatientInfoComponent implements OnInit, OnDestroy {
 
-  patient: Patient;
-  subscription: Subscription;
+  public patient: Patient;
+  public subscription: Subscription;
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
               private patientService: PatientService) {
   }
-  ngOnInit() {
+  public ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -30,7 +30,7 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
       .trackEvent('Patient Dashboard', 'Patient Info Loaded', 'ngOnInit');
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

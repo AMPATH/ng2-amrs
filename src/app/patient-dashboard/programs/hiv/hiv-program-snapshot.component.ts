@@ -14,33 +14,33 @@ import * as moment from 'moment';
   templateUrl: './hiv-program-snapshot.component.html'
 })
 export class HivProgramSnapshotComponent implements OnInit {
-  @Input('patient') currentlyLoadedPatient: Patient;
-  hasError: boolean = false;
-  hasData: boolean = false;
-  patientData: any = {};
-  loadingData: boolean = false;
-  hasLoadedData: boolean = false;
-  isVirallyUnsuppressed: boolean = false;
-  @Output() addPinkBackground = new EventEmitter();
-  location: any = {};
+  @Input() public patient: Patient;
+  public hasError: boolean = false;
+  public hasData: boolean = false;
+  public patientData: any = {};
+  public loadingData: boolean = false;
+  public hasLoadedData: boolean = false;
+  public isVirallyUnsuppressed: boolean = false;
+  @Output() public addPinkBackground = new EventEmitter();
+  public location: any = {};
   constructor(private hivSummaryResourceService: HivSummaryResourceService
     ,         private http: Http
     ,         private appSettingsService: AppSettingsService) {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     _.delay((patientUuid) => {
-      if (_.isNil(this.currentlyLoadedPatient)) {
+      if (_.isNil(this.patient)) {
         this.hasError = true;
       } else {
         this.hasData = false;
         this.getHivSummary(patientUuid);
       }
-    }, 0, this.currentlyLoadedPatient.uuid);
+    }, 0, this.patient.uuid);
   }
 
-  getHivSummary(patientUuid) {
+  public getHivSummary(patientUuid) {
     this.loadingData = true;
     this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).subscribe((results) => {
       this.getLocation().subscribe((locations) => {
@@ -67,14 +67,14 @@ export class HivProgramSnapshotComponent implements OnInit {
     });
   }
 
-  getLocation(): Observable<any> {
+  public getLocation(): Observable<any> {
     let api = this.appSettingsService.getOpenmrsServer() + '/ws/rest/v1/location?v=default';
     return this.http.get(api).map((response: Response) => {
       return response.json().results;
     });
   }
 
-  getPatientCareStatus(id: any) {
+  public getPatientCareStatus(id: any) {
     let translateMap = {
       '159': 'DECEASED',
       '9079': 'UNTRACEABLE',
@@ -104,7 +104,7 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   private _toProperCase(text: string) {
     text = text || '';
-    return text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() +
+    return text.replace(/\w\S*/g, (txt) => {return txt.charAt(0).toUpperCase() +
       txt.substr(1).toLowerCase(); });
   }
 }

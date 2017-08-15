@@ -9,11 +9,11 @@ import { Vital } from '../../models/vital.model';
 
 @Injectable()
 export class TodaysVitalsService {
-    loadingVitals: boolean;
-    loadingEncounters: boolean;
-    errors: any = [];
+    public loadingVitals: boolean;
+    public loadingEncounters: boolean;
+    public errors: any = [];
 
-    vitalModel = {
+    public vitalModel = {
         diastolic: null, systolic: null,
         pulse: null, temperature: null, oxygenSaturation: null,
         height: null, weight: null, bmi: null
@@ -22,7 +22,7 @@ export class TodaysVitalsService {
     constructor(private visitResourceService: VisitResourceService) {
     }
 
-    getTodaysVitals(uuid): Observable<Vital[]> {
+    public getTodaysVitals(uuid): Observable<Vital[]> {
         let todaysVitals: Subject<Vital[]> = new Subject<Vital[]>();
         let patientsObservable = this.visitResourceService.getPatientVisits(uuid);
 
@@ -114,9 +114,8 @@ export class TodaysVitalsService {
     }
 
     private getVitalsFromObs(obsArray) {
-        for (let i = 0; i < obsArray.length; i++) {
-            let ob = obsArray[i];
-
+        for (let obs of obsArray) {
+            let ob = obs;
             if (ob.hasOwnProperty('concept')) {
                 if (ob.concept.uuid === 'a899e6d8-1350-11df-a1f1-0026b9348838') {
                     let vitals = ob.groupMembers;

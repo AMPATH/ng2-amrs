@@ -7,8 +7,9 @@ import { EncounterResourceService } from './../../openmrs-api/encounter-resource
 import { VisitResourceService } from './../../openmrs-api/visit-resource.service';
 import { VisitEncountersPipe } from './visit-encounters.pipe';
 import { OrderByAlphabetPipe } from './visit-encounter.component.order.pipe';
-import { EncounterTypeFilter } from
-    './../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
+import {
+    EncounterTypeFilter
+} from './../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,49 +23,49 @@ import { Http } from '@angular/http';
 
 export class VisitEncountersListComponent implements OnInit, OnChanges {
 
-    title: string = 'Patient Visits';
-    mainArray: any = [];
-    visitsArray: any = [];
-    singleEncounterVisits: any = [];
-    reverseDateArray: any = [];
-    encountersArray: any = [];
-    reverseEncounterArray: any = [];
-    reverseVisitsArray: any = [];
-    encounterTypesArray: any = [];
-    encounterFilterTypeArray: any = [];
-    selectedEncounter: string = '';
-    displayArray: any = [];
-    onEncounterDetail: boolean = false;
-    dateDesc: boolean = false;
-    visitDesc: boolean = false;
-    orderEncounterArray: any = [];
-    ascIcon: string = 'fa fa-sort-alpha-asc fa-fw';
-    descIcon: string = 'fa fa-sort-alpha-desc fa-fw';
-    visitIcon: string = '';
-    locationOrderNo: number = 0;
-    locationIcon: string = '';
-    orderVisitNo: number = 0;
-    providerIcon: string = '';
-    providerOrderNo: number = 0;
-    dateOrderNo: number = 0;
-    dateIcon: string = this.ascIcon;
-    users: any[];
-    selectedEncounterType: any;
-    v: any;
+    public title: string = 'Patient Visits';
+    public mainArray: any = [];
+    public visitsArray: any = [];
+    public singleEncounterVisits: any = [];
+    public reverseDateArray: any = [];
+    public encountersArray: any = [];
+    public reverseEncounterArray: any = [];
+    public reverseVisitsArray: any = [];
+    public encounterTypesArray: any = [];
+    public encounterFilterTypeArray: any = [];
+    public selectedEncounter: string = '';
+    public displayArray: any = [];
+    public onEncounterDetail: boolean = false;
+    public dateDesc: boolean = false;
+    public visitDesc: boolean = false;
+    public orderEncounterArray: any = [];
+    public ascIcon: string = 'fa fa-sort-alpha-asc fa-fw';
+    public descIcon: string = 'fa fa-sort-alpha-desc fa-fw';
+    public visitIcon: string = '';
+    public locationOrderNo: number = 0;
+    public locationIcon: string = '';
+    public orderVisitNo: number = 0;
+    public providerIcon: string = '';
+    public providerOrderNo: number = 0;
+    public dateOrderNo: number = 0;
+    public dateIcon: string = this.ascIcon;
+    public users: any[];
+    public selectedEncounterType: any;
+    public v: any;
 
-    @Input() encounters: Encounter[];
-    @Input() showVisitsObservations: Boolean;
+    @Input() public encounters: Encounter[];
+    @Input() public showVisitsObservations: boolean;
 
     constructor(private router: Router,
                 private route: ActivatedRoute) { }
 
-    ngOnInit() {
+    public ngOnInit() {
 
         this.displayArray = this.mainArray;
 
     }
 
-    ngOnChanges() {
+    public ngOnChanges() {
         if (this.encounters.length > 0) {
             this.groupEncountersByVisits(this.encounters);
         }
@@ -73,7 +74,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     // get all users for display in visit provider
 
-    groupEncountersByVisits(encounters) {
+    public groupEncountersByVisits(encounters) {
 
         let visitsArray: any = [];
 
@@ -280,15 +281,15 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    removeFilterItem(index) {
+    public removeFilterItem(index) {
         return this.encounterFilterTypeArray.splice(index, 1);
     }
 
-    clearEncounterFilter() {
+    public clearEncounterFilter() {
         return this.encounterFilterTypeArray = [];
     }
 
-    editEncounter(encounter) {
+    public editEncounter(encounter) {
         if (encounter) {
             this.router.navigate(['../formentry', encounter.form.uuid], {
                 relativeTo: this.route,
@@ -297,7 +298,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         }
     }
 
-    showEncounterObservations(encounter) {
+    public showEncounterObservations(encounter) {
         if (encounter) {
             // console.log('Show Encounter ' , encounter);
             this.selectedEncounter = encounter;
@@ -306,7 +307,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    sortByProvider() {
+    public sortByProvider() {
 
         let providerOrderNo = this.providerOrderNo;
 
@@ -350,7 +351,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    sortByVisits() {
+    public sortByVisits() {
 
         let visitOrderNo = this.orderVisitNo;
 
@@ -393,7 +394,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         }
     }
 
-    sortByLocation() {
+    public sortByLocation() {
 
         let locationOrderNo = this.locationOrderNo;
 
@@ -435,7 +436,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
         }
     }
-    sortByDate() {
+    public sortByDate() {
 
         let newDisplayArray = this.mainArray.slice().reverse();
 
@@ -456,7 +457,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    sortByDateZa(array) {
+    public sortByDateZa(array) {
 
         array.sort((a: any, b: any) => {
 
@@ -476,7 +477,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    sortByDateAz(array) {
+    public sortByDateAz(array) {
 
         array.sort((a: any, b: any) => {
             let dateA = Moment(a.date);
@@ -493,7 +494,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         return array;
     }
 
-    sortByVisitsAz(array) {
+    public sortByVisitsAz(array) {
 
         array.sort((a: any, b: any) => {
             if (a.visit < b.visit) {
@@ -508,7 +509,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         return array;
     }
 
-    sortByVisitsZa(array) {
+    public sortByVisitsZa(array) {
 
         array.sort((a: any, b: any) => {
             if (a.visit < b.visit) {
@@ -523,7 +524,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         return array;
     }
 
-    sortByLocationsAz(array) {
+    public sortByLocationsAz(array) {
 
         array.sort((a: any, b: any) => {
             let locationA = parseInt(a.location.split('-')[1], 0);
@@ -540,7 +541,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         return array;
     }
 
-    sortByLocationsZa(array) {
+    public sortByLocationsZa(array) {
 
         array.sort((a: any, b: any) => {
             let locationA = parseInt(a.location.split('-')[1], 0);
@@ -557,7 +558,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         return array;
     }
 
-    sortProviderAz(array) {
+    public sortProviderAz(array) {
 
         array.sort((a: any, b: any) => {
             // console.log('a', a);
@@ -573,7 +574,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    sortProviderZa(array) {
+    public sortProviderZa(array) {
 
         array.sort((a: any, b: any) => {
             // console.log('a', a);

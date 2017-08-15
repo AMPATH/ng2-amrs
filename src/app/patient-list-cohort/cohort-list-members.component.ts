@@ -12,21 +12,21 @@ import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resour
 })
 export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
-  showingAddToCohort: boolean = false;
-  cohortMembers: any;
-  identifiers: any;
-  fetchingResults: boolean = false;
+  public subscription: Subscription;
+  public showingAddToCohort: boolean = false;
+  public cohortMembers: any;
+  public identifiers: any;
+  public fetchingResults: boolean = false;
   public cohort: any;
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
   public displayConfirmDeleteCohortDialog: any;
-  userAssignedRole: string;
-  filterTerm: string = '';
-  display: boolean = false;
-  selectedMember: string;
-  selectedMemberUuid: string;
+  public userAssignedRole: string;
+  public filterTerm: string = '';
+  public display: boolean = false;
+  public selectedMember: string;
+  public selectedMemberUuid: string;
   public displayConfirmDialog: boolean = false;
   public showSuccessAlert: boolean = false;
   public showErrorAlert: boolean = false;
@@ -40,27 +40,27 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     private cohortMemberResourceService: CohortMemberResourceService,
     private cohortResourceService: CohortResourceService,
     private route: ActivatedRoute) { }
-  ngOnInit() {
+  public ngOnInit() {
     this.selectedCohortUuid = this.route.snapshot.params['cohort_uuid'];
     this.viewCohortListMembers();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  addToCohort() {
+  public addToCohort() {
     this.showingAddToCohort = true;
   }
 
-  onAddingToCohortClosed() {
+  public onAddingToCohortClosed() {
     this.showingAddToCohort = false;
     this.viewCohortListMembers();
   }
 
-  viewCohortListMembers() {
+  public viewCohortListMembers() {
     this.fetchingResults = true;
     this.subscription = this.cohortListService.getData().subscribe(
       (data) => {
@@ -76,7 +76,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     this.fetchMembers();
 
   }
-  fetchMembers() {
+  public fetchMembers() {
     this.cohortMemberResourceService.getAllCohortMembers(this.selectedCohortUuid).subscribe(
       (members) => {
         if (members) {
@@ -88,13 +88,13 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
       });
 
   }
-  loadPatientData(patientUuid) {
+  public loadPatientData(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
     this.router.navigate(['/patient-dashboard/' + patientUuid + '/general']);
   }
-  valueChange(newValue) {
+  public valueChange(newValue) {
     this.filterTerm = newValue;
   }
 
@@ -151,10 +151,10 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
   public closeConfirmationDialog() {
     this.displayConfirmDialog = false;
   }
-  navigateBack() {
+  public navigateBack() {
     this.router.navigate(['/patient-list-cohort/cohort']);
   }
-  voidCohortMember() {
+  public voidCohortMember() {
     if (this.selectedCohortUuid) {
       this.cohortMemberResourceService.retireCohortMember(this.selectedCohortUuid,
         this.selectedMemberUuid).subscribe(

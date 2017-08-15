@@ -71,16 +71,16 @@ export class FormSchemaService {
     this.localStorage.setObject(formUuid, schema);
   }
 
-  private getFormSchemaByUuidFromServer(formUuid: string): ReplaySubject<Object> {
+  private getFormSchemaByUuidFromServer(formUuid: string): ReplaySubject<object> {
     let formSchema: ReplaySubject<any> = new ReplaySubject(1);
     this.fetchFormSchemaUsingFormMetadata(formUuid)
       .subscribe(
-      (schema: Object) => {
+      (schema: object) => {
         // check whether whether formSchema has references b4 hitting getFormSchemaWithReferences
         if (schema['referencedForms'] && schema['referencedForms'].length > 0) {
           this.getFormSchemaWithReferences(schema)
             .subscribe(
-            (form: Object) => {
+            (form: object) => {
               formSchema.next(form);
             },
             (err) => {
@@ -109,7 +109,7 @@ export class FormSchemaService {
     this.fetchFormSchemaReferences(schema)
       .subscribe(
       (schemaReferences: Array<any>) => {
-        let forms: Object = {
+        let forms: object = {
           form: schema,
           referencedComponents: schemaReferences
         };
@@ -200,7 +200,7 @@ export class FormSchemaService {
     }).first();
   }
 
-  private getFormUuidArray(formSchemaReferences: Array<Object>) {
+  private getFormUuidArray(formSchemaReferences: Array<object>) {
     let formUuids: Array<string> = [];
     formSchemaReferences.forEach((value: any, key) => {
       formUuids.push(value.ref.uuid);

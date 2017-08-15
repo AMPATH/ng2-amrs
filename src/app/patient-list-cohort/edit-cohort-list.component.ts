@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class EditCohortListComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  public subscription: Subscription;
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
@@ -23,19 +23,19 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
               private cohortListService: CohortListService,
               private router: Router,
               private route: ActivatedRoute) { }
-  ngOnInit() {
+  public ngOnInit() {
     this.selectedCohortUuid = this.route.snapshot.params['cohort_uuid'];
     this.getCohortListToEdit();
 
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
 
     }
   }
-  getCohortListToEdit() {
+  public getCohortListToEdit() {
     this.subscription = this.cohortListService.getData().subscribe(
       (data) => {
         if (data) {
@@ -81,7 +81,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
       );
     }
   }
-  showDialog() {
+  public showDialog() {
     this.display = true;
   }
   public dismissDialog() {

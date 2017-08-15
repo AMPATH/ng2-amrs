@@ -12,7 +12,8 @@ export class PatientRelationshipTypeService {
     public relationshipsTypeSubject: BehaviorSubject<any> = new BehaviorSubject(null);
 
     constructor(private patientService: PatientService,
-                private patientRelationshipTypeResourceService: PatientRelationshipTypeResourceService) {
+                private patientRelationshipTypeResourceService:
+                PatientRelationshipTypeResourceService) {
     }
 
     public getRelationshipTypes(): Observable<any> {

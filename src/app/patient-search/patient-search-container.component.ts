@@ -19,17 +19,17 @@ export class PatientSearchContainerComponent implements OnInit {
                  private _router: Router) {
         }
 
-  ngOnInit() {
+  public ngOnInit() {
 
   }
 
-  patientSelected(patient) {
+  public patientSelected(patient) {
       let patientUuid = patient.uuid;
       this.loadPatientData(patientUuid);
 
   }
 
-  loadPatientData(patientUuid) {
+  public loadPatientData(patientUuid) {
     console.log('Navigate');
     if (patientUuid === undefined || patientUuid === null) {
       return;

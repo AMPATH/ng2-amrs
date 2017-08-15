@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class PatientRelationshipsComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  public subscription: Subscription;
   public displayConfirmDialog: boolean = false;
   public patientUuid: string;
   public loadingRelationships: boolean = false;
@@ -27,11 +27,11 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
               private patientRelationshipService: PatientRelationshipService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatientRelationships();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

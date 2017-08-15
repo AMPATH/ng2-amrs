@@ -11,13 +11,14 @@ import { FormSchemaService } from './form-schema.service';
 import * as _ from 'lodash';
 @Injectable()
 export class FormCreationDataResolverService implements Resolve<any> {
-  validationConflictQuestions = ['reasonNotOnFamilyPlanning'];
+  public validationConflictQuestions = ['reasonNotOnFamilyPlanning'];
   constructor(private patientPreviousEncounterService: PatientPreviousEncounterService,
               private router: ActivatedRoute,
-              private formSchemaService: FormSchemaService, private draftedForm: DraftedFormsService) {
+              private formSchemaService: FormSchemaService,
+              private draftedForm: DraftedFormsService) {
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> | any {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> | any {
 
     let selectedFormUuid = route.params['formUuid'];
     let selectedEncounter = route.queryParams['encounter'];

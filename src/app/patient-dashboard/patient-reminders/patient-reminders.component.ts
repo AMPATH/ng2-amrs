@@ -13,9 +13,9 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 })
 
 export class PatientRemindersComponent implements OnInit, OnDestroy {
-  patientUuid: any;
-  reminders: any;
-  subscription: Subscription;
+  public patientUuid: any;
+  public reminders: any;
+  public subscription: Subscription;
   public errorMessage: string;
 
   constructor(private toastrService: ToastrService,
@@ -32,20 +32,20 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
     // app feature analytics
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Patient Clinical Summary Loaded', 'ngOnInit');
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
@@ -71,7 +71,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     );
   }
 
-  constructReminders(reminders) {
+  public constructReminders(reminders) {
     _.each(reminders, (reminder) => {
       if (reminder.type === 'success') {
         this.toastrService.success(reminder.message, reminder.title);

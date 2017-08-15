@@ -3,14 +3,14 @@ import * as Moment from 'moment';
 
 @Pipe(
     {
-         name: 'orderByTime',
+         name: 'myOrderByTime',
          pure: false
     }
 )
 
 export class OrderByEncounterTimeAscPipe implements PipeTransform {
 
-  transform(array) {
+  public transform(array) {
        if (array.length === null) {
             return array;
        } else {

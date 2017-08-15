@@ -39,7 +39,7 @@ export class AddPatientRelationshipComponent implements OnInit {
                 private patientService: PatientService,
                 private appFeatureAnalytics: AppFeatureAnalytics) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.getPatient();
         this.selectedRelationshipType = undefined;
         this.appFeatureAnalytics

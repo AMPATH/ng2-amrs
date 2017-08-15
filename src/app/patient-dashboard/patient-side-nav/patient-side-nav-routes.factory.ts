@@ -16,13 +16,12 @@ export class PatientRoutesFactory {
         const patientRoutesConfig: any = this.routesProvider.patientDashboardConfig;
         const routes: RouteModel[] = [];
         if (Array.isArray(patientRoutesConfig['programs'])) {
-            for (let i = 0; i < patientRoutesConfig.programs.length; i++) {
-
-                if (patientRoutesConfig.programs[i].requiresPatientEnrollment === false ||
-                    this.patientIsInProgram(patientRoutesConfig.programs[i].programUuid,
+            for (let program of  patientRoutesConfig.programs) {
+                if (program.requiresPatientEnrollment === false ||
+                    this.patientIsInProgram(program.programUuid,
                         patient.enrolledPrograms)) {
                     routes.push(
-                        this.createProgramRouteModel(patientRoutesConfig.programs[i], patient.uuid)
+                        this.createProgramRouteModel(program, patient.uuid)
                     );
                 }
             }

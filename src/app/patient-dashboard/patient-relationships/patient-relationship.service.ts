@@ -22,27 +22,27 @@ export class PatientRelationshipService {
     this.patientRelationshipResourceService.getPatientRelationships(uuid).subscribe(
       (relationships) => {
         if (relationships) {
-          for (let i = 0; i < relationships.length; i++) {
-            if (uuid === relationships[i].personA.uuid) {
+          for (let relationship of relationships) {
+            if (uuid === relationship.personA.uuid) {
               let relation = {
-                uuid: relationships[i].uuid,
-                display: relationships[i].personB.display,
-                relative: relationships[i].personB.display,
-                relatedPersonUuid: relationships[i].personB.uuid,
-                relationshipType: relationships[i].relationshipType.bIsToA,
-                relationshipTypeUuId: relationships[i].relationshipType.uuid,
-                relationshipTypeName: relationships[i].relationshipType.display
+                uuid: relationships.uuid,
+                display: relationship.personB.display,
+                relative: relationship.personB.display,
+                relatedPersonUuid: relationship.personB.uuid,
+                relationshipType: relationship.relationshipType.bIsToA,
+                relationshipTypeUuId: relationship.relationshipType.uuid,
+                relationshipTypeName: relationship.relationshipType.display
               };
               relationshipsArr.push(new Relationship(relation));
             } else {
               let relation = {
-                uuid: relationships[i].uuid,
-                display: relationships[i].personA.display,
-                relative: relationships[i].personA.display,
-                relatedPersonUuid: relationships[i].personA.uuid,
-                relationshipType: relationships[i].relationshipType.aIsToB,
-                relationshipTypeUuId: relationships[i].relationshipType.uuid,
-                relationshipTypeName: relationships[i].relationshipType.display
+                uuid: relationship.uuid,
+                display: relationship.personA.display,
+                relative: relationship.personA.display,
+                relatedPersonUuid: relationship.personA.uuid,
+                relationshipType: relationship.relationshipType.aIsToB,
+                relationshipTypeUuId: relationship.relationshipType.uuid,
+                relationshipTypeName: relationship.relationshipType.display
               };
               relationshipsArr.push(new Relationship(relation));
             }

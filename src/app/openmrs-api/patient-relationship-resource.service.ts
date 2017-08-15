@@ -35,7 +35,7 @@ export class PatientRelationshipResourceService {
     });
   }
 
-  saveRelationship(payload) {
+  public saveRelationship(payload) {
     if (!payload) {
       return null;
     }
@@ -48,7 +48,7 @@ export class PatientRelationshipResourceService {
       });
   }
 
-  updateRelationship(uuid, payload) {
+  public updateRelationship(uuid, payload) {
     if (!payload || !uuid) {
       return null;
     }
@@ -61,7 +61,7 @@ export class PatientRelationshipResourceService {
       });
   }
 
-  deleteRelationship(uuid) {
+  public deleteRelationship(uuid) {
     if (!uuid) {
       return null;
     }

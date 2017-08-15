@@ -4,11 +4,11 @@ import { Http } from '@angular/http';
 
 @Injectable()
 export class FakeVisitResourceService {
-  returnErrorOnNext: boolean = false;
+  public returnErrorOnNext: boolean = false;
   constructor() {
   }
 
-  getVisitEncounters(uuid: string): Observable<any> {
+  public getVisitEncounters(uuid: string): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let encounters = [
       {
@@ -89,7 +89,7 @@ export class FakeVisitResourceService {
     return test.asObservable();
   }
 
-  getVisitByUuid(uuid: string, urlParams: any): Observable<any> {
+  public getVisitByUuid(uuid: string, urlParams: any): Observable<any> {
 
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let visit = {
@@ -103,7 +103,7 @@ export class FakeVisitResourceService {
     if (!this.returnErrorOnNext) {
       return Observable.of(visit);
     } else {
-      setTimeout(function() {
+      setTimeout(() => {
         test.error(new Error('Error loading patient'));
       }, 500);
       return test.asObservable();
@@ -111,7 +111,7 @@ export class FakeVisitResourceService {
 
   }
 
-  getPatientVisits(uuid: string): Observable<any> {
+  public getPatientVisits(uuid: string): Observable<any> {
     let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     let visits = [
       {
@@ -149,11 +149,11 @@ export class FakeVisitResourceService {
       }
     ];
     if (!this.returnErrorOnNext) {
-      setTimeout(function() {
+      setTimeout(() => {
         test.next(visits);
       }, 500);
     } else {
-      setTimeout(function() {
+      setTimeout(() => {
         test.error(new Error('Error loading patient'));
       }, 500);
     }
