@@ -11,14 +11,15 @@ export class HivSummaryService {
 
   constructor(private hivSummaryResourceService: HivSummaryResourceService) {}
 
-  getHivSummary(patientUuid: string, startIndex: number, limit: number,
-                includeNonClinicalEncounter?: boolean): Observable<any> {
+  public getHivSummary(patientUuid: string, startIndex: number, limit: number,
+                       includeNonClinicalEncounter?: boolean): Observable<any> {
 
     let hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.hivSummaryResourceService.getHivSummary(patientUuid,
       startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
         if (data) {
+          // tslint:disable-next-line:prefer-for-of
             for (let r = 0; r < data.length; r++) {
               let isPendingViralLoad = this.determineIfVlIsPending(data);
               let isPendingCD4 = this.determineIfCD4IsPending(data);
@@ -41,7 +42,7 @@ export class HivSummaryService {
     return hivSummary;
   }
 
-  determineIfVlIsPending(hivSummary: any) {
+  public determineIfVlIsPending(hivSummary: any) {
     let overDueDays = !Helpers.isNullOrUndefined(hivSummary.vl_order_date) ?
       this.dateDiffInDays(new Date(hivSummary.vl_order_date), new Date()) : 0;
     if (overDueDays > 0) {
@@ -66,7 +67,7 @@ export class HivSummaryService {
     }
   }
 
-  determineIfCD4IsPending(hivSummary: any) {
+  public determineIfCD4IsPending(hivSummary: any) {
     let overDueDays = !Helpers.isNullOrUndefined(hivSummary.cd4_order_date) ?
       this.dateDiffInDays(new Date(hivSummary.cd4_order_date), new Date()) : 0;
     if (overDueDays > 0) {
@@ -92,7 +93,7 @@ export class HivSummaryService {
     }
   }
 
-  dateDiffInDays(a: any, b: any) {
+  public dateDiffInDays(a: any, b: any) {
     let _MS_PER_DAY = 1000 * 60 * 60 * 24;
     // a and b are Date objects
     // Discard the time and time-zone information.

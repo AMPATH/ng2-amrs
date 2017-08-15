@@ -5,18 +5,18 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class FakeEncounterResourceService {
-  v: string = 'custom:(uuid,encounterDatetime,' +
+  public v: string = 'custom:(uuid,encounterDatetime,' +
   'patient:(uuid,uuid),form:(uuid,name),' +
   'location:ref,encounterType:ref,provider:ref)';
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
-  getUrl(): string {
+  public getUrl(): string {
 
     return '';
   }
 
-  getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
-                             v: string = null): Observable<any> {
+  public getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
+                                    v: string = null): Observable<any> {
     return Observable.of([
       {
         'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
@@ -40,7 +40,7 @@ export class FakeEncounterResourceService {
         }
       }]);
   }
-  getEncounterByUuid(uuid: string): Observable<any> {
+  public getEncounterByUuid(uuid: string): Observable<any> {
 
     return Observable.of({
       'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
@@ -65,7 +65,7 @@ export class FakeEncounterResourceService {
     });
 
   }
-  getEncounterTypes(v: string) {
+  public getEncounterTypes(v: string) {
     return {
       'results': [
         {
@@ -92,7 +92,7 @@ export class FakeEncounterResourceService {
     };
   }
 
-  saveEncounter(payload) {
+  public saveEncounter(payload) {
     return {
       'results': [
         {
@@ -119,7 +119,7 @@ export class FakeEncounterResourceService {
     };
   }
 
-  updateEncounter(uuid, payload) {
+  public updateEncounter(uuid, payload) {
     return {
       'results': [
         {

@@ -1,7 +1,6 @@
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MedicationHistoryResourceService } from
-  '../../etl-api/medication-history-resource.service';
+import { MedicationHistoryResourceService
+} from '../../etl-api/medication-history-resource.service';
 import { PatientService } from '../patient.service';
 import { Subscription } from 'rxjs';
 
@@ -11,17 +10,17 @@ import { Subscription } from 'rxjs';
   styleUrls: []
 })
 export class MedicationHistoryComponent implements OnInit, OnDestroy {
-  encounters = [];
-  patient: any;
-  errors: any;
-  subscription: Subscription;
-  previousViralLoad: any;
+  public encounters = [];
+  public patient: any;
+  public errors: any;
+  public subscription: Subscription;
+  public previousViralLoad: any;
 
   constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
               private patientService: PatientService) {
   }
 
-  fetchMedicationHistory(report, patientUuid): void {
+  public fetchMedicationHistory(report, patientUuid): void {
     this.medicationHistoryResourceService.getReport(report, patientUuid)
       .subscribe(
       (medication) => {
@@ -30,17 +29,17 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getPatient();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     let reportName = 'medical-history-report';
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -58,6 +57,7 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
   }
   private convertPreviousVlValueTostring(result) {
     let previousVl = [];
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < result.length ; ++i) {
       let data = result[i];
       for (let r in data) {

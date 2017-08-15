@@ -18,7 +18,7 @@ export class AuthenticationService {
     private sessionService: SessionService,
     private _cookieService: CookieService) { }
 
-  authenticate(username: string, password: string) {
+  public authenticate(username: string, password: string) {
 
     let credentials = {
       username: username,
@@ -46,7 +46,7 @@ export class AuthenticationService {
     return request;
   }
 
-  logOut() {
+  public logOut() {
 
     let response = this.sessionService.deleteSession();
 
@@ -64,13 +64,13 @@ export class AuthenticationService {
     return response;
   }
 
-  clearSessionCache() {
+  public clearSessionCache() {
     this.clearLoginAlertCookies();
     this.clearCredentials();
     this.clearUserDetails();
   }
   // This will clear motd alert cookies set  at every log in
-  clearLoginAlertCookies() {
+  public clearLoginAlertCookies() {
 
       let cookieKey = 'motdLoginCookie';
 

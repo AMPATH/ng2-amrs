@@ -7,18 +7,19 @@ import * as _ from 'lodash';
 @Injectable()
 export class ConceptResourceService {
 
-  v: string = 'custom:(uuid,name,conceptClass,answers)';
+  public v: string = 'custom:(uuid,name,conceptClass,answers)';
 
   constructor(protected http: Http,
               protected appSettingsService: AppSettingsService) {
   }
 
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'concept';
   }
 
-  searchConcept(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
+  public searchConcept(searchText: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
@@ -35,7 +36,8 @@ export class ConceptResourceService {
       });
   }
 
-  getConceptByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
+  public getConceptByUuid(uuid: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl();
     url += '/' + uuid;
@@ -49,7 +51,7 @@ export class ConceptResourceService {
       return response.json();
     });
   }
-  getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
+  public getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
     let filteredConceptResults = [];
     let response = this.searchConcept(searchText);
     response.subscribe(
@@ -63,7 +65,7 @@ export class ConceptResourceService {
     );
     return filteredConceptResults;
   }
-  filterResultsByConceptClassesUuid(results, conceptClassesUuidArray) {
+  public filterResultsByConceptClassesUuid(results, conceptClassesUuidArray) {
     let res = _.filter(results, (result: any) => {
       return _.find(conceptClassesUuidArray, (uuid) => {
         return result.conceptClass.uuid === uuid;

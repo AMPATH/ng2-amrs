@@ -1,9 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import {
-  DailyScheduleResourceService
-} from
-  '../../etl-api/daily-scheduled-resource.service';
+import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs/Rx';
 import * as Moment from 'moment';
 
@@ -15,15 +12,15 @@ import * as Moment from 'moment';
 
 export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
-  @Input() selectedDate: any;
-  errors: any[] = [];
-  dailyAppointmentsPatientList: any[] = [];
-  loadingDailyAppointments: boolean = false;
-  dataLoaded: boolean = false;
-  dataAppLoaded: boolean = true;
-  selectedClinic: any;
-  nextStartIndex: number = 0;
-  @Input() tab: any;
+  @Input() public selectedDate: any;
+  public errors: any[] = [];
+  public dailyAppointmentsPatientList: any[] = [];
+  public loadingDailyAppointments: boolean = false;
+  public dataLoaded: boolean = false;
+  public dataAppLoaded: boolean = true;
+  public selectedClinic: any;
+  public nextStartIndex: number = 0;
+  @Input() public tab: any;
   @Input()
   set options(value) {
     this._data.next(value);

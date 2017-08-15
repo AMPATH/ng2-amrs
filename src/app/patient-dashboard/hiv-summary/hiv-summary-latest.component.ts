@@ -11,21 +11,21 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryLatestComponent implements OnInit {
-  loadingHivSummary: boolean = false;
-  hivSummary: any;
-  subscription: Subscription;
-  patient: Patient;
-  patientUuid: any;
-  errors: any = [];
+  public loadingHivSummary: boolean = false;
+  public hivSummary: any;
+  public subscription: Subscription;
+  public patient: Patient;
+  public patientUuid: any;
+  public errors: any = [];
 
   constructor(private hivSummaryService: HivSummaryService,
               private patientService: PatientService) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getPatient();
   }
 
-  getPatient() {
+  public getPatient() {
     this.loadingHivSummary = true;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -43,7 +43,7 @@ export class HivSummaryLatestComponent implements OnInit {
       });
   }
 
-  loadHivSummary(patientUuid) {
+  public loadHivSummary(patientUuid) {
     this.hivSummaryService.getHivSummary(
       patientUuid, 0, 1, false)
       .subscribe((data) => {

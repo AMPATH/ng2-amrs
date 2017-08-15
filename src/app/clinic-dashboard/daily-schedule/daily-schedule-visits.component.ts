@@ -1,9 +1,7 @@
-import { Component, OnInit, OnChanges, Input, SimpleChange, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, Input,
+SimpleChange, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import {
-  DailyScheduleResourceService
-} from
-  '../../etl-api/daily-scheduled-resource.service';
+import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs/Rx';
 import * as Moment from 'moment';
 @Component({
@@ -11,18 +9,18 @@ import * as Moment from 'moment';
   templateUrl: './daily-schedule-visits.component.html',
   styleUrls: ['./daily-schedule.component.css']
 })
-export class DailyScheduleVisitsComponent implements OnInit {
+export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
 
-  @Input() selectedDate: any;
-  errors: any[] = [];
-  dailyVisitsPatientList: any[] = [];
-  loadingDailyVisits: boolean = false;
-  dataLoaded: boolean = false;
-  currentTabLoaded: boolean = false;
-  selectedVisitTab: any;
-  nextStartIndex: number = 0;
-  @Input() tab: any;
-  @Input() newList: any;
+  @Input() public selectedDate: any;
+  public errors: any[] = [];
+  public dailyVisitsPatientList: any[] = [];
+  public loadingDailyVisits: boolean = false;
+  public dataLoaded: boolean = false;
+  public currentTabLoaded: boolean = false;
+  public selectedVisitTab: any;
+  public nextStartIndex: number = 0;
+  @Input() public tab: any;
+  @Input() public newList: any;
 
   @Input()
   set options(value) {
@@ -40,7 +38,7 @@ export class DailyScheduleVisitsComponent implements OnInit {
               private dailyScheduleResource: DailyScheduleResourceService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.selectedDate = Moment().format('YYYY-MM-DD');
     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
@@ -61,11 +59,11 @@ export class DailyScheduleVisitsComponent implements OnInit {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.currentClinicSubscription.unsubscribe();
   }
 
-  loadMoreVisits() {
+  public loadMoreVisits() {
 
     this.loadingDailyVisits = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);

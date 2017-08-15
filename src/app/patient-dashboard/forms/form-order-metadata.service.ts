@@ -8,7 +8,7 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 export class FormOrderMetaDataService {
     private formsOrder = new ReplaySubject(1);
     constructor(private http: Http, private localStorageService: LocalStorageService) { }
-    getDefaultFormOrder(forceRefresh?: boolean) {
+    public getDefaultFormOrder(forceRefresh?: boolean) {
         if (!this.formsOrder.observers.length || forceRefresh) {
             this.http.get(
                 './assets/schemas/form-order.json'
@@ -21,7 +21,7 @@ export class FormOrderMetaDataService {
 
         return this.formsOrder;
     }
-    setFavouriteForm(name: string) {
+    public setFavouriteForm(name: string) {
         let formNames = this.getFavouriteForm();
         let obj = {
             name: name
@@ -32,7 +32,7 @@ export class FormOrderMetaDataService {
         }
 
     }
-    removeFavouriteForm(name) {
+    public removeFavouriteForm(name) {
         let formNames = this.getFavouriteForm();
         let obj = {
             name: name
@@ -40,7 +40,7 @@ export class FormOrderMetaDataService {
         formNames.splice(_.indexOf(formNames, _.find(formNames, obj)), 1);
         this.localStorageService.setObject('formNames', formNames);
     }
-    getFavouriteForm() {
+    public getFavouriteForm() {
         let storedData = this.localStorageService.getItem('formNames');
         let arrayData = [];
         if (storedData) {

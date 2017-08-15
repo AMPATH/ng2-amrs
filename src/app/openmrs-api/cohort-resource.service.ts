@@ -8,18 +8,18 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class CohortResourceService {
 
-    baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
+    public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
     private v: string = 'full';
 
     constructor(private _http: Http, private _appSettingsService: AppSettingsService) {
     }
 
-    getOpenMrsBaseUrl(): string {
+    public getOpenMrsBaseUrl(): string {
 
         return this._appSettingsService.getOpenmrsRestbaseurl().trim();
     }
 
-    getAllCohorts(): Observable<any> {
+    public getAllCohorts(): Observable<any> {
         let params = new URLSearchParams();
         params.set('v', 'full');
 
@@ -38,7 +38,7 @@ export class CohortResourceService {
 
     // Fetch specific Cohort
 
-    getCohort(uuid, v?: string): Observable<any> {
+    public getCohort(uuid, v?: string): Observable<any> {
 
         if (!uuid) {
             return null;
@@ -59,7 +59,7 @@ export class CohortResourceService {
     }
 
     // Add Cohorts
-    addCohort(payload): Observable<any> {
+    public addCohort(payload): Observable<any> {
 
         if (!payload) {
             return null;
@@ -78,7 +78,7 @@ export class CohortResourceService {
 
     // Edit Cohort
 
-    editCohort(uuid, payload): Observable<any> {
+    public editCohort(uuid, payload): Observable<any> {
 
         if (!uuid) {
             return null;
@@ -97,7 +97,7 @@ export class CohortResourceService {
 
     // Retire/Void Cohort
 
-    retireCohort(uuid): Observable<any> {
+    public retireCohort(uuid): Observable<any> {
 
         if (!uuid) {
             return null;

@@ -8,19 +8,20 @@ import * as _ from 'lodash';
 @Injectable()
 export class ProviderResourceService {
 
-  v: string = 'full';
+  public v: string = 'full';
 
   constructor(protected http: Http,
               protected appSettingsService: AppSettingsService,
               protected personService: PersonResourceService) {
   }
 
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'provider';
   }
 
-  searchProvider(searchText: string, cached: boolean = false, v: string = null): Observable<any> {
+  public searchProvider(searchText: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl() ;
     let params: URLSearchParams = new URLSearchParams();
@@ -37,7 +38,8 @@ export class ProviderResourceService {
       });
   }
 
-  getProviderByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
+  public getProviderByUuid(uuid: string, cached: boolean = false, v: string = null):
+  Observable<any> {
 
     let url = this.getUrl();
     url += '/' + uuid;
@@ -51,7 +53,7 @@ export class ProviderResourceService {
       return response.json();
     });
   }
-  getProviderByPersonUuid(uuid) {
+  public getProviderByPersonUuid(uuid) {
     let providerResults = new ReplaySubject(1);
     this.personService.getPersonByUuid(uuid, false).subscribe(
       (result) => {
@@ -61,7 +63,7 @@ export class ProviderResourceService {
           response.subscribe(
             (providers) => {
               let foundProvider;
-              _.each(providers, function(provider) {
+              _.each(providers, (provider) => {
                 if (provider.person && provider.person.uuid === uuid) {
                   foundProvider = provider;
                 }

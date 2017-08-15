@@ -6,7 +6,7 @@ import { ProgramEnrollmentResourceService } from './program-enrollment-resource.
  * FakeProgramEnrollmentResourceService
  */
 export class FakeProgramEnrollmentResourceService extends ProgramEnrollmentResourceService {
-  returnErrorOnNext: boolean = false;
+  public returnErrorOnNext: boolean = false;
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
     super(http, appSettingsService);

@@ -10,8 +10,8 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class UserService {
-  baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
-  v: string = 'default';
+  public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
+  public v: string = 'default';
 
   constructor(
     private sessionStorageService: SessionStorageService,
@@ -37,12 +37,12 @@ export class UserService {
         return response.json().results;
       });
   }
-  getOpenMrsBaseUrl(): string {
+  public getOpenMrsBaseUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim();
   }
 
-  searchUsers(searchText: string) {
+  public searchUsers(searchText: string) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('q', searchText);
     params.set('v', 'default');
