@@ -10,7 +10,7 @@ export class LoginGuard implements CanActivate {
 
   constructor(private router: Router ) { }
 
-  canActivate() {
+  public canActivate() {
 
     let credentials = sessionStorage.getItem(Constants.CREDENTIALS_KEY);
 

@@ -25,9 +25,9 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     public previousData: any;
     public numberOfPages = 0;
     public _data;
-    @Input() sectionsDef: any;
-    @Input() startDate: any;
-    @Input() endDate: any;
+    @Input() public sectionsDef: any;
+    @Input() public startDate: any;
+    @Input() public endDate: any;
     @Input()
     set data(value: any) {
         if (value) {
@@ -51,10 +51,10 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -111,7 +111,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         this.isBusy = true;
         this.locationResourceService.getLocations().subscribe(
             (locations: any[]) => {
-
+              // tslint:disable-next-line:prefer-for-of
                 for (let i = 0; i < locations.length; i++) {
                     if (locations[i]) {
                         // add district,facility and county details
@@ -143,6 +143,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
     private moh731Report(rowData, sectionDefinitions) {
         if (rowData) {
+          // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i < rowData.length; i++) {
                 let params = this.getParams(rowData[i].location_uuid);
                 if (params) {

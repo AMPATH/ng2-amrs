@@ -8,7 +8,8 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 export class LabsResourceService {
 
     constructor(private http: Http, private appSettingsService: AppSettingsService) { }
-    getNewPatientLabResults(params: { startDate: string, endDate: string, patientUuId: string }) {
+    public getNewPatientLabResults(params: { startDate: string, endDate: string,
+      patientUuId: string }) {
         let urlParams: URLSearchParams = new URLSearchParams();
 
         urlParams.set('startDate', params.startDate);
@@ -19,7 +20,8 @@ export class LabsResourceService {
             .catch(this.handleError);
     }
 
-    getHistoricalPatientLabResults(patientUuId, params: { startIndex: string, limit: string }) {
+    public getHistoricalPatientLabResults(patientUuId,
+                                          params: { startIndex: string, limit: string }) {
         if (!patientUuId) {
             return null;
         }

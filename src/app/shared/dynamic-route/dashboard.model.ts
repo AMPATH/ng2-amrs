@@ -1,7 +1,7 @@
 
 export class DashboardModel {
-  analyticsDashboard: Object;
-  clinicDashboard: Object;
-  patientDashboard: Object;
-  patientListCohorts: Object;
+  public analyticsDashboard: object;
+  public clinicDashboard: object;
+  public patientDashboard: object;
+  public patientListCohorts: object;
 }

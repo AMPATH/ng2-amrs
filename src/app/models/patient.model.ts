@@ -63,7 +63,7 @@ export class Patient extends BaseModel {
   public get encounters() {
 
     let mappedEncounters: Array<any> = new Array<any>();
-
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this._encounters.length; i++) {
       mappedEncounters.push(this._encounters[i]);
     }
@@ -102,7 +102,7 @@ export class Patient extends BaseModel {
 
   }
 
-  getIdentifierByType(identifierObject, type) {
+  public getIdentifierByType(identifierObject, type) {
     for (let e in identifierObject) {
       if ((identifierObject[e].identifierType) !== undefined) {
         let idType = identifierObject[e].identifierType.name;
@@ -153,7 +153,7 @@ export class Patient extends BaseModel {
 
   }
 
-  getAllIdentifiersByType(identifiers, type) {
+  public getAllIdentifiersByType(identifiers, type) {
     let types = [];
     for (let e in identifiers) {
       if ((identifiers[e].identifierType) !== undefined) {
@@ -168,14 +168,15 @@ export class Patient extends BaseModel {
     return types;
   }
 
-  _fromArrayToCommaSeparatedString(inputArray) {
+  private _fromArrayToCommaSeparatedString(inputArray) {
     let returnString = '';
 
     for (let i = 0; i < inputArray.length; i++) {
       if (i === 0) {
         returnString = inputArray[i] + returnString;
-      } else
+      } else {
         returnString = returnString + ', ' + inputArray[i];
+      }
     }
     return returnString;
   }

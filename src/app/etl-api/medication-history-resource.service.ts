@@ -9,7 +9,7 @@ export class MedicationHistoryResourceService {
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) { }
 
-  getReport( report: string, patientUuid: string) {
+  public getReport( report: string, patientUuid: string) {
 
     let api = this.appSettingsService.getEtlServer() + '/get-report-by-report-name' ;
 

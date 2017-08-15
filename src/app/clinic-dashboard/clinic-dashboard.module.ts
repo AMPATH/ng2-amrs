@@ -117,7 +117,7 @@ import { DefaulterListComponent } from './defaulter-list/defaulter-list.componen
     /**
      * Components / Directives/ Pipes
      */
-    //ClinicFlowComponent,
+    // ClinicFlowComponent,
     ArtOverviewIndicatorDefComponent,
     HivCareIndicatorDefComponent,
     HivCareComparativeOverviewComponent,

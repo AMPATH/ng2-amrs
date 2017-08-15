@@ -1,10 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
-import { About } from './about';
-import { NoContent } from './no-content';
-import { AppComponent } from './app.component';
+import { AboutComponent } from './about';
+import { NoContentComponent } from './no-content';
 import { FeedBackComponent } from './feedback';
-import { DataResolver } from './app.resolver';
-import { AuthGuard } from './shared/guards/auth.guard';
 
 export const ROUTES: Routes = [
   {
@@ -13,7 +10,7 @@ export const ROUTES: Routes = [
    {
     path: 'login', loadChildren: './authentication/authentication.module#AuthenticationModule'
   },
-  { path: 'about', component: About },
+  { path: 'about', component: AboutComponent },
   { path: 'feed-back', component: FeedBackComponent },
-  { path: '**', component: NoContent },
+  { path: '**', component: NoContentComponent },
 ];

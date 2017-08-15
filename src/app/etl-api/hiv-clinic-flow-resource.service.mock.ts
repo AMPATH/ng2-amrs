@@ -5,7 +5,7 @@ import { ResponseOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class MockHivClinicFlowResourceService implements ClinicFlowResource {
-    dummyHivClinicFlowData = {
+    public dummyHivClinicFlowData = {
         startIndex: 0,
         size: 162,
         result: [
@@ -129,11 +129,11 @@ export class MockHivClinicFlowResourceService implements ClinicFlowResource {
 
     constructor() { }
 
-    getClinicFlow(dateStarted, locations): Observable<any> {
+    public getClinicFlow(dateStarted, locations): Observable<any> {
         return Observable.of(this.dummyHivClinicFlowData);
     }
 
-    getHivDummyData() {
+    public getHivDummyData() {
         return this.dummyHivClinicFlowData;
     }
 

@@ -24,7 +24,7 @@ import {
 import {
   VisualizationPatientListComponent
 } from
-  './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import {
   PatientStatusChangeListComponent
 } from

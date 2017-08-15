@@ -13,16 +13,18 @@ export class PatientStatusDatalistCellComponent {
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  agInit(params: any): void {
+  public agInit(params: any): void {
     this.params = params;
   }
 
-  clicked() {
+  public clicked() {
     // console.log('Clicked', this.params);
     if (this.params.column.colId === 'patients_gained' ||
       this.params.column.colId === 'patients_lost'
       || this.params.column.colId === 'state_change'
-      || this.params.column.colId === 'patient_change_from_past_month') return true;
+      || this.params.column.colId === 'patient_change_from_past_month') {
+      return true;
+    }
 
     let analysisType = this.params.colDef.analysisType;
     let dateMoment = Moment(this.params.data.reporting_date);

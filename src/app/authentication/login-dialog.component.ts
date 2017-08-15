@@ -17,27 +17,27 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 })
 export class LoginDialogComponent implements OnInit {
 
-  @Output() closeEvent = new EventEmitter();
+  @Output() public closeEvent = new EventEmitter();
 
-  @ViewChild('loginComponent') loginComponent: LoginComponent;
+  @ViewChild('loginComponent') public loginComponent: LoginComponent;
 
   @ViewChild('modal')
-  modal: ModalComponent;
+  public modal: ModalComponent;
 
-  cssClass: string = 'login-dialog';
+  public cssClass: string = 'login-dialog';
 
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // this.open();
   }
 
-  open() {
+  public open() {
     this.modal.open();
   }
 
-  onLoginSuccess(evt) {
+  public onLoginSuccess(evt) {
     // TODO - display a success message
     this.modal.close();
     this.closeEvent.emit(true);

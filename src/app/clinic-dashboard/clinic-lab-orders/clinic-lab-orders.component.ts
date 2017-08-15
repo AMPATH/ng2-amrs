@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { ClinicLabOrdersResourceService } from '../../etl-api/clinic-lab-orders-resource.service';
 import { Subscription } from 'rxjs';
@@ -13,13 +13,13 @@ import { DatePipe } from '@angular/common';
   templateUrl: './clinic-lab-orders.component.html',
   styleUrls: []
 })
-export class ClinicLabOrdersComponent implements OnInit {
-  response: Subscription = new Subscription();
-  location: string = '';
+export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
+  public location: string = '';
   public gridOptions: GridOptions;
-  results = [];
-  @Input() selectedDate: any;
-  errors: any = [];
+  public results = [];
+  @Input() public selectedDate: any;
+  public errors: any = [];
+  private response: Subscription = new Subscription();
   private _datePipe: DatePipe;
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -30,7 +30,7 @@ export class ClinicLabOrdersComponent implements OnInit {
     this._datePipe = new DatePipe('en-US');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     let cachedParam = this.getClinicOrderParam('clinicordersparam');
     if (cachedParam !== undefined) {
       this.selectedDate = this._datePipe.transform(
@@ -44,13 +44,13 @@ export class ClinicLabOrdersComponent implements OnInit {
     this.getCurrentLocation();
     this.gridOptions.columnDefs = this.createColumnDefs();
     this.gridOptions.rowData = this.results;
-    this.gridOptions.getRowStyle = function(params) {
+    this.gridOptions.getRowStyle = (params) => {
       return {
         'font-size': '14px',
         'cursor': 'pointer'
       };
     };
-    this.gridOptions.getRowHeight = function(params) {
+    this.gridOptions.getRowHeight = (params) => {
       return 20 * ((Math.floor(params.data.identifiers.length / 15) + 1) &&
         (Math.floor(params.data.person_name.length / 15) + 1));
     };
@@ -64,7 +64,7 @@ export class ClinicLabOrdersComponent implements OnInit {
     this.gridOptions.localeText = {noRowsToShow: 'No matching records found'};
      // ensure that even after sorting the rows maintain order
     this.gridOptions.onSortChanged = () => {
-        this.gridOptions.api.forEachNode(function(node){
+        this.gridOptions.api.forEachNode((node) => {
            node.setDataValue('#', node.rowIndex + 1);
         });
 
@@ -73,7 +73,7 @@ export class ClinicLabOrdersComponent implements OnInit {
     };
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.response.unsubscribe();
   }
 

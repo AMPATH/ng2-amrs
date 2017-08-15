@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import {Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   DefaulterListResourceService
@@ -13,16 +13,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './defaulter-list.component.html',
   styleUrls: ['./defaulter-list.component.css']
 })
-export class DefaulterListComponent implements OnInit {
+export class DefaulterListComponent implements OnInit, OnDestroy {
 
-  minDefaultPeriod: any;
-  maxDefaultPeriod: any;
-  errors: any[] = [];
-  defaulterList: any[] = [];
-  loadingDefaulterList: boolean = false;
-  dataLoaded: boolean = false;
-  selectedClinic: any;
-  nextStartIndex: number = 0;
+  public minDefaultPeriod: any;
+  public maxDefaultPeriod: any;
+  public errors: any[] = [];
+  public defaulterList: any[] = [];
+  public loadingDefaulterList: boolean = false;
+  public dataLoaded: boolean = false;
+  public selectedClinic: any;
+  public nextStartIndex: number = 0;
   private _datePipe: DatePipe;
   private subscription: Subscription = new Subscription();
 
@@ -70,7 +70,7 @@ export class DefaulterListComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     let cachedParams = this.getCachedDefaulterListParam('defaulterListParam');
     if (cachedParams) {
       this.loadDefaulterListFromCachedParams(cachedParams);
@@ -78,11 +78,11 @@ export class DefaulterListComponent implements OnInit {
     this.subscribeToLocationChangeEvent();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  loadMoreDefaulterList() {
+  public loadMoreDefaulterList() {
     this.loadingDefaulterList = true;
     let params = this.getQueryParams(this.minDefaultPeriod,
       this.maxDefaultPeriod, this.selectedClinic);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -41,14 +41,14 @@ const colors: any = {
   templateUrl: './monthly-schedule.component.html',
   styleUrls: ['./monthly-schedule.component.css']
 })
-export class MonthlyScheduleComponent implements OnInit {
-  viewDate: Date = new Date();
-  view = 'month';
-  events: CalendarEvent[] = [];
-  activeDayIsOpen: boolean = false;
-  location: string = '';
-  busy: Subscription;
-  fetchError = false;
+export class MonthlyScheduleComponent implements OnInit, OnDestroy {
+  public viewDate: Date = new Date();
+  public view = 'month';
+  public events: CalendarEvent[] = [];
+  public activeDayIsOpen: boolean = false;
+  public location: string = '';
+  public busy: Subscription;
+  public fetchError = false;
   private subscription: Subscription = new Subscription();
 
   constructor(private monthlyScheduleResourceService: MonthlyScheduleResourceService,
@@ -57,7 +57,7 @@ export class MonthlyScheduleComponent implements OnInit {
               private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Monthly Schedule', 'Monthly Schedule loaded', 'ngOnInit');
     let date = this.route.snapshot.queryParams['date'];
@@ -72,7 +72,7 @@ export class MonthlyScheduleComponent implements OnInit {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -83,7 +83,7 @@ export class MonthlyScheduleComponent implements OnInit {
 
   }
 
-  navigateToMonth() {
+  public navigateToMonth() {
     let date = Moment(this.viewDate).format('YYYY-MM-DD');
     this.viewDate = new Date(date);
     this.router.navigate(['./'], {
@@ -134,7 +134,7 @@ export class MonthlyScheduleComponent implements OnInit {
   public processEvents(results) {
     let processed = [];
     for (let e of results) {
-      /* tslint:disable for-in*/
+      /* tslint:disable forin*/
       for (let key in e.count) {
 
         switch (key) {

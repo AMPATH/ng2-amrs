@@ -13,22 +13,22 @@ import { LocalStorageService } from '../utils/local-storage.service';
 })
 export class AppSettingsComponent implements OnInit {
   @ViewChild('addUrlModal')
-  urlModal: ModalComponent;
-  newUrl: string;
-  urlPlaceholder: string;
-  urlType: string;
-  serverTemplates: Array<Object> = this.getServerTemplates();
+  public urlModal: ModalComponent;
+  public newUrl: string;
+  public urlPlaceholder: string;
+  public  urlType: string;
+  public serverTemplates: Array<object> = this.getServerTemplates();
 
   constructor(private router: Router,
               private appSettingsService: AppSettingsService,
               private localStorageService: LocalStorageService,
               private authenticationService: AuthenticationService) { }
 
-  getServerTemplates(): Array<Object> {
+  public getServerTemplates(): Array<object> {
     return this.appSettingsService.getServerTemplates();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     let templates = this.appSettingsService.getServerTemplates();
 
     if (!window.location.host.match(new RegExp('localhost'))) {
@@ -61,7 +61,7 @@ export class AppSettingsComponent implements OnInit {
     return this.appSettingsService.etlServerUrls;
   }
 
-  showNewUrlForm(event) {
+  public showNewUrlForm(event) {
     this.newUrl = null;
     if (event && event.srcElement) {
       let srcId = event.srcElement.id;
@@ -80,12 +80,12 @@ export class AppSettingsComponent implements OnInit {
     this.urlModal.open();
   }
 
-  saveNewURL(url: string, urlType: string = 'openmrs') {
+  public saveNewURL(url: string, urlType: string = 'openmrs') {
     this.appSettingsService.addAndSetUrl(url, urlType);
     this.urlModal.close();
   }
 
-  changeServerSettings(row: any) {
+  public changeServerSettings(row: any) {
     // change openmrs url
     this.openmrsServer = row.amrsUrl;
     // change etl-server url
@@ -93,7 +93,7 @@ export class AppSettingsComponent implements OnInit {
 
   }
 
-  onDoneClick() {
+  public onDoneClick() {
     this.localStorageService.setItem('appSettingsAction', 'newSettings');
     // clear session cache
     // return back to login page

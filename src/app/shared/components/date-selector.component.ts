@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
     templateUrl: 'date-selector.component.html'
 })
 export class DateSelectorComponent implements OnInit, OnDestroy {
-    selectedDate: any;
+    public selectedDate: any;
     // @Input() default: any;
 
     @Input()
@@ -25,11 +25,11 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
         }
     }
 
-    @Input() hideDatePicker: boolean = false;
-    @Output() dateSelected = new EventEmitter();
+    @Input() public hideDatePicker: boolean = false;
+    @Output() public dateSelected = new EventEmitter();
     private _datePipe: DatePipe;
     private _default: any;
-    private model: Object = {
+    private model: object = {
         date: {
             year: Moment().year(), month: Moment().format('MMMM'),
             day: Moment().format('DD')
@@ -45,7 +45,7 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
         this._datePipe = new DatePipe('en-US');
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         if (this.default) {
             this.selectedDate = Moment(new Date(this.default));
             this.initDate(this.selectedDate);
@@ -56,7 +56,7 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
         this.dateSelected.emit(this.selectedDate);
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
     }
 
     public navigateDay(value) {
@@ -74,14 +74,14 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDateChanged(event: IMyDateModel): void {
+    public onDateChanged(event: IMyDateModel): void {
         this.selectedDate = this.getDate(event.date);
         let formattedDate = this._datePipe.transform(
             this.selectedDate, 'yyyy-MM-dd');
         this.dateSelected.emit(formattedDate);
     }
 
-    initDate(date) {
+    public initDate(date) {
         this.model = {
             date: {
                 year: date.year(), month: date.format('MMM'),
@@ -90,7 +90,7 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
         };
     }
 
-    getDate(dateObject: any) {
+    public getDate(dateObject: any) {
         return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
     }
 }

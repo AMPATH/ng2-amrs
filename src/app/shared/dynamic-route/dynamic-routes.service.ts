@@ -10,10 +10,10 @@ export class DynamicRoutesService {
   public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
-  public analyticsDashboardConfig: Object = require('./schema/analytics.dashboard.conf.json');
-  public clinicDashboardConfig: Object = require('./schema/clinic.dashboard.conf.json');
-  public patientDashboardConfig: Object = require('./schema/patient.dashboard.conf.json');
-  public patientListCohortConfig: Object = require('./schema/patientlist.dashboard.conf.json');
+  public analyticsDashboardConfig: object = require('./schema/analytics.dashboard.conf.json');
+  public clinicDashboardConfig: object = require('./schema/clinic.dashboard.conf.json');
+  public patientDashboardConfig: object = require('./schema/patient.dashboard.conf.json');
+  public patientListCohortConfig: object = require('./schema/patientlist.dashboard.conf.json');
 
   constructor() {
     this.dashboardConfig = {
@@ -38,7 +38,7 @@ export class DynamicRoutesService {
 
   public setRoutes(route: DynamicRouteModel) {
     if (this.dashboardConfig) {
-      let routes: Array<Object> = this.extractRoutes(route, this.dashboardConfig);
+      let routes: Array<object> = this.extractRoutes(route, this.dashboardConfig);
       route.routes = routes;
       Object.assign(this.routesModel, route);
       this.routes.next(this.routesModel);
@@ -49,12 +49,12 @@ export class DynamicRoutesService {
     this.patientRoutes.next(pRoutes);
   }
 
-  public extractRoutes(route: DynamicRouteModel, dashboardConfig: Object): Array<Object> {
-    let dashboard: Object = dashboardConfig[route.dashboardId];
-    let routes: Array<Object> = [];
+  public extractRoutes(route: DynamicRouteModel, dashboardConfig: object): Array<object> {
+    let dashboard: object = dashboardConfig[route.dashboardId];
+    let routes: Array<object> = [];
     let routeParameter: string;
     // extract routes that is common to all programs
-    dashboard['nonProgramRoutes'].forEach((nonProgramRoute: Object) => {
+    dashboard['nonProgramRoutes'].forEach((nonProgramRoute: object) => {
       let url = dashboard['baseRoute'] +
         this.extractParameter(dashboard['routeParameter'], route)
         + '/' + nonProgramRoute['url'];
@@ -71,10 +71,10 @@ export class DynamicRoutesService {
     });
 
     // extract routes that is program specific
-    dashboard['programs'].forEach((program: Array<Object>) => {
+    dashboard['programs'].forEach((program: Array<object>) => {
       route.programs.forEach((enrolledProgram: ProgramEnrollment) => {
         if (enrolledProgram.program.uuid === program['programUuid']) {
-          program['routes'].forEach((programRoute: Object) => {
+          program['routes'].forEach((programRoute: object) => {
             let url = dashboard['baseRoute'] +
               this.extractParameter(dashboard['routeParameter'], route)
               + '/' + programRoute['url'];
@@ -87,8 +87,9 @@ export class DynamicRoutesService {
               onClick: this.hideSidebar
             };
             let index = routes.findIndex((x) => x['url'] === url);
-            if (index === -1)
+            if (index === -1) {
               routes.push(singleRoute);
+            }
           });
         }
       });

@@ -5,7 +5,7 @@ export class FakeFormSchemaCompiler {
   constructor() {
   }
 
-  public compileFormSchema(formSchema: Object, referencedComponents: Object): Object {
+  public compileFormSchema(formSchema: object, referencedComponents: object): object {
     return {
       compiled: true,
       formSchema: formSchema,

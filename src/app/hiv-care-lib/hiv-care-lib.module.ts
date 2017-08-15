@@ -9,7 +9,7 @@ import { AgGridModule } from 'ag-grid-angular/main';
 import { InputTextModule, TabViewModule } from 'primeng/primeng';
 
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
-import { Moh731ReportFilters } from './moh-731-report/moh-731-report-filters.component';
+import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-filters.component';
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { Moh731PatientListComponent } from './moh-731-report/moh-731-patientlist.component';
@@ -76,7 +76,7 @@ import { ChartModule } from 'angular2-highcharts';
   exports: [
     Moh731TabularComponent,
     Moh731PatientListComponent,
-    Moh731ReportFilters,
+    Moh731ReportFiltersComponent,
     DateTimePickerModule,
     EtlApi,
     CommonModule,
@@ -98,7 +98,7 @@ import { ChartModule } from 'angular2-highcharts';
     Moh731TabularComponent,
     Moh731PatientListComponent,
     Moh731ReportBaseComponent,
-    Moh731ReportFilters,
+    Moh731ReportFiltersComponent,
     MOHReportComponent,
     HivSummaryIndicatorBaseComponent,
     ReportFilters,

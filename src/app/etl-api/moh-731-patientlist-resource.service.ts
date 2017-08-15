@@ -8,11 +8,11 @@ export class Moh731PatientListResourceService {
               private appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) { }
 
-  getPatientListUrl(reportName): string {
+  public getPatientListUrl(reportName): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}/patient-list`;
   }
 
-  getUrlRequestParams(params): URLSearchParams {
+  public getUrlRequestParams(params): URLSearchParams {
     let urlParams: URLSearchParams = new URLSearchParams();
     if (!params.startIndex) {
       params.startIndex = '0';
@@ -30,7 +30,7 @@ export class Moh731PatientListResourceService {
     return urlParams;
   }
 
-  getMoh731PatientListReport(params) {
+  public getMoh731PatientListReport(params) {
     let urlParams = this.getUrlRequestParams(params);
     let url = this.getPatientListUrl('MOH-731-report');
     let request = this.http.get(url, {

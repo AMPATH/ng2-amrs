@@ -27,12 +27,13 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.route.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
-      if (params.location_uuid)
+      if (params.location_uuid) {
         this.locationUuids.push(params.location_uuid);
+      }
     });
     this.loadReportParamsFromUrl();
   }

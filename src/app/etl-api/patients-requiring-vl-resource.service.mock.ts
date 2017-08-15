@@ -18,17 +18,17 @@ export class PatientsRequiringVLResourceServiceMock extends PatientsRequiringVLR
         super(null, null, null);
     }
 
-    getPatientList(params): Observable<any> {
+    public getPatientList(params): Observable<any> {
         let subj = new Subject<any>();
         let that = this;
-        setTimeout(function() {
+        setTimeout(() => {
             subj.next(that.getTestData());
         }, 100);
 
         return subj.asObservable();
     }
 
-    getTestData() {
+    public getTestData() {
         return {
             'startIndex': 0,
             'size': 300,

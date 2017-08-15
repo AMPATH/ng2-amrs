@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 /**
  * We're loading this component asynchronously
  * We are using some magic with es6-promise-loader that will wrap the module with a Promise
@@ -11,9 +8,7 @@ import {
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
-import {
-  UserDefaultPropertiesService
-} from
+import { UserDefaultPropertiesService } from
   '../user-default-properties/user-default-properties.service';
 @Component({
   selector: 'clinic-dashboard',
@@ -21,11 +16,11 @@ import {
 })
 export class ClinicDashboardComponent implements OnInit {
 
-  locationUuid: string;
-  loaderStatus: boolean;
-  locations = [];
-  selectedLocation: any = {};
-  selectingLocation: boolean = true;
+  public locationUuid: string;
+  public loaderStatus: boolean;
+  public locations = [];
+  public selectedLocation: any = {};
+  public selectingLocation: boolean = true;
 
   constructor(private locationResourceService: LocationResourceService,
               private route: ActivatedRoute, private router: Router,
@@ -34,7 +29,7 @@ export class ClinicDashboardComponent implements OnInit {
     this.loaderStatus = false;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getLocations();
   }
 

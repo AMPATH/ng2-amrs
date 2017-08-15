@@ -5,29 +5,33 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache/ionic-cache';
 @Injectable()
 export class MonthlyScheduleResourceService {
-    constructor(protected http: Http,
-                protected appSettingsService: AppSettingsService,
-                protected dataCache: DataCacheService, protected cacheService: CacheService) { }
-    getMonthlySchedule(params) {
+  constructor(protected http: Http,
+              protected appSettingsService: AppSettingsService,
+              protected dataCache: DataCacheService,
+              protected cacheService: CacheService) {
+  }
 
-        let url = this.getUrl();
-        let urlParams: URLSearchParams = new URLSearchParams();
+  public getMonthlySchedule(params) {
 
-        urlParams.set('endDate', params.endDate);
-        urlParams.set('startDate', params.startDate);
-        urlParams.set('locationUuids', params.locationUuids);
-        urlParams.set('limit', params.limit);
-        urlParams.set('groupBy', 'groupByPerson,groupByAttendedDate,groupByRtcDate');
-        let request = this.http.get(url, {
-            search: urlParams
-        })
-        .map((response: Response) => {
-            return response.json().results;
-        });
+    let url = this.getUrl();
+    let urlParams: URLSearchParams = new URLSearchParams();
 
-        return this.dataCache.cacheRequest(url, urlParams, request);
-    }
-    getUrl(): string {
-        return this.appSettingsService.getEtlRestbaseurl().trim() + 'get-monthly-schedule';
-    }
+    urlParams.set('endDate', params.endDate);
+    urlParams.set('startDate', params.startDate);
+    urlParams.set('locationUuids', params.locationUuids);
+    urlParams.set('limit', params.limit);
+    urlParams.set('groupBy', 'groupByPerson,groupByAttendedDate,groupByRtcDate');
+    let request = this.http.get(url, {
+      search: urlParams
+    })
+      .map((response: Response) => {
+        return response.json().results;
+      });
+
+    return this.dataCache.cacheRequest(url, urlParams, request);
+  }
+
+  public getUrl(): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + 'get-monthly-schedule';
+  }
 }

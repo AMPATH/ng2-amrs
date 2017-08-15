@@ -5,15 +5,15 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
   templateUrl: 'indicator-selector.component.html'
 })
 export class IndicatorSelectComponent implements OnInit {
-  selectedIndicators: Array<any> = [];
-  indicatorOptions: Array<any>;
-  @Input() indicators: Array<any>;
-  @Output() onIndicatorChange = new EventEmitter<any>();
+  public selectedIndicators: Array<any> = [];
+  public indicatorOptions: Array<any>;
+  @Input() public indicators: Array<any>;
+  @Output() public onIndicatorChange = new EventEmitter<any>();
 
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.selectedIndicators.length > 0) {
       this.onIndicatorChange.emit({ indicators: this.selectedIndicators });
     }
@@ -21,16 +21,16 @@ export class IndicatorSelectComponent implements OnInit {
     this.getIndicators();
   }
 
-  onIndicatorSelected(indicators) {
+  public onIndicatorSelected(indicators) {
     this.selectedIndicators = indicators;
     this.onIndicatorChange.emit({ indicators: this.selectedIndicators });
   }
 
-  getIndicators() {
+  public getIndicators() {
     this.indicatorOptions = this.indicators;
   }
 
-  selectAll() {
+  public selectAll() {
     this.onIndicatorSelected(this.indicatorOptions);
   }
 }

@@ -1,6 +1,6 @@
 import {
   Component, Input, Output, OnInit,
-  EventEmitter, ElementRef, forwardRef
+  EventEmitter, ElementRef, forwardRef, AfterViewInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -20,25 +20,23 @@ require('ion-rangeslider');
   ],
   styleUrls: ['range-slider.component.css']
 })
-export class RangeSliderComponent implements OnInit, ControlValueAccessor {
-  @Input() start: number;
-  @Input() end: number;
-  @Output() onAgeChange = new EventEmitter<any>();
-  @Output() onAgeChangeFinish = new EventEmitter<any>();
-  sliderElt;
-  initialized: boolean = false;
-  onChange = (_) => {};
-  onTouched = () => {};
+export class RangeSliderComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+  @Input() public start: number;
+  @Input() public end: number;
+  @Output() public onAgeChange = new EventEmitter<any>();
+  @Output() public onAgeChangeFinish = new EventEmitter<any>();
+  public sliderElt;
+  public initialized: boolean = false;
 
   constructor(private elementRef: ElementRef) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.start && this.end) {
       this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
     }
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.sliderElt = jQuery(this.elementRef.nativeElement).find('.slider');
     this.sliderElt.ionRangeSlider({
       type: 'double',
@@ -65,7 +63,7 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
     this.onAgeChange.emit(value);
   }
 
-  writeValue(value: any): void {
+  public writeValue(value: any): void {
     if (value != null) {
       if (this.initialized) {
         this.sliderElt.slider('value', value);
@@ -75,6 +73,8 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
-  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  public registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
+  public registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  private onChange = (_) => {};
+  private onTouched = () => {};
 }

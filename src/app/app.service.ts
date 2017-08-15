@@ -6,10 +6,10 @@ export interface InternalStateType {
 
 @Injectable()
 export class AppState {
-  idleTimeout = 5000;
-  timeoutID;
-  _state: InternalStateType = {};
-  idleTimer: Subject<any> = new Subject();
+  public idleTimeout = 5000;
+  public idleTimer: Subject<any> = new Subject();
+  public _state: InternalStateType = {};
+  private timeoutID;
   constructor() {
 
   }
@@ -23,17 +23,17 @@ export class AppState {
     throw new Error('do not mutate the `.state` directly');
   }
 
-  get(prop?: any) {
+  public get(prop?: any) {
     // use our state getter for the clone
     const state = this.state;
     return state.hasOwnProperty(prop) ? state[prop] : state;
   }
 
-  set(prop: string, value: any) {
+  public set(prop: string, value: any) {
     // internally mutate our state
     return this._state[prop] = value;
   }
-  setupIdleTimer(idleTimeout) {
+  public setupIdleTimer(idleTimeout) {
     this.idleTimeout = idleTimeout;
     window.addEventListener('mousemove', this.resetTimer.bind(this), false);
     window.addEventListener('mousedown', this.resetTimer.bind(this), false);
@@ -47,21 +47,21 @@ export class AppState {
     return this.idleTimer;
   }
 
-  startTimer() {
+  public startTimer() {
     this.timeoutID = window.setTimeout(this.goInactive.bind(this), this.idleTimeout);
   }
 
-  resetTimer(e) {
+  public resetTimer(e) {
     window.clearTimeout(this.timeoutID);
 
     this.goActive();
   }
 
-  goInactive() {
+  public goInactive() {
     this.idleTimer.next({ idle: true });
   }
 
-  goActive(emit?: boolean) {
+  public goActive(emit?: boolean) {
     if (emit) {
       this.idleTimer.next({ idle: false });
     }

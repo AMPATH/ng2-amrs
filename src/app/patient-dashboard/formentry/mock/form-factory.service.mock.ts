@@ -5,10 +5,10 @@ export class FakeFormFactory {
   constructor() {
   }
 
-  public createForm(formSchema: Object): any {
+  public createForm(formSchema: object): any {
     // TODO: Return Form type
     formSchema = {
-      searchNodeByQuestionId: function(questionId) {
+      searchNodeByQuestionId: (questionId) => {
         return [];
       }
     };

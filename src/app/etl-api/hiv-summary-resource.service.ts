@@ -8,13 +8,13 @@ export class HivSummaryResourceService {
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
 
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient';
   }
 
-  getHivSummary(patientUuid: string,
-                startIndex: number, limit: number, includeNonClinicalEncounter?: boolean): Observable<any> {
+  public getHivSummary(patientUuid: string, startIndex: number, limit: number,
+                       includeNonClinicalEncounter?: boolean): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
 

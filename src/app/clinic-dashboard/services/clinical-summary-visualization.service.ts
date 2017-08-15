@@ -4,16 +4,16 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 @Injectable()
 export class ClinicalSummaryVisualizationService {
-  colCallback = new Subject<any>();
+  public colCallback = new Subject<any>();
 
   constructor() {
-
   }
 
   get generateTabularViewColumns(): Array<any> {
     let columns = [];
 
     let translateColumns = Object.keys(this.translateColumns['clinical-hiv-comparative-overview']);
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < translateColumns.length; i++) {
       columns.push({
         headerName: this.translateColumns['clinical-hiv-comparative-overview'][translateColumns[i]],
@@ -42,7 +42,7 @@ export class ClinicalSummaryVisualizationService {
     return columns;
   }
 
-  generateTableData(data): Array<any> {
+  public generateTableData(data): Array<any> {
     return data;
   }
 
@@ -98,7 +98,7 @@ export class ClinicalSummaryVisualizationService {
     return flippedCols;
   }
 
-  getMonthDateRange(year: number, month: number): any {
+  public getMonthDateRange(year: number, month: number): any {
     let startDate = moment([year, month]);
     let endDate = moment(startDate).endOf('month');
     return {

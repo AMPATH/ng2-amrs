@@ -19,15 +19,15 @@ export class ReportFilterComponent implements OnInit {
   public forms: SelectItem[];
   public reportIndicators: string[] = [];
 
-  @Input() enableDiagnostic: boolean;
-  @Input() showButton: boolean;
-  @Input() buttonName: string;
-  @Input() reportFilterTitle: string;
-  @Input() reportName: string;
-  @Input() enabledControls: string[];
-  @Output() onGenerateReport: EventEmitter<any> = new EventEmitter();
-  @Input() reportFilterModel: ReportFilterModel;
-  @Output() reportFilterModelChange: EventEmitter<any> = new EventEmitter();
+  @Input() public enableDiagnostic: boolean;
+  @Input() public showButton: boolean;
+  @Input() public buttonName: string;
+  @Input() public reportFilterTitle: string;
+  @Input() public reportName: string;
+  @Input() public enabledControls: string[];
+  @Output() public onGenerateReport: EventEmitter<any> = new EventEmitter();
+  @Input() public reportFilterModel: ReportFilterModel;
+  @Output() public reportFilterModelChange: EventEmitter<any> = new EventEmitter();
 
   constructor(private indicatorResourceService: IndicatorResourceService,
               private locationResourceService: LocationResourceService,
@@ -67,16 +67,25 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public renderFilterControls(): void {
-    if (this.isEnabled('indicatorsControl')) this.fetchReportIndicators();
-    if (this.isEnabled('locationsControl')) this.fetchLocations();
-    if (this.isEnabled('formsControl')) this.fetchForms();
-    if (this.isEnabled('genderControl')) this.defineGenderOptions();
+    if (this.isEnabled('indicatorsControl')) {
+      this.fetchReportIndicators();
+    }
+    if (this.isEnabled('locationsControl')) {
+      this.fetchLocations();
+    }
+    if (this.isEnabled('formsControl')) {
+      this.fetchForms();
+    }
+    if (this.isEnabled('genderControl')) {
+      this.defineGenderOptions();
+    }
   }
 
   public fetchLocations(): void {
     this.locationResourceService.getLocations().subscribe(
       (locations: any[]) => {
         this.locations = [];
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < locations.length; i++) {
           this.locations.push({ label: locations[i].name, value: locations[i].uuid });
         }
@@ -91,6 +100,7 @@ export class ReportFilterComponent implements OnInit {
     this.formsResourceService.getForms().subscribe(
       (forms: any[]) => {
         this.forms = [];
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < forms.length; i++) {
           this.forms.push({ label: forms[i].name, value: forms[i].uuid });
         }
@@ -107,6 +117,7 @@ export class ReportFilterComponent implements OnInit {
       .subscribe(
       (indicators: any[]) => {
         this.indicators = [];
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < indicators.length; i++) {
           this.indicators.push({ label: indicators[i].label, value: indicators[i].name });
         }

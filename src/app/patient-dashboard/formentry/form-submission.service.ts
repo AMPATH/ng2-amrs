@@ -123,7 +123,9 @@ export class FormSubmissionService {
     let arrayOfErrors: Array<any> = [];
     responses.forEach((response: any, key) => {
       if (!_.isUndefined(response)) {
-        if (response.hasError) arrayOfErrors.push(response);
+        if (response.hasError) {
+          arrayOfErrors.push(response);
+        }
       }
     });
     if (arrayOfErrors.length > 1) { // all payloads failed
@@ -135,9 +137,10 @@ export class FormSubmissionService {
       };
       arrayOfErrors.forEach((response: any, key) => {
         if (!_.isUndefined(response)) {
-          if (response.hasError)
+          if (response.hasError) {
             responseObject.errorMessages.push
               .apply(responseObject.errorMessages, response.errorMessages);
+          }
         }
       });
       return responseObject;
@@ -176,7 +179,7 @@ export class FormSubmissionService {
 
     return errors;
   }
-  private logFormError(errorObj: Object): void {
+  private logFormError(errorObj: object): void {
     this.errorLogResourceService.postFormError(errorObj).subscribe(
       (responses: Array<any>) => {
         if (responses) {

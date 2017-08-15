@@ -1,162 +1,163 @@
 /*
 
-Based on motd_messages table
-alerts are of 2 types 1-info and 2-warning
-intervals are
-    1.After each session
-    2.Once daily for the start to end date period
-    3.Once per start to end date
+ Based on motd_messages table
+ alerts are of 2 types 1-info and 2-warning
+ intervals are
+ 1.After each session
+ 2.Once daily for the start to end date period
+ 3.Once per start to end date
 
-*/
+ */
 
-import { Component, OnInit , OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
 import * as Moment from 'moment';
 
 @Component({
-    selector : 'motd-notification',
-    templateUrl : 'motd-notification.component.html',
-    styleUrls : [ 'motd-notification.component.css' ]
+  selector: 'motd-notification',
+  templateUrl: 'motd-notification.component.html',
+  styleUrls: ['motd-notification.component.css']
 })
 
 export class MOTDNotificationComponent implements OnInit {
-     notifications: any = [];
+  public notifications: any = [];
 
-     displayNotifications: any = [];
+  public displayNotifications: any = [];
 
-     overlayClass: string = '';
+  public overlayClass: string = '';
 
-     warningIcon: string = 'fa fa-exclamation-circle fa-fw fa-2x';
+  public warningIcon: string = 'fa fa-exclamation-circle fa-fw fa-2x';
 
-     infoIcon: string = 'fa fa-info-circle fa-fw fa-2x';
+  public infoIcon: string = 'fa fa-info-circle fa-fw fa-2x';
 
-     // cookie key will be the current days date
+  // cookie key will be the current days date
 
-     currentDate = Moment();
+  public currentDate = Moment();
 
-     cookieKey: string = 'motdKey' + this.currentDate;
-     cookieValue: string = 'motdVal' + this.currentDate;
+  public cookieKey: string = 'motdKey' + this.currentDate;
+  public cookieValue: string = 'motdVal' + this.currentDate;
 
-     constructor(private _motdSservice: MOTDNotificationService,
-                 private _cookieService: CookieService) {
+  constructor(private _motdSservice: MOTDNotificationService,
+              private _cookieService: CookieService) {
 
-     }
-     ngOnInit() {
+  }
 
-       // this.removeAllCookies();
-           this.getMotdNotifications();
+  public ngOnInit() {
 
-     }
+    // this.removeAllCookies();
+    this.getMotdNotifications();
 
-     getMotdNotifications() {
-         this._motdSservice.getMotdNotification()
-           .subscribe((res) => {
-               this.notifications = res;
+  }
 
-               if (res.length > 0) {
+  public getMotdNotifications() {
+    this._motdSservice.getMotdNotification()
+      .subscribe((res) => {
+        this.notifications = res;
 
-                    this.filterNotifications();
+        if (res.length > 0) {
 
-               }
+          this.filterNotifications();
 
-            // console.log('Notification' , this.notifications);
-           });
-     }
+        }
 
-     filterNotifications() {
-         // only show notifications not loaded in cookies based on id
-         let notifications = this.notifications;
-         if (notifications.length > 0 ) {
+        // console.log('Notification' , this.notifications);
+      });
+  }
 
-                notifications.forEach((notification) => {
+  public filterNotifications() {
+    // only show notifications not loaded in cookies based on id
+    let notifications = this.notifications;
+    if (notifications.length > 0) {
 
-                    // console.log('Filter Notification', notification);
+      notifications.forEach((notification) => {
 
-                    let startDate = Moment(notification.startDate);
-                    let endDate = Moment(notification.expireTime);
-                    let messageId = notification.message_id;
-                    let alertInterval = parseInt(notification.alert_interval, 0);
+        // console.log('Filter Notification', notification);
 
-                    // console.log('Alert INterval', alertInterval);
+        let startDate = Moment(notification.startDate);
+        let endDate = Moment(notification.expireTime);
+        let messageId = notification.message_id;
+        let alertInterval = parseInt(notification.alert_interval, 0);
 
-                    let cookieKey = '';
-                    let cookieVal = '';
+        // console.log('Alert INterval', alertInterval);
 
-                     /* check the type of interval
-                             1.After each session
-                             2.Once daily for the start to end date period
-                             3.Once per start to end date
-                     */
+        let cookieKey = '';
+        let cookieVal = '';
 
-                    if (alertInterval === 1) {
+        /* check the type of interval
+         1.After each session
+         2.Once daily for the start to end date period
+         3.Once per start to end date
+         */
 
-                            cookieKey = 'motdLoginCookie';
-                            cookieVal = '' + Math.random();
+        if (alertInterval === 1) {
 
-                        }
+          cookieKey = 'motdLoginCookie';
+          cookieVal = '' + Math.random();
 
-                    if (alertInterval === 2) {
+        }
 
-                            cookieKey = 'motdNotKey' + this.currentDate;
-                            cookieVal = 'motdNotVal' + this.currentDate;
+        if (alertInterval === 2) {
 
-                       }
-                    if (alertInterval === 3 ) {
+          cookieKey = 'motdNotKey' + this.currentDate;
+          cookieVal = 'motdNotVal' + this.currentDate;
 
-                          cookieKey = 'motdNotKey' + messageId;
-                          cookieVal = 'motdNotVal' + messageId;
+        }
+        if (alertInterval === 3) {
 
-                       }
+          cookieKey = 'motdNotKey' + messageId;
+          cookieVal = 'motdNotVal' + messageId;
 
-                    // console.log('Cookie key set', cookieKey);
+        }
 
-                    let currentNotificationCookie = this._cookieService.get(cookieKey);
+        // console.log('Cookie key set', cookieKey);
 
-                    if (typeof currentNotificationCookie === 'undefined') {
+        let currentNotificationCookie = this._cookieService.get(cookieKey);
 
-                                // get notifications then add cookie
+        if (typeof currentNotificationCookie === 'undefined') {
 
-                                // check if date is between start and end
+          // get notifications then add cookie
 
-                                // console.log('Start Day', this.currentDate);
+          // check if date is between start and end
 
-                                if ( this.currentDate >= startDate && this.currentDate <= endDate) {
+          // console.log('Start Day', this.currentDate);
 
-                                            // console.log('CookieKey', cookieKey);
+          if (this.currentDate >= startDate && this.currentDate <= endDate) {
 
-                                            this._cookieService.put(cookieKey, cookieVal);
+            // console.log('CookieKey', cookieKey);
 
-                                            this.displayNotifications.push(notification);
+            this._cookieService.put(cookieKey, cookieVal);
 
-                                            this.overlayClass = 'notification_overlay';
+            this.displayNotifications.push(notification);
 
-                                }
+            this.overlayClass = 'notification_overlay';
 
-                                // this.addTodaysCookie();
+          }
 
-                      } else {
+          // this.addTodaysCookie();
 
-                      }
-                    // console.log('Notification', notification);
-                });
+        } else {
 
-         }
-     }
+        }
+        // console.log('Notification', notification);
+      });
 
-     dissmissNotification(index) {
+    }
+  }
 
-         // check notification length
-          this.displayNotifications.splice(index, 1);
+  public dissmissNotification(index) {
 
-          if ( this.displayNotifications.length === 0 ) {
-              this.overlayClass = 'hide_notifiction_overlay';
-            }
+    // check notification length
+    this.displayNotifications.splice(index, 1);
 
-     }
+    if (this.displayNotifications.length === 0) {
+      this.overlayClass = 'hide_notifiction_overlay';
+    }
 
-     removeAllCookies() {
-         this._cookieService.removeAll();
-     }
+  }
+
+  public removeAllCookies() {
+    this._cookieService.removeAll();
+  }
 
 }

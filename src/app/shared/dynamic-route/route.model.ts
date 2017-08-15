@@ -1,9 +1,9 @@
 export class RouteModel {
-    label: string;
-    url: string;
-    initials: string;
-    renderingInfo: any;
-    childRoutes: Array<RouteModel> =  [];
+  public label: string;
+  public url: string;
+  public initials: string;
+  public renderingInfo: any;
+  public childRoutes: Array<RouteModel> =  [];
     constructor() {
 
     }

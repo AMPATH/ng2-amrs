@@ -10,7 +10,7 @@ import { Angulartics2Piwik } from  'angulartics2/dist/providers';
 export class FakeAppFeatureAnalytics {
   constructor() { }
 
-  trackEvent(category: string, action: string, name?: string): void {
+  public trackEvent(category: string, action: string, name?: string): void {
 
   }
 }

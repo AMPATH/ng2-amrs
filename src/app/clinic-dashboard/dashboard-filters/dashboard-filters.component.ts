@@ -9,36 +9,36 @@ import * as moment from 'moment/moment';
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardFiltersComponent implements OnInit {
-  @Input() options: any;
-  @Input() indicators: Array<any>;
-  @Input() filterModel: any;
-  @Input() startDate: string;
-  @Input() endDate: string;
-  @Input() ageRangeStart: number;
-  @Input() ageRangeEnd: number;
-  @Output() filterModelChange = new EventEmitter<any>();
+  @Input() public options: any;
+  @Input() public indicators: Array<any>;
+  @Input() public filterModel: any;
+  @Input() public startDate: string;
+  @Input() public endDate: string;
+  @Input() public ageRangeStart: number;
+  @Input() public ageRangeEnd: number;
+  @Output() public filterModelChange = new EventEmitter<any>();
   constructor() {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.filterModel = {};
   }
 
-  onDateChanged(range: any) {
+  public onDateChanged(range: any) {
     _.extend(this.filterModel, _.mapValues(range, (_date) =>  moment(_date)));
     this.filterModelChange.emit(this.filterModel);
   }
 
-  onGenderChanged(data: any) {
+  public onGenderChanged(data: any) {
     _.extend(this.filterModel, data);
     this.filterModelChange.emit(this.filterModel);
   }
 
-  onAgeChangeFinished(data: any) {
+  public onAgeChangeFinished(data: any) {
     _.extend(this.filterModel, data);
     this.filterModelChange.emit(this.filterModel);
   }
 
-  onIndicatorChanged(indicators: Array<any>) {
+  public onIndicatorChanged(indicators: Array<any>) {
     if (indicators.length > 0) {
       _.extend(this.filterModel, indicators);
       this.filterModelChange.emit(this.filterModel);

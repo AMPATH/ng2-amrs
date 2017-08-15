@@ -26,8 +26,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public reportName: string = 'hiv-summary-report';
   public dates: any;
   public age: any;
-  @Input() ageRangeStart: number;
-  @Input() ageRangeEnd: number;
+  @Input() public ageRangeStart: number;
+  @Input() public ageRangeEnd: number;
 
   private _startDate: Date = Moment().subtract(1, 'months').toDate();
   public get startDate(): Date {
@@ -62,8 +62,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
 
   constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService) { }
 
-  ngOnInit() {}
-  generateReport() {
+  public ngOnInit() {}
+  public generateReport() {
     // set busy indications variables
     // clear error
     this.dates = {
@@ -101,17 +101,17 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
      this.startAge = $event.from;
      this.endAge = $event.to;
    }*/
-  onAgeChangeFinished($event) {
+  public onAgeChangeFinished($event) {
    /* _.extend(this.filterModel, data);
     this.filterModelChange.emit(this.filterModel);*/
     this.startAge = $event.ageFrom;
     console.log('$event', $event);
     this.endAge = $event.ageTo;
   }
-  getSelectedGender(selectedGender) {
+  public getSelectedGender(selectedGender) {
     // console.log('selectedGender', selectedGender);
     let gender;
-    if (selectedGender)
+    if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
           gender = '' + selectedGender[i].id;
@@ -119,11 +119,12 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
           gender = gender + ',' + selectedGender[i].id;
         }
       }
+    }
     return this.gender = gender;
   }
-  getSelectedIndicators(selectedIndicator) {
+  public getSelectedIndicators(selectedIndicator) {
     let indicators;
-    if (selectedIndicator)
+    if (selectedIndicator) {
       for (let i = 0; i < selectedIndicator.length; i++) {
         if (i === 0) {
           indicators = '' + selectedIndicator[i].id;
@@ -131,6 +132,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
           indicators = indicators + ',' + selectedIndicator[i].id;
         }
       }
+    }
     return this.indicators = indicators;
   }
   public onTabChanged(event) {

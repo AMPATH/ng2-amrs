@@ -7,14 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DisplayErrorComponent implements OnInit {
 
-  @Input() messageType;
-  @Input() message;
-  @Input() isVisible;
+  @Input() public messageType;
+  @Input() public message;
+  @Input() public isVisible;
 
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

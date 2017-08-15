@@ -6,14 +6,14 @@ import { Output, Input } from '@angular/core';
   templateUrl: './gender-selector.component.html'
 })
 export class GenderSelectComponent implements OnInit {
-  selectedGender: Array<any> = [];
-  genderOptions: Array<any>;
-  @Output() onGenderChange = new EventEmitter<any>();
+  public  selectedGender: Array<any> = [];
+  public  genderOptions: Array<any>;
+  @Output() public onGenderChange = new EventEmitter<any>();
 
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.selectedGender.length > 0 ) {
       this.onGenderChange.emit({gender: this.selectedGender});
     }
@@ -30,7 +30,7 @@ export class GenderSelectComponent implements OnInit {
     ];
   }
 
-  onGenderSelected(selectedGender) {
+  public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
     this.onGenderChange.emit({gender: this.selectedGender});
   }

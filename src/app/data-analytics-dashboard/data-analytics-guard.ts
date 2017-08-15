@@ -14,7 +14,7 @@ export class DataAnalyticsDashboardGuard implements CanActivate,
   constructor(private dynamicRoutesService: DynamicRoutesService) {
   }
 
-  canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.dynamicRoutesService.setRoutes({
       dashboardId: 'analyticsDashboard',
       programs: [], // TODO: Fetch this data from user service
@@ -25,7 +25,7 @@ export class DataAnalyticsDashboardGuard implements CanActivate,
     return true;
   }
 
-  canDeactivate(target: DataAnalyticsDashboardComponent) {
+  public canDeactivate(target: DataAnalyticsDashboardComponent) {
     this.dynamicRoutesService.resetRoutes();
     return true;
   }

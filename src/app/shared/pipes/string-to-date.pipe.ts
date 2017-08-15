@@ -3,15 +3,16 @@ import * as Moment from 'moment';
 /**
  * Pipe format a date
  */
-@Pipe({ name: 'stringToDate' })
+@Pipe({name: 'stringToDate'})
 export class StringToDatePipe implements PipeTransform {
-    constructor() {
+  constructor() {
+  }
+
+  public transform(value: string, format: string): any {
+    let formatted = '';
+    if (value) {
+      formatted = Moment(value).format(format);
     }
-    transform(value: string, format: string): any {
-        let formatted = '';
-        if (value) {
-            formatted = Moment(value).format(format);
-        }
-        return formatted;
-    }
+    return formatted;
+  }
 }

@@ -9,6 +9,6 @@ export class AdminDashboardClinicFlowComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 }

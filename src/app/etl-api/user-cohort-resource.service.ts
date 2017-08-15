@@ -9,11 +9,11 @@ import { Observable } from 'rxjs/Rx';
 export class UserCohortResourceService {
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) { }
-  getUrl(): string {
+  public getUrl(): string {
 
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'user-cohorts';
   }
-  getUserCohorts(userUuid: string): Observable<any> {
+  public getUserCohorts(userUuid: string): Observable<any> {
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
     params.set('userUuid', userUuid);
