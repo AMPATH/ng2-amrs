@@ -34,7 +34,7 @@ export class Helpers {
 
     for (let member of members) {
 
-      if (!this.isNullOrUndefined(obj[members])) {
+      if (!this.isNullOrUndefined(obj[member])) {
 
         hasANonNullMember = true;
         break;

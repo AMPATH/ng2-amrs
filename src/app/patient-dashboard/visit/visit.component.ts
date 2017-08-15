@@ -62,10 +62,10 @@ export class VisitComponent implements OnInit, OnDestroy {
                     this.visit = visit;
                     if (visit.encounters && visit.encounters.length > 0) {
                         this.visitWithNoEncounters = false;
-                        this.excludedForms = visit.encounters.map((a) => {
-                            return a.encounterType.uuid;
-                        });
                     }
+                    this.excludedForms = visit.encounters.map((a) => {
+                            return a.encounterType.uuid;
+                });
                 } else {
                     this.getVisitTypes();
                 }
