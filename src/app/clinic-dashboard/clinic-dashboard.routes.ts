@@ -7,7 +7,8 @@ import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.
 import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
-import { DailyScheduleNotReturnedComponent } from './daily-schedule/daily-schedule-not-returned.component';
+import { DailyScheduleNotReturnedComponent
+} from './daily-schedule/daily-schedule-not-returned.component';
 
 // import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
 // import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';

@@ -7,19 +7,21 @@ import { Subscription } from 'rxjs';
 
 @Injectable()
 export class PatientEncounterService {
-  busy: Subscription;
-  constructor(private encounterService: EncounterResourceService) { }
+  public busy: Subscription;
 
-  getEncountersByPatientUuid(patientUuid: string,
-                             cached: boolean = false,
-                             v: string = null): Observable<Encounter[]> {
+  constructor(private encounterService: EncounterResourceService) {
+  }
+
+  public getEncountersByPatientUuid(patientUuid: string,
+                                    cached: boolean = false,
+                                    v: string = null): Observable<Encounter[]> {
     let encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
     let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
     this.busy = encounterObservable.subscribe(
       (encounters) => {
         let mappedEncounters: Encounter[] = new Array<Encounter>();
-
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < encounters.length; i++) {
           mappedEncounters.push(new Encounter(encounters[i]));
         }

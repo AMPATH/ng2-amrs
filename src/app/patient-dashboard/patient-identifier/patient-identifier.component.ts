@@ -8,11 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PatientIdentifierComponent implements OnInit {
 
   @Input()
-  identifiers: Array<{}> = [];
+  public identifiers: Array<{}> = [];
 
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
 
   }
 }

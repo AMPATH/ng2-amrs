@@ -49,6 +49,7 @@ export class Moh731TabularComponent implements OnInit {
             let created: any = {};
             created.headerName = section.sectionTitle;
             created.children = [];
+          // tslint:disable-next-line:prefer-for-of
             for (let j = 0; j < section.indicators.length; j++) {
                 let child: any = {
                     headerName: section.indicators[j].label,

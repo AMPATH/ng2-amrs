@@ -329,8 +329,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.formRelationsFix(this.form);
         this.form.valueProcessingInfo.patientUuid = this.patient.uuid;
         // add visit uuid if present
-        if (this.visitUuid && this.visitUuid !== '')
+        if (this.visitUuid && this.visitUuid !== '') {
           this.form.valueProcessingInfo.visitUuid = this.visitUuid;
+        }
         // now set default value
         this.loadDefaultValues();
       }

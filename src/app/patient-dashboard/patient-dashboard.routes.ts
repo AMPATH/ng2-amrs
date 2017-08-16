@@ -1,7 +1,6 @@
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-'../patient-search/patient-search-container.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';

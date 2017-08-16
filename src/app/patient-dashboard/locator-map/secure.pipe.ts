@@ -36,13 +36,13 @@ export class SecurePipe implements PipeTransform, OnDestroy {
         private sanitizer: DomSanitizer
     ) { }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this._subscription) {
             this._dispose();
         }
     }
 
-    transform(url: string): any {
+    public transform(url: string): any {
         let obj = this.internalTransform(url);
         return this.asyncTrasnform(obj);
     }
@@ -88,7 +88,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
         this._obj = obj;
 
         this._subscription = obj.subscribe({
-            next: function(value) {
+            next: (value) => {
                 return _this._updateLatestValue(obj, value);
             }, error: (e: any) => { throw e; }
         });
@@ -109,7 +109,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
         this._obj = null;
     }
 
-    private _updateLatestValue(async: any, value: Object) {
+    private _updateLatestValue(async: any, value: object) {
         if (async === this._obj) {
             this._latestValue = value;
             this._ref.markForCheck();

@@ -16,26 +16,26 @@ import * as _ from 'lodash';
 
 })
 export class PatientEncountersComponent implements OnInit, OnDestroy {
-  encounters: Encounter[];
-  selectedEncounter: Encounter;
-  onEncounterDetail: boolean = false;
-  messageType: string;
-  message: string;
-  isVisible: boolean;
-  dataLoading: boolean = false;
-  patient: any;
-  errors: any = [];
-  encounterTypes: any = [];
-  subscription: Subscription;
+  public encounters: Encounter[];
+  public selectedEncounter: Encounter;
+  public onEncounterDetail: boolean = false;
+  public messageType: string;
+  public message: string;
+  public isVisible: boolean;
+  public dataLoading: boolean = false;
+  public patient: any;
+  public errors: any = [];
+  public encounterTypes: any = [];
   public busyIndicator: any = {
     busy: false,
     message: 'Fetching encounters hang on...' // default message
   };
+  private subscription: Subscription;
   constructor(private patientEncounterService: PatientEncounterService,
               private patientService: PatientService,
               private appFeatureAnalytics: AppFeatureAnalytics,
               private router: Router, private route: ActivatedRoute) { }
-  ngOnInit() {
+  public ngOnInit() {
     this.getPatient();
     // load cached result
     // app feature analytics
@@ -43,13 +43,13 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       .trackEvent('Patient Dashboard', 'Patient Encounter List Loaded', 'ngOnInit');
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  loadPatientEncounters(patientUuid) {
+  public loadPatientEncounters(patientUuid) {
     this.isBusyIndicator(true);
     this.encounters = [];
     let request = this.patientEncounterService
@@ -73,7 +73,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           });
         });
   }
-  loadEncounterTypes(encounters) {
+  public loadEncounterTypes(encounters) {
       if (encounters.length > 0) {
             encounters.forEach((encounter) => {
                this.encounterTypes.push(encounter.encounterType.display);
@@ -83,7 +83,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       }
 
   }
-  sortEncounterTpes() {
+  public sortEncounterTpes() {
 
        let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
 
@@ -92,7 +92,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
        this.encounterTypes = sortByAlphOrder;
 
   }
-  getPatient() {
+  public getPatient() {
     this.dataLoading = true;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -110,7 +110,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       });
   }
 
-  editEncounter(encounter) {
+  public editEncounter(encounter) {
     if (encounter) {
       this.router.navigate(['../formentry', encounter.form.uuid], {
         relativeTo: this.route,
@@ -119,11 +119,11 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadingIndicator(isBusy) {
+  public loadingIndicator(isBusy) {
     this.isBusyIndicator(isBusy, 'Loading encounter obs...');
   }
 
-  showEncounterObservations(encounter) {
+  public showEncounterObservations(encounter) {
     if (encounter) {
       this.selectedEncounter = encounter;
       this.onEncounterDetail = true;

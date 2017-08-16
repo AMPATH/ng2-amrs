@@ -7,7 +7,7 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 
 @Injectable()
 export class PatientIdentifierService {
-  locations: any [];
+  public locations: any [];
   constructor(private resouceService: PatientResourceService,
               private locationResourceService: LocationResourceService) {
 

@@ -6,7 +6,7 @@ declare let pdfMake: any;
 declare let $: any;
 
 export class HivPatientClinicalSummaryService {
-  public static data: Object = null;
+  public static data: object = null;
 
   public static constructPdfStructure(): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
@@ -673,7 +673,9 @@ export class HivPatientClinicalSummaryService {
         )
         ;
         // patientLabTests = patientLabTests.slice(0, 5);
-        if (patientLabTests.length < 2) patientLabTests = [['Patient has no Lab Test']];
+        if (patientLabTests.length < 2) {
+          patientLabTests = [['Patient has no Lab Test']];
+        }
       }
     } catch (e) {
     }
@@ -955,7 +957,7 @@ export class HivPatientClinicalSummaryService {
     return notes;
   }
 
-  private static _generateFreeText(notes: Array<any>): String {
+  private static _generateFreeText(notes: Array<any>): string {
     if (notes.length > 0) {
       return notes[0].value || 'N/A';
     } else {
