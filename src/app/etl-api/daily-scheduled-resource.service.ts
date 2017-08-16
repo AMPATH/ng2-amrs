@@ -9,11 +9,11 @@ export class DailyScheduleResourceService {
     constructor(protected http: Http, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
-    getUrl(reportName, selectedDate): string {
+    public getUrl(reportName, selectedDate): string {
         return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}/${selectedDate}`;
     }
 
-    getDailyVisits(params) {
+    public getDailyVisits(params) {
         let urlParams: URLSearchParams = new URLSearchParams();
         if (!params.startIndex) {
             params.startIndex = '0';
@@ -35,7 +35,7 @@ export class DailyScheduleResourceService {
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
-    getDailyAppointments(params) {
+    public getDailyAppointments(params) {
         let urlParams: URLSearchParams = new URLSearchParams();
 
         if (!params.startIndex) {
@@ -60,7 +60,7 @@ export class DailyScheduleResourceService {
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
-    getDailyHasNotReturned(params) {
+    public getDailyHasNotReturned(params) {
         let urlParams: URLSearchParams = new URLSearchParams();
         if (!params.startIndex) {
             params.startIndex = '0';

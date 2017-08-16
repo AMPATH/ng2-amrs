@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,11 +11,11 @@ import { ClinicalSummaryVisualizationService
   templateUrl: './art-overview.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class ArtOverviewComponent {
-  categories: Array<any> = [];
-  series: Array<any> = [];
-  indicatorDef: Array<any> = [];
-  totalPatients: number;
+export class ArtOverviewComponent implements OnInit {
+  public indicatorDef: Array<any> = [];
+  public totalPatients: number;
+  private categories: Array<any> = [];
+  private series: Array<any> = [];
   private _options = new BehaviorSubject<any>(null);
   private data: any;
 
@@ -24,6 +24,17 @@ export class ArtOverviewComponent {
               private router: Router) {
     if (!this.options) {
       this.options = {};
+    }
+  }
+
+  public ngOnInit() {
+    if (this._options) {
+      this._options.subscribe((options) => {
+        this.data = options.data;
+        this.indicatorDef = options.indicatorDefinitions;
+        this.renderChart(options);
+        this.resetDataSets();
+      });
     }
   }
 
@@ -36,24 +47,13 @@ export class ArtOverviewComponent {
     return this._options.getValue();
   }
 
-  ngOnInit() {
-    if (this._options) {
-      this._options.subscribe((options) => {
-        this.data = options.data;
-        this.indicatorDef = options.indicatorDefinitions;
-        this.renderChart(options);
-        this.resetDataSets();
-      });
-    }
-  }
-
-  goToPatientList(indicator, filters) {
+  public goToPatientList(indicator, filters) {
     this.router.navigate(['./patient-list', 'clinical-art-overview', indicator,
         filters.startDate.format('DD/MM/YYYY') + '|' + filters.endDate.format('DD/MM/YYYY')]
       , {relativeTo: this.route});
   }
 
-  renderChart(options) {
+  public renderChart(options) {
 
     this.processChartData();
     let that = this;
@@ -123,8 +123,9 @@ export class ArtOverviewComponent {
     });
   }
 
-  processChartData() {
-    let data = this.data[0], i = 0;
+  public processChartData() {
+    let data = this.data[0];
+    let i = 0;
     this.totalPatients = data ? data.patients : 0;
     let colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2'];
     for (let indicator in data) {
@@ -144,7 +145,7 @@ export class ArtOverviewComponent {
     }
   }
 
-  resetDataSets() {
+  public resetDataSets() {
     this.series = [];
   }
 }

@@ -18,7 +18,7 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
     this.columns = [];
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.clinicalSummaryVisualizationService.colCallback) {
       this.clinicalSummaryVisualizationService.colCallback.subscribe((col) => {
         if (col) {
@@ -28,7 +28,7 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this._data.complete();
   }
 
@@ -44,7 +44,7 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
     return this._data.getValue();
   }
 
-  goToPatientList(indicator, col) {
+  public goToPatientList(indicator, col) {
     let dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
       col.reporting_month.split('/')[1],
       col.reporting_month.split('/')[0] - 1

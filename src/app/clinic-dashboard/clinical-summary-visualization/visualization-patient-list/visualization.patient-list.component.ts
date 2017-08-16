@@ -12,19 +12,19 @@ import { ClinicalSummaryVisualizationService
   selector: 'visualization-patient-list',
   templateUrl: 'visualization-patientlist.component.html'
 })
-export class VisualizationPatientListComponent implements OnInit {
-  patientData: any;
-  startDate: any;
-  endDate: any;
-  startIndex: number = 0;
-  locationUuid: any;
-  reportName: string;
-  isLoading: boolean = false;
-  dataLoaded: boolean = false;
-  currentIndicator: string;
-  translatedIndicator: string;
-  overrideColumns: Array<any> = [];
-  routeParamsSubscription: Subscription;
+export class VisualizationPatientListComponent implements OnInit, OnDestroy {
+  public patientData: any;
+  public translatedIndicator: string;
+  public overrideColumns: Array<any> = [];
+  public isLoading: boolean = false;
+  public dataLoaded: boolean = false;
+  public startDate: any;
+  public endDate: any;
+  private startIndex: number = 0;
+  private locationUuid: any;
+  private reportName: string;
+  private currentIndicator: string;
+  private routeParamsSubscription: Subscription;
   private subscription = new Subscription();
 
   constructor(private route: ActivatedRoute,
@@ -40,7 +40,7 @@ export class VisualizationPatientListComponent implements OnInit {
     this.locationUuid = urlPieces[2];
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params) {
@@ -67,18 +67,18 @@ export class VisualizationPatientListComponent implements OnInit {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  setDateRange(monthYear) {
+  public setDateRange(monthYear) {
     let startDate = monthYear[0].split('/');
     let endDate = monthYear[1].split('/');
     this.startDate = moment([startDate[2], startDate[1] - 1, startDate[0]]);
     this.endDate = moment([endDate[2], endDate[1] - 1, endDate[0]]);
   }
 
-  loadPatientData(reportName: string) {
+  public loadPatientData(reportName: string) {
     this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
@@ -95,12 +95,12 @@ export class VisualizationPatientListComponent implements OnInit {
     });
   }
 
-  loadMorePatients() {
+  public loadMorePatients() {
     this.isLoading = true;
     this.loadPatientData(this.reportName);
   }
 
-  redirectTopatientInfo(patientUuid) {
+  public redirectTopatientInfo(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }

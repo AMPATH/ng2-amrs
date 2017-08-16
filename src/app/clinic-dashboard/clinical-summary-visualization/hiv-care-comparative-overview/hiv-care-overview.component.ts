@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { ClinicalSummaryVisualizationService
 } from '../../services/clinical-summary-visualization.service';
+
 const highcharts = require('highcharts');
 
 @Component({
@@ -13,14 +14,14 @@ const highcharts = require('highcharts');
   encapsulation: ViewEncapsulation.None
 })
 export class HivCareComparativeOverviewComponent implements OnInit {
-  xAxisCategories: Array<any> = [];
-  patientsInCare: Array<any> = [];
-  patientsOnArt: Array<any> = [];
-  percOnArtWithVl: Array<any> = [];
-  virallySuppressed: Array<any> = [];
-  indicatorDef: Array<any> = [];
-  showHivCareTabularView: boolean = true;
-  showIndicatorDefinitions: boolean = false;
+  public indicatorDef: Array<any> = [];
+  public showHivCareTabularView: boolean = true;
+  public showIndicatorDefinitions: boolean = false;
+  private xAxisCategories: Array<any> = [];
+  private patientsInCare: Array<any> = [];
+  private patientsOnArt: Array<any> = [];
+  private percOnArtWithVl: Array<any> = [];
+  private virallySuppressed: Array<any> = [];
   private _options = new BehaviorSubject<any>(null);
   private data: any;
 
@@ -41,7 +42,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
     return this._options.getValue();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this._options) {
       this._options.subscribe((options) => {
         if (options) {
@@ -54,13 +55,13 @@ export class HivCareComparativeOverviewComponent implements OnInit {
     }
   }
 
-  goToPatientList(indicator, filters) {
+  public goToPatientList(indicator, filters) {
     this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
         filters.startDate.format('DD/MM/YYYY') + '|' + filters.endDate.format('DD/MM/YYYY')]
       , {relativeTo: this.route});
   }
 
-  renderChart(options) {
+  public renderChart(options) {
 
     this.processChartData();
 
@@ -183,7 +184,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
     });
   }
 
-  processChartData() {
+  public processChartData() {
     _.each(this.data, (result) => {
       this.xAxisCategories.push(result.reporting_month);
       this.patientsInCare.push(result.currently_in_care_total);
@@ -193,7 +194,7 @@ export class HivCareComparativeOverviewComponent implements OnInit {
     });
   }
 
-  resetDataSets() {
+  public resetDataSets() {
     this.xAxisCategories = [];
     this.patientsInCare = [];
     this.patientsOnArt = [];

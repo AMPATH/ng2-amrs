@@ -14,20 +14,19 @@ import * as _ from 'lodash';
 
 export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     public filterCollapsed: boolean;
-    errors: any[] = [];
-    clinicFlowData: any[] = [];
-    loadingClinicFlow: boolean = false;
-    dataLoaded: boolean = false;
-    selectedLocation: any;
-    selectedDate: any;
-    filteredData: any;
-    incompleteVisitsCount: any;
-    completeVisitsCount: any;
-    totalVisitsCount: any;
-    selectedVisitType: any;
-    visitCounts: any;
-    encounters: any;
-
+    public errors: any[] = [];
+    public clinicFlowData: any[] = [];
+    public incompleteVisitsCount: any;
+    public completeVisitsCount: any;
+    public totalVisitsCount: any;
+    public selectedVisitType: any;
+    public visitCounts: any;
+    private encounters: any;
+    private filteredData: any;
+    private selectedLocation: any;
+    private selectedDate: any;
+    private loadingClinicFlow: boolean = false;
+    private dataLoaded: boolean = false;
     private currentLocationSubscription: Subscription;
     private selectedDateSubscription: Subscription;
     private clinicFlowSubscription: Subscription;
@@ -36,7 +35,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
                 private router: Router,
                 @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
             .subscribe((clinic) => {
                 this.selectedLocation = clinic;
@@ -59,7 +58,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
 
     }
 
-    loadSelectedPatient(event: any) {
+    public loadSelectedPatient(event: any) {
         let patientUuid = '';
         if (event) {
             patientUuid = event.node.data.patient_uuid;
@@ -73,11 +72,11 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
             + patientUuid + '/general/landing-page']);
     }
 
-    columns() {
+    public columns() {
         return this.clinicFlowCacheService.getClinicFlowColumns();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.currentLocationSubscription) {
             this.currentLocationSubscription.unsubscribe();
         }
@@ -134,10 +133,10 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
             );
         }
     }
-    incompletedVisits() {
+    public incompletedVisits() {
         this.selectedVisitType = 'Incomplete Visits';
         this.visitCounts = this.incompleteVisitsCount + '/' + this.totalVisitsCount;
-        let results = this.filteredData.filter(function(obj) {
+        let results = this.filteredData.filter((obj) => {
             return obj.seen_by_clinician === null;
         });
         let orderedResults = this.renumberRowsOnFilter(results);
@@ -145,10 +144,10 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         this.clinicFlowData = orderedResults;
 
     }
-    completedVisits() {
+    public completedVisits() {
         this.selectedVisitType = 'Completed Visits';
         this.visitCounts = this.completeVisitsCount + '/' + this.totalVisitsCount;
-        let results = this.filteredData.filter(function(obj) {
+        let results = this.filteredData.filter((obj) => {
             return obj.seen_by_clinician !== null;
         });
 
@@ -157,7 +156,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         this.clinicFlowData = orderedResults;
 
     }
-    allVisits() {
+    public allVisits() {
         this.selectedVisitType = 'All Visits';
         this.visitCounts = this.totalVisitsCount;
         this.clinicFlowData = this.renumberRowsOnFilter(this.filteredData);
@@ -174,14 +173,14 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     private AddEncounterSeenByClinician(result) {
         let encounters = [];
         let encounter;
-        for (let i = 0; i < result.length; ++i) {
-            let data = result[i];
+        for (let i of result) {
+            let data = i;
             for (let r in data) {
                 if (data.hasOwnProperty(r)) {
-                    for (let i = 0; i < data.encounters.length; ++i) {
-                        let datas = data.encounters[i];
-                        for (let r in datas) {
-                            if (datas.hasOwnProperty(r)) {
+                    for (let j of data.encounters) {
+                        let datas = j;
+                        for (let k in datas) {
+                            if (datas.hasOwnProperty(k)) {
                                 encounter = datas.encounter_type_name;
 
                             }

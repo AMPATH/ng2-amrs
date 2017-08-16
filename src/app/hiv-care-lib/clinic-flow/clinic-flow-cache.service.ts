@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import * as Moment from 'moment';
-let _ = require('lodash');
+import * as _ from 'lodash';
 @Injectable()
 export class ClinicFlowCacheService {
-    lastClinicFlowSelectedDate: any;
-    dataIsLoading: boolean = true;
-    private initialUuid;
-    private data: any;
-    private selectedLocations = new BehaviorSubject(this.initialUuid);
-    private formatedDate = Moment(new Date()).format('YYYY-MM-DD');
-    private selectedDate = new BehaviorSubject(this.formatedDate);
-    private isLoading = new BehaviorSubject(this.dataIsLoading);
-    private clinicFlowData = new BehaviorSubject(this.data);
+    public lastClinicFlowSelectedDate: any;
+    public dataIsLoading: boolean = true;
+    public initialUuid;
+    public data: any;
+    public selectedLocations = new BehaviorSubject(this.initialUuid);
+    public formatedDate = Moment(new Date()).format('YYYY-MM-DD');
+    public selectedDate = new BehaviorSubject(this.formatedDate);
+    public isLoading = new BehaviorSubject(this.dataIsLoading);
+    public clinicFlowData = new BehaviorSubject(this.data);
 
     constructor() { }
 
@@ -53,7 +53,7 @@ export class ClinicFlowCacheService {
     public formatData(clinicFlowData) {
         let d: any = clinicFlowData || [];
         let count = 1;
-        _.forEach(d, function(row) {
+        _.forEach(d, (row) => {
             row['#'] = count;
             if (!row['person_name']) {
                 row['person_name'] = row['names'];
@@ -91,8 +91,9 @@ export class ClinicFlowCacheService {
                 cellStyle: {
                     'white-space': 'normal'
                 },
-                cellRenderer: function(params) {
-                    let date = '', time = '';
+                cellRenderer: (params) => {
+                    let date = '';
+                    let time = '';
                     if (params.value) {
                         date = Moment(params.value).format('DD-MM-YYYY');
                         time = Moment(params.value).format('H:mmA');
@@ -109,8 +110,9 @@ export class ClinicFlowCacheService {
                 field: 'triaged',
                 filter: 'text',
                 width: 100,
-                cellRenderer: function(params) {
-                    let date = '', time = '';
+                cellRenderer: (params) => {
+                    let date = '';
+                    let time = '';
                     if (params.value) {
                         date = Moment(params.value).format('DD-MM-YYYY');
                         time = Moment(params.value).format('H:mmA');
@@ -133,9 +135,10 @@ export class ClinicFlowCacheService {
                 field: 'seenByClinician',
                 filter: 'text',
                 width: 140,
-                cellRenderer: function(params) {
+                cellRenderer: (params) => {
                   let encounterType = '';
-                  let date = '', time = '';
+                  let date = '';
+                  let time = '';
                   if (params.value.time && params.value.encounters) {
                         date = Moment(params.value.time).format('DD-MM-YYYY');
                         time = Moment(params.value.time).format('H:mmA');

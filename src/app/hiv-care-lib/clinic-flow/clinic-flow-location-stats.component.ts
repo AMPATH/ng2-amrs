@@ -7,19 +7,19 @@ import * as Moment from 'moment';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';
-let _ = require('lodash');
+import * as _ from 'lodash';
 @Component({
   selector: 'clinic-flow-location-stats',
   templateUrl: './clinic-flow-location-stats.component.html'
 })
 
 export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
-  errors: any[] = [];
-  clinicFlowData: any[] = [];
-  loadingClinicFlow: boolean = false;
-  dataLoaded: boolean = false;
-  selectedLocation: any;
-  selectedDate: any;
+  public errors: any[] = [];
+  public clinicFlowData: any[] = [];
+  private loadingClinicFlow: boolean = false;
+  private dataLoaded: boolean = false;
+  private selectedLocation: any;
+  private selectedDate: any;
   private currentLocationSubscription: Subscription;
   private selectedDateSubscription: Subscription;
   private clinicFlowSubscription: Subscription;
@@ -28,7 +28,7 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
               private router: Router,
               @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
       .subscribe((clinic) => {
         this.selectedLocation = clinic;
@@ -51,7 +51,7 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
 
   }
 
-  loadSelectedPatient(event: any) {
+  public loadSelectedPatient(event: any) {
     let patientUuid = '';
     if (event) {
       patientUuid = event.node.data.uuid;
@@ -64,11 +64,11 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
 
-  columns() {
+  public columns() {
     return this.clinicFlowCacheService.getLocationStatsColumn();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.currentLocationSubscription) {
       this.currentLocationSubscription.unsubscribe();
     }

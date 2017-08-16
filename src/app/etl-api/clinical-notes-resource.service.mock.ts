@@ -7,7 +7,7 @@ export class MockClinicalNotesResourceService {
 
   constructor() { }
 
-  getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
+  public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
 
     let mockResponse = new Response(new ResponseOptions({
       body: {

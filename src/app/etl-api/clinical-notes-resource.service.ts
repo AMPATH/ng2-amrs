@@ -8,7 +8,7 @@ export class ClinicalNotesResourceService {
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) { }
 
-  getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
+  public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
 
     let api = this.appSettingsService.getEtlServer() +
       '/patient/' + patientUuid + '/clinical-notes';
