@@ -44,7 +44,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     toastrConfig.enableHtml = true;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.patientService.isBusy.subscribe(
       (isLoading) => {
         this.fetchingPatient = isLoading;
@@ -54,10 +54,10 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     this.getNewResults();
   }
 
-  ngDoCheck() {
+  public ngDoCheck() {
     this.adjustContainerOffsets();
   }
-  adjustContainerOffsets() {
+  public adjustContainerOffsets() {
     // console.error(this.elRef);
     // console.error('body', this.bodyElement);
     this.topOffset = this.containerElement.nativeElement.offsetTop;
@@ -65,7 +65,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     this.leftOffset = this.bodyElement.nativeElement.offsetWidth - 2;
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     if (this.patientSubscription) {
       this.patientSubscription.unsubscribe();
     }
@@ -75,7 +75,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
 
   }
 
-  getNewResults() {
+  public getNewResults() {
     let patientEmited: any = { uuid: '' };
     this.patientSubscription = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {

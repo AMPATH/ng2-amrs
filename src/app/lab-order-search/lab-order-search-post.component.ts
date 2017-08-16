@@ -249,7 +249,6 @@ public ngOnInit() {
           artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId);
     }
 
-
     if (this.orderType.type === 'CD4') {
        payload =
           this.labOrdersSearchHelperService.createCD4Payload(order, obs, locationUuid,

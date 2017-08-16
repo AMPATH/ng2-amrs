@@ -18,27 +18,27 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 export class PatientEncounterObservationsComponent implements OnInit, OnChanges {
 
-  obs: any;
-  isHidden: Array<boolean> = [];
+  public obs: any;
+  public isHidden: Array<boolean> = [];
   @ViewChild('staticModal')
-  staticModal: ModalDirective;
+  public staticModal: ModalDirective;
     @ViewChild('modal')
-  modal: ModalComponent;
-  @Input() encounter: Encounter;
-  @Input() onEncounterDetail: boolean;
-  @Output() onClose = new EventEmitter();
-  @Output() isDone = new EventEmitter();
-  @Output() onDismiss = new EventEmitter();
-  cssClass: string = 'obs-dialog';
+    public modal: ModalComponent;
+  @Input() public encounter: Encounter;
+  @Input() public onEncounterDetail: boolean;
+  @Output() public onClose = new EventEmitter();
+  @Output() public isDone = new EventEmitter();
+  @Output() public onDismiss = new EventEmitter();
+  public cssClass: string = 'obs-dialog';
 
   constructor(private encounterResource: EncounterResourceService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
   }
 
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
     for (let propName in changes) {
       if (propName !== 'encounter') {
@@ -49,7 +49,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       if (!changedProp.isFirstChange()) {
         this.isDone.emit(true);
         this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
-          //this.modal.dismiss();
+          // this.modal.dismiss();
           // console.log(this.modal);
           // this.modal.visible = true;
           this.staticModal.show();
@@ -61,7 +61,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
     }
   }
 
-  updateOpenState(index: number) {
+  public updateOpenState(index: number) {
     const state = this.isHidden[index];
     if (state) {
       this.isHidden[index] = false;
@@ -70,15 +70,15 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
     }
   }
 
-  close() {
+  public close() {
     this.modal.close();
   }
 
-  dismissed() {
+  public dismissed() {
     this.modal.dismiss();
   }
 
-  processEncounter(encounter: any) {
+  public processEncounter(encounter: any) {
     const obs = encounter.obs;
     let processedObs: any = [];
     obs.sort((a, b) => {

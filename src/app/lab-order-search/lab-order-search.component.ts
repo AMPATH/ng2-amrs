@@ -42,7 +42,6 @@ export class LabOrderSearchComponent implements OnInit {
     return this._reset;
   }
 
-
   private hasBeenSearched = false;
 
   private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,voided,' +

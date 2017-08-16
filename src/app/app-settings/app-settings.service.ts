@@ -86,7 +86,7 @@ export class AppSettingsService {
     }
   }
 
-  public getServerTemplates(): Array<Object> {
+  public getServerTemplates(): Array<object> {
     return this.templates;
   }
 

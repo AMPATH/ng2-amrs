@@ -241,7 +241,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     // create an array consisting only of the patient encounter types
 
-    sortPatientEncounterTypes() {
+    public sortPatientEncounterTypes() {
 
         let types = this.encounterTypesArray;
 
@@ -253,7 +253,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     }
 
-    onEncounterTypeChange(selectedEncounterType) {
+    public onEncounterTypeChange(selectedEncounterType) {
 
         // check if item is in array
 

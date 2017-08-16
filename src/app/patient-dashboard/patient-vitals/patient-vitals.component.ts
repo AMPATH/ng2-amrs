@@ -73,7 +73,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
             for (let r in data) {
               if (data.hasOwnProperty(r)) {
                 let encounter = data[r];
-                if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)){
+                if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)) {
 
                   this.vitals.push(encounter);
 

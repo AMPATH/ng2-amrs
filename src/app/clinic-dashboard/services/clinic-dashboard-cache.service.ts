@@ -28,8 +28,9 @@ export class ClinicDashboardCacheService {
         this.cached = {};
     }
     public setCurrentClinic(currentClinicUuid: string) {
-      if (this.currentClinic.value && currentClinicUuid === this.currentClinic.value)
+      if (this.currentClinic.value && currentClinicUuid === this.currentClinic.value) {
         return; // before broadcasting please check you are not sending same location
+      }
       this.initialUuid = currentClinicUuid;
       this.currentClinic.next(currentClinicUuid);
     }

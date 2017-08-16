@@ -16,8 +16,7 @@ import { Subscription } from 'rxjs';
   styleUrls: [],
 })
 export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
-  patients: Patient = new Patient({});
-  subscription: Subscription;
+  public patients: Patient = new Patient({});
   public errorMessage: string = '';
   public hasError: boolean = false;
   public display: boolean = false;
@@ -36,6 +35,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public isValidIdentifier: boolean = false;
   public identifiers: string = '';
   public selectedDevice: any;
+  private subscription: Subscription;
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,
@@ -43,19 +43,19 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
               private patientResourceService: PatientResourceService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getPatient();
     this.fetchLocations();
     this.getCommonIdentifierTypes();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getPatient() {
+  public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
@@ -119,7 +119,9 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         (result) => {
           if (result <= 0) {
             if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
-              personIdentifierPayload.uuid === null) delete personIdentifierPayload.uuid;
+              personIdentifierPayload.uuid === null) {
+              delete personIdentifierPayload.uuid;
+            }
             this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
               personIdentifierPayload)
@@ -153,6 +155,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.locationResourceService.getLocations().subscribe(
       (locations: any[]) => {
         this.locations = [];
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < locations.length; i++) {
           this.locations.push({label: locations[i].name, value: locations[i].uuid});
         }
@@ -165,6 +168,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   private getCommonIdentifierTypes() {
     this.patientIdentifierTypeResService.getPatientIdentifierTypes().subscribe(
       (data) => {
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < data.length; i++) {
           let  commonIdentifierTypeNames = this.patientIdentifierService.commonIdentifierTypes();
           if (_.includes(commonIdentifierTypeNames, data[i].name) === true) {

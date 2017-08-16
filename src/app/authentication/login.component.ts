@@ -7,7 +7,9 @@ import { Response } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
 import { Subscription } from 'rxjs';
-import { UserDefaultPropertiesService } from
+import {
+  UserDefaultPropertiesService
+} from
   '../user-default-properties/user-default-properties.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -35,7 +37,8 @@ export class LoginComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private appSettingsService: AppSettingsService,
               private localStorageService: LocalStorageService,
-              private userDefaultPropertiesService: UserDefaultPropertiesService) {}
+              private userDefaultPropertiesService: UserDefaultPropertiesService) {
+  }
 
   public ngOnInit() {
     let settingsFromAppSettings = this.localStorageService.getItem('appSettingsAction');
@@ -60,59 +63,61 @@ export class LoginComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
 
-    let body = JSON.stringify({ username, password });
+    let body = JSON.stringify({username, password});
     let currentRoute = window.location.toString();
 
     this.busy = this.authenticationService.authenticate(username, password)
       .subscribe(
-      (response: Response) => {
-        let data = response.json();
+        (response: Response) => {
+          let data = response.json();
 
-        if (data.authenticated) {
+          if (data.authenticated) {
 
-          this.loginSuccess.emit(true);
+            this.loginSuccess.emit(true);
 
-          if (currentRoute && currentRoute.indexOf('login') !== -1) {
+            if (currentRoute && currentRoute.indexOf('login') !== -1) {
 
-            let previousRoute: string = sessionStorage.getItem('previousRoute');
-            let userDefaultLocation = this.
-              userDefaultPropertiesService.getCurrentUserDefaultLocation();
+              let previousRoute: string = sessionStorage.getItem('previousRoute');
+              let userDefaultLocation = this.userDefaultPropertiesService
+                .getCurrentUserDefaultLocation();
 
-            if (previousRoute && previousRoute.length > 1)
-              if (previousRoute && previousRoute.indexOf('login') !== -1) {
+              if (previousRoute && previousRoute.length > 1) {
+                if (previousRoute && previousRoute.indexOf('login') !== -1) {
+                  this.router.navigate(['/']);
+                } else {
+                  this.router.navigate([previousRoute]);
+                }
+              } else {
                 this.router.navigate(['/']);
-              } else {
-                this.router.navigate([previousRoute]);
-              } else {
-              this.router.navigate(['/']);
-            }
-            if (userDefaultLocation === null ||
+              }
+              if (userDefaultLocation === null ||
                 userDefaultLocation === undefined ||
                 this.shouldSetLocation) {
-              this.localStorageService.setItem('lastLoginDate', (new Date()).toLocaleDateString());
-              if (this.shouldRedirect) {
-                this.router.navigate(['/user-default-properties', {confirm: 1}]);
-              } else {
-                this.router.navigate(['/user-default-properties']);
-              }
+                this.localStorageService.setItem('lastLoginDate', (new Date())
+                  .toLocaleDateString());
+                if (this.shouldRedirect) {
+                  this.router.navigate(['/user-default-properties', {confirm: 1}]);
+                } else {
+                  this.router.navigate(['/user-default-properties']);
+                }
 
-            } else {
-              this.router.navigate(['/']);
+              } else {
+                this.router.navigate(['/']);
+              }
             }
+          } else {
+            this.error = Messages.WRONG_USERNAME_PASSWORD;
+            this.clearAndFocusPassword();
           }
-        } else {
-          this.error = Messages.WRONG_USERNAME_PASSWORD;
-          this.clearAndFocusPassword();
-        }
-      },
-      (error) => {
-        this.loginFailure.emit(false);
-        if (error.status === 0) {
-          this.error = Messages.INTERNET_CONNECTION_ERROR;
-        } else {
-          this.error = error.statusText;
-        }
-      });
+        },
+        (error) => {
+          this.loginFailure.emit(false);
+          if (error.status === 0) {
+            this.error = Messages.INTERNET_CONNECTION_ERROR;
+          } else {
+            this.error = error.statusText;
+          }
+        });
   }
 
   get shouldSetLocation() {

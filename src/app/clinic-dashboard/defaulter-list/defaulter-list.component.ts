@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   DefaulterListResourceService

@@ -105,7 +105,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       if (this.dataSource) {
          this.gridOptions.api.setDatasource(this.dataSource);
       }
-      this.gridOptions.getRowStyle = function(params) {
+      this.gridOptions.getRowStyle = (params) => {
         return {
           'font-size': '14px', 'cursor': 'pointer'
         };

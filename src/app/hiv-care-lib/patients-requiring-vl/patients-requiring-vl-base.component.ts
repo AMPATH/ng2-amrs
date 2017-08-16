@@ -90,8 +90,6 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         ];
     }
 
-
-
    public ngOnInit() {
     }
 

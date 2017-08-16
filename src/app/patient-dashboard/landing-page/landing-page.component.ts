@@ -18,22 +18,22 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
   styleUrls: ['landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
-  patient: Patient = new Patient({});
-  subscription: Subscription;
-  enrolledProgrames: Array<ProgramEnrollment> = [];
-  currentError: string;
-  availablePrograms: Array<any> = [];
-  hasError: boolean = false;
-  hasValidationErrors: boolean = false;
-  programsBusy: boolean = false;
-  program: string = '';
-  errors: Array<any> = [];
-  isFocused: boolean = false;
-  dateEnrolled: string;
-  addPinkBackground: boolean = false;
-  isEdit: boolean = false;
-  dateCompleted: string;
+  public patient: Patient = new Patient({});
+  public enrolledProgrames: Array<ProgramEnrollment> = [];
+  public currentError: string;
+  public availablePrograms: Array<any> = [];
+  public hasError: boolean = false;
+  public hasValidationErrors: boolean = false;
+  public programsBusy: boolean = false;
+  public program: string = '';
+  public errors: Array<any> = [];
+  public isFocused: boolean = false;
+  public dateEnrolled: string;
+  public addPinkBackground: boolean = false;
+  public isEdit: boolean = false;
+  public dateCompleted: string;
   private _datePipe: DatePipe;
+  private subscription: Subscription;
 
   constructor(private patientService: PatientService,
               private routesProviderService: RoutesProviderService,
@@ -41,7 +41,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this._datePipe = new DatePipe('en-US');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
@@ -52,13 +52,84 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  loadProgramBatch(patientUuid: string): void {
+  public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
+    return Observable.create((observer: Subject<Array<ProgramEnrollment>>) => {
+      if (patientUuid) {
+        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
+          (data) => {
+            if (data) {
+              observer.next(data);
+            }
+          },
+          (error) => {
+            observer.error(error);
+          }
+        );
+      } else {
+        observer.error('patientUuid is required');
+      }
+    }).first();
+  }
+
+  public getAvailablePrograms() {
+    return Observable.create((observer: Subject<Array<Program>>) => {
+      this.programService.getAvailablePrograms().subscribe(
+        (programs) => {
+          if (programs) {
+            observer.next(programs);
+          }
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    }).first();
+  }
+
+  public toggleDropDown(row: any) {
+    row.isEdit = _.isNil(row.isEdit) ? true : !row.isEdit as boolean;
+  }
+
+  public editPatientEnrollment(row: any) {
+    row.isFocused = true;
+    this.isEdit = true;
+    if (this.isValidForm(row)) {
+      if (_.isNil(row.dateCompleted)) {
+        delete row.programUuid;
+      }
+      let payload = this.programService.createEnrollmentPayload(
+        row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted, row.programUuid);
+      if (payload) {
+        setTimeout(() => {
+          this._updatePatientProgramEnrollment(payload);
+        }, 2000);
+      }
+    }
+  }
+
+  public enrollPatientToProgram() {
+    this.isFocused = true;
+    this.isEdit = false;
+    if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
+      let payload = this.programService.createEnrollmentPayload(
+        this.program, this.patient, this.dateEnrolled, this.dateCompleted, '');
+      if (payload) {
+        this._updatePatientProgramEnrollment(payload);
+      }
+    }
+  }
+
+  public onAddPinkBackground(hasPink: boolean) {
+    this.addPinkBackground = hasPink;
+  }
+
+  private loadProgramBatch(patientUuid: string): void {
     this._resetVariables();
     this.programsBusy = true;
     let dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
@@ -103,12 +174,12 @@ export class LandingPageComponent implements OnInit, OnDestroy {
               landing: {
                 display: 'Go to Program',
                 url: route ? '/patient-dashboard/patient/' + patientUuid + '/' +
-                route.baseRoute + '/landing-page' : null
+                  route.baseRoute + '/landing-page' : null
               },
               visit: {
                 display: 'Start Visit',
                 url: route ? '/patient-dashboard/patient/' + patientUuid + '/' +
-                route.baseRoute + '/visit' : null
+                  route.baseRoute + '/visit' : null
               }
             },
             isEnrolled: !_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)
@@ -128,78 +199,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  loadProgramsPatientIsEnrolledIn(patientUuid: string) {
-    return Observable.create((observer: Subject<Array<ProgramEnrollment>>) => {
-      if (patientUuid) {
-        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
-          (data) => {
-            if (data) {
-              observer.next(data);
-            }
-          },
-          (error) => {
-            observer.error(error);
-          }
-        );
-      } else {
-        observer.error('patientUuid is required');
-      }
-    }).first();
-  }
-
-  getAvailablePrograms() {
-    return Observable.create((observer: Subject<Array<Program>>) => {
-      this.programService.getAvailablePrograms().subscribe(
-        (programs) => {
-          if (programs) {
-            observer.next(programs);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
-    }).first();
-  }
-
-  toggleDropDown(row: any) {
-    row.isEdit = _.isNil(row.isEdit) ? true : !row.isEdit as boolean;
-  }
-
-  editPatientEnrollment(row: any) {
-    row.isFocused = true;
-    this.isEdit = true;
-    if (this.isValidForm(row)) {
-      if (_.isNil(row.dateCompleted)) {
-        delete row.programUuid;
-      }
-      let payload = this.programService.createEnrollmentPayload(
-        row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted, row.programUuid);
-      if (payload) {
-        setTimeout(() => {
-          this._updatePatientProgramEnrollment(payload);
-        }, 2000);
-      }
-    }
-  }
-
-  enrollPatientToProgram() {
-    this.isFocused = true;
-    this.isEdit = false;
-    if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
-      let payload = this.programService.createEnrollmentPayload(
-        this.program, this.patient, this.dateEnrolled, this.dateCompleted, '');
-      if (payload) {
-        this._updatePatientProgramEnrollment(payload);
-      }
-    }
-  }
-
-  onAddPinkBackground(hasPink: boolean) {
-    this.addPinkBackground = hasPink;
-  }
-
-  isValidForm(row: any) {
+  private isValidForm(row: any) {
     if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted)) {
       row.validationError = this.currentError;
       this.isFocused = false;

@@ -13,15 +13,15 @@ import { Subscription } from 'rxjs';
 })
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
-  showingAddToCohort: boolean = false;
-  patient: Patient = new Patient({});
-  searchIdentifiers: Object;
-  birthdate;
-  subscription: Subscription;
+  public showingAddToCohort: boolean = false;
+  public patient: Patient = new Patient({});
+  public searchIdentifiers: object;
+  public birthdate;
+  private subscription: Subscription;
 
   constructor(private patientService: PatientService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -37,16 +37,16 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-  addToCohort() {
+  public addToCohort() {
     this.showingAddToCohort = true;
   }
 
-  onAddingToCohortClosed() {
+  public onAddingToCohortClosed() {
     this.showingAddToCohort = false;
   }
 

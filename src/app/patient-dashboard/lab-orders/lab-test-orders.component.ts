@@ -136,7 +136,6 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     }
   }
 
-
   private selectOrder() {
     // If any entity is not checked, then uncheck the "allItemsSelected" checkbox
     for (let labOrder of this.labOrders) {

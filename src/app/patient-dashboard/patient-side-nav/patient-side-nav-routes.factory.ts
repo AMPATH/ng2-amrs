@@ -44,6 +44,7 @@ export class PatientRoutesFactory {
 
     private patientIsInProgram(programUuid: string, patientPrograms): boolean {
         if (Array.isArray(patientPrograms)) {
+          // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i < patientPrograms.length; i++) {
                 if (patientPrograms[i].program.uuid === programUuid) {
                     return true;

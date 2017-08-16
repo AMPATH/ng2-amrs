@@ -22,7 +22,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
   public pdfProxy: PDFDocumentProxy = null;
   public pdfMakeProxy: any = null;
   public errorFlag: boolean = false;
-  subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private patientClinicalSummary: HivPatientClinicalSummaryService,
               private patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService,
@@ -31,11 +31,11 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.generatePdf();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
