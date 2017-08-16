@@ -13,24 +13,24 @@ import { Subscription } from 'rxjs';
   styleUrls: []
 })
 export class LabResultComponent implements OnInit, OnDestroy {
-  patient: any;
-  error: string;
-  loadingPatient: Boolean;
-  fetchingResults: Boolean;
-  isLoading: boolean;
-  patientUuId: any;
-  nextStartIndex: number = 0;
-  dataLoaded: boolean = false;
-  loadingLabSummary: boolean = false;
-  labResults = [];
-  subscription: Subscription;
+  public patient: any;
+  public error: string;
+  public loadingPatient: boolean;
+  public fetchingResults: boolean;
+  public isLoading: boolean;
+  public patientUuId: any;
+  public nextStartIndex: number = 0;
+  public dataLoaded: boolean = false;
+  public loadingLabSummary: boolean = false;
+  public labResults = [];
+  public subscription: Subscription;
   public gridOptions: GridOptions;
   constructor(private labsResourceService: LabsResourceService,
               private patientService: PatientService) {
     this.gridOptions = {} as GridOptions;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loadingPatient = true;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -49,13 +49,14 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getHistoricalPatientLabResults(patientUuId, params: { startIndex: string, limit: string }) {
+  public getHistoricalPatientLabResults(
+    patientUuId, params: { startIndex: string, limit: string }) {
     this.patientUuId = this.patient.person.uuid;
     this.fetchingResults = true;
     this.labsResourceService.getHistoricalPatientLabResults(this.patientUuId,
@@ -78,10 +79,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
     return this.labResults;
 
   }
-  formatDateField(result) {
+  public formatDateField(result) {
     let tests = [];
-    for (let i = 0; i < result.length; ++i) {
-      let data = result[i];
+    for (let  data of result) {
       let testDatetime;
       for (let r in data) {
         if (data.hasOwnProperty(r)) {
@@ -95,7 +95,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
     return tests;
 
   }
-  loadMoreLabResults() {
+  public loadMoreLabResults() {
     this.isLoading = true;
     this.getHistoricalPatientLabResults(this.patientUuId,
       { startIndex: this.nextStartIndex.toString(), limit: '20' });

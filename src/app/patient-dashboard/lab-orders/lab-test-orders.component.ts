@@ -33,22 +33,23 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
               private patientService: PatientService,
-              private orderResourceService: OrderResourceService, private labelService: LabelService) {
+              private orderResourceService: OrderResourceService,
+              private labelService: LabelService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
     this.getCurrentlyLoadedPatient();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getCurrentlyLoadedPatient() {
+  public getCurrentlyLoadedPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
@@ -68,7 +69,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     );
   }
 
-  getPatientLabOrders() {
+  public getPatientLabOrders() {
     this.fetchingResults = true;
     this.isBusy = true;
     let patientUuId = this.patient.uuid;
@@ -94,18 +95,21 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       });
   }
 
-  postOrderToEid(order: any) {
+  public postOrderToEid(order: any) {
     this.currentOrder = null;
     this.displayDialog = true;
     this.currentOrder = order;
   }
 
-  handleResetEvent(event) {
+  public handleResetEvent(event) {
     this.displayDialog = false;
     this.currentOrder = null;
   }
+  public collectionDateChanged(event) {
+  }
   private generateLabLabels() {
     let labels = [];
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.labOrders.length; i++) {
       let order = this.labOrders[i];
       if (order.isChecked) {
@@ -125,19 +129,18 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         window.open(blobUrl);
       });
   }
-  public collectionDateChanged(event) {
-  }
-
   private selectAll() {
+     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.labOrders.length; i++) {
       this.labOrders[i].isChecked = this.allItemsSelected;
     }
   }
 
+
   private selectOrder() {
     // If any entity is not checked, then uncheck the "allItemsSelected" checkbox
-    for (let i = 0; i < this.labOrders.length; i++) {
-      if (this.labOrders[i].isChecked) {
+    for (let labOrder of this.labOrders) {
+      if (labOrder.isChecked) {
         this.allItemsSelected = false;
         return;
       }

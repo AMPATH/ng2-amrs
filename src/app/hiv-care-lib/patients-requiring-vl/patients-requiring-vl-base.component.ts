@@ -48,6 +48,11 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         this._locationUuids = v;
     }
 
+    constructor(public route: ActivatedRoute,
+                public router: Router,
+                public patientsRequiringVLResourceService: PatientsRequiringVLResourceService) {
+    }
+
     public extraColumns() {
         return [
             {
@@ -85,15 +90,12 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         ];
     }
 
-    constructor(public route: ActivatedRoute,
-                public router: Router,
-                public patientsRequiringVLResourceService: PatientsRequiringVLResourceService) {
+
+
+   public ngOnInit() {
     }
 
-    ngOnInit() {
-    }
-
-    generateReport() {
+     public generateReport() {
         // set busy indications variables
         // clear error
         this.encounteredError = false;
@@ -125,14 +127,14 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         });
     }
 
-    goTopatientInfo(patientUuid) {
+     public goTopatientInfo(patientUuid) {
         if (patientUuid === undefined || patientUuid === null) {
             return;
         }
         this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
     }
 
-    onCurrentVLDateChanged(currentVLDate) {
+     public onCurrentVLDateChanged(currentVLDate) {
         if (!currentVLDate) {
             this.filteredData = this.data;
         } else {

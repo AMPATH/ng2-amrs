@@ -27,7 +27,7 @@ export class VisitResourceService {
         if (!searchParams) {
             return null;
         }
-        let custom = 'custom:(uuid,encounters:(uuid,encounterDatetime,' +
+        const custom = 'custom:(uuid,encounters:(uuid,encounterDatetime,' +
             'form:(uuid,name),location:ref,' +
             'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
             'visitType:(uuid,name),location:ref,startDatetime,' +
@@ -58,8 +58,8 @@ export class VisitResourceService {
         if (!payload) {
             return null;
         }
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers });
         return this.http.post(`${this.getUrl()}`, payload, options)
             .map(this.parseVisitResponse)
             .catch(this.handleError);
@@ -69,8 +69,8 @@ export class VisitResourceService {
         if (!payload || !uuid) {
             return null;
         }
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers });
         return this.http.post(`${this.getUrl()}/${uuid}`, payload, options)
             .map(this.parseVisitResponse)
             .catch(this.handleError);
@@ -80,7 +80,7 @@ export class VisitResourceService {
         if (!uuid) {
             return null;
         }
-        let custom = 'custom:(encounters:(obs,uuid,patient:(uuid,uuid),' +
+        const custom = 'custom:(encounters:(obs,uuid,patient:(uuid,uuid),' +
             'encounterDatetime,form:(uuid,name),encounterType:(uuid,name),' +
             'encounterProviders:(uuid,uuid,provider:(uuid,name),' +
             'encounterRole:(uuid,name)),location:(uuid,name),' +

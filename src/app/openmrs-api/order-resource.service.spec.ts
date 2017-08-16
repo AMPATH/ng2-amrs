@@ -54,7 +54,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
       toBe('http://example.url.com/ws/rest/v1/order?patient=' + patientUuid +
         '&v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
         'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-        'instructions,orderer:default,encounter:full,patient:default,concept:ref)');
+        'instructions,orderer:default,encounter:full,patient:full,concept:ref)');
       let options = new ResponseOptions({
         body: JSON.stringify({
         })
@@ -80,7 +80,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
         'http://example.url.com/ws/rest/v1/order/' + orderId + '?' +
         'v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
         'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-        'instructions,orderer:default,encounter:full,patient:default,concept:ref)');
+        'instructions,orderer:default,encounter:full,patient:full,concept:ref)');
       let options = new ResponseOptions({
         body: JSON.stringify({
         })
@@ -107,7 +107,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
         'http://example.url.com/ws/rest/v1/order/' + orderUUid + '?' +
         'v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
         'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-        'instructions,orderer:default,encounter:full,patient:default,concept:ref)'
+        'instructions,orderer:default,encounter:full,patient:full,concept:ref)'
       );
       let options = new ResponseOptions({
         body: JSON.stringify({

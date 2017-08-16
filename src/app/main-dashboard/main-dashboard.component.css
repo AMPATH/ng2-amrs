@@ -498,7 +498,7 @@ lab-order-search-container {
   app-patient-search .input-wrapper {
     margin-right: 0;
   }
-  app-patient-search .input-group-btn.pull-right {
+  app-patient-search .input-group-btn.pull-right, lab-order-search-container .input-group-btn.pull-right{
     margin-top: 20px;
   }
   app-patient-search .wrapper {

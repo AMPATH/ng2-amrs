@@ -54,6 +54,7 @@
       "single",
       "avoid-escape"
     ],
+    "one-variable-per-declaration": false,
     "variable-name": [
       true,
       "allow-leading-underscore",

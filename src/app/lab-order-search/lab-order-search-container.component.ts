@@ -7,25 +7,25 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class LabOrderSearchContainerComponent implements OnInit {
 
   public order: any;
-  orderPosted: boolean = false;
-  reset: boolean = false;
+  public orderPosted: boolean = false;
+  public reset: boolean = false;
 
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  orderReceieved(order) {
+  public orderReceieved(order) {
     this.reset = false;
     this.order = order;
   }
 
-  onOrderPosted() {
+  public onOrderPosted() {
     this.orderPosted = true;
   }
 
-  onSearchReset(event) {
+  public onSearchReset(event) {
     this.reset = true;
     this.order = null;
   }

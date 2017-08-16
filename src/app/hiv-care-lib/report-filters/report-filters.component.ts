@@ -1,6 +1,6 @@
 
 import {
-  Component, OnInit, EventEmitter, ElementRef, forwardRef, ViewEncapsulation
+  Component, OnInit, EventEmitter, ElementRef, forwardRef, ViewEncapsulation, AfterViewInit
 } from '@angular/core';
 import { Output, Input } from '@angular/core';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
@@ -18,61 +18,72 @@ require('ion-rangeslider');
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ReportFilters),
+      useExisting: forwardRef(() => ReportFiltersComponent),
       multi: true
     }
   ]
 })
-export class ReportFilters implements OnInit, ControlValueAccessor {
-  @Input() start: number;
-  @Input() end: number;
-  @Output() onAgeChange = new EventEmitter<any>();
-  @Output() onAgeChangeFinish = new EventEmitter<any>();
-  sliderElt;
-  filterCollapsed: boolean = false;
-  initialized: boolean = false;
-  indicatorOptions: Array<any>;
-  @Output() onIndicatorChange = new EventEmitter<any>();
-  @Output() onDateChange = new EventEmitter<any>();
-  genderOptions: Array<any>;
-  selectedIndicatorTagsSelectedAll: boolean = false;
-  @Output() onGenderChange = new EventEmitter<any>();
+export class ReportFiltersComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+  @Input() public start: number;
+  @Input() public end: number;
+  @Output() public onAgeChange = new EventEmitter<any>();
+  @Output() public onAgeChangeFinish = new EventEmitter<any>();
+  public sliderElt;
+  public filterCollapsed: boolean = false;
+  public initialized: boolean = false;
+  public indicatorOptions: Array<any>;
+  @Output() public onIndicatorChange = new EventEmitter<any>();
+  @Output() public onDateChange = new EventEmitter<any>();
+  public genderOptions: Array<any>;
+  public selectedIndicatorTagsSelectedAll: boolean = false;
+  @Output() public onGenderChange = new EventEmitter<any>();
   @Output()
-  generateReport = new EventEmitter();
+  public generateReport = new EventEmitter();
   @Output()
-  ageRange = new EventEmitter();
+  public ageRange = new EventEmitter();
   @Input()
-  parentIsBusy: boolean = false;
+  public parentIsBusy: boolean = false;
 
   @Output()
-  startDateChange = new EventEmitter<Date>();
+  public startDateChange = new EventEmitter<Date>();
 
   @Output()
-  endDateChange = new EventEmitter<Date>();
+  public  endDateChange = new EventEmitter<Date>();
   private _startDate: Date;
   private _endDate: Date;
   private _report: string;
   private _indicators: Array<any>;
   private _gender: Array<any> = [];
+
+  constructor(private indicatorResourceService: IndicatorResourceService,
+              private elementRef: ElementRef) {
+  }
   public get startDate(): Date {
     return this._startDate;
   }
-  onChange = (_) => {};
-  onTouched = () => {};
-
   @Input()
   public set startDate(v: Date) {
     this._startDate = v;
     this.startDateChange.emit(this.startDate);
   }
+
+  public onChange = (_) => {};
+  public onTouched = () => {};
+
   @Input()
   public set endDate(v: Date) {
     this._endDate = v;
     this.endDateChange.emit(this.endDate);
   }
+  public get endDate(): Date {
+    return this._endDate;
+  }
   @Input()
   public set reportName(v: string) {
     this._report = v;
+  }
+  public get reportName(): string {
+    return this._report;
   }
   @Input()
   public get selectedIndicators(): Array<any> {
@@ -98,24 +109,13 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
   public set startDateString(v: string) {
     this.startDate = new Date(v);
   }
-
   public get endDateString(): string {
     return this.endDate ? Moment(this.endDate).format('YYYY-MM-DD') : null;
   }
   public set endDateString(v: string) {
     this.endDate = new Date(v);
   }
-  public get endDate(): Date {
-    return this._endDate;
-  }
-  public get reportName(): string {
-    return this._report;
-  }
-  constructor(private indicatorResourceService: IndicatorResourceService,
-              private elementRef: ElementRef) {
-  }
-
-  ngOnInit() {
+  public ngOnInit() {
     if (this.start && this.end) {
       this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
     }
@@ -136,18 +136,18 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
     this.getIndicators();
   }
 
-  onIndicatorSelected(indicator) {
+  public onIndicatorSelected(indicator) {
     this.selectedIndicators = indicator;
   }
 
-  getIndicators() {
+  public getIndicators() {
     let indicators = [];
     this.indicatorResourceService.getReportIndicators({
      report: this.reportName
    }).subscribe(
      (results: any[]) => {
-       for (let i = 0; i < results.length; i++) {
-         let data = results[i];
+
+       for (let data of results) {
          for (let r in data) {
            if (data.hasOwnProperty(r)) {
              let id = data.name;
@@ -164,7 +164,7 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
 
   }
 
-  selectAll() {
+  public selectAll() {
     let indicatorsSelected = [];
     if (this.indicatorOptions .length > 0) {
       if (this.selectedIndicatorTagsSelectedAll === false) {
@@ -179,17 +179,17 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
       }
     }
   }
-  onGenderSelected(selectedGender) {
+  public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);
   }
   /*getAgeRangeOnFinish(event) {
     this.ageRange.emit(event);
   }*/
-  onClickedGenerate() {
+  public onClickedGenerate() {
     this.generateReport.emit();
   }
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.sliderElt = jQuery(this.elementRef.nativeElement).find('.slider');
     this.sliderElt.ionRangeSlider({
       type: 'double',
@@ -216,7 +216,7 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
     this.onAgeChange.emit(value);
   }
 
-  writeValue(value: any): void {
+  public writeValue(value: any): void {
     if (value != null) {
       if (this.initialized) {
         this.sliderElt.slider('value', value);
@@ -226,6 +226,6 @@ export class ReportFilters implements OnInit, ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
-  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+ public registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
+ public registerOnTouched(fn: () => void): void { this.onTouched = fn; }
 }

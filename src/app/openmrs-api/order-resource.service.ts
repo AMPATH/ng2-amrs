@@ -10,7 +10,7 @@ export class OrderResourceService {
   public v: string = 'custom:(display,uuid,orderNumber,accessionNumber,' +
   'orderReason,orderReasonNonCoded,urgency,action,' +
   'commentToFulfiller,dateActivated,instructions,orderer:default,' +
-  'encounter:full,patient:default,concept:ref)';
+  'encounter:full,patient:full,concept:ref)';
 
   constructor(protected http: Http,
               protected appSettingsService: AppSettingsService) {

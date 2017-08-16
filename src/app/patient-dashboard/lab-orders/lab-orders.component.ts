@@ -10,7 +10,7 @@ export class LabOrdersComponent implements OnInit {
   constructor(private appFeatureAnalytics: AppFeatureAnalytics) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
   }

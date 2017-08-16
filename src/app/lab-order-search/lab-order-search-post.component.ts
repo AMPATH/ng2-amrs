@@ -16,13 +16,13 @@ import { LabOrderPostService } from './lab-order-post.service';
   styleUrls: ['./lab-order-search-post.component.css']
 })
 export class LabOrderSearchPostComponent implements OnInit, OnChanges {
-  _order: any = null;
+  public _order: any = null;
   @Input()
   set order(order: any) {
     this.selectedLabLocation = null;
     this.selectedIdentifier = null;
     this.selectedSampleType = null;
-    this.dateReceived = undefined;
+    this.dateReceived = Moment(new Date()).format('YYYY-MM-DD');
     this.orderPostSuccessful = false;
     this.isBusy = false;
     this._order = order;
@@ -32,38 +32,38 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   }
 
   @Input()
-  reset: boolean = false;
+  public reset: boolean = false;
 
   @Input()
-  hasPDashLink: boolean = false;
+  public hasPDashLink: boolean = false;
 
-  @Output() resetEvent = new EventEmitter();
-  @Output() orderPostSuccessfulEvent = new EventEmitter();
-  orderType: any;
-  vlJustification: string;
-  patient: any;
-  person: Person;
-  searchIdentifiers: any;
-  hivSummary: any;
-  error: any;
-  hasDnaPcr = false;
-  dnaPcrData: any = {
+  @Output()  public resetEvent = new EventEmitter();
+  @Output()  public orderPostSuccessfulEvent = new EventEmitter();
+  public orderType: any;
+  public vlJustification: string;
+  public patient: any;
+  public person: Person;
+  public searchIdentifiers: any;
+  public hivSummary: any;
+  public error: any;
+  public hasDnaPcr = false;
+  public dnaPcrData: any = {
     hivStatusOfMother: '',
     infantProphylaxis: '',
     infantFeeding: ''
   };
 
-  labLocations: any;
-  patientIdentifers: Array<any>;
-  sampleTypes: any;
-  orderTypes: any;
-  isBusy: boolean = true;
+   public labLocations: any;
+   public patientIdentifers = [];
+   public sampleTypes: any;
+   public orderTypes: any;
+   public isBusy: boolean = true;
 
-  selectedLabLocation: any;
-  selectedIdentifier: string;
-  selectedSampleType: any;
-  dateReceived: any;
-  orderPostSuccessful: boolean;
+   public selectedLabLocation: any;
+   public selectedIdentifier: string;
+   public selectedSampleType: any;
+   public dateReceived: any = Moment(new Date()).format('YYYY-MM-DD');
+   public orderPostSuccessful: boolean;
 
   constructor(
     private labOrdersSearchHelperService: LabOrdersSearchHelperService,
@@ -75,15 +75,15 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       this.orderTypes = this.labOrdersSearchHelperService.orderTypes;
   }
 
-  ngOnInit() {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
+public ngOnInit() {
+        console.info('Init LabOrderSearchPostComponent');
+}
+   public ngOnChanges(changes: SimpleChanges) {
     this.clearErrorMessage();
     this.orderPostSuccessful = null;
 
-    let reset: any = changes['reset'];
-    let order: any = changes['order'];
+    const reset: any = changes['reset'];
+    const order: any = changes['order'];
 
     if (order && order.currentValue) {
       this.isBusy = true;
@@ -91,8 +91,8 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     }
   }
 
-  displayOrder() {
-    this.processPatientIdentifiers().then((identifiers: Array<any>) => {
+   public displayOrder() {
+    this.processPatientIdentifiers().then((identifiers: any) => {
       this.patientIdentifers = identifiers;
     });
     this.patient = this.order.patient;
@@ -104,10 +104,11 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
 
     this.loadHivSummary(this.person.uuid);
     this.displayDnaPcrInputs();
+    this.setDefaultLocation();
   }
 
-  setJustification() {
-    let ot = this.orderType.type;
+   public setJustification() {
+    const ot = this.orderType.type;
 
     if (ot === 'VL') {
       return;
@@ -121,7 +122,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     return this.order && this.reset !== true;
   }
 
-  loadHivSummary(patientUuid) {
+   public loadHivSummary(patientUuid) {
 
     this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false)
       .subscribe((data) => {
@@ -134,22 +135,22 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     );
   }
 
-  displayDnaPcrInputs() {
+   public displayDnaPcrInputs() {
 
-    let ot = this.orderType.type;
+    const ot = this.orderType.type;
     if (ot !== 'DNAPCR') {
       return;
     }
 
-    let order = this.order;
-    let obs = order.encounter.obs;
-    let locationUuid = order.encounter.location.uuid;
-    let patientIdentifier = this.searchIdentifiers.ampathMrsUId ?
+    const order = this.order;
+    const obs = order.encounter.obs;
+    const locationUuid = order.encounter.location.uuid;
+    const patientIdentifier = this.searchIdentifiers.ampathMrsUId ?
       this.searchIdentifiers.ampathMrsUId : this.searchIdentifiers.default;
-    let patientName = this.person.display;
-    let dateReceived = this.dateReceived ? this.dateReceived : new Date();
+    const patientName = this.person.display;
+    const dateReceived = this.dateReceived ? this.dateReceived : new Date();
 
-    let data: any = this.labOrdersSearchHelperService
+    const data: any = this.labOrdersSearchHelperService
       .createDnaPcrPayload(order, obs, locationUuid, patientIdentifier,
         patientName, this.person.gender, this.person.birthdate, dateReceived);
 
@@ -161,7 +162,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     }
   }
 
-  getDnaPcrConcepts(uuid, property) {
+   public getDnaPcrConcepts(uuid, property) {
 
     if (uuid) {
       this.conceptResourceService.getConceptByUuid(uuid).subscribe((data) => {
@@ -176,13 +177,12 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
 
   public postOrder() {
 
-    if (this.isBusy) return;
-    if (!this.isUserInputValid()) return;
-    if (!this.hasLoadingTimeRequiredInputs()) return;
+    if (this.isBusy) { return; }
+    if (!this.isUserInputValid()) { return; }
+    if (!this.hasLoadingTimeRequiredInputs()) { return; }
+    const payload = this.getPayload();
 
-    let payload = this.getPayload();
-
-    let location = this.selectedLabLocation;
+    const location = this.selectedLabLocation;
     this.isBusy = true;
     this.labOrderPostService.postOrderToEid(location, payload)
       .subscribe((resp) => {
@@ -202,7 +202,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         this.error = err.statusText;
 
         if (err._body) {
-          let json = JSON.parse(err._body);
+          const json = JSON.parse(err._body);
           if (json && json.message) {
             this.error = json.message;
           }
@@ -210,7 +210,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       });
   }
 
-  getPayload() {
+  public getPayload() {
 
     let payload: any = null;
     if (this.orderType === null || this.orderType === undefined) {
@@ -223,25 +223,25 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       return null;
     }
 
-    let order = this.order;
-    let obs = order.encounter.obs;
-    let locationUuid = order.encounter.location.uuid;
-    let patientIdentifier = this.selectedIdentifier;
-    let patientName = this.person.display;
-    let dateReceived = this.dateReceived ? this.dateReceived : new Date();
-    let gender = this.person.gender;
-    let birthdate = this.person.birthdate;
+    const order = this.order;
+    const obs = order.encounter.obs;
+    const locationUuid = order.encounter.location.uuid;
+    const patientIdentifier = this.selectedIdentifier;
+    const patientName = this.person.display;
+    const dateReceived = this.dateReceived ? this.dateReceived : new Date();
+    const gender = this.person.gender;
+    const birthdate = this.person.birthdate;
 
-    if (this.orderType.type === 'DNAPCR')
-      payload =
+    if (this.orderType.type === 'DNAPCR') {payload =
         this.labOrdersSearchHelperService.createDnaPcrPayload(this.order, obs, locationUuid,
           patientIdentifier, patientName, gender, birthdate, this.dateReceived);
+        }
 
     if (this.orderType.type === 'VL') {
 
-      let artStartDateInitial = this.hivSummary.arv_first_regimen_start_date;
-      let artStartDateCurrent = this.hivSummary.arv_start_date;
-      let currentArtRegimenId = this.hivSummary.cur_arv_meds_id;
+      const artStartDateInitial = this.hivSummary.arv_first_regimen_start_date;
+      const artStartDateCurrent = this.hivSummary.arv_start_date;
+      const currentArtRegimenId = this.hivSummary.cur_arv_meds_id;
 
       payload =
         this.labOrdersSearchHelperService.createViralLoadPayload(order, obs, locationUuid,
@@ -249,19 +249,21 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
           artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId);
     }
 
-    if (this.orderType.type === 'CD4')
-        payload =
+
+    if (this.orderType.type === 'CD4') {
+       payload =
           this.labOrdersSearchHelperService.createCD4Payload(order, obs, locationUuid,
             patientIdentifier, patientName, gender, birthdate, this.dateReceived);
+    }
 
     return payload;
   }
 
-  clearErrorMessage() {
+  public clearErrorMessage() {
     this.error = null;
   }
 
-  isUserInputValid() {
+   public isUserInputValid() {
 
     this.clearErrorMessage();
     if (_.isEmpty(this.selectedLabLocation)) {
@@ -274,7 +276,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       return false;
     }
 
-    let selectedSampleType = this.selectedSampleType + '';
+    const selectedSampleType = this.selectedSampleType + '';
     if (this.orderType.type === 'VL' && _.isEmpty(selectedSampleType)) {
       this.error = 'Sample type is required.';
       return false;
@@ -288,7 +290,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     return true;
   }
 
-  hasLoadingTimeRequiredInputs() {
+   public hasLoadingTimeRequiredInputs() {
 
     if (_.isEmpty(this.order)) {
       this.error = 'Order information is required. Please try again.';
@@ -303,10 +305,11 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     return true;
   }
 
-  processPatientIdentifiers() {
-    let identifiers = [];
+   public processPatientIdentifiers() {
+    const identifiers = [];
     return new Promise((resolve, reject) => {
       _.each(this.order.patient.identifiers, (identifier) => {
+        this.setDefaultIdentifier(identifier);
         if (_.indexOf(identifier.display, '=') > 0) {
           identifiers.push((identifier.display.split('=')[1]).trim());
         } else {
@@ -317,9 +320,19 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     });
   }
 
-  resetOrder() {
+   public resetOrder() {
     this.resetEvent.emit(true);
     this.order = null;
     this.reset = true;
+  }
+
+  private setDefaultIdentifier(identifier: any) {
+    if (identifier.preferred) {
+     this.selectedIdentifier = identifier.identifier;
+    }
+  }
+
+  private setDefaultLocation() {
+    this.selectedLabLocation = 'ampath';
   }
 }
