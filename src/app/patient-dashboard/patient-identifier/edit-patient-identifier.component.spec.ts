@@ -18,7 +18,7 @@ import {
 } from '../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 
 describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
 
@@ -31,6 +31,9 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        CacheModule
+      ],
       providers: [
         MockBackend,
         BaseRequestOptions,

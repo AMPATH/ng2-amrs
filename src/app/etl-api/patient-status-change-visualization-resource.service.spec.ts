@@ -9,7 +9,7 @@ import {
   PatientStatusVisualizationResourceService
 }
   from './patient-status-change-visualization-resource.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
 class MockAppSettingsService {
   constructor() {
@@ -252,6 +252,7 @@ describe('PatientStatusVisualizationResourceService', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [CacheModule],
       providers: [
         PatientStatusVisualizationResourceService,
         MockBackend,

@@ -7,7 +7,6 @@ import { MainDashboardComponent } from './main-dashboard.component';
 import { UserDefaultPropertiesModule } from '../user-default-properties/';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../data-lists/data-lists.module';
-import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import {
   LabOrderSearchModule
 } from '../lab-order-search';
@@ -20,10 +19,11 @@ import { UserService } from '../openmrs-api/user.service';
 import { AppState } from '../app.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resource.service';
-import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
 import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
+import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
+import { CacheModule } from 'ionic-cache';
 
 @NgModule({
   imports: [
@@ -35,7 +35,9 @@ import { CookieService } from 'ngx-cookie';
     DataListsModule,
     LabOrderSearchModule,
     UsefulLinksModule,
-    UserDefaultPropertiesModule
+    UserDefaultPropertiesModule,
+    DataAnalyticsModule,
+    CacheModule
     // PatientListCohortModule,
     // PatientDashboardModule
   ],

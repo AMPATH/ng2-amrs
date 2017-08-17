@@ -7,7 +7,7 @@ import {
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DefaulterListResourceService } from './defaulter-list-resource.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
 const expectedResults = {
     startIndex: 0,
@@ -88,6 +88,7 @@ describe('DefaulterListResourceService Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
+          imports: [CacheModule],
             providers: [
                 DefaulterListResourceService,
                 MockBackend,

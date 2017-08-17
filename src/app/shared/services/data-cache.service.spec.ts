@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from './data-cache.service';
 // Load the implementations that should be tested
 
@@ -17,6 +17,9 @@ describe('Service : DataCacheService Unit Tests', () => {
         CacheService,
         DataCacheService
       ],
+      imports: [
+        CacheModule
+      ]
     });
   }));
   afterEach(() => {

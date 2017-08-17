@@ -52,7 +52,7 @@ import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/
 import { ErrorLogResourceService } from '../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 
 describe('Component: FormentryComponent', () => {
@@ -99,6 +99,9 @@ describe('Component: FormentryComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
+          imports: [
+            CacheModule
+          ],
             providers: [
                 MockBackend,
                 BaseRequestOptions,

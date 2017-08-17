@@ -17,15 +17,16 @@ import { FormsModule } from '@angular/forms';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { HivSummaryService } from '../patient-dashboard/hiv-summary/hiv-summary.service';
-// tslint:disable-next-line:max-line-length
-import { PatientSideNavComponent } from '../patient-dashboard/patient-side-nav/patient-side-nav.component';
+import { PatientSideNavComponent
+} from '../patient-dashboard/patient-side-nav/patient-side-nav.component';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-// tslint:disable-next-line:max-line-length
-import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService
+} from '../user-default-properties/user-default-properties.service';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CacheModule } from 'ionic-cache';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -52,13 +53,15 @@ import { ModalModule } from 'ngx-bootstrap/modal';
         NgxMyDatePickerModule,
         RouterModule,
         Ng2Bs3ModalModule,
-        ModalModule.forRoot()
+        ModalModule.forRoot(),
         // BrowserAnimationsModule
+        CacheModule
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
         BuildVersionComponent, PatientSideNavComponent,
-        DateSelectorComponent, PdfViewerComponent, OpenmrsApi, Ng2Bs3ModalModule, ModalModule],
+        DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
+      OpenmrsApi, Ng2Bs3ModalModule, ModalModule],
     declarations: [
         DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,

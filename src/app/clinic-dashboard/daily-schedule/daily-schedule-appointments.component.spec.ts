@@ -23,7 +23,7 @@ import {
     DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Router } from '@angular/router';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 describe('Component: DailyScheduleAppointmentsComponent', () => {

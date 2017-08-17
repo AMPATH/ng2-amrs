@@ -7,7 +7,7 @@ import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheService, CacheModule } from 'ionic-cache';
 import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -19,7 +19,7 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
     beforeEach(() => {
 
         TestBed.configureTestingModule({
-
+            imports: [CacheModule],
             providers: [
                 PatientsRequiringVLResourceService,
                 MockBackend,

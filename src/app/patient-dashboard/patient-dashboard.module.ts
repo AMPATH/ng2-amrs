@@ -9,11 +9,9 @@ import {
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
-// import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
-import { patientDashboardRouting } from './patient-dashboard-routing';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
@@ -123,7 +121,7 @@ import { EncounterTypeFilter } from './patient-encounters/encounter-list.compone
 import { routes } from './patient-dashboard.routes';
 import { PatientSearchModule } from './../patient-search/patient-search.module';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-
+import { CacheModule } from 'ionic-cache';
 @NgModule({
   declarations: [
     /**
@@ -217,6 +215,7 @@ import { PatientDashboardComponent } from './patient-dashboard.component';
     LabOrderSearchModule,
     FileUploaderModule,
     CohortMemberModule,
+    CacheModule,
     RouterModule.forChild(routes),
   ],
   providers: [

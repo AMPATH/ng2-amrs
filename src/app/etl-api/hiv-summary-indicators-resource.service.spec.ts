@@ -6,7 +6,7 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { CacheService } from 'ionic-cache/ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HivSummaryIndicatorsResourceService } from './hiv-summary-indicators-resource.service';
 
@@ -63,6 +63,7 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
+          imports: [CacheModule],
             providers: [
                 HivSummaryIndicatorsResourceService,
                 MockBackend,
