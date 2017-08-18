@@ -7,6 +7,9 @@ import { IndicatorResourceService } from '../../etl-api/indicator-resource.servi
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  DataAnalyticsDashboardService
+} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 declare var jQuery;
 require('ion-rangeslider');
 
@@ -43,19 +46,26 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public ageRange = new EventEmitter();
   @Input()
   public parentIsBusy: boolean = false;
-
   @Output()
   public startDateChange = new EventEmitter<Date>();
+  @Input()
+  public isShown: boolean = false;
+  @Input()
+  public disableGenerateButton: boolean = false;
+  @Input() public enabledControls: string[];
+  @Output()
+  public locationChange = new EventEmitter<any>();
+  public locations: any;
 
   @Output()
   public  endDateChange = new EventEmitter<Date>();
   private _startDate: Date;
   private _endDate: Date;
   private _report: string;
-  private _indicators: Array<any>;
+  private _indicators: Array<any> = [];
   private _gender: Array<any> = [];
-
   constructor(private indicatorResourceService: IndicatorResourceService,
+              private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
               private elementRef: ElementRef) {
   }
   public get startDate(): Date {
@@ -93,7 +103,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this._indicators = v;
     this.onIndicatorChange.emit(this._indicators);
   }
-
   @Input()
   public get selectedGender(): Array<any> {
     return this._gender;
@@ -115,7 +124,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public set endDateString(v: string) {
     this.endDate = new Date(v);
   }
+
   public ngOnInit() {
+    this.renderFilterControls();
     if (this.start && this.end) {
       this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
     }
@@ -133,8 +144,25 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this._indicators.length > 0) {
       this.selectedIndicatorTagsSelectedAll = true;
     }
-    this.getIndicators();
+    this.getCachedLocations();
+
   }
+  public isEnabled(control: string): boolean {
+    return this.enabledControls.indexOf(control) > -1;
+  }
+  public renderFilterControls(): void {
+    if (this.isEnabled('indicatorsControl')) {
+      this.getIndicators();
+    }
+  }
+   public getCachedLocations() {
+    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+      (data)  => {
+        if (data) {
+          this.locations = data.locations;
+        }
+      });
+}
 
   public onIndicatorSelected(indicator) {
     this.selectedIndicators = indicator;
@@ -179,6 +207,10 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       }
     }
   }
+
+  public getSelectedLocations(locs: any) {
+      this.dataAnalyticsDashboardService.setSelectedLocations(locs);
+    }
   public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);

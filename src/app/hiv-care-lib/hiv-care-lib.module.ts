@@ -6,7 +6,10 @@ import { MaterialModule, MdProgressSpinnerModule, MdProgressBarModule, MdTabsMod
 import { RouterModule } from '@angular/router';
 
 import { AgGridModule } from 'ag-grid-angular/main';
-import { InputTextModule, TabViewModule } from 'primeng/primeng';
+import { InputTextModule, TabViewModule, AccordionModule } from 'primeng/primeng';
+import { SelectModule } from 'ng2-select';
+import { ChartModule } from 'angular2-highcharts';
+import { DataListsModule } from '../data-lists/data-lists.module';
 
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
 import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-filters.component';
@@ -14,12 +17,10 @@ import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.
 import { EtlApi } from '../etl-api/etl-api.module';
 import { Moh731PatientListComponent } from './moh-731-report/moh-731-patientlist.component';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
-import { DataListsModule } from '../data-lists/data-lists.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
-import { SelectModule } from 'ng2-select';
 import {
   HivSummaryIndicatorBaseComponent
 } from './hiv-summary-indicators/hiv-summary-report-base.component';
@@ -46,7 +47,19 @@ import { ClinicFlowProviderStatsComponent
 } from '../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { ChartModule } from 'angular2-highcharts';
+import { HivCareComparativeOverviewBaseComponent
+} from './hiv-visualization/hiv-care-overview-base.component';
+import { HivCareComparativeChartComponent
+} from './hiv-visualization/hiv-care-overview-chart.component';
+import { HivCareIndicatorDefComponent
+} from './hiv-visualization/indicator-definitions.component';
+import { HivCareTabularViewComponent
+} from './hiv-visualization/hiv-care-tabularView.component';
+import { VisualizationPatientListComponent
+} from './hiv-visualization/visualization-patient-list.component';
+import {
+  ClinicalSummaryVisualizationService
+} from './services/clinical-summary-visualization.service';
 
 @NgModule({
   imports: [
@@ -59,6 +72,7 @@ import { ChartModule } from 'angular2-highcharts';
     DateTimePickerModule,
     CommonModule,
     TabViewModule,
+    AccordionModule,
     SelectModule,
     ChartModule.forRoot(require('highcharts'),
       require('highcharts/highcharts-more'),
@@ -92,7 +106,13 @@ import { ChartModule } from 'angular2-highcharts';
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
-    ClinicFlowProviderStatsComponent
+    ClinicFlowProviderStatsComponent,
+    HivCareComparativeOverviewBaseComponent,
+    HivCareComparativeChartComponent,
+    HivCareIndicatorDefComponent,
+    HivCareTabularViewComponent,
+    VisualizationPatientListComponent,
+
   ],
   declarations: [
     Moh731TabularComponent,
@@ -110,9 +130,15 @@ import { ChartModule } from 'angular2-highcharts';
     ClinicFlowSummaryComponent,
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
-    ClinicFlowProviderStatsComponent
+    ClinicFlowProviderStatsComponent,
+    HivCareComparativeOverviewBaseComponent,
+    HivCareComparativeChartComponent,
+    HivCareIndicatorDefComponent,
+    HivCareTabularViewComponent,
+    VisualizationPatientListComponent
   ],
-  providers: [MOHReportService, LocationResourceService]
+  providers: [MOHReportService, LocationResourceService, ClinicalSummaryVisualizationService,
+    ]
 })
 export class HivCareLibModule {
 }

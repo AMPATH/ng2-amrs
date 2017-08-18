@@ -27,6 +27,9 @@ import { UserDefaultPropertiesService
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CacheModule } from 'ionic-cache';
+import { LocationFilterComponent
+} from './locations/location-filter/location-filter.component';
+import { SelectModule } from 'angular2-select';
 @NgModule({
     imports: [
         BusyModule.forRoot(
@@ -55,18 +58,19 @@ import { CacheModule } from 'ionic-cache';
         Ng2Bs3ModalModule,
         ModalModule.forRoot(),
         // BrowserAnimationsModule
-        CacheModule
+        CacheModule,
+        SelectModule
     ],
     exports: [BusyModule, LaddaModule, DisplayErrorComponent,
         StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
         BuildVersionComponent, PatientSideNavComponent,
         DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
-      OpenmrsApi, Ng2Bs3ModalModule, ModalModule],
+      OpenmrsApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent],
     declarations: [
         DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
         OnlineTrackerComponent,
         BuildVersionComponent, DateSelectorComponent, PdfViewerComponent,
-        PatientSideNavComponent
+        PatientSideNavComponent, LocationFilterComponent
     ],
     providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService, HivSummaryService],
 })

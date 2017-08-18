@@ -86,7 +86,7 @@ import {
   './patient-status-change-visualization/patient-status-change-visualization.component';
 import {
   ClinicalSummaryVisualizationService
-} from './services/clinical-summary-visualization.service';
+} from '../hiv-care-lib/services/clinical-summary-visualization.service';
 import {
   ArtOverviewIndicatorDefComponent
 } from './clinical-summary-visualization/art-overview/indicator-definitions.component';
@@ -121,9 +121,6 @@ import { CacheModule } from 'ionic-cache';
      */
     // ClinicFlowComponent,
     ArtOverviewIndicatorDefComponent,
-    HivCareIndicatorDefComponent,
-    HivCareComparativeOverviewComponent,
-    HivCareTabularViewComponent,
     ClinicDashboardComponent,
     DailyScheduleComponent,
     MonthlyScheduleComponent,
@@ -183,7 +180,6 @@ import { CacheModule } from 'ionic-cache';
     MaterialModule,
     CacheModule
   ],
-  entryComponents: [PatientStatusDatalistCellComponent],
   providers: [
     ClinicDashboardCacheService,
     ClinicDashboardGuard,

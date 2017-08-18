@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicalSummaryVisualizationService
-} from '../../services/clinical-summary-visualization.service';
+} from '../../../hiv-care-lib/services/clinical-summary-visualization.service';
 
 @Component({
   selector: 'art-overview-chart',

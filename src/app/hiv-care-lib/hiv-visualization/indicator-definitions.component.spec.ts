@@ -8,11 +8,12 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccordionModule, TabViewModule } from 'primeng/primeng';
+
+// import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
+import { HivCareIndicatorDefComponent } from './indicator-definitions.component';
 import {
   ClinicalSummaryVisualizationResourceService
-} from '../../../etl-api/clinical-summary-visualization-resource.service';
-import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
-import { HivCareIndicatorDefComponent } from './indicator-definitions.component';
+} from '../../etl-api/clinical-summary-visualization-resource.service';
 
 class DataStub {
 
@@ -74,8 +75,8 @@ describe('HivCareIndicatorDefComponent', () => {
           { provide: ComponentFixtureAutoDetect, useValue: true },
           {
             provide: Http, useFactory: (backend, options) => {
-              return new Http(backend, options);
-            },
+            return new Http(backend, options);
+          },
             deps: [MockBackend, BaseRequestOptions]
           },
           MockBackend,
@@ -99,3 +100,4 @@ describe('HivCareIndicatorDefComponent', () => {
   }));
 
 });
+

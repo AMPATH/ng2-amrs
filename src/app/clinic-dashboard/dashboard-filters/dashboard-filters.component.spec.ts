@@ -25,7 +25,7 @@ import { DataCacheService } from '../../shared/services/data-cache.service';
 import { Http } from '@angular/http';
 import {
   ClinicalSummaryVisualizationService
-} from '../services/clinical-summary-visualization.service';
+} from '../../hiv-care-lib/services/clinical-summary-visualization.service';
 
 @Component({
   selector: 'hiv-care-overview',

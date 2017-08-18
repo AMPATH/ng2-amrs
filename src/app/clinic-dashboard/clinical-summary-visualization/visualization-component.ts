@@ -8,7 +8,7 @@ import {
   ClinicalSummaryVisualizationResourceService
 } from '../../etl-api/clinical-summary-visualization-resource.service';
 import { ClinicalSummaryVisualizationService
-} from '../services/clinical-summary-visualization.service';
+} from '../../hiv-care-lib/services/clinical-summary-visualization.service';
 
 @Component({
   selector: 'clinical-summary-visualization',
