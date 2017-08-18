@@ -437,7 +437,7 @@ module.exports = function () {
         },
         {
             method: 'GET',
-            path: '/etl/patient/{patientUuid}/program/{programUuid}/enrollment/{enrollmentUuid}/visit-types',
+            path: '/etl/patient/{patientUuid}/program/{programUuid}/enrollment/{enrollmentUuid}',
             config: {
                 auth: 'simple',
                 plugins: {

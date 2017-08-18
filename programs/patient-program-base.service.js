@@ -13,11 +13,12 @@ var serviceDefinition = {
 module.exports = serviceDefinition;
 
 function getAllProgramsConfig() {
-    return programsConfig;
+    return  JSON.parse(JSON.stringify(programsConfig));
 }
 
 function getPatientProgramEnrollmentVisits(patientUuid, programUuid,
     enrollmentUuid, intendedVisitLocationUuid) {
+    var clone = getAllProgramsConfig();
     return programVisits.getPatientVisitTypes(patientUuid, programUuid,
-        enrollmentUuid, intendedVisitLocationUuid || '', programsConfig);
+        enrollmentUuid, intendedVisitLocationUuid || '', clone);
 }
