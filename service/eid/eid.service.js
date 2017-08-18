@@ -154,7 +154,7 @@
 
         if (rawPayload.artRegimenUuid === "") return 15; //15 is none;
 
-        var arvCodes = rawPayload.artRegimenUuid.split(" ## ");
+        var arvCodes = rawPayload.artRegimenUuid ? rawPayload.artRegimenUuid.split(" ## ") : null;
         var resolvedId=14;  // 14 is other
 
         if(!(arvCodes && arvCodes.length > 0)) return resolvedId;
