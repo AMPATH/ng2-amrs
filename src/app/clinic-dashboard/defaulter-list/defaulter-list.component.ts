@@ -56,6 +56,14 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         cellStyle: {
           'white-space': 'normal'
         }
+      },
+      {
+        headerName: 'Phone Number',
+        field: 'phone_number',
+        width: 100,
+        cellStyle: {
+          'white-space': 'normal'
+        }
       }
     ];
   }
@@ -132,7 +140,8 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         person_name: dataItem.person_name,
         encounter_type_name: dataItem.encounter_type_name,
         last_appointment: formatedEncDate + ' ' + dataItem.encounter_type_name,
-        encounter_datetime: formatedEncDate
+        encounter_datetime: formatedEncDate,
+        phone_number: dataItem.phone_number
       };
     });
     return formatedData;
