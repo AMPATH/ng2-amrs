@@ -197,7 +197,7 @@
 
             // Sort ccHpi per obsDatetime
             note.ccHpi.sort(function(ccHpi1, ccHpi2) {
-                return moment(ccHPi1.obsDatetime).diff(ccHpi2.obsDatetime);
+                return ccHpi1 ? moment(ccHpi1.obsDatetime).diff(ccHpi2.obsDatetime) : null;
             });
 
             note.assessment = _findTextObsValue(encounters, CONCEPT_UUIDS.ASSESSMENT,
