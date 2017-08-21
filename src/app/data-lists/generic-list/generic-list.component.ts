@@ -112,6 +112,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
       };
 
+
       // this.gridOptions.getRowHeight = function (params) {
       //   let dataLength = 0;
       //   if (params.data) {
@@ -171,6 +172,11 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       // };
     };
   }
+
+
+public exportAllData() {
+   this.gridOptions.api.exportDataAsCsv();
+}
 
   public ngOnDestroy() {
     this.data = [];
