@@ -20,6 +20,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public dataLoaded: boolean = false;
   public startDate: any;
   public endDate: any;
+  public isLoadingPatientList: boolean = false;
   private startIndex: number = 0;
   private locationUuid: any;
   private reportName: string;
@@ -36,7 +37,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
      * to give you the location UUID.
      * If a better way can be found, please consider
      */
-    let urlPieces = window.location.hash.split('/');
+    const urlPieces = window.location.hash.split('/');
     this.locationUuid = urlPieces[2];
   }
 
@@ -44,7 +45,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
 
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params) {
-        let monthYear = params['period'].split('|');
+        const monthYear = params['period'].split('|');
         this.reportName = params['report'];
         this.currentIndicator = params['indicator'];
         this.translatedIndicator =
@@ -79,6 +80,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public loadPatientData(reportName: string) {
+    this.isLoadingPatientList = true;
     this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
@@ -88,6 +90,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     }).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
+      this.isLoadingPatientList = false;
       this.startIndex += report.length;
       if (report.length < 300) {
         this.dataLoaded = true;
@@ -97,6 +100,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
 
   public loadMorePatients() {
     this.isLoading = true;
+    this.isLoadingPatientList = true;
     this.loadPatientData(this.reportName);
   }
 
