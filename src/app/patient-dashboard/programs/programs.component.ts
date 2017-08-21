@@ -8,6 +8,7 @@ import { Program } from '../../models/program.model';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 
 @Component({
     selector: 'app-programs',
@@ -15,35 +16,40 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./programs.component.css']
 })
 export class ProgramsComponent implements OnInit, OnDestroy {
-    public patient: Patient = new Patient({});
-    public enrolledProgrames: ProgramEnrollment[] = [];
-    public availablePrograms: Program[] = [];
-    public selectedProgram: string = '';
-    public errors: any[] = [];
-    public notEnrolled: boolean = false;
-    public loadingPatientPrograms: boolean = false;
-    public programsBusy: boolean = false;
-    public enrollmentUuid: string = '';
-    public program: string = '';
-    public dateCompleted: any;
-    public dateEnrolled: any;
-    public displayDialog: boolean = false;
-    public hasError: boolean = false;
-    public errorMessage: string = '';
-    public subscription: Subscription;
-    private _datePipe: DatePipe;
+  public patient: Patient = new Patient({});
+  public enrolledProgrames: ProgramEnrollment[] = [];
+  public availablePrograms: Program[] = [];
+  public selectedProgram: string = '';
+  public errors: any[] = [];
+  public notEnrolled: boolean = false;
+  public loadingPatientPrograms: boolean = false;
+  public programsBusy: boolean = false;
+  public enrollmentUuid: string = '';
+  public program: string = '';
+  public dateCompleted: any;
+  public dateEnrolled: any;
+  public selectedLocation: string;
+  public displayDialog: boolean = false;
+  public hasError: boolean = false;
+  public errorMessage: string = '';
+  public locations: any[] = [];
+  public subscription: Subscription;
+  private _datePipe: DatePipe;
 
     constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-                private patientService: PatientService, private programService: ProgramService
+                private patientService: PatientService,
+                private programService: ProgramService,
+                private locationResourceService: LocationResourceService
     ) {
         this._datePipe = new DatePipe('en-US');
     }
 
-    public ngOnInit() {
+  public ngOnInit() {
         this.appFeatureAnalytics
             .trackEvent('Patient Dashboard', 'Program Loaded', 'ngOnInit');
         this.subscribeToPatientChangeEvent();
         this.getAvailablePrograms();
+        this.fetchLocations();
     }
 
     public ngOnDestroy(): void {
@@ -52,7 +58,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
       }
     }
 
-    public subscribeToEnrollmentChangeEvent(payload) {
+  public subscribeToEnrollmentChangeEvent(payload) {
         this.programService.saveUpdateProgramEnrollment(payload).subscribe(
             (enrollment) => {
                 if (enrollment) {
@@ -62,7 +68,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         );
     }
 
-    public subscribeToPatientChangeEvent() {
+  public subscribeToPatientChangeEvent() {
         this.programsBusy = true;
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
@@ -74,27 +80,33 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         );
     }
 
-    public openNewEnrollmentDialog(programUuid: string) {
-
-        let selectedProgram = this.programService.
+  public openNewEnrollmentDialog(programUuid: string) {
+      let selectedProgram = {};
+      selectedProgram = this.programService.
             getSelectedProgram(this.availablePrograms, programUuid);
-        this.hasError = false;
-        this.dateCompleted = undefined;
-        this.dateEnrolled = undefined;
-        this.selectedProgram = selectedProgram.display;
-        this.program = selectedProgram.uuid;
-        this.displayDialog = true;
+      console.log('selectedProgram', selectedProgram);
+      this.hasError = false;
+      this.dateCompleted = undefined;
+      this.dateEnrolled = undefined;
+      this.selectedLocation = undefined;
+      this.selectedProgram = (selectedProgram as any).display;
+      this.program = (selectedProgram as any).uuid;
+      this.displayDialog = true;
     }
 
-    public enrollToProgram() {
-        let isFormValid = this.validateFormFields(this.dateEnrolled, this.dateCompleted);
-        let payload = this.programService.createEnrollmentPayload(
-            this.program, this.patient, this.dateEnrolled, this.dateCompleted, this.enrollmentUuid);
+  public enrollToProgram() {
+    let payload = {};
+    let isFormValid = {};
+    isFormValid = this.validateFormFields(this.dateEnrolled, this.dateCompleted,
+          this.selectedLocation);
+    payload = this.programService.createEnrollmentPayload(
+    this.program, this.patient, this.dateEnrolled, this.dateCompleted,
+    this.selectedLocation, this.enrollmentUuid);
 
-        if (isFormValid === true && payload) {
-            this.subscribeToEnrollmentChangeEvent(payload);
-            this.displayDialog = false;
-        }
+    if (isFormValid === true && payload) {
+      this.subscribeToEnrollmentChangeEvent(payload);
+      this.displayDialog = false;
+    }
     }
 
     public updateEnrollment(enrollmentProgram) {
@@ -107,25 +119,31 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                 enrollmentProgram.dateCompleted, 'yyyy-MM-dd');
         } else {
             this.dateCompleted = undefined;
+            delete this.dateCompleted;
         }
 
         this.dateEnrolled = this._datePipe.transform(enrollmentProgram.dateEnrolled, 'yyyy-MM-dd');
         this.program = enrollmentProgram.programUuid;
+        if (enrollmentProgram.openmrsModel.location ) {
+          this.selectedLocation = enrollmentProgram.openmrsModel.location.uuid;
+        } else {
+          this.selectedLocation = undefined;
+        }
+
     }
 
     public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
         this.resetVariables();
         if (patientUuid) {
             this.loadingPatientPrograms = true;
-            let request = this.programService.getPatientEnrolledProgramsByUuid(patientUuid);
-            request
+            this.programService.getPatientEnrolledProgramsByUuid(patientUuid)
                 .subscribe(
                 (data) => {
 
                     if (data) {
-                        this.enrolledProgrames = data;
-                        this.programsBusy = false;
-                        this.loadingPatientPrograms = false;
+                      this.enrolledProgrames = data;
+                      this.programsBusy = false;
+                      this.loadingPatientPrograms = false;
                     }
 
                 },
@@ -159,8 +177,11 @@ export class ProgramsComponent implements OnInit, OnDestroy {
             }
         );
     }
+  public getSelectedLocation(event) {
+    this.selectedLocation = event;
+  }
 
-    public resetVariables() {
+  public resetVariables() {
         this.enrolledProgrames = [];
         this.programsBusy = false;
         this.loadingPatientPrograms = false;
@@ -169,15 +190,19 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
     }
 
-    public closeDialog() {
-        this.displayDialog = false;
-    }
+  public closeDialog() {
+      this.displayDialog = false;
+  }
 
-    private validateFormFields(enrolledDate, completedDate) {
+    private validateFormFields(enrolledDate, completedDate, location) {
 
         if (this.isNullOrUndefined(enrolledDate)) {
             this.setErroMessage('Date Enrolled is required.');
             return false;
+        }
+        if (this.isNullOrUndefined(location)) {
+          this.setErroMessage('Location Enrolled is required.');
+          return false;
         }
 
         if (this.isDateValid(enrolledDate) !== true) {
@@ -204,28 +229,42 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    private isFutureDates(enrolledDate, completedDate) {
-        let today = new Date();
-        if (moment(completedDate).isAfter(today) || moment(completedDate).isAfter(today)) {
-            return true;
+  private isFutureDates(enrolledDate, completedDate) {
+      let today: Date ;
+      today = new Date();
+      if (moment(completedDate).isAfter(today) || moment(completedDate).isAfter(today)) {
+          return true;
+      }
+      return false;
+  }
+
+  private isNullOrUndefined(val) {
+      return val === null || val === undefined || val === ''
+          || val === 'null' || val === 'undefined';
+  }
+
+  private setErroMessage(message) {
+
+      this.hasError = true;
+      this.errorMessage = message;
+  }
+  private isDateValid(inputValue) {
+      if (inputValue && inputValue !== undefined) {
+          return moment(inputValue).isValid();
+      }
+      return false;
+  }
+  private fetchLocations(): void {
+    this.locationResourceService.getLocations().subscribe(
+      (locations: any[]) => {
+        this.locations = [];
+        for (const item of locations) {
+          this.locations.push({label: item.name, value: item.uuid});
         }
-        return false;
-    }
-
-    private isNullOrUndefined(val) {
-        return val === null || val === undefined || val === ''
-            || val === 'null' || val === 'undefined';
-    }
-
-    private setErroMessage(message) {
-
-        this.hasError = true;
-        this.errorMessage = message;
-    }
-    private isDateValid(inputValue) {
-        if (inputValue && inputValue !== undefined) {
-            return moment(inputValue).isValid();
-        }
-        return false;
-    }
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
+  }
 }

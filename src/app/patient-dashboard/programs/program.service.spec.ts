@@ -124,9 +124,9 @@ describe('Service: ProgramService', () => {
       let service: ProgramService = TestBed.get(ProgramService);
       let program = 'program-uuid', patient = { person: { uuid: 'person-uuid' } },
         dateEnrolled = new Date('Mon Feb 13 2017 11:40:31'),
-        dateCompleted = undefined, enrollmentUuid = '';
+        dateCompleted = undefined, locationUuid = 'location-uuid', enrollmentUuid = '';
       let payload = service.createEnrollmentPayload(program, patient,
-        dateEnrolled, dateCompleted, enrollmentUuid);
+        dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
       if (payload) {
         expect(payload.program).toEqual('program-uuid');
         expect(payload.patient).toEqual('person-uuid');
@@ -142,9 +142,10 @@ describe('Service: ProgramService', () => {
       let service: ProgramService = TestBed.get(ProgramService);
       let program = 'program-uuid', patient = { person: { uuid: 'person-uuid' } },
         dateEnrolled = new Date('Mon Feb 12 2017 11:40:31'),
-        dateCompleted = new Date('Mon Feb 13 2017 11:40:31'), enrollmentUuid = 'enrollment-uuid';
+        dateCompleted = new Date('Mon Feb 13 2017 11:40:31'),
+        locationUuid = 'location-uuid', enrollmentUuid = 'enrollment-uuid';
       let payload = service.createEnrollmentPayload(program, patient,
-        dateEnrolled, dateCompleted, enrollmentUuid);
+        dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
       if (payload) {
         expect(payload.program).toEqual(undefined);
         expect(payload.patient).toEqual(undefined);
@@ -159,9 +160,10 @@ describe('Service: ProgramService', () => {
     let service: ProgramService = TestBed.get(ProgramService);
     let program = 'program-uuid', patient = { person: { uuid: 'person-uuid' } },
       dateEnrolled = new Date('Mon Feb 12 2017 11:40:31'),
-      dateCompleted = new Date('Mon Feb 13 2017 11:40:31'), enrollmentUuid = 'enrollment-uuid';
+      dateCompleted = new Date('Mon Feb 13 2017 11:40:31'),
+      locationUuid = 'location-uuid', enrollmentUuid = 'enrollment-uuid';
     let payload = service.createEnrollmentPayload(program, patient,
-      dateEnrolled, dateCompleted, enrollmentUuid);
+      dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
 
     let enrollmement = service.saveUpdateProgramEnrollment(payload);
     enrollmement.subscribe((results) => {

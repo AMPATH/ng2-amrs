@@ -9,19 +9,29 @@
 </div>
 
 <p-dialog header="{{selectedProgram}}" [(visible)]="displayDialog" minHieght="300" position="center" modal="true">
-  <div style="width: 100%; overflow:hidden;">
-    <label for="enrolledDate">Date Enrolled:</label>
-    <div class="input-group">
+  <div style="width: 100%; overflow:hidden; ">
+    <div class="input-group" >
+      <label for="enrolledDate">Date Enrolled:</label>
       <div class="ui-grid-col-10">
         <input id="enrolledDate" [(ngModel)]="dateEnrolled" type="date" />
       </div>
     </div>
     <div ng-messages="programEnrollmentForm.enrolledDate.$error">
-      <div class="help-block" ng-message="required">Date Enrolled is required.</div>
+      <div class="help-block" ng-message="required" style="padding-left: 15px">Date Enrolled is required.</div>
     </div>
 
-    <label for="completedDate">Date Completed:</label>
-    <div class="input-group" style="border: 1px solid #66b3ff;">
+    <div class="input-group" >
+      <label>Location Enrolled:</label>
+      <div class="ui-grid-col-10" >
+        <select class="form-control" [ngModel]="selectedLocation" (ngModelChange)="getSelectedLocation($event)">
+          <option *ngFor="let c of locations" [ngValue]="c.value">{{c.label}}</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="input-group">
+      <label for="completedDate">Date Completed:</label>
       <div class="ui-grid-col-10">
         <input id="completedDate" [(ngModel)]="dateCompleted" type="date" />
       </div>
@@ -31,7 +41,7 @@
       <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
     </div>
 
-    <div style="padding-top:5px">
+    <div style="padding-top:5px; padding-left: 15px">
       <button class="btn btn-primary" type="button" (click)="enrollToProgram()">
        <span>Save</span></button>
       <button class="btn btn-primary pull-right" type="button" (click)="closeDialog()">
@@ -55,6 +65,7 @@
         <thead>
           <tr>
             <th>Program</th>
+            <th>Location Enrolled</th>
             <th>Date Enrolled</th>
             <th>Date Completed</th>
             <th>Actions</th>
@@ -63,8 +74,9 @@
         <tbody>
           <tr style="cursor: pointer;" *ngFor="let patientProgram of enrolledProgrames">
             <td>{{patientProgram.display}}</td>
-            <td>{{patientProgram.dateEnrolledView}}</td>
-            <td>{{patientProgram.dateCompletedView}}</td>
+            <td>{{patientProgram.openmrsModel.location?.display}}</td>
+            <td>{{patientProgram.dateEnrolled}}</td>
+            <td>{{patientProgram.dateCompleted}}</td>
             <td>
               <button type="button" class="btn btn-xs edit-button" (click)="updateEnrollment(patientProgram)">
                <span class="glyphicon text-primary glyphicon-edit"></span>

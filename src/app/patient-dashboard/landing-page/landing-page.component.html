@@ -34,6 +34,14 @@
                 </div>
               </div>
               <div class="input-group">
+                <label>Location Enrolled:</label>
+                <div class="ui-grid-col-10" >
+                  <select class="form-control" [ngModel]="row.enrolledProgram.openmrsModel.location?.uuid" (ngModelChange)="getSelectedLocationToEdit($event)">
+                    <option *ngFor="let c of locations" [ngValue]="c.value">{{c.label}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="input-group">
                 <label class="buttons"></label>
                 <div class="ui-grid-col-12 buttons">
                   <a class="btn btn-primary" *ngIf="row.isEnrolled" [ngClass]="{'btn-primary': !row.isFocused, 'btn-info': row.isFocused}"
@@ -92,6 +100,12 @@
             <div>
               <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date" />
             </div>
+          </div>
+          <div class="col-md-4 cell">
+            <label>Location Enrolled:</label>
+            <select class="form-control" [ngModel]="selectedLocation" (ngModelChange)="getSelectedLocation($event)">
+              <option *ngFor="let c of locations" [ngValue]="c.value">{{c.label}}</option>
+            </select>
           </div>
           <div class="col-md-4 cell enroll-button">
             <label class="buttons"></label>

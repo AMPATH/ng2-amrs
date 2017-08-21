@@ -76,14 +76,15 @@ export class ProgramService {
     return patientEnrollablePrograms.asObservable();
   }
 
-  public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted, enrollmentUuid ):
-   any {
+  public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted,
+                                 locationUuid, enrollmentUuid): any {
     let payLoad = {
       patient: patient.person.uuid,
       program: program,
       dateEnrolled: dateEnrolled,
       uuid: enrollmentUuid,
-      dateCompleted: dateCompleted
+      dateCompleted: dateCompleted,
+      location: locationUuid
     };
 
     // delete dateCompleted property  if the dateCompleted is null at enrollment
