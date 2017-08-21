@@ -16,9 +16,6 @@ import {
 } from './hiv-summary-indicators/hiv-summary-indicator.component';
 import { DataListsModule } from '../../data-lists/data-lists.module';
 import {
-    HivSummaryIndicatorsPatientListComponent
-} from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
-import {
     PatientsRequiringVLComponent
  } from './patients-requiring-vl/patients-requiring-vl.component';
 import { DailyScheduleClinicFlowComponent
@@ -42,15 +39,13 @@ import { HivCareComparativeComponent
     ],
     exports: [HivSummaryIndicatorComponent,
       DailyScheduleClinicFlowComponent,
-      PatientsRequiringVLComponent,
-        HivSummaryIndicatorsPatientListComponent],
+      PatientsRequiringVLComponent],
     declarations: [
         Moh731ReportComponent,
         HivSummaryIndicatorComponent,
         DailyScheduleClinicFlowComponent,
         PatientsRequiringVLComponent,
-        HivSummaryIndicatorsPatientListComponent,
-      HivSummaryIndicatorsPatientListComponent,
+       // HivSummaryIndicatorsPatientListComponent,
       HivCareComparativeComponent],
     providers: [],
 })

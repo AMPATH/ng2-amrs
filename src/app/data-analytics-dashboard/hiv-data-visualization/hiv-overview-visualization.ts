@@ -29,7 +29,8 @@ implements OnInit {
   }
 
   public ngOnInit() {
-     this.loadReportParamsFromUrl();
+    this.locationUuids = [];
+    this.loadReportParamsFromUrl();
   }
 
   public generateReport() {

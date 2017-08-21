@@ -4,6 +4,12 @@ import * as Moment from 'moment';
 import {
   HivSummaryIndicatorsResourceService
 } from '../../etl-api/hiv-summary-indicators-resource.service';
+import {
+  DataAnalyticsDashboardService
+} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+/*import {
+  DataAnalyticsDashboardService
+} from '../../data-analytics-dashboard/services/data-analytics.service';*/
 
 @Component({
   selector: 'hiv-summary-report-base',
@@ -18,7 +24,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public indicators: string ;
   public selectedIndicators  = [];
   public selectedGender = [];
-
+  public enabledControls = 'indicatorsControl,datesControl,' +
+    'ageControl,genderControl,locationControl';
   public isLoadingReport: boolean = false;
   public encounteredError: boolean = false;
   public errorMessage: string = '';
@@ -60,7 +67,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     this._gender = v;
   }
 
-  constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService) { }
+  constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
+              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
 
   public ngOnInit() {}
   public generateReport() {
@@ -135,6 +143,11 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     }
     return this.indicators = indicators;
   }
+/*  getLocations(locs) {
+     this.locationUuids = locs.locations;
+     this.dataAnalyticsDashboardService.setSelectedLocations(this.locationUuids);
+
+  }*/
   public onTabChanged(event) {
     if (event.index === 0) {
       this.currentView = 'tabular';

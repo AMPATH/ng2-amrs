@@ -5,29 +5,25 @@ import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import {
   HivSummaryIndicatorBaseComponent
-} from '../../../hiv-care-lib/hiv-summary-indicators/hiv-summary-report-base.component';
-import {
-  HivSummaryIndicatorsResourceService
-} from '../../../etl-api/hiv-summary-indicators-resource.service';
-import {
-  DataAnalyticsDashboardService
-} from '../../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+} from '../../hiv-care-lib/hiv-summary-indicators/hiv-summary-report-base.component';
+import { HivSummaryIndicatorsResourceService
+} from '../../etl-api/hiv-summary-indicators-resource.service';
+import { DataAnalyticsDashboardService } from '../services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'hiv-summary-indicator-report',
-  templateUrl: '../../../hiv-care-lib/hiv-summary-indicators/hiv-summary-report-base.component.html'
+  templateUrl: '../../hiv-care-lib/hiv-summary-indicators/hiv-summary-report-base.component.html'
 })
 
-export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseComponent
-  implements OnInit {
+export class HivSummaryIndicatorsComponent extends HivSummaryIndicatorBaseComponent
+implements OnInit {
   public data = [];
   public sectionsDef = [];
-  public enabledControls = 'indicatorsControl,datesControl,ageControl,genderControl';
 
   constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
+              public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
               private route: ActivatedRoute, private location: Location,
-              private router: Router,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+              private router: Router) {
     super(hivSummaryIndicatorsResourceService, dataAnalyticsDashboardService);
 
   }
@@ -41,11 +37,22 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
       }
     });
     this.loadReportParamsFromUrl();
+    this.getLocationsSelected();
   }
 
   public generateReport() {
+    this.getLocationsSelected();
     this.storeReportParamsInUrl();
     super.generateReport();
+  }
+  public getLocationsSelected() {
+    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+      (data)  => {
+        if (data) {
+          this.locationUuids = data.locations;
+        }
+
+      });
   }
 
   public loadReportParamsFromUrl() {

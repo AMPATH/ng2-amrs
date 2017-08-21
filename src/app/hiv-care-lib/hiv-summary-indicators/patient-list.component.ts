@@ -7,6 +7,9 @@ import {
   HivSummaryIndicatorsResourceService
 } from '../../etl-api/hiv-summary-indicators-resource.service';
 import { Location } from '@angular/common';
+import {
+  DataAnalyticsDashboardService
+} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'hiv-summary-patient-list',
@@ -31,6 +34,7 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
               public router: Router,
               public resourceService: HivSummaryIndicatorsResourceService,
               private _location: Location) {
+
   }
 
   public ngOnInit() {
@@ -38,6 +42,7 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
       if (params) {
         let period = params['period'].split('|');
         this.getDateRange(period);
+        this.locationUuids = params.locationUuids;
         this.indicator = params['indicator'];
         this.translatedIndicator = this.translateIndicator(this.indicator);
         let age = params['age'].split('|');
@@ -53,13 +58,6 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
               + column.value + '</a>';
           }
         });
-      }
-    });
-
-    this.route.parent.parent.parent.params.subscribe((params: any) => {
-      this.locationUuids = [];
-      if (params.location_uuid) {
-        this.locationUuids.push(params.location_uuid);
       }
     });
 
