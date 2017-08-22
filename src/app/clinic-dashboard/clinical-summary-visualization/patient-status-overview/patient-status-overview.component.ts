@@ -109,7 +109,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
     let endDate = Moment(this.endDate).format('DD/MM/YYYY');
     let chartData  = [];
     let that = this;
-    _.each(result, (data) => {
+    _.each(result, (data: any) => {
       chartData = [
         {
           y: data.patients_continuing_care, name: 'Patients In Care',
