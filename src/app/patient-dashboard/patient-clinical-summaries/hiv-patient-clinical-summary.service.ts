@@ -659,7 +659,7 @@ export class HivPatientClinicalSummaryService {
 
           ]
         ];
-        _.each(labTests, (labs) => {
+        _.each(labTests, (labs: any) => {
             if (labs.cd4_count != null || labs.cd4_percent != null || labs.hiv_viral_load != null) {
               patientLabTests.push([
                 this._formatDate(labs.test_datetime) || 'N/A',
