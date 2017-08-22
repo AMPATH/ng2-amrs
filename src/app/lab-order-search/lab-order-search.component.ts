@@ -132,7 +132,7 @@ export class LabOrderSearchComponent implements OnInit {
     return this.isLoading;
   }
 
-  private resetSearch() {
+  public resetSearch() {
     this.orderId = '';
     this.isResetButton = false;
     this.isLoading = false;

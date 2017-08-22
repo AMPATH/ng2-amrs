@@ -91,7 +91,7 @@ export class PatientRelationshipService {
     relationshipMap.set('Head of Household', 29);
     relationshipMap.set('Nurse', 30);
     relationshipMap.set('Other non-coded', 31);
-    _.each(relationships, (relationship) => {
+    _.each(relationships, (relationship: any) => {
       relationship.order = relationshipMap.get(relationship.relationshipType);
     });
     return relationships;

@@ -63,7 +63,7 @@ export class ProviderResourceService {
           response.subscribe(
             (providers) => {
               let foundProvider;
-              _.each(providers, (provider) => {
+              _.each(providers, (provider: any) => {
                 if (provider.person && provider.person.uuid === uuid) {
                   foundProvider = provider;
                 }

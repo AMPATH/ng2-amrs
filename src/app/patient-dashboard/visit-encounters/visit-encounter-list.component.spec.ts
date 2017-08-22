@@ -34,10 +34,10 @@ import {
   from '../../openmrs-api/program-enrollment-resource.service';
 
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+  public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  public params = Observable.of([{ 'id': 1 }]);
 }
 
 let mockEncounterResponse = [{
@@ -263,8 +263,7 @@ describe('Component : Visit-Encounters', () => {
           MockActivatedRoute,
           {
             provide: Http,
-            useFactory: (backendInstance: MockBackend,
-              defaultOptions: BaseRequestOptions) => {
+            useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
               return new Http(backendInstance, defaultOptions);
             },
             deps: [MockBackend, BaseRequestOptions]
@@ -284,84 +283,84 @@ describe('Component : Visit-Encounters', () => {
 
 
 
-  beforeEach(() => {
+    beforeEach(() => {
 
-    fixture = TestBed.createComponent(VisitEncountersListComponent);
-    comp = fixture.componentInstance;
-    nativeElement = fixture.nativeElement;
+      fixture = TestBed.createComponent(VisitEncountersListComponent);
+      comp = fixture.componentInstance;
+      nativeElement = fixture.nativeElement;
 
-    // Service from the root injector
-    let patient = fixture.debugElement.injector.get(PatientService);
-    let patientEncounterService = fixture.debugElement.injector.get(PatientEncounterService);
-    let encounterResourceService = fixture.debugElement.injector.get(EncounterResourceService);
-    let visitResourceService = fixture.debugElement.injector.get(VisitResourceService);
-    let route = fixture.debugElement.injector.get(MockRouter);
-    let activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
+      // Service from the root injector
+      let patient = fixture.debugElement.injector.get(PatientService);
+      let patientEncounterService = fixture.debugElement.injector.get(PatientEncounterService);
+      let encounterResourceService = fixture.debugElement.injector.get(EncounterResourceService);
+      let visitResourceService = fixture.debugElement.injector.get(VisitResourceService);
+      let route = fixture.debugElement.injector.get(MockRouter);
+      let activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
 
-  });
-
-it('Should be create an instance of the component', async(() => {
-  expect(comp).toBeTruthy();
-}));
-
-
-it('Should have a title', async(() => {
-  fixture.detectChanges();
-  expect(comp.title).toBe('Patient Visits');
-}));
-it('should render encounter types in desc order',
-  async(() => {
-    comp.encounterTypesArray = ['ECSTABLE', 'ADULTRETURN', 'DEATHREPORT'];
-    comp.sortPatientEncounterTypes();
-    fixture.detectChanges();
-
-    let result = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
-    expect(comp.encounterTypesArray).toEqual(result);
-  }));
-it('should generate a new visits array based on encounters',
-  async(() => {
-    let encounterObs = Observable.of(mockEncounterResponse);
-
-    encounterObs.subscribe(res => {
-      // alert(res);
-      comp.groupEncountersByVisits(res);
     });
-    fixture.detectChanges();
 
-    let mainArray = comp.mainArray;
+    it('Should be create an instance of the component', async(() => {
+      expect(comp).toBeTruthy();
+    }));
 
-    expect(mainArray[0].encounters.length).toBeGreaterThan(0);
 
-  }));
+    it('Should have a title', async(() => {
+      fixture.detectChanges();
+      expect(comp.title).toBe('Patient Visits');
+    }));
+    it('should render encounter types in desc order',
+      async(() => {
+        comp.encounterTypesArray = ['ECSTABLE', 'ADULTRETURN', 'DEATHREPORT'];
+        comp.sortPatientEncounterTypes();
+        fixture.detectChanges();
 
-  it('remove filter function should remove items from filter', async(() => {
+        let result = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
+        expect(comp.encounterTypesArray).toEqual(result);
+      }));
+    it('should generate a new visits array based on encounters',
+      async(() => {
+        let encounterObs = Observable.of(mockEncounterResponse);
 
-       comp.encounterFilterTypeArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
+        encounterObs.subscribe( (res) => {
+          // alert(res);
+          comp.groupEncountersByVisits(res);
+        });
+        fixture.detectChanges();
 
-       comp.removeFilterItem(0);
+        let mainArray = comp.mainArray;
 
-       fixture.detectChanges();
+        expect(mainArray[0].encounters.length).toBeGreaterThan(0);
 
-       let filteredArray = ['DEATHREPORT', 'ECSTABLE'];
+      }));
 
-       expect(comp.encounterFilterTypeArray).toEqual(filteredArray);
-  }));
+    it('remove filter function should remove items from filter', async(() => {
 
-  it('Add encounters to filter array', async(() => {
+      comp.encounterFilterTypeArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
 
-       comp.encounterFilterTypeArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
+      comp.removeFilterItem(0);
 
-       let selectedEncounterType = 'HIVRETURN';
+      fixture.detectChanges();
 
-       comp.onEncounterTypeChange(selectedEncounterType);
+      let filteredArray = ['DEATHREPORT', 'ECSTABLE'];
 
-       fixture.detectChanges();
+      expect(comp.encounterFilterTypeArray).toEqual(filteredArray);
+    }));
 
-       let filteredArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE', selectedEncounterType];
+    it('Add encounters to filter array', async(() => {
 
-       expect(comp.encounterFilterTypeArray).toEqual(filteredArray);
+      comp.encounterFilterTypeArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
 
-  }));
+      let selectedEncounterType = 'HIVRETURN';
+
+      comp.onEncounterTypeChange(selectedEncounterType);
+
+      fixture.detectChanges();
+
+      let filteredArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE', selectedEncounterType];
+
+      expect(comp.encounterFilterTypeArray).toEqual(filteredArray);
+
+    }));
 
 
 

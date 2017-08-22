@@ -40,7 +40,7 @@ describe('DailyScheduleResourceService Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
-          imports: [CacheModule]
+          imports: [CacheModule],
             providers: [
                 DailyScheduleResourceService,
                 MockBackend,

@@ -25,10 +25,10 @@ describe('Model: ProgramEnrollment', () => {
     expect(wrappedProgramEnrollment.display).toEqual(
       titleCasePipe.transform(existingProgramEnrollment.display));
     expect(wrappedProgramEnrollment.program.uuid).toEqual(existingProgramEnrollment.program.uuid);
-    expect(wrappedProgramEnrollment.dateEnrolled)
+    expect(wrappedProgramEnrollment.dateEnrolled as any)
       .toEqual(
       datePipe.transform(existingProgramEnrollment.dateEnrolled, dateFormat));
-    expect(wrappedProgramEnrollment.dateCompleted)
+    expect(wrappedProgramEnrollment.dateCompleted as any)
       .toEqual(datePipe.transform(existingProgramEnrollment.dateCompleted, dateFormat));
     // datePipe.transform(existingProgramEnrollment.dateCompleted, dateFormat)
     // TODO implement these tests

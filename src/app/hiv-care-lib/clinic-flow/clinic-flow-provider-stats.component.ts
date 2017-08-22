@@ -167,7 +167,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     }
   }
   public transformVisitsToDummyEncounters(result) {
-    _.each(result, (data) => {
+    _.each(result, (data: any) => {
       // reconstructing an array of objects to contain all provider encounters
       this.providerEncounters.push.apply(this.providerEncounters, data.encounters);
 
@@ -229,7 +229,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   private _constructFinalProviderReport(providersPersonIds) {
     _.each(providersPersonIds, (provider) => {
       let row = {};
-      _.each(this.providerEncounters, (result) => {
+      _.each(this.providerEncounters, (result: any) => {
 
         if (provider === result.person_id) {
           row['Person_Name'] = result.person_name;

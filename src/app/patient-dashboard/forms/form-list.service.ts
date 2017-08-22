@@ -10,7 +10,7 @@ export class FormListService {
     constructor(private formsResourceService: FormsResourceService,
                 private formOrderMetaDataService: FormOrderMetaDataService) { }
     public removeVersionFromFormNames(pocForms) {
-        _.each(pocForms, (form) => {
+        _.each(pocForms, (form: any) => {
             form.display = form.name;
         });
         return pocForms;
@@ -35,7 +35,7 @@ export class FormListService {
 
         // add items to the list of sorted array by using the metadata provided
         _.each(sortingMetadataArrays, (sortingMetadata) => {
-            _.each(sortingMetadata, (metadata) => {
+            _.each(sortingMetadata, (metadata: any) => {
                 let found = this._findItemByName(metadata.name, unsortArray);
                 if (found) {
                     this._addMemberToArray(found, sortedArray);
@@ -86,7 +86,7 @@ export class FormListService {
     }
 
     public removeVersionInformationFromForms(formsArray) {
-        _.each(formsArray, (form) => {
+        _.each(formsArray, (form: any) => {
             form.display = _.clone(form.name);
             form.name = this.removeVersionInformation(form.name);
         });

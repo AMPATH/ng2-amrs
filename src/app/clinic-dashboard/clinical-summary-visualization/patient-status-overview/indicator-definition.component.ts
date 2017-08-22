@@ -31,7 +31,7 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
   public processResult(result) {
     let des = [];
     let obj = {};
-    _.each(result, (data) => {
+    _.each(result, (data: any) => {
       obj[data.name] = data.description;
     });
     des.push(obj);

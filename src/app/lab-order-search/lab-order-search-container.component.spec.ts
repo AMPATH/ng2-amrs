@@ -99,7 +99,7 @@ describe('LabOrderSearchContainerComponent', () => {
 
   it('should call orderReceieved() when searched order is emitted by searchOrderId()', async(() => {
     let searchButton = fixture.nativeElement.querySelector('#search');
-    labOrderComp = new LabOrderSearchComponent(FakeOrderResourceService);
+    labOrderComp = labOrderFixture.componentInstance;
     expect(searchButton).toBeDefined();
     spyOn(labOrderComp, 'searchOrderId');
     spyOn(currentComp, 'orderReceieved');
