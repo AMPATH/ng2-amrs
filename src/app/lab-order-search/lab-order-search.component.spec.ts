@@ -8,12 +8,14 @@ import { LabOrderSearchComponent } from './lab-order-search.component';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 
 class FakeOrderResourceService {
-  searchOrdersById(orderId: string, cached: boolean = false,
-                   v: string = null): Observable<any> {
-    Observable.of({_body: {
-      'orderNumber': 'ORD-34557',
-      'accessionNumber': null
-    }});
+  public searchOrdersById(orderId: string, cached: boolean = false,
+                          v: string = null): Observable<any> {
+    return Observable.of({
+      _body: {
+        'orderNumber': 'ORD-34557',
+        'accessionNumber': null
+      }
+    });
   }
 }
 describe('Component: LabOrderSearchComponent', () => {

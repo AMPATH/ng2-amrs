@@ -77,10 +77,10 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         this.enrolledProgrames = data[0];
         const _programs: any[] = [];
         // data[1] = availablePrograms
-        _.each(data[1], (program) => {
+        _.each(data[1], (program: any) => {
           let _enrolledPrograms: any[];
           _enrolledPrograms = _.filter(this.enrolledProgrames,
-            (enrolledProgram) => {
+            (enrolledProgram: any) => {
               return enrolledProgram.programUuid === program.uuid &&
                 _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
             });
@@ -89,7 +89,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
             _enrolledProgram = _.last(_enrolledPrograms);
           }
           let route: any;
-          route = _.find(dashboardRoutesConfig.programs, (_route) => {
+          route = _.find(dashboardRoutesConfig.programs, (_route: any) => {
             return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
           });
 

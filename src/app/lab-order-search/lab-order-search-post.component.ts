@@ -307,7 +307,7 @@ public ngOnInit() {
    public processPatientIdentifiers() {
     const identifiers = [];
     return new Promise((resolve, reject) => {
-      _.each(this.order.patient.identifiers, (identifier) => {
+      _.each(this.order.patient.identifiers, (identifier: any) => {
         this.setDefaultIdentifier(identifier);
         if (_.indexOf(identifier.display, '=') > 0) {
           identifiers.push((identifier.display.split('=')[1]).trim());
