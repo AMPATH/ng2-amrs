@@ -6,6 +6,7 @@ import { EncounterResourceService } from '../../openmrs-api/encounter-resource.s
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
+
 @Component({
   selector: 'patient-encounter-observations',
   templateUrl: './patient-encounter-observations.component.html',
@@ -30,6 +31,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
   @Output() public isDone = new EventEmitter();
   @Output() public onDismiss = new EventEmitter();
   public cssClass: string = 'obs-dialog';
+
 
   constructor(private encounterResource: EncounterResourceService) {
   }
@@ -87,12 +89,12 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       return (_a < _b) ? -1 : (_a > _b) ? 1 : 0;
     });
 
-    _.each(obs, (v, i) => {
+    _.each(obs, (v: any, i) => {
       this.isHidden[i] = true;
       let _value: any = _.isObject(v.value) ? v.value.display : v.value;
       let _arrValue: Array<any> = [];
       if (_.isNil(_value) && !_.isNil(v.groupMembers)) {
-        _.each(v.groupMembers, (group, index) => {
+        _.each(v.groupMembers, (group: any, index) => {
           _arrValue.push({label: group.concept.display.toUpperCase(),
             value: (_.isObject(group.value) ? group.value.display : group.value)}); // check;
         });

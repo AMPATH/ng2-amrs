@@ -143,7 +143,7 @@ export class ClinicalNotesHelperService {
     let ccHpiAssessment = [];
     if (!_.isEmpty(ccHpiArray)) {
       if (_.isEmpty(assessmentArray)) {
-        _.each(ccHpiArray, (ccHpi) => {
+        _.each(ccHpiArray, (ccHpi: any) => {
           let o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
@@ -153,7 +153,7 @@ export class ClinicalNotesHelperService {
         });
       } else {
         // In case assessmentArray is not empty
-        _.each(ccHpiArray, (ccHpi) => {
+        _.each(ccHpiArray, (ccHpi: any) => {
           let o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
@@ -170,7 +170,7 @@ export class ClinicalNotesHelperService {
       }
     } else {
       // ccHpiArray is empty we redo the code the same way.
-      _.each(assessmentArray, (ass) => {
+      _.each(assessmentArray, (ass: any) => {
         let o = {
           encounterType: ass.encounterType,
           ccHpi: '',
