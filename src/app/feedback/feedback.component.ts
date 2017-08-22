@@ -11,14 +11,14 @@ import { Subscription } from 'rxjs';
     providers: [FeedBackService, UserService, UserDefaultPropertiesService]
 })
 export class FeedBackComponent implements OnInit, OnDestroy {
+    public success = false;
+    public error = false;
     private payload = {
         name: '',
         phone: '',
         message: '',
         location: ''
     };
-    private success = false;
-    private error = false;
     private busy: Subscription;
     private errorMessage: string = '';
     private hasError: boolean = false;

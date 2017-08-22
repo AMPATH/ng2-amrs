@@ -69,7 +69,7 @@ describe('PatientsRequiringVLBaseComponent:', () => {
     it('should generate patients requiring vl patient list using paramaters supplied',
         (done) => {
             let fakeReply: any = {
-                result: [{
+                result: [
                    {
                     'person_id': 800302,
                     'encounter_id': 7027747,
