@@ -90,7 +90,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         this._endDate = moment(this.endDate);
         if (data.locations) {
           let _location = '';
-          _.each(data.locations, (location) => {
+          _.each(data.locations, (location: any) => {
             _location = _.trimStart(_.trimEnd((_location + ', ' + location.name), ','), ',');
           });
           this._locations = _location;

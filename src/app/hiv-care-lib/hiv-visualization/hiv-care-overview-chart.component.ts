@@ -202,7 +202,7 @@ export class HivCareComparativeChartComponent implements OnInit {
   }
 
   public processChartData() {
-    _.each(this.data, (result) => {
+    _.each(this.data, (result: any) => {
       this.xAxisCategories.push(result.reporting_month);
       this.patientsInCare.push(result.currently_in_care_total);
       this.patientsOnArt.push(result.on_art_total);
