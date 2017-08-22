@@ -28,7 +28,7 @@ export class HivCareIndicatorDefComponent implements OnInit {
         }
       });
   }
-  private createIndicatorDefinitionsDictionary(indicatorDefinitions) {
+  public createIndicatorDefinitionsDictionary(indicatorDefinitions) {
     let arr = [];
     let dictionary = {};
     _.each(indicatorDefinitions, (indicatorDefinition) => {
