@@ -2,6 +2,32 @@
   "id": "patientDashboard",
   "name": "Patient Dashboard",
   "baseRoute": "patient-dashboard",
+  "commonRoutes": [
+    {
+      "url": "visit",
+      "label": "Visit",
+      "order": 1,
+      "icon": "icon-i-outpatient"
+    },
+    {
+      "url": "patient-encounters",
+      "label": "Encounters",
+      "order": 3,
+      "icon": "icon-i-immunizations"
+    },
+    {
+      "url": "patient-vitals",
+      "label": "Vitals",
+      "order": 4,
+      "icon": "fa fa-heartbeat"
+    },
+    {
+      "url": "lab-data-summary",
+      "label": "Lab Data Summary",
+      "order": 8,
+      "icon": "icon-i-laboratory"
+    }
+  ],
   "programs": [
     {
       "programName": "General Info",
@@ -53,50 +79,36 @@
       "baseRoute": "781d85b0-1359-11df-a1f1-0026b9348838",
       "alias": "hiv",
       "requiresPatientEnrollment": true,
+      "inheritsCommonRoutes": true,
       "routes": [
-        {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
         {
           "url": "forms",
           "label": "Forms",
+          "order": 2,
           "icon": "fa fa-file"
-        },
-        {
-          "url": "patient-encounters",
-          "label": "Encounters",
-          "icon": "icon-i-immunizations"
-        },
-        {
-          "url": "patient-vitals",
-          "label": "Vitals",
-          "icon": "fa fa-heartbeat"
         },
         {
           "url": "hiv-summary",
           "label": "HIV Summary",
+          "order": 5,
           "icon": "fa fa-medkit"
         },
         {
           "url": "patient-monthly-status-history",
+          "order": 6,
           "label": "Monthly Status History",
           "icon": "fa fa-medkit"
         },
         {
           "url": "clinical-notes",
+          "order": 7,
           "label": "Clinical Notes",
           "icon": "fa fa-book"
         },
         {
-          "url": "lab-data-summary",
-          "label": "Lab Data Summary",
-          "icon": "icon-i-laboratory"
-        },
-        {
           "url": "lab-orders",
           "label": "Lab Orders",
+          "order": 9,
           "icon": "icon-i-pathology"
         }
       ]
@@ -107,28 +119,8 @@
       "baseRoute": "725b5193-3452-43fc-aca3-6a80432d9bfa",
       "alias": "oncology",
       "requiresPatientEnrollment": true,
-      "routes": [
-        {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
-        {
-          "url": "patient-encounters",
-          "label": "Encounters",
-          "icon": "icon-i-immunizations"
-        },
-        {
-          "url": "patient-vitals",
-          "label": "Vitals",
-          "icon": "fa fa-heartbeat"
-        },
-        {
-          "url": "lab-data-summary",
-          "label": "Lab Data Summary",
-          "icon": "icon-i-laboratory"
-        }
-      ]
+      "inheritsCommonRoutes": true,
+      "routes": []
     },
     {
       "programName": "PMTCT",
@@ -136,28 +128,8 @@
       "baseRoute": "781d897a-1359-11df-a1f1-0026b9348838",
       "alias": "pmtct",
       "requiresPatientEnrollment": true,
-      "routes": [
-        {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
-        {
-          "url": "patient-encounters",
-          "label": "Encounters",
-          "icon": "icon-i-immunizations"
-        },
-        {
-          "url": "patient-vitals",
-          "label": "Vitals",
-          "icon": "fa fa-heartbeat"
-        },
-        {
-          "url": "lab-data-summary",
-          "label": "Lab Data Summary",
-          "icon": "icon-i-laboratory"
-        }
-      ]
+      "inheritsCommonRoutes": true,
+      "routes": []
     },
     {
       "programName": "OVC",
@@ -165,28 +137,8 @@
       "baseRoute": "781d8768-1359-11df-a1f1-0026b9348838",
       "alias": "ovc",
       "requiresPatientEnrollment": true,
-      "routes": [
-        {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
-        {
-          "url": "patient-encounters",
-          "label": "Encounters",
-          "icon": "icon-i-immunizations"
-        },
-        {
-          "url": "patient-vitals",
-          "label": "Vitals",
-          "icon": "fa fa-heartbeat"
-        },
-        {
-          "url": "lab-data-summary",
-          "label": "Lab Data Summary",
-          "icon": "icon-i-laboratory"
-        }
-      ]
+      "inheritsCommonRoutes": true,
+      "routes": []
     },
     {
       "programName": "BSG",
@@ -194,28 +146,8 @@
       "baseRoute": "781d8a88-1359-11df-a1f1-0026b9348838",
       "alias": "bsg",
       "requiresPatientEnrollment": true,
-      "routes": [
-        {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
-        {
-          "url": "patient-encounters",
-          "label": "Encounters",
-          "icon": "icon-i-immunizations"
-        },
-        {
-          "url": "patient-vitals",
-          "label": "Vitals",
-          "icon": "fa fa-heartbeat"
-        },
-        {
-          "url": "lab-data-summary",
-          "label": "Lab Data Summary",
-          "icon": "icon-i-laboratory"
-        }
-      ]
+      "inheritsCommonRoutes": true,
+      "routes": []
     },
     {
       "programName": "CDM",
@@ -223,28 +155,7 @@
       "baseRoute": "fc15ac01-5381-4854-bf5e-917c907aa77f",
       "alias": "cdm",
       "requiresPatientEnrollment": true,
-      "routes": [
-        {
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
-        {
-          "url": "patient-encounters",
-          "label": "Encounters",
-          "icon": "icon-i-immunizations"
-        },
-        {
-          "url": "patient-vitals",
-          "label": "Vitals",
-          "icon": "fa fa-heartbeat"
-        },
-        {
-          "url": "lab-data-summary",
-          "label": "Lab Data Summary",
-          "icon": "icon-i-laboratory"
-        }
-      ]
+      "routes": []
     }
   ]
 }
