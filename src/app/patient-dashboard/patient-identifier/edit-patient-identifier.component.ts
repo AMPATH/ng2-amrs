@@ -35,6 +35,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public isValidIdentifier: boolean = false;
   public identifiers: string = '';
   public selectedDevice: any;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public errorAlert: string;
+  public successAlert: string = '';
+  public errorTitle: string;
   private subscription: Subscription;
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
@@ -127,8 +132,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
               personIdentifierPayload)
               .subscribe(
                 (success) => {
+                  this.displaySuccessAlert('Identifiers saved successfully');
                   this.patientService.fetchPatientByUuid(this.patients.person.uuid);
-                  this.display = false;
+                  setTimeout(() => {
+                    this.display = false;
+                  }, 1000);
 
                 },
                 (error) => {
@@ -260,6 +268,14 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+  private displaySuccessAlert(message) {
+    this.showErrorAlert = false;
+    this.showSuccessAlert = true;
+    this.successAlert = message;
+    setTimeout(() => {
+      this.showSuccessAlert = false;
+    }, 1000);
   }
 
 }

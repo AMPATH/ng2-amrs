@@ -23,7 +23,13 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public errorAlert: string;
+  public errorTitle: string;
+  public successAlert: string = '';
   private isLoading: boolean = false;
+
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService) {
   }
@@ -85,6 +91,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
     this.personResourceService.saveUpdatePerson(person.uuid, personAttributePayload).subscribe(
       (success) => {
         if (success) {
+          this.displaySuccessAlert('Contact saved successfully');
           this.patientService.fetchPatientByUuid(this.patient.person.uuid);
         }
 
@@ -97,8 +104,18 @@ export class EditContactsComponent implements OnInit, OnDestroy {
         });
       }
     );
-    this.display = false;
+    setTimeout(() => {
+       this.display = false;
+    }, 1000);
 
+  }
+  private displaySuccessAlert(message) {
+    this.showErrorAlert = false;
+    this.showSuccessAlert = true;
+    this.successAlert = message;
+    setTimeout(() => {
+      this.showSuccessAlert = false;
+    }, 1000);
   }
   private getPersonAttributeByAttributeTypeUuid(attributes, attributeType) {
     // let attributes = this.patient.person.attributes;

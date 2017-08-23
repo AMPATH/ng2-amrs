@@ -6,7 +6,6 @@ import { EncounterResourceService } from '../../openmrs-api/encounter-resource.s
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-
 @Component({
   selector: 'patient-encounter-observations',
   templateUrl: './patient-encounter-observations.component.html',
@@ -31,7 +30,6 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
   @Output() public isDone = new EventEmitter();
   @Output() public onDismiss = new EventEmitter();
   public cssClass: string = 'obs-dialog';
-
 
   constructor(private encounterResource: EncounterResourceService) {
   }

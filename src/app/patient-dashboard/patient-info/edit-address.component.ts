@@ -21,6 +21,11 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public stateProvince: string;
   public preferredAddressUuid: string;
   public errors: any = [];
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public errorAlert: string;
+  public errorTitle: string;
+  public successAlert: string = '';
 
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService) { }
@@ -76,6 +81,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     this.personResourceService.saveUpdatePerson(person.uuid, personAddressPayload).subscribe(
       (success) => {
         if (success) {
+          this.displaySuccessAlert('Address saved successfully');
           this.patientService.fetchPatientByUuid(this.patients.person.uuid);
         }
         console.log('success', success);
@@ -88,7 +94,17 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         });
       }
     );
-    this.display = false;
+    setTimeout(() => {
+      this.display = false;
+    }, 1000);
+  }
+  private displaySuccessAlert(message) {
+    this.showErrorAlert = false;
+    this.showSuccessAlert = true;
+    this.successAlert = message;
+    setTimeout(() => {
+      this.showSuccessAlert = false;
+    }, 1000);
   }
 
 }
