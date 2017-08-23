@@ -83,8 +83,8 @@
            "date_format(t1.arv_start_date,'%d-%m-%Y') as cur_regimen_arv_start_date",
            "t1.cur_arv_line",
            "t1.cur_arv_meds",
-           "t1.arv_first_regimen"
-
+           "t1.arv_first_regimen",
+           "date_format(t1.encounter_datetime,'%d-%m-%Y') as last_clinical_encounter_datetime "
          ]
     }
 ]
