@@ -12,6 +12,12 @@ import { UserCohortResourceService } from '../../etl-api/user-cohort-resource.se
         .ui-select-choices-row a:hover{
             color: white !important;
         }
+        .ui-select-choices li a {
+          color: #337ab7 !important;
+        }
+        .ui-select-choices li .ui-select-choices-row.active a {
+          color: #fff !important;
+        }
     `],
     encapsulation: ViewEncapsulation.None
 })
