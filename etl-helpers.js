@@ -159,7 +159,8 @@ module.exports = function () {
                 6180: "EMTRICITABINE 200 MG TENOFOVIR 300 MG",
                 5811: "UNKNOWN ANTIRETROVIRAL DRUG",
                 797: "ZIDOVUDINE",
-                630: "ZIDOVUDINE AND LAMIVUDINE"
+                630: "ZIDOVUDINE AND LAMIVUDINE",
+                9759: "DOLUTEGRAVIR"
             };
             var arvCodes = str.split(" ## ");
             var arvNames = [];
