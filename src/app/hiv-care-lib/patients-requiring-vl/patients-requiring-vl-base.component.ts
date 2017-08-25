@@ -129,7 +129,8 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         if (patientUuid === undefined || patientUuid === null) {
             return;
         }
-        this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
+        this.router.navigate(['/patient-dashboard/patient/' +
+        patientUuid + '/general/landing-page']);
     }
 
      public onCurrentVLDateChanged(currentVLDate) {
