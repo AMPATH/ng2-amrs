@@ -1,6 +1,6 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { LocationResourceService } from './location-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';

@@ -13,7 +13,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
@@ -26,7 +26,7 @@ describe('AppSettingsComponent Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, Ng2Bs3ModalModule, UtilsModule,
+      imports: [FormsModule, ModalModule.forRoot(), UtilsModule,
         RouterTestingModule, CookieModule.forRoot()],
       declarations: [AppSettingsComponent],
       providers: [

@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, OnChanges, SimpleChanges,
-  ViewChild, Output, EventEmitter, ViewEncapsulation, OnDestroy
+  ViewChild, Output, EventEmitter, ViewEncapsulation, OnDestroy, AfterViewInit
 } from '@angular/core';
 import {
   PatientStatuChangeVisualizationService
@@ -23,7 +23,8 @@ import * as moment from 'moment/moment';
   encapsulation: ViewEncapsulation.None
 })
 
-export class PatientStatusChangeVisualizationComponent implements OnInit, OnChanges, OnDestroy {
+export class PatientStatusChangeVisualizationComponent implements OnInit, OnChanges, OnDestroy,
+  AfterViewInit {
 
   @Input()
   public renderType: string;
@@ -74,13 +75,16 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public ngOnInit() {
     this.loading = false;
     this.initRoutesParam();
-    this.renderView();
   }
 
   public ngOnDestroy(): void {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
+  }
+
+  public ngAfterViewInit() {
+    this.renderView();
   }
 
   public onAnalysisTypeChange($event) {
@@ -131,7 +135,6 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.agGrid.api.setColumnDefs(this.columns);
     }
     this.gridOptions.onGridReady = (event) => {
-      this.gridOptions.api.sizeColumnsToFit();
       this.gridOptions.enableColResize = true;
       this.gridOptions.enableSorting = true;
       this.gridOptions.enableFilter = true;
@@ -139,6 +142,12 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.gridOptions.getRowStyle = (params) => {
         return {'font-size': '14px', 'cursor': 'pointer'};
       };
+      setTimeout( () => {
+        if (this.gridOptions.api) {
+          this.gridOptions.api.sizeColumnsToFit();
+        }
+      }, 500, true);
+      // setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
     };
   }
 

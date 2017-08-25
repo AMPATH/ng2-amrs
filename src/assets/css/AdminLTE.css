@@ -23,6 +23,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
+  font-size: 16px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -934,6 +935,7 @@ a:focus {
 /*Dropdowns in general*/
 .dropdown-menu {
   box-shadow: none;
+  font-size: 16px;
   border-color: #eee;
 }
 .dropdown-menu > li > a {

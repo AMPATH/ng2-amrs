@@ -5,17 +5,17 @@
   "routeParameter": "",
   "nonProgramRoutes": [
     {
-      "url": "admin-dashboard/hiv/hiv-comparative-chart-analytics",
+      "url": "hiv/hiv-comparative-chart-analytics",
       "label": "Clinical Visualization",
       "icon": "fa fa-line-chart"
     },
     {
-      "url": "admin-dashboard/hiv/clinic-flow",
+      "url": "hiv/clinic-flow",
       "label": "Clinic Flow",
       "icon": "fa fa-clock-o"
     },
     {
-      "url": "admin-dashboard/hiv-summary-indicator-report",
+      "url": "hiv/hiv-summary-indicator-report",
       "label": "HIV Summary Indicators",
       "icon": "fa fa-file-pdf-o",
       "isSideBarOpen": false

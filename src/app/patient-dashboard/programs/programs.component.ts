@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { PatientService } from '../patient.service';
+import { PatientService } from '../services/patient.service';
 import { ProgramService } from './program.service';
 import { Patient } from '../../models/patient.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';

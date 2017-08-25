@@ -14,7 +14,7 @@ import { EtlApi } from '../../etl-api/etl-api.module';
 import {
     HivSummaryIndicatorComponent
 } from './hiv-summary-indicators/hiv-summary-indicator.component';
-import { DataListsModule } from '../../data-lists/data-lists.module';
+import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import {
     PatientsRequiringVLComponent
  } from './patients-requiring-vl/patients-requiring-vl.component';

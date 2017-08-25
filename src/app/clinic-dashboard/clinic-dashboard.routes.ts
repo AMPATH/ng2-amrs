@@ -10,14 +10,6 @@ import { DailyScheduleAppointmentsComponent }
 import { DailyScheduleNotReturnedComponent
 } from './daily-schedule/daily-schedule-not-returned.component';
 
-// import { ClinicFlowSummaryComponent } from '../clinic-flow/clinic-flow-summary.component';
-// import { ClinicFlowVisitsComponent } from '../clinic-flow/clinic-flow-visits.component';
-// import {
-//   ClinicFlowLocationStatsComponent
-// } from '../clinic-flow/clinic-flow-location-stats.component';
-// import {
-//   ClinicFlowProviderStatsComponent
-// } from '../clinic-flow/clinic-flow-provider-stats.component';
 import {
   PatientStatusChangeVisualizationContainerComponent
 } from
@@ -47,7 +39,8 @@ import { DailyScheduleClinicFlowComponent
 
 export const routes = [
   {
-    path: '', children: [
+    path: '',
+    children: [
       { path: '', component: ClinicDashboardComponent },
       {
         path: ':location_uuid', component: ClinicDashboardComponent,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 @Injectable()

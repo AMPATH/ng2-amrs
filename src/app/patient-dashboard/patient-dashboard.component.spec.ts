@@ -6,13 +6,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-import { PatientService } from './patient.service';
+import { PatientService } from './services/patient.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import {
@@ -21,11 +21,15 @@ import {
   from '../openmrs-api/program-enrollment-resource.service';
 import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
+import { PatientProgramService } from './programs/patient-programs.service';
+import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
+import { ProgramService } from './programs/program.service';
+import { ProgramResourceService } from '../openmrs-api/program-resource.service';
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+  public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  public params = Observable.of([{ 'id': 1 }]);
 }
 
 describe('Component: PatientDashboard', () => {
@@ -35,6 +39,8 @@ describe('Component: PatientDashboard', () => {
       providers: [
         PatientDashboardComponent,
         PatientService,
+        ProgramService,
+        ProgramResourceService,
         MockBackend,
         BaseRequestOptions,
         PatientResourceService,
@@ -42,6 +48,8 @@ describe('Component: PatientDashboard', () => {
         AppSettingsService,
         LocalStorageService,
         EncounterResourceService,
+        PatientProgramService,
+        RoutesProviderService,
         ProgramEnrollmentResourceService,
         LabsResourceService,
         {

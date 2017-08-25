@@ -6,7 +6,7 @@ import {
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
 
 describe('Service: Pratient Relationship ResourceService', () => {

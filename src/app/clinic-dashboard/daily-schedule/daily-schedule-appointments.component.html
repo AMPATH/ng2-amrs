@@ -6,8 +6,11 @@
     </div>
     <div *ngIf='!dataLoaded'>
         <div class="button">
-            <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreAppointments()">
-    <span class=""></span>Load More...</button>
+            <button class="btn btn-info" (click)="loadMoreAppointments()" style="margin-left:0;">
+              <i *ngIf="!isLoading" class="fa  fa-refresh fa-1x fa-fw"></i>
+              <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+            <span>Load More...</span>
+            </button>
         </div>
     </div>
 

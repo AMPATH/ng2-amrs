@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PatientService } from './patient.service';
+import { PatientService } from './services/patient.service';
 import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import * as Moment from 'moment';

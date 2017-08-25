@@ -5,7 +5,7 @@ import {
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService, CacheModule } from 'ionic-cache';
 import { Observable } from 'rxjs/Rx';

@@ -1,0 +1,14 @@
+<section class="sidebar">
+  <ul class="sidebar-menu {{currentDashboard}}">
+    <li routerLinkActive="active" *ngFor='let route of routes'>
+      <a routerLink="/{{route.url}}" (click)="route.onClick($event)">
+                <span class="icon-menu">
+            <span class="icon-menu-letter">{{route.menuStartLetter}}</span>
+                <span class="icon-menu-icon"><i class="{{route.icon}}"></i></span>
+                </span>
+        <span class="icon-menu-label">{{route.label}}</span>
+      </a>
+    </li>
+  </ul>
+  <patient-side-nav *ngIf="currentDashboard === 'patient-dashboard'"></patient-side-nav>
+</section>

@@ -1,6 +1,6 @@
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { Http } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';
 /**

@@ -88,6 +88,7 @@
     "@angularclass/hmr": "^1.2.2",
     "@angularclass/hmr-loader": "^3.0.2",
     "@ionic/storage": "^2.0.1",
+    "@types/jasmine": "^2.5.53",
     "angular-calendar": "0.9.1",
     "angular2-busy": "git+https://github.com/mario-siama/angular2-busy.git",
     "angular2-cookie": "^1.2.6",

@@ -2,7 +2,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { FeedBackService } from './feedback.service';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';

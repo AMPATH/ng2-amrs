@@ -5,14 +5,14 @@ import { AppSettingsComponent } from './app-settings.component';
 import { RouterModule } from '@angular/router';
 import { APP_SETTINGS_ROUTES } from './app-settings.routes';
 import { UtilsModule } from '../utils/utils.module';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppSettingsService } from './app-settings.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    Ng2Bs3ModalModule,
+    ModalModule,
     UtilsModule,
     RouterModule.forChild(APP_SETTINGS_ROUTES)
   ],

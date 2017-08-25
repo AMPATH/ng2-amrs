@@ -5,7 +5,7 @@ import {
     ResponseOptions, Response, URLSearchParams
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { ClinicalSummaryVisualizationResourceService }
     from './clinical-summary-visualization-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';

@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()

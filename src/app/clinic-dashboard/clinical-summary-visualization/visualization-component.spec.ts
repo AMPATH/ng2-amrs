@@ -7,7 +7,6 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date
 import { SelectModule } from 'ng2-openmrs-formentry/dist/components/select';
 import { BusyModule } from 'angular2-busy';
 
-
 import {
   DashboardFiltersComponent
 } from '../dashboard-filters/dashboard-filters.component';
@@ -27,7 +26,7 @@ import { ArtOverviewComponent } from './art-overview/art-overview.component';
 import { Observable } from 'rxjs';
 import { ChartModule } from 'angular2-highcharts';
 import { AgGridModule } from 'ag-grid-angular';
-import { DataListsModule } from '../../data-lists/data-lists.module';
+import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, URLSearchParams } from '@angular/http';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
@@ -68,7 +67,7 @@ export class FakeClinicalSummaryVisualizationService {
     return [{}];
   }
 
-  generateTableData(data): Array<any> {
+  public generateTableData(data): Array<any> {
     return [{}];
   }
 
@@ -80,7 +79,7 @@ export class FakeClinicalSummaryVisualizationService {
     return {};
   }
 
-  getMonthDateRange(year: number, month: number): any {
+  public getMonthDateRange(year: number, month: number): any {
 
     let startDate = moment([year, month]);
     let endDate = moment(startDate).endOf('month');
@@ -94,46 +93,46 @@ export class FakeClinicalSummaryVisualizationService {
 
 export class FakeClinicalSummaryVisualizationResourceService {
 
-  getUrl(reportName): string {
+  public getUrl(reportName): string {
     return 'url';
   }
 
-  getPatientListUrl(reportName): string {
+  public getPatientListUrl(reportName): string {
     return 'patient-list';
   }
 
-  getUrlRequestParams(params): URLSearchParams {
+  public getUrlRequestParams(params): URLSearchParams {
     let urlParams: URLSearchParams = new URLSearchParams();
     return urlParams;
   }
 
-  getHivComparativeOverviewReport(params) {
+  public getHivComparativeOverviewReport(params) {
 
     return Observable.of({});
 
   }
 
-  getReportOverviewPatientList(reportName: string, params: any) {
+  public getReportOverviewPatientList(reportName: string, params: any) {
     return Observable.of({});
   }
 
-  getHivComparativeOverviewPatientList(params) {
+  public getHivComparativeOverviewPatientList(params) {
     return Observable.of({});
   }
 
-  getArtOverviewReport(params) {
+  public getArtOverviewReport(params) {
     return Observable.of({});
   }
 
-  getArtOverviewReportPatientList(params) {
+  public getArtOverviewReportPatientList(params) {
     return Observable.of({});
   }
 
-  getPatientCareStatusReport(params) {
+  public getPatientCareStatusReport(params) {
     return Observable.of({});
   }
 
-  getPatientCareStatusReportList(params) {
+  public getPatientCareStatusReportList(params) {
     return Observable.of({});
   }
 

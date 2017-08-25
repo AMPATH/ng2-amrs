@@ -23,7 +23,6 @@ import { DailyScheduleComponent } from './daily-schedule/daily-schedule.componen
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
-import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
 import { DailyScheduleAppointmentsComponent }
   from './daily-schedule/daily-schedule-appointments.component';
@@ -48,7 +47,8 @@ import {
 } from 'primeng/primeng';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { AgGridModule } from 'ag-grid-angular/main';
-import { DataListsModule } from '../data-lists/data-lists.module';
+import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 
@@ -114,6 +114,8 @@ export function highchartsFactory() {
 }
 import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
 import { CacheModule } from 'ionic-cache';
+import { DataAnalyticsDashboardService
+} from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
 @NgModule({
   declarations: [
     /**
@@ -177,7 +179,6 @@ import { CacheModule } from 'ionic-cache';
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    MaterialModule,
     CacheModule
   ],
   providers: [
@@ -198,7 +199,9 @@ import { CacheModule } from 'ionic-cache';
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService
     },
-  ]
+    DataAnalyticsDashboardService
+  ],
+  entryComponents: [PatientStatusDatalistCellComponent]
 })
 export class ClinicDashboardModule {
   public static routes = routes;

@@ -34,6 +34,7 @@ export class ClinicDashboardComponent implements OnInit {
   }
 
   public getLocations() {
+    console.log('clicked');
     this.loaderStatus = true;
     this.locationResourceService.getLocations().subscribe((results: any) => {
       this.locations = results.map((location) => {

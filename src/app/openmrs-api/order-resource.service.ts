@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable, Subject, ReplaySubject } from 'rxjs/Rx';
 import * as _ from 'lodash';

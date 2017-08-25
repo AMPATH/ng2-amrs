@@ -15,10 +15,11 @@ import { ConfirmationService } from 'primeng/primeng';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientDashboardComponent } from './patient-dashboard.component';
-import { PatientService } from './patient.service';
-import { DraftedFormsService } from './formentry/drafted-forms.service';
+import { PatientService } from './services/patient.service';
+import { DraftedFormsService } from './common/formentry/drafted-forms.service';
 import { ToastrService } from 'ngx-toastr';
-import { PatientRoutesFactory } from './patient-side-nav/patient-side-nav-routes.factory';
+import { PatientRoutesFactory
+} from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 
 @Injectable()
 export class PatientDashboardGuard implements CanActivate,

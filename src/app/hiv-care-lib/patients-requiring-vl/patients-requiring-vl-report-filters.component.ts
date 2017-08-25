@@ -7,7 +7,7 @@ import * as Moment from 'moment';
 
 @Component({
     selector: 'patients-requiring-vl-report-filters',
-    templateUrl: 'patients-requiring-vl-report-filters.component.html',
+    templateUrl: './patients-requiring-vl-report-filters.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

@@ -6,11 +6,15 @@ import { MaterialModule, MdProgressSpinnerModule, MdProgressBarModule, MdTabsMod
 import { RouterModule } from '@angular/router';
 
 import { AgGridModule } from 'ag-grid-angular/main';
-import { InputTextModule, TabViewModule, AccordionModule } from 'primeng/primeng';
 import { SelectModule } from 'ng2-select';
 import { ChartModule } from 'angular2-highcharts';
-import { DataListsModule } from '../data-lists/data-lists.module';
-
+import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import {
+  AccordionModule, DataTableModule, SharedModule, TabViewModule,
+  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
+  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
+  DropdownModule, ButtonModule, CalendarModule
+} from 'primeng/primeng';
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
 import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-filters.component';
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
@@ -28,23 +32,17 @@ import {
   ReportFiltersComponent
 } from './report-filters/report-filters.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
-import {
-  PatientsRequiringVLBaseComponent
-} from './patients-requiring-vl/patients-requiring-vl-base.component';
-import {
-  PatientsRequiringVLReportFiltersComponent
-} from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
-import { ClinicFlowComponent } from '../hiv-care-lib/clinic-flow/clinic-flow.component';
+import { ClinicFlowComponent } from './clinic-flow/clinic-flow.component';
 import { ClinicFlowHourlyStatsVizComponent
-} from '../hiv-care-lib/clinic-flow/clinic-flow-hourly-stats-viz.component';
+} from './clinic-flow/clinic-flow-hourly-stats-viz.component';
 import { ClinicFlowSummaryComponent
-} from '../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
+} from './clinic-flow/clinic-flow-summary.component';
 import { ClinicFlowVisitsComponent
-} from '../hiv-care-lib/clinic-flow/clinic-flow-visits.component';
+} from './clinic-flow/clinic-flow-visits.component';
 import { ClinicFlowLocationStatsComponent
-} from '../hiv-care-lib/clinic-flow/clinic-flow-location-stats.component';
+} from './clinic-flow/clinic-flow-location-stats.component';
 import { ClinicFlowProviderStatsComponent
-} from '../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
+} from './clinic-flow/clinic-flow-provider-stats.component';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { HivCareComparativeOverviewBaseComponent
@@ -63,25 +61,41 @@ import {
 import {
   HivSummaryIndicatorsPatientListComponent
 } from './hiv-summary-indicators/patient-list.component';
+import { PatientsRequiringVLBaseComponent
+} from './patients-requiring-vl/patients-requiring-vl-base.component';
+import { PatientsRequiringVLReportFiltersComponent
+} from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
+
 @NgModule({
   imports: [
     RouterModule,
     AgGridModule.withComponents([]),
-    EtlApi,
     FormsModule,
     DataListsModule,
     NgamrsSharedModule,
     DateTimePickerModule,
     CommonModule,
+    AccordionModule,
+    DataTableModule,
+    SharedModule,
+    GrowlModule,
+    PanelModule,
+    ConfirmDialogModule,
+    DialogModule,
     TabViewModule,
     AccordionModule,
+    InputTextModule,
+    MessagesModule,
+    InputTextareaModule,
+    DropdownModule,
+    ButtonModule,
+    CalendarModule,
     SelectModule,
     ChartModule.forRoot(require('highcharts'),
       require('highcharts/highcharts-more'),
       require('highcharts/modules/exporting')
     ),
     ReportingUtilitiesModule,
-    InputTextModule,
     DataListsModule,
     NgxMyDatePickerModule,
     MdTabsModule,
@@ -140,8 +154,10 @@ import {
     VisualizationPatientListComponent,
     HivSummaryIndicatorsPatientListComponent,
   ],
-  providers: [MOHReportService, LocationResourceService, ClinicalSummaryVisualizationService,
-    ]
+  providers: [MOHReportService,
+    LocationResourceService,
+    ClinicalSummaryVisualizationService
+  ]
 })
 export class HivCareLibModule {
 }

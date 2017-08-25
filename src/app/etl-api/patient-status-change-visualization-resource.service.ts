@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -15,7 +15,6 @@ export class PatientStatusVisualizationResourceService {
         startDate: string, endDate: string, locationUuids: string,
         analysis: string
     }): Observable<any> {
-          console.log('====', options);
           let api: string = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking';
           let params: URLSearchParams = this.getUrlRequestParams(options);

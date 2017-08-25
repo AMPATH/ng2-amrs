@@ -3,7 +3,7 @@ import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { DatePipe } from '@angular/common';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()

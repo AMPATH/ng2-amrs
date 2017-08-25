@@ -47,7 +47,7 @@ export class Patient extends BaseModel {
   }
 
   @serializable()
-  public get enrolledPrograms(): ProgramEnrollment {
+  public get enrolledPrograms(): any[] {
     if (this._enrolledPrograms === null || this._enrolledPrograms === undefined) {
       this.initializeNavigationProperty('enrolledPrograms');
       this._enrolledPrograms = this._openmrsModel.enrolledPrograms;
@@ -55,8 +55,8 @@ export class Patient extends BaseModel {
     return this._enrolledPrograms;
   }
 
-  public set enrolledPrograms(v: ProgramEnrollment) {
-    this._openmrsModel.enrolledPrograms = v.openmrsModel;
+  public set enrolledPrograms(v: any[]) {
+    this._openmrsModel.enrolledPrograms = v;
     this._enrolledPrograms = v;
   }
 

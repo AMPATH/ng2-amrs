@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';

@@ -4,7 +4,7 @@ import {
   ResponseOptions, Response, RequestMethod
 } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import {
   PatientStatusVisualizationResourceService
 }
