@@ -82,6 +82,7 @@ export class AddPatientRelationshipComponent implements OnInit {
                     if (success) {
                         this.isLoading = false;
                         this.displaySuccessAlert('New relationship saved successfully');
+                        this.selectedRelationshipType = undefined;
                     }
                 }, (error) => {
                     this.isLoading = false;
