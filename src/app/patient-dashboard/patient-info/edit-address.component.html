@@ -1,4 +1,10 @@
 <p-dialog header="Edit Address" [(visible)]="display">
+  <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+    <strong>Done!</strong> {{successAlert}}
+  </div>
+  <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
+    <strong>{{errorTitle}}</strong> {{errorAlert}}
+  </div>
   <form name="personForm">
     <div class="form-group">
       <div>

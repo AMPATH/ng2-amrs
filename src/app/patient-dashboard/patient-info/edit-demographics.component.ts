@@ -39,6 +39,10 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public errors: any = [];
   public successAlert: any = '';
   public healthCenter: any;
+  public showSuccessAlert: boolean = false;
+  public showErrorAlert: boolean = false;
+  public errorAlert: string;
+  public errorTitle: string;
 
   constructor(private patientService: PatientService,
               private personResourceService: PersonResourceService,
@@ -180,8 +184,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).subscribe(
         (success) => {
           if (success) {
+            this.displaySuccessAlert('Demographics saved successfully');
             this.patientService.fetchPatientByUuid(this.patients.person.uuid);
-            this.display = false;
           }
           // this.successAlert = 'Successfully updated Patient Demographics';
         },
@@ -192,6 +196,17 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
           });
         }
       );
+      setTimeout(() => {
+        this.display = false;
+      }, 1000);
     }
+  }
+  private displaySuccessAlert(message) {
+    this.showErrorAlert = false;
+    this.showSuccessAlert = true;
+    this.successAlert = message;
+    setTimeout(() => {
+      this.showSuccessAlert = false;
+    }, 1000);
   }
 }

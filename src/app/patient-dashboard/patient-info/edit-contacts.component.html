@@ -1,5 +1,11 @@
 
 <p-dialog header="Edit contacts" [(visible)]="display">
+  <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+    <strong>Done!</strong> {{successAlert}}
+  </div>
+  <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
+    <strong>{{errorTitle}}</strong> {{errorAlert}}
+  </div>
 
     <label for="phoneNumber">Phone Number</label>
   <input type="text" id="patientPhoneNumber" class="form-control" [(ngModel)] = "patientPhoneNumber"
