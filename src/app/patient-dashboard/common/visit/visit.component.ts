@@ -1,289 +1,235 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import * as Moment from 'moment';
-import * as _ from 'lodash';
-import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
-import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { PatientService } from '../../services/patient.service';
-import {
-    UserDefaultPropertiesService
-} from '../../../user-default-properties/user-default-properties.service';
+import * as moment from 'moment';
+import *  as _ from 'lodash';
 import { Subscription, Observable } from 'rxjs';
+
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import {
+  UserDefaultPropertiesService
+} from '../../user-default-properties/user-default-properties.service';
+import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
+import { PatientService } from '../../services/patient.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
+import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
+
 @Component({
-    selector: 'visit',
-    templateUrl: './visit.component.html',
-    styleUrls: ['./visit.component.css']
+  selector: 'visit',
+  templateUrl: 'visit.component.html',
+  styleUrls: ['visit.component.css']
 })
 export class VisitComponent implements OnInit, OnDestroy {
-    public visitTypes = [];
-    public excludedForms = [];
-    public visit: any;
-    public visitWithNoEncounters: boolean = true;
-    public patient: any;
-    public subscription: Subscription;
-    public errors: any = [];
-    public loadingVisitTypes: boolean;
-    public confirmCancel: boolean;
-    public confirmEndVisit: boolean;
-    public showDialog: boolean = false;
-    public visitBusy: boolean;
-    public iseditLocation: boolean = false;
-    constructor(private visitResourceService: VisitResourceService,
-                private userDefaultPropertiesService: UserDefaultPropertiesService,
-                private patientService: PatientService, private router: Router,
-                private appFeatureAnalytics: AppFeatureAnalytics,
-                private route: ActivatedRoute,
-                private encounterResourceService: EncounterResourceService) { }
+  public allProgramVisitConfigs: any = {};
+  public currentProgramConfig: any;
 
-    public ngOnInit() {
-        this.getPatient();
-        // app feature analytics
-        this.appFeatureAnalytics
-            .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
-    }
+  public hasFetchedVisits = false;
+  public allPatientVisits = [];
 
-    public ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-    public locationChanges(edit) {
-        this.iseditLocation = edit;
-    }
-    public getVisit(patientUuid) {
-        this.visitBusy = true;
-        this.visitResourceService.getPatientVisits({ patientUuid: patientUuid })
-            .map(this.getLastVisit)
-            .subscribe((visit) => {
-                console.log(JSON.stringify(visit));
-                this.visitBusy = false;
-                if (visit) {
-                    this.visit = visit;
-                    if (visit.encounters && visit.encounters.length > 0) {
-                        this.visitWithNoEncounters = false;
-                    }
-                    this.excludedForms = visit.encounters.map((a) => {
-                            return a.encounterType.uuid;
-                });
-                } else {
-                    this.getVisitTypes();
-                }
-            }, (err) => {
-                this.visitBusy = false;
-                this.errors.push({
-                    id: 'visit',
-                    message: 'error fetching visit'
-                });
-            });
-    }
+  public programUuid: string = '';
+  public enrolledPrograms: Array<any> = [];
+  public currentProgramEnrollmentUuid: string = '';
+  public visit: any;
 
-    public getPatient() {
-        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
-            (patient) => {
-                if (patient !== null) {
-                    this.patient = patient;
-                    this.getVisit(patient.person.uuid);
-                }
-            }
-            , (err) => {
-                this.errors.push({
-                    id: 'patient',
-                    message: 'error fetching patient'
-                });
-            });
-    }
+  public patient: any;
+  public errors: Array<any> = [];
+  public isBusy: boolean = false;
 
-    public getVisitTypes() {
-        this.loadingVisitTypes = true;
-        this.visitResourceService.getVisitTypes({}).subscribe(
-            (visitTypes) => {
-              // Hotfix: This will patch version 2.3.0 in readiness for the  release of 2.4.x
-                this.visitTypes = [
-                  {
-                    uuid: '77b6e076-e866-46cf-9959-4a3703dba3fc',
-                    display: 'INITIAL HIV CLINIC VISIT'
-                  },
-                  {
-                    uuid: 'd4ac2aa5-2899-42fb-b08a-d40161815b48',
-                    display: 'RETURN HIV CLINIC VISIT'
-                  }
-                ];
-                this.loadingVisitTypes = false;
-            }
-            , (err) => {
-                this.loadingVisitTypes = false;
-                this.errors.push({
-                    id: 'visitTypes',
-                    message: 'error fetching visit types'
-                });
-            });
+  public get programVisitTypesUuid(): Array<string> {
+    if (this.currentProgramConfig &&
+      Array.isArray(this.currentProgramConfig.visitTypes)) {
+      return _.map(this.currentProgramConfig.visitTypes, (item) => {
+        return (item as any).uuid;
+      });
     }
+    return [];
+  }
 
-    public editLocation() {
-        this.iseditLocation = !this.iseditLocation;
+  public get hasDetermineVisitStatus(): boolean {
+    return this.hasFetchedVisits &&
+      this.currentProgramConfig;
+  }
 
+  private patientChangeSub: Subscription;
+
+  constructor(
+    private visitResourceService: VisitResourceService,
+    private patientService: PatientService,
+    private router: Router,
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private route: ActivatedRoute,
+    private patientProgramResourceService: PatientProgramResourceService) { }
+
+  public ngOnInit() {
+    this.isBusy = true;
+    this.subscribeToPatientChanges();
+    this.extractSelectedProgramFromUrl();
+    // app feature analytics
+    this.appFeatureAnalytics
+      .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
+  }
+
+  public ngOnDestroy(): void {
+    if (this.patientChangeSub) {
+      this.patientChangeSub.unsubscribe();
     }
-    public startVisit(visitTypeUuid) {
-        let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-        this.visitBusy = true;
-        let visitPayload = {
-            patient: this.patient.person.uuid,
-            location: location.uuid,
-            startDatetime: new Date(),
-            visitType: visitTypeUuid
-        };
-        this.visitResourceService.saveVisit(visitPayload).subscribe((response) => {
-            this.visitBusy = false;
-            this.visit = response;
-        }, (err) => {
-            this.visitBusy = false;
-            console.log(err);
-            this.errors.push({
-                id: 'startVisit',
-                message: 'error stating visit'
-            });
+  }
+
+  public fetchAllProgramVisitConfigs() {
+    this.allProgramVisitConfigs = {};
+    let sub = this.patientProgramResourceService.
+      getAllProgramVisitConfigs().subscribe(
+      (programConfigs) => {
+        this.allProgramVisitConfigs = programConfigs;
+        this.determineProgramConfigurationObject();
+      },
+      (error) => {
+        this.errors.push({
+          id: 'program configs',
+          message: 'There was an error fetching all the program configs'
         });
+        console.error('Error fetching program configs', error);
+      });
+  }
 
+  public getPatientVisits() {
+    this.allPatientVisits = [];
+    this.hasFetchedVisits = false;
+
+    if (!(this.patient && this.patient.uuid)) {
+      return;
     }
 
-    public endVisit() {
-        this.showDialog = true;
-        this.confirmEndVisit = true;
-    }
-
-    public cancelVisit() {
-        this.showDialog = true;
-        this.confirmCancel = true;
-    }
-
-    public onYes() {
-        if (this.confirmCancel) {
-            this.onCancelVisit();
-        } else if (this.confirmEndVisit) {
-            this.onEndVisit();
-        }
-    }
-
-    public onNo() {
-        this.showDialog = false;
-        this.confirmCancel = false;
-        this.confirmEndVisit = false;
-    }
-
-    public onEndVisit() {
-
-        this.visitBusy = true;
-        this.visitResourceService.updateVisit(this.visit.uuid,
-            { stopDatetime: new Date() }).subscribe(
-            (visit) => {
-                this.visitBusy = false;
-                this.showDialog = false;
-                this.confirmEndVisit = false;
-                this.visit = null;
-                this.getVisit(this.patient.person.uuid);
-            }
-            , (err) => {
-                this.visitBusy = false;
-                this.showDialog = false;
-                this.confirmEndVisit = false;
-                this.errors.push({
-                    id: 'endVisit',
-                    message: 'error ending visit'
-                });
-            });
-    }
-
-    public onCancelVisit() {
-        this.visitBusy = true;
-
-        if (!this.visit) {
-            return null;
-        }
-
-        this.visitResourceService.updateVisit(this.visit.uuid,
-            { voided: true }).subscribe(
-            (visit) => {
-                this.voidVisitEncounters(this.visit.uuid);
-                this.visit = null;
-                this.getVisit(this.patient.person.uuid);
-                this.visitBusy = false;
-                this.showDialog = false;
-                this.confirmCancel = false;
-            }
-            , (err) => {
-                this.visitBusy = false;
-                this.showDialog = false;
-                this.confirmCancel = false;
-                this.errors.push({
-                    id: 'cancelVisit',
-                    message: 'error cancelling visit'
-                });
-            });
-    }
-    public formSelected(form) {
-        if (form) {
-            this.router.navigate(['../formentry', form.uuid],
-                {
-                    relativeTo: this.route,
-                    queryParams: { visitUuid: this.visit.uuid }
-                });
-        }
-    }
-    public encounterSelected(encounter) {
-        if (encounter) {
-            this.router.navigate(['../formentry', encounter.form.uuid], {
-                relativeTo: this.route,
-                queryParams: { encounter: encounter.uuid }
-            });
-        }
-    }
-
-    private getLastVisit(visits: any[]) {
-        let filtered = visits.filter((visit) => {
-            let today = Moment().format('l');
-            let visitDate = Moment(visit.startDatetime).format('l');
-            return today === visitDate;
+    this.visitResourceService
+      .getPatientVisits({ patientUuid: this.patient.uuid })
+      .subscribe((visits) => {
+        this.allPatientVisits = visits;
+        this.hasFetchedVisits = true;
+        this.determineTodayVisitForProgram();
+      }, (error) => {
+        this.errors.push({
+          id: 'patient visits',
+          message: 'There was an error fetching all the patient visits'
         });
-        return filtered[0];
-    }
+        console.error('An error occured while fetching visits', error);
+      });
+  }
 
-    private voidVisitEncounters(visitUuid) {
-        if (!visitUuid) {
-            return null;
+  public subscribeToPatientChanges() {
+    this.patientChangeSub = this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        if (patient !== null) {
+          this.patient = patient;
+          console.log('this.patient', this.patient);
+          if (Array.isArray(patient.enrolledPrograms)) {
+            this.enrolledPrograms = patient.enrolledPrograms;
+            this.setEnrollmentUuid();
+          }
+          this.getPatientVisits();
         }
-        this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
-            (visitEncounters) => {
-                if (visitEncounters && visitEncounters.length > 0) {
-                    let observableBatch: Array<Observable<any>> = [];
-                    for (let encounter of visitEncounters) {
-                        observableBatch.push(
-                            this.encounterResourceService.voidEncounter(encounter.uuid)
-                        );
-                    }
+      }
+      , (err) => {
+        this.errors.push({
+          id: 'patient',
+          message: 'error fetching patient'
+        });
+        console.error('Error on published patient', err);
+      });
+  }
 
-                    // forkjoin all requests
-                    this.subscription = Observable.forkJoin(
-                        observableBatch
-                    ).subscribe(
-                        (data) => {
-                            console.log('Voided Encounters');
-                        },
-                        (err) => {
-                            this.errors.push({
-                                id: 'cancelVisit',
-                                message: 'error voiding visit encounters'
-                            });
-                        }
-                        );
-                }
-            }
-            , (err) => {
-                this.errors.push({
-                    id: 'cancelVisit',
-                    message: 'error voiding visit encounters'
-                });
-            });
+  public setEnrollmentUuid() {
+    let enrolledPrograms: Array<any> = this.enrolledPrograms;
+    enrolledPrograms.forEach((program) => {
+      if (program.programUuid === this.programUuid) {
+        this.currentProgramEnrollmentUuid = program.enrolledProgram.uuid;
+      }
+    });
+  }
+
+  public determineTodayVisitForProgram() {
+    if (!(this.currentProgramConfig && this.hasFetchedVisits)) {
+      this.visit = undefined;
+      return;
     }
+
+    // Filter out visits not in the program
+    let programVisits = this.filterOutNonProgramVisits();
+    let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
+
+    if (orderedVisits.length > 0 &&
+      moment(orderedVisits[0].startDatetime).isSame(moment(), 'days')) {
+      this.visit = orderedVisits[0];
+    } else {
+      this.visit = undefined;
+    }
+
+    this.isBusy = false;
+  }
+
+  public filterOutNonProgramVisits(): Array<any> {
+    return this.filterVisitsByVisitTypes(this.allPatientVisits, this.programVisitTypesUuid);
+  }
+
+  public filterVisitsByVisitTypes(visits: Array<any>, visitTypes: Array<string>): Array<any> {
+    let returnVal = [];
+    returnVal = _.filter(visits, (visit) => {
+      let inType = _.find(visitTypes, (type) => {
+        return type === visit.visitType.uuid;
+      });
+      if (inType) {
+        return true;
+      }
+      return false;
+    });
+    return returnVal;
+  }
+
+  public sortVisitsByVisitStartDateTime(visits: Array<any>) {
+    // sorts this in descending order
+    return visits.sort((a, b) => {
+      return moment(b.startDatetime).diff(moment(a.startDatetime), 'seconds');
+    });
+  }
+
+  public determineProgramConfigurationObject() {
+    this.currentProgramConfig = this.allProgramVisitConfigs[this.programUuid];
+    this.determineTodayVisitForProgram();
+  }
+
+  public extractSelectedProgramFromUrl() {
+    this.route.params.subscribe((params) => {
+      if (params) {
+        this.programUuid = params['program'];
+        if (this.programUuid) {
+          this.fetchAllProgramVisitConfigs();
+          this.setEnrollmentUuid();
+        }
+      }
+    });
+  }
+
+  public onFormSelected(form) {
+    if (form) {
+      this.router.navigate(['../formentry', form.uuid],
+        {
+          relativeTo: this.route,
+          queryParams: { visitUuid: this.visit.uuid }
+        });
+    }
+  }
+
+  public onEncounterSelected(encounter) {
+    if (encounter) {
+      this.router.navigate(['../formentry', encounter.form.uuid], {
+        relativeTo: this.route,
+        queryParams: { encounter: encounter.uuid }
+      });
+    }
+  }
+
+  public onVisitStartedOrChanged(visit) {
+    this.isBusy = true;
+    this.getPatientVisits();
+  }
+
 }

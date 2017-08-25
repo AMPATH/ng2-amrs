@@ -121,6 +121,8 @@ import { PatientProgramService } from '../programs/patient-programs.service';
 import { BusyComponent } from '../../shared/busy-loader/busy.component';
 import { FormentryReferralsHandlerService } from './formentry/formentry-referrals-handler.service';
 import { PatientReferralsModule } from './patient-referrals/patient-referrals.module';
+import { VisitDetailsComponent } from './visit/visit-details/visit-details.component';
+import { VisitStarterComponent } from './visit/visit-starter/visit-starter.component';
 
 @NgModule({
   imports: [
@@ -204,6 +206,8 @@ import { PatientReferralsModule } from './patient-referrals/patient-referrals.mo
     SecurePipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
+    VisitDetailsComponent,
+    VisitStarterComponent,
     VisitEncountersPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
@@ -248,6 +252,8 @@ import { PatientReferralsModule } from './patient-referrals/patient-referrals.mo
     SecurePipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
+    VisitDetailsComponent,
+    VisitStarterComponent,
     VisitEncountersPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,

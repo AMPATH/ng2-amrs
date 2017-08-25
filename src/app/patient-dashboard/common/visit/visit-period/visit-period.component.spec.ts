@@ -58,7 +58,6 @@ class LocationServiceMock {
       stateProvince: 'county 2'
     }]);
   }
-
 }
 describe('Component: Visit Period Component Unit Tests', () => {
   let route: MockActivatedRoute;
@@ -125,7 +124,6 @@ describe('Component: Visit Period Component Unit Tests', () => {
       ],
       imports: [FormsModule, SelectModule, BusyModule]
     });
-
   });
 
   beforeEach(async(() => {

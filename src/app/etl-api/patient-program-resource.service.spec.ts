@@ -42,7 +42,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
         expect(patientProgramResourceService).toBeTruthy();
       }));
 
-  it('should make API call to program enrollment visit types for a certain patient', (done) => {
+  it('should make API call to get program enrollment visit types for a certain patient', (done) => {
     backend = TestBed.get(MockBackend);
     let patientProgramResourceService: PatientProgramResourceService =
       TestBed.get(PatientProgramResourceService);
@@ -72,29 +72,33 @@ describe('Patient Program Resource Service Unit Tests', () => {
 
   });
 
-  it('should make API call with the correct url parameters', (done) => {
+  it('should make API call to get all program visit configs', (done) => {
     backend = TestBed.get(MockBackend);
     let patientProgramResourceService: PatientProgramResourceService =
       TestBed.get(PatientProgramResourceService);
+    let appsetting =
+      TestBed.get(AppSettingsService);
+
     backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
-        .toContain(
-        'etl/patient-program/79803198-2d23-49cd-a7b3-4f672bd8f659'
+        .toEqual(
+        appsetting.getEtlRestbaseurl().trim() +
+        'program-visit-configs'
         );
       let options = new ResponseOptions({
         body: JSON.stringify({})
       });
       connection.mockRespond(new Response(options));
     });
-    patientProgramResourceService.getPatientPrograms(patientUuid)
+    patientProgramResourceService.getAllProgramVisitConfigs()
       .subscribe((response) => {
         done();
       });
 
   });
-  it('should return an error the api throws an error',
+  it('should return an error when fetching all program configs fail',
     async(inject([PatientProgramResourceService, MockBackend],
       (patientProgramResourceService: PatientProgramResourceService,
         mockBackend: MockBackend) => {
@@ -102,55 +106,11 @@ describe('Patient Program Resource Service Unit Tests', () => {
         mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        patientProgramResourceService.getPatientPrograms(patientUuid)
+        patientProgramResourceService.getAllProgramVisitConfigs()
           .subscribe((data) => {
           },
           (error: Error) => {
             expect(error).toBeTruthy();
           });
       })));
-
-  it('should make API call with the correct url parameters while trying to fetch' +
-    'program by patient uuid and prog uuid ', (done) => {
-      backend = TestBed.get(MockBackend);
-      let patientProgramResourceService: PatientProgramResourceService =
-        TestBed.get(PatientProgramResourceService);
-      backend.connections.subscribe((connection: MockConnection) => {
-
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url)
-          .toContain(
-          'etl/patient-program/79803198-2d23-49cd-a7b3-4f672bd8f659/program/program-uuid'
-          );
-        let options = new ResponseOptions({
-          body: JSON.stringify({})
-        });
-        connection.mockRespond(new Response(options));
-      });
-      patientProgramResourceService
-        .getPatientProgramByProgUuid(patientUuid, 'program-uuid')
-        .subscribe((response) => {
-          done();
-        });
-
-    });
-  it('should return an error the api throws an error while trying to fetch' +
-    ' program by patient uuid and prog uuid  ',
-    async(inject([PatientProgramResourceService, MockBackend],
-      (patientProgramResourceService: PatientProgramResourceService,
-        mockBackend: MockBackend) => {
-
-        mockBackend.connections.subscribe(c =>
-          c.mockError(new Error('An error occured while processing the request')));
-
-        patientProgramResourceService
-          .getPatientProgramByProgUuid(patientUuid, 'program-uuid')
-          .subscribe((data) => {
-          },
-          (error: Error) => {
-            expect(error).toBeTruthy();
-          });
-      })));
-
-
 });

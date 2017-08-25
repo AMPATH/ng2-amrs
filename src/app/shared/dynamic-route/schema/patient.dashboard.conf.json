@@ -2,16 +2,14 @@
   "id": "patientDashboard",
   "name": "Patient Dashboard",
   "baseRoute": "patient-dashboard",
-  "programs": [
-    {
+  "programs": [{
       "programName": "General Info",
       "programUuid": "general-uuid",
       "baseRoute": "general",
       "alias": "general",
       "published": true,
       "requiresPatientEnrollment": false,
-      "routes": [
-        {
+      "routes": [{
           "url": "patient-info",
           "label": "Patient Info",
           "icon": "fa fa-clipboard"
@@ -55,16 +53,10 @@
       "alias": "hiv",
       "published": true,
       "requiresPatientEnrollment": true,
-      "routes": [
-        {
+      "routes": [{
           "url": "visit",
           "label": "Visit",
           "icon": "icon-i-outpatient"
-        },
-        {
-          "url": "forms",
-          "label": "Forms",
-          "icon": "fa fa-file"
         },
         {
           "url": "patient-encounters",
@@ -110,7 +102,21 @@
       "alias": "oncology",
       "published": false,
       "requiresPatientEnrollment": true,
-      "routes": [
+      "routes": [{
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
+        {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
+          "url": "patient-vitals",
+          "label": "Vitals",
+          "icon": "fa fa-heartbeat"
+        },
         {
           "url": "visit",
           "label": "Visit",

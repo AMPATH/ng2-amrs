@@ -84,10 +84,10 @@ describe('Component: PatientDashboard', () => {
   });
 });
 class ToastrConfigMock {
-  timeOut: number = 5000;
-  closeButton: boolean = false;
-  positionClass: string = 'toast-top-right';
-  extendedTimeOut: number = 1000;
+  public timeOut: number = 5000;
+  public closeButton: boolean = false;
+  public positionClass: string = 'toast-top-right';
+  public extendedTimeOut: number = 1000;
   constructor() {
   }
 

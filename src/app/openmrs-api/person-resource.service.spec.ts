@@ -1,6 +1,4 @@
 
-
-
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -13,7 +11,6 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PersonResourceService } from './person-resource.service';
-
 
 // Load the implementations that should be tested
 

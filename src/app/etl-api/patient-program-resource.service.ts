@@ -4,24 +4,15 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Program } from '../models/program.model';
 
-
 @Injectable()
 export class PatientProgramResourceService {
 
   constructor(private http: Http, private appSettingsService: AppSettingsService) {
   }
 
-  getPatientPrograms(patientUuid: string): Observable<any> {
+  public getAllProgramVisitConfigs(ttl?: number): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient-program/' + patientUuid;
-    return this.http.get(url).map((response: Response) => {
-      return response.json();
-    });
-  }
-
-  getPatientProgramByProgUuid(patientUuid: string, programUuid: string): Observable<any> {
-    let url = this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient-program/' + patientUuid + '/program/' + programUuid;
+      + 'program-visit-configs';
     return this.http.get(url).map((response: Response) => {
       return response.json();
     });
@@ -38,7 +29,8 @@ export class PatientProgramResourceService {
    * that can be started in that location
    * @memberof PatientProgramResourceService
    */
-  getPatientProgramVisitTypes(patientUuid: string, programUuid: string,
+  public getPatientProgramVisitTypes(
+    patientUuid: string, programUuid: string,
     enrollmentUuid, locationUuid: string): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim()
       + 'patient/' + patientUuid + '/program/' + programUuid +

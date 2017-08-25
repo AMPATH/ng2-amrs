@@ -1,98 +1,17 @@
-<div>
-  <div [ngBusy]="{busy:[loadingVisitTypes, visitBusy],message:'Please wait. Loading..'}"></div>
-  <p-dialog header="Warning!" [(visible)]="showDialog" modal="true" width="400" [closable]="false" responsive="true">
-    <div class="text-bold">
-      <h3 *ngIf="confirmCancel"><span class="fa-lg">
-							<i class="fa fa-exclamation-triangle"></i>
-					</span> Canceling a visit deletes all encounters associated with it.</h3>
+<div [ngBusy]="{busy:[isBusy],message:'Loading...'}">
 
-      <h3 *ngIf="confirmCancel"><span class="fa-lg">
-					</span>Please confirm you wish to cancel this visit:</h3>
-      <h3 *ngIf="confirmEndVisit"><span class="fa-lg">
-							<i class="fa fa-exclamation-triangle"></i>
-					</span>Please confirm you wish to end this visit:</h3>
-    </div>
-
-    <br>
-    <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button (click)="onYes()" type="button" id="onYes" class="btn btn-primary">Yes</button>
-        <button (click)="onNo()" type="button" id="onNo" class="btn btn-danger">No</button>
-      </div>
-    </footer>
-
-  </p-dialog>
+  <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
   </div>
-  <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
-  <div class="list-group-item" *ngIf="!visit">
-    <div class="visit-label">
-      <h3>Select visit type</h3>
-    </div>
-
-    <table id="visitTypes" class='table'>
-      <tr *ngFor="let visitType of visitTypes">
-        <td>
-          {{visitType.display}}
-        </td>
-        <td>
-          {{visitType.description}}
-        </td>
-        <td>
-          <a id="startButton" class="" (click)="startVisit(visitType.uuid)">
-              <i class="glyphicon glyphicon-circle-arrow-right"></i> Start Visit
-            </a>
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <div *ngIf="visit">
-    <div class="visit-panel-heading">
-      <div class="locationdetails">
-        <visit-period [visitUuid]="visit.uuid" (editedLocation)="locationChanges($event)" [iseditLocation]="iseditLocation"></visit-period>
-      </div>
-
-
-    </div>
-    <div class="button-nav">
-      <div class="add-borders ">
-        <div class="btn-group blocks">
-          <a *ngIf="!iseditLocation" (click)="editLocation()">
-            <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
-
-          <a *ngIf="iseditLocation" class="cancel-edit" (click)="editLocation()">
-            <i class="glyphicon glyphicon-remove"></i> Cancel Edit
-          </a>
-
-          <a id="endVisitButton" (click)="endVisit()">
-            <i class="glyphicon glyphicon-check"></i> End Visit</a>
-
-          <a id="cancelVisitButton" (click)="cancelVisit()">
-            <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a>
-
-        </div>
-
-
-      </div>
-
-    </div>
-    <div class="list-group-item">
-      <h4 class="component-title">Visit Encounters</h4>
-      <div class="visit-panel-body">
-        <encounter-list *ngIf="!visitWithNoEncounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
-        <div *ngIf="visitWithNoEncounters" class="alert">
-          Patient yet to see provider
-        </div>
-      </div>
-    </div>
-    <span style="padding:10px;"></span>
-
-    <div class="list-group-item">
-      <div>
-        <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
-      </div>
+  <div *ngIf="!visit && patient">
+    <h4><span class="fa  fa-info"></span> Select location, then select visit type to start:</h4>
+    <div class="box-body forms-list">
+      <app-visit-starter [patientUuid]="patient.uuid" [programEnrollmentUuid]="currentProgramEnrollmentUuid" [programUuid]="programUuid"
+        (visitStarted)="onVisitStartedOrChanged($event)"></app-visit-starter>
     </div>
   </div>
+
+  <app-visit-details *ngIf="visit && patient" [visit]="visit" (encounterSelected)="onEncounterSelected($event)" [programVisitTypesConfig]="currentProgramConfig"
+    (formSelected)="onFormSelected($event)" (visitCancelled)="onVisitStartedOrChanged($event)"></app-visit-details>
 </div>
