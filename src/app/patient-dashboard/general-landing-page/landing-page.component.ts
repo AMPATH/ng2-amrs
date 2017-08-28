@@ -70,7 +70,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
       payload = this.programService.createEnrollmentPayload(
         row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation, row.programUuid);
+        this.isEditLocation, row.enrolledProgram.uuid);
       if (payload) {
         setTimeout(() => {
           this._updatePatientProgramEnrollment(payload);

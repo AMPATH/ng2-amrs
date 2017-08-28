@@ -27,9 +27,12 @@ export class UsefulLinksComponent implements OnInit {
     {
       url: 'https://wiki.ampath.or.ke/display/POC/POC+Release+Notes',
       title: 'POC Release Notes '
+    },
+    {
+      url: 'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
+      title: 'MFL Wiki'
     }
   ];
-
   constructor(private linksService: UsefulLinksService) {
     this.nativeWindow = linksService.getNativeWindow();
   }

@@ -60,5 +60,7 @@ button.btn-primary {
 .glyphicon {
   margin-right:7px;
 }
-
+::-webkit-input-placeholder{
+  font-size:20px;
+}
 

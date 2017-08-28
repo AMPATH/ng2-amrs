@@ -10,6 +10,7 @@
 				<label class="control-label">Patient Name: </label><span *ngIf="patientToBindRelationship">{{patientToBindRelationship.person.display}}</span><br>
 				<label class="control-label" for="relationship">Relationship Type</label>
 				<select [(ngModel)]="selectedRelationshipType" [ngModelOptions]="{standalone: true}" class="form-control">
+					<option value="null" ></option>
                     <option  *ngFor="let patientRelationshipType of patientRelationshipTypes" [ngValue]="patientRelationshipType">{{patientRelationshipType.display}}</option>
                 </select>
 				<button [disabled]="isLoading" class="btn btn-primary btn-md" style="margin-top:10px" (click)="saveRelationship()">

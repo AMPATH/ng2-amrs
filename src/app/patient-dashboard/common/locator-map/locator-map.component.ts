@@ -61,6 +61,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.imageSaved = true;
       this.patientService.fetchPatientByUuid(this.patient.person.uuid);
+      this.displaySuccessAlert();
     }, (error) => {
       this.imageUploadFailed = true;
       this.loading = false;
@@ -103,4 +104,12 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
       this.subscriptions[sub].unsubscribe();
     }
   }
+
+  private displaySuccessAlert() {
+    this.imageSaved = true;
+    setTimeout(() => {
+      this.imageSaved = false;
+    }, 3000);
+  }
+
 }

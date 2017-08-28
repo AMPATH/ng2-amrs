@@ -1,3 +1,4 @@
+<h4 class="component-title" style="color: green;"><span class="fa fa-clock-o"></span> Clinic Flow</h4>
 <div class="filters">
   <location-filter (onLocationChange)="renderClinicFlow($event)"
                    [multiple]="true"></location-filter>
@@ -29,8 +30,7 @@
 </div>
 <div class="col-md-12">
   <hr/>
-  <p class="text-danger" *ngIf="!locations || (locations && locations.length == 0)">No Location was
-    specified. Please select one</p>
+  <p class="text-info" *ngIf="!locations || (locations && locations.length == 0)">Please select a location</p>
   <clinic-flow *ngIf="locations && locations.length > 0 " [date]="selectedDate"
                [locations]="locations"></clinic-flow>
 </div>
