@@ -60,6 +60,21 @@
     </form>
   </div>
 
+   <div>
+  <div>
+    <form>
+      <div class="form-group">
+          <label class="control-label">FormEntry Debug Mode </label>
+          <div class="checkbox">
+              <label>
+                <input type="checkbox" id="debugMode" [(ngModel)]="hideFields"  name="hideFields" (change)="toggleDebugMode()">Display all fields
+              </label>
+          </div>
+      </div>
+    </form>
+  </div>
+   </div>
+
   <div class="action-buttons pull-right">
     <button class="btn btn-primary btn-large" type="submit" (click)="onDoneClick()">Done</button>
   </div>
