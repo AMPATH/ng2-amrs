@@ -162,6 +162,26 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         this.clinicFlowData = this.renumberRowsOnFilter(this.filteredData);
     }
 
+    private getTriageLocation(obj) {
+            let result = obj.encounters.filter((encounter) => {
+                return encounter.encounter_type_name === 'HIVTRIAGE';
+            });
+            return result.length > 0 ? result[0].location : null;
+    }
+
+    private getClinicianLocation(obj) {
+        let encounterType = this.getClinicianEncounterTypeLocation(obj);
+        let encounters = obj.encounters;
+        let result = encounters.filter((encounter) => {
+                    return encounter.encounter_type_name === encounterType;
+                });
+        return result.length > 0 ? result[0].location : null;
+    }
+
+    private getClinicianEncounterTypeLocation(obj) {
+        return obj.seenByClinician.encounters;
+    }
+
     private initParams() {
         this.loadingClinicFlow = false;
         this.dataLoaded = false;
@@ -182,13 +202,19 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
                         for (let k in datas) {
                             if (datas.hasOwnProperty(k)) {
                                 encounter = datas.encounter_type_name;
-
                             }
                         }
                     }
 
                     let seenByClinician = { time: data.seen_by_clinician, encounters: encounter };
                     data['seenByClinician'] = seenByClinician;
+                    if (data.seen_by_clinician) {
+                                    let triageLoc = this.getTriageLocation(data);
+                                    let clinicianLoc = this.getClinicianLocation(data);
+                                    if (triageLoc && clinicianLoc !== triageLoc) {
+                                      data['location'] = '-';
+                                    }
+                    }
                 }
             }
             encounters.push(data);

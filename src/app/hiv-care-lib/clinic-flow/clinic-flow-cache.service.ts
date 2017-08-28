@@ -173,8 +173,16 @@ export class ClinicFlowCacheService {
                 headerName: 'Location',
                 width: 100,
                 filter: 'text',
-                field: 'location'
-            }
+                field: 'location',
+                cellRenderer: (params) => {
+
+             if (params.value === '-') {
+                 return '<i style="color:red" class="fa fa-minus-square-o" aria-hidden="true"></i>';
+                    } else {
+                        return params.value;
+                    }
+                }
+             }
         ];
     }
     public getLocationStatsColumn() {
