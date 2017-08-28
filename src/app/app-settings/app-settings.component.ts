@@ -4,6 +4,7 @@ import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,13 +17,17 @@ export class AppSettingsComponent implements OnInit {
   public urlModal: ModalDirective;
   public newUrl: string;
   public urlPlaceholder: string;
-  public  urlType: string;
+  public urlType: string;
   public serverTemplates: Array<object> = this.getServerTemplates();
+  public cookieKey: string = 'formDebug';
+  public cookieVal: string;
+  public hideFields: boolean;
 
   constructor(private router: Router,
               private appSettingsService: AppSettingsService,
               private localStorageService: LocalStorageService,
-              private authenticationService: AuthenticationService) { }
+              private authenticationService: AuthenticationService,
+              private _cookieService: CookieService) { }
 
   public getServerTemplates(): Array<object> {
     return this.appSettingsService.getServerTemplates();
@@ -34,6 +39,8 @@ export class AppSettingsComponent implements OnInit {
     if (!window.location.host.match(new RegExp('localhost'))) {
       this.changeServerSettings(templates[0]);
     }
+
+    this.checkDebugMode();
 
   }
 
@@ -98,5 +105,66 @@ export class AppSettingsComponent implements OnInit {
     // return back to login page
     this.authenticationService.clearSessionCache();
     this.router.navigate(['/login']);
+  }
+
+  // check if debug cookie has been set
+
+  public checkDebugMode() {
+
+        let isCookieSet = this.getDebugMode();
+
+        if (isCookieSet === 'undefined') {
+               this.hideFields = false;
+           } else {
+              // get the value of the debug mode
+              if (isCookieSet === 'true') {
+                      this.hideFields = true;
+              } else {
+                      this.hideFields = false;
+              }
+        }
+
+  }
+
+  // get the debug cookie value
+
+  public getDebugMode() {
+
+      let debugModeCookie = this._cookieService.get(this.cookieKey);
+
+      if (typeof debugModeCookie === 'undefined') {
+        return debugModeCookie;
+      } else {
+        return debugModeCookie;
+      }
+
+  }
+
+  public toggleDebugMode() {
+      // check if hidefields cookie has been set
+
+      let isCookieSet = this.getDebugMode();
+
+      if (isCookieSet === 'true') {
+           // remove the initial cookie set
+           this._cookieService.remove(this.cookieKey);
+       } else {
+
+       }
+
+      this.cookieVal = '' + this.hideFields;
+
+      this._cookieService.put(this.cookieKey, this.cookieVal);
+  }
+   public removeDebugCookie() {
+
+      let isCookieSet = this.getDebugMode();
+
+      if (isCookieSet === 'true') {
+           // remove the cookie set
+           this._cookieService.remove(this.cookieKey);
+       } else {
+
+       }
   }
 }

@@ -1,4 +1,3 @@
-import { CookieService } from 'ngx-cookie';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideRoutes } from '@angular/router';
@@ -18,6 +17,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { CookieModule } from 'ngx-cookie';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 describe('AppSettingsComponent Tests', () => {
   let comp: AppSettingsComponent;
@@ -56,7 +56,7 @@ describe('AppSettingsComponent Tests', () => {
   }));
 
   it('AppSettingsComponent should exist', () => {
-    expect(comp).toBeTruthy;
+    expect(comp).toBeTruthy();
   });
 
   it('Should display default Openmrs server url', () => {
@@ -68,5 +68,19 @@ describe('AppSettingsComponent Tests', () => {
     fixture.autoDetectChanges();
     let formElements = fixture.debugElement.queryAll(By.css('div .form-group'));
     expect(formElements[1].nativeElement.textContent).toContain(comp.etlServerUrls[0]);
+  });
+
+  it('Should display the Debug Mode Option', () => {
+    fixture.autoDetectChanges();
+    let debugEl = fixture.debugElement.queryAll(By.css('#debugMode'));
+    expect(debugEl.length).toEqual(1);
+  });
+
+  it('Should set cookie for debug mode if enabled', () => {
+    fixture.autoDetectChanges();
+    comp.hideFields = true;
+    comp.toggleDebugMode();
+    expect(comp.getDebugMode()).toBe('true');
+    comp.removeDebugCookie();
   });
 });
