@@ -92,7 +92,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
   public valueChange(newValue) {
     this.filterTerm = newValue;

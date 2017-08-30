@@ -23,11 +23,11 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public dataLoaded: boolean = false;
   public endDate: any;
   public translatedIndicator: string;
+  public overrideColumns: Array<any> = [];
   private startIndex: number = 0;
   private locationUuids: any;
   private reportName: string;
   private currentIndicator: string;
-  private overrideColumns: Array<any> = [];
   private routeParamsSubscription: Subscription;
   private subscription = new Subscription();
 
@@ -118,7 +118,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
   }
 
 }

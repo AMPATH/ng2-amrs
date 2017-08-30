@@ -2,7 +2,7 @@
 </add-to-cohort-dialog>
 
 <div class="box-body">
- 
+
   <div class="component-wrapper">
 
     <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Patient List Details
@@ -11,10 +11,11 @@
     </h4>
     <div class="component-wrapper">
 
-      <label > Name: </label> {{selectedCohortName}}   <a (click)="editCohorts.showDialog()" [class.disabled]="(userAssignedRole === 'view') ? true : null">
+      <label > Name: </label> {{selectedCohortName}}
+      <a (click)="editCohorts.showDialog()" [class.hidden]="(userAssignedRole === 'view') ? true : null">
         <span class="glyphicon glyphicon-pencil link" style="cursor: pointer; padding-left: 1em"></span>
       </a>
-      <a (click)="openConfirmDeleteCohortDialog(selectedCohortUuid)" [class.disabled]="(userAssignedRole !== 'admin') ? true : null">
+      <a (click)="openConfirmDeleteCohortDialog(selectedCohortUuid)" [class.hidden]="(userAssignedRole !== 'admin') ? true : null">
         <span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
       <br>
       <label>Description: </label> {{selectedCohortDescription}}

@@ -17,9 +17,9 @@ export class PatientRoutesFactory {
         const routes: RouteModel[] = [];
         if (Array.isArray(patientRoutesConfig['programs'])) {
             for (let program of  patientRoutesConfig.programs) {
-                if (program.requiresPatientEnrollment === false ||
+                if (program.published && (program.requiresPatientEnrollment === false ||
                     this.patientIsInProgram(program.programUuid,
-                        patient.enrolledPrograms)) {
+                        patient.enrolledPrograms))) {
                     routes.push(
                         this.createProgramRouteModel(program, patient.uuid)
                     );

@@ -24,6 +24,7 @@ describe('Patient Routes Factory:', () => {
                     'programName': 'General Info',
                     'programUuid': 'general-uuid',
                     'baseRoute': 'general',
+                    'published': true,
                     'requiresPatientEnrollment': false,
                     'routes': [
                         {
@@ -42,6 +43,7 @@ describe('Patient Routes Factory:', () => {
                     'programName': 'HIV',
                     'programUuid': '781d85b0-1359-11df-a1f1-0026b9348838',
                     'baseRoute': 'hiv',
+                    'published': true,
                     'requiresPatientEnrollment': true,
                     'routes': [
                         {
@@ -60,6 +62,7 @@ describe('Patient Routes Factory:', () => {
                     'programName': 'Oncology',
                     'programUuid': 'onc-uuid',
                     'baseRoute': 'oncology',
+                    'published': false,
                     'requiresPatientEnrollment': true,
                     'routes': [
                         {

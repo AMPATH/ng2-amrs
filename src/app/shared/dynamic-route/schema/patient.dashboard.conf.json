@@ -8,6 +8,7 @@
       "programUuid": "general-uuid",
       "baseRoute": "general",
       "alias": "general",
+      "published": true,
       "requiresPatientEnrollment": false,
       "routes": [
         {
@@ -52,6 +53,7 @@
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d85b0-1359-11df-a1f1-0026b9348838",
       "alias": "hiv",
+      "published": true,
       "requiresPatientEnrollment": true,
       "routes": [
         {
@@ -106,6 +108,7 @@
       "programUuid": "725b5193-3452-43fc-aca3-6a80432d9bfa",
       "baseRoute": "725b5193-3452-43fc-aca3-6a80432d9bfa",
       "alias": "oncology",
+      "published": false,
       "requiresPatientEnrollment": true,
       "routes": [
         {
@@ -135,6 +138,7 @@
       "programUuid": "781d897a-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d897a-1359-11df-a1f1-0026b9348838",
       "alias": "pmtct",
+      "published": false,
       "requiresPatientEnrollment": true,
       "routes": [
         {
@@ -164,6 +168,7 @@
       "programUuid": "781d8768-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d8768-1359-11df-a1f1-0026b9348838",
       "alias": "ovc",
+      "published": false,
       "requiresPatientEnrollment": true,
       "routes": [
         {
@@ -193,6 +198,7 @@
       "programUuid": "781d8a88-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d8a88-1359-11df-a1f1-0026b9348838",
       "alias": "bsg",
+      "published": false,
       "requiresPatientEnrollment": true,
       "routes": [
         {
@@ -222,6 +228,7 @@
       "programUuid": "fc15ac01-5381-4854-bf5e-917c907aa77f",
       "baseRoute": "fc15ac01-5381-4854-bf5e-917c907aa77f",
       "alias": "cdm",
+      "published": false,
       "requiresPatientEnrollment": true,
       "routes": [
         {
