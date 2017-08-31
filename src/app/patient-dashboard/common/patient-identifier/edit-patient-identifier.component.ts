@@ -41,6 +41,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public successAlert: string = '';
   public errorTitle: string;
   private subscription: Subscription;
+  private initialPatientIdentifier: string = '';
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,
@@ -88,9 +89,10 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.preferredIdentifier = preferredIdentifier;
   }
   public seIdentifierLocation(location) {
-    this.identifierLocation = location.value;
+    this.identifierLocation = location;
     this.invalidLocationCheck = '';
   }
+
   public setIdentifierType(identifierType) {
     this.identifierValidity = '';
     this.identifierType = identifierType;
@@ -98,6 +100,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     if ( id ) {
       this.patientIdentifier = (id as any).identifier;
       this.patientIdentifierUuid = (id as any).uuid;
+      this.preferredIdentifier = (id as any).preferred;
+      this.selectedDevice = (id as any).location.uuid;
     }else {
       this.patientIdentifier = '';
       this.patientIdentifierUuid = '';
@@ -109,6 +113,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     let person = {
       uuid: this.patients.person.uuid
      };
+    let idExists = this.patientHasIdentifier(this.patientIdentifier,
+     (this.identifierType as any));
     let personIdentifierPayload = {
       uuid: this.patientIdentifierUuid,
       identifier: this.patientIdentifier, // patientIdentifier
@@ -117,6 +123,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       location: this.identifierLocation // location
 
     };
+    if (idExists) {
+      delete personIdentifierPayload['identifier'];
+      delete personIdentifierPayload['identifierType'];
+      this.saveIdentifier(personIdentifierPayload, person);
+    } else {
     this.validateFormFields(this.patientIdentifier);
     this.checkIdentifierFormat();
     if (this.isValidIdentifier === true) {
@@ -127,7 +138,20 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
               personIdentifierPayload.uuid === null) {
               delete personIdentifierPayload.uuid;
             }
-            this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
+            this.saveIdentifier(personIdentifierPayload, person);
+          }else {
+            this.identifierValidity = 'A patient with this Identifier exists';
+            this.display = true;
+
+          }
+        }
+      );
+    }
+  }
+  }
+
+private saveIdentifier(personIdentifierPayload, person) {
+  this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
               personIdentifierPayload)
               .subscribe(
@@ -142,15 +166,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
                 (error) => {
                   console.log('Error occurred why updating patient identifier:', error);
                 });
-          }else {
-            this.identifierValidity = 'A patient with this Identifier exists';
-            this.display = true;
-
-          }
-        }
-      );
-    }
-  }
+}
 
   private getCurrentIdentifierByType(identifiers, identifierType) {
 
@@ -278,4 +294,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
+  private patientHasIdentifier(identifier, identifierType) {
+    let id = this.getCurrentIdentifierByType(this.patientIdentifiers, identifierType);
+    if ( id ) {
+      if ((id as any).identifier === identifier) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
