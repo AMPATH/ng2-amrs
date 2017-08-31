@@ -3,10 +3,7 @@
   margin: 0;
 }
 
-/*.sticky > div > div.notifications > todays-vitals {
-  visibility: hidden;
+.sticky {
+  z-index: 1;
 }
 
-.sticky > div > div.notifications {
-  visibility: hidden;
-}*/

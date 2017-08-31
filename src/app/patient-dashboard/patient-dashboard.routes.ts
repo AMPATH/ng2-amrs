@@ -39,13 +39,14 @@ export const routes = [
       ],
       children: [
         { path: 'general/landing-page', component: GeneralLandingPageComponent },
+        { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
         {
           path: '781d85b0-1359-11df-a1f1-0026b9348838/landing-page',  // HIV Program Landing Page
-          component: HivLandingPageComponent
+          component: HivSummaryComponent
         },
         { // Oncology Program Landing Page
           path: '725b5193-3452-43fc-aca3-6a80432d9bfa/landing-page',
-          component: OncologyLandingPageComponent
+          component: PatientInfoComponent
         },
         {
           path: '781d897a-1359-11df-a1f1-0026b9348838/landing-page', // PMTCT Program Landing Page
@@ -61,9 +62,8 @@ export const routes = [
         },
         {
           path: 'fc15ac01-5381-4854-bf5e-917c907aa77f/landing-page', // CDM Landing Page
-          component: CdmLandingPageComponent
+          component: PatientInfoComponent
         },
-        { path: ':program', redirectTo: ':program/landing-page', pathMatch: 'full' },
         { path: ':program/patient-info', component: PatientInfoComponent },
         { path: 'oncology/landing-page', component: PatientInfoComponent },
         { path: ':program/patient-encounters', component: VisitEncountersComponent },

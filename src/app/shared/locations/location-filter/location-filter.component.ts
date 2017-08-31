@@ -10,9 +10,13 @@ import { Dictionary } from 'lodash';
   selector: 'location-filter',
   templateUrl: './location-filter.component.html',
   styles: [`
+    ng-select > div > div.multiple input {
+      width: 100% !important;
+    }
     .location-filter ng-select > div > div.multiple > div.option {
       color: #fff !important;
       border-color: #357ebd !important;
+      flex-shrink: initial;
       background-color: #428bca !important;
     }
   `],

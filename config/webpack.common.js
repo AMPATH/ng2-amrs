@@ -355,7 +355,10 @@ module.exports = function (options) {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         title: METADATA.title,
-        chunksSortMode: 'dependency',
+        chunksSortMode: function (a, b) {
+          var order = ["polyfills", "libs", "js", "vendor", "main"];
+          return order.indexOf(a.names[0]) - order.indexOf(b.names[0]);
+        },
         metadata: METADATA,
         inject: 'body'
       }),
