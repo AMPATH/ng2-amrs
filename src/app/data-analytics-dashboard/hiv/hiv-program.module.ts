@@ -21,6 +21,9 @@ import { DataAnalyticsDashboardService } from '../services/data-analytics-dashbo
 import { HivClinicFlowResourceService } from '../../etl-api/hiv-clinic-flow-resource.service';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
+import {
+  HivSummaryMonthlyIndicatorsComponent
+} from './hiv-summary-monthly-indicators/hiv-summary-monthly-indicators';
 
 @NgModule({
   imports: [
@@ -48,7 +51,8 @@ import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
     AdminDashboardClinicFlowComponent,
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
-    HivCareComparativeAnalyticsComponent],
+    HivCareComparativeAnalyticsComponent,
+    HivSummaryMonthlyIndicatorsComponent],
   providers: [
     DataAnalyticsDashboardService,
     HivClinicFlowResourceService,

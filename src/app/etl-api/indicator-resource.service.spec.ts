@@ -4,12 +4,14 @@ import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { IndicatorResourceService } from './indicator-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheService, CacheModule } from 'ionic-cache';
 
 // Load the implementations that should be tested
 describe('IndicatorResourceService Unit Tests', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [CacheModule],
       declarations: [],
       providers: [
         MockBackend,
@@ -23,7 +25,9 @@ describe('IndicatorResourceService Unit Tests', () => {
         },
         AppSettingsService,
         IndicatorResourceService,
-        LocalStorageService
+        LocalStorageService,
+        DataCacheService,
+        CacheService
       ],
     });
   }));

@@ -20,6 +20,12 @@ import { HivSummaryIndicatorsComponent
 } from './hiv-summary-indicators/hiv-summary-indicators';
 import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
 import { DataAnalyticsDashboardGuard } from '../data-analytics-guard';
+import {
+  HivSummaryMonthlyIndicatorsComponent
+} from './hiv-summary-monthly-indicators/hiv-summary-monthly-indicators';
+import {
+  HivMonthlySummaryIndicatorsPatientListComponent
+} from '../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component';
 
 const routes: Routes = [
   {
@@ -63,6 +69,19 @@ const routes: Routes = [
               {
                 path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
                 component: HivSummaryIndicatorsPatientListComponent,
+              }
+            ]
+          },
+          {
+            path: 'hiv-summary-monthly-indicator-report',
+            children: [
+              {
+                path: '',
+                component: HivSummaryMonthlyIndicatorsComponent
+              },
+              {
+                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+                component: HivMonthlySummaryIndicatorsPatientListComponent,
               }
             ]
           }
