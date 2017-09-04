@@ -32,6 +32,9 @@ import {
 import { DailyScheduleResourceService } from './daily-scheduled-resource.service';
 import { HivClinicFlowResourceService } from './hiv-clinic-flow-resource.service';
 import { DefaulterListResourceService } from './defaulter-list-resource.service';
+import {
+  HivMonthlySummaryIndicatorsResourceService
+} from './hiv-monthly-summary-indicators-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -60,7 +63,8 @@ import { DefaulterListResourceService } from './defaulter-list-resource.service'
     CohortUserResourceService,
     PatientsRequiringVLResourceService,
     PatientsRequiringVLResourceServiceMock,
-    DefaulterListResourceService
+    DefaulterListResourceService,
+    HivMonthlySummaryIndicatorsResourceService
   ],
   exports: []
 })
