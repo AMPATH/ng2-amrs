@@ -8,7 +8,8 @@ export class HivMonthlySummaryIndicatorsResourceService {
                 private cacheService: DataCacheService) { }
 
     public getUrl(): string {
-        return this.appSettingsService.getEtlRestbaseurl().trim() + `hiv-monthly-summary-indicators`;
+        return this.appSettingsService.getEtlRestbaseurl().trim()
+         + `hiv-monthly-summary-indicators`;
     }
 
     public getPatientListUrl(): string {
