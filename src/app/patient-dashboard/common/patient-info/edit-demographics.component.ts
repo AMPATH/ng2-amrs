@@ -93,6 +93,14 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   }
   public updateDeathDetails(dead) {
 
+    if ((this.dead as any) === 'true') {
+       this.dead = true;
+     }
+
+    if ((this.dead as any) === 'false') {
+        this.dead = false;
+     }
+
     if (this.dead === true) {
       this.dead = true;
     }
@@ -143,7 +151,16 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     }
     if (this.dead === false) {
       this.dead = false;
+      this.deathDate = null;
     }
+
+    if ((this.dead as any) === 'true') {
+       this.dead = true;
+     }
+
+    if ((this.dead as any) === 'false') {
+        this.dead = false;
+     }
 
     if (!this.dead) {
       this.deathDate = null;
