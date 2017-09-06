@@ -25,7 +25,7 @@ export class PatientRelationshipService {
           for (let relationship of relationships) {
             if (uuid === relationship.personA.uuid) {
               let relation = {
-                uuid: relationships.uuid,
+                uuid: relationship.uuid,
                 display: relationship.personB.display,
                 relative: relationship.personB.display,
                 relatedPersonUuid: relationship.personB.uuid,
