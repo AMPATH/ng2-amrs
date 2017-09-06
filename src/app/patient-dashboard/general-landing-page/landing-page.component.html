@@ -54,11 +54,11 @@
             </div>
           </div>
         </div>
-        <div class="program-body" [ngClass]="{'pink': addPinkBackground}">
-          <div *ngIf="(row.isEnrolled)" class="program-info">
+        <div class="program-body" [ngStyle]="{ 'background-color': addBackground }" >
+          <div *ngIf="row.isEnrolled" class="program-info">
             <div class="program-snapshot">
               <div [ngSwitch]="row.baseRoute">
-                <hiv-snapshot (addPinkBackground)="onAddPinkBackground($event)" *ngSwitchCase="'hiv'" [patient]="patient">
+                <hiv-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'hiv'" [patient]="patient">
                 </hiv-snapshot>
               </div>
             </div>

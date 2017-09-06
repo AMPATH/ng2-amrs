@@ -28,7 +28,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public locations: any = [];
   public dateEnrolled: string;
   public isEditLocation: string;
-  public addPinkBackground: boolean = false;
+  public addBackground: any;
   public isEdit: boolean = false;
   public dateCompleted: string;
   public programIncompatible: boolean = false;
@@ -143,8 +143,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   }
 
-  public onAddPinkBackground(hasPink: boolean) {
-    this.addPinkBackground = hasPink;
+  public onAddBackground(color) {
+    this.addBackground = color;
   }
 
   public getSelectedLocationToEdit(loc) {
