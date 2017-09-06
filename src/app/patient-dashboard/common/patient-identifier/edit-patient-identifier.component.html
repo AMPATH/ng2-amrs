@@ -48,12 +48,10 @@
      <br>
     <div>
       <label >Identifier Location</label>
-      <div class="input-group">
-        <select class="form-control" [ngModel]="selectedDevice" (ngModelChange)="seIdentifierLocation($event)">
-        <option *ngFor="let c of locations" [ngValue]="c.value">{{c.label}}</option>
-        </select>
-      </div>
-
+      <ng-select  id="selectedDevice" (ngModelChange)="seIdentifierLocation($event)"
+                 [placeholder]="'Select a location or type to search...'"
+                 [(ngModel)]="selectedDevice" [options]="locations">
+      </ng-select>
       <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
         {{invalidLocationCheck}}</span>
       </div>
