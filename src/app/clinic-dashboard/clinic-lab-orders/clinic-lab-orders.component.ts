@@ -124,6 +124,10 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     this.getClinicLabOrders(this.location, selectedDate);
   }
 
+  public exportAllData() {
+     this.gridOptions.api.exportDataAsCsv();
+  }
+
   private formatDateField(result) {
     let orders = [];
     for (let i = 0; i < result.length; ++i) {
