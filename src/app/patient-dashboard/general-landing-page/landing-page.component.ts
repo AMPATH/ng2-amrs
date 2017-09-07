@@ -70,7 +70,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
       payload = this.programService.createEnrollmentPayload(
         row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation, row.enrolledProgram.uuid);
+        this.isEditLocation || row.enrolledProgram.openmrsModel.location.uuid,
+        row.enrolledProgram.uuid);
       if (payload) {
         setTimeout(() => {
           this._updatePatientProgramEnrollment(payload);
@@ -123,8 +124,15 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   private isValidForm(row: any) {
+    let currentLocation;
+    if (row.enrolledProgram && row.enrolledProgram.openmrsModel &&
+      row.enrolledProgram.openmrsModel.location) {
+      currentLocation = row.enrolledProgram.openmrsModel.location.uuid;
+    }
     if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation || this.selectedLocation)) {
+        this.isEditLocation || this.selectedLocation
+        || currentLocation
+      )) {
       row.validationError = this.currentError;
       this.isFocused = false;
       if (this.isEdit) {
