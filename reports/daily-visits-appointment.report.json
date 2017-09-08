@@ -13,7 +13,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t2",
-        "joinExpression": "t1.person_id  = t2.person_id"
+        "joinExpression": "t1.person_id  = t2.person_id and (t2.voided is null || t2.voided = 0)"
       },
       {
         "joinType": "INNER JOIN",
@@ -134,7 +134,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t2",
-        "joinExpression": "t1.person_id  = t2.person_id"
+        "joinExpression": "t1.person_id  = t2.person_id and (t2.voided is null || t2.voided = 0)"
       },
       {
         "joinType": "INNER JOIN",
@@ -313,7 +313,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t3",
-        "joinExpression": "t1.person_id  = t3.person_id"
+        "joinExpression": "t1.person_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
       },
       {
         "joinType": "INNER JOIN",

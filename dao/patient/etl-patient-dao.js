@@ -283,7 +283,7 @@ module.exports = function () {
             joins: [
                 ['amrs.encounter', 't2', 't1.patient_id = t2.patient_id'],
                 ['amrs.location', 't3', 't2.location_id=t3.location_id'],
-                ['amrs.person_name', 't4', 't4.person_id=t1.patient_id']
+                ['amrs.person_name', 't4', 't4.person_id=t1.patient_id and (t4.voided is null || t4.voided = 0)']
             ],
             offset: request.query.startIndex,
             limit: request.query.limit
@@ -309,7 +309,7 @@ module.exports = function () {
             }],
             joins: [
                 ['amrs.encounter', 't2', 't1.patient_id = t2.patient_id'],
-                ['amrs.person_name', 't3', 't3.person_id=t1.patient_id'],
+                ['amrs.person_name', 't3', 't3.person_id=t1.patient_id and (t3.voided is null || t3.voided = 0)'],
                 ['amrs.person', 't4', 't4.person_id=t1.patient_id']
             ],
             offset: request.query.startIndex,

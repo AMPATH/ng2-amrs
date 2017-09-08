@@ -19,7 +19,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t3",
-        "joinExpression": "t1.patient_id  = t3.person_id"
+        "joinExpression": "t1.patient_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
       },
 
       {

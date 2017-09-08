@@ -789,7 +789,7 @@ module.exports = function () {
                     schema: 'amrs',
                     tableName: 'person_name',
                     alias: 'person_name',
-                    joinExpression: 't1.person_id = person_name.person_id',
+                    joinExpression: 't1.person_id = person_name.person_id and (person_name.voided is null || person_name.voided = 0)',
                     joinType: 'INNER JOIN'
                 });
                 join.push({
