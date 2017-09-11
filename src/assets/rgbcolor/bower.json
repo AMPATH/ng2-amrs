@@ -1,0 +1,21 @@
+{
+  "name": "rgbcolor",
+  "main": "index.js",
+  "version": "1.0.1",
+  "license": "Feel free to use the code for your own color picker tool or whatever you feel like.",
+  "homepage": "https://github.com/FlatIO/node-rgbcolor",
+  "authors": [
+    "Stoyan Stefanov <sstoo@gmail.com>"
+  ],
+  "description": "",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
