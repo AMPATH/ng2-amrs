@@ -37,7 +37,7 @@ export class LabelService {
             });
             doc = this.drawText(doc, 'Order Number : ' + label.orderNumber, {
                 x: 2,
-                y: 45
+                y: 4
             });
             doc.save();
             doc.translate(0, 60)
