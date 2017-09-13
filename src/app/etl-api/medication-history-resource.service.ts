@@ -11,17 +11,16 @@ export class MedicationHistoryResourceService {
 
   public getReport( report: string, patientUuid: string) {
 
-    let api = this.appSettingsService.getEtlServer() + '/get-report-by-report-name' ;
+    let api = this.appSettingsService.getEtlServer() +  '/patient/'
+    + patientUuid + '/medical-history-report' ;
 
     if (!report) {
       report = 'medical-history-report';
     }
-    // report: 'medical-history-report'
+
 
     let params: URLSearchParams = new URLSearchParams();
 
-    params.set('report', report);
-    params.set('patientUuid', patientUuid);
     return this.http.get(api, { search: params }).map((response: Response) => {
       return response.json();
     });
