@@ -19,7 +19,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t2",
-        "joinExpression": "t1.patient_id  = t2.person_id"
+        "joinExpression": "t1.patient_id  = t2.person_id and (t2.voided is null || t2.voided = 0)"
       },
       {
         "joinType": "LEFT OUTER JOIN",
@@ -61,7 +61,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t8",
-        "joinExpression": "t7.person_id  = t8.person_id"
+        "joinExpression": "t7.person_id  = t8.person_id and (t8.voided is null || t8.voided = 0)"
       },
       {
         "joinType": "LEFT OUTER JOIN",
@@ -75,7 +75,7 @@
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t11",
-        "joinExpression": "t10.person_id  = t11.person_id"
+        "joinExpression": "t10.person_id  = t11.person_id and (t11.voided is null || t11.voided = 0)"
       },
       {
         "joinType": "LEFT OUTER JOIN",

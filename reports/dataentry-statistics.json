@@ -391,7 +391,7 @@
  "name": "patientList",
  "table":{"schema":"amrs","tableName":"person_name","alias":"t1"},
  "joins":[
-   {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"t2.patient_id = t1.person_id",
+   {"joinType":"INNER JOIN","schema":"amrs","alias":"t2","joinExpression":"t2.patient_id = t1.person_id and (t1.voided is null || t1.voided = 0)",
        "dynamicDataset":"patientList-encounter"},
      {"joinType":"JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t3.person_id = t2.patient_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"},
