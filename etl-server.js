@@ -45,6 +45,10 @@ if (config.etl.tls) {
     });
 }
 
+if(config.testMode === true) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";    
+}
+
 server.connection({
     port: config.etl.port,
     host: config.etl.host,
