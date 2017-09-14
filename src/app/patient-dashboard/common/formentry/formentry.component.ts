@@ -12,6 +12,7 @@ import { FormDataSourceService } from './form-data-source.service';
 import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/data-sources';
 import { Patient } from '../../../models/patient.model';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
+import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 import * as moment from 'moment';
@@ -19,8 +20,10 @@ import * as moment from 'moment';
 import { UserService } from '../../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
   '../../../user-default-properties/user-default-properties.service';
-import { MonthlyScheduleResourceService
-} from '../../../etl-api/monthly-scheduled-resource.service';
+import { MonthlyScheduleResourceService }
+from '../../../etl-api/monthly-scheduled-resource.service';
+import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
+import *  as _ from 'lodash';
 
 @Component({
   selector: 'app-formentry',
@@ -68,6 +71,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
               private draftedFormsService: DraftedFormsService,
               private fileUploadResourceService: FileUploadResourceService,
               private http: Http,
+              private patientReminderService: PatientReminderService,
               private confirmationService: ConfirmationService) {
   }
 
@@ -234,19 +238,27 @@ export class FormentryComponent implements OnInit, OnDestroy {
     // forkjoin all requests
     this.subscription = Observable.forkJoin(
       observableBatch
-    ).subscribe(
-      (data) => {
-        // now init private and public properties
-        this.compiledSchemaWithEncounter = data[0] || null;
-        this.patient = data[1] || null;
-        this.encounter = data[2] || null;
-        // now render form
+    ).flatMap((data) => {
+       // now init private and public properties
+       this.compiledSchemaWithEncounter = data[0] || null;
+       this.patient = data[1] || null;
+       this.encounter = data[2] || null;
+       // now render form
+       return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
+    }).subscribe(
+      (data: any) => {
+        console.log(data.generatedReminders);
+        let reminder =  _.find(data.generatedReminders, (o: any) => {
+          return o.title === 'Viral Load Reminder';
+        });
+        if (reminder) {
+          this.dataSources.registerDataSource('vlFormAlert', { needsVl: true }, true);
+        }
         this.renderForm();
-
         this.isBusyIndicator(false);
       },
       (err) => {
-        console.error(err.json());
+        console.error(err);
         this.isBusyIndicator(false);
         this.formRenderingErrors
           .push('An error occured while loading form, please check your connection');
@@ -400,19 +412,32 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private getPatient(): Observable<Patient> {
 
-    return Observable.create((observer: Subject<Patient>) => {
-      this.patientService.currentlyLoadedPatient.subscribe(
-        (patient) => {
-          if (patient) {
-            observer.next(patient);
-          }
-        },
-        (err) => {
-          observer.error(err);
-        });
-    }).first();
-  }
+        return Observable.create((observer: Subject<Patient>) => {
+          this.patientService.currentlyLoadedPatient.subscribe(
+            (patient) => {
+              if (patient) {
+                observer.next(patient);
+              }
+            },
+            (err) => {
+              observer.error(err);
+            });
+        }).first();
+      }
 
+  private registerVLDatasource(reminders: any) {
+    if (reminders) {
+      let vlReminder = _.find(reminders['generatedReminders'], (o: any) => {
+        return o.title === 'Viral Load Reminder';
+      });
+      if (vlReminder) {
+        this.dataSources.registerDataSource('vlFormAlert', { needsVl: true }, true);
+      } else {
+        this.dataSources.registerDataSource('vlFormAlert', { needsVl: false }, true);
+      }
+    }
+
+  }
   private getEncounters(): Observable<any> {
 
     return Observable.create((observer: Subject<any>) => {

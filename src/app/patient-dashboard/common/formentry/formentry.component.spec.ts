@@ -19,6 +19,7 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeFormFactory } from './mock/form-factory.service.mock';
 import { FakeUserFactory } from './mock/user-factory.service.mock';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
+import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
     FakeDefaultUserPropertiesFactory
@@ -53,6 +54,7 @@ import { ConceptResourceService } from '../../../openmrs-api/concept-resource.se
 import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import { MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
@@ -108,6 +110,7 @@ describe('Component: FormentryComponent', () => {
         CacheModule
       ],
       providers: [
+        PatientReminderResourceService,
         MockBackend,
         BaseRequestOptions,
         FormentryComponent,
@@ -180,6 +183,7 @@ describe('Component: FormentryComponent', () => {
             snapshot: {params: {formUuid: 'form-uuid'}}
           }
         },
+        PatientReminderService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
