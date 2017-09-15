@@ -315,6 +315,13 @@
         "alias": "t3",
         "joinExpression": "t1.person_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
       },
+       {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "encounter_type",
+        "alias": "t9",
+        "joinExpression": "t1.encounter_type  = t9.encounter_type_id"
+      },
       {
         "joinType": "INNER JOIN",
         "schema": "amrs",
@@ -363,6 +370,10 @@
         "defaultValue": []
       },
       {
+        "name": "encounterIds",
+        "defaultValue": []
+      },
+      {
         "name": "groupByPerson",
         "defaultValue": [
           {
@@ -390,6 +401,10 @@
       {
         "expression": "t1.location_id in (?)",
         "parameter": "locations"
+      },
+      {
+        "expression": "t1.encounter_type IN ?",
+        "parameter": "encounterIds"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
@@ -425,6 +440,11 @@
         "sql": "t1.person_id"
       },
       {
+        "label": "name",
+        "type": "single",
+        "sql": "t9.name"
+      },
+      {
         "label": "uuid",
         "type": "single",
         "sql": "t1.uuid"
@@ -433,6 +453,16 @@
         "label": "encounter_id",
         "type": "single",
         "sql": "t1.encounter_id"
+      },
+      {
+        "label": "visit_id",
+        "type": "single",
+        "sql": "t1.visit_id"
+      },
+      {
+        "label": "encounter_type",
+        "type": "single",
+        "sql": "t1.encounter_type"
       },
       {
         "label": "given_name",

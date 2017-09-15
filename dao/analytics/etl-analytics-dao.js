@@ -50,8 +50,10 @@ module.exports = function () {
             });
         },
         runReport: function runReport(reportParams) {
+            console.log('Report Params', reportParams);
             //build report
             var queryParts = reportFactory.singleReportToSql(reportParams);
+            console.log('Query Parts', queryParts);
             return new Promise(function (resolve, reject) {
                 db.reportQueryServer(queryParts, function (results) {
                     if (results.error) {
@@ -268,6 +270,7 @@ module.exports = function () {
         getIdsByUuidAsyc: function getIdsByUuidAsyc(fullTableName, idColumnName, uuidColumnName, arrayOfUuids, callback) {
             var uuids = [];
             _.each(arrayOfUuids.split(','), function (uuid) {
+                console.log('Uuid', uuid);
                 uuids.push(uuid);
             });
 

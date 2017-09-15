@@ -30,3 +30,4 @@ function resolveLocationIdsToLocationUuids(request, callback) {
             }).onResolved = onResolvedPromise;
     }
 }
+

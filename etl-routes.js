@@ -20,6 +20,7 @@ var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
 var motd = require('./dao/motd_notification/motd_notification-dao');
 var patientProgramService = require('./programs/patient-program-base.service.js');
+var resolveEncounterUuidToId = require('./programs/resolve-to-encounterId.js');
 import {
     MonthlyScheduleService
 } from './service/monthly-schedule-service';
@@ -356,14 +357,24 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                let compineRequestParams = Object.assign({}, request.query, request.params);
-                                let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations', 'groupBy'], compineRequestParams);
-                                reportParams.limit = 100000;
-                                dao.runReport(reportParams).then((result) => {
-                                    reply(result);
-                                }).catch((error) => {
-                                    reply(error);
-                                })
+                                resolveEncounterUuidToId.resolveToEncounterIds(request.query)
+                                      .then((resolve) => {
+                                            let encounterIds = resolve;
+                                            request.query.encounterIds = encounterIds;
+                                            let compineRequestParams = Object.assign({}, request.query, request.params);
+                                            let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations','encounterIds' ,'groupBy'], compineRequestParams);
+                                            reportParams.limit = 100000;
+                                            dao.runReport(reportParams).then((result) => {
+                                                reply(result);
+                                            }).catch((error) => {
+                                                reply(error);
+                                            })
+
+                                      })
+                                      .catch((error) => {
+
+                                      });
+                               
                             });
                     }
                 },
