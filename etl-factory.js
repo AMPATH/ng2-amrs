@@ -72,7 +72,7 @@ module.exports = function () {
 
     }
     function getExpression(){
-        var expression =s.replaceAll(filterOption.expression,filterOption.options,);
+        var expression =s.replaceAll(filterOption.expression,filterOption.options);
         _.each(report.disintegrationFilterOptions, function (filterOption) {
 
         });
@@ -187,16 +187,19 @@ module.exports = function () {
     }
 
     function _buildQueryParts(requestParams, reportName, queryPartsArray) {
+        console.log('Build Query Parts Request Params',requestParams );
         if (reportName) {
             reportName = reportName;
         } else {
             reportName = requestParams.reportName;
         }
+
         var queryParts;
         _.each(reports, function (report) {
 
             if (report.name === reportName) {
                 var nestedParts = '';
+                var tableName  = '';
                 if (report.table.dynamicDataset && report.table.dynamicDataset !== reportName) {
                     _buildQueryParts(requestParams, report.table.dynamicDataset, queryPartsArray);
                     //get the last item of the array
@@ -207,10 +210,18 @@ module.exports = function () {
                 } else {
                     nestedParts = undefined;
                 }
+
+                if(report.table['tableName'] === '@tableName'){
+                     tableName = requestParams.tableName;
+                     console.log('Empty Table Name', requestParams.tableName );
+                } else{
+                     tableName = report.table['tableName'];
+                }
+                console.log('Table Name', tableName);
                 var queryParts = {
                     columns: indicatorsToColumns(report, requestParams.countBy, requestParams),
                     concatColumns: concatColumnsToColumns(report),
-                    table: report.table['schema'] + '.' + report.table['tableName'],
+                    table: report.table['schema'] + '.' + tableName,
                     alias: report.table['alias'],
                     indexExpression: report.table['indexExpression'] || null,
                     nestedParts: nestedParts,
