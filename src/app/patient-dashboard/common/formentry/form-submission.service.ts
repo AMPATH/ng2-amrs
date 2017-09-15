@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class FormSubmissionService {
   private payloadTypes: Array<string> = ['encounter', 'personAttribute'];
-
+  private submitStatus: boolean = false;
   constructor(private encounterAdapter: EncounterAdapter,
               private personAttributeAdapter: PersonAttribuAdapter,
               private formentryHelperService: FormentryHelperService,
@@ -41,7 +41,14 @@ export class FormSubmissionService {
       );
 
     }).first();
+  }
 
+  public setSubmitStatus(status: boolean) {
+      this.submitStatus = status;
+  }
+
+  public getSubmitStatus() {
+      return this.submitStatus;
   }
   private createPayloadBatch(form: Form, payloadTypes: Array<string>): Array<Observable<any>> {
     let payloadBatch: Array<Observable<any>> = [];
