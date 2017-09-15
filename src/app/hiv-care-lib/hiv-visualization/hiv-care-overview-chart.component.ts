@@ -63,9 +63,14 @@ export class HivCareComparativeChartComponent implements OnInit {
   }
 
   public goToPatientList(indicator, filters) {
+    let dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
+      filters.split('/')[1],
+      filters.split('/')[0] - 1
+       );
+
     this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
-        Moment(this._dates.startDate).format('DD/MM/YYYY') + '|' +
-        Moment(this._dates.endDate).format('DD/MM/YYYY')]
+        dateRange.startDate.format('DD/MM/YYYY') + '|' +
+        dateRange.endDate.format('DD/MM/YYYY')]
       , {relativeTo: this.route});
   }
 
@@ -105,7 +110,7 @@ export class HivCareComparativeChartComponent implements OnInit {
                 let indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 that.goToPatientList(
                   indicators['clinical-hiv-comparative-overview'][this.series.name],
-                  that.options.filters);
+                  this.category);
               }
             }
           }
