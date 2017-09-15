@@ -89,19 +89,146 @@ module.exports = function () {
                 plugins: {
                     'hapiAuthorization': false
                 },
+                auth: false,
                 handler: function (request, reply) {
-                    let payload = request.payload;
-                    let message = `*From*  ${payload.name} \n *Location:*  ${payload.location} \n *Phone:*  ${payload.phone} \n *Message:* \n \`\`\`${payload.message}\`\`\``;
-                    let service = new SlackService();
-                    service.sendUserFeedBack(message).then((status) => {
-                        reply(status);
-                    }).catch((error) => {
+                var message = request.payload;
+                let service = new SlackService();
+                    service.postFeedbackToPoc(message).then((success) =>{
+                        reply(success);
+                    }).catch((err) => {
                         reply(Boom.badData(error));
                     });
                 },
                 description: 'User feedback end point',
                 notes: 'This receive user feedback sent from the client and sends it to slack',
                 tags: ['api', 'feedback'],
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/poc-user-feedback/{count*2}',
+            config: {
+                    auth: false,
+                    handler: function (request, reply) {
+                        let service = new SlackService();
+                        const urlparts = request.params.count.split('/');
+                        service.getPocMessages(encodeURIComponent(urlparts[0]),encodeURIComponent(urlparts[1]))
+                        .then((res) => {
+                            reply(res);
+                        }).catch((error) => {
+                            reply(Boom.badData(error));
+                        });                           
+                    },
+                    description: 'Endpoint that gets user feedback from poc',
+                    notes: 'Specify message count and oldest timestamp in the url parameters',
+                    tags: ['api', 'feedback'],
+            }
+        },
+        {
+            method: 'POST',
+            path: '/etl/posttochannel',
+            config: {
+                plugins: {
+                    'hapiAuthorization': false
+                },
+                auth: false,
+                handler: function (request, reply) {
+                    var message = request.payload;
+                    var channel = request.payload.channel;
+                    let service = new SlackService();
+                    service.postToChannels(message, channel).then(function(success) {
+                        reply(success);
+                    }).catch((err) => {
+                        reply(Boom.badData(error));
+                    });
+                },
+                description: 'Endpoint that post user feedback from client to  a public slack channel',
+                notes: 'Specify the public channel name in the payload',
+                tags: ['api', 'feedback'],
+            }
+        },
+          {
+            method: 'POST',
+            path: '/etl/posttogroup',
+            config: {
+                plugins: {
+                    'hapiAuthorization': false
+                },
+                auth: false,
+                handler: function (request, reply) {
+                    var message = request.payload;
+                    var channel = request.payload.group;
+                    let service = new SlackService();
+                    service.postToGroups(message, channel).then(function(success) {
+                        reply(success);
+                    }).catch((err) => {
+                        reply(Boom.badData(error));
+                    });
+                },
+                description: 'Endpoint that post user feedback from client to  a private slack channel',
+                notes: 'Specify the private channel name in the payload',
+                tags: ['api', 'feedback'],
+            }
+        },   
+
+        {
+            method: 'GET',
+            path: '/etl/channel-user-feedback/{count*2}',  /*  /etl/channel-user-feedback/10/1504081732.000145   */
+            config: {
+                    auth: false,
+                    handler: function (request, reply) {
+                        let service = new SlackService();
+                        const urlparts = request.params.count.split('/');
+                        service.getChannelMessages(encodeURIComponent(urlparts[0]),encodeURIComponent(urlparts[1]))
+                        .then((res) => {
+                            reply(res);
+                        }).catch((error) => {
+                            reply(Boom.badData(error));
+                        });                           
+                    },
+                    description: 'Endpoint that receives feedback from a public channel',
+                    notes: 'Specify message  count and oldest timestamp in the url parameters',
+                    tags: ['api', 'feedback'],
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/channel-user-feedback/{count*3}', /*  /etl/channel-user-feedback/poc-user-feedback/10/1504081732.000145   */
+            config: {
+                    auth: false,
+                    handler: function (request, reply) {
+                        let service = new SlackService();
+                        const urlparts = request.params.count.split('/');
+                        service.getFromChannel(encodeURIComponent(urlparts[0]),encodeURIComponent(urlparts[1]),encodeURIComponent(urlparts[2]))
+                        .then((res) => {
+                            reply(res);
+                        }).catch((error) => {
+                            reply(Boom.badData(error));
+                        });                           
+                    },
+                    description: 'Endpoint that receives feedback from a public channel',
+                    notes: 'Specify the public channel name,message  count and oldest timestamp in the url parameters',
+                    tags: ['api', 'feedback'],
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/group-user-feedback/{count*3}', /*  /etl/channel-user-feedback/poc-user-feedback/10/1504081732.000145   */
+            config: {
+                    auth: false,
+                    handler: function (request, reply) {
+                        let service = new SlackService();
+                        const urlparts = request.params.count.split('/');
+                        service.getFromGroup(encodeURIComponent(urlparts[0]),encodeURIComponent(urlparts[1]),encodeURIComponent(urlparts[2]))
+                        .then((res) => {
+                            reply(JSON.parse(res));
+                        }).catch((error) => {
+                            reply(Boom.badData(error));
+                        });                           
+                    },
+                    description: 'Endpoint that receives feedback from a private channel',
+                    notes: 'Specify the private channel name,message  count and oldest timestamp in the url parameters',
+                    tags: ['api', 'feedback'],
             }
         },
         {

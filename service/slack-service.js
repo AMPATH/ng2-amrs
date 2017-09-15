@@ -1,21 +1,147 @@
-const WebClient = require('@slack/client').WebClient;
 const config = require('../conf/config')
 const Promise = require("bluebird");
+const rp = require('request-promise');
+
 export class SlackService {
-    sendUserFeedBack(message) {
-        let bot_token = process.env.SLACK_BOT_TOKEN || config.slack.bottoken;
-        let feedbackChannel = config.slack.feedback_channel;
+
+    getBaseUrl(){
+        var host = config.slackserver.host;
+        var port = config.slackserver.port;
+
+        return host + ':' + port;
+    }
+    //post and get from a poc
+    postFeedbackToPoc(message) {
+        var url = this.getBaseUrl() + '/posttopoc';
+        var options = {
+            method: 'POST',
+            uri: url,
+            body: {
+                name: message.name,
+                location: message.location,
+                phone: message.phone,
+                message: message.message   
+            },
+            json: true 
+        };
+        
         return new Promise(function (resolve, reject) {
-            let web = new WebClient(bot_token);
-            web.chat.postMessage('G4GFP8BPU', message, function (err, res) {
-                if (err) {
-                    console.log('Error:', err);
-                    resolve({ status: err });
-                } else {
-                    console.log('Message sent: ', res);
-                    resolve({ status: 'okay' });
-                }
+            rp(options)
+            .then(function(parsedBody) {
+                 resolve({ status: 'okay' });
+            }).catch(function(err) {
+                console.log('Error:', err);
+                resolve({ status: err });
+            });
+        });
+        
+    }
+    getPocMessages(count, oldest) {
+         var geturl = this.getBaseUrl() + '/pocfeedback/' + count + '/' + oldest;
+                
+        return new Promise(function(resolve, reject) {
+            rp(geturl)
+            .then(function(data) {
+                resolve(data);
+            }).catch(function(err) {
+                console.log(err);
+                reject(err);
             });
         });
     }
+    postToChannels(message, channel) {
+        var url = this.getBaseUrl() + '/posttochannel';
+        var options = {
+            method: 'POST',
+            uri: url,
+            body: {
+                name: message.name,
+                location: message.location,
+                phone: message.phone,
+                message: message.message,
+                channel: channel
+            },
+            json: true 
+        };
+        
+        return new Promise(function (resolve, reject) {
+            rp(options)
+            .then(function(parsedBody) {
+                 resolve({ status: 'okay' });
+            }).catch(function(err) {
+                console.log('Error:', err);
+                resolve({ status: err });
+            });
+        });
+        
+    }
+    postToGroups(message, group) {
+        var url = this.getBaseUrl() + '/posttogroup';
+        var options = {
+            method: 'POST',
+            uri: url,
+            body: {
+                    name: message.name,
+                    location: message.location,
+                    phone: message.phone,
+                    message: message.message,
+                    group: group
+            },
+            json: true 
+        };
+        
+        return new Promise(function (resolve, reject) {
+            rp(options)
+            .then(function(parsedBody) {
+                 resolve({ status: 'okay' });
+            }).catch(function(err) {
+                console.log('Error:', err);
+                resolve({ status: err });
+            });
+        });
+        
+    }
+    getChannelMessages(count, oldest) {
+        var geturl = this.getBaseUrl() + '/channel-slackmessages/' + count + '/' + oldest;
+                
+        return new Promise(function(resolve, reject) {
+            rp(geturl)
+            .then(function(data) {
+                resolve(data);
+            }).catch(function(err) {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
+    //get from particular group and channel
+    getFromChannel(channelname, count, oldest) {
+        var geturl = this.getBaseUrl() + '/channel-slackmessages/' + channelname + '/' + count + '/' + oldest;
+                
+        return new Promise(function(resolve, reject) {
+            rp(geturl)
+            .then(function(data) {
+                resolve(data);
+            }).catch(function(err) {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
+    getFromGroup(groupname, count, oldest) {
+        var geturl = this.getBaseUrl() + '/group-slackmessages/' + groupname + '/' + count + '/' + oldest;
+                
+        return new Promise(function(resolve, reject) {
+            rp(geturl)
+            .then(function(data) {
+                resolve(data);
+            }).catch(function(err) {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+    
 }

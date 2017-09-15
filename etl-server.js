@@ -1,4 +1,5 @@
-var Hapi = require('hapi');
+try {
+    var Hapi = require('hapi');
 var mysql = require('mysql');
 var Good = require('good');
 var requestConfig = require('./request-config');
@@ -10,6 +11,7 @@ var requestConfig = require('./request-config');
 var corsHeaders = require('hapi-cors-headers');
 var _ = require('underscore');
 var moment = require('moment');
+console.log('1');
 var tls = require('tls');
 var fs = require('fs');
 var routes = require('./etl-routes');
@@ -36,6 +38,8 @@ var server = new Hapi.Server({
         }
     }
 });
+
+
 
 var tls_config = false;
 if (config.etl.tls) {
@@ -234,3 +238,9 @@ server.register([
 
     });
 module.exports = server;
+
+} catch (error) {
+    console.log('error-starting', error);
+    throw error;
+}
+
