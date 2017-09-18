@@ -26,6 +26,7 @@ chai.use(sinonChai);
 
 describe('PATIENT LEVEL ETL-SERVER TESTS', function () {
 
+
   describe('Testing etl-dao layer', function () {
 
     // example showing how to use a stub to fake a method
@@ -430,7 +431,6 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function () {
             expect(p).to.have.property("value");
             expect(p).deep.equal(expectedOutput);
             done();
-
         });
 
       });
@@ -493,8 +493,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function () {
 
               expect(p).deep.equal(expectedOutput);
               done();
-
-          });
+          })
       });
     it('should ensure that convertDNAPCRPayloadTORestConsumableObs receives  the right input and generates the correct payload',
       function (done) {
@@ -519,8 +518,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function () {
 
               expect(p).deep.equal(expectedOutput);
               done();
-
-          });
+          })
 
       });
     it('should ensure that convertDNAPCRPayloadTORestConsumableObs receives  the right input and generates the correct payload',
@@ -547,7 +545,7 @@ describe('PATIENT LEVEL ETL-SERVER TESTS', function () {
               expect(p).deep.equal(expectedOutput);
               done();
 
-          });
+          })
       });
     it('should ensure that the convertViralLoadExceptionToRestConsumableObs function generates the right output',
       function (done) {

@@ -963,7 +963,7 @@
         "name": "num_patients_newly_enrolled_newly_started_on_IPT",
         "label": "# patients newly enrolled newly started on IPT",
         "description": "number of patients newly enrolled and newly started on IPT",
-        "expression": "(coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and  @startDate<=enrollment_date and enrollment_date<=@endDate"
+        "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and  @startDate<=enrollment_date and enrollment_date<=@endDate"
     },
     {
         "name": "num_patients_stopped_on_IPT",

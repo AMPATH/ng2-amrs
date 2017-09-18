@@ -19,7 +19,7 @@ var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
 describe('EID-OBS COMPARE TESTS', function () {
-
+    
     beforeEach(function (done) {
 
         done();
