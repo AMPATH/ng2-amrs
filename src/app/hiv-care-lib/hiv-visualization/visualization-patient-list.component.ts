@@ -65,7 +65,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
             return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
           }
         });
-
+        this.isLoading = true;
         this.loadPatientData(this.reportName);
       }
 
@@ -93,6 +93,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public loadPatientData(reportName: string) {
+  
     this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
