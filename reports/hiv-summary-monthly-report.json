@@ -443,6 +443,16 @@
                 "sql": "count(distinct if($expression,t1.person_id,0))"
             },
             {
+                "label":"ever_started_on_IPT",
+                "expression":"ever_started_on_IPT",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
+                "label":"newly_started_IPT",
+                "expression":"newly_started_IPT",
+                "sql": "count(distinct if($expression,t1.person_id,0))"
+            },
+            {
                 "label":"num_patients_newly_enrolled_newly_started_on_IPT",
                 "expression":"num_patients_newly_enrolled_newly_started_on_IPT",
                 "sql": "count(distinct if($expression,t1.person_id,0))"
