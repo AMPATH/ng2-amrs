@@ -143,7 +143,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
     }, 100);
     console.log('FORM MODEL:', this.form.rootNode.control);
-    this.submitForm();
+    const isSaving = this.formSubmissionService.getSubmitStatus();
+    if (!isSaving) {
+      this.submitForm();
+    }
   }
 
   public onCancel(e): void {
@@ -458,6 +461,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.form.showErrors = !this.form.valid;
     if (this.form.valid) {
       this.isBusyIndicator(true, 'Please wait, saving form...');
+      this.formSubmissionService.setSubmitStatus(true);
       // clear formSubmissionErrors
       this.formSubmissionErrors = null;
       // reset submitted orders
@@ -469,11 +473,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.isBusyIndicator(false); // hide busy indicator
           this.handleSuccessfulFormSubmission(data);
           console.log('All payloads submitted successfully:', data);
+          this.formSubmissionService.setSubmitStatus(false);
         },
         (err) => {
           console.log('error', err);
           this.isBusyIndicator(false); // hide busy indicator
           this.handleFormSubmissionErrors(err);
+          this.formSubmissionService.setSubmitStatus(false);
         });
     } else {
       this.form.markInvalidControls(this.form.rootNode);
