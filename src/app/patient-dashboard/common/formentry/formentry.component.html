@@ -1,92 +1,99 @@
 <div class="form-entry">
-	<div [ngBusy]="busyIndicator">
-		<div class='col-md-12' *ngIf=form>
-			<error-renderer [form]="form"></error-renderer>
-			<form [formGroup]="form.rootNode.control">
-				<h4 class="component-title"><span class="fa fa-file"></span>{{formName}}</h4>
-				<form-renderer [node]="form.rootNode"></form-renderer>
-				<div class="form-row">
-					<button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
-					<button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
-				</div>
-			</form>
-		</div>
-		<br/> &nbsp;
-		<div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
-<div class="panel-heading">
-	<h5>
-		<strong class="text-danger">
+  <div [ngBusy]="busyIndicator">
+    <div class='col-md-12' *ngIf=form>
+      <error-renderer [form]="form"></error-renderer>
+      <form [formGroup]="form.rootNode.control">
+        <h4 class="component-title"><span class="fa fa-file"></span>{{formName}}</h4>
+        <form-renderer [node]="form.rootNode"></form-renderer>
+        <div class="form-row">
+          <button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
+          <button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <br/> &nbsp;
+    <div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
+      <div class="panel-heading">
+        <h5>
+          <strong class="text-danger">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
 					The following error(s) occured while submitting form, please review form and retry saving!
 					</strong>
-	</h5>
-</div>
-<div class="panel-body">
-	<ul class="list-group">
-		<li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
-	</ul>
-</div>
-<div class="panel-footer" style="min-height: 50px">
-<button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
-</div>
-</div>
-<div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
-<div class="panel-heading">
-	<h5>
-		<strong class="text-danger">
+        </h5>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
+        </ul>
+      </div>
+      <div class="panel-footer" style="min-height: 50px">
+        <button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
+      </div>
+    </div>
+    <div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
+      <div class="panel-heading">
+        <h5>
+          <strong class="text-danger">
 			<span class="fa-stack fa-lg">
 				<i class="fa fa-circle-thin fa-stack-2x"></i>
 				<i class="fa fa-info fa-stack-1x"></i>
 			</span>
 			The form has some validation errors. Scroll to the top of the form to see error list.
 		</strong>
-	</h5>
-</div>
-</div>
-<br/> &nbsp;
-<div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
-<div class="panel-heading">
-	<h5>
-		<strong class="text-danger">
+        </h5>
+      </div>
+    </div>
+    <br/> &nbsp;
+    <div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
+      <div class="panel-heading">
+        <h5>
+          <strong class="text-danger">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
 					The following error(s) occured while rendering form, please report this error!
 					</strong>
-	</h5>
-</div>
-<div class="panel-body">
-	<ul class="list-group">
-		<li *ngFor="let formError of formRenderingErrors" class="list-group-item text-danger">{{formError}}</li>
-	</ul>
-</div>
-<div class="panel-footer" style="min-height: 50px">
-<button (click)="loadForm()" class="btn btn-primary pull-right">Retry Loading Form</button>
-</div>
-</div>
-</div>
-<p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
-	<strong class="text-success">
+        </h5>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li *ngFor="let formError of formRenderingErrors" class="list-group-item text-danger">{{formError}}</li>
+        </ul>
+      </div>
+      <div class="panel-footer" style="min-height: 50px">
+        <button (click)="loadForm()" class="btn btn-primary pull-right">Retry Loading Form</button>
+      </div>
+    </div>
+  </div>
+  <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
+    <strong class="text-success">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
 					Form submitted successfully.
 					</strong>
-	<order-list  [submittedOrdersModel]="submittedOrders" >
-	</order-list>
+    <order-list [submittedOrdersModel]="submittedOrders">
+    </order-list>
 
-	<br>
-	<footer>
-		<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-			<button (click)="navigateTo('patientDashboard')" type="button" pButton icon="fa-user" label="Patient Dashboard"></button>
-			<button (click)="navigateTo('patientSearch')" type="button" pButton icon="fa-search" label="Patient Search"></button>
-		</div>
-	</footer>
+    <br />
+    <div *ngIf="diffCareReferralStatus">
+      <strong>Differentiated Care Referral</strong>
+      <hr style="margin-top:1px; margin-bottom:1px;" />
+      <diff-care-referral-status [status]="diffCareReferralStatus"></diff-care-referral-status>
+    </div>
 
-</p-dialog>
+    <br>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button (click)="navigateTo('patientDashboard')" type="button" pButton icon="fa-user" label="Patient Dashboard"></button>
+        <button (click)="navigateTo('patientSearch')" type="button" pButton icon="fa-search" label="Patient Search"></button>
+      </div>
+    </footer>
+
+  </p-dialog>
 </div>
