@@ -74,7 +74,6 @@ export class EditPatientRelationshipComponent implements OnInit {
     this.isLoading = true;
     _.find(this.relationships, (relationship) => {
       let relative = new Relationship(relationship);
-      console.log('relationship in find loop is ', relative.uuid);
       if (this.selectedRelative.relatedPersonUuid === relative.relatedPersonUuid) {
         let patientRelationshipPayload = {
           relationshipType: this.selectedRelationshipType.uuid

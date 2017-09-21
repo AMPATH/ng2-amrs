@@ -110,7 +110,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     });
   }
 
- public loadMorePatients() {
+  public loadMorePatients() {
     this.isLoading = true;
     this.loadPatientData(this.reportName);
   }
@@ -119,7 +119,8 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 
 }

@@ -29,6 +29,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   public programUuid: string = '';
   public enrolledPrograms: Array<any> = [];
   public currentProgramEnrollmentUuid: string = '';
+  public currentEnrollment: any = undefined;
   public visit: any;
 
   public patient: any;
@@ -120,7 +121,7 @@ export class VisitComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
-          console.log('this.patient', this.patient);
+          // console.log('this.patient', this.patient);
           if (Array.isArray(patient.enrolledPrograms)) {
             this.enrolledPrograms = patient.enrolledPrograms;
             this.setEnrollmentUuid();
@@ -142,6 +143,8 @@ export class VisitComponent implements OnInit, OnDestroy {
     enrolledPrograms.forEach((program) => {
       if (program.programUuid === this.programUuid) {
         this.currentProgramEnrollmentUuid = program.enrolledProgram.uuid;
+        this.currentEnrollment = program.enrolledProgram;
+        console.log('program', program);
       }
     });
   }

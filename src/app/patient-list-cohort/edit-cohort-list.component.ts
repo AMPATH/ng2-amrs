@@ -73,7 +73,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
 
         },
         (error) => {
-          console.log('error', error);
+          console.error('error', error);
           this.errors.push({
             message: 'error editing cohort'
           });

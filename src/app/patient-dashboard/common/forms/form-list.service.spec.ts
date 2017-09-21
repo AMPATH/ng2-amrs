@@ -94,7 +94,6 @@ describe('FormListService', () => {
                 [favourite, defualtOrdering]);
 
             expect(Array.isArray(actualOrderedForms)).toBeTruthy();
-            console.log('actual array', actualOrderedForms);
             expect(actualOrderedForms[0]).toEqual(expectedOrderForms[0]);
             expect(actualOrderedForms[1]).toEqual(expectedOrderForms[1]);
             expect(actualOrderedForms[2]).toEqual(expectedOrderForms[2]);

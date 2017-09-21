@@ -113,7 +113,6 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
    /* _.extend(this.filterModel, data);
     this.filterModelChange.emit(this.filterModel);*/
     this.startAge = $event.ageFrom;
-    console.log('$event', $event);
     this.endAge = $event.ageTo;
   }
   public getSelectedGender(selectedGender) {

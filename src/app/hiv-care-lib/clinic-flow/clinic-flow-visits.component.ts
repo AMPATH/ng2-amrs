@@ -69,7 +69,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         }
 
         this.router.navigate(['/patient-dashboard/patient/'
-            + patientUuid + '/general/landing-page']);
+            + patientUuid + '/general/general/landing-page']);
     }
 
     public columns() {

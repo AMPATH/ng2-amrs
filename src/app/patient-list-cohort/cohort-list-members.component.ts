@@ -92,7 +92,8 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
   public valueChange(newValue) {
     this.filterTerm = newValue;
@@ -106,9 +107,8 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
           this.displayConfirmDeleteCohortDialog = false;
           this.displaySuccessAlert('Patient list deleted successfully');
           setTimeout(() => {
-                 this.router.navigate(['/patient-list-cohort/cohort']);
-           }, 2000);
-          console.log('success');
+            this.router.navigate(['/patient-list-cohort/cohort']);
+          }, 2000);
         },
         (error) => {
           console.error('The request failed because of the following ', error);
@@ -145,9 +145,9 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
     this.displayConfirmDeleteCohortDialog = true;
   }
 
- public closeConfirmDeleteCohortDialog() {
-      this.displayConfirmDeleteCohortDialog = false;
- }
+  public closeConfirmDeleteCohortDialog() {
+    this.displayConfirmDeleteCohortDialog = false;
+  }
   public closeConfirmationDialog() {
     this.displayConfirmDialog = false;
   }

@@ -64,7 +64,7 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
 
         },
         (error) => {
-          console.log('error', error);
+          console.error('error', error);
           this.errors.push({
             message: 'error adding cohort'
           });

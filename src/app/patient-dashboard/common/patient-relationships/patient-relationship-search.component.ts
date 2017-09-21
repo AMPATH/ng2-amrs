@@ -73,7 +73,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
                 },
                 (error) => {
                     this.isLoading = false;
-                    console.log('error', error);
+                    console.error('error', error);
                     this.errorMessage = error;
                 }
                 );
@@ -95,7 +95,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             return;
         }
         this.router.navigate(['/patient-dashboard/patient/' +
-            patientUuid + '/general/patient-info']);
+            patientUuid + '/general/general/patient-info']);
 
     }
 

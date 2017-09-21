@@ -93,7 +93,7 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        console.log('error', error);
+        console.error('error', error);
         this.errors.push({
           id: 'patient',
           message: 'error updating address'
@@ -115,7 +115,7 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
       this.loaderStatus = false;
     }, (error) => {
       this.loaderStatus = false;
-      console.log(error);
+      console.error(error);
     });
   }
 

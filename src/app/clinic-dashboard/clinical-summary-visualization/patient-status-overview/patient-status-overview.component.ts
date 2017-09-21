@@ -77,7 +77,6 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
   }
 
   public getPatientStatusOverviewData() {
-    console.log('this.location===', this.location);
     this.loadingPatientStatus = true;
     this.visualizationResourceService.getPatientCareStatusReport(
       {
@@ -95,7 +94,6 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
         (data) => {
 
           this.patientStatusData = data.result;
-          console.log('this.patientStatusData', this.patientStatusData);
           this.indicatorDef = data.indicatorDefinitions;
           this.generatePatientStatusOverviewChart(this.patientStatusData );
           this.loadingPatientStatus = false;

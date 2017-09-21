@@ -99,7 +99,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public onError(error) {
     this.isLoading = false;
     this.resetInputMargin();
-    console.log('error', error);
+    console.error('error', error);
     this.errorMessage = error;
     this.hasConductedSearch = false;
   }

@@ -142,8 +142,8 @@ describe('Component: ProgramsComponent', () => {
   it('should fetch patient program enrollment when patient changes', (done) => {
     patientService = TestBed.get(PatientService);
     let spy = spyOn(component, 'loadProgramsPatientIsEnrolledIn').and.callThrough();
-    console.log('spy', spy);
-    console.log('component', component);
+    // console.log('spy', spy);
+    // console.log('component', component);
     patientService.currentlyLoadedPatient.next(new Patient({person: {uuid: 'new-uuid'}}));
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith('new-uuid');

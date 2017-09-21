@@ -61,7 +61,8 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 
   public columns() {
@@ -89,7 +90,7 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
     this.loadingClinicFlow = true;
     this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
     let result = this.clinicFlowResource.
-    getClinicFlow(dateStated, locations);
+      getClinicFlow(dateStated, locations);
     if (result === null) {
       throw new Error('Null clinic flow observable');
     } else {

@@ -61,7 +61,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
                     this.isBusy = false;
                   },
                   (err) => {
-                    console.log(err);
+                    console.error(err);
                     this.errorFlag = true;
                     this.isBusy = false;
                   }
@@ -70,7 +70,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
             }, (err) => {
               this.errorFlag = true;
               this.isBusy = false;
-              console.log(err);
+              console.error(err);
             });
 
         }

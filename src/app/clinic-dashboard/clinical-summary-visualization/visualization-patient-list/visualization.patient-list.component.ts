@@ -5,7 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import {
   ClinicalSummaryVisualizationResourceService
 } from '../../../etl-api/clinical-summary-visualization-resource.service';
-import { ClinicalSummaryVisualizationService
+import {
+  ClinicalSummaryVisualizationService
 } from '../../../hiv-care-lib/services/clinical-summary-visualization.service';
 
 @Component({
@@ -108,7 +109,8 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 
 }

@@ -6,8 +6,6 @@ import { ActivatedRoute } from '@angular/router';
  * see https://github.com/gdi2290/es6-promise-loader for more info
  */
 
-console.log('`About` component loaded asynchronously');
-
 @Component({
   selector: 'about',
   styles: [`
@@ -30,7 +28,6 @@ export class AboutComponent implements OnInit {
         this.localState = data.yourData;
       });
 
-    console.log('hello `About` component');
     // static data that is bundled
     // var mockData = require('assets/mock-data/mock-data.json');
     // console.log('mockData', mockData);

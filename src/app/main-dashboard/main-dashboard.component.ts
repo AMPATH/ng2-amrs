@@ -52,7 +52,6 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('its launhin');
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const navEvent = event as NavigationEnd;
@@ -70,7 +69,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
         this.sidebarOpen = false;
       }
     },
-      (err) => console.log(err),
+      (err) => console.error(err),
       () => console.log('Completed'));
     this.user = this.userService.getLoggedInUser();
     this.userDefaultSettingsService.locationSubject.subscribe((location) => {

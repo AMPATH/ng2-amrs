@@ -53,7 +53,6 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
         let changedProp = changes[propName];
         if (!changedProp.isFirstChange()) {
           // this.dataSource = changedProp.currentValue;
-          console.log('re-rendering the grid from generic list');
           this.refresh = true;
           this.generateGrid();
         }

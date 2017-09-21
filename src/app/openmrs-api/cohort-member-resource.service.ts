@@ -43,7 +43,6 @@ export class CohortMemberResourceService {
 
          let cohortUrl = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member/' + uuid;
 
-         console.log(cohortUrl);
          let headers = new Headers({ 'Content-Type': 'application/json' });
          let options = new RequestOptions({ headers: headers });
          return this._http.get(cohortUrl , options)

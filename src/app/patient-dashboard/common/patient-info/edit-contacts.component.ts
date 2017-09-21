@@ -97,7 +97,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
 
       },
       (error) => {
-        console.log('error', error);
+        console.error('error', error);
         this.errors.push({
           id: 'patient',
           message: 'error updating contacts'

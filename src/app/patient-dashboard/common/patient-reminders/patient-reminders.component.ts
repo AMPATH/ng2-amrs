@@ -62,7 +62,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
 
             },
             (error) => {
-              console.log('error', error);
+              console.error('error', error);
               this.errorMessage = error;
             }
             );

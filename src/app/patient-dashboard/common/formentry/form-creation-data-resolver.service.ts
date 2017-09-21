@@ -30,7 +30,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
             this.upgradeConflictingValidations(compiledFormSchema);
             console.log('compiledFormSchema', compiledFormSchema);
             if (selectedEncounter) {
-              console.log('no encounter for this form');
+              console.log('No encounters for this form');
               resolve({ encounter: {}, schema: compiledFormSchema });
             } else {
               if ((this.draftedForm.lastDraftedForm === null ||
@@ -47,7 +47,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
           }
         },
         (err) => {
-          console.log(err);
+          console.error(err);
           reject(err);
         });
 

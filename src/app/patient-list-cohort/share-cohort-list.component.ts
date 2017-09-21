@@ -88,7 +88,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
         },
         (error) => {
-          console.log('error', error);
+          console.error('error', error);
           this.displayErrorAlert('Error!',
             'System encountered an error while fetching cohort user role. Please retry.');
           this.fetchingResults = false;
@@ -132,7 +132,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
       },
       (error) => {
-        console.log('error', error);
+        console.error('error', error);
         this.displayErrorAlert('Error!',
           'System encountered an error while sharing the cohort. Please retry.');
       }
@@ -200,7 +200,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
       },
       (error) => {
-        console.log('error', error);
+        console.error('error', error);
         this.displayErrorAlert('Error!',
           'System encountered an error while updating cohort user role. Please retry.');
       }

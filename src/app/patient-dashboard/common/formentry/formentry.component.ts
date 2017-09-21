@@ -180,13 +180,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/landing-page']);
+        this.patient.uuid + '/general/general/landing-page']);
         this.patientService.fetchPatientByUuid(this.patient.uuid);
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/forms']);
+        this.patient.uuid + '/general/general/forms']);
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -195,7 +195,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         });
         break;
       default:
-        console.log('unknown path');
+        console.error('unknown path');
     }
 
   }
@@ -484,7 +484,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.formSubmissionService.setSubmitStatus(false);
         },
         (err) => {
-          console.log('error', err);
+          console.error('error', err);
           this.isBusyIndicator(false); // hide busy indicator
           this.handleFormSubmissionErrors(err);
           this.formSubmissionService.setSubmitStatus(false);

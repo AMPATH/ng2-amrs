@@ -1,6 +1,8 @@
 <div [ngBusy]="{busy:[isBusy],message:'Loading...'}">
 
-  <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit</h4>
+  <h4 class="component-title"><span class="icon-i-outpatient"></span>Current Visit </h4>
+  <strong *ngIf="currentEnrollment" ><span>Patient enrolled in {{currentEnrollment.label}}  </span><span *ngIf="currentEnrollment.openmrsModel.location">{{ (' at ' + currentEnrollment.openmrsModel.location.display ) }}</span> <span>{{(' since ' + currentEnrollment.dateEnrolled)}}.</span>
+    <span *ngIf="!currentEnrollment.openmrsModel.location" style="text-transform:none;"> Please associate this program with a clinic.</span></strong>
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
   </div>

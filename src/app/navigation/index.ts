@@ -1,5 +1,4 @@
 export * from './navigation.module';
-export * from './side-navigation/patient-side-nav/patient-side-nav-routes.factory.spec';
 export * from './side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 export * from './side-navigation/patient-side-nav/patient-side-nav.component';
 export * from './navigation.service';

@@ -91,7 +91,7 @@ export class ReportFilterComponent implements OnInit {
         }
       },
       (error: any) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }
@@ -106,7 +106,7 @@ export class ReportFilterComponent implements OnInit {
         }
       },
       (error: any) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }
@@ -123,7 +123,7 @@ export class ReportFilterComponent implements OnInit {
         }
       },
       (error: any) => {
-        console.log(error);
+        console.error(error);
       }
       );
   }

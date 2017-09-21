@@ -1017,7 +1017,7 @@ export class HivPatientClinicalSummaryService {
             });
           },
           (err) => {
-            console.log(err);
+            console.error(err);
           }
         );
       } else {

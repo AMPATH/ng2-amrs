@@ -15,7 +15,6 @@ var PatientStatusVisualizationResourceService = (function () {
         this.cacheService = cacheService;
     }
     PatientStatusVisualizationResourceService.prototype.getAggregates = function (options) {
-        console.log('====', options);
         var api = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking';
         var params = this.getUrlRequestParams(options);

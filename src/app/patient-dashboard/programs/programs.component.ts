@@ -84,7 +84,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
       let selectedProgram = {};
       selectedProgram = this.programService.
             getSelectedProgram(this.availablePrograms, programUuid);
-      console.log('selectedProgram', selectedProgram);
+      // console.log('selectedProgram', selectedProgram);
       this.hasError = false;
       this.dateCompleted = undefined;
       this.dateEnrolled = undefined;
@@ -263,7 +263,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         }
       },
       (error: any) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }

@@ -110,8 +110,8 @@ describe('Component: Todays Vitals Unit Tests', () => {
 
   it('should fetch patient todays vitals when patient changes', (done) => {
     let spy = spyOn(component, 'loadTodaysVitalsForPatient').and.callThrough();
-    console.log('spy', spy);
-    console.log('component', component);
+    // console.log('spy', spy);
+    // console.log('component', component);
     patientService.currentlyLoadedPatient.next(new Patient({ person: { uuid: 'new-uuid' } }));
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith('new-uuid');

@@ -98,7 +98,6 @@ export class DailyScheduleComponent implements OnInit {
   }
 
   public onGenerateReport(event: any) {
-    console.log(event, this.reportFilter);
     this.msgs = [];
     this.msgs.push({
       severity: 'info',

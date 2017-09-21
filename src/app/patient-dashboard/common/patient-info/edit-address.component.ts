@@ -84,10 +84,9 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           this.displaySuccessAlert('Address saved successfully');
           this.patientService.fetchPatientByUuid(this.patients.person.uuid);
         }
-        console.log('success', success);
       },
       (error) => {
-        console.log('error', error);
+        console.error('error', error);
         this.errors.push({
           id: 'patient',
           message: 'error updating address'
