@@ -50,6 +50,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.loadVitals(patient.person.uuid, this.nextStartIndex);
           this.patientUuid = patient.person.uuid;
+          console.log('patient received', this.patient);
         }
       }
       , (err) => {

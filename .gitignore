@@ -136,3 +136,4 @@ dll/
 *.ngsummary.json
 compiled/
 .awcache/
+.angulardoc.json
