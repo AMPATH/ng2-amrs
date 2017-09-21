@@ -198,6 +198,14 @@ export class Person extends BaseModel {
   }
 
   @serializable(true, false)
+  public get birthdateEstimated(): boolean {
+    return this._openmrsModel.birthdateEstimated;
+  }
+  public set birthdateEstimated(v: boolean) {
+    this._openmrsModel.birthdateEstimated = v;
+  }
+
+  @serializable(true, false)
   public get deathDate(): Date {
     return this._openmrsModel.deathDate;
   }
