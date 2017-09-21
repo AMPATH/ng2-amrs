@@ -197,31 +197,31 @@ export class ClinicFlowCacheService {
         {
           headerName: ' # Visits',
           width: 150,
-          filter: 'text',
+          filter: 'number',
           field: 'totalVisitsCount'
         },
         {
           headerName: '# Incomplete',
           width: 180,
-          filter: 'text',
+          filter: 'number',
           field: 'incompleteVisitsCount'
         },
         {
           headerName: 'Median Triage Waiting Time',
           width: 250,
-          filter: 'text',
+          filter: 'number',
           field: 'medianWaitingTime.medianTriageWaitingTime'
         },
         {
           headerName: 'Median Clinician Waiting Time ',
           width: 250,
-          filter: 'text',
+          filter: 'number',
           field: 'medianWaitingTime.medianClinicianWaitingTime'
         },
         {
           headerName: 'Median Visit Completion Time ',
           width: 250,
-          filter: 'text',
+          filter: 'number',
           field: 'medianWaitingTime.medianVisitCompletionTime'
         }
       ];

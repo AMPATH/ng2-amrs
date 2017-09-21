@@ -101,6 +101,9 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       });
       this.gridOptions.columnDefs = defs;
       this.gridOptions.enableColResize = true;
+      this.gridOptions.enableSorting = true;
+      this.gridOptions.enableFilter = true;
+      this.gridOptions.showToolPanel = false;
     }
 
     if (this.agGrid && this.agGrid.api) {
