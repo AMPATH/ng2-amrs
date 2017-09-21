@@ -71,10 +71,17 @@ export class DynamicRoutesService {
     });
 
     // extract routes that is program specific
-    dashboard['programs'].forEach((program: Array<object>) => {
+    dashboard['programs'].forEach((program: object) => {
       route.programs.forEach((enrolledProgram: ProgramEnrollment) => {
         if (enrolledProgram.program.uuid === program['programUuid']) {
-          program['routes'].forEach((programRoute: object) => {
+          let allRoutes = program['routes'];
+          if (program['inheritsCommonRoutes']) {
+            allRoutes = allRoutes.concat(dashboard['commonRoutes']);
+          }
+          allRoutes.sort((a, b) => {
+            return a.order - b.order;
+          });
+          allRoutes.forEach((programRoute: object) => {
             let url = dashboard['baseRoute'] +
               this.extractParameter(dashboard['routeParameter'], route)
               + '/' + programRoute['url'];

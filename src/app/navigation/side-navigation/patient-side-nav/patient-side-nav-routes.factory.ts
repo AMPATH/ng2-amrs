@@ -38,7 +38,15 @@ export class PatientRoutesFactory {
         model.renderingInfo = {
             icon: 'fa fa-square-o'
         };
-        this.createProgramChildRoutes(routInfo.routes, model);
+        let allRoutes = routInfo.routes;
+        if (routInfo.inheritsCommonRoutes) {
+          const patientRoutesConfig: any = this.routesProvider.patientDashboardConfig;
+          allRoutes = routInfo.routes.concat(patientRoutesConfig['commonRoutes']);
+        }
+        allRoutes.sort((a, b) => {
+          return a.order - b.order;
+        });
+        this.createProgramChildRoutes(allRoutes, model);
         return model;
     }
 
