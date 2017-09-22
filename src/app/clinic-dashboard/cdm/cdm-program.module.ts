@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MaterialModule
+import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
 } from '@angular/material';
 
 import { cdmProgramRouting } from './cdm-program.routes';
@@ -21,8 +21,7 @@ import { DataListsModule } from '../../shared/data-lists/data-lists.module';
     FormsModule,
     MdTabsModule,
     MdProgressSpinnerModule,
-    MdProgressBarModule,
-    MaterialModule
+    MdProgressBarModule
   ],
   exports: [],
   declarations: [],

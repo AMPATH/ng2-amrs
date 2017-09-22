@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule, MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule , MdSlideToggleModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
@@ -101,7 +101,7 @@ import { PatientsRequiringVLReportFiltersComponent
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    MaterialModule
+    MdSlideToggleModule
   ],
   exports: [
     Moh731TabularComponent,

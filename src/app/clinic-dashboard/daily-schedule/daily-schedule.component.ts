@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
+import { CookieService } from 'ngx-cookie';
 @Component({
   selector: 'app-daily-schedule',
   templateUrl: './daily-schedule.component.html',
@@ -39,7 +40,8 @@ export class DailyScheduleComponent implements OnInit {
   public _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private router: Router, private route: ActivatedRoute,
-              private clinicFlowCache: ClinicFlowCacheService) {
+              private clinicFlowCache: ClinicFlowCacheService,
+              private _cookieService: CookieService) {
     this._datePipe = new DatePipe('en-US');
 
   }
@@ -128,6 +130,27 @@ export class DailyScheduleComponent implements OnInit {
 
   public getDate(dateObject: any) {
     return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
+  }
+  public filterSelected($event) {
+
+      let cookieKey = 'programVisitEncounterFilter';
+      let cookieVal = $event;
+
+      let programVisitCookie = this._cookieService.get(cookieKey);
+
+      if (typeof programVisitCookie === 'undefined') {
+
+          this._cookieService.put(cookieKey, cookieVal);
+
+      } else {
+
+        this._cookieService.remove(cookieKey);
+
+        this._cookieService.put(cookieKey, cookieVal);
+      }
+
+      this._cookieService.put(cookieKey, cookieVal);
+      console.log('Filter Selected', $event);
   }
 
 }

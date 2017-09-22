@@ -3,6 +3,7 @@ import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs/Rx';
 import * as Moment from 'moment';
+import { CookieService } from 'ngx-cookie';
 @Component({
   selector: 'daily-schedule-not-returned',
   templateUrl: './daily-schedule-not-returned.component.html',
@@ -19,6 +20,12 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   public dataLoaded: boolean = false;
   public nextStartIndex: number = 0;
   public selectedNotReturnedTab: any;
+  public programVisitEncounterFilter: any = {
+     'programType': [],
+     'visitType': [],
+     'encounterType': []
+  };
+  public filterParam: any = [];
   public extraColumns: any = {
     headerName: 'Phone Number',
     width: 80,
@@ -38,7 +45,8 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   private selectedClinic: any;
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private dailyScheduleResource: DailyScheduleResourceService) {
+              private dailyScheduleResource: DailyScheduleResourceService,
+              private _cookieService: CookieService) {
   }
 
   public ngOnInit() {
@@ -85,10 +93,12 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   }
 
   private getQueryParams() {
+    this.filterSelected();
     return {
       startDate: this.selectedDate,
       startIndex: this.nextStartIndex,
       locationUuids: this.selectedClinic,
+      programVisitEncounter: this.filterParam,
       limit: undefined
     };
 
@@ -128,6 +138,30 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
         }
       );
     }
+  }
+
+    private filterSelected() {
+      let cookieKey = 'programVisitEncounterFilter';
+
+      let cookieVal =  encodeURI(JSON.stringify(this.programVisitEncounterFilter));
+
+      let programVisitCookie = this._cookieService.get(cookieKey);
+
+      console.log('Cookie val', programVisitCookie);
+
+      if (typeof programVisitCookie === 'undefined') {
+
+           this._cookieService.put(cookieKey, cookieVal);
+
+      } else {
+
+         // this._cookieService.remove(cookieKey);
+
+         // this._cookieService.put(cookieKey, cookieVal);
+      }
+
+      this.filterParam = cookieVal;
+
   }
 
 }
