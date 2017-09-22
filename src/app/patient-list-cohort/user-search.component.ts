@@ -73,7 +73,7 @@ export class UserSearchComponent implements OnInit, OnDestroy {
           },
           (error) => {
             this.isLoading = false;
-            console.log('error', error);
+            console.error('error', error);
             this.errorMessage = error;
           }
         );

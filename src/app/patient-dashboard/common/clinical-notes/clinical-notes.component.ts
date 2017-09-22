@@ -53,7 +53,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
       this.getNotes(0, 10, (err, notes) => {
 
         if (err) {
-          console.log(err);
+          console.error(err);
           return;
         }
 
@@ -84,7 +84,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
     this.getNotes(this.nextStartIndex, 10, (err, notes) => {
 
       if (err) {
-        console.log(err);
+        console.error(err);
         return;
       }
 

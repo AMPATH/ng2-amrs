@@ -1,9 +1,17 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-// import { BusyModule, BusyConfig } from 'angular2-busy';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
+import {
+  MaterialModule, MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+} from '@angular/material';
+import { CacheService } from 'ionic-cache';
+import { SelectModule } from 'angular2-select';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
@@ -15,22 +23,19 @@ import { RoutesProviderService } from './dynamic-route/route-config-provider.ser
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { FormsModule } from '@angular/forms';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
-import { BusyModule, BusyConfig } from 'angular2-busy';
 import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from './locations/location-filter/location-filter.component';
-import { SelectModule } from 'angular2-select';
 import { EtlApi } from '../etl-api/etl-api.module';
+
 @NgModule({
   imports: [
     BusyModule.forRoot(
@@ -69,7 +74,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
     BuildVersionComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
-    OpenmrsApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
     OnlineTrackerComponent,

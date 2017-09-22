@@ -11,7 +11,7 @@ before_install:
 - npm i -g npm@^3
 - npm i -g brfs
 script:
-#- npm run lint
+- npm run lint
 - npm run test
 - npm run build:docker
 sudo: required

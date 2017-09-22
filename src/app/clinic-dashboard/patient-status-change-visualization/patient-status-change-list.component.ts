@@ -150,6 +150,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 }

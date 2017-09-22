@@ -16,23 +16,23 @@ export class PatientProgramService {
   private subscription: Subscription;
   private _datePipe: DatePipe;
   constructor(private routesProviderService: RoutesProviderService,
-              private programService: ProgramService) {
+    private programService: ProgramService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
     this.loadProgramBatch(uuid);
     return Observable.create((observer: BehaviorSubject<any[]>) => {
-        this.enrolledPrograms.subscribe(
-          (data) => {
-            if (data) {
-              observer.next(data);
-            }
-          },
-          (error) => {
-            observer.error(error);
+      this.enrolledPrograms.subscribe(
+        (data) => {
+          if (data) {
+            observer.next(data);
           }
-        );
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
     }).first();
   }
 
@@ -76,55 +76,55 @@ export class PatientProgramService {
     programBatch.push(this.loadProgramsPatientIsEnrolledIn(patientUuid));
     programBatch.push(this.getAvailablePrograms());
     this.subscription = Observable.forkJoin(programBatch).subscribe((data) => {
-        let enrolledProgrames = data[0];
-        let _programs = [];
-        // data[1] = availablePrograms
-        _.each(data[1], (program: any) => {
-          let _enrolledPrograms: Array<any> = _.filter(enrolledProgrames,
-            (enrolledProgram: any) => {
-              return enrolledProgram.programUuid === program.uuid &&
-                _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
-            });
-          let _enrolledProgram: any;
-          if (_enrolledPrograms.length > 0) {
-            _enrolledProgram = _.last(_enrolledPrograms);
-          }
-
-          let route: any = _.find(dashboardRoutesConfig.programs, (_route: any) => {
-            return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
+      let enrolledProgrames = data[0];
+      let _programs = [];
+      // data[1] = availablePrograms
+      _.each(data[1], (program: any) => {
+        let _enrolledPrograms: Array<any> = _.filter(enrolledProgrames,
+          (enrolledProgram: any) => {
+            return enrolledProgram.programUuid === program.uuid &&
+              _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
           });
+        let _enrolledProgram: any;
+        if (_enrolledPrograms.length > 0) {
+          _enrolledProgram = _.last(_enrolledPrograms);
+        }
 
-          _programs.push({
-            program: program,
-            enrolledProgram: _enrolledProgram,
-            programUuid: program.uuid,
-            isFocused: false,
-            isEdit: false,
-            dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
-              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
-            dateEnrolledView: (!_.isNil(_enrolledProgram)
-            && _.isNil(_enrolledProgram.dateCompleted)) ?
-              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
-            dateCompleted: null,
-            validationError: '',
-            baseRoute: route ? route.alias : '',
-            buttons: {
-              landing: {
-                display: 'Go to Program',
-                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' +
-                  route.baseRoute + '/landing-page' : null
-              },
-              visit: {
-                display: 'Start Visit',
-                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' +
-                  route.baseRoute + '/visit' : null
-              }
-            },
-            isEnrolled: !_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)
-          });
+        let route: any = _.find(dashboardRoutesConfig.programs, (_route: any) => {
+          return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
         });
-        this.enrolledPrograms.next(_programs);
-      },
+
+        _programs.push({
+          program: program,
+          enrolledProgram: _enrolledProgram,
+          programUuid: program.uuid,
+          isFocused: false,
+          isEdit: false,
+          dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
+            this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
+          dateEnrolledView: (!_.isNil(_enrolledProgram)
+            && _.isNil(_enrolledProgram.dateCompleted)) ?
+            this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
+          dateCompleted: null,
+          validationError: '',
+          baseRoute: route ? route.alias : '',
+          buttons: {
+            landing: {
+              display: 'Go to Program',
+              url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                route.baseRoute + '/landing-page' : null
+            },
+            visit: {
+              display: 'Start Visit',
+              url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                route.baseRoute + '/visit' : null
+            }
+          },
+          isEnrolled: !_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)
+        });
+      });
+      this.enrolledPrograms.next(_programs);
+    },
       (err) => {
         this.enrolledPrograms.error(err);
       },

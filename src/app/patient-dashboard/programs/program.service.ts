@@ -101,7 +101,7 @@ export class ProgramService {
       delete payLoad['patient'];
       delete payLoad['program'];
     }
-    console.log('Program Enrollment Payload ', JSON.stringify(payLoad));
+    // console.log('Program Enrollment Payload ', JSON.stringify(payLoad));
     return payLoad;
 
   }

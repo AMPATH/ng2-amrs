@@ -102,7 +102,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
     } else {
       this.visitsSubscription = result.subscribe(
         (patientList) => {
-          console.log('Visits', patientList);
           if (patientList.length > 0) {
             this.dailyVisitsPatientList = this.dailyVisitsPatientList.concat(
               patientList);

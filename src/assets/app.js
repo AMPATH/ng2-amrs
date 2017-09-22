@@ -723,7 +723,7 @@ function _init() {
 (function ($) {
 
   var allPanels = $('.accordion .accordion-panel .description');
-  console.log(allPanels);
+  // console.log(allPanels);
   allPanels.each(function () {
 
     $(this).hide();
@@ -735,7 +735,7 @@ function _init() {
 
   $('.accordion .accordion-panel .title a').click(function (e) {
 
-    console.log(this);
+    // console.log(this);
 
     if ($(this).parent().next().not(":visible")) {
 

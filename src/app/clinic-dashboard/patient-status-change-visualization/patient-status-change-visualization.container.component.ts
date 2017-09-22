@@ -193,7 +193,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
         this.cohortAnalysisComponent.triggerBusyIndicators(1, showBusyIndicator, hasError);
         break;
       default:
-        console.log('unknown view', view);
+        console.error('unknown view', view);
 
     }
   }

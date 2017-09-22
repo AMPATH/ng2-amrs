@@ -170,7 +170,7 @@ public ngOnInit() {
               this.dnaPcrData[property] = data.name.display;
           }
       }, (error) => {
-          console.log('Failed to load concepts ', error);
+          console.error('Failed to load concepts ', error);
       });
     }
   }

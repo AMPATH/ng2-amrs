@@ -1,9 +1,12 @@
-import { Component, OnInit, Input, Output, OnChanges,
-  SimpleChange, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, OnChanges,
+  SimpleChange, EventEmitter
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { Moh731PatientListResourceService
+import {
+  Moh731PatientListResourceService
 } from '../../etl-api/moh-731-patientlist-resource.service';
 
 @Component({
@@ -38,7 +41,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
               private moh731PatientListResourceService: Moh731PatientListResourceService) {
   }
 
-  public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     // tslint:disable-next-line
     for (let propName in changes) {
       let changedProp = changes[propName];
@@ -143,7 +146,8 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 
   public addExtraColumns(indicators: Array<any>) {

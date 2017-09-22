@@ -30,11 +30,10 @@ export class PatientSearchContainerComponent implements OnInit {
   }
 
   public loadPatientData(patientUuid) {
-    console.log('Navigate');
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this._router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general']);
+    this._router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general']);
   }
 
 }

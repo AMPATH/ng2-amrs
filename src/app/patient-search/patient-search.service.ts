@@ -29,7 +29,7 @@ export class PatientSearchService {
         this.patientsSearchResults.next(mappedPatients);
       },
       (error) => {
-        console.log('Error', error);
+        console.error('Error', error);
         this.patientsSearchResults.error(error); // test case that returns error
         patientsSearchResults.error(error);
 

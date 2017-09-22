@@ -133,7 +133,6 @@ export class ArtOverviewComponent implements OnInit {
 
         let cols =
           this.clinicalSummaryVisualizationService.translateColumns['clinical-art-overview'];
-        console.log('sfsf', cols);
         this.categories.push(cols[indicator]);
         this.series.push({
           name: cols[indicator],

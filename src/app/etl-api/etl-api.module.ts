@@ -35,6 +35,7 @@ import { DefaulterListResourceService } from './defaulter-list-resource.service'
 import {
   HivMonthlySummaryIndicatorsResourceService
 } from './hiv-monthly-summary-indicators-resource.service';
+import { PatientProgramResourceService } from './patient-program-resource.service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -64,7 +65,8 @@ import {
     PatientsRequiringVLResourceService,
     PatientsRequiringVLResourceServiceMock,
     DefaulterListResourceService,
-    HivMonthlySummaryIndicatorsResourceService
+    HivMonthlySummaryIndicatorsResourceService,
+    PatientProgramResourceService
   ],
   exports: []
 })

@@ -91,7 +91,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         this.isBusy = false;
       }, (err) => {
         this.error = err;
-        console.log('error', this.error);
+        console.error('error', this.error);
       });
   }
 

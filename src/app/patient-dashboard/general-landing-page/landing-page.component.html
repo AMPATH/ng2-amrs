@@ -4,7 +4,7 @@
   </h4>
   <div class="program">
     <ng-container *ngFor="let row of availablePrograms; ">
-      <div class="enrolled" *ngIf="row.isEnrolled">
+      <div class="enrolled" *ngIf="(row.isEnrolled)">
         <div class="program-header-wrapper">
           <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on {{row.dateEnrolledView}})
           </h2>
@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="program-body" [ngClass]="{'pink': addPinkBackground}">
-          <div *ngIf="row.isEnrolled" class="program-info">
+          <div *ngIf="(row.isEnrolled)" class="program-info">
             <div class="program-snapshot">
               <div [ngSwitch]="row.baseRoute">
                 <hiv-snapshot (addPinkBackground)="onAddPinkBackground($event)" *ngSwitchCase="'hiv'" [patient]="patient">

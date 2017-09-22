@@ -53,7 +53,7 @@ export class PatientService {
         this.isBusy.next(false);
       },
       (err) => {
-        console.log(err);
+        console.error(err);
         this.isBusy.next(false);
       });
 

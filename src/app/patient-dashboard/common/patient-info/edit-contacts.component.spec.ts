@@ -71,7 +71,6 @@ describe('Component: EditContacts Unit Tests', () => {
       attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
     }]
   };
-  console.log('personAttributePayloadxxxxxxxxxxxxxxxxxxxxx', personAttributePayload);
 
   it('should instantiate the component', (done) => {
 

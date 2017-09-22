@@ -76,7 +76,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
                 },
                 (err) => {
-                    console.log(err);
+                    console.error(err);
                     this.errorFlag = true;
                     this.isBusy = false;
                 }
@@ -135,7 +135,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
             },
             (error: any) => {
-                console.log(error);
+                console.error(error);
             }
         );
 

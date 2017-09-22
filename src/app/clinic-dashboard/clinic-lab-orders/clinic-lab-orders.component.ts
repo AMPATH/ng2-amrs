@@ -83,21 +83,19 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
       locationUuids: location
     }).subscribe((results) => {
         this.results = this.formatDateField(results);
-        console.log('Results', results);
       },
       (error) => {
         this.errors.push({
           id: 'patient',
           message: 'error fetching clinic lab orders'
         });
-        console.log('error', error);
+        console.error('error', error);
       });
   }
 
   public getCurrentLocation() {
     this.route.parent.params.subscribe((params) => {
       this.location = params['location_uuid'];
-      console.log(' this.location', this.location);
       this.setClinicOrderParam(this.location, this.selectedDate);
       this.getClinicLabOrders(this.location, this.selectedDate);
     });
@@ -105,7 +103,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   public onRowClicked(event) {
     this.router.navigate(['/patient-dashboard/patient/' + event.data.patient_uuid +
-    '/general/landing-page']);
+    '/general/general/landing-page']);
   }
 
   public navigateDay(value) {

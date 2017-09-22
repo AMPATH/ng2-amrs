@@ -85,7 +85,6 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     if (this.route && this.route.queryParams) {
       this.routeSubscription = this.route.queryParams.subscribe((params) => {
         this.resetVariables();
-        console.log('visit params', params);
         if (params['visitUuid'] && this.encounterVisitUuid !== params['visitUuid']) {
           // new form being entered therefore reset enouncter uuid
           this.encounterUuid = undefined;
@@ -96,7 +95,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
           this.encounterUuid = params['encounter'];
           this.loadVisitByEncounter(this.encounterUuid);
         } else {
-          console.log('No visit or encounter info on url');
+          // console.error('No visit or encounter info on url');
         }
 
       });
@@ -110,7 +109,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     if (visit) {
       this.setVisit(visit);
     } else {
-      console.log('No visit found for selected encounter', this.encounters);
+      // console.error('No visit found for selected encounter', this.encounters);
     }
   }
 
@@ -121,9 +120,8 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
         // this.resetVariables();
         if (patient !== null) {
           this.encounters = patient.encounters;
-
         } else {
-          console.log('No patient');
+          // console.error('No patient');
         }
 
         if (this.encounterUuid) {
@@ -152,7 +150,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       this.loaderStatus = false;
     }, (error) => {
       this.loaderStatus = false;
-      console.log(error);
+      console.error('Error loading locations', error);
     });
   }
 
@@ -176,11 +174,9 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
               this.locationName = updateVisit.location.display;
               this.editLocation = !this.editLocation;
               this.editedLocation.emit(this.editLocation);
-              console.log('updated the location to ' + this.locationName);
             });
         },
         reject: () => {
-          console.log('Location Not Changed');
         }
       });
     }
@@ -229,12 +225,10 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     this.startDatetime = visit.startDatetime;
     this.currentVisit = visit ? visit : '';
     this.locationUuid = visit ? visit.location.uuid : null;
-    console.log('visitvisitvisit', visit);
     this.locationName = visit ? visit.location.display : null;
     this.encounterVisitUuid = visit ? visit.uuid : null;
     this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
     this.loadingVisit = false;
-    console.log('visitvisitvisit  this.locationName ', this.locationName);
   }
 
   private resetVariables() {

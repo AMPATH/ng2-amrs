@@ -164,7 +164,7 @@ private saveIdentifier(personIdentifierPayload, person) {
 
                 },
                 (error) => {
-                  console.log('Error occurred why updating patient identifier:', error);
+                  console.error('Error occurred why updating patient identifier:', error);
                 });
 }
 
@@ -185,7 +185,7 @@ private saveIdentifier(personIdentifierPayload, person) {
         }
       },
       (error: any) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }
@@ -208,7 +208,7 @@ private saveIdentifier(personIdentifierPayload, person) {
 
       },
       (error) => {
-        console.log('Error Occurred while retrieving common patient identifier types', error);
+        console.error('Error Occurred while retrieving common patient identifier types', error);
       });
   }
   private checkIdentifierFormat() {
@@ -253,7 +253,6 @@ private saveIdentifier(personIdentifierPayload, person) {
       this.isValidIdentifier = true;
     } else {
       this.identifierValidity = 'Invalid Check Digit';
-      console.log('this.identifierValidity', this.identifierValidity);
     }
 
   }

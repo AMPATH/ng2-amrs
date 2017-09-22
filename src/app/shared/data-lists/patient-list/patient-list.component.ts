@@ -77,7 +77,7 @@ export class PatientListComponent implements OnInit {
       count++;
     });
 
-     // console.log('Filtered Data', this.data);
+    // console.log('Filtered Data', this.data);
 
     return this.data || [];
   }
@@ -92,7 +92,8 @@ export class PatientListComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 
 }

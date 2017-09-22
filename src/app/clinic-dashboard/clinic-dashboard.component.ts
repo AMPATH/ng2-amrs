@@ -34,7 +34,6 @@ export class ClinicDashboardComponent implements OnInit {
   }
 
   public getLocations() {
-    console.log('clicked');
     this.loaderStatus = true;
     this.locationResourceService.getLocations().subscribe((results: any) => {
       this.locations = results.map((location) => {
@@ -53,7 +52,6 @@ export class ClinicDashboardComponent implements OnInit {
               this.selectingLocation = false;
             }
           } else {
-            console.log('Location not selected');
             const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
             this.router.navigate(['/clinic-dashboard', userLocation.uuid,
               'daily-schedule']);
@@ -63,7 +61,7 @@ export class ClinicDashboardComponent implements OnInit {
       this.loaderStatus = false;
     }, (error) => {
       this.loaderStatus = false;
-      console.log(error);
+      console.error(error);
     });
   }
 

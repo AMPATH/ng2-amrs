@@ -69,7 +69,8 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/landing-page']);
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
   }
 
   public setColumns(sectionsData: Array<any>) {
@@ -79,10 +80,10 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       return Object.assign(result, obj);
     }, {}));
     // move the #seen column to be at index 2
-    uniqueKeys.splice(uniqueKeys.indexOf('#_Seen'), 1 );
+    uniqueKeys.splice(uniqueKeys.indexOf('#_Seen'), 1);
     uniqueKeys.splice(2, 0, '#_Seen');
     for (let i of uniqueKeys) {
-      header.push({label: i});
+      header.push({ label: i });
     }
     if (header) {
       defs.push({
@@ -92,8 +93,9 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       });
       let personName = 'Person_Name';
       header = header.filter((el) => {
-         return el.label !== personName; });
-      _.each(  header, (keys) => {
+        return el.label !== personName;
+      });
+      _.each(header, (keys) => {
         defs.push({
           headerName: this.titleCase(keys.label),
           field: keys.label,
@@ -135,7 +137,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     this.loadingClinicFlow = true;
     this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
     let result = this.clinicFlowResource.
-    getClinicFlow(dateStated, locations);
+      getClinicFlow(dateStated, locations);
     if (result === null) {
       throw new Error('Null clinic flow observable');
     } else {
@@ -146,8 +148,8 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
           this.transformVisitsToDummyEncounters(this.patientStatuses);
           this.groupEncountersByProvider();
           if (this.patientStatuses.length > 0) {
-             this.clinicFlowData = this.finalProviderReport;
-             this.setColumns(this.finalProviderReport);
+            this.clinicFlowData = this.finalProviderReport;
+            this.setColumns(this.finalProviderReport);
           } else {
             this.dataLoaded = true;
           }
@@ -189,11 +191,12 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
 
   }
   public groupEncountersByProvider() {
-    let providersPersonIds = [ ];
+    let providersPersonIds = [];
     let uniqueProviderPersonIds = {};
-    for ( let i in this.providerEncounters ) {
+    for (let i in this.providerEncounters) {
       if (this.providerEncounters.hasOwnProperty(i)) {
-        if (typeof(uniqueProviderPersonIds[this.providerEncounters[i].person_id]) === 'undefined') {
+        if (typeof (uniqueProviderPersonIds[this.providerEncounters[i].person_id]) ===
+          'undefined') {
           providersPersonIds.push(this.providerEncounters[i].person_id);
 
         }

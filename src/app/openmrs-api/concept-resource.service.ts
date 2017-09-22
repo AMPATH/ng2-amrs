@@ -41,7 +41,6 @@ export class ConceptResourceService {
 
     let url = this.getUrl();
     url += '/' + uuid;
-    console.log('url', url);
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('v', (v && v.length > 0) ? v : this.v);
