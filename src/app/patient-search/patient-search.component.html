@@ -26,9 +26,14 @@
 			   </div>
 
 		</form>
+		<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="noMatchingResults===true">
+			<div  class="alert">
+				<span>No Matching results for <i class="total text-bold">{{lastSearchString}}</i></span>
+			</div>
+		</div>
 		<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="!hideResults">
 			<br>
-		<div *ngIf="hasConductedSearch===true && searchString.length > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span>
+		<div *ngIf="hasConductedSearch===true > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span>
 			<span *ngIf="totalPatients === 1"> patient found</span>
 			<span *ngIf="totalPatients !== 1"> patients found</span>
 		</div>
