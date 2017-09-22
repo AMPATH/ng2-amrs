@@ -36,8 +36,8 @@
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "61aaec4d-231e-4cdf-9116-1862752dcb9a",
-            "display": "ADULTRANSFERIN"
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
           }
         ]
       },
@@ -89,12 +89,8 @@
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "f6257ec8-706d-4342-ada4-ddc2f6478470",
-            "display": "PEDSTRANSFERIN"
+            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSRETURN"
           }
         ]
       },
@@ -146,13 +142,10 @@
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "a0c2fe63-7be4-4067-87cc-a8654deb552e",
-            "display": "YOUTHTRANSFERIN"
+            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
+            "display": "YOUTHRETURN"
           }
+
         ]
       },
       {
@@ -174,24 +167,7 @@
           }
         ]
       },
-      {
-        "uuid": "dcdefd27-82b9-48e3-821b-3ffc6463564e",
-        "name": "Resistance Clinic Visit ",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
-            "display": "RESISTANCECLINIC"
-          }
-        ]
-      },
+
       {
         "uuid": "43ec2bb7-ec8e-4a66-a29d-db6281399ea5",
         "name": "Between Care Visit ",
@@ -202,7 +178,7 @@
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "db9f6a5c-e141-49fc-ad2b-bdce3f9a6c80",
+            "uuid": "386eedd9-e835-48e5-9da9-59b2641ea742",
             "display": "BETWEENCAREVISIT"
           }
         ]
@@ -224,7 +200,6 @@
       {
         "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
         "name": "MDT Visit",
-        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -243,7 +218,7 @@
             "display": "PEDSRETURN"
           },
           {
-            "uuid": "3c8cd5d4-cdc2-4136-8326-224b682b6543",
+            "uuid": "282033e8-67f1-4edd-8bff-74829e8ee2b0",
             "display": "MDTFORM"
           }
         ]
@@ -271,7 +246,20 @@
       {
         "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
         "name": "CDM Visit",
-        "encounterTypes": []
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
+            "display": "HTNDMRETRUN"
+          },
+          {
+            "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
+            "display": "HTNDMINITIAL"
+          }
+        ]
       }
     ]
   },
@@ -385,6 +373,34 @@
           {
             "uuid": "ddd96f1c-524f-4caa-81a6-1a6f9789a4bc",
             "display": "PREPRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31": {
+    "name": "RESISTANCE CLINIC PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "dcdefd27-82b9-48e3-821b-3ffc6463564e",
+        "name": "Resistance Clinic Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
+            "display": "RESISTANCECLINIC"
           }
         ]
       }
