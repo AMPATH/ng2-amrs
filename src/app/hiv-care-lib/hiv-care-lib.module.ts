@@ -65,6 +65,15 @@ import { PatientsRequiringVLBaseComponent
 } from './patients-requiring-vl/patients-requiring-vl-base.component';
 import { PatientsRequiringVLReportFiltersComponent
 } from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
+import {
+  HivMonthlySummaryIndicatorBaseComponent
+} from './hiv-monthly-summary-indicators/hiv-monthly-summary-report-base';
+import {
+  HivSummaryMonthlyTabularComponent
+} from './hiv-monthly-summary-indicators/hiv-monthly-summary-tabular.component';
+import {
+  HivMonthlySummaryIndicatorsPatientListComponent
+} from './hiv-monthly-summary-indicators/patient-list.component';
 
 @NgModule({
   imports: [
@@ -128,7 +137,9 @@ import { PatientsRequiringVLReportFiltersComponent
     HivCareIndicatorDefComponent,
     HivCareTabularViewComponent,
     VisualizationPatientListComponent,
-    HivSummaryIndicatorsPatientListComponent
+    HivSummaryIndicatorsPatientListComponent,
+    HivSummaryMonthlyTabularComponent,
+    HivMonthlySummaryIndicatorsPatientListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -153,6 +164,9 @@ import { PatientsRequiringVLReportFiltersComponent
     HivCareTabularViewComponent,
     VisualizationPatientListComponent,
     HivSummaryIndicatorsPatientListComponent,
+    HivMonthlySummaryIndicatorBaseComponent,
+    HivSummaryMonthlyTabularComponent,
+    HivMonthlySummaryIndicatorsPatientListComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

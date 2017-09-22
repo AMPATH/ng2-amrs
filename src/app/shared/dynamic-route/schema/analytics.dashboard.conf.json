@@ -19,6 +19,12 @@
       "label": "HIV Summary Indicators",
       "icon": "fa fa-file-pdf-o",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/hiv-summary-monthly-indicator-report",
+      "label": "HIV Summary Monthly Indicators",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

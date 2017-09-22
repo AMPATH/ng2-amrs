@@ -4,12 +4,14 @@ import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { ReplaySubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 import { AppSettingsService } from '../app-settings';
+import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
 export class IndicatorResourceService {
 
   private reportIndicators = new ReplaySubject(1);
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {
+  constructor(private http: Http, private appSettingsService: AppSettingsService,
+              private cacheService: DataCacheService) {
   }
   /**
    * @param {*} param
@@ -18,26 +20,30 @@ export class IndicatorResourceService {
    *
    * @memberOf IndicatorResourceService
    */
-  public getReportIndicators(param: any, forceRefresh?: boolean) {
-    // If the Subject was NOT subscribed before OR if forceRefresh is requested
 
-    let params = new URLSearchParams();
-    params.set('report', param.report);
+  public getUrl(): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + `indicators-schema`;
+  }
 
-    if (!this.reportIndicators.observers.length || forceRefresh) {
-      this.http.get(
-        this.appSettingsService.getEtlRestbaseurl().trim() + 'indicators-schema',
-        {
-          search: params
-        }
-      )
-        .map((res: Response) => res.json())
-        .subscribe(
-        (data) => this.reportIndicators.next(data.result),
-        (error) => this.reportIndicators.error(error)
-        );
-    }
+  public getUrlRequestParams(params): URLSearchParams {
+    let urlParams: URLSearchParams = new URLSearchParams();
 
-    return this.reportIndicators;
+    urlParams.set('report', params.report);
+
+    return urlParams;
+  }
+
+  public getReportIndicators(params) {
+    let urlParams = this.getUrlRequestParams(params);
+    let url = this.getUrl();
+    let request = this.http.get(url, {
+      search: urlParams
+    })
+      .map((response: Response) => {
+        return response.json().result;
+      });
+
+    return this.cacheService.cacheRequest(url, urlParams, request);
+
   }
 }

@@ -9,12 +9,13 @@ export class HivMonthlySummaryIndicatorsResourceService {
 
     public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
-         + `hiv-monthly-summary-indicators`;
+          + `hiv-summary-monthly-indicators`;
+
     }
 
     public getPatientListUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
-            + `hiv-monthly-summary-indicators/patient-list`;
+            + `hiv-summary-monthly-indicators/patient-list`;
     }
 
     public getUrlRequestParams(params): URLSearchParams {
