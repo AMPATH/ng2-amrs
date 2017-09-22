@@ -125,4 +125,9 @@ export class ProgramService {
     return filtered[0];
   }
 
+  public getProgramsIncompatibilities() {
+    return this.programResourceService.getProgramsIncompatibilities();
+
+  }
+
 }

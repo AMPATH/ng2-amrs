@@ -27,7 +27,17 @@ export class ProgramResourceService {
     return this.http.get(url, {
       search: params
     }).map((response: Response) => {
+      console.log('Programs', response.json().results);
       return response.json().results;
     });
+  }
+
+  // get proggram incompatibilities
+
+  public getProgramsIncompatibilities() {
+       return this.http.get('../patient-dashboard/programs/programs.json')
+        .map((response) => {
+        return response.json();
+      });
   }
 }

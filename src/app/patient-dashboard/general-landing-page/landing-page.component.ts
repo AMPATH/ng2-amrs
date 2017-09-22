@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { Subscription } from 'rxjs';
+import { Subscription , Observable , Subject } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
@@ -31,7 +31,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public addPinkBackground: boolean = false;
   public isEdit: boolean = false;
   public dateCompleted: string;
+  public programIncompatible: boolean = false;
+  public incompatibleMessage: any = [];
+  public incompatibleCount: number = 0;
+  public enrolledProgrames: any = [];
   public selectedLocation: string;
+  public programList: any[] = require('../programs/programs.json');
   private _datePipe: DatePipe;
   private subscription: Subscription;
 
@@ -50,6 +55,41 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
+    return Observable.create((observer: Subject <any>) => {
+      if (patientUuid) {
+        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
+          (data) => {
+            if (data) {
+              this.enrolledProgrames = data;
+              observer.next(data);
+            }
+          },
+          (error) => {
+            observer.error(error);
+          }
+        );
+      } else {
+        observer.error('patientUuid is required');
+      }
+    }).first();
+  }
+
+  public getAvailablePrograms() {
+    return Observable.create((observer: Subject<any>) => {
+      this.programService.getAvailablePrograms().subscribe(
+        (programs) => {
+          if (programs) {
+            observer.next(programs);
+          }
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    }).first();
   }
 
   public toggleDropDown(row: any) {
@@ -84,14 +124,23 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isFocused = true;
     this.isEdit = false;
     let payload = {};
-    if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
-      payload = this.programService.createEnrollmentPayload(
+    this.checkIncompatibility(this.program);
+    if (this.programIncompatible === true) {
+
+           this.isFocused = false;
+
+    }else {
+       if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
+       payload = this.programService.createEnrollmentPayload(
         this.program, this.patient, this.dateEnrolled,
         this.dateCompleted, this.selectedLocation, '');
-      if (payload) {
-        this._updatePatientProgramEnrollment(payload);
+       if (payload) {
+           this._updatePatientProgramEnrollment(payload);
       }
     }
+
+    }
+
   }
 
   public onAddPinkBackground(hasPink: boolean) {
@@ -102,6 +151,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isEditLocation = loc;
   }
 
+  public onProgramChange($event) {
+      let programUuid = $event.target.value;
+
+      // check the compatibility of the program
+      this.checkIncompatibility(programUuid);
+
+  }
+
   private loadProgramBatch(): void {
     this._resetVariables();
     this.programsBusy = true;
@@ -109,9 +166,10 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       (patient) => {
         this.programsBusy = false;
         if (patient) {
+          console.log('Patient', patient);
           this.patient = patient;
           this.availablePrograms = patient.enrolledPrograms;
-          // console.log('patient enrolled programs', this.availablePrograms);
+          this.enrolledProgrames = patient.enrolledPrograms;
         }
       }, (err) => {
         this.hasError = true;
@@ -237,6 +295,70 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         console.error(error);
       }
     );
+  }
+
+  private checkIncompatibility(programUUid) {
+      this.incompatibleCount = 0;
+      this.incompatibleMessage = [];
+      let patientPrograms = this.enrolledProgrames;
+      // get programs patient has enrolled in
+
+      let enrolledList: Array<any> = [];
+      let incompatibleList: Array<any> = [];
+
+      let programList = this.programList;
+
+      _.forEach(patientPrograms, (program: any) => {
+             if (program.dateEnrolled !== null) {
+               enrolledList.push(program.program.uuid);
+             }
+      });
+
+      /* for the selected program.Check if it has compatibilty
+         issues with any of the enrolled programs
+      */
+
+      _.forEach(programList, (list, index) => {
+           // get program
+           if (index === programUUid) {
+
+               // get incompatibilies
+              let incompatibleWith = list.incompatibleWith;
+              if (incompatibleWith.length > 0) {
+                _.forEach(incompatibleWith, (incompatibleProgram) => {
+                     incompatibleList.push(incompatibleProgram);
+                });
+              }
+
+           }
+      });
+
+      /* With the list of incompatible programs for selected
+         program and enrolled programs we can check if there is a match
+         i.e an enrolled program should not be in an incompatibility list
+         for the selected program
+      */
+
+      _.forEach(enrolledList, (enrolled) => {
+        for (let incompatible of incompatibleList){
+          if (incompatible === enrolled) {
+                this.programIncompatible = true;
+                // get the program name for the message
+                let progName = programList[incompatible].programName;
+                let message = 'Selected program is incompatible with ' + progName
+                + '.Please complete the current program to proceed.';
+                this.incompatibleMessage.push(message);
+                this.incompatibleCount++;
+              }
+        }
+      });
+
+      if (this.incompatibleCount > 0) {
+           this.programIncompatible = true;
+      }else {
+           this.programIncompatible = false;
+      }
+
   }
 
 }

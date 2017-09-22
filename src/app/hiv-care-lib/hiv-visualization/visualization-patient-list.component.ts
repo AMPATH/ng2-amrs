@@ -93,7 +93,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public loadPatientData(reportName: string) {
-  
+
     this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
