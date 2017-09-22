@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit , Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -44,6 +44,11 @@ const colors: any = {
 export class MonthlyScheduleComponent implements OnInit, OnDestroy {
   public viewDate: Date = new Date();
   public view = 'month';
+  public filter: any = {
+     'programType': '',
+     'visitType': '',
+     'encounterType': ''
+  };
   public events: CalendarEvent[] = [];
   public activeDayIsOpen: boolean = false;
   public location: string = '';
@@ -76,6 +81,13 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  public filterSelected($event) {
+         this.filter = $event;
+         console.log('Event', $event);
+         console.log('Fetch Appointments.....');
+         this.getAppointments();
+  }
+
   public getCurrentLocation() {
     // this.route.parent.params.subscribe(params => {
     //     this.location = params['location_uuid'];
@@ -94,10 +106,11 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
   }
 
   public getAppointments() {
-    this.fetchError = false;
-    this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
+      this.fetchError = false;
+      this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
       endDate: Moment(endOfMonth(this.viewDate)).format('YYYY-MM-DD'),
       startDate: Moment(startOfMonth(this.viewDate)).format('YYYY-MM-DD'),
+      programVisitEncounter: this.filter,
       locationUuids: this.location, limit: 10000
     }).subscribe((results) => {
       this.events = this.processEvents(results);

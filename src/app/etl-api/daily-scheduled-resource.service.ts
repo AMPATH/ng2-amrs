@@ -24,6 +24,7 @@ export class DailyScheduleResourceService {
         urlParams.set('startIndex', params.startIndex);
         urlParams.set('startDate', params.startDate);
         urlParams.set('locationUuids', params.locationUuids);
+        urlParams.set('programVisitEncounter', params.programVisitEncounter);
         urlParams.set('limit', params.limit);
         let url = this.getUrl('daily-visits', params.startDate);
         let request = this.http.get(url, {
@@ -48,6 +49,7 @@ export class DailyScheduleResourceService {
         urlParams.set('startIndex', params.startIndex);
         urlParams.set('startDate', params.startDate);
         urlParams.set('locationUuids', params.locationUuids);
+        urlParams.set('programVisitEncounter', params.programVisitEncounter);
         urlParams.set('limit', params.limit);
 
         let url = this.getUrl('daily-appointments', params.startDate);
@@ -71,7 +73,7 @@ export class DailyScheduleResourceService {
         urlParams.set('startIndex', params.startIndex);
         urlParams.set('startDate', params.startDate);
         urlParams.set('locationUuids', params.locationUuids);
-
+        urlParams.set('programVisitEncounter', params.programVisitEncounter);
         urlParams.set('limit', params.limit);
 
         let url = this.getUrl('daily-has-not-returned', params.startDate);

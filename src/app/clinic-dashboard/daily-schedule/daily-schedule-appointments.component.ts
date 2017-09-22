@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { CookieService } from 'ngx-cookie';
 import * as Moment from 'moment';
 
 @Component({
@@ -13,6 +14,12 @@ import * as Moment from 'moment';
 export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
   @Input() public selectedDate: any;
+  public programVisitEncounterFilter: any = {
+     'programType': [],
+     'visitType': [],
+     'encounterType': []
+  };
+  public filterParam: any = [];
   public errors: any[] = [];
   public dailyAppointmentsPatientList: any[] = [];
   public loadingDailyAppointments: boolean = false;
@@ -33,7 +40,8 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   private selectedDateSubscription: Subscription;
   private appointmentSubscription: Subscription;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private dailyScheduleResource: DailyScheduleResourceService) {
+              private dailyScheduleResource: DailyScheduleResourceService,
+              private _cookieService: CookieService) {
   }
 
   public ngOnInit() {
@@ -56,6 +64,8 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
         }
 
       });
+
+    console.log('Appointment Params', this.getQueryParams());
   }
 
   public ngOnDestroy(): void {
@@ -126,12 +136,38 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   private getQueryParams() {
+    this.filterSelected();
     return {
       startDate: this.selectedDate,
       startIndex: this.nextStartIndex,
       locationUuids: this.selectedClinic,
+      programVisitEncounter: this.filterParam,
       limit: undefined
     };
+
+  }
+
+  private filterSelected() {
+      let cookieKey = 'programVisitEncounterFilter';
+
+      let cookieVal =  encodeURI(JSON.stringify(this.programVisitEncounterFilter));
+
+      let programVisitCookie = this._cookieService.get(cookieKey);
+
+      console.log('Cookie val', programVisitCookie);
+
+      if (typeof programVisitCookie === 'undefined') {
+
+           this._cookieService.put(cookieKey, cookieVal);
+
+      } else {
+
+         // this._cookieService.remove(cookieKey);
+
+         // this._cookieService.put(cookieKey, cookieVal);
+      }
+
+      this.filterParam = cookieVal;
 
   }
 }

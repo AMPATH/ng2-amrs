@@ -1,0 +1,20 @@
+#filter-btns {
+    padding-top: 25px;
+}
+.filter-label{
+    margin-right: 5px;
+}
+.select-all:hover{
+    cursor: pointer;
+}
+.clear-all:hover{
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+
+  .filter-add-on{
+      display: none;
+  }
+  
+}

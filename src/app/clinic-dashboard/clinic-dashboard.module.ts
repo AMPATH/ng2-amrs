@@ -6,8 +6,7 @@ import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
-import { MdTabsModule } from '@angular/material';
-import { MaterialModule } from '@angular/material';
+import { MdTabsModule, MdSlideToggleModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { SelectModule } from 'angular2-select';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
@@ -116,6 +115,9 @@ import { DefaulterListComponent } from './defaulter-list/defaulter-list.componen
 import { CacheModule } from 'ionic-cache';
 import { DataAnalyticsDashboardService
 } from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { ProgramVisitEncounterSearchComponent
+} from '../program-visit-encounter-search/program-visit-encounter-search.component';
+
 @NgModule({
   declarations: [
     /**
@@ -145,6 +147,7 @@ import { DataAnalyticsDashboardService
     PatientStatusDatalistCellComponent,
     PatientStatusChangeVisualizationComponent,
     PatientStatusChangeVisualizationContainerComponent,
+    ProgramVisitEncounterSearchComponent
   ],
   imports: [
     CommonModule,
@@ -157,7 +160,6 @@ import { DataAnalyticsDashboardService
     ChartModule,
     CalendarModule.forRoot(),
     MdTabsModule,
-    MaterialModule,
     RouterModule.forChild(routes),
     DateTimePickerModule,
     DataListsModule,
@@ -179,7 +181,8 @@ import { DataAnalyticsDashboardService
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    CacheModule
+    CacheModule,
+    MdSlideToggleModule
   ],
   providers: [
     ClinicDashboardCacheService,

@@ -1,5 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
+/*
 import { TestBed, async } from '@angular/core/testing';
 import { DailyScheduleComponent } from './daily-schedule.component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
@@ -32,6 +33,9 @@ import { MdTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import {
+    ProgramVisitEncounterSearchComponent
+} from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 
 import * as Moment from 'moment';
 
@@ -84,7 +88,7 @@ describe('Component: DailySchedule', () => {
         }
 
       ],
-      declarations: [DailyScheduleComponent],
+      declarations: [DailyScheduleComponent, ProgramVisitEncounterSearchComponent],
       imports: [BusyModule,
         FormsModule,
         DialogModule,
@@ -193,3 +197,6 @@ describe('Component: DailySchedule', () => {
 
 
 });
+
+
+*/

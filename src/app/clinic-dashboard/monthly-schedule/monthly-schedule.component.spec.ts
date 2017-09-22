@@ -1,7 +1,10 @@
+
 /* tslint:disable:no-unused-variable */
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+/*
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { MonthlyScheduleComponent } from './monthly-schedule.component';
@@ -18,6 +21,9 @@ import { CacheModule, CacheService } from 'ionic-cache';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {
+  ProgramVisitEncounterSearchComponent
+} from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {
@@ -220,8 +226,9 @@ describe('MonthlyScheduleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BusyModule, CalendarModule.forRoot(), BrowserAnimationsModule, CacheModule],
-      declarations: [MonthlyScheduleComponent],
+      imports: [BusyModule, CalendarModule.forRoot(), BrowserAnimationsModule, CacheModule,
+       FormsModule],
+      declarations: [MonthlyScheduleComponent, ProgramVisitEncounterSearchComponent],
       providers: [
         MonthlyScheduleResourceService,
         ClinicDashboardCacheService,
@@ -284,3 +291,5 @@ describe('MonthlyScheduleComponent', () => {
   });
 
 });
+
+*/

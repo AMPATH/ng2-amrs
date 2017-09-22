@@ -5,7 +5,7 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import {
-  MaterialModule, MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+  MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
 import { SelectModule } from 'angular2-select';

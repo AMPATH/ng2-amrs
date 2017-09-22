@@ -1,0 +1,117 @@
+{
+    "uud1":{
+        "name":"HIV",
+        "programs":[
+            {
+                "uuid":"781d85b0-1359-11df-a1f1-0026b9348838",
+                "name": "HIV TREATMENT"
+            },
+            {
+                "uuid":"781d897a-1359-11df-a1f1-0026b9348838",
+                "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
+
+            },
+            {
+                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
+                "name": "OVC PROGRAM"
+
+            },
+             {
+                "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
+                "name": "BSG PROGRAM"
+
+            },
+            {
+                "uuid":"96047aaf-7ab3-45e9-be6a-b61810fe617d",
+                "name": "PEP PROGRAM"
+
+            },
+             {
+                "uuid":"c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+                "name": "PrEP PROGRAM"
+
+            },
+             {
+                "uuid":"334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+                "name": "HIV DIFFERENTIATED CARE PROGRAM"
+
+            },
+            {
+                "uuid":"96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+                "name": "HIV TRANSIT PROGRAM"
+
+            },
+             {
+                "uuid":"781d8880-1359-11df-a1f1-0026b9348838",
+                "name": "EXPRESS CARE PROGRAM"
+
+            }
+            
+            
+
+        ]
+    },
+     "uud2":{
+        "name":"ONCOLOGY",
+        "programs":[
+            {
+                "uuid":"142939b0-28a9-4649-baf9-a9d012bf3b3d",
+                "name": "BREAST CANCER SCREENING PROGRAM"
+            },
+            {
+                "uuid":"cad71628-692c-4d8f-8dac-b2e20bece27f",
+                "name": "CERVICAL CANCER SCREENING PROGRAM"
+            },
+            {
+                "uuid":"43b42170-b3ce-4e03-9390-6bd78384ac06",
+                "name": "CERVICAL CANCER TREATMENT PROGRAM"
+            },
+            {
+                "uuid":"88566621-828f-4569-9af5-c54f8237750a",
+                "name": "BREAST CANCER TREATMENT PROGRAM"
+            },
+            {
+                "uuid":"e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
+                "name": "SICKLE CELL PROGRAM"
+            },
+            {
+                "uuid":"698b7153-bff3-4931-9638-d279ca47b32e",
+                "name": "MULTIPLE MYELOMA PROGRAM"
+            },
+            {
+                "uuid":"a3610ba4-9811-46b3-9628-83ec9310be13",
+                "name": "HEMOPHILIA PROGRAM"
+            }
+        ]
+    },
+     "uud3":{
+        "name":"CDM",
+        "programs":[
+            {
+                "uuid":"fc15ac01-5381-4854-bf5e-917c907aa77f",
+                "name": "CDM PROGRAM"
+            }
+            
+        ]
+    },
+     "uud4":{
+        "name":"OVC",
+        "programs":[
+            {
+                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
+                "name": "OVC PROGRAM"
+            }
+            
+        ]
+    },
+    "uud5":{
+        "name":"BSG",
+        "programs":[
+            {
+                "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
+                "name": "BSG PROGRAM"
+            }
+            
+        ]
+    }
+}

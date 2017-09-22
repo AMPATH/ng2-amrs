@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MaterialModule
+import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule , MdSlideToggleModule
 } from '@angular/material';
 
 import { oncologyProgramRouting } from './oncology-program.routes';
@@ -35,7 +35,7 @@ import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    MaterialModule
+     MdSlideToggleModule
   ],
   exports: [
     DataAnalyticsDashboardComponent,

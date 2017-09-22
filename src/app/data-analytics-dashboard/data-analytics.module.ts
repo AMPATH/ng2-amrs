@@ -2,7 +2,7 @@ import {  NgModule  } from '@angular/core';
 import {  CommonModule  } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  MaterialModule, MdTabsModule, MdProgressSpinnerModule, MdProgressBarModule
+   MdTabsModule, MdProgressSpinnerModule, MdProgressBarModule
  } from '@angular/material';
 import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { Router } from '@angular/router';
@@ -66,7 +66,6 @@ import { dataAnalyticsDashboardRouting } from './data-analytics-dashboard-routes
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    MaterialModule,
     CacheModule
   ],
   declarations: [
