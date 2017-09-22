@@ -21,8 +21,13 @@ export class HivProgramSnapshotComponent implements OnInit {
   public loadingData: boolean = false;
   public hasLoadedData: boolean = false;
   public isVirallyUnsuppressed: boolean = false;
-  @Output() public addPinkBackground = new EventEmitter();
+  public patientCareStatus: any;
+  @Output() public addBackground = new EventEmitter();
   public location: any = {};
+  public backgroundColor: any = {
+    pink: 'pink',
+    yellow: 'yellow'
+  };
   constructor(private hivSummaryResourceService: HivSummaryResourceService
     ,         private http: Http
     ,         private appSettingsService: AppSettingsService) {
@@ -46,6 +51,8 @@ export class HivProgramSnapshotComponent implements OnInit {
       this.getLocation().subscribe((locations) => {
         this.loadingData = false;
         this.hasLoadedData = true;
+        this.patientCareStatus = results[0].patient_care_status;
+
         this.patientData = _.first(_.filter(results, (encounter: any) => {
           return encounter.is_clinical_encounter === 1;
         }));
@@ -95,8 +102,14 @@ export class HivProgramSnapshotComponent implements OnInit {
       '9580': 'FOLLOW-UP CARE PLAN, NOT SURE',
     };
     // if it is past RTC Date by 1 week and status = continue, can you make background pink
-    if (id === 6101 && moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
-      this.addPinkBackground.emit(true);
+    if (this.patientCareStatus === 6101 &&
+      moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
+      let color = this.backgroundColor.pink;
+      this.addBackground.emit(color);
+    }
+    if (this.patientCareStatus  === 1287 ) {
+      let color = this.backgroundColor.yellow;
+      this.addBackground.emit(color);
     }
 
     return this._toProperCase(translateMap[id]);
