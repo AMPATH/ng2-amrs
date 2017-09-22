@@ -16,7 +16,7 @@ export class PatientProgramService {
   private subscription: Subscription;
   private _datePipe: DatePipe;
   constructor(private routesProviderService: RoutesProviderService,
-    private programService: ProgramService) {
+              private programService: ProgramService) {
     this._datePipe = new DatePipe('en-US');
   }
 
