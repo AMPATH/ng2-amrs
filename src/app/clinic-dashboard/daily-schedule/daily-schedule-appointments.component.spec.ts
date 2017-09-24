@@ -1,9 +1,8 @@
 /* tslint:disable:no-unused-variable */
 
-/*
-
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'angular2-select';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
@@ -31,10 +30,12 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
+import { CookieService, CookieModule } from 'ngx-cookie';
 describe('Component: DailyScheduleAppointmentsComponent', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
         dailyScheduleResource: DailyScheduleResourceService,
         clinicDashBoardCacheService: ClinicDashboardCacheService,
+        cookieService: CookieService,
         fixture, componentInstance;
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -47,15 +48,16 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
+                CookieService,
                 DataCacheService,
                 {
                     provide: Router,
-                    useClass: class { navigate = jasmine.createSpy('navigate'); }
+                    useClass: class { public navigate = jasmine.createSpy('navigate'); }
                 },
                 {
                     provide: Http,
                     useFactory: (backendInstance: MockBackend,
-                        defaultOptions: BaseRequestOptions) => {
+                        defaultOptions: BaseRequestOptions ) => {
                         return new Http(backendInstance, defaultOptions);
                     },
                     deps: [MockBackend, BaseRequestOptions]
@@ -74,6 +76,8 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 DialogModule,
                 CalendarModule,
                 DataListsModule,
+                SelectModule,
+                CookieModule.forRoot(),
                 NgamrsSharedModule]
         });
     });
@@ -90,18 +94,20 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
     });
 
     it('should create an instance', () => {
-        clinicDashBoardCacheService = TestBed.get(ClinDailyScheduleAppointmentsComponenticDashboardCacheService);
+        clinicDashBoardCacheService =
+        TestBed.get(ClinicDashboardCacheService);
         dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+        cookieService = TestBed.get(CookieService);
         let appointmentsComponent = new DailyScheduleAppointmentsComponent(
             clinicDashBoardCacheService,
-            dailyScheduleResource);
+            dailyScheduleResource,
+            cookieService);
         expect(appointmentsComponent).toBeTruthy();
     });
 
     it('should have required properties', (done) => {
 
         expect(component.dailyAppointmentsPatientList.length).toBe(0);
-        expect(component.selectedDate).toBeDefined;
         expect(component.ngOnInit).toBeDefined();
         expect(component.getQueryParams).toBeDefined();
         expect(component.getDailyAppointments).toBeDefined();
@@ -140,12 +146,10 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
         expect(component.getQueryParams).toHaveBeenCalled();
         expect(params.locationUuids).toEqual('location-uuid');
         expect(params.startDate).toEqual('12-12-2016');
-        expect(params.limit).toBeUndefined;
+        expect(params.limit).toBeUndefined();
         expect(params.startIndex).toEqual(0);
         done();
     });
 
 });
 
-
-*/

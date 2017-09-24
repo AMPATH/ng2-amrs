@@ -5,6 +5,7 @@ import {
   from '@angular/core';
 import * as _ from 'lodash';
 
+
 @Component({
   selector: 'program-visit-encounter-search',
   templateUrl: './program-visit-encounter-search.component.html',
@@ -395,6 +396,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
                 this.program.push(program.value);
          });
 
+         this.selectProgram = this.program;
+
     }
     public selectAllVisitTypes() {
 
@@ -405,6 +408,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
          _.each(this.visitTypes, ( visit: any , index) => {
                 this.visitType.push(visit.value);
          });
+
+         this.selectedVisitType = this.visitType;
 
     }
     public selectAllEncouterTypes() {
@@ -418,6 +423,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
          _.each(this.encounterTypes, ( encounter: any , index) => {
                 this.encounterType.push(encounter.value);
          });
+
+         this.selectedEncounterType = this.encounterType;
 
     }
 
