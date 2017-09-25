@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 
-/*
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -30,10 +29,13 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
+import { CookieService, CookieModule } from 'ngx-cookie';
+import { SelectModule } from 'angular2-select';
 describe('Component: DailyScheduleVisitsComponent', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
     dailyScheduleResource: DailyScheduleResourceService,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
+    cookieService: CookieService,
     fixture, componentInstance;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,10 +48,11 @@ describe('Component: DailyScheduleVisitsComponent', () => {
         AppSettingsService,
         LocalStorageService,
         CacheService,
+        CookieService,
         DataCacheService,
         {
           provide: Router,
-          useClass: class { navigate = jasmine.createSpy('navigate'); }
+          useClass: class { public navigate = jasmine.createSpy('navigate'); }
         },
         {
           provide: Http,
@@ -71,6 +74,8 @@ describe('Component: DailyScheduleVisitsComponent', () => {
         FormsModule,
         DialogModule,
         CalendarModule,
+        SelectModule,
+        CookieModule.forRoot(),
         DataListsModule, NgamrsSharedModule]
     });
   });
@@ -89,15 +94,15 @@ describe('Component: DailyScheduleVisitsComponent', () => {
   it('should create an instance', () => {
     clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
     dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+    cookieService = TestBed.get(CookieService);
     let appointmentsComponent = new DailyScheduleVisitsComponent(clinicDashBoardCacheService,
-      dailyScheduleResource);
+      dailyScheduleResource, cookieService);
     expect(appointmentsComponent).toBeTruthy();
   });
 
   it('should have required properties', (done) => {
 
     expect(component.dailyVisitsPatientList.length).toBe(0);
-    expect(component.selectedDate).toBeDefined;
     expect(component.ngOnInit).toBeDefined();
     expect(component.getQueryParams).toBeDefined();
     expect(component.getDailyVisits).toBeDefined();
@@ -137,12 +142,10 @@ describe('Component: DailyScheduleVisitsComponent', () => {
     expect(component.getQueryParams).toHaveBeenCalled();
     expect(params.locationUuids).toEqual('location-uuid');
     expect(params.startDate).toEqual('12-12-2016');
-    expect(params.limit).toBeUndefined;
+    expect(params.limit).toBeUndefined();
     expect(params.startIndex).toEqual(0);
     done();
   });
 
 });
 
-
-*/

@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 
-/*
 import { TestBed, async } from '@angular/core/testing';
 import { DailyScheduleComponent } from './daily-schedule.component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
@@ -36,14 +35,16 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-
+import { CookieService, CookieModule } from 'ngx-cookie';
 import * as Moment from 'moment';
+import { SelectModule } from 'angular2-select';
 
 describe('Component: DailySchedule', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics,
     component: DailyScheduleComponent,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
+    cookieService: CookieService,
     activatedRoute: ActivatedRoute,
     router: Router, fixture, componentInstance;
 
@@ -57,6 +58,7 @@ describe('Component: DailySchedule', () => {
         AppSettingsService,
         LocalStorageService,
         CacheService,
+        CookieService,
         DataCacheService,
         ClinicFlowCacheService,
         ChildrenOutletContexts,
@@ -100,7 +102,9 @@ describe('Component: DailySchedule', () => {
         MdTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule,
-        DateTimePickerModule
+        DateTimePickerModule,
+        SelectModule,
+        CookieModule.forRoot(),
       ]
     });
   });
@@ -121,9 +125,10 @@ describe('Component: DailySchedule', () => {
     clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
     activatedRoute = TestBed.get(ActivatedRoute);
     clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+    cookieService = TestBed.get(CookieService);
     router = TestBed.get(Router);
     component = new DailyScheduleComponent(
-      clinicDashBoardCacheService, router, activatedRoute, clinicFlowCacheService
+      clinicDashBoardCacheService, router, activatedRoute, clinicFlowCacheService , cookieService
     );
     expect(component).toBeTruthy();
   });
@@ -183,7 +188,7 @@ describe('Component: DailySchedule', () => {
       activatedRoute = TestBed.get(ActivatedRoute);
       router = TestBed.get(Router);
       component = new DailyScheduleComponent(clinicDashBoardCacheService, router,
-        activatedRoute, service);
+        activatedRoute, service, cookieService);
 
       component.ngOnInit();
       service.getSelectedDate().subscribe((date) => {
@@ -198,5 +203,3 @@ describe('Component: DailySchedule', () => {
 
 });
 
-
-*/

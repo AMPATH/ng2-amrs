@@ -1,7 +1,6 @@
 
 /* tslint:disable:no-unused-variable */
 
-/*
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +23,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
+import { SelectModule } from 'angular2-select';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {
@@ -226,7 +226,8 @@ describe('MonthlyScheduleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BusyModule, CalendarModule.forRoot(), BrowserAnimationsModule, CacheModule,
+      imports: [BusyModule, CalendarModule.forRoot(),  SelectModule,
+       BrowserAnimationsModule, CacheModule,
        FormsModule],
       declarations: [MonthlyScheduleComponent, ProgramVisitEncounterSearchComponent],
       providers: [
@@ -292,4 +293,3 @@ describe('MonthlyScheduleComponent', () => {
 
 });
 
-*/

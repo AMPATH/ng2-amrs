@@ -115,9 +115,9 @@ import { DefaulterListComponent } from './defaulter-list/defaulter-list.componen
 import { CacheModule } from 'ionic-cache';
 import { DataAnalyticsDashboardService
 } from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
-import { ProgramVisitEncounterSearchComponent
-} from '../program-visit-encounter-search/program-visit-encounter-search.component';
-
+import {
+  ProgramVisitEncounterSearchModule
+} from '../program-visit-encounter-search/program-visit-encounter-search.module';
 @NgModule({
   declarations: [
     /**
@@ -147,7 +147,6 @@ import { ProgramVisitEncounterSearchComponent
     PatientStatusDatalistCellComponent,
     PatientStatusChangeVisualizationComponent,
     PatientStatusChangeVisualizationContainerComponent,
-    ProgramVisitEncounterSearchComponent
   ],
   imports: [
     CommonModule,
@@ -182,7 +181,8 @@ import { ProgramVisitEncounterSearchComponent
     MdProgressSpinnerModule,
     MdProgressBarModule,
     CacheModule,
-    MdSlideToggleModule
+    MdSlideToggleModule,
+    ProgramVisitEncounterSearchModule
   ],
   providers: [
     ClinicDashboardCacheService,
