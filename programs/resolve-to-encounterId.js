@@ -22,6 +22,8 @@ var def = {
      resolveToEncounterIds: resolveToEncounterIds,
      resolveEncounterUuidToEncounterId : resolveEncounterUuidToEncounterId
 };
+
+// var params = '%7B%22programType%22:%5B%22781d85b0-1359-11df-a1f1-0026b9348838%22%5D,%22visitType%22:%5B%2233d13ffb-5f0e-427e-ab80-637491fb6526%22%5D,%22encounterType%22:%5B%5D%7D';
 /*
 var request = {
     'programType': '781d85b0-1359-11df-a1f1-0026b9348838',
@@ -37,78 +39,74 @@ function getProgramConf(){
     return programsConfig;
 }
 
+
+
+//test function
+
 function resolveToEncounterIds(request){
 
-      var totalAsyncRequests  = 0;
+     var encodedUrl = request.programVisitEncounter;
 
-    
-      if(request.programType){
-           var programTypeUuid = request.programType;
+     console.log('Start Resolving ....');
+
+     console.log('EncodedUrl ....', encodedUrl);
+
+     var decodedUrl  = JSON.parse((decodeURI(encodedUrl)));
+
+     console.log('Decoded Url ....', decodedUrl);
+
+     var resolvedEncounterUUids = [];
+
+    if(decodedUrl.programType){
+            var programTypeUuid = decodedUrl.programType;
       } else {
-           var programTypeUuid = '';
+           var programTypeUuid = [];
       }
-       if(request.visitType){
-          var visitTypeUuid = request.visitType;
+       if(decodedUrl.visitType){
+          var visitTypeUuid = decodedUrl.visitType;
       } else {
-          var visitTypeUuid = '';
+          var visitTypeUuid = [];
       }
 
-      if(request.encounterType){
-           var encounterTypeUuid = request.encounterType;
+      if(decodedUrl.encounterType){
+            var encounterTypeUuid = decodedUrl.encounterType;
+
        } else {
-           var encounterTypeUuid = '';
+           var encounterTypeUuid = [];
        }
 
+       console.log('Program ....', programTypeUuid);
+       console.log('visitTypeUuid ....', visitTypeUuid);
+       console.log('encounterTypeUuid ....', encounterTypeUuid);
 
-      var encounterTypesList = [];
-      var resolvedEncounterUUids = [];
+       
 
-     
-   
 
-      return new Promise((resolve, reject) => {
+       var totalAsyncRequests = 0;
 
-          //consdition for resolving the promise
+       var visitTypeEncounterUUid = [];
 
-           var checkAsyncState = function(){
+       return new Promise((resolve, reject) => {
+
+       var checkAsyncState = function(){
           if(totalAsyncRequests === 0){
-              resolve(resolvedEncounterUUids);
+              console.log('Resolved', _.uniq(resolvedEncounterUUids));
+              resolve(_.uniq(resolvedEncounterUUids).join());
             }
-           }
+        }
 
-         
 
-         
-        
+     if(encounterTypeUuid.length > 0){
 
-      // get the encounter types associated with a program
+          console.log('encounterTypeUuid.length > 0');
 
-      _.each(programsConfig,(program,index) => {
+           //use encounters array
 
-            var progUuid = index;
-            var visitTypes = program.visitTypes;
+              _.each(encounterTypeUuid,(encounter, index) => {
 
-            var programLogic = getProgramsLogic(progUuid,programTypeUuid,visitTypeUuid,encounterTypeUuid);
-
-            if(programLogic === true){
-                 _.each(visitTypes,(visitType) => {
-                      var visitUuid = visitType.uuid;
-                      var encounterTypes = visitType.encounterTypes;
-                      var visitsLogic = getVisitsLogic(visitUuid,programTypeUuid,visitTypeUuid,encounterTypeUuid);
-
-                      if(visitsLogic === true){
-                        _.each(encounterTypes, (encounterType) => {
-                            var encounterUuid = encounterType.uuid;
-                            var encountersLogic = getEncountersLogic(encounterUuid,programTypeUuid,visitTypeUuid,encounterTypeUuid);
-
-                           if(encountersLogic === true){
-
-                                    var containsEncounterUuid = _.includes(encounterTypesList,encounterUuid);
-                                    // if(containsEncounterUuid === false){
-
-                                         encounterTypesList.push(encounterUuid);
-                                         totalAsyncRequests++;
-                                        resolveEncounterUuidToEncounterId(encounterUuid)
+                     totalAsyncRequests++;
+                    
+                       resolveEncounterUuidToEncounterId(encounter)
                                                         .then(function (fulfilled) {                                                           
                                                             let encounterId = parseInt(fulfilled);
                                                             if(isNaN(encounterId) === false){
@@ -122,167 +120,164 @@ function resolveToEncounterIds(request){
                                                         .catch(function (error) {
                                                             console.log('Error Message',error);
                                                         });
-                                       
+
+              });
+
+      }else{
+
+            console.log('encounterTypeUuid.length == 0');
+
+         // encounter length is zero
+
+           //next check the visitTypes
+
+             if(visitTypeUuid.length > 0){
+
+                   //get the encounter uuids of the visits
+
+                      console.log('visitTypeUuid.length.length > 0');
+                   
+
+                         _.each(programsConfig,(program,index) => {
+
+                                       var visitTypes = program.visitTypes;
+                                 _.each(visitTypes,(visitType) => {
+                                        var visitUuid = visitType.uuid;
+                                        
+                                        if(_.includes(visitTypeUuid,visitUuid) === true){
+
+                                              var encounterTypes = visitType.encounterTypes;  
+
+                                               _.each(encounterTypes, (encounterType) => {
+                                                      var encounterUuid = encounterType.uuid;
+                                                      visitTypeEncounterUUid.push(encounterUuid);
+
+                                                });
+                                            
+                                        }
                                         
 
-                                    //}
+                                 });
 
-
-                            } else {
-                                //if encounters Logic fails
-                                 totalAsyncRequests++;
-                                resolveForFailedChecks()
-                                                .then(function (fulfilled) {
-                                                               var containsZeroid = _.includes(resolvedEncounterUUids,0);
-                                                                if(containsZeroid === false){
-                                                                    resolvedEncounterUUids.push(fulfilled);
-                                                                }
-
-                                                         totalAsyncRequests--;
-                                                         checkAsyncState();
-
-                                                    })
-                                                    .catch(function (error) {
-                                                        console.log('Error Message',error);
-                                                    });
-                            }
-                           
-                        });
-
-                      } else {
-                          // if visits logic fails
-                            //if the program check fails
-                                totalAsyncRequests++;
-                                resolveForFailedChecks()
-                                                .then(function (fulfilled) {
-                                                   
-
-                                                               var containsZeroid = _.includes(resolvedEncounterUUids,0);
-                                                                if(containsZeroid === false){
-                                                                    resolvedEncounterUUids.push(fulfilled);
-                                                                }
-
-                                                                 totalAsyncRequests--;
-                                                                 checkAsyncState();
-
-                                                    })
-                                                    .catch(function (error) {
-                                                        console.log('Error Message',error);
-                                                    });
-                                
-                         }
-
-               }); // end of visitType loop
-                 
-
-            } else {
-
-                //if the program check fails
-                 totalAsyncRequests++;
-                   resolveForFailedChecks()
-                                .then(function (fulfilled) {
-                                        var containsZeroid = _.includes(resolvedEncounterUUids,0);
-                                             if(containsZeroid === false){
-                                                resolvedEncounterUUids.push(fulfilled);
-                                             }
-                                             totalAsyncRequests--;
-                                             checkAsyncState();
-
-                                    })
-                                     .catch(function (error) {
-                                         console.log('Error Message',error.message);
-                                     });
-
-            }
+                                 
  
-    
-      });
+                         });
 
-        
+                         _.each(visitTypeEncounterUUid,(encounter) => {
 
-       
+                             totalAsyncRequests++;
+
+                              resolveEncounterUuidToEncounterId(encounter)
+                                                        .then(function (fulfilled) {                                                           
+                                                            let encounterId = parseInt(fulfilled);
+                                                            if(isNaN(encounterId) === false){
+                                                                 resolvedEncounterUUids.push(encounterId);
+                                                             }
+
+                                                            totalAsyncRequests--;
+                                                            checkAsyncState();
+
+                                                        })
+                                                        .catch(function (error) {
+                                                            console.log('Error Message',error);
+                                                        });
+
+                         })
+
+                         
 
 
-      });
+             } else {
 
+                   // if visitType length is zero
+
+                    console.log('visitTypeUuid.length.length == 0');
+
+                   //check programs
+
+
+
+                     if(programTypeUuid.length > 0){
+
+                             console.log('programTypeUuid.length > 0');
+
+                              _.each(programsConfig,(program,index) => {
+
+                                  if(_.includes(programTypeUuid,index) === true){
+
+                                       var visitTypes = program.visitTypes;
+                                        _.each(visitTypes,(visitType) => {
+                                                var visitUuid = visitType.uuid;
+                                                
+
+                                                    var encounterTypes = visitType.encounterTypes;  
+
+                                                    _.each(encounterTypes, (encounterType) => {
+                                                            var encounterUuid = encounterType.uuid;
+                                                            visitTypeEncounterUUid.push(encounterUuid);
+
+                                                        });
+                                                
+                                                
+
+                                        });
+
+                            }
+
+                                 
+ 
+                         });
+
+                           _.each(visitTypeEncounterUUid,(encounter) => {
+
+                           totalAsyncRequests++;
+
+                              resolveEncounterUuidToEncounterId(encounter)
+                                                        .then(function (fulfilled) {                                                           
+                                                            let encounterId = parseInt(fulfilled);
+                                                            if(isNaN(encounterId) === false){
+                                                                 resolvedEncounterUUids.push(encounterId);
+                                                             }
+
+                                                            totalAsyncRequests--;
+                                                            checkAsyncState();
+
+                                                        })
+                                                        .catch(function (error) {
+                                                            console.log('Error Message',error);
+                                                        });
+
+                         })
+
+                          checkAsyncState();
+
+                           
+
+                     }
+                     else {
+
+                         console.log('programTypeUuid.length == 0');
+
+                         resolvedEncounterUUids.push(0);
+
+                         checkAsyncState();
+
+                     }
+
+                     
+
+
+
+             }
+
+      }
+
+       });
 
 }
 
-function resolveForFailedChecks(){
-    return new Promise((resolve, reject) => {
-      
-          resolve(0);
 
 
-    });
-}
-
-function getProgramsLogic(progUuid,programTypeUuid,visitTypeUuid,encounterTypeUuid){
-   
-
-     if(programTypeUuid!=''){
-           if(progUuid === programTypeUuid){
-                return true;
-           }else{
-               return false;
-           }
-     }else{
-
-           if (visitTypeUuid!='' || encounterTypeUuid!=''){
-                return true;
-           }else{
-               return false;
-           }
-
-     }
-    
-
-}
-
-function getVisitsLogic(visitUuid,programTypeUuid,visitTypeUuid,encounterTypeUuid){
-
-     if(visitTypeUuid !=''){
-         
-           if(visitTypeUuid === visitUuid){
-                return true;
-           } else {
-               return false;
-           }
-
-     } else {
-
-           if(programTypeUuid!='' || encounterTypeUuid!=''){
-                 return true;
-           }else {
-                 return false;
-           }
-     }
-
-}
-
-function getEncountersLogic(encounterUuid,programTypeUuid,visitTypeUuid,encounterTypeUuid){
-
-       if(encounterTypeUuid!=''){
-
-            if(encounterUuid === encounterTypeUuid){
-                 return true;
-            }
-            else{
-                return false;
-            }
-
-       } else {
-
-            if(programTypeUuid!='' || visitTypeUuid!=''){
-                 return true;
-             }else {
-                 return false;
-            }
-
-
-       }
-
-}
 
 
 function resolveEncounterUuidToEncounterId(encounterTypeUuid){
@@ -311,6 +306,20 @@ function resolveEncounterUuidToEncounterId(encounterTypeUuid){
     });
 
 }
+
+/*
+
+resolveToEncounterIds(params)
+            .then(function (resolved) {
+                console.log('All Resolved',resolved);
+                return resolved;
+            })
+            .catch(function (error) {
+               return error;
+});
+
+*/
+
 
 
 

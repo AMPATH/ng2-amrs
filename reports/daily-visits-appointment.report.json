@@ -42,6 +42,10 @@
         "defaultValue": []
       },
       {
+        "name": "encounterIds",
+        "defaultValue": 0
+      },
+      {
         "name": "groupByPerson",
         "defaultValue": [
           {
@@ -66,6 +70,10 @@
         "parameter": ""
       },
       {
+        "expression": "t1.encounter_type in (?)",
+        "parameter": "encounterIds"
+      },
+      {
         "expression": "encounter_type != 99999",
         "processForce": true,
         "parameter": ""
@@ -87,6 +95,11 @@
         "label": "uuid",
         "type": "single",
         "sql": "t1.uuid"
+      },
+      {
+        "label": "encounter_type",
+        "type": "single",
+        "sql": "t1.encounter_type"
       },
       {
         "label": "given_name",
@@ -163,6 +176,10 @@
         "defaultValue": []
       },
       {
+        "name": "encounterIds",
+        "defaultValue": 0
+      },
+      {
         "name": "groupByPerson",
         "defaultValue": [
           {
@@ -180,6 +197,10 @@
       {
         "expression": "t1.location_id in (?)",
         "parameter": "locations"
+      },
+       {
+        "expression": "t1.encounter_type IN (?)",
+        "parameter": "encounterIds"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
@@ -203,6 +224,11 @@
         "label": "person_id",
         "type": "single",
         "sql": "t1.person_id"
+      },
+      {
+        "label": "encounter_type",
+        "type": "single",
+        "sql": "t1.encounter_type"
       },
       {
         "label": "uuid",
@@ -371,7 +397,7 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": []
+        "defaultValue": 0
       },
       {
         "name": "groupByPerson",
@@ -403,7 +429,7 @@
         "parameter": "locations"
       },
       {
-        "expression": "t1.encounter_type IN ?",
+        "expression": "t1.encounter_type in (?)",
         "parameter": "encounterIds"
       },
       {
