@@ -67,6 +67,37 @@ function viralLoadReminders(data) {
     return reminders;
 }
 
+function qualifiesDifferenciatedReminders(data){
+
+    let reminders = [];
+
+    let diffMessage = '';
+    if (data.qualifies_differenciated_care) {
+        diffMessage = 'Last viral load: ' + data.viral_load + ' on ' +
+            '(' + Moment(data.last_vl_date).format('DD-MM-YYYY') + ')' + ' ' +
+            data.months_since_last_vl_date + ' months ago.';
+    }
+
+    switch (data.qualifies_differenciated_care) {
+        case 1:
+            reminders.push({
+                message: 'Patient qualifies for differentiated care. Viral loads < 1000 and age > 18 ' + diffMessage,
+                title: 'Differentiated Care Reminder',
+                type: 'danger',
+                display: {
+                    banner: true,
+                    toast: true
+                }
+            });
+            break;
+        default:
+            console.info.call('No Differenciated Care Reminder For Selected Patient' + data.qualifies_differenciated_care);
+    }
+    return reminders;
+
+}
+
+
 function inhReminders(data) {
     let reminders = [];
     if (data.is_on_inh_treatment && data.inh_treatment_days_remaining > 30 &&
@@ -189,6 +220,7 @@ function generateReminders(etlResults, eidResults) {
   let vl_Errors = viralLoadErrors(data);
   let pending_vl_orders = pendingViralOrder(data);
   let pending_vl_lab_result = pendingViralLoadLabResult(eidResults);
+  let qualifies_differenciated_care_reminders = qualifiesDifferenciatedReminders(data);
   let inh_reminders = inhReminders(data);
   let vl_reminders = viralLoadReminders(data);
   let currentReminder = [];
@@ -199,6 +231,7 @@ function generateReminders(etlResults, eidResults) {
       vl_Errors,
       pending_vl_orders,
       inh_reminders,
+      qualifies_differenciated_care_reminders,
       vl_reminders);
   }
   

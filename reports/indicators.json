@@ -450,6 +450,13 @@
         "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @referenceDate) >= 90) then 1 when (timestampdiff(month,arv_start_date, @referenceDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 6)  and (timestampdiff(month,arv_start_date, @referenceDate)>=6) then 2 when (timestampdiff(month,arv_start_date, @referenceDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @referenceDate) >= 12) then 3 else 0 end"
     },
     {
+        "name": "qualifies_differenciated_care",
+        "label": "qualifies for differentiated care",
+        "description": "# A patient who is above 18 yrs and qualifies and with a viral load of less than 1000 and  has been on TB prophylaxis for at least six months.",
+        "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date(@referenceDate)) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,@referenceDate)) >= 6 ) then 1 else 0 end"
+
+    },
+    {
         "name": "needs_vl_in_period",
         "label": "needs vl in period",
         "description": "Patient level coded indicator that determines whether patient requires a Viral load",
