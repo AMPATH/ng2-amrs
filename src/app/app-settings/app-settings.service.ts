@@ -36,7 +36,7 @@ export class AppSettingsService {
     {
       name: 'AMRS POC Beta',
       amrsUrl: '/amrs',
-      etlUrl: 'https://amrs.ampath.or.ke/etl-latest/etl'
+      etlUrl: 'https://ngx.ampath.or.ke/etl-server-beta/etl'
     },
     {
       name: 'AMRS Test',
