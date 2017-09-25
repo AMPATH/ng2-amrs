@@ -4,6 +4,7 @@
            "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1", "indexExpression":"FORCE INDEX (enc_date_location)"},
            "joins":[
              {"joinType":"LEFT OUTER JOIN","schema":"etl","tableName":"flat_labs_and_imaging","alias":"t2","joinExpression":"date(t1.encounter_datetime) = date(t2.test_datetime)"},
+             {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t5","joinExpression":"t5.person_id = t1.person_id"},
              {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.person_uuid = t1.uuid",
                "dynamicDataset":"labs_and_imaging_dataset"}
            ],
@@ -52,6 +53,11 @@
                  "label":"is_on_inh_treatment",
                  "expression":"is_on_inh_treatment",
                  "sql":"$expression"
+               },
+              {
+                 "label":"qualifies_differenciated_care",
+                 "expression":"qualifies_differenciated_care",
+                 "sql":"$expression"
                }
 
 
@@ -62,6 +68,11 @@
                  "label":"last_encounter_date",
                  "type":"single",
                  "sql":"t1.encounter_datetime"
+             },
+             {
+                 "label":"birth_date",
+                 "type":"single",
+                 "sql":"t5.birthdate"
              },
              {
                    "label":"person_id",
