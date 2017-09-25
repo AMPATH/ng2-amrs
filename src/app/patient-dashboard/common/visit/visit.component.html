@@ -13,7 +13,54 @@
         (visitStarted)="onVisitStartedOrChanged($event)"></app-visit-starter>
     </div>
   </div>
-
   <app-visit-details *ngIf="visit && patient" [visit]="visit" (encounterSelected)="onEncounterSelected($event)" [programVisitTypesConfig]="currentProgramConfig"
     (formSelected)="onFormSelected($event)" (visitCancelled)="onVisitStartedOrChanged($event)"></app-visit-details>
+  <div *ngIf="visit">
+    <div class="visit-panel-heading">
+      <div class="locationdetails">
+        <visit-period [visitUuid]="visit.uuid" (editedLocation)="locationChanges($event)" [iseditLocation]="iseditLocation"></visit-period>
+      </div>
+
+
+    </div>
+    <div class="button-nav">
+      <div class="add-borders ">
+        <div class="btn-group blocks">
+          <a *ngIf="!iseditLocation" (click)="editLocation()">
+            <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
+
+          <a *ngIf="iseditLocation" class="cancel-edit" (click)="editLocation()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Edit
+          </a>
+
+          <a id="endVisitButton" (click)="endVisit()">
+            <i class="glyphicon glyphicon-check"></i> End Visit</a>
+
+          <a id="cancelVisitButton" (click)="cancelVisit()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a>
+
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="list-group-item">
+      <h4 class="component-title">Visit Encounters</h4>
+      <div class="visit-panel-body">
+        <encounter-list *ngIf="!visitWithNoEncounters" [encounters]="visit.encounters" (onEncounterSelected)="encounterSelected($event)"></encounter-list>
+        <div *ngIf="visitWithNoEncounters" class="alert">
+          Patient yet to see provider
+        </div>
+      </div>
+    </div>
+    <span style="padding:10px;"></span>
+
+    <div class="list-group-item">
+      <div>
+        <form-list [excludedForms]="excludedForms" (onFormSelected)="formSelected($event)"></form-list>
+      </div>
+    </div>
+  </div>
+  <form-visit-type-search></form-visit-type-search>
 </div>
