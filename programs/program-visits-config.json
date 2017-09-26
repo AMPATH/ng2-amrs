@@ -242,14 +242,33 @@
     ]
   },
   "725b5193-3452-43fc-aca3-6a80432d9bfa": {
-    "name": "ONCOLOGY PROGRAM",
+    "name": " GENERAL ONCOLOGY PROGRAM",
     "incompatibleWith": [],
     "dataDependencies": [
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
-    "visitTypes": []
+    "visitTypes": [
+      {
+        "uuid": "70fd5ca8-ff05-4145-b8f2-60eab41ee7f2",
+        "name": "General Oncology Treatment Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          },
+          {
+            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
+            "display": "OncologyInitial"
+          },
+          {
+            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
+            "display": "OncologyReturn"
+          }
+        ]
+      }
+    ]
   },
   "fc15ac01-5381-4854-bf5e-917c907aa77f": {
     "name": "CDM PROGRAM",
@@ -565,36 +584,20 @@
         "name": "Breast Cancer Screening ",
         "encounterTypes": [
           {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
-          },
-          {
-            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-            "display": "ONCOLOGYDYSPLASIA"
-          },
-          {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
+            "uuid": "e856b2ac-fe35-41d6-a9aa-2b2679092763",
+            "display": "BREASTCANCERSCREENING"
           },
           {
             "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
+            "display": "ONCOLOGYSCREENINGTRIAGE"
           },
           {
-            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-            "display": "ONCOLOGYVIA"
+            "uuid": "a4c4dacc-11ff-4301-99a4-88d52c1390d5",
+            "display": "ONCOLOGYCASEMANAGEMENT"
+          },
+          {
+            "uuid": "5bdb1b5d-9b2d-4c62-a4cd-752f203d6e5b",
+            "display": "CLINICALBREASTEXAM"
           }
         ]
       }
@@ -614,32 +617,16 @@
         "name": "Cervical Cancer Screening ",
         "encounterTypes": [
           {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
-          },
-          {
             "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
             "display": "ONCOLOGYDYSPLASIA"
           },
           {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
+            "uuid": "00da8227-e7da-43c2-99b2-a4f237dd3924",
+            "display": "GYNPATHOLOGYRESULTS "
           },
           {
             "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
+            "display": "ONCOLOGYSCREENINGTRIAGE"
           },
           {
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
@@ -667,13 +654,22 @@
             "display": "HematOncologyTriage"
           },
           {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
+            "uuid": "c87c5b9a-9bb6-4afe-88c6-2deb7fb49320",
+            "display": "GYNONCOLOGYINITIAL "
           },
           {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
+            "uuid": "57bd19b1-d64c-4cde-b436-0167f1276d9a",
+            "display": "GYNONCOLOGYOVARIAN"
+          },
+          {
+            "uuid": "d84854b0-e9a9-4953-8888-3dbc701771f0",
+            "display": "GYNONCOLOGYCERVICAL"
+          },
+          {
+            "uuid": "9b763f62-7d2b-4fde-9de6-e6162422b17d",
+            "display": "GYNONCOLOGYCERVICALSURGICAL"
           }
+
         ]
       }
     ]
