@@ -6,12 +6,21 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838"
+    ],
     "visitTypes": [
       {
         "uuid": "33d13ffb-5f0e-427e-ab80-637491fb6526",
         "name": "Adult HIV Initial Visit ",
         "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
-        "message":"Patient has to be 20yrs and above, in the location he enrolled into the HIV Care and Treatment program and there must not be prior clinical encounter.",
+        "message": "Patient has to be 20yrs and above, in the location he enrolled into the HIV Care and Treatment program and there must not be prior clinical encounter.",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -31,7 +40,7 @@
         "uuid": "0ae56e8a-93ed-4071-82f1-0eaf3eb592ff",
         "name": "Adult Transfer In Visit ",
         "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
-        "message" : "Patient has to be 20yrs and above , patient's program location should be equal to the last HIV clinical encounter location and should not be the first clinical encounter",
+        "message": "Patient has to be 20yrs and above , patient's program location should be equal to the last HIV clinical encounter location and should not be the first clinical encounter",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -152,7 +161,6 @@
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN"
           }
-
         ]
       },
       {
@@ -175,7 +183,6 @@
           }
         ]
       },
-
       {
         "uuid": "43ec2bb7-ec8e-4a66-a29d-db6281399ea5",
         "name": "Between Care Visit ",
@@ -232,11 +239,11 @@
           }
         ]
       }
-
     ]
   },
   "725b5193-3452-43fc-aca3-6a80432d9bfa": {
     "name": "ONCOLOGY PROGRAM",
+    "incompatibleWith": [],
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -251,6 +258,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
@@ -278,6 +286,15 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838"
     ],
     "visitTypes": [
       {
@@ -321,6 +338,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": []
   },
   "781d8a88-1359-11df-a1f1-0026b9348838": {
@@ -330,6 +348,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": []
   },
   "96047aaf-7ab3-45e9-be6a-b61810fe617d": {
@@ -338,6 +357,15 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838"
     ],
     "visitTypes": [
       {
@@ -367,6 +395,15 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838"
+    ],
     "visitTypes": [
       {
         "uuid": "330d9739-833d-48a8-8986-f1069c320194",
@@ -395,6 +432,15 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838"
+    ],
     "visitTypes": [
       {
         "uuid": "dcdefd27-82b9-48e3-821b-3ffc6463564e",
@@ -422,6 +468,15 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838"
     ],
     "visitTypes": [
       {
@@ -471,6 +526,15 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "781d8880-1359-11df-a1f1-0026b9348838"
+    ],
     "visitTypes": [
       {
         "uuid": "52e67f49-4ec3-41b2-bfe2-93144ea03eb2",
@@ -486,7 +550,6 @@
           }
         ]
       }
-
     ]
   },
   "142939b0-28a9-4649-baf9-a9d012bf3b3d": {
@@ -497,7 +560,6 @@
       "hivLastTenClinicalEncounters"
     ],
     "visitTypes": [
-
       {
         "uuid": "55d8d186-3f74-43ad-9e40-eb16bb52b596",
         "name": "Breast Cancer Screening ",
@@ -536,7 +598,6 @@
           }
         ]
       }
-
     ]
   },
   "cad71628-692c-4d8f-8dac-b2e20bece27f": {
@@ -546,6 +607,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
@@ -585,7 +647,6 @@
           }
         ]
       }
-
     ]
   },
   "43b42170-b3ce-4e03-9390-6bd78384ac06": {
@@ -595,6 +656,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "b12cb85e-0c1e-4372-92ed-3bedcec1b105",
@@ -614,7 +676,6 @@
           }
         ]
       }
-
     ]
   },
   "88566621-828f-4569-9af5-c54f8237750a": {
@@ -624,6 +685,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "e0d41d1c-47b5-4c97-b3c7-ba4e4268d9e6",
@@ -643,7 +705,6 @@
           }
         ]
       }
-
     ]
   },
   "e48b266e-4d80-41f8-a56a-a8ce5449ebc6": {
@@ -653,6 +714,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "ba3bd879-c66d-4288-80d4-8302d2b823a8",
@@ -672,7 +734,6 @@
           }
         ]
       }
-
     ]
   },
   "698b7153-bff3-4931-9638-d279ca47b32e": {
@@ -682,6 +743,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "055436f7-cdc5-4e74-bef9-a8a06c746c3a",
@@ -699,10 +761,8 @@
             "uuid": "50f307c4-b92e-4a41-bbbb-5cee1bd1c561",
             "display": "MULTIPLEMYELOMARETURN"
           }
-
         ]
       }
-
     ]
   },
   "a3610ba4-9811-46b3-9628-83ec9310be13": {
@@ -712,6 +772,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "4c5cd268-0986-444e-8122-1160c4605884",
@@ -731,7 +792,6 @@
           }
         ]
       }
-
     ]
   },
   "781d8880-1359-11df-a1f1-0026b9348838": {
@@ -740,6 +800,15 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b"
     ],
     "visitTypes": [
       {
@@ -760,7 +829,6 @@
           }
         ]
       }
-
     ]
   }
 }
