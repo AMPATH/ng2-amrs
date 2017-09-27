@@ -45,7 +45,7 @@
       {
         "label": "name",
         "type": "single",
-        "sql": "t1.name"
+        "sql": "distinct t1.name"
       },
       {
         "label": "description",
