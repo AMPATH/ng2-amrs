@@ -15,6 +15,7 @@ module.exports = serviceDef;
 
 
 function viralLoadReminders(data) {
+    
     let reminders = [];
 
     let labMessage = 'Last viral load: none';
