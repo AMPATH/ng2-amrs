@@ -130,44 +130,57 @@ module.exports = function () {
         getARVNames: function getARVNames(str) {
             if (str === null || str === undefined) return "";
             var arvs = {
-                814: "ABACAVIR",
-                817: "ABACAVIR LAMIVUDINE AND ZIDOVUDINE",
-                6159: "ATAZANAVIR",
-                6160: "ATAZANAVIR AND RITONAVIR",
-                796: "DIDANOSINE",
-                633: "EFAVIRENZ",
-                791: "EMTRICITABINE",
-                6679: "ABACAVIR LAMIVUDINE",
-                6158: "ETRAVIRINE",
-                749: "INDINAVIR",
-                6156: "RALTEGRAVIR",
-                6965: "LAMIVIR S30",
-                628: "LAMIVUDINE",
-                1400: "LAMIVUDINE AND TENOFOVIR",
-                794: "LOPINAVIR AND RITONAVIR",
-                635: "NELFINAVIR",
-                631: "NEVIRAPINE",
-                6467: "NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE",
-                1107: "NONE",
-                5424: "OTHER ANTIRETROVIRAL DRUG",
-                6157: "DARUNAVIR",
-                795: "RITONAVIR",
-                625: "STAVUDINE",
-                792: "STAVUDINE LAMIVUDINE AND NEVIRAPINE",
-                6964: "TDF AND 3TC AND EFV",
-                802: "TENOFOVIR",
-                6180: "EMTRICITABINE 200 MG TENOFOVIR 300 MG",
-                5811: "UNKNOWN ANTIRETROVIRAL DRUG",
-                797: "ZIDOVUDINE",
-                630: "ZIDOVUDINE AND LAMIVUDINE",
-                9759: "DOLUTEGRAVIR"
-            };
+                            625:{mapped_to_ids:"625",name:"STAVUDINE"},
+                            628:{mapped_to_ids:"628",name:"LAMIVUDINE"},
+                            630:{mapped_to_ids:"628;797",name:"ZIDOVUDINE AND LAMIVUDINE"},
+                            631:{mapped_to_ids:"631",name:"NEVIRAPINE"},
+                            633:{mapped_to_ids:"633",name:"EFAVIRENZ"},
+                            635:{mapped_to_ids:"635",name:"NELFINAVIR"},
+                            749:{mapped_to_ids:"749",name:"INDINAVIR"},
+                            791:{mapped_to_ids:"791",name:"EMTRICITABINE"},
+                            792:{mapped_to_ids:"625;628;631",name:"STAVUDINE LAMIVUDINE AND NEVIRAPINE"},
+                            794:{mapped_to_ids:"794",name:"LOPINAVIR AND RITONAVIR"},
+                            795:{mapped_to_ids:"795",name:"RITONAVIR"},
+                            796:{mapped_to_ids:"796",name:"DIDANOSINE"},
+                            797:{mapped_to_ids:"797",name:"ZIDOVUDINE"},
+                            802:{mapped_to_ids:"802",name:"TENOFOVIR"},
+                            814:{mapped_to_ids:"814",name:"ABACAVIR"},
+                            817:{mapped_to_ids:"628;797;814",name:"ABACAVIR LAMIVUDINE AND ZIDOVUDINE"},
+                            1065:{mapped_to_ids:"1065",name:"YES"},
+                            1066:{mapped_to_ids:"1066",name:"NO"},
+                            1107:{mapped_to_ids:"1107",name:"NONE"},
+                            1400:{mapped_to_ids:"628;802",name:"LAMIVUDINE AND TENOFOVIR"},
+                            5424:{mapped_to_ids:"5424",name:"OTHER ANTIRETROVIRAL DRUG"},
+                            5811:{mapped_to_ids:"5811",name:"UNKNOWN ANTIRETROVIRAL DRUG"},
+                            6156:{mapped_to_ids:"6156",name:"RALTEGRAVIR"},
+                            6157:{mapped_to_ids:"6157",name:"DARUNAVIR"},
+                            6158:{mapped_to_ids:"6158",name:"ETRAVIRINE"},
+                            6159:{mapped_to_ids:"6159",name:"ATAZANAVIR"},
+                            6160:{mapped_to_ids:"795;6159",name:"ATAZANAVIR AND RITONAVIR"},
+                            6180:{mapped_to_ids:"791;802",name:"EMTRICITABINE AND TENOFOVIR"},
+                            6467:{mapped_to_ids:"628;631;633",name:"NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE"},
+                            6679:{mapped_to_ids:"628;814",name:"ABACAVIR AND LAMIVUDINE"},
+                            6964:{mapped_to_ids:"628;633;802",name:"TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ"},
+                            6965:{mapped_to_ids:"625;628",name:"LAMIVUDINE AND STAVUDINE"},
+                            9435:{mapped_to_ids:"9435",name:"EVIPLERA"},
+                            9759:{mapped_to_ids:"9759",name:"DOLUTEGRAVIR"}
+            };      
             var arvCodes = str.split(" ## ");
             var arvNames = [];
-            _.each(arvCodes, function (code) {
-                arvNames.push(arvs[code]);
+            var sortedArvCodes=arvCodes.sort().join(';');
+            var matchingName = _.find(arvs, function (arv) {
+                if (arv["mapped_to_ids"] === sortedArvCodes) {
+                    return arv;
+                }
+
             });
-            return arvNames.join(', ');
+            _.each(arvCodes, function (code) {
+                if (code) {
+                   arvNames.push(arvs[code].name);
+                }
+                
+            });
+            return matchingName?matchingName.name:arvNames.join(', ');
         },
 
         getTestsOrderedNames: function getTestsOrderedNames(str) {

@@ -64,6 +64,9 @@ import {
     patientCareCascadeService
 } from './service/patient-care-cascade-report.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
+import {
+    patientMedicationHistService
+} from './service/patient-medication-history.service';
 
 module.exports = function () {
 
@@ -3054,6 +3057,40 @@ module.exports = function () {
                 }
             }
 
+        },
+      {
+            method: 'GET',
+            path: '/etl/patient/{patientUuid}/medical-history-report',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewPatient
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.groupBy = 'groupByCurArvMeds,groupByPrevArvMeds';
+                    let requestParams = Object.assign({}, request.query, request.params);
+                    let reportParams = etlHelpers.getReportParams('medical-history-report', ['patientUuid'],
+                        requestParams);
+                    dao.runReport(reportParams).then((result) => {                        
+                       let medicalHist=new patientMedicationHistService();
+                       let processedResults= medicalHist.processMedicationHistory(result);
+                        reply(processedResults);
+                    }).catch((error) => {
+                        reply(error);
+                    });
+                },
+                description: "Get the medical history report",
+                notes: "Returns the the medical history of the selected patient",
+                tags: ['api'],
+                validate: {
+                    options: {
+                        allowUnknown: true
+                    },
+                    params: {}
+                }
+            }
         }
     ];
 
