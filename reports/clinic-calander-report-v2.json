@@ -32,6 +32,10 @@
             {
                 "name": "locationUuids",
                 "defaultValue": []
+            },
+            {
+                "name": "encounterIds",
+                "defaultValue": 0
             }
         ],
         "filters": [
@@ -46,6 +50,10 @@
             {
                 "expression": "t1.location_uuid in (?) ",
                 "parameter": "locationUuids"
+            },
+            {
+                "expression": "t1.encounter_type in (?) ",
+                "parameter": "encounterIds"
             },
             {
                 "expression": "encounter_type not in (21,99999)",
@@ -115,6 +123,10 @@
                 "defaultValue": []
             },
             {
+                "name": "encounterIds",
+                "defaultValue": 0
+            },
+            {
                 "name": "groupByDate",
                 "defaultValue": [
                     {
@@ -132,6 +144,10 @@
             {
                 "expression": "t1.rtc_date <= ?",
                 "parameter": "endDate"
+            },
+            {
+                "expression": "t1.encounter_type in (?)",
+                "parameter": "encounterIds"
             },
             {
                 "expression": "t1.location_uuid in (?)",
@@ -274,6 +290,10 @@
             {
                 "name": "locationUuids",
                 "defaultValue": []
+            },
+            {
+                "name": "encounterIds",
+                "defaultValue": 0
             }
         ],
         "filters": [
@@ -288,6 +308,10 @@
             {
                 "expression": "t1.location_uuid in (?)",
                 "parameter": "locationUuids"
+            },
+            {
+                "expression": "t1.encounter_type in (?)",
+                "parameter": "encounterIds"
             },
             {
                 "expression": "coalesce(t1.transfer_out) is null",
