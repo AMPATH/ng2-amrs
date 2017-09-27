@@ -5,7 +5,6 @@ import {
   from '@angular/core';
 import * as _ from 'lodash';
 
-
 @Component({
   selector: 'program-visit-encounter-search',
   templateUrl: './program-visit-encounter-search.component.html',
@@ -65,8 +64,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
       this.cd.detectChanges();
     }
 
-
-
     public getProgramVisitsConfig() {
         this.programVisitsEncounters = JSON.parse(JSON.stringify(this.programConf));
     }
@@ -90,7 +87,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         });
 
     }
-
 
     public getPrograms(departmentUuid) {
 
@@ -136,7 +132,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
 
       console.log('Get Visit Types', progUuid);
 
-
       let programs = this.programVisitsEncounters;
 
       _.each(programs, (program: any, index) => {
@@ -159,8 +154,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
                console.log('VisitType already selected');
              }
 
-
-
           });
 
           this.visitTypes = this.visits;
@@ -168,7 +161,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         }
 
       });
-
 
       console.log('Visit Types', this.visitTypes);
 
@@ -205,7 +197,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
                }else {
                    console.log('Encounter Type already selected');
                 }
-
 
              });
 
@@ -253,12 +244,9 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
 
        // console.log('Program Uuid', programUuid);
 
-
-
        this.selectedProgramType = this.program;
 
        this.filterSet = false;
-
 
     }
 
@@ -279,12 +267,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
 
        let visitTypeUuid = visitType.value;
 
-
        this.selectedVisitType = this.visitType;
        this.filterSet = false;
-
-
-
 
     }
 
@@ -308,7 +292,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         _.each(departments, (department: any, index) => {
             this.getPrograms(department);
         });
-
 
     }
 
@@ -342,7 +325,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         this.department.push(department.value);
       });
 
-
     }
 
     public clearDepartments() {
@@ -358,7 +340,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
        this.filterSet = false;
 
     }
-
 
     public clearPrograms() {
 
@@ -436,7 +417,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         'type': 'Encounter Type',
         'value': encounterType.name
       };
-
 
       this.filterKeys.push(filterKey);
 

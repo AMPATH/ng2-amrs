@@ -32,7 +32,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
         this.getProgramsVisitConfig();
 
-
         // console.log('Form List', formList);
         this.getallFormsList();
 
@@ -46,7 +45,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
         this._patientProgramService.getAllProgramVisitConfigs()
         .subscribe((response) => {
               if (response) {
-                    console.log('ProgramVisitsConfig', response);
                     this.programVisitConfig = JSON.parse(JSON.stringify(response));
                     this.sortVisitList();
               }
@@ -55,7 +53,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
     }
 
      public selectMainFilter($event) {
-        console.log($event);
         let mainFilter = $event.target.value;
 
         if (mainFilter === 'visitType') {
@@ -75,8 +72,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
     }
 
     public selectSecondaryFilter(secondaryFilter) {
-
-        console.log('Selected Secondary', secondaryFilter);
 
         if ( secondaryFilter === 'all') {
             /*  if one has selected all as the second filter
@@ -164,10 +159,8 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
         let programVisitConfig = this.programVisitConfig;
         let visitTrackArray = [];
-        console.log('ProgramConf', programVisitConfig);
 
         _.each(programVisitConfig, (program: any) => {
-            console.log('Program', program);
             let visitTypes = program.visitTypes;
 
             _.each(visitTypes, (visitType: any) => {
@@ -221,7 +214,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
                     if (mainFilter === 'visitType') {
 
                         if (uuid === visitUuid) {
-                            console.log('Visit Type Matches');
                             this.visitTypeResult.push({
                                         'program': program,
                                         'visitType': visitTypeName,
