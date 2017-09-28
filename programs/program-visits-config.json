@@ -33,6 +33,22 @@
           {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -49,7 +65,24 @@
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
+
         ]
       },
       {
@@ -69,6 +102,22 @@
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -89,6 +138,22 @@
           {
             "uuid": "8d5b2dde-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSINITIAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -104,6 +169,22 @@
           {
             "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -124,6 +205,22 @@
           {
             "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -144,6 +241,22 @@
           {
             "uuid": "fc8c1694-90fc-46a8-962b-73ce9a99a78f",
             "display": "YOUTHINITIAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -160,6 +273,22 @@
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -180,6 +309,22 @@
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -196,6 +341,18 @@
           {
             "uuid": "386eedd9-e835-48e5-9da9-59b2641ea742",
             "display": "BETWEENCAREVISIT"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -210,6 +367,22 @@
           {
             "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
             "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -236,6 +409,32 @@
           {
             "uuid": "282033e8-67f1-4edd-8bff-74829e8ee2b0",
             "display": "MDTFORM"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "578a6132-4686-4190-809f-3f8f49bdd1c6",
+        "name": "Linkage Visit",
+        "encounterTypes": [
+          {
+            "uuid": "93b4c47b-ce5c-4d83-bef2-f941199e999d",
+            "display": "PHCTLINKAGE"
           }
         ]
       }
@@ -265,6 +464,14 @@
           {
             "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
             "display": "OncologyReturn"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -294,6 +501,14 @@
           {
             "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
             "display": "HTNDMINITIAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -345,6 +560,52 @@
           {
             "uuid": "df553c4a-1350-11df-a1f1-0026b9348838",
             "display": "PMTCTANC"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
@@ -402,6 +663,52 @@
           {
             "uuid": "f091b833-9e1a-4eef-8364-fc289095a832",
             "display": "PEPRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
@@ -439,6 +746,52 @@
           {
             "uuid": "ddd96f1c-524f-4caa-81a6-1a6f9789a4bc",
             "display": "PREPRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
@@ -476,6 +829,52 @@
           {
             "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
             "display": "RESISTANCECLINIC"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
@@ -515,6 +914,22 @@
           {
             "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
             "display": "DIFFERENTIATEDCARE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
@@ -533,6 +948,44 @@
           {
             "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
             "display": "DIFFERENTIATEDCARE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
@@ -566,6 +1019,48 @@
           {
             "uuid": "704abe82-d00f-4fd3-a5fd-616c53d78b48",
             "display": "TRANSITVISIT"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
@@ -598,6 +1093,14 @@
           {
             "uuid": "5bdb1b5d-9b2d-4c62-a4cd-752f203d6e5b",
             "display": "CLINICALBREASTEXAM"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -631,6 +1134,14 @@
           {
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
             "display": "ONCOLOGYVIA"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -668,6 +1179,14 @@
           {
             "uuid": "9b763f62-7d2b-4fde-9de6-e6162422b17d",
             "display": "GYNONCOLOGYCERVICALSURGICAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
 
         ]
@@ -698,6 +1217,14 @@
           {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -727,6 +1254,14 @@
           {
             "uuid": "3a0e7e4e-426e-4dc7-8f60-9114c43432eb",
             "display": "SICKLECELLRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -756,6 +1291,14 @@
           {
             "uuid": "50f307c4-b92e-4a41-bbbb-5cee1bd1c561",
             "display": "MULTIPLEMYELOMARETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -785,6 +1328,14 @@
           {
             "uuid": "36927b3c-db32-4063-90df-e45640e9aabc",
             "display": "HEMOPHILIARETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
           }
         ]
       }
@@ -822,6 +1373,48 @@
           {
             "uuid": "df554398-1350-11df-a1f1-0026b9348838",
             "display": "ECSTABLE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
