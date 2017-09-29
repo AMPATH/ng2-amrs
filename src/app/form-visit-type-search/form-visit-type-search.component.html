@@ -3,7 +3,7 @@
     <div class="row">
        <h5>Search for Visit type or Form and its associated encounter types and visit types :</h5>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="row">     
+        <div class="row">
                   <div class="form-group">
                     <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
                       <label class="control-label">Select Main Filter</label>
@@ -12,7 +12,7 @@
                           <option value="visitType">Visit Type</option>
                           <option value="form">Form</option>
                       </select>
-                    </div> 
+                    </div>
                     <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
                       <label class="control-label" *ngIf="mainFilterType !== 'visitType' && mainFilterType !== 'form'">Second Filter</label>
                       <label class="control-label" *ngIf="mainFilterType == 'visitType'">Select Visit Type</label>
@@ -22,8 +22,8 @@
                           <option value="all">All</option>
                           <option *ngFor="let secondFilter of secondFilters" [ngValue]="secondFilter">{{secondFilter.name}}</option>
                       </select>
-                    </div>  
-                  </div>       
+                    </div>
+                  </div>
         </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -59,7 +59,7 @@
                         <td>{{visitResult.visitType}}</td>
                         <td>{{visitResult.program}}</td>
                         <td><span *ngFor="let encounterType of visitResult.encounterType; let i = index">{{i+1}}.{{encounterType.display}} <br *ngIf="(i+1)%3==0"> </span></td>
-                        <td>{{visitResult.message}}</td>
+                        <td>{{visitResult.condition}}</td>
                      </tr>
                    </tbody>
                 </table>
@@ -83,7 +83,7 @@
                       </tr>
                    </tbody>
                 </table>
-                 
+
               </div>
           </div>
       </div>

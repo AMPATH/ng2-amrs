@@ -9,6 +9,7 @@ import { ProgramService } from '../programs/program.service';
 import { PatientService } from '../services/patient.service';
 import { Patient } from '../../models/patient.model';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 
 @Component({
   selector: 'landing-page',
@@ -36,19 +37,22 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public incompatibleCount: number = 0;
   public enrolledProgrames: any = [];
   public selectedLocation: string;
-  public programList: any[] = require('../programs/programs.json');
+  public allProgramVisitConfigs: any = {};
+//  public programList: any[] = require('../programs/programs.json');
   private _datePipe: DatePipe;
   private subscription: Subscription;
 
   constructor(private patientService: PatientService,
               private programService: ProgramService,
-              private locationResourceService: LocationResourceService) {
+              private locationResourceService: LocationResourceService,
+              private patientProgramResourceService: PatientProgramResourceService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public ngOnInit() {
     this.fetchLocations();
     this.loadProgramBatch();
+    this.fetchAllProgramVisitConfigs();
   }
 
   public ngOnDestroy(): void {
@@ -127,7 +131,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.checkIncompatibility(this.program);
     if (this.programIncompatible === true) {
 
-           this.isFocused = false;
+          this.isFocused = false;
 
     }else {
        if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
@@ -139,7 +143,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
     }
 
-    }
+   }
 
   }
 
@@ -157,6 +161,21 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       // check the compatibility of the program
       this.checkIncompatibility(programUuid);
 
+  }
+  public fetchAllProgramVisitConfigs() {
+    this.allProgramVisitConfigs = {};
+    let sub = this.patientProgramResourceService.
+    getAllProgramVisitConfigs().subscribe(
+      (programConfigs) => {
+        this.allProgramVisitConfigs = programConfigs;
+      },
+      (error) => {
+        this.errors.push({
+          id: 'program configs',
+          message: 'There was an error fetching all the program configs'
+        });
+        console.error('Error fetching program configs', error);
+      });
   }
 
   private loadProgramBatch(): void {
@@ -306,7 +325,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       let enrolledList: Array<any> = [];
       let incompatibleList: Array<any> = [];
 
-      let programList = this.programList;
+      let programList = this.allProgramVisitConfigs;
 
       _.forEach(patientPrograms, (program: any) => {
              if (program.dateEnrolled !== null) {
@@ -318,7 +337,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
          issues with any of the enrolled programs
       */
 
-      _.forEach(programList, (list, index) => {
+      _.forEach(programList, (list: any, index) => {
            // get program
            if (index === programUUid) {
 
@@ -344,7 +363,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           if (incompatible === enrolled) {
                 this.programIncompatible = true;
                 // get the program name for the message
-                let progName = programList[incompatible].programName;
+                let progName = programList[incompatible].name;
                 let message = 'Selected program is incompatible with ' + progName
                 + '.Please complete the current program to proceed.';
                 this.incompatibleMessage.push(message);
