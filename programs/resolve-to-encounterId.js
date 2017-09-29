@@ -33,6 +33,7 @@ var request = {
 */
 
 
+
 module.exports = def;
 
 function getProgramConf(){
@@ -83,194 +84,257 @@ function resolveToEncounterIds(request){
 
 
        var totalAsyncRequests = 0;
+       var loopCount = 0;
+       var resolvedCount = 0;
 
        var visitTypeEncounterUUid = [];
 
        return new Promise((resolve, reject) => {
 
        var checkAsyncState = function(){
-          if(totalAsyncRequests === 0){
+            if(totalAsyncRequests === 0){
               console.log('Resolved', _.uniq(resolvedEncounterUUids));
               resolve(_.uniq(resolvedEncounterUUids).join());
             }
         }
 
+        // if only program type is entered
+if(programTypeUuid.length > 0 && visitTypeUuid.length === 0 && encounterTypeUuid.length === 0){
 
-     if(encounterTypeUuid.length > 0){
+    console.log('programTypeUuid.length > 0 && visitTypeUuid.length === 0 && encounterTypeUuid.length === 0');
 
-          console.log('encounterTypeUuid.length > 0');
+   
+         _.each(programsConfig,(program,index) => {
 
-           //use encounters array
+                        if(_.includes(programTypeUuid,index) === true){
 
-              _.each(encounterTypeUuid,(encounter, index) => {
 
-                     totalAsyncRequests++;
+                                  var visitTypes = program.visitTypes;
+                                    _.each(visitTypes,(visitType) => {
+                                                          
+                                                      var encounterTypes = visitType.encounterTypes;  
+
+                                                      _.each(encounterTypes, (encounterType) => {
+                                                                loopCount++;
+                                                                console.log('Loop Count', loopCount);
+                                                                var encounterUuid = encounterType.uuid;
+                                                                visitTypeEncounterUUid.push(encounterUuid);
+
+                                                                 totalAsyncRequests++;
                     
-                       resolveEncounterUuidToEncounterId(encounter)
-                                                        .then(function (fulfilled) {                                                           
-                                                            let encounterId = parseInt(fulfilled);
-                                                            if(isNaN(encounterId) === false){
-                                                                 resolvedEncounterUUids.push(encounterId);
-                                                             }
+                                                                 resolveEncounterUuidToEncounterId(encounterUuid)
+                                                                                                  .then(function (fulfilled) {                                                           
+                                                                                                      let encounterId = parseInt(fulfilled);
+                                                                                                      if(isNaN(encounterId) === false){
+                                                                                                           resolvedEncounterUUids.push(encounterId);
+                                                                                                       }
 
-                                                            totalAsyncRequests--;
-                                                            checkAsyncState();
+                                                                                                      totalAsyncRequests--;
+                                                                                                      resolvedCount++;
+                                                                                                      console.log('Resolved Count', loopCount);
+                                                                                                      checkAsyncState();
 
-                                                        })
-                                                        .catch(function (error) {
-                                                            console.log('Error Message',error);
-                                                        });
+                                                                                                  })
+                                                                                                  .catch(function (error) {
+                                                                                                      console.log('Error Message',error);
+                                                                                                  });
 
-              });
+                                                  });
+                                                              
+                                                          
 
-      }else{
+                                    });
 
-            console.log('encounterTypeUuid.length == 0');
-
-         // encounter length is zero
-
-           //next check the visitTypes
-
-             if(visitTypeUuid.length > 0){
-
-                   //get the encounter uuids of the visits
-
-                      console.log('visitTypeUuid.length.length > 0');
-                   
-
-                         _.each(programsConfig,(program,index) => {
-
-                                       var visitTypes = program.visitTypes;
-                                 _.each(visitTypes,(visitType) => {
-                                        var visitUuid = visitType.uuid;
-                                        
-                                        if(_.includes(visitTypeUuid,visitUuid) === true){
-
-                                              var encounterTypes = visitType.encounterTypes;  
-
-                                               _.each(encounterTypes, (encounterType) => {
-                                                      var encounterUuid = encounterType.uuid;
-                                                      visitTypeEncounterUUid.push(encounterUuid);
-
-                                                });
-                                            
-                                        }
-                                        
-
-                                 });
-
-                                 
+                         }        
  
-                         });
-
-                         _.each(visitTypeEncounterUUid,(encounter) => {
-
-                             totalAsyncRequests++;
-
-                              resolveEncounterUuidToEncounterId(encounter)
-                                                        .then(function (fulfilled) {                                                           
-                                                            let encounterId = parseInt(fulfilled);
-                                                            if(isNaN(encounterId) === false){
-                                                                 resolvedEncounterUUids.push(encounterId);
-                                                             }
-
-                                                            totalAsyncRequests--;
-                                                            checkAsyncState();
-
-                                                        })
-                                                        .catch(function (error) {
-                                                            console.log('Error Message',error);
-                                                        });
-
-                         })
-
-                         
-
-
-             } else {
-
-                   // if visitType length is zero
-
-                    console.log('visitTypeUuid.length.length == 0');
-
-                   //check programs
+           });
 
 
 
-                     if(programTypeUuid.length > 0){
+} 
+else if(programTypeUuid.length > 0 && visitTypeUuid.length > 0 && encounterTypeUuid.length === 0){
 
-                             console.log('programTypeUuid.length > 0');
+     console.log('programTypeUuid.length > 0 && visitTypeUuid.length > 0 && encounterTypeUuid.length === 0');
 
-                              _.each(programsConfig,(program,index) => {
+             //loop checking the 
+
+                _.each(programsConfig,(program,index) => {
 
                                   if(_.includes(programTypeUuid,index) === true){
 
-                                       var visitTypes = program.visitTypes;
-                                        _.each(visitTypes,(visitType) => {
+
+                                            var visitTypes = program.visitTypes;
+                                              _.each(visitTypes,(visitType) => {
+
                                                 var visitUuid = visitType.uuid;
-                                                
+                                        
+                                                     if(_.includes(visitTypeUuid,visitUuid) === true){
+                                                                    
+                                                                var encounterTypes = visitType.encounterTypes;  
 
-                                                    var encounterTypes = visitType.encounterTypes;  
+                                                                _.each(encounterTypes, (encounterType) => {
+                                                                          var encounterUuid = encounterType.uuid;
+                                                                          visitTypeEncounterUUid.push(encounterUuid);
 
-                                                    _.each(encounterTypes, (encounterType) => {
-                                                            var encounterUuid = encounterType.uuid;
-                                                            visitTypeEncounterUUid.push(encounterUuid);
+                                                                           totalAsyncRequests++;
+                    
+                                                                             resolveEncounterUuidToEncounterId(encounterUuid)
+                                                                                                              .then(function (fulfilled) {                                                           
+                                                                                                                  let encounterId = parseInt(fulfilled);
+                                                                                                                  if(isNaN(encounterId) === false){
+                                                                                                                       resolvedEncounterUUids.push(encounterId);
+                                                                                                                   }
 
-                                                        });
-                                                
-                                                
+                                                                                                                  totalAsyncRequests--;
+                                                                                                                  checkAsyncState();
 
-                                        });
+                                                                                                              })
+                                                                                                              .catch(function (error) {
+                                                                                                                  console.log('Error Message',error);
+                                                                                                              });
 
-                            }
+                                                                    });
 
-                                 
- 
-                         });
-
-                           _.each(visitTypeEncounterUUid,(encounter) => {
-
-                           totalAsyncRequests++;
-
-                              resolveEncounterUuidToEncounterId(encounter)
-                                                        .then(function (fulfilled) {                                                           
-                                                            let encounterId = parseInt(fulfilled);
-                                                            if(isNaN(encounterId) === false){
-                                                                 resolvedEncounterUUids.push(encounterId);
                                                              }
 
-                                                            totalAsyncRequests--;
-                                                            checkAsyncState();
+                                                                });
 
-                                                        })
-                                                        .catch(function (error) {
-                                                            console.log('Error Message',error);
-                                                        });
+                                                       }
 
-                         })
+                                                       // checkAsyncState();
+                                                                        
+                                                                    
 
-                          checkAsyncState();
+                                              });      
+           
 
-                           
+}
 
-                     }
-                     else {
+else if(programTypeUuid.length > 0 && visitTypeUuid.length > 0 && encounterTypeUuid.length > 0){
 
-                         console.log('programTypeUuid.length == 0');
+     console.log('programTypeUuid.length > 0 && visitTypeUuid.length > 0 && encounterTypeUuid.length > 0');
 
-                         resolvedEncounterUUids.push(0);
+                  _.each(programsConfig,(program,index) => {
 
-                         checkAsyncState();
-
-                     }
-
-                     
+                                  if(_.includes(programTypeUuid,index) === true){
 
 
+                                            var visitTypes = program.visitTypes;
+                                              _.each(visitTypes,(visitType) => {
 
-             }
+                                                var visitUuid = visitType.uuid;
+                                        
+                                                     if(_.includes(visitTypeUuid,visitUuid) === true){
+                                                                    
+                                                                var encounterTypes = visitType.encounterTypes;  
 
-      }
+                                                                _.each(encounterTypes, (encounterType) => {
+                                                                          var encounterUuid = encounterType.uuid;
+                                                                          if(_.includes(encounterTypeUuid,encounterUuid) === true){
+
+                                                                               totalAsyncRequests++;
+                                                                               visitTypeEncounterUUid.push(encounterUuid);
+                                                                                resolveEncounterUuidToEncounterId(encounterUuid)
+                                                                                                              .then(function (fulfilled) {                                                           
+                                                                                                                  let encounterId = parseInt(fulfilled);
+                                                                                                                  if(isNaN(encounterId) === false){
+                                                                                                                       resolvedEncounterUUids.push(encounterId);
+                                                                                                                   }
+
+                                                                                                                  totalAsyncRequests--;
+                                                                                                                  checkAsyncState();
+
+                                                                                                              })
+                                                                                                              .catch(function (error) {
+                                                                                                                  console.log('Error Message',error);
+                                                                                                              });
+
+
+                                                                            }
+
+                                                                });
+
+                                                       }
+                                                                        
+                                                                    
+
+                                              });
+
+                                   } else {
+                                         
+                                         checkAsyncState();
+
+                                   }
+
+                                         
+           
+                     });
+
+}
+else if(programTypeUuid.length === 0 && visitTypeUuid.length === 0 && encounterTypeUuid.length > 0){
+
+    console.log('programTypeUuid.length === 0 && visitTypeUuid.length === 0 && encounterTypeUuid.length > 0');
+
+                  _.each(programsConfig,(program,index) => {
+
+                                  
+
+
+                                            var visitTypes = program.visitTypes;
+                                              _.each(visitTypes,(visitType) => {
+
+                                                var visitUuid = visitType.uuid;
+                                                                    
+                                                                var encounterTypes = visitType.encounterTypes;  
+
+                                                                _.each(encounterTypes, (encounterType) => {
+                                                                          var encounterUuid = encounterType.uuid;
+                                                                          if(_.includes(encounterTypeUuid,encounterUuid) === true){
+                                                                          
+                                                                               visitTypeEncounterUUid.push(encounterUuid);
+                                                                               totalAsyncRequests++;
+                                                                                resolveEncounterUuidToEncounterId(encounterUuid)
+                                                                                                              .then(function (fulfilled) {                                                           
+                                                                                                                  let encounterId = parseInt(fulfilled);
+                                                                                                                  if(isNaN(encounterId) === false){
+                                                                                                                       resolvedEncounterUUids.push(encounterId);
+                                                                                                                   }
+
+                                                                                                                  totalAsyncRequests--;
+                                                                                                                  checkAsyncState();
+
+                                                                                                              })
+                                                                                                              .catch(function (error) {
+                                                                                                                  console.log('Error Message',error);
+                                                                                                              });
+
+
+                                                                            }
+
+                                                                });
+
+                                                       
+                                                                        
+                                                                    
+
+                                              });
+
+
+                                   checkAsyncState();       
+           
+                     });
+
+}
+else{
+
+  console.log('Bad request');
+
+   checkAsyncState();
+
+}
+
+
+
 
        });
 
