@@ -270,8 +270,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       (err) => {
         console.error(err);
         this.isBusyIndicator(false);
-        this.formRenderingErrors
-          .push('An error occured while loading form, please check your connection');
+       // this.formRenderingErrors
+        //  .push('An error occured while loading form, please check your connection');
       }
       );
   }

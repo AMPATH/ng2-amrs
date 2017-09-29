@@ -24,5 +24,6 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
   exports: [],
   declarations: [],
   providers: [],
+
 })
 export class OncologyProgramModule { }
