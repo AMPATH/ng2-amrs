@@ -212,10 +212,14 @@ function pendingViralLoadLabResult(eidResults) {
 
 function generateReminders(etlResults, eidResults) {
   let reminders = [];
-  let patientReminder = {
-    person_id: etlResults[0].person_id,
-    person_uuid: etlResults[0].person_uuid
-  };
+  let patientReminder;
+    if (etlResults ) {
+      patientReminder = {
+          person_id: etlResults[0].person_id,
+          person_uuid: etlResults[0].person_uuid
+      };
+  }
+
   let data = etlResults[0];
   let new_vl = newViralLoadPresent(data);
   let vl_Errors = viralLoadErrors(data);
