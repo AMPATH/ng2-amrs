@@ -34,6 +34,7 @@ export class AppState {
     return this._state[prop] = value;
   }
   public setupIdleTimer(idleTimeout) {
+    // console.log('calling setupIdleTimer');
     this.idleTimeout = idleTimeout;
     window.addEventListener('mousemove', this.resetTimer.bind(this), false);
     window.addEventListener('mousedown', this.resetTimer.bind(this), false);
@@ -48,16 +49,23 @@ export class AppState {
   }
 
   public startTimer() {
-    this.timeoutID = window.setTimeout(this.goInactive.bind(this), this.idleTimeout);
+    this.timeoutID = setTimeout(this.goInactive.bind(this),
+      this.idleTimeout);
+    // console.log('calling timeoutid', this.timeoutID, window);
   }
 
   public resetTimer(e) {
-    window.clearTimeout(this.timeoutID);
 
-    this.goActive();
+    let taskid = this.timeoutID.data.handleId;
+    // console.log('Resetting timer!', this.timeoutID, taskid);
+    if (this.timeoutID.cancelFn) {
+      clearTimeout(this.timeoutID);
+    }
+    this.goActive(true);
   }
 
   public goInactive() {
+    // console.log('trying to go inative', this.idleTimer);
     this.idleTimer.next({ idle: true });
   }
 
