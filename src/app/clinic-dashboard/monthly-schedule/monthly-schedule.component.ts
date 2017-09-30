@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit , Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -18,6 +18,9 @@ import * as Moment from 'moment';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { CookieService } from 'ngx-cookie';
+import * as _ from 'lodash';
+import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -45,21 +48,27 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
   public viewDate: Date = new Date();
   public view = 'month';
   public filter: any = {
-     'programType': '',
-     'visitType': '',
-     'encounterType': ''
+     'programType': [],
+     'visitType': [],
+     'encounterType': []
   };
+  public encodedParams: string = '';
   public events: CalendarEvent[] = [];
   public activeDayIsOpen: boolean = false;
   public location: string = '';
   public busy: Subscription;
   public fetchError = false;
+  public programVisitsEncounters: any = [];
+  public encounterTypes: any [];
+  public trackEncounterTypes: any = [];
   private subscription: Subscription = new Subscription();
 
   constructor(private monthlyScheduleResourceService: MonthlyScheduleResourceService,
               private clinicDashboardCacheService: ClinicDashboardCacheService,
               private router: Router,
-              private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics) {
+              private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics,
+              private _cookieService: CookieService,
+              private _patientProgramService: PatientProgramResourceService) {
   }
 
   public ngOnInit() {
@@ -73,12 +82,22 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location: string) => {
         this.location = location;
-        this.getAppointments();
+        // this.getAppointments();
       });
   }
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public saveParamsToCookie() {
+
+     let cookieKey = 'programVisitEncounterFilter';
+
+     let cookieVal =  this.encodedParams;
+
+     this._cookieService.put(cookieKey, cookieVal);
+
   }
 
   public filterSelected($event) {
@@ -105,12 +124,21 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.getAppointments();
   }
 
+  public convertFilterToUri() {
+
+  this.encodedParams = encodeURI(JSON.stringify(this.filter));
+
+  console.log('Encode Monthly Filter Params', this.encodedParams);
+
+}
+
   public getAppointments() {
+      this.convertFilterToUri();
       this.fetchError = false;
       this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
       endDate: Moment(endOfMonth(this.viewDate)).format('YYYY-MM-DD'),
       startDate: Moment(startOfMonth(this.viewDate)).format('YYYY-MM-DD'),
-      programVisitEncounter: this.filter,
+      programVisitEncounter: this.encodedParams,
       locationUuids: this.location, limit: 10000
     }).subscribe((results) => {
       this.events = this.processEvents(results);

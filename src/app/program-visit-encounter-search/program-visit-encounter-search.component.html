@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row" id="program-visit-encounter-filter">
     <div class="container-fluid">
         <form>
                 <div class="row">
-                            <div class="col-md-6 col-lg-4 col-sm-6 col-xs-10">
+                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                            <label class="control-label">Departments</label>
                                            <div class="input-group">
                                                 <span class="input-group-addon filter-add-on">
@@ -20,7 +20,7 @@
                                                 </span>
                                            </div>
                             </div>
-                             <div class="col-md-6 col-lg-4 col-sm-6 col-xs-10">
+                             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                            <label class="control-label">Program</label>
                                            <div class="input-group">
                                                 <span class="input-group-addon filter-add-on">
@@ -30,6 +30,7 @@
                                                             (ngModelChange)="programChange($event)"
                                                             [placeholder]="'Select or enter to search'"
                                                             [(ngModel)]="program" [options]="programs"
+                                                            [style.font-size]="12"
                                                             name="program-filter">
                                                 </ng-select>
                                                 <span class="input-group-addon">                                   
@@ -38,7 +39,7 @@
                                                 </span>
                                            </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-sm-6 col-xs-10">
+                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                         <label class="control-label">Visit Type</label>
                                         <div class="input-group">
                                                     <span class="input-group-addon filter-add-on">
@@ -47,7 +48,8 @@
                                                     <ng-select [multiple]="true" id="visitType-filter" (selected)="selectVisitType($event)"
                                                                 (ngModelChange)="visitTypeChange($event)"
                                                                 [placeholder]="'Select or enter to search'"
-                                                                [(ngModel)]="visitType" [options]="visitTypes"
+                                                                [(ngModel)]="visitType"
+                                                                [options]="visitTypes"
                                                                 name="visitType-filter">
                                                     </ng-select>
                                                     <span class="input-group-addon">
@@ -56,27 +58,28 @@
                                                     </span>
                                         </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-sm-6 col-xs-10">
+                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                     <label class="control-label">Encounter Type</label>
                                     <div class="input-group">
                                                  <span class="input-group-addon filter-add-on">
                                                     <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
                                                 </span>
                                                 <ng-select [multiple]="true" id="encounterType-filter" (selected)="selectEncounterType(encounterType)"
+                                                           (ngModelChange)="encounterTypeChange($event)"
                                                             [placeholder]="'Select or enter to search'"
                                                             [(ngModel)]="encounterType" [options]="encounterTypes"
                                                             name="encounterType-filter">
                                                 </ng-select>
                                                 <span class="input-group-addon">                        
                                                      <i class="select-all" *ngIf="encounterType.length === 0" (click)="selectAllEncouterTypes()"> <span class="glyphicon glyphicon-pushpin"></span> Select All</i>
-                                                     <i class="clear-all" *ngIf="encounterTypes.length > 0 " (click)="clearEncounterTypes()"> <span class="fa fa-trash fa-fw"></span> Clear All</i>
+                                                     <i class="clear-all" *ngIf="encounterType.length > 0 " (click)="clearEncounterTypes()"> <span class="fa fa-trash fa-fw"></span> Clear All</i>
                                                 </span>
                                     </div>
                           </div>
 
             </div>
             <div class="row">
-                <div class="col-md-3 col-lg-4 col-sm-3" id="filter-btns">
+                <div class="col-md-4 col-lg-4 col-sm-4" id="filter-btns">
                     <button class="btn btn-primary btn-search" (click)="getMonthlyScheduleParameters()" *ngIf="!filterSet">Set Filter <i class="fa fa-gear fa-fw"></i></button>
                      <button class="btn btn-primary btn-search" (click)="getMonthlyScheduleParameters()" *ngIf="filterSet" disabled>Set Filter <i class="fa fa-gear fa-fw"></i></button>
                     <button class="btn btn-danger btn-search" (click)="resetFilter()">Clear Filters <i class="fa fa-trash fa-fw"></i></button>

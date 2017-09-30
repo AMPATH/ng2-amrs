@@ -4,6 +4,7 @@ import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-reso
 import { BehaviorSubject, Subscription } from 'rxjs/Rx';
 import * as Moment from 'moment';
 import { CookieService } from 'ngx-cookie';
+import { LocalStorageService } from './../../utils/local-storage.service';
 @Component({
   selector: 'daily-schedule-not-returned',
   templateUrl: './daily-schedule-not-returned.component.html',
@@ -20,12 +21,12 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   public dataLoaded: boolean = false;
   public nextStartIndex: number = 0;
   public selectedNotReturnedTab: any;
-  public programVisitEncounterFilter: any = {
+  public filter: any = {
      'programType': [],
      'visitType': [],
      'encounterType': []
   };
-  public filterParam: any = [];
+  public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
   public extraColumns: any = {
     headerName: 'Phone Number',
     width: 80,
@@ -46,10 +47,12 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
-              private _cookieService: CookieService) {
+              private _cookieService: CookieService,
+              private localStorageService: LocalStorageService) {
   }
 
   public ngOnInit() {
+    this.filterSelected();
     this.selectedDate = Moment().format('YYYY-MM-DD');
     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
@@ -61,6 +64,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
                 this.selectedDate = date;
                 this.initParams();
                 let params = this.getQueryParams();
+                console.log('Has not Returned Visit Params', params);
                 this.getDailyHasNotReturned(params);
               }
 
@@ -98,7 +102,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       startDate: this.selectedDate,
       startIndex: this.nextStartIndex,
       locationUuids: this.selectedClinic,
-      programVisitEncounter: this.filterParam,
+      programVisitEncounter: this.encodedParams,
       limit: undefined
     };
 
@@ -141,9 +145,10 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   }
 
     private filterSelected() {
+
       let cookieKey = 'programVisitEncounterFilter';
 
-      let cookieVal =  encodeURI(JSON.stringify(this.programVisitEncounterFilter));
+      let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
 
       let programVisitCookie = this._cookieService.get(cookieKey);
 
@@ -151,16 +156,16 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
 
       if (typeof programVisitCookie === 'undefined') {
 
-           this._cookieService.put(cookieKey, cookieVal);
-
       } else {
 
-         // this._cookieService.remove(cookieKey);
+         cookieVal =  this.localStorageService.getItem(cookieKey);
 
          // this._cookieService.put(cookieKey, cookieVal);
       }
 
-      this.filterParam = cookieVal;
+      console.log('Daily Has not returned Cookie val', cookieVal);
+
+      this.encodedParams = cookieVal;
 
   }
 
