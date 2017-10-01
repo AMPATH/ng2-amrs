@@ -43,7 +43,7 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": 0
+        "defaultValue": [0]
       },
       {
         "name": "groupByPerson",
@@ -70,7 +70,7 @@
         "parameter": ""
       },
       {
-        "expression": "t1.encounter_type in (?)",
+        "expression": "t1.encounter_type in ?",
         "parameter": "encounterIds"
       },
       {
@@ -177,7 +177,7 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": 0
+        "defaultValue": [0]
       },
       {
         "name": "groupByPerson",
@@ -199,7 +199,7 @@
         "parameter": "locations"
       },
        {
-        "expression": "t1.encounter_type IN (?)",
+        "expression": "encounter_type in ?",
         "parameter": "encounterIds"
       },
       {
@@ -397,7 +397,7 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": 0
+        "defaultValue": [0]
       },
       {
         "name": "groupByPerson",
@@ -429,7 +429,7 @@
         "parameter": "locations"
       },
       {
-        "expression": "t1.encounter_type in (?)",
+        "expression": "t1.encounter_type in ?",
         "parameter": "encounterIds"
       },
       {

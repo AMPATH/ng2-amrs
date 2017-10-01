@@ -52,7 +52,7 @@
                 "parameter": "locationUuids"
             },
             {
-                "expression": "t1.encounter_type in (?) ",
+                "expression": "t1.encounter_type in ? ",
                 "parameter": "encounterIds"
             },
             {
@@ -146,7 +146,7 @@
                 "parameter": "endDate"
             },
             {
-                "expression": "t1.encounter_type in (?)",
+                "expression": "t1.encounter_type in ?",
                 "parameter": "encounterIds"
             },
             {
@@ -310,7 +310,7 @@
                 "parameter": "locationUuids"
             },
             {
-                "expression": "t1.encounter_type in (?)",
+                "expression": "t1.encounter_type in ?",
                 "parameter": "encounterIds"
             },
             {
