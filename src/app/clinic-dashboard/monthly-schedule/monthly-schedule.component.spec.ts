@@ -24,6 +24,8 @@ import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 import { SelectModule } from 'angular2-select';
+import { CookieService, CookieModule } from 'ngx-cookie';
+import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {
@@ -210,11 +212,11 @@ let results = {
   ]
 };
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+ public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
-  snapshot = {
+ public params = Observable.of([{ 'id': 1 }]);
+ public snapshot = {
     queryParams: { date: '' }
   };
 }
@@ -223,19 +225,23 @@ describe('MonthlyScheduleComponent', () => {
   let fixture: ComponentFixture<MonthlyScheduleComponent>;
   let comp: MonthlyScheduleComponent;
   let dataStub: MonthlyScheduleResourceService;
+  let cookieService: CookieService;
+  let patientProgramResourceService: PatientProgramResourceService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BusyModule, CalendarModule.forRoot(),  SelectModule,
-       BrowserAnimationsModule, CacheModule,
+       BrowserAnimationsModule, CacheModule,  CookieModule.forRoot(),
        FormsModule],
       declarations: [MonthlyScheduleComponent, ProgramVisitEncounterSearchComponent],
       providers: [
         MonthlyScheduleResourceService,
         ClinicDashboardCacheService,
+        PatientProgramResourceService,
         AppSettingsService,
         LocalStorageService,
         DataCacheService,
+        CookieService,
         CacheService,
         {
           provide: Http, useFactory: (backend, options) => {

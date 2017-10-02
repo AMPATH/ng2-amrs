@@ -1,5 +1,9 @@
+#program-visit-encounter-filter{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
 #filter-btns {
-    padding-top: 25px;
+    padding-top: 40px;
 }
 .filter-label{
     margin-right: 5px;
@@ -10,11 +14,16 @@
 .clear-all:hover{
     cursor: pointer;
 }
+#error_message_row{
+    margin-top: 15px;
+}
+
 
 @media (max-width: 600px) {
 
   .filter-add-on{
       display: none;
   }
+ 
   
 }

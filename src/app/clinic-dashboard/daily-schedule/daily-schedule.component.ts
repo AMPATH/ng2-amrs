@@ -131,25 +131,9 @@ export class DailyScheduleComponent implements OnInit {
   public getDate(dateObject: any) {
     return dateObject.year + '-' + dateObject.month + '-' + dateObject.day;
   }
+
   public filterSelected($event) {
 
-      let cookieKey = 'programVisitEncounterFilter';
-      let cookieVal = $event;
-
-      let programVisitCookie = this._cookieService.get(cookieKey);
-
-      if (typeof programVisitCookie === 'undefined') {
-
-          this._cookieService.put(cookieKey, cookieVal);
-
-      } else {
-
-        this._cookieService.remove(cookieKey);
-
-        this._cookieService.put(cookieKey, cookieVal);
-      }
-
-      this._cookieService.put(cookieKey, cookieVal);
       console.log('Filter Selected', $event);
   }
 
