@@ -56,7 +56,7 @@ function resolveToEncounterIds(request){
 
      console.log('Decoded Url ....', decodedUrl);
 
-     var resolvedEncounterUUids = [];
+     var resolvedEncounterUUids = [0];
 
     if(decodedUrl.programType){
             var programTypeUuid = decodedUrl.programType;
@@ -94,7 +94,10 @@ function resolveToEncounterIds(request){
        var checkAsyncState = function(){
             if(totalAsyncRequests === 0){
               console.log('Resolved', _.uniq(resolvedEncounterUUids));
-              resolve(_.uniq(resolvedEncounterUUids).join());
+              var uniqIdsArray = _.uniq(resolvedEncounterUUids);
+              var stringArray = ''+uniqIdsArray.join()+'';
+
+              resolve(uniqIdsArray);
             }
         }
 

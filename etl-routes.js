@@ -258,6 +258,7 @@ module.exports = function () {
                                         let encounterIds = resolve;
                                         request.query.encounterIds = encounterIds;
                                         let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'encounterIds' ,'locationUuids'], request.query);
+                                        console.log('Monthly report params', reportParams);
                                         let service = new MonthlyScheduleService();
                                         service.getMonthlyScheduled(reportParams).then((result) => {
                                             reply(result);
@@ -298,6 +299,7 @@ module.exports = function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
                                 resolveEncounterUuidToId.resolveToEncounterIds(request.query)
                                       .then((resolve) => {
+                                            console.log('Resolved daily-attendance', resolve);
                                             let encounterIds = resolve;
                                             request.query.encounterIds = encounterIds;
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
@@ -344,7 +346,7 @@ module.exports = function () {
                                             let encounterIds = resolve;
                                             request.query.encounterIds = encounterIds;
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
-                                            let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'encounterIds','' ,'groupBy'], compineRequestParams);
+                                            let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'locations' , 'encounterIds', ,'groupBy'], compineRequestParams);
                                             dao.runReport(reportParams).then((result) => {
                                                 reply(result);
                                             }).catch((error) => {
