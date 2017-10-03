@@ -10,7 +10,7 @@ import { Patient } from '../../../models/patient.model';
 
 @Injectable()
 export class FormentryReferralsHandlerService {
-  public differentiatedCareConceptUuid = 'a89fbbd0-1350-11df-a1f1-0026b9348838';
+  public differentiatedCareConceptUuid = '7c6f0599-3e3e-4f42-87a2-2ce66f1e96d0';
 
   constructor(public diffCareReferralService: DifferentiatedCareReferralService) { }
 
