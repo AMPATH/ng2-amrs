@@ -30,7 +30,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     { label: 'Male', val: 'M' }
   ];
   public preferredNameuuid: string;
-  public birthdate: any;
+  public birthDate: any;
+  public birthdateEstimated: boolean = false;
   public dead: boolean = false;
   public gender: any;
   public deathDate: Date;
@@ -69,6 +70,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
           this.givenName = (this.patients.person.preferredName as any).givenName;
           this.middleName = (this.patients.person.preferredName as any).middleName;
           this.familyName = (this.patients.person.preferredName as any).familyName;
+          this.birthDate = this.patients.person.birthdate;
+          this.birthdateEstimated = this.patients.person.birthdateEstimated;
           this.ispreferred = (this.patients.person.preferredName as any).preferred;
           this.preferredNameuuid = (this.patients.person.preferredName as any).uuid;
           this.gender = this.patients.person.gender;
@@ -90,6 +93,9 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
 
   public updateDeathDate(deathDate) {
     this.deathDate = deathDate;
+  }
+  public updateBirthDate(birthDate) {
+    this.birthDate = birthDate;
   }
   public updateDeathDetails(dead) {
 
@@ -116,6 +122,17 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
 
   }
 
+  public updateDOBDetails(birthdateEstimated) {
+
+    if ((this.birthdateEstimated as any) === 'true') {
+       this.birthdateEstimated = true;
+     }
+
+    if ((this.birthdateEstimated as any) === 'false') {
+        this.birthdateEstimated = false;
+     }
+
+  }
   public getCauseOfDeath() {
     let conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
     this.conceptResourceService.getConceptByUuid(conceptUid).subscribe((data) => {
@@ -178,7 +195,12 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       }
 
     }
-
+    if (moment(this.birthDate).isAfter(new Date())) {
+        this.errors.push({ message: 'Birth Date date cannot be in future' });
+      }
+    if (this.birthDate == null) {
+        this.errors.push({ message: 'Birth Date is required' });
+      }
     if (this.errors.length === 0) {
       let person = {
         uuid: this.patients.person.uuid
@@ -195,7 +217,9 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         dead: this.dead,
         deathDate: this.deathDate,
         causeOfDeath: this.causeOfDeath,
-        gender: this.gender
+        gender: this.gender,
+        birthdate: this.birthDate,
+        birthdateEstimated: this.birthdateEstimated
 
       };
       this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).subscribe(
