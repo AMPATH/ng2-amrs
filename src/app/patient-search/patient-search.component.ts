@@ -24,7 +24,8 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
   public title: string = 'Patient Search';
   public errorMessage: string = '';
-
+  public noMatchingResults: boolean = false;
+  public lastSearchString: string = '';
   /*
    patientSelected emits the patient object
    to other components so they can use
@@ -120,7 +121,12 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
         .subscribe(
         (data) => {
           this.isLoading = false;
+          const searchTerm = this.searchString;
           this.onResultsFound(data);
+          if (data.length === 0) {
+            this.noMatchingResults = true;
+            this.lastSearchString = searchTerm;
+          }
           this.resetInputMargin();
           // app feature analytics
           this.appFeatureAnalytics
@@ -141,6 +147,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
         this.totalPatients = 0;
 
     }
+    this.noMatchingResults = false;
   }
 
   public selectPatient(patient) {
@@ -157,6 +164,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.isLoading = false;
     this.hasConductedSearch = false;
     this.resetInputMargin();
+    this.noMatchingResults = false;
   }
 
   public tooltipStateChanged(state: boolean): void {
