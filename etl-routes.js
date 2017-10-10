@@ -491,9 +491,9 @@ module.exports = function () {
                     let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
                     EIDLabReminderService.pendingEIDReminders(request.params, config.eid)
                         .then((eidReminders) => {
-                            let compineRequestParams = Object.assign({}, request.query, request.params);
-                            compineRequestParams.limit = 1;
-                            let reportParams = etlHelpers.getReportParams('clinical-reminder-report', ['referenceDate', 'patientUuid', 'indicators'], compineRequestParams);
+                            let combineRequestParams = Object.assign({}, request.query, request.params);
+                            combineRequestParams.limit = 1;
+                            let reportParams = etlHelpers.getReportParams('clinical-reminder-report', ['referenceDate', 'patientUuid', 'indicators'], combineRequestParams);
 
                             dao.runReport(reportParams).then((results) => {
                                 try {
