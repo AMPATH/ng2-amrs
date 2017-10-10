@@ -78,9 +78,13 @@
   </div>
   <div class="program non-enrolled">
     <h4 class="component-title">Enroll Patient to Program {{programIncopatible}}</h4>
-    <div class="alert alert-danger" *ngIf="programIncompatible">
-         <p *ngFor="let message of incompatibleMessage">{{message}}</p>
-    </div>
+    <div *ngIf="programIncompatible">
+        <unenroll-patient-programs [enrollments]="incompatibleProgrames" 
+        [reason]="reasonForUnenroll"
+        (unenrollmentCompleted)="isUnenrollmentComplete($event)"
+        (unEnrollmentCancelled)="isUnenrollmentCancel($event)"
+        ></unenroll-patient-programs>
+    </div>      
     <div class="program-body">
       <em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em>
       <div class="container-fluid">
@@ -89,6 +93,7 @@
             <label for="programs">Select Program:</label>
             <div>
               <select class="form-control" id="programs" [(ngModel)]="program" (change)="onProgramChange($event)" type="date">
+               <option  value=""></option>
               <ng-container *ngFor="let row of availablePrograms">
                 <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
                   {{row.program.display}}

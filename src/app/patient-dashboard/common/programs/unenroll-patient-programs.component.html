@@ -1,0 +1,47 @@
+<p-dialog header="Unenroll from programs" [(visible)]="disenrollConfirmDialog" modal="modal"  responsive="true">      
+  <div class="program-body">
+       <div class="alert alert-danger">
+         {{message}}
+       </div>
+       <div *ngIf="hasValidationErrors"> 
+        <div *ngFor="let error of enrollmentUdateErrors" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <em class="text-danger" *ngIf="hasValidationErrors">{{error}}</em>
+       </div>
+      </div>
+      <div class="row" style="padding:4px">
+                  <div class="col-md-4 cell">
+                  </div>
+                    <div class="col-md-4 cell" >
+                    <strong>Enrolled Date</strong>
+                  </div>
+                  <div class="col-md-4 cell">
+                   <strong>Completed Date </strong>
+                  </div>               
+      </div>
+      <div *ngFor="let enrolled of enrolledPrograms">
+            <div class="form-inline">
+              <div class="container-fluid">
+                <div class="row" style="padding:4px">
+                  <div class="col-md-4 cell">
+                    {{enrolled.name}}
+                  </div>
+                    <div class="col-md-4 cell" >
+                    {{enrolled.enrolledDate}}
+                  </div>
+                  <div class="col-md-4 cell">
+                    <input  id="enrollmentDetails{{enrolled.enrollmentUuid}}" [(ngModel)]="enrollmentDetails[enrolled.enrollmentUuid]" type="date" />
+                  </div>               
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button (click)="onNoDialogConfirmation()" type="button" id="onNo" class="btn btn-danger">Cancel</button>
+      <button (click)="unEnrollPatientFromPrograms()" type="button" id="onYes" class="btn btn-primary">UnEnroll</button>
+    </div>
+  </footer>
+
+</p-dialog> 
