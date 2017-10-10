@@ -19,6 +19,7 @@ export class VisitStarterComponent implements OnInit {
 
   public isBusy: boolean = false;
   public error: string = '';
+  public infoMessage: any  = [];
 
   private _patientUuid: string;
   @Input()
@@ -69,7 +70,7 @@ export class VisitStarterComponent implements OnInit {
     if (this.programVisitsConfig &&
       this.programVisitsConfig.visitTypes &&
       this.programVisitsConfig.visitTypes.allowed) {
-      return this.programVisitsConfig.visitTypes.allowed;
+        return this.programVisitsConfig.visitTypes.allowed;
     }
     return [];
   }

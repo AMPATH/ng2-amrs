@@ -2,3 +2,30 @@
     border: 1px solid #ccc;
     margin-bottom: 1px;
 }
+
+.visit-info{
+          max-height:0px;
+          opacity: 0;
+          transition: opacity 1s, max-height 2s ease; 
+          color:#31708f;
+          border-radius: 1px;
+          border-color: rgb(51, 122, 183);
+          border-style: solid;
+          margin-top: 3px;
+          border-width: 2px;
+          margin-bottom: 1.5%;
+}
+
+.question-tooltip:hover ~ .visit-info {
+          max-height: 999px;
+          opacity: 1;
+         
+}
+.list-group-item {
+    padding: 15px 10px !important
+}
+.question-tooltip:hover ~ .info-spacing {
+    margin-bottom: 1.5%;
+}
+
+
