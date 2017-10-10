@@ -59,6 +59,10 @@ export const routes = [
             path: 'cdm/:program/landing-page', // CDM Landing Page
             component: PatientInfoComponent
           },
+          {
+            path: 'dermatology/:program/landing-page', // CDM Landing Page
+            component: PatientInfoComponent
+          },
           { path: ':programClass/:program/patient-info',
           component: PatientInfoComponent },
           { path: ':programClass/:program/patient-encounters',

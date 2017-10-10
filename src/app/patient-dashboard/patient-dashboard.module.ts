@@ -24,6 +24,8 @@ import { PatientProgramService } from './programs/patient-programs.service';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { PatientDashboardCdmModule } from './cdm/patient-dashboard-cdm.module';
 import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm.module';
+import {
+  PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 
 @NgModule({
   imports: [
@@ -43,6 +45,7 @@ import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm
     PatientDashboardOncologyModule,
     PatientDashboardCommonModule,
     PatientDashboardHivModule,
+    PatientDashboardDermatologyModule,
     PatientSearchModule,
     RouterModule.forChild(routes)
   ],

@@ -107,6 +107,36 @@
       "routes": []
     },
     {
+      "programName": "HIV Outreach Program",
+      "programUuid": "c6bf3625-de80-4a88-a913-38273e300a55",
+      "baseRoute": "c6bf3625-de80-4a88-a913-38273e300a55",
+      "alias": "hiv",
+      "published": true,
+      "shared-routes-class": "hiv",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "HIV Community Based Care Research Program",
+      "programUuid": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
+      "baseRoute": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
+      "alias": "hiv",
+      "published": true,
+      "shared-routes-class": "hiv",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "HIV ACTG Program",
+      "programUuid": "4480c782-ef05-4d88-b2f8-c892c99438f6",
+      "baseRoute": "4480c782-ef05-4d88-b2f8-c892c99438f6",
+      "alias": "hiv",
+      "published": true,
+      "shared-routes-class": "hiv",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "PMTCT",
       "programUuid": "781d897a-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d897a-1359-11df-a1f1-0026b9348838",
@@ -198,11 +228,11 @@
     },
 
     {
-      "programName": "Oncology",
+      "programName": "General Oncology",
       "programUuid": "725b5193-3452-43fc-aca3-6a80432d9bfa",
       "baseRoute": "725b5193-3452-43fc-aca3-6a80432d9bfa",
       "alias": "oncology",
-      "published": false,
+      "published": true,
       "shared-routes-class": "oncology",
       "requiresPatientEnrollment": true,
       "routes": []
@@ -266,17 +296,17 @@
       ]
     },
     {
-      "programName": "CDM",
-      "programUuid": "fc15ac01-5381-4854-bf5e-917c907aa77f",
-      "baseRoute": "fc15ac01-5381-4854-bf5e-917c907aa77f",
-      "alias": "cdm",
+      "programName": "Dermatology",
+      "programUuid": "b3575274-1850-429b-bb8f-2ff83faedbaf",
+      "baseRoute": "b3575274-1850-429b-bb8f-2ff83faedbaf",
+      "alias": "dermatology",
       "published": true,
       "requiresPatientEnrollment": true,
       "routes": [{
-          "url": "visit",
-          "label": "Visit",
-          "icon": "icon-i-outpatient"
-        },
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
         {
           "url": "patient-encounters",
           "label": "Encounters",
@@ -293,6 +323,36 @@
           "icon": "icon-i-laboratory"
         }
       ]
+    },
+    {
+      "programName": "CDM",
+      "programUuid": "fc15ac01-5381-4854-bf5e-917c907aa77f",
+      "baseRoute": "fc15ac01-5381-4854-bf5e-917c907aa77f",
+      "alias": "cdm",
+      "published": false,
+      "requiresPatientEnrollment": true,
+      "shared-routes-class": "cdm",
+      "routes": []
+    },
+    {
+      "programName": "CDM Care at Health Center",
+      "programUuid": "b731ba72-cf99-4176-9fcd-37cd186400c7",
+      "baseRoute": "b731ba72-cf99-4176-9fcd-37cd186400c7",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "CDM Care at CEO",
+      "programUuid": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
+      "baseRoute": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
   "sharedRoutes": {
@@ -357,6 +417,27 @@
         "label": "Visit",
         "icon": "icon-i-outpatient"
       },
+      {
+        "url": "patient-encounters",
+        "label": "Encounters",
+        "icon": "icon-i-immunizations"
+      },
+      {
+        "url": "patient-vitals",
+        "label": "Vitals",
+        "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "lab-data-summary",
+        "label": "Lab Data Summary",
+        "icon": "icon-i-laboratory"
+      }
+    ],
+    "cdm": [{
+      "url": "visit",
+      "label": "Visit",
+      "icon": "icon-i-outpatient"
+    },
       {
         "url": "patient-encounters",
         "label": "Encounters",
