@@ -1,0 +1,51 @@
+<!-- <messages-history id="seed" style="margin-top: 10px;"></messages-history> -->
+
+<div class="container " style="margin-top: 20px; padding-top: 20px;">
+    <div class="row">
+    <div class="col-12 col-md-12 col-sm-12">
+                  <!-- <div *ngIf="loading" class="loader">Loading...</div> -->
+    </div>
+            <div class="row">
+                    <div class="col-12 col-md-12 col-sm-12">
+                                    <virtual-scroll
+                                    [items]="buffer"  (update)="scrollItems = $event" (change)="indices = $event" (end)="fetchMore($event)" style="height: 75vh;
+                                    display: block; background-color: #FFFFFF; ">
+
+    <div class="row">
+                    <div class="col-12 col-xs-12 col-sm-12 col-md-12">
+                            <div *ngFor="let item of scrollItems">
+
+                            <div class="card" style=" padding-top: 10px;" id="card1" Markdown>
+                            <div class="container">
+
+                          <div class="row">
+
+                             <div class="col-5 col-xs-5 col-sm-5 col-md-5" *ngIf="item[2].length == 1"> <i class="fa fa-user-circle fa-2x"  aria-hidden="true"></i> <strong>{{item[0]}}</strong><strong *ngIf="item[2].length == 0">Undefined User</strong></div>
+                             <div class="col-2 col-xs-2 col-sm-2 col-md-2" ><h6 id="mphone"><i class="fa fa-phone" aria-hidden="true"></i><small>{{item[2]}}</small><small *ngIf="item[2].length == 0">Undefined phone</small></h6></div>
+                             <div class="col-2 col-xs-2 col-sm-2 col-md-2"><h6 id="mlocation"><i class="fa fa-map-marker" aria-hidden="true"></i><small >{{item[1]}}</small><small *ngIf="item[2].length == 0">Undefined location</small></h6></div>
+                              <div class="col-3 col-xs-3 col-sm-3 col-md-3"><h6 id="mtime"><small><strong>{{item[4] * 1000 | date:'MMM dd'}} at {{item[4] * 1000 | date:'HH:mm'}} &bull; <i class="fa fa-clock-o" aria-hidden="true"></i> {{item[4]* 1000 | amTimeAgo }}</strong></small> </h6></div>
+                             </div>
+                             <div class="row">
+                             <div class="col-12 col-xs-12 col-sm-12 col-md-12 ">
+                                             <p *ngIf="item[2].length == 0" style="line-height: 20px; color: rgb(110, 110, 110)">{{item[0]}}</p>
+                                                     <p class="text "  style="line-height: 20px; color: rgb(110, 110, 110)">{{item[3]}}</p>
+
+                                     </div>
+             </div>
+                            </div>
+                          </div>
+
+                    </div>
+                    </div>
+                    </div>
+
+            </virtual-scroll>
+            <div class="row" style="margin-top: 10px; margin-bottom: 50px;">
+            <div class="col-12 col-md-12 col-sm-12">
+              <button type="button" class="btn btn-primary " id="refresh_btn"  (click)="refreshTimeout()">Refresh &ensp; <i *ngIf="loading" class="fa fa-refresh fa-spin" aria-hidden="true"></i></button>
+            </div>
+    </div>
+                    </div>
+            </div>
+
+            </div>

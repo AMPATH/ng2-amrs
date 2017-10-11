@@ -1,3 +1,4 @@
+import { FeedBackHistoryComponent } from './../message-history/messages-history.component';
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject, fakeAsync } from '@angular/core/testing';
@@ -12,8 +13,12 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { UserService } from '../openmrs-api/user.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
-
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { MomentModule } from 'angular2-moment';
+import { MarkdownModule } from 'angular2-markdown';
 import { FormsModule } from '@angular/forms';
+import { AppSettingsService } from '../app-settings';
+import { LocalStorageService } from './../utils/local-storage.service';
 class DataStub {
 
     public postFeedback(payload): Observable<any> {
@@ -45,8 +50,9 @@ describe('FeedBackComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, BusyModule],
-            declarations: [FeedBackComponent]
+            imports: [FormsModule, BusyModule, 
+                VirtualScrollModule, MomentModule, MarkdownModule.forRoot()],
+            declarations: [FeedBackComponent, FeedBackHistoryComponent]
         }).overrideComponent(FeedBackComponent, {
             set: {
                 providers: [
@@ -63,7 +69,7 @@ describe('FeedBackComponent', () => {
                         deps: [MockBackend, BaseRequestOptions]
                     },
                     MockBackend,
-                    BaseRequestOptions
+                    BaseRequestOptions, AppSettingsService, LocalStorageService
                 ]
             }
         }).compileComponents()
@@ -78,7 +84,7 @@ describe('FeedBackComponent', () => {
         fixture.componentInstance.ngOnInit();
         fixture.detectChanges();
         expect(fixture.nativeElement
-            .querySelectorAll('button').length).toBe(2);
+            .querySelectorAll('button').length).toBe(3);
         expect(fixture.nativeElement
             .querySelectorAll('input').length).toBe(1);
         expect(fixture.nativeElement

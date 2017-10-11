@@ -1,9 +1,11 @@
+// import { FeedBackHistoryComponent } from './../message-history/messages-history.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FeedBackService } from './feedback.service';
 import { UserService } from '../openmrs-api/user.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
 import { Subscription } from 'rxjs';
+
 @Component({
     selector: 'feedback',
     templateUrl: 'feedback.component.html',

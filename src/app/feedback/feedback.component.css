@@ -8,3 +8,14 @@ top: 0px;
 .jumbotron {
 border-radius: 0px;
 }
+
+#scr{
+    margin-top:15px;
+}
+
+#collapse_btn {
+    position: absolute;
+    left: 2px;
+
+}
+
