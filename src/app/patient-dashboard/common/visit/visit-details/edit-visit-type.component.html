@@ -1,0 +1,9 @@
+<div *ngIf="isEditVisitType" class="edit-visits">
+  <label for="visitType">Select Visit Type:</label>
+  <div class="visit-type-select">
+    <ng-select name="visitType" (selected)="loadedLocation($event)" [(ngModel)]="visitType" [options]="visitTypes">
+    </ng-select>
+
+  </div>
+  <button (click)="saveVisit()" class="btn btn-primary" style="display:inline-block;">Save <i  *ngIf="saving" class='fa fa-circle-o-notch fa-spin'></i></button>
+</div>

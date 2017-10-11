@@ -114,7 +114,7 @@
     "ionic-cache": "2.0.1",
     "jquery": "^3.1.1",
     "lodash": "^4.17.4",
-    "moment": "^2.17.1",
+    "moment": "2.17.1",
     "ng2-bootstrap": "^1.1.16",
     "ng2-bs3-modal": "^0.10.4",
     "ng2-openmrs-formentry": "git+https://github.com/AMPATH/ng2-opemmrs-formentry.git#2.6.0-beta",

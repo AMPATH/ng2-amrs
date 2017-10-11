@@ -40,7 +40,6 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                LocalStorageService,
                 DailyScheduleResourceService,
                 ClinicDashboardCacheService,
                 MockBackend,
@@ -91,18 +90,6 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
 
     afterEach(() => {
         TestBed.resetTestingModule();
-    });
-
-    it('should create an instance', () => {
-        clinicDashBoardCacheService =
-        TestBed.get(ClinicDashboardCacheService);
-        dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
-        cookieService = TestBed.get(CookieService);
-        let appointmentsComponent = new DailyScheduleAppointmentsComponent(
-            clinicDashBoardCacheService,
-            dailyScheduleResource,
-            cookieService);
-        expect(appointmentsComponent).toBeTruthy();
     });
 
     it('should have required properties', (done) => {

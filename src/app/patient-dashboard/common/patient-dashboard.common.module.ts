@@ -24,6 +24,7 @@ import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.com
 import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
+import { EditVisitTypeComponent } from './visit/visit-details/edit-visit-type.component';
 import { PatientIdentifierComponent
 } from './patient-identifier/patient-identifier.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
@@ -227,6 +228,7 @@ import { FormVisitTypeSearchComponent
     EncounterListComponent,
     VisitComponent,
     PatientBannerComponent,
+    EditVisitTypeComponent,
     LabSyncComponent,
     LabResultComponent,
     ContactsComponent,

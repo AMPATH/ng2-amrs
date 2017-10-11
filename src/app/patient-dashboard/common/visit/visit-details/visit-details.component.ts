@@ -20,6 +20,7 @@ export class VisitDetailsComponent implements OnInit {
   public showConfirmationDialog = false;
   public confirmingCancelVisit = false;
   public editingLocation = false;
+  public editingVisitType = false;
 
   @Output()
   public formSelected = new EventEmitter<any>();
@@ -29,6 +30,8 @@ export class VisitDetailsComponent implements OnInit {
 
   @Output()
   public visitCancelled = new EventEmitter<any>();
+  @Input() public programUuid: any;
+  @Input() public programEnrollmentUuid: any;
 
   private _visit: any;
   @Input()
@@ -108,6 +111,7 @@ export class VisitDetailsComponent implements OnInit {
         .subscribe((visit) => {
           this.isBusy = false;
           this.visit = visit;
+          this.extractAllowedEncounterTypesForVisit();
         },
         (error) => {
           this.isBusy = false;
@@ -190,6 +194,10 @@ export class VisitDetailsComponent implements OnInit {
     this.editingLocation = !this.editingLocation;
   }
 
+  public toggleEditVisitType() {
+    this.editingVisitType = !this.editingVisitType;
+  }
+
   public confirmAction(action) {
     switch (action) {
       case 'cancel-visit':
@@ -215,6 +223,11 @@ export class VisitDetailsComponent implements OnInit {
 
   public onVisitLocationEditted(location) {
     this.toggleEditLocation();
+    this.reloadVisit();
+  }
+
+  public onVisitTypeEditted(visit) {
+    this.toggleEditVisitType();
     this.reloadVisit();
   }
 
