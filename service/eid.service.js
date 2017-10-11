@@ -23,7 +23,7 @@ var
 var definition = {
   getSynchronizedPatientLabResults: getSynchronizedPatientLabResults,
   getEIDTestResultsByPatientIdentifier: getEIDTestResultsByPatientIdentifier,
-  getPendingEIDTestResultsByPatientIdentifiers: getPendingEIDTestResultsByPatientIdentifiers,
+  getPendingEIDTestResultsByPatientIdentifiers: getTimedPendingEIDTestResultsByPatientIdentifiers,
   saveEidSyncLog: saveEidSyncLog,
   updateEidSyncLog: updateEidSyncLog,
   getViralLoadTestResultsByPatientIdentifier: getViralLoadTestResultsByPatientIdentifier,
@@ -524,6 +524,34 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
     });
 }
 
+function getTimedPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, referenceDate, server) {
+  return new Promise(function(resolveTestResults, rejectTestResults){
+    let counter = 1;
+    const wait = setInterval(abortOnLongWait, 1000);
+    function abortOnLongWait() {
+      if (counter > 30) {
+        clearInterval(wait);
+        resolveTestResults({
+          viralLoad: [],
+          pcr: [],
+          cd4Panel: []
+        });
+      }
+      // call EID on first counter
+      if(counter == 1) {
+        getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, referenceDate, server).then(function(result){
+          clearInterval(wait);
+          resolveTestResults(result);
+        }).catch(function(err){
+          clearInterval(wait);
+          rejectTestResults(err);
+        });
+      }
+      counter++;
+    }
+  });
+}
+
 function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, referenceDate, server) {
   
   var pending = {
@@ -598,8 +626,7 @@ function getPendingEIDTestResultsByPatientIdentifiers(patientIdentifiers, refere
             });
           });
         }
-      })
-      .then(function (response) {
+      }).then(function (response) {
         if (response.posts instanceof Array) {
           let inProcessOnSameDay = logAndGetFilteredResults(response.posts);
               pending.cd4Panel = inProcessOnSameDay;
@@ -625,7 +652,7 @@ function getEIDTestResultsByPatientIdentifier(patientIdentifier, server) {
     viralLoad: [],
     pcr: [],
     cd4Panel: []
-  }
+  };
 
   var conf = server;
 
