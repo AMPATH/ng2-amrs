@@ -91,15 +91,6 @@ describe('Component: DailyScheduleVisitsComponent', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should create an instance', () => {
-    clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-    dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
-    cookieService = TestBed.get(CookieService);
-    let appointmentsComponent = new DailyScheduleVisitsComponent(clinicDashBoardCacheService,
-      dailyScheduleResource, cookieService);
-    expect(appointmentsComponent).toBeTruthy();
-  });
-
   it('should have required properties', (done) => {
 
     expect(component.dailyVisitsPatientList.length).toBe(0);

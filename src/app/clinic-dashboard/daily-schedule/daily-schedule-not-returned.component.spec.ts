@@ -91,15 +91,6 @@ describe('Component: DailyScheduleNotReturned', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should create an instance', () => {
-    clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-    dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
-    cookieService = TestBed.get(CookieService);
-    let appointmentsComponent = new DailyScheduleNotReturnedComponent(clinicDashBoardCacheService,
-      dailyScheduleResource, cookieService);
-    expect(appointmentsComponent).toBeTruthy();
-  });
-
   it('should have required properties', (done) => {
 
     expect(component.notReturnedPatientList.length).toBe(0);

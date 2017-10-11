@@ -14,8 +14,9 @@
       <app-visit-starter [patientUuid]="patient.uuid" [programEnrollmentUuid]="currentProgramEnrollmentUuid" [programUuid]="programUuid"
         (visitStarted)="onVisitStartedOrChanged($event)"></app-visit-starter>
     </div>
+   
   </div>
-  <app-visit-details *ngIf="visit && patient" [visit]="visit" (encounterSelected)="onEncounterSelected($event)" [programVisitTypesConfig]="currentProgramConfig"
+  <app-visit-details *ngIf="visit && patient" [programEnrollmentUuid]="currentProgramEnrollmentUuid" [programUuid]="programUuid"  [visit]="visit" (encounterSelected)="onEncounterSelected($event)" [programVisitTypesConfig]="currentProgramConfig"
     (formSelected)="onFormSelected($event)" (visitCancelled)="onVisitStartedOrChanged($event)"></app-visit-details>
   <div *ngIf="visit">
 
