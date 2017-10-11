@@ -40,8 +40,8 @@ export class AppSettingsService {
     },
     {
       name: 'AMRS Test',
-      amrsUrl: 'https://test2.ampath.or.ke:8443/amrs',
-      etlUrl: 'https://amrs.ampath.or.ke/etl-test/etl'
+      amrsUrl: '/amrs-test',
+      etlUrl: '/etl-server-test/etl'
     }
   ];
 
