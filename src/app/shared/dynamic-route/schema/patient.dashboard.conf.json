@@ -107,7 +107,7 @@
       "routes": []
     },
     {
-      "programName": "HIV Outreach Program",
+      "programName": "HIV Retention",
       "programUuid": "c6bf3625-de80-4a88-a913-38273e300a55",
       "baseRoute": "c6bf3625-de80-4a88-a913-38273e300a55",
       "alias": "hiv",
@@ -117,7 +117,7 @@
       "routes": []
     },
     {
-      "programName": "HIV Community Based Care Research Program",
+      "programName": "HIV Community Based Care Research ",
       "programUuid": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
       "baseRoute": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
       "alias": "hiv",
@@ -127,7 +127,7 @@
       "routes": []
     },
     {
-      "programName": "HIV ACTG Program",
+      "programName": "HIV ACTG",
       "programUuid": "4480c782-ef05-4d88-b2f8-c892c99438f6",
       "baseRoute": "4480c782-ef05-4d88-b2f8-c892c99438f6",
       "alias": "hiv",
