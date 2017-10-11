@@ -453,7 +453,7 @@
         "name": "qualifies_differenciated_care",
         "label": "qualifies for differentiated care",
         "description": "# A patient who is above 18 yrs and qualifies and with a viral load of less than 1000 and  has been on TB prophylaxis for at least six months.",
-        "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date(@referenceDate)) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,@referenceDate)) >= 6 ) and timestampdiff(month,vl_1_date,now() <= 11 ) then 1 else 0 end"
+        "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date(@referenceDate)) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,@referenceDate)) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) then 1 else 0 end"
 
     },
     {
