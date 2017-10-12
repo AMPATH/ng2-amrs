@@ -385,6 +385,10 @@ lab-order-search-container {
   padding-bottom: 42px;
 }
 
+location-filter.edit label {
+  display: block;
+}
+
 .box-body .component-wrapper {
   padding-bottom: 140px;
 }
@@ -546,7 +550,7 @@ lab-order-search-container {
   }
   .input-wrapper {
     margin-right: 240px;
-  }  
+  }
   body .ui-dialog.ui-widget.ui-widget-content{
     width:50% !important;
     margin-left: auto;
