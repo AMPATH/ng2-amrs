@@ -889,8 +889,8 @@
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "704abe82-d00f-4fd3-a5fd-616c53d78b48",
-            "display": "TRANSITVISIT"
+            "uuid": "95f5847a-8952-4a3a-8610-caee271d351a",
+            "display": "TRANSITMEDICATION"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
@@ -1379,5 +1379,6 @@
         ]
       }
     ]
-  }
+  },
+ 
 }
