@@ -16,5 +16,6 @@ addons:
     - g++-5
 script:
 - npm test
+- npm start
 env:
   - CXX=g++-5
