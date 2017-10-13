@@ -13,7 +13,9 @@
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-      "781d8880-1359-11df-a1f1-0026b9348838"
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "0904172d-0b6a-40df-b8a2-b3653d16dc45"
+
     ],
     "visitTypes": [
       {
@@ -546,7 +548,8 @@
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-      "781d8880-1359-11df-a1f1-0026b9348838"
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
     "visitTypes": [
       {
@@ -633,7 +636,8 @@
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-      "781d8880-1359-11df-a1f1-0026b9348838"
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
     "visitTypes": [
       {
@@ -686,7 +690,8 @@
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-      "781d8880-1359-11df-a1f1-0026b9348838"
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
     "visitTypes": [
       {
@@ -792,7 +797,8 @@
       "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-      "781d8880-1359-11df-a1f1-0026b9348838"
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
     "visitTypes": [
       {
@@ -877,7 +883,8 @@
       "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
-      "781d8880-1359-11df-a1f1-0026b9348838"
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
     "visitTypes": [
       {
@@ -889,8 +896,8 @@
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "704abe82-d00f-4fd3-a5fd-616c53d78b48",
-            "display": "TRANSITVISIT"
+            "uuid": "95f5847a-8952-4a3a-8610-caee271d351a",
+            "display": "TRANSITMEDICATION"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
@@ -1376,6 +1383,89 @@
             "display": "DERMATOLOGY"
           }
 
+        ]
+      }
+    ]
+  },
+  "0904172d-0b6a-40df-b8a2-b3653d16dc45": {
+    "name": "TURBO DIFFERENTIATED CARE PILOT PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "781d897a-1359-11df-a1f1-0026b9348838",
+      "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+      "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+      "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+      "781d8880-1359-11df-a1f1-0026b9348838",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "b8efc179-aa42-42c3-a732-04f98519b2db",
+        "name": "HIV Turbo DC Retention Worker Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
+            "display": "DIFFERENTIATEDCARE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "e0537114-631a-47c9-9585-63cd8f6e8186",
+        "name": "HIV Turbo DC Clinician Visit ",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
+            "display": "DIFFERENTIATEDCARE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          }
         ]
       }
     ]
