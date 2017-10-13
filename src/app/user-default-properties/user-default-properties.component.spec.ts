@@ -33,11 +33,11 @@ class MockActivatedRoute {
 }
 
 class MockPropertyService {
-  getCurrentUserDefaultLocation() {
+  public getCurrentUserDefaultLocation() {
     return 'test location';
   }
 
-  getLocations() {
+  public getLocations() {
     return (new BehaviorSubject(null)).asObservable();
   }
 }
@@ -97,7 +97,8 @@ describe('Component: User Default Settings Unit Tests', () => {
 
   it('should instantiate the component', (done) => {
 
-    expect(component).toEqual(jasmine.any(UserDefaultPropertiesComponent));
+    expect(component).toBeTruthy();
+
     done();
 
   });

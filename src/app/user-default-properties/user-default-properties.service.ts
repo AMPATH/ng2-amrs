@@ -11,6 +11,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class UserDefaultPropertiesService {
 
   public locationSubject = new BehaviorSubject<any>('');
+  public departmentConf: any[] =
+  require('../program-visit-encounter-search/department-programs-config.json');
   private user: User;
 
   constructor(private userService: UserService
@@ -23,6 +25,11 @@ export class UserDefaultPropertiesService {
     let api = this.appSettingsService.getOpenmrsServer() + '/ws/rest/v1/location?v=default';
 
     return this.http.get(api);
+
+  }
+
+  public getDepartments() {
+     return this.departmentConf;
 
   }
 
@@ -45,6 +52,18 @@ export class UserDefaultPropertiesService {
     return this.userService.getLoggedInUser();
   }
 
+  public getCurrentUserDepartment() {
+
+    let department = this.localStorage.getItem('department');
+
+    if (department === null) {
+            return [];
+     } else {
+           return JSON.parse(department);
+     }
+
+  }
+
   public setUserProperty(propertyKey: string, property: string) {
 
     if (propertyKey === 'userDefaultLocation') {
@@ -54,6 +73,32 @@ export class UserDefaultPropertiesService {
       this.locationSubject.next(property);
       this.localStorage.setItem(propertyKey, property);
     }
+
+  }
+  public setUserDepartment($department) {
+
+    let department = this.localStorage.getItem('department');
+
+    if (department === null) {
+
+     } else {
+          this.localStorage.remove('department');
+     }
+
+    this.localStorage.setItem('department', $department);
+
+  }
+
+  public removeUserDepartment() {
+
+    let department = this.localStorage.getItem('department');
+
+    if (department === null) {
+
+    } else {
+      this.localStorage.remove('department');
+    }
+
 
   }
 }

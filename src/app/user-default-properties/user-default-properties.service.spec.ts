@@ -79,7 +79,7 @@ describe('User Default Service Unit Tests', () => {
           }
         }));
 
-        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
+        mockBackend.connections.subscribe((c: any) => c.mockRespond(mockResponse));
 
         propertiesResourceService.getLocations().subscribe((response: Response) => {
 
@@ -96,7 +96,7 @@ describe('User Default Service Unit Tests', () => {
     async(inject([UserDefaultPropertiesMockService, MockBackend],
       (propertiesResourceService: UserDefaultPropertiesMockService, mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe(c =>
+        mockBackend.connections.subscribe((c: any) =>
           c.mockError(new Error('An error occured while processing the request')));
 
         propertiesResourceService.getLocations().subscribe((response: Response) => {
@@ -108,8 +108,8 @@ describe('User Default Service Unit Tests', () => {
 
   it('should set and get location property',
     async(inject([UserDefaultPropertiesMockService, LocalStorageService],
-      (propertiesResourceService: UserDefaultPropertiesMockService
-        , localStore: LocalStorageService) => {
+      (propertiesResourceService: UserDefaultPropertiesMockService ,
+      localStore: LocalStorageService) => {
 
         expect(propertiesResourceService.getCurrentUserDefaultLocation())
           .toEqual('userDefaultLocationtest');

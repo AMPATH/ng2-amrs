@@ -32,8 +32,35 @@
           </li>
         </ul>
       </div>
+      <div class="form-group">
+        <label class="control-label">Select Department</label>
+         <div class="input-group">
+              <span class="input-group-addon filter-add-on">
+                 <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
+              </span>
+              <ng-select #departmentSelect 
+                        [multiple]="true"  
+                        (selected)="selectDepartment($event)"
+                        (deselected)="deselectDepartment($event)"
+                        [placeholder]="'Select or enter to search'"
+                        [(ngModel)]="department" 
+                        [options]="departments"
+                        name="department-filter">
+                </ng-select>
+                 <span class="input-group-addon">                                   
+                          <i class="select-all" *ngIf="department.length === 0" (click)="selectAllDepartments()"><span class="glyphicon glyphicon-pushpin"></span>Select All</i>
+                          <i class="clear-all" *ngIf="department.length > 0" (click)="clearDepartments()"><span class="fa fa-trash fa-fw"></span>Clear All</i>
+                 </span>
+          </div>
+          <div>
+          <p  class="form-text text-bold">Your current Department : <span
+            class="current-location pull-right">{{currentDepartmentText}}</span>
+          </p>
+          </div>
+      </div>
     </div>
-    <div>
+    <div class="form-group">
+      <br>
       <button [disabled]="query=='' && currentLocation==''" class="btn btn-info previous"
               (click)="goToPatientSearch()">Done
         <span class="glyphicon glyphicon-chevron-right"></span>
