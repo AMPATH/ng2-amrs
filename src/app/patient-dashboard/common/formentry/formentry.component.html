@@ -96,4 +96,26 @@
     </footer>
 
   </p-dialog>
+
+  <p-dialog header="Success" [(visible)]="showAlertsDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
+    <strong class="text-warning">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+					The form has some alerts worth looking at
+          </strong>
+          <div *ngFor="let alert of formAlerts; index as i; trackBy: trackByFn" class="alert alert-warning">
+            <span>{{alert.label}}:</span> <span>{{alert.alert}}</span>
+          </div>
+    
+    <br>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button (click)="ignoreAlerts()" type="button" pButton icon="fa-user" label="Save anyway"></button>
+        <button (click)="checkAlerts()" type="button" pButton icon="fa-search" label="Take a look"></button>
+      </div>
+    </footer>
+
+  </p-dialog>
 </div>

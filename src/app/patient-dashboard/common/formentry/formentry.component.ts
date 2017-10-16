@@ -46,6 +46,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public formRenderingErrors: Array<any> = [];
   public showSuccessDialog: boolean = false;
   public patient: Patient = null;
+  public formAlerts = [];
+  public showAlertsDialog: boolean = false;
   public submittedOrders: any = {
     encounterUuid: null,
     orders: []
@@ -171,6 +173,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
     });
   }
 
+  public ignoreAlerts() {
+    this.formAlerts = [];
+    this.saveForm(['encounter', 'personAttribute']);
+    this.showAlertsDialog = false;
+  }
+
+  public checkAlerts() {
+    this.showAlertsDialog = false;
+  }
   public retrySubmittingPayload(): void {
     this.submitForm(this.failedPayloadTypes);
   }
@@ -180,13 +191,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/landing-page']);
+          this.patient.uuid + '/general/general/landing-page']);
         this.patientService.fetchPatientByUuid(this.patient.uuid);
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/forms']);
+          this.patient.uuid + '/general/general/forms']);
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -249,16 +260,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.subscription = Observable.forkJoin(
       observableBatch
     ).flatMap((data) => {
-       // now init private and public properties
-       this.compiledSchemaWithEncounter = data[0] || null;
-       this.patient = data[1] || null;
-       this.encounter = data[2] || null;
-       // now render form
-       return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
+      // now init private and public properties
+      this.compiledSchemaWithEncounter = data[0] || null;
+      this.patient = data[1] || null;
+      this.encounter = data[2] || null;
+      // now render form
+      return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
     }).subscribe(
       (data: any) => {
         console.log(data.generatedReminders);
-        let reminder =  _.find(data.generatedReminders, (o: any) => {
+        let reminder = _.find(data.generatedReminders, (o: any) => {
           return o.title === 'Viral Load Reminder';
         });
         if (reminder) {
@@ -270,7 +281,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       (err) => {
         console.error(err);
         this.isBusyIndicator(false);
-       // this.formRenderingErrors
+        // this.formRenderingErrors
         //  .push('An error occured while loading form, please check your connection');
       }
       );
@@ -422,18 +433,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private getPatient(): Observable<Patient> {
 
-        return Observable.create((observer: Subject<Patient>) => {
-          this.patientService.currentlyLoadedPatient.subscribe(
-            (patient) => {
-              if (patient) {
-                observer.next(patient);
-              }
-            },
-            (err) => {
-              observer.error(err);
-            });
-        }).first();
-      }
+    return Observable.create((observer: Subject<Patient>) => {
+      this.patientService.currentlyLoadedPatient.subscribe(
+        (patient) => {
+          if (patient) {
+            observer.next(patient);
+          }
+        },
+        (err) => {
+          observer.error(err);
+        });
+    }).first();
+  }
 
   private registerVLDatasource(reminders: any) {
     if (reminders) {
@@ -464,31 +475,40 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }).first();
   }
 
+  private getAlerts(o, alerts) {
+    if (o.children) {
+      if (o.children instanceof Object) {
+        for (let key in o.children) {
+          if (o.children.hasOwnProperty(key)) {
+            const node = o.children[key];
+            if (node.control && node.control.alert && node.control.alert !== '') {
+              alerts.push({
+                uuid: node.control.uuid,
+                label: node.question.label,
+                alert: node.control.alert
+              });
+            }
+            this.getAlerts(node, alerts);
+          }
+        }
+      }
+
+    }
+  }
+
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
     this.form.showErrors = !this.form.valid;
+    let alerts = [];
+    this.getAlerts(this.form.rootNode, alerts);
+    this.formAlerts = alerts;
     // this.handleFormReferrals();
     if (this.form.valid) {
-      this.isBusyIndicator(true, 'Please wait, saving form...');
-      this.formSubmissionService.setSubmitStatus(true);
-      // clear formSubmissionErrors
-      this.formSubmissionErrors = null;
-      // reset submitted orders
-      this.submittedOrders.encounterUuid = null;
-      this.submittedOrders.orders = [];
-      // submit form
-      this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
-        (data) => {
-          this.isBusyIndicator(false); // hide busy indicator
-          this.handleSuccessfulFormSubmission(data);
-          console.log('All payloads submitted successfully:', data);
-          this.formSubmissionService.setSubmitStatus(false);
-        },
-        (err) => {
-          console.error('error', err);
-          this.isBusyIndicator(false); // hide busy indicator
-          this.handleFormSubmissionErrors(err);
-          this.formSubmissionService.setSubmitStatus(false);
-        });
+      console.log(this.formAlerts);
+      if (this.formAlerts.length > 0 && this.showSuccessDialog === false) {
+        this.showAlertsDialog = true;
+      }else {
+        this.saveForm(payloadTypes);
+      }
     } else {
       this.form.markInvalidControls(this.form.rootNode);
     }
@@ -499,6 +519,29 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.failedPayloadTypes = error.payloadType;
   }
 
+  private saveForm(payloadTypes) {
+    this.isBusyIndicator(true, 'Please wait, saving form...');
+    this.formSubmissionService.setSubmitStatus(true);
+    // clear formSubmissionErrors
+    this.formSubmissionErrors = null;
+    // reset submitted orders
+    this.submittedOrders.encounterUuid = null;
+    this.submittedOrders.orders = [];
+    // submit form
+    this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
+      (data) => {
+        this.isBusyIndicator(false); // hide busy indicator
+        this.handleSuccessfulFormSubmission(data);
+        console.log('All payloads submitted successfully:', data);
+        this.formSubmissionService.setSubmitStatus(false);
+      },
+      (err) => {
+        console.error('error', err);
+        this.isBusyIndicator(false); // hide busy indicator
+        this.handleFormSubmissionErrors(err);
+        this.formSubmissionService.setSubmitStatus(false);
+      });
+  }
   private handleSuccessfulFormSubmission(response: any): void {
 
     // show submitted orders if any
