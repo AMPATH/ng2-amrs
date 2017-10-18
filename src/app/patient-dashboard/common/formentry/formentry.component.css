@@ -4,3 +4,6 @@
   position: absolute;
   left: 20px;
 }
+form-renderer {
+  z-index: 0;
+}

@@ -4,254 +4,137 @@
  */
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+// import { ChangeDetectorRef } from '@angular/core';
+// import { Pipe, PipeTransform } from '@angular/core';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http, BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import * as moment from 'moment';
+import { CacheService } from 'ionic-cache';
+
+import { PatientDashboardModule } from '../../patient-dashboard.module';
+import { NgamrsSharedModule } from '../../../shared/ngamrs-shared.module';
+import { UserDefaultPropertiesModule } from
+  '../../../user-default-properties/user-default-properties.module';
 
 import { VisitComponent } from './visit.component';
-import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
-import { PatientService } from '../../services/patient.service';
-import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
-import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { FakeEncounterResourceService } from '../../../openmrs-api/fake-encounter-resource.service';
 import { UserDefaultPropertiesService } from
   '../../../user-default-properties/user-default-properties.service';
 import { FakeDefaultUserPropertiesFactory } from
   '../formentry/mock/default-user-properties-factory.service.mock';
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
+import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { ProgramEnrollmentResourceService } from
   '../../../openmrs-api/program-enrollment-resource.service';
-import { FakeProgramEnrollmentResourceService } from
-  '../../../openmrs-api/program-enrollment-resource.service.mock';
-import { UserDefaultPropertiesModule } from
-  '../../../user-default-properties/user-default-properties.module';
-import { Patient } from '../../../models/patient.model';
-import { NgamrsSharedModule } from '../../../shared/ngamrs-shared.module';
-import { PatientProgramService } from '../../programs/patient-programs.service';
-import { ProgramService } from '../../programs/program.service';
+import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
+import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
+import { DialogModule } from 'primeng/primeng';
+import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'angular2-select';
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
+import { TodayVisitService, VisitsEvent } from './today-visit.service';
 
-@Pipe({ name: 'translate' })
-export class FakeTranslatePipe implements PipeTransform {
-  public transform(value: any, decimalPlaces: number): any {
-    return value;
+class LocationServiceMock {
+  constructor() {
+  }
+  public getLocations(): Observable<any> {
+    return Observable.of([]);
   }
 }
 
+class RouterStub {
+  public navigateByUrl(url: string) { return url; }
+}
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 describe('Component: Visit', () => {
-  let fakePatientService = {};
-
-  let progConfig = {
-    uuid: 'some-uuid',
-    visitTypes: [
-      {
-        uuid: 'visit-one',
-        encounterTypes: []
-      },
-      {
-        uuid: 'some-visit-type-uuid',
-        encounterTypes: []
-      },
-      {
-        uuid: 'visit-two',
-        encounterTypes: []
-      }
-    ]
-  };
-
-  let prog = {
-    'some-uuid': progConfig
-  };
-
-  let visitsSample = [
-    { // 0
-      uuid: 'some-visit-uuid-1',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: moment().subtract(1, 'minute'),
-      stopDatetime: moment().subtract(10, 'minute'),
-      visitType: { uuid: 'some-visit-type-uuid' }
-    },
-    { // 1
-      uuid: 'some-visit-uuid',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: moment(),
-      stopDatetime: null,
-      visitType: { uuid: 'some-visit-type-uuid' }
-    },
-    { // 2
-      uuid: 'some-visit-uuid-1',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: moment(),
-      stopDatetime: null,
-      visitType: { uuid: 'some-visit-type-uuid-3' }
-    },
-    { // 3
-      uuid: 'some-visit-uuid-1',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: moment().subtract(1, 'minute'),
-      stopDatetime: moment().subtract(10, 'minute'),
-      visitType: { uuid: 'some-visit-type-uuid-4' }
-    },
-    { // 4
-      uuid: 'some-visit-uuid-2',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: '2017-08-14T11:00:00.000+0300',
-      stopDatetime: null,
-      visitType: { uuid: 'some-visit-type-uuid-1' }
-    },
-    { // 5
-      uuid: 'some-visit-uuid-3',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: '2017-08-14T07:53:00.000+0300',
-      stopDatetime: '2017-08-14T08:53:00.000+0300',
-      visitType: { uuid: 'some-visit-type-uuid-2' }
-    },
-    { // 6
-      uuid: 'some-visit-uuid-3',
-      encounters: [],
-      location: { uuid: 'some-location-uuid' },
-      patient: { uuid: 'some-patient -uuid' },
-      startDatetime: '2017-08-14T07:53:00.000+0300',
-      stopDatetime: '2017-08-14T08:53:00.000+0300',
-      visitType: { uuid: 'some-visit-type-uuid' }
-    }
-  ];
-
-  let fakePatientProgramResourceService = {
-    getAllProgramVisitConfigs: () => {
-      return Observable.of(prog);
-    },
-    getPatientProgramVisitTypes: (
-      patient: string, program: string,
-      enrollment: string, location: string) => {
-      return Observable.of(progConfig);
-    }
-  };
-  let router = {
-    navigate: jasmine.createSpy('navigate')
-  };
-
-  let fakeVisitResourceService = {
-    getVisitTypes: (args) => {
-      return Observable.of([{
-        'uuid': '4c84516f-279e-4994-b111-84d4d35a2d97',
-        'name': 'Youth HIV Return Visit '
-      },
-      {
-        'uuid': 'a21e0f58-adb0-4a88-8877-b1a8af9c5cab',
-        'name': 'Resistance Clinic Visit '
-      }]);
-    },
-    getPatientVisits: (args) => {
-      return Observable.of(null);
-    },
-    saveVisit: (payload) => {
-      let response = {
-        uuid: 'visituuid',
-        voided: false,
-        stopDatetime: null,
-        visitType: {
-          uuid: payload.visitType
-        },
-        startDatetime: new Date()
-      };
-      return Observable.of(response);
-    },
-    updateVisit: (uuid, payload) => {
-      let response = {
-        uuid: uuid,
-        voided: false,
-        stopDatetime: new Date(),
-        visitType: {
-          uuid: payload.visitType
-        },
-        startDatetime: new Date()
-      };
-      if (payload.voided) {
-        response.voided = true;
-      }
-
-      return Observable.of(response);
-    }
-  };
-
-  let fakeChangeDetectorRef = {
-    markForCheck: () => { }
-  };
 
   let fixture, comp: VisitComponent, nativeElement;
 
   beforeEach(async(() => {
+    let fakePatientProgramResourceService = {
+      getAllProgramVisitConfigs: () => {
+        return Observable.of({});
+      },
+      getPatientProgramVisitTypes: (
+        patient: string, program: string,
+        enrollment: string, location: string) => {
+        return Observable.of({});
+      }
+    };
+
+    let fakeVisitResourceService = {
+      getVisitTypes: (args) => {
+        return Observable.of([]);
+      },
+      getPatientVisits: (args) => {
+        return Observable.of([]);
+      },
+      saveVisit: (payload) => {
+        return Observable.of(null);
+      },
+      updateVisit: (uuid, payload) => {
+        return Observable.of(null);
+      }
+    };
+
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [
-        VisitComponent,
-        FakeTranslatePipe
+        // VisitComponent,
       ],
       providers: [
-        PatientProgramService,
-        ProgramService,
-        { provide: ChangeDetectorRef, useValue: fakeChangeDetectorRef },
-        { provide: VisitResourceService, useValue: fakeVisitResourceService },
-        { provide: Router, useValue: router },
+        MockBackend,
+        BaseRequestOptions,
+        DataCacheService,
+        CacheService,
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: {} },
         {
-          provide: ActivatedRoute, useValue: {
-            queryParams: Observable.of({}),
-            snapshot: { params: { program: 'some-uuid' } },
-            params: Observable.of({ program: 'some-uuid' }),
+          provide: UserDefaultPropertiesService, useFactory: () => {
+            return new FakeDefaultUserPropertiesFactory();
           }
         },
-        VisitComponent,
-        PatientService,
-        {
-          provide: PatientProgramResourceService,
-          useValue: fakePatientProgramResourceService
-        },
-        {
-          provide: EncounterResourceService, useFactory: () => {
-            return new FakeEncounterResourceService(null, null);
-          }
-        },
+        ProgramEnrollmentResourceService,
         {
           provide: UserDefaultPropertiesService, useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();
           }
         },
         {
-          provide: AppFeatureAnalytics,
-          useClass: FakeAppFeatureAnalytics
+          provide: PatientProgramResourceService, useFactory: () => {
+            return fakePatientProgramResourceService;
+          }
         },
-        { provide: PatientResourceService, useValue: fakeVisitResourceService },
         {
-          provide: ProgramEnrollmentResourceService,
-          useValue: FakeProgramEnrollmentResourceService
+          provide: VisitResourceService,
+          useValue: fakeVisitResourceService
+        },
+        {
+          provide: LocationResourceService,
+          useClass: LocationServiceMock
+        },
+        {
+          provide: Http,
+          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
+            return new Http(backendInstance, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
         }
       ],
       imports: [
         BusyModule,
-        NgamrsSharedModule,
         UserDefaultPropertiesModule,
-        BrowserAnimationsModule,
-        HttpModule
+        DialogModule,
+        FormsModule,
+        SelectModule,
+        NgamrsSharedModule,
+        PatientDashboardModule,
+        HttpModule,
+        BrowserAnimationsModule
       ]
     })
       .compileComponents()
@@ -267,162 +150,204 @@ describe('Component: Visit', () => {
       });
   }));
 
-  it('should get selected program from url on load', (done) => {
-    fixture.detectChanges();
-    expect(comp.programUuid).toEqual('some-uuid');
-    done();
+  it('should be created', () => {
+    expect(comp).toBeTruthy();
   });
 
-  it('should fetch all programs configs', (done) => {
-    let progService: PatientProgramResourceService =
-      TestBed.get(PatientProgramResourceService);
+  it('should react to visit loading started event from visit service', () => {
+    let service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let progVisitTypeSpy =
-      spyOn(progService, 'getAllProgramVisitConfigs')
-        .and.callThrough();
-    let compFilterVisitsSpy =
-      spyOn(comp, 'determineProgramConfigurationObject').and.callThrough();
-    comp.fetchAllProgramVisitConfigs();
-    fixture.detectChanges();
-
-    expect(progVisitTypeSpy.calls.count()).toBe(1);
-    expect(comp.allProgramVisitConfigs).toEqual(prog);
-    expect(compFilterVisitsSpy.calls.count()).toBe(1);
-    done();
-
-  });
-
-  it('should extract the current program config from all program configs', () => {
-    let compFilterVisitsSpy =
-      spyOn(comp, 'determineTodayVisitForProgram').and.callThrough();
-    comp.allProgramVisitConfigs = prog;
-    comp.determineProgramConfigurationObject();
-    fixture.detectChanges();
-    expect(comp.currentProgramConfig).toBe(progConfig);
-    expect(compFilterVisitsSpy.calls.count()).toBe(1);
-  });
-
-  it('should subscribe to patient load events from patient service',
-    (done) => {
-      let patientService: PatientService =
-        TestBed.get(PatientService);
-      comp.ngOnInit();
-      comp.patient = null;
-      fixture.detectChanges();
-
-      let nextPatient = new Patient({ uuid: 'patient-uuid', person: {} });
-      patientService.currentlyLoadedPatient.next(nextPatient);
-
-      fixture.detectChanges();
-      expect(comp.patient).toBe(nextPatient);
-      done();
-    });
-
-  it('should fetch all visits for a patient', () => {
-    let visitResService: VisitResourceService =
-      TestBed.get(VisitResourceService);
-    let patientVisitsSpy =
-      spyOn(visitResService, 'getPatientVisits')
-        .and.callFake((params) => {
-          return Observable.of(visitsSample);
-        });
-
-    let compFilterVisitsSpy =
-      spyOn(comp, 'determineTodayVisitForProgram').and.callThrough();
-
-    comp.hasFetchedVisits = false;
-    comp.allPatientVisits = [];
-    comp.getPatientVisits();
-    fixture.detectChanges();
-
-    expect(patientVisitsSpy.calls.count()).toBe(1);
-    expect(patientVisitsSpy.calls.mostRecent().args[0])
-      .toEqual({ patientUuid: 'uuid' });
-    expect(comp.hasFetchedVisits).toBe(true);
-    expect(comp.allPatientVisits).toBe(visitsSample);
-    expect(compFilterVisitsSpy.calls.count()).toBe(1);
-  });
-
-  it('should filter visits by visit types', () => {
-    let types = ['some-visit-type-uuid-3', 'some-visit-type-uuid-1'];
-    let expected = [visitsSample[2], visitsSample[4]];
-
-    let actual = comp.filterVisitsByVisitTypes(visitsSample, types);
-
-    expect(actual).toEqual(expected);
-  });
-
-  it('should sort visits by startDatetime', () => {
-    let sample = [visitsSample[0], visitsSample[4], visitsSample[1]];
-    let expected = [visitsSample[1], visitsSample[0], visitsSample[4]];
-    let actual = comp.sortVisitsByVisitStartDateTime(sample);
-    expect(actual).toEqual(expected);
-  });
-
-  it('should filter out the current visit from the list of visits', () => {
-    // the current visit will be the most recent visit for that program
-    // that was started today
-    // the visit could have been ended or it could be an active visit
-
-    // CASE 1: Program Config not determined
-    comp.currentProgramConfig = undefined;
-    comp.allPatientVisits = visitsSample;
-    comp.hasFetchedVisits = true;
-
-    comp.determineTodayVisitForProgram();
+    comp.visit = {};
+    comp.visits = [{}];
+    comp.patient = {};
+    comp.currentProgramConfig = {};
+    comp.currentEnrollment = {};
+    comp.currentProgramEnrollmentUuid = 'some-text';
+    comp.programVisitsObj = {};
+    comp.isBusy = false;
+    comp.errors = [{}];
+    service.visitsEvents.next(VisitsEvent.VisitsLoadingStarted);
     fixture.detectChanges();
     expect(comp.visit).toBeUndefined();
+    expect(comp.patient).toBeUndefined();
+    expect(comp.currentProgramConfig).toBeUndefined();
+    expect(comp.currentEnrollment).toBeUndefined();
+    expect(comp.programVisitsObj).toBeUndefined();
+    expect(comp.currentProgramEnrollmentUuid).toBe('');
+    expect(comp.visits.length).toBe(0);
+    expect(comp.isBusy).toBe(true);
+    expect(comp.errors.length).toBe(0);
 
-    // CASE 2: Visits not loaded
-    comp.currentProgramConfig = progConfig;
-    comp.allPatientVisits = [];
-    comp.hasFetchedVisits = false;
+  });
 
-    comp.determineTodayVisitForProgram();
-    fixture.detectChanges();
-    expect(comp.visit).toBeUndefined();
-
-    // CASE 3: Visits and Program Config Loaded
-    // SUB-CASE: Today's Visit Present for Current Program
-    comp.hasFetchedVisits = true;
-    comp.allPatientVisits = visitsSample;
-    comp.currentProgramConfig = progConfig;
-    comp.determineTodayVisitForProgram();
-    fixture.detectChanges();
-    expect(comp.visit).toBe(visitsSample[1]);
-
-    // SUB-CASE: Today's Visit Absent for Current Program
-    comp.hasFetchedVisits = true;
-    comp.allPatientVisits = [
-      visitsSample[2],
-      visitsSample[3],
-      visitsSample[4],
-      visitsSample[5],
-      visitsSample[6]
-    ];
-    comp.currentProgramConfig = progConfig;
-    comp.determineTodayVisitForProgram();
-    fixture.detectChanges();
-    expect(comp.visit).toBeUndefined();
-
-    // SUB-CASE: No Visit Present
-    comp.hasFetchedVisits = true;
-    comp.allPatientVisits = [];
-    comp.currentProgramConfig = progConfig;
-    comp.determineTodayVisitForProgram();
-    fixture.detectChanges();
-    expect(comp.visit).toBeUndefined();
-
-    // SUB-CASE: No Visit Types for program
-    comp.hasFetchedVisits = true;
-    comp.allPatientVisits = visitsSample;
-    comp.currentProgramConfig = {
-      uuid: 'some-uuid',
-      visitTypes: []
+  it('should react to error loading visits event from visit service', () => {
+    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    let sampleError = {
+      id: 'some error',
+      message: 'some error'
     };
-    comp.determineTodayVisitForProgram();
+
+    comp.visit = null;
+    comp.isBusy = true;
+    comp.errors = [];
+    service.errors.push(sampleError);
+    service.visitsEvents.next(VisitsEvent.ErrorLoading);
     fixture.detectChanges();
     expect(comp.visit).toBeUndefined();
+    expect(comp.errors).toEqual(service.errors);
+    expect(comp.isBusy).toBe(false);
+  });
+
+  it('should react to visit loaded event from visit service', () => {
+    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    comp.programVisitsObj = undefined;
+    comp.isBusy = true;
+    comp.patient = null;
+    service.patient = { uuid: 'some-uuid', person: { uuid: 'some-uuid' } };
+    service.programVisits = { 'some-uuid': {} };
+    let processVisitsSpy = spyOn(comp, 'processProgramVisits').and.returnValue(undefined);
+    service.visitsEvents.next(VisitsEvent.VisitsLoaded);
+    fixture.detectChanges();
+    expect(comp.programVisitsObj).toEqual({ 'some-uuid': {} });
+    expect(comp.patient).toEqual(service.patient);
+    expect(comp.errors.length).toBe(0);
+    expect(comp.isBusy).toBe(false);
+    expect(processVisitsSpy.calls.count()).toBe(1);
+  });
+
+  it('should react to requires visit reload event from visit service', () => {
+    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    let visitLoadingTriggeredSpy = spyOn(comp, 'triggerVisitLoading')
+      .and.returnValue(undefined);
+    service.visitsEvents.next(VisitsEvent.VisitsBecameStale);
+    fixture.detectChanges();
+    expect(visitLoadingTriggeredSpy.calls.count()).toBe(1);
+  });
+
+  it('should extract visits, current visit and program config from programVisits object', () => {
+    let sampleProgramConfig = {
+      'some-uuid': {
+        enrollment: {
+          uuid: 'some-uuid',
+          enrolledProgram: {
+            uuid: 'uuid2'
+          }
+        },
+        visits: [
+          {
+            uuid: 'visit-uuid',
+            encounterTypes: [],
+            startDatetime: '01-01-1990',
+            endDatetime: null
+          },
+          {
+            uuid: 'visit-uuid-2',
+            encounterTypes: [],
+            startDatetime: '01-01-1990',
+            endDatetime: '01-01-1990'
+          }
+        ],
+        currentVisit: {
+          uuid: 'visit-uuid',
+          encounterTypes: [],
+          startDatetime: null,
+          endDatetime: null
+        },
+        config: {
+          visitTypes: []
+        }
+      },
+      'some-uuid-1': {
+        enrollment: {
+          uuid: 'some-uuid-1',
+          enrolledProgram: {
+            uuid: 'uuid3'
+          }
+        },
+        visits: [],
+        currentVisit: null,
+        config: {
+          visitTypes: []
+        }
+      }
+    };
+
+    // initialize params
+    comp.visit = null;
+    comp.visits = [];
+    comp.programUuid = 'some-uuid';
+    comp.currentProgramConfig = undefined;
+    comp.currentEnrollment = undefined;
+    comp.currentProgramEnrollmentUuid = '';
+    comp.programVisitsObj = sampleProgramConfig;
+
+    // the call
+    comp.processProgramVisits();
+
+    expect(comp.visit).toEqual(sampleProgramConfig['some-uuid'].currentVisit);
+    expect(comp.visits).toEqual(sampleProgramConfig['some-uuid'].visits);
+    expect(comp.currentProgramConfig).toEqual(sampleProgramConfig['some-uuid'].config);
+    expect(comp.currentEnrollment)
+      .toEqual(sampleProgramConfig['some-uuid'].enrollment.enrolledProgram);
+    expect(comp.currentProgramEnrollmentUuid)
+      .toEqual(sampleProgramConfig['some-uuid'].enrollment.enrolledProgram.uuid);
+
+  });
+
+  it('should trigger loading of visits on today visits service', () => {
+    let service: TodayVisitService = TestBed.get(TodayVisitService);
+
+    let loadVisitSpy = spyOn(service, 'getProgramVisits')
+      .and.callFake(() => {
+        return Observable.of({}).delay(50);
+      });
+
+    comp.triggerVisitLoading();
+    fixture.detectChanges();
+
+    expect(loadVisitSpy.calls.count()).toBe(1);
+  });
+
+  it('should make visits stale on visit started event', () => {
+    let service: TodayVisitService = TestBed.get(TodayVisitService);
+
+    let makeStaleSpy = spyOn(service, 'makeVisitsStale')
+      .and.returnValue(undefined);
+
+    comp.onVisitStartedOrChanged(null);
+    fixture.detectChanges();
+
+    expect(makeStaleSpy.calls.count()).toBe(1);
+  });
+
+  it('should output the selected form', (done) => {
+    let sampleForm = {
+      uuid: 'some uuid'
+    };
+    comp.formSelected.subscribe(
+      (form) => {
+        expect(form).toBe(sampleForm);
+        done();
+      }
+    );
+
+    comp.onFormSelected(sampleForm);
+    fixture.detectChanges();
+  });
+
+  it('should output the selected encouter', (done) => {
+    let sampleEncounter = {
+      uuid: 'some uuid'
+    };
+    comp.encounterSelected.subscribe(
+      (encounter) => {
+        expect(encounter).toBe(sampleEncounter);
+        done();
+      }
+    );
+
+    comp.onEncounterSelected(sampleEncounter);
+    fixture.detectChanges();
   });
 
 });

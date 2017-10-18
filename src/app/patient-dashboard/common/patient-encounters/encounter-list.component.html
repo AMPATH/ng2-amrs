@@ -1,67 +1,67 @@
 <div class="encounter-list">
-    <div>
-        <app-display-error [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
-    </div>
+  <div>
+    <app-display-error [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
+  </div>
   <div [ngBusy]="{busy:encountersLoading ,message:'Please Wait...'}"></div>
   <p *ngIf="!encountersLoading && encounters.length === 0" class="">The patient has no encounters</p>
-           <div clas="row">
-               <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
-                <div class="form-group">
-                    <label class="control-label">Filter by Encounter Types</label>
-                    <select class="form-control" [(ngModel)]="selectedEncounterType" (ngModelChange)="onEncounterTypeChange(selectedEncounterType)">
+  <div *ngIf="showFilterers" clas="row">
+    <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label class="control-label">Filter by Encounter Types</label>
+        <select class="form-control" [(ngModel)]="selectedEncounterType" (ngModelChange)="onEncounterTypeChange(selectedEncounterType)">
                         <option value="">All</option>
                         <option *ngFor="let encounterType of encounterTypes" [value]="encounterType">{{encounterType}}</option>
                     </select>
-                </div>
-               </div>
-                <div class="col-md-9 col-lg-9 col-sm-9 col-xs-12">
-                <div class="form-group">
-                    <label class="control-label">Filter Items</label>
-                    <div class="row" id="filter_row">
+      </div>
+    </div>
+    <div class="col-md-9 col-lg-9 col-sm-9 col-xs-12">
+      <div class="form-group">
+        <label class="control-label">Filter Items</label>
+        <div class="row" id="filter_row">
 
-                        <div class="chip col-md-2 col-lg-2 col-sm-4" *ngFor="let filter of encounterFilterTypeArray ;let i = index" (click)="removeFilterItem(i)">
-                            {{filter}}
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-sm-4" *ngIf="encounterFilterTypeArray.length > 0">
-                            <button class="btn btn-danger" (click)="clearEncounterFilter()"><i class="fa fa-trash fa-fw"></i>Remove All</button>
-                        </div>
-                    </div>
+          <div class="chip col-md-2 col-lg-2 col-sm-4" *ngFor="let filter of encounterFilterTypeArray ;let i = index" (click)="removeFilterItem(i)">
+            {{filter}}
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4" *ngIf="encounterFilterTypeArray.length > 0">
+            <button class="btn btn-danger" (click)="clearEncounterFilter()"><i class="fa fa-trash fa-fw"></i>Remove All</button>
+          </div>
+        </div>
 
-                </div>
-</div>
-           </div>
-    <div class="scroll-x" *ngIf="encounters && encounters.length > 0">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Encounter Date</th>
-                    <th>Encounter Type</th>
-                    <th>Form</th>
-                    <th>Location</th>
-                    <th>Provider</th>
-                    <th colspan="2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="cursor: pointer;" *ngFor="let encounter of encounters  |  encounterTypeFilter:encounterFilterTypeArray | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
-                    <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
-                    <td>{{encounter.encounterType.display}}</td>
-                    <td>{{encounter.form.name}}</td>
-                    <td>{{encounter.location.display}}</td>
-                    <td>{{encounter.provider.display}}</td>
-                    <td>
-                        <a *ngIf="(encounter && encounter.form && encounter.form.name && encounter.form.name.indexOf('POC') >= 0)" (click)="editEncounter(encounter)">
+      </div>
+    </div>
+  </div>
+  <div class="scroll-x" *ngIf="encounters && encounters.length > 0">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Encounter Date</th>
+          <th>Encounter Type</th>
+          <th>Form</th>
+          <th>Location</th>
+          <th>Provider</th>
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="cursor: pointer;" *ngFor="let encounter of encounters  |  encounterTypeFilter:encounterFilterTypeArray | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+          <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
+          <td>{{encounter.encounterType.display}}</td>
+          <td>{{encounter.form.name}}</td>
+          <td>{{encounter.location.display}}</td>
+          <td>{{encounter.provider.display}}</td>
+          <td>
+            <a *ngIf="(encounter && encounter.form && encounter.form.name && encounter.form.name.indexOf('POC') >= 0)" (click)="editEncounter(encounter)">
                             <span class="glyphicon text-primary glyphicon-edit"></span>
                         </a>
-                    </td>
-                    <td>
-                        <a type="button" (click)="showEncounterObservations(encounter)" data-target="#encounter_modal" data-toggle="modal">
+          </td>
+          <td>
+            <a type="button" (click)="showEncounterObservations(encounter)" data-target="#encounter_modal" data-toggle="modal">
                             <span class="glyphicon text-primary glyphicon-eye-open"></span>
                         </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <pagination-controls *ngIf="encounters && encounters.length > 0" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls *ngIf="showPagination && encounters && encounters.length > 0" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
 </div>

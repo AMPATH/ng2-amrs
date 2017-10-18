@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 import { VisitResourceService } from
   '../../../../openmrs-api/visit-resource.service';
@@ -30,8 +31,13 @@ export class VisitDetailsComponent implements OnInit {
 
   @Output()
   public visitCancelled = new EventEmitter<any>();
+
+  @Output()
+  public visitChanged = new EventEmitter<any>();
+
   @Input() public programUuid: any;
   @Input() public programEnrollmentUuid: any;
+  public formsCollapsed: boolean = false;
 
   private _visit: any;
   @Input()
@@ -43,11 +49,16 @@ export class VisitDetailsComponent implements OnInit {
     this.extractCompletedEncounterTypes();
   }
 
+  public get isVisitEnded(): boolean {
+    return moment(this.visit.stopDatetime).isValid();
+  }
+
   public get visitWithNoEncounters(): boolean {
     return !(this.visit &&
       Array.isArray(this.visit.encounters) &&
       this.visit.encounters.length > 0);
   }
+
 
   private _programVisitTypesConfig: any;
   public get programVisitTypesConfig(): any {
@@ -129,6 +140,7 @@ export class VisitDetailsComponent implements OnInit {
     }).subscribe(
       (udpatedVisit) => {
         this.isBusy = false;
+        this.visitChanged.next(udpatedVisit);
         this.reloadVisit();
       },
       (error) => {
@@ -214,7 +226,10 @@ export class VisitDetailsComponent implements OnInit {
   }
 
   public onFormSelected(form) {
-    this.formSelected.next(form);
+    this.formSelected.next({
+      form: form,
+      visit: this.visit
+    });
   }
 
   public onEncounterSelected(encounter) {
@@ -224,11 +239,13 @@ export class VisitDetailsComponent implements OnInit {
   public onVisitLocationEditted(location) {
     this.toggleEditLocation();
     this.reloadVisit();
+    this.visitChanged.next(this.visit);
   }
 
   public onVisitTypeEditted(visit) {
     this.toggleEditVisitType();
     this.reloadVisit();
+    this.visitChanged.next(this.visit);
   }
 
   public onYesDialogConfirmation() {

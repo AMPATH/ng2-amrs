@@ -16,7 +16,8 @@ import { Angulartics2Module } from 'angulartics2';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
-import { PatientEncountersComponent
+import {
+  PatientEncountersComponent
 } from './patient-encounters/patient-encounters.component';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';
@@ -55,7 +56,8 @@ import { FormentryHelperService } from './formentry/formentry-helper.service';
 import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from '../services/patient-previous-encounter.service';
-import { FormCreationDataResolverService
+import {
+  FormCreationDataResolverService
 } from './formentry/form-creation-data-resolver.service';
 import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 import { FormSubmissionService } from './formentry/form-submission.service';
@@ -67,7 +69,8 @@ import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
 import { ToastrModule } from 'ngx-toastr';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
-import { PatientRelationshipService
+import {
+  PatientRelationshipService
 } from './patient-relationships/patient-relationship.service';
 import {
   PatientRelationshipSearchComponent
@@ -106,11 +109,13 @@ import { SecurePipe } from './locator-map/secure.pipe';
 import { SelectModule } from 'angular2-select';
 import { CohortMemberModule } from '../../patient-list-cohort/cohort-member/cohort-member.module';
 import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component';
-import { VisitEncountersListComponent
+import {
+  VisitEncountersListComponent
 } from './visit-encounters/visit-encounters-list.component';
 import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
 import { VisitEncountersPipe } from './visit-encounters/visit-encounters.pipe';
-import { OrderByAlphabetPipe
+import {
+  OrderByAlphabetPipe
 } from './visit-encounters/visit-encounter.component.order.pipe';
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
 import { EncounterTypeFilter } from
@@ -124,8 +129,11 @@ import { FormentryReferralsHandlerService } from './formentry/formentry-referral
 import { PatientReferralsModule } from './patient-referrals/patient-referrals.module';
 import { VisitDetailsComponent } from './visit/visit-details/visit-details.component';
 import { VisitStarterComponent } from './visit/visit-starter/visit-starter.component';
-import { FormVisitTypeSearchComponent
- } from './../../form-visit-type-search/form-visit-type-search.component';
+import { TodayVisitService } from './visit/today-visit.service';
+import { TodayVisitsComponent } from './visit/today-visits/today-visits.component';
+import { FormVisitTypeSearchComponent } from
+  './form-visit-type-search/form-visit-type-search.component';
+import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
 
 @NgModule({
   imports: [
@@ -205,6 +213,8 @@ import { FormVisitTypeSearchComponent
     AddPatientRelationshipComponent,
     PatientRelationshipSearchComponent,
     VisitPeriodComponent,
+    TodayVisitsComponent,
+    VisitSummaryComponent,
     LocatorMapComponent,
     SecurePipe,
     VisitEncountersListComponent,
@@ -216,6 +226,7 @@ import { FormVisitTypeSearchComponent
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter],
   declarations: [
+    VisitSummaryComponent,
     PatientInfoComponent,
     BusyComponent,
     PatientEncountersComponent,
@@ -252,6 +263,7 @@ import { FormVisitTypeSearchComponent
     AddPatientRelationshipComponent,
     PatientRelationshipSearchComponent,
     VisitPeriodComponent,
+    TodayVisitsComponent,
     LocatorMapComponent,
     SecurePipe,
     VisitEncountersListComponent,
@@ -290,6 +302,7 @@ import { FormVisitTypeSearchComponent
     PatientIdentifierService,
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,
-    PatientCareStatusResourceService],
+    PatientCareStatusResourceService,
+    TodayVisitService],
 })
 export class PatientDashboardCommonModule { }
