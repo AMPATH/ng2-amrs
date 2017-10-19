@@ -20,7 +20,7 @@ var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
 var motd = require('./dao/motd_notification/motd_notification-dao');
 var patientProgramService = require('./programs/patient-program-base.service.js');
-var resolveEncounterUuidToId = require('./programs/resolve-to-encounterId.js');
+var resolveEncounterUuidToId = require('./encounter-type/resolve-to-encounterId.js');
 import {
     MonthlyScheduleService
 } from './service/monthly-schedule-service';
@@ -253,7 +253,7 @@ module.exports = function () {
                 handler: function (request, reply) {
                     if (request.query.locationUuids) {
                          console.log('Request', request.query);
-                         resolveEncounterUuidToId.resolveToEncounterIds(request.query)
+                         resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
                                     .then((resolve) => {
                                         let encounterIds = resolve;
                                         request.query.encounterIds = encounterIds;
@@ -297,7 +297,7 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                resolveEncounterUuidToId.resolveToEncounterIds(request.query)
+                                resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
                                       .then((resolve) => {
                                             console.log('Resolved daily-attendance', resolve);
                                             let encounterIds = resolve;
@@ -341,7 +341,7 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                resolveEncounterUuidToId.resolveToEncounterIds(request.query)
+                                resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
                                       .then((resolve) => {
                                             let encounterIds = resolve;
                                             request.query.encounterIds = encounterIds;
@@ -383,7 +383,7 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                resolveEncounterUuidToId.resolveToEncounterIds(request.query)
+                                resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
                                       .then((resolve) => {
                                             let encounterIds = resolve;
                                             request.query.encounterIds = encounterIds;
