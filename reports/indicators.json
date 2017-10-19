@@ -99,7 +99,7 @@
         "name": "vl_ordered",
         "label": "vl ordered",
         "description": "# of patient(s) whose Viral Load has been ordered",
-        "expression": "vl_order_date=encounter_datetime"
+        "expression": "date(vl_order_date)=date(encounter_datetime)"
     },
     {
         "name": "pending_vl_order",
