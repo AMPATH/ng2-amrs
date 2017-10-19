@@ -137,6 +137,16 @@
       "routes": []
     },
     {
+      "programName": "HIV Turbo Differentiated Care Pilot ",
+      "programUuid": "0904172d-0b6a-40df-b8a2-b3653d16dc45",
+      "baseRoute": "0904172d-0b6a-40df-b8a2-b3653d16dc45",
+      "alias": "hiv",
+      "published": true,
+      "shared-routes-class": "hiv",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "PMTCT",
       "programUuid": "781d897a-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d897a-1359-11df-a1f1-0026b9348838",
