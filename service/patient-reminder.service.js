@@ -71,7 +71,6 @@ function viralLoadReminders(data) {
 function qualifiesDifferenciatedReminders(data){
 
     let reminders = [];
-
     let diffMessage = '';
     if (data.qualifies_differenciated_care) {
         diffMessage = 'Last viral load: ' + data.viral_load + ' on ' +
@@ -84,7 +83,7 @@ function qualifiesDifferenciatedReminders(data){
             reminders.push({
                 message: 'Patient qualifies for differentiated care. Viral loads < 1000 and age > 18 ' + diffMessage,
                 title: 'Differentiated Care Reminder',
-                type: 'danger',
+                type: 'warning',
                 display: {
                     banner: true,
                     toast: true
