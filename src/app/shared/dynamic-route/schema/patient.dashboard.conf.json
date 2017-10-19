@@ -413,21 +413,6 @@
         "icon": "fa fa-heartbeat"
       },
       {
-        "url": "visit",
-        "label": "Visit",
-        "icon": "icon-i-outpatient"
-      },
-      {
-        "url": "patient-encounters",
-        "label": "Encounters",
-        "icon": "icon-i-immunizations"
-      },
-      {
-        "url": "patient-vitals",
-        "label": "Vitals",
-        "icon": "fa fa-heartbeat"
-      },
-      {
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
         "icon": "icon-i-laboratory"
