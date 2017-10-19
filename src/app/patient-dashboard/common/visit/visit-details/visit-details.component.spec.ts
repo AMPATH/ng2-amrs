@@ -1,4 +1,3 @@
-/*
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { By } from '@angular/platform-browser';
@@ -25,7 +24,7 @@ class RouterStub {
   public navigateByUrl(url: string) { return url; }
 }
 
-describe('VisitDetailsComponent', () => {
+describe('VisitDetailsComponent: ', () => {
   let component: VisitDetailsComponent;
   let fixture: ComponentFixture<VisitDetailsComponent>;
 
@@ -246,7 +245,7 @@ describe('VisitDetailsComponent', () => {
     };
     component.formSelected.subscribe(
       (form) => {
-        expect(form).toBe(sampleForm);
+        expect(form).toEqual({ form: sampleForm, visit: component.visit });
         done();
       }
     );
@@ -271,5 +270,3 @@ describe('VisitDetailsComponent', () => {
   });
 
 });
-
-*/

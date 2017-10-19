@@ -1,6 +1,8 @@
 .location-filter-border {
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     margin-bottom: 1px;
+    margin-left: -15px;
+    margin-right: -15px;
 }
 
 .visit-info{

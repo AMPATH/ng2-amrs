@@ -1,7 +1,7 @@
-import { FormListService } from './../patient-dashboard/common/forms/form-list.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
-import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
+import { FormListService } from '../forms/form-list.service';
+import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 
 @Component({
     selector: 'form-visit-type-search',

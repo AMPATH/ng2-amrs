@@ -59,6 +59,8 @@ class LocationServiceMock {
     }]);
   }
 }
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 describe('Component: Visit Period Component Unit Tests', () => {
   let route: MockActivatedRoute;
   let fakeAppFeatureAnalytics: AppFeatureAnalytics,

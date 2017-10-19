@@ -27,6 +27,7 @@ import { CdmLandingPageComponent } from './cdm/landing-page/landing-page.compone
 import {
   PatientSearchContainerComponent
 } from '../patient-search/patient-search-container.component';
+import { TodayVisitsComponent } from './common/visit/today-visits/today-visits.component';
 
 export const routes = [
   {
@@ -88,7 +89,7 @@ export const routes = [
           { path: ':programClass/:program/lab-orders', component: LabOrdersComponent },
           { path: ':programClass/:program/programs', component: ProgramsComponent },
           { path: ':programClass/:program/clinical-notes', component: ClinicalNotesComponent },
-          { path: ':programClass/:program/visit', component: VisitComponent },
+          { path: ':programClass/:program/visit', component: TodayVisitsComponent },
           { path: ':programClass/:program/locator-map', component: LocatorMapComponent }
         ]
       }

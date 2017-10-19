@@ -4,9 +4,9 @@ import { Form } from '../../../models/form.model';
 import { FormListService } from './form-list.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
 @Component({
-    selector: 'form-list',
-    templateUrl: './form-list.component.html',
-    styleUrls: ['./form-list.component.css']
+  selector: 'form-list',
+  templateUrl: './form-list.component.html',
+  styleUrls: ['./form-list.component.css']
 })
 export class FormListComponent implements OnInit {
   @Output()
@@ -15,6 +15,9 @@ export class FormListComponent implements OnInit {
   public allForms: Array<Form>;
   public selectedForm: Form;
   public filterTerm: string = '';
+
+  @Input()
+  public showFilter: boolean = true;
 
   private _excludedForms: Array<string>;
   @Input()

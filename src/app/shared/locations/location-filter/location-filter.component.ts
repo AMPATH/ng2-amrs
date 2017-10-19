@@ -36,6 +36,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public allLocations: boolean = true;
   @Input('disable-county') public disableCounty: boolean;
   @Input('multiple') public multiple: boolean;
+  @Input('showLabel') public showLabel: boolean = true;
   @Input() public locationUuids: any;
   @Input() public county: string;
   @Output() public onLocationChange = new EventEmitter<any>();

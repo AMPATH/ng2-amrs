@@ -17,6 +17,8 @@ export class EncounterListComponent implements OnInit {
   @Output() public isBusy = new EventEmitter();
   @Output() public onEncounterObservations = new EventEmitter();
   @Input() public encounterTypes: any [];
+  @Input() public showPagination: boolean = true;
+  @Input() public showFilterers: boolean = true;
   public selectedEncounterType: any = [];
   public encounterFilterTypeArray: any = [];
 

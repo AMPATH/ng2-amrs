@@ -1,6 +1,6 @@
 <div class="location-filter suggest-container form-group" *ngIf="counties">
   <div [ngClass]="{'col-md-12 col-sm-12 col-xs-12':disableCounty, 'col-md-6 col-sm-12 col-xs-12':!disableCounty}">
-    <label for="location-filter">Location</label>
+    <label *ngIf="showLabel" for="location-filter">Location</label>
     <div class="input-group" [ngClass]="{'show-reset': selectedLocations && selectedLocations.length > 0, 'hide-reset': !selectedLocations || selectedLocations.length == 0 }">
       <div class="input-group-addon">
         <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
