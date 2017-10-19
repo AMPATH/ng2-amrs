@@ -1,9 +1,9 @@
 .form-row {
-  display: block;
-  width: auto;
-  position: absolute;
-  left: 20px;
+    display: block;
+    width: auto;
+    /* position: absolute; */
+    left: 20px;
 }
 form-renderer {
-  z-index: 0;
+    z-index: 0;
 }
