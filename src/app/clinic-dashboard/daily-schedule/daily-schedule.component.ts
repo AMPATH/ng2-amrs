@@ -7,7 +7,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { CookieService } from 'ngx-cookie';
 @Component({
   selector: 'app-daily-schedule',
   templateUrl: './daily-schedule.component.html',
@@ -40,8 +39,7 @@ export class DailyScheduleComponent implements OnInit {
   public _datePipe: DatePipe;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private router: Router, private route: ActivatedRoute,
-              private clinicFlowCache: ClinicFlowCacheService,
-              private _cookieService: CookieService) {
+              private clinicFlowCache: ClinicFlowCacheService) {
     this._datePipe = new DatePipe('en-US');
 
   }

@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy, OnChanges, Input,
 SimpleChange, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
-import { CookieService } from 'ngx-cookie';
 import { LocalStorageService } from './../../utils/local-storage.service';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'daily-schedule-visits',
   templateUrl: './daily-schedule-visits.component.html',
@@ -27,6 +28,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
      'encounterType': []
   };
   public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
+  public fetchCount: number = 0;
   @Input() public tab: any;
   @Input() public newList: any;
 
@@ -44,8 +46,8 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   private visitsSubscription: Subscription;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
-              private _cookieService: CookieService,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private route: ActivatedRoute) {
   }
 
   public ngOnInit() {
@@ -56,15 +58,36 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
         if (this.selectedClinic) {
           this.selectedDateSubscription = this.clinicDashboardCacheService.
             getDailyTabCurrentDate().subscribe((date) => {
-            if ( this.loadingDailyVisits === false) {
-              this.selectedDate = date;
-              this.initParams();
-              let params = this.getQueryParams();
-              console.log('Visit Params', params);
-              this.getDailyVisits(params);
-            }
+              if (this.loadingDailyVisits === false) {
+                this.selectedDate = date;
+                this.initParams();
+                let params = this.getQueryParams();
+                console.log('Visit Params', params);
+                this.getDailyVisits(params);
+              }
 
             });
+
+        }
+      });
+
+    this.route
+      .queryParams
+      .subscribe((params) => {
+        if (params) {
+          console.log('Visits Page params', params);
+          if (this.fetchCount === 0 ) {
+            /*
+            for intial page load do not fetch daily visits as
+            it has been already fetched
+            */
+
+          }else {
+            let searchParams = this.getQueryParams();
+            this.initParams();
+            this.getDailyVisits(searchParams);
+          }
+          this.fetchCount++;
 
         }
       });
@@ -146,11 +169,9 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
 
       let cookieVal = encodeURI(JSON.stringify(this.encodedParams));
 
-      let programVisitCookie = this._cookieService.get(cookieKey);
+      let programVisitStored = this.localStorageService.getItem(cookieKey);
 
-      console.log('Cookie val', programVisitCookie);
-
-      if (typeof programVisitCookie === 'undefined') {
+      if (programVisitStored === null) {
 
       } else {
 

@@ -1,87 +1,74 @@
 <div class="row" id="program-visit-encounter-filter">
     <div class="container-fluid">
-        <form>
-                <div class="row">
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                           <label class="control-label">Departments</label>
-                                           <div class="input-group">
-                                                <span class="input-group-addon filter-add-on">
-                                                    <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
-                                                </span>
-                                                <ng-select #programSelect [multiple]="true" id="department-filter" (selected)="selectDepartment($event)"
-                                                            (ngModelChange)="departmentChange($event)"
-                                                            [placeholder]="'Select or enter to search'"
-                                                            [(ngModel)]="department" [options]="departments"
-                                                            name="department-filter">
-                                                </ng-select>
-                                                <span class="input-group-addon">                                   
-                                                        <i class="select-all" *ngIf="department.length === 0" (click)="selectAllDepartments()"><span class="glyphicon glyphicon-pushpin"></span>Select All</i>
-                                                        <i class="clear-all" *ngIf="department.length > 0" (click)="clearDepartments()"><span class="fa fa-trash fa-fw"></span>Clear All</i>
-                                                </span>
-                                           </div>
-                            </div>
-                             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                           <label class="control-label">Program</label>
-                                           <div class="input-group">
-                                                <span class="input-group-addon filter-add-on">
-                                                    <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
-                                                </span>
-                                                <ng-select #programSelect [multiple]="true" id="program-filter" (selected)="selectProgram($event)"
-                                                            (ngModelChange)="programChange($event)"
-                                                            [placeholder]="'Select or enter to search'"
-                                                            [(ngModel)]="program" [options]="programs"
-                                                            [style.font-size]="12"
-                                                            name="program-filter">
-                                                </ng-select>
-                                                <span class="input-group-addon">                                   
-                                                        <i class="select-all" *ngIf="program.length === 0" (click)="selectAllPrograms()"><span class="glyphicon glyphicon-pushpin"></span>Select All</i>
-                                                        <i class="clear-all" *ngIf="program.length > 0" (click)="clearPrograms()"><span class="fa fa-trash fa-fw"></span>Clear All</i>
-                                                </span>
-                                           </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                        <label class="control-label">Visit Type</label>
-                                        <div class="input-group">
-                                                    <span class="input-group-addon filter-add-on">
-                                                        <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
-                                                    </span>
-                                                    <ng-select [multiple]="true" id="visitType-filter" (selected)="selectVisitType($event)"
-                                                                (ngModelChange)="visitTypeChange($event)"
-                                                                [placeholder]="'Select or enter to search'"
-                                                                [(ngModel)]="visitType"
-                                                                [options]="visitTypes"
-                                                                name="visitType-filter">
-                                                    </ng-select>
-                                                    <span class="input-group-addon">
-                                                         <i class="select-all" *ngIf="visitType.length === 0" (click)="selectAllVisitTypes()"> <span class="glyphicon glyphicon-pushpin"></span> Select All</i>
-                                                         <i class="clear-all" *ngIf="visitType.length > 0" (click)="clearVisitTypes()"> <span class="fa fa-trash fa-fw"></span> Clear All</i>
-                                                    </span>
-                                        </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                    <label class="control-label">Encounter Type</label>
-                                    <div class="input-group">
-                                                 <span class="input-group-addon filter-add-on">
-                                                    <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
-                                                </span>
-                                                <ng-select [multiple]="true" id="encounterType-filter" (selected)="selectEncounterType(encounterType)"
-                                                           (ngModelChange)="encounterTypeChange($event)"
-                                                            [placeholder]="'Select or enter to search'"
-                                                            [(ngModel)]="encounterType" [options]="encounterTypes"
-                                                            name="encounterType-filter">
-                                                </ng-select>
-                                                <span class="input-group-addon">                        
-                                                     <i class="select-all" *ngIf="encounterType.length === 0" (click)="selectAllEncouterTypes()"> <span class="glyphicon glyphicon-pushpin"></span> Select All</i>
-                                                     <i class="clear-all" *ngIf="encounterType.length > 0 " (click)="clearEncounterTypes()"> <span class="fa fa-trash fa-fw"></span> Clear All</i>
-                                                </span>
+        <form class="form-horizontal">
+                <div class="row" *ngIf="loadingFilters">
+                    <div class="col-md-12">
+                          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading Saved Filters ...
+                    </div>
+                </div>
+                <div class="row" *ngIf="!loadingFilters">
+                                  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                      <label class="control-label">Departments</label>
+                                                        <angular2-multiselect
+                                                                    [data]="departments" 
+                                                                    [(ngModel)]="department" 
+                                                                    [settings]="dropdownSettings" 
+                                                                    (onSelect)="selectDepartment($event)" 
+                                                                    (onDeSelect)="departmentDeselect($event)"
+                                                                    (onSelectAll)="onSelectAllDepartments($event)"
+                                                                    (onDeSelectAll)="onDeSelectAllDepartment($event)"
+                                                                    name="department-filter">
+                                                        </angular2-multiselect>
                                     </div>
-                          </div>
-
+                                    <div *ngIf="department.length > 0">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                        <label class="control-label">Program</label>
+                                                        <angular2-multiselect #programSelect 
+                                                                    [data]="programs" 
+                                                                    [(ngModel)]="program" 
+                                                                    [settings]="dropdownSettings" 
+                                                                    (onSelect)="selectProgram($event)" 
+                                                                    (onDeSelect)="programDeSelect($event)"
+                                                                    (onSelectAll)="onSelectAllPrograms($event)"
+                                                                    (onDeSelectAll)="onDeSelectAllPrograms($event)"
+                                                                    name="program-filter">
+                                                        </angular2-multiselect>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                            <label class="control-label">Visit Type</label>                                          
+                                                            <angular2-multiselect #visitTypeFilter
+                                                                            [data]="visitTypes" 
+                                                                            [(ngModel)]="visitType"
+                                                                            [settings]="dropdownSettings" 
+                                                                            (onSelect)="selectVisitType($event)" 
+                                                                            (onDeSelect)="visitTypeDeSelect($event)"
+                                                                            (onSelectAll)="onSelectAllVisitTypes($event)"
+                                                                            (onDeSelectAll)="onDeSelectAllVisitTypes($event)"
+                                                                            name="visitType-filter">
+                                                            </angular2-multiselect>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label class="control-label">Encounter Type</label>
+                        
+                                                        
+                                                        <angular2-multiselect #encounterTypeFilter
+                                                                            [data]="encounterTypes" 
+                                                                            [(ngModel)]="encounterType"
+                                                                            [settings]="dropdownSettings" 
+                                                                            (onSelect)="selectEncounterType($event)" 
+                                                                            (onDeSelect)="encounterTypeDeSelect($event)"
+                                                                            (onSelectAll)="onSelectAllEncounterTypes($event)"
+                                                                            (onDeSelectAll)="onDeSelectAllEncounterTypes($event)"
+                                                                            name="encounterType-filter">
+                                                        </angular2-multiselect>
+                                                    
+                                </div>
+                            </div>
             </div>
             <div class="row">
                 <div class="col-md-4 col-lg-4 col-sm-4" id="filter-btns">
-                    <button class="btn btn-primary btn-search" (click)="getMonthlyScheduleParameters()" *ngIf="!filterSet">Set Filter <i class="fa fa-gear fa-fw"></i></button>
-                     <button class="btn btn-primary btn-search" (click)="getMonthlyScheduleParameters()" *ngIf="filterSet" disabled>Set Filter <i class="fa fa-gear fa-fw"></i></button>
+                    <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="!filterSet">Apply Filter <i class="fa fa-gear fa-fw"></i></button>
+                     <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="filterSet" disabled>Set Filter <i class="fa fa-gear fa-fw"></i></button>
                     <button class="btn btn-danger btn-search" (click)="resetFilter()">Clear Filters <i class="fa fa-trash fa-fw"></i></button>
                 </div>
             </div>

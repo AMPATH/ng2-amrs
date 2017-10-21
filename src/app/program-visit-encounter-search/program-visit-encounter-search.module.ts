@@ -2,14 +2,15 @@ import { ProgramVisitEncounterSearchComponent } from './program-visit-encounter-
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SelectModule } from 'angular2-select';
+import { AngularMultiSelectModule }
+from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 
 @NgModule({
     imports: [
         FormsModule,
         CommonModule,
-        SelectModule
+        AngularMultiSelectModule
     ],
     exports: [ProgramVisitEncounterSearchComponent],
     declarations: [ProgramVisitEncounterSearchComponent],

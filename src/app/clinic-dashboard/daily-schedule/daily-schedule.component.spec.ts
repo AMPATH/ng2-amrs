@@ -8,7 +8,7 @@ import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-fl
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings';
-import { LocalStorageService } from '../../utils/local-storage.service';
+import { LocalStorageService } from './../../utils/local-storage.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import {
   Router, ActivatedRoute, Params,
@@ -35,17 +35,17 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import { CookieService, CookieModule } from 'ngx-cookie';
 import * as Moment from 'moment';
-import { SelectModule } from 'angular2-select';
+import { AngularMultiSelectModule } from
+'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 describe('Component: DailySchedule', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics,
     component: DailyScheduleComponent,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
-    cookieService: CookieService,
     activatedRoute: ActivatedRoute,
+    localStorageService: LocalStorageService,
     router: Router, fixture, componentInstance;
 
   beforeEach(() => {
@@ -58,7 +58,6 @@ describe('Component: DailySchedule', () => {
         AppSettingsService,
         LocalStorageService,
         CacheService,
-        CookieService,
         DataCacheService,
         ClinicFlowCacheService,
         ChildrenOutletContexts,
@@ -103,8 +102,7 @@ describe('Component: DailySchedule', () => {
         CommonModule, Angulartics2Module,
         RouterModule,
         DateTimePickerModule,
-        SelectModule,
-        CookieModule.forRoot(),
+        AngularMultiSelectModule
       ]
     });
   });
@@ -113,6 +111,10 @@ describe('Component: DailySchedule', () => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(DailyScheduleComponent);
       component = fixture.componentInstance;
+      clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+      activatedRoute = TestBed.get(ActivatedRoute);
+      clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+      router = TestBed.get(Router);
     });
   }));
 
@@ -122,14 +124,6 @@ describe('Component: DailySchedule', () => {
 
 
   it('should create an instance', () => {
-    clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-    activatedRoute = TestBed.get(ActivatedRoute);
-    clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
-    cookieService = TestBed.get(CookieService);
-    router = TestBed.get(Router);
-    component = new DailyScheduleComponent(
-      clinicDashBoardCacheService, router, activatedRoute, clinicFlowCacheService , cookieService
-    );
     expect(component).toBeTruthy();
   });
 
@@ -188,7 +182,7 @@ describe('Component: DailySchedule', () => {
       activatedRoute = TestBed.get(ActivatedRoute);
       router = TestBed.get(Router);
       component = new DailyScheduleComponent(clinicDashBoardCacheService, router,
-        activatedRoute, service, cookieService);
+        activatedRoute, service);
 
       component.ngOnInit();
       service.getSelectedDate().subscribe((date) => {
