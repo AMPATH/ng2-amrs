@@ -228,8 +228,8 @@
       {
         "uuid": "03f5b165-c577-4e1e-b7ae-acfc3ba18ebf",
         "name": "Youth HIV Initial Visit ",
-        "allowedIf": "age >= 10 && age <= 20 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
-        "message": "Patient has to between 10 and 20yrs , in the location he enrolled into the HIV Care and Treatment program and must not have a prior clinical encounter",
+        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
+        "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program and must not have a prior clinical encounter",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -264,8 +264,8 @@
       {
         "uuid": "b27e13f7-7118-4c0d-b9d6-b759495991d6",
         "name": "Youth Transfer In Visit ",
-        "allowedIf": "age >= 10 && age <= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
-        "message": "Patient has to between 10 and 20yrs , in the location he enrolled into the HIV Care and Treatment program, must have a prior clinical encounter.The program location should be different from the previous encounter location",
+        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program, must have a prior clinical encounter.The program location should be different from the previous encounter location",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -296,8 +296,8 @@
       {
         "uuid": "824cf3e6-dd16-4767-ba41-2e04dede349e",
         "name": "Youth HIV Return Visit ",
-        "allowedIf": "age >= 10 && age <= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
-        "message": "Patient has to between 10 and 20yrs , in the location he enrolled into the HIV Care and Treatment program and must have a prior clinical encounter",
+        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program and must have a prior clinical encounter",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
