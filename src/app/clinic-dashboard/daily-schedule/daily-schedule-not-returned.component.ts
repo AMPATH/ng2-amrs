@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
-import { CookieService } from 'ngx-cookie';
 import { LocalStorageService } from './../../utils/local-storage.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'daily-schedule-not-returned',
   templateUrl: './daily-schedule-not-returned.component.html',
@@ -32,6 +32,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     width: 80,
     field: 'phone_number'
   };
+  public fetchCount: number = 0;
   private currentClinicSubscription: Subscription;
   private selectedDateSubscription: Subscription;
   private visitsSubscription: Subscription;
@@ -47,31 +48,51 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
-              private _cookieService: CookieService,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private route: ActivatedRoute) {
   }
 
   public ngOnInit() {
-    this.filterSelected();
-    this.selectedDate = Moment().format('YYYY-MM-DD');
-    this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
-      .subscribe((location) => {
-        this.selectedClinic = location;
-        if (this.selectedClinic) {
-          this.selectedDateSubscription = this.clinicDashboardCacheService.
-            getDailyTabCurrentDate().subscribe((date) => {
-              if (this.loadingDailyNotReturned === false) {
-                this.selectedDate = date;
-                this.initParams();
-                let params = this.getQueryParams();
-                console.log('Has not Returned Visit Params', params);
-                this.getDailyHasNotReturned(params);
-              }
+     this.filterSelected();
+     this.selectedDate = Moment().format('YYYY-MM-DD');
+     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
+       .subscribe((location) => {
+         this.selectedClinic = location;
+         if (this.selectedClinic) {
+           this.selectedDateSubscription = this.clinicDashboardCacheService.
+             getDailyTabCurrentDate().subscribe((date) => {
+               if (this.loadingDailyNotReturned === false) {
+                 this.selectedDate = date;
+                 this.initParams();
+                 let params = this.getQueryParams();
+                 console.log('Has not Returned Visit Params', params);
+                 this.getDailyHasNotReturned(params);
+               }
 
-            });
+             });
 
-        }
-      });
+         }
+       });
+
+     this.route
+       .queryParams
+       .subscribe((params) => {
+         if (params) {
+           console.log('Has Not Returned Page params', params);
+           if (this.fetchCount === 0 ) {
+            /*
+            for intial page load do not fetch daily visits as
+            it has been already fetched
+            */
+
+          }else {
+             let searchParams = this.getQueryParams();
+             this.initParams();
+             this.getDailyHasNotReturned(searchParams);
+          }
+           this.fetchCount++;
+         }
+       });
   }
 
   public ngOnDestroy(): void {
@@ -150,11 +171,9 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
 
       let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
 
-      let programVisitCookie = this._cookieService.get(cookieKey);
+      let programVisitStored = this.localStorageService.getItem(cookieKey);
 
-      console.log('Cookie val', programVisitCookie);
-
-      if (typeof programVisitCookie === 'undefined') {
+      if (programVisitStored === null) {
 
       } else {
 

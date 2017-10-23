@@ -4,6 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'angular2-select';
 import { Http, BaseRequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
 import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
@@ -23,20 +24,21 @@ import {
     DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
     DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import { CookieService, CookieModule } from 'ngx-cookie';
+import { AngularMultiSelectModule }
+from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 describe('Component: DailyScheduleAppointmentsComponent', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
         dailyScheduleResource: DailyScheduleResourceService,
         clinicDashBoardCacheService: ClinicDashboardCacheService,
-        cookieService: CookieService,
-        fixture, componentInstance;
+        localStorageService: LocalStorageService,
+        route: ActivatedRoute, fixture, componentInstance;
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
@@ -47,11 +49,16 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
-                CookieService,
                 DataCacheService,
                 {
                     provide: Router,
                     useClass: class { public navigate = jasmine.createSpy('navigate'); }
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        params: Observable.of({id: 123})
+                     }
                 },
                 {
                     provide: Http,
@@ -76,7 +83,7 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 CalendarModule,
                 DataListsModule,
                 SelectModule,
-                CookieModule.forRoot(),
+                AngularMultiSelectModule,
                 NgamrsSharedModule]
         });
     });
@@ -85,11 +92,19 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(DailyScheduleAppointmentsComponent);
             component = fixture.componentInstance;
+            clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+            dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+            route = TestBed.get(ActivatedRoute);
+            localStorageService = TestBed.get(LocalStorageService);
         });
     }));
 
     afterEach(() => {
         TestBed.resetTestingModule();
+    });
+
+    it('should create an instance', () => {
+        expect(component).toBeTruthy();
     });
 
     it('should have required properties', (done) => {
@@ -118,9 +133,6 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
             limit: undefined
         });
         expect(component.getDailyAppointments).toHaveBeenCalled();
-        spyOn(component, 'ngOnInit').and.callThrough();
-        component.ngOnInit();
-        expect(component.ngOnInit).toHaveBeenCalled();
 
         done();
     });

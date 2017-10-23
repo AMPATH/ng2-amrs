@@ -2,9 +2,9 @@ import { LocalStorageService } from './../../utils/local-storage.service';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
-import { CookieService } from 'ngx-cookie';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
+import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 
 @Component({
   selector: 'daily-schedule-appointments',
@@ -28,6 +28,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   public dataAppLoaded: boolean = true;
   public selectedClinic: any;
   public nextStartIndex: number = 0;
+  public fetchCount: number = 0;
   @Input() public tab: any;
   @Input()
   set options(value) {
@@ -42,11 +43,12 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   private appointmentSubscription: Subscription;
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
-              private _cookieService: CookieService,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private route: ActivatedRoute) {
   }
 
   public ngOnInit() {
+    console.log('Appointments INitialized');
     this.filterSelected();
     this.selectedDate = Moment().format('YYYY-MM-DD');
     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
@@ -57,7 +59,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
             getDailyTabCurrentDate().subscribe((date) => {
             if ( this.loadingDailyAppointments === false) {
               this.selectedDate = date;
-
               this.initParams();
               let params = this.getQueryParams();
               console.log('Appointment Params', params);
@@ -67,6 +68,29 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
           });
         }
 
+      });
+
+    // get the current page url and params
+    this.route
+      .queryParams
+      .subscribe((params) => {
+        if (params) {
+          console.log('Appointments Page params', params);
+          if (this.fetchCount === 0 ) {
+            /*
+            for intial page load do not fetch daily visits as
+            it has been already fetched
+            */
+             console.log('Appointment fetchcount 0');
+
+          }else {
+            console.log('Appointment fetchcount > 0');
+            this.initParams();
+            let searchParams = this.getQueryParams();
+            this.getDailyAppointments(searchParams);
+          }
+          this.fetchCount++;
+        }
       });
   }
 
@@ -155,9 +179,9 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
       let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
 
-      let programVisitCookie = this._cookieService.get(cookieKey);
+      let programVisitStored = this.localStorageService.getItem(cookieKey);
 
-      if (typeof programVisitCookie === 'undefined') {
+      if (programVisitStored === null) {
 
       } else {
 

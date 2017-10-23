@@ -3,6 +3,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
 import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
@@ -22,20 +23,27 @@ import {
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import { CookieService, CookieModule } from 'ngx-cookie';
-import { SelectModule } from 'angular2-select';
+import { AngularMultiSelectModule }
+from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+class MockActivatedRoute {
+ public params = Observable.of([{ 'id': 1 }]);
+ public snapshot = {
+    queryParams: { filter: '' }
+  };
+}
 describe('Component: DailyScheduleVisitsComponent', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
     dailyScheduleResource: DailyScheduleResourceService,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
-    cookieService: CookieService,
+    localStorageService: LocalStorageService,
+    route: ActivatedRoute,
     fixture, componentInstance;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,11 +56,14 @@ describe('Component: DailyScheduleVisitsComponent', () => {
         AppSettingsService,
         LocalStorageService,
         CacheService,
-        CookieService,
         DataCacheService,
         {
           provide: Router,
           useClass: class { public navigate = jasmine.createSpy('navigate'); }
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
         },
         {
           provide: Http,
@@ -74,21 +85,28 @@ describe('Component: DailyScheduleVisitsComponent', () => {
         FormsModule,
         DialogModule,
         CalendarModule,
-        SelectModule,
-        CookieModule.forRoot(),
+        AngularMultiSelectModule,
         DataListsModule, NgamrsSharedModule]
     });
   });
 
   beforeEach(async(() => {
     TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(DailyScheduleVisitsComponent);
-      component = fixture.componentInstance;
+        fixture = TestBed.createComponent(DailyScheduleVisitsComponent);
+        component = fixture.componentInstance;
+        clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+        dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+        route = TestBed.get(ActivatedRoute);
+        localStorageService = TestBed.get(LocalStorageService);
     });
   }));
 
   afterEach(() => {
     TestBed.resetTestingModule();
+  });
+
+  it('should create an instance', () => {
+     expect(component).toBeTruthy();
   });
 
   it('should have required properties', (done) => {
@@ -118,10 +136,6 @@ describe('Component: DailyScheduleVisitsComponent', () => {
       limit: undefined
     });
     expect(component.getDailyVisits).toHaveBeenCalled();
-    spyOn(component, 'ngOnInit').and.callThrough();
-    component.ngOnInit();
-    expect(component.ngOnInit).toHaveBeenCalled();
-
     done();
   });
 

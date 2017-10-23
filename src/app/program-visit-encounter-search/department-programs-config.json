@@ -7,18 +7,12 @@
                 "name": "HIV TREATMENT"
             },
             {
-                "uuid":"781d897a-1359-11df-a1f1-0026b9348838",
-                "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
-
+                "uuid":"f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+                "name": "RESISTANCE CLINIC PROGRAM"
             },
             {
-                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
-                "name": "OVC PROGRAM"
-
-            },
-             {
-                "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
-                "name": "BSG PROGRAM"
+                "uuid":"781d897a-1359-11df-a1f1-0026b9348838",
+                "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
 
             },
             {
@@ -45,6 +39,25 @@
                 "uuid":"781d8880-1359-11df-a1f1-0026b9348838",
                 "name": "EXPRESS CARE PROGRAM"
 
+            },
+            {
+                "uuid":"c6bf3625-de80-4a88-a913-38273e300a55",
+                "name": "HIV OUTREACH PROGRAM"
+
+            },
+            {
+                "uuid":"c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
+                "name": "HIV COMMUNITY BASED CARE RESEARCH PROGRAM"
+
+            },
+            {
+                "uuid":"4480c782-ef05-4d88-b2f8-c892c99438f6",
+                "name": "ACTG PROGRAM"
+
+            },
+            {
+                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
+                "name": "OVC PROGRAM"
             }
             
             
@@ -81,6 +94,10 @@
             {
                 "uuid":"a3610ba4-9811-46b3-9628-83ec9310be13",
                 "name": "HEMOPHILIA PROGRAM"
+            },
+            {
+                "uuid":"725b5193-3452-43fc-aca3-6a80432d9bfa",
+                "name": "GENERAL ONCOLOGY PROGRAM"
             }
         ]
     },
@@ -90,26 +107,35 @@
             {
                 "uuid":"fc15ac01-5381-4854-bf5e-917c907aa77f",
                 "name": "CDM PROGRAM"
-            }
-            
-        ]
-    },
-     "uud4":{
-        "name":"OVC",
-        "programs":[
+            },
             {
-                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
-                "name": "OVC PROGRAM"
+                "uuid":"b731ba72-cf99-4176-9fcd-37cd186400c7",
+                "name": "DIABETES AND HYPERTENSION CARE AT HEALTH CENTER PROGRAM"
+            },
+            {
+                "uuid":"bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
+                "name": "DIABETES AND HYPERTENSION AT CENTER OF EXCELLENCE PROGRAM"
             }
+            
             
         ]
     },
-    "uud5":{
+    "uud4":{
         "name":"BSG",
         "programs":[
             {
                 "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
                 "name": "BSG PROGRAM"
+            }
+            
+        ]
+    },
+    "uud5":{
+        "name":"DERMATOLOGY",
+        "programs":[
+            {
+                "uuid":"b3575274-1850-429b-bb8f-2ff83faedbaf",
+                "name": "DERMATOLOGY"
             }
             
         ]

@@ -18,9 +18,9 @@ import * as Moment from 'moment';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { CookieService } from 'ngx-cookie';
 import * as _ from 'lodash';
 import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
+import { LocalStorageService } from './../../utils/local-storage.service';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -52,7 +52,7 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
      'visitType': [],
      'encounterType': []
   };
-  public encodedParams: string = '';
+  public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
   public events: CalendarEvent[] = [];
   public activeDayIsOpen: boolean = false;
   public location: string = '';
@@ -61,17 +61,19 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
   public programVisitsEncounters: any = [];
   public encounterTypes: any [];
   public trackEncounterTypes: any = [];
+  public department: string = 'hiv';
   private subscription: Subscription = new Subscription();
 
   constructor(private monthlyScheduleResourceService: MonthlyScheduleResourceService,
               private clinicDashboardCacheService: ClinicDashboardCacheService,
               private router: Router,
               private route: ActivatedRoute, private appFeatureAnalytics: AppFeatureAnalytics,
-              private _cookieService: CookieService,
+              private _localstorageService: LocalStorageService,
               private _patientProgramService: PatientProgramResourceService) {
   }
 
   public ngOnInit() {
+    this.getSavedFilter();
     this.appFeatureAnalytics
       .trackEvent('Monthly Schedule', 'Monthly Schedule loaded', 'ngOnInit');
     let date = this.route.snapshot.queryParams['date'];
@@ -82,7 +84,7 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location: string) => {
         this.location = location;
-        // this.getAppointments();
+        this.getAppointments();
       });
   }
 
@@ -90,20 +92,12 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public saveParamsToCookie() {
-
-     let cookieKey = 'programVisitEncounterFilter';
-
-     let cookieVal =  this.encodedParams;
-
-     this._cookieService.put(cookieKey, cookieVal);
-
-  }
 
   public filterSelected($event) {
          this.filter = $event;
          console.log('Event', $event);
          console.log('Fetch Appointments.....');
+         this.encodedParams = encodeURI(JSON.stringify($event));
          this.getAppointments();
   }
 
@@ -124,16 +118,8 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.getAppointments();
   }
 
-  public convertFilterToUri() {
-
-  this.encodedParams = encodeURI(JSON.stringify(this.filter));
-
-  console.log('Encode Monthly Filter Params', this.encodedParams);
-
-}
 
   public getAppointments() {
-      this.convertFilterToUri();
       this.fetchError = false;
       this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
       endDate: Moment(endOfMonth(this.viewDate)).format('YYYY-MM-DD'),
@@ -218,6 +204,30 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
   }
 
   public dayClicked({date, events}: {date: Date, events: CalendarEvent[]}): void {
+
+  }
+
+  // get filter saved
+
+  public getSavedFilter() {
+      let cookieKey = 'programVisitEncounterFilter';
+
+      let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
+
+      let programVisitStored = this._localstorageService.getItem(cookieKey);
+
+      if (programVisitStored === null) {
+
+      } else {
+
+         cookieVal =  this._localstorageService.getItem(cookieKey);
+
+         // this._cookieService.put(cookieKey, cookieVal);
+      }
+
+      this.encodedParams = cookieVal;
+
+      console.log('Saved Filter', this.encodedParams);
 
   }
 }
