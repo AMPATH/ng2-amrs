@@ -13,6 +13,7 @@ module.exports = function () {
   };
 
   function convertConceptIdToName(indicators, queryResults, requestIndicators) {
+    
     _.each(indicators, function (indicator) {
       _.each(queryResults.result, function (row) {
         row[indicator] = helpers.getARVNames(row[indicator]);
@@ -24,8 +25,8 @@ module.exports = function () {
   function findChanges(indicators, queryResults, requestIndicators) {
     var rows = [];
     _.each(queryResults.result, function (row) {
-      var current = row.current_regimen.split('##');
-      var previous = row.previous_regimen.split('##');
+      var current =  row.current_regimen?row.current_regimen.split('##'):null;
+      var previous = row.previous_regimen?row.previous_regimen.split('##'):null;
       if (!arraysEqual(current, previous)) {
         rows.push(row);
       }
