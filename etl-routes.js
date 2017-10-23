@@ -21,6 +21,7 @@ var crypto = require('crypto');
 var motd = require('./dao/motd_notification/motd_notification-dao');
 var patientProgramService = require('./programs/patient-program-base.service.js');
 var resolveEncounterUuidToId = require('./encounter-type/resolve-to-encounterId.js');
+var departmentProgramsService = require('./departments/departments-programs.service');
 import {
     MonthlyScheduleService
 } from './service/monthly-schedule-service';
@@ -3083,12 +3084,34 @@ module.exports = function () {
                 },
                 description: "Get the medical history report",
                 notes: "Returns the the medical history of the selected patient",
+                 tags: ['api'],
+                 validate: {
+                     options: {
+                         allowUnknown: true
+                     },
+                     params: {}
+                 }
+             }
+          },
+         {
+            method: 'GET',
+            path: '/etl/departments-programs-config',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+                    reply(departmentProgramsService.getAllDepartmentsConfig());
+                },
+                description: 'Get a list of Departments and their programs ',
+                notes: 'Returns a  list of Departments and their programs',
                 tags: ['api'],
                 validate: {
                     options: {
                         allowUnknown: true
                     },
-                    params: {}
+                    params: {
+                       
+                    }
                 }
             }
         }
