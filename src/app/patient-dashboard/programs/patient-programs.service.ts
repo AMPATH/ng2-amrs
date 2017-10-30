@@ -115,7 +115,7 @@ export class PatientProgramService {
                 route.baseRoute + '/landing-page' : null
             },
             visit: {
-              display: 'Start Visit',
+              display: 'Program Visit',
               url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
                 route.baseRoute + '/visit' : null
             }

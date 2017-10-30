@@ -185,7 +185,6 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       (patient) => {
         this.programsBusy = false;
         if (patient) {
-          console.log('Patient', patient);
           this.patient = patient;
           this.availablePrograms = patient.enrolledPrograms;
           this.enrolledProgrames = patient.enrolledPrograms;
