@@ -1,3 +1,5 @@
+<div class="loader" *ngIf="startedVisit"><span><i class="fa fa-spinner fa-spin">
+      </i>Starting Visit...please wait</span></div>
 <div class="location-filter-border">
   <location-filter [locationUuids]="selectedLocations" [showLabel]="false"
   [disable-county]="true" [multiple]="false" (onLocationChange)="onLocationChanged($event)">
@@ -7,7 +9,7 @@
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
 </div>
 <div *ngIf="isBusy">
-  Loading..
+  Loading
 </div>
 <div *ngIf="!isBusy" class="list-group">
   <div id="allowedVisitList" class="list-group-item" *ngFor="let visitType of visitTypes">

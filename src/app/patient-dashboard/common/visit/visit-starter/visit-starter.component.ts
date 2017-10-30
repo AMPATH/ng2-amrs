@@ -18,6 +18,7 @@ export class VisitStarterComponent implements OnInit {
   public visitStarted = new EventEmitter<any>();
 
   public isBusy: boolean = false;
+  public startedVisit: boolean = false;
   public error: string = '';
   public infoMessage: any  = [];
 
@@ -125,6 +126,7 @@ export class VisitStarterComponent implements OnInit {
   }
 
   public startVisit(visitTypeUuid) {
+    this.startedVisit = true;
     this.isBusy = true;
     this.error = '';
     let payload = {
@@ -136,15 +138,21 @@ export class VisitStarterComponent implements OnInit {
 
     this.visitResourceService.saveVisit(payload).subscribe(
       (savedVisit) => {
-        this.isBusy = false;
-        this.visitStarted.emit(savedVisit);
+         this.isBusy = false;
+         this.startedVisit = false;
+         this.visitStarted.emit(savedVisit);
       },
       (error) => {
-        this.isBusy = false;
-        this.error = 'Error starting visit';
-        console.error('Error starting visit', error);
+        setTimeout( () => {
+          this.isBusy = false;
+          this.error = 'Error starting visit';
+          this.startedVisit = false;
+          console.error('Error starting visit', error);
+
+        }, 3000);
       }
     );
+
   }
 
   public onLocationChanged(locations) {
