@@ -134,6 +134,7 @@ import { TodayVisitsComponent } from './visit/today-visits/today-visits.componen
 import { FormVisitTypeSearchComponent } from
   './form-visit-type-search/form-visit-type-search.component';
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
+import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
 
 @NgModule({
   imports: [
@@ -221,6 +222,7 @@ import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.compo
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
+    UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
@@ -270,6 +272,7 @@ import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.compo
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
+    UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,

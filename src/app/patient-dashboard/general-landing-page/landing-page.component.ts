@@ -36,6 +36,9 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public incompatibleMessage: any = [];
   public incompatibleCount: number = 0;
   public enrolledProgrames: any = [];
+  public incompatibleProgrames: any = [];
+  public reasonForUnenroll: string = `
+  The selected program is incompatible with the following programs, please unenroll to continue.`;
   public selectedLocation: string;
   public allProgramVisitConfigs: any = {};
 //  public programList: any[] = require('../programs/programs.json');
@@ -156,10 +159,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public onProgramChange($event) {
-      let programUuid = $event.target.value;
+      let programUuid = $event ? $event.target.value : null;
+      if (programUuid) {
+       this.programIncompatible = false;
+       this.incompatibleProgrames = [];
 
       // check the compatibility of the program
-      this.checkIncompatibility(programUuid);
+       this.checkIncompatibility(programUuid);
+      }
 
   }
   public fetchAllProgramVisitConfigs() {
@@ -178,6 +185,18 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  public isUnenrollmentCancel(event) {
+    if (event) {
+      this.program = '';
+      this.programIncompatible = false;
+    }
+  }
+  public isUnenrollmentComplete(event) {
+    if (event) {
+      this.programIncompatible = false;
+      this.patientService.fetchPatientByUuid(this.patient.uuid);
+    }
+  }
   private loadProgramBatch(): void {
     this._resetVariables();
     this.programsBusy = true;
@@ -328,7 +347,13 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
       _.forEach(patientPrograms, (program: any) => {
              if (program.dateEnrolled !== null) {
-               enrolledList.push(program.program.uuid);
+               enrolledList.push(
+                 {uuid: program.program.uuid,
+                 enrolledDate: program.dateEnrolled,
+                 enrollmentUuid: program.enrolledProgram.uuid,
+                 name: program.program.display
+                 }
+                 );
              }
       });
 
@@ -359,13 +384,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
       _.forEach(enrolledList, (enrolled) => {
         for (let incompatible of incompatibleList){
-          if (incompatible === enrolled) {
+          if (incompatible === enrolled.uuid) {
                 this.programIncompatible = true;
                 // get the program name for the message
                 let progName = programList[incompatible].name;
-                let message = 'Selected program is incompatible with ' + progName
-                + '.Please complete the current program to proceed.';
-                this.incompatibleMessage.push(message);
+                this.incompatibleProgrames.push(enrolled);
                 this.incompatibleCount++;
               }
         }
