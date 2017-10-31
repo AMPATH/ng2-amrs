@@ -11,7 +11,7 @@ import { PatientService } from '../services/patient.service';
 import { ProgramService } from '../programs/program.service';
 import { GeneralLandingPageComponent } from './landing-page.component';
 import { Patient } from '../../models/patient.model';
-import { PanelModule } from 'primeng/primeng';
+import { PanelModule, DialogModule } from 'primeng/primeng';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
 import { HivProgramSnapshotComponent
@@ -21,6 +21,8 @@ import { CohortMemberModule }
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { PatientProgramService } from '../programs/patient-programs.service';
 import { BusyComponent } from '../../shared/busy-loader/busy.component';
+import { UnenrollPatientProgramsComponent
+   } from '../../patient-dashboard/common/programs/unenroll-patient-programs.component';
 
 class FakePatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> =
@@ -84,9 +86,10 @@ describe('Component: LandingPageComponent', () => {
         }
 
       ],
-      declarations: [GeneralLandingPageComponent, HivProgramSnapshotComponent, BusyComponent],
+      declarations: [GeneralLandingPageComponent, HivProgramSnapshotComponent, BusyComponent,
+      UnenrollPatientProgramsComponent],
       imports: [PanelModule, CommonModule, FormsModule, CohortMemberModule,
-        NgamrsSharedModule, OpenmrsApi, RouterModule]
+        NgamrsSharedModule, OpenmrsApi, RouterModule, DialogModule]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(GeneralLandingPageComponent);
       component = fixture.componentInstance;
