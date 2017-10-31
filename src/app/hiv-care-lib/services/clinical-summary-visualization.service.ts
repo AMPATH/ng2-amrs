@@ -38,6 +38,9 @@ export class ClinicalSummaryVisualizationService {
         },
         field: translateColumns[i]
       });
+      if (translateColumns[i] === 'reporting_month') {
+           columns[i].sort = 'desc';
+      }
     }
     return columns;
   }
