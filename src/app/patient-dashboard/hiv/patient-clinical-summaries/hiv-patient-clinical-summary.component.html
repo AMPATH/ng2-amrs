@@ -3,28 +3,25 @@
     <div class="panel panel-info">
 
       <div class="panel-heading" style="min-height: 50px!important">
-
-        <div class="text-primary text-bold">
-					<span class="fa fa-file-pdf-o">
-
-					</span>
-          HIV Patient Clinical Summary
-          <div class="btn-group col-xs-12 col-md-3 pull-right text-right" style="padding-left:0px; padding-right:0px;">
-            <p class="hidden-md hidden-lg" style="margin-top:12px;"></p>
-            <button class="btn  btn-primary" style="float: none;"
-                    (click)="printSummary()" [disabled]="!pdfMakeProxy">
-              <i class="fa fa-print">
-              </i> Print Summary
-            </button>
-            <button class="btn btn-primary" style="float: none;"
-                    (click)="downloadPdf()" [disabled]="!pdfMakeProxy">
-              <i class="fa fa-download">
-              </i> Download Pdf
-            </button>
-            <div class="hidden-md hidden-lg clear" style="margin-bottom:20px;"></div>
+       <div class="row">
+          <div class="col-md-4 col-lg-4 col-xs-12 col-sm-4 clinical-summary-col">
+            <div class="text-primary text-bold">
+					      <span class="fa fa-file-pdf-o"></span>
+                HIV Patient Clinical Summary
+            </div>
           </div>
-          <div class="hidden-md hidden-lg clear"></div>
-        </div>
+          <div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+                <div class="btn-group pull-right text-right" style="padding-left:0px; padding-right:0px;">
+                    <button class="btn  btn-primary" style="float: none;" (click)="printSummary()" [disabled]="!pdfMakeProxy">
+                      <i class="fa fa-print"></i> Print Summary
+                    </button>
+                    <button class="btn btn-primary" style="float: none;" (click)="downloadPdf()" [disabled]="!pdfMakeProxy">
+                      <i class="fa fa-download"></i> Download Pdf
+                    </button>
+                </div>
+          </div>
+       </div>
+       
 
 
       </div>

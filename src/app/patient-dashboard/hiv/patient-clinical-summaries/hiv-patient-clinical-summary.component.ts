@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hiv-patient-clinical-summaries',
+  styleUrls: ['./hiv-patient-clinical-summary.component.css'],
   templateUrl: './hiv-patient-clinical-summary.component.html'
 })
 export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
