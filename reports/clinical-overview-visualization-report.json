@@ -180,7 +180,7 @@
             {
                 "label": "reporting_month",
                 "type": "single",
-                "sql": "date_format(t2.endDate, '%m/%Y')"
+                "sql": "date_format(t2.endDate, '%Y/%m')"
             }
         ]
     },
