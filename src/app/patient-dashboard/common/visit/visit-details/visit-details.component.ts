@@ -216,7 +216,7 @@ export class VisitDetailsComponent implements OnInit {
         this.confirmingCancelVisit = true;
         break;
       case 'end-visit':
-        this.confirmingCancelVisit = false;
+        this.confirmingCancelVisit = true;
         break;
 
       default:
