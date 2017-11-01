@@ -6,45 +6,45 @@
     <ng-container *ngFor="let row of availablePrograms; ">
       <div class="enrolled" *ngIf="(row.isEnrolled)">
         <div class="program-header-wrapper">
-          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on {{row.dateEnrolledView}})
+          <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on
+            {{row.dateEnrolledView}})
           </h2>
           <div class="clear"></div>
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">
-          <a *ngIf="!row.isEdit" class="dropdown-toggle pull-right" type="button" (click)="toggleDropDown(row)">
+          <a *ngIf="!row.isEdit" class="edit-toggle pull-right" type="button"
+             (click)="toggleDropDown(row)">
             <i class="fa fa-pencil"></i>Edit/Complete
           </a>
-          <a *ngIf="row.isEdit" class="dropdown-toggle pull-right" type="button" (click)="toggleDropDown(row)">
+          <a *ngIf="row.isEdit" class="edit-toggle pull-right" type="button"
+             (click)="toggleDropDown(row)">
             <i class="fa fa-times"></i>Close
           </a>
-          <div class="dropdown-menu dropdown-menu-right">
+          <div class="edit-dropdown dropdown-menu-right">
             <em class="text-danger" *ngIf="hasValidationErrors">{{row.validationError}}</em>
-            <div class="form-inline form-group">
-              <div class="input-group">
+            <div class="row">
+              <div class="col-md-4">
                 <label>Date Enrolled:</label>
-                <div class="ui-grid-col-10">
-                  <input [(ngModel)]="row.dateEnrolled" type="date" [value]="row.dateEnrolled" />
-                </div>
+                <div>
+                  <input class="form-control" [(ngModel)]="row.dateEnrolled" type="date" [value]="row.dateEnrolled"/></div>
               </div>
-              <div class="input-group">
+              <div class="col-md-4">
                 <label>Date Completed:</label>
-                <div class="ui-grid-col-10">
-                  <input [(ngModel)]="row.dateCompleted" type="date" [value]="row.dateCompleted" />
-                </div>
+                <div>
+                  <input class="form-control" [(ngModel)]="row.dateCompleted" type="date" [value]="row.dateCompleted"/></div>
               </div>
-              <div class="input-group">
-                <label>Location Enrolled:</label>
-                <div class="ui-grid-col-10" >
-                  <select class="form-control" [ngModel]="row.enrolledProgram.openmrsModel.location?.uuid" (ngModelChange)="getSelectedLocationToEdit($event)">
-                    <option *ngFor="let c of locations" [ngValue]="c.value">{{c.label}}</option>
-                  </select>
-                </div>
+              <div class="col-md-4">
+                <location-filter  class="edit"
+                                 [locationUuids]="row.enrolledProgram.openmrsModel.location?.uuid"
+                                 (onLocationChange)="getSelectedLocationToEdit($event); false"
+                                 [disable-county]="true"></location-filter>
               </div>
-              <div class="input-group">
+              <div class="col-md-4">
                 <label class="buttons"></label>
                 <div class="ui-grid-col-12 buttons">
-                  <a class="btn btn-primary" *ngIf="row.isEnrolled" [ngClass]="{'btn-primary': !row.isFocused, 'btn-info': row.isFocused}"
-                    (click)="editPatientEnrollment(row)">
+                  <a class="btn btn-primary" *ngIf="row.isEnrolled"
+                     [ngClass]="{'btn-primary': !row.isFocused, 'btn-info': row.isFocused}"
+                     (click)="editPatientEnrollment(row)">
                     <span *ngIf="!row.isFocused">Edit/Complete Program</span>
                     <span *ngIf="row.isFocused && row.dateCompleted">Completing Program.....</span>
                     <span *ngIf="row.isFocused && !row.dateCompleted">Editing Program.....</span>
@@ -54,11 +54,12 @@
             </div>
           </div>
         </div>
-        <div class="program-body" [ngStyle]="{ 'background-color': addBackground }" >
+        <div class="program-body" [ngStyle]="{ 'background-color': addBackground }">
           <div *ngIf="row.isEnrolled" class="program-info">
             <div class="program-snapshot">
               <div [ngSwitch]="row.baseRoute">
-                <hiv-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'hiv'" [patient]="patient">
+                <hiv-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'hiv'"
+                              [patient]="patient">
                 </hiv-snapshot>
               </div>
             </div>
@@ -68,7 +69,8 @@
         <div class="program-footer">
           <div class="input-group">
             <div class="ui-grid-col-12 buttons">
-              <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}" *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
+              <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}"
+                 *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
               <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}" *ngIf="row.isEnrolled">{{row.buttons.visit.display}}</a>
             </div>
           </div>
@@ -79,12 +81,12 @@
   <div class="program non-enrolled">
     <h4 class="component-title">Enroll Patient to Program {{programIncopatible}}</h4>
     <div *ngIf="programIncompatible">
-        <unenroll-patient-programs [enrollments]="incompatibleProgrames" 
-        [reason]="reasonForUnenroll"
-        (unenrollmentCompleted)="isUnenrollmentComplete($event)"
-        (unEnrollmentCancelled)="isUnenrollmentCancel($event)"
-        ></unenroll-patient-programs>
-    </div>      
+      <unenroll-patient-programs [enrollments]="incompatibleProgrames"
+                                 [reason]="reasonForUnenroll"
+                                 (unenrollmentCompleted)="isUnenrollmentComplete($event)"
+                                 (unEnrollmentCancelled)="isUnenrollmentCancel($event)"
+      ></unenroll-patient-programs>
+    </div>
     <div class="program-body">
       <em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em>
       <div class="container-fluid">
@@ -92,35 +94,35 @@
           <div class="col-md-4 cell">
             <label for="programs">Select Program:</label>
             <div>
-              <select class="form-control" id="programs" [(ngModel)]="program" (change)="onProgramChange($event)" type="date">
-               <option  value=""></option>
-              <ng-container *ngFor="let row of availablePrograms">
-                <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
-                  {{row.program.display}}
-                </option>
-              </ng-container>
-            </select>
+              <select class="form-control" id="programs" [(ngModel)]="program"
+                      (change)="onProgramChange($event)" type="date">
+                <option value=""></option>
+                <ng-container *ngFor="let row of availablePrograms">
+                  <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
+                    {{row.program.display}}
+                  </option>
+                </ng-container>
+              </select>
             </div>
           </div>
           <div class="col-md-4 cell">
             <label for="enrolledDate">Date Enrolled:</label>
             <div>
-              <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date" />
+              <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date"/>
             </div>
           </div>
           <div class="col-md-4 cell">
-            <label>Location Enrolled:</label>
-            <select class="form-control" [ngModel]="selectedLocation" (ngModelChange)="getSelectedLocation($event)">
-              <option *ngFor="let c of locations" [ngValue]="c.value">{{c.label}}</option>
-            </select>
+            <location-filter (onLocationChange)="getSelectedLocation($event)"
+                             [disable-county]="true"></location-filter>
           </div>
           <div class="col-md-4 cell enroll-button">
             <label class="buttons"></label>
             <div class="buttons" style="width:100%">
-              <a class="btn" [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}" (click)="enrollPatientToProgram()">
-              <span *ngIf="!isFocused">Enroll</span>
-              <span *ngIf="isFocused">Enrolling.....</span>
-            </a>
+              <a class="btn" [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}"
+                 (click)="enrollPatientToProgram()">
+                <span *ngIf="!isFocused">Enroll</span>
+                <span *ngIf="isFocused">Enrolling.....</span>
+              </a>
             </div>
           </div>
         </div>

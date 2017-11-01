@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { Subscription , Observable , Subject } from 'rxjs';
@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import { ProgramService } from '../programs/program.service';
 import { PatientService } from '../services/patient.service';
 import { Patient } from '../../models/patient.model';
-import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 
 @Component({
@@ -28,7 +27,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public isFocused: boolean = false;
   public locations: any = [];
   public dateEnrolled: string;
-  public isEditLocation: string;
+  public isEditLocation: any;
   public addBackground: any;
   public isEdit: boolean = false;
   public dateCompleted: string;
@@ -39,7 +38,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public incompatibleProgrames: any = [];
   public reasonForUnenroll: string = `
   The selected program is incompatible with the following programs, please unenroll to continue.`;
-  public selectedLocation: string;
+  public selectedLocation: any;
   public allProgramVisitConfigs: any = {};
 //  public programList: any[] = require('../programs/programs.json');
   private _datePipe: DatePipe;
@@ -47,13 +46,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   constructor(private patientService: PatientService,
               private programService: ProgramService,
-              private locationResourceService: LocationResourceService,
               private patientProgramResourceService: PatientProgramResourceService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public ngOnInit() {
-    this.fetchLocations();
     this.loadProgramBatch();
     this.fetchAllProgramVisitConfigs();
   }
@@ -84,21 +81,6 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     }).first();
   }
 
-  public getAvailablePrograms() {
-    return Observable.create((observer: Subject<any>) => {
-      this.programService.getAvailablePrograms().subscribe(
-        (programs) => {
-          if (programs) {
-            observer.next(programs);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
-    }).first();
-  }
-
   public toggleDropDown(row: any) {
     row.isEdit = _.isNil(row.isEdit) ? true : !(row.isEdit) as boolean;
   }
@@ -117,7 +99,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
       payload = this.programService.createEnrollmentPayload(
         row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation || row.enrolledProgram.openmrsModel.location.uuid,
+        this.isEditLocation.locations || row.enrolledProgram.openmrsModel.location.uuid,
         row.enrolledProgram.uuid);
       if (payload) {
         setTimeout(() => {
@@ -140,7 +122,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
        if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
        payload = this.programService.createEnrollmentPayload(
         this.program, this.patient, this.dateEnrolled,
-        this.dateCompleted, this.selectedLocation, '');
+        this.dateCompleted, this.selectedLocation.locations, '');
        if (payload) {
            this._updatePatientProgramEnrollment(payload);
       }
@@ -226,7 +208,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       currentLocation = row.enrolledProgram.openmrsModel.location.uuid;
     }
     if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation || this.selectedLocation
+        this.isEditLocation.locations || this.selectedLocation.locations
         || currentLocation
       )) {
       row.validationError = this.currentError;
@@ -318,20 +300,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.dateEnrolled = undefined;
     this.dateCompleted = undefined;
     this.selectedLocation = undefined;
-  }
-
-  private fetchLocations(): void {
-    this.locationResourceService.getLocations().subscribe(
-      (locations: any[]) => {
-        this.locations = [];
-        for (const item of locations) {
-          this.locations.push({label: item.name, value: item.uuid});
-        }
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+    this.isEditLocation = undefined;
   }
 
   private checkIncompatibility(programUUid) {
