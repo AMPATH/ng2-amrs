@@ -1,5 +1,5 @@
 
-<p-dialog header="Edit contacts" [(visible)]="display">
+<p-dialog header="Edit contacts" [(visible)]="display" styleClass="edit-contacts-dialog">
   <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
     <strong>Done!</strong> {{successAlert}}
   </div>
@@ -88,7 +88,7 @@
 </div>
   <button type="button" (click)="saveAttribute()" class="btn btn-primary" data-color="blue"
           [disabled]="">Save</button>
-  <button class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+  <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
     <span>Cancel</span></button>
 <!--  </form>-->
 </p-dialog>

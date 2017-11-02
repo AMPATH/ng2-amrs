@@ -33,6 +33,8 @@ export class AddPatientRelationshipComponent implements OnInit {
             display: ''
         }
     };
+    public showScrollMessage: false;
+
 
     constructor(private patientRelationshipService: PatientRelationshipService,
                 private patientRelationshipTypeService: PatientRelationshipTypeService,
@@ -158,6 +160,7 @@ export class AddPatientRelationshipComponent implements OnInit {
         if (patientToBindRelationship) {
             this.patientToBindRelationship = patientToBindRelationship;
             this.hideResult = true;
+            this.showScrollMessage = false;
         }
     }
 }

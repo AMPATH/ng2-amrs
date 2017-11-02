@@ -1,8 +1,41 @@
-.ui-dialog {
-  top: 52px !important;
-}
 @media screen and (max-width: 640px) {
     #search-textbox::-webkit-input-placeholder{
       font-size:12px;
     } 
+}
+@media screen and (max-width: 600px) {
+
+  .add-relationship-dialog{
+    top:5px !important;
+   }
+  .scroll-message{
+     display: block;
+   }
+   
+}
+
+@media screen and (min-width: 601px) {
+
+  .add-relationship-dialog{
+    top:130px !important;
+   }
+   .scroll-message{
+     display: none;
+   }
+
+}
+
+#add-relationship-dialog-content{
+         max-height: 500px;
+         overflow-y: scroll;
+         padding-bottom: 15px;
+}
+.edit-demographics-dialog{
+    top:185px !important;
+}
+.edit-contacts-dialog,.edit-address-dialog{
+   top:185px !important;
+}
+.edit-identifier-dialog{
+   top:185px !important;
 }

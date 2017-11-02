@@ -1,4 +1,4 @@
-<p-dialog header="Edit Address" [(visible)]="display">
+<p-dialog header="Edit Address" [(visible)]="display" styleClass="edit-address-dialog">
   <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
     <strong>Done!</strong> {{successAlert}}
   </div>
@@ -31,7 +31,7 @@
       </div>
       <br>
       <button class="btn btn-primary" type="button" (click)="updatePersonAddress()"><span>Save</span></button>
-      <button class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+      <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
         <span>Cancel</span></button>
 
     </div>

@@ -1,8 +1,8 @@
 <p-dialog header="Add Relationship" responsive="true" [(visible)]="display" modal="true"
-          appendTo="body">
-
+          appendTo="body" styleClass="add-relationship-dialog">
+    <div class="container-fluid" id="add-relationship-dialog-content">
        <app-patient-search (patientSelected)='relativeSelected($event)' [hideResults]="hideResult"></app-patient-search>
-	<div class="container-fluid">
+	   <div class="container-fluid">
 	   <div class="row">
 		   
 	<form>
@@ -32,6 +32,7 @@
 		</div>
 	</form>
 	   </div>
-	</div>
+	   </div>
+    </div>
 
 </p-dialog>

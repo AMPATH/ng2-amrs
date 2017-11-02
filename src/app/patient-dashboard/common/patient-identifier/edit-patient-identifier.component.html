@@ -1,4 +1,4 @@
-<p-dialog header="Edit patient identifiers" [(visible)]="display" closable="true" >
+<p-dialog header="Edit patient identifiers" [(visible)]="display" closable="true" styleClass="edit-identifier-dialog">
   <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
     <strong>Done!</strong> {{successAlert}}
   </div>
@@ -63,7 +63,7 @@
             class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
       <span>Save</span></button>
     <button
-            class="btn btn-primary pull-right" type="button" (click)="dismissDialog()">
+            class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
       <span>Cancel</span></button>
   </div>
 
