@@ -6,7 +6,7 @@
 <a  (click)="addRelationship.showDialog()" class="add_rel">
 	<span *ngIf="!loadingRelationships" class="fa fa-plus fa-fw"></span>Add
 </a>
-<add-relationship #addRelationship></add-relationship>
+<add-relationship #addRelationship id="add-relationship"></add-relationship>
 <div *ngIf="relationships.length > 0">
 	<table *ngIf="relationships.length > 0" class="table table-striped table-hover table-condensed">
 		<thead>

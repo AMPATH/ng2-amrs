@@ -19,3 +19,6 @@
 	border-top-right-radius:4px;
 	border-bottom-left-radius:0;
 }
+.edit-identifier-dialog{
+   top:170px !important;
+}

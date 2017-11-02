@@ -9,7 +9,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'edit-demographics',
   templateUrl: './edit-demographics.component.html',
-  styleUrls: [],
+  styleUrls: ['./edit-demographics.component.css'],
 })
 export class EditDemographicsComponent implements OnInit, OnDestroy {
 
