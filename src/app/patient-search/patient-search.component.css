@@ -27,6 +27,7 @@
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
     outline: none;
+    font-size:20px;
 }
 #search-textbox:focus{
     -moz-box-shadow: 0 0 8px #88D5E9;
@@ -56,11 +57,20 @@ button.btn-primary {
   border-color: #f1f1f1;
 }
 
-
 .glyphicon {
   margin-right:7px;
 }
-::-webkit-input-placeholder{
-  font-size:20px;
+
+@media screen and (max-width: 640px) {
+    #search-textbox::-webkit-input-placeholder{
+      font-size:14px;
+    } 
 }
+
+@media screen and (min-width: 641px) {
+    #search-textbox::-webkit-input-placeholder{
+      font-size:20px;
+    } 
+}
+
 
