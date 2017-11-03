@@ -51,7 +51,9 @@ export class HivProgramSnapshotComponent implements OnInit {
       this.getLocation().subscribe((locations) => {
         this.loadingData = false;
         this.hasLoadedData = true;
-        this.patientCareStatus = results[0].patient_care_status;
+        if (results[0]) {
+           this.patientCareStatus = results[0].patient_care_status;
+         }
 
         this.patientData = _.first(_.filter(results, (encounter: any) => {
           return encounter.is_clinical_encounter === 1;
