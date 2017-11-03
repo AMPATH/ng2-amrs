@@ -63,7 +63,6 @@ export class VisitDetailsComponent implements OnInit {
       this.visit.encounters.length > 0);
   }
 
-
   private _programVisitTypesConfig: any;
   public get programVisitTypesConfig(): any {
     return this._programVisitTypesConfig;

@@ -7,7 +7,7 @@
         <span *ngIf="!loading" class="glyphicon glyphicon-map-marker"></span>
       </div>
       <ng-select [multiple]="multiple" id="location-filter" (ngModelChange)="onLocationSelected($event)"
-                 [placeholder]="'Select a location or type to search...'"
+                 [placeholder]="'Select a location...'"
                  [(ngModel)]="selectedLocations" [options]="locationDropdownOptions">
       </ng-select>
       <div class="input-group-addon">

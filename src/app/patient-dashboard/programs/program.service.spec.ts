@@ -30,19 +30,19 @@ describe('Service: ProgramService', () => {
         BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
-        { provide: APP_BASE_HREF, useValue: '/' },
+        {provide: APP_BASE_HREF, useValue: '/'},
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
+                       defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]
         },
         {
           provide: ProgramEnrollmentResourceService, useFactory: () => {
-            return new FakeProgramEnrollmentResourceService(null, null);
-          }, deps: []
+          return new FakeProgramEnrollmentResourceService(null, null);
+        }, deps: []
         }
       ]
     });

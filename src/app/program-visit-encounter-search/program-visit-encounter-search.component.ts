@@ -101,7 +101,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
        // check if department is stored in local storage
        let savedDepartment = this.localStorageService.getItem(this.departmentKey);
 
-
        let departmentsConf = this.programDepartments;
 
        if (savedDepartment == null) {
@@ -130,22 +129,15 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
 
               });
 
-
               this.cd.detectChanges();
 
             }, 500);
 
             this.getAllPrograms();
 
-
-
-
-
        }
 
-
      }
-
 
      // get all the departments
 
@@ -183,7 +175,6 @@ public getSavedFilters() {
           });
        }
 
-
  }
 
 // load all the saved filter items
@@ -202,7 +193,6 @@ public loadSavedFilterItems() {
             let decodedFilters = JSON.parse((decodeURI(savedFilters)));
 
             // load filters to respective visit types and encountertypes ui
-
 
             let programTypes = decodedFilters.programType;
             let visitTypes = decodedFilters.visitType;
@@ -265,8 +255,6 @@ public loadSavedFilterItems() {
 
                        }
 
-
-
                    });
 
               });
@@ -304,8 +292,6 @@ public loadSavedFilterItems() {
                       }
                     });
 
-
-
                 });
 
               });
@@ -314,9 +300,7 @@ public loadSavedFilterItems() {
 
             filterCount++;
 
-
             resolve('success');
-
 
   });
 
@@ -325,7 +309,6 @@ public loadSavedFilterItems() {
         // load all programs
 
   public getAllPrograms() {
-
 
         let programsVisitsConf = this.programVisitsEncounters;
 
@@ -339,7 +322,6 @@ public loadSavedFilterItems() {
 
           });
 
-
     }
 
     public selectDepartment(department) {
@@ -352,8 +334,6 @@ public loadSavedFilterItems() {
         _.each(departmentsSelected, (departmentSelected: any) => {
            this.getPrograms(departmentSelected);
         });
-
-
 
     }
 
@@ -385,7 +365,6 @@ public loadSavedFilterItems() {
 
           });
 
-
           }
 
         });
@@ -393,7 +372,6 @@ public loadSavedFilterItems() {
         setTimeout(() => {
           this.loadProgramFromPrograms();
         }, 500);
-
 
     }
 
@@ -413,7 +391,6 @@ public loadSavedFilterItems() {
         setTimeout(() => {
           this.loadVisitTypesFromPrograms();
         }, 500);
-
 
     }
 
@@ -476,8 +453,6 @@ public loadSavedFilterItems() {
            }
          });
        });
-
-
 
     }
 
@@ -560,7 +535,6 @@ public loadSavedFilterItems() {
             this.addEncounterTypes(visitType);
       });
 
-
     }
 
     public programDeSelect($event) {
@@ -597,8 +571,6 @@ public loadSavedFilterItems() {
 
       this.filterSet = false;
 
-
-
     }
 
     public visitTypeDeSelect($event) {
@@ -628,7 +600,6 @@ public loadSavedFilterItems() {
 
     }
 
-
     public OnItemDeSelect($event) {
 
     }
@@ -648,7 +619,6 @@ public loadSavedFilterItems() {
       this.emitParams(params);
 
       this.localStorageService.setItem('department', JSON.stringify(this.department));
-
 
       const currentParams = this.route.snapshot.queryParams;
       let navigationData = {
@@ -671,7 +641,6 @@ public loadSavedFilterItems() {
 
       this.filterSet = true;
 
-
     }
 
      public emitParams(params) {
@@ -686,7 +655,6 @@ public loadSavedFilterItems() {
 
            if (programVisitStored === null) {
 
-
            } else {
 
              this.localStorageService.remove('programVisitEncounterFilter');
@@ -696,7 +664,6 @@ public loadSavedFilterItems() {
            this.localStorageService.setItem('programVisitEncounterFilter', cookieVal);
 
            this.filterSelected.emit(params);
-
 
     }
 
@@ -742,13 +709,11 @@ public loadSavedFilterItems() {
                    }
          });
 
-
          this.removeProgramTypes(departmentPrograms);
 
          this.removeVisitTypes(departmentVisitTypes);
 
          this.removeEncounterTypes(departmentEncounterTypes);
-
 
          this.filterSet = false;
 
@@ -770,7 +735,6 @@ public loadSavedFilterItems() {
            } else {
            }
          }
-
 
          // remove from program
 
@@ -867,8 +831,6 @@ public loadSavedFilterItems() {
       this.selectedVisitType = visitTypeArray;
       this.selectedEncounterType = encounterTypeArray;
 
-
-
     }
 
     public resetFilter() {
@@ -908,7 +870,5 @@ public loadSavedFilterItems() {
        // this.emitParams(params);
 
     }
-
-
 
 }

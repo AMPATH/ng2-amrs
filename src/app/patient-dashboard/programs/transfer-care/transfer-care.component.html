@@ -1,0 +1,86 @@
+<h4 class="component-title"><span class="icon-i-family-practice"></span>Transfer Care</h4>
+<div class="component-body">
+  <div class="row">
+    <div class="col-sm-12 col-xs-12 col-md-12">
+      <label>Department:</label>
+      <select class="form-control" [ngModel]="department"
+              (ngModelChange)="getSelectedDepartment($event)">
+        <option *ngFor="let d of programDepartments" [ngValue]="d.name">{{d.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="enrollments">
+    <table class="table table-stripped">
+      <thead>
+      <tr>
+        <th>Program</th>
+        <th>Enrollment Location</th>
+        <th>Enrollment Date</th>
+        <th>
+          <input type="checkbox" *ngIf="department" style="float:right"
+                           [(ngModel)]="transferAll"
+                           (ngModelChange)="addAllToTransfer($event)"
+                           [checked]="transferAll" />
+          <span style="float:right" *ngIf="!transferAll">Transfer all</span>
+          <span style="float:right" *ngIf="transferAll">Uncheck all</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="currentDepartmentEnrollments.length === 0 && !department">
+        <td colspan="4"><p>Select a department to see enrolled programs</p></td>
+      </tr>
+      <tr *ngIf="currentDepartmentEnrollments.length === 0 && department">
+        <td colspan="4"><p>The patient is not enrolled in any program of the selected department</p>
+        </td>
+      </tr>
+      <tr *ngFor="let program of currentDepartmentEnrollments">
+        <td>{{program.program.display}}</td>
+        <td>{{program.enrolledProgram.location?.display}}</td>
+        <td>{{program.enrolledProgram.dateEnrolled}}</td>
+        <td>
+          <input type="checkbox" style="float:right" [(ngModel)]="program.transfer"
+                           (ngModelChange)="addToTransfer(program, $event)"
+                           [checked]="program?.transfer" />
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="confirm-controls" *ngIf="department && programsToTransfer.length > 0">
+    <div class="row">
+      <div class="input-group_">
+        <div class="col-md-6 col-xs-12 col-sm-6">
+          <label>Transfer Type:</label>
+          <select class="form-control" [(ngModel)]="transferType"
+                  (ngModelChange)="toggleLocationSelect($event)">
+            <option [value]="'AMPATH'">AMPATH</option>
+            <option [value]="'NON-AMPATH'">Non-AMPATH</option>
+            <option [value]="'DISCHARGE'">Discharge</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group_" *ngIf="showLocationSelect">
+        <div class="col-md-6 col-xs-12 col-sm-62">
+          <label>Trasfer To:</label>
+          <location-filter class="transfer-care" [showLabel]="false"
+                           (onLocationChange)="getSelectedLocation($event); false"
+                           [disable-county]="true"></location-filter>
+        </div>
+      </div>
+      <div class="input-group_">
+        <div class="col-md-6 col-xs-12 col-sm-6">
+          <label for="transferDate">Transfer Date:</label>
+          <input class="form-control" id="transferDate" [(ngModel)]="dateOfTransfer" type="date"/>
+        </div>
+      </div>
+    </div>
+    <div class="error text-danger">
+      <p *ngIf="hasTransferError && showLocationSelect"><small>Transfer Type, Trasfer To, Transfer Date are required.</small></p>
+      <p *ngIf="hasTransferError && !showLocationSelect"><small>Transfer Type, Transfer Date are required.</small></p>
+    </div>
+    <div class="submit">
+      <button class="btn btn-primary" type="button" (click)="confirmTransfer()">Confirm</button>
+    </div>
+  </div>
+</div>

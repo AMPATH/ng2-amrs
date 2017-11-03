@@ -18,7 +18,6 @@ export class MedicationHistoryResourceService {
       report = 'medical-history-report';
     }
 
-
     let params: URLSearchParams = new URLSearchParams();
 
     return this.http.get(api, { search: params }).map((response: Response) => {

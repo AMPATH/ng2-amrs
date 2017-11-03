@@ -141,7 +141,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                 (data) => {
 
                     if (data) {
-                      this.enrolledProgrames = data;
+                      this.enrolledProgrames = data.reverse();
                       this.programsBusy = false;
                       this.loadingPatientPrograms = false;
                     }

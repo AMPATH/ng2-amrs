@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { Subscription , Observable , Subject } from 'rxjs';
@@ -16,6 +16,8 @@ import { PatientProgramResourceService } from '../../etl-api/patient-program-res
   styleUrls: ['./landing-page.component.css']
 })
 export class GeneralLandingPageComponent implements OnInit, OnDestroy {
+  @Input()
+  public hideList: boolean = false;
   public patient: Patient = new Patient({});
   public currentError: string;
   public availablePrograms: any[] = [];
@@ -24,6 +26,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public programsBusy: boolean = false;
   public program: string = '';
   public errors: any[] = [];
+  public enrollmentButtonActive: boolean  = false;
+  public enrollmentCompleted: boolean  = false;
   public isFocused: boolean = false;
   public locations: any = [];
   public dateEnrolled: string;
@@ -33,6 +37,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public dateCompleted: string;
   public programIncompatible: boolean = false;
   public incompatibleMessage: any = [];
+  public confirmationMesssage: string;
   public incompatibleCount: number = 0;
   public enrolledProgrames: any = [];
   public incompatibleProgrames: any = [];
@@ -51,6 +56,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.updateEnrollmentButtonState();
     this.loadProgramBatch();
     this.fetchAllProgramVisitConfigs();
   }
@@ -87,6 +93,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public getSelectedLocation(loc) {
     this.selectedLocation = loc;
+    this.updateEnrollmentButtonState();
   }
 
   public editPatientEnrollment(row: any) {
@@ -120,10 +127,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     let payload = {};
     this.checkIncompatibility(this.program);
     if (this.programIncompatible === true) {
-
           this.isFocused = false;
-
-    }else {
+    } else {
        if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
        payload = this.programService.createEnrollmentPayload(
         this.program, this.patient, this.dateEnrolled,
@@ -154,6 +159,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       // check the compatibility of the program
        this.checkIncompatibility(programUuid);
       }
+      this.updateEnrollmentButtonState();
 
   }
   public fetchAllProgramVisitConfigs() {
@@ -184,6 +190,10 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       this.patientService.fetchPatientByUuid(this.patient.uuid);
     }
   }
+  private updateEnrollmentButtonState() {
+    this.enrollmentButtonActive = !_.isNil(this.selectedLocation) && !_.isNil(this.program) &&
+      !_.isNil(this.dateEnrolled);
+  }
   private loadProgramBatch(): void {
     this._resetVariables();
     this.programsBusy = true;
@@ -193,7 +203,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
           this.availablePrograms = patient.enrolledPrograms;
-          this.enrolledProgrames = patient.enrolledPrograms;
+          this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
         }
       }, (err) => {
         this.hasError = true;
@@ -241,8 +251,21 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         this.isFocused = false;
         this.isEdit = false;
         if (enrollment) {
-          this._resetVariables();
-          this.patientService.fetchPatientByUuid(this.patient.uuid);
+          this.enrollmentCompleted = true;
+          let currentProgram: any = _.first(_.filter(this.availablePrograms,
+            (_program: any) => {
+              return !_program.isEnrolled && (_program.programUuid === this.program);
+            }));
+          if (currentProgram) {
+            this.confirmationMesssage = 'The patient has been enrolled in ' +
+              currentProgram.program.display  + ' at ' + enrollment.location.display +
+              ' starting ' + moment(enrollment.dateEnrolled).format('MMM Do, YYYY');
+          }
+          setTimeout(() => {
+            this._resetVariables();
+            this.patientService.fetchPatientByUuid(this.patient.uuid);
+            this.enrollmentCompleted = false;
+          }, 2500);
         }
       }
     );
