@@ -1,0 +1,56 @@
+<h4 class="component-title"><span class="icon-i-family-practice"></span>Transfer Care Form Wizard
+</h4>
+<div class="component-body">
+  <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+  <div class="panel panel-info" style="margin:2px"
+       *ngIf="(!isBusy && totalProgramsForms > 0 && !allFormsFilled && transferType !== 'AMPATH' && !hasError) && !modalProcessComplete">
+    <div class="panel-heading">
+      <h5>
+        <strong class="text-info">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+          Please fill the following forms to complete the transfer process
+        </strong>
+      </h5>
+    </div>
+    <div class="panel-body_">
+      <ng-container *ngFor="let program of transferCarePrograms">
+        <h4>{{program.enrolledProgram.display}}</h4>
+        <form-list [showFilter]="program.hasForms" (onFormSelected)="fillForm($event)"
+                   [excludedForms]="program.excludedForms"
+                   [encounterTypeFilter]="program.encounterForms"></form-list>
+        <h5 *ngIf="!program.hasForms">
+          <strong class="text-info">
+            You have already filled transfer forms for this program or it has no forms to be filled
+          </strong>
+        </h5>
+      </ng-container>
+    </div>
+  </div>
+  <div class="panel panel-danger" style="margin:2px" *ngIf="(!isBusy && hasError) && !modalProcessComplete">
+    <div class="panel-heading">
+      <h5>
+        <strong class="text-danger">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-warning fa-stack-1x"></i>
+					</span>
+          There was an error while trying to save. Process can not proceed
+        </strong>
+      </h5>
+    </div>
+  </div>
+  <div class="panel panel-success" style="margin:2px" *ngIf="!isBusy && modalProcessComplete">
+    <div class="panel-heading">
+      <h5>
+        <strong class="text-success">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-check fa-stack-1x"></i>
+					</span>
+          {{confirmMessage}}
+        </strong>
+      </h5>
+    </div>
+  </div>
+</div>

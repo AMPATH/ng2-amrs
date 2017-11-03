@@ -4,6 +4,7 @@ import * as Moment from 'moment';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
+import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 
 @Component({
   selector: 'patient-banner',
@@ -14,14 +15,19 @@ import { Subscription } from 'rxjs';
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
   public showingAddToCohort: boolean = false;
+  public manageProgramEnrollment: boolean = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: object;
   public birthdate;
   private subscription: Subscription;
 
-  constructor(private patientService: PatientService) { }
+  constructor(private patientService: PatientService,
+              private transferCareService: ProgramsTransferCareService) { }
 
   public ngOnInit() {
+    this.transferCareService.getModalOpenState().subscribe((status) => {
+      this.manageProgramEnrollment = status;
+    });
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -44,6 +50,14 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
   }
   public addToCohort() {
     this.showingAddToCohort = true;
+  }
+
+  public showTransferCareModal() {
+    this.manageProgramEnrollment = true;
+  }
+
+  public closeDialog() {
+    this.manageProgramEnrollment = false;
   }
 
   public onAddingToCohortClosed() {
