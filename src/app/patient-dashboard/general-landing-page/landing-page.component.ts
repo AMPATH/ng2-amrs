@@ -93,13 +93,18 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     row.isFocused = true;
     this.isEdit = true;
     let payload = {};
+    let location;
+    if (typeof this.isEditLocation === 'undefined') {
+        location = row.enrolledProgram.openmrsModel.location.uuid;
+    }else {
+        location = this.isEditLocation.locations;
+    }
     if (this.isValidForm(row)) {
       if (_.isNil(row.dateCompleted)) {
         delete row.enrolledProgram.uuid;
       }
       payload = this.programService.createEnrollmentPayload(
-        row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation.locations || row.enrolledProgram.openmrsModel.location.uuid,
+        row.program.uuid, this.patient, row.dateEnrolled, row.dateCompleted, location,
         row.enrolledProgram.uuid);
       if (payload) {
         setTimeout(() => {
@@ -203,13 +208,17 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   private isValidForm(row: any) {
     let currentLocation;
+    let location;
+    if (typeof this.isEditLocation === 'undefined') {
+        location = this.selectedLocation.locations;
+    }else {
+        location = this.isEditLocation.locations;
+    }
     if (row.enrolledProgram && row.enrolledProgram.openmrsModel &&
       row.enrolledProgram.openmrsModel.location) {
       currentLocation = row.enrolledProgram.openmrsModel.location.uuid;
     }
-    if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted,
-        this.isEditLocation.locations || this.selectedLocation.locations
-        || currentLocation
+    if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted, location || currentLocation
       )) {
       row.validationError = this.currentError;
       this.isFocused = false;
