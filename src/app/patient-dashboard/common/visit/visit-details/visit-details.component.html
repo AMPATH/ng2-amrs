@@ -3,15 +3,15 @@
     <h3 *ngIf="confirmingCancelVisit">
       <span class="fa-lg">
         <i class="fa fa-exclamation-triangle"></i>
-      </span> Canceling a visit deletes all encounters associated with it.</h3>
+      </span>{{message.title}}</h3>
 
     <h3 *ngIf="confirmingCancelVisit">
       <span class="fa-lg">
-      </span>Please confirm you wish to cancel this visit:</h3>
+      </span>{{message.message}}</h3>
     <h3 *ngIf="!confirmingCancelVisit">
       <span class="fa-lg">
         <i class="fa fa-exclamation-triangle"></i>
-      </span>Please confirm you wish to end this visit:</h3>
+      </span>{{message.message}}</h3>
   </div>
 
   <br>

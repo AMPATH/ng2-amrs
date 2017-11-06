@@ -22,6 +22,10 @@ export class VisitDetailsComponent implements OnInit {
   public confirmingCancelVisit = false;
   public editingLocation = false;
   public editingVisitType = false;
+  public message: any = {
+     'title': '',
+     'message': ''
+  };
 
   @Output()
   public formSelected = new EventEmitter<any>();
@@ -213,9 +217,14 @@ export class VisitDetailsComponent implements OnInit {
   public confirmAction(action) {
     switch (action) {
       case 'cancel-visit':
+        this.message.title = 'Cancelling a visit deletes all encounters associated with it.';
+        this.message.message = 'Please confirm you wish to cancel this visit:';
         this.confirmingCancelVisit = true;
         break;
       case 'end-visit':
+        this.message.title =
+        'Ending a visit will not allow you to fill another current encounter form for this patient';
+        this.message.message = 'Are you sure you want to end this visit?';
         this.confirmingCancelVisit = true;
         break;
 
