@@ -119,7 +119,8 @@ interface WebpackContext extends WebpackRequire {
 interface ErrorStackTraceLimit {
   stackTraceLimit: number;
 }
-
+interface CanvasRenderingContext2D { drawSvg: any; }
+interface Navigator { usb: any; }
 // Extend typings
 interface NodeRequire extends WebpackRequire {}
 interface ErrorConstructor extends ErrorStackTraceLimit {}

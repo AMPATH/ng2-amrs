@@ -5,10 +5,15 @@ import * as pdf from 'pdfmake';
 import * as blobStream from 'blob-stream';
 import * as bardcode from 'bardcode';
 import { RectangleToPath } from './rectangle-to-path';
+import { DymoTurbo } from './dymo-turbo';
 
 @Injectable()
 export class LabelService {
     constructor() { }
+    public directPrint(label, copies) {
+         let t = new DymoTurbo();
+         t.printLabel(label, copies);
+    }
     public generateBarcodes(labels) {
         let doc = new PDFDocument({
             size: [162, 92]

@@ -32,9 +32,9 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   public collectionDate = new Date();
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-              private patientService: PatientService,
-              private orderResourceService: OrderResourceService,
-              private labelService: LabelService) {
+    private patientService: PatientService,
+    private orderResourceService: OrderResourceService,
+    private labelService: LabelService) {
   }
 
   public ngOnInit() {
@@ -107,6 +107,11 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   }
   public collectionDateChanged(event) {
   }
+
+  public printLabel(order) {
+    this.labelService.directPrint(this.getLabel(order), this.copies);
+  }
+
   private generateLabLabels() {
     let labels = [];
     // tslint:disable-next-line:prefer-for-of
@@ -121,16 +126,19 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     }
     this.printLabels(labels);
   }
+
+
   private printLabels(labels) {
-    this.isPrinting = true;
-    this.labelService.generateBarcodes(labels)
-      .subscribe((blobUrl) => {
-        this.isPrinting = false;
-        window.open(blobUrl);
-      });
+    // this.isPrinting = true;
+    // this.labelService.generateBarcodes(labels)
+    //   .subscribe((blobUrl) => {
+    //     this.isPrinting = false;
+    //     // window.open(blobUrl);
+    //   });
   }
+
   private selectAll() {
-     // tslint:disable-next-line:prefer-for-of
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.labOrders.length; i++) {
       this.labOrders[i].isChecked = this.allItemsSelected;
     }
