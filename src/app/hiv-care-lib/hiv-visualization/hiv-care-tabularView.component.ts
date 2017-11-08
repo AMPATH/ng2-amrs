@@ -46,9 +46,10 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
 
   public goToPatientList(indicator, col) {
     let dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      col.reporting_month.split('/')[1],
-      col.reporting_month.split('/')[0] - 1
+      col.reporting_month.split('/')[0] - 1,
+      col.reporting_month.split('/')[1]
     );
+
     this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
         dateRange.startDate.format('DD/MM/YYYY') + '|' + dateRange.endDate.format('DD/MM/YYYY')]
       , {relativeTo: this.route});
