@@ -11,6 +11,7 @@ import {
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment/moment';
+import { PatientListService } from '../../../shared/services/patient-list.service';
 
 @Component({
   selector: 'patient-status-change-list',
@@ -43,7 +44,8 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private router: Router,
               private patientStatusResourceService: PatientStatusVisualizationResourceService,
-              private clinicDashboardCacheService: ClinicDashboardCacheService) {
+              private clinicDashboardCacheService: ClinicDashboardCacheService,
+              private patientListService: PatientListService) {
   }
 
   public ngOnInit() {
@@ -61,6 +63,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
         return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
       }
     });
+    this.extraColumns = this.patientListService.getextraHivListColumns();
 
   }
 
@@ -129,6 +132,8 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
     }).subscribe((results) => {
       let data = this.data ? this.data.concat(results.result) : results.result;
       this.data = _.uniqBy(data, 'patient_uuid');
+      console.log('data', this.data);
+      this.convertVLZeroToLdl(this.data);
       this.startIndex += results.result.length;
       this.triggerBusyIndicators(1, false, false);
       if (results.result.length < 300 || results.result.length > 300) {
@@ -152,5 +157,22 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
       '/general/general/landing-page']);
+  }
+  private convertVLZeroToLdl(result) {
+    let hivResult = [];
+    for (const i of result) {
+      let data = i;
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+
+          if (data.vl_1 === 0 || data.vl_1 === '0') {
+            data['vl_1'] = 'LDL';
+          }
+
+        }
+      }
+      hivResult.push(data);
+    }
+    return hivResult;
   }
 }

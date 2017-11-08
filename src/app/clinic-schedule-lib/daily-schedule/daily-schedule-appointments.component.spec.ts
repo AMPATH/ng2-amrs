@@ -37,6 +37,7 @@ import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService }
 from './../../etl-api/department-programs-config.service';
+import { PatientListService } from '../../shared/services/patient-list.service';
 describe('Component: DailyScheduleAppointmentsComponent', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
         dailyScheduleResource: DailyScheduleResourceService,
@@ -53,6 +54,7 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
+                PatientListService,
                 CacheService,
                 DataCacheService,
                 DepartmentProgramsConfigService,

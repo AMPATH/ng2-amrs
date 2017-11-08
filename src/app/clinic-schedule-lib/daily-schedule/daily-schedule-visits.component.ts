@@ -8,6 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { LocalStorageService } from './../../utils/local-storage.service';
 import { ActivatedRoute } from '@angular/router';
+import { PatientListService } from '../../shared/services/patient-list.service';
 
 @Component({
   selector: 'daily-schedule-visits',
@@ -24,6 +25,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   public currentTabLoaded: boolean = false;
   public selectedVisitTab: any;
   public nextStartIndex: number = 0;
+  public patienListExtraColumns: any;
   public filter: any = {
      'programType': [],
      'visitType': [],
@@ -49,7 +51,8 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
               private localStorageService: LocalStorageService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private patientListService: PatientListService) {
   }
 
   public ngOnInit() {
@@ -141,6 +144,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
           if (patientList.length > 0) {
             this.dailyVisitsPatientList = this.dailyVisitsPatientList.concat(
               patientList);
+            this.formatDateField(this.dailyVisitsPatientList);
             let size: number = patientList.length;
             this.nextStartIndex = this.nextStartIndex + size;
             this.currentTabLoaded = true;
@@ -161,6 +165,32 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
           });
         }
       );
+      this.patienListExtraColumns = [
+        {
+          headerName: 'Phone Number',
+          field: 'phone_number',
+          width: 100,
+          cellStyle: {
+            'white-space': 'normal'
+          }
+        },
+        {
+          headerName: 'Last VL Result',
+          field: 'vl_1',
+          width: 100,
+          cellStyle: {
+            'white-space': 'normal'
+          }
+        },
+        {
+          headerName: 'Last VL Date',
+          field: 'vl_1_date',
+          width: 100,
+          cellStyle: {
+            'white-space': 'normal'
+          }
+        },
+      ];
     }
   }
 
@@ -181,6 +211,30 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       }
 
       this.encodedParams = cookieVal;
+  }
+  private formatDateField(result) {
+    let appointmentResult = [];
+    for (const i of result) {
+      let data = i;
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+          if (data.vl_1_date !== null) {
+            let dateResulted = Moment(data.vl_1_date).format('YYYY-MM-DD');
+            let rtc = Moment(data.rtc_date).format('YYYY-MM-DD');
+            data['vl_1_date'] = dateResulted;
+            data['rtc_date'] = rtc;
+          }
+
+          if (data.vl_1 === 0 || data.vl_1 === '0') {
+            data['vl_1'] = 'LD';
+          }
+
+        }
+      }
+      appointmentResult.push(data);
+    }
+    return appointmentResult;
+
   }
 
 }

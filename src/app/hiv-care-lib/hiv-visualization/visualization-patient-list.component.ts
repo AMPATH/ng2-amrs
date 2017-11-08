@@ -11,6 +11,7 @@ import {
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { PatientListService } from '../../shared/services/patient-list.service';
 
 @Component({
   selector: 'visualization-patient-list',
@@ -24,6 +25,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public endDate: any;
   public translatedIndicator: string;
   public overrideColumns: Array<any> = [];
+  public patientListExtraColumns: any;
   private startIndex: number = 0;
   private locationUuids: any;
   private reportName: string;
@@ -35,7 +37,8 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
               private router: Router,
               private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
               private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
-              private dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+              private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+              private patientListService: PatientListService) {
     /**
      * Please note that this is a workaround for the dashboardService delay
      * to give you the location UUID.
@@ -71,6 +74,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
       }
 
     });
+    this.patientListExtraColumns = this.patientListService.getextraHivListColumns();
   }
 
   public ngOnDestroy(): void {
@@ -104,6 +108,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
       startDate: this.startDate.format()
     }).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
+      this.convertVLZeroToLdl(this.patientData);
       this.isLoading = false;
       this.startIndex += report.length;
       if (report.length < 300) {
@@ -139,6 +144,23 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
       }
     }
     return selectedLocations;
+  }
+  private convertVLZeroToLdl(result) {
+    let hivResult = [];
+    for (const i of result) {
+      let data = i;
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+
+          if (data.vl_1 === 0 || data.vl_1 === '0') {
+            data['vl_1'] = 'LDL';
+          }
+
+        }
+      }
+      hivResult.push(data);
+    }
+    return hivResult;
   }
 
 }

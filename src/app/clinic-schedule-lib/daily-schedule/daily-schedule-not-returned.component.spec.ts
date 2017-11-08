@@ -35,6 +35,7 @@ import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService }
 from './../../etl-api/department-programs-config.service';
+import { PatientListService } from '../../shared/services/patient-list.service';
 class MockActivatedRoute {
  public params = Observable.of([{ 'id': 1 }]);
  public snapshot = {
@@ -55,6 +56,7 @@ describe('Component: DailyScheduleNotReturned', () => {
         LocalStorageService,
         DailyScheduleResourceService,
         ClinicDashboardCacheService,
+        PatientListService,
         MockBackend,
         BaseRequestOptions,
         AppSettingsService,

@@ -15,6 +15,7 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date
 import {
   HivMonthlySummaryIndicatorsResourceService
 } from '../../etl-api/hiv-monthly-summary-indicators-resource.service';
+import { PatientListService } from '../../shared/services/patient-list.service';
 class MockRouter {
     navigate = jasmine.createSpy('navigate');
 }
@@ -28,6 +29,30 @@ class FakeHivSummaryIndicatorsResourceService {
         return Observable.of({ status: 'okay' });
     }
 
+}
+class MockPatientListService {
+  getextraHivListColumns() {
+    return Observable.of(
+      [
+        {
+          headerName: 'Phone Number',
+          field: 'phone_number',
+          width: 100,
+          cellStyle: {
+            'white-space': 'normal'
+          }
+        },
+        {
+          headerName: 'Last VL Result',
+          field: 'vl_1',
+          width: 100,
+          cellStyle: {
+            'white-space': 'normal'
+          }
+        },
+      ]
+    );
+  }
 }
 
 describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
@@ -56,7 +81,9 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
                     {
                         provide: ActivatedRoute, useClass: MockActivatedRoute
                     },
-                    { provide: Location, useClass: SpyLocation }
+                    { provide: Location, useClass: SpyLocation },
+                    { provide: PatientListService, useClass: MockPatientListService },
+
                 ]
             }
         }).compileComponents().then(() => {

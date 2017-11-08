@@ -134,11 +134,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     });
   }
   public startDateChanged(startDate) {
-    this.setClinicOrderParam(this.location, '',startDate, this.endDate);
+    this.setClinicOrderParam(this.location, '', startDate, this.endDate);
   }
 
   public endDateChanged(endDate) {
-    this.setClinicOrderParam(this.location, '',this.startDate, endDate);
+    this.setClinicOrderParam(this.location, '', this.startDate, endDate);
   }
 
   public onRowClicked(event) {
@@ -186,7 +186,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   }
 
-  private setClinicOrderParam(selectedLocation, selectedDate,startDate, endDate) {
+  private setClinicOrderParam(selectedLocation, selectedDate, startDate, endDate) {
     this.clinicDashboardCacheService.add('clinicordersparam', {
       selectedLocation: selectedLocation,
       selectedDate: selectedDate,

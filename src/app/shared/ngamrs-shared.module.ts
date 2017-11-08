@@ -70,6 +70,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
                            router: Router, sessionStorageService: SessionStorageService) {
   return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
   }
+import { PatientListService } from './services/patient-list.service';
 
 @NgModule({
   imports: [
@@ -145,7 +146,7 @@ export class NgamrsSharedModule {
     return {
       ngModule: NgamrsSharedModule,
       providers: [AuthenticationService, SessionService,
-        SessionStorageService, UserDefaultPropertiesService]
+        SessionStorageService, UserDefaultPropertiesService, PatientListService]
     };
   }
 }

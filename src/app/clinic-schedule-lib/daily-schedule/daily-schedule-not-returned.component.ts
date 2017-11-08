@@ -7,6 +7,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { LocalStorageService } from './../../utils/local-storage.service';
 import { ActivatedRoute } from '@angular/router';
+import { PatientListService } from '../../shared/services/patient-list.service';
 @Component({
   selector: 'daily-schedule-not-returned',
   templateUrl: './daily-schedule-not-returned.component.html',
@@ -28,12 +29,8 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
      'visitType': [],
      'encounterType': []
   };
+  public patienListExtraColumns: any;
   public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
-  public extraColumns: any = {
-    headerName: 'Phone Number',
-    width: 80,
-    field: 'phone_number'
-  };
   public fetchCount: number = 0;
   private currentClinicSubscription: Subscription;
   private selectedDateSubscription: Subscription;
@@ -51,7 +48,8 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
               private localStorageService: LocalStorageService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private patientListService: PatientListService) {
   }
 
   public ngOnInit() {
@@ -142,6 +140,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
           if (patientList.length > 0) {
             this.notReturnedPatientList = this.notReturnedPatientList.concat(
               patientList);
+            this.formatDateField(this.notReturnedPatientList);
             let size: number = patientList.length;
             this.nextStartIndex = this.nextStartIndex + size;
             this.currentTabLoaded = true;
@@ -162,6 +161,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
           });
         }
       );
+      this.patienListExtraColumns = this.patientListService.getextraHivListColumns();
     }
   }
 
@@ -183,6 +183,26 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       }
 
       this.encodedParams = cookieVal;
+
+  }
+  private formatDateField(result) {
+    let appointmentResult = [];
+    for (const i of result) {
+      let data = i;
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+          if (data.vl_1_date !== null) {
+            let dateResulted = Moment(data.vl_1_date).format('YYYY-MM-DD');
+            let rtc = Moment(data.rtc_date).format('YYYY-MM-DD');
+            data['vl_1_date'] = dateResulted;
+            data['rtc_date'] = rtc;
+          }
+
+        }
+      }
+      appointmentResult.push(data);
+    }
+    return appointmentResult;
 
   }
 

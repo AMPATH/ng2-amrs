@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { PatientListService } from '../../shared/services/patient-list.service';
 
 @Component({
   selector: 'hiv-summary-patient-list',
@@ -30,9 +31,11 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
   public dataLoaded: boolean = false;
   public overrideColumns: Array<any> = [];
   public routeParamsSubscription: Subscription;
+  public patienListExtraColumns: any;
   constructor(public route: ActivatedRoute,
               public router: Router,
               public resourceService: HivSummaryIndicatorsResourceService,
+              public patientListService: PatientListService,
               private _location: Location) {
 
   }
@@ -62,6 +65,7 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
     });
 
     this.generatePatientListReport();
+    this.patienListExtraColumns = this.patientListService.getextraHivListColumns();
   }
 
   public getDateRange(period) {
@@ -97,6 +101,7 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
       startIndex: this.startIndex
     }).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
+      this.convertVLZeroToLdl(this.patientData);
       this.isLoading = false;
       this.startIndex += report.length;
       if (report.length < 300) {
@@ -119,6 +124,24 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
 
   public goBack() {
     this._location.back();
+  }
+
+  private convertVLZeroToLdl(result) {
+    let hivResult = [];
+    for (const i of result) {
+      let data = i;
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+
+          if (data.vl_1 === 0 || data.vl_1 === '0') {
+            data['vl_1'] = 'LDL';
+          }
+
+        }
+      }
+      hivResult.push(data);
+    }
+    return hivResult;
   }
 
 }

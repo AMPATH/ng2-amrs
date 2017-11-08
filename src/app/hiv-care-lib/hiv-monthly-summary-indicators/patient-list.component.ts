@@ -10,6 +10,7 @@ import {
 import {
   HivMonthlySummaryIndicatorsResourceService
 } from '../../etl-api/hiv-monthly-summary-indicators-resource.service';
+import { PatientListService } from '../../shared/services/patient-list.service';
 
 @Component({
   selector: 'hiv-summary-monthly-patient-list',
@@ -29,10 +30,12 @@ export class HivMonthlySummaryIndicatorsPatientListComponent implements OnInit {
   public isLoading: boolean = false;
   public dataLoaded: boolean = false;
   public overrideColumns: Array<any> = [];
+  public patienListExtraColumns: any;
   public routeParamsSubscription: Subscription;
   constructor(public route: ActivatedRoute,
               public router: Router,
               public resourceService: HivMonthlySummaryIndicatorsResourceService,
+              public patientListService: PatientListService,
               private _location: Location) {
 
   }
@@ -62,6 +65,7 @@ export class HivMonthlySummaryIndicatorsPatientListComponent implements OnInit {
     });
 
     this.generatePatientListReport();
+    this.patienListExtraColumns = this.patientListService.getextraHivListColumns();
   }
 
   public getDateRange(period) {
@@ -97,6 +101,7 @@ export class HivMonthlySummaryIndicatorsPatientListComponent implements OnInit {
       startIndex: this.startIndex
     }).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
+      this.convertVLZeroToLdl(this.patientData);
       this.isLoading = false;
       this.startIndex += report.length;
       if (report.length < 300) {
@@ -118,6 +123,24 @@ export class HivMonthlySummaryIndicatorsPatientListComponent implements OnInit {
 
   public goBack() {
     this._location.back();
+  }
+
+  private convertVLZeroToLdl(result) {
+    let hivResult = [];
+    for (const i of result) {
+      let data = i;
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+
+          if (data.vl_1 === 0 || data.vl_1 === '0') {
+            data['vl_1'] = 'LDL';
+          }
+
+        }
+      }
+      hivResult.push(data);
+    }
+    return hivResult;
   }
 
 }
