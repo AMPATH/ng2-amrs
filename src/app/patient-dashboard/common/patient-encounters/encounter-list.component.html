@@ -46,7 +46,7 @@
         <tr style="cursor: pointer;" *ngFor="let encounter of encounters  |  encounterTypeFilter:encounterFilterTypeArray | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
           <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
           <td>{{encounter.encounterType.display}}</td>
-          <td>{{encounter.form.name}}</td>
+          <td><span *ngIf="encounter.form">{{encounter.form.name}}</span></td>
           <td>{{encounter.location.display}}</td>
           <td>{{encounter.provider.display}}</td>
           <td>
