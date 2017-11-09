@@ -1,6 +1,11 @@
 landing-page {
   display: block;
 }
+@media screen and (min-width:600px) {
+    .program-header {
+        width:70%;
+    }
+}
 
 .program-header-wrapper {
   background-color: #203864;
