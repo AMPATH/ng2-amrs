@@ -70,11 +70,15 @@
         "parameter": ""
       },
       {
+         "expression": "coalesce(t1.transfer_out) is null",
+         "processForce": true
+      },
+      {
         "expression": "t1.encounter_type in ?",
         "parameter": "encounterIds"
       },
       {
-        "expression": "encounter_type != 99999",
+        "expression": "t1.encounter_type != 99999",
         "processForce": true,
         "parameter": ""
       }
