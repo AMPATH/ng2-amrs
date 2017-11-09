@@ -344,12 +344,16 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
            if (index === programUUid) {
 
                // get incompatibilies
-              let incompatibleWith = list.incompatibleWith;
-              if (incompatibleWith.length > 0) {
-                _.forEach(incompatibleWith, (incompatibleProgram) => {
-                     incompatibleList.push(incompatibleProgram);
-                });
-              }
+           if (list.incompatibleWith) {
+
+                let incompatibleWith = list.incompatibleWith;
+                if (incompatibleWith.length > 0) {
+                  _.forEach(incompatibleWith, (incompatibleProgram) => {
+                      incompatibleList.push(incompatibleProgram);
+                  });
+                }
+
+             }
 
            }
       });

@@ -1,70 +1,80 @@
 <p-dialog header="Edit patient identifiers" [(visible)]="display" closable="true" styleClass="edit-identifier-dialog">
-  <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-    <strong>Done!</strong> {{successAlert}}
-  </div>
-  <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-    <strong>{{errorTitle}}</strong> {{errorAlert}}
-  </div>
-    <div>
-      <div class="input-group">
-        <label >Patient Identifier Type:</label>
-        <select class="form-control"  [ngModel]="identifierType" (ngModelChange)="setIdentifierType($event)" >
-          <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{c.label}}</option>
-        </select>
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+            <strong>Done!</strong> {{successAlert}}
+          </div>
+          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
+            <strong>{{errorTitle}}</strong> {{errorAlert}}
+          </div>
+        </div>
       </div>
-      <div ng-messages="personForm.identifierType.$error">
-        <div class="help-block" ng-message="required">Identifier Type is required.</div>
-      </div>
-    </div>
+    <div class="row">
 
-    <br>
-    <div>
-      <div class="input-group">
-        <label >Patient Identifier</label>
-        <input type="text" id="patientIdentifier" class="form-control"
-               [(ngModel)]="patientIdentifier" name=""
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label class="control-label">Patient Identifier Type:</label>
+          <select class="form-control"  [ngModel]="identifierType" (ngModelChange)="setIdentifierType($event)" >
+            <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{c.label}}</option>
+          </select>
+          <div ng-messages="personForm.identifierType.$error">
+              <div class="help-block" ng-message="required">Identifier Type is required.</div>
+          </div>
+        </div>
+      </div>
+
+       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+           <label class="control-label">Patient Identifier</label>
+           <input type="text" id="patientIdentifier" class="form-control" [(ngModel)]="patientIdentifier" name=""
                (ngModelChange)="setPatientIdentifier(patientIdentifier)" >
-      </div>
-      <div *ngIf="identifierValidity">
-        <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
-      </div>
-      <div ng-messages="patientIdentifier.$error">
-        <div class="help-block" ng-message="required">Identifier is required.</div>
-      </div>
-      <div *ngIf="hasError" style="margin-bottom:10px;">
-        <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
-      </div>
-    </div>
-    <br>
-    <div>
-      <label >Preferred</label>
-      <div class="input-group">
-        <select class="form-control" [ngModel]="preferredIdentifier" (ngModelChange)="setPreferredIdentifier($event)">
-          <option *ngFor="let c of preferOptions" [ngValue]="c.value">{{c.label}}</option>
-        </select>
-      </div>
-    </div>
+                <div *ngIf="identifierValidity">
+            <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
+            </div>
+            <div ng-messages="patientIdentifier.$error">
+              <div class="help-block" ng-message="required">Identifier is required.</div>
+            </div>
+            <div *ngIf="hasError" style="margin-bottom:10px;">
+              <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
+            </div>
+        </div>
+       </div>
 
-     <br>
-    <div>
-      <label >Identifier Location</label>
-      <ng-select  id="selectedDevice" (ngModelChange)="seIdentifierLocation($event)"
-                 [placeholder]="'Select a location or type to search...'"
-                 [(ngModel)]="selectedDevice" [options]="locations">
-      </ng-select>
-      <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
-        {{invalidLocationCheck}}</span>
-      </div>
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="form-group">
+              <label class="control-label">Preferred</label>
+               <select class="form-control" [ngModel]="preferredIdentifier" (ngModelChange)="setPreferredIdentifier($event)">
+                  <option *ngFor="let c of preferOptions" [ngValue]="c.value">{{c.label}}</option>
+              </select>
+          </div>
+        </div>
+
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+               <label class="control-label">Identifier Location</label>
+                  <ng-select  id="selectedDevice" (ngModelChange)="seIdentifierLocation($event)"
+                            [placeholder]="'Select a location or type to search...'"
+                            [(ngModel)]="selectedDevice" [options]="locations">
+                  </ng-select>
+                  <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
+                    {{invalidLocationCheck}}</span>
+                  </div>
+            </div>
+          </div>
+
+           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="margin-bottom:15px">
+            <div class="form-group">
+                          <button ng-disabled="personForm.patientIdentifier.$invalid &&
+                personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
+                        class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
+                  <span>Save</span></button>
+                <button
+                        class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
+                  <span>Cancel</span></button>
+            </div>
+           </div>
+
     </div>
-  <br>
-  <div>
-    <button ng-disabled="personForm.patientIdentifier.$invalid &&
-    personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
-            class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
-      <span>Save</span></button>
-    <button
-            class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-      <span>Cancel</span></button>
   </div>
-
 </p-dialog>
