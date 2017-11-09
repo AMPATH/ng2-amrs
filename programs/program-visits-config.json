@@ -193,7 +193,7 @@
         "uuid": "edb7c6aa-fc69-4470-936d-3d484d3708aa",
         "name": "Pediatric HIV Return Visit ",
         "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
-        "message": "Patient has to be 14rs and below , not in the location he enrolled into the HIV Care and Treatment program and it must not be the initial clinical encounter",
+        "message": "Patient has to be 14yrs and below, in the location enrolled into the HIV Care and Treatment program and it must not be the initial clinical encounter.",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
