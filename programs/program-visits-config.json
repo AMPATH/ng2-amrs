@@ -362,48 +362,6 @@
         ]
       },
       {
-        "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
-        "name": "MDT Visit",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "ADULTRETURN"
-          },
-          {
-            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
-            "display": "YOUTHRETURN"
-          },
-          {
-            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "PEDSRETURN"
-          },
-          {
-            "uuid": "282033e8-67f1-4edd-8bff-74829e8ee2b0",
-            "display": "MDTFORM"
-          },
-          {
-            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-            "display": "DEATHREPORT"
-          },
-          {
-            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
-            "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-            "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          }
-        ]
-      },
-      {
         "uuid": "578a6132-4686-4190-809f-3f8f49bdd1c6",
         "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "name": "Linkage Visit",
@@ -1452,5 +1410,58 @@
         ]
       }
     ]
+  },
+  "c4246ff0-b081-460c-bcc5-b0678012659e":{
+    "name": "MDT PROGRAM",
+    "incompatibleWith": [],
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+      ],
+      "visitTypes": [
+      {
+        "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
+        "name": "MDT Visit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          },
+          {
+            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
+            "display": "YOUTHRETURN"
+          },
+          {
+            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSRETURN"
+          },
+          {
+            "uuid": "282033e8-67f1-4edd-8bff-74829e8ee2b0",
+            "display": "MDTFORM"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      }
+      ]
   }
 }
