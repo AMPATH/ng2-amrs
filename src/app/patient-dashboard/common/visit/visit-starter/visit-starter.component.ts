@@ -4,6 +4,7 @@ import { UserDefaultPropertiesService } from
 import { PatientProgramResourceService } from
   '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
+import *  as _ from 'lodash';
 
 @Component({
   selector: 'app-visit-starter',
@@ -21,6 +22,8 @@ export class VisitStarterComponent implements OnInit {
   public startedVisit: boolean = false;
   public error: string = '';
   public infoMessage: any  = [];
+  public startedVisits: any = [];
+  public duplicateVisit: boolean = false;
 
   private _patientUuid: string;
   @Input()
@@ -125,35 +128,57 @@ export class VisitStarterComponent implements OnInit {
       });
   }
 
-  public startVisit(visitTypeUuid) {
-    this.startedVisit = true;
-    this.isBusy = true;
-    this.error = '';
-    let payload = {
-      patient: this.patientUuid,
-      location: this.selectedLocation,
-      startDatetime: new Date(),
-      visitType: visitTypeUuid
-    };
+  public startVisit(visitTypeUuid, $event) {
+    // disable the start visit btn
+    $event.target.setAttribute('disabled', true);
+    let hasVisitBeenStarted = this.checkIfVisitStarted(visitTypeUuid);
 
-    this.visitResourceService.saveVisit(payload).subscribe(
-      (savedVisit) => {
-         this.isBusy = false;
-         this.startedVisit = false;
-         this.visitStarted.emit(savedVisit);
-      },
-      (error) => {
-        setTimeout( () => {
-          this.isBusy = false;
-          this.error = 'Error starting visit';
-          this.startedVisit = false;
-          console.error('Error starting visit', error);
+    if (hasVisitBeenStarted === false) {
 
-        }, 3000);
-      }
-    );
+        this.startedVisits.push(visitTypeUuid);
+        this.startedVisit = true;
+        this.isBusy = true;
+        this.error = '';
+        let payload = {
+          patient: this.patientUuid,
+          location: this.selectedLocation,
+          startDatetime: new Date(),
+          visitType: visitTypeUuid
+        };
+
+        this.visitResourceService.saveVisit(payload).distinct().subscribe(
+          (savedVisit) => {
+            this.isBusy = false;
+            this.startedVisit = false;
+            this.visitStarted.emit(savedVisit);
+          },
+          (error) => {
+            setTimeout(() => {
+              this.isBusy = false;
+              this.error = 'Error starting visit';
+              this.startedVisit = false;
+              console.error('Error starting visit', error);
+
+            }, 3000);
+          }
+        );
+
+
+    } else {
+          this.duplicateVisit = true;
+
+    }
+
 
   }
+
+public checkIfVisitStarted(visitTypeUuid) {
+   if (_.includes(this.startedVisits, visitTypeUuid)) {
+        return true;
+   } else {
+      return false;
+   }
+}
 
   public onLocationChanged(locations) {
     this.selectedLocation = locations.locations;
