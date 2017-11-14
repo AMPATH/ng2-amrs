@@ -237,12 +237,25 @@ describe('VisitStarterComponent', () => {
       let outputSpy = spyOn(component.visitStarted, 'emit')
         .and.callThrough();
 
+      let mockClickEvent = {
+           'target': {
+             'attributes': {
+               'disabled': {
+                 'value': false
+                }
+             },
+             setAttribute: () => {
+
+           }
+         }
+      };
+
       component.patientUuid = 'uuid';
       component.programUuid = 'some-program';
       component.programEnrollmentUuid = 'some-enrollment';
       component.selectedLocation = 'new-location-uuid';
 
-      component.startVisit('visit-one');
+      component.startVisit('visit-one', mockClickEvent);
       fixture.detectChanges();
 
       expect(visitSpy.calls.count()).toBe(1);
