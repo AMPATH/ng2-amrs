@@ -23,6 +23,7 @@ import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
 })
 export class VisitComponent implements OnInit, OnDestroy {
   public currentProgramConfig: any;
+  public showVisitStartedMsg: boolean = false;
 
   @Input()
   public programUuid: string = '';
@@ -64,6 +65,11 @@ export class VisitComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getVisitStartedMsgStatus() {
+     this.showVisitStartedMsg = this.todayVisitService.getVisitStartedMsgStatus();
+  }
+
+
   public toTitleCase(text: string): string {
     return (new TitleCasePipe()).transform(text);
   }
@@ -99,6 +105,8 @@ export class VisitComponent implements OnInit, OnDestroy {
         }
 
       });
+
+    this.getVisitStartedMsgStatus();
 
   }
 
