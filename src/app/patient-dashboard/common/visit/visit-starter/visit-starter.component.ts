@@ -4,6 +4,7 @@ import { UserDefaultPropertiesService } from
 import { PatientProgramResourceService } from
   '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
+import { TodayVisitService } from '../today-visit.service';
 
 @Component({
   selector: 'app-visit-starter',
@@ -88,7 +89,8 @@ export class VisitStarterComponent implements OnInit {
   constructor(
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private patientProgramResourceService: PatientProgramResourceService,
-    private visitResourceService: VisitResourceService
+    private visitResourceService: VisitResourceService,
+    private todayVisitService: TodayVisitService
   ) { }
 
   public ngOnInit() {
@@ -140,6 +142,7 @@ export class VisitStarterComponent implements OnInit {
       (savedVisit) => {
          this.isBusy = false;
          this.startedVisit = false;
+         this.todayVisitService.activateVisitStartedMsg();
          this.visitStarted.emit(savedVisit);
       },
       (error) => {
@@ -147,6 +150,7 @@ export class VisitStarterComponent implements OnInit {
           this.isBusy = false;
           this.error = 'Error starting visit';
           this.startedVisit = false;
+          this.todayVisitService.hideVisitStartedMessage();
           console.error('Error starting visit', error);
 
         }, 3000);

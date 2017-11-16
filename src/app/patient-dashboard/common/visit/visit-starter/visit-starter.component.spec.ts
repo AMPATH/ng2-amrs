@@ -28,6 +28,7 @@ import { NgamrsSharedModule } from '../../../../shared/ngamrs-shared.module';
 import { PatientDashboardModule } from '../../../patient-dashboard.module';
 import { PatientProgramResourceService } from
   '../../../../etl-api/patient-program-resource.service';
+import { TodayVisitService } from '../today-visit.service';
 
 class RouterStub {
   public navigateByUrl(url: string) { return url; }
@@ -134,6 +135,7 @@ describe('VisitStarterComponent', () => {
         { provide: Router, useClass: RouterStub },
         { provide: ActivatedRoute, useValue: {} },
         DataCacheService,
+        TodayVisitService,
         CacheService
       ],
       imports: [
@@ -229,6 +231,9 @@ describe('VisitStarterComponent', () => {
     (done) => {
       let visitService =
         TestBed.get(VisitResourceService);
+
+      let todayService =
+        TestBed.get(TodayVisitService);
 
       let visitSpy =
         spyOn(visitService, 'saveVisit')

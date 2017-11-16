@@ -65,11 +65,9 @@ export class HivCareComparativeChartComponent implements OnInit {
   public goToPatientList(indicator, filters) {
 
     let dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      filters.split('/')[0] - 1,
-      filters.split('/')[1]
+      filters.split('/')[0] ,
+      filters.split('/')[1] - 1
        );
-
-    console.log('Date Range', dateRange);
 
     this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
         dateRange.startDate.format('DD/MM/YYYY') + '|' +

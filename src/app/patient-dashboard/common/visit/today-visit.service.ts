@@ -31,6 +31,7 @@ export class TodayVisitService {
   public needsVisitReload: boolean = true;
   public programVisits = null;
   public visitsByProgramClass = [];
+  public showVisitStartedMsg: boolean = false;
 
   public visitsEvents: Subject<VisitsEvent> = new Subject<VisitsEvent>();
   private isLoading = false;
@@ -41,6 +42,18 @@ export class TodayVisitService {
   ) {
     this.subscribeToPatientChanges();
   }
+
+   public activateVisitStartedMsg() {
+        this.showVisitStartedMsg = true;
+    }
+
+    public hideVisitStartedMessage() {
+        this.showVisitStartedMsg = false;
+    }
+
+    public getVisitStartedMsgStatus() {
+        return this.showVisitStartedMsg;
+    }
 
   public subscribeToPatientChanges() {
     this.patientService.currentlyLoadedPatient.subscribe(
