@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, style } from '@angular/core';
+import { Component, OnInit, Input , ViewChild,
+    Output, EventEmitter, style , ElementRef } from '@angular/core';
 import { AddCohortMemberComponent } from './add-cohort-member.component';
 
 @Component({
@@ -26,7 +27,8 @@ export class AddToCohortDialogComponent implements OnInit {
     @ViewChild('addCohortComp')
     public cohortComponent: AddCohortMemberComponent;
 
-    public styleClass: string = 'add-cohort-dialog';
+    @ViewChild('addCohortDialog')
+     public addCohortDialog: ElementRef;
 
     private _display: boolean = true;
     public get display(): boolean {

@@ -8,7 +8,7 @@ import { CohortSelectorComponent } from './cohort-selector.component';
 @Component({
     selector: 'add-cohort-member',
     templateUrl: 'add-cohort-member.component.html',
-    styleUrls: ['add-to-cohort-dialog.component.css']
+    styleUrls: ['add-cohort-member.component.css']
 })
 
 export class AddCohortMemberComponent implements OnInit {
