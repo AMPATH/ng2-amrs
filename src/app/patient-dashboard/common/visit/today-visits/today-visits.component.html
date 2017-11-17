@@ -7,7 +7,7 @@
       <div style="padding-left:1px;">
         <button (click)="handleProgramChange(program)" *ngFor="let program of programClass.programs" type="button" [ngClass]="[programUuid === program.uuid ? 'btn-info':'btn-default']"
           class="btn program-list">
-          {{ toTitleCase(program.display)}}
+          {{ program.display | uppercase}}
         </button>
         <visit *ngIf="(programUuid && programUuid !== '' && programClass.class === programClassUuid)" [programUuid]="programUuid"
           (formSelected)="onFormSelected($event)" (encounterSelected)="onEncounterSelected($event)"></visit>
