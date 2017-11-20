@@ -26,6 +26,7 @@ import { PatientDashboardCdmModule } from './cdm/patient-dashboard-cdm.module';
 import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm.module';
 import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
+import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import {
     PatientProgramService,
     PatientPreviousEncounterService,
     ProgramService,
+    DepartmentProgramsConfigService,
     DatePipe,
     PatientRoutesFactory
   ],
