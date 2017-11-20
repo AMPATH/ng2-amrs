@@ -92,7 +92,6 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-
   public filterSelected($event) {
          this.filter = $event;
          console.log('Event', $event);
@@ -117,7 +116,6 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     });
     this.getAppointments();
   }
-
 
   public getAppointments() {
       this.fetchError = false;

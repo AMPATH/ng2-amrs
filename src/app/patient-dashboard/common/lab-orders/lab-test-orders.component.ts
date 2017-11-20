@@ -32,9 +32,9 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   public collectionDate = new Date();
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private patientService: PatientService,
-    private orderResourceService: OrderResourceService,
-    private labelService: LabelService) {
+              private patientService: PatientService,
+              private orderResourceService: OrderResourceService,
+              private labelService: LabelService) {
   }
 
   public ngOnInit() {
@@ -126,7 +126,6 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     }
     this.printLabels(labels);
   }
-
 
   private printLabels(labels) {
     // this.isPrinting = true;

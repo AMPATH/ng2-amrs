@@ -41,7 +41,7 @@
         },
         {
           "url": "programs",
-          "label": "Programs",
+          "label": "Manage Enrollments",
           "icon": "icon-i-family-practice"
         }
       ]

@@ -1,0 +1,23 @@
+<landing-page [hideList]="true"></landing-page>
+<h4 class="component-title">Current Enrollments</h4>
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th>Program</th>
+    <th>Location Enrolled</th>
+    <th>Date Enrolled</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngIf="loadingPatientPrograms">
+    <td colspan="3">
+      <div [ngBusy]="{busy:[loadingPatientPrograms],message:'Loading program enrollments.........'}"></div>
+    </td>
+  </tr>
+  <tr style="cursor: pointer;" *ngFor="let row of enrolledPrograms">
+    <td>{{row.program.display}}</td>
+    <td>{{row.enrolledProgram.openmrsModel.location?.display}}</td>
+    <td>{{row.dateEnrolledView}}</td>
+  </tr>
+  </tbody>
+</table>

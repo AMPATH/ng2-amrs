@@ -6,6 +6,7 @@ import { TitleCasePipe } from '../shared/pipes/title-case.pipe';
 
 export class ProgramEnrollment extends BaseModel {
   private _program: Program;
+  private _location: any;
   private _dateEnrolled: Date;
   private _dateCompleted: Date;
   private _datePipe: DatePipe;
@@ -38,6 +39,10 @@ export class ProgramEnrollment extends BaseModel {
 
   public set display(v: string) {
     this._openmrsModel.display = v;
+  }
+
+  public get location(): any {
+    return this._openmrsModel.location;
   }
 
   public get programUuid(): string {

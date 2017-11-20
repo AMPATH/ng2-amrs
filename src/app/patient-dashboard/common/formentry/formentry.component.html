@@ -90,8 +90,9 @@
     <br>
     <footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button (click)="navigateTo('patientDashboard')" type="button" pButton icon="fa-user" label="Patient Dashboard"></button>
-        <button (click)="navigateTo('patientSearch')" type="button" pButton icon="fa-search" label="Patient Search"></button>
+        <button *ngIf="transferCareForm" (click)="navigateTo('transferCareformWizard')" type="button" pButton icon="fa-file" label="Back to Transfer Care"></button>
+        <button *ngIf="!transferCareForm" (click)="navigateTo('patientDashboard')" type="button" pButton icon="fa-user" label="Patient Dashboard"></button>
+        <button *ngIf="!transferCareForm" (click)="navigateTo('patientSearch')" type="button" pButton icon="fa-search" label="Patient Search"></button>
       </div>
     </footer>
 

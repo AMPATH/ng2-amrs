@@ -393,6 +393,12 @@ location-filter.edit label {
   padding-bottom: 140px;
 }
 
+location-filter.transfer-care .col-md-12 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
 @media screen and (max-width: 466px) {
   .content-wrapper {
     padding-top: 140px !important;

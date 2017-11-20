@@ -35,7 +35,6 @@ export class AddPatientRelationshipComponent implements OnInit {
     };
     public showScrollMessage: false;
 
-
     constructor(private patientRelationshipService: PatientRelationshipService,
                 private patientRelationshipTypeService: PatientRelationshipTypeService,
                 private patientService: PatientService,
