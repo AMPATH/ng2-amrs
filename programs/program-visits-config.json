@@ -18,7 +18,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -514,7 +514,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -587,7 +587,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "incompatibleWith": [],
@@ -611,7 +611,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -669,7 +669,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -720,7 +720,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -778,7 +778,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -868,7 +868,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -1188,7 +1188,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "incompatibleWith": [
@@ -1246,7 +1246,7 @@
     "incompatibleWith": [],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -1301,7 +1301,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -1343,7 +1343,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
@@ -1407,7 +1407,7 @@
     ],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
       "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
     },
     "visitTypes": [
