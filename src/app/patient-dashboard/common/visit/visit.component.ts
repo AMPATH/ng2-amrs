@@ -154,12 +154,26 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public processProgramVisits() {
     if (!_.isEmpty(this.programVisitsObj)) {
-      let returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
-      this.visit = returnedVisit === null ? undefined : returnedVisit;
-      this.visits = this.programVisitsObj[this.programUuid].visits;
-      this.currentProgramConfig = this.programVisitsObj[this.programUuid].config;
-      this.currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
-      this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
+       let returnedVisit = null;
+       let visits = [];
+       let config = [];
+       let currentEnrollment = {
+         'uuid': ''
+       };
+       if (typeof this.programVisitsObj[this.programUuid] === 'undefined') {
+          returnedVisit = null;
+       } else {
+          returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
+          visits = this.programVisitsObj[this.programUuid].visits;
+          config = this.programVisitsObj[this.programUuid].config;
+          currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
+       }
+
+       this.visit = returnedVisit;
+       this.visits = visits;
+       this.currentProgramConfig = config;
+       this.currentEnrollment = currentEnrollment;
+       this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
     }
   }
 
