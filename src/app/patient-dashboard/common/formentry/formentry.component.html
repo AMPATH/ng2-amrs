@@ -6,7 +6,7 @@
         <h4 class="component-title"><span class="fa fa-file"></span>{{formName}}</h4>
         <form-renderer [node]="form.rootNode"></form-renderer>
         <div class="form-row">
-          <button *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
+          <button id="formentry-submit-btn" *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
           <button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
         </div>
       </form>
@@ -30,7 +30,7 @@
         </ul>
       </div>
       <div class="panel-footer" style="min-height: 50px">
-        <button *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
+        <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
       </div>
     </div>
     <div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
