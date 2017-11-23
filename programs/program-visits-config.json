@@ -996,7 +996,7 @@
     ]
   },
   "43b42170-b3ce-4e03-9390-6bd78384ac06": {
-    "name": "CERVICAL CANCER TREATMENT PROGRAM",
+    "name": "GYN-ONCOLOGY TREATMENT PROGRAM",
     "dataDependencies": [
       "patient",
       "enrollment",
