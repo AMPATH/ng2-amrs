@@ -48,7 +48,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('Appointments INitialized');
     this.filterSelected();
     this.selectedDate = Moment().format('YYYY-MM-DD');
     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
@@ -61,7 +60,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
               this.selectedDate = date;
               this.initParams();
               let params = this.getQueryParams();
-              console.log('Appointment Params', params);
               this.getDailyAppointments(params);
             }
 
@@ -75,16 +73,13 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe((params) => {
         if (params) {
-          console.log('Appointments Page params', params);
           if (this.fetchCount === 0 ) {
             /*
             for intial page load do not fetch daily visits as
             it has been already fetched
             */
-             console.log('Appointment fetchcount 0');
 
           }else {
-            console.log('Appointment fetchcount > 0');
             this.initParams();
             let searchParams = this.getQueryParams();
             this.getDailyAppointments(searchParams);
@@ -108,7 +103,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   public getDailyAppointments(params) {
-    console.log('get Appointments');
     this.loadingDailyAppointments = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
 

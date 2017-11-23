@@ -95,8 +95,6 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
 
   public filterSelected($event) {
          this.filter = $event;
-         console.log('Event', $event);
-         console.log('Fetch Appointments.....');
          this.encodedParams = encodeURI(JSON.stringify($event));
          this.getAppointments();
   }
@@ -226,8 +224,6 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
       }
 
       this.encodedParams = cookieVal;
-
-      console.log('Saved Filter', this.encodedParams);
 
   }
 }

@@ -18,6 +18,7 @@ export class DailyScheduleComponent implements OnInit {
   public selectedDate: any;
   public selectedLocation: any;
   public loadingData: boolean = true;
+  public filterSet = false;
   @Output() public selectedSchedule = new EventEmitter();
   public msgs: Message[] = [];
   public reportFilter: any = { ageRange: [40, 70] };
@@ -82,8 +83,13 @@ export class DailyScheduleComponent implements OnInit {
           let m = Moment(this.selectedDate);
           this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
         } else {
-          this.selectedDate = this._datePipe.transform(
-            new Date(), 'yyyy-MM-dd');
+
+            if (this.filterSet === false) {
+                this.selectedDate = this._datePipe.transform(
+                  new Date(), 'yyyy-MM-dd');
+
+            }
+
         }
       });
     }
@@ -131,8 +137,8 @@ export class DailyScheduleComponent implements OnInit {
   }
 
   public filterSelected($event) {
-
-      console.log('Filter Selected', $event);
+      this.filterSet = true;
+      this.selectedDate = this._datePipe.transform( this.selectedDate, 'yyyy-MM-dd');
   }
 
 }
