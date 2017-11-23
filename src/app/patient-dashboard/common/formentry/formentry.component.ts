@@ -46,6 +46,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public formRenderingErrors: Array<any> = [];
   public showSuccessDialog: boolean = false;
   public patient: Patient = null;
+  public submitClicked: boolean = false;
   public submittedOrders: any = {
     encounterUuid: null,
     orders: []
@@ -465,33 +466,83 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
-    this.form.showErrors = !this.form.valid;
-    // this.handleFormReferrals();
-    if (this.form.valid) {
-      this.isBusyIndicator(true, 'Please wait, saving form...');
-      this.formSubmissionService.setSubmitStatus(true);
-      // clear formSubmissionErrors
-      this.formSubmissionErrors = null;
-      // reset submitted orders
-      this.submittedOrders.encounterUuid = null;
-      this.submittedOrders.orders = [];
-      // submit form
-      this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
-        (data) => {
-          this.isBusyIndicator(false); // hide busy indicator
-          this.handleSuccessfulFormSubmission(data);
-          console.log('All payloads submitted successfully:', data);
-          this.formSubmissionService.setSubmitStatus(false);
-        },
-        (err) => {
-          console.error('error', err);
-          this.isBusyIndicator(false); // hide busy indicator
-          this.handleFormSubmissionErrors(err);
-          this.formSubmissionService.setSubmitStatus(false);
-        });
+
+    this.disableSubmitBtn();
+
+    let submittedStatus = this.checkFormSumittedStatus();
+
+    if (submittedStatus === true) {
+
+         // if form has been submitted do not submit again
+         this.enableSubmitBtn();
+
     } else {
-      this.form.markInvalidControls(this.form.rootNode);
-    }
+
+        this.submitClicked = true;
+
+        this.form.showErrors = !this.form.valid;
+        // this.handleFormReferrals();
+        if (this.form.valid) {
+          this.isBusyIndicator(true, 'Please wait, saving form...');
+          this.formSubmissionService.setSubmitStatus(true);
+          // clear formSubmissionErrors
+          this.formSubmissionErrors = null;
+          // reset submitted orders
+          this.submittedOrders.encounterUuid = null;
+          this.submittedOrders.orders = [];
+          // submit form
+
+          this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
+            (data) => {
+              this.isBusyIndicator(false); // hide busy indicator
+              this.handleSuccessfulFormSubmission(data);
+              console.log('All payloads submitted successfully:', data);
+              this.enableSubmitBtn();
+              this.formSubmissionService.setSubmitStatus(false);
+            },
+            (err) => {
+              console.error('error', err);
+              this.isBusyIndicator(false); // hide busy indicator
+              this.handleFormSubmissionErrors(err);
+              this.enableSubmitBtn();
+              this.formSubmissionService.setSubmitStatus(false);
+            });
+        } else {
+          this.form.markInvalidControls(this.form.rootNode);
+          this.enableSubmitBtn();
+        }
+
+  }
+
+
+}
+
+ private checkFormSumittedStatus() {
+
+     let submitStatus = this.submitClicked;
+     return submitStatus;
+
+ }
+
+ private resetSubmitStatus() {
+
+   this.submitClicked = false;
+
+ }
+
+
+  private disableSubmitBtn() {
+
+    document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
+
+  }
+
+  private enableSubmitBtn() {
+
+    document.getElementById('formentry-submit-btn').removeAttribute('disabled');
+
+    this.resetSubmitStatus();
+
   }
 
   private handleFormSubmissionErrors(error: any): void {
