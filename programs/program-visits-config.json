@@ -386,7 +386,7 @@
         "name": "Treatment Supporter Visit",
         "encounterTypes": [
           {
-            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34 ",
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
             "display": "TXSUPPORTERMEDREFILL"
           }
         ]
@@ -841,7 +841,7 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "b70a7e18-9ed1-4bf5-800e-740d7eaa3514 ",
+            "uuid": "b70a7e18-9ed1-4bf5-800e-740d7eaa3514",
             "display": "DIFFERENTIATEDCARERETENTION"
           },
           {
@@ -1436,7 +1436,7 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "b70a7e18-9ed1-4bf5-800e-740d7eaa3514 ",
+            "uuid": "b70a7e18-9ed1-4bf5-800e-740d7eaa3514",
             "display": "DIFFERENTIATEDCARERETENTION"
           },
           {
