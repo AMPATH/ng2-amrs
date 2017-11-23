@@ -380,6 +380,16 @@
             "display": "FAMILYSTATUS"
           }
         ]
+      },
+      {
+        "uuid": "fcc9a836-0200-45f2-81b4-b4a687a10247",
+        "name": "Treatment Supporter Visit",
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34 ",
+            "display": "TXSUPPORTERMEDREFILL"
+          }
+        ]
       }
     ]
   },
@@ -797,8 +807,8 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
-            "display": "DIFFERENTIATEDCARE"
+            "uuid": "0ea8bfc4-fd3b-40bb-bb34-d5c5d9199c96",
+            "display": "DIFFERENTIATEDCARECLINICIAN"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
@@ -831,8 +841,8 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
-            "display": "DIFFERENTIATEDCARE"
+            "uuid": "b70a7e18-9ed1-4bf5-800e-740d7eaa3514 ",
+            "display": "DIFFERENTIATEDCARERETENTION"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
@@ -1426,8 +1436,8 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
-            "display": "DIFFERENTIATEDCARE"
+            "uuid": "b70a7e18-9ed1-4bf5-800e-740d7eaa3514 ",
+            "display": "DIFFERENTIATEDCARERETENTION"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
@@ -1457,8 +1467,8 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
-            "display": "DIFFERENTIATEDCARE"
+            "uuid": "0ea8bfc4-fd3b-40bb-bb34-d5c5d9199c96",
+            "display": "DIFFERENTIATEDCARECLINICIAN"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
