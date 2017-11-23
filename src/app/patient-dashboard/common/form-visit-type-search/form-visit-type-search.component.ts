@@ -78,14 +78,12 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
                 then load the selected filter array with all
                 the options
             */
-            console.log('Select all in secondary filter');
             let secondFilters = _.uniq(this.secondFilters);
             this.selectedFilterArray = secondFilters;
 
         }else {
 
              let secondFilter = secondaryFilter;
-             console.log('Secondary filter', secondaryFilter);
              this.selectedFilterArray.push(secondFilter);
 
         }
@@ -236,7 +234,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
                                 // console.log('Form Result', formResult);
 
                                 if (_.includes(formTrackArray , encounterUuid) === false) {
-                                      console.log('Does not contain encounter uuid');
                                       if (encounterUuid === uuid) {
 
                                             this.formTypeResult.push({

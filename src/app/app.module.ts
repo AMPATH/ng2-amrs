@@ -31,6 +31,8 @@ import { SessionStorageService } from './utils/session-storage.service';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from './shared/services/data-cache.service';
 import { FeedBackComponent } from './feedback';
+import { FormVisitTypeSearchModule } from
+'./patient-dashboard/common/form-visit-type-search/form-visit-type-search.module';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -65,6 +67,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
   ],
   imports: [ // import Angular's modules
     BrowserAnimationsModule,
+    FormVisitTypeSearchModule,
     CommonModule,
     CookieModule.forRoot(),
     ModalModule.forRoot(),

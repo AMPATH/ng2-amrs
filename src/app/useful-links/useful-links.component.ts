@@ -10,6 +10,8 @@ import { UsefulLinksService } from './useful-links.service';
 })
 export class UsefulLinksComponent implements OnInit {
   public nativeWindow: any;
+  public currentUrl = window.location;
+  public formVisitSearchUrl: string = '';
 
   private _links = [
     {
@@ -38,6 +40,7 @@ export class UsefulLinksComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.getFormVisitSearchUrl();
   }
 
   public goToLink(link: string) {
@@ -45,11 +48,24 @@ export class UsefulLinksComponent implements OnInit {
     newWindow.location.href = link;
   }
 
+  public getFormVisitSearchUrl() {
+
+    this.formVisitSearchUrl = this.currentUrl.href.split('useful-links')[0] + 'form-visit-search';
+
+    this._links.push({
+      url: this.formVisitSearchUrl + '',
+      title: 'Information on Forms / Visit Type'
+    });
+
+    console.log('formvisiturl', this.formVisitSearchUrl);
+
+  }
+
   public goBack() {
     this.nativeWindow.history.back();
   }
 
-  get externalLinks(): Array<any> {
+  public getexternalLinks(): Array<any> {
     return this._links;
   }
 
