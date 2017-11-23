@@ -177,7 +177,7 @@
       "routes": []
     },
     {
-      "programName": "Cervical Cancer Treatment",
+      "programName": "Gyn-Oncology Treatment",
       "programUuid": "43b42170-b3ce-4e03-9390-6bd78384ac06",
       "baseRoute": "43b42170-b3ce-4e03-9390-6bd78384ac06",
       "alias": "oncology",
