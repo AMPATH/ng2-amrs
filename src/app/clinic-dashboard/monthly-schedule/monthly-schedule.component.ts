@@ -92,7 +92,6 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-
   public filterSelected($event) {
          this.filter = $event;
          this.encodedParams = encodeURI(JSON.stringify($event));
@@ -115,7 +114,6 @@ export class MonthlyScheduleComponent implements OnInit, OnDestroy {
     });
     this.getAppointments();
   }
-
 
   public getAppointments() {
       this.fetchError = false;

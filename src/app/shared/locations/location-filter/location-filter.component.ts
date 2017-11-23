@@ -65,7 +65,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public onLocationSelected(locations: Array<any>) {
     if (this.selectedCounty) {
       this.getLocationsByCounty().then((countyLocations) => {
-        if (locations.length < countyLocations.length) {
+        if (locations && _.isArray(locations) && locations.length < countyLocations.length) {
           this.allFromCounty = true;
           this.showReset = false;
           this.allLocations = false;
@@ -73,7 +73,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           this.allFromCounty = false;
         }
       });
-    } else if (locations.length === 0) {
+    } else if (locations && _.isArray(locations) && locations.length === 0) {
       this.showReset = false;
       this.allFromCounty = false;
       this.allLocations = true;

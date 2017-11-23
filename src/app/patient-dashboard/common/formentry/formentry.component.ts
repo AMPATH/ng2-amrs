@@ -27,6 +27,7 @@ import {
   MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
+import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 
 @Component({
   selector: 'app-formentry',
@@ -52,6 +53,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     orders: []
   };
   public diffCareReferralStatus: any = undefined;
+  public transferCareForm: string = null;
   private subscription: Subscription;
   private encounterUuid: string = null;
   private encounter: any = null;
@@ -73,13 +75,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private formDataSourceService: FormDataSourceService,
     private personAttribuAdapter: PersonAttribuAdapter,
     private dataSources: DataSources,
-    private monthlyScheduleResourceService:
-      MonthlyScheduleResourceService,
+    private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private draftedFormsService: DraftedFormsService,
     private fileUploadResourceService: FileUploadResourceService,
     private http: Http,
     private referralsHandler: FormentryReferralsHandlerService,
     private patientReminderService: PatientReminderService,
+    private transferCareService: ProgramsTransferCareService,
     private confirmationService: ConfirmationService) {
   }
 
@@ -94,7 +96,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params) => {
       componentRef.visitUuid = params['visitUuid'];
       componentRef.encounterUuid = params['encounter'];
-
+      componentRef.transferCareForm = params['transferCareEncounter'];
       if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
         componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
@@ -107,6 +109,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
           header: 'Unsaved Draft Form',
           message: 'You have unsaved changes on your last form ' +
           'that will be lost upon confirmation. Do you want to continue?',
+          rejectVisible: true,
+          acceptVisible: true,
           accept: () => {
             this.draftedFormsService.setDraftedForm(null);
             componentRef.loadForm();
@@ -161,8 +165,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.confirmationService.confirm({
       header: 'Cancel Form',
       message: 'Leaving this form unsaved will delete this data. Are you sure you wish to proceed?',
+      rejectVisible: true,
+      acceptVisible: true,
       accept: () => {
         this.preserveFormAsDraft = false;
+        // allow the user to cancel
+        this.transferCareService.setTransferStatus(false);
         // this.draftedFormsService.setCancelState();
         this.resetLastTab();
         window.history.go(-1);
@@ -188,6 +196,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
         this.patient.uuid + '/general/general/forms']);
+        break;
+      case 'transferCareformWizard':
+        this.preserveFormAsDraft = false;
+        if (this.transferCareService.isModal.getValue()) {
+          this.router.navigate(['/patient-dashboard/patient/' +
+          this.patient.uuid + '/general/general/landing-page'],
+            {queryParams: {completeEnrollment: true}});
+        } else {
+          this.router.navigate(['/patient-dashboard/patient/' +
+          this.patient.uuid + '/general/general/programs/transfer-care/forms']);
+        }
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -551,7 +570,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private handleSuccessfulFormSubmission(response: any): void {
-
+    // allow other forms to be filled ( set as incomplete for the guard to allow navigation)
+    this.transferCareService.setTransferStatus(false);
     // show submitted orders if any
     this.displaySubmittedOrders(response);
     this.resetLastTab();

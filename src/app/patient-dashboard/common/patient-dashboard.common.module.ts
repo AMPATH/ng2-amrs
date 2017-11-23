@@ -45,7 +45,6 @@ import { HivSummaryService } from '../hiv/hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
-import { FormListComponent } from './forms/form-list.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
 import { PatientVitalsService } from './patient-vitals/patient-vitals.service';
 import { FormSchemaService } from './formentry/form-schema.service';
@@ -133,6 +132,7 @@ import { TodayVisitService } from './visit/today-visit.service';
 import { TodayVisitsComponent } from './visit/today-visits/today-visits.component';
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
 import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
+import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
 
 @NgModule({
   imports: [
@@ -174,7 +174,8 @@ import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-pr
     LabOrderSearchModule,
     HivCareLibModule,
     PatientSearchModule,
-    PatientReferralsModule
+    PatientReferralsModule,
+    ProgramTransferCareModule
   ],
   exports: [
     PatientInfoComponent,
@@ -195,7 +196,6 @@ import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-pr
     PatientIdentifierComponent,
     AddressComponent,
     PatientDemographicsComponent,
-    FormListComponent,
     FormentryComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
@@ -246,7 +246,6 @@ import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-pr
     PatientIdentifierComponent,
     AddressComponent,
     PatientDemographicsComponent,
-    FormListComponent,
     FormentryComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,

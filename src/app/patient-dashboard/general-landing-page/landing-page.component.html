@@ -1,10 +1,10 @@
 <busy *ngIf="programsBusy" [message]="'Loading patient care programs.........'"></busy>
 <div class="programs" *ngIf="availablePrograms.length > 0 && !hasError">
-  <h4 class="component-title">Patient Care Program Snapshots
+  <h4 *ngIf="!hideList" class="component-title">Patient Care Program Snapshots
   </h4>
-  <div class="program">
-    <ng-container *ngFor="let row of availablePrograms; ">
-      <div class="enrolled" *ngIf="(row.isEnrolled)">
+  <div class="program" *ngIf="!hideList">
+    <ng-container *ngFor="let row of enrolledProgrames; ">
+      <div class="enrolled">
         <div class="program-header-wrapper">
           <h2 class="program-header pull-left">{{row.program.display}} (Enrolled on
             {{row.dateEnrolledView}})
@@ -12,29 +12,31 @@
           <div class="clear"></div>
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">
-          <a *ngIf="!row.isEdit" class="edit-toggle pull-right" type="button"
+          <!--<a *ngIf="!row.isEdit" class="edit-toggle pull-right" type="button"
              (click)="toggleDropDown(row)">
             <i class="fa fa-pencil"></i>Edit/Complete
           </a>
           <a *ngIf="row.isEdit" class="edit-toggle pull-right" type="button"
              (click)="toggleDropDown(row)">
             <i class="fa fa-times"></i>Close
-          </a>
+          </a>-->
           <div class="edit-dropdown dropdown-menu-right">
             <em class="text-danger" *ngIf="hasValidationErrors">{{row.validationError}}</em>
             <div class="row">
               <div class="col-md-4">
                 <label>Date Enrolled:</label>
                 <div>
-                  <input class="form-control" [(ngModel)]="row.dateEnrolled" type="date" [value]="row.dateEnrolled"/></div>
+                  <input class="form-control" [(ngModel)]="row.dateEnrolled" type="date"
+                         [value]="row.dateEnrolled"/></div>
               </div>
               <div class="col-md-4">
                 <label>Date Completed:</label>
                 <div>
-                  <input class="form-control" [(ngModel)]="row.dateCompleted" type="date" [value]="row.dateCompleted"/></div>
+                  <input class="form-control" [(ngModel)]="row.dateCompleted" type="date"
+                         [value]="row.dateCompleted"/></div>
               </div>
               <div class="col-md-4">
-                <location-filter  class="edit"
+                <location-filter class="edit"
                                  [locationUuids]="row.enrolledProgram.openmrsModel.location?.uuid"
                                  (onLocationChange)="getSelectedLocationToEdit($event); false"
                                  [disable-county]="true"></location-filter>
@@ -118,11 +120,12 @@
           <div class="col-md-4 cell enroll-button">
             <label class="buttons"></label>
             <div class="buttons" style="width:100%">
-              <a class="btn" [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}"
-                 (click)="enrollPatientToProgram()">
+              <button [disabled]="!enrollmentButtonActive" class="btn"
+                      [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}"
+                      (click)="enrollPatientToProgram()">
                 <span *ngIf="!isFocused">Enroll</span>
                 <span *ngIf="isFocused">Enrolling.....</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -136,3 +139,19 @@
     <em class="text-danger">{{error.message}}</em>
   </p>
 </div>
+<p-dialog icon="fa fa-check" header="Enrollment Complete" [(visible)]="enrollmentCompleted"
+          modal="modal" width="300" responsive="true">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h5>
+        <strong class="text-success">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+					</span>
+          {{confirmationMesssage}}
+        </strong>
+      </h5>
+    </div>
+  </div>
+</p-dialog>
