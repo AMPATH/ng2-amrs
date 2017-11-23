@@ -9,7 +9,7 @@
         General Links:
       </h3>
       <div class="link-group">
-        <p *ngFor="let link of externalLinks" class="link-group-item">
+        <p *ngFor="let link of _links" class="link-group-item">
           <span (click)="goToLink(link.url)" title="{{link.title}}">{{link.title}}</span>
         </p>
       </div>
