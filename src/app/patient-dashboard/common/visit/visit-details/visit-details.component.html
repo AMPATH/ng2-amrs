@@ -1,16 +1,12 @@
 <p-dialog header="Warning!" [(visible)]="showConfirmationDialog" modal="true" width="400" [closable]="false" responsive="true">
   <div class="text-bold">
-    <h3 *ngIf="confirmingCancelVisit">
+    <h3 *ngIf="confirmingCancelVisit || confirmingEndVisit">
       <span class="fa-lg">
         <i class="fa fa-exclamation-triangle"></i>
       </span>{{message.title}}</h3>
 
-    <h3 *ngIf="confirmingCancelVisit">
+    <h3 *ngIf="confirmingCancelVisit  || confirmingEndVisit">
       <span class="fa-lg">
-      </span>{{message.message}}</h3>
-    <h3 *ngIf="!confirmingCancelVisit">
-      <span class="fa-lg">
-        <i class="fa fa-exclamation-triangle"></i>
       </span>{{message.message}}</h3>
   </div>
 

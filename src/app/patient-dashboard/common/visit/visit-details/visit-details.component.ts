@@ -20,6 +20,7 @@ export class VisitDetailsComponent implements OnInit {
   public showDeleteEncountersButton = false;
   public showConfirmationDialog = false;
   public confirmingCancelVisit = false;
+  public confirmingEndVisit = false;
   public editingLocation = false;
   public editingVisitType = false;
   public message: any = {
@@ -224,7 +225,7 @@ export class VisitDetailsComponent implements OnInit {
         this.message.title =
         'Ending a visit will not allow you to fill another current encounter form for this patient';
         this.message.message = 'Are you sure you want to end this visit?';
-        this.confirmingCancelVisit = true;
+        this.confirmingEndVisit = true;
         break;
 
       default:
