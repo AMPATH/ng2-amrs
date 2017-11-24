@@ -202,7 +202,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         this.programsBusy = false;
         if (patient) {
           this.patient = patient;
-          this.availablePrograms = patient.enrolledPrograms;
+         // this.availablePrograms = patient.enrolledPrograms;
+          this.availablePrograms  =  _.filter( patient.enrolledPrograms,  (item) => {
+              return item.program.uuid !== '781d8a88-1359-11df-a1f1-0026b9348838' &&
+                item.program.uuid !== '781d8880-1359-11df-a1f1-0026b9348838';
+            });
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
         }
       }, (err) => {
