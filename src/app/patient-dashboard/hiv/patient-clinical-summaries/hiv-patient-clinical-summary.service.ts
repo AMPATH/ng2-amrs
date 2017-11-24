@@ -607,11 +607,11 @@ export class HivPatientClinicalSummaryService {
         ];
         _.each(vitals, (vital) => {
             patientVitals.push([
-              this._formatDate(vital.encounterDatetime) || 'N/A',
-              (vital.systolicBp || '').toString() + '/' + (vital.diastolicBp || '').toString(),
+              this._formatDate(vital.encounter_datetime) || 'N/A',
+              (vital.systolic_bp || '').toString() + '/' + (vital.diastolic_bp || '').toString(),
               (vital.pulse || '').toString(),
-              (vital.temperature || '').toString(),
-              (vital.oxygenSat || '').toString(),
+              (vital.temp || '').toString(),
+              (vital.oxygen_sat || '').toString(),
               (vital.height || '').toString(),
               (vital.weight || '').toString(),
               (vital.BMI || '').toString(),
