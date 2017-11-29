@@ -1,3 +1,4 @@
+
 import {
   Component,
   OnInit , OnDestroy , AfterViewInit,
@@ -7,6 +8,7 @@ import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular
 import * as _ from 'lodash';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 
 @Component({
   selector: 'program-visit-encounter-search',
@@ -61,7 +63,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
       private router: Router,
       private route: ActivatedRoute,
       private _patientProgramService: PatientProgramResourceService,
-      private localStorageService: LocalStorageService) {
+      private localStorageService: LocalStorageService,
+      private departmentProgramService: DepartmentProgramsConfigService) {
 
     }
 
@@ -71,12 +74,16 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     }
 
     public getDepartmentConfig() {
-        this.programDepartments = JSON.parse(JSON.stringify(this.departmentConf));
-        if (this.programDepartments) {
-             this.getSavedDepartment();
-        }
 
-    }
+     this.departmentProgramService.getDartmentProgramsConfig()
+     .subscribe((results) => {
+         if (results) {
+              this.programDepartments = results;
+              this.getSavedDepartment();
+          }
+     });
+
+  }
 
     public ngOnDestroy() {
 

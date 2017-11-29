@@ -1,3 +1,5 @@
+
+
 /* tslint:disable:no-unused-variable */
 import { ChangeDetectorRef } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,6 +17,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache';
+import { IonicStorageModule } from '@ionic/storage';
 
 class MockRouter {
  public navigate = jasmine.createSpy('navigate');
@@ -122,16 +128,21 @@ describe('Component: ProgramVisitEncounterSearch', () => {
   let comp: ProgramVisitEncounterSearchComponent;
   let patientProgramService: PatientProgramResourceService;
   let localStorageService: LocalStorageService;
+  let departmentProgramService: DepartmentProgramsConfigService;
+  let dataCacheService: DataCacheService;
+  let cacheService: CacheService;
   let route: ActivatedRoute;
   let router: Router;
   let cd: ChangeDetectorRef;
+  let storage: Storage;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:
       [
        AngularMultiSelectModule,
-       FormsModule
+       FormsModule,
+       IonicStorageModule.forRoot()
       ],
       declarations: [
           ProgramVisitEncounterSearchComponent
@@ -140,6 +151,10 @@ describe('Component: ProgramVisitEncounterSearch', () => {
         PatientProgramResourceService,
         AppSettingsService,
         LocalStorageService,
+        DepartmentProgramsConfigService,
+        DataCacheService,
+        CacheService,
+        Storage,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -165,6 +180,8 @@ describe('Component: ProgramVisitEncounterSearch', () => {
         comp = fixture.componentInstance;
         patientProgramService = fixture.debugElement.injector.get(PatientProgramResourceService);
         localStorageService = fixture.debugElement.injector.get(LocalStorageService);
+        departmentProgramService = fixture.debugElement.injector
+        .get(DepartmentProgramsConfigService);
         cd = fixture.debugElement.injector.get(ChangeDetectorRef);
         router = fixture.debugElement.injector.get(Router);
         route = fixture.debugElement.injector.get(ActivatedRoute);
