@@ -1,3 +1,4 @@
+
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
@@ -33,11 +34,14 @@ import {
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService }
+from './../../etl-api/department-programs-config.service';
 describe('Component: DailyScheduleAppointmentsComponent', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
         dailyScheduleResource: DailyScheduleResourceService,
         clinicDashBoardCacheService: ClinicDashboardCacheService,
         localStorageService: LocalStorageService,
+        departmentProgConfigService: DepartmentProgramsConfigService,
         route: ActivatedRoute, fixture, componentInstance;
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -50,6 +54,7 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
+                DepartmentProgramsConfigService,
                 {
                     provide: Router,
                     useClass: class { public navigate = jasmine.createSpy('navigate'); }
@@ -94,6 +99,7 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
             component = fixture.componentInstance;
             clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
             dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+            departmentProgConfigService = TestBed.get( DepartmentProgramsConfigService);
             route = TestBed.get(ActivatedRoute);
             localStorageService = TestBed.get(LocalStorageService);
         });

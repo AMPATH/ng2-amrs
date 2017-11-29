@@ -27,6 +27,8 @@ import { SelectModule } from 'angular2-select';
 import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService }
+from './../../etl-api/department-programs-config.service';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {
@@ -227,8 +229,9 @@ describe('MonthlyScheduleComponent', () => {
   let comp: MonthlyScheduleComponent;
   let dataStub: MonthlyScheduleResourceService;
   let patientProgramResourceService: PatientProgramResourceService;
+  let departmentProgConfigService: DepartmentProgramsConfigService;
 
-  beforeEach(async(() => {
+  beforeEach( async(() => {
     TestBed.configureTestingModule({
       imports: [BusyModule, CalendarModule.forRoot(),  SelectModule,
        BrowserAnimationsModule, CacheModule, AngularMultiSelectModule ,
@@ -239,6 +242,7 @@ describe('MonthlyScheduleComponent', () => {
         ClinicDashboardCacheService,
         PatientProgramResourceService,
         AppSettingsService,
+        DepartmentProgramsConfigService,
         LocalStorageService,
         DataCacheService,
         CacheService,
@@ -265,6 +269,8 @@ describe('MonthlyScheduleComponent', () => {
         fixture = TestBed.createComponent(MonthlyScheduleComponent);
         comp = fixture.componentInstance;
         dataStub = fixture.debugElement.injector.get(MonthlyScheduleResourceService);
+        departmentProgConfigService = fixture.debugElement.injector.
+        get( DepartmentProgramsConfigService);
       });
   }));
 

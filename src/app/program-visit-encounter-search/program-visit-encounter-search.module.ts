@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
+import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
 
 @NgModule({
     imports: [
@@ -14,6 +16,6 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
     ],
     exports: [ProgramVisitEncounterSearchComponent],
     declarations: [ProgramVisitEncounterSearchComponent],
-    providers: [],
+    providers: [ DepartmentProgramsConfigService, DataCacheService],
 })
 export class ProgramVisitEncounterSearchModule { }

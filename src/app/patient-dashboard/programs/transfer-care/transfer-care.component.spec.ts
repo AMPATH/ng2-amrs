@@ -1,3 +1,5 @@
+
+
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -18,7 +20,10 @@ import { ProgramsTransferCareComponent } from './transfer-care.component';
 import { NgamrsSharedModule } from '../../../shared/ngamrs-shared.module';
 import { ProgramService } from '../program.service';
 import { ProgramsContainerComponent } from '../programs-container.component';
-
+import { DepartmentProgramsConfigService } from
+'./../../../etl-api/department-programs-config.service';
+import { DataCacheService } from './../../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
@@ -30,6 +35,9 @@ describe('Component: ProgramsTransferCareComponent', () => {
       providers: [
         PatientService,
         ProgramService,
+        DepartmentProgramsConfigService,
+        DataCacheService,
+        CacheService,
         Location,
         {
           provide: Http,
@@ -90,8 +98,9 @@ describe('Component: ProgramsTransferCareComponent', () => {
   });
 
   it('should get enrolled programs by department',
-    inject([PatientProgramService, PatientService, MockBackend],
-      fakeAsync((patientProgramService, patientService, mockBackend) => {
+    inject([PatientProgramService, PatientService, DepartmentProgramsConfigService , MockBackend],
+      fakeAsync((patientProgramService, patientService, departmentProgramsConfigService,
+                 mockBackend) => {
         spyOn(component, 'getSelectedDepartment').and.callThrough();
         let uuid: string = 'uuid';
         let patientObject: Patient = new Patient({uuid: uuid, encounters: []});
