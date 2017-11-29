@@ -37,10 +37,10 @@ describe('ErrorLogResourceService Unit Tests', () => {
   it('should have postFormError defined',
     inject([ErrorLogResourceService],
       (errorLogResourceService: ErrorLogResourceService) => {
-        expect(errorLogResourceService.postFormError({})).toBeTruthy();
+        expect(errorLogResourceService.postFormError({})).toBeDefined();
       }));
 
-  it('should Post Error with correct ReguestMethod and correct API call',
+  it('should Post Error with correct RequestMethod and correct API call',
     inject([ErrorLogResourceService, MockBackend],
       fakeAsync((errorLogResourceService: ErrorLogResourceService, backend: MockBackend) => {
         backend.connections.subscribe((connection: MockConnection) => {
