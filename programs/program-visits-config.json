@@ -1538,5 +1538,35 @@
         ]
       }
       ]
+  },
+  "6ff0a6dc-ef8f-467a-86fc-9d9b263d8761": {
+    "name": "DTG PHARMACO-VIGILANCE",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "transferCare": {
+      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
+      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+    },
+    "visitTypes": [
+      {
+        "uuid": "62b3d72c-a00b-46a8-af7b-e8f0c3186664",
+        "name": "DTG Pharmaco-vigilance visit",
+        "encounterTypes": [
+          {
+            "uuid": "85523cbc-6b8c-4b9d-91a6-a9e6ae012e7f",
+            "display": "PHARMACOVIGILANCECLINICAL"
+          },
+          {
+            "uuid": "655c3451-172e-4c85-960a-392e4284ef92",
+            "display": "PHARMACOVIGILANCEPEER"
+          }
+        ]
+      }
+    ]
   }
 }
