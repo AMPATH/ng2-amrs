@@ -38,6 +38,8 @@ import {
 import * as Moment from 'moment';
 import { AngularMultiSelectModule } from
 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService }
+from './../../etl-api/department-programs-config.service';
 
 describe('Component: DailySchedule', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics,
@@ -45,6 +47,7 @@ describe('Component: DailySchedule', () => {
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
     activatedRoute: ActivatedRoute,
+    departmentProgConfigService: DepartmentProgramsConfigService,
     localStorageService: LocalStorageService,
     router: Router, fixture, componentInstance;
 
@@ -61,6 +64,7 @@ describe('Component: DailySchedule', () => {
         DataCacheService,
         ClinicFlowCacheService,
         ChildrenOutletContexts,
+        DepartmentProgramsConfigService,
         {
           provide: ActivatedRoute, useValue: {
           snapshot: {
@@ -112,6 +116,7 @@ describe('Component: DailySchedule', () => {
       fixture = TestBed.createComponent(DailyScheduleComponent);
       component = fixture.componentInstance;
       clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+      departmentProgConfigService = TestBed.get( DepartmentProgramsConfigService);
       activatedRoute = TestBed.get(ActivatedRoute);
       clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
       router = TestBed.get(Router);

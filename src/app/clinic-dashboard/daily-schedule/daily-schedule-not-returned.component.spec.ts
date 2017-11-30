@@ -32,6 +32,8 @@ import {
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService }
+from './../../etl-api/department-programs-config.service';
 class MockActivatedRoute {
  public params = Observable.of([{ 'id': 1 }]);
  public snapshot = {
@@ -43,6 +45,7 @@ describe('Component: DailyScheduleNotReturned', () => {
     dailyScheduleResource: DailyScheduleResourceService,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     localStorageService: LocalStorageService,
+    departmentProgConfigService: DepartmentProgramsConfigService,
     route: ActivatedRoute,
     fixture, componentInstance;
   beforeEach(() => {
@@ -57,6 +60,7 @@ describe('Component: DailyScheduleNotReturned', () => {
         LocalStorageService,
         CacheService,
         DataCacheService,
+        DepartmentProgramsConfigService,
         {
           provide: Router,
           useClass: class { public navigate = jasmine.createSpy('navigate'); }
@@ -97,6 +101,7 @@ describe('Component: DailyScheduleNotReturned', () => {
           component = fixture.componentInstance;
           clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
           dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+          departmentProgConfigService = TestBed.get( DepartmentProgramsConfigService);
           route = TestBed.get(ActivatedRoute);
           localStorageService = TestBed.get(LocalStorageService);
     });

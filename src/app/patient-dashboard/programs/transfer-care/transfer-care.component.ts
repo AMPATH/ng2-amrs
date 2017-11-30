@@ -9,6 +9,8 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { ProgramsTransferCareService } from './transfer-care.service';
 import { PatientProgramService } from '../patient-programs.service';
+import { DepartmentProgramsConfigService } from
+'./../../../etl-api/department-programs-config.service';
 
 @Component({
   selector: 'app-programs-transfer-care',
@@ -30,26 +32,37 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
   public showLocationSelect: boolean = false;
   public hasTransferError: boolean = false;
   public programsToTransfer: any[] = [];
-  private departmentConf: any[] =
-    require('../../../program-visit-encounter-search/department-programs-config.json');
+  private departmentConf: any[];
   private subscription: Subscription;
 
   constructor(private transferCareService: ProgramsTransferCareService,
               private router: Router,
               private route: ActivatedRoute,
               private patientService: PatientService,
-              private patientProgramService: PatientProgramService) {
-    this.departmentConf = JSON.parse(JSON.stringify(this.departmentConf));
+              private patientProgramService: PatientProgramService,
+              private departmentProgramService: DepartmentProgramsConfigService) {
   }
 
   public ngOnInit() {
-    this._filterDepartmentConfigByName();
+    this.getDepartmentConf();
   }
 
   public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  public getDepartmentConf() {
+
+     this.departmentProgramService.getDartmentProgramsConfig()
+     .subscribe((results) => {
+         if (results) {
+              this.departmentConf = results;
+              this._filterDepartmentConfigByName();
+          }
+     });
+
   }
 
   public getSelectedDepartment(department: string) {
