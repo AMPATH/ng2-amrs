@@ -10,7 +10,7 @@ export class PatientResourceService {
 
   public v: string = 'custom:(uuid,display,' +
     'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
-    'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
+    'identifierType:(uuid,name,format,formatDescription,validator)),' +
     'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
     'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
     + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
