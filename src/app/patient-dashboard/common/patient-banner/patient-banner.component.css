@@ -69,3 +69,7 @@
 .id-label {
     color: darkgray;
 }
+
+.container-fluid .row span:not(.id-label) {
+  padding-right: 12px;
+}

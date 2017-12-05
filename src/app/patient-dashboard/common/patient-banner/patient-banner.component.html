@@ -12,9 +12,9 @@
   <div class="pull-left">
     <div class="row clearfix">
       <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
-      <span>&nbsp;&nbsp; <span style="font-weight: bold;font-size:20px"> </span>&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;
-		<span style="font-weight: bold;font-size:20px"> </span> </span>&nbsp;&nbsp;
+      <span>{{ patient?.person.gender}}</span>
       <span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span></span>
+      <span *ngIf="patient?.person.dead">Died on <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
     </div>
     <div class="row">
 		<span style="margin-left:0px;">
@@ -41,8 +41,9 @@
   <div class="pull-left">
     <div class="row clearfix">
       <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
-      <span>&nbsp;&nbsp;&nbsp;&nbsp; {{ patient?.person.gender}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>{{ patient?.person.gender}}</span>
+      <span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span></span>
+      <span *ngIf="patient?.person.dead">Died on <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
       <span style="margin-left:0px;">
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
 		<span *ngIf="searchIdentifiers?.amrsMrn">  <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
