@@ -28,6 +28,20 @@
         "tableName": "person",
         "alias": "t4",
         "joinExpression": "t1.person_id  = t4.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "visit",
+        "alias": "t5",
+        "joinExpression": "t1.visit_id  = t5.visit_id"
+      },
+       {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "program_visit_map",
+        "alias": "t6",
+        "joinExpression": "t5.visit_type_id  = t6.visit_type_id"
       }
     ],
     "parameters": [
@@ -43,6 +57,14 @@
       },
       {
         "name": "encounterIds",
+        "defaultValue": [0]
+      },
+      {
+        "name": "visitTypeIds",
+        "defaultValue": [0]
+      },
+       {
+        "name": "programTypeIds",
         "defaultValue": [0]
       },
       {
@@ -76,6 +98,14 @@
       {
         "expression": "t1.encounter_type in ?",
         "parameter": "encounterIds"
+      },
+      {
+        "expression": "t6.visit_type_id in ?",
+        "parameter": "visitTypeIds"
+      },
+      {
+        "expression": "t6.program_type_id in ?",
+        "parameter": "programTypeIds"
       },
       {
         "expression": "t1.encounter_type != 99999",
@@ -134,6 +164,11 @@
         "label": "age",
         "type": "single",
         "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
+      },
+      {
+        "label": "program",
+        "type": "single",
+        "sql": "t6.program_type_id"
       }
     ]
   },
@@ -166,6 +201,20 @@
         "tableName": "person",
         "alias": "t4",
         "joinExpression": "t1.person_id  = t4.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "visit",
+        "alias": "t5",
+        "joinExpression": "t1.visit_id  = t5.visit_id"
+      },
+       {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "program_visit_map",
+        "alias": "t6",
+        "joinExpression": "t5.visit_type_id  = t6.visit_type_id"
       }
     ],
     "parameters": [
@@ -181,6 +230,14 @@
       },
       {
         "name": "encounterIds",
+        "defaultValue": [0]
+      },
+       {
+        "name": "visitTypeIds",
+        "defaultValue": [0]
+      },
+       {
+        "name": "programTypeIds",
         "defaultValue": [0]
       },
       {
@@ -205,6 +262,14 @@
        {
         "expression": "encounter_type in ?",
         "parameter": "encounterIds"
+      },
+      {
+        "expression": "t6.visit_type_id in ?",
+        "parameter": "visitTypeIds"
+      },
+      {
+        "expression": "t6.program_type_id in ?",
+        "parameter": "programTypeIds"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
@@ -386,6 +451,20 @@
         "tableName": "flat_hiv_summary",
         "alias": "t8",
         "joinExpression": "t1.person_id = t8.person_id and t8.encounter_type=116 and t1.encounter_datetime < t8.encounter_datetime"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "visit",
+        "alias": "t10",
+        "joinExpression": "t1.visit_id  = t10.visit_id"
+      },
+       {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "program_visit_map",
+        "alias": "t11",
+        "joinExpression": "t11.visit_type_id  = t10.visit_type_id"
       }
     ],
     "parameters": [
@@ -401,6 +480,14 @@
       },
       {
         "name": "encounterIds",
+        "defaultValue": [0]
+      },
+       {
+        "name": "visitTypeIds",
+        "defaultValue": [0]
+      },
+       {
+        "name": "programTypeIds",
         "defaultValue": [0]
       },
       {
@@ -435,6 +522,14 @@
       {
         "expression": "t1.encounter_type in ?",
         "parameter": "encounterIds"
+      },
+      {
+        "expression": "t11.visit_type_id in ?",
+        "parameter": "visitTypeIds"
+      },
+      {
+        "expression": "t11.program_type_id in ?",
+        "parameter": "programTypeIds"
       },
       {
         "expression": "coalesce(t1.death_date) is null",
