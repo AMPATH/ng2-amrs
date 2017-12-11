@@ -17,11 +17,19 @@ import { LoginComponent } from './login.component';
 import { provideRoutes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieModule } from 'ngx-cookie';
+import { MdSnackBarModule } from '@angular/material';
 import { UserDefaultPropertiesService } from
   '../user-default-properties/user-default-properties.service';
 import { UserService } from '../openmrs-api/user.service';
 import { CookieService } from 'ngx-cookie';
-
+import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
+import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
+import { FormOrderMetaDataService }
+from '../patient-dashboard/common/forms/form-order-metadata.service';
+import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
+import { FormsResourceService } from '../openmrs-api/forms-resource.service';
+import { MdSnackBar } from '@angular/material';
 describe('LoginComponent Unit Tests', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEach(() => TestBed.configureTestingModule({
@@ -31,7 +39,7 @@ describe('LoginComponent Unit Tests', () => {
       {
         provide: Http,
         useFactory: (backendInstance: MockBackend,
-          defaultOptions: BaseRequestOptions) => {
+                     defaultOptions: BaseRequestOptions) => {
           return new Http(backendInstance, defaultOptions);
         },
         deps: [MockBackend, BaseRequestOptions]
@@ -45,10 +53,18 @@ describe('LoginComponent Unit Tests', () => {
       CookieService,
       provideRoutes([]),
       UserDefaultPropertiesService,
-      UserService
+      UserService,
+      FormListService,
+      FormsResourceService,
+      FormSchemaCompiler,
+      FormSchemaService,
+      FormUpdaterService,
+      FormOrderMetaDataService,
+      MdSnackBar
     ],
     imports: [
       RouterTestingModule,
+      MdSnackBarModule,
       CookieModule.forRoot()
     ]
   }));

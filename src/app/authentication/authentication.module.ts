@@ -5,6 +5,13 @@ import { authRouting } from './auth-routing.module';
 import { LoginComponent } from './login.component';
 import { LoginDialogComponent } from './login-dialog.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
+import { FormOrderMetaDataService }
+from '../patient-dashboard/common/forms/form-order-metadata.service';
+import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
+import { FormsResourceService } from '../openmrs-api/forms-resource.service';
+import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
 
 @NgModule({
   imports: [
@@ -14,9 +21,14 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
   ],
   declarations: [
     LoginComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
   ],
   providers: [
+    FormUpdaterService,
+    FormOrderMetaDataService,
+    FormSchemaService,
+    FormSchemaCompiler,
+    FormListService
   ],
   exports: [
     LoginComponent
