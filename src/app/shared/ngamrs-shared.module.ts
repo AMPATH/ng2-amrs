@@ -5,13 +5,13 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import {
-  MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+  MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MdSnackBarModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
 import { SelectModule } from 'angular2-select';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
@@ -68,17 +68,21 @@ import { EtlApi } from '../etl-api/etl-api.module';
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
-    SelectModule
+    SelectModule,
+    MdSnackBarModule
   ],
   exports: [BusyModule, LaddaModule, DisplayErrorComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
     BuildVersionComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
-    OnlineTrackerComponent,
+    OnlineTrackerComponent, ToastComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
+  ],
+  entryComponents: [
+    ToastComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, RoutesProviderService, HivSummaryService],
 })

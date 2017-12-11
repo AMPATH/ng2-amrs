@@ -11,9 +11,18 @@ import {
   UserDefaultPropertiesService
 } from
   '../user-default-properties/user-default-properties.service';
+import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
 import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
-
+import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
+import { FormOrderMetaDataService }
+from '../patient-dashboard/common/forms/form-order-metadata.service';
+import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
+import { FormsResourceService } from '../openmrs-api/forms-resource.service';
+import { Observable } from 'rxjs/Observable';
+import { MdSnackBar } from '@angular/material';
+import * as _ from 'lodash';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -37,7 +46,10 @@ export class LoginComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private appSettingsService: AppSettingsService,
               private localStorageService: LocalStorageService,
-              private userDefaultPropertiesService: UserDefaultPropertiesService) {
+              private userDefaultPropertiesService: UserDefaultPropertiesService,
+              private formUpdaterService: FormUpdaterService,
+              private formsResourceService: FormsResourceService,
+              ) {
   }
 
   public ngOnInit() {
@@ -73,7 +85,10 @@ export class LoginComponent implements OnInit {
 
           if (data.authenticated) {
 
-            this.loginSuccess.emit(true);
+                /// update forms in cache ////
+            let lastChecked = this.formUpdaterService.getDateLastChecked();
+            if (lastChecked !== new Date().toDateString()) {
+                    this.formUpdaterService.getUpdatedForms(); }
 
             if (currentRoute && currentRoute.indexOf('login') !== -1) {
 
@@ -118,6 +133,10 @@ export class LoginComponent implements OnInit {
             this.error = error.statusText;
           }
         });
+
+    let lastUpdated  = new Date().toDateString();
+    this.loginSuccess.emit(true);
+
   }
 
   get shouldSetLocation() {
@@ -127,9 +146,10 @@ export class LoginComponent implements OnInit {
     return (!lastLoginDate || lastLoginDate !== today);
   }
 
-  public clearAndFocusPassword() {
+  public clearAndFocusPassword( ) {
 
     this.passwordField.first.nativeElement.focus();
     this.passwordField.first.nativeElement.value = '';
   }
+
 }

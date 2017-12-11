@@ -7,10 +7,16 @@ import { UserDefaultPropertiesService
 import { AuthenticationService } from '../../openmrs-api/authentication.service';
 import { User } from '../../models/user.model';
 import { LocalStorageService } from '../../utils/local-storage.service';
-
+import { FormUpdaterService } from '../../patient-dashboard/common/formentry/form-updater.service';
 @Component({
   selector: 'static-navbar',
-  templateUrl: './static-navbar.component.html'
+  templateUrl: './static-navbar.component.html',
+  styles: [`::ng-deep snack-bar-container.snackbar {
+    background: rgba(255,255,255,0.8);
+  }
+  ::ng-deep .snackbar .mat-simple-snackbar {
+    color: black;
+  }`]
 })
 export class StaticNavBarComponent implements OnInit {
   public user: User;
@@ -19,7 +25,8 @@ export class StaticNavBarComponent implements OnInit {
               private localStore: LocalStorageService,
               private authenticationService: AuthenticationService,
               private userDefaultSettingsService: UserDefaultPropertiesService,
-              private userService: UserService) {
+              private userService: UserService,
+              private formUpdaterService: FormUpdaterService) {
   }
 
   public ngOnInit() {
@@ -45,5 +52,9 @@ export class StaticNavBarComponent implements OnInit {
             undefined;
       }
     });
+  }
+
+  private updateForms() {
+    this.formUpdaterService.getUpdatedForms();
   }
 }

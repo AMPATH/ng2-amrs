@@ -133,6 +133,7 @@ import { TodayVisitsComponent } from './visit/today-visits/today-visits.componen
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
 import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
 import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
+import { FormUpdaterService } from './formentry/form-updater.service';
 
 @NgModule({
   imports: [
@@ -275,6 +276,7 @@ import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-ca
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter],
   providers: [
+    FormUpdaterService,
     PatientEncounterService,
     PatientSearchService,
     AppFeatureAnalytics,
