@@ -6,7 +6,22 @@
             "tableName": "flat_hiv_summary",
             "alias": "t1"
         },
-        "joins": [],
+        "joins": [
+            {
+                "joinType": "INNER JOIN",
+                "schema": "amrs",
+                "tableName": "visit",
+                "alias": "t2",
+                "joinExpression": "t1.visit_id  = t2.visit_id"
+            },
+            {
+                "joinType": "INNER JOIN",
+                "schema": "etl",
+                "tableName": "program_visit_map",
+                "alias": "t3",
+                "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
+            }
+        ],
         "parameters": [
             {
                 "name": "groupByAttendedDate",
@@ -36,6 +51,14 @@
             {
                 "name": "encounterIds",
                 "defaultValue": 0
+            },
+            {
+                "name": "visitTypeIds",
+                "defaultValue": 0
+            },
+            {
+                "name": "programTypeIds",
+                "defaultValue": 0
             }
         ],
         "filters": [
@@ -54,6 +77,14 @@
             {
                 "expression": "t1.encounter_type in ? ",
                 "parameter": "encounterIds"
+            },
+            {
+                "expression": "t3.visit_type_id in ?",
+                "parameter": "visitTypeIds"
+            },
+            {
+                "expression": "t3.program_type_id in ?",
+                "parameter": "programTypeIds"
             },
             {
                 "expression": "coalesce(t1.death_date) is null",
@@ -108,6 +139,20 @@
                 "tableName": "flat_hiv_summary",
                 "alias": "t8",
                 "joinExpression": "(t1.person_id = t8.person_id AND t8.encounter_type = 116 AND t1.encounter_datetime < t8.encounter_datetime)"
+            },
+             {
+                "joinType": "INNER JOIN",
+                "schema": "amrs",
+                "tableName": "visit",
+                "alias": "t2",
+                "joinExpression": "t1.visit_id  = t2.visit_id"
+            },
+            {
+                "joinType": "INNER JOIN",
+                "schema": "etl",
+                "tableName": "program_visit_map",
+                "alias": "t3",
+                "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
             }
         ],
         "parameters": [
@@ -132,6 +177,14 @@
                 "defaultValue": 0
             },
             {
+                "name": "visitTypeIds",
+                "defaultValue": 0
+            },
+            {
+                "name": "programTypeIds",
+                "defaultValue": 0
+            },
+            {
                 "name": "groupByDate",
                 "defaultValue": [
                     {
@@ -153,6 +206,14 @@
             {
                 "expression": "t1.encounter_type in ?",
                 "parameter": "encounterIds"
+            },
+            {
+                "expression": "t3.visit_type_id in ?",
+                "parameter": "visitTypeIds"
+            },
+            {
+                "expression": "t3.program_type_id in ?",
+                "parameter": "programTypeIds"
             },
             {
                 "expression": "t1.location_uuid in (?)",
@@ -269,7 +330,22 @@
             "tableName": "flat_hiv_summary",
             "alias": "t1"
         },
-        "joins": [],
+        "joins": [
+             {
+                "joinType": "INNER JOIN",
+                "schema": "amrs",
+                "tableName": "visit",
+                "alias": "t2",
+                "joinExpression": "t1.visit_id  = t2.visit_id"
+            },
+            {
+                "joinType": "INNER JOIN",
+                "schema": "etl",
+                "tableName": "program_visit_map",
+                "alias": "t3",
+                "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
+            }
+        ],
         "parameters": [
             {
                 "name": "groupByRtcDate",
@@ -299,6 +375,14 @@
             {
                 "name": "encounterIds",
                 "defaultValue": 0
+            },
+            {
+                "name": "visitTypeIds",
+                "defaultValue": 0
+            },
+            {
+                "name": "programTypeIds",
+                "defaultValue": 0
             }
         ],
         "filters": [
@@ -317,6 +401,14 @@
             {
                 "expression": "t1.encounter_type in ?",
                 "parameter": "encounterIds"
+            },
+             {
+                "expression": "t3.visit_type_id in ?",
+                "parameter": "visitTypeIds"
+            },
+            {
+                "expression": "t3.program_type_id in ?",
+                "parameter": "programTypeIds"
             },
             {
                 "expression": "coalesce(t1.transfer_out) is null",

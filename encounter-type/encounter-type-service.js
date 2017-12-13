@@ -26,13 +26,13 @@ function getAllEncounterTypes(){
 
       if(encounterTypes.length > 0){
 
-             console.log('Encounter Type length > 0');
+             // console.log('Encounter Type length > 0');
 
              resolve(encounterTypes);
 
       }else{
 
-          console.log('Encounter Type length < 0');
+          // console.log('Encounter Type length < 0');
 
            encounterTypeDao.getEncounterTypes().then(function (result) {
                      if(result){

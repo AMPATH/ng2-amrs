@@ -20,7 +20,7 @@ var etlHelpers = require('./etl-helpers.js');
 var crypto = require('crypto');
 var motd = require('./dao/motd_notification/motd_notification-dao');
 var patientProgramService = require('./programs/patient-program-base.service.js');
-var resolveEncounterUuidToId = require('./encounter-type/resolve-to-encounterId.js');
+var resolveClinicDashboardFilterParams = require('./resolve-program-visit-encounter-Ids/resolve-program-visit-encounter-Ids');
 var departmentProgramsService = require('./departments/departments-programs.service');
 import {
     MonthlyScheduleService
@@ -257,11 +257,15 @@ module.exports = function () {
                 handler: function (request, reply) {
                     if (request.query.locationUuids) {
                          console.log('Request', request.query);
-                         resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
+                         resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                     .then((resolve) => {
-                                        let encounterIds = resolve;
+                                        let encounterIds = resolve.encounterTypeIds;
+                                        let visitTypeIds = resolve.visitTypesIds;
+                                        let programTypeIds = resolve.programTypeIds;
                                         request.query.encounterIds = encounterIds;
-                                        let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'encounterIds' ,'locationUuids'], request.query);
+                                        request.query.visitTypeIds = visitTypeIds;
+                                        request.query.programTypeIds = programTypeIds;
+                                        let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'encounterIds','visitTypeIds' , 'programTypeIds' ,'locationUuids'], request.query);
                                         console.log('Monthly report params', reportParams);
                                         let service = new MonthlyScheduleService();
                                         service.getMonthlyScheduled(reportParams).then((result) => {
@@ -301,13 +305,16 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
+                                resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                       .then((resolve) => {
-                                            console.log('Resolved daily-attendance', resolve);
-                                            let encounterIds = resolve;
+                                            let encounterIds = resolve.encounterTypeIds;
+                                            let visitTypeIds = resolve.visitTypesIds;
+                                            let programTypeIds = resolve.programTypeIds;
                                             request.query.encounterIds = encounterIds;
+                                            request.query.visitTypeIds = visitTypeIds;
+                                            request.query.programTypeIds = programTypeIds;
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
-                                            let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations','encounterIds', 'groupBy'], compineRequestParams);
+                                            let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations','encounterIds','visitTypeIds', 'programTypeIds' ,'groupBy'], compineRequestParams);
 
                                             dao.runReport(reportParams).then((result) => {
                                                 reply(result);
@@ -345,12 +352,16 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
+                                resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                       .then((resolve) => {
-                                            let encounterIds = resolve;
+                                            let encounterIds = resolve.encounterTypeIds;
+                                            let visitTypeIds = resolve.visitTypesIds;
+                                            let programTypeIds = resolve.programTypeIds;
                                             request.query.encounterIds = encounterIds;
+                                            request.query.visitTypeIds = visitTypeIds;
+                                            request.query.programTypeIds = programTypeIds;
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
-                                            let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'locations' , 'encounterIds', ,'groupBy'], compineRequestParams);
+                                            let reportParams = etlHelpers.getReportParams('daily-attendance', ['startDate', 'locations' , 'encounterIds','visitTypeIds' ,'programTypeIds' ,'groupBy'], compineRequestParams);
                                             dao.runReport(reportParams).then((result) => {
                                                 reply(result);
                                             }).catch((error) => {
@@ -387,12 +398,16 @@ module.exports = function () {
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
                                 request.query.groupBy = 'groupByPerson,groupByd';
-                                resolveEncounterUuidToId.getEncounterIdsFromRequestUuids(request.query)
+                                resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                       .then((resolve) => {
-                                            let encounterIds = resolve;
+                                            let encounterIds = resolve.encounterTypeIds;
+                                            let visitTypeIds = resolve.visitTypesIds;
+                                            let programTypeIds = resolve.programTypeIds;
                                             request.query.encounterIds = encounterIds;
+                                            request.query.visitTypeIds = visitTypeIds;
+                                            request.query.programTypeIds = programTypeIds;
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
-                                            let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations','encounterIds' ,'groupBy'], compineRequestParams);
+                                            let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations','encounterIds','visitTypeIds','programTypeIds','groupBy'], compineRequestParams);
                                             reportParams.limit = 100000;
                                             dao.runReport(reportParams).then((result) => {
                                                 reply(result);
