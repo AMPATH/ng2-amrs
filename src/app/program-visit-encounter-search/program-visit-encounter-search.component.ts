@@ -216,22 +216,26 @@ public loadSavedFilterItems() {
             this.program = [];
 
             _.each(programTypes, (programType) => {
-              _.each(progVisitsEncounters, (progVists: any, index) => {
+              _.each(progVisitsEncounters, (progVisits: any, index) => {
 
                 if (index.toString() === programType) {
 
                   let specificProgram = {
-                    'itemName': progVists.name,
-                    'id': programType
+                    'id': programType,
+                    'itemName': progVisits.name
                   };
 
-                  this.program.push(specificProgram);
+                  programsArray.push(specificProgram);
 
                 }
 
               });
 
             });
+
+            this.program = programsArray;
+
+            this.cd.detectChanges();
 
             // load visit types based on programs saved
 
@@ -243,9 +247,9 @@ public loadSavedFilterItems() {
             let trackVisitTypes = [];
 
             _.each(visitTypes, (visitType) => {
-              _.each(progVisitsEncounters, (progVists: any, index) => {
+              _.each(progVisitsEncounters, (progVisits: any, index) => {
 
-                   let visits = progVists.visitTypes;
+                   let visits = progVisits.visitTypes;
 
                    _.each(visits, (visit: any) => {
 
@@ -317,17 +321,24 @@ public loadSavedFilterItems() {
 
   public getAllPrograms() {
 
+        this.programs = [];
+
+        let allPrograms  = [];
+
         let programsVisitsConf = this.programVisitsEncounters;
 
         _.each(programsVisitsConf, (program: any, index) => {
 
             let specificProgram = {
-              'itemName': program.name,
-              'id': program.uuid
+              'id': index,
+              'itemName': program.name
             };
-            this.programs.push(specificProgram);
+
+            allPrograms.push(specificProgram);
 
           });
+
+        this.programs = allPrograms;
 
     }
 
@@ -341,6 +352,25 @@ public loadSavedFilterItems() {
         _.each(departmentsSelected, (departmentSelected: any) => {
            this.getPrograms(departmentSelected);
         });
+
+    }
+
+    public onDeSelectAllDepartment($item) {
+    }
+
+    public selectProgram(item) {
+      this.filterSet = false;
+    }
+
+    public onSelectAllPrograms(item) {
+
+      this.filterSet = false;
+
+    }
+
+    public onDeSelectAllPrograms(item) {
+
+      this.filterSet = false;
 
     }
 
@@ -359,8 +389,8 @@ public loadSavedFilterItems() {
           _.each(deptPrograms, (program: any) => {
 
             let specificProgram = {
-              'itemName': program.name,
-              'id': program.uuid
+              'id': program.uuid,
+              'itemName': program.name
             };
 
             if (_.includes(this.trackPrograms, program.uuid ) === false) {
@@ -376,9 +406,8 @@ public loadSavedFilterItems() {
 
         });
 
-        setTimeout(() => {
-          this.loadProgramFromPrograms();
-        }, 500);
+        this.loadProgramFromPrograms();
+
 
     }
 

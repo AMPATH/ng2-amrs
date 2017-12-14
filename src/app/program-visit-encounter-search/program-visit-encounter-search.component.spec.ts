@@ -102,8 +102,8 @@ const mockProgramVisitsConfig = {
 
 const programsSelected = [
   {
-     'itemName': 'CDM PROGRAM',
-     'id': 'fc15ac01-5381-4854-bf5e-917c907aa77f'
+     'id': 'fc15ac01-5381-4854-bf5e-917c907aa77f',
+     'itemName': 'CDM PROGRAM'
   }];
 
 const visitType = [{
