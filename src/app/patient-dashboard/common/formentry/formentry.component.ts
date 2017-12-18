@@ -37,7 +37,7 @@ import { ProgramsTransferCareService } from '../../programs/transfer-care/transf
 export class FormentryComponent implements OnInit, OnDestroy {
 
   public busyIndicator: any = {
-    busy: false,
+    busy: true,
     message: 'Please wait...' // default message
   };
   public formName: string = '';
@@ -122,6 +122,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         return;
       }
       componentRef.loadForm();   // load  form
+      this.isBusyIndicator(false);
     });
   }
 
@@ -154,7 +155,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         document.body.scrollTop = 0;
       }
     }, 100);
-    console.log('FORM MODEL:', this.form.rootNode.control);
+    // console.log('FORM MODEL:', this.form.rootNode.control);
     const isSaving = this.formSubmissionService.getSubmitStatus();
     if (!isSaving) {
       this.submitForm();
@@ -515,7 +516,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
             (data) => {
               this.isBusyIndicator(false); // hide busy indicator
               this.handleSuccessfulFormSubmission(data);
-              console.log('All payloads submitted successfully:', data);
+              // console.log('All payloads submitted successfully:', data);
               this.enableSubmitBtn();
               this.formSubmissionService.setSubmitStatus(false);
             },
@@ -549,18 +550,33 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
  }
 
-
   private disableSubmitBtn() {
 
-    document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
+    let submitBtn  = document.getElementById('formentry-submit-btn');
+
+
+    if (typeof submitBtn === 'undefined' || submitBtn === null) {
+
+    } else {
+
+      document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
+
+    }
 
   }
 
   private enableSubmitBtn() {
 
-    document.getElementById('formentry-submit-btn').removeAttribute('disabled');
+    let submitBtn  = document.getElementById('formentry-submit-btn');
 
-    this.resetSubmitStatus();
+    if (typeof submitBtn === 'undefined' || submitBtn === null) {
+
+    } else {
+
+      document.getElementById('formentry-submit-btn').removeAttribute('disabled');
+
+      this.resetSubmitStatus();
+    }
 
   }
 
@@ -593,18 +609,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
         message: 'You have referred the patient to ' +
         'differentiated care program. Do you want to enroll patient to the program?',
         accept: () => {
-          this.isBusyIndicator(true);
+          this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
           this.referralsHandler.handleFormReferals(this.patient,
             this.form)
             .subscribe(
             (results) => {
-              this.isBusyIndicator(false);
+              this.isBusyIndicator(false, '');
               this.showSuccessDialog = true;
               this.diffCareReferralStatus = results.differentiatedCare;
             },
             (error) => {
               console.error('Error processing referrals', error);
-              this.isBusyIndicator(false);
+              this.isBusyIndicator(false, '');
               this.showSuccessDialog = true;
               this.diffCareReferralStatus = error.differentiatedCare;
             }
