@@ -65,7 +65,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
                  this.selectedDate = date;
                  this.initParams();
                  let params = this.getQueryParams();
-                 console.log('Has not Returned Visit Params', params);
                  this.getDailyHasNotReturned(params);
                }
 
@@ -78,7 +77,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
        .queryParams
        .subscribe((params) => {
          if (params) {
-           console.log('Has Not Returned Page params', params);
            if (this.fetchCount === 0 ) {
             /*
             for intial page load do not fetch daily visits as
@@ -181,8 +179,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
 
          // this._cookieService.put(cookieKey, cookieVal);
       }
-
-      console.log('Daily Has not returned Cookie val', cookieVal);
 
       this.encodedParams = cookieVal;
 
