@@ -360,17 +360,23 @@ public loadSavedFilterItems() {
 
     public selectProgram(item) {
       this.filterSet = false;
+      this.loadVisitTypesFromPrograms();
     }
 
     public onSelectAllPrograms(item) {
 
       this.filterSet = false;
+      this.loadVisitTypesFromPrograms();
 
     }
 
     public onDeSelectAllPrograms(item) {
 
       this.filterSet = false;
+      this.visitType = [];
+      this.visitTypes = [];
+      this.encounterType = [];
+      this.encounterTypes = [];
 
     }
 
