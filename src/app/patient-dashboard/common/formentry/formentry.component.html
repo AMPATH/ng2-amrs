@@ -1,5 +1,9 @@
 <div class="form-entry">
-  <div [ngBusy]="busyIndicator">
+    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+      </i>{{busyIndicator.message}}</span>
+    </div>
+
+  <div *ngIf="!busyIndicator.busy">
     <div class='col-md-12' *ngIf=form>
       <error-renderer [form]="form"></error-renderer>
       <form [formGroup]="form.rootNode.control">
