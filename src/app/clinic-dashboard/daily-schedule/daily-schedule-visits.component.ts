@@ -62,7 +62,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
                 this.selectedDate = date;
                 this.initParams();
                 let params = this.getQueryParams();
-                console.log('Visit Params', params);
                 this.getDailyVisits(params);
               }
 
@@ -75,7 +74,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe((params) => {
         if (params) {
-          console.log('Visits Page params', params);
           if (this.fetchCount === 0 ) {
             /*
             for intial page load do not fetch daily visits as
