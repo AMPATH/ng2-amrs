@@ -89,7 +89,13 @@ export class Encounter extends BaseModel {
     public get provider(): Provider {
         if (this._provider === null || this._provider === undefined) {
             this.initializeNavigationProperty('provider');
-            this._provider = new Provider(this._openmrsModel.provider);
+            // Easiest fix for now
+            if (this._openmrsModel.encounterProviders &&
+                this._openmrsModel.encounterProviders.length > 0) {
+                this._provider = new Provider(this._openmrsModel.encounterProviders[0].provider);
+            }else {
+                this._provider = new Provider(this._openmrsModel.provider);
+            }
         }
         return this._provider;
     }

@@ -28,6 +28,7 @@ import {
 } from '../../../etl-api/monthly-scheduled-resource.service';
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
+import { Encounter } from '../../../models/encounter.model';
 
 @Component({
   selector: 'app-formentry',
@@ -475,7 +476,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (this.encounterUuid && this.encounterUuid !== '') {
         this.encounterResource.getEncounterByUuid(this.encounterUuid)
           .subscribe((encounter) => {
-            observer.next(encounter);
+            let wrappedEnconter: Encounter = new Encounter(encounter);
+            observer.next(wrappedEnconter);
           }, (error) => {
             observer.error(error);
           });
@@ -533,8 +535,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
         }
 
   }
-
-
 }
 
  private checkFormSumittedStatus() {
@@ -549,12 +549,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
    this.submitClicked = false;
 
  }
-
   private disableSubmitBtn() {
 
     let submitBtn  = document.getElementById('formentry-submit-btn');
-
-
     if (typeof submitBtn === 'undefined' || submitBtn === null) {
 
     } else {
@@ -702,7 +699,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (encounterProvider.length > 0) {
       personUuid = encounterProvider[0].control.value;
     }
-    return this.formDataSourceService.getProviderByPersonUuid(personUuid);
+    return this.formDataSourceService.getProviderByUuid(personUuid);
   }
 
 }

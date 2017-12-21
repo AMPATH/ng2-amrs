@@ -48,7 +48,7 @@ export class FormDataSourceService {
 
   public getProviderDataSource() {
     let resolve = (uuid: string) => {
-      return this.getProviderByPersonUuid(uuid);
+      return this.getProviderByUuid(uuid);
     };
     let find = (text: string) => {
       return this.findProvider(text);
@@ -203,7 +203,8 @@ export class FormDataSourceService {
       (provider) => {
         let mappedProvider = {
           label: provider.display,
-          value: provider.uuid
+          value: provider.uuid,
+          providerUuid: (provider as any).uuid
         };
         providerSearchResults.next(mappedProvider);
 
