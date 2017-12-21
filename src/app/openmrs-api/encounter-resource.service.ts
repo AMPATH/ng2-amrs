@@ -9,7 +9,7 @@ export class EncounterResourceService {
     'patient:(uuid,uuid),form:(uuid,name),' +
     'visit:(uuid,display,auditInfo,startDatetime,stopDatetime,location:(uuid,display)' +
             ',visitType:(uuid,name)),' +
-    'location:ref,encounterType:ref,provider:ref)';
+    'location:ref,encounterType:ref,encounterProviders)';
 
     constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
     public getUrl(): string {
@@ -41,7 +41,7 @@ export class EncounterResourceService {
         let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
             'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
             'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
-            'location:ref,encounterType:ref,provider:ref,orders:full,' +
+            'location:ref,encounterType:ref,encounterProviders,orders:full,' +
             'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
         let params = new URLSearchParams();
         params.set('v', _customDefaultRep);
