@@ -252,11 +252,19 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private loadDraftedForm() {
+    // console.log('patient uuid', this.patient.uuid);
     this.form = this.draftedFormsService.lastDraftedForm;
+
+    // get patient
+
+    this.getPatient().subscribe((results) => {
+       this.patient = results;
+    });
 
     // clear from service as it is no longer a drafted form
     this.draftedFormsService.saveRouteSnapshot(null);
     this.draftedFormsService.setDraftedForm(null);
+    this.isBusyIndicator(false);
   }
 
   private loadForm(): void {
