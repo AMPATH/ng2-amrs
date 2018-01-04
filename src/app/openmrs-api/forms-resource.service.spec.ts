@@ -46,7 +46,7 @@ describe('FormResourceService Unit Tests', () => {
           expect(connection.request.url)
             .toContain('/ws/rest/v1/form?v=custom:(uuid,name,encounterType:' +
             '(uuid,name),version,published,retired,' +
-            'retiredReason,resources:(uuid,name,dataType,valueReference))&q=POC');
+            'resources:(uuid,name,dataType,valueReference))&q=POC');
         });
         expect(formsResourceService.getForms());
       })));

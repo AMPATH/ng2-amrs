@@ -24,7 +24,7 @@ export class FormsResourceService {
 
     let params = new URLSearchParams();
     params.set('v', 'custom:(uuid,name,encounterType:(uuid,name),version,' +
-      'published,retired,retiredReason,resources:(uuid,name,dataType,valueReference))');
+      'published,retired,resources:(uuid,name,dataType,valueReference))');
     params.set('q', 'POC');
 
     if (!this.forms.observers.length || forceRefresh) {
