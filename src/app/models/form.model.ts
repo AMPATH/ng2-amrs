@@ -10,7 +10,6 @@ export class Form extends BaseModel {
     name: string;
   };
   public retired: boolean;
-  public retiredReason: string;
   public resources: any;
   constructor(openmrsModel?: any) {
     super(openmrsModel);
