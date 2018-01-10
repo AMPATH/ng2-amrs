@@ -11,6 +11,8 @@ import { DraftedFormsService } from './drafted-forms.service';
 import { PatientPreviousEncounterService } from '../../services/patient-previous-encounter.service';
 import { FormSchemaService } from './form-schema.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
+import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
+import { UserService } from '../../../openmrs-api/user.service';
 
 @Injectable()
 export class FormCreationDataResolverService implements Resolve<any> {
@@ -20,6 +22,8 @@ export class FormCreationDataResolverService implements Resolve<any> {
     private router: ActivatedRoute,
     private formSchemaService: FormSchemaService,
     private visitResourceService: VisitResourceService,
+    private providerResourceService: ProviderResourceService,
+    private userService: UserService,
     private hivSummaryResService: HivSummaryResourceService,
     private draftedForm: DraftedFormsService) {
   }
@@ -41,19 +45,37 @@ export class FormCreationDataResolverService implements Resolve<any> {
               encounter: undefined,
               schema: compiledFormSchema,
               visit: undefined,
-              hivSummary: undefined
+              hivSummary: undefined,
+              user: undefined,
+              provider: undefined
             };
 
-            this.getHivSummary(patientUuid)
-            .then((summaries) => {
-              dataRequiredToLoadForm.hivSummary = summaries;
-              this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+            dataRequiredToLoadForm.user = this.userService.getLoggedInUser();
 
-            })
-            .catch((error) => {
-              dataRequiredToLoadForm.hivSummary = error;
-              this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
-            });
+            if (dataRequiredToLoadForm.user) {
+              this.getUserProviderDetails(dataRequiredToLoadForm.user)
+                .then((provider) => {
+                  dataRequiredToLoadForm.provider = provider;
+                  this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+                })
+                .catch(error => {
+                  dataRequiredToLoadForm.provider = {};
+                  this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+                });
+            } else {
+              dataRequiredToLoadForm.provider = {};
+            }
+
+            this.getHivSummary(patientUuid)
+              .then((summaries) => {
+                dataRequiredToLoadForm.hivSummary = summaries;
+                this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+
+              })
+              .catch((error) => {
+                dataRequiredToLoadForm.hivSummary = error;
+                this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+              });
 
             this.getPreviousEncounter(selectedEncounter, compiledFormSchema)
               .then((encounter) => {
@@ -88,10 +110,32 @@ export class FormCreationDataResolverService implements Resolve<any> {
   private processDataResolvingStep(dataRequiredToLoadForm: any, finalAcceptFunc) {
     if (dataRequiredToLoadForm.encounter &&
       dataRequiredToLoadForm.visit &&
-      dataRequiredToLoadForm.hivSummary) {
+      dataRequiredToLoadForm.hivSummary &&
+      dataRequiredToLoadForm.provider) {
       console.log('Data required to load forms', dataRequiredToLoadForm);
       finalAcceptFunc(dataRequiredToLoadForm);
+    } else {
+      console.log('waiting for data to load ...', dataRequiredToLoadForm);
     }
+  }
+
+  private getUserProviderDetails(user: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (user && user.person) {
+        this.providerResourceService
+          .getProviderByPersonUuid(user.person.uuid)
+          .subscribe(
+          (provider) => {
+            resolve(provider);
+          },
+          (error) => {
+            reject(error);
+          }
+          )
+      } else {
+        reject('User is required');
+      }
+    });
   }
 
   private getPreviousEncounter(selectedEncounter: string, compiledFormSchema: any, ): Promise<any> {
