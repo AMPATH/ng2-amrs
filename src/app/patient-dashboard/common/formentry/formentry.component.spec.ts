@@ -2,8 +2,8 @@ import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import {
-    ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot,
-    Router
+  ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot,
+  Router
 } from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
@@ -22,12 +22,12 @@ import { FileUploadResourceService } from '../../../etl-api/file-upload-resource
 import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
-    FakeDefaultUserPropertiesFactory
+  FakeDefaultUserPropertiesFactory
 } from './mock/default-user-properties-factory.service.mock';
 
 import {
-    FormFactory, EncounterAdapter, OrderValueAdapter, Form,
-    ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler, ObsAdapterHelper
+  FormFactory, EncounterAdapter, OrderValueAdapter, Form,
+  ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler, ObsAdapterHelper
 } from 'ng2-openmrs-formentry';
 import { FakeFormSchemaCompiler } from './mock/form-schema-compiler.service.mock';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -36,7 +36,7 @@ import { PatientPreviousEncounterService } from '../../services/patient-previous
 import { PatientService } from '../../services/patient.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import {
-    ProgramEnrollmentResourceService
+  ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
@@ -55,7 +55,8 @@ import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.ser
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
-import { MonthlyScheduleResourceService
+import {
+  MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
@@ -65,6 +66,8 @@ import { FormentryReferralsHandlerService } from './formentry-referrals-handler.
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';
 import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 import {PatientProgramResourceService} from "../../../etl-api/patient-program-resource.service";
+import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
+import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 
 describe('Component: FormentryComponent', () => {
   let router = {
@@ -155,40 +158,42 @@ describe('Component: FormentryComponent', () => {
         FileUploadResourceService,
         CacheService,
         FormentryReferralsHandlerService,
+        VisitResourceService,
+        HivSummaryResourceService,
         {
           provide: EncounterResourceService, useFactory: () => {
-          return new EncounterResourceServiceMock();
-        }, deps: []
+            return new EncounterResourceServiceMock();
+          }, deps: []
         },
         {
           provide: PatientService, useFactory: () => {
-          return new PatientServiceMock();
-        }, deps: []
+            return new PatientServiceMock();
+          }, deps: []
         },
-        {provide: Router, useValue: router},
+        { provide: Router, useValue: router },
         {
           provide: FormSchemaCompiler, useFactory: () => {
-          return new FakeFormSchemaCompiler();
-        }, deps: []
+            return new FakeFormSchemaCompiler();
+          }, deps: []
         },
         {
           provide: FormFactory, useFactory: () => {
-          return new FakeFormFactory();
-        }, deps: []
+            return new FakeFormFactory();
+          }, deps: []
         },
-        {provide: Location, useClass: SpyLocation},
+        { provide: Location, useClass: SpyLocation },
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: Observable.of({encounter: 'encounter-uuid'}),
-            params: Observable.of({formUuid: 'form-uuid'}),
+            queryParams: Observable.of({ encounter: 'encounter-uuid' }),
+            params: Observable.of({ formUuid: 'form-uuid' }),
             data: Observable.of({
               compiledSchemaWithEncounter: {
                 encounter: {},
                 schema: schema
               }
             }),
-            snapshot: {params: {formUuid: 'form-uuid'}}
+            snapshot: { params: { formUuid: 'form-uuid' } }
           }
         },
         PatientReminderService,
@@ -201,18 +206,18 @@ describe('Component: FormentryComponent', () => {
         },
         {
           provide: UserService, useFactory: () => {
-          return new FakeUserFactory();
-        }, deps: []
+            return new FakeUserFactory();
+          }, deps: []
         },
         {
           provide: UserDefaultPropertiesService, useFactory: () => {
-          return new FakeDefaultUserPropertiesFactory();
-        }, deps: []
+            return new FakeDefaultUserPropertiesFactory();
+          }, deps: []
         },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
-          return new FakeAppFeatureAnalytics();
-        }, deps: []
+            return new FakeAppFeatureAnalytics();
+          }, deps: []
         }
       ]
     });
@@ -229,9 +234,9 @@ describe('Component: FormentryComponent', () => {
 
   it('should fetch and compile formschema when the component initializes with a valid form-uuid',
     inject([FormSchemaService, FormCreationDataResolverService,
-        PatientPreviousEncounterService],
+      PatientPreviousEncounterService],
       (formSchemaService: FormSchemaService, resolver: FormCreationDataResolverService,
-       prevEncService: PatientPreviousEncounterService) => {
+        prevEncService: PatientPreviousEncounterService) => {
 
         let uuid: string = 'form-uuid';
         spyOn(resolver, 'resolve').and.callFake((params) => {
@@ -263,7 +268,7 @@ describe('Component: FormentryComponent', () => {
     'initializes with a valid form-uuid',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter) => {
 
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
@@ -281,10 +286,10 @@ describe('Component: FormentryComponent', () => {
 
   it('should populate form with historical values/ encounters when creating new form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute, DataSources],
+      ActivatedRoute, DataSources],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute, dataSources: DataSources) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute, dataSources: DataSources) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -295,8 +300,8 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({encounter: ''});
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.queryParams = Observable.of({ encounter: '' });
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -320,10 +325,10 @@ describe('Component: FormentryComponent', () => {
   it('should NOT populate form with historical values/ encounters when ' +
     'editting an existing form. Case: editting exsting form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute, DataSources],
+      ActivatedRoute, DataSources],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute, dataSources: DataSources) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute, dataSources: DataSources) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -334,8 +339,8 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({encounter: 'encounte-uuid'});
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.queryParams = Observable.of({ encounter: 'encounte-uuid' });
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -356,10 +361,10 @@ describe('Component: FormentryComponent', () => {
 
   it('should tie encounter/form to a visit if visit-uuid exists: Case: creating new form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute],
+      ActivatedRoute],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -373,7 +378,7 @@ describe('Component: FormentryComponent', () => {
           encounter: '',
           visitUuid: 'visit-uuid'
         });
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -386,17 +391,16 @@ describe('Component: FormentryComponent', () => {
         // check if form has visit uuid
         expect(formentryComponent.form.valueProcessingInfo.visitUuid).toBe('visit-uuid');
 
-
       })
   );
 
   it('should NOT tie encounter/form to a visit even if the visit-uuid is defined' +
     ' when editting form: Case Editting existing form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute],
+      ActivatedRoute],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -410,7 +414,7 @@ describe('Component: FormentryComponent', () => {
           visitUuid: 'visit-uuid',
           encounter: 'encounetr-uuid'
         });
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -429,11 +433,11 @@ describe('Component: FormentryComponent', () => {
 
   it('should populate form with default values. Case: creating new form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute, UserService, UserDefaultPropertiesService],
+      ActivatedRoute, UserService, UserDefaultPropertiesService],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute, userService: UserService,
-       userDefaultPropertiesService: UserDefaultPropertiesService) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute, userService: UserService,
+        userDefaultPropertiesService: UserDefaultPropertiesService) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -441,20 +445,20 @@ describe('Component: FormentryComponent', () => {
         // spy userDefaultPropertiesService
         spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
           .and.callFake((param) => {
-          return {
-            uuid: 'location-uuid',
-            display: 'location'
-          };
-        });
+            return {
+              uuid: 'location-uuid',
+              display: 'location'
+            };
+          });
 
         // spy userService
         spyOn(userService, 'getLoggedInUser')
           .and.callFake((param) => {
-          return {
-            personUuid: 'person-uuid',
-            display: 'person name'
-          };
-        });
+            return {
+              personUuid: 'person-uuid',
+              display: 'person name'
+            };
+          });
 
 
         spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
@@ -465,7 +469,7 @@ describe('Component: FormentryComponent', () => {
         activatedRoute.queryParams = Observable.of({
           encounter: '' // --> this means we are creating new form
         });
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -486,13 +490,13 @@ describe('Component: FormentryComponent', () => {
 
   it('should NOT populate form with default values when editting form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute, UserService, MonthlyScheduleResourceService,
-        UserDefaultPropertiesService],
+      ActivatedRoute, UserService, MonthlyScheduleResourceService,
+      UserDefaultPropertiesService],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute, userService: UserService,
-       monthlyScheduleResourceService: MonthlyScheduleResourceService,
-       userDefaultPropertiesService: UserDefaultPropertiesService) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute, userService: UserService,
+        monthlyScheduleResourceService: MonthlyScheduleResourceService,
+        userDefaultPropertiesService: UserDefaultPropertiesService) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -500,20 +504,20 @@ describe('Component: FormentryComponent', () => {
         // spy userDefaultPropertiesService
         spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
           .and.callFake((param) => {
-          return {
-            uuid: 'location-uuid',
-            display: 'location'
-          };
-        });
+            return {
+              uuid: 'location-uuid',
+              display: 'location'
+            };
+          });
 
         // spy userService
         spyOn(userService, 'getLoggedInUser')
           .and.callFake((param) => {
-          return {
-            personUuid: 'person-uuid',
-            display: 'person name'
-          };
-        });
+            return {
+              personUuid: 'person-uuid',
+              display: 'person name'
+            };
+          });
 
 
         spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
@@ -524,7 +528,7 @@ describe('Component: FormentryComponent', () => {
         activatedRoute.queryParams = Observable.of({
           encounter: 'encounter-uuid' // --> this means we are editting existing form
         });
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -548,10 +552,10 @@ describe('Component: FormentryComponent', () => {
   it('should populate form object with necessary valueProcessingInfo required' +
     ' for payload generation',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute],
+      ActivatedRoute],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -565,7 +569,7 @@ describe('Component: FormentryComponent', () => {
           encounter: 'encounetr-uuid',
           visitUuid: 'visit-uuid'
         });
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -586,10 +590,10 @@ describe('Component: FormentryComponent', () => {
   );
   it('should populate form with encounter, obs, orders when editting form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-        ActivatedRoute, DataSources],
+      ActivatedRoute, DataSources],
       (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-       activatedRoute: ActivatedRoute, dataSources: DataSources) => {
+        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+        activatedRoute: ActivatedRoute, dataSources: DataSources) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
           return form;
         });
@@ -600,8 +604,8 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({encounter: 'encounter-uuid'});
-        activatedRoute.params = Observable.of({formUuid: 'form-uuid'});
+        activatedRoute.queryParams = Observable.of({ encounter: 'encounter-uuid' });
+        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
         activatedRoute.data = Observable.of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
@@ -640,7 +644,7 @@ class EncounterResourceServiceMock {
 
 class PatientServiceMock {
   public currentlyLoadedPatient: BehaviorSubject<Patient>
-    = new BehaviorSubject(
+  = new BehaviorSubject(
     new Patient({
       uuid: 'patient-uuid',
       display: 'patient name',

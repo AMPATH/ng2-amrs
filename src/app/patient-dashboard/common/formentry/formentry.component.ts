@@ -7,7 +7,10 @@ import *  as _ from 'lodash';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { DraftedFormsService } from './drafted-forms.service';
-import { FormFactory, EncounterAdapter, Form, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
+import {
+  FormFactory, EncounterAdapter, Form, PersonAttribuAdapter,
+  HistoricalEncounterDataService
+} from 'ng2-openmrs-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../../services/patient.service';
@@ -22,13 +25,14 @@ import { ConfirmationService } from 'primeng/primeng';
 import { UserService } from '../../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
   '../../../user-default-properties/user-default-properties.service';
+import { MonthlyScheduleResourceService }
+  from '../../../etl-api/monthly-scheduled-resource.service';
 import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
-import {
-  MonthlyScheduleResourceService
-} from '../../../etl-api/monthly-scheduled-resource.service';
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 import { Encounter } from '../../../models/encounter.model';
+
+import { EncounterType } from '../../../models/encounter-type.model';
 
 @Component({
   selector: 'app-formentry',
@@ -279,16 +283,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.subscription = Observable.forkJoin(
       observableBatch
     ).flatMap((data) => {
-       // now init private and public properties
-       this.compiledSchemaWithEncounter = data[0] || null;
-       this.patient = data[1] || null;
-       this.encounter = data[2] || null;
-       // now render form
-       return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
+      // now init private and public properties
+      this.compiledSchemaWithEncounter = data[0] || null;
+      this.patient = data[1] || null;
+      this.encounter = data[2] || null;
+      // now render form
+      return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
     }).subscribe(
       (data: any) => {
         console.log(data.generatedReminders);
-        let reminder =  _.find(data.generatedReminders, (o: any) => {
+        let reminder = _.find(data.generatedReminders, (o: any) => {
           return o.title === 'Viral Load Reminder';
         });
         if (reminder) {
@@ -370,6 +374,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
         fileUpload: this.fileUploadResourceService.upload.bind(this.fileUploadResourceService),
         fetchFile: this.fileUploadResourceService.getFile.bind(this.fileUploadResourceService)
       });
+
+      // set up visit encounters data source
+      this.setUpVisitEncountersDataObject();
+
+      // for the case of hiv, set-up the hiv summary
+      this.setUpHivSummaryDataObject();
+
       if (this.encounter) { // editing existing form
         this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
         this.formRelationsFix(this.form);
@@ -388,7 +399,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // now set default value
         this.loadDefaultValues();
       }
-
       // add valueProcessingInfo
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
@@ -409,6 +419,38 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formRenderingErrors.push('An error occured while rendering form: ' + ex.message);
     }
 
+  }
+
+  private setUpHivSummaryDataObject() {
+    if (Array.isArray(this.compiledSchemaWithEncounter.hivSummary) &&
+      this.compiledSchemaWithEncounter.hivSummary.length > 0) {
+      this.dataSources.registerDataSource('lastHivSummary',
+        this.compiledSchemaWithEncounter.hivSummary[0]);
+    } else {
+      this.dataSources.registerDataSource('lastHivSummary', null);
+    }
+  }
+
+  private setUpVisitEncountersDataObject() {
+
+    let hd = new HistoricalEncounterDataService();
+    if (this.compiledSchemaWithEncounter.visit &&
+      this.compiledSchemaWithEncounter.visit.encounters &&
+      Array.isArray(this.compiledSchemaWithEncounter.visit.encounters)) {
+      let visitEncounters: Array<any> = this.compiledSchemaWithEncounter.visit.encounters;
+      visitEncounters.forEach((enc) => {
+        hd.registerEncounters(enc.encounterType.uuid, enc);
+      });
+    }
+
+    this.dataSources.registerDataSource('visitEnc', hd);
+
+    // console.log('Visit Value', this.dataSources.dataSources['visitEnc']
+    //   .getObject('a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7')
+    //   .getValue('93aa3f1d-1c39-4196-b5e6-8adc916cd5d6'));
+    // console.log('Visit Value', this.dataSources.dataSources['visitEnc']
+    //   .getObject('a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7')
+    //   .getValue('9ce5dbf0-a141-4ad8-8c9d-cd2bf84fe72b'));
   }
 
   private setUpWHOCascading() {
@@ -452,18 +494,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private getPatient(): Observable<Patient> {
 
-        return Observable.create((observer: Subject<Patient>) => {
-          this.patientService.currentlyLoadedPatient.subscribe(
-            (patient) => {
-              if (patient) {
-                observer.next(patient);
-              }
-            },
-            (err) => {
-              observer.error(err);
-            });
-        }).first();
-      }
+    return Observable.create((observer: Subject<Patient>) => {
+      this.patientService.currentlyLoadedPatient.subscribe(
+        (patient) => {
+          if (patient) {
+            observer.next(patient);
+          }
+        },
+        (err) => {
+          observer.error(err);
+        });
+    }).first();
+  }
 
   private registerVLDatasource(reminders: any) {
     if (reminders) {
