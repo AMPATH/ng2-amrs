@@ -85,10 +85,11 @@
     </order-list>
 
     <br />
-    <div *ngIf="diffCareReferralStatus">
-      <strong>Differentiated Care Referral</strong>
+
+    <div *ngIf="referralStatus">
+      <strong>{{referProgram.program}} Referral</strong>
       <hr style="margin-top:1px; margin-bottom:1px;" />
-      <diff-care-referral-status [status]="diffCareReferralStatus"></diff-care-referral-status>
+      <referral-status [status]="referralStatus"></referral-status>
     </div>
 
     <br>

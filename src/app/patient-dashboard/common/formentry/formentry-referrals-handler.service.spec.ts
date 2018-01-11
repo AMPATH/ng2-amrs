@@ -9,8 +9,8 @@ import { Form } from 'ng2-openmrs-formentry';
 
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';
-import { DifferentiatedCareReferralService } from
-  '../patient-referrals/differentiated-care-referral.service';
+import { PatientReferralService } from
+'./../patient-referrals/referral-status/referral-service';
 import { Patient } from '../../../models/patient.model';
 
 describe('Service: FormentryReferralsHandler', () => {
@@ -98,14 +98,14 @@ describe('Service: FormentryReferralsHandler', () => {
 
   it('should refer to differentiated care program when referal is selected',
     (done) => {
-      let diffService: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+      let refService: PatientReferralService =
+        TestBed.get(PatientReferralService);
       let patient: Patient = new Patient({ uuid: 'some-uuid', person: {} });
       let expectedResults = {
         success: true
       };
 
-      let diffCareReferalSpy = spyOn(diffService, 'referToDifferentiatedCare')
+      let diffCareReferalSpy = spyOn(refService, 'referToProgram')
         .and.callFake(() => {
           let sub = new Subject<any>();
           setTimeout(() => {
@@ -119,7 +119,7 @@ describe('Service: FormentryReferralsHandler', () => {
           expect(results).toEqual(
             {
               success: true,
-              differentiatedCare: expectedResults
+              result: expectedResults
             }
           );
           done();

@@ -58,6 +58,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
     orders: []
   };
   public diffCareReferralStatus: any = undefined;
+  public mdtReferralStatus: any = undefined;
+  public referralStatus: any = undefined;
+  public referProgram: any;
   public transferCareForm: string = null;
   private subscription: Subscription;
   private encounterUuid: string = null;
@@ -651,27 +654,34 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private handleFormReferrals() {
     let referralsData = this.referralsHandler.extractRequiredValues(this.form);
     this.diffCareReferralStatus = undefined;
+    this.mdtReferralStatus = undefined;
 
-    if (referralsData.hasDifferentiatedCareReferal) {
+    if (referralsData.hasDifferentiatedCareReferal === true) {
+
+      this.referProgram = {
+        'program': 'Differentiated care program',
+      };
+
       this.confirmationService.confirm({
         header: 'Process Referrals',
         message: 'You have referred the patient to ' +
-        'differentiated care program. Do you want to enroll patient to the program?',
+        'DifferentiatedCare program. Do you want to enroll patient to the program?',
         accept: () => {
-          this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
+          this.isBusyIndicator(true, 'Enrolling Patient to ' +
+          'Differentiated Care Program ....');
           this.referralsHandler.handleFormReferals(this.patient,
             this.form)
             .subscribe(
             (results) => {
               this.isBusyIndicator(false, '');
               this.showSuccessDialog = true;
-              this.diffCareReferralStatus = results.differentiatedCare;
+              this.referralStatus = results.result;
             },
             (error) => {
               console.error('Error processing referrals', error);
               this.isBusyIndicator(false, '');
               this.showSuccessDialog = true;
-              this.diffCareReferralStatus = error.differentiatedCare;
+              this.referralStatus = error.result;
             }
             );
         },
@@ -680,7 +690,41 @@ export class FormentryComponent implements OnInit, OnDestroy {
         }
       });
 
-    } else {
+    }else if (referralsData.hasMDTRefferal === true) {
+
+      this.referProgram = {
+        'program': 'MDT program'
+      };
+
+      this.confirmationService.confirm({
+        header: 'Process Referrals',
+        message: 'You have referred the patient to ' +
+        'MDT Program. Do you want to enroll patient to the program?',
+        accept: () => {
+          this.isBusyIndicator(true, 'Enrolling Patient to ' +
+          ' MDT ....');
+          this.referralsHandler.handleFormReferals(this.patient,
+            this.form)
+            .subscribe(
+            (results) => {
+              this.isBusyIndicator(false, '');
+              this.showSuccessDialog = true;
+              this.referralStatus = results.result;
+            },
+            (error) => {
+              console.error('Error processing referrals', error);
+              this.isBusyIndicator(false, '');
+              this.showSuccessDialog = true;
+              this.referralStatus = error.result;
+            }
+            );
+        },
+        reject: () => {
+          this.showSuccessDialog = true;
+        }
+      });
+
+    }else {
       // display success dialog
       this.showSuccessDialog = true;
     }

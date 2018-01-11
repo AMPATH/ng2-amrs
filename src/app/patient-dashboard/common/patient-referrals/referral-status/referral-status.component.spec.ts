@@ -7,13 +7,14 @@ import { Subject } from 'rxjs/Subject';
 
 import * as moment from 'moment';
 
-import { PatientReferralsModule } from './patient-referrals.module';
-import { DifferentiatedCareReferralService } from './differentiated-care-referral.service';
-import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
+import { PatientReferralsModule } from './../patient-referrals.module';
+import { PatientReferralService } from './referral-service';
+import { EncounterResourceService } from
+'./../../../../openmrs-api/encounter-resource.service';
 import { ProgramEnrollmentResourceService } from
-  '../../../openmrs-api/program-enrollment-resource.service';
+'./../../../../openmrs-api/program-enrollment-resource.service';
 
-describe('Service: DifferentiatedCareReferral.service.ts', () => {
+describe('Service: Patient Refferral.service.ts', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [],
@@ -24,15 +25,16 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
     });
   });
 
-  it('should inject the differentiated care referral service', () => {
-    let service = TestBed.get(DifferentiatedCareReferralService);
+  it('should inject the referral service', () => {
+    let service = TestBed.get(PatientReferralService);
     expect(service).toBeTruthy();
   });
 
-  it('should submit differentiated care encounter type with given rtc date, location and provider',
+  it('should submit differentiated care encounter type with given rtc date,' +
+  'location and provider and encounter',
     (done) => {
-      let service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+      let service: PatientReferralService =
+        TestBed.get(PatientReferralService);
       let encounterService = TestBed.get(EncounterResourceService);
 
       let rtcDate: Date = moment().toDate();
@@ -57,8 +59,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
         }
       );
 
-      service.createDifferentiatedCareEncounter('patient-uuid', 'provider-uuid',
-        encounterDate, rtcDate, 'location-uuid')
+      service.creatProgramEncounter('patient-uuid', 'provider-uuid',
+        encounterDate, rtcDate, 'location-uuid', 'f022c2ec-db69-4403-b515-127be11cde53')
         .subscribe((createdEncounter) => {
           expect(postEncounterSpy.calls.count()).toBe(1);
           done();
@@ -68,8 +70,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
     });
 
   it('should enroll the patient to a differentiated care program', (done) => {
-    let service: DifferentiatedCareReferralService =
-      TestBed.get(DifferentiatedCareReferralService);
+    let service: PatientReferralService =
+      TestBed.get(PatientReferralService);
     let enrollmentService: ProgramEnrollmentResourceService =
       TestBed.get(ProgramEnrollmentResourceService);
     let encounterDate: Date = moment().toDate();
@@ -88,8 +90,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       }
     );
 
-    service.enrollPatientToDifferentiatedCare('patient-uuid', encounterDate,
-      'location-uuid')
+    service.enrollPatientToProgram('patient-uuid', encounterDate,
+      'location-uuid', '334c9e98-173f-4454-a8ce-f80b20b7fdf0')
       .subscribe((enrollment) => {
         expect(postEnrollmentSpy.calls.count()).toBe(1);
         done();
@@ -100,8 +102,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
   it('should find the active hiv enrollments from a list of enrolllments',
     () => {
-      let service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+      let service: PatientReferralService =
+        TestBed.get(PatientReferralService);
 
       let samplePrograms = [
         {
@@ -143,8 +145,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
   it('should determine if there is an active differentiated care enrollment',
     () => {
-      let service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+      let service: PatientReferralService =
+        TestBed.get(PatientReferralService);
 
       let samplePrograms = [
         {
@@ -167,13 +169,14 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
         }
       ];
 
-      expect(service.hasActiveDifferentiatedCareEnrollment(samplePrograms)).toBe(true);
+      expect(service.hasActiveProgramEnrollment(samplePrograms,
+        '334c9e98-173f-4454-a8ce-f80b20b7fdf0')).toBe(true);
     });
 
   it('should end active enrollments for a given hiv programs',
     (done) => {
-      let service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+      let service: PatientReferralService =
+        TestBed.get(PatientReferralService);
       let enrollmentService: ProgramEnrollmentResourceService =
         TestBed.get(ProgramEnrollmentResourceService);
 
@@ -201,8 +204,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
     });
 
   it('should end all hiv program enrollments if there are more than one', (done) => {
-    let service: DifferentiatedCareReferralService =
-      TestBed.get(DifferentiatedCareReferralService);
+    let service: PatientReferralService =
+      TestBed.get(PatientReferralService);
 
     let samplePrograms = [
       {
@@ -252,8 +255,8 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       // 1. Create encounter for differentiated care
       // 2. End enrollment in any hiv related program
       // 3. Enroll in differentiated care program
-      let service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+      let service: PatientReferralService =
+        TestBed.get(PatientReferralService);
 
       let patient = {
         uuid: 'patient-uuid',
@@ -291,10 +294,10 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
           return sub;
         });
 
-      let hasActiveSpy = spyOn(service, 'hasActiveDifferentiatedCareEnrollment')
+      let hasActiveSpy = spyOn(service, 'hasActiveProgramEnrollment')
         .and.callThrough();
 
-      let enrollDiffSpy = spyOn(service, 'enrollPatientToDifferentiatedCare')
+      let enrollDiffSpy = spyOn(service, 'enrollPatientToProgram')
         .and.callFake(() => {
           let sub = new Subject();
           setTimeout(() => {
@@ -303,7 +306,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
           return sub;
         });
 
-      let createDiffEncSpy = spyOn(service, 'createDifferentiatedCareEncounter')
+      let createDiffEncSpy = spyOn(service, 'creatProgramEncounter')
         .and.callFake(() => {
           let sub = new Subject();
           setTimeout(() => {
@@ -315,11 +318,11 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       let encounterDate = moment().toDate();
       let rtcDate = moment().toDate();
 
-      let sub = service.referToDifferentiatedCare(patient,
-        'provider-uuid', encounterDate, rtcDate, 'location-uuid');
+      let sub = service.referToProgram(patient,
+        'provider-uuid', encounterDate, rtcDate, 'location-uuid', 
+        '334c9e98-173f-4454-a8ce-f80b20b7fdf0');
       sub.subscribe((status) => {
         // console.log('status', status);
-
         expect(hasActiveSpy.calls.count()).toBe(1);
         expect(filterActive.calls.count()).toBe(1);
         expect(endEnrollmentsSpy.calls.count()).toBe(1);
@@ -341,9 +344,9 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
         expect(status.otherHivProgUnenrollment.done).toBe(true);
 
         // unerolled from other hiv progs
-        expect(status.diffCareProgramEnrollment.enrolled).toBeDefined();
-        expect(status.diffCareProgramEnrollment.error).toBeUndefined();
-        expect(status.diffCareProgramEnrollment.done).toBe(true);
+        expect(status.programEnrollment.enrolled).toBeDefined();
+        expect(status.programEnrollment.error).toBeUndefined();
+        expect(status.programEnrollment.done).toBe(true);
 
         done();
       }, (error) => {
