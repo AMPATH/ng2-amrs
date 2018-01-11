@@ -20,7 +20,8 @@
 		<span style="margin-left:0px;">
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
 		<span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
-		<span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+    <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+    <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
 		</span>
     </div>
   </div>
@@ -47,7 +48,8 @@
       <span style="margin-left:0px;">
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
 		<span *ngIf="searchIdentifiers?.amrsMrn">  <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
-		<span *ngIf="searchIdentifiers?.cCC">  <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+    <span *ngIf="searchIdentifiers?.cCC">  <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
+    <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
 		</span>
     </div>
   </div>
