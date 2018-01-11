@@ -181,7 +181,7 @@ export class FormDataSourceService {
         });
         let mappedProviders = filtered.map((p: any) => {
           return {
-            value: p.person.uuid,
+            value: p.uuid,
             label: p.display,
             providerUuid: p.uuid
           };

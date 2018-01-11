@@ -249,8 +249,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
 
     let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
-    if (encounterProvider.length > 0 && currentUser) {
-      encounterProvider[0].control.setValue(currentUser.personUuid);
+    if (encounterProvider.length > 0 && 
+      this.compiledSchemaWithEncounter &&
+    this.compiledSchemaWithEncounter.provider !== {}) {
+      encounterProvider[0].control.setValue(this.compiledSchemaWithEncounter.provider.uuid);
     }
 
   }
@@ -526,8 +528,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (this.encounterUuid && this.encounterUuid !== '') {
         this.encounterResource.getEncounterByUuid(this.encounterUuid)
           .subscribe((encounter) => {
-            let wrappedEnconter: Encounter = new Encounter(encounter);
-            observer.next(wrappedEnconter);
+            // let wrappedEnconter: Encounter = new Encounter(encounter);
+            observer.next(encounter);
           }, (error) => {
             observer.error(error);
           });
