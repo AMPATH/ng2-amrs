@@ -949,6 +949,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "e49a203a-068a-4d6b-b351-f40d9384170e",
+            "display": "BREASTCANCERASSESSMENT"
           }
         ]
       }
