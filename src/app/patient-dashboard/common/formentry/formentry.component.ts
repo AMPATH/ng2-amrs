@@ -51,6 +51,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public formSubmissionErrors: Array<any> = null;
   public formRenderingErrors: Array<any> = [];
   public showSuccessDialog: boolean = false;
+  public showReferralDialog: boolean = false;
   public patient: Patient = null;
   public submitClicked: boolean = false;
   public submittedOrders: any = {
@@ -255,6 +256,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
       encounterProvider[0].control.setValue(this.compiledSchemaWithEncounter.provider.uuid);
     }
 
+  }
+
+  public referPatient() {
+    this.showReferralDialog = false;
+    this.showSuccessDialog = true;
+  }
+
+  public cancelReferral() {
+    this.showReferralDialog = false;
+    this.showSuccessDialog = true;
   }
 
   private loadDraftedForm() {
@@ -648,42 +659,55 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.handleFormReferrals();
   }
 
-  private handleFormReferrals() {
-    let referralsData = this.referralsHandler.extractRequiredValues(this.form);
-    this.diffCareReferralStatus = undefined;
+  private handlePatientReferrals() {
+    this.showReferralDialog = true;
+    return new Promise((resolve, reject) => {
+      resolve(false);
+    });
+  }
 
-    if (referralsData.hasDifferentiatedCareReferal) {
-      this.confirmationService.confirm({
-        header: 'Process Referrals',
-        message: 'You have referred the patient to ' +
-        'differentiated care program. Do you want to enroll patient to the program?',
-        accept: () => {
-          this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
-          this.referralsHandler.handleFormReferals(this.patient,
-            this.form)
-            .subscribe(
-            (results) => {
-              this.isBusyIndicator(false, '');
-              this.showSuccessDialog = true;
-              this.diffCareReferralStatus = results.differentiatedCare;
+  private handleFormReferrals() {
+    this.handlePatientReferrals().then((success) => {
+      if(success) {
+        let referralsData = this.referralsHandler.extractRequiredValues(this.form);
+        this.diffCareReferralStatus = undefined;
+
+        if (referralsData.hasDifferentiatedCareReferal) {
+          this.confirmationService.confirm({
+            header: 'Process Referrals',
+            message: 'You have referred the patient to ' +
+            'differentiated care program. Do you want to enroll patient to the program?',
+            accept: () => {
+              this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
+              this.referralsHandler.handleFormReferals(this.patient,
+                this.form)
+                .subscribe(
+                  (results) => {
+                    this.isBusyIndicator(false, '');
+                    this.showSuccessDialog = true;
+                    this.diffCareReferralStatus = results.differentiatedCare;
+                  },
+                  (error) => {
+                    console.error('Error processing referrals', error);
+                    this.isBusyIndicator(false, '');
+                    this.showSuccessDialog = true;
+                    this.diffCareReferralStatus = error.differentiatedCare;
+                  }
+                );
             },
-            (error) => {
-              console.error('Error processing referrals', error);
-              this.isBusyIndicator(false, '');
+            reject: () => {
               this.showSuccessDialog = true;
-              this.diffCareReferralStatus = error.differentiatedCare;
             }
-            );
-        },
-        reject: () => {
+          });
+
+        } else {
+          // display success dialog
           this.showSuccessDialog = true;
         }
-      });
-
-    } else {
-      // display success dialog
-      this.showSuccessDialog = true;
-    }
+      } else {
+        // handle referral errors here
+      }
+    });
   }
 
   private resetLastTab() {
