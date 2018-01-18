@@ -101,4 +101,12 @@
     </footer>
 
   </p-dialog>
+  <p-dialog header="Patient Referral" [(visible)]="showReferralDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button class="btn btn-primary" (click)="referPatient()" type="button">Refer</button>
+        <button class="btn btn-danger" (click)="cancelReferral()" type="button">Cancel</button>
+      </div>
+    </footer>
+  </p-dialog>
 </div>
