@@ -17,7 +17,7 @@ var Sync = {
   processing: false,
 
   start: function () {
-
+    console.log('Starting EID sync');
     if (!config.eidSyncCredentials) {
       console.log('openmrs sync user credentials should be provided');
       process.exit(1);
