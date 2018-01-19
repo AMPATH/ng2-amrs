@@ -136,7 +136,7 @@ import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.compo
 import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
 import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
 import { FormUpdaterService } from './formentry/form-updater.service';
-import { ReferralModule } from '../../referral-module/ReferralModule';
+import { ReferralModule } from '../../referral-module/referral-module';
 
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
