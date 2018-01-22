@@ -6,6 +6,7 @@ import {
     VisitResourceService
 } from '../../../openmrs-api/visit-resource.service';
 import { Vital } from '../../../models/vital.model';
+import * as _ from 'lodash';
 
 @Injectable()
 export class TodaysVitalsService {
@@ -35,7 +36,10 @@ export class TodaysVitalsService {
                         let visits = this.getTodayVisits(encounters);
                         let visitUuid = '';
                         if (visits.length > 0) {
-                            visitUuid = visits[0].uuid;
+                            // loop through each days visits
+
+                            _.each((visits), (visit) => {
+                            visitUuid = visit.uuid;
                             this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
                                 (visitEncounters) => {
                                     if (visitEncounters.length > 0) {
@@ -63,7 +67,13 @@ export class TodaysVitalsService {
                                     todaysVitals.error(error);
                                 }
                             );
-                        } else {
+
+                        });
+
+                        }
+
+                   
+                        else {
                             todaysVitals.next([]);
                         }
 
