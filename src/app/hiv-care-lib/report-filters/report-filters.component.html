@@ -46,6 +46,46 @@
         </div>
         <div class="clear-fix clear"></div>
       </div>
+      <div *ngIf="isEnabled('programWorkFlowControl')">
+        <div class="form-group col-md-6" >
+          <label for="program">Program </label>
+          <div class="input-group">
+            <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+            <ng-select [multiple]="true" id="program"
+                       [placeholder]="'Select desired Program(s) or type to search...'"
+                       [(ngModel)]="selectedPrograms" [items]="programOptions" (active)="selectedPrograms">
+            </ng-select>
+            <div class="input-group-addon" (click)="selectAllPrograms()" style="cursor: pointer;">
+              <div>
+                <span *ngIf="selectedProgramTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
+                <span *ngIf="!selectedProgramTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+                <span *ngIf="!selectedProgramTagsSelectedAll" >Select All</span>
+                <span *ngIf="selectedProgramTagsSelectedAll">Select None</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6" >
+          <label for="states">States </label>
+          <div class="input-group">
+            <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+            <ng-select [multiple]="true" id="states"
+                       [placeholder]="'Select desired State(s) or type to search...'"
+                       [(ngModel)]="selectedStates" [items]="statesOptions" (active)="selectedStates">
+            </ng-select>
+            <div class="input-group-addon" (click)="selectAllStates()" style="cursor: pointer;">
+              <div>
+                <span *ngIf="selectedStatesTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
+                <span *ngIf="!selectedStatesTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+                <span *ngIf="!selectedStatesTagsSelectedAll" >Select All</span>
+                <span *ngIf="selectedStatesTagsSelectedAll">Select None</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="form-group col-md-12" *ngIf="isEnabled('ageControl')">
         <label for="age">Age Range</label>
         <input type="text" class="slider" />
@@ -82,10 +122,9 @@
   </div>
   <div class="row" style="margin-top: 4px; padding: 0px;" >
     <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right"
-            [disabled]="selectedIndicators.length === 0 ? !disableGenerateButton : disableGenerateButton"
             (click)="onClickedGenerate()">Generate Report</button>
     <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
-
+    <!--[disabled]="(selectedIndicators.length === 0 ||selectedPrograms.length === 0) ? !disableGenerateButton : disableGenerateButton"-->
   </div>
 
 </div>

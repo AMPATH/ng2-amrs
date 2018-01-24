@@ -74,6 +74,9 @@ import {
 import {
   HivMonthlySummaryIndicatorsPatientListComponent
 } from './hiv-monthly-summary-indicators/patient-list.component';
+import {
+  ProgramWorkFlowResourceService
+} from '../openmrs-api/program-workflow-resource.service';
 
 @NgModule({
   imports: [
@@ -170,7 +173,8 @@ import {
   ],
   providers: [MOHReportService,
     LocationResourceService,
-    ClinicalSummaryVisualizationService
+    ClinicalSummaryVisualizationService,
+    ProgramWorkFlowResourceService
   ]
 })
 export class HivCareLibModule {

@@ -8,6 +8,9 @@ const routes: Routes = [
     children: [
       {
         path: 'hiv', loadChildren: './hiv/hiv-program.module#DataAnalyticsHivProgramModule'
+      },
+      {
+        path: 'referral', loadChildren: './referral/referral-program.module#AnalyticsPatientReferralProgramModule'
       }
     ]
   }

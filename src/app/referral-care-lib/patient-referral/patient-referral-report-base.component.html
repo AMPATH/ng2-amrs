@@ -1,0 +1,55 @@
+<div>
+  <report-filters  [enabledControls]="enabledControls" [(startDate)]="startDate" [(endDate)]="endDate" [start]="ageRangeStart" [end]="ageRangeEnd"
+                   (onAgeChangeFinish)="onAgeChangeFinished($event)"
+                   (onGenderChange)="getSelectedGender($event)"
+                   (onProgramChange)="getSelectedPrograms($event)"
+                   (onselectedLocationChange) ="getLocations($event)"
+                   (onStatesChange) ="getSelectedStates($event)"
+                   [selectedGender]="selectedGender"
+
+                   [reportName]="reportName" [parentIsBusy]="isLoadingReport"
+                   (generateReport)="generateReport()">
+  </report-filters>
+<!--<div class="loader" *ngIf="isLoadingReport"><span><i class="fa fa-spinner fa-spin">
+<<<<<<< HEAD
+<<<<<<< HEAD
+      </i>Loading...</span></div>getSelectedStates
+=======
+      </i>Loading...</span></div>
+>>>>>>> abb19c5... NGPOC-559:Created patient referal report
+=======
+      </i>Loading...</span></div>getSelectedStates
+>>>>>>> afba58b... This is the second commit
+<div class="alert alert-danger fade in" *ngIf="encounteredError">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occured while trying to load the report.
+    Please try again.
+  </h4>
+<<<<<<< HEAD
+<<<<<<< HEAD
+  <p>  [selectedPrograms] ="selectedPrograms"
+=======
+  <p>
+>>>>>>> abb19c5... NGPOC-559:Created patient referal report
+=======
+  <p>  [selectedPrograms] ="selectedPrograms"
+>>>>>>> afba58b... This is the second commit
+    <small>{{errorMessage}}</small>
+  </p>
+</div>
+<div *ngIf="!isLoadingReport && !encounteredError">-->
+
+
+  <patient-referral-tabular [sectionDefs]="sectionsDef"  [rowData]="data" [dates]="dates" [gender]="gender"
+                   [programUuids]="programUuids"         [age]="age"></patient-referral-tabular>
+
+
+
+  <!-- <p-tabView (onChange)="onTabChanged($event)">
+    <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentView === 'tabular'">
+      <patient-referral-tabular [sectionDefs]="sectionsDef"  [rowData]="data" [dates]="dates" [gender]="gender" [age]="age"></patient-referral-tabular>
+    </p-tabPanel>
+  </p-tabView>-->
+
+</div>
+
