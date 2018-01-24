@@ -2,36 +2,35 @@ import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angu
 
 import * as Moment from 'moment';
 import {
-  HivSummaryIndicatorsResourceService
-} from '../../etl-api/hiv-summary-indicators-resource.service';
-import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
-/*import {
-  DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics.service';*/
+import {
+  PatientReferralResourceService
+} from '../../etl-api/patient-referral-resource.service';
 
 @Component({
-  selector: 'hiv-summary-report-base',
-  template: 'hiv-summary-report-base.component.html'
+  selector: 'patient-referral-report-base',
+  template: 'patient-referral-report-base.component.html'
 })
-export class HivSummaryIndicatorBaseComponent implements OnInit {
+export class PatientReferralBaseComponent implements OnInit {
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
+  public programs: any;
+  public states: any;
+
+  public enabledControls = 'datesControl,programWorkFlowControl' +
+    'ageControl,genderControl,locationControl';
   public startAge: number;
   public endAge: number;
-  public indicators: string ;
-  public selectedIndicators  = [];
   public selectedGender = [];
-  public enabledControls = 'indicatorsControl,datesControl,' +
-    'ageControl,genderControl,locationControl';
   public isLoadingReport: boolean = false;
   public encounteredError: boolean = false;
   public errorMessage: string = '';
   public currentView: string = 'tabular'; // can be pdf or tabular or patientList
-  public reportName: string = 'hiv-summary-report';
+  public reportName: string = '';
   public dates: any;
+  public programUuids: any;
   public age: any;
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
@@ -49,6 +48,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     return this._endDate;
   }
   public set endDate(v: Date) {
+
     this._endDate = v;
   }
 
@@ -59,6 +59,20 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public set locationUuids(v: Array<string>) {
     this._locationUuids = v;
   }
+  private _stateUuids: Array<string>;
+  public get stateUuids(): Array<string> {
+    return this._stateUuids;
+  }
+  public set stateUuids(v: Array<string>) {
+    this._stateUuids = v;
+  }
+  private _programsUuids: Array<string>;
+  public get selectedPrograms(): Array<string> {
+    return this._programsUuids;
+  }
+  public set selectedPrograms(v: Array<string>) {
+    this._programsUuids = v;
+  }
   private _gender: Array<string>;
   public get gender(): Array<string> {
     return this._gender;
@@ -67,13 +81,15 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     this._gender = v;
   }
 
-  constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
+  constructor(public patientReferralResourceService: PatientReferralResourceService,
               public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
 
-  public ngOnInit() {}
+  public ngOnInit() {
+   // this.generateReport();
+
+  }
   public generateReport() {
-    // set busy indications variables
-    // clear error
+
     this.dates = {
       startDate: this.startDate,
       endDate: this.endDate
@@ -85,40 +101,36 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     this.encounteredError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
-    this.hivSummaryIndicatorsResourceService
-      .getHivSummaryIndicatorsReport({
-          endDate: this.toDateString(this.endDate),
+    this.patientReferralResourceService
+      .getPatientReferralReport({
+          endDate:this.toDateString(this.endDate),
           gender: this.gender ? this.gender : 'F,M',
           startDate: this.toDateString(this.startDate),
-          indicators: this.indicators,
-          locationUuids: this.getSelectedLocations(this.locationUuids),
+          programUuids: this.programs,
+          locationUuids: this.getSelectedLocations(this.locationUuids),//this.locationUuids
+          stateUuids: '78238ed8-1359-11df-a1f1-0026b9348838,7823ecfc-1359-11df-a1f1-0026b9348838',//this.states, //this.stateUuids
           startAge: this.startAge,
           endAge: this.endAge
        }).subscribe(
       (data) => {
         this.isLoadingReport = false;
-        this.sectionsDef =   data.indicatorDefinitions;
-
+        this.sectionsDef =   data.stateNames;
         this.data = data.result;
-        console.log('this.data hiv', this.data);
+        console.log('data=====>>>',data);
+
       }, (error) => {
         this.isLoadingReport = false;
         this.errorMessage = error;
         this.encounteredError = true;
       });
   }
-  /*getAgeRange($event) {
-     this.startAge = $event.from;
-     this.endAge = $event.to;
-   }*/
+
   public onAgeChangeFinished($event) {
-   /* _.extend(this.filterModel, data);
-    this.filterModelChange.emit(this.filterModel);*/
     this.startAge = $event.ageFrom;
     this.endAge = $event.ageTo;
   }
+
   public getSelectedGender(selectedGender) {
-    // console.log('selectedGender', selectedGender);
     let gender;
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
@@ -131,24 +143,40 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     }
     return this.gender = gender;
   }
-  public getSelectedIndicators(selectedIndicator) {
-    let indicators;
-    if (selectedIndicator) {
-      for (let i = 0; i < selectedIndicator.length; i++) {
-        if (i === 0) {
-          indicators = '' + selectedIndicator[i].id;
-        } else {
-          indicators = indicators + ',' + selectedIndicator[i].id;
-        }
+
+  public getSelectedPrograms(programsUuids): string {
+    if (!programsUuids || programsUuids.length === 0) {
+      return '';
+    }
+
+    let selectedPrograms = '';
+
+    for (let i = 0; i < programsUuids.length; i++) {
+      if (i === 0) {
+        selectedPrograms = selectedPrograms + programsUuids[0].id;
+      } else {
+        selectedPrograms = selectedPrograms + ',' + programsUuids[i].id;
       }
     }
-    return this.indicators = indicators;
+    return this. programs = selectedPrograms;
   }
-/*  getLocations(locs) {
-     this.locationUuids = locs.locations;
-     this.dataAnalyticsDashboardService.setSelectedLocations(this.locationUuids);
+  public getSelectedStates(stateUuids): string {
+    if (!stateUuids || stateUuids.length === 0) {
+      return '';
+    }
 
-  }*/
+    let selectedStates = '';
+
+    for (let i = 0; i < stateUuids.length; i++) {
+      if (i === 0) {
+        selectedStates = selectedStates + stateUuids[0].id;
+      } else {
+        selectedStates = selectedStates + ',' + stateUuids[i].id;
+      }
+    }
+    return this.states = selectedStates;
+  }
+
   public onTabChanged(event) {
     if (event.index === 0) {
       this.currentView = 'tabular';
@@ -175,4 +203,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     return Moment(date).utcOffset('+03:00').format();
   }
 
+
+
 }
+

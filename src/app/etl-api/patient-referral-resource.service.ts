@@ -13,15 +13,11 @@ export class PatientReferralResourceService {
 
     public getPatientListUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
-            + `patient-referrals/patient-list`;
+            + `referral-patient-list`;
     }
 
     public getUrlRequestParams(params): URLSearchParams {
         let urlParams: URLSearchParams = new URLSearchParams();
-
-        if (params.indicator) {
-            urlParams.set('indicator', params.indicator);
-        }
 
         urlParams.set('endDate', params.endDate);
         urlParams.set('gender', params.gender);
@@ -67,7 +63,7 @@ export class PatientReferralResourceService {
                 return response.json().result;
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
+       // this.cacheService.cacheRequest(url, urlParams, request);
         return request;
     }
 }
