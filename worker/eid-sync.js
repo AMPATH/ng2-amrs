@@ -40,10 +40,10 @@ var Sync = {
     var today = new Date().getHours();
 
     //sync records after working hours only
-    if (today >= 7 && today <= 17) {
-      Sync.processing = false;
-      return;
-    }
+    // if (today >= 7 && today <= 17) {
+    //   Sync.processing = false;
+    //   return;
+    // }
 
     // incase of server unavailability, postpone sync    
     if (moment().isBefore(Sync.nextSyncDateTime)) {
