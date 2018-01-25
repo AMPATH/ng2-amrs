@@ -1,6 +1,6 @@
 FROM keymetrics/pm2-docker-alpine:7
 
-COPY ../../ /opt/etl
+COPY . /opt/etl
 
 RUN npm install -g babel-cli
 RUN rm -rf /opt/etl/conf
