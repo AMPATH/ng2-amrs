@@ -73,7 +73,6 @@ export class VisitComponent implements OnInit, OnDestroy {
      this.todayVisitService.hideVisitStartedMessage();
   }
 
-
   public toTitleCase(text: string): string {
     return (new TitleCasePipe()).transform(text);
   }

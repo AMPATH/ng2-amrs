@@ -249,7 +249,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
 
     let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
-    if (encounterProvider.length > 0 && 
+    if (encounterProvider.length > 0 &&
       this.compiledSchemaWithEncounter &&
     this.compiledSchemaWithEncounter.provider !== {}) {
       encounterProvider[0].control.setValue(this.compiledSchemaWithEncounter.provider.uuid);

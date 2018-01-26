@@ -65,7 +65,7 @@
     <button (click)="voidVisitEncounters()" *ngIf="showDeleteEncountersButton" type="button" class="btn btn-danger">Delete Encounters</button>
     <!-- class="visit-panel-body" -->
     <div>
-      <encounter-list *ngIf="!visitWithNoEncounters" [showPagination]="false" [showFilterers]="false" [encounters]="visit.encounters"
+      <encounter-list *ngIf="!visitWithNoEncounters" [showPagination]="false" [showFilterers]="false" [encounters]="visitEncounters"
         (onEncounterEdit)="onEncounterSelected($event)"></encounter-list>
       <div *ngIf="visitWithNoEncounters">
         Patient yet to see provider

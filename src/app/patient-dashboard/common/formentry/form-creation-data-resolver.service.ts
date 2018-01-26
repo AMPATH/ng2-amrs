@@ -58,7 +58,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
                   dataRequiredToLoadForm.provider = provider;
                   this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
                 })
-                .catch(error => {
+                .catch((error) => {
                   dataRequiredToLoadForm.provider = {};
                   this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
                 });
@@ -131,7 +131,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
           (error) => {
             reject(error);
           }
-          )
+          );
       } else {
         reject('User is required');
       }

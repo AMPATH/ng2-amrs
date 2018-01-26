@@ -6,6 +6,7 @@ import { VisitResourceService } from
   '../../../../openmrs-api/visit-resource.service';
 import { EncounterResourceService } from
   '../../../../openmrs-api/encounter-resource.service';
+import { Encounter } from '../../../../models/encounter.model';
 
 @Component({
   selector: 'app-visit-details',
@@ -24,9 +25,21 @@ export class VisitDetailsComponent implements OnInit {
   public editingLocation = false;
   public editingVisitType = false;
   public message: any = {
-     'title': '',
-     'message': ''
+    'title': '',
+    'message': ''
   };
+
+  public get visitEncounters(): any[] {
+    let mappedEncounters: Encounter[] =
+      new Array<Encounter>();
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.visit.encounters.length; i++) {
+      mappedEncounters.push(
+        new Encounter(this.visit.encounters[i])
+      );
+    }
+    return mappedEncounters;
+  }
 
   @Output()
   public formSelected = new EventEmitter<any>();
@@ -223,7 +236,8 @@ export class VisitDetailsComponent implements OnInit {
         break;
       case 'end-visit':
         this.message.title =
-        'Ending a visit will not allow you to fill another current encounter form for this patient';
+          'Ending a visit will not allow you to fill another current encounter ' +
+          ' form for this patient';
         this.message.message = 'Are you sure you want to end this visit?';
         this.confirmingEndVisit = true;
         break;
