@@ -45,6 +45,10 @@ export class ProgramEnrollment extends BaseModel {
     return this._openmrsModel.location;
   }
 
+  public get states(): any {
+    return this._openmrsModel.states;
+  }
+
   public get programUuid(): string {
     return this._openmrsModel.program.uuid;
   }

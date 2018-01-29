@@ -31,9 +31,8 @@ export class ProgramWorkFlowResourceService {
     return this.http.get(url, {
       search: params
     }).map((response: Response) => {
-      return response.json().results;
+      return response.json();
     });
   }
-
 
 }

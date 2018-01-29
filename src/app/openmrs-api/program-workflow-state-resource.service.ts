@@ -35,7 +35,6 @@ export class ProgramWorkFlowStateResourceService {
     }).catch(this.handleError);
   }
 
-
 private handleError(error: any) {
     return Observable.throw(error.message
       ? error.message
@@ -43,6 +42,5 @@ private handleError(error: any) {
         ? `${error.status} - ${error.statusText}`
         : 'Server Error');
   }
-
 
 }
