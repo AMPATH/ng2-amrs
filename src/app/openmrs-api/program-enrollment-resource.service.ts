@@ -20,7 +20,8 @@ export class ProgramEnrollmentResourceService {
 
     let url = this.getUrl();
     let v: string = 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,' +
-      'location,program:(uuid),states:(uuid,state:(uuid,concept:(uuid,display))))';
+      'location,program:(uuid),states:(uuid,startDate,endDate,state:(uuid,initial,terminal,' +
+      'concept:(uuid,display))))';
 
     if (!uuid) {
       return null;
@@ -41,7 +42,8 @@ export class ProgramEnrollmentResourceService {
   public getProgramEnrollmentStates(uuid: string): Observable<any> {
 
     let url = this.getUrl();
-    let v: string = 'custom:(uuid,display,states:(uuid,state:(uuid,concept:(uuid,display))))';
+    let v: string = 'custom:(uuid,display,states:(uuid,startDate,endDate,' +
+      'state:(uuid,concept:(uuid,display))))';
 
     if (!uuid) {
       return null;

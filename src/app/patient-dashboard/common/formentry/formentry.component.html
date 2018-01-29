@@ -102,6 +102,12 @@
 
   </p-dialog>
   <p-dialog header="Patient Referral" [(visible)]="showReferralDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
-    <patient-referral-container (onSuccess)="onReferralSuccess()" (onAborting)="onAbortingReferral($event)" [form]="form" [patient]="patient" [programs]="referralPrograms"></patient-referral-container>
+    <patient-referral-container *ngIf="referralPrograms.length > 0"
+      (onSuccess)="onReferralSuccess()"
+      (onAborting)="onAbortingReferral($event)"
+      [form]="form"
+      [patient]="patient"
+      [location]="encounterLocation"
+      [programs]="referralPrograms"></patient-referral-container>
   </p-dialog>
 </div>
