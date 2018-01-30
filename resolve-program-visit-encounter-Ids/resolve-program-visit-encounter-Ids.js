@@ -103,9 +103,9 @@ function getProgramVisitEncounterUUidIdMap(){
 function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
 
       var programVisitTypeEncounterMap = {};
-      var resolvedPrograms = [0];
-      var resolvedVisitTypes = [0];
-      var resolvedEncounterTypes = [0];
+      var resolvedPrograms = [-1];
+      var resolvedVisitTypes = [-1];
+      var resolvedEncounterTypes = [-1];
       var resolveCount = 0;
       var resolvedProgramVisitEncounterTypes = {
             'programTypeIds': [],
@@ -152,26 +152,34 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                                           var programUUid = index;
                                           var programId = programMap.get(index);
                                           if(typeof programId !== 'undefined'){
-                                                console.error('ERROR : Undefined ProgramType uuid', programUUid);
+                                               
                                                 resolvedPrograms.push(programId);
 
+                                          }else{
+                                                console.error('ERROR : Undefined ProgramType uuid', programUUid);
                                           }
                                           var visitTypes = program.visitTypes;
                                           _.each(visitTypes, (visitType) => {
                                                 var visitUuid = visitType.uuid;
                                                 var visitId = visitTypeMap.get(visitUuid);
                                                 if(typeof visitId !== 'undefined'){
-                                                      console.error('ERROR : Undefined VisitType uuid', visitUuid);
+                                                      
                                                       resolvedVisitTypes.push(visitId);
 
+                                                }else{
+                                                      console.error('ERROR : Undefined VisitType uuid', visitUuid);
                                                 }
                                                 var encounterTypes = visitType.encounterTypes;
                                                 _.each(encounterTypes, (encounterType) => {
                                                       var encounterUuid = encounterType.uuid;
                                                       var encounterId = encounterMap.get(encounterUuid);
                                                       if(typeof encounterId !== 'undefined'){
-                                                            console.error('ERROR : Undefined EncounterType uuid', encounterUuid);
+                                                           
                                                             resolvedEncounterTypes.push(encounterId);
+
+                                                      }else{
+
+                                                            console.error('ERROR : Undefined EncounterType uuid', encounterUuid);
 
                                                       }
 
@@ -193,8 +201,11 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                                           var programUUid = index;
                                           var programId = programMap.get(index);
                                           if(typeof programId !== 'undefined'){
-                                                console.error('ERROR : Undefined ProgramType uuid', programUUid);
                                                 resolvedPrograms.push(programId);
+
+                                          }else{
+
+                                                console.error('ERROR : Undefined ProgramType uuid', programUUid);
 
                                           }
                                           var visitTypes = program.visitTypes;
@@ -203,18 +214,20 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                                                 if (_.includes(visitTypeUuid, visitUuid) === true) {
                                                       var visitId = visitTypeMap.get(visitUuid);
                                                       if(typeof visitId !== 'undefined'){
-                                                            console.error('ERROR : Undefined VisitType uuid', visitUuid);
                                                             resolvedVisitTypes.push(visitId);
       
+                                                      }else{
+                                                            console.error('ERROR : Undefined VisitType uuid', visitUuid);
                                                       }
                                                       var encounterTypes = visitType.encounterTypes;
                                                       _.each(encounterTypes, (encounterType) => {
                                                             var encounterUuid = encounterType.uuid;
                                                             var encounterId = encounterMap.get(encounterUuid);
                                                             if(typeof encounterId !== 'undefined'){
-                                                                  console.error('ERROR : Undefined EncounterType uuid', encounterUuid);
                                                                   resolvedEncounterTypes.push(encounterId);
 
+                                                            }else{
+                                                                  console.error('ERROR : Undefined EncounterType uuid', encounterUuid);
                                                             }
                                                             
                                                             
@@ -234,8 +247,11 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                                           var programUUid = index;
                                           var programId = programMap.get(index);
                                           if(typeof programId !== 'undefined'){
-                                                console.error('ERROR : Undefined ProgramType uuid', programUUid);
                                                 resolvedPrograms.push(programId);
+
+                                          }else{
+
+                                                console.error('ERROR : Undefined ProgramType uuid', programUUid);
 
                                           }
                                           var visitTypes = program.visitTypes;
@@ -244,9 +260,13 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                                                 if (_.includes(visitTypeUuid, visitUuid) === true) {
                                                       var visitId = visitTypeMap.get(visitUuid);
                                                       if(typeof visitId !== 'undefined'){
-                                                            console.error('ERROR : Undefined VisitType uuid', visitUuid);
+                                                            
                                                             resolvedVisitTypes.push(visitId);
       
+                                                      }else{
+
+                                                            console.error('ERROR : Undefined VisitType uuid', visitUuid);
+
                                                       }
                                                       var encounterTypes = visitType.encounterTypes;
                                                       _.each(encounterTypes, (encounterType) => {
@@ -254,9 +274,13 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                                                             if (_.includes(encounterTypeUuid, encounterUuid) === true) {
                                                                   var encounterId = encounterMap.get(encounterUuid);
                                                                   if(typeof encounterId !== 'undefined'){
-                                                                        console.error('ERROR:Undefined EncounterType uuid', encounterUuid);
+                                                                        
                                                                         resolvedEncounterTypes.push(encounterId);
             
+                                                                  }else{
+
+                                                                        console.error('ERROR:Undefined EncounterType uuid', encounterUuid);
+
                                                                   }
                                                             };
                                                       });

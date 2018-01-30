@@ -50,15 +50,15 @@
             },
             {
                 "name": "encounterIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "visitTypeIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "programTypeIds",
-                "defaultValue": 0
+                "defaultValue": -1
             }
         ],
         "filters": [
@@ -174,15 +174,15 @@
             },
             {
                 "name": "encounterIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "visitTypeIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "programTypeIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "groupByDate",
@@ -374,15 +374,15 @@
             },
             {
                 "name": "encounterIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "visitTypeIds",
-                "defaultValue": 0
+                "defaultValue": -1
             },
             {
                 "name": "programTypeIds",
-                "defaultValue": 0
+                "defaultValue": -1
             }
         ],
         "filters": [
