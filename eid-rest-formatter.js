@@ -466,7 +466,7 @@ module.exports = function () {
     return payload;
   }
   function getOrderByOrderNumber(orderNo) {
-    var uri = getRestResource('/amrs/ws/rest/v1/order/' + orderNo);
+    var uri = getRestResource('/'+ config.openmrs.applicationName + '/ws/rest/v1/order/' + orderNo);
     var queryString = {
       v: 'full'
     }

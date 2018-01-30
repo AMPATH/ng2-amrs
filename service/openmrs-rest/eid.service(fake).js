@@ -29,7 +29,7 @@ module.exports = function () {
     return link;
   }
   function getPatientIdentifiers(patientUuId) {
-    var uri = module.exports.getRestResource('/amrs/ws/rest/v1/patient/' + patientUuId);
+    var uri = module.exports.getRestResource('/'+ config.openmrs.applicationName + '/ws/rest/v1/patient/' + patientUuId);
     var queryString = {
       v: 'full'
     }
@@ -67,7 +67,7 @@ module.exports = function () {
     });
   }
   function getOrderByOrderNumber(orderNo) {
-    var uri = module.exports.getRestResource('/amrs/ws/rest/v1/order/' + orderNo);
+    var uri = module.exports.getRestResource('/'+ config.openmrs.applicationName + '/ws/rest/v1/order/' + orderNo);
     var queryString = {
       v: 'full'
     }
@@ -127,7 +127,7 @@ module.exports = function () {
   }
   function getPatientTestObsByConceptUuId(conceptUuId, patientUuId) {
     var patientObs = [];
-    var uri = module.exports.getRestResource('/amrs/ws/rest/v1/obs/');
+    var uri = module.exports.getRestResource('/' + config.openmrs.applicationName + '/ws/rest/v1/obs/');
     var queryString = {
       patient: patientUuId,
       concept: conceptUuId,
@@ -235,7 +235,7 @@ module.exports = function () {
   }
   function postObsToAMRS(payload, patientUuId) {
     console.log('POSTING OBS', payload);
-    var uri = module.exports.getRestResource('/amrs/ws/rest/v1/obs');
+    var uri = module.exports.getRestResource('/' + config.openmrs.applicationName + '/ws/rest/v1/obs');
     return new Promise(function (resolve, reject) {
       rp.postRequestPromise(payload, uri)
         .then(function (response) {
