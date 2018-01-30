@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class PatientIdentifierTypeResService {
 
-  public v: string = 'custom:(uuid,name,format,formatDescription,checkDigit,validator)';
+  public v: string = 'full';
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
