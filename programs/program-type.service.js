@@ -74,8 +74,8 @@ function getprogramIdFromUuid(programUuid){
 
     var programObj = programUuidIdMap.get(programUuid); 
 
-    if(typeof programObj === undefined){
-           return null;
+    if(typeof programObj === 'undefined'){
+           return -1;
     }else{
            return programObj;
     }
