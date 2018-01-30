@@ -73,8 +73,8 @@ function getEncounterIdFromUuid(encounterUuid){
 
     var encounterObj = encounterUuidIdMap.get(encounterUuid); 
 
-    if(typeof encounterObj === undefined){
-           return null;
+    if(typeof encounterObj === 'undefined'){
+           return -1;
     }else{
            return encounterObj;
     }

@@ -75,8 +75,8 @@ function getVisitTypeIdFromUuid(visitTypeUuid){
 
     var visitObj = visitTypeUuidIdMap.get(visitTypeUuid); 
 
-    if(typeof visitObj === undefined){
-           return {};
+    if(typeof visitObj === 'undefined'){
+           return -1;
     }else{
            return visitObj;
     }
