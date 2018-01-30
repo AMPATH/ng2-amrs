@@ -66,6 +66,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   };
   public diffCareReferralStatus: any = undefined;
   public transferCareForm: string = null;
+  public encounterLocation: string;
   private subscription: Subscription;
   private encounterUuid: string = null;
   private encounter: any = null;
@@ -166,6 +167,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
         document.body.scrollTop = 0;
       }
     }, 100);
+    /*this.shouldShowPatientReferralsDialog();
+    this.referralCompleteStatus.subscribe((status) => {
+      console.log(status);
+    });*/
     // console.log('FORM MODEL:', this.form.rootNode.control);
     const isSaving = this.formSubmissionService.getSubmitStatus();
     if (!isSaving) {
@@ -251,6 +256,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     let encounterLocation = this.form.searchNodeByQuestionId('location', 'encounterLocation');
     if (encounterLocation.length > 0 && location) {
+      this.encounterLocation = location.uuid;
       encounterLocation[0].control.setValue(location.uuid);
     }
 
@@ -269,6 +275,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public onReferralSuccess() {
+    this.showReferralDialog = false;
+    this.referralPrograms = [];
     this.referralCompleteStatus.next(true);
   }
 
@@ -282,6 +290,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (answer) {
       this.showReferralDialog = true;
       this.referralPrograms = answer;
+        /*['781d8a88-1359-11df-a1f1-0026b9348838', '2114265d-dcc4-4440-9059-fe194a5f23a6'];*/
     }
   }
 

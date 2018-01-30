@@ -98,10 +98,9 @@ describe('Service: ProgramEnrollmentResourceService', () => {
       let serverUrl = 'http://example.url.com/';
       mockBackend.connections.subscribe((conn) => {
         expect(conn.request.url)
-          .toBe(serverUrl + 'ws/rest/v1/programenrollment?v=custom:' +
-          '(uuid,display,voided,dateEnrolled,dateCompleted,' +
-          'location,program:(uuid),states:'
-          + '(uuid,state:(uuid,concept:(uuid,display))))&patient=uuid');
+          .toBe(serverUrl + 'ws/rest/v1/programenrollment?v=custom:(uuid,display,voided' +
+            ',dateEnrolled,dateCompleted,location,program:(uuid),states:(uuid,startDate,endDate,' +
+            'state:(uuid,initial,terminal,concept:(uuid,display))))&patient=uuid');
         expect(conn.request.method).toBe(RequestMethod.Get);
         conn.mockRespond(new Response(
           new ResponseOptions({ body: JSON.stringify(programEnrollmentResponse) })));
@@ -117,7 +116,8 @@ describe('Service: ProgramEnrollmentResourceService', () => {
       mockBackend.connections.subscribe((conn) => {
         expect(conn.request.url)
           .toBe(serverUrl + 'ws/rest/v1/programenrollment/program-enrollment-uuid?v=' +
-          'custom:(uuid,display,states:(uuid,state:(uuid,concept:(uuid,display))))');
+          'custom:(uuid,display,states:(uuid,startDate,endDate,state:(uuid,concept:(uuid,display' +
+            '))))');
         expect(conn.request.method).toBe(RequestMethod.Get);
         conn.mockRespond(new Response(
           new ResponseOptions({ body: JSON.stringify(programEnrollmentStateResponse) })));
