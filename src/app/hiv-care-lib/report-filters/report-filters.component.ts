@@ -125,6 +125,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public set selectedPrograms(v: Array<any>) {
     //this.getProgramWorkFlowStates(this._programs);
+    console.log('vvvvvvvvvvvvvvvv',v);
     this._programs = v;
     this.onProgramChange.emit(this._programs);
 
