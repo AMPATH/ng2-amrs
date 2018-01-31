@@ -89,6 +89,7 @@ export class PatientReferralBaseComponent implements OnInit {
 
   }
   public generateReport() {
+    console.log('this.programs', this.programs);
 
     this.dates = {
       startDate: this.startDate,
@@ -116,7 +117,7 @@ export class PatientReferralBaseComponent implements OnInit {
         this.isLoadingReport = false;
         this.sectionsDef =   data.stateNames;
         this.data = data.result;
-        console.log('data=====>>>',data);
+        console.log('data=====>>>', this.programs);
 
       }, (error) => {
         this.isLoadingReport = false;
@@ -145,6 +146,7 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   public getSelectedPrograms(programsUuids): string {
+    console.log('selectedPrograms11111111================>>>>>>>>', programsUuids);
     if (!programsUuids || programsUuids.length === 0) {
       return '';
     }
@@ -158,7 +160,8 @@ export class PatientReferralBaseComponent implements OnInit {
         selectedPrograms = selectedPrograms + ',' + programsUuids[i].id;
       }
     }
-    return this. programs = selectedPrograms;
+
+    return this.programs = selectedPrograms;
   }
   public getSelectedStates(stateUuids): string {
     if (!stateUuids || stateUuids.length === 0) {
