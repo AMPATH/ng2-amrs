@@ -76,7 +76,9 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
                 function (uuid, params) {
                     expect(enrollmentUuid).to.equal(uuid);
                     expect(params).to.deep.equal({
-                        rep: 'full'
+                        rep: 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,location,' +
+                        'program:(uuid),states:(uuid,startDate,endDate,state:(uuid,initial,terminal,' +
+                        'concept:(uuid,display))))'
                     }); //fetch default patient object
                     var promise =
                         new Promise(function (resolve, reject) {

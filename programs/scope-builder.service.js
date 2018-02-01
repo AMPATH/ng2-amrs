@@ -35,6 +35,17 @@ function buildProgramScopeMembers(scope, programEnrollment) {
         programEnrollment.location.uuid) {
         scope.programLocation = programEnrollment.location.uuid;
     }
+    
+    if(programEnrollment && programEnrollment.states) {
+      var states = programEnrollment.states;
+      var currentState = states.filter(function(state){
+        return state.endDate === null;
+      });
+      if(currentState.length > 0) {
+        var state = currentState[0].state;
+        scope.inCareUuid = state.concept.uuid;
+      }
+    }
 }
 
 function buildHivScopeMembers(scope, lastTenHivSummary) {
