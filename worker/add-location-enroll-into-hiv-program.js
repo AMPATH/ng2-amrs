@@ -49,8 +49,10 @@ var s = fs.createReadStream(input_file)
                 console.log('Updating existing enrollment to have location: ', line);
                 var openmrsAppName = config.openmrs.applicationName || 'amrs';
                 let payload = createPayload(line);
+
+                var protocol = config.openmrs.https ? 'https' : 'http';
                 //JSON.stringify(createPayload(line));
-                var url = 'https://' + config.openmrs.host + ':' + config.openmrs.port + '/' + openmrsAppName + '/ws/rest/v1/programenrollment/' +
+                var url = protocol + '://' + config.openmrs.host + ':' + config.openmrs.port + '/' + openmrsAppName + '/ws/rest/v1/programenrollment/' +
                     payload.uuid;
                 delete payload['uuid'];
                 payload = JSON.stringify(payload);

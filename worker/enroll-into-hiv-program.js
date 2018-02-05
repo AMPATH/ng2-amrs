@@ -46,7 +46,8 @@ var s = fs.createReadStream(input_file)
                 console.log('Enrolling a patient into HIV Care Program: ', line);
                 var openmrsAppName = config.openmrs.applicationName || 'amrs';
                 let payload = JSON.stringify(createPayload(line));
-                var url = 'https://' + config.openmrs.host + ':' + config.openmrs.port + '/' + openmrsAppName + '/ws/rest/v1/programenrollment/';
+                var protocol = config.openmrs.https ? 'https' : 'http';
+                var url = protocol + '://' + config.openmrs.host + ':' + config.openmrs.port + '/' + openmrsAppName + '/ws/rest/v1/programenrollment/';
 
                 var usernamePass = config.eidSyncCredentials.username + ":" + config.eidSyncCredentials.password;
                 var auth = "Basic " + new Buffer(usernamePass).toString('base64');

@@ -17,7 +17,8 @@ var moment = require('moment');
 var eidRestFormatter = require('../../eid-rest-formatter');
 module.exports = function () {
   function getRestResource(path) {
-    var link = "https://" + config.openmrs.host + ":" + config.openmrs.port + path;
+    var protocol = config.openmrs.https ? 'https' :'http';
+    var link = protocol + '://' + config.openmrs.host + ':' + config.openmrs.port + path;
     return link;
   }
   function getPatientIdentifiers(patientUuId) {
