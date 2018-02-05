@@ -1,9 +1,9 @@
 <div class="col-md-12">
   <drafted-form-nav></drafted-form-nav>
 </div>
-<add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true"
+<!-- <add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true"
                       (dialogClosed)="onAddingToCohortClosed()">
-</add-to-cohort-dialog>
+</add-to-cohort-dialog> -->
 <transfer-care-dialog (dialogClosed)="closeDialog()"
                       *ngIf="manageProgramEnrollment"></transfer-care-dialog>
 <div
@@ -29,9 +29,9 @@
        style="margin-left:15px;display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
       class="icon-i-family-practice"></span>Manage Enrollment</a>
-    <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
+    <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
-      class="fa fa-plus"></span>Add to Patient List</a>
+      class="fa fa-plus"></span>Add to Patient List</a> -->
     <span class="clear"></span>
   </div>
 </div>
@@ -56,9 +56,9 @@
        style="margin-left:15px; display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
       class="icon-i-family-practice"></span>Manage Enrollment</a>
-    <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
+    <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
       style="display: inline-block;margin-right:5px;height: 43px;line-height: 43px !important;"
-      class="fa fa-plus"></span>Add to Patient List</a>
+      class="fa fa-plus"></span>Add to Patient List</a> -->
     <span class="clear"></span>
   </div>
 </div>
