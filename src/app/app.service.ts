@@ -58,14 +58,14 @@ export class AppState {
 
     // let taskid = this.timeoutID.data.handleId;
     // console.log('Resetting timer!', this.timeoutID, taskid);
-     window.clearTimeout(this.timeoutID);
-     this.goActive();
-     /*
-    if (this.timeoutID.cancelFn) {
-      clearTimeout(this.timeoutID);
-    }
-    this.goActive(true);
-    */
+    window.clearTimeout(this.timeoutID);
+    this.goActive();
+    /*
+   if (this.timeoutID.cancelFn) {
+     clearTimeout(this.timeoutID);
+   }
+   this.goActive(true);
+   */
   }
 
   public goInactive() {
@@ -74,9 +74,10 @@ export class AppState {
   }
 
   public goActive(emit?: boolean) {
-    if (emit) {
-      this.idleTimer.next({ idle: false });
-    }
+    // TODO: Change the signature of the function to remove the emit param
+    // goActive should always make the app become active
+    // emit param is confusing and makes the feature hard to debug
+    this.idleTimer.next({ idle: false });
     this.startTimer();
   }
 
