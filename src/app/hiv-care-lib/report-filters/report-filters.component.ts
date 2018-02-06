@@ -10,6 +10,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
+import {
+  ProgramWorkFlowResourceService
+} from '../../openmrs-api/program-workflow-resource.service';
 declare var jQuery;
 require('ion-rangeslider');
 
@@ -35,10 +39,16 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public filterCollapsed: boolean = false;
   public initialized: boolean = false;
   public indicatorOptions: Array<any>;
+  public programOptions: Array<any>;
+  public statesOptions: Array<any>;
+  @Output() public onProgramChange = new EventEmitter<any>();
   @Output() public onIndicatorChange = new EventEmitter<any>();
   @Output() public onDateChange = new EventEmitter<any>();
+  @Output() public onStatesChange = new EventEmitter<any>();
   public genderOptions: Array<any>;
   public selectedIndicatorTagsSelectedAll: boolean = false;
+  public selectedProgramTagsSelectedAll: boolean = false;
+  public selectedStatesTagsSelectedAll: boolean = false;
   @Output() public onGenderChange = new EventEmitter<any>();
   public disableGenerateReportBtn: boolean = false;
   @Output()
@@ -65,8 +75,12 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   private _report: string;
   private _indicators: Array<any> = [];
   private _gender: Array<any> = [];
+  private _programs: Array<any> = [];
+  private _states: Array<any> = [];
   constructor(private indicatorResourceService: IndicatorResourceService,
               private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+              private programResourceService: ProgramResourceService,
+              private programWorkFlowResourceService: ProgramWorkFlowResourceService,
               private elementRef: ElementRef) {
   }
   public get startDate(): Date {
@@ -103,6 +117,29 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public set selectedIndicators(v: Array<any>) {
     this._indicators = v;
     this.onIndicatorChange.emit(this._indicators);
+  }
+  @Input()
+  public get selectedPrograms(): Array<any> {
+    return this._programs ;
+  }
+  public set selectedPrograms(v: Array<any>) {
+    this._programs = v;
+    if (this._programs) {
+      this.statesOptions = [];
+      this.getProgramWorkFlowStates(this._programs);
+    }
+
+    this.onProgramChange.emit(this._programs);
+
+  }
+  @Input()
+  public get selectedStates(): Array<any> {
+    return this._states ;
+  }
+  public set selectedStates(v: Array<any>) {
+    this._states = v;
+    this.onStatesChange.emit(this._states);
+
   }
   @Input()
   public get selectedGender(): Array<any> {
@@ -145,6 +182,11 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this._indicators.length > 0) {
       this.selectedIndicatorTagsSelectedAll = true;
     }
+    if (this._programs.length > 0) {
+      this.selectedProgramTagsSelectedAll = true;
+    }else {
+      this._programs = this.programOptions;
+    }
     this.getCachedLocations();
 
   }
@@ -154,6 +196,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public renderFilterControls(): void {
     if (this.isEnabled('indicatorsControl')) {
       this.getIndicators();
+    }
+    if (this.isEnabled('programWorkFlowControl')) {
+      this.getPrograms();
     }
   }
    public getCachedLocations() {
@@ -193,6 +238,68 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
   }
 
+  public getPrograms() {
+    let programs = [];
+    this.programResourceService.getPrograms().subscribe(
+      (results: any[]) => {
+
+          for (let data of results) {
+           // data['states'] = data.states;
+
+            if (!_.isEmpty(data.allWorkflows)) {
+            for (let r in data) {
+
+              if (data.hasOwnProperty(r)) {
+                let id = data.uuid;
+                let text = data.display;
+                data['id'] = id;
+                data['text'] = text;
+
+              }
+            }
+            programs.push(data);
+            }
+
+          }
+          this.programOptions = programs;
+      }
+    );
+
+  }
+  public getProgramWorkFlowStates(uuid) {
+    let selectedProgram;
+    if (uuid[0].id && uuid[0].id !== 'undefined' && uuid[0].id !== undefined) {
+       selectedProgram = uuid[0].id;
+
+    }
+
+    let programs = [];
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
+      (results: any) => {
+
+        for (let data of results.allWorkflows) {
+          for (let states of data.states) {
+             for (let r in states) {
+          // console.log('states', states);
+           if (data.hasOwnProperty(r)) {
+
+             let id = states.uuid;
+             let text = states.concept.name.display;
+             states['id'] = id;
+             states['text'] = text;
+           }
+          }
+             programs.push(states);
+
+          }
+
+        }
+        this.statesOptions = programs;
+      }
+    );
+
+  }
+
   public selectAll() {
     let indicatorsSelected = [];
     if (this.indicatorOptions .length > 0) {
@@ -207,6 +314,23 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
         this.selectedIndicators = [];
       }
     }
+
+  }
+
+  public selectAllPrograms() {
+    let selectedProgram = [];
+    if (this.programOptions .length > 0) {
+      if (this.selectedProgramTagsSelectedAll === false) {
+        this.selectedProgramTagsSelectedAll = true;
+        _.each(this.programOptions, (data) => {
+          selectedProgram.push( data);
+        });
+        this.selectedPrograms = selectedProgram;
+      } else {
+        this.selectedProgramTagsSelectedAll = false;
+        this.selectedPrograms = [];
+      }
+    }
   }
 
   public getSelectedLocations(locs: any) {
@@ -216,9 +340,21 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);
   }
-  /*getAgeRangeOnFinish(event) {
-    this.ageRange.emit(event);
-  }*/
+  public selectAllStates() {
+    let selectedState = [];
+    if (this.programOptions .length > 0) {
+      if (this.selectedStatesTagsSelectedAll === false) {
+        this.selectedStatesTagsSelectedAll = true;
+        _.each(this.statesOptions, (data) => {
+          selectedState.push( data);
+        });
+        this.selectedStates = selectedState;
+      } else {
+        this.selectedStatesTagsSelectedAll = false;
+        this.selectedStates = [];
+      }
+    }
+  }
   public onClickedGenerate() {
     this.generateReport.emit();
   }
@@ -261,4 +397,5 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
  public registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
  public registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+
 }
