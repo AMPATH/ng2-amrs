@@ -26,6 +26,14 @@
 			   </div>
 
 		</form>
+		<div style="padding-left:15px;" *ngIf="referrals.length>0">
+		   <div style="padding-top:10px; padding-bottom:10px; ">
+                 <i class="icon-i-family-practice" style="color:red"></i>
+			      <a (click)="loadReferralData()"   >
+                   {{referrals.length}} Patients referred back
+                 </a>
+	        </div>
+	   </div>
 		<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="noMatchingResults===true">
 			<div  class="alert">
 				<span>No Matching results for <i class="total text-bold">{{lastSearchString}}</i></span>
