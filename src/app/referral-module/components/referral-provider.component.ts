@@ -38,9 +38,19 @@ export class ReferralProviderComponent implements OnInit, OnDestroy {
      let referredBackStateUuid = 'cfdf6957-6e40-4f54-b179-2d6d6f84bb42';
      let stateUuids = referredBackStateUuid;
      // providerUuids = 'dced5363-4539-4692-88b8-018ea453a235',
-     this.getCurrentProvider(user);
-     this.loadReferralProviders(selectedLocationUuid, this.providerUuid,
-      stateUuids, startIndex, limit);
+
+    this.referralService.getUserProviderDetails(user)
+      .then((provider) => {
+        this.providerUuid = provider.uuid;
+        this.loadReferralProviders(selectedLocationUuid, this.providerUuid,
+          stateUuids, startIndex, limit);
+      })
+      .catch((error) => {
+        this.errors.push({
+          id: 'Referral Providers',
+          message: 'error fetching current user provider information'
+        });
+      });
   }
 
  public ngOnDestroy(): void {

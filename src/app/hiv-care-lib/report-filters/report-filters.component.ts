@@ -260,26 +260,31 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
   }
   public getProgramWorkFlowStates(uuid) {
-    console.log('selected uuid', uuid);
-    let selectedProgram = uuid[0].id;
-    let programs = [];
-    console.log('selectedProgram', selectedProgram);
-    this.programWorkFlowResourceService.getProgramWorkFlows('781d8a88-1359-11df-a1f1-0026b9348838').subscribe(
-      (results: any[]) => {
-        console.log('results=======!!!!!!!!!!!!!!', results);
+    let selectedProgram;
+    if (uuid[0] && uuid[0].id !== 'undefined' && uuid[0].id !== undefined) {
+       selectedProgram = uuid[0].id;
 
-        for (let data of results) {
-          for (let r in data) {
-            if (data.hasOwnProperty(r)) {
-              let id = data.uuid;
-              let text = data.display;
-              data['id'] = id;
-              data['text'] = text;
-            }
+    }
+
+    let programs = [];
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
+      (results) => {
+        console.log("tererer", results);
+        let workflows = _.get(results, 'allWorkflows');
+          if(workflows.length > 0) {
+            _.each(workflows, (workflow: any) =>{
+              if(workflow.states.length > 0) {
+                programs = _.map(workflow.states, (state: any) => {
+                  return {
+                    id: state.uuid,
+                    text: state.concept.display
+                  }
+                });
+              }
+            });
           }
-          programs.push(data);
-        }
-        this.programOptions = programs;
+        console.log('states', programs);
+        this.statesOptions = programs;
       }
     );
 
