@@ -56,6 +56,12 @@
       "label": "Patients Requiring VL",
       "icon": "icon-i-laboratory",
       "isSideBarOpen": false
+    },
+    {
+      "url": "referral/patient-referral-report",
+      "label": "Patient Referral",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

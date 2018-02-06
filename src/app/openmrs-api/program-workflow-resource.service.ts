@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 // TODO inject service
 
 @Injectable()
-export class ProgramResourceService {
+export class ProgramWorkFlowResourceService {
 
   constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
   }
@@ -16,10 +16,14 @@ export class ProgramResourceService {
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'program';
   }
 
-  public getPrograms(): Observable<any> {
+  public getProgramWorkFlows(uuid): Observable<any> {
 
-    let url = this.getUrl();
-    let v: string = 'custom:(uuid,display,allWorkflows,concept:(uuid,display))';
+    if (!uuid) {
+      return null;
+    }
+
+    let url = this.getUrl() + '/' + uuid;
+    let v: string = 'custom:(uuid,display,allWorkflows:(uuid,concept:(uuid,display),states))';
 
     let params: URLSearchParams = new URLSearchParams();
 
@@ -27,16 +31,8 @@ export class ProgramResourceService {
     return this.http.get(url, {
       search: params
     }).map((response: Response) => {
-      return response.json().results;
+      return response.json();
     });
   }
 
-  // get proggram incompatibilities
-
-  public getProgramsIncompatibilities() {
-       return this.http.get('../patient-dashboard/programs/programs.json')
-        .map((response) => {
-        return response.json();
-      });
-  }
 }

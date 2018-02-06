@@ -414,7 +414,6 @@ public loadSavedFilterItems() {
 
         this.loadProgramFromPrograms();
 
-
     }
 
     public loadProgramFromPrograms() {

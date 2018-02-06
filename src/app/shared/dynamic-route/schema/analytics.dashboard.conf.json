@@ -25,6 +25,12 @@
       "label": "HIV Summary Monthly Indicators",
       "icon": "fa fa-file-pdf-o",
       "isSideBarOpen": false
+    },
+    {
+      "url": "referral/",
+      "label": "Patient Referral",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
     }
   ],
   "programs": []
