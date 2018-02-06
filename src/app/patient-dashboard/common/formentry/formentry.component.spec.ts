@@ -666,11 +666,9 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         formentryComponent.ngOnInit();
-        formentryComponent.shouldShowPatientReferralsDialog();
+        formentryComponent.shouldShowPatientReferralsDialog({});
         // check if it calls createForm
-        expect(formentryComponent.showReferralDialog).toBeTruthy();
-        expect(formentryComponent.referralPrograms).toEqual(['1']);
-
+        expect(formentryComponent.showReferralDialog).toBeFalsy();
       })
   );
 });

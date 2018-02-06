@@ -19,7 +19,7 @@ export class ProgramResourceService {
   public getPrograms(): Observable<any> {
 
     let url = this.getUrl();
-    let v: string = 'custom:(uuid,display)';
+    let v: string = 'custom:(uuid,display,allWorkflows,concept:(uuid,display))';
 
     let params: URLSearchParams = new URLSearchParams();
 

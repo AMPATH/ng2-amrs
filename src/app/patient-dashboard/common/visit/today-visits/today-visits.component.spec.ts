@@ -36,6 +36,10 @@ import { AppFeatureAnalytics } from
   '../../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from
   '../../../../shared/app-analytics/app-feature-analytcis.mock';
+import { ProgramWorkFlowResourceService
+} from '../../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../../openmrs-api/program-workflow-state-resource.service';
 class LocationServiceMock {
   constructor() {
   }
@@ -101,6 +105,8 @@ describe('TodayVisitsComponent', () => {
           }
         },
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {
           provide: PatientProgramResourceService, useFactory: () => {
             return fakePatientProgramResourceService;

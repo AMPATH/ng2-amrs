@@ -7,18 +7,20 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { Patient } from '../../models/patient.model';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { ProgramReferralResourceService } from '../../etl-api/program-referral-resource.service';
 
 @Injectable()
 export class PatientReferralService {
   constructor(private programService: ProgramService,
+              private programReferralResourceService: ProgramReferralResourceService,
               private encounterResourceService: EncounterResourceService) {
 
   }
 
-  public enrollPatient(programUuid, patient: Patient, location, state) {
+  public enrollPatient(programUuid, patient: Patient, location, state, enrollmentUuid) {
       let enrollPayload = this.programService.createEnrollmentPayload(
         programUuid, patient, this.toOpenmrsDateFormat(new Date()), null,
-        location, '');
+        location, enrollmentUuid);
       _.merge(enrollPayload, {'states': [{
         'state': state.uuid,
         'startDate': this.toOpenmrsDateFormat(new Date())
@@ -27,7 +29,7 @@ export class PatientReferralService {
   }
 
   public saveReferralEncounter(encounter: any) {
-    return this.encounterResourceService.saveEncounter(encounter);
+    return this.programReferralResourceService.saveReferralEncounter(encounter);
   }
 
   public generateReferralEncounterPayload(referralInfo: any): Observable<any> {

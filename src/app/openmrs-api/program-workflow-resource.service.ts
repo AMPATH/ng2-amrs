@@ -23,7 +23,8 @@ export class ProgramWorkFlowResourceService {
     }
 
     let url = this.getUrl() + '/' + uuid;
-    let v: string = 'custom:(uuid,display,allWorkflows:(uuid,concept:(uuid,display)))';
+    let v: string = 'custom:(uuid,display,allWorkflows:(uuid,concept:(uuid,display)' +
+      ',states:(uuid,concept:(uuid,display))))';
 
     let params: URLSearchParams = new URLSearchParams();
 

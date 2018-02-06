@@ -14,6 +14,8 @@ import { ProgramWorkFlowStateResourceService
 import { ProgramEnrollmentResourceService
 } from '../openmrs-api/program-enrollment-resource.service';
 import { PatientReferralService } from './services/patient-referral-service';
+import { PatientReferralVisitComponent } from './components/patient-referral-visit.component';
+import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
 
 @NgModule({
   imports: [
@@ -22,10 +24,13 @@ import { PatientReferralService } from './services/patient-referral-service';
     FormsModule,
     NgamrsSharedModule
   ],
-  exports: [PatientReferralContainerComponent, PatientReferralItemComponent],
-  declarations: [PatientReferralContainerComponent, PatientReferralItemComponent],
+  exports: [PatientReferralContainerComponent, PatientReferralItemComponent,
+    PatientReferralVisitComponent],
+  declarations: [PatientReferralContainerComponent, PatientReferralItemComponent,
+    PatientReferralVisitComponent],
   providers: [
     ProgramEnrollmentResourceService,
+    ProgramReferralResourceService,
     ProgramWorkFlowResourceService,
     PatientReferralService,
     ProgramWorkFlowStateResourceService],
