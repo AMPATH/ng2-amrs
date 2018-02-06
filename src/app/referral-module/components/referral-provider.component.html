@@ -1,0 +1,8 @@
+<div  *ngIf="referrals.length>0">
+    <h4 class="component-title" style="color: green;"><span class="icon-i-family-practice"></span> Provider Referrals</h4>
+   <patient-list *ngIf="referrals.length>0" [data]="referrals"  [extraColumns]="extraColumns()">
+    </patient-list>
+</div>
+<div  *ngIf="referrals.length<1">
+    There are currently no referrals to display
+</div>
