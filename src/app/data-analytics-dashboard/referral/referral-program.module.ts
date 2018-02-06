@@ -9,9 +9,8 @@ import {
 } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
-import { ReferralCareLibModule}  from '../../referral-care-lib/referral-care-lib.module';
+import { ReferralCareLibModule }  from '../../referral-care-lib/referral-care-lib.module';
 import { analyticsPatientReferralProgramRouting } from './referral-program.routes';
-
 
 @NgModule({
   imports: [

@@ -10,7 +10,7 @@ import {
 
 @Component({
   selector: 'patient-referral-report-base',
-  template: 'patient-referral-report-base.component.html'
+  template: 'referral-report-base.component.html'
 })
 export class PatientReferralBaseComponent implements OnInit {
   public data = [];
@@ -68,13 +68,6 @@ export class PatientReferralBaseComponent implements OnInit {
   public set stateUuids(v: Array<string>) {
     this._stateUuids = v;
   }
- /* private _programsUuids: Array<string>;
-  public get selectedPrograms(): Array<string> {
-    return this._programsUuids;
-  }
-  public set selectedPrograms(v: Array<string>) {
-    this._programsUuids = v;
-  }*/
   private _gender: Array<string>;
   public get gender(): Array<string> {
     return this._gender;
@@ -87,7 +80,6 @@ export class PatientReferralBaseComponent implements OnInit {
               public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
 
   public ngOnInit() {
-   // this.generateReport();
 
   }
   public generateReport() {
@@ -105,12 +97,12 @@ export class PatientReferralBaseComponent implements OnInit {
     this.isLoadingReport = true;
     this.patientReferralResourceService
       .getPatientReferralReport({
-          endDate:this.toDateString(this.endDate),
+          endDate: this.toDateString(this.endDate),
           gender: this.gender ? this.gender : 'F,M',
           startDate: this.toDateString(this.startDate),
           programUuids: this.programs,
-          locationUuids: this.getSelectedLocations(this.locationUuids),//this.locationUuids
-          stateUuids: this.states, //this.stateUuids
+          locationUuids: this.getSelectedLocations(this.locationUuids),
+          stateUuids: this.states,
           startAge: this.startAge,
           endAge: this.endAge
        }).subscribe(
@@ -118,7 +110,6 @@ export class PatientReferralBaseComponent implements OnInit {
         this.isLoadingReport = false;
         this.sectionsDef =   data.stateNames;
         this.data = data.groupedResult;
-        console.log(' this.data99999999===========',  this.data);
 
       }, (error) => {
         this.isLoadingReport = false;
@@ -206,7 +197,4 @@ export class PatientReferralBaseComponent implements OnInit {
     return Moment(date).utcOffset('+03:00').format();
   }
 
-
-
 }
-

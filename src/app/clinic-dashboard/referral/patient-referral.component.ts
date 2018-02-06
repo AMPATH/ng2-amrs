@@ -1,5 +1,4 @@
 
-
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -17,7 +16,7 @@ import {
 
 @Component({
   selector: 'patient-referral-report',
-  templateUrl: '../../referral-care-lib/patient-referral/patient-referral-report-base.component.html'
+  templateUrl: '../../referral-care-lib/patient-referral/referral-report-base.component.html'
 })
 export class PatientReferralComponent extends PatientReferralBaseComponent
   implements OnInit {
@@ -120,7 +119,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     }
   }
   public formatProgramsToSelectArray(indicatorParam: string) {
-    console.log('program to this.programName',this.programName);
+    console.log('program to this.programName', this.programName);
 
     let arr = indicatorParam.split(',');
     _.each(arr, (program) => {
@@ -151,6 +150,5 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
    // console.log('program to this.programName',this.programName.SelectItem);
     return this.programName
   }*/
-
 
 }

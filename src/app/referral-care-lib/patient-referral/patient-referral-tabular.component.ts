@@ -84,9 +84,7 @@ export class PatientReferralTabularComponent implements OnInit {
               private route: ActivatedRoute,
               public resourceService: PatientReferralResourceService) { }
 
-
   public ngOnInit() {
-
 
   }
   public setColumns(sectionsData: Array<any>) {
@@ -132,9 +130,9 @@ export class PatientReferralTabularComponent implements OnInit {
     this.isLoading = true;
 
     this.resourceService.getPatientReferralPatientList({
-      endDate: this.toDateString(this._dates.endDate), //.format(),
+      endDate: this.toDateString(this._dates.endDate),
       locationUuids: data.data.locationUuids,
-      startDate: this.toDateString(this._dates.startDate),//.format(),
+      startDate: this.toDateString(this._dates.startDate),
       startAge: this.startAge,
       endAge: this.endAge,
       gender: this.gender,
@@ -177,13 +175,13 @@ export class PatientReferralTabularComponent implements OnInit {
     return Moment(date).utcOffset('+03:00').format();
   }
   private getSelectedStates(event) {
-    console.log('event',event);
+    console.log('event', event);
     let stateUuid = '';
     let selectedField = event.colDef.field;
     let selectedUuid = selectedField + '_stateUuids';
 
-    _.each(event.data, function (v, k) {
-      if(k===selectedUuid) {
+    _.each(event.data, (v, k) => {
+      if (k === selectedUuid) {
 
         stateUuid = v;
       }

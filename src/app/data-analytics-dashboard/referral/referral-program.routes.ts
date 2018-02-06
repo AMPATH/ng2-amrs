@@ -31,4 +31,3 @@ const routes: Routes = [
 
 export const analyticsPatientReferralProgramRouting: ModuleWithProviders =
   RouterModule.forChild(routes);
-

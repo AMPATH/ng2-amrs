@@ -257,10 +257,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
               }
             }
-              programs.push(data);
+            programs.push(data);
             }
 
-            //console.log('programs',programs);
           }
           this.programOptions = programs;
       }
@@ -274,11 +273,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
     }
 
-
     let programs = [];
     this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
       (results: any) => {
-
 
         for (let data of results.allWorkflows) {
           for (let states of data.states) {
@@ -292,7 +289,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
              states['text'] = text;
            }
           }
-            programs.push(states);
+             programs.push(states);
 
           }
 
