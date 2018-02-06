@@ -89,7 +89,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   @Input()
   public set startDate(v: Date) {
     this._startDate = v;
-    console.log('data2222222----->>>>this.startDate', this.startDate);
     this.startDateChange.emit(this.startDate);
   }
 
@@ -124,9 +123,12 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     return this._programs ;
   }
   public set selectedPrograms(v: Array<any>) {
-    //this.getProgramWorkFlowStates(this._programs);
-    console.log('vvvvvvvvvvvvvvvv',v);
     this._programs = v;
+    if (this._programs) {
+      this.statesOptions = [];
+      this.getProgramWorkFlowStates(this._programs);
+    }
+
     this.onProgramChange.emit(this._programs);
 
   }
@@ -163,7 +165,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
   public ngOnInit() {
     this.renderFilterControls();
-    this._init();
     if (this.start && this.end) {
       this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
     }
@@ -199,7 +200,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this.isEnabled('programWorkFlowControl')) {
       this.getPrograms();
     }
-    this.getProgramWorkFlowStates('781d8a88-1359-11df-a1f1-0026b9348838');
   }
    public getCachedLocations() {
     this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
@@ -243,43 +243,61 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.programResourceService.getPrograms().subscribe(
       (results: any[]) => {
 
-        for (let data of results) {
-          for (let r in data) {
-            if (data.hasOwnProperty(r)) {
-              let id = data.uuid;
-              let text = data.display;
-              data['id'] = id;
-              data['text'] = text;
+          for (let data of results) {
+           // data['states'] = data.states;
+
+            if (!_.isEmpty(data.allWorkflows)) {
+            for (let r in data) {
+
+              if (data.hasOwnProperty(r)) {
+                let id = data.uuid;
+                let text = data.display;
+                data['id'] = id;
+                data['text'] = text;
+
+              }
             }
+              programs.push(data);
+            }
+
+            //console.log('programs',programs);
           }
-          programs.push(data);
-        }
-        this.programOptions = programs;
+          this.programOptions = programs;
       }
     );
 
   }
   public getProgramWorkFlowStates(uuid) {
-    console.log('selected uuid', uuid);
-    let selectedProgram = uuid[0].id;
-    let programs = [];
-    console.log('selectedProgram', selectedProgram);
-    this.programWorkFlowResourceService.getProgramWorkFlows('781d8a88-1359-11df-a1f1-0026b9348838').subscribe(
-      (results: any[]) => {
-        console.log('results=======!!!!!!!!!!!!!!', results);
+    let selectedProgram;
+    if (uuid[0].id && uuid[0].id !== 'undefined' && uuid[0].id !== undefined) {
+       selectedProgram = uuid[0].id;
 
-        for (let data of results) {
-          for (let r in data) {
-            if (data.hasOwnProperty(r)) {
-              let id = data.uuid;
-              let text = data.display;
-              data['id'] = id;
-              data['text'] = text;
-            }
+    }
+
+
+    let programs = [];
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
+      (results: any) => {
+
+
+        for (let data of results.allWorkflows) {
+          for (let states of data.states) {
+             for (let r in states) {
+          // console.log('states', states);
+           if (data.hasOwnProperty(r)) {
+
+             let id = states.uuid;
+             let text = states.concept.name.display;
+             states['id'] = id;
+             states['text'] = text;
+           }
           }
-          programs.push(data);
+            programs.push(states);
+
+          }
+
         }
-        this.programOptions = programs;
+        this.statesOptions = programs;
       }
     );
 
@@ -382,17 +400,5 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
  public registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
  public registerOnTouched(fn: () => void): void { this.onTouched = fn; }
-  private _init() {
-    this.programWorkFlowResourceService.getProgramWorkFlows('781d8a88-1359-11df-a1f1-0026b9348838')
-      .subscribe((workflows: any) => {
-        console.log('workflows',workflows)
-        /*this.programWorkflows = workflows.allWorkflows;
-        if (this.programWorkflows.length === 0) {
-          this.program.isReferring = false;
-          this.onAborting.emit(this.program);
-        } else {
-          this.program.isReferring = true;
-        }*/
-      });
-  }
+
 }

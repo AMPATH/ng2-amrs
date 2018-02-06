@@ -18,6 +18,7 @@ export class PatientReferralBaseComponent implements OnInit {
   public isAggregated: boolean;
   public programs: any;
   public states: any;
+ // public selectedPrograms  = [];
 
   public enabledControls = 'datesControl,programWorkFlowControl' +
     'ageControl,genderControl,locationControl';
@@ -31,6 +32,7 @@ export class PatientReferralBaseComponent implements OnInit {
   public reportName: string = '';
   public dates: any;
   public programUuids: any;
+  public programObj: any;
   public age: any;
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
@@ -66,13 +68,13 @@ export class PatientReferralBaseComponent implements OnInit {
   public set stateUuids(v: Array<string>) {
     this._stateUuids = v;
   }
-  private _programsUuids: Array<string>;
+ /* private _programsUuids: Array<string>;
   public get selectedPrograms(): Array<string> {
     return this._programsUuids;
   }
   public set selectedPrograms(v: Array<string>) {
     this._programsUuids = v;
-  }
+  }*/
   private _gender: Array<string>;
   public get gender(): Array<string> {
     return this._gender;
@@ -89,8 +91,7 @@ export class PatientReferralBaseComponent implements OnInit {
 
   }
   public generateReport() {
-    console.log('this.programs', this.programs);
-
+    console.log('this.programs===', this.programs);
     this.dates = {
       startDate: this.startDate,
       endDate: this.endDate
@@ -109,15 +110,15 @@ export class PatientReferralBaseComponent implements OnInit {
           startDate: this.toDateString(this.startDate),
           programUuids: this.programs,
           locationUuids: this.getSelectedLocations(this.locationUuids),//this.locationUuids
-          stateUuids: '78238ed8-1359-11df-a1f1-0026b9348838,7823ecfc-1359-11df-a1f1-0026b9348838',//this.states, //this.stateUuids
+          stateUuids: this.states, //this.stateUuids
           startAge: this.startAge,
           endAge: this.endAge
        }).subscribe(
       (data) => {
         this.isLoadingReport = false;
         this.sectionsDef =   data.stateNames;
-        this.data = data.result;
-        console.log('data=====>>>', this.programs);
+        this.data = data.groupedResult;
+        console.log(' this.data99999999===========',  this.data);
 
       }, (error) => {
         this.isLoadingReport = false;
@@ -146,7 +147,6 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   public getSelectedPrograms(programsUuids): string {
-    console.log('selectedPrograms11111111================>>>>>>>>', programsUuids);
     if (!programsUuids || programsUuids.length === 0) {
       return '';
     }

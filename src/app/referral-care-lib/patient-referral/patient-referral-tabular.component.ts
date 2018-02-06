@@ -21,6 +21,7 @@ export class PatientReferralTabularComponent implements OnInit {
   public overrideColumns: Array<any> = [];
   public patientData: any;
   public startAge: any;
+  public stateName: any;
   public endAge: any;
   public stateUuid: any;
   public startIndex: number = 0;
@@ -86,6 +87,7 @@ export class PatientReferralTabularComponent implements OnInit {
 
   public ngOnInit() {
 
+
   }
   public setColumns(sectionsData: Array<any>) {
     let defs = [];
@@ -113,7 +115,7 @@ export class PatientReferralTabularComponent implements OnInit {
   }
 
   public titleCase(str) {
-    return str.toLowerCase().split(' ').map((word) => {
+    return str.toLowerCase().split('_').map((word) => {
       return (word.charAt(0).toUpperCase() + word.slice(1));
     }).join(' ');
   }
@@ -121,12 +123,14 @@ export class PatientReferralTabularComponent implements OnInit {
   public onCellClicked(event) {
     let data = this.getSelectedStates(event);
     this.stateUuid = data;
+    this.stateName = event.colDef.headerName.split('_').join(' ');
     this.generatePatientListReport(event);
   }
 
   public generatePatientListReport(data) {
-    console.log('ssssssssssss',this.stateUuid);
+    // this.patientData = [];
     this.isLoading = true;
+
     this.resourceService.getPatientReferralPatientList({
       endDate: this.toDateString(this._dates.endDate), //.format(),
       locationUuids: data.data.locationUuids,
@@ -138,23 +142,42 @@ export class PatientReferralTabularComponent implements OnInit {
       stateUuids:  this.stateUuid,
       startIndex: this.startIndex
     }).subscribe((report) => {
-      console.log('report====',report);
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;
       if (report.length < 300) {
         this.dataLoaded = true;
       }
+      this.overrideColumns.push({
+        field: 'identifiers',
+        onCellClicked: (column) => {
+          this.redirectTopatientInfo(column.data.patient_uuid);
+        },
+        cellRenderer: (column) => {
+          return '<a href="javascript:void(0);" title="Identifiers">'
+            + column.value + '</a>';
+        }
+      });
     });
   }
 
   public loadMorePatients() {
    // this.generatePatientListReport();
   }
+
+  public redirectTopatientInfo(patientUuid) {
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general']);
+
+  }
+
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
   }
   private getSelectedStates(event) {
+    console.log('event',event);
     let stateUuid = '';
     let selectedField = event.colDef.field;
     let selectedUuid = selectedField + '_stateUuids';

@@ -1,0 +1,18 @@
+<div>
+  <div class="items" style="position: relative;" *ngIf="programsForReferral.length > 0">
+    <div [ngBusy]="{busy:[loadingPatientPrograms],message:'Loading programs...'}"></div>
+    <patient-referral-item *ngFor="let program of programsForReferral"
+                           [form] = "form"
+                           [patient]="patient"
+                           (onSuccess)="patientReferralSuccess()"
+                           (onAborting)="patientReferralAborted()"
+                           [program]="program"
+                           [refer]="refer"></patient-referral-item>
+  </div>
+  <hr />
+  <div style="text-align: right;" class="buttons">
+    <button class="btn btn-danger" (click)="cancelReferral()" type="button">Cancel</button>
+    <button *ngIf="successfulReferrals < programsForReferral.length" class="btn btn-primary" (click)="referPatient()" type="button">Refer</button>
+    <button *ngIf="programsForReferral.length === successfulReferrals" class="btn btn-success" (click)="closeReferralDialog()" type="button">Close</button>
+  </div>
+</div>

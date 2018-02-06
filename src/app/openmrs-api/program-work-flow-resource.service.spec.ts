@@ -79,7 +79,7 @@ describe('Service: ProgramWorkFlowResourceService', () => {
       mockBackend.connections.subscribe((conn) => {
         expect(conn.request.url)
           .toBe('http://example.url.com/ws/rest/v1/program/uuid?v=' +
-            'custom:(uuid,display,allWorkflows:(uuid,concept:(uuid,display)))');
+            'custom:(uuid,display,allWorkflows:(uuid,concept:(uuid,display),states))');
         expect(conn.request.method).toBe(RequestMethod.Get);
         conn.mockRespond(new Response(
           new ResponseOptions({body: JSON.stringify(programWorkFlowResponse)})));

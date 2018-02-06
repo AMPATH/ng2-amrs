@@ -23,8 +23,8 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   implements OnInit {
   public data = [];
   public sectionsDef = [];
-  public enabledControls = 'datesControl,programWorkFlowControl' +
-    'ageControl,genderControl';
+  public programName: any;
+  public enabledControls = 'datesControl,programWorkFlowControl';
 
   constructor(public patientReferralResourceService: PatientReferralResourceService,
               private route: ActivatedRoute, private location: Location,
@@ -56,7 +56,6 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
 
     if (path.queryParams['startDate']) {
       this.startDate = new Date(path.queryParams['startDate']);
-      console.log(' this.startDate--------->>>>>',  this.startDate);
     }
 
     if (path.queryParams['endDate']) {
@@ -72,8 +71,13 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     if (path.queryParams['endAge']) {
       this.endAge = (path.queryParams['endAge'] as any);
     }
-    if (path.queryParams['view']) {
-      this.currentView = path.queryParams['view'];
+    if (path.queryParams['programUuids']) {
+      this.programs = path.queryParams['programUuids'];
+    //  this.formatProgramsToSelectArray(this.programs);
+
+    }
+    if (path.queryParams['stateUuids']) {
+      this.states = path.queryParams['stateUuids'];
     }
     if (pathHasHistoricalValues) {
       this.generateReport();
@@ -88,14 +92,14 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       'gender': (this.gender ? this.gender : 'F,M' as any),
       'startAge': (this.startAge as any),
       'endAge': (this.endAge as any),
-      'programUuids': this.programs as any,
-      'view': this.currentView
+      'programUuids': (this.programs as any),
+      'stateUuids': (this.states as any)
     };
-
     this.location.replaceState(path.toString());
   }
 
   public formatGenderToSelectArray(genderParam: string) {
+
     if (genderParam.length > 1) {
       let arr = genderParam.split(',');
       _.each(arr, (gender) => {
@@ -115,5 +119,38 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       this.selectedGender.push(data);
     }
   }
+  public formatProgramsToSelectArray(indicatorParam: string) {
+    console.log('program to this.programName',this.programName);
+
+    let arr = indicatorParam.split(',');
+    _.each(arr, (program) => {
+      let text = this.translateIndicator(program);
+      let id = program;
+
+      let data = {
+        id: id,
+        text: 'BSG'
+      };
+
+    //  this.selectedPrograms.push(data);
+    });
+  }
+
+  public translateIndicator(indicator: string) {
+    return indicator.toLowerCase().split('_').map((word) => {
+      return (word.charAt(0) + word.slice(1));
+    }).join(' ');
+  }
+/*  public getSelectedPrograms(s): string {
+    _.each(s, (selected) => {
+      console.log('selected', selected.id);
+      this.programName = selected;
+     // this.programName.push(selected);
+
+    });
+   // console.log('program to this.programName',this.programName.SelectItem);
+    return this.programName
+  }*/
+
 
 }

@@ -9,7 +9,11 @@ export class FakeFormFactory {
     // TODO: Return Form type
     formSchema = {
       searchNodeByQuestionId: (questionId) => {
-        return [];
+        return [{
+          control: {
+            value: ['1']
+          }
+        }];
       }
     };
     return formSchema;
