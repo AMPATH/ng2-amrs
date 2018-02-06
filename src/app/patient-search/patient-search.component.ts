@@ -210,29 +210,39 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     // providerUuids = 'dced5363-4539-4692-88b8-018ea453a235',
     let user = this.defaultPropertiesService.getAuthenticatedUser()
             || {};
-    this.getCurrentProvider(user);
-    this.referralSubscription = this.referralService.getReferalProviders(selectedLocationUuid,
-    this.providerUuid, referredBackStateUuid, startIndex, limit)
-      .subscribe(
-      (referralData) => {
-        this.loadingReferralProviders = false;
-        if (referralData.length >= 1) {
-          this.referrals = referralData;
-          // this.dataLoaded = true;
-        } else {
-          // this.dataLoaded = false;
-        }
 
-      },
-      (error) => {
-        this.loadingReferralProviders = false;
-        // this.dataLoaded = true;
+    this.referralService.getUserProviderDetails(user)
+      .then((provider) => {
+        this.providerUuid = provider.uuid;
+        this.referralSubscription = this.referralService.getReferalProviders(selectedLocationUuid,
+          this.providerUuid, referredBackStateUuid, startIndex, limit)
+          .subscribe(
+            (referralData) => {
+              this.loadingReferralProviders = false;
+              if (referralData.length >= 1) {
+                this.referrals = referralData;
+                // this.dataLoaded = true;
+              } else {
+                // this.dataLoaded = false;
+              }
+
+            },
+            (error) => {
+              this.loadingReferralProviders = false;
+              // this.dataLoaded = true;
+              this.errors.push({
+                id: 'Referral Providers',
+                message: 'error fetching referral providers'
+              });
+            }
+          );
+      })
+      .catch((error) => {
         this.errors.push({
           id: 'Referral Providers',
-          message: 'error fetching referral providers'
+          message: 'error fetching current user provider information'
         });
-      }
-      );
+      });
 
   }
 
