@@ -7,6 +7,8 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import {
   PatientReferralContainerComponent
 } from './components/patient-referral-container.component';
+import { ReferralProviderComponent } from
+  './components/referral-provider.component';
 import { PatientReferralItemComponent } from './components/patient-referral-item.component';
 import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
@@ -14,21 +16,33 @@ import { ProgramWorkFlowStateResourceService
 import { ProgramEnrollmentResourceService
 } from '../openmrs-api/program-enrollment-resource.service';
 import { PatientReferralService } from './services/patient-referral-service';
+import {
+    ReferralProviderResourceService
+} from '../etl-api/referral-provider-resource.service';
+import { DataListsModule } from '../shared/data-lists/data-lists.module';
 
 @NgModule({
   imports: [
     RouterModule,
     CommonModule,
     FormsModule,
-    NgamrsSharedModule
+    NgamrsSharedModule,
+    DataListsModule
   ],
-  exports: [PatientReferralContainerComponent, PatientReferralItemComponent],
-  declarations: [PatientReferralContainerComponent, PatientReferralItemComponent],
+  exports: [
+  PatientReferralContainerComponent,
+  PatientReferralItemComponent,
+  ReferralProviderComponent],
+  declarations: [
+  PatientReferralContainerComponent,
+  PatientReferralItemComponent,
+  ReferralProviderComponent],
   providers: [
     ProgramEnrollmentResourceService,
     ProgramWorkFlowResourceService,
     PatientReferralService,
-    ProgramWorkFlowStateResourceService],
+    ProgramWorkFlowStateResourceService,
+    ReferralProviderResourceService],
 
 })
 export class ReferralModule {

@@ -14,6 +14,7 @@ import {
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
+import { ProviderDashboardComponent } from '../provider-dashboard/provider-dashboard.component';
 // export function clinicDashboardModule() {
 //   return ClinicDashboardModule;
 // }
@@ -42,6 +43,9 @@ export const dashboardRoutes: Routes = [
       },
       {
         path: 'data-analytics', loadChildren: dataAnalyticsModule
+      },
+       {
+        path: 'provider-dashboard', component: ProviderDashboardComponent
       },
       {
         path: 'user-default-properties',

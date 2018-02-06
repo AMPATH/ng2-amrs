@@ -172,7 +172,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   private setCurrentWorkflowState() {
-    let currentState = _.find(this.program.enrolledProgram.states, (programState) => {
+    let currentState = _.find(this.program.enrolledProgram.states, (programState: any) => {
       return programState.endDate === null;
     });
 

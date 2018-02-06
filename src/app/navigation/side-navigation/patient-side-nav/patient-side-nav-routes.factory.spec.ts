@@ -14,6 +14,7 @@ describe('Patient Routes Factory:', () => {
     analyticsDashboardConfig: {},
     clinicDashboardConfig: {},
     patientListCohortConfig: {},
+    providerDashboardConfig: {},
     patientDashboardConfig: {
       'id': 'patientDashboard',
       'name': 'Patient Dashboard',
