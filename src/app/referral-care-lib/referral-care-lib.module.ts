@@ -6,7 +6,6 @@ import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
 import { AgGridModule } from 'ag-grid-angular/main';
 import { TabViewModule } from 'primeng/components/tabview/tabview';
 
-
 import { EtlApi } from '../etl-api/etl-api.module';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { PatientReferralContainerComponent } from './patient-referral.container.component';
@@ -17,11 +16,6 @@ import {
   PatientReferralTabularComponent
 } from './patient-referral/patient-referral-tabular.component';
 import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
-import {
-  ReferralPatientListComponent
-} from './patient-referral/referral-patient-list.component';
-
-
 @NgModule({
   imports: [
     EtlApi,
@@ -44,7 +38,7 @@ import {
     PatientReferralContainerComponent,
     PatientReferralBaseComponent,
     PatientReferralTabularComponent,
-    ReferralPatientListComponent
+
   ],
   providers: [],
 })
