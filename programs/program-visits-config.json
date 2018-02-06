@@ -430,6 +430,41 @@
       }
     ]
   },
+  "2114265d-dcc4-4440-9059-fe194a5f23a6": {
+    "name": "HYPERTENSION REFERRAL PROGRAM",
+    "incompatibleWith": [],
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
+        "name": "DM-HTN Health Center visit",
+        "allowedIf": "inCareUuid === '496cf7a6-eb2c-40b2-85e6-fbd7a885e66e'",
+        "message": "Patient must be `in care` state",
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
+            "display": "HTNDMRETRUN"
+          },
+          {
+            "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
+            "display": "HTNDMINITIAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }
+    ]
+  },
   "fc15ac01-5381-4854-bf5e-917c907aa77f": {
     "name": "CDM PROGRAM",
     "dataDependencies": [

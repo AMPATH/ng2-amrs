@@ -3,6 +3,7 @@
 // var dao = require('./etl-dao');
 var dao = require('./etl-dao');
 var patientList = require('./dao/patient-list/patient-list-dao');
+var patientReferralDao = require('./dao/patient-referral/patient-referral-dao');
 var preRequest = require('./pre-request-processing');
 var pack = require('./package');
 var winston = require('winston');
@@ -990,6 +991,31 @@ module.exports = function () {
                             .description("The offset to control pagination")
                     }
                 }
+            }
+        },
+        {
+            method: 'POST',
+            path: '/etl/patient-referral',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+                    patientReferralDao.createPatientReferral(request.payload)
+                        .then(function (newCohortReferral) {
+                            reply(newCohortReferral);
+                        })
+                        .catch(function (error) {
+                            if (error && error.isValid === false) {
+                                reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
+                            } else {
+                                console.error(error);
+                                reply(Boom.create(500, 'Internal server error.', error));
+                            }
+                        });
+                },
+                description: "Post patient referrals for a given referral",
+                notes: "Api endpoint that posts patient referrals",
+                tags: ['api'],
             }
         },
         {

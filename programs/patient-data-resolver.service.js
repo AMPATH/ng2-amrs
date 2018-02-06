@@ -70,7 +70,9 @@ function getProgramEnrollment(patientUuid, params) {
     return new Promise(
         function (resolve, reject) {
             programService.getProgramEnrollmentByUuid(params.programEnrollmentUuid,
-                { rep: 'full' })
+                { rep: 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,location,' +
+                'program:(uuid),states:(uuid,startDate,endDate,state:(uuid,initial,terminal,' +
+                'concept:(uuid,display))))' })
                 .then(function (enrollment) {
                     resolve(enrollment);
                 })
