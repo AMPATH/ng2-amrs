@@ -37,6 +37,9 @@ import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'angular2-select';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 class LocationServiceMock {
   constructor() {
@@ -99,6 +102,8 @@ describe('Component: Visit', () => {
           }
         },
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {
           provide: UserDefaultPropertiesService, useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();

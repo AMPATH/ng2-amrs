@@ -21,6 +21,8 @@ import { PatientReferralService } from '../services/patient-referral-service';
 export class PatientReferralItemComponent implements OnInit, OnChanges {
   @Input() public refer: boolean;
   @Input() public program: any;
+  @Input() public submittedEncounter: any;
+  @Input() public referredFromLocation: string;
   @Input() public form: Form;
   @Input() public patient: Patient;
   @Output() public onAborting: EventEmitter<any> = new EventEmitter();
@@ -29,14 +31,13 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   public currentWorkflowState: string = '';
   public selectedWorkflow: any;
   public programWorkflows: any[] = [];
-  public selectedWorkFlowState: string;
+  public selectedWorkFlowState: any;
   public workflowStates: any[] = [];
   public referralReason: string;
   public location: any;
   public newErollment: any;
   public patientOnRefferal: boolean = false;
   public inputError: string;
-  private enrollmentConcept = '65cb2cac-3cfe-40f8-ae0e-374e2e1cef04';
   constructor(private patientReferralService: PatientReferralService,
               private programWorkFlowResourceService: ProgramWorkFlowResourceService,
               private programWorkFlowStateResourceService: ProgramWorkFlowStateResourceService) {
@@ -57,17 +58,18 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
         }
 
         if (propName === 'refer' && cur === true) {
+
+          let encounter: any = _.first(this.submittedEncounter);
           let programInfo = {
-            location: this.location,
-            patient: this.patient.person.uuid,
-            encounterProviders: [{
-              provider: this.form.valueProcessingInfo.providerUuid,
-              encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66'
-            }],
+            referredToLocation: this.location,
+            referredFromLocation: this.referredFromLocation,
+            encounter: encounter.uuid,
+            provider: this.form.valueProcessingInfo.providerUuid,
+            state: this.selectedWorkFlowState.uuid
           };
           if (this.hasValidInput()) {
             this.refer = true;
-            this.enrollPatientInRefferedProgram(programInfo);
+            this.enrollPatientInReferredProgram(programInfo);
           } else {
             this.program.isReferring = false;
             this.refer = false;
@@ -98,7 +100,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
     if (this.patientEnrolledInSameLocation()) {
       this.setCurrentWorkflowState();
       this.patientOnRefferal = true;
-      this.onAborting.emit(this.program);
+      // this.onAborting.emit(this.program);
     }
     this.hasValidInput();
 
@@ -122,40 +124,32 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
     return true;
   }
 
-  private enrollPatientInRefferedProgram(programInfo) {
+  private enrollPatientInReferredProgram(programInfo) {
     // 1. Enroll patient
     this.patientReferralService.enrollPatient(this.program.programUuid,
-      this.patient, this.location, this.selectedWorkFlowState).subscribe((enrollment) => {
-        this.newErollment = enrollment;
-        // 2. Save encounter
-        this.patientReferralService.generateReferralEncounterPayload(programInfo)
-          .subscribe((payload) => {
-            if (payload) {
-              _.extend(payload, {
-                obs: [{
-                  concept: this.enrollmentConcept,
-                  value: enrollment.uuid
-                }]
-              });
-              this.patientReferralService.saveReferralEncounter(payload)
-                .subscribe((savedEncounter) => {
-                  this.patientRefferalOnSuccess = true;
-                  this.program.isReferring = false;
-                  this.patientOnRefferal = false;
-                  this.inputError = undefined;
-                  this.refer = false;
-                  this.onSuccess.emit(true);
-                }, (error) => {
-                  this.handleError(error);
-                });
-            }
-          }, (error) => {
-            this.handleError(error);
+      this.patient, this.location, this.selectedWorkFlowState, '')
+      .subscribe((enrollment) => {
+          this.newErollment = enrollment;
+          // 2. Save encounter
+          _.extend(programInfo, {
+            patientProgram: enrollment.uuid
           });
-      },
-      (error) => {
-        this.handleError(error);
-      });
+          this.patientReferralService.saveReferralEncounter(programInfo)
+            .subscribe((savedEncounter) => {
+              console.log('savedEncounter', savedEncounter);
+              this.patientRefferalOnSuccess = true;
+              this.program.isReferring = false;
+              this.patientOnRefferal = false;
+              this.inputError = undefined;
+              this.refer = false;
+              this.onSuccess.emit(true);
+            }, (error) => {
+              this.handleError(error);
+            });
+        },
+        (error) => {
+          this.handleError(error);
+        });
   }
 
   private _init() {
@@ -172,7 +166,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   private setCurrentWorkflowState() {
-    let currentState = _.find(this.program.enrolledProgram.states, (programState) => {
+    let currentState = _.find(this.program.enrolledProgram.states, (programState: any) => {
       return programState.endDate === null;
     });
 

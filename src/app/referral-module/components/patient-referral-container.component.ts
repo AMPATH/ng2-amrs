@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 })
 export class PatientReferralContainerComponent implements OnInit {
   @Input() public programs;
+  @Input() public submittedEncounter: any;
   @Input() public location: string;
   @Input() public form: Form;
   @Input() public patient: Patient;
@@ -60,12 +61,8 @@ export class PatientReferralContainerComponent implements OnInit {
   }
 
   private _init() {
-    this.loadingPatientPrograms = true;
-    this.loadingPatientPrograms = false;
-    let patientPrograms = this.patient.enrolledPrograms;
-    this.programsForReferral = _.filter(patientPrograms, (program: any) => {
-      program.isReferring = false;
-      return _.includes(this.programs, program.programUuid);
+    this.programsForReferral = _.map(this.programs, (program: any) => {
+      return _.extend(program, {isReferring : false});
     });
   }
 }
