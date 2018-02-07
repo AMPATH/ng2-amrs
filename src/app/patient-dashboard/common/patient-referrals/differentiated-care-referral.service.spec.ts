@@ -44,8 +44,12 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
             {
               location: 'location-uuid',
               patient: 'patient-uuid',
-              provider: 'provider-uuid',
-              encounterDatetime:  service.toOpenmrsDateFormat(encounterDate),
+              encounterProviders: [
+                {
+                  provider: 'provider-uuid',
+                  encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66'
+                }],
+              encounterDatetime: service.toOpenmrsDateFormat(encounterDate),
               encounterType: 'f022c2ec-db69-4403-b515-127be11cde53',
               obs: [{
                 concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',

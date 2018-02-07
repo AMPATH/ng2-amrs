@@ -169,7 +169,11 @@ export class DifferentiatedCareReferralService {
       {
         location: locationUuid,
         patient: patientUuid,
-        provider: providerUuid,
+        encounterProviders: [
+          {
+            provider: providerUuid,
+            encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66'
+          }],
         encounterDatetime: this.toOpenmrsDateFormat(encounterDateTime),
         // Format to required openmrs date
         encounterType: this.differentiatedCareEncounterTypeUuid,

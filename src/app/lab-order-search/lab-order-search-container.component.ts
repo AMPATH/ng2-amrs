@@ -22,11 +22,19 @@ export class LabOrderSearchContainerComponent implements OnInit {
   }
 
   public onOrderPosted() {
-    this.orderPosted = true;
+    this.showSuccefulEidPosting(3);
   }
 
   public onSearchReset(event) {
     this.reset = true;
     this.order = null;
+  }
+
+  private showSuccefulEidPosting(secondsToDisplay: number) {
+    this.orderPosted = true;
+    // hide after 3 seconds
+    setTimeout(() => {
+      this.orderPosted = false;
+    }, secondsToDisplay * 1000);
   }
 }
