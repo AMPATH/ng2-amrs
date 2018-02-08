@@ -428,7 +428,18 @@ export class HivPatientClinicalSummaryService {
     let hivSummary: Array<Array<any>> = [['Patient has no Hiv Summary']];
     try {
       if (hivSummaryData.length > 0) {
-        let patientHivSummary: any = hivSummaryData[0];
+        let patientHivSummary: any;
+        let summary: any;
+        for (summary of hivSummaryData){
+
+            if (summary.is_clinical_encounter === 1) {
+
+                patientHivSummary = summary;
+                break;
+
+            }
+
+        }
         hivSummary = [
           [{
             columns: [{
@@ -437,8 +448,8 @@ export class HivPatientClinicalSummaryService {
                 width: 60,
                 bold: true,
               }, {
-                text: this._formatDate(patientHivSummary.encounterDatetime) +
-                ' (' + patientHivSummary.prev_encounter_type_name + ')' || 'N/A',
+                text: this._formatDate(patientHivSummary.encounter_datetime) +
+                ' (' + patientHivSummary.encounter_type_name + ')' || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
