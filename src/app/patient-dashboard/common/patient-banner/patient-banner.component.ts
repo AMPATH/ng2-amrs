@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import * as Moment from 'moment';
-
+import * as _ from 'lodash';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
@@ -18,6 +18,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
   public manageProgramEnrollment: boolean = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: object;
+  public attributes: any;
   public birthdate;
   private subscription: Subscription;
 
@@ -34,6 +35,14 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          let attributes = patient.person.attributes;
+          _.each(attributes, (attribute) => {
+             // get the test patient attribute
+             if (attribute.attributeType.uuid === '1e38f1ca-4257-4a03-ad5d-f4d972074e69') {
+                  this.attributes = attribute;
+              }
+          });
+
           this.birthdate = Moment(patient.person.birthdate).format('l');
         } else {
           this.searchIdentifiers = undefined;
