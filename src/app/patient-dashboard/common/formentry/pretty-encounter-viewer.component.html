@@ -1,0 +1,10 @@
+<div *ngIf="form&&selectedEncounter&&!error" id="encounter">
+    <encounter-renderer [encounter]="selectedEncounter" [form]="form"></encounter-renderer>
+</div>
+ 
+<div *ngIf="error" class="container text-center">
+  {{errorMessage}}
+</div>
+<div *ngIf="showLoader" class="text-center">
+  <button class="btn btn-primary" ><i class="fa fa-spinner fa-spin" style="color:#fff"></i> {{loaderText}}</button>
+</div>

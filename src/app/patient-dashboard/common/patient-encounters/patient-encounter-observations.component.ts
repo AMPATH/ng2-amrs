@@ -19,12 +19,17 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class PatientEncounterObservationsComponent implements OnInit, OnChanges {
 
   public obs: any;
+  public pretty: boolean;
   public isHidden: Array<boolean> = [];
+  public selectedEncounter: any;
   @ViewChild('staticModal')
   public staticModal: ModalDirective;
     @ViewChild('modal')
     public modal: ModalComponent;
   @Input() public encounter: Encounter;
+  @Input() public set prettyView(val: boolean){
+    this.pretty = val;
+  }
   @Input() public onEncounterDetail: boolean;
   @Output() public onClose = new EventEmitter();
   @Output() public isDone = new EventEmitter();
@@ -39,6 +44,19 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
   }
 
   public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    if (Object.keys(changes).length === 1 && changes['onEncounterDetail']) {
+      if (this.pretty) {
+        this.showPrettyObsView(this.selectedEncounter);
+      } else { this.showPlainObsView(this.selectedEncounter); }
+    }
+
+    if (Object.keys(changes).length === 2 && changes['onEncounterDetail'] 
+    && changes['prettyView']) {
+      this.pretty = changes['prettyView'].currentValue;
+      if (this.pretty) {
+        this.showPrettyObsView(this.selectedEncounter);
+      } else { this.showPlainObsView(this.selectedEncounter); }
+    }
 
     for (let propName in changes) {
       if (propName !== 'encounter') {
@@ -48,19 +66,29 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       let encounter = changedProp.currentValue;
       if (!changedProp.isFirstChange()) {
         this.isDone.emit(true);
-        this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
-          // this.modal.dismiss();
-          // console.log(this.modal);
-          // this.modal.visible = true;
-          this.staticModal.show();
-          // this.modal.open();
-          this.obs = this.processEncounter(_encounter);
-        });
+        if (this.pretty) {
+          this.showPrettyObsView(encounter);
+        } else { this.showPlainObsView(encounter); }
 
       }
     }
   }
 
+  public showPlainObsView(encounter) {
+    this.selectedEncounter = encounter;
+    this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
+      // this.modal.dismiss();
+      // console.log(this.modal);
+      // this.modal.visible = true;
+      this.staticModal.show();
+      // this.modal.open();
+      this.obs = this.processEncounter(_encounter);
+    });
+  }
+  public showPrettyObsView(encounter) {
+    this.selectedEncounter = encounter;
+    this.staticModal.show();
+  }
   public updateOpenState(index: number) {
     const state = this.isHidden[index];
     if (state) {
