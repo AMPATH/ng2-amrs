@@ -59,7 +59,7 @@
 							 <div class="col-md-3 col-lg-3 col-sm-2 col-xs-2">
 								 -
 							 </div>
-							 <div class="col-md-2 col-lg-2 col-sm-2 <col-xs-2>																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																</col-xs-2>">
+							 <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																
 								 {{visit.location}}
 							 </div>
 							 <div class="col-md-1 col-lg-1 col-sm-2 col-xs-2">
@@ -83,12 +83,23 @@
 								 {{encounter.provider}}
 							 </div>
 							  <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
-								 <a *ngIf="encounter.type == 'encounter'" (click)="editEncounter(encounter.encounterObj)">
-														<span class="glyphicon text-primary glyphicon-edit"></span>
-								 </a>
-								 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterObservations(encounter.encounterObj)">
-														<span class="glyphicon text-primary glyphicon-eye-open"></span>
-								 </a>
+								  <div class="row">
+									  <div class="col-md-3 col-sm-3 col-lg-3">
+											<a *ngIf="encounter.type == 'encounter'" (click)="editEncounter(encounter.encounterObj)">
+													<span class="glyphicon text-primary glyphicon-edit"></span></a>
+									  </div>
+									  <div class="col-md-3 col-sm-3 col-lg-3">		
+						 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterViewer(encounter.encounterObj)">
+							<span class="glyphicon glyphicon-list-alt"></span>
+						</a>
+						</div>
+						<div class="col-md-3 col-sm-3 col-lg-3">
+						 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterObservations(encounter.encounterObj)">
+												<span class="glyphicon text-primary glyphicon-eye-open"></span>
+						 </a>
+						 </div>
+
+								  </div>
 							 </div>
 						</div>
 					</li>
@@ -105,7 +116,7 @@
   </div>
 </div>
 
-<patient-encounter-observations  [onEncounterDetail]="onEncounterDetail"
+<patient-encounter-observations  [onEncounterDetail]="onEncounterDetail" [prettyView]="pretty"
                                [encounter]="selectedEncounter" *ngIf="showVisitsObservations"></patient-encounter-observations>
 
 </div>

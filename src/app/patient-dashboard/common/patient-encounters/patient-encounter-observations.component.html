@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="obs-wrapper" *ngIf="onEncounterDetail">
+        <div class="obs-wrapper" *ngIf="onEncounterDetail&&!pretty">
           <ul class="obs-list">
             <li *ngFor="let _obs of obs, let _index = index" [ngSwitch]="_obs.has_children" tabindex="{{_index}}" class="obs_parent">
               <div *ngSwitchCase="false"><span class="obs_label">{{_obs.label}}</span> > <span class="obs_value">{{_obs.value}}</span></div>
@@ -26,6 +26,9 @@
 
             </li>
           </ul>
+        </div>
+        <div class="obs-wrapper" *ngIf="pretty">
+          <pretty-encounter-viewer [encounter]="selectedEncounter"></pretty-encounter-viewer>
         </div>
       </div>
     </div>

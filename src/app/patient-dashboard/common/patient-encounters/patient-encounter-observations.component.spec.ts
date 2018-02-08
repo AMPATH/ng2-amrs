@@ -1,9 +1,10 @@
 import { Directive, Input } from '@angular/core';
-
+import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { PatientEncounterObservationsComponent } from './patient-encounter-observations.component';
 import { TestBed } from '@angular/core/testing';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PrettyEncounterViewerComponent } from '../formentry/pretty-encounter-viewer.component';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 
 @Directive({
@@ -33,9 +34,10 @@ describe('Component: PatientEncounterObservationsComponent', () => {
         PatientEncounterObservationsComponent,
         FakeModalHeaderDirective,
         FakeModalBodyDirective,
-        ModalComponent
+        ModalComponent,
+        PrettyEncounterViewerComponent
       ],
-      imports: [ModalModule.forRoot()],
+      imports: [ModalModule.forRoot(), FormEntryModule],
       providers: [
         {
           provide: EncounterResourceService,
