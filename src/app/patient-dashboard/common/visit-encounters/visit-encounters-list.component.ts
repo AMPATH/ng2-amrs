@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class VisitEncountersListComponent implements OnInit, OnChanges {
 
     public title: string = 'Patient Visits';
+    public pretty: boolean;
     public mainArray: any = [];
     public visitsArray: any = [];
     public singleEncounterVisits: any = [];
@@ -24,7 +25,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     public encounterFilterTypeArray: any = [];
     public selectedEncounter: string = '';
     public displayArray: any = [];
-    public onEncounterDetail: boolean = false;
+    public onEncounterDetail: number;
     public dateDesc: boolean = false;
     public visitDesc: boolean = false;
     public orderEncounterArray: any = [];
@@ -291,9 +292,18 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         if (encounter) {
             // console.log('Show Encounter ' , encounter);
             this.selectedEncounter = encounter;
-            this.onEncounterDetail = true;
+            this.onEncounterDetail = Math.random();
+            this.pretty = false;
         }
 
+    }
+
+    public showEncounterViewer(encounterObj) {
+        if (encounterObj)  {
+            this.selectedEncounter = encounterObj;
+            this.onEncounterDetail = Math.random();
+            this.pretty = true;
+        }
     }
 
     public sortByProvider() {

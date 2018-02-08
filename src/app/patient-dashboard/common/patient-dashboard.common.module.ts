@@ -51,6 +51,7 @@ import { FormSchemaService } from './formentry/form-schema.service';
 import { UtilsModule } from '../../utils/utils.module';
 import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
+import { PrettyEncounterViewerComponent } from './formentry/pretty-encounter-viewer.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
 import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { FromentryGuard } from './formentry/formentry.guard';
@@ -198,6 +199,7 @@ import { FormUpdaterService } from './formentry/form-updater.service';
     AddressComponent,
     PatientDemographicsComponent,
     FormentryComponent,
+    PrettyEncounterViewerComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
     TodaysVitalsComponent,
@@ -248,6 +250,7 @@ import { FormUpdaterService } from './formentry/form-updater.service';
     AddressComponent,
     PatientDemographicsComponent,
     FormentryComponent,
+    PrettyEncounterViewerComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
     TodaysVitalsComponent,

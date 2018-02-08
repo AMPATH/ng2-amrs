@@ -55,6 +55,11 @@
                         </a>
           </td>
           <td>
+            <a *ngIf="(encounter && encounter.form && encounter.form.name && encounter.form.name.indexOf('POC') >= 0)"  type="button" (click)="showEncounterViewer(encounter)">
+              <span class="glyphicon glyphicon-list-alt"></span>
+            </a>
+            </td>
+          <td>
             <a type="button" (click)="showEncounterObservations(encounter)" data-target="#encounter_modal" data-toggle="modal">
                             <span class="glyphicon text-primary glyphicon-eye-open"></span>
                         </a>

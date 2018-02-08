@@ -18,7 +18,8 @@ import * as _ from 'lodash';
 export class PatientEncountersComponent implements OnInit, OnDestroy {
   public encounters: Encounter[];
   public selectedEncounter: Encounter;
-  public onEncounterDetail: boolean = false;
+  public onEncounterDetail: number;
+  public pretty: boolean = false;
   public messageType: string;
   public message: string;
   public isVisible: boolean;
@@ -126,9 +127,18 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   public showEncounterObservations(encounter) {
     if (encounter) {
       this.selectedEncounter = encounter;
-      this.onEncounterDetail = true;
+      this.onEncounterDetail = Math.random();
+      this.pretty = false;
     }
 
+  }
+
+  public showPrettyEncounterViewer(encounter) {
+    if (encounter) {
+      this.selectedEncounter = encounter;
+      this.onEncounterDetail = Math.random();
+      this.pretty = true;
+    }
   }
 
   public isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
