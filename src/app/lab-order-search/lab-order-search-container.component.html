@@ -1,6 +1,10 @@
-<lab-order-search [reset]="reset" (onOrderRecieved)="orderReceieved($event)"
-                  [orderPostSuccessful]="orderPosted"
-                  (onReset)="onSearchReset($event)"></lab-order-search>
-<lab-order-search-post (orderPostSuccessfulEvent)="onOrderPosted()"
-  (resetEvent)="onSearchReset($event)" [order]="order" [reset]="reset"
-                       [hasPDashLink]="true"></lab-order-search-post>
+<div>
+<lab-order-search [reset]="reset" (onOrderRecieved)="orderReceieved($event)" (onReset)="onSearchReset($event)"></lab-order-search>
+<div style="margin:-30px 10px 10px 10px; border:1px solid rgb(160, 159, 159); padding:4px;" *ngIf="orderPosted">
+  <p>
+    <strong class="text-success"><span class="fa fa-check-circle"></span>  The order has been successfully posted to EID</strong>
+  </p>
+</div>
+<lab-order-search-post (orderPostSuccessfulEvent)="onOrderPosted()" (resetEvent)="onSearchReset($event)" [order]="order"
+  [reset]="reset" [hasPDashLink]="true"></lab-order-search-post>
+</div>

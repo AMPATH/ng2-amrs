@@ -19,18 +19,6 @@ export class LabOrderSearchComponent implements OnInit {
   private _orderPostSuccessful: boolean = false;
 
   @Input()
-  set orderPostSuccessful(value) {
-    this._orderPostSuccessful = value;
-    // remove the success message after 3secs
-    setTimeout(() => {
-      this._orderPostSuccessful = false;
-    }, 3000);
-  }
-
-  get orderPostSuccessful() {
-    return this._orderPostSuccessful;
-  }
-  @Input()
   set reset(value) {
     if (value === true && this.orderId.length > 0) {
       this.orderId = '';
@@ -45,15 +33,15 @@ export class LabOrderSearchComponent implements OnInit {
   private hasBeenSearched = false;
 
   private customOrderObjectDefinition: string = 'custom:(display,uuid,orderNumber,voided,' +
-  'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
-  'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
-  'identifiers:(identifier,uuid,preferred,' +
-  'identifierType:(uuid,name,format,formatDescription,checkDigit,validator)),' +
-  'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
-  'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
-  + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
-  'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,' +
-  'address6))),concept:ref)';
+    'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
+    'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
+    'identifiers:(identifier,uuid,preferred,' +
+    'identifierType:(uuid,name,format,formatDescription,validator)),' +
+    'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
+    'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
+    + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
+    'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,' +
+    'address6))),concept:ref)';
 
   constructor(private orderResourceService: OrderResourceService) {
   }
