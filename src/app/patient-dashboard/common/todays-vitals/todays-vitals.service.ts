@@ -6,12 +6,15 @@ import {
     VisitResourceService
 } from '../../../openmrs-api/visit-resource.service';
 import { Vital } from '../../../models/vital.model';
+import * as _ from 'lodash';
+import * as Moment from 'moment';
 
 @Injectable()
 export class TodaysVitalsService {
     public loadingVitals: boolean;
     public loadingEncounters: boolean;
     public errors: any = [];
+    public hasVitals: boolean = false;
 
     public vitalModel = {
         diastolic: null, systolic: null,
@@ -19,64 +22,32 @@ export class TodaysVitalsService {
         height: null, weight: null, bmi: null
     };
 
-    constructor(private visitResourceService: VisitResourceService) {
+    constructor(
+        private visitResourceService: VisitResourceService) {
     }
 
-    public getTodaysVitals(uuid): Observable<Vital[]> {
+    public getTodaysVitals(todaysEncounters) {
+
         let todaysVitals: Subject<Vital[]> = new Subject<Vital[]>();
-        let patientsObservable = this.visitResourceService.getPatientVisits(uuid);
+        let vitals = [];
 
-        if (patientsObservable === null) {
-            throw new Error('Null patient visit observable');
-        } else {
-            patientsObservable.subscribe(
-                (encounters) => {
-                    if (encounters.length > 0) {
-                        let visits = this.getTodayVisits(encounters);
-                        let visitUuid = '';
-                        if (visits.length > 0) {
-                            visitUuid = visits[0].uuid;
-                            this.visitResourceService.getVisitEncounters(visitUuid).subscribe(
-                                (visitEncounters) => {
-                                    if (visitEncounters.length > 0) {
-                                        let hasTriageEncounter = false;
-                                        for (let encounter of visitEncounters) {
-                                            let encounterType = encounter.encounterType.uuid;
-                                            if (encounterType ===
-                                                'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7') {
-                                                this.getVitalsFromObs(encounter.obs);
-                                                let vitals = [];
-                                                vitals.push(new Vital(this.vitalModel));
-                                                todaysVitals.next(vitals);
-                                                hasTriageEncounter = true;
-                                                break;
-                                            }
-                                        }
-                                        if (!hasTriageEncounter) {
-                                            todaysVitals.next([]);
-                                        }
-                                    } else {
-                                        todaysVitals.next([]);
-                                    }
-                                },
-                                (error) => {
-                                    todaysVitals.error(error);
-                                }
-                            );
-                        } else {
-                            todaysVitals.next([]);
-                        }
+        return new Promise((resolve, reject) => {
 
-                    } else {
-                      todaysVitals.next([]);
-                    }
-                },
-                (error) => {
-                    todaysVitals.error(error);
+            for (let encounterItem of todaysEncounters) {
+                let encounter = encounterItem;
+                this.getVitalsFromObs(encounter.obs);
+                if (this.hasVitals === true) {
+                    vitals.push(new Vital(this.vitalModel));
+                    this.hasVitals = false;
                 }
-            );
-        }
-        return todaysVitals.asObservable();
+
+            }
+
+            resolve(vitals);
+
+        });
+
+
     }
 
     private getFormattedDate(date, format) {
@@ -93,6 +64,7 @@ export class TodaysVitalsService {
 
     private getTodayVisits(visits) {
         let todayVisits = [];
+        // console.log('All Visits', visits);
         for (let visit of visits) {
             let today = this.getFormattedDate(Date.now(), 'dFormat');
 
@@ -116,17 +88,46 @@ export class TodaysVitalsService {
     private getVitalsFromObs(obsArray) {
         for (let obs of obsArray) {
             let ob = obs;
-            if (ob.hasOwnProperty('concept')) {
+            if (typeof ob.concept !== 'undefined') {
+                // HIV Triage vitals stored in groupmembers property on obs property
                 if (ob.concept.uuid === 'a899e6d8-1350-11df-a1f1-0026b9348838') {
                     let vitals = ob.groupMembers;
-                    for (let vital of vitals) {
-                        this.populateModel(vital);
+                    if (vitals.length > 0) {
+
+                        for (let vital of vitals) {
+                            let populateVital = this.populateModel(vital);
+                            if (typeof populateVital !== 'undefined') {
+
+
+                                this.vitalModel.bmi = this.calcBMI(
+                                    this.vitalModel.height,
+                                    this.vitalModel.weight);
+
+                                this.hasVitals = true;
+
+
+                            }
+
+                        }
+
                     }
-                    this.vitalModel.bmi = this.calcBMI(
-                        this.vitalModel.height,
-                        this.vitalModel.weight);
+                } else {
+
+                    // Vitals for other triages in obs object
+
+                    let populateVital = this.populateModel(ob);
+                    if (typeof populateVital !== 'undefined') {
+
+                        this.vitalModel.bmi = this.calcBMI(
+                            this.vitalModel.height,
+                            this.vitalModel.weight);
+
+                        this.hasVitals = true;
+
+                    }
 
                 }
+
             }
 
         }
@@ -159,7 +160,7 @@ export class TodaysVitalsService {
                 return this.vitalModel.weight = ob.value;
 
             default:
-                return;
+                return ;
         }
 
     }
