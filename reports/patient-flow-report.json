@@ -58,6 +58,13 @@
       },
       {
         "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "clinical_encounter_type_map",
+        "alias": "t13",
+        "joinExpression": "t9.encounter_type_id= t13.encounter_type"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
         "schema": "amrs",
         "tableName": "person_name",
         "alias": "t8",
@@ -159,7 +166,7 @@
       {
         "label": "seen_by_clinician",
         "type": "single",
-        "sql": "case when t4.encounter_type in (1,2,3,4,10,14,15,17,19,26,32,33,34,47,56,57,105,106,112,113,114,115,117,120,127,128,129) then t4.encounter_datetime else null end"
+        "sql": "case when t13.is_clinical = 1 then t4.encounter_datetime else null end"
       },
       {
         "label": "visit_end",
