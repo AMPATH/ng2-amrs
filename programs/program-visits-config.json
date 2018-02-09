@@ -1,6 +1,6 @@
 {
   "781d85b0-1359-11df-a1f1-0026b9348838": {
-    "name": "HIV TREATMENT",
+    "name": "Standard HIV TREATMENT",
     "dataDependencies": [
       "patient",
       "enrollment",

@@ -24,7 +24,7 @@ fs.exists(error_file, function (exists) {
 
 function createPayload(inputLine) {
     let column = inputLine.split(',');
-    let ampathHivProgram = { uuid: '781d85b0-1359-11df-a1f1-0026b9348838', name: 'HIV TREATMENT' };
+    let ampathHivProgram = { uuid: '781d85b0-1359-11df-a1f1-0026b9348838', name: 'Standard HIV TREATMENT' };
     let payload = {
         program: ampathHivProgram.uuid,
         patient: column[0],
@@ -43,7 +43,7 @@ var s = fs.createReadStream(input_file)
 
         try {
             if (line && line !== '') {
-                console.log('Enrolling a patient into HIV Care Program: ', line);
+                console.log('Enrolling a patient into Standard HIV Care Program: ', line);
                 var openmrsAppName = config.openmrs.applicationName || 'amrs';
                 let payload = JSON.stringify(createPayload(line));
                 var protocol = config.openmrs.https ? 'https' : 'http';
@@ -69,7 +69,7 @@ var s = fs.createReadStream(input_file)
                         console.log('error enrolling a patient into program: ' + line, err || JSON.parse(parts).error);
                         fs.appendFileSync(error_file, line + '\r\n');
                     } else {
-                        console.log('Enrolled Patient Into HIV Treatment: ' + line);
+                        console.log('Enrolled Patient Into Standard HIV Treatment: ' + line);
                     }
 
                     // resume the readstream, possibly from a callback
