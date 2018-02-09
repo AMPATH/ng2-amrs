@@ -79,7 +79,7 @@ describe('Component: ProgramsTransferCareComponent', () => {
     let programs = [{
       programUuid: '781d85b0-1359-11df-a1f1-0026b9348838',
       program: {
-        display: 'HIV TREATMENT'
+        display: 'STANDARD HIV TREATMENT'
       },
       isEnrolled: true,
       enrolledProgram: {
@@ -111,7 +111,7 @@ describe('Component: ProgramsTransferCareComponent', () => {
         let programsResponse = [{
             programUuid: '781d85b0-1359-11df-a1f1-0026b9348838',
             program: {
-              display: 'HIV TREATMENT'
+              display: 'STANDARD HIV TREATMENT'
             },
             isEnrolled: true,
             enrolledProgram: {

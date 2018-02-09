@@ -47,7 +47,7 @@
       ]
     },
     {
-      "programName": "HIV Treatment",
+      "programName": "Standard HIV Treatment",
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d85b0-1359-11df-a1f1-0026b9348838",
       "alias": "hiv",
