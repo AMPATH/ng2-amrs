@@ -104,7 +104,7 @@ describe('Service: ProgramService', () => {
     let programs = [
       {
         uuid: 'uuid-1',
-        display: 'HIV TREATMENT'
+        display: 'STANDARD HIV TREATMENT'
       },
       {
         uuid: 'uuid-2',
