@@ -97,4 +97,5 @@ export class EncounterResourceService {
             headers: headers
         }));
     }
+
 }

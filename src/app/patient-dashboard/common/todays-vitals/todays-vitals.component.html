@@ -2,7 +2,6 @@
   <div *ngFor="let vital of todaysVitals">
     <ul class="list-group">
       <li class="list-group-item">
-        <div *ngIf="vital.bmi">
           <span *ngIf="vital.diastolic" [style.color]="(vital.systolic && (vital.systolic <= 80 || vital.systolic >= 140)) ? 'red':''">
   <strong class="text-primary">
     BP : </strong>{{vital.systolic && vital.systolic + "/"}}</span>
@@ -18,7 +17,6 @@
           <span *ngIf="vital.height"><strong class="text-primary">Height : </strong>{{vital.height}} |</span>
           <span *ngIf="vital.weight"><strong class="text-primary">Weight : </strong>{{vital.weight}} |</span>
           <span [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" *ngIf="vital.bmi"><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} </span>
-        </div>
 
       </li>
     </ul>
