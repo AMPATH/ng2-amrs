@@ -34,6 +34,11 @@ import { ProgramsContainerComponent } from './programs/programs-container.compon
 import { ProgramTransferCareModule } from './programs/transfer-care/transfer-care.module';
 import { ProgramEnrollmentComponent } from './programs/program-enrollment.component';
 
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+import { SessionStorageService } from '../utils/session-storage.service';
+import { HttpClient } from '../shared/services/http-client.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -77,7 +82,14 @@ import { ProgramEnrollmentComponent } from './programs/program-enrollment.compon
     ProgramService,
     DepartmentProgramsConfigService,
     DatePipe,
-    PatientRoutesFactory
+    PatientRoutesFactory,
+    {
+      provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
+                   router: Router, sessionStorageService: SessionStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+    }
   ],
   exports: [
     GeneralLandingPageComponent,

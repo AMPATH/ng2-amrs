@@ -26,7 +26,8 @@ import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { EditVisitTypeComponent } from './visit/visit-details/edit-visit-type.component';
-import { PatientIdentifierComponent
+import {
+  PatientIdentifierComponent
 } from './patient-identifier/patient-identifier.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from '../../patient-search/patient-search.service';
@@ -135,6 +136,11 @@ import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.compo
 import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
 import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
 import { FormUpdaterService } from './formentry/form-updater.service';
+
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+import { SessionStorageService } from '../../utils/session-storage.service';
+import { HttpClient } from '../../shared/services/http-client.service';
 
 @NgModule({
   imports: [
@@ -307,6 +313,13 @@ import { FormUpdaterService } from './formentry/form-updater.service';
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,
     PatientCareStatusResourceService,
+    {
+      provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
+                   router: Router, sessionStorageService: SessionStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+    },
     TodayVisitService],
 })
 export class PatientDashboardCommonModule { }
