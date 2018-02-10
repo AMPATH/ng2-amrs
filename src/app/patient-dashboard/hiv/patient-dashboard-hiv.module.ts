@@ -25,6 +25,12 @@ import { PatientMonthlyStatusComponent
 import { HivLandingPageComponent } from './landing-page/landing-page.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
+
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+import { SessionStorageService } from '../../utils/session-storage.service';
+import { HttpClient } from '../../shared/services/http-client.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -65,6 +71,14 @@ import { PatientDashboardCommonModule } from '../common/patient-dashboard.common
     PatientMonthlyStatusComponent,
     PreviousVisitComponent
   ],
-  providers: [],
+  providers: [
+    {
+      provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
+                   router: Router, sessionStorageService: SessionStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+    }
+  ],
 })
 export class PatientDashboardHivModule { }
