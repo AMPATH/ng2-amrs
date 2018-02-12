@@ -1,0 +1,18 @@
+{
+  "id": "ProviderDashboard",
+  "name": "Provider Dashboard",
+  "baseRoute": "provider-dashboard",
+  "routeParameter": "",
+  "nonProgramRoutes": [
+  {
+      "url": "provider-dashboard",
+      "label": "Provider Dashboard",
+      "icon": "fa fa-line-chart"
+    }
+  ],
+  "programs": [
+    {
+
+    }
+  ]
+}

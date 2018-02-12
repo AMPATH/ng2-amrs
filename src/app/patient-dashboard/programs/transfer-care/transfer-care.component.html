@@ -63,7 +63,7 @@
       <div class="input-group_" *ngIf="showLocationSelect">
         <div class="col-md-6 col-xs-12 col-sm-62">
           <label>Transfer To:</label>
-          <location-filter class="transfer-care" [showLabel]="false"
+          <location-filter class="no-padding" [showLabel]="false"
                            (onLocationChange)="getSelectedLocation($event); false"
                            [disable-county]="true"></location-filter>
         </div>

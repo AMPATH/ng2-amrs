@@ -12,6 +12,9 @@ import {
 import { Vital } from '../../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
 import { FakeVisitResourceService } from '../../../openmrs-api/fake-visit-resource.service';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 describe('Service: TodaysVitalsService', () => {
   beforeEach(fakeAsync (() => {
     TestBed.configureTestingModule({
@@ -22,6 +25,8 @@ describe('Service: TodaysVitalsService', () => {
         MockBackend,
         BaseRequestOptions,
         AppSettingsService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
 
         {
           provide: Http,

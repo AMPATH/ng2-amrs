@@ -39,7 +39,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
         (compiledFormSchema) => {
           if (compiledFormSchema) {
             this.upgradeConflictingValidations(compiledFormSchema);
-            console.log('compiledFormSchema', compiledFormSchema);
+            // console.log('compiledFormSchema', compiledFormSchema);
 
             let dataRequiredToLoadForm = {
               encounter: undefined,
@@ -112,10 +112,10 @@ export class FormCreationDataResolverService implements Resolve<any> {
       dataRequiredToLoadForm.visit &&
       dataRequiredToLoadForm.hivSummary &&
       dataRequiredToLoadForm.provider) {
-      console.log('Data required to load forms', dataRequiredToLoadForm);
+      // console.log('Data required to load forms', dataRequiredToLoadForm);
       finalAcceptFunc(dataRequiredToLoadForm);
     } else {
-      console.log('waiting for data to load ...', dataRequiredToLoadForm);
+      // console.log('waiting for data to load ...', dataRequiredToLoadForm);
     }
   }
 

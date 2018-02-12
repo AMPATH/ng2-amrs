@@ -6,7 +6,14 @@ import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../models/patient.model';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
-
+import {
+  UserDefaultPropertiesService
+} from
+  '../user-default-properties/user-default-properties.service';
+import {
+  PatientReferralService
+} from
+  '../referral-module/services/patient-referral-service';
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
@@ -15,6 +22,8 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 
 export class PatientSearchComponent implements OnInit, OnDestroy {
   public patients: Patient[];
+  public referrals: any[] = [];
+  public errors: any[];
   public isResetButton: boolean = true;
   public totalPatients: number;
   public isLoading: boolean = false;
@@ -22,10 +31,13 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public page: number = 1;
   public adjustInputMargin: string = '240px';
   public subscription: Subscription;
+  public referralSubscription: Subscription;
   public title: string = 'Patient Search';
   public errorMessage: string = '';
   public noMatchingResults: boolean = false;
+  public loadingReferralProviders: boolean = false;
   public lastSearchString: string = '';
+  public providerUuid: string = '';
   /*
    patientSelected emits the patient object
    to other components so they can use
@@ -51,10 +63,13 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   constructor(private patientSearchService: PatientSearchService,
               private route: ActivatedRoute,
               private appFeatureAnalytics: AppFeatureAnalytics,
+              private defaultPropertiesService: UserDefaultPropertiesService,
+              private referralService: PatientReferralService,
               private router: Router) {
   }
 
   public ngOnInit() {
+    this.getProviderReferrals();
     if (window.innerWidth <= 768) {
       this.adjustInputMargin = '0';
     }
@@ -79,6 +94,9 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.referralSubscription) {
+      this.referralSubscription.unsubscribe();
     }
   }
 
@@ -177,4 +195,69 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  public loadReferralData() {
+    this.router.navigate(['/provider-dashboard']);
+  }
+
+  public getProviderReferrals() {
+    let providerUuid = 'c75a6efb-51e6-486e-abe4-ce568cf4184d';
+    let startIndex = 0;
+    let limit = 10;
+    let location = this.defaultPropertiesService.getCurrentUserDefaultLocationObject()
+            || {};
+    let selectedLocationUuid = location.uuid || 'Default location not set';
+    let referredBackStateUuid = 'cfdf6957-6e40-4f54-b179-2d6d6f84bb42';
+    // providerUuids = 'dced5363-4539-4692-88b8-018ea453a235',
+    let user = this.defaultPropertiesService.getAuthenticatedUser()
+            || {};
+
+    this.referralService.getUserProviderDetails(user)
+      .then((provider) => {
+        this.providerUuid = provider.uuid;
+        this.referralSubscription = this.referralService.getReferalProviders(selectedLocationUuid,
+          this.providerUuid, referredBackStateUuid, startIndex, limit)
+          .subscribe(
+            (referralData) => {
+              this.loadingReferralProviders = false;
+              if (referralData.length >= 1) {
+                this.referrals = referralData;
+                // this.dataLoaded = true;
+              } else {
+                // this.dataLoaded = false;
+              }
+
+            },
+            (error) => {
+              this.loadingReferralProviders = false;
+              // this.dataLoaded = true;
+              this.errors.push({
+                id: 'Referral Providers',
+                message: 'error fetching referral providers'
+              });
+            }
+          );
+      })
+      .catch((error) => {
+        this.errors.push({
+          id: 'Referral Providers',
+          message: 'error fetching current user provider information'
+        });
+      });
+
+  }
+
+   private getCurrentProvider(user: any) {
+            if (user) {
+              this.referralService.getUserProviderDetails(user)
+                .then((provider) => {
+                  this.providerUuid = provider.uuid;
+                })
+                .catch((error) => {
+                  this.errors.push({
+                  id: 'Referral Providers',
+                 message: 'error fetching current user provider information'
+                  });
+                });
+            }
+  }
 }

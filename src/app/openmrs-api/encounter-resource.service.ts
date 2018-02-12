@@ -56,18 +56,19 @@ export class EncounterResourceService {
         }
         let url = this.getUrl() + 'encountertype';
         return this.http.get(url).map((response: Response) => {
-            return response.json().encountertype;
+            return response.json().results;
         });
     }
 
     public saveEncounter(payload) {
-        if (!payload) {
+      console.log('payload', payload);
+      if (!payload) {
             return null;
         }
-        let url = this.getUrl() + 'encounter';
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.post(url, JSON.stringify(payload), options)
+      let url = this.getUrl() + 'encounter';
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.post(url, JSON.stringify(payload), options)
             .map((response: Response) => {
                 return response.json();
             });

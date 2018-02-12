@@ -98,7 +98,9 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       (data) => {
         this.isLoadingReport = false;
         this.sectionsDef =   data.indicatorDefinitions;
+
         this.data = data.result;
+        console.log('this.data hiv', this.data);
       }, (error) => {
         this.isLoadingReport = false;
         this.errorMessage = error;
