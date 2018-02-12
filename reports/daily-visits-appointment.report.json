@@ -57,15 +57,15 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
       {
         "name": "visitTypeIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
        {
         "name": "programTypeIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
       {
         "name": "groupByPerson",
@@ -230,15 +230,15 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
        {
         "name": "visitTypeIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
        {
         "name": "programTypeIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
       {
         "name": "groupByPerson",
@@ -480,15 +480,15 @@
       },
       {
         "name": "encounterIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
        {
         "name": "visitTypeIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
        {
         "name": "programTypeIds",
-        "defaultValue": [0]
+        "defaultValue": [-1]
       },
       {
         "name": "groupByPerson",
