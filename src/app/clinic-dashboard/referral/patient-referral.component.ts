@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -6,17 +5,18 @@ import * as _ from 'lodash';
 
 import {
   PatientReferralBaseComponent
-} from '../../referral-care-lib/patient-referral/patient-referral-report-base.component';
+} from '../../referral-module/patient-referral/patient-referral-report-base.component';
 import {
   PatientReferralResourceService
 } from '../../etl-api/patient-referral-resource.service';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import * as Moment from 'moment';
 
 @Component({
   selector: 'patient-referral-report',
-  templateUrl: '../../referral-care-lib/patient-referral/referral-report-base.component.html'
+  templateUrl: '../../referral-module/patient-referral/referral-report-base.component.html'
 })
 export class PatientReferralComponent extends PatientReferralBaseComponent
   implements OnInit {
@@ -34,6 +34,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   }
 
   public ngOnInit() {
+
     this.route.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
       if (params.location_uuid) {
@@ -41,6 +42,9 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       }
     });
     this.loadReportParamsFromUrl();
+  }
+  public test() {
+
   }
 
   public generateReport() {
@@ -72,7 +76,6 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     }
     if (path.queryParams['programUuids']) {
       this.programs = path.queryParams['programUuids'];
-    //  this.formatProgramsToSelectArray(this.programs);
 
     }
     if (path.queryParams['stateUuids']) {
@@ -118,6 +121,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       this.selectedGender.push(data);
     }
   }
+
   public formatProgramsToSelectArray(indicatorParam: string) {
     console.log('program to this.programName', this.programName);
 
@@ -131,7 +135,6 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
         text: 'BSG'
       };
 
-    //  this.selectedPrograms.push(data);
     });
   }
 
@@ -140,15 +143,4 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       return (word.charAt(0) + word.slice(1));
     }).join(' ');
   }
-/*  public getSelectedPrograms(s): string {
-    _.each(s, (selected) => {
-      console.log('selected', selected.id);
-      this.programName = selected;
-     // this.programName.push(selected);
-
-    });
-   // console.log('program to this.programName',this.programName.SelectItem);
-    return this.programName
-  }*/
-
 }

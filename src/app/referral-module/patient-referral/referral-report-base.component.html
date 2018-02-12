@@ -1,7 +1,8 @@
 <h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> Patient Referral</h4>
 
 <div>
-  <report-filters  [enabledControls]="enabledControls" [(startDate)]="startDate" [(endDate)]="endDate" [start]="ageRangeStart" [end]="ageRangeEnd"
+  <report-filters  [enabledControls]="enabledControls" [(startDate)]="startDate" [(endDate)]="endDate"
+                   [start]="ageRangeStart" [end]="ageRangeEnd"
                    (onAgeChangeFinish)="onAgeChangeFinished($event)"
                    (onGenderChange)="getSelectedGender($event)"
                    (onProgramChange)="getSelectedPrograms($event)"
@@ -20,6 +21,3 @@
 
 
 </div>
-
-<!--
-[selectedPrograms]="selectedPrograms"-->

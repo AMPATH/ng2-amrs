@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 
-
 import { Subscription } from 'rxjs';
 import { PatientReferralService } from '../services/patient-referral-service';
 import {
@@ -39,7 +38,7 @@ export class ReferralProviderComponent implements OnInit, OnDestroy {
      let stateUuids = referredBackStateUuid;
      // providerUuids = 'dced5363-4539-4692-88b8-018ea453a235',
 
-    this.referralService.getUserProviderDetails(user)
+     this.referralService.getUserProviderDetails(user)
       .then((provider) => {
         this.providerUuid = provider.uuid;
         this.loadReferralProviders(selectedLocationUuid, this.providerUuid,
@@ -58,9 +57,6 @@ export class ReferralProviderComponent implements OnInit, OnDestroy {
       this.providerReferralSub.unsubscribe();
     }
   }
-
-
-
 
   public loadReferralProviders(locationUuid: string, providerUuids, stateUuids,
                                startIndex: number, limit: number) {

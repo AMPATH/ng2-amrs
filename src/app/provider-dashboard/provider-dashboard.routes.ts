@@ -7,4 +7,3 @@ export const PROVIDER_DASHBOARD_ROUTES: Routes = [
     component: ProviderDashboardComponent
   }
 ];
-

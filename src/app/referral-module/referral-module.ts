@@ -22,6 +22,15 @@ import {
     ReferralProviderResourceService
 } from '../etl-api/referral-provider-resource.service';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import {
+  PatientReferralBaseComponent
+} from './patient-referral/patient-referral-report-base.component';
+import {
+  PatientReferralTabularComponent
+} from './patient-referral/patient-referral-tabular.component';
+import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
+import { TabViewModule } from 'primeng/components/tabview/tabview';
+import { AgGridModule } from 'ag-grid-angular/main';
 
 @NgModule({
   imports: [
@@ -29,18 +38,29 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
     CommonModule,
     FormsModule,
     NgamrsSharedModule,
-    DataListsModule
+    DataListsModule,
+    HivCareLibModule,
+    AgGridModule.withComponents([]),
+    TabViewModule
   ],
   exports: [
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
-  ReferralProviderComponent],
+  ReferralProviderComponent,
+  PatientReferralContainerComponent,
+  PatientReferralBaseComponent,
+  PatientReferralTabularComponent,
+  ],
   declarations: [
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
-  ReferralProviderComponent],
+  ReferralProviderComponent,
+  PatientReferralContainerComponent,
+  PatientReferralBaseComponent,
+  PatientReferralTabularComponent,
+  ],
   providers: [
     ProgramEnrollmentResourceService,
     ProgramReferralResourceService,

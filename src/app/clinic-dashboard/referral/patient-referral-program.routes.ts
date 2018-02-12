@@ -6,25 +6,13 @@ import {
 import { PatientReferralComponent } from './patient-referral.component';
 
 const routes: Routes = [
-  /*{
-    path: 'referral',
-    component: PatientReferralContainerComponent
-  },*/
   {
     path: 'patient-referral-report',
     children: [
       {
         path: '',
         component: PatientReferralComponent
-      },
-      /*{
-        path: 'patient-referral-report',
-        component: PatientReferralComponent
-      }*/
-      /*{
-        path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
-        component: PatientReferralComponent,
-      }*/
+      }
     ]
   },
 ];

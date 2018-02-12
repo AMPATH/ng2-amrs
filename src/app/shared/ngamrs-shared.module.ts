@@ -8,7 +8,7 @@ import {
   MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MdSnackBarModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
-import { SelectModule } from 'angular2-select';
+import { SelectModule as Angular2SelectModule } from 'angular2-select';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
@@ -68,7 +68,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
-    SelectModule,
+    Angular2SelectModule,
     MdSnackBarModule
   ],
   exports: [BusyModule, LaddaModule, DisplayErrorComponent,
