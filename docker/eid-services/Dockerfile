@@ -11,6 +11,8 @@ RUN rm -rf /opt/etl/conf
 RUN chmod 0644 /etc/cron.d/eid-schedule-task
 RUN npm install -g babel-cli
 RUN  cd /opt/etl && npm install 
+ENV TZ=Africa/Nairobi
+RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 RUN echo "cron.* /var/log/cron.log" >> /etc/rsyslog.conf
 RUN chmod +x /opt/etl/run.sh
 CMD /opt/etl/run.sh

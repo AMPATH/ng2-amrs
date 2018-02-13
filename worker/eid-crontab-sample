@@ -1,1 +1,1 @@
-0 22 * * * root /usr/bin/node /opt/etl/worker/schedule-eid-sync.script.js
+0 22 * * * root node /opt/etl/worker/schedule-eid-sync.script.js
