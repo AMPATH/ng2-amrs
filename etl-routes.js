@@ -1019,6 +1019,31 @@ module.exports = function () {
             }
         },
         {
+            method: 'POST',
+            path: '/etl/patient-referral/{patientReferralId}',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+                    console.log('xxxxxxxxxxxx',request)
+                    patientReferralDao.updatePatientReferralNotification(request.params['patientReferralId'], request.payload)
+                        .then(function (updatedPatientReferral) {
+                            reply(updatedPatientReferral);
+                        })
+                        .catch(function (error) {
+                            if (error && error.isValid === false) {
+                                reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
+                            } else {
+                                reply(Boom.create(500, 'Internal server error.', error));
+                            }
+                        });
+                },
+                description: "Update patient referral notification status",
+                notes: "Api endpoint that updates patient referral of by the provided id",
+                tags: ['api'],
+            }
+        },
+        {
             method: 'GET',
             path: '/etl/clinical-patient-care-status-overview',
             config: {
