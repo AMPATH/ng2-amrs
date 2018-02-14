@@ -128,7 +128,9 @@ module.exports = function () {
             return concepts[code];
         },
         getARVNames: function getARVNames(str) {
-            if (str === null || str === undefined) return "";
+            if (str === null || str === undefined || str === 'unknown') {
+                return "";
+            }
             var arvs = {
                             625:{mapped_to_ids:"625",name:"STAVUDINE"},
                             628:{mapped_to_ids:"628",name:"LAMIVUDINE"},

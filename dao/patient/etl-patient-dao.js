@@ -72,6 +72,8 @@ module.exports = function () {
 
                 // Return when done.
                 return summaryData;
+            }).catch((error) => {
+                console.error('EROR : GetPatientHivSummary', error);
             });
 
         if (_.isFunction(callback)) {
