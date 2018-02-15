@@ -97,3 +97,6 @@ ul.obs_children {
 .obs_value {
   color: green;
 }
+.modal-body > .obs-wrapper pretty-encounter-viewer{
+ overflow-wrap: break-word !important;
+}
