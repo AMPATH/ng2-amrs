@@ -50,9 +50,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
       this.formDataSourceService.getDataSources()['location']);
     }
     public displayEncounterObs(encounter) {
-        this.showLoader = true;
-        this.error = false;
-        this.loaderText = `Fetching Encounter...`;
+        this.initializeLoader();
         let encounterUuid = encounter.uuid;
         if (this.selectedEncounter) {
             if (encounterUuid === this.selectedEncounter.uuid) {return; }
@@ -63,11 +61,14 @@ export class PrettyEncounterViewerComponent implements OnInit {
         .flatMap((encounterWithObs) => {
             this.selectedEncounter = encounterWithObs;
             if (encounterWithObs.form) {
-                return this.formSchemaService.getFormSchemaByUuid(encounter.form.uuid);
+                if (this.isPOCForm(encounterWithObs.form)) {
+                    return this.formSchemaService.getFormSchemaByUuid(encounter.form.uuid);
+                } else {
+                    this.showErrorMessage(`This encounter was done using an Infopath form.
+                                Please use the obs viewer to view the obs for this encounter.`);
+                }
             } else {
-                this.showLoader = false;
-                this.error = true;
-                this.errorMessage = 'This encounter has no form.';
+                this.showErrorMessage(`This encounter has no form.`);
             }
         })
         .subscribe((compiledSchema) => {
@@ -77,5 +78,21 @@ export class PrettyEncounterViewerComponent implements OnInit {
             this.showLoader = false;
             this.error = false;
         });
+    }
+
+    private isPOCForm(form) {
+        return form.name.indexOf('POC') > -1;
+    }
+
+    private showErrorMessage(errorMessage: string) {
+        this.showLoader = false;
+        this.error = true;
+        this.errorMessage = errorMessage;
+    }
+
+    private initializeLoader() {
+        this.error = false;
+        this.showLoader = true;
+        this.loaderText = `Fetching Encounter...`;
     }
 }
