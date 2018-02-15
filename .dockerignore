@@ -1,3 +1,4 @@
+node_modules
 Dockerfile
 *.md
 docker-compose.yml

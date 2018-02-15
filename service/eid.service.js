@@ -270,7 +270,7 @@ function getEidViralLoadResults(host, apiKey, startDate, endDate, page) {
 
     if (!moment(startDate).isValid()) {
       reject('Invalid start date supplied', startDate);
-    }
+    } 
 
     if (!moment(endDate).isValid()) {
       reject('Invalid end date supplied', endDate);
@@ -285,8 +285,10 @@ function getEidViralLoadResults(host, apiKey, startDate, endDate, page) {
     rp.getRequestPromise(resource.query, resource.uri)
       .then(function (response) {
         resolve(response);
+        console.log('Querying EID', host);
       })
       .catch(function (error) {
+        console.log('Error querying EID', host,  error);
         reject(error);
       });
 
@@ -404,7 +406,7 @@ function getSynchronizedPatientLabResults(patientUuId, locations) {
 
   return listReachableServers(locations)
     .then(function (reachable) {
-
+       console.log("REachable servers", reachable);
       return new Promise(function (resolve, reject) {
 
         Promise.reduce(reachable, function (previous, row) {
@@ -470,7 +472,7 @@ function _getSynchronizedPatientLabResults(server, patientUuId) {
         // console.log('conflicts', JSON.stringify(conflicts));
         fields[0].conflicts = JSON.stringify(conflicts);
       }
-
+      console.log("posting obs to AMRS", missingResult);
       return obsService.postAllObsToAMRS(missingResult, patientUuId);
     })
     .then(function (postResponse) {
