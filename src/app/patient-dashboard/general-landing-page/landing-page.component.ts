@@ -185,6 +185,15 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.programService.getProgramWorkFlows(programUuid).subscribe((workflows: any[]) => {
         this.programWorkflows = workflows;
         this.programHasWorkflows = this.programWorkflows.length > 0;
+        // we don't need to select states any more. Default state is 'In Care'
+        this.selectedWorkflow = _.first(this.programWorkflows);
+        this.workflowStates = _.filter(this.selectedWorkflow.states, (state: any) => {
+          return state.concept.uuid === 'e517d6e2-6236-42db-9f71-0b6270c6cfa9';
+        });
+
+        if (!_.isEmpty(this.workflowStates)) {
+          this.selectedWorkFlowState = _.first(this.workflowStates);
+        }
       });
   }
 

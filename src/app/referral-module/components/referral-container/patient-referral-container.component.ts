@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angu
 
 import { Form } from 'ng2-openmrs-formentry';
 
-import { Patient } from '../../models/patient.model';
+import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
 
 @Component({

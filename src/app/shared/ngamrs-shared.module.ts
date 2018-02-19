@@ -35,6 +35,20 @@ import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
+import { BusyComponent } from './busy-loader/busy.component';
+import { UnenrollPatientProgramsComponent
+} from '../patient-dashboard/common/programs/unenroll-patient-programs.component';
+import { ConfirmDialogModule, DialogModule, TabViewModule } from 'primeng/primeng';
+import { HivProgramSnapshotComponent
+} from '../patient-dashboard/hiv/program-snapshot/hiv-program-snapshot.component';
+import { GeneralLandingPageComponent
+} from '../patient-dashboard/general-landing-page/landing-page.component';
+import { ProgramsContainerComponent
+} from '../patient-dashboard/programs/programs-container.component';
+import { ProgramEnrollmentComponent
+} from '../patient-dashboard/programs/program-enrollment.component';
+import { ProgramsComponent } from '../patient-dashboard/programs/programs.component';
+import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
 
 @NgModule({
   imports: [
@@ -46,7 +60,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
         minDuration: 600,
         wrapperClass: 'my-class',
         template: `
-                      <div class="loader" ><span><i class="fa fa-spinner fa-spin">
+                      <div class='loader' ><span><i class='fa fa-spinner fa-spin'>
       </i>{{message}}</span></div>`,
       }
     ),
@@ -69,16 +83,23 @@ import { EtlApi } from '../etl-api/etl-api.module';
     // BrowserAnimationsModule
     CacheModule,
     SelectModule,
+    MdTabsModule,
+    ConfirmDialogModule, DialogModule,
     MdSnackBarModule
   ],
   exports: [BusyModule, LaddaModule, DisplayErrorComponent,
-    StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
-    BuildVersionComponent,
-    DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
+    StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
+    BuildVersionComponent, BusyComponent, UnenrollPatientProgramsComponent,
+    ProgramsContainerComponent, ProgramsComponent,
+    ProgramEnrollmentComponent, FormListComponent,
+    DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
   declarations: [
-    DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
-    OnlineTrackerComponent, ToastComponent,
+    DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe, HivProgramSnapshotComponent,
+    GeneralLandingPageComponent, ProgramsComponent,
+    ProgramsContainerComponent, FormListComponent,
+    ProgramEnrollmentComponent,
+    OnlineTrackerComponent, ToastComponent, BusyComponent, UnenrollPatientProgramsComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
   ],
   entryComponents: [

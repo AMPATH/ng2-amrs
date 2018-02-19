@@ -50,7 +50,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
       } else { this.showPlainObsView(this.selectedEncounter); }
     }
 
-    if (Object.keys(changes).length === 2 && changes['onEncounterDetail'] 
+    if (Object.keys(changes).length === 2 && changes['onEncounterDetail']
     && changes['prettyView']) {
       this.pretty = changes['prettyView'].currentValue;
       if (this.pretty) {

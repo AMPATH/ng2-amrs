@@ -1,12 +1,4 @@
 <h4 class="component-title"><span class="icon-i-family-practice"></span>Program Enrollment</h4>
-<!--<div style="padding:4px;margin-bottom:0.5cm;" class="list-group-item">
-  <label for="program">Select a program to enroll:</label>
-  <select id="program" class="form-control" [(ngModel)]="program"
-          (change)="openNewEnrollmentDialog($event.target.value)">
-    <option *ngFor="let p of availablePrograms" [ngValue]="p.uuid">{{p.display}}
-    </option>
-  </select>
-</div>-->
 <p-dialog header="{{selectedProgram}}" [(visible)]="displayDialog" minHieght="300" position="center" modal="true">
   <div style="width: 100%; overflow:hidden; ">
     <div class="input-group" >
@@ -28,13 +20,6 @@
       </div>
 
     </div>
-
-    <!--<div class="input-group">
-      <label for="completedDate">Date Completed:</label>
-      <div class="ui-grid-col-10">
-        <input id="completedDate" [(ngModel)]="dateCompleted" type="date" />
-      </div>
-    </div>-->
 
     <div *ngIf="hasError" style="margin-bottom:10px;">
       <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
@@ -76,11 +61,6 @@
             <td>{{patientProgram.openmrsModel.location?.display}}</td>
             <td>{{patientProgram.dateEnrolled}}</td>
             <td>{{patientProgram.dateCompleted}}</td>
-            <!--<td>
-              <button type="button" class="btn btn-xs edit-button" (click)="updateEnrollment(patientProgram)">
-               <span class="glyphicon text-primary glyphicon-edit"></span>
-            </button>
-            </td>-->
           </tr>
         </tbody>
       </table>

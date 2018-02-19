@@ -276,16 +276,16 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     let programs = [];
     this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
       (results) => {
-        console.log("tererer", results);
+        console.log('tererer', results);
         let workflows = _.get(results, 'allWorkflows');
-          if(workflows.length > 0) {
-            _.each(workflows, (workflow: any) =>{
-              if(workflow.states.length > 0) {
+        if (workflows.length > 0) {
+            _.each(workflows, (workflow: any) => {
+              if (workflow.states.length > 0) {
                 programs = _.map(workflow.states, (state: any) => {
                   return {
                     id: state.uuid,
                     text: state.concept.display
-                  }
+                  };
                 });
               }
             });

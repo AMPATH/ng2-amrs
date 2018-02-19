@@ -14,13 +14,18 @@ import {
 import {
     ProviderResourceService
 } from '../../openmrs-api/provider-resource.service';
+import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
+import { ProgramsTransferCareService
+} from '../../patient-dashboard/programs/transfer-care/transfer-care.service';
 
 @Injectable()
 export class PatientReferralService {
   constructor(private programService: ProgramService,
+              private patientProgramResourceService: PatientProgramResourceService,
               private programReferralResourceService: ProgramReferralResourceService,
               private encounterResourceService: EncounterResourceService,
               private providerResourceService: ProviderResourceService,
+              private programsTransferCareService: ProgramsTransferCareService,
               private referralResourceService: ReferralProviderResourceService) {
 
   }
@@ -40,19 +45,24 @@ export class PatientReferralService {
     return this.programReferralResourceService.saveReferralEncounter(encounter);
   }
 
-  public generateReferralEncounterPayload(referralInfo: any): Observable<any> {
+  public saveProcessPayload(payload: any) {
+    this.programsTransferCareService.savePayload(payload);
+  }
+
+  public getProcessPayload() {
+    return this.programsTransferCareService.getPayload();
+  }
+
+  public setTransferStatus(status: boolean) {
+    this.programsTransferCareService.setTransferStatus(status);
+  }
+
+  public getEncounterProvider(encounterUuid: string): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.encounterResourceService.getEncounterTypes('v')
-      .subscribe((encounterTypes) => {
-        let referralType = _.find(encounterTypes, (eType: any) => {
-          return eType.display === 'REFERRAL';
-        });
-        let payload = _.merge(referralInfo, {
-          encounterDatetime: this.toOpenmrsDateFormat(new Date()),
-          // Format to required openmrs date
-          encounterType: referralType.uuid
-        });
-        subject.next(payload);
+    this.encounterResourceService.getEncounterByUuid(encounterUuid)
+      .subscribe((encounter) => {
+        let encounterProvider: any = _.first(encounter.encounterProviders);
+        subject.next(encounterProvider.provider);
       });
     return subject;
   }
@@ -92,6 +102,22 @@ public getReferalProviders(locationUuid, providerUuids, stateUuids, startIndex, 
         reject('User is required');
       }
     });
+  }
+
+  public fetchAllProgramManagementConfigs(): Observable<any> {
+    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    this.patientProgramResourceService.getAllProgramVisitConfigs().subscribe((programConfigs) => {
+      subject.next(programConfigs);
+    });
+    return subject;
+  }
+
+  public getPatientEncounters(patient) {
+    return this.programsTransferCareService.getPatientEncounters(patient);
+  }
+
+  public pickEncountersByLastFilledDate(encounters: any[], date: any) {
+    return this.programsTransferCareService.pickEncountersByLastFilledDate(encounters, date);
   }
 
   private toOpenmrsDateFormat(dateToConvert: any): string {

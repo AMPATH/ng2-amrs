@@ -35,18 +35,18 @@
               </div>
             </div>
           </div>
-          <div class="panel panel-success" *ngIf="newErollment && patientRefferalOnSuccess">
+          <div class="panel panel-success" *ngIf="newErollment && patientReferralOnSuccess">
             <div class="panel-heading">
               <h5>
                   <strong class="text-success">
                   <i class="fa fa-check-circle-o fa-2x"></i>
                 </strong>The patient has been referred to <strong>{{newErollment.location.display}}</strong>
-                on <strong>{{newErollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> for <strong>{{newErollment.program.name}}</strong> program successfully.
+                on <strong>{{newErollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> for <strong>{{newErollment.program.name}}</strong> successfully.
                   <span>The current state of referral is <strong>{{newErollment.states[0].state.concept.display}}</strong> </span>
               </h5>
             </div>
           </div>
-          <div class="row" style="position: relative;" *ngIf="!patientOnRefferal && !patientRefferalOnSuccess && programWorkflows.length > 0">
+          <div class="row" style="position: relative;" *ngIf="!patientOnRefferal && !patientReferralOnSuccess && programWorkflows.length > 0">
             <div [ngBusy]="{busy:[program.isReferring && refer],message:'Referring the patient...'}"></div>
             <div class="col-md-12 col-xs-12 col-sm-12">
               <label>Location</label>
@@ -54,7 +54,7 @@
                                (onLocationChange)="getSelectedLocation($event); false"
                                [disable-county]="true"></location-filter>
             </div>
-            <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="hide col-md-6 col-xs-12 col-sm-6">
               <label>Workflow</label>
               <select name="workflow" class="form-control" [(ngModel)]="selectedWorkflow"
                       (ngModelChange)="getWorkFlowStates($event)">
@@ -63,7 +63,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="hide col-md-6 col-xs-12 col-sm-6">
               <label>State</label>
               <select name="workFlowState" class="form-control" [(ngModel)]="selectedWorkFlowState"
                       (ngModelChange)="getWorkFlowState($event)">

@@ -24,7 +24,7 @@ export class ProgramWorkFlowResourceService {
 
     let url = this.getUrl() + '/' + uuid;
     let v: string = 'custom:(uuid,display,allWorkflows:(uuid,concept:(uuid,display)' +
-      ',states:(uuid,concept:(uuid,display))))';
+      ',states:(uuid,initial,terminal,concept:(uuid,display))))';
 
     let params: URLSearchParams = new URLSearchParams();
 
@@ -32,7 +32,7 @@ export class ProgramWorkFlowResourceService {
     return this.http.get(url, {
       search: params
     }).map((response: Response) => {
-      return response.json()
+      return response.json();
     });
   }
 
