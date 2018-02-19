@@ -23,7 +23,7 @@ export class ProgramWorkFlowStateResourceService {
     }
 
     let url = this.getUrl() + '/' + workFlowUuid + '/' + 'state';
-    let v: string = 'custom:(uuid,concept:(uuid,display))';
+    let v: string = 'custom:(uuid,initial,terminal,concept:(uuid,display))';
 
     let params: URLSearchParams = new URLSearchParams();
 

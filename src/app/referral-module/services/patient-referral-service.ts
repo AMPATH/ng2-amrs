@@ -40,19 +40,12 @@ export class PatientReferralService {
     return this.programReferralResourceService.saveReferralEncounter(encounter);
   }
 
-  public generateReferralEncounterPayload(referralInfo: any): Observable<any> {
+  public getEncounterProvider(encounterUuid: string): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.encounterResourceService.getEncounterTypes('v')
-      .subscribe((encounterTypes) => {
-        let referralType = _.find(encounterTypes, (eType: any) => {
-          return eType.display === 'REFERRAL';
-        });
-        let payload = _.merge(referralInfo, {
-          encounterDatetime: this.toOpenmrsDateFormat(new Date()),
-          // Format to required openmrs date
-          encounterType: referralType.uuid
-        });
-        subject.next(payload);
+    this.encounterResourceService.getEncounterByUuid(encounterUuid)
+      .subscribe((encounter) => {
+        let encounterProvider: any = _.first(encounter.encounterProviders);
+        subject.next(encounterProvider.provider);
       });
     return subject;
   }

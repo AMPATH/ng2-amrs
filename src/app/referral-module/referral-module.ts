@@ -22,6 +22,7 @@ import {
     ReferralProviderResourceService
 } from '../etl-api/referral-provider-resource.service';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import { DialogModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
     CommonModule,
     FormsModule,
     NgamrsSharedModule,
-    DataListsModule
+    DataListsModule,
+    DialogModule
   ],
   exports: [
   PatientReferralContainerComponent,
