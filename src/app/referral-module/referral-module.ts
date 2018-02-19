@@ -28,9 +28,9 @@ import {
 import {
   PatientReferralTabularComponent
 } from './patient-referral/patient-referral-tabular.component';
-import { HivCareLibModule } from '../hiv-care-lib/hiv-care-lib.module';
 import { TabViewModule } from 'primeng/components/tabview/tabview';
 import { AgGridModule } from 'ag-grid-angular/main';
+import { DialogModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -39,9 +39,9 @@ import { AgGridModule } from 'ag-grid-angular/main';
     FormsModule,
     NgamrsSharedModule,
     DataListsModule,
-    HivCareLibModule,
     AgGridModule.withComponents([]),
-    TabViewModule
+    TabViewModule,
+    DialogModule
   ],
   exports: [
   PatientReferralContainerComponent,

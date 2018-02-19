@@ -54,7 +54,7 @@
                                (onLocationChange)="getSelectedLocation($event); false"
                                [disable-county]="true"></location-filter>
             </div>
-            <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="hide col-md-6 col-xs-12 col-sm-6">
               <label>Workflow</label>
               <select name="workflow" class="form-control" [(ngModel)]="selectedWorkflow"
                       (ngModelChange)="getWorkFlowStates($event)">
@@ -63,7 +63,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="hide col-md-6 col-xs-12 col-sm-6">
               <label>State</label>
               <select name="workFlowState" class="form-control" [(ngModel)]="selectedWorkFlowState"
                       (ngModelChange)="getWorkFlowState($event)">
