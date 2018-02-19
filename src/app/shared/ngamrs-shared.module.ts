@@ -35,6 +35,7 @@ import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
+import { ReportFiltersComponent } from './report-filters/report-filters.component';
 
 @NgModule({
   imports: [
@@ -75,11 +76,13 @@ import { EtlApi } from '../etl-api/etl-api.module';
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
     BuildVersionComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent,
+    ReportFiltersComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
     OnlineTrackerComponent, ToastComponent,
-    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
+    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent,
+    ReportFiltersComponent
   ],
   entryComponents: [
     ToastComponent

@@ -135,9 +135,9 @@ export class PatientReferralBaseComponent implements OnInit {
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
-          gender = '' + selectedGender[i].id;
+          gender = '' + selectedGender[i];
         } else {
-          gender = gender + ',' + selectedGender[i].id;
+          gender = gender + ',' + selectedGender[i];
         }
       }
     }
@@ -153,9 +153,9 @@ export class PatientReferralBaseComponent implements OnInit {
 
     for (let i = 0; i < programsUuids.length; i++) {
       if (i === 0) {
-        selectedPrograms = selectedPrograms + programsUuids[0].id;
+        selectedPrograms = selectedPrograms + programsUuids[0];
       } else {
-        selectedPrograms = selectedPrograms + ',' + programsUuids[i].id;
+        selectedPrograms = selectedPrograms + ',' + programsUuids[i];
       }
     }
 
@@ -171,9 +171,9 @@ export class PatientReferralBaseComponent implements OnInit {
 
     for (let i = 0; i < stateUuids.length; i++) {
       if (i === 0) {
-        selectedStates = selectedStates + stateUuids[0].id;
+        selectedStates = selectedStates + stateUuids[0];
       } else {
-        selectedStates = selectedStates + ',' + stateUuids[i].id;
+        selectedStates = selectedStates + ',' + stateUuids[i];
       }
     }
     return this.states = selectedStates;

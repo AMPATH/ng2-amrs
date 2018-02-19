@@ -22,7 +22,7 @@ export class PatientReferralTabularComponent implements OnInit {
   public patientData: any;
   public startAge: any;
   public stateName: any;
-  public programName: any
+  public programName: any;
   public endAge: any;
   public stateUuid: any;
   public startIndex: number = 0;
@@ -124,7 +124,7 @@ export class PatientReferralTabularComponent implements OnInit {
     if (this.agGrid && this.agGrid.api) {
       this.agGrid.api.setColumnDefs(defs);
       this.agGrid.api.sizeColumnsToFit();
-      this.gridOptions.groupDefaultExpanded = -1
+      this.gridOptions.groupDefaultExpanded = -1;
 
     }
   }
