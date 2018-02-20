@@ -186,7 +186,7 @@ export class ProviderDashboardFiltersComponent
             if (workflow.states.length > 0) {
               programStates = _.map(workflow.states, (state: any) => {
                 return {
-                  id: state.uuid,
+                  id: state.concept.uuid,
                   text: state.concept.display
                 };
               });
