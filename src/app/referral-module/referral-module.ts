@@ -22,6 +22,11 @@ import {
     ReferralProviderResourceService
 } from '../etl-api/referral-provider-resource.service';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import { ReferralTsComponent } from './components/referral-tst.component';
+import { ProviderDashboardFiltersComponent
+} from '../provider-dashboard/dashboard-filters/provider-dashboard-filters.component';
+import { SelectModule } from 'ng2-select';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 
 @NgModule({
   imports: [
@@ -29,17 +34,22 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
     CommonModule,
     FormsModule,
     NgamrsSharedModule,
-    DataListsModule
+    DataListsModule,
+    DateTimePickerModule,
+    SelectModule
   ],
   exports: [
+  ReferralTsComponent,
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
   ReferralProviderComponent],
   declarations: [
+  ReferralTsComponent,
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
+  ProviderDashboardFiltersComponent,
   ReferralProviderComponent],
   providers: [
     ProgramEnrollmentResourceService,

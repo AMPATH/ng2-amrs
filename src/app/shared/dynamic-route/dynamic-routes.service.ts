@@ -22,7 +22,7 @@ export class DynamicRoutesService {
       clinicDashboard: this.clinicDashboardConfig,
       patientDashboard: this.patientDashboardConfig,
       patientListCohorts: this.patientListCohortConfig,
-      providerDashboardConfig: this.providerDashboardConfig
+      providerDashboard: this.providerDashboardConfig
     };
   }
 

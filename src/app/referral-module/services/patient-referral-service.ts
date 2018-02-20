@@ -57,11 +57,12 @@ export class PatientReferralService {
     return subject;
   }
 
-public getReferalProviders(locationUuid, providerUuids, stateUuids, startIndex, limit) {
+public getReferalProviders(startDate, endDate, locations, programs, workFlowStates,
+                           provider, startIndex, limit) {
         let referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-        let referralObservable = this.referralResourceService.getReferralProviders(locationUuid,
-        providerUuids, stateUuids,
-        startIndex, limit);
+        let referralObservable = this.referralResourceService.getReferralProviders(
+          startDate, endDate, locations, programs, workFlowStates,
+          provider, startIndex, limit);
 
         if (referralObservable === null) {
             throw new Error('Null referral provider observable');

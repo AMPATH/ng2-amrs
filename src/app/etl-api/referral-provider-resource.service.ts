@@ -13,8 +13,8 @@ export class ReferralProviderResourceService {
 
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'referral-patient-list';
   }
-  public getReferralProviders(locationUuid: string, providerUuids: string, stateUuids: string,
-                              startIndex, limit): Observable<any> {
+  public getReferralProviders(startDate, endDate, locations, programs, workFlowStates,
+                              provider, startIndex, limit): Observable<any> {
     let url = this.getUrl();
     let params: URLSearchParams = new URLSearchParams();
     if (!startIndex) {
@@ -23,12 +23,14 @@ export class ReferralProviderResourceService {
     if (!limit) {
       limit = 300;
     }
-    params.set('providerUuids', providerUuids.toString());
-    params.set('stateUuids', stateUuids.toString());
-    params.set('locationUuids', locationUuid.toString());
-    params.set('startDate', '2010-12-27T15:15:36+03:00');
+
+    params.set('providerUuids', provider.toString());
+    params.set('stateUuids', workFlowStates.toString());
+    params.set('locationUuids', locations.toString());
+    params.set('programUuids', programs.toString());
+    params.set('startDate', startDate);
+    params.set('endDate', endDate);
     params.set('startIndex', startIndex.toString());
-    params.set('endDate', '2019-12-27T15:15:36+03:00');
     params.set('limit', limit.toString());
 
     return this.http.get(url, {

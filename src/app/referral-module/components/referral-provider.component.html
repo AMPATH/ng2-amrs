@@ -1,3 +1,11 @@
+<provider-dashboard-filters
+(startDateChange)="selectedStartDate($event)"
+(endDateChange)="selectedEndDate($event)"
+(onProgramChange)="selectedPrograms($event)"
+(onStatesChange)="selectedWorkFlowStates($event)"
+(generateReport)="displayProviderReferrals($event)"
+(onLocationChange)="selectedLocations($event)"
+></provider-dashboard-filters>
 <div  *ngIf="referrals.length>0">
     <h4 class="component-title" style="color: green;"><span class="icon-i-family-practice"></span> Provider Referrals</h4>
    <patient-list *ngIf="referrals.length>0" [data]="referrals"  [extraColumns]="extraColumns()">

@@ -4,10 +4,17 @@
   "baseRoute": "provider-dashboard",
   "routeParameter": "",
   "nonProgramRoutes": [
-  {
-      "url": "provider-dashboard",
-      "label": "Provider Dashboard",
-      "icon": "fa fa-line-chart"
+    {
+      "url": "referrals",
+      "label": "Provider Referrals",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "patient-list",
+      "label": "Patient List",
+      "icon": "fa fa-file-pdf-o",
+      "isSideBarOpen": false
     }
   ],
   "programs": [

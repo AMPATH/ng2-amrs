@@ -10,14 +10,9 @@ import { UsefulLinksComponent } from '../useful-links/useful-links.component';
 import {
   LabOrderSearchContainerComponent
 } from '../lab-order-search/lab-order-search-container.component';
-// import { ClinicDashboardModule } from '../clinic-dashboard/clinic-dashboard.module';
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
-import { ProviderDashboardComponent } from '../provider-dashboard/provider-dashboard.component';
-// export function clinicDashboardModule() {
-//   return ClinicDashboardModule;
-// }
 export function patientDashboardModule() {
   return PatientDashboardModule;
 }
@@ -42,10 +37,10 @@ export const dashboardRoutes: Routes = [
         path: 'patient-dashboard', loadChildren: '../patient-dashboard#PatientDashboardModule'
       },
       {
-        path: 'data-analytics', loadChildren: dataAnalyticsModule
+        path: 'provider-dashboard',  loadChildren: '../provider-dashboard#ProviderDashboardModule'
       },
-       {
-        path: 'provider-dashboard', component: ProviderDashboardComponent
+      {
+        path: 'data-analytics', loadChildren: dataAnalyticsModule
       },
       {
         path: 'user-default-properties',
