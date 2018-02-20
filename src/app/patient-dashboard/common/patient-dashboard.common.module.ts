@@ -115,6 +115,7 @@ import {
 } from './visit-encounters/visit-encounters-list.component';
 import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
 import { VisitEncountersPipe } from './visit-encounters/visit-encounters.pipe';
+import { PatientEncounterProviderPipe } from './patient-encounters/patient-encounter-provider.pipe';
 import {
   OrderByAlphabetPipe
 } from './visit-encounters/visit-encounter.component.order.pipe';
@@ -231,6 +232,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
     VisitStarterComponent,
     UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
+    PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter],
@@ -281,6 +283,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
     VisitStarterComponent,
     UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
+    PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter],

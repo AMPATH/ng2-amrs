@@ -42,6 +42,10 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     public users: any[];
     public selectedEncounterType: any;
     public v: any;
+    public busyIndicator: any = {
+        busy: false,
+        message: '...' // default message
+    };
 
     @Input() public encounters: Encounter[];
     @Input() public showVisitsObservations: boolean;
@@ -56,6 +60,10 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges() {
+        this.busyIndicator = {
+            busy: true,
+            'message': 'Loading Encounters..'
+        };
         if (this.encounters.length > 0) {
             this.groupEncountersByVisits(this.encounters);
         }
@@ -103,7 +111,33 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
                 form = encounter.form.name;
             }
 
-            let provider = encounter.provider != null ? encounter.provider.display : '';
+            let provider = '';
+
+            if (encounter.encounterProviders !== null) {
+                let encounterProvider = encounter.encounterProviders[0];
+                if (typeof encounterProvider !== 'undefined') {
+
+                    if (encounterProvider.provider !== null) {
+
+                          if (encounterProvider.provider.display !== null) {
+
+                            let displayMinusAttribute =
+                            encounterProvider.provider.display.split('-')[2];
+
+                            if (typeof displayMinusAttribute !== 'undefined') {
+
+                                provider = encounterProvider.provider.display.split('-')[2];
+
+                            }
+
+                          }
+
+                       }
+
+
+                }
+
+            }
 
             let encounterType = encounter.encounterType.display;
 
@@ -224,6 +258,11 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         this.mainArray = finalArray;
 
         this.sortPatientEncounterTypes();
+
+        this.busyIndicator = {
+            busy: false,
+            'message': ''
+        };
 
         return this.displayArray;
 

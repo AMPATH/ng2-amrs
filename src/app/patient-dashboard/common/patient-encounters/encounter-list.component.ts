@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
 import { NgModel } from '@angular/forms';
+import { PatientEncounterProviderPipe } from './patient-encounter-provider.pipe';
 
 @Component({
   selector: 'encounter-list',

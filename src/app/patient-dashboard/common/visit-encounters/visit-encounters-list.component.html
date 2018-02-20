@@ -1,5 +1,8 @@
 <div class="container-fluid"  id="encounter-visit-row">
 <h4 class="component-title" ><i class="fa fa-clipboard fa-fw"></i>{{title}}</h4>
+<div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+</i>{{busyIndicator.message}}</span>
+</div>
 <div class="row" >
 	<div class="form-grup">
 		<div class="col-md-2 col-lg-2 col-sm-4">
