@@ -4,6 +4,7 @@ import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 
 import * as moment from 'moment';
 import *  as _ from 'lodash';
+import { format } from 'date-fns';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { DraftedFormsService } from './drafted-forms.service';
@@ -19,8 +20,9 @@ import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/
 import { Patient } from '../../../models/patient.model';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs/Rx';
 import { ConfirmationService } from 'primeng/primeng';
+import { FormentryHelperService } from './formentry-helper.service';
 
 import { UserService } from '../../../openmrs-api/user.service';
 import { UserDefaultPropertiesService } from
@@ -65,6 +67,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private visitUuid: string = null;
   private failedPayloadTypes: Array<string> = null;
   private compiledSchemaWithEncounter: any = null;
+  private submitDuplicate: boolean = false;
+  private previousEncounters = [];
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -85,6 +89,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private fileUploadResourceService: FileUploadResourceService,
     private http: Http,
     private referralsHandler: FormentryReferralsHandlerService,
+    private formentryHelperService: FormentryHelperService,
     private patientReminderService: PatientReminderService,
     private transferCareService: ProgramsTransferCareService,
     private confirmationService: ConfirmationService) {
@@ -195,13 +200,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/landing-page']);
+          this.patient.uuid + '/general/general/landing-page']);
         this.patientService.fetchPatientByUuid(this.patient.uuid);
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/forms']);
+          this.patient.uuid + '/general/general/forms']);
         break;
       case 'transferCareformWizard':
         this.preserveFormAsDraft = false;
@@ -306,7 +311,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       (err) => {
         console.error(err);
         this.isBusyIndicator(false);
-       // this.formRenderingErrors
+        // this.formRenderingErrors
         //  .push('An error occured while loading form, please check your connection');
       }
       );
@@ -540,67 +545,60 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
-
+    this.form.showErrors = !this.form.valid;
     this.disableSubmitBtn();
+    // this.handleFormReferrals();
+    if (this.form.valid) {
+      this.isBusyIndicator(true, 'Please wait, saving form...');
+      this.formSubmissionService.setSubmitStatus(true);
+      // clear formSubmissionErrors
+      this.formSubmissionErrors = null;
+      // reset submitted orders
+      this.submittedOrders.encounterUuid = null;
+      this.submittedOrders.orders = [];
+      // submit form
+      this.patientService.currentlyLoadedPatientUuid
+        .flatMap((patientUuid: string) => {
+          return this.encounterResource.getEncountersByPatientUuid(patientUuid);
+        }
+        ).flatMap((encounters) => {
+          this.previousEncounters = encounters;
+          if (this.formentryHelperService.encounterTypeFilled(encounters,
+            this.form.schema.encounterType.uuid,
+            this.extractEncounterDate()) && !this.submitDuplicate) {
+            return Observable.of(false);
+          } else {
+            return this.formSubmissionService.submitPayload(this.form, payloadTypes);
+          }
+        }).subscribe(
+        (data) => {
+          this.isBusyIndicator(false); // hide busy indicator
+          if (!data) {
+            this.saveDuplicate();
 
-    let submittedStatus = this.checkFormSumittedStatus();
-
-    if (submittedStatus === true) {
-
-         // if form has been submitted do not submit again
-         this.enableSubmitBtn();
-
+          } else {
+            this.handleSuccessfulFormSubmission(data);
+            console.log('All payloads submitted successfully:', data);
+            this.formSubmissionService.setSubmitStatus(false);
+            this.enableSubmitBtn();
+          }
+        },
+        (err) => {
+          console.error('error', err);
+          this.isBusyIndicator(false); // hide busy indicator
+          this.handleFormSubmissionErrors(err);
+          this.enableSubmitBtn();
+          this.formSubmissionService.setSubmitStatus(false);
+        });
     } else {
 
-        this.submitClicked = true;
-
-        this.form.showErrors = !this.form.valid;
-        // this.handleFormReferrals();
-        if (this.form.valid) {
-          this.isBusyIndicator(true, 'Please wait, saving form...');
-          this.formSubmissionService.setSubmitStatus(true);
-          // clear formSubmissionErrors
-          this.formSubmissionErrors = null;
-          // reset submitted orders
-          this.submittedOrders.encounterUuid = null;
-          this.submittedOrders.orders = [];
-          // submit form
-
-          this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
-            (data) => {
-              this.isBusyIndicator(false); // hide busy indicator
-              this.handleSuccessfulFormSubmission(data);
-              // console.log('All payloads submitted successfully:', data);
-              this.enableSubmitBtn();
-              this.formSubmissionService.setSubmitStatus(false);
-            },
-            (err) => {
-              console.error('error', err);
-              this.isBusyIndicator(false); // hide busy indicator
-              this.handleFormSubmissionErrors(err);
-              this.enableSubmitBtn();
-              this.formSubmissionService.setSubmitStatus(false);
-            });
-        } else {
-          this.form.markInvalidControls(this.form.rootNode);
-          this.enableSubmitBtn();
-        }
+      // document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
+      this.form.markInvalidControls(this.form.rootNode);
+      this.enableSubmitBtn();
+    }
 
   }
-}
 
- private checkFormSumittedStatus() {
-
-     let submitStatus = this.submitClicked;
-     return submitStatus;
-
- }
-
- private resetSubmitStatus() {
-
-   this.submitClicked = false;
-
- }
   private disableSubmitBtn() {
 
     let submitBtn  = document.getElementById('formentry-submit-btn');
@@ -629,6 +627,45 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   }
 
+  private resetSubmitStatus() {
+
+    this.submitClicked = false;
+  }
+  private extractEncounterDate() {
+    let nodes = this.form.searchNodeByQuestionId('encDate');
+    if (nodes.length > 0) {
+      return nodes[0].control.value;
+    }
+    return '';
+  }
+
+  private saveDuplicate() {
+    let encounterDate = this.extractEncounterDate();
+    let duplicateEncounter = this.formentryHelperService
+    .getLastDuplicateEncounter(this.previousEncounters,
+      this.form.schema.encounterType.uuid, encounterDate);
+    let duplicateMoment = Object.assign({}, moment);
+    let encounterDateMoment = moment(new Date(encounterDate));
+    this.confirmationService.confirm({
+      header: 'Form Duplication warning',
+      key: 'duplicateWarning',
+      message: `A similar form was completed on  ` +
+      `${format(duplicateEncounter.encounterDatetime , 'DD/MM/YYYY')} ` +
+      ` at ${format(duplicateEncounter.encounterDatetime, 'HH:mm')} ` +
+      `by  ${duplicateEncounter.encounterProviders[0].provider.display}
+      Are you sure you want to submit this encounter ` +
+      ` for the current specified date ${format(new Date(encounterDate), 'DD/MM/YYYY')} at ` +
+      `${format(new Date(encounterDate), 'HH:mm')}`,
+      accept: () => {
+        this.submitDuplicate = true;
+        this.submitForm();
+      },
+      reject: () => {
+        this.submitDuplicate = false;
+        this.formSubmissionService.setSubmitStatus(false);
+      }
+    });
+  }
   private handleFormSubmissionErrors(error: any): void {
     this.formSubmissionErrors = error.errorMessages;
     this.failedPayloadTypes = error.payloadType;
