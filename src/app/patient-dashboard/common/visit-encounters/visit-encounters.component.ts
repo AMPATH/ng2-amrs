@@ -21,7 +21,7 @@ export class VisitEncountersComponent implements OnInit {
   public showVisitsObservations: boolean = true;
   public busyIndicator: any = {
     busy: false,
-    message: 'Fetching encounters hang on...' // default message
+    message: '' // default message
   };
 
    constructor(private _patientService: PatientService,

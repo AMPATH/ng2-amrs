@@ -129,14 +129,13 @@ let mockEncounterResponse = [{
       'uri': 'https://encountertype/uuid'
     }]
   },
-  'provider': {
+  'encounterProviders': [
+    {
+    'provider': {
     'uuid': '4d25650a-5347-4047-8efa-c7030c4f6d35',
-    'display': 'Mzito',
-    'links': [{
-      'rel': 'self',
-      'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/uuid'
-    }]
-  }
+    'display': '1234-45-Mzito Provider'
+    }
+  }]
 }];
 
 let encounterObj = {
@@ -153,7 +152,6 @@ let encounterObj = {
   'action': '',
   'encounterObj': mockEncounterResponse
 };
-
 
 let visitEncounterGrouping = [{
   'type': 'parent',
@@ -175,7 +173,7 @@ let visitEncounterGrouping = [{
     'form': 'CDM Hypertension and Diabetes Initial Visit Form v1.1',
     'encounterType': 'HTNDMINITIAL',
     'location': '',
-    'provider': 'Mzito',
+    'provider': 'Mzito Provider',
     'visit': '',
     'encounter': 'HTNDMINITIAL',
     'action': '',
@@ -236,22 +234,9 @@ let visitEncounterGrouping = [{
             'uri': 'https://encountertype/uuid'
           }
         ]
-      },
-      'provider': {
-        'uuid': '4d25650a-5347-4047-8efa-c7030c4f6d35',
-        'display': 'Mzito',
-        'links': [{
-          'rel': 'self',
-          'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/uuid'
-        }
-        ]
       }
-    }
-  }
-  ],
-  'show': true
-}
-];
+      ]
+  }];
 
 describe('Component : Visit-Encounters', () => {
   let comp: VisitEncountersListComponent;
@@ -358,7 +343,6 @@ describe('Component : Visit-Encounters', () => {
       let encounterObs = Observable.of(mockEncounterResponse);
 
       encounterObs.subscribe((res) => {
-        // alert(res);
         comp.groupEncountersByVisits(res);
       });
       fixture.detectChanges();

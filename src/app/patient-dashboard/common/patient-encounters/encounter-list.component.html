@@ -48,7 +48,7 @@
           <td>{{encounter.encounterType.display}}</td>
           <td><span *ngIf="encounter.form">{{encounter.form.name}}</span></td>
           <td>{{encounter.location.display}}</td>
-          <td>{{encounter.provider.display}}</td>
+          <td>{{encounter.provider.display | patientEncounterProviderPipe}}</td>
           <td>
             <a *ngIf="(encounter && encounter.form && encounter.form.name && encounter.form.name.indexOf('POC') >= 0)" (click)="editEncounter(encounter)">
                             <span class="glyphicon text-primary glyphicon-edit"></span>
