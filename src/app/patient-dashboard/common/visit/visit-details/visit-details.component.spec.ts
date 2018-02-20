@@ -50,10 +50,10 @@ describe('VisitDetailsComponent: ', () => {
           name: 'form 1'
         },
         provider: {
-          uuid: 'provider-1',
-          diplay: 'provider 1'
+          uuid: '1234-1-provider 1',
+          display: '1234-1-provider 1'
         },
-        encounterDatetime: '2017-08-03T10:50:57.000+0300'
+      encounterDatetime: '2017-08-03T10:50:57.000+0300'
       }
     ],
     location: {

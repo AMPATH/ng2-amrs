@@ -7,6 +7,7 @@ import { PatientService } from '../../services/patient.service';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { EncounterTypeFilter } from './encounter-list.component.filterByEncounterType.pipe';
+
 import * as _ from 'lodash';
 
 @Component({
