@@ -27,8 +27,8 @@
         </div>
         <div class="clear clearfix">&nbsp;</div>
         <ul class="suggestions list-group">
-          <li *ngFor="let item of filteredList; let i = index;" class="list-group-item">
-            <a (click)="select(item)">{{item.display}}</a>
+          <li *ngFor="let item of filteredList; let i = index;" (click)="select(item)" class="list-group-item">
+            {{item.display}}
           </li>
         </ul>
       </div>
