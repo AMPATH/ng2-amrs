@@ -27,7 +27,15 @@ import { ProviderDashboardFiltersComponent
 } from '../provider-dashboard/dashboard-filters/provider-dashboard-filters.component';
 import { SelectModule } from 'ng2-select';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
-
+import { AgGridModule } from 'ag-grid-angular';
+import { TabViewModule } from 'primeng/components/tabview/tabview';
+import {
+  PatientReferralBaseComponent
+} from './patient-referral/patient-referral-report-base.component';
+import {
+  PatientReferralTabularComponent
+} from './patient-referral/patient-referral-tabular.component';
+import { DialogModule } from 'primeng/primeng';
 @NgModule({
   imports: [
     RouterModule,
@@ -36,21 +44,32 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date
     NgamrsSharedModule,
     DataListsModule,
     DateTimePickerModule,
-    SelectModule
+    SelectModule,
+    AgGridModule.withComponents([]),
+    TabViewModule,
+    DialogModule
   ],
   exports: [
   ReferralTsComponent,
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
-  ReferralProviderComponent],
+  ReferralProviderComponent,
+  PatientReferralContainerComponent,
+  PatientReferralBaseComponent,
+  PatientReferralTabularComponent,
+  ],
   declarations: [
   ReferralTsComponent,
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
   ProviderDashboardFiltersComponent,
-  ReferralProviderComponent],
+  ReferralProviderComponent,
+  PatientReferralContainerComponent,
+  PatientReferralBaseComponent,
+  PatientReferralTabularComponent,
+  ],
   providers: [
     ProgramEnrollmentResourceService,
     ProgramReferralResourceService,

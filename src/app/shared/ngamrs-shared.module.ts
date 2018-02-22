@@ -8,7 +8,7 @@ import {
   MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MdSnackBarModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
-import { SelectModule } from 'angular2-select';
+import { SelectModule as Angular2SelectModule } from 'angular2-select';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
@@ -35,6 +35,7 @@ import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
+import { ReportFiltersComponent } from './report-filters/report-filters.component';
 
 @NgModule({
   imports: [
@@ -68,18 +69,20 @@ import { EtlApi } from '../etl-api/etl-api.module';
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
-    SelectModule,
+    Angular2SelectModule,
     MdSnackBarModule
   ],
   exports: [BusyModule, LaddaModule, DisplayErrorComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
     BuildVersionComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent,
+    ReportFiltersComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
     OnlineTrackerComponent, ToastComponent,
-    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
+    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent,
+    ReportFiltersComponent
   ],
   entryComponents: [
     ToastComponent

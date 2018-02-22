@@ -12,6 +12,7 @@ import { ProgramWorkFlowStateResourceService
 } from '../../openmrs-api/program-workflow-state-resource.service';
 
 import { PatientReferralService } from '../services/patient-referral-service';
+import {initialState} from "ngx-bootstrap/timepicker/reducer/timepicker.reducer";
 
 @Component({
   selector: 'patient-referral-item',
@@ -60,21 +61,28 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
         if (propName === 'refer' && cur === true) {
 
           let encounter: any = _.first(this.submittedEncounter);
-          let programInfo = {
-            referredToLocation: this.location,
-            referredFromLocation: this.referredFromLocation,
-            encounter: encounter.uuid,
-            provider: this.form.valueProcessingInfo.providerUuid,
-            state: this.selectedWorkFlowState.uuid
-          };
-          if (this.hasValidInput()) {
-            this.refer = true;
-            this.enrollPatientInReferredProgram(programInfo);
-          } else {
-            this.program.isReferring = false;
-            this.refer = false;
-            this.onAborting.emit(true);
-          }
+          this.patientReferralService.getEncounterProvider(encounter.uuid)
+            .subscribe((provider) => {
+              if (provider) {
+                let programInfo = {
+                  referredToLocation: this.location,
+                  referredFromLocation: this.referredFromLocation,
+                  encounter: encounter.uuid,
+                  notificationStatus: null,
+                  referralReason: _.isUndefined(this.referralReason) ?  '' : this.referralReason,
+                  provider: provider.uuid,
+                  state: this.selectedWorkFlowState.uuid
+                };
+                if (this.hasValidInput()) {
+                  this.refer = true;
+                  this.enrollPatientInReferredProgram(programInfo);
+                } else {
+                  this.program.isReferring = false;
+                  this.refer = false;
+                  this.onAborting.emit(true);
+                }
+              }
+          });
         }
       }
     }
@@ -83,7 +91,9 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   public getWorkFlowStates(workflow) {
     this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflow.uuid)
       .subscribe((states) => {
-        this.workflowStates = states;
+        this.workflowStates = _.filter(states, (state: any) => {
+          return state.initial;
+        });
         this.hasValidInput();
       });
 
@@ -111,9 +121,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   private hasValidInput() {
-    if ((_.isUndefined(this.selectedWorkflow)
-      || _.isUndefined(this.selectedWorkFlowState)
-      || _.isUndefined(this.location)) && this.refer) {
+    if (_.isUndefined(this.location) && this.refer) {
         this.patientOnRefferal = false;
         this.inputError = 'All inputs are required except `reason`';
         return false;
@@ -161,6 +169,19 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
           this.onAborting.emit(this.program);
         } else {
           this.program.isReferring = true;
+          // assuming there is only one workflow. More stricter way is to check the concept
+          // uuid
+          let workflow = _.first(this.programWorkflows);
+          this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflow.uuid)
+            .subscribe((states) => {
+              this.workflowStates = _.filter(states, (state: any) => {
+                return state.initial;
+              });
+
+              if (this.workflowStates.length > 0) {
+                this.selectedWorkFlowState = _.first(this.workflowStates);
+              }
+            });
         }
       });
   }

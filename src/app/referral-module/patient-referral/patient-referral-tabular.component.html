@@ -11,7 +11,7 @@
   <div class="loader" *ngIf="isLoading"><span><i class="fa fa-spinner fa-spin">
       </i>Loading...</span></div>
 <div *ngIf="this.patientData">
-  <h3>Patient list ({{stateName}})</h3>
+  <h3>Patient List ({{stateName}} | {{programName}})</h3>
   <patient-list [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
 
   <!--<div *ngIf='!dataLoaded'>
