@@ -557,39 +557,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.submittedOrders.encounterUuid = null;
       this.submittedOrders.orders = [];
       // submit form
-      this.patientService.currentlyLoadedPatientUuid
-        .flatMap((patientUuid: string) => {
-          return this.encounterResource.getEncountersByPatientUuid(patientUuid);
-        }
-        ).flatMap((encounters) => {
-          this.previousEncounters = encounters;
-          if (this.formentryHelperService.encounterTypeFilled(encounters,
-            this.form.schema.encounterType.uuid,
-            this.extractEncounterDate()) && !this.submitDuplicate) {
-            return Observable.of(false);
-          } else {
-            return this.formSubmissionService.submitPayload(this.form, payloadTypes);
-          }
-        }).subscribe(
-        (data) => {
-          this.isBusyIndicator(false); // hide busy indicator
-          if (!data) {
-            this.saveDuplicate();
-
-          } else {
-            this.handleSuccessfulFormSubmission(data);
-            console.log('All payloads submitted successfully:', data);
-            this.formSubmissionService.setSubmitStatus(false);
-            this.enableSubmitBtn();
-          }
-        },
-        (err) => {
-          console.error('error', err);
-          this.isBusyIndicator(false); // hide busy indicator
-          this.handleFormSubmissionErrors(err);
-          this.enableSubmitBtn();
-          this.formSubmissionService.setSubmitStatus(false);
-        });
+      if (this.encounterUuid) {
+          this.saveEncounterOrUpdate(payloadTypes);
+      }else {
+        this.checkDuplicate(payloadTypes);
+      }
     } else {
 
       // document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
@@ -599,6 +571,54 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   }
 
+  private saveEncounterOrUpdate(payloadTypes) {
+    this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
+      (data) => {
+        this.isBusyIndicator(false); // hide busy indicator
+        this.handleSuccessfulFormSubmission(data);
+        console.log('All payloads submitted successfully:', data);
+        this.formSubmissionService.setSubmitStatus(false);
+        this.enableSubmitBtn();
+      },
+      (err) => {
+        console.error('error', err);
+        this.isBusyIndicator(false); // hide busy indicator
+        this.handleFormSubmissionErrors(err);
+        this.enableSubmitBtn();
+        this.formSubmissionService.setSubmitStatus(false);
+      });
+  }
+  private checkDuplicate(payloadTypes) {
+     this.patientService.currentlyLoadedPatientUuid
+        .flatMap((patientUuid: string) => {
+          return this.encounterResource.getEncountersByPatientUuid(patientUuid);
+        }
+        ).flatMap((encounters) => {
+      this.previousEncounters = encounters;
+      if (this.formentryHelperService.encounterTypeFilled(encounters,
+        this.form.schema.encounterType.uuid,
+        this.extractEncounterDate()) && !this.submitDuplicate) {
+        return Observable.of(true);
+      }else {
+        return Observable.of(false);
+      }
+    }).subscribe(
+      (isDuplicate) => {
+        this.isBusyIndicator(false); // hide busy indicator
+        if (isDuplicate) {
+          this.saveDuplicate();
+        }else {
+          this.saveEncounterOrUpdate(payloadTypes);
+        }
+      },
+      (err) => {
+        console.error('error', err);
+        this.isBusyIndicator(false); // hide busy indicator
+        this.handleFormSubmissionErrors(err);
+        this.enableSubmitBtn();
+        this.formSubmissionService.setSubmitStatus(false);
+      });
+  }
   private disableSubmitBtn() {
 
     let submitBtn  = document.getElementById('formentry-submit-btn');
