@@ -12,7 +12,7 @@
       </i>Loading...</span></div>
 <div *ngIf="this.patientData">
   <h3>Patient List ({{stateName}} | {{programName}})</h3>
-  <patient-list [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
+  <patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns"  [data]="patientData"></patient-list>
 
   <!--<div *ngIf='!dataLoaded'>
     <button [disabled]="isLoading" class="btn btn-primary" (click)="loadMorePatients()">

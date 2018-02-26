@@ -7,13 +7,7 @@
     {
       "url": "referrals",
       "label": "Provider Referrals",
-      "icon": "fa fa-file-pdf-o",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "patient-list",
-      "label": "Patient List",
-      "icon": "fa fa-file-pdf-o",
+      "icon": "icon-i-family-practice",
       "isSideBarOpen": false
     }
   ],

@@ -19,6 +19,7 @@ export class PatientReferralBaseComponent implements OnInit {
   public isAggregated: boolean;
   public programs: any;
   public states: any;
+  // public providers: any;
 
   public enabledControls = 'datesControl,programWorkFlowControl' +
     'ageControl,genderControl,locationControl';
@@ -33,6 +34,7 @@ export class PatientReferralBaseComponent implements OnInit {
   public dates: any;
   public programUuids: any;
   public age: any;
+  public provider = '';
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
 
@@ -111,12 +113,13 @@ export class PatientReferralBaseComponent implements OnInit {
         locationUuids: this.getSelectedLocations(this.locationUuids),
         stateUuids: this.states,
         startAge: this.startAge,
-        endAge: this.endAge
+        endAge: this.endAge,
+        providerUuids: this.provider
       }).subscribe(
       (data) => {
         this.isLoadingReport = false;
         this.sectionsDef = data.stateNames;
-        this.data = data.groupedResult[0].programs;
+        this.data = data.groupedResult[0] ? data.groupedResult[0].programs : [];
 
       }, (error) => {
         this.isLoadingReport = false;
@@ -199,6 +202,7 @@ export class PatientReferralBaseComponent implements OnInit {
         selectedLocations = selectedLocations + ',' + locationUuids[i];
       }
     }
+    this.dataAnalyticsDashboardService.setSelectedLocations(selectedLocations);
     return selectedLocations;
   }
 

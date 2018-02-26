@@ -191,9 +191,11 @@ export class VisitComponent implements OnInit, OnDestroy {
     /*let referringLocation = _.get(this.currentEnrollment, 'location.uuid');
     let location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     if (location && location.uuid) {*/
-      return this.currentEnrollment.states.length > 0 /*&& location.uuid === referringLocation;
+      return this.currentEnrollment ? this.currentEnrollment.states.length > 0 : false;
+      /*
+      && location.uuid === referringLocation;
     }
-    return false*/;
+    return false*/
   }
 
 }

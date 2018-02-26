@@ -288,6 +288,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
 
     let programs = [];
+    if (selectedProgram) {
     this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
       (results) => {
         let workflows = _.get(results, 'allWorkflows');
@@ -306,7 +307,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
         this.statesOptions = programs;
       }
     );
-
+   }
   }
 
   public selectAll() {

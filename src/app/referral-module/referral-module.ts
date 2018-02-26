@@ -7,8 +7,6 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import {
   PatientReferralContainerComponent
 } from './components/patient-referral-container.component';
-import { ReferralProviderComponent } from
-  './components/referral-provider.component';
 import { PatientReferralItemComponent } from './components/patient-referral-item.component';
 import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
@@ -18,11 +16,8 @@ import { ProgramEnrollmentResourceService
 import { PatientReferralService } from './services/patient-referral-service';
 import { PatientReferralVisitComponent } from './components/patient-referral-visit.component';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
-import {
-    ReferralProviderResourceService
-} from '../etl-api/referral-provider-resource.service';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
-import { ReferralTsComponent } from './components/referral-tst.component';
+import { ReferralTsComponent } from './components/provider-referral.component';
 import { ProviderDashboardFiltersComponent
 } from '../provider-dashboard/dashboard-filters/provider-dashboard-filters.component';
 import { SelectModule } from 'ng2-select';
@@ -54,7 +49,6 @@ import { DialogModule } from 'primeng/primeng';
   PatientReferralContainerComponent,
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
-  ReferralProviderComponent,
   PatientReferralContainerComponent,
   PatientReferralBaseComponent,
   PatientReferralTabularComponent,
@@ -65,7 +59,6 @@ import { DialogModule } from 'primeng/primeng';
   PatientReferralItemComponent,
   PatientReferralVisitComponent,
   ProviderDashboardFiltersComponent,
-  ReferralProviderComponent,
   PatientReferralContainerComponent,
   PatientReferralBaseComponent,
   PatientReferralTabularComponent,
@@ -75,8 +68,8 @@ import { DialogModule } from 'primeng/primeng';
     ProgramReferralResourceService,
     ProgramWorkFlowResourceService,
     PatientReferralService,
-    ProgramWorkFlowStateResourceService,
-    ReferralProviderResourceService],
+    ProgramWorkFlowStateResourceService
+  ],
 
 })
 export class ReferralModule {

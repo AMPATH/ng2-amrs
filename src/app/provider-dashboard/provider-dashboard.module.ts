@@ -9,13 +9,15 @@ import { ReferralModule } from '../referral-module/referral-module';
 import { PatientReferralService } from '../referral-module/services/patient-referral-service';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
-import {
-    ReferralProviderResourceService
-} from '../../etl-api/referral-provider-resource.service';
+// import {
+//     ReferralProviderResourceService
+// } from '../../etl-api/referral-provider-resource.service';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { MdTabsModule, MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 import { ProviderDashboardGuard } from './provider-dashboard.guard';
 import { ProviderDashboardService } from './services/provider-dashboard.services';
+import { DataAnalyticsDashboardService }
+from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
 @NgModule({
   imports: [
     DataListsModule,
@@ -37,7 +39,8 @@ import { ProviderDashboardService } from './services/provider-dashboard.services
     ProgramService,
     EncounterResourceService,
     ProviderDashboardGuard,
-    ProviderDashboardService
+    ProviderDashboardService,
+    DataAnalyticsDashboardService
 
   ],
   exports: [

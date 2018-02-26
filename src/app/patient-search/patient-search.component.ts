@@ -14,6 +14,8 @@ import {
   PatientReferralService
 } from
   '../referral-module/services/patient-referral-service';
+import * as Moment from 'moment';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
@@ -27,6 +29,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public isResetButton: boolean = true;
   public totalPatients: number;
   public isLoading: boolean = false;
+  public dataLoaded: boolean = false;
   public hasConductedSearch = false;
   public page: number = 1;
   public adjustInputMargin: string = '240px';
@@ -59,12 +62,16 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this._searchString = v;
     this.hasConductedSearch = false;
   }
-
+  private endDate: any;
+  private startDate: any;
+  private locationUuids: any;
+  private providerUuids: any;
   constructor(private patientSearchService: PatientSearchService,
               private route: ActivatedRoute,
               private appFeatureAnalytics: AppFeatureAnalytics,
               private defaultPropertiesService: UserDefaultPropertiesService,
               private referralService: PatientReferralService,
+              private location: Location,
               private router: Router) {
   }
 
@@ -196,40 +203,46 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   }
 
   public loadReferralData() {
-    this.router.navigate(['/provider-dashboard']);
+    this.router.navigate(['/provider-dashboard'],
+    {queryParams: {
+      'endDate': this.endDate,
+      'startDate': this.startDate,
+      'providerUuids': (this.providerUuids as any),
+      'locationUuids': (this.locationUuids as any)
+    }});
   }
 
   public getProviderReferrals() {
-    let providerUuid = 'c75a6efb-51e6-486e-abe4-ce568cf4184d';
-    let startIndex = 0;
-    let limit = 10;
     let location = this.defaultPropertiesService.getCurrentUserDefaultLocationObject()
             || {};
     let selectedLocationUuid = location.uuid || 'Default location not set';
-    let referredBackStateUuid = 'cfdf6957-6e40-4f54-b179-2d6d6f84bb42';
-    // providerUuids = 'dced5363-4539-4692-88b8-018ea453a235',
     let user = this.defaultPropertiesService.getAuthenticatedUser()
             || {};
 
     this.referralService.getUserProviderDetails(user)
       .then((provider) => {
         this.providerUuid = provider.uuid;
-        this.referralSubscription = this.referralService.getReferalProviders(selectedLocationUuid,
-          this.providerUuid, referredBackStateUuid, startIndex, limit)
+        let currentDateMoment = Moment(new Date());
+        let endDate =  currentDateMoment.format('YYYY-MM-DD');
+        let startDate = currentDateMoment.add(-1, 'M').format('YYYY-MM-DD');
+
+        let params = this.getRequestParams(this.providerUuid,
+           selectedLocationUuid, startDate, endDate);
+        this.referralSubscription = this.referralService.getProviderReferralPatientList(params)
           .subscribe(
             (referralData) => {
               this.loadingReferralProviders = false;
               if (referralData.length >= 1) {
                 this.referrals = referralData;
-                // this.dataLoaded = true;
+                this.dataLoaded = true;
               } else {
-                // this.dataLoaded = false;
+                this.dataLoaded = false;
               }
 
             },
             (error) => {
               this.loadingReferralProviders = false;
-              // this.dataLoaded = true;
+              this.dataLoaded = true;
               this.errors.push({
                 id: 'Referral Providers',
                 message: 'error fetching referral providers'
@@ -244,6 +257,20 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
         });
       });
 
+  }
+
+  private getRequestParams(provider, location, startDate, endDate) {
+    let params = {
+      endDate: endDate,
+      locationUuids: location,
+      startDate: startDate,
+      providerUuids: provider
+    };
+    this.locationUuids = location;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.providerUuids = provider;
+    return params;
   }
 
    private getCurrentProvider(user: any) {

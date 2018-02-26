@@ -22,14 +22,28 @@ export class PatientReferralResourceService {
     let urlParams: URLSearchParams = new URLSearchParams();
 
     urlParams.set('endDate', params.endDate);
-    urlParams.set('gender', params.gender);
+    if (params.gender  && params.gender !== 'undefined') {
+        urlParams.set('gender', params.gender);
+    }
     urlParams.set('startDate', params.startDate);
-    urlParams.set('locationUuids', params.locationUuids);
+    if (params.locationUuids  && params.locationUuids !== 'undefined') {
+        urlParams.set('locationUuids', params.locationUuids);
+    }
+    if (params.startAge  && params.startAge !== 'undefined') {
     urlParams.set('startAge', params.startAge);
+    }
+    if (params.endAge  && params.endAge !== 'undefined') {
     urlParams.set('endAge', params.endAge);
+    }
+    if (params.programUuids  && params.programUuids !== 'undefined') {
     urlParams.set('programUuids', params.programUuids);
+    }
+    if (params.stateUuids && params.stateUuids !== 'undefined') {
     urlParams.set('stateUuids', params.stateUuids);
-
+    }
+    if (params.providerUuids  && params.providerUuids !== 'undefined') {
+      urlParams.set('providerUuids', params.providerUuids);
+    }
     return urlParams;
   }
 
@@ -61,6 +75,7 @@ export class PatientReferralResourceService {
       search: urlParams
     })
       .map((response: Response) => {
+        console.log('response.json()response.json()', response.json());
         return response.json().result;
       });
 

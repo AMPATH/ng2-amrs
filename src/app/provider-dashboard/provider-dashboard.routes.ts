@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ProviderDashboardComponent } from './provider-dashboard.component';
-import { ReferralTsComponent } from '../referral-module/components/referral-tst.component';
+import { ReferralTsComponent } from '../referral-module/components/provider-referral.component';
 import { ModuleWithProviders } from '@angular/core';
 import { ProviderDashboardGuard } from './provider-dashboard.guard';
 

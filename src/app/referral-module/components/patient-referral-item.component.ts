@@ -12,7 +12,7 @@ import { ProgramWorkFlowStateResourceService
 } from '../../openmrs-api/program-workflow-state-resource.service';
 
 import { PatientReferralService } from '../services/patient-referral-service';
-import {initialState} from "ngx-bootstrap/timepicker/reducer/timepicker.reducer";
+import { initialState } from 'ngx-bootstrap/timepicker/reducer/timepicker.reducer';
 
 @Component({
   selector: 'patient-referral-item',

@@ -19,6 +19,7 @@ export class PatientReferralTabularComponent implements OnInit {
   public endDate: any;
   public locationUuids: any;
   public overrideColumns: Array<any> = [];
+  public extraColumns: Array<any> = [];
   public patientData: any;
   public startAge: any;
   public stateName: any;
@@ -90,6 +91,15 @@ export class PatientReferralTabularComponent implements OnInit {
     this._age = v;
   }
 
+  private _provider: any;
+  public get provider(): any {
+    return this._provider;
+  }
+  @Input('provider')
+  public set provider(v: any) {
+    this._provider = v;
+  }
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               public resourceService: PatientReferralResourceService) {
@@ -111,7 +121,8 @@ export class PatientReferralTabularComponent implements OnInit {
       {
         headerName: 'Program',
         field: 'program'
-      });
+      }
+      );
     if (this.data) {
         _.each(sectionsData, (data) => {
             defs.push({
@@ -148,14 +159,15 @@ export class PatientReferralTabularComponent implements OnInit {
 
     this.resourceService.getPatientReferralPatientList({
       endDate: this.toDateString(this._dates.endDate),
-      locationUuids: data.data.locationUuids,
+      locationUuids: data.data.locationUuids ? data.data.locationUuids : null,
       startDate: this.toDateString(this._dates.startDate),
-      startAge: this.startAge,
-      endAge: this.endAge,
-      gender: this.gender,
-      programUuids: data.data.programUuids,
-      stateUuids: this.stateUuid,
-      startIndex: this.startIndex
+      startAge: this.startAge ? this.startAge : null,
+      endAge: this.endAge ? this.endAge : null,
+      gender: this.gender ? this.gender : null,
+      programUuids: data.data.programUuids ? data.data.programUuids : null,
+      stateUuids: this.stateUuid ? this.stateUuid : null,
+      providerUuids: this.provider ? this.provider : null,
+      startIndex: this.startIndex ? this.startIndex : null,
     }).subscribe((report) => {
       this.patientData = report;
 
@@ -167,6 +179,7 @@ export class PatientReferralTabularComponent implements OnInit {
       }
       this.overrideColumns.push({
         field: 'identifiers',
+        headerName: 'Identifier',
         onCellClicked: (column) => {
           this.redirectTopatientInfo(column.data.patient_uuid);
         },
@@ -174,7 +187,38 @@ export class PatientReferralTabularComponent implements OnInit {
           return '<a href="javascript:void(0);" title="Identifiers">'
             + column.value + '</a>';
         }
-      });
+      }
+      );
+
+      this.extraColumns.push(
+        {
+          headerName: 'Initial Referral Date',
+          field: 'initial_referral_date',
+          cellRenderer: (params) => {
+            let date = '';
+            let time = '';
+            if (params.value) {
+                date = Moment(params.value).format('DD-MM-YYYY');
+                time = Moment(params.value).format('H:mmA');
+            }
+
+            return  '<small>' + date + '</small>';
+        }
+        },
+        {
+          headerName: 'Current State Date',
+          field: 'current_state_date',
+          cellRenderer: (params) => {
+            let date = '';
+            let time = '';
+            if (params.value) {
+                date = Moment(params.value).format('DD-MM-YYYY');
+            }
+
+            return  '<small>' + date + '</small>';
+        }
+        }
+        );
     });
   }
 

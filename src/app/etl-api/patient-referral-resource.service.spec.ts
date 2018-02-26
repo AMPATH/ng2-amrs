@@ -112,7 +112,6 @@ describe('PatientReferralResourceService Tests', () => {
         expect(params).toContain('gender=M,F');
         expect(params).toContain('startDate=2017-03-01');
         expect(params).toContain('stateUuids=stateUuids-uuid');
-        expect(params).toContain('startAge=0');
         expect(params).toContain('endAge=110');
 
       }
