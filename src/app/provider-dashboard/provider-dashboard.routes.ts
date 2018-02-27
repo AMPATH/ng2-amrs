@@ -1,7 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ProviderDashboardComponent } from './provider-dashboard.component';
-import { ReferralTsComponent } from '../referral-module/components/provider/provider-referral.component';
-import { ModuleWithProviders } from '@angular/core';
+import {
+  ProviderReferralComponent
+} from '../referral-module/components/provider/provider-referral.component';
 import { ProviderDashboardGuard } from './provider-dashboard.guard';
 
 export const routes: Routes = [
@@ -19,7 +20,7 @@ export const routes: Routes = [
         path: 'referrals', component: ProviderDashboardComponent
       },
       {
-        path: 'patient-list', component: ReferralTsComponent
+        path: 'patient-list', component: ProviderReferralComponent
       }
     ]
   }

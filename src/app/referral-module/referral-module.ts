@@ -40,6 +40,8 @@ import {
 import {
   PatientReferralTabularComponent
 } from './patient-referral/patient-referral-tabular.component';
+import { ProgramsTransferCareService
+} from '../patient-dashboard/programs/transfer-care/transfer-care.service';
 @NgModule({
   imports: [
     RouterModule.forChild([]),
@@ -59,8 +61,8 @@ import {
     PatientReferralVisitComponent,
     EnrollmentManagerComponent,
     EnrollmentManagerFormWizardComponent,
-    PatientReferralBaseComponent,
     PatientReferralTabularComponent,
+    ProviderDashboardFiltersComponent,
     ProviderReferralComponent],
   declarations: [
     PatientReferralContainerComponent,
@@ -69,6 +71,8 @@ import {
     PatientReferralItemComponent,
     PatientReferralVisitComponent,
     ProviderDashboardFiltersComponent,
+    PatientReferralBaseComponent,
+    PatientReferralTabularComponent,
     ProviderReferralComponent],
   providers: [
     ProgramEnrollmentResourceService,
@@ -76,6 +80,7 @@ import {
     ProgramWorkFlowResourceService,
     PatientReferralService,
     PatientService,
+    ProgramsTransferCareService,
     EnrollementWorkflowService,
     NgSwitch,
     ProgramWorkFlowStateResourceService]
