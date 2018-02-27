@@ -40,7 +40,7 @@ import { ProviderDashboardModule } from '../provider-dashboard/provider-dashboar
     LabOrderSearchModule,
     UsefulLinksModule,
     UserDefaultPropertiesModule,
-    ProviderDashboardModule,
+    // ProviderDashboardModule,
     // CacheModule,
     // PatientListCohortModule,
     // PatientDashboardModule

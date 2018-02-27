@@ -1,9 +1,26 @@
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ProviderDashboardComponent } from './provider-dashboard.component';
+import { ReferralTsComponent } from '../referral-module/components/provider/provider-referral.component';
+import { ModuleWithProviders } from '@angular/core';
+import { ProviderDashboardGuard } from './provider-dashboard.guard';
 
-export const PROVIDER_DASHBOARD_ROUTES: Routes = [
+export const routes: Routes = [
   {
-    path: 'provider',
-    component: ProviderDashboardComponent
+    path: '',
+    canActivate: [
+      ProviderDashboardGuard
+    ],
+    canDeactivate: [
+      ProviderDashboardGuard
+    ],
+    children: [
+      { path: '', redirectTo: 'referrals', pathMatch: 'full' },
+      {
+        path: 'referrals', component: ProviderDashboardComponent
+      },
+      {
+        path: 'patient-list', component: ReferralTsComponent
+      }
+    ]
   }
 ];

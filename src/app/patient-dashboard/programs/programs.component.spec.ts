@@ -46,6 +46,8 @@ import { HivProgramSnapshotComponent
 } from '../hiv/program-snapshot/hiv-program-snapshot.component';
 import { PatientProgramService } from './patient-programs.service';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
+import { ProgramWorkFlowResourceService } from '../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../openmrs-api/program-workflow-state-resource.service';
 describe('Component: ProgramsComponent', () => {
   let patientService: PatientService, locationResourceService: LocationResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
@@ -65,6 +67,8 @@ describe('Component: ProgramsComponent', () => {
         BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,

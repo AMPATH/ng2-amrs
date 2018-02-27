@@ -143,6 +143,11 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       this.currentDashboard = 'data-analytics';
       return;
     }
+
+    if (currentUrl.includes('provider-dashboard')) {
+      this.currentDashboard = 'provider-dashboard';
+      return;
+    }
   }
 
   public clickOverlay($event) {

@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, Subject } from 'rxjs/Rx';
-import { ReportFiltersComponent } from '../report-filters/report-filters.component';
+import { ReportFiltersComponent } from '../../shared/report-filters/report-filters.component';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';

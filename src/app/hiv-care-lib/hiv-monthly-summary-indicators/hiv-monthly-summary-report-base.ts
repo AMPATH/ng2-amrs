@@ -121,9 +121,9 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
-          gender = '' + selectedGender[i].id;
+          gender = '' + selectedGender[i];
         } else {
-          gender = gender + ',' + selectedGender[i].id;
+          gender = gender + ',' + selectedGender[i];
         }
       }
     }
@@ -134,9 +134,9 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
     if (selectedIndicator) {
       for (let i = 0; i < selectedIndicator.length; i++) {
         if (i === 0) {
-          indicators = '' + selectedIndicator[i].id;
+          indicators = '' + selectedIndicator[i];
         } else {
-          indicators = indicators + ',' + selectedIndicator[i].id;
+          indicators = indicators + ',' + selectedIndicator[i];
         }
       }
     }

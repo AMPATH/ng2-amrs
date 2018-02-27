@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs/Rx';
 import { HivSummaryIndicatorBaseComponent } from './hiv-summary-report-base.component';
-import { ReportFiltersComponent } from '../report-filters/report-filters.component';
+import { ReportFiltersComponent } from '../../shared/report-filters/report-filters.component';
 import {
   HivSummaryIndicatorsResourceService
 } from '../../etl-api/hiv-summary-indicators-resource.service';

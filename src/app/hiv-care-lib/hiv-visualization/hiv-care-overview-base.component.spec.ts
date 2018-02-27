@@ -8,7 +8,7 @@ import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs/Rx';
-import { ReportFiltersComponent } from '../report-filters/report-filters.component';
+import { ReportFiltersComponent } from '../../shared/report-filters/report-filters.component';
 import {
   HivCareComparativeOverviewBaseComponent
 } from './hiv-care-overview-base.component';

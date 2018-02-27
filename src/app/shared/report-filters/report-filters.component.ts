@@ -1,6 +1,7 @@
 
 import {
-  Component, OnInit, EventEmitter, ElementRef, forwardRef, ViewEncapsulation, AfterViewInit
+  Component, OnInit, EventEmitter, ElementRef, forwardRef,
+  ViewEncapsulation, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { Output, Input } from '@angular/core';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
@@ -19,8 +20,19 @@ require('ion-rangeslider');
 
 @Component({
   selector: 'report-filters',
-  styleUrls: ['report-filters.component.css'],
+ // styleUrls: ['report-filters.component.css'],
   templateUrl: 'report-filters.component.html',
+  styles: [`
+    ng-select > div > div.multiple input {
+      width: 100% !important;
+    }
+    .location-filter ng-select > div > div.multiple > div.option {
+      color: #fff !important;
+      border-color: #357ebd !important;
+      flex-shrink: initial;
+      background-color: #428bca !important;
+    }
+  `],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -81,7 +93,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
               private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
               private programResourceService: ProgramResourceService,
               private programWorkFlowResourceService: ProgramWorkFlowResourceService,
-              private elementRef: ElementRef) {
+              private elementRef: ElementRef,
+              private cd: ChangeDetectorRef) {
   }
   public get startDate(): Date {
     return this._startDate;
@@ -170,15 +183,17 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
     this.genderOptions = [
       {
-        id: 'F',
-        text: 'Female'
+        value: 'F',
+        label: 'Female'
       },
       {
-        id: 'M',
-        text: 'Male'
+        value: 'M',
+        label: 'Male'
       }
     ];
+
     this._gender = this._gender.length > 0 ? this._gender : this.genderOptions;
+    this.selectedGender = _.map(this.genderOptions, 'value');
     if (this._indicators.length > 0) {
       this.selectedIndicatorTagsSelectedAll = true;
     }
@@ -226,8 +241,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
            if (data.hasOwnProperty(r)) {
              let id = data.name;
              let text = data.label;
-             data['id'] = id;
-             data['text'] = text;
+             data['value'] = id;
+             data['label'] = text;
            }
          }
          indicators.push(data);
@@ -244,7 +259,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       (results: any[]) => {
 
           for (let data of results) {
-           // data['states'] = data.states;
 
             if (!_.isEmpty(data.allWorkflows)) {
             for (let r in data) {
@@ -252,8 +266,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
               if (data.hasOwnProperty(r)) {
                 let id = data.uuid;
                 let text = data.display;
-                data['id'] = id;
-                data['text'] = text;
+                data['value'] = id;
+                data['label'] = text;
 
               }
             }
@@ -268,60 +282,43 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public getProgramWorkFlowStates(uuid) {
     let selectedProgram;
-    if (uuid[0] && uuid[0].id !== 'undefined' && uuid[0].id !== undefined) {
-       selectedProgram = uuid[0].id;
+    if (uuid[0] && uuid[0] !== 'undefined' && uuid[0] !== undefined) {
+       selectedProgram = uuid[0];
 
     }
 
     let programs = [];
+    if (selectedProgram) {
     this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
       (results) => {
-        console.log('tererer', results);
         let workflows = _.get(results, 'allWorkflows');
         if (workflows.length > 0) {
             _.each(workflows, (workflow: any) => {
               if (workflow.states.length > 0) {
                 programs = _.map(workflow.states, (state: any) => {
                   return {
+/*
                     id: state.uuid,
                     text: state.concept.display
+*/
+                    value: state.concept.uuid,
+                    label: state.concept.display
                   };
                 });
               }
             });
           }
-        /*for (let data of results.allWorkflows) {
-          for (let states of data.states) {
-             for (let r in states) {
-           if (data.hasOwnProperty(r)) {
-
-             let id = states.uuid;
-             let text = states.concept.name.display;
-             states['id'] = id;
-             states['text'] = text;
-           }
-          }
-             programs.push(states);
-
-          }
-
-        }*/
-        console.log('states', programs);
         this.statesOptions = programs;
       }
     );
-
+   }
   }
 
   public selectAll() {
-    let indicatorsSelected = [];
     if (this.indicatorOptions .length > 0) {
       if (this.selectedIndicatorTagsSelectedAll === false) {
         this.selectedIndicatorTagsSelectedAll = true;
-        _.each(this.indicatorOptions, (data) => {
-          indicatorsSelected.push( data);
-        });
-        this.selectedIndicators = indicatorsSelected;
+        this.selectedIndicators = _.map(this.indicatorOptions, 'value');
       } else {
         this.selectedIndicatorTagsSelectedAll = false;
         this.selectedIndicators = [];
@@ -331,14 +328,10 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   public selectAllPrograms() {
-    let selectedProgram = [];
     if (this.programOptions .length > 0) {
       if (this.selectedProgramTagsSelectedAll === false) {
         this.selectedProgramTagsSelectedAll = true;
-        _.each(this.programOptions, (data) => {
-          selectedProgram.push( data);
-        });
-        this.selectedPrograms = selectedProgram;
+        this.selectedPrograms = _.map(this.programOptions, 'value');
       } else {
         this.selectedProgramTagsSelectedAll = false;
         this.selectedPrograms = [];
@@ -354,14 +347,10 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.onGenderChange.emit( this.selectedGender);
   }
   public selectAllStates() {
-    let selectedState = [];
     if (this.programOptions .length > 0) {
       if (this.selectedStatesTagsSelectedAll === false) {
         this.selectedStatesTagsSelectedAll = true;
-        _.each(this.statesOptions, (data) => {
-          selectedState.push( data);
-        });
-        this.selectedStates = selectedState;
+        this.selectedStates = _.map(this.statesOptions, 'value');
       } else {
         this.selectedStatesTagsSelectedAll = false;
         this.selectedStates = [];
@@ -372,6 +361,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.generateReport.emit();
   }
   public ngAfterViewInit() {
+    this.cd.detectChanges();
     this.sliderElt = jQuery(this.elementRef.nativeElement).find('.slider');
     this.sliderElt.ionRangeSlider({
       type: 'double',

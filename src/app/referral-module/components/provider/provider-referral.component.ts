@@ -5,42 +5,40 @@ import * as _ from 'lodash';
 
 import {
   PatientReferralBaseComponent
-} from '../../referral-module/patient-referral/patient-referral-report-base.component';
+} from '../../patient-referral/patient-referral-report-base.component';
 import {
   PatientReferralResourceService
-} from '../../etl-api/patient-referral-resource.service';
+} from '../../../etl-api/patient-referral-resource.service';
 import {
   DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+} from '../../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 import * as Moment from 'moment';
+import { UserDefaultPropertiesService } from '../../../user-default-properties';
+import { PatientReferralService } from '../../services/patient-referral-service';
 
 @Component({
-  selector: 'patient-referral-report',
-  templateUrl: '../../referral-module/patient-referral/referral-report-base.component.html'
+  selector: 'provider-referrals',
+  templateUrl: '../../patient-referral/referral-report-base.component.html'
 })
-export class PatientReferralComponent extends PatientReferralBaseComponent
+export class ProviderReferralComponent extends PatientReferralBaseComponent
   implements OnInit {
   public data = [];
+  public errors = [];
   public sectionsDef = [];
   public programName: any;
-  public enabledControls = 'datesControl,programWorkFlowControl';
-
+  public enabledControls = 'locationControl,datesControl,programWorkFlowControl';
   constructor(public patientReferralResourceService: PatientReferralResourceService,
               private route: ActivatedRoute, private location: Location,
               private router: Router,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+              private defaultPropertiesService: UserDefaultPropertiesService,
+              private referralService: PatientReferralService,
+              public dataAnalyticsDashboardService: DataAnalyticsDashboardService
+            ) {
     super(patientReferralResourceService, dataAnalyticsDashboardService);
 
   }
 
   public ngOnInit() {
-
-    this.route.parent.parent.parent.params.subscribe((params: any) => {
-      this.locationUuids = [];
-      if (params.location_uuid) {
-        this.locationUuids.push(params.location_uuid);
-      }
-    });
     this.loadReportParamsFromUrl();
   }
   public test() {
@@ -48,8 +46,23 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   }
 
   public generateReport() {
-    this.storeReportParamsInUrl();
-    super.generateReport();
+
+    let user = this.defaultPropertiesService.getAuthenticatedUser()
+    || {};
+    this.referralService.getUserProviderDetails(user)
+    .then((provider) => {
+      this.provider = provider.uuid;
+      this.getLocationsSelected();
+      this.storeReportParamsInUrl();
+      super.generateReport();
+    })
+    .catch((error) => {
+    this.errors.push({
+      id: 'Referral Providers',
+      message: 'error fetching current user provider information'
+    });
+    });
+
   }
 
   public loadReportParamsFromUrl() {
@@ -68,7 +81,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       this.gender = (path.queryParams['gender'] as any);
       this.formatGenderToSelectArray(path.queryParams['gender']);
     }
-    if (path.queryParams['startAge']) {
+    if (path.queryParams['startAge'] && this.startAge) {
       this.startAge = (path.queryParams['startAge'] as any);
     }
     if (path.queryParams['endAge']) {
@@ -81,6 +94,13 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     if (path.queryParams['stateUuids']) {
       this.states = path.queryParams['stateUuids'];
     }
+    if (path.queryParams['providerUuids']) {
+      this.provider = path.queryParams['providerUuids'];
+    }
+    if (path.queryParams['locationUuids']) {
+      this.locationUuids = [path.queryParams['locationUuids']];
+    }
+    delete path.queryParams['gender'];
     if (pathHasHistoricalValues) {
       this.generateReport();
     }
@@ -93,13 +113,42 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       'startDate': this.startDate.toUTCString(),
       'gender': (this.gender ? this.gender : 'F,M' as any),
       'startAge': (this.startAge as any),
-      'endAge': (this.endAge as any),
+      'endAge': this.endAge ? (this.endAge as any) : null,
       'programUuids': (this.programs as any),
-      'stateUuids': (this.states as any)
+      'stateUuids': (this.states as any),
+      'providerUuids': (this.provider as any),
+      'locationUuids': (this.locationUuids as any)
     };
+
+    if (!this.states) {
+      delete path.queryParams['stateUuids'];
+    }
+    if (!this.programs) {
+      delete path.queryParams['programUuids'];
+    }
+    if (!this.startAge) {
+      delete path.queryParams['startAge'];
+    }
+    if (!this.endAge) {
+      delete path.queryParams['endAge'];
+    }
+    if (!this.provider) {
+      delete path.queryParams['providerUuids'];
+    }
+    if (!this.gender) {
+      delete path.queryParams['gender'];
+    }
     this.location.replaceState(path.toString());
   }
+  public getLocationsSelected() {
+    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+      (data)  => {
+        if (data) {
+          this.locationUuids = data.locations;
+        }
 
+      });
+  }
   public formatGenderToSelectArray(genderParam: string) {
 
     if (genderParam.length > 1) {
@@ -143,4 +192,5 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
       return (word.charAt(0) + word.slice(1));
     }).join(' ');
   }
+
 }

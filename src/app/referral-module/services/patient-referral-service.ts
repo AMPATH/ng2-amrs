@@ -9,14 +9,12 @@ import { Patient } from '../../models/patient.model';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { ProgramReferralResourceService } from '../../etl-api/program-referral-resource.service';
 import {
-    ReferralProviderResourceService
-} from '../../etl-api/referral-provider-resource.service';
-import {
     ProviderResourceService
 } from '../../openmrs-api/provider-resource.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { ProgramsTransferCareService
 } from '../../patient-dashboard/programs/transfer-care/transfer-care.service';
+import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
 
 @Injectable()
 export class PatientReferralService {
@@ -26,7 +24,7 @@ export class PatientReferralService {
               private encounterResourceService: EncounterResourceService,
               private providerResourceService: ProviderResourceService,
               private programsTransferCareService: ProgramsTransferCareService,
-              private referralResourceService: ReferralProviderResourceService) {
+              private patientReferralResourceService: PatientReferralResourceService) {
 
   }
 
@@ -67,24 +65,6 @@ export class PatientReferralService {
     return subject;
   }
 
-public getReferalProviders(locationUuid, providerUuids, stateUuids, startIndex, limit) {
-        let referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-        let referralObservable = this.referralResourceService.getReferralProviders(locationUuid,
-        providerUuids, stateUuids,
-        startIndex, limit);
-
-        if (referralObservable === null) {
-            throw new Error('Null referral provider observable');
-        } else {
-            referralObservable.subscribe(
-                (referrals) => {
-                    console.log(referrals);
-                    referralInfo.next(referrals.result);
-                 });
-        }
-        return referralInfo.asObservable();
-    }
-
   public getUserProviderDetails(user: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (user && user.person) {
@@ -118,6 +98,32 @@ public getReferalProviders(locationUuid, providerUuids, stateUuids, startIndex, 
 
   public pickEncountersByLastFilledDate(encounters: any[], date: any) {
     return this.programsTransferCareService.pickEncountersByLastFilledDate(encounters, date);
+  }
+
+  public getProviderReferralPatientList(params: any) {
+    let referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    let referralObservable = this.patientReferralResourceService.getPatientReferralPatientList({
+      endDate: params.endDate,
+      locationUuids: params.locationUuids,
+      startDate: params.startDate,
+      startAge: params.startAge,
+      endAge: params.endAge,
+      gender: params.gender,
+      programUuids: params.programUuids,
+      stateUuids: params.stateUuid,
+      providerUuids: params.provider,
+      startIndex: params.startIndex,
+    });
+
+    if (referralObservable === null) {
+      throw new Error('Null referral provider observable');
+    } else {
+      referralObservable.subscribe(
+          (referrals) => {
+              referralInfo.next(referrals);
+           });
+  }
+    return referralInfo.asObservable();
   }
 
   private toOpenmrsDateFormat(dateToConvert: any): string {

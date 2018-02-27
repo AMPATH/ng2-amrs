@@ -19,9 +19,6 @@ import { ProgramEnrollmentResourceService
 import { PatientReferralService } from './services/patient-referral-service';
 import { PatientReferralVisitComponent } from './components/visit/patient-referral-visit.component';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
-import {
-    ReferralProviderResourceService
-} from '../etl-api/referral-provider-resource.service';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { DialogModule } from 'primeng/primeng';
 import { EnrollmentManagerComponent
@@ -30,7 +27,19 @@ import { EnrollmentManagerFormWizardComponent
 } from './components/enrollment-manager/enrollment-manager-form-wizard.component';
 import { PatientService } from '../patient-dashboard/services/patient.service';
 import { EnrollementWorkflowService } from './services/enrollment-workflow-service';
-
+import { ProviderReferralComponent } from './components/provider/provider-referral.component';
+import { ProviderDashboardFiltersComponent
+} from '../provider-dashboard/dashboard-filters/provider-dashboard-filters.component';
+import { SelectModule } from 'ng2-select';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { AgGridModule } from 'ag-grid-angular';
+import { TabViewModule } from 'primeng/components/tabview/tabview';
+import {
+  PatientReferralBaseComponent
+} from './patient-referral/patient-referral-report-base.component';
+import {
+  PatientReferralTabularComponent
+} from './patient-referral/patient-referral-tabular.component';
 @NgModule({
   imports: [
     RouterModule.forChild([]),
@@ -38,6 +47,10 @@ import { EnrollementWorkflowService } from './services/enrollment-workflow-servi
     FormsModule,
     NgamrsSharedModule,
     DataListsModule,
+    DateTimePickerModule,
+    SelectModule,
+    AgGridModule.withComponents([]),
+    TabViewModule,
     DialogModule
   ],
   exports: [
@@ -46,14 +59,17 @@ import { EnrollementWorkflowService } from './services/enrollment-workflow-servi
     PatientReferralVisitComponent,
     EnrollmentManagerComponent,
     EnrollmentManagerFormWizardComponent,
-    ReferralProviderComponent],
+    PatientReferralBaseComponent,
+    PatientReferralTabularComponent,
+    ProviderReferralComponent],
   declarations: [
     PatientReferralContainerComponent,
     EnrollmentManagerComponent,
     EnrollmentManagerFormWizardComponent,
     PatientReferralItemComponent,
     PatientReferralVisitComponent,
-    ReferralProviderComponent],
+    ProviderDashboardFiltersComponent,
+    ProviderReferralComponent],
   providers: [
     ProgramEnrollmentResourceService,
     ProgramReferralResourceService,
@@ -62,8 +78,7 @@ import { EnrollementWorkflowService } from './services/enrollment-workflow-servi
     PatientService,
     EnrollementWorkflowService,
     NgSwitch,
-    ProgramWorkFlowStateResourceService,
-    ReferralProviderResourceService],
+    ProgramWorkFlowStateResourceService]
 
 })
 export class ReferralModule {

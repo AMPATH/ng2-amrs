@@ -8,7 +8,7 @@ import {
   MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MdSnackBarModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
-import { SelectModule } from 'angular2-select';
+import { SelectModule as Angular2SelectModule } from 'angular2-select';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
@@ -49,6 +49,7 @@ import { ProgramEnrollmentComponent
 } from '../patient-dashboard/programs/program-enrollment.component';
 import { ProgramsComponent } from '../patient-dashboard/programs/programs.component';
 import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
+import { ReportFiltersComponent } from './report-filters/report-filters.component';
 
 @NgModule({
   imports: [
@@ -82,7 +83,7 @@ import { FormListComponent } from '../patient-dashboard/common/forms/form-list.c
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
-    SelectModule,
+    Angular2SelectModule,
     MdTabsModule,
     ConfirmDialogModule, DialogModule,
     MdSnackBarModule
@@ -91,14 +92,14 @@ import { FormListComponent } from '../patient-dashboard/common/forms/form-list.c
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, BusyComponent, UnenrollPatientProgramsComponent,
     ProgramsContainerComponent, ProgramsComponent,
-    ProgramEnrollmentComponent, FormListComponent,
+    ProgramEnrollmentComponent, FormListComponent, ReportFiltersComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, ProgramsComponent,
     ProgramsContainerComponent, FormListComponent,
-    ProgramEnrollmentComponent,
+    ProgramEnrollmentComponent, ReportFiltersComponent,
     OnlineTrackerComponent, ToastComponent, BusyComponent, UnenrollPatientProgramsComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
   ],

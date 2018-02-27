@@ -100,32 +100,25 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         this.sectionsDef =   data.indicatorDefinitions;
 
         this.data = data.result;
-        console.log('this.data hiv', this.data);
       }, (error) => {
         this.isLoadingReport = false;
         this.errorMessage = error;
         this.encounteredError = true;
       });
   }
-  /*getAgeRange($event) {
-     this.startAge = $event.from;
-     this.endAge = $event.to;
-   }*/
+
   public onAgeChangeFinished($event) {
-   /* _.extend(this.filterModel, data);
-    this.filterModelChange.emit(this.filterModel);*/
     this.startAge = $event.ageFrom;
     this.endAge = $event.ageTo;
   }
   public getSelectedGender(selectedGender) {
-    // console.log('selectedGender', selectedGender);
     let gender;
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
-          gender = '' + selectedGender[i].id;
+          gender = '' + selectedGender[i];
         } else {
-          gender = gender + ',' + selectedGender[i].id;
+          gender = gender + ',' + selectedGender[i];
         }
       }
     }
@@ -136,19 +129,14 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     if (selectedIndicator) {
       for (let i = 0; i < selectedIndicator.length; i++) {
         if (i === 0) {
-          indicators = '' + selectedIndicator[i].id;
+          indicators = '' + selectedIndicator[i];
         } else {
-          indicators = indicators + ',' + selectedIndicator[i].id;
+          indicators = indicators + ',' + selectedIndicator[i];
         }
       }
     }
     return this.indicators = indicators;
   }
-/*  getLocations(locs) {
-     this.locationUuids = locs.locations;
-     this.dataAnalyticsDashboardService.setSelectedLocations(this.locationUuids);
-
-  }*/
   public onTabChanged(event) {
     if (event.index === 0) {
       this.currentView = 'tabular';
