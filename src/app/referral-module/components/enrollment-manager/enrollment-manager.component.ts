@@ -94,7 +94,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
     } else {
       let targetState: any = this.state;
       if (this.state.type === 'transferIn' || this.state.type === 'referIn') {
-        targetState = this._getSpecificStateByUuid('e517d6e2-6236-42db-9f71-0b6270c6cfa9');
+        targetState = this._getSpecificStateByConceptUuid('e517d6e2-6236-42db-9f71-0b6270c6cfa9');
         targetState.type = this.state.type;
         this.location = (this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject())
           .uuid;
@@ -180,13 +180,13 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
     let targetState: any = this.state;
     let program = this.program.programUuid;
     if (this.state.type === 'switchProgram') {
-      targetState = this._getSpecificStateByUuid('e517d6e2-6236-42db-9f71-0b6270c6cfa9');
+      targetState = this._getSpecificStateByConceptUuid('e517d6e2-6236-42db-9f71-0b6270c6cfa9');
       targetState.type = 'switchProgram';
       program = this.newProgram;
     }
 
     if (this.state.type === 'transferOut') {
-      targetState = this._getSpecificStateByUuid('56003eb5-d300-457d-badb-371e030e2580');
+      targetState = this._getSpecificStateByConceptUuid('56003eb5-d300-457d-badb-371e030e2580');
       targetState.type = 'transferOut';
     }
 
@@ -203,7 +203,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _getSpecificStateByUuid(uuid: string) {
+  private _getSpecificStateByConceptUuid(uuid: string) {
     let states = (_.first(this.program.program.openmrsModel.allWorkflows) as any).states;
     return _.first(_.filter(states, (state) => state.concept.uuid === uuid));
   }
