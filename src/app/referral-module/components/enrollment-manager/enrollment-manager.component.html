@@ -9,7 +9,9 @@
     </div>
   </div>
 </div>
-<program-enrollment *ngIf="!showFormWizard" (onManageProgram)="manageProgram($event)"></program-enrollment>
+<program-enrollment *ngIf="!showFormWizard"
+                    (onManageProgram)="manageProgram($event)"
+                    [onReloadPrograms]="onReloadPrograms"></program-enrollment>
 <program-enrollment-manager-form-wizard *ngIf="showFormWizard && stateChangeForms.length > 0"
                                         [forms]="stateChangeForms"
                                         (onFormsCompleted) = "formsCompleted($event)"
@@ -87,11 +89,23 @@
       <form>
         <div class="panel panel-success" *ngIf="newEnrollment && modalProcessOnSuccess">
           <div class="panel-heading">
-            <h5>
+            <h5 *ngIf="state.type === 'referredBack'">
               <strong class="text-success">
                 <i class="fa fa-check-circle-o fa-2x"></i>
               </strong>The patient has been referred back to <strong>{{newEnrollment.location.display}}</strong>
-              on <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
+              since <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
+            </h5>
+            <h5 *ngIf="state.type === 'transferOut'">
+              <strong class="text-success">
+                <i class="fa fa-check-circle-o fa-2x"></i>
+              </strong>The patient has been transfered out to <strong>{{newEnrollment.location.display}}</strong>
+              from <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
+            </h5>
+            <h5 *ngIf="state.type === 'pendingTransfer'">
+              <strong class="text-success">
+                <i class="fa fa-check-circle-o fa-2x"></i>
+              </strong>The patient is now pending transfer to <strong>{{newEnrollment.location.display}}</strong>
+              since <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
             </h5>
           </div>
         </div>

@@ -1,9 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PatientService } from '../services/patient.service';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import * as _ from 'lodash';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import { Patient } from '../../models/patient.model';
 
 @Component({
   selector: 'program-enrollment',
@@ -11,8 +14,10 @@ import { UserDefaultPropertiesService
 })
 export class ProgramEnrollmentComponent implements OnInit {
   @Output() public onManageProgram: EventEmitter<any> = new EventEmitter();
+  @Input() public onReloadPrograms: Subject<boolean>;
   public loadingPatientPrograms: boolean = false;
   public enrolledPrograms: ProgramEnrollment[];
+  private patient: Patient;
   constructor(private patientService: PatientService,
               private userDefaultPropertiesService: UserDefaultPropertiesService) {}
 
@@ -46,13 +51,28 @@ export class ProgramEnrollmentComponent implements OnInit {
   }
 
   private _init() {
+    this.onReloadPrograms.subscribe((reload) => {
+      console.log('reload', reload);
+      if (reload) {
+        this.patientService.fetchPatientByUuid(this.patient.uuid);
+      }
+    });
     this.loadingPatientPrograms = true;
     this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         if (patient) {
           this.loadingPatientPrograms = false;
+          this.patient = patient;
           this.enrolledPrograms = _.filter(patient.enrolledPrograms, 'isEnrolled');
         }
       }
     );
+  }
+
+  private _programEnrolledInCurrentLocation(program) {
+    let currentLocation = (this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject())
+      .uuid;
+    let programLocation = program.location.uuid;
+
+    return currentLocation === programLocation;
   }
 }

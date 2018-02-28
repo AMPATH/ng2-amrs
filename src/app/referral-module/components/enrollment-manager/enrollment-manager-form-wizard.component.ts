@@ -102,14 +102,15 @@ export class EnrollmentManagerFormWizardComponent implements OnInit, OnDestroy {
                 this.patientReferralService.pickEncountersByLastFilledDate(encounters,
                   new Date());
             let formsToFill = _.map(this.forms, 'uuid');
-            let unfilledForms = this.forms;
+            let unfilledForms = _.map(this.forms, 'uuid');
             if (lastFilledEncounters.length > 0) {
-              unfilledForms = _.filter(formsToFill, (form) => {
+              unfilledForms = _.map(_.filter(formsToFill, (form) => {
                 return !_.includes(lastFilledEncounters, form);
-              });
+              }), 'uuid');
             }
             this.hasForms = unfilledForms.length > 0;
             this.excludedForms = _.xor(unfilledForms, encounterTypeUuids);
+            this.encounterForms = unfilledForms;
             this.isBusy = false;
             let totalFilledForms = _.intersection(formsToFill, lastFilledEncounters);
             this.allFormsFilled = formsToFill.length === totalFilledForms.length;
