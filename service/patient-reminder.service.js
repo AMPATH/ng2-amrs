@@ -20,7 +20,7 @@ function viralLoadReminders(data) {
 
     let labMessage = 'Last viral load: none';
     if (data.last_vl_date) {
-        labMessage = 'Last viral load: ' + data.viral_load + ' on ' +
+        labMessage = 'Last viral load: ' + transformZeroVl(data.viral_load) + ' on ' +
             '(' + Moment(data.last_vl_date).format('DD-MM-YYYY') + ')' + ' ' +
             data.months_since_last_vl_date + ' months ago.';
     }
@@ -73,7 +73,7 @@ function qualifiesDifferenciatedReminders(data){
     let reminders = [];
     let diffMessage = '';
     if (data.qualifies_differenciated_care) {
-        diffMessage = 'Last viral load: ' + data.viral_load + ' on ' +
+        diffMessage = 'Last viral load: ' + transformZeroVl(data.viral_load) + ' on ' +
             '(' + Moment(data.last_vl_date).format('DD-MM-YYYY') + ')' + ' ' +
             data.months_since_last_vl_date + ' months ago.';
     }
@@ -175,7 +175,7 @@ function newViralLoadPresent(data) {
     let reminders = [];
     if (data.new_viral_load_present) {
         reminders.push({
-            message: 'New viral load result: ' + data.viral_load + ' (collected on ' +
+            message: 'New viral load result: ' + transformZeroVl(data.viral_load) + ' (collected on ' +
             Moment(data.last_vl_date).format('DD-MM-YYYY') + ').',
             title: 'New Viral Load present',
             type: 'success',
@@ -243,6 +243,18 @@ function generateReminders(etlResults, eidResults) {
   
   patientReminder.reminders = reminders;
   return patientReminder;
+}
+
+function transformZeroVl(vl){
+
+    // VL OF Zero to be shown as LDL
+
+    if(vl === 0 || vl === '0'){
+        return 'LDL';
+    }else{
+       return vl;
+    } 
+
 }
 
 
