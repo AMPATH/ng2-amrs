@@ -11,8 +11,11 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 
 describe('Service: ProgramsTransferCareService', () => {
   let service: ProgramsTransferCareService;
@@ -61,6 +64,7 @@ describe('Service: ProgramsTransferCareService', () => {
         LocalStorageService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
+        EncounterResourceService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,

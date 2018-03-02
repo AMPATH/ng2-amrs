@@ -4,11 +4,14 @@ import { RouterModule } from '@angular/router';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import {
   MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MdSnackBarModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
 import { SelectModule as Angular2SelectModule } from 'angular2-select';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
@@ -21,7 +24,6 @@ import { OnlineTrackerComponent } from '../online-tracker';
 import { BuildVersionComponent } from '../build-version';
 import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { FormsModule } from '@angular/forms';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -80,6 +82,7 @@ import { ReportFiltersComponent } from './report-filters/report-filters.componen
     RouterModule,
     Ng2Bs3ModalModule,
     Ng2PaginationModule,
+    DateTimePickerModule,
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,

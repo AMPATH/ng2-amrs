@@ -228,6 +228,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
         let params = this.getRequestParams(this.providerUuid,
            selectedLocationUuid, startDate, endDate);
+        console.log( params);
         this.referralSubscription = this.referralService.getProviderReferralPatientList(params)
           .subscribe(
             (referralData) => {

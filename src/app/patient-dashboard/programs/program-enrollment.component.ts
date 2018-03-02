@@ -52,7 +52,6 @@ export class ProgramEnrollmentComponent implements OnInit {
 
   private _init() {
     this.onReloadPrograms.subscribe((reload) => {
-      console.log('reload', reload);
       if (reload) {
         this.patientService.fetchPatientByUuid(this.patient.uuid);
       }

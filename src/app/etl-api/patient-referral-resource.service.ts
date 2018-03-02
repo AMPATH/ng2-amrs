@@ -57,7 +57,8 @@ export class PatientReferralResourceService {
         return response.json();
       });
 
-    return this.cacheService.cacheRequest(url, urlParams, request);
+    this.cacheService.cacheRequest(url, urlParams, request);
+    return request;
 
   }
 
@@ -75,7 +76,6 @@ export class PatientReferralResourceService {
       search: urlParams
     })
       .map((response: Response) => {
-        console.log('response.json()response.json()', response.json());
         return response.json().result;
       });
 

@@ -149,21 +149,15 @@
             </h5>
           </div>
         </div>
-        <div class="row" style="position: relative;" *ngIf="!modalProcessOnSuccess">
+        <div class="row" style="position: relative;" *ngIf="availableProgramsOptions && !modalProcessOnSuccess">
           <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
           <div class="col-md-12 col-xs-12 col-sm-12">
-            <label for="programs">Select Program:</label>
-            <div>
-              <select name="newProgram" class="form-control" id="programs" [(ngModel)]="newProgram"
-                      (ngModelChange)="onProgramChange($event)" type="date">
-                <option value=""></option>
-                <ng-container *ngFor="let row of this.patient.enrolledPrograms">
-                  <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
-                    {{row.program.display}}
-                  </option>
-                </ng-container>
-              </select>
-            </div>
+            <label for="program">Select Program:</label>
+            <ng-select [multiple]="false" id="program" name="newProgram"
+                       [placeholder]="'Select a program...'"
+                       (selected)="onProgramChange($event)"
+                       [(ngModel)]="newProgram" [options]="availableProgramsOptions">
+            </ng-select>
           </div>
         </div>
         <div *ngIf="inputError">

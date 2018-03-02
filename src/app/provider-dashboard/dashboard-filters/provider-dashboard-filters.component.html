@@ -25,12 +25,12 @@
                               (onDateChange)="updateEndDate($event)"></date-time-picker>
                             </div>
                             <div>
-                  
+
                             </div>
                           </div>
                           <div class="clear-fix clear"></div>
                         </div>
-                  
+
                         <div >
                           <div class="form-group col-md-6" >
                             <label for="program">Program </label>
@@ -38,7 +38,7 @@
                               <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
                               <ng-select [multiple]="true" id="program"
                                          [placeholder]="'Select desired Program(s) or type to search...'"
-                                         [(ngModel)]="selectedPrograms" [items]="programOptions" (active)="selectedPrograms">
+                                         [(ngModel)]="selectedPrograms" [options]="programOptions" (active)="selectedPrograms">
                               </ng-select>
                               <div class="input-group-addon" (click)="selectAllPrograms()" style="cursor: pointer;">
                                 <div>
@@ -47,7 +47,7 @@
                                   <span *ngIf="!selectedProgramTagsSelectedAll" >Select All</span>
                                   <span *ngIf="selectedProgramTagsSelectedAll">Select None</span>
                                 </div>
-                  
+
                               </div>
                             </div>
                           </div>
@@ -57,7 +57,7 @@
                               <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
                               <ng-select [multiple]="true" id="states"
                                          [placeholder]="'Select desired State(s) or type to search...'"
-                                         [(ngModel)]="selectedStates" [items]="statesOptions" (active)="selectedStates">
+                                         [(ngModel)]="selectedStates" [options]="statesOptions" (active)="selectedStates">
                               </ng-select>
                               <div class="input-group-addon" (click)="selectAllStates()" style="cursor: pointer;">
                                 <div>
@@ -66,7 +66,7 @@
                                   <span *ngIf="!selectedStatesTagsSelectedAll" >Select All</span>
                                   <span *ngIf="selectedStatesTagsSelectedAll">Select None</span>
                                 </div>
-                  
+
                               </div>
                             </div>
                           </div>
@@ -79,6 +79,5 @@
                       <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
                       <!--[disabled]="(selectedIndicators.length === 0 ||selectedPrograms.length === 0) ? !disableGenerateButton : disableGenerateButton"-->
                     </div>
-                  
+
                   </div>
-                  

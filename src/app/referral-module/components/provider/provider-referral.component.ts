@@ -138,6 +138,10 @@ export class ProviderReferralComponent extends PatientReferralBaseComponent
     if (!this.gender) {
       delete path.queryParams['gender'];
     }
+
+    if (!this.locationUuids) {
+      delete path.queryParams['locationUuids'];
+    }
     this.location.replaceState(path.toString());
   }
   public getLocationsSelected() {

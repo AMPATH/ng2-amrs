@@ -111,7 +111,7 @@ export class PatientReferralService {
       gender: params.gender,
       programUuids: params.programUuids,
       stateUuids: params.stateUuid,
-      providerUuids: params.provider,
+      providerUuids: params.providerUuids,
       startIndex: params.startIndex,
     });
 

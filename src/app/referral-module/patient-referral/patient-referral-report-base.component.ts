@@ -118,8 +118,8 @@ export class PatientReferralBaseComponent implements OnInit {
       }).subscribe(
       (data) => {
         this.isLoadingReport = false;
-        this.sectionsDef = data.stateNames;
-        this.data = data.groupedResult[0] ? data.groupedResult[0].programs : [];
+        this.sectionsDef = _.uniqBy(data.stateNames, 'name');
+        this.data = this.getProgramData(data);
 
       }, (error) => {
         this.isLoadingReport = false;
@@ -208,6 +208,15 @@ export class PatientReferralBaseComponent implements OnInit {
 
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
+  }
+
+  private getProgramData(data: any) {
+    let rowData = [];
+    _.forEach(data.groupedResult, (row) => {
+      rowData = rowData.concat(row.programs);
+    });
+
+    return rowData;
   }
 
 }

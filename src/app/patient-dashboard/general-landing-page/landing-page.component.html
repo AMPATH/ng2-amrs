@@ -94,18 +94,12 @@
       <div class="container-fluid">
         <div class="row" style="padding:4px">
           <div class="col-md-4 col-xs-12 col-sm-4 cell">
-            <label for="programs">Select Program:</label>
-            <div>
-              <select class="form-control" id="programs" [(ngModel)]="program"
-                      (change)="onProgramChange($event)" type="date">
-                <option value=""></option>
-                <ng-container *ngFor="let row of availablePrograms">
-                  <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
-                    {{row.program.display}}
-                  </option>
-                </ng-container>
-              </select>
-            </div>
+            <label for="program">Select Program:</label>
+            <ng-select [multiple]="false" id="program"
+                       [placeholder]="'Select a program...'"
+                       (selected)="onProgramChange($event)"
+                       [(ngModel)]="program" [options]="availableProgramsOptions">
+            </ng-select>
           </div>
           <div class="col-md-4 col-xs-12 col-sm-4 cell">
             <label for="enrolledDate">Date Enrolled:</label>
