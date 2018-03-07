@@ -472,7 +472,9 @@ export class HivPatientClinicalSummaryService {
                 width: 60,
                 bold: true,
               }, {
-                text: (patientHivSummary.vl_1 != null ? patientHivSummary.vl_1 : 'N/A').toString() +
+                text: (
+                  patientHivSummary.vl_1 != null ?
+                  this.transformZeroVl(patientHivSummary.vl_1) : 'N/A').toString() +
                 ' (' + this._formatDate(patientHivSummary.vl_1_date) + ')' || 'N/A',
                 width: '*',
                 alignment: 'left',
@@ -676,7 +678,8 @@ export class HivPatientClinicalSummaryService {
                 this._formatDate(labs.test_datetime) || 'N/A',
                 (labs.cd4_count != null ? labs.cd4_count : '').toString(),
                 (labs.cd4_percent != null ? labs.cd4_percent : '').toString(),
-                (labs.hiv_viral_load != null ? labs.hiv_viral_load : '').toString(),
+                (labs.hiv_viral_load != null ?
+                  this.transformZeroVl(labs.hiv_viral_load) : '').toString(),
                 (labs.cur_arv_meds != null ? labs.cur_arv_meds : '').toString()
               ]);
             }
@@ -761,7 +764,7 @@ export class HivPatientClinicalSummaryService {
                 bold: true,
               }, {
                 text: (clinicalNotes.lastViralLoad.value != null ?
-                  clinicalNotes.lastViralLoad.value : 'N/A').toString()
+                  this.transformZeroVl(clinicalNotes.lastViralLoad.value) : 'N/A').toString()
                 + ' (' + this._formatDate(clinicalNotes.lastViralLoad.date) + ')',
                 width: '*',
                 alignment: 'left',
@@ -1004,7 +1007,17 @@ export class HivPatientClinicalSummaryService {
     image.src = url;
   }
 
-  public constructor() {
+  private static transformZeroVl(vl) {
+
+    if (vl === 0 || vl === '0') {
+        return 'LDL';
+    }else {
+        return vl;
+    }
+ }
+
+  public constructor(
+  ) {
   }
 
   public generatePdf(data: any): Observable<any> {
