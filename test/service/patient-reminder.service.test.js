@@ -73,7 +73,7 @@ describe('Patient Reminder Service Unit Tests', function () {
                         },
                         {
                         "message": "Patient requires viral load. Patients on ART > 1 year" +
-                        " require a viral load test every year. Last viral load: 0 on" +
+                        " require a viral load test every year. Last viral load: LDL on" +
                         " (12-06-2014) 32 months ago.",
                         "title": "Viral Load Reminder",
                         "type": "danger",
