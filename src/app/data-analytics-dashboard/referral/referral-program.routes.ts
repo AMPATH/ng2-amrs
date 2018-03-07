@@ -1,8 +1,5 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-  PatientReferralContainerComponent
-} from '../../referral-care-lib/patient-referral.container.component';
 import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
 import { DataAnalyticsDashboardGuard } from '../data-analytics-guard';
 
@@ -17,12 +14,6 @@ const routes: Routes = [
       ],
       canDeactivate: [
         DataAnalyticsDashboardGuard
-      ],
-      children: [
-        {
-          path: 'referral',
-          component: PatientReferralContainerComponent
-        },
       ]
     }
     ]

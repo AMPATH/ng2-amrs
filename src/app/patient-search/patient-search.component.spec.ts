@@ -29,6 +29,21 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
 import { ProgramEnrollmentResourceService }
  from '../openmrs-api/program-enrollment-resource.service';
+import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../openmrs-api/program-workflow-state-resource.service';
+import { ProgramResourceService } from '../openmrs-api/program-resource.service';
+import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
+import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
+import { ProviderResourceService } from '../openmrs-api/provider-resource.service';
+import { PersonResourceService } from '../openmrs-api/person-resource.service';
+import { PatientReferralResourceService } from '../etl-api/patient-referral-resource.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache';
+import { IonicStorageModule } from '@ionic/storage';
+import { SpyLocation } from '@angular/common/testing';
+import { Location } from '@angular/common';
+import { PatientProgramResourceService } from '../etl-api/patient-program-resource.service';
 
 
 class MockRouter {
@@ -76,7 +91,8 @@ describe('Component: PatientSearch', () => {
       declarations: [PatientSearchComponent], // declare the test component
       imports: [
         FormsModule,
-        Ng2PaginationModule
+        Ng2PaginationModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         PatientSearchService,
@@ -94,10 +110,25 @@ describe('Component: PatientSearch', () => {
         SessionStorageService,
         ProgramService,
         ProgramEnrollmentResourceService,
+        ProgramResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
+        ProgramReferralResourceService,
+        EncounterResourceService,
+        ProviderResourceService,
+        PersonResourceService,
+        PatientReferralResourceService,
+        DataCacheService,
+        CacheService,
+        LocalStorageService,
+        CacheService,
+        DataCacheService,
+        PatientProgramResourceService,
+        Location,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
+                       defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]
@@ -106,6 +137,7 @@ describe('Component: PatientSearch', () => {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
+        { provide: Location, useClass: SpyLocation },
         { provide: Router, useClass: MockRouter },
         {
           provide: ActivatedRoute,
@@ -139,7 +171,6 @@ describe('Component: PatientSearch', () => {
     let router = fixture.debugElement.injector.get(MockRouter);
 
   });
-
 
   it('Should Instantiate Component', async(() => {
     expect(comp).toBeTruthy();

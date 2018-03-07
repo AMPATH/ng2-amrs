@@ -30,7 +30,7 @@ import {
 } from './hiv-summary-indicators/hiv-summary-report-base.component';
 import {
   ReportFiltersComponent
-} from './report-filters/report-filters.component';
+} from '../shared/report-filters/report-filters.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 import { ClinicFlowComponent } from './clinic-flow/clinic-flow.component';
 import { ClinicFlowHourlyStatsVizComponent
@@ -125,7 +125,6 @@ import {
     TabViewModule,
     NgamrsSharedModule,
     MOHReportComponent,
-    ReportFiltersComponent,
     HivSummaryTabularComponent,
     PatientsRequiringVLBaseComponent,
     PatientsRequiringVLReportFiltersComponent,
@@ -151,7 +150,6 @@ import {
     Moh731ReportFiltersComponent,
     MOHReportComponent,
     HivSummaryIndicatorBaseComponent,
-    ReportFiltersComponent,
     HivSummaryTabularComponent,
     PatientsRequiringVLBaseComponent,
     PatientsRequiringVLReportFiltersComponent,

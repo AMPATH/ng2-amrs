@@ -35,6 +35,7 @@ import { FormentryReferralsHandlerService } from './formentry-referrals-handler.
 import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-formentry',
@@ -55,7 +56,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public referralPrograms: string[] = [];
   public showSuccessDialog: boolean = false;
   public showReferralDialog: boolean = false;
-  public referralCompleteStatus: Subject<boolean> = new Subject();
+  public referralCompleteStatus: BehaviorSubject<boolean> = new BehaviorSubject(null);
   public patient: Patient = null;
   public submitClicked: boolean = false;
   public submittedOrders: any = {
@@ -65,6 +66,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public submittedEncounter: any;
   public diffCareReferralStatus: any = undefined;
   public transferCareForm: string = null;
+  public programEncounter: string = null;
   public encounterLocation: string;
   private subscription: Subscription;
   private encounterUuid: string = null;
@@ -109,6 +111,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       componentRef.visitUuid = params['visitUuid'];
       componentRef.encounterUuid = params['encounter'];
       componentRef.transferCareForm = params['transferCareEncounter'];
+      componentRef.programEncounter = params['programEncounter'];
       if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
         componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
@@ -221,6 +224,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.patient.uuid + '/general/general/programs/transfer-care/forms']);
         }
         break;
+      case 'enrollmentManager':
+        this.preserveFormAsDraft = false;
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/general/programs/enrollment-manager']);
+        break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient-search'], {
@@ -297,6 +305,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
           }
         });
       }
+    } else {
+      this.referralCompleteStatus.next(false);
     }
   }
 
@@ -664,7 +674,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
       document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
 
     }
-
   }
 
   private enableSubmitBtn() {
@@ -704,7 +713,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
     this.referralCompleteStatus.subscribe((success) => {
-      let referralsData = this.referralsHandler.extractRequiredValues(this.form);
+
+      /*let referralsData = this.referralsHandler.extractRequiredValues(this.form);
       this.diffCareReferralStatus = undefined;
 
       if (referralsData.hasDifferentiatedCareReferal) {
@@ -738,7 +748,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else {
         // display success dialog
         this.showSuccessDialog = true;
-      }
+      }*/
+      this.showSuccessDialog = true;
     });
   }
 

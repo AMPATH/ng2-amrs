@@ -51,9 +51,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
     GrowlModule, PanelModule
   ],
   exports: [
-    HivLandingPageComponent,
     HivPatientClinicalSummaryComponent,
-    HivProgramSnapshotComponent,
     HivSummaryComponent,
     HivSummaryHistoricalComponent,
     HivSummaryLatestComponent,
@@ -61,9 +59,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
     PatientMonthlyStatusComponent,
     PreviousVisitComponent],
   declarations: [
-    HivLandingPageComponent,
     HivPatientClinicalSummaryComponent,
-    HivProgramSnapshotComponent,
     HivSummaryComponent,
     HivSummaryHistoricalComponent,
     HivSummaryLatestComponent,

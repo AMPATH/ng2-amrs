@@ -30,6 +30,10 @@ import { ProgramsTransferCareComponent } from './programs/transfer-care/transfer
 import { ProgramsTransferCareFormWizardGuard
 } from './programs/transfer-care/transfer-care-forms.guard';
 import { ProgramEnrollmentComponent } from './programs/program-enrollment.component';
+import { EnrollmentManagerComponent
+} from '../referral-module/components/enrollment-manager/enrollment-manager.component';
+import { EnrollmentManagerFormWizardComponent
+} from '../referral-module/components/enrollment-manager/enrollment-manager-form-wizard.component';
 
 export const routes = [
   {
@@ -95,11 +99,22 @@ export const routes = [
             children: [
               {
                 path: '',
-                redirectTo: 'new-enrollment', pathMatch: 'full'
+                redirectTo: 'enrollment-manager', pathMatch: 'full'
               },
               {
-                path: 'new-enrollment',
-                component: ProgramEnrollmentComponent
+                path: 'enrollment-manager',
+                children: [
+                  {
+                    path: '',
+                    component: EnrollmentManagerComponent,
+                    canActivate: []
+                  },
+                  {
+                    path: 'forms',
+                    component: EnrollmentManagerFormWizardComponent,
+                    canDeactivate: []
+                  }
+                ]
               },
               {
                 path: 'enrollment-history',

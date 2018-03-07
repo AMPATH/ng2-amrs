@@ -10,9 +10,9 @@ import {
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { patientReferralProgramRouting } from './patient-referral-program.routes';
-import { ReferralCareLibModule }  from '../../referral-care-lib/referral-care-lib.module';
 import { PatientReferralComponent } from './patient-referral.component';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
+import { ReferralModule } from '../../referral-module/referral-module';
 
 @NgModule({
   imports: [
@@ -26,8 +26,8 @@ import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    ReferralCareLibModule,
-    HivCareLibModule
+    HivCareLibModule,
+    ReferralModule
   ],
   exports: [
     PatientReferralComponent

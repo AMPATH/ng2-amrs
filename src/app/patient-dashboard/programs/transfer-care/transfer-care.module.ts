@@ -40,7 +40,6 @@ import { FormListComponent } from '../../common/forms/form-list.component';
   declarations: [
     ProgramsTransferCareFormWizardComponent,
     TransferCareDialogComponent,
-    FormListComponent,
     ProgramsTransferCareComponent
   ],
   providers: [
@@ -55,7 +54,6 @@ import { FormListComponent } from '../../common/forms/form-list.component';
   exports: [
     ProgramsTransferCareFormWizardComponent,
     TransferCareDialogComponent,
-    FormListComponent,
     ProgramsTransferCareComponent,
   ]
 })

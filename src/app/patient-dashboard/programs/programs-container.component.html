@@ -1,14 +1,14 @@
 <div class="programs-container">
   <nav mat-tab-nav-bar>
-    <a mat-tab-link [routerLink]="'new-enrollment'"
+    <a mat-tab-link [routerLink]="'enrollment-manager'"
        routerLinkActive #rla="routerLinkActive"
-       [class.active]="rla.isActive">New Enrollment</a>
-            <a mat-tab-link [routerLink]="'transfer-care'"
-                           routerLinkActive #rlb="routerLinkActive"
-                           [class.active]="rlb.isActive">Transfer Care</a>
+       [class.active]="rla.isActive">Manage Enrollments</a>
+    <a mat-tab-link [routerLink]="'transfer-care'"
+       routerLinkActive #rlb="routerLinkActive"
+       [class.active]="rlb.isActive">Transfer Care</a>
     <a mat-tab-link [routerLink]="'enrollment-history'"
        routerLinkActive #rlc="routerLinkActive"
        [class.active]="rlc.isActive">Enrollment History</a>
-          </nav>
-       <router-outlet></router-outlet>
+  </nav>
+  <router-outlet></router-outlet>
 </div>

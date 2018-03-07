@@ -125,7 +125,6 @@ import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { LabOrderSearchModule } from '../../lab-order-search/lab-order-search.module';
 import { PatientSearchModule } from '../../patient-search/patient-search.module';
 import { PatientProgramService } from '../programs/patient-programs.service';
-import { BusyComponent } from '../../shared/busy-loader/busy.component';
 import { FormentryReferralsHandlerService } from './formentry/formentry-referrals-handler.service';
 import { PatientReferralsModule } from './patient-referrals/patient-referrals.module';
 import { VisitDetailsComponent } from './visit/visit-details/visit-details.component';
@@ -189,7 +188,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
   ],
   exports: [
     PatientInfoComponent,
-    BusyComponent,
     PatientEncountersComponent,
     PatientEncounterObservationsComponent,
     PatientVitalsComponent,
@@ -231,7 +229,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
-    UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
@@ -239,7 +236,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
-    BusyComponent,
     PatientEncountersComponent,
     PatientEncounterObservationsComponent,
     PatientVitalsComponent,
@@ -281,7 +277,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
-    UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,

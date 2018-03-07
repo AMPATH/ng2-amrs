@@ -74,7 +74,7 @@ describe('Service: ProgramWorkFlowStateResourceService', () => {
       mockBackend.connections.subscribe((conn) => {
         expect(conn.request.url)
           .toBe('http://example.url.com/ws/rest/v1/workflow/uuid/state?v=' +
-            'custom:(uuid,concept:(uuid,display))');
+            'custom:(uuid,initial,terminal,concept:(uuid,display))');
         expect(conn.request.method).toBe(RequestMethod.Get);
         conn.mockRespond(new Response(
           new ResponseOptions({body: JSON.stringify(programWorkFlowStateResponse)})));

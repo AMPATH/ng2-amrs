@@ -1,0 +1,181 @@
+<div *ngIf="hasError" class="panel panel-danger" style="margin:2px; box-shadow:none;">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h5>
+        <strong class="text-danger">
+          <i class="fa fa-exclamation-triangle"></i>
+        </strong>This program is not correctly configured in ETL. Please configure the program correctly first
+      </h5>
+    </div>
+  </div>
+</div>
+<program-enrollment *ngIf="!showFormWizard"
+                    (onManageProgram)="manageProgram($event)"
+                    [onReloadPrograms]="onReloadPrograms"></program-enrollment>
+<program-enrollment-manager-form-wizard *ngIf="showFormWizard && stateChangeForms.length > 0"
+                                        [forms]="stateChangeForms"
+                                        (onFormsCompleted) = "formsCompleted($event)"
+                                        [patient]="patient">
+
+</program-enrollment-manager-form-wizard>
+<p-dialog *ngIf="state" styleClass="enrollment-dialog" header="Manage Program Enrollment" width="80%" [(visible)]="showModal" modal="true" appendTo="body">
+    <div *ngIf="state.type === 'referred' || state.type === 'referOut'" class="panel panel-info" style="margin:2px; box-shadow:none;">
+      <div class="panel-body_">
+        <form>
+            <div class="panel panel-info" *ngIf="patientOnReferral">
+              <div class="panel-heading">
+                <h5>
+                  <strong class="text-info" style="padding-bottom: 12px;">
+                  <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle-thin fa-stack-2x"></i>
+                      <i class="fa fa-info fa-stack-1x"></i>
+                  </span>
+                  </strong>
+                  This patient was referred to <strong>{{program.enrolledProgram.location.display}}</strong>
+                  in <strong>{{program.dateEnrolled}}</strong> for this program.
+                  <span *ngIf="currentWorkflowState">The current state of referral is <strong>{{currentWorkflowState}}</strong> </span>
+                </h5>
+                <div style="text-align: right;" class="buttons">
+                  <button class="btn btn-danger" (click)="undoReferral()" type="button">Change</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-success" *ngIf="newEnrollment && modalProcessOnSuccess">
+              <div class="panel-heading">
+                <h5>
+                  <strong class="text-success">
+                    <i class="fa fa-check-circle-o fa-2x"></i>
+                  </strong>The patient has been referred <span *ngIf="state.type === 'referOut'">out</span> to <strong>{{newEnrollment.location.display}}</strong>
+                  on <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> for <strong>{{newEnrollment.program.name}}</strong> successfully.
+                  <span>The current state of referral is <strong>{{newEnrollment.states[0].state.concept.display}}</strong> </span>
+                </h5>
+              </div>
+            </div>
+            <div class="row" style="position: relative;" *ngIf="!patientOnReferral && !modalProcessOnSuccess">
+              <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+              <div class="col-md-12 col-xs-12 col-sm-12">
+                <label>Refer To</label>
+                <location-filter class="no-padding" [showLabel]="false"
+                                 (onLocationChange)="getSelectedLocation($event); false"
+                                 [disable-county]="true"></location-filter>
+              </div>
+              <div class="col-md-12 col-xs-12 col-sm-12">
+                <label>Reason</label>
+                <textarea name="referralReason" class="form-control" [(ngModel)]="referralReason"
+                          cols="40" rows="4"></textarea>
+              </div>
+            </div>
+            <div *ngIf="inputError">
+              <h5 class="text-danger">
+                <strong>
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-warning fa-stack-1x"></i>
+					</span>
+                  {{inputError}}
+                </strong>
+              </h5>
+            </div>
+        </form>
+      </div>
+      <div class="panel-footer">
+        <button class="btn btn-danger" (click)="cancelProcess()" type="button">Cancel</button>
+        <button *ngIf="!modalProcessOnSuccess && !patientOnReferral" class="btn btn-primary" (click)="referPatient()" type="button">Refer</button>
+        <button *ngIf="modalProcessOnSuccess || patientOnReferral" class="btn btn-success" (click)="closeDialog()" type="button">Close</button>
+      </div>
+    </div>
+  <div *ngIf="state.type === 'referredBack' || state.type === 'transferOut' || state.type === 'pendingTransfer'"
+       class="panel panel-info" style="margin:2px; box-shadow:none;">
+    <div class="panel-body_">
+      <form>
+        <div class="panel panel-success" *ngIf="newEnrollment && modalProcessOnSuccess">
+          <div class="panel-heading">
+            <h5 *ngIf="state.type === 'referredBack'">
+              <strong class="text-success">
+                <i class="fa fa-check-circle-o fa-2x"></i>
+              </strong>The patient has been referred back to <strong>{{newEnrollment.location.display}}</strong>
+              since <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
+            </h5>
+            <h5 *ngIf="state.type === 'transferOut'">
+              <strong class="text-success">
+                <i class="fa fa-check-circle-o fa-2x"></i>
+              </strong>The patient has been transfered out to <strong>{{newEnrollment.location.display}}</strong>
+              from <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
+            </h5>
+            <h5 *ngIf="state.type === 'pendingTransfer'">
+              <strong class="text-success">
+                <i class="fa fa-check-circle-o fa-2x"></i>
+              </strong>The patient is now pending transfer to <strong>{{newEnrollment.location.display}}</strong>
+              since <strong>{{newEnrollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> successfully.
+            </h5>
+          </div>
+        </div>
+        <div class="row" style="position: relative;" *ngIf="!modalProcessOnSuccess">
+          <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+          <div class="col-md-12 col-xs-12 col-sm-12">
+            <label>Location</label>
+            <location-filter class="no-padding" [showLabel]="false"
+                             (onLocationChange)="getSelectedLocation($event); false"
+                             [disable-county]="true"></location-filter>
+          </div>
+        </div>
+        <div *ngIf="inputError">
+          <h5 class="text-danger">
+            <strong>
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-warning fa-stack-1x"></i>
+					</span>
+              {{inputError}}
+            </strong>
+          </h5>
+        </div>
+      </form>
+    </div>
+    <div class="panel-footer">
+      <button class="btn btn-danger" (click)="cancelProcess()" type="button">Cancel</button>
+      <button *ngIf="!modalProcessOnSuccess && !patientOnReferral" class="btn btn-primary" (click)="completeLocationChangeProcess()" type="button">{{state.concept.display}}</button>
+      <button *ngIf="modalProcessOnSuccess || patientOnReferral" class="btn btn-success" (click)="closeDialog()" type="button">Close</button>
+    </div>
+  </div>
+  <div *ngIf="state.type === 'switchProgram'" class="panel panel-info" style="padding:4px">
+    <div class="panel-body_">
+      <form>
+        <div class="panel panel-success" *ngIf="newEnrollment && modalProcessOnSuccess">
+          <div class="panel-heading">
+            <h5>
+              <strong class="text-success">
+                <i class="fa fa-check-circle-o fa-2x"></i>
+              </strong>The patient has been switched from <strong>{{program.enrolledProgram.display}}</strong> in <strong>{{program.enrolledProgram.location.display}}</strong>
+              to <strong>{{newEnrollment.program.name}}</strong> successfully.
+            </h5>
+          </div>
+        </div>
+        <div class="row" style="position: relative;" *ngIf="availableProgramsOptions && !modalProcessOnSuccess">
+          <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+          <div class="col-md-12 col-xs-12 col-sm-12">
+            <label for="program">Select Program:</label>
+            <ng-select [multiple]="false" id="program" name="newProgram"
+                       [placeholder]="'Select a program...'"
+                       (selected)="onProgramChange($event)"
+                       [(ngModel)]="newProgram" [options]="availableProgramsOptions">
+            </ng-select>
+          </div>
+        </div>
+        <div *ngIf="inputError">
+          <h5 class="text-danger">
+            <strong>
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-warning fa-stack-1x"></i>
+					</span>
+              {{inputError}}
+            </strong>
+          </h5>
+        </div>
+      </form>
+    </div>
+    <div class="panel-footer">
+      <button class="btn btn-danger" (click)="cancelProcess()" type="button">Cancel</button>
+      <button *ngIf="!modalProcessOnSuccess && !patientOnReferral" class="btn btn-primary" (click)="completeLocationChangeProcess()" type="button">{{state.concept.display}}</button>
+      <button *ngIf="modalProcessOnSuccess || patientOnReferral" class="btn btn-success" (click)="closeDialog()" type="button">Close</button>
+    </div>
+  </div>
+</p-dialog>

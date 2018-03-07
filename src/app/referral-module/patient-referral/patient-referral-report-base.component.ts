@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
 import * as Moment from 'moment';
+import * as _ from 'lodash';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
@@ -13,12 +14,12 @@ import {
   template: 'referral-report-base.component.html'
 })
 export class PatientReferralBaseComponent implements OnInit {
-  public data = [];
+  public data: any = [];
   public sectionsDef = [];
   public isAggregated: boolean;
   public programs: any;
   public states: any;
- // public selectedPrograms  = [];
+  // public providers: any;
 
   public enabledControls = 'datesControl,programWorkFlowControl' +
     'ageControl,genderControl,locationControl';
@@ -32,8 +33,8 @@ export class PatientReferralBaseComponent implements OnInit {
   public reportName: string = '';
   public dates: any;
   public programUuids: any;
-  public programObj: any;
   public age: any;
+  public provider = '';
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
 
@@ -41,6 +42,7 @@ export class PatientReferralBaseComponent implements OnInit {
   public get startDate(): Date {
     return this._startDate;
   }
+
   public set startDate(v: Date) {
     this._startDate = v;
   }
@@ -49,6 +51,7 @@ export class PatientReferralBaseComponent implements OnInit {
   public get endDate(): Date {
     return this._endDate;
   }
+
   public set endDate(v: Date) {
 
     this._endDate = v;
@@ -58,32 +61,38 @@ export class PatientReferralBaseComponent implements OnInit {
   public get locationUuids(): Array<string> {
     return this._locationUuids;
   }
+
   public set locationUuids(v: Array<string>) {
     this._locationUuids = v;
   }
-  private _stateUuids: Array<string>;
-  public get stateUuids(): Array<string> {
-    return this._stateUuids;
+
+  private _conceptUuids: Array<string>;
+  public get conceptUuids(): Array<string> {
+    return this._conceptUuids;
   }
-  public set stateUuids(v: Array<string>) {
-    this._stateUuids = v;
+
+  public set conceptUuids(v: Array<string>) {
+    this._conceptUuids = v;
   }
+
   private _gender: Array<string>;
   public get gender(): Array<string> {
     return this._gender;
   }
+
   public set gender(v: Array<string>) {
     this._gender = v;
   }
 
   constructor(public patientReferralResourceService: PatientReferralResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
+              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+  }
 
   public ngOnInit() {
 
   }
+
   public generateReport() {
-    console.log('this.programs===', this.programs);
     this.dates = {
       startDate: this.startDate,
       endDate: this.endDate
@@ -97,19 +106,20 @@ export class PatientReferralBaseComponent implements OnInit {
     this.isLoadingReport = true;
     this.patientReferralResourceService
       .getPatientReferralReport({
-          endDate: this.toDateString(this.endDate),
-          gender: this.gender ? this.gender : 'F,M',
-          startDate: this.toDateString(this.startDate),
-          programUuids: this.programs,
-          locationUuids: this.getSelectedLocations(this.locationUuids),
-          stateUuids: this.states,
-          startAge: this.startAge,
-          endAge: this.endAge
-       }).subscribe(
+        endDate: this.toDateString(this.endDate),
+        gender: this.gender ? this.gender : 'F,M',
+        startDate: this.toDateString(this.startDate),
+        programUuids: this.programs,
+        locationUuids: this.getSelectedLocations(this.locationUuids),
+        stateUuids: this.states,
+        startAge: this.startAge,
+        endAge: this.endAge,
+        providerUuids: this.provider
+      }).subscribe(
       (data) => {
         this.isLoadingReport = false;
-        this.sectionsDef =   data.stateNames;
-        this.data = data.groupedResult;
+        this.sectionsDef = _.uniqBy(data.stateNames, 'name');
+        this.data = this.getProgramData(data);
 
       }, (error) => {
         this.isLoadingReport = false;
@@ -128,9 +138,9 @@ export class PatientReferralBaseComponent implements OnInit {
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
-          gender = '' + selectedGender[i].id;
+          gender = '' + selectedGender[i];
         } else {
-          gender = gender + ',' + selectedGender[i].id;
+          gender = gender + ',' + selectedGender[i];
         }
       }
     }
@@ -146,14 +156,15 @@ export class PatientReferralBaseComponent implements OnInit {
 
     for (let i = 0; i < programsUuids.length; i++) {
       if (i === 0) {
-        selectedPrograms = selectedPrograms + programsUuids[0].id;
+        selectedPrograms = selectedPrograms + programsUuids[0];
       } else {
-        selectedPrograms = selectedPrograms + ',' + programsUuids[i].id;
+        selectedPrograms = selectedPrograms + ',' + programsUuids[i];
       }
     }
 
     return this.programs = selectedPrograms;
   }
+
   public getSelectedStates(stateUuids): string {
     if (!stateUuids || stateUuids.length === 0) {
       return '';
@@ -163,9 +174,9 @@ export class PatientReferralBaseComponent implements OnInit {
 
     for (let i = 0; i < stateUuids.length; i++) {
       if (i === 0) {
-        selectedStates = selectedStates + stateUuids[0].id;
+        selectedStates = selectedStates + stateUuids[0];
       } else {
-        selectedStates = selectedStates + ',' + stateUuids[i].id;
+        selectedStates = selectedStates + ',' + stateUuids[i];
       }
     }
     return this.states = selectedStates;
@@ -176,6 +187,7 @@ export class PatientReferralBaseComponent implements OnInit {
       this.currentView = 'tabular';
     }
   }
+
   private getSelectedLocations(locationUuids: Array<string>): string {
     if (!locationUuids || locationUuids.length === 0) {
       return '';
@@ -190,11 +202,21 @@ export class PatientReferralBaseComponent implements OnInit {
         selectedLocations = selectedLocations + ',' + locationUuids[i];
       }
     }
+    this.dataAnalyticsDashboardService.setSelectedLocations(selectedLocations);
     return selectedLocations;
   }
 
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
+  }
+
+  private getProgramData(data: any) {
+    let rowData = [];
+    _.forEach(data.groupedResult, (row) => {
+      rowData = rowData.concat(row.programs);
+    });
+
+    return rowData;
   }
 
 }

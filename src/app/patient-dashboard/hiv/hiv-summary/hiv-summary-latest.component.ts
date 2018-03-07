@@ -53,12 +53,12 @@ export class HivSummaryLatestComponent implements OnInit {
 
             // check if encounter is clinical
             if ( summary.is_clinical_encounter === 1) {
- 
+
              this.hivSummary = summary;
              break;
- 
+
           }
- 
+
          }
 
         }

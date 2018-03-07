@@ -24,6 +24,10 @@ import { DepartmentProgramsConfigService } from
 './../../../etl-api/department-programs-config.service';
 import { DataCacheService } from './../../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
@@ -38,6 +42,8 @@ describe('Component: ProgramsTransferCareComponent', () => {
         DepartmentProgramsConfigService,
         DataCacheService,
         CacheService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         Location,
         {
           provide: Http,

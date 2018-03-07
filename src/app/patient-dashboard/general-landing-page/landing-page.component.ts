@@ -21,6 +21,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
   public currentError: string;
   public availablePrograms: any[] = [];
+  public availableProgramsOptions: any[] = [];
   public hasError: boolean = false;
   public hasValidationErrors: boolean = false;
   public programsBusy: boolean = false;
@@ -165,7 +166,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public onProgramChange($event) {
-      let programUuid = $event ? $event.target.value : null;
+      let programUuid = $event ? $event.value : null;
       if (programUuid) {
        this.programIncompatible = false;
        this.incompatibleProgrames = [];
@@ -185,6 +186,15 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.programService.getProgramWorkFlows(programUuid).subscribe((workflows: any[]) => {
         this.programWorkflows = workflows;
         this.programHasWorkflows = this.programWorkflows.length > 0;
+        // we don't need to select states any more. Default state is 'In Care'
+        this.selectedWorkflow = _.first(this.programWorkflows);
+        this.workflowStates = _.filter(this.selectedWorkflow.states, (state: any) => {
+          return state.concept.uuid === 'e517d6e2-6236-42db-9f71-0b6270c6cfa9';
+        });
+
+        if (!_.isEmpty(this.workflowStates)) {
+          this.selectedWorkFlowState = _.first(this.workflowStates);
+        }
       });
   }
 
@@ -246,6 +256,16 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
               return item.program.uuid !== '781d8a88-1359-11df-a1f1-0026b9348838' &&
                 item.program.uuid !== '781d8880-1359-11df-a1f1-0026b9348838';
             });
+          this.availableProgramsOptions = _.map(this.availablePrograms,
+            (availableProgram) => {
+            return {
+              label: availableProgram.program.display,
+              value: availableProgram.program.uuid
+            }
+          });
+          // sort alphabetically;
+          this.availableProgramsOptions = _.orderBy(this.availableProgramsOptions,
+            ['label'],['asc']);
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
         }
       }, (err) => {
