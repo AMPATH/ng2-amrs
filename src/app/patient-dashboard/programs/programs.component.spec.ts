@@ -46,6 +46,7 @@ import { HivProgramSnapshotComponent
 } from '../hiv/program-snapshot/hiv-program-snapshot.component';
 import { PatientProgramService } from './patient-programs.service';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
+import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
 describe('Component: ProgramsComponent', () => {
   let patientService: PatientService, locationResourceService: LocationResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
@@ -88,7 +89,7 @@ describe('Component: ProgramsComponent', () => {
         }, deps: []
 
         }],
-      declarations: [ProgramsComponent, HivProgramSnapshotComponent],
+      declarations: [ProgramsComponent, HivProgramSnapshotComponent, ZeroVlPipe],
       imports: [BusyModule, FormsModule,
         DialogModule,
         CalendarModule, BrowserAnimationsModule]

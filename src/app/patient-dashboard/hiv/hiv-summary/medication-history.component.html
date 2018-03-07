@@ -2,7 +2,7 @@
   <table class='table table-hover table-striped table-responsive'>
     <thead>
     <tr>
-      <th>Encounter Date</th>
+      <th>Encounter Date change</th>
       <th>Previous VL</th>
       <th>Previous Vl Date</th>
       <th>Current Regimen</th>
@@ -10,7 +10,7 @@
     </thead>
     <tr *ngFor="let encounter of encounters">
       <td>{{encounter.encounter_datetime }}</td>
-      <td>{{encounter.previousViralLoad || ' '}}</td>
+      <td>{{(encounter.previousViralLoad | zeroVl) || ' '}}</td>
       <td>{{encounter.previous_vl_date }}</td>
       <td>{{encounter.current_regimen || '&nbsp;'}}</td>
     </tr>

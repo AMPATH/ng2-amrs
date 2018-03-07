@@ -122,6 +122,7 @@ import {
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
 import { EncounterTypeFilter } from
   './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
+import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { LabOrderSearchModule } from '../../lab-order-search/lab-order-search.module';
 import { PatientSearchModule } from '../../patient-search/patient-search.module';
@@ -233,6 +234,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
     UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     PatientEncounterProviderPipe,
+    ZeroVlPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter],
@@ -286,7 +288,8 @@ import { HttpClient } from '../../shared/services/http-client.service';
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter],
+    EncounterTypeFilter,
+    ZeroVlPipe],
   providers: [
     FormUpdaterService,
     PatientEncounterService,
@@ -312,6 +315,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
     PatientRelationshipService,
     HivPatientClinicalSummaryService,
     DatePipe,
+    ZeroVlPipe,
     PatientIdentifierService,
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,

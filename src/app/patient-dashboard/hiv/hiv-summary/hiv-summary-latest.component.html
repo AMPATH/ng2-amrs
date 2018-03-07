@@ -8,7 +8,7 @@
   <ul class="list-group">
     <li class="list-group-item" style="font-size:large">Last Appt Date: {{hivSummary?.encounter_datetime | date:'dd-MM-yyyy'}} {{hivSummary?.encounter_type_name ? '(' + hivSummary?.encounter_type_name + ')' : '(None)' }}</li>
     <li class="list-group-item" style="font-size:large">RTC Date: {{hivSummary?.rtc_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">Last Viral Load: {{hivSummary?.vl_1 }} ({{hivSummary?.vl_1_date ? (hivSummary?.vl_1_date | date:'dd-MM-yyyy') : 'None'}})
+    <li class="list-group-item" style="font-size:large">Last Viral Load: {{hivSummary?.vl_1 | zeroVl }} ({{hivSummary?.vl_1_date ? (hivSummary?.vl_1_date | date:'dd-MM-yyyy') : 'None'}})
       <br/>
       <i style="font-size:smaller" class="text-muted" *ngIf="hivSummary?.isPendingViralLoad?.status"> There is a Pending Viral Load Test Ordered on:
         <span [ngClass]="hivSummary?.isPendingViralLoad.status === true && hivSummary?.isPendingViralLoad.days>30?'text-danger':''">

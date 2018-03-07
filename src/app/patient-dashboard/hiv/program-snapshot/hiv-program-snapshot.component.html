@@ -23,7 +23,7 @@
       </div>
       <div class="col-md-12">
         <div class="col-md-6 col-xs-12"><p>ARV Regimen: {{patientData?.cur_arv_meds}}</p></div>
-        <div class="col-md-6 col-xs-12"><p [ngClass]="{'text-bold red': isVirallyUnsuppressed}">Last Viral Load: {{patientData?.vl_1 }}
+        <div class="col-md-6 col-xs-12"><p [ngClass]="{'text-bold red': isVirallyUnsuppressed}">Last Viral Load: {{patientData?.vl_1 | zeroVl }}
           <ng-container *ngIf="patientData.vl_1 !== undefined">
             (<span>{{patientData?.vl_1_date | date:'dd-MM-yyyy'}}</span>)
           </ng-container></p>

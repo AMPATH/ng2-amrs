@@ -61,6 +61,9 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
                 width: 110,
                 cellStyle: {
                     'white-space': 'normal'
+                },
+                cellRenderer: (column: any) => {
+                    return this.transformVl(column.value);
                 }
             },
             {
@@ -91,6 +94,15 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
     }
 
    public ngOnInit() {
+    }
+
+    public  transformVl(vl) {
+        if (vl === 0 || vl === '0') {
+            return 'LDL';
+        }else {
+            return vl;
+     }
+
     }
 
      public generateReport() {

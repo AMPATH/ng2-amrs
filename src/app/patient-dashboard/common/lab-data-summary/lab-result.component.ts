@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
+import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 import { GridOptions } from 'ag-grid/main';
 import 'ag-grid-enterprise/main';
@@ -25,8 +26,10 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public labResults = [];
   public subscription: Subscription;
   public gridOptions: GridOptions;
-  constructor(private labsResourceService: LabsResourceService,
-              private patientService: PatientService) {
+  constructor(
+    private labsResourceService: LabsResourceService,
+    private patientService: PatientService,
+    private zeroVlPipe: ZeroVlPipe) {
     this.gridOptions = {} as GridOptions;
   }
 
@@ -115,7 +118,11 @@ export class LabResultComponent implements OnInit, OnDestroy {
       {
         headerName: 'HIV VL',
         width: 100,
-        field: 'hiv_viral_load'
+        field: 'hiv_viral_load',
+        cellRenderer: (column) => {
+             let vl = this.zeroVlPipe.transform(column.value);
+             return vl;
+        },
       },
       {
         headerName: 'DNA PCR',
