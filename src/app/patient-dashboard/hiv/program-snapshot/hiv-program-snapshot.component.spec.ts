@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { HivProgramSnapshotComponent } from './hiv-program-snapshot.component';
 import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 const summaryResult = {
   'encounter_datetime': '2017-04-25T07:54:20.000Z',
@@ -42,6 +43,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
+        ZeroVlPipe,
         BaseRequestOptions,
         {
           provide: HivSummaryResourceService,
@@ -60,7 +62,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         }
       ],
-      declarations: [HivProgramSnapshotComponent],
+      declarations: [HivProgramSnapshotComponent, ZeroVlPipe],
       imports: []
     }).compileComponents().then(() => {
       hivService = TestBed.get(HivSummaryResourceService);

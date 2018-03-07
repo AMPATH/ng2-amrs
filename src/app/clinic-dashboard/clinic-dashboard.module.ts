@@ -146,7 +146,7 @@ import {
     PatientStatusChangeListComponent,
     PatientStatusDatalistCellComponent,
     PatientStatusChangeVisualizationComponent,
-    PatientStatusChangeVisualizationContainerComponent,
+    PatientStatusChangeVisualizationContainerComponent
   ],
   imports: [
     CommonModule,

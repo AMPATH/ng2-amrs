@@ -5,10 +5,10 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 
-
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { LabResultComponent } from './lab-result.component';
+import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 @Pipe({ name: 'translate' })
 export class FakeTranslatePipe implements PipeTransform {
@@ -70,7 +70,8 @@ describe('Component: Lab Results Unit Tests', () => {
         {
           provide: PatientService, useValue: fakePatientService
         },
-        LabResultComponent
+        LabResultComponent,
+        ZeroVlPipe
       ]
     })
       .compileComponents()

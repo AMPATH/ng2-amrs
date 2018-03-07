@@ -22,7 +22,7 @@
 				<small *ngIf="hivSummary.cd4_1Date" class="text-default">({{hivSummary.cd4_1_date  | date:'dd-MM-yyyy'}})</small>
 			</div>
 		</td>
-		<td>{{hivSummary.vl_1}}
+		<td>{{hivSummary.vl_1 | zeroVl}}
 			<div>
 				<small *ngIf="hivSummary.vl_1Date" class="text-default">({{hivSummary.vl_1Date  | date:'dd-MM-yyyy'}})</small>
 			</div>
