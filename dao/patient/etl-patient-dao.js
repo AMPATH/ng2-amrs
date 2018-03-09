@@ -236,6 +236,7 @@ module.exports = function () {
         db.queryServer_test(queryParts, function (result) {
             _.each(result.result, function (row) {
                 row.tests_ordered = helpers.getTestsOrderedNames(row.tests_ordered);
+                row.hiv_rapid_test = helpers.getConceptName(row.hiv_rapid_test);
                 row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
                 row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error, row.cd4_error, row.hiv_dna_pcr_error);
                 row.hiv_dna_pcr = helpers.getConceptName(row.hiv_dna_pcr);
