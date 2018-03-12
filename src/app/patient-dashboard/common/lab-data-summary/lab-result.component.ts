@@ -109,11 +109,17 @@ export class LabResultComponent implements OnInit, OnDestroy {
         headerName: 'Date',
         width: 100,
         field: 'testDatetime',
+         cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'Tests Ordered',
         width: 120,
-        field: 'tests_ordered'
+        field: 'tests_ordered',
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'HIV VL',
@@ -123,48 +129,83 @@ export class LabResultComponent implements OnInit, OnDestroy {
              let vl = this.zeroVlPipe.transform(column.value);
              return vl;
         },
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'DNA PCR',
         width: 190,
-        field: 'hiv_dna_pcr'
+        field: 'hiv_dna_pcr',
+        cellStyle: {
+          'text-align': 'center'
+        }
+      },
+      {
+        headerName: 'HIV RAPID',
+        width: 190,
+        field: 'hiv_rapid_test',
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'CD4',
         width: 100,
-        field: 'cd4_count'
+        field: 'cd4_count',
+         cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'CD4%',
         width: 70,
-        field: 'cd4_percent'
+        field: 'cd4_percent',
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
 
       {
         headerName: 'Hb',
         width: 80,
-        field: 'hemoglobin'
+        field: 'hemoglobin',
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'AST',
         field: 'ast',
         width: 80,
-        editable: true
+        editable: true,
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'Cr',
         width: 80,
-        field: 'creatinine'
+        field: 'creatinine',
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'CXR',
         width: 280,
-        field: 'chest_xray'
+        field: 'chest_xray',
+        cellStyle: {
+          'text-align': 'center'
+        }
       },
       {
         headerName: 'Lab Errors',
         width: 250,
-        field: 'lab_errors'
+        field: 'lab_errors',
+        cellStyle: {
+          'text-align': 'center'
+        }
       }
     ];
   }
