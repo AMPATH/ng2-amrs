@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ZeroVlPipe implements PipeTransform {
 
   public transform(vl) {
-    console.log('vl', vl);
     if (vl === 0 || vl === '0') {
            return 'LDL';
        }else {
