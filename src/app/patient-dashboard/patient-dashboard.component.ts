@@ -89,29 +89,37 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
             patientUuId: patient.person.uuid
           }).subscribe((result) => {
             if (result.length > 0) {
-              let content = '';
+              let content: any = {
+                'cd4P': '',
+                'cd4' : ''
+              };
+              let msg: string = '';
               for (let test of result) {
                 if (test.groupMembers) {
                   for (let l of test.groupMembers) {
-                    if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
-                      content = content +
-                        `CD4%: ${l.value} `;
+                    if (l.concept.uuid === 'a8970a26-1350-11df-a1f1-0026b9348838') {
+                      let cd4Pcontent = `CD4%: ${l.value} `;
+                      content.cd4P = cd4Pcontent;
                     }
-                    if (l.uuid === 'f9424af5-1fd3-4a8f-8d43-7b098eb20ac3') {
-                      content = content +
-                        `CD4: ${l.value} `;
+                    if (l.concept.uuid === 'a8a8bb18-1350-11df-a1f1-0026b9348838') {
+                      let cd4content = `CD4: ${l.value} `;
+                      content.cd4 = cd4content;
                     }
                   }
-                } else {
-                  content = content +
-                    `${test.display} (collected on ${Moment(test.obsDatetime)
-                      .format('DD/MM/YYYY')})`;
-                }
+
+                  msg = `(collected on ${Moment(test.obsDatetime)
+                    .format('DD/MM/YYYY')})`;
+                 }
               }
-              this.toastrService.info(content.toLowerCase(), 'New Data from Lab');
-              // app feature analytics
-              this.appFeatureAnalytics
-                .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
+              let cd4Msg = content.cd4 + ' ' + content.cd4P + '<p>' + msg + '</p>';
+              // only show if cd4 or cd4% message is shown
+              if (content.cd4P.length > 0 || content.cd4.length > 0) {
+                  this.toastrService.info(cd4Msg, 'New CD4 Results from Lab');
+                  // app feature analytics
+                  this.appFeatureAnalytics
+                    .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
+
+              }
             }
           }, (err) => {
             console.error(err);
