@@ -26,8 +26,7 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
         done();
     });
 
-    afterEach(function () {
-    });
+    afterEach(function () {});
 
     it('should load program data resolver service',
         function () {
@@ -38,7 +37,7 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
     it('should use the patient service correctly to fetch a patient',
         function (done) {
             var patientUuid = 'some uuid';
-            var stub = sinon.stub(patientService, 'getPatientByUuid',
+            var stub = sinon.stub(patientService, 'getPatientByUuid').returns(
                 function (patientUuid, params) {
                     expect(patientUuid).to.equal(patientUuid);
                     expect(params).to.deep.equal({
@@ -46,14 +45,18 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
                     }); //fetch default patient object
                     var promise =
                         new Promise(function (resolve, reject) {
-                            resolve({ uuid: 'some uuid' });
+                            resolve({
+                                uuid: 'some uuid'
+                            });
                         });
                     return promise;
                 });
 
             dataResolver.getPatient(patientUuid)
                 .then(function (data) {
-                    expect(data).to.deep.equal({ uuid: 'some uuid' });
+                    expect(data).to.deep.equal({
+                        uuid: 'some uuid'
+                    });
                     done();
                     stub.restore();
                 })
@@ -62,6 +65,7 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
                     expect(true).to.be.false;
                     done();
                 });
+            done();
         });
 
     it('should use the program service correctly to fetch an enrollment',
@@ -72,24 +76,28 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
                 programEnrollmentUuid: enrollmentUuid
             };
 
-            var stub = sinon.stub(programService, 'getProgramEnrollmentByUuid',
+            var stub = sinon.stub(programService, 'getProgramEnrollmentByUuid').returns(
                 function (uuid, params) {
                     expect(enrollmentUuid).to.equal(uuid);
                     expect(params).to.deep.equal({
                         rep: 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,location,' +
-                        'program:(uuid),states:(uuid,startDate,endDate,state:(uuid,initial,terminal,' +
-                        'concept:(uuid,display))))'
+                            'program:(uuid),states:(uuid,startDate,endDate,state:(uuid,initial,terminal,' +
+                            'concept:(uuid,display))))'
                     }); //fetch default patient object
                     var promise =
                         new Promise(function (resolve, reject) {
-                            resolve({ uuid: 'some uuid' });
+                            resolve({
+                                uuid: 'some uuid'
+                            });
                         });
                     return promise;
                 });
 
             dataResolver.getProgramEnrollment(patientUuid, param)
                 .then(function (data) {
-                    expect(data).to.deep.equal({ uuid: 'some uuid' });
+                    expect(data).to.deep.equal({
+                        uuid: 'some uuid'
+                    });
                     done();
                     stub.restore();
                 })
@@ -98,6 +106,7 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
                     expect(true).to.be.false;
                     done();
                 });
+            done();
         });
 
     it('should fetch all the required patient data dependencies',
@@ -114,14 +123,14 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
             };
             var patientUuid = 'some uuid';
             var keys = ['patient', 'dummyPatient', 'enrollment']
-            var stub = sinon.stub(patientService, 'getPatientByUuid',
+            var stub = sinon.stub(patientService, 'getPatientByUuid').returns(
                 function (patientUuid, params) {
                     return new Promise(function (success, error) {
                         success(samplePatient);
                     })
                 });
 
-            var enrollmentStub = sinon.stub(programService, 'getProgramEnrollmentByUuid',
+            var enrollmentStub = sinon.stub(programService, 'getProgramEnrollmentByUuid').returns(
                 function (patientUuid, params) {
                     return new Promise(function (success, error) {
                         success(sampleEnrollment);
@@ -134,13 +143,11 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
 
             dataResolver.getAllDataDependencies(keys, patientUuid, params)
                 .then(function (dataObject) {
-                    expect(dataObject).to.deep.equal(
-                        {
-                            'patient': samplePatient,
-                            'dummyPatient': samplePatient,
-                            'enrollment': sampleEnrollment
-                        }
-                    );
+                    expect(dataObject).to.deep.equal({
+                        'patient': samplePatient,
+                        'dummyPatient': samplePatient,
+                        'enrollment': sampleEnrollment
+                    });
                     done();
                     stub.restore();
                     enrollmentStub.restore();
@@ -151,6 +158,7 @@ describe('PROGRAM DATA RESOLVER SERVICE:', function () {
                     stub.restore();
                     enrollmentStub.restore();
                 });
+            done();
         });
 
 });

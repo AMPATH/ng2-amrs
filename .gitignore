@@ -6,3 +6,4 @@ conf_copy/
 *.log
 .netbeans.xml
 etl-daemon.js
+.nyc_output

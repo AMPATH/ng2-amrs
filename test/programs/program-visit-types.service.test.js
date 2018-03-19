@@ -132,7 +132,7 @@ describe('PROGRAM VISITTYPES SERVICE:', function () {
             }
 
             // data resolver stub
-            var dataResolverStub = sinon.stub(dataResolver, 'getAllDataDependencies',
+            var dataResolverStub = sinon.stub(dataResolver, 'getAllDataDependencies').returns(
                 function (keys, patientUuid, params) {
                     expect(keys).to.deep.equal(['patient']);
                     expect(patientUuid).to.equal(patientUuid);
@@ -200,7 +200,7 @@ describe('PROGRAM VISITTYPES SERVICE:', function () {
                     expect(true).to.be.false;
                     done();
                 });
-
+                done();
         });
 
 });
