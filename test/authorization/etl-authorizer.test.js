@@ -6,7 +6,7 @@ var userMocks = require('../mock/user-mock');
 //var nock = require('nock');
 //var _ = require('underscore');
 //var Hapi = require('hapi');
-var fakeServer = require('../sinon-server-1.17.3');
+//var fakeServer = require('../sinon-server-1.17.3');
 var etlAuthorizer = require('../../authorization/etl-authorizer');
 
 chai.config.includeStack = true;
