@@ -90,34 +90,52 @@
       ></unenroll-patient-programs>
     </div>
     <div class="program-body">
-      <em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em>
+      <h3><em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em></h3>
       <div class="container-fluid">
-        <div class="row" style="padding:4px">
-          <div class="col-md-4 cell">
-            <label for="programs">Select Program:</label>
-            <div>
-              <select class="form-control" id="programs" [(ngModel)]="program"
-                      (change)="onProgramChange($event)" type="date">
+        <div class="row">
+          <div class="cell col-sm-12 col-xs-12 col-md-12" style="margin-bottom: 30px;">
+            <label>Department</label>
+            <select class="form-control" [ngModel]="department"
+                    (ngModelChange)="getSelectedDepartment($event)">
+              <option *ngFor="let d of programDepartments" [ngValue]="d.name">{{d.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="padding:4px" *ngIf="department">
+          <div style="margin-bottom: 12px;" class="col-md-4 cell">
+            <label for="program">Select Program</label>
+            <ng-select [multiple]="false" id="program"
+                       [items]="availableDepartmentPrograms"
+                       [placeholder]="'Select a program...'"
+                       (add)="onProgramChange($event)"
+                       [(ngModel)]="program">
+            </ng-select>
+          </div>
+          <ng-container *ngIf="program">
+            <div style="margin-bottom: 12px;" class="col-md-4 cell" *ngFor="let question of requiredProgramQuestions">
+              <label>{{question.name}}</label>
+              <select class="form-control" id="{{question.qtype}}" [(ngModel)]="question.value"
+                      (change)="onRequiredQuestionChange($event, question)">
                 <option value=""></option>
-                <ng-container *ngFor="let row of availablePrograms">
-                  <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
-                    {{row.program.display}}
+                <ng-container *ngFor="let answer of question.answers">
+                  <option value="{{answer.value}}">
+                    {{answer.label}}
                   </option>
                 </ng-container>
               </select>
             </div>
-          </div>
-          <div class="col-md-4 cell">
-            <label for="enrolledDate">Date Enrolled:</label>
+          </ng-container>
+          <div style="margin-bottom: 12px;" class="col-md-4 cell">
+            <label for="enrolledDate">Date Enrolled</label>
             <div>
-              <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date"/>
+              <input class="form-control" id="enrolledDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" [(ngModel)]="dateEnrolled" type="date"/>
             </div>
           </div>
-          <div class="col-md-4 cell">
-            <location-filter (onLocationChange)="getSelectedLocation($event)"
+          <div style="margin-bottom: 12px;" class="col-md-4 cell">
+            <location-filter [multiple]="false" (onLocationChange)="getSelectedLocation($event)"
                              [disable-county]="true"></location-filter>
           </div>
-          <div class="col-md-4 cell enroll-button">
+          <div class="col-md-12 cell enroll-button">
             <label class="buttons"></label>
             <div class="buttons" style="width:100%">
               <button [disabled]="!enrollmentButtonActive" class="btn"

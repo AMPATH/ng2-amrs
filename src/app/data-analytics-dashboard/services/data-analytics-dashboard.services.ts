@@ -27,6 +27,7 @@ export class DataAnalyticsDashboardService {
   }
 
   public setSelectedLocations(locations: any) {
+    locations.locations = locations.locations.map((loc) => loc.value);
     this.dataSubject.next(locations);
   }
 

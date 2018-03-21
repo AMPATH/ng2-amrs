@@ -33,7 +33,7 @@ export class AdminDashboardClinicFlowComponent implements OnInit {
       let locationCheck = _.first(locationData.locations);
       if (_.isObject(locationCheck)) {
         locations = locationData.locations.slice().map((location) => {
-          return location.uuid;
+          return location.value;
         });
       } else {
         locations = locationData.locations;

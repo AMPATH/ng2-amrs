@@ -276,3 +276,8 @@ label.buttons {
 .enroll-button {
 margin-top:-2px;
 }
+
+.ng-select.ng-single .ng-control {
+  height: 34px;
+  min-height: 34px;
+}

@@ -19,6 +19,12 @@ import { Dictionary } from 'lodash';
       flex-shrink: initial;
       background-color: #428bca !important;
     }
+    .ng-select .ng-control {
+      border-radius: 0;
+    }
+    .ng-select .ng-arrow-zone {
+      display: none;
+    }
   `],
   encapsulation: ViewEncapsulation.None
 })
@@ -69,7 +75,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           this.allFromCounty = true;
           this.showReset = false;
           this.allLocations = false;
-        } else if (locations.length === countyLocations.length) {
+        } else if (locations && locations.length === countyLocations.length) {
           this.allFromCounty = false;
         }
       });
@@ -92,7 +98,12 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.showReset = true;
     this.allLocations = false;
     this.getLocationsByCounty().then((locations) => {
-      this.selectedLocations = _.map(locations, 'uuid');
+      this.selectedLocations = _.map(locations, (location: any) => {
+        return {
+          value: location.uuid,
+          label: location.display
+        };
+      });
       this.onLocationChange.emit({
         locations: locations,
         county: this.selectedCounty
@@ -163,11 +174,16 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.showReset = true;
     if (this.selectedCounty) {
       this.getLocationsByCounty().then((locations) => {
-        this.selectedLocations = _.map(locations, 'uuid');
+        this.selectedLocations = _.map(locations, (location: any) => {
+          return {
+            value: location.uuid,
+            label: location.display
+          };
+        });
       });
     } else {
       this.allLocations = false;
-      this.selectedLocations = _.map(this.locationDropdownOptions, 'value');
+      this.selectedLocations = this.locationDropdownOptions;
     }
   }
   public resetLocations() {
