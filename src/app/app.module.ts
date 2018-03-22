@@ -38,6 +38,7 @@ import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CookieModule } from 'ngx-cookie';
+import { OnlineTrackerService } from './online-tracker/online-tracker.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -113,6 +114,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     AuthGuard,
     LoginGuard,
     LocalStorageService,
+    OnlineTrackerService,
     {
       provide: Http,
       useFactory: httpClient,
