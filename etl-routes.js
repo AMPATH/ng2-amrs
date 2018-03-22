@@ -70,6 +70,10 @@ import {
     patientMedicationHistService
 } from './service/patient-medication-history.service';
 
+import {
+    Moh731Report
+} from './reporting-framework/hiv/moh-731.report'
+
 module.exports = function () {
 
     var routes = [{
@@ -1781,7 +1785,7 @@ module.exports = function () {
                         function () {
                             let requestParams = Object.assign({}, request.query, request.params);
                             let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
-
+                            let moh731 = new Moh731Report();
                             let service = new Moh731Service();
                             service.getAggregateReport(reportParams).then((result) => {
                                 reply(result);
