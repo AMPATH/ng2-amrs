@@ -1,46 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers } from '@angular/http';
 
 import { SessionService } from '../openmrs-api/session.service';
+import { OnlineTrackerService } from './online-tracker.service';
 
 @Component({
   selector: 'online-tracker',
-  template: `
-    <p *ngIf="isOnline" class="text-bold"><i class="fa fa-circle text-success"></i>
-      <span></span>
-    </p>
-    <p *ngIf="!isOnline" class="text-bold"><i class="fa fa-circle text-danger"></i>
-      <span class="text-danger"><span *ngIf="isUpdating"> (updating...) </span></span>
-    </p>
-  `
+  templateUrl: './online-tracker.component.html'
 })
-export class OnlineTrackerComponent implements OnInit {
+export class OnlineTrackerComponent implements OnInit, OnDestroy {
   public isOnline: boolean = false;
   public isUpdating: boolean = false;
+  public timer: Observable<any>;
+  public subscribeToTimer: boolean = true;
 
-  constructor(private sessionService: SessionService) {
+  constructor(private _onlineTrackerService: OnlineTrackerService) {
   }
 
   public ngOnInit() {
-    let timer = Observable.timer(1000, 30000);
-    timer.subscribe((t) => this.updateOnlineStatus());
+    console.log('Tracker Loaded');
+    this.timer = Observable.timer(1000, 30000);
+    this.timer
+      .takeWhile(() => this.subscribeToTimer)
+      .subscribe((t) => this.getOnlineStatus());
   }
 
-  public updateOnlineStatus() {
-    if (this.isUpdating) {
-      return;
-    }
+  public ngOnDestroy() {
+    this.subscribeToTimer = false;
+    console.log('Timer Unsubscription');
+  }
+
+  public getOnlineStatus() {
     this.isUpdating = true;
-    let request = this.sessionService.getSession();
-    request
-      .subscribe(
-        (response: Response) => {
-          this.isUpdating = false;
-          this.isOnline = true;
-        }, (error) => {
-          this.isUpdating = false;
-          this.isOnline = false;
-        });
+    this._onlineTrackerService.updateOnlineStatus()
+      .then((results: any) => {
+        if (results) {
+          this.isOnline = results;
+          this.isUpdating = !results;
+        }
+      }).catch((error) => {
+      this.isOnline = false;
+      console.error('ERROR: GetOnline Status Error', error);
+    });
   }
 }

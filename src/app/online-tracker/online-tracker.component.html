@@ -1,0 +1,6 @@
+<p *ngIf="isOnline" class="text-bold"><i class="fa fa-circle text-success"></i>
+  <span></span>
+</p>
+<p *ngIf="!isOnline" class="text-bold"><i class="fa fa-circle text-danger"></i>
+  <span class="text-danger"><span *ngIf="isUpdating"> (updating...) </span></span>
+</p>
