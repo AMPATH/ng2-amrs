@@ -263,8 +263,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private loadDraftedForm() {
-    // console.log('patient uuid', this.patient.uuid);
     this.form = this.draftedFormsService.lastDraftedForm;
+    this.formName = this.form.schema.display;
 
     // get patient
 
