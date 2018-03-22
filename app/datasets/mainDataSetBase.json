@@ -1,0 +1,126 @@
+{
+    "name": "mainDataSetBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "columns": [{
+        "type": "column",
+        "alias": "gender",
+        "dataSetColumn": "hmsd.gender"
+    }, {
+        "type": "column",
+        "alias": "location_id",
+        "dataSetColumn": "hmsd.location_id"
+    }, {
+        "type": "expression",
+        "alias": "age_range",
+        "expressionType": "case_statement",
+        "caseOptions": [{
+            "condition": "hmsd.age < 1",
+            "value": "0_to_1"
+        }, {
+            "condition": "hmsd.age between 1 and 9",
+            "value": "1_to_9"
+        }, {
+            "condition": "hmsd.age between 10 and 14",
+            "value": "10_to_14"
+        }, {
+            "condition": "hmsd.age between 15 and 19",
+            "value": "15_to_19"
+        }, {
+            "condition": "hmsd.age between 20 and 24",
+            "value": "20_to_24"
+        }, {
+            "condition": "else",
+            "value": "older_than_24"
+        }]
+    }, {
+        "type": "expression",
+        "alias": "enrolled_this_month",
+        "expressionType": "simple_expression",
+        "expression": "case when enrolled_this_month=1 then 1 else null end"
+    }, {
+        "type": "expression",
+        "alias": "current_in_care",
+        "expressionType": "simple_expression",
+        "expression": "case when status='active' then 1 else null end"
+    }, {
+        "type": "expression",
+        "alias": "pre_art",
+        "expressionType": "simple_expression",
+        "expression": "if(arv_first_regimen is null and status='active',1,null)"
+    }, {
+        "type": "expression",
+        "alias": "started_art",
+        "expressionType": "simple_expression",
+        "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id,1,null)"
+    }, {
+        "type": "expression",
+        "alias": "active_on_art",
+        "expressionType": "simple_expression",
+        "expression": "case when status='active' and on_art_this_month=1 then 1 else null end"
+    }, {
+        "type": "expression",
+        "alias": "on_ctx_prophylaxis",
+        "expressionType": "simple_expression",
+        "expression": "case when status='active' and on_pcp_prophylaxis_this_month=1 then 1 else null end"
+    }, {
+        "type": "expression",
+        "alias": "screened_for_tb",
+        "expressionType": "simple_expression",
+        "expression": "tb_screened_since_active"
+    }, {
+        "type": "expression",
+        "alias": "tb_screened_positive",
+        "expressionType": "simple_expression",
+        "expression": "tb_screened_positive_this_month"
+    }, {
+        "type": "expression",
+        "alias": "screened_for_cervical_ca",
+        "expressionType": "simple_expression",
+        "expression": "0"
+    }, {
+        "type": "expression",
+        "alias": "started_ipt",
+        "expressionType": "simple_expression",
+        "expression": "started_ipt_this_month"
+    }, {
+        "type": "expression",
+        "alias": "completed_ipt_past_12_months",
+        "expressionType": "simple_expression",
+        "expression": "completed_ipt_past_12_months"
+    }, {
+        "type": "expression",
+        "alias": "condoms_provided",
+        "expressionType": "simple_expression",
+        "expression": "condoms_provided_this_month"
+    }, {
+        "type": "expression",
+        "alias": "started_modern_contraception",
+        "expressionType": "simple_expression",
+        "expression": "started_modern_contraception_this_month"
+    }, {
+        "type": "expression",
+        "alias": "on_modern_contraception",
+        "expressionType": "simple_expression",
+        "expression": "if(gender='F' and age>=15 and modern_contraception_since_active=1,1,0)"
+    }, {
+        "type": "expression",
+        "alias": "f_gte_18_visits",
+        "expressionType": "simple_expression",
+        "expression": "if(gender='F' and age >= 18 and visit_this_month=1,1,0)"
+    }],
+    "sources": [{
+        "table": "etl.hiv_monthly_report_dataset",
+        "alias": "hmsd"
+    }],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [{
+            "filterType": "tableColumns",
+            "conditionExpession": "endDate = ?",
+            "parameterName": "endDate"
+        }]
+    }
+}

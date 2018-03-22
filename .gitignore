@@ -7,3 +7,4 @@ conf_copy/
 .netbeans.xml
 etl-daemon.js
 .nyc_output
+coverage

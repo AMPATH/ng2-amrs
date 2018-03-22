@@ -1,0 +1,38 @@
+{
+    "name": "regimenDataSetAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [{
+        "name": "regimenDataSetbase",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "columns": [{
+        "type": "column",
+        "alias": "reg_gender",
+        "dataSetColumn": "hmsd.gender"
+    }, {
+        "type": "column",
+        "alias": "arv_first_regimen_location_id",
+        "dataSetColumn": "hmsd.arv_first_regimen_location_id"
+    }, {
+        "type": "column",
+        "alias": "reg_age_range",
+        "disAggregation": "true",
+        "dataSetColumn": "hmsd.age_range"
+    }, {
+        "type": "expression",
+        "alias": "arv_first_regimen",
+        "expressionType": "simple_expression",
+        "expression": "count(*)"
+    }],
+    "sources": [{
+        "dataSet": "regimenDataSetBase",
+        "alias": "hmsd"
+    }],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": ["arv_first_regimen_location_id", "reg_age_range", "reg_gender"]
+    }
+}
