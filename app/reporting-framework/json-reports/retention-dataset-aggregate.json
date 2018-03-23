@@ -16,61 +16,67 @@
             "alias": "hmsd"
         }
     ],
-    "columns": [
-        {
-            "type": "column",
-            "alias": "location_id",
-            "dataSetColumn": "hmsd.location_id"
-        },
-        {
-            "type": "expression",
-            "alias": "net_cohort",
-            "expressionType": "simple_expression",
+    "columns": [{
+        "type": "simple_column",
+        "alias": "location_id",
+        "column": "hmsd.location_id"
+    }, {
+        "type": "derived_column",
+        "alias": "net_cohort",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(*)"
-        },
-        {
-            "type": "expression",
-            "alias": "active",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "active",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(active)"
-        },
-        {
-            "type": "expression",
-            "alias": "ltfu",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "ltfu",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(ltfu)"
-        },
-        {
-            "type": "expression",
-            "alias": "perc_ltfu",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "perc_ltfu",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(ltfu)/count(*)"
-        },
-        {
-            "type": "expression",
-            "alias": "dead",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "dead",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(dead)"
-        },
-        {
-            "type": "expression",
-            "alias": "on_tx",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "on_tx",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(on_tx)"
-        },
-        {
-            "type": "expression",
-            "alias": "suppressed",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "suppressed",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(suppressed)"
-        },
-        {
-            "type": "expression",
-            "alias": "total_with_vl",
-            "expressionType": "simple_expression",
+        }
+    }, {
+        "type": "derived_column",
+        "alias": "total_with_vl",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(total_with_vl)"
         }
-    ],
+    }],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [

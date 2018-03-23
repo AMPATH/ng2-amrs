@@ -10,55 +10,60 @@
             "alias": "hmsd"
         }
     ],
-    "columns": [
-        {
-            "type": "column",
-            "alias": "location_id",
-            "dataSetColumn": "hmsd.location_id"
+    "columns": [{
+        "type": "simple_column",
+        "alias": "location_id",
+        "column": "hmsd.location_id"
+    }, {
+        "alias": "net_cohort",
+        "expressionOptions": {
+            "expression": "1"
         },
-        {
-            "alias": "net_cohort",
-            "expression": "1",
-            "type": "expression",
-            "expressionType": "simple_expression"
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "active",
+        "expressionOptions": {
+            "expression": "if(status='active',1,null)"
         },
-        {
-            "alias": "active",
-            "expression": "if(status='active',1,null)",
-            "type": "expression",
-            "expressionType": "simple_expression"
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "ltfu",
+        "expressionOptions": {
+            "expression": "if(status='ltfu',1,null)"
         },
-        {
-            "alias": "ltfu",
-            "expression": "if(status='ltfu',1,null)",
-            "type": "expression",
-            "expressionType": "simple_expression"
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "dead",
+        "expressionOptions": {
+            "expression": "if(status='dead',1,null)"
         },
-        {
-            "alias": "dead",
-            "expression": "if(status='dead',1,null)",
-            "type": "expression",
-            "expressionType": "simple_expression"
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "on_tx",
+        "expressionOptions": {
+            "expression": "if(on_art_this_month=1,1,null)"
         },
-        {
-            "alias": "on_tx",
-            "expression": "if(on_art_this_month=1,1,null)",
-            "type": "expression",
-            "expressionType": "simple_expression"
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "suppressed",
+        "expressionOptions": {
+            "expression": "if(vl_1<1000 and vl_in_past_year=1,1,null)"
         },
-        {
-            "alias": "suppressed",
-            "expression": "if(vl_1<1000 and vl_in_past_year=1,1,null)",
-            "type": "expression",
-            "expressionType": "simple_expression"
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "total_with_vl",
+        "expressionOptions": {
+            "expression": "if(vl_in_past_year=1,1,null)"
         },
-        {
-            "alias": "total_with_vl",
-            "expression": "if(vl_in_past_year=1,1,null)",
-            "type": "expression",
-            "expressionType": "simple_expression"
-        }
-    ],
+        "type": "derived_column",
+        "expressionType": "simple_expression"
+    }],
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [
