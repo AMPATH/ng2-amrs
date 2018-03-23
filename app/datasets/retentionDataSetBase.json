@@ -1,0 +1,67 @@
+{
+    "name": "retentionDataSetbase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "columns": [{
+        "type": "column",
+        "alias": "location_id",
+        "dataSetColumn": "hmsd.location_id"
+    }, {
+        "alias": "net_cohort",
+        "expression": "1",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "active",
+        "expression": "if(status='active',1,null)",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "ltfu",
+        "expression": "if(status='ltfu',1,null)",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "dead",
+        "expression": "if(status='dead',1,null)",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "on_tx",
+        "expression": "if(on_art_this_month=1,1,null)",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "suppressed",
+        "expression": "if(vl_1<1000 and vl_in_past_year=1,1,null)",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }, {
+        "alias": "total_with_vl",
+        "expression": "if(vl_in_past_year=1,1,null)",
+        "type": "expression",
+        "expressionType": "simple_expression"
+    }],
+    "sources": [{
+        "table": "etl.hiv_monthly_report_dataset",
+        "alias": "hmsd"
+    }],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [{
+            "filterType": "tableColumns",
+            "conditionExpession": "endDate = ?",
+            "parameterName": "endDate"
+        }, {
+            "filterType": "tableColumns",
+            "conditionExpession": "status in ('active','ltfu','dead')",
+            "parameterName": ""
+        }, {
+            "filterType": "tableColumns",
+            "conditionExpession": "arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
+            "parameterName": ""
+        }]
+    }
+}
