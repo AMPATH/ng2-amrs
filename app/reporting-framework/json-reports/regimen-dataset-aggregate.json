@@ -16,30 +16,27 @@
             "alias": "hmsd"
         }
     ],
-    "columns": [
-        {
-            "type": "column",
-            "alias": "reg_gender",
-            "dataSetColumn": "hmsd.gender"
-        },
-        {
-            "type": "column",
-            "alias": "arv_first_regimen_location_id",
-            "dataSetColumn": "hmsd.arv_first_regimen_location_id"
-        },
-        {
-            "type": "column",
-            "alias": "reg_age_range",
-            "disAggregation": "true",
-            "dataSetColumn": "hmsd.age_range"
-        },
-        {
-            "type": "expression",
-            "alias": "arv_first_regimen",
-            "expressionType": "simple_expression",
+    "columns": [{
+        "type": "simple_column",
+        "alias": "reg_gender",
+        "column": "hmsd.gender"
+    }, {
+        "type": "simple_column",
+        "alias": "arv_first_regimen_location_id",
+        "column": "hmsd.arv_first_regimen_location_id"
+    }, {
+        "type": "simple_column",
+        "alias": "reg_age_range",
+        "disAggregation": "true",
+        "column": "hmsd.age_range"
+    }, {
+        "type": "derived_column",
+        "alias": "arv_first_regimen",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
             "expression": "count(*)"
         }
-    ],
+    }],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
