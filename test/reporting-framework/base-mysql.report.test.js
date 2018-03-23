@@ -4,7 +4,7 @@ import { Promise } from 'bluebird';
 // chai.use(require('chai-string'));
 chai.use(require('sinon-chai'));
 chai.expect();
-import { BaseMysqlReport } from '../../reporting-framework/base-mysql.report';
+import { BaseMysqlReport } from '../../app/reporting-framework/base-mysql.report';
 
 // chai.config.includeStack = true;
 global.expect = chai.expect;

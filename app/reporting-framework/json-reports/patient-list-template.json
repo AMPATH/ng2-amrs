@@ -1,0 +1,62 @@
+{
+    "name": "patient_list_template",
+    "version": "1.0",
+    "tag": "patient_list_template",
+    "description": "Patient list template",
+    "sources": [
+        {
+            "table": "amrs.person",
+            "alias": "t1"
+        },
+        {
+            "table": "amrs.person_name",
+            "alias": "person_name",
+            "join": {
+                "type": "INNER",
+                "join_condition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.patient_identifier",
+            "alias": "id",
+            "join": {
+                "type": "LEFT OUTER",
+                "join_condition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.patient_identifier",
+            "alias": "id",
+            "join": {
+                "type": "INNER",
+                "join_condition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "person_name",
+            "expression_type": "simple_expression",
+            "expression_options": {
+                "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "person_identifiers",
+            "expression_type": "simple_expression",
+            "expression_options": {
+                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+            }
+        }
+    ],
+    "group by":{
+        "columns":["t1.person_id"]
+    }
+}

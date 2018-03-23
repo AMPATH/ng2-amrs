@@ -56,12 +56,12 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                                                 results: that.queryResults
                                             });
                                         })
-                                        .error((err) => {
+                                        .catch((err) => {
                                             error(err);
                                         });
 
                                 })
-                                .error((err) => {
+                                .catch((err) => {
                                     error(err);
                                 });
                         })

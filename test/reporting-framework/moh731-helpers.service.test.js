@@ -1,4 +1,4 @@
-import MOH731HelpersService from '../../../app/services/moh731/moh731-helpers.service';
+import MOH731HelpersService from '../../app/reporting-framework/moh731-helpers.service';
 import mlog from 'mocha-logger';
 const chai = require('chai'),
     should = chai.should(),

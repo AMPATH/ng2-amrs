@@ -4,7 +4,7 @@ import { Promise } from 'bluebird';
 // chai.use(require('chai-string'));
 chai.use(require('sinon-chai'));
 chai.expect();
-import { MultiDatasetReport } from '../../reporting-framework/multi-dataset.report';
+import { MultiDatasetReport } from '../../app/reporting-framework/multi-dataset.report';
 
 // chai.config.includeStack = true;
 global.expect = chai.expect;
