@@ -24,7 +24,13 @@
         "type": "simple_column",
         "alias": "arv_first_regimen_location_id",
         "column": "hmsd.arv_first_regimen_location_id"
-    }, {
+    }, 
+    {
+        "type": "simple_column",
+        "alias": "location_id",
+        "column": "hmsd.location_id"
+    },
+    {
         "type": "simple_column",
         "alias": "reg_age_range",
         "disAggregation": "true",
@@ -44,5 +50,9 @@
             "reg_age_range",
             "reg_gender"
         ]
+    },
+    "transFormDirectives":{
+        "joinColumn":"location_id",
+        "disaggregationColumns":["reg_gender","reg_age_range"]
     }
 }

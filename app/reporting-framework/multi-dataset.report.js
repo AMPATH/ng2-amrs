@@ -1,6 +1,10 @@
-import { Promise } from 'bluebird';
-import { BaseMysqlReport } from './base-mysql.report';
-
+import {
+    Promise
+} from 'bluebird';
+import {
+    BaseMysqlReport
+} from './base-mysql.report';
+import ReportProcessorHelpersService from './report-processor-helpers.service';
 export class MultiDatasetReport extends BaseMysqlReport {
     constructor(reportName, params) {
         super(reportName, params);
@@ -50,6 +54,29 @@ export class MultiDatasetReport extends BaseMysqlReport {
         that.reportHandlers = handlers;
     }
 
+    transFormResults(currentReport, result) {
+        return new Promise((resolve, reject) => {
+            try {
+                if (currentReport.reportSchemas && currentReport.reportSchemas.main &&
+                    currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns &&
+                    currentReport.reportSchemas.main.transFormDirectives.joinColumn) {
+                    const reportProcessorHelpersService = new ReportProcessorHelpersService();
+                    let final = reportProcessorHelpersService.tranform(result.results.results, {
+                        use: currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns,
+                        joinColumn: currentReport.reportSchemas.main.transFormDirectives.joinColumn
+                    });
+                    result.results.results = final;
+                }
+                resolve(result);
+            } catch (error) {
+                console.error(error);
+                reject(error);
+                // expected output: SyntaxError: unterminated string literal
+                // Note - error messages will vary depending on browser
+            }
+        });
+    }
+
     runSingleReport(reportObject, additionalParams) {
         return reportObject.generateReport();
     }
@@ -61,15 +88,28 @@ export class MultiDatasetReport extends BaseMysqlReport {
             let results = [];
 
             Promise.reduce(reportHandlers, (previous, currentReport) => {
-                return new Promise((res, rej) => {
-                    that.runSingleReport(currentReport, additionalParams)
-                        .then((result) => {
-                            let toAdd = results.push({
-                                report: currentReport,
-                                results: result
-                            });
-                            res(toAdd);
-                        }).
+                    return new Promise((res, rej) => {
+                        that.runSingleReport(currentReport, additionalParams)
+                            .then((result) => {
+                                return that.transFormResults(currentReport, result);
+                            })
+                            .then((result) => {
+                                // if (currentReport.reportSchemas && currentReport.reportSchemas.main &&
+                                //     currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns &&
+                                //     currentReport.reportSchemas.main.transFormDirectives.joinColumn) {
+                                //     const reportProcessorHelpersService = new ReportProcessorHelpersService();
+                                //     let final = reportProcessorHelpersService.tranform(result.results.results, {
+                                //         use: currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns,
+                                //         joinColumn: currentReport.reportSchemas.main.transFormDirectives.joinColumn
+                                //     });
+                                //     result.results.results = final;
+                                // }
+                                let toAdd = results.push({
+                                    report: currentReport,
+                                    results: result
+                                });
+                                res(toAdd);
+                            }).
                         catch((err) => {
                             console.error('Error occured while fetching report', err);
                             let toAdd = results.push({
@@ -78,8 +118,8 @@ export class MultiDatasetReport extends BaseMysqlReport {
                             });
                             res(toAdd);
                         });
-                })
-            }, 0)
+                    })
+                }, 0)
                 .then((res) => {
                     resolve(results);
                 })

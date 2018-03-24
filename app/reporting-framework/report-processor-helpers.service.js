@@ -20,7 +20,7 @@ _.mixin({
             return compositeKey.join(delimiter);
         }),
 });
-export default class MOH731HelpersService {
+export default class ReportProcessorHelpersService {
     tranform(data, options) {
         const initialGrouped = this.groupBy(data, options.joinColumn, options.joinColumn, 'children');
         let result = [];

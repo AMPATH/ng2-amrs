@@ -1,4 +1,4 @@
-import MOH731HelpersService from '../../app/reporting-framework/moh731-helpers.service';
+import ReportProcessorHelpersService from '../../app/reporting-framework/report-processor-helpers.service';
 import mlog from 'mocha-logger';
 const chai = require('chai'),
     should = chai.should(),
@@ -10,7 +10,7 @@ const chai = require('chai'),
 chai.use(chaiAsPromised);
 
 describe('MOH731 Helpers', function () {
-    const mOH731HelpersService = new MOH731HelpersService();
+    const reportProcessorHelpersService = new ReportProcessorHelpersService();
     beforeEach(() => {
 
     });
@@ -64,7 +64,7 @@ describe('MOH731 Helpers', function () {
                 on_art: 70
             },
         ]
-        let result = mOH731HelpersService.tranform(set1, {
+        let result = reportProcessorHelpersService.tranform(set1, {
             use: ['gender', 'age_range'],
             joinColumn: 'location_id'
         });
@@ -122,8 +122,8 @@ describe('MOH731 Helpers', function () {
             active: 40,
             ltfu: 60
         }
-        let result = mOH731HelpersService.joinDataSets('location_id', set1, set2);
-        let finalResult = mOH731HelpersService.joinDataSets('location_id',result, set3);
+        let result = reportProcessorHelpersService.joinDataSets('location_id', set1, set2);
+        let finalResult = reportProcessorHelpersService.joinDataSets('location_id',result, set3);
         mlog.log('Result', JSON.stringify(finalResult));
         expect(finalResult).to.be.an('array');
         expect(finalResult).to.deep.include(finalSet1);
