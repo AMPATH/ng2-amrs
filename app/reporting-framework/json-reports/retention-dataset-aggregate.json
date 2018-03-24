@@ -82,5 +82,8 @@
         "columns": [
             "location_id"
         ]
+    },
+    "transFormDirectives":{
+        "joinColumn":"location_id"
     }
 }

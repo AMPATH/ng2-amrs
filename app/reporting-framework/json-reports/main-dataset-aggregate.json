@@ -134,5 +134,9 @@
             "age_range",
             "location_id"
         ]
+    },
+    "transFormDirectives":{
+        "joinColumn":"location_id",
+        "disaggregationColumns":["gender","age_range"]
     }
 }
