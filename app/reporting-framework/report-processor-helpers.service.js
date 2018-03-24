@@ -31,9 +31,9 @@ export default class ReportProcessorHelpersService {
                 let group = grouped[p];
                 for (let g of group) {
                     for (let i in g) {
-                        if (!(options.use.includes(i) || options.joinColumn.includes(i))) {
+                        if (!(options.use.includes(i) || options.joinColumn.includes(i) || options.skip.includes(i))) {
                             final[`dc__${p}__${i}`] = g[i];
-                        } else if (options.joinColumn.includes(i)) {
+                        } else if (options.joinColumn.includes(i) || options.skip.includes(i)) {
                             final[`${i}`] = g[i];
                         }
                     }
