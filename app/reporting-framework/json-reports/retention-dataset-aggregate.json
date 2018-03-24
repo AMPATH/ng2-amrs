@@ -16,67 +16,77 @@
             "alias": "hmsd"
         }
     ],
-    "columns": [{
-        "type": "simple_column",
-        "alias": "location_id",
-        "column": "hmsd.location_id"
-    }, {
-        "type": "derived_column",
-        "alias": "net_cohort",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(*)"
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "hmsd.location_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "net_cohort",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(*)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(ltfu)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "perc_ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(ltfu)/count(*)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dead",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(dead)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_tx",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(on_tx)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "suppressed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(suppressed)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_with_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(total_with_vl)"
+            }
         }
-    }, {
-        "type": "derived_column",
-        "alias": "active",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(active)"
-        }
-    }, {
-        "type": "derived_column",
-        "alias": "ltfu",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(ltfu)"
-        }
-    }, {
-        "type": "derived_column",
-        "alias": "perc_ltfu",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(ltfu)/count(*)"
-        }
-    }, {
-        "type": "derived_column",
-        "alias": "dead",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(dead)"
-        }
-    }, {
-        "type": "derived_column",
-        "alias": "on_tx",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(on_tx)"
-        }
-    }, {
-        "type": "derived_column",
-        "alias": "suppressed",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(suppressed)"
-        }
-    }, {
-        "type": "derived_column",
-        "alias": "total_with_vl",
-        "expressionType": "simple_expression",
-        "expressionOptions": {
-            "expression": "count(total_with_vl)"
-        }
-    }],
+    ],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
@@ -85,5 +95,19 @@
     },
     "transFormDirectives":{
         "joinColumn":"location_id"
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
     }
 }

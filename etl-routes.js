@@ -1853,12 +1853,26 @@ module.exports = function () {
                 preRequest.resolveLocationIdsToLocationUuids(request,
                     function () {
                         let requestParams = Object.assign({}, request.query, request.params);
-                        let service = new Moh731Service();
-                        service.getPatientListReport(requestParams).then((result) => {
-                            reply(result);
-                        }).catch((error) => {
-                            reply(error);
-                        });
+                        console.log(requestParams);
+                        if (request.query.reportName === 'MOH-731-report-2017') {
+                            requestParams.limitParam = requestParams.limit;
+                            requestParams.offSetParam = requestParams.startIndex;
+                            let moh731 = new Moh731Report(requestParams);
+
+                            moh731.generatePatientListReport([requestParams.indicator]).then((results) => {
+                                reply(results);
+                            })
+                                .catch((err) => {
+                                    reply(Boom.internal('An error occured', err));
+                                });
+                        } else {
+                            let service = new Moh731Service();
+                            service.getPatientListReport(requestParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        }
                     });
             },
             description: "Get the MOH 731 patient list",

@@ -13,7 +13,7 @@
             "alias": "person_name",
             "join": {
                 "type": "INNER",
-                "join_condition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
             }
         },
         {
@@ -21,15 +21,7 @@
             "alias": "id",
             "join": {
                 "type": "LEFT OUTER",
-                "join_condition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "id",
-            "join": {
-                "type": "INNER",
-                "join_condition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
             }
         }
     ],
@@ -42,21 +34,21 @@
         {
             "type": "derived_column",
             "alias": "person_name",
-            "expression_type": "simple_expression",
-            "expression_options": {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
                 "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
             }
         },
         {
             "type": "derived_column",
             "alias": "person_identifiers",
-            "expression_type": "simple_expression",
-            "expression_options": {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
             }
         }
     ],
-    "group by":{
+    "groupBy":{
         "columns":["t1.person_id"]
     }
 }

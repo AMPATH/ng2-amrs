@@ -13,7 +13,28 @@ export class MultiDatasetPatientlistReport extends MultiDatasetReport {
             indicators: indicators
         };
 
-        return this.generateReport(additionalParams);
+        let that = this;
+        return new Promise((resolve, reject) => {
+            this.generateReport(additionalParams).
+                then((results) => {
+                    for (let i = 0; i < results.length; i++) {
+                        if (results[i].results && results[i].results.results && results[i].results.results.results) {
+                            resolve({
+                                result: results[i].results.results.results,
+                                queriesAndSchemas: results[i],
+                                indicators: indicators,
+                                size: that.params.limit,
+                                startIndex : that.params.startIndex
+                            });
+                            break;
+                        }
+                    }
+                    reject('Patientlist error:', results);
+                }).catch((err) => {
+                    console.error('Patientlist Error', err);
+                    reject(err);
+                });
+        });
     }
 
     getReportHandler(reportName, params) {
@@ -21,8 +42,8 @@ export class MultiDatasetPatientlistReport extends MultiDatasetReport {
     }
 
     runSingleReport(reportObject, additionalParams) {
-        if(additionalParams && additionalParams.type === 'patient-list') {
-            reportObject.generatePatientListReport(additionalParams.indicators);
+        if (additionalParams && additionalParams.type === 'patient-list') {
+            return reportObject.generatePatientListReport(additionalParams.indicators);
         }
         return reportObject.generateReport();
     }
