@@ -63,6 +63,7 @@ export class MultiDatasetReport extends BaseMysqlReport {
                     const reportProcessorHelpersService = new ReportProcessorHelpersService();
                     let final = reportProcessorHelpersService.tranform(result.results.results, {
                         use: currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns,
+                        skip: currentReport.reportSchemas.main.transFormDirectives.skipColumns || [],
                         joinColumn: currentReport.reportSchemas.main.transFormDirectives.joinColumn
                     });
                     result.results.results = final;

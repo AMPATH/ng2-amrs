@@ -5,7 +5,7 @@ import ReportProcessorHelpersService from '../report-processor-helpers.service';
 import {
     Promise
 } from 'bluebird';
-
+const moh731defs = require( './moh-731-2017');
 export class Moh731Report extends MultiDatasetPatientlistReport {
     constructor(params) {
         super('MOH-731-greencard', params)
@@ -27,8 +27,12 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
                         }
                     }
                     resolve({
+                        startIndex: 0,
+                        size: 1,
                         rawResults: results,
-                        results: finalResult
+                        result: finalResult,
+                        sectionDefinitions: moh731defs,
+                        indicatorDefinitions: []
                     });
                 })
                 .catch((error) => {

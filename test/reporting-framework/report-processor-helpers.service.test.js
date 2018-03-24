@@ -66,7 +66,8 @@ describe('MOH731 Helpers', function () {
         ]
         let result = reportProcessorHelpersService.tranform(set1, {
             use: ['gender', 'age_range'],
-            joinColumn: 'location_id'
+            joinColumn: 'location_id',
+            skip:[]
         });
         mlog.log('Result', JSON.stringify(result));
         expect(result).to.be.an('array');
