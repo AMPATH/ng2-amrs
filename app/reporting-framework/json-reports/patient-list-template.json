@@ -28,8 +28,31 @@
     "columns": [
         {
             "type": "simple_column",
+            "alias": "patient_uuid",
+            "column": "t1.uuid"
+        },
+        {
+            "type": "simple_column",
             "alias": "person_id",
             "column": "t1.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "t1.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "birthdate",
+            "column": "t1.birthdate"
+        },
+        {
+            "type": "derived_column",
+            "alias": "age",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+            }
         },
         {
             "type": "derived_column",
@@ -41,7 +64,7 @@
         },
         {
             "type": "derived_column",
-            "alias": "person_identifiers",
+            "alias": "identifiers",
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"

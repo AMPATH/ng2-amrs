@@ -6,6 +6,8 @@ import {
     Promise
 } from 'bluebird';
 const moh731defs = require('./moh-731-2017');
+const dao = require('../../../etl-dao');
+
 export class Moh731Report extends MultiDatasetPatientlistReport {
     constructor(params) {
         super('MOH-731-greencard', params)
@@ -17,10 +19,9 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
             super.generateReport(additionalParams)
                 .then((results) => {
                     if (additionalParams && additionalParams.type === 'patient-list') {
-                        results.indicators = that.getIndicatorSectionDefinitions(that.params.indicator,
-                            moh731defs);
                         resolve(results);
                     } else {
+
                         let finalResult = []
                         const reportProcessorHelpersService = new ReportProcessorHelpersService();
                         for (let result of results) {
@@ -46,17 +47,54 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
         });
     }
 
+    generatePatientListReport(indicators) {
+        let self = this;
+        return new Promise((resolve, reject) => {
+            super.generatePatientListReport(indicators)
+            .then((results)=>{
+                let indicatorLabels = self.getIndicatorSectionDefinitions(results.indicators,
+                            moh731defs);
+
+                results.indicators = indicatorLabels;
+
+                self.resolveLocationUuidsToName(self.params.locationUuids)
+                .then((locations)=>{
+                    results.locations = locations;
+                    resolve(results);
+                })
+                .catch((err)=>{
+                    resolve(results);
+                });
+
+            })
+            .catch((err)=>{
+                console.error('MOH patient list generation error', err);
+                reject(err);
+            });
+        });
+    }
+
     getIndicatorSectionDefinitions(requestIndicators, sectionDefinitions) {
         let results = [];
-        _.each(requestIndicators.split(','), function (requestIndicator) {
+        _.each(requestIndicators, function (requestIndicator) {
             _.each(sectionDefinitions, function (sectionDefinition) {
                 _.each(sectionDefinition.indicators, function (indicator) {
                     if (indicator.indicator === requestIndicator) {
+                        // console.log('Found indicator', requestIndicator);
                         results.push(indicator);
                     }
                 });
             });
         });
         return results;
+    }
+
+    resolveLocationUuidsToName(uuids) {
+        return new Promise((resolve, reject) => {
+            // resolve location name
+            dao.resolveLocationUuidsToName(uuids.split(','), (loc) => {
+                resolve(loc);
+            });
+        });
     }
 }

@@ -46,6 +46,48 @@
         },
         {
             "type": "derived_column",
+            "alias": "enrollment_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "arv_first_regimen_start_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "cur_regimen_arv_start_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line",
+            "column": "hmsd.cur_arv_line"
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_1",
+            "column": "hmsd.vl_1"
+        },
+        {
+            "type": "derived_column",
+            "alias": "vl_1_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "age_range",
             "expressionType": "case_statement",
             "expressionOptions": {
