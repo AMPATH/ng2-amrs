@@ -3,7 +3,6 @@ import { Promise } from 'bluebird';
 import QueryService from '../database-access/query.service';
 
 // TODO: Move to data store
-
 import * as moh_731 from './json-reports/moh-731-bluecard.json';
 import * as main_dataset_aggregate from './json-reports/main-dataset-aggregate.json';
 import * as main_dataset_base from './json-reports/main-dataset-base.json';
@@ -11,6 +10,7 @@ import * as regimen_dataset_aggregate from './json-reports/regimen-dataset-aggre
 import * as regimen_dataset_base from './json-reports/regimen-dataset-base.json';
 import * as retention_dataset_aggregate from './json-reports/retention-dataset-aggregate.json';
 import * as retention_dataset_base from './json-reports/retention-dataset-base.json';
+import * as patient_list_template from './json-reports/patient-list-template.json';
 
 export class BaseMysqlReport {
     constructor(reportName, params) {
@@ -68,6 +68,11 @@ export class BaseMysqlReport {
                         main: moh_731
                     });
                     break;
+                case 'patient-list-template':
+                    resolve({
+                        main: patient_list_template
+                    });
+                    break;
                 case 'mainDatasetAggregate':
                     resolve({
                         main: main_dataset_aggregate,
@@ -95,7 +100,7 @@ export class BaseMysqlReport {
     }
 
     generateReportQuery(reportSchemas, params) {
-        console.log('Passed params', params)
+        // console.log('Passed params', params)
         let jSql = this.getJson2Sql(reportSchemas, params);
         return new Promise((resolve, reject) => {
             try {
@@ -103,7 +108,7 @@ export class BaseMysqlReport {
             } catch (error) {
                 console.error('Error generating report sql statement', error);
                 reject('Encountered an unexpected error', error);
-            }          
+            }
         });
     }
 

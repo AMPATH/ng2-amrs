@@ -23,51 +23,72 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                 .then((reportSchemas) => {
                     that.reportSchemas = reportSchemas;
 
+                    // consolidate params and indicators
+                    indicators = that.consolidateParamsAndIndicators(that.params, indicators);
+
                     // determine patient list seed schemas
-                    that.plSchemasRaw = this.determineBaseAndAggrSchema(that.reportSchemas);
+                    let aggs = this.determineBaseAndAggrSchema(that.reportSchemas, indicators);
+                    if (aggs.length > 0) {
+                        that.plSchemasRaw = this.determineBaseAndAggrSchema(that.reportSchemas, indicators)[0];
+                    }
+                    if (that.plSchemasRaw && that.plSchemasRaw.aggregate) {
+                        that.fetchPatientListTemplate(that.plSchemasRaw.aggregate)
+                            .then((template) => {
+                                that.plTemplate = template.main;
 
-                    that.fetchPatientListTemplate(that.plSchemasRaw.aggregate)
-                        .then((template) => {
-                            that.plTemplate = template;
+                                let generated =
+                                    that.generatePatientListJsonQuery(that.plSchemasRaw.aggregate, that.plSchemasRaw.base, that.plTemplate, that.params);
+                                // hack to ensure it works
+                                // console.log('GENERATED', generated);
+                                if (generated.generated.filters && generated.generated.filters.conditions.length > 0) {
+                                    generated.generated.filters.conditions.forEach(condition => {
+                                        if (condition.dynamicallyGenerated) {
+                                            // condition.filterType = "tableColumns";
+                                            condition.conditionExpession = condition.conditionExpression;
+                                            // condition.parameterName = "";
+                                        }
+                                    });
+                                }
 
-                            let generated =
-                                that.generatePatientListJsonQuery(that.plSchemasRaw.aggregate, that.plSchemasRaw.base, that.plTemplate, that.params);
+                                that.generatedPL = {
+                                    main: generated.generated
+                                };
 
-                            that.generatedPL = {
-                                main: generated.generated
-                            };
+                                that.modifiedParam = generated.params;
 
-                            that.modifiedParam = generated.params;
+                                // generate query
+                                that.generateReportQuery(that.generatedPL, that.modifiedParam)
+                                    .then((sqlQuery) => {
+                                        that.reportQuery = sqlQuery;
 
-                            // generate query
-                            that.generateReportQuery(that.generatedPL, that.modifiedParam)
-                                .then((sqlQuery) => {
-                                    that.reportQuery = sqlQuery;
+                                        // run query
+                                        that.executeReportQuery(that.reportQuery)
+                                            .then((results) => {
+                                                that.queryResults = results;
 
-                                    // run query
-                                    that.executeReportQuery(that.reportQuery)
-                                        .then((results) => {
-                                            that.queryResults = results;
-
-                                            resolve({
-                                                schemas: that.reportSchemas,
-                                                generatedSchemas: that.generatedPL,
-                                                sqlQuery: that.reportQuery,
-                                                results: that.queryResults
+                                                resolve({
+                                                    schemas: that.reportSchemas,
+                                                    generatedSchemas: that.generatedPL,
+                                                    sqlQuery: that.reportQuery,
+                                                    results: that.queryResults
+                                                });
+                                            })
+                                            .catch((err) => {
+                                                error(err);
                                             });
-                                        })
-                                        .catch((err) => {
-                                            error(err);
-                                        });
 
-                                })
-                                .catch((err) => {
-                                    error(err);
-                                });
-                        })
-                        .catch((err) => {
-                            error(err);
-                        })
+                                    })
+                                    .catch((err) => {
+                                        error(err);
+                                    });
+                            })
+                            .catch((err) => {
+                                console.error('Error fetching patientlist template', err);
+                                error(err);
+                            });
+                    } else {
+                        error('Not a patientlist report');
+                    }
                 })
                 .catch((err) => {
                     error(err);
@@ -83,10 +104,12 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
             let version = aggregateReport.dynamicJsonQueryGenerationDirectives.patientListGenerator.useTemplateVersion;
             return this.fetchReportSchema(name, version);
         }
+        // console.log('Invalid aggregate report. Missing template directives.')
         return Promise.reject('Invalid aggregate report. Missing template directives.');
     }
 
     determineBaseAndAggrSchema(schemas, indicators) {
+        // console.log('finding aggregate report with indicators', indicators);
         let aggs = this.getAggregateWithIndicator(schemas, indicators);
 
         let found = [];
@@ -104,35 +127,43 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
     getAggregateWithIndicator(schemas, indicators) {
         let found = [];
         for (let s in schemas) {
+            // console.log('schema:',schemas[s]);
             if (schemas[s].dynamicJsonQueryGenerationDirectives) {
                 if (this.schemaHasColumns(schemas[s], indicators)) {
                     found.push(schemas[s]);
                 }
             }
         }
+        // console.log('found with agg indicator', found);
         return found;
     }
 
     schemaHasColumns(schema, columns) {
+        // console.log('schema has columns', schema, columns);
         let foundAll = true;
-        columns.forEach(column => {
-            let found = false;
-            for (let i = 0; i < schema.columns.length; i++) {
-                let col = schema.columns[i];
+        if (columns && columns.forEach) {
+            columns.forEach(column => {
+                let found = false;
+                for (let i = 0; i < schema.columns.length; i++) {
+                    let col = schema.columns[i];
 
-                if (col.alias === column || col.column === column ||
-                    (typeof col.column === 'string' &&
-                        col.column.slice(col.column.indexOf('.') + 1)) === column) {
-                    // console.log('found', column, col);
-                    found = true;
-                    break;
+                    if (col.alias === column || col.column === column ||
+                        (typeof col.column === 'string' &&
+                            col.column.slice(col.column.indexOf('.') + 1)) === column) {
+                        // console.log('found', column, col);
+                        found = true;
+                        break;
+                    }
                 }
-            }
 
-            if (!found) {
-                foundAll = false;
-            }
-        });
+                if (!found) {
+                    foundAll = false;
+                }
+            });
+        } else {
+            foundAll = false;
+        }
+
         return foundAll;
     }
 
@@ -145,4 +176,65 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
         return new BasePatientListGen(baseSchema, aggregateSchema, tempateSchema, params);
     }
 
+    consolidateParamsAndIndicators(params, indicators) {
+        let consolidatedIndicators = [];
+        indicators.forEach(indicator => {
+            let generatedParams = [];
+            if (this.isDynamicallyCreatedIndicator(indicator)) {
+                let extracted = this.extractIndicators(indicator);
+                for (let o in extracted) {
+                    generatedParams.push({ key: o, value: extracted[o] })
+                    consolidatedIndicators.push(o);
+                }
+            } else {
+                generatedParams.push({ key: indicator, value: 1 });
+                consolidatedIndicators.push(indicator);
+            }
+
+            generatedParams.forEach(paramValue => {
+                if (params[paramValue.key] === undefined || params[paramValue.key] === null) {
+                    params[paramValue.key] = paramValue.value === null ? 1 : paramValue.value;
+                }
+            });
+        });
+        return consolidatedIndicators;
+    }
+
+    addIndicatorsToParams(param, indicators) {
+        indicators.forEach(element => {
+            if (param[element] === undefined) {
+                param[element] = 1;
+            }
+        });
+    }
+
+    extractIndicators(indicator) {
+        let split = indicator.split('__');
+
+        let indicators = {
+
+        };
+
+        for (let i = 1; i < split.length; i++) {
+            if (this.isEven(i)) {
+                indicators[split[i - 1]] = split[i];
+            } else {
+                indicators[split[i]] = null;
+            }
+        }
+
+        return indicators;
+    }
+
+    isEven(n) {
+        return n % 2 == 0;
+    }
+
+    isOdd(n) {
+        return Math.abs(n % 2) == 1;
+    }
+
+    isDynamicallyCreatedIndicator(indicator) {
+        return indicator.startsWith('dc__');
+    }
 }

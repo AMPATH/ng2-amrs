@@ -95,16 +95,6 @@ export class MultiDatasetReport extends BaseMysqlReport {
                                 return that.transFormResults(currentReport, result);
                             })
                             .then((result) => {
-                                // if (currentReport.reportSchemas && currentReport.reportSchemas.main &&
-                                //     currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns &&
-                                //     currentReport.reportSchemas.main.transFormDirectives.joinColumn) {
-                                //     const reportProcessorHelpersService = new ReportProcessorHelpersService();
-                                //     let final = reportProcessorHelpersService.tranform(result.results.results, {
-                                //         use: currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns,
-                                //         joinColumn: currentReport.reportSchemas.main.transFormDirectives.joinColumn
-                                //     });
-                                //     result.results.results = final;
-                                // }
                                 let toAdd = results.push({
                                     report: currentReport,
                                     results: result
