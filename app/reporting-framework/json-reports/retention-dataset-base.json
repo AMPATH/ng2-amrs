@@ -10,64 +10,116 @@
             "alias": "hmsd"
         }
     ],
-    "columns": [{
-        "type": "simple_column",
-        "alias": "location_id",
-        "column": "hmsd.location_id"
-    }, {
-        "type": "simple_column",
-        "alias": "person_id",
-        "column": "hmsd.person_id"
-    }, {
-        "alias": "net_cohort",
-        "expressionOptions": {
-            "expression": "1"
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "hmsd.location_id"
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }, {
-        "alias": "active",
-        "expressionOptions": {
-            "expression": "if(status='active',1,null)"
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "hmsd.person_id"
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }, {
-        "alias": "ltfu",
-        "expressionOptions": {
-            "expression": "if(status='ltfu',1,null)"
+        {
+            "type": "derived_column",
+            "alias": "enrollment_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+            }
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }, {
-        "alias": "dead",
-        "expressionOptions": {
-            "expression": "if(status='dead',1,null)"
+        {
+            "type": "derived_column",
+            "alias": "arv_first_regimen_start_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+            }
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }, {
-        "alias": "on_tx",
-        "expressionOptions": {
-            "expression": "if(on_art_this_month=1,1,null)"
+        {
+            "type": "derived_column",
+            "alias": "cur_regimen_arv_start_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
+            }
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }, {
-        "alias": "suppressed",
-        "expressionOptions": {
-            "expression": "if(vl_1<1000 and vl_in_past_year=1,1,null)"
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line",
+            "column": "hmsd.cur_arv_line"
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }, {
-        "alias": "total_with_vl",
-        "expressionOptions": {
-            "expression": "if(vl_in_past_year=1,1,null)"
+        {
+            "type": "simple_column",
+            "alias": "vl_1",
+            "column": "hmsd.vl_1"
         },
-        "type": "derived_column",
-        "expressionType": "simple_expression"
-    }],
+        {
+            "type": "derived_column",
+            "alias": "vl_1_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "alias": "net_cohort",
+            "expressionOptions": {
+                "expression": "1"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        },
+        {
+            "alias": "active",
+            "expressionOptions": {
+                "expression": "if(status='active',1,null)"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        },
+        {
+            "alias": "ltfu",
+            "expressionOptions": {
+                "expression": "if(status='ltfu',1,null)"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        },
+        {
+            "alias": "dead",
+            "expressionOptions": {
+                "expression": "if(status='dead',1,null)"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        },
+        {
+            "alias": "on_tx",
+            "expressionOptions": {
+                "expression": "if(on_art_this_month=1,1,null)"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        },
+        {
+            "alias": "suppressed",
+            "expressionOptions": {
+                "expression": "if(vl_1<1000 and vl_in_past_year=1,1,null)"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        },
+        {
+            "alias": "total_with_vl",
+            "expressionOptions": {
+                "expression": "if(vl_in_past_year=1,1,null)"
+            },
+            "type": "derived_column",
+            "expressionType": "simple_expression"
+        }
+    ],
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [

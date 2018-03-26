@@ -1853,13 +1853,12 @@ module.exports = function () {
                 preRequest.resolveLocationIdsToLocationUuids(request,
                     function () {
                         let requestParams = Object.assign({}, request.query, request.params);
-                        console.log(requestParams);
                         if (request.query.reportName === 'MOH-731-report-2017') {
                             requestParams.limitParam = requestParams.limit;
                             requestParams.offSetParam = requestParams.startIndex;
                             let moh731 = new Moh731Report(requestParams);
 
-                            moh731.generatePatientListReport([requestParams.indicator]).then((results) => {
+                            moh731.generatePatientListReport(requestParams.indicator.split(',')).then((results) => {
                                 reply(results);
                             })
                                 .catch((err) => {

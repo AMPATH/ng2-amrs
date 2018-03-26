@@ -81,7 +81,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "location_id in (?)",
+                "conditionExpession": "pep.location_id in (?)",
                 "parameterName": "locations"
             }
         ]
