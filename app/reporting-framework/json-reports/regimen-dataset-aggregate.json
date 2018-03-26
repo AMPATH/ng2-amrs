@@ -18,7 +18,7 @@
     ],
     "columns": [{
         "type": "simple_column",
-        "alias": "reg_gender",
+        "alias": "gender",
         "column": "hmsd.gender"
     }, {
         "type": "simple_column",
@@ -32,7 +32,7 @@
     },
     {
         "type": "simple_column",
-        "alias": "reg_age_range",
+        "alias": "age_range",
         "disAggregation": "true",
         "column": "hmsd.age_range"
     }, {
@@ -47,13 +47,14 @@
         "groupParam": "groupByParam",
         "columns": [
             "arv_first_regimen_location_id",
-            "reg_age_range",
-            "reg_gender"
+            "age_range",
+            "hmsd.gender"
         ]
     },
     "transFormDirectives":{
         "joinColumn":"location_id",
-        "disaggregationColumns":["reg_gender","reg_age_range"]
+        "disaggregationColumns":["gender","age_range"],
+        "skipColumns":["arv_first_regimen_location_id"]
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {
@@ -68,5 +69,6 @@
                 }
             }
         }
+        
     }
 }

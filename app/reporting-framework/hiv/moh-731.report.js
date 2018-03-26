@@ -16,7 +16,6 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
         return new Promise((resolve, reject) => {
             super.generateReport(additionalParams)
                 .then((results) => {
-                    // TODO: Process results here
                     if (additionalParams && additionalParams.type === 'patient-list') {
                         results.indicators = that.getIndicatorSectionDefinitions(that.params.indicator,
                             moh731defs);
@@ -27,8 +26,9 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
                         for (let result of results) {
                             if (result.report && result.report.reportSchemas && result.report.reportSchemas.main &&
                                 result.report.reportSchemas.main.transFormDirectives.joinColumn) {
-                                finalResult = reportProcessorHelpersService.joinDataSets(result.report.reportSchemas.main.transFormDirectives.joinColumn,
-                                    finalResult, result.results.results.results);
+                                finalResult = reportProcessorHelpersService
+                                    .joinDataSets(result.report.reportSchemas.main.transFormDirectives.joinColumn,
+                                        finalResult, result.results.results.results);
                             }
                         }
                         resolve({

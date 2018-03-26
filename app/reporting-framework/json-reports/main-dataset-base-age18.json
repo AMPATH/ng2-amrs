@@ -1,5 +1,5 @@
 {
-    "name": "mainDataSetBase",
+    "name": "mainDataSetBaseAge18",
     "version": "1.0",
     "tag": "",
     "description": "",
@@ -51,28 +51,12 @@
             "expressionOptions": {
                 "caseOptions": [
                     {
-                        "condition": "hmsd.age < 1",
-                        "value": "0_to_1"
-                    },
-                    {
-                        "condition": "hmsd.age between 1 and 9",
-                        "value": "1_to_9"
-                    },
-                    {
-                        "condition": "hmsd.age between 10 and 14",
-                        "value": "10_to_14"
-                    },
-                    {
-                        "condition": "hmsd.age between 15 and 19",
-                        "value": "15_to_19"
-                    },
-                    {
-                        "condition": "hmsd.age between 20 and 24",
-                        "value": "20_to_24"
+                        "condition": "hmsd.age >= 18",
+                        "value": "18_and_above"
                     },
                     {
                         "condition": "else",
-                        "value": "older_than_24"
+                        "value": "below_18"
                     }
                 ]
             }
@@ -123,14 +107,6 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "case when status='active' and on_pcp_prophylaxis_this_month=1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "current_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(on_art_this_month=1,1,null)"
             }
         },
         {

@@ -2,6 +2,11 @@
     "reports": [
         "mainDatasetAggregate",
         "regimenDataSetAggregate",
-        "retentionDataSetAggregate"
+        "retentionDataSetAggregate",
+        "mainDatasetAggregateNoDisaggregation",
+        "mainDatasetAggregateAgeDisaggregation",
+        "mainDatasetAggregateAge15Disaggregation",
+        "mainDatasetAggregateAge18Disaggregation",
+        "pepDatasetAggregate"
     ]
 }

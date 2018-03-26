@@ -85,6 +85,11 @@
                 "filterType": "tableColumns",
                 "conditionExpession": "arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
                 "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpession": "hmsd.location_id in (?)",
+                "parameterName": "locations"
             }
         ]
     }
