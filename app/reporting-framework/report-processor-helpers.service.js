@@ -32,7 +32,11 @@ export default class ReportProcessorHelpersService {
                 for (let g of group) {
                     for (let i in g) {
                         if (!(options.use.includes(i) || options.joinColumn.includes(i) || options.skip.includes(i))) {
-                            final[`dc__${p}__${i}`] = g[i];
+                            let dc = ''
+                            if (p) {
+                                dc = `dc__${p}__`
+                            }
+                            final[`${dc}${i}`] = g[i];
                         } else if (options.joinColumn.includes(i) || options.skip.includes(i)) {
                             final[`${i}`] = g[i];
                         }

@@ -1,0 +1,89 @@
+{
+    "name": "pepDataSetbase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [{
+        "table": "etl.flat_pep_summary",
+        "alias": "pep"
+    }],
+    "columns": [{
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "pep.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "pep.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_hiv_exposed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "hiv_exposed_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "hiv_exposed_non_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_started_PEP",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_PEP_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_PEP_non_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [{
+                "filterType": "tableColumns",
+                "conditionExpession": "encounter_datetime <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpession": "encounter_datetime >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpession": "location_id in (?)",
+                "parameterName": "locations"
+            }
+        ]
+    }
+}

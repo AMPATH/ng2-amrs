@@ -1,5 +1,5 @@
 {
-    "name": "mainDatasetAggregate",
+    "name": "mainDatasetAggregateNoDisaggregation",
     "version": "1.0",
     "tag": "",
     "description": "",
@@ -34,17 +34,7 @@
             "type": "simple_column",
             "alias": "age_range",
             "column": "hmsd.age_range"
-        },
-        {
-            "type": "derived_column",
-            "alias": "current_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.current_on_art)"
-            }
-        },
-
-        {
+        }, {
             "type": "derived_column",
             "alias": "enrolled_this_month",
             "expressionType": "simple_expression",
@@ -92,6 +82,14 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "sum(hmsd.screened_for_tb)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "current_on_art",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.current_on_art)"
             }
         }, {
             "type": "derived_column",
@@ -154,21 +152,7 @@
     },
     "transFormDirectives": {
         "joinColumn": "location_id",
-        "skipColumns": ["location_uuid"],
-        "disaggregationColumns": ["gender", "age_range"]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+        "skipColumns": ["location_uuid", "gender", "age_range"],
+        "disaggregationColumns": []
     }
 }

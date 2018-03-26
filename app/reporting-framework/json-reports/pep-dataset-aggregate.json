@@ -1,0 +1,92 @@
+{
+    "name": "pepDatasetAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [{
+        "name": "pepDataSetbase",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [{
+        "dataSet": "pepDataSetbase",
+        "alias": "hmsd"
+    }],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "hmsd.location_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "hiv_exposed_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.hiv_exposed_occupational)"
+            }
+        
+        },
+        {
+            "type": "derived_column",
+            "alias": "hiv_exposed_non_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.hiv_exposed_non_occupational)"
+            }
+        
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_started_PEP",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.total_started_PEP)"
+            }
+        
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_PEP_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.started_PEP_occupational)"
+            }
+        
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_PEP_non_occupational",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.started_PEP_non_occupational)"
+            }
+        
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "location_id"
+        ]
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [],
+        "disaggregationColumns": []
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

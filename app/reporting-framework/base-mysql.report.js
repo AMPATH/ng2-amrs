@@ -1,15 +1,28 @@
-import { Json2Sql } from 'ampath-json2sql';
-import { Promise } from 'bluebird';
+import {
+    Json2Sql
+} from 'ampath-json2sql';
+import {
+    Promise
+} from 'bluebird';
 import QueryService from '../database-access/query.service';
+import ReportProcessorHelpersService from './report-processor-helpers.service';
 
 // TODO: Move to data store
 import * as moh_731 from './json-reports/moh-731-bluecard.json';
 import * as main_dataset_aggregate from './json-reports/main-dataset-aggregate.json';
+import * as main_dataset_aggregate_age_disaggregation from './json-reports/main-dataset-aggregate-age-disaggregation';
+import * as main_dataset_aggregate_no_disaggregation from './json-reports/main-dataset-aggregate-no-disaggregation';
+import * as main_dataset_aggregate_age15_disaggregation from './json-reports/main-dataset-aggregate-age15-disaggregation';
+import * as main_dataset_aggregate_age18_disaggregation from './json-reports/main-dataset-aggregate-age18-disaggregation';
 import * as main_dataset_base from './json-reports/main-dataset-base.json';
+import * as main_dataset_base_age15 from './json-reports/main-dataset-base-age15.json';
+import * as main_dataset_base_age18 from './json-reports/main-dataset-base-age18.json';
 import * as regimen_dataset_aggregate from './json-reports/regimen-dataset-aggregate.json';
 import * as regimen_dataset_base from './json-reports/regimen-dataset-base.json';
 import * as retention_dataset_aggregate from './json-reports/retention-dataset-aggregate.json';
 import * as retention_dataset_base from './json-reports/retention-dataset-base.json';
+import * as pep_dataset_aggregate from './json-reports/pep-dataset-aggregate.json';
+import * as pep_dataset_base from './json-reports/pep-dataset-base.json';
 import * as patient_list_template from './json-reports/patient-list-template.json';
 
 export class BaseMysqlReport {
@@ -36,6 +49,9 @@ export class BaseMysqlReport {
 
                             // run query
                             that.executeReportQuery(that.reportQuery)
+                                .then((result) => {
+                                    return that.transFormResults(that.reportSchemas, result);
+                                })
                                 .then((results) => {
                                     that.queryResults = results;
 
@@ -91,6 +107,36 @@ export class BaseMysqlReport {
                         retentionDataSetbase: retention_dataset_base
                     });
                     break;
+                case 'mainDatasetAggregateAgeDisaggregation':
+                    resolve({
+                        main: main_dataset_aggregate_age_disaggregation,
+                        mainDataSetBase: main_dataset_base
+                    });
+                    break;
+                case 'mainDatasetAggregateNoDisaggregation':
+                    resolve({
+                        main: main_dataset_aggregate_no_disaggregation,
+                        mainDataSetBase: main_dataset_base
+                    });
+                    break;
+                case 'mainDatasetAggregateAge15Disaggregation':
+                    resolve({
+                        main: main_dataset_aggregate_age15_disaggregation,
+                        mainDataSetBaseAge15: main_dataset_base_age15
+                    });
+                    break;
+                case 'mainDatasetAggregateAge18Disaggregation':
+                    resolve({
+                        main: main_dataset_aggregate_age18_disaggregation,
+                        mainDataSetBaseAge18: main_dataset_base_age18
+                    });
+                    break;
+                case 'pepDatasetAggregate':
+                    resolve({
+                        main: pep_dataset_aggregate,
+                        pepDataSetbase: pep_dataset_base
+                    });
+                    break;
                 default:
                     reject('Unknown report ', reportName);
                     break;
@@ -122,11 +168,37 @@ export class BaseMysqlReport {
         return new Promise((resolve, reject) => {
             runner.executeQuery(sqlQuery)
                 .then((results) => {
-                    resolve({ results: results });
+                    resolve({
+                        results: results
+                    });
                 })
                 .catch((error) => {
                     reject(error)
                 });
+        });
+    }
+
+    transFormResults(reportSchemas, result) {
+        return new Promise((resolve, reject) => {
+            try {
+                if (reportSchemas && reportSchemas.main && reportSchemas.main.transFormDirectives &&
+                    reportSchemas.main.transFormDirectives.disaggregationColumns &&
+                    reportSchemas.main.transFormDirectives.joinColumn) {
+                    const reportProcessorHelpersService = new ReportProcessorHelpersService();
+                    let final = reportProcessorHelpersService.tranform(result.results, {
+                        use: reportSchemas.main.transFormDirectives.disaggregationColumns,
+                        skip: reportSchemas.main.transFormDirectives.skipColumns || [],
+                        joinColumn: reportSchemas.main.transFormDirectives.joinColumn
+                    });
+                    result.results = final;
+                }
+                resolve(result);
+            } catch (error) {
+                console.error(error);
+                reject(error);
+                // expected output: SyntaxError: unterminated string literal
+                // Note - error messages will vary depending on browser
+            }
         });
     }
 

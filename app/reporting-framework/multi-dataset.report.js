@@ -54,29 +54,7 @@ export class MultiDatasetReport extends BaseMysqlReport {
         that.reportHandlers = handlers;
     }
 
-    transFormResults(currentReport, result) {
-        return new Promise((resolve, reject) => {
-            try {
-                if (currentReport.reportSchemas && currentReport.reportSchemas.main &&
-                    currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns &&
-                    currentReport.reportSchemas.main.transFormDirectives.joinColumn) {
-                    const reportProcessorHelpersService = new ReportProcessorHelpersService();
-                    let final = reportProcessorHelpersService.tranform(result.results.results, {
-                        use: currentReport.reportSchemas.main.transFormDirectives.disaggregationColumns,
-                        skip: currentReport.reportSchemas.main.transFormDirectives.skipColumns || [],
-                        joinColumn: currentReport.reportSchemas.main.transFormDirectives.joinColumn
-                    });
-                    result.results.results = final;
-                }
-                resolve(result);
-            } catch (error) {
-                console.error(error);
-                reject(error);
-                // expected output: SyntaxError: unterminated string literal
-                // Note - error messages will vary depending on browser
-            }
-        });
-    }
+
 
     runSingleReport(reportObject, additionalParams) {
         return reportObject.generateReport();
@@ -91,9 +69,6 @@ export class MultiDatasetReport extends BaseMysqlReport {
             Promise.reduce(reportHandlers, (previous, currentReport) => {
                     return new Promise((res, rej) => {
                         that.runSingleReport(currentReport, additionalParams)
-                            .then((result) => {
-                                return that.transFormResults(currentReport, result);
-                            })
                             .then((result) => {
                                 let toAdd = results.push({
                                     report: currentReport,
