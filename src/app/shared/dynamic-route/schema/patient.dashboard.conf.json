@@ -177,6 +177,16 @@
       "routes": []
     },
     {
+      "programName": "HIV Exposed Infant",
+      "programUuid": "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
+      "baseRoute": "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
+      "alias": "hiv",
+      "published": true,
+      "shared-routes-class": "hiv",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "Cervical Cancer Screening",
       "programUuid": "cad71628-692c-4d8f-8dac-b2e20bece27f",
       "baseRoute": "cad71628-692c-4d8f-8dac-b2e20bece27f",
