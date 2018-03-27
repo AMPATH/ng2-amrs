@@ -41,7 +41,16 @@
             "expressionOptions": {
                 "expression": "count(hmsd.enrolled_this_month)"
             }
-        }, {
+        },
+        {
+            "type": "derived_column",
+            "alias": "join_location",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        }
+        , {
             "type": "derived_column",
             "alias": "pre_art",
             "expressionType": "simple_expression",
@@ -139,11 +148,13 @@
         "columns": [
             "age_range",
             "location_id"
-        ]
+        ],
+        "excludeParam": "excludeParam"
     },
     "transFormDirectives": {
         "joinColumn": "location_id",
-        "skipColumns":["location_uuid","gender"],
+        "skipColumns":["location_uuid","gender","join_location"],
+        "joinColumnParam": "joinColumnParam",
         "disaggregationColumns": ["age_range"]
     }
 }

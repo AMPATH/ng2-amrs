@@ -13,6 +13,14 @@
         "alias": "hmsd"
     }],
     "columns": [{
+            "type": "derived_column",
+            "alias": "join_location",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
             "type": "simple_column",
             "alias": "location_uuid",
             "column": "hmsd.location_uuid"
@@ -150,11 +158,12 @@
             "gender",
             "age_range",
             "location_id"
-        ]
+        ],
+        "excludeParam": "excludeParam"
     },
     "transFormDirectives": {
         "joinColumn": "location_id",
-        "skipColumns": ["location_uuid"],
+        "skipColumns": ["location_uuid","join_location"],
         "disaggregationColumns": ["gender", "age_range"]
     },
     "dynamicJsonQueryGenerationDirectives": {

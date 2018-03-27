@@ -93,17 +93,17 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "encounter_datetime <= ?",
+                "conditionExpression": "encounter_datetime <= ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "encounter_datetime >= ?",
+                "conditionExpression": "encounter_datetime >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "pep.location_id in (?)",
+                "conditionExpression": "pep.location_id in ?",
                 "parameterName": "locations"
             }
         ]
