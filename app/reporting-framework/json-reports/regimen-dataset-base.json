@@ -8,6 +8,14 @@
         {
             "table": "etl.hiv_monthly_report_dataset",
             "alias": "hmsd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = hmsd.location_id"
+            }
         }
     ],
     "columns": [
@@ -25,6 +33,16 @@
             "type": "simple_column",
             "alias": "location_id",
             "column": "hmsd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
         },
         {
             "type": "simple_column",

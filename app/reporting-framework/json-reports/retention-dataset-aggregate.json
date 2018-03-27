@@ -19,6 +19,16 @@
     "columns": [
         {
             "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "hmsd.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "hmsd.location"
+        },
+        {
+            "type": "simple_column",
             "alias": "location_id",
             "column": "hmsd.location_id"
         },
