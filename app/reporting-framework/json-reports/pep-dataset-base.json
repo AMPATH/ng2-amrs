@@ -4,14 +4,35 @@
     "tag": "",
     "description": "",
     "uses": [],
-    "sources": [{
-        "table": "etl.flat_pep_summary",
-        "alias": "pep"
-    }],
-    "columns": [{
+    "sources": [
+        {
+            "table": "etl.flat_pep_summary",
+            "alias": "pep"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = pep.location_id"
+            }
+        }
+    ],
+    "columns": [
+        {
             "type": "simple_column",
             "alias": "location_id",
             "column": "pep.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
         },
         {
             "type": "simple_column",
@@ -69,7 +90,8 @@
     ],
     "filters": {
         "conditionJoinOperator": "and",
-        "conditions": [{
+        "conditions": [
+            {
                 "filterType": "tableColumns",
                 "conditionExpession": "encounter_datetime <= ?",
                 "parameterName": "endDate"

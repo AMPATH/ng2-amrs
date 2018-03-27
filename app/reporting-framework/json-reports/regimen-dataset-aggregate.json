@@ -16,7 +16,18 @@
             "alias": "hmsd"
         }
     ],
-    "columns": [{
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "hmsd.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "hmsd.location"
+        },
+        {
         "type": "simple_column",
         "alias": "gender",
         "column": "hmsd.gender"

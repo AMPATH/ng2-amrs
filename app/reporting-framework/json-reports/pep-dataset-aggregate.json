@@ -19,6 +19,16 @@
             "column": "hmsd.location_id"
         },
         {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "hmsd.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "hmsd.location"
+        },
+        {
             "type": "derived_column",
             "alias": "hiv_exposed_occupational",
             "expressionType": "simple_expression",
