@@ -10,6 +10,10 @@ const dao = require('../../../etl-dao');
 
 export class Moh731Report extends MultiDatasetPatientlistReport {
     constructor(params) {
+        if (params.isAggregated) {
+            params.excludeParam = ['location_id', 'arv_first_regimen_location_id'];
+            params.joinColumnParam = 'join_location';
+        }
         super('MOH-731-greencard', params)
     }
 
@@ -28,8 +32,10 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
                             if (result.report && result.report.reportSchemas && result.report.reportSchemas.main &&
                                 result.report.reportSchemas.main.transFormDirectives.joinColumn) {
                                 finalResult = reportProcessorHelpersService
-                                    .joinDataSets(result.report.reportSchemas.main.transFormDirectives.joinColumn,
+                                    .joinDataSets(that.params[result.report.reportSchemas.main.transFormDirectives.joinColumnParam] ||
+                                        result.report.reportSchemas.main.transFormDirectives.joinColumn,
                                         finalResult, result.results.results.results);
+
                             }
                         }
                         resolve({
@@ -51,26 +57,26 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
         let self = this;
         return new Promise((resolve, reject) => {
             super.generatePatientListReport(indicators)
-            .then((results)=>{
-                let indicatorLabels = self.getIndicatorSectionDefinitions(results.indicators,
-                            moh731defs);
+                .then((results) => {
+                    let indicatorLabels = self.getIndicatorSectionDefinitions(results.indicators,
+                        moh731defs);
 
-                results.indicators = indicatorLabels;
+                    results.indicators = indicatorLabels;
 
-                self.resolveLocationUuidsToName(self.params.locationUuids)
-                .then((locations)=>{
-                    results.locations = locations;
-                    resolve(results);
+                    self.resolveLocationUuidsToName(self.params.locationUuids)
+                        .then((locations) => {
+                            results.locations = locations;
+                            resolve(results);
+                        })
+                        .catch((err) => {
+                            resolve(results);
+                        });
+
                 })
-                .catch((err)=>{
-                    resolve(results);
+                .catch((err) => {
+                    console.error('MOH patient list generation error', err);
+                    reject(err);
                 });
-
-            })
-            .catch((err)=>{
-                console.error('MOH patient list generation error', err);
-                reject(err);
-            });
         });
     }
 

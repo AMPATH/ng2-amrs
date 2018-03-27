@@ -1,7 +1,7 @@
 FROM keymetrics/pm2-docker-alpine:7
 
 COPY . /opt/etl
-
+RUN apk add --no-cache git
 RUN npm install -g babel-cli
 RUN rm -rf /opt/etl/conf
 RUN  cd /opt/etl && npm install 

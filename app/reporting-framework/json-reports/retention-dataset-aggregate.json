@@ -18,6 +18,14 @@
     ],
     "columns": [
         {
+            "type": "derived_column",
+            "alias": "join_location",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
             "type": "simple_column",
             "alias": "location_uuid",
             "column": "hmsd.location_uuid"
@@ -101,10 +109,13 @@
         "groupParam": "groupByParam",
         "columns": [
             "location_id"
-        ]
+        ],
+        "excludeParam": "excludeParam"
     },
     "transFormDirectives":{
-        "joinColumn":"location_id"
+        "joinColumn":"location_id",
+        "joinColumnParam": "joinColumnParam",
+        "skipColumns":["arv_first_regimen_location_id","join_location"]
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {

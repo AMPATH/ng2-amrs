@@ -12,7 +12,17 @@
         "dataSet": "mainDataSetBase",
         "alias": "hmsd"
     }],
-    "columns": [{
+    "columns": [
+        {
+            "type": "derived_column",
+            "alias": "join_location",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        
+        {
             "type": "simple_column",
             "alias": "location_uuid",
             "column": "hmsd.location_uuid"
@@ -145,14 +155,14 @@
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
-            "gender",
-            "age_range",
             "location_id"
-        ]
+        ],
+        "excludeParam": "excludeParam"
     },
     "transFormDirectives": {
         "joinColumn": "location_id",
-        "skipColumns": ["location_uuid", "gender", "age_range"],
+        "joinColumnParam": "joinColumnParam",
+        "skipColumns": ["location_uuid", "gender", "age_range","join_location"],
         "disaggregationColumns": []
     }
 }

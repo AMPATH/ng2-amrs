@@ -10,7 +10,7 @@
             {
                 "label": "Enrolled in care - 1 to 9yrs",
                 "ref": "HV03-002",
-                "indicator": "dc__age_range__1_to_9__current_in_care"
+                "indicator": "dc__age_range__1_to_9__enrolled_this_month"
             },
             {
                 "label": "Enrolled in care - 10 to 14yrs(M)",
@@ -135,7 +135,7 @@
             {
                 "label": "Starting ART - 25 and older(F)",
                 "ref": "HV03-025",
-                "indicator": "dc__gender__M__age_range__older_than_24__started_art"
+                "indicator": "dc__gender__F__age_range__older_than_24__started_art"
             },
             {
                 "label": "Starting on ART - Total (Sum HV03-016 to HV03-025)",

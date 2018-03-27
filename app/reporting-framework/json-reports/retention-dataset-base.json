@@ -143,22 +143,22 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "endDate = ?",
+                "conditionExpression": "endDate = ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "status in ('active','ltfu','dead')",
+                "conditionExpression": "status in ('active','ltfu','dead')",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
+                "conditionExpression": "arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "hmsd.location_id in (?)",
+                "conditionExpression": "hmsd.location_id in ?",
                 "parameterName": "locations"
             }
         ]

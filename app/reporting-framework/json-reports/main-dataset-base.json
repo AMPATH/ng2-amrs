@@ -253,12 +253,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "endDate = ?",
+                "conditionExpression": "endDate = ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpession": "hmsd.location_id in (?)",
+                "conditionExpression": "hmsd.location_id in ?",
                 "parameterName": "locations"
             }
         ]

@@ -14,6 +14,14 @@
     }],
     "columns": [
         {
+            "type": "derived_column",
+            "alias": "join_location",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
+        },
+        {
             "type": "simple_column",
             "alias": "location_id",
             "column": "hmsd.location_id"
@@ -78,11 +86,13 @@
         "groupParam": "groupByParam",
         "columns": [
             "location_id"
-        ]
+        ],
+        "excludeParam": "excludeParam"
     },
     "transFormDirectives": {
         "joinColumn": "location_id",
-        "skipColumns": [],
+        "joinColumnParam": "joinColumnParam",
+        "skipColumns": ["join_location"],
         "disaggregationColumns": []
     },
     "dynamicJsonQueryGenerationDirectives": {
