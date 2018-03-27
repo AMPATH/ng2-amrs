@@ -102,6 +102,7 @@ export class Moh731ReportBaseComponent implements OnInit {
     this.showPatientList = false;
     this.showTabularView = true;
     this.showPatientListLoader = false;
+    this.currentIndicator = '';
   }
 
   public onLoadCompleted(complete) {
