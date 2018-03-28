@@ -2,7 +2,11 @@
 <h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> MOH 731 Report</h4>
 <div class="loader" *ngIf="isLoadingReport||showPatientListLoader"><span><i class="fa fa-spinner fa-spin">
       </i>Loading...</span></div>
-<moh-731-report-filters [(startDate)]="startDate" [(endDate)]="endDate" [(isLegacyVersion)]="isLegacyReport" [parentIsBusy]="isLoadingReport"
+<moh-731-report-filters [(startDate)]="startDate" [(endDate)]="endDate" [(isLegacyVersion)]="isLegacyReport" [(isAggregated)]="isAggregated"
+[parentIsBusy]="isLoadingReport"
+[(locationUuids)]="locationUuids"
+[showLocationsControl] = "showLocationsControl"
+                [showIsAggregateControl] = "showIsAggregateControl"
     (generateReport)="generateReport()">
 
 </moh-731-report-filters>
@@ -23,12 +27,12 @@
         <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
           <button class="btn btn-primary" (click)="toggleMohTables()" *ngIf="!showTabularView">Go back to tabular view</button>
           <div class="loader" *ngIf="showPatientListLoader">Loading patient list....</div>
-             <moh-731-tabular [hidden]="!showTabularView" (onColumnClick)="onColumnClicked($event)" [sectionDefs]="sectionsDef" [rowData]="data"></moh-731-tabular>
+             <moh-731-tabular [hidden]="!showTabularView" [sectionDefs]="sectionsDef" (indicatorSelected)="onIndicatorSelected($event)" [rowData]="data"></moh-731-tabular>
               <moh-731-patientlist *ngIf="currentIndicator.length > 0" [hidden]="!showPatientList"
                 (onLoadComplete)="onLoadCompleted($event)"
                 [startDate]="startDate"
                 [endDate]="endDate"
-                [locations]="locationUuids"
+                [locations]="patientListLocationUuids"
                 [indicator]="currentIndicator"
                 [isLegacy]="isLegacyReport"
               ></moh-731-patientlist>

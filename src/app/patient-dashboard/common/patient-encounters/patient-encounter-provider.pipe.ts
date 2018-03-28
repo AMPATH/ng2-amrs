@@ -18,13 +18,12 @@ export class PatientEncounterProviderPipe implements PipeTransform {
 
           let providerName = provider.split('-')[2];
 
-           if (typeof providerName !== 'undefined') {
+          if (typeof providerName !== 'undefined') {
                     return providerName;
               }else {
                 console.error('ERROR : Undefined Provider Name', providerName);
                 return '';
             }
-
 
        }
 
