@@ -1784,8 +1784,9 @@ module.exports = function () {
                 preRequest.resolveLocationIdsToLocationUuids(request,
                     function () {
                         let requestParams = Object.assign({}, request.query, request.params);
+                        // console.log('requestParams', requestParams);
                         let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
-                        // console.log(reportParams);
+                        // console.log('report params=>>', reportParams);
 
                         if (request.query.reportName === 'MOH-731-report-2017') {
                             let moh731 = new Moh731Report(reportParams.requestParams);
@@ -1850,13 +1851,24 @@ module.exports = function () {
                 }
             },
             handler: function (request, reply) {
+                //security check
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                    return reply(Boom.forbidden('Unauthorized'));
+                }
+
                 preRequest.resolveLocationIdsToLocationUuids(request,
                     function () {
                         let requestParams = Object.assign({}, request.query, request.params);
+
+                        let requestCopy = _.cloneDeep(requestParams);
+                        // console.log('requestParams', requestParams);
+                        let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
+                        requestCopy.locations = reportParams.requestParams.locations;
+                        // console.log('report params', reportParams)
                         if (request.query.reportName === 'MOH-731-report-2017') {
                             requestParams.limitParam = requestParams.limit;
                             requestParams.offSetParam = requestParams.startIndex;
-                            let moh731 = new Moh731Report(requestParams);
+                            let moh731 = new Moh731Report(requestCopy);
 
                             moh731.generatePatientListReport(requestParams.indicator.split(',')).then((results) => {
                                 reply(results);
