@@ -47,7 +47,6 @@ export class TodaysVitalsService {
 
         });
 
-
     }
 
     private getFormattedDate(date, format) {
@@ -98,13 +97,11 @@ export class TodaysVitalsService {
                             let populateVital = this.populateModel(vital);
                             if (typeof populateVital !== 'undefined') {
 
-
                                 this.vitalModel.bmi = this.calcBMI(
                                     this.vitalModel.height,
                                     this.vitalModel.weight);
 
                                 this.hasVitals = true;
-
 
                             }
 

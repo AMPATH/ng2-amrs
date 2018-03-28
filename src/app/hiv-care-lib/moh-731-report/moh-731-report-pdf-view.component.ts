@@ -21,17 +21,21 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     public subscription: Subscription;
     public locations = [];
     public sectionDefinitions: any;
-    public rowData: any;
+    public mohReports: Array<any>;
     public previousData: any;
     public numberOfPages = 0;
     public _data;
+
+    public stack = [];
+
     @Input() public sectionsDef: any;
     @Input() public startDate: any;
     @Input() public endDate: any;
     @Input()
     set data(value: any) {
         if (value) {
-            this.rowData = value;
+            // console.log('data',value);
+            this.mohReports = value;
             this._data = value;
             this.endDate = Moment(this.endDate).format('DD-MM-YYYY');
             this.startDate = Moment(this.startDate).format('DD-MM-YYYY');
@@ -67,6 +71,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     public generateMoh731ByLocation(params: any, rowData, sectionDefinitions) {
         if (params && rowData && sectionDefinitions) {
             this.isBusy = true;
+            // console.log('making pdf', rowData);
             this.mohReportService.generatePdf(params, rowData, sectionDefinitions).subscribe(
                 (pdf) => {
                     this.pdfSrc = pdf.pdfSrc;
@@ -111,7 +116,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         this.isBusy = true;
         this.locationResourceService.getLocations().subscribe(
             (locations: any[]) => {
-              // tslint:disable-next-line:prefer-for-of
+                // tslint:disable-next-line:prefer-for-of
                 for (let i = 0; i < locations.length; i++) {
                     if (locations[i]) {
                         // add district,facility and county details
@@ -131,7 +136,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
                 }
 
-                this.moh731Report(this.rowData, this.sectionDefinitions);
+                this.moh731Report(this.mohReports, this.sectionDefinitions);
 
             },
             (error: any) => {
@@ -141,18 +146,33 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
     }
 
-    private moh731Report(rowData, sectionDefinitions) {
-        if (rowData) {
-          // tslint:disable-next-line:prefer-for-of
-            for (let i = 0; i < rowData.length; i++) {
-                let params = this.getParams(rowData[i].location_uuid);
-                if (params) {
-                    this.generateMoh731ByLocation(params, rowData[i], sectionDefinitions);
+    private moh731Report(reportsData, sectionDefinitions) {
+        if (Array.isArray(reportsData) && reportsData.length > 0) {
+            // tslint:disable-next-line:prefer-for-of
+            // for (let i = 0; i < reportsData.length; i++) {
 
-                }
+            let paramsArray = [];
 
-            }
-            this.previousData = rowData;
+            reportsData.forEach((element) => {
+                paramsArray.push(this.getParams(element.location_uuid));
+            });
+
+            this.mohReportService.generateMultiplePdfs(paramsArray, reportsData, sectionDefinitions)
+                .subscribe(
+                    (pdf) => {
+                        this.pdfSrc = pdf.pdfSrc;
+                        this.pdfMakeProxy = pdf.pdfProxy;
+                        this.securedUrl =
+                            this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
+                        this.isBusy = false;
+
+                    },
+                    (err) => {
+                        console.error(err);
+                        this.errorFlag = true;
+                        this.isBusy = false;
+                    }
+                );
         }
 
     }

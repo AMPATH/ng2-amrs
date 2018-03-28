@@ -27,6 +27,10 @@ import {
   HivMonthlySummaryIndicatorsPatientListComponent
 } from '../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component';
 
+import {
+  Moh731ReportComponent
+} from './moh-731/moh-731-report.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -69,6 +73,15 @@ const routes: Routes = [
               {
                 path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
                 component: HivSummaryIndicatorsPatientListComponent,
+              }
+            ]
+          },
+          {
+            path: 'moh-731-report',
+            children: [
+              {
+                path: '',
+                component: Moh731ReportComponent
               }
             ]
           },

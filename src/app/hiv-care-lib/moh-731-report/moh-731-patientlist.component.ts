@@ -43,13 +43,13 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     // tslint:disable-next-line
-    for (let propName in changes) {
-      let changedProp = changes[propName];
-      if (!changedProp.isFirstChange()) {
-        console.log('redrawing patient list');
-        this.loadPatientList();
-      }
-    }
+    // for (let propName in changes) {
+    //   let changedProp = changes[propName];
+    //   if (!changedProp.isFirstChange()) {
+    //     console.log('redrawing patient list');
+    //     this.loadPatientList();
+    //   }
+    // }
   }
 
   public ngOnInit() {
@@ -124,6 +124,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         this.addExtraColumns(data.indicators);
       }
     }, (err) => {
+      this.isLoading = false;
     });
 
     this.overrideColumns.push({
