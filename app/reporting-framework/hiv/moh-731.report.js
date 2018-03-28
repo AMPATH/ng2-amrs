@@ -5,16 +5,17 @@ import ReportProcessorHelpersService from '../report-processor-helpers.service';
 import {
     Promise
 } from 'bluebird';
-const moh731defs = require('./moh-731-2017');
+const moh731GreenCarddefs = require('./moh-731-2017');
+const moh731BlueCarddefs = require('./moh-731-legacy');
 const dao = require('../../../etl-dao');
 
 export class Moh731Report extends MultiDatasetPatientlistReport {
-    constructor(params) {
+    constructor(reportName, params) {
         if (params.isAggregated) {
             params.excludeParam = ['location_id', 'arv_first_regimen_location_id'];
             params.joinColumnParam = 'join_location';
         }
-        super('MOH-731-greencard', params)
+        super(reportName, params)
     }
 
     generateReport(additionalParams) {
@@ -38,6 +39,7 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
 
                             }
                         }
+                        let moh731defs = that.reportName === 'MOH-731-greencard' ? moh731GreenCarddefs : moh731BlueCarddefs;
                         resolve({
                             queriesAndSchemas: results,
                             result: finalResult,
@@ -55,6 +57,7 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
 
     generatePatientListReport(indicators) {
         let self = this;
+        let moh731defs = this.reportName === 'MOH-731-greencard' ? moh731GreenCarddefs : moh731BlueCarddefs;
         return new Promise((resolve, reject) => {
             super.generatePatientListReport(indicators)
                 .then((results) => {

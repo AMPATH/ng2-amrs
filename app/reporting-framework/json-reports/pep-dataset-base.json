@@ -44,7 +44,7 @@
             "alias": "total_hiv_exposed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "1"
+                "expression": "if(hiv_exposed_occupational is not null and date(pep_start_date) between '{startDate}' and '{endDate}',pep.person_id,null)"
             }
         },
         {
@@ -52,7 +52,7 @@
             "alias": "hiv_exposed_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "1"
+                "expression": "if(hiv_exposed_occupational=1,pep.person_id,null)"
             }
         },
         {
@@ -60,7 +60,7 @@
             "alias": "hiv_exposed_non_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "1"
+                "expression": "if(hiv_exposed_occupational=0,pep.person_id,null)"
             }
         },
         {
@@ -68,7 +68,7 @@
             "alias": "total_started_PEP",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "1"
+                "expression": "if(hiv_exposed_occupational is not null and date(pep_start_date) between '{startDate}' and '{endDate}',pep.person_id,null)"
             }
         },
         {
@@ -76,7 +76,7 @@
             "alias": "started_PEP_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "1"
+                "expression": "if(hiv_exposed_occupational=1 and date(pep_start_date) between '{startDate}' and '{endDate}',pep.person_id,null)"
             }
         },
         {
@@ -84,7 +84,7 @@
             "alias": "started_PEP_non_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "1"
+                "expression": "if(hiv_exposed_occupational=0 and date(pep_start_date) between '{startDate}' and '{endDate}',pep.person_id,null)"
             }
         }
     ],

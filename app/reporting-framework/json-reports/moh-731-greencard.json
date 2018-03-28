@@ -1,10 +1,12 @@
 {
     "reports": [
         "mainDatasetAggregate",
-        "mainDatasetAggregateBlueCard",
         "regimenDataSetAggregate",
         "retentionDataSetAggregate",
         "mainDatasetAggregateNoDisaggregation",
+        "mainDatasetAggregateAgeDisaggregation",
+        "mainDatasetAggregateAge15Disaggregation",
+        "mainDatasetAggregateAge18Disaggregation",
         "pepDatasetAggregate"
     ]
 }

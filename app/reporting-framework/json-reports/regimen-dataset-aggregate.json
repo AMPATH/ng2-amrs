@@ -75,7 +75,7 @@
         "joinColumn":"location_id",
         "joinColumnParam": "joinColumnParam",
         "disaggregationColumns":["gender","age_range"],
-        "skipColumns":["arv_first_regimen_location_id","join_location"]
+        "skipColumns":["arv_first_regimen_location_id","join_location","location_uuid"]
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {

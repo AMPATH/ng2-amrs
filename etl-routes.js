@@ -1786,10 +1786,10 @@ module.exports = function () {
                         let requestParams = Object.assign({}, request.query, request.params);
                         // console.log('requestParams', requestParams);
                         let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
-                        // console.log('report params=>>', reportParams);
+                        console.log('report params=>>', reportParams);
 
                         if (request.query.reportName === 'MOH-731-report-2017') {
-                            let moh731 = new Moh731Report(reportParams.requestParams);
+                            let moh731 = new Moh731Report('MOH-731-greencard',reportParams.requestParams);
 
                             moh731.generateReport().then((results) => {
                                 reply(results);
@@ -1798,12 +1798,14 @@ module.exports = function () {
                                     reply(Boom.internal('An error occured', err));
                                 });
                         } else {
-                            let service = new Moh731Service();
-                            service.getAggregateReport(reportParams).then((result) => {
-                                reply(result);
-                            }).catch((error) => {
-                                reply(error);
-                            });
+                            let moh731 = new Moh731Report('MOH-731-bluecard',reportParams.requestParams);
+
+                            moh731.generateReport().then((results) => {
+                                reply(results);
+                            })
+                                .catch((err) => {
+                                    reply(Boom.internal('An error occured', err));
+                                });
 
                         }
 
@@ -1865,10 +1867,10 @@ module.exports = function () {
                         let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
                         requestCopy.locations = reportParams.requestParams.locations;
                         // console.log('report params', reportParams)
+                        requestParams.limitParam = requestParams.limit;
+                        requestParams.offSetParam = requestParams.startIndex;
                         if (request.query.reportName === 'MOH-731-report-2017') {
-                            requestParams.limitParam = requestParams.limit;
-                            requestParams.offSetParam = requestParams.startIndex;
-                            let moh731 = new Moh731Report(requestCopy);
+                            let moh731 = new Moh731Report('MOH-731-greencard',requestCopy);
 
                             moh731.generatePatientListReport(requestParams.indicator.split(',')).then((results) => {
                                 reply(results);
@@ -1877,12 +1879,14 @@ module.exports = function () {
                                     reply(Boom.internal('An error occured', err));
                                 });
                         } else {
-                            let service = new Moh731Service();
-                            service.getPatientListReport(requestParams).then((result) => {
-                                reply(result);
-                            }).catch((error) => {
-                                reply(error);
-                            });
+                            let moh731 = new Moh731Report('MOH-731-bluecard',requestCopy);
+
+                            moh731.generatePatientListReport(requestParams.indicator.split(',')).then((results) => {
+                                reply(results);
+                            })
+                                .catch((err) => {
+                                    reply(Boom.internal('An error occured', err));
+                                });
                         }
                     });
             },

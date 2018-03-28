@@ -70,12 +70,12 @@
             {
                 "label": "In Pre ART - 0 to 14yrs",
                 "ref": "HV03-013",
-                "indicator": "dc__gender__F__age_range__below_15__pre_art"
+                "indicator": "dc__age_range__below_15__pre_art"
             },
             {
                 "label": "In Pre ART - 15yrs and older",
                 "ref": "HV03-014",
-                "indicator": "dc__gender__F__age_range__15_and_above__pre_art"
+                "indicator": "dc__age_range__15_and_above__pre_art"
             },
             {
                 "label": "In Pre ART - Total (Sum HV03-013 to HV013-014)",
@@ -500,7 +500,7 @@
             {
                 "label": "On modern FP F15+",
                 "ref": "HV03-090",
-                "indicator": "dc__gender__F__age_range__15_and_above__on_modern_contraception"
+                "indicator": "dc__age_range__15_and_above__on_modern_contraception"
             }
         ]
     },

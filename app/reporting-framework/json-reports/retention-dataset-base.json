@@ -143,11 +143,6 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "endDate = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
                 "conditionExpression": "status in ('active','ltfu','dead')",
                 "parameterName": ""
             },
