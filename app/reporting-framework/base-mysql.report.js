@@ -147,6 +147,7 @@ export class BaseMysqlReport {
 
     generateReportQuery(reportSchemas, params) {
         // console.log('Passed params', params)
+        // console.log('report schemas', JSON.stringify(reportSchemas, null, 4));
         let jSql = this.getJson2Sql(reportSchemas, params);
         return new Promise((resolve, reject) => {
             try {
@@ -157,6 +158,7 @@ export class BaseMysqlReport {
             }
         });
     }
+    
 
     getJson2Sql(reportSchemas, params) {
         return new Json2Sql(reportSchemas.main, reportSchemas, params);
