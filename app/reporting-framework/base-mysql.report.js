@@ -8,13 +8,16 @@ import QueryService from '../database-access/query.service';
 import ReportProcessorHelpersService from './report-processor-helpers.service';
 
 // TODO: Move to data store
-import * as moh_731 from './json-reports/moh-731-bluecard.json';
+import * as moh_731_greencard from './json-reports/moh-731-greencard.json';
+import * as moh_731_bluecard from './json-reports/moh-731-bluecard.json';
 import * as main_dataset_aggregate from './json-reports/main-dataset-aggregate.json';
+import * as main_dataset_aggregate_blue_card from './json-reports/main-dataset-aggregate-bluecard.json';
 import * as main_dataset_aggregate_age_disaggregation from './json-reports/main-dataset-aggregate-age-disaggregation';
 import * as main_dataset_aggregate_no_disaggregation from './json-reports/main-dataset-aggregate-no-disaggregation';
 import * as main_dataset_aggregate_age15_disaggregation from './json-reports/main-dataset-aggregate-age15-disaggregation';
 import * as main_dataset_aggregate_age18_disaggregation from './json-reports/main-dataset-aggregate-age18-disaggregation';
 import * as main_dataset_base from './json-reports/main-dataset-base.json';
+import * as main_dataset_base_blue_card from './json-reports/main-dataset-base-blue-card.json';
 import * as main_dataset_base_age15 from './json-reports/main-dataset-base-age15.json';
 import * as main_dataset_base_age18 from './json-reports/main-dataset-base-age18.json';
 import * as regimen_dataset_aggregate from './json-reports/regimen-dataset-aggregate.json';
@@ -77,11 +80,16 @@ export class BaseMysqlReport {
     }
 
     fetchReportSchema(reportName, version) {
-        return new Promise((resolve, error) => {
+        return new Promise((resolve, reject) => {
             switch (reportName) {
                 case 'MOH-731-greencard':
                     resolve({
-                        main: moh_731
+                        main: moh_731_greencard
+                    });
+                    break;
+                case 'MOH-731-bluecard':
+                    resolve({
+                        main: moh_731_bluecard
                     });
                     break;
                 case 'patient-list-template':
@@ -93,6 +101,12 @@ export class BaseMysqlReport {
                     resolve({
                         main: main_dataset_aggregate,
                         mainDataSetBase: main_dataset_base
+                    });
+                    break;
+                case 'mainDatasetAggregateBlueCard':
+                    resolve({
+                        main: main_dataset_aggregate_blue_card,
+                        mainDataSetBaseBlueCard: main_dataset_base_blue_card
                     });
                     break;
                 case 'regimenDataSetAggregate':

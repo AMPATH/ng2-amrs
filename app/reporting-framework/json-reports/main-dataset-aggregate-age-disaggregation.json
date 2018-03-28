@@ -13,6 +13,14 @@
         "alias": "hmsd"
     }],
     "columns": [{
+            "type": "derived_column",
+            "alias": "current_on_art",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.current_on_art)"
+            }
+        },
+        {
             "type": "simple_column",
             "alias": "location_uuid",
             "column": "hmsd.location_uuid"
@@ -49,8 +57,7 @@
             "expressionOptions": {
                 "expression": "1"
             }
-        }
-        , {
+        }, {
             "type": "derived_column",
             "alias": "pre_art",
             "expressionType": "simple_expression",
@@ -153,7 +160,7 @@
     },
     "transFormDirectives": {
         "joinColumn": "location_id",
-        "skipColumns":["location_uuid","gender","join_location"],
+        "skipColumns": ["location_uuid", "gender", "join_location"],
         "joinColumnParam": "joinColumnParam",
         "disaggregationColumns": ["age_range"]
     }

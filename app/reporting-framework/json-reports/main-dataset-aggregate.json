@@ -143,7 +143,16 @@
             "expressionOptions": {
                 "expression": "sum(hmsd.on_modern_contraception)"
             }
-        }, {
+        },
+        {
+            "type": "derived_column",
+            "alias": "art_revisit_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.art_revisit_this_month)"
+            }
+        }
+        , {
             "type": "derived_column",
             "alias": "f_gte_18_visits",
             "expressionType": "simple_expression",

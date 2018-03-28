@@ -38,10 +38,19 @@
         },
         {
             "type": "derived_column",
+            "alias": "total_hiv_exposed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct hmsd.total_hiv_exposed)"
+            }
+        
+        },
+        {
+            "type": "derived_column",
             "alias": "hiv_exposed_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.hiv_exposed_occupational)"
+                "expression": "count(distinct hmsd.hiv_exposed_occupational)"
             }
         
         },
@@ -50,7 +59,7 @@
             "alias": "hiv_exposed_non_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.hiv_exposed_non_occupational)"
+                "expression": "count(distinct hmsd.hiv_exposed_non_occupational)"
             }
         
         },
@@ -59,7 +68,7 @@
             "alias": "total_started_PEP",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.total_started_PEP)"
+                "expression": "count(distinct hmsd.total_started_PEP)"
             }
         
         },
@@ -68,7 +77,7 @@
             "alias": "started_PEP_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.started_PEP_occupational)"
+                "expression": "count(distinct hmsd.started_PEP_occupational)"
             }
         
         },
@@ -77,7 +86,7 @@
             "alias": "started_PEP_non_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.started_PEP_non_occupational)"
+                "expression": "count(distinct hmsd.started_PEP_non_occupational)"
             }
         
         }

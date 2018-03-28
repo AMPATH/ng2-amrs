@@ -1,5 +1,5 @@
 {
-    "name": "mainDataSetBase",
+    "name": "mainDataSetBaseBlueCard",
     "version": "1.0",
     "tag": "",
     "description": "",
@@ -93,28 +93,12 @@
             "expressionOptions": {
                 "caseOptions": [
                     {
-                        "condition": "hmsd.age < 1",
-                        "value": "0_to_1"
+                        "condition": "hmsd.age < 15",
+                        "value": "below_15_years"
                     },
                     {
-                        "condition": "hmsd.age between 1 and 9",
-                        "value": "1_to_9"
-                    },
-                    {
-                        "condition": "hmsd.age between 10 and 14",
-                        "value": "10_to_14"
-                    },
-                    {
-                        "condition": "hmsd.age between 15 and 19",
-                        "value": "15_to_19"
-                    },
-                    {
-                        "condition": "hmsd.age between 20 and 24",
-                        "value": "20_to_24"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "older_than_24"
+                        "condition": "hmsd.age >= 15",
+                        "value": "older_than_15"
                     }
                 ]
             }
@@ -125,22 +109,6 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "case when enrolled_this_month=1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "art_revisit_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when art_revisit_this_month=1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when arv_first_regimen_start_date IS NOT NULL AND transfer_in_date IS NULL then 1 else null end"
             }
         },
         {
@@ -169,26 +137,26 @@
         },
         {
             "type": "derived_column",
-            "alias": "started_art_pregnant",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id AND pregnant_this_month = 1,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_art_and_has_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id AND tb_screened_positive_this_month = 1,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "active_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "case when status='active' and on_art_this_month=1 then 1 else null end"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "art_revisit_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when art_revisit_this_month=1 then 1 else null end"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ever_on_art",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when arv_first_regimen_start_date IS NOT NULL AND transfer_in_date IS NULL then 1 else null end"
             }
         },
         {
@@ -269,30 +237,6 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "if(hmsd.gender='F' and age>=15 and modern_contraception_since_active=1,1,0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "scheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.on_schedule=1 and visit_this_month=1,1,0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "unscheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.on_schedule=0 and visit_this_month=1,1,0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(visit_this_month=1,1,0)"
             }
         },
         {
