@@ -12,8 +12,7 @@
         "dataSet": "mainDataSetBase",
         "alias": "hmsd"
     }],
-    "columns": [
-        {
+    "columns": [{
             "type": "derived_column",
             "alias": "join_location",
             "expressionType": "simple_expression",
@@ -21,7 +20,7 @@
                 "expression": "1"
             }
         },
-        
+
         {
             "type": "simple_column",
             "alias": "location_uuid",
@@ -98,7 +97,7 @@
                 "expression": "count(hmsd.started_art_and_has_tb)"
             }
         }
-        
+
         , {
             "type": "derived_column",
             "alias": "current_in_care",
@@ -156,7 +155,17 @@
             "expressionOptions": {
                 "expression": "sum(hmsd.completed_ipt_past_12_months)"
             }
-        }, {
+        },
+        {
+            "type": "derived_column",
+            "alias": "tb_screened_since_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.tb_screened_since_active)"
+            }
+        }
+
+        , {
             "type": "derived_column",
             "alias": "condoms_provided",
             "expressionType": "simple_expression",
@@ -220,7 +229,7 @@
     "transFormDirectives": {
         "joinColumn": "location_id",
         "joinColumnParam": "joinColumnParam",
-        "skipColumns": ["location_uuid", "gender", "age_range","join_location"],
+        "skipColumns": ["location_uuid", "gender", "age_range", "join_location"],
         "disaggregationColumns": []
     }
 }

@@ -60,7 +60,7 @@
             {
                 "label": "Enrolled in care - key population",
                 "ref": "HV03-012",
-                "indicator": "enrolled_this_month"
+                "indicator": ""
             }
         ]
     },
@@ -285,37 +285,37 @@
             {
                 "label": "Screened for TB - Below 1yrs(M)",
                 "ref": "HV03-051",
-                "indicator": "dc__age_range__0_to_1__screened_for_tb"
+                "indicator": "dc__age_range__0_to_1__tb_screened_since_active"
             },
             {
                 "label": "Screened for TB - 1 to 9yrs",
                 "ref": "HV03-052",
-                "indicator": "dc__age_range__1_to_9__screened_for_tb"
+                "indicator": "dc__age_range__1_to_9__tb_screened_since_active"
             },
             {
                 "label": "Screened for TB - 10 to 14yrs",
                 "ref": "HV03-053",
-                "indicator": "dc__age_range__10_to_14__screened_for_tb"
+                "indicator": "dc__age_range__10_to_14__tb_screened_since_active"
             },
             {
                 "label": "Screened for TB - 15 to 19yrs",
                 "ref": "HV03-054",
-                "indicator": "dc__age_range__15_to_19__screened_for_tb"
+                "indicator": "dc__age_range__15_to_19__tb_screened_since_active"
             },
             {
                 "label": "Screened for TB - 20 to 24yrs",
                 "ref": "HV03-055",
-                "indicator": "dc__age_range__20_to_24__screened_for_tb"
+                "indicator": "dc__age_range__20_to_24__tb_screened_since_active"
             },
             {
                 "label": "Screened for TB - 25yrs & older",
                 "ref": "HV03-056",
-                "indicator": "dc__age_range__older_than_24__screened_for_tb"
+                "indicator": "dc__age_range__older_than_24__tb_screened_since_active"
             },
             {
                 "label": "Total Screened for TB (Sum HV03-51 to HV03-56)",
                 "ref": "HV03-057",
-                "indicator": "screened_for_tb"
+                "indicator": "tb_screened_since_active"
             },
             {
                 "label": "Presumed TB Total ",
@@ -425,7 +425,7 @@
             {
                 "label": "TB cases New",
                 "ref": "HV03-076",
-                "indicator": "tb_screened_positive"
+                "indicator": ""
             },
             {
                 "label": "TB cases KP",

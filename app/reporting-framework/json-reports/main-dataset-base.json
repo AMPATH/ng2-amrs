@@ -180,7 +180,7 @@
             "alias": "started_art_and_has_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id AND tb_screened_positive_this_month = 1,1,null)"
+                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id AND tb_screened_this_month = 1,1,null)"
             }
         },
         {
@@ -210,6 +210,14 @@
         {
             "type": "derived_column",
             "alias": "screened_for_tb",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "tb_screened_this_month"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tb_screened_since_active",
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "tb_screened_since_active"

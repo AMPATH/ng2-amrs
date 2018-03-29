@@ -101,7 +101,17 @@
             "expressionOptions": {
                 "expression": "sum(hmsd.screened_for_tb)"
             }
-        }, {
+        },
+        {
+            "type": "derived_column",
+            "alias": "tb_screened_since_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.tb_screened_since_active)"
+            }
+        }
+        
+        , {
             "type": "derived_column",
             "alias": "tb_screened_positive",
             "expressionType": "simple_expression",

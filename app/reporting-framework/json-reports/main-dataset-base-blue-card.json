@@ -180,7 +180,7 @@
             "alias": "screened_for_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "tb_screened_since_active"
+                "expression": "tb_screened_this_month"
             }
         },
         {
