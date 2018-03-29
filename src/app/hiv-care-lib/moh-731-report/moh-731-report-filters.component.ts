@@ -54,6 +54,7 @@ export class Moh731ReportFiltersComponent implements OnInit {
     public set startDate(v: Date) {
         // console.log('changing date', v);
         this._startDate = v;
+        this._month = v;
         this.startDateChange.emit(this.startDate);
     }
 
@@ -71,6 +72,26 @@ export class Moh731ReportFiltersComponent implements OnInit {
         this.endDate = new Date(v);
     }
 
+    public get monthString(): string {
+        return this.month ? Moment(this.month).format('YYYY-MM') : null;
+    }
+    public set monthString(v: string) {
+        console.log('set-month', v);
+        this.month = new Date(v);
+    }
+
+    private _month: Date;
+    public get month(): Date {
+        return this._month;
+    }
+    @Input()
+    public set month(v: Date) {
+        // console.log('changing date', v);
+        this._month = v;
+        this.startDate = Moment(this._month).startOf('month').toDate();
+        this.endDate = Moment(this._month).endOf('month').toDate();
+    }
+
     private _endDate: Date;
     public get endDate(): Date {
         return this._endDate;
@@ -79,6 +100,7 @@ export class Moh731ReportFiltersComponent implements OnInit {
     public set endDate(v: Date) {
         // console.log('changing date', v);
         this._endDate = v;
+        this._month = v;
         this.endDateChange.emit(this.endDate);
     }
 
@@ -103,7 +125,9 @@ export class Moh731ReportFiltersComponent implements OnInit {
 
     constructor() { }
 
-  public ngOnInit() { }
+  public ngOnInit() {
+      // this.month = Moment().toDate();
+  }
 
   public onClickedGenerate() {
         this.generateReport.emit();

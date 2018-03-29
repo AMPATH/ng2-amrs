@@ -26,7 +26,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public errorMessage: string = '';
   public currentView: string = 'pdf'; // can be pdf or tabular or patientList
   public currentIndicator: string = '';
-  private _startDate: Date = Moment().subtract(1, 'months').toDate();
+  private _startDate: Date = Moment().startOf('month').toDate();
   public get startDate(): Date {
     return this._startDate;
   }

@@ -134,7 +134,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                        }
 
-
                 }
 
             }
