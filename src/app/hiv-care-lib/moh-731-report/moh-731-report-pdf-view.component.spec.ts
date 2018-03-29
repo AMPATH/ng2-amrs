@@ -88,7 +88,7 @@ describe('Component: MOHReportComponent', () => {
       expect(component.afterLoadCompletes).toBeDefined();
       expect(component.sectionDefinitions).toBeUndefined();
       expect(component.data).toBeUndefined();
-      expect(component.rowData).toBeUndefined();
+      expect(component.mohReports).toBeUndefined();
       expect(component.startDate).toBeUndefined();
       expect(component.endDate).toBeUndefined();
       expect(component.downloadPdf).toBeDefined();

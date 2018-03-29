@@ -9,6 +9,47 @@ declare let $: any;
 export class MOHReportService {
     constructor() { }
 
+    public generateMultiplePdfs(params: any, rows: Array<any>,
+                                sectionDefinitions: any): Observable<any> {
+
+        return Observable.create((observer: Subject<any>) => {
+            if (Array.isArray(rows) && rows.length > 0) {
+
+                let pdfStructure = this.generatePdfReportObject(
+                    params[0], rows[0], sectionDefinitions);
+                for (let i = 1; i < rows.length; i++) {
+                    let doc = this.generatePdfReportObject(
+                        params[i], rows[i], sectionDefinitions);
+                    pdfStructure.content[pdfStructure.content.length - 1].pageBreak = 'after';
+                    pdfStructure.content = pdfStructure.content.concat(doc.content);
+                }
+
+                // JSON stringify and parse was done to handle a potential bug in pdfMake
+                let p = JSON.stringify(pdfStructure);
+                let x = JSON.parse(p);
+
+                let pdfProxy = pdfMake.createPdf(x
+                );
+                pdfProxy.getBase64((output) => {
+                    let int8Array: Uint8Array =
+                        this._base64ToUint8Array(output);
+                    let blob = new Blob([int8Array], {
+                        type: 'application/pdf'
+                    });
+                    observer.next({
+                        pdfSrc: URL.createObjectURL(blob),
+                        pdfDefinition: pdfStructure,
+                        pdfProxy: pdfProxy
+                    });
+                });
+
+            } else {
+                observer.error('some properties are missing');
+            }
+        }).first();
+
+    }
+
     public generatePdf(params: any, rowData: any, sectionDefinitions: any): Observable<any> {
 
         return Observable.create((observer: Subject<any>) => {
@@ -81,6 +122,7 @@ export class MOHReportService {
         }
         return uint8Array;
     }
+
     private _getLogo(url: string, callback: any): void {
         let image: any = new Image();
         image.onload = function() {
@@ -100,45 +142,57 @@ export class MOHReportService {
         image.src = url;
     }
 
-    private generateReportHeaders(params) {
+    private generateReportHeaders(params): any {
         return {
-            content: [{
-                text: params.facilityName,
-                style: 'header',
-                alignment: 'center'
-            }, {
-                stack: [
-                    'National AIDS And STI Control Program', {
-                        text: 'MOH-731 Comprehensive HIV/AIDS Facility Report Form',
-                        style: 'subheader'
-                    },
-                ],
-                style: 'subheader'
-            }, {
-                columns: [{
-                    width: '*',
-                    text: 'Facility:' + params.facility
+            content: [
+                {
+                    text: params.facilityName,
+                    style: 'header',
+                    alignment: 'center'
+                },
+                {
+                    stack: [
+                        'National AIDS And STI Control Program', {
+                            text: 'MOH-731 Comprehensive HIV/AIDS Facility Report Form',
+                            style: 'subheader'
+                        },
+                    ],
+                    style: 'subheader'
+                },
+                {
+                    columns: [
+                        {
+                            width: '*',
+                            text: 'Facility:' + params.facility
+                        }
+                    ]
+                },
+                {
+                    columns: [
+                        {
+                            width: '*',
+                            text: 'District:' + params.district
+                        },
+                        {
+                            width: '*',
+                            text: 'County:' + params.county
+                        },
+                        {
+                            width: '*',
+                            text: 'Start date: ' + params.startDate,
+                            alignment: 'right'
+                        },
+                        {
+                            width: '*',
+                            text: 'End date: ' + params.endDate,
+                            alignment: 'right'
+
+                        }
+                    ]
+                },
+                {
+
                 }
-
-                ]
-            }, {
-                columns: [{
-                    width: '*',
-                    text: 'District:' + params.district
-                }, {
-                    width: '*',
-                    text: 'County:' + params.county
-                }, {
-                    width: '*',
-                    text: 'Start date: ' + params.startDate,
-                    alignment: 'right'
-                }, {
-                    width: '*',
-                    text: 'End date: ' + params.endDate,
-                    alignment: 'right'
-
-                }]
-            }, {}
 
             ],
             styles: {
@@ -175,7 +229,7 @@ export class MOHReportService {
         };
     }
 
-    private generateReportSection(sectionData) {
+    private generateReportSection(sectionData): any {
         return {
             style: 'tableExample',
             table: {

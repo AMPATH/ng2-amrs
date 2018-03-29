@@ -25,26 +25,35 @@ export class Moh731ReportFiltersComponent implements OnInit {
     @Output()
     public isLegacyVersionChange = new EventEmitter<boolean>();
 
+    @Output()
+    public isAggregatedChange = new EventEmitter<boolean>();
+
+    @Input()
+    public locationUuids: any;
+
+    @Output()
+    public locationUuidsChange = new EventEmitter<any>();
+
     @Input()
     public parentIsBusy: boolean = false;
 
-    // private _showIsAggregateControl: boolean = false;
-    // public get showIsAggregateControl(): boolean {
-    //     return this._showIsAggregateControl;
-    // }
-    // @Input()
-    // public set showIsAggregateControl(v: boolean) {
-    //     this._showIsAggregateControl = v;
-    // }
+    private _showIsAggregateControl: boolean = false;
+    public get showIsAggregateControl(): boolean {
+        return this._showIsAggregateControl;
+    }
+    @Input()
+    public set showIsAggregateControl(v: boolean) {
+        this._showIsAggregateControl = v;
+    }
 
-    // private _showLocationsControl: boolean = false;
-    // public get showLocationsControl(): boolean {
-    //     return this._showLocationsControl;
-    // }
-    // @Input()
-    // public set showLocationsControl(v: boolean) {
-    //     this._showLocationsControl = v;
-    // }
+    private _showLocationsControl: boolean = false;
+    public get showLocationsControl(): boolean {
+        return this._showLocationsControl;
+    }
+    @Input()
+    public set showLocationsControl(v: boolean) {
+        this._showLocationsControl = v;
+    }
 
     private _startDate: Date;
     public get startDate(): Date {
@@ -82,14 +91,15 @@ export class Moh731ReportFiltersComponent implements OnInit {
         this.endDateChange.emit(this.endDate);
     }
 
-    // private _isAggregated: boolean;
-    // public get isAggregated(): boolean {
-    //     return this._isAggregated;
-    // }
-    // @Input()
-    // public set isAggregated(v: boolean) {
-    //     this._isAggregated = v;
-    // }
+    private _isAggregated: boolean;
+    public get isAggregated(): boolean {
+        return this._isAggregated;
+    }
+    @Input()
+    public set isAggregated(v: boolean) {
+        this._isAggregated = v;
+        this.isAggregatedChange.emit(this.isAggregated);
+    }
 
     private _isLegacyVersion: boolean = true;
     public get isLegacyVersion(): boolean {
@@ -103,13 +113,18 @@ export class Moh731ReportFiltersComponent implements OnInit {
 
     constructor() { }
 
-  public ngOnInit() { }
+    public ngOnInit() { }
 
-  public onClickedGenerate() {
+    public onClickedGenerate() {
         this.generateReport.emit();
     }
 
-  public changeIsLegacyValue(val: boolean) {
+    public changeIsLegacyValue(val: boolean) {
         this.isLegacyVersion = val;
+    }
+
+    public onLocationsSelected(val) {
+        console.log('selected a location', val);
+        this.locationUuidsChange.emit(val.locations);
     }
 }

@@ -24,6 +24,9 @@ import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
 import {
   HivSummaryMonthlyIndicatorsComponent
 } from './hiv-summary-monthly-indicators/hiv-summary-monthly-indicators';
+import {
+  Moh731ReportComponent
+} from './moh-731/moh-731-report.component';
 
 @NgModule({
   imports: [
@@ -51,6 +54,7 @@ import {
     AdminDashboardClinicFlowComponent,
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
+    Moh731ReportComponent,
     HivCareComparativeAnalyticsComponent,
     HivSummaryMonthlyIndicatorsComponent],
   providers: [

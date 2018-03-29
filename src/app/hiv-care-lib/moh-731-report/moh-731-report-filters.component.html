@@ -9,7 +9,7 @@
     <div style="padding: 0px; border: 1px double lightgray" class="row">
         <div *ngIf="!filterCollapsed">
             <div class="col-xs-2" style="padding: 4px;">
-                <div><label>Version:</label></div>
+                <div><label>Version</label></div>
                 <div style="width: 99%;" class="btn-group-vertical" role="group">
                     <button type="button" (click)="changeIsLegacyValue(true)" class="btn" [class.btn-default]="!isLegacyVersion" [class.btn-primary]="isLegacyVersion">Blue Card 731</button>
                     <button type="button" (click)="changeIsLegacyValue(false)" class="btn" [class.btn-default]="isLegacyVersion" [class.btn-primary]="!isLegacyVersion">Green Card 731</button>
@@ -17,20 +17,26 @@
             </div>
             <div class="col-xs-10" style="padding: 4px;border-left: 4px solid lightgray">
                 <div class="form-row">
-                    <label for="startDate">Start Date:</label>
+                    <label for="startDate">Start Date</label>
                     <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
                 </div>
                 <div class="form-row">
-                    <label for="endDate">End Date:</label>
+                    <label for="endDate">End Date</label>
                     <input id="endDate" type="date" class="form-control" [(ngModel)]="endDateString" />
                 </div>
+                <div class="form-row" *ngIf="showIsAggregateControl">
+                        <label for="isAggregate">Aggregate Locations</label>
+                        <input id="isAggregate" type="checkbox" name="aggregated" [checked]="isAggregated" (change)="isAggregated = !isAggregated" />
+                    </div>
 
             </div>
         </div>
     </div>
+    <div style="padding: 0px; border: 1px double lightgray" class="row" *ngIf="showLocationsControl">
+            <location-filter [multiple]="true" [locationUuids]="locationUuids" (onLocationChange)="onLocationsSelected($event)"></location-filter>
+    </div>
     <div class="row" style="margin-top: 4px; padding: 0px;">
         <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right" (click)="onClickedGenerate()">Generate Report</button>
         <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
-
     </div>
 </div>
