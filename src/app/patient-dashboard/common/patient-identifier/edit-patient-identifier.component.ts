@@ -146,6 +146,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
           }
         }
       );
+    }else {
+       console.error('ERROR : Invalid identifier type');
     }
   }
   }
@@ -169,7 +171,6 @@ private saveIdentifier(personIdentifierPayload, person) {
 }
 
   private getCurrentIdentifierByType(identifiers, identifierType) {
-
     let existingIdentifier = _.find(identifiers, (i) => {
       return (i as any).identifierType.uuid === identifierType.val;
     });
@@ -220,6 +221,8 @@ private saveIdentifier(personIdentifierPayload, person) {
 
       if (identifierFormat.checkdigit) {
         this.checkLuhnCheckDigit();
+      }else {
+        console.error('ERROR : Check Digit Failed');
       }
       if (identifierFormat.format && identifierFormat.format !== 'NULL') {
         this.isValidIdentifier =
@@ -233,6 +236,8 @@ private saveIdentifier(personIdentifierPayload, person) {
         || identifierFormat.format === null) &&
         (identifierFormat.checkdigit === 0 || identifierFormat.checkdigit === false)) {
         this.isValidIdentifier = true;
+      }else {
+        console.error('ERROR: Invalid Identifier Format', identifierFormat.format);
       }
       if (!this.identifierLocation) {
         this.invalidLocationCheck = 'Location is Required';
@@ -246,12 +251,13 @@ private saveIdentifier(personIdentifierPayload, person) {
       this.patientIdentifierService.getLuhnCheckDigit(this.patientIdentifier.split('-')[0]);
     if (checkDigit === 'undefined' || checkDigit === undefined) {
       this.identifierValidity = 'Invalid Check Digit';
+      console.error('ERROR: Invalid Check Digit');
     }
 
     if (expectedCheckDigit === parseInt(checkDigit, 10)) {
-
       this.isValidIdentifier = true;
     } else {
+      console.error('ERROR : Expected Check Digit');
       this.identifierValidity = 'Invalid Check Digit';
     }
 
@@ -262,13 +268,15 @@ private saveIdentifier(personIdentifierPayload, person) {
     this.errorMessage = message;
   }
   private validateFormFields(patientIdentifier) {
-
-    if (this.isNullOrUndefined(patientIdentifier)) {
+    let isNullOrUndefined = this.isNullOrUndefined(patientIdentifier);
+    if (isNullOrUndefined === false) {
+      this.isValidIdentifier = true;
+      return true;
+    }else {
       this.setErroMessage('Patient identifier is required.');
+      this.isValidIdentifier = false;
       return false;
     }
-
-    return true;
   }
   private isNullOrUndefined(val) {
     return val === null || val === undefined || val === ''
