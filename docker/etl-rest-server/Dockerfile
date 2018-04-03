@@ -1,4 +1,4 @@
-FROM keymetrics/pm2-docker-alpine:7
+FROM keymetrics/pm2:6-alpine
 
 COPY . /opt/etl
 RUN apk add --no-cache git

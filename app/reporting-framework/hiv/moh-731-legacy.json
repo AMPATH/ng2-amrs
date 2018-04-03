@@ -300,7 +300,7 @@
          {
             "label": "On 2nd Line (or higher) at 12 months",
             "ref": "HV03-48",
-            "indicator": "on_second_line_or_higher"
+            "indicator": "on_second_line"
          },
          {
             "label": "Total on therapy at 12 months (Sum HV03-46 to HV03-48)",

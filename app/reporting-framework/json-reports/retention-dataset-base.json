@@ -136,11 +136,32 @@
             },
             "type": "derived_column",
             "expressionType": "simple_expression"
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_original_first_line",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(status = 'active' AND cur_arv_line = 1 AND arv_first_regimen = cur_arv_meds,1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_second_line",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(status = 'active' AND cur_arv_line >= 2,1,NULL)"
+            }
         }
     ],
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "endDate = ?",
+                "parameterName": "endDate"
+            },
             {
                 "filterType": "tableColumns",
                 "conditionExpression": "status in ('active','ltfu','dead')",

@@ -71,7 +71,11 @@
             {
                 "uuid":"6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
                 "name": "PHARMACOVIGILANCE PROGRAM"
-            }   
+            },
+            {
+                "uuid": "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
+                "name": "HEI PROGRAM"
+            }
 
 
         ]

@@ -41,7 +41,7 @@
             "alias": "total_hiv_exposed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.total_hiv_exposed)"
+                "expression": "count(distinct concat(hmsd.total_hiv_exposed, hmsd.person_id))"
             }
         
         },
@@ -50,7 +50,7 @@
             "alias": "hiv_exposed_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.hiv_exposed_occupational)"
+                "expression": "count(distinct concat(hmsd.hiv_exposed_occupational,hmsd.person_id))"
             }
         
         },
@@ -59,7 +59,7 @@
             "alias": "hiv_exposed_non_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.hiv_exposed_non_occupational)"
+                "expression": "count(distinct concat(hmsd.hiv_exposed_non_occupational,hmsd.person_id))"
             }
         
         },
@@ -68,7 +68,7 @@
             "alias": "total_started_PEP",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.total_started_PEP)"
+                "expression": "count(distinct concat(hmsd.total_started_PEP,hmsd.person_id))"
             }
         
         },
@@ -77,7 +77,7 @@
             "alias": "started_PEP_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.started_PEP_occupational)"
+                "expression": "count(distinct concat( hmsd.started_PEP_occupational,hmsd.person_id))"
             }
         
         },
@@ -86,7 +86,7 @@
             "alias": "started_PEP_non_occupational",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.started_PEP_non_occupational)"
+                "expression": "count(distinct concat(hmsd.started_PEP_non_occupational,hmsd.person_id))"
             }
         
         }
