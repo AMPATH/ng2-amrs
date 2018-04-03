@@ -39,6 +39,11 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
 
                             }
                         }
+
+                        if(this.params && this.params.isAggregated === true) {
+                            finalResult[0].location = 'Multiple Locations...';
+                        }
+
                         let moh731defs = that.reportName === 'MOH-731-greencard' ? moh731GreenCarddefs : moh731BlueCarddefs;
                         resolve({
                             queriesAndSchemas: results,
