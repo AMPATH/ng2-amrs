@@ -150,7 +150,7 @@
          {
             "label": "Starting ART -15yr and Older(F)",
             "ref": "HV03-24",
-            "indicator": "dc__gender__M__age_range__older_than_15__started_art"
+            "indicator": "dc__gender__F__age_range__older_than_15__started_art"
          },
          {
             "label": "Starting on ART -Total (Sum HV03-21 to HV03-24)",

@@ -119,6 +119,14 @@
             "expressionOptions": {
                 "expression": "count(on_original_first_line)"
             }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_alternative_first_line",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(on_alternative_first_line)"
+            }
         }
     ],
     "groupBy": {
