@@ -23,7 +23,6 @@ import { PatientProgramService } from '../programs/patient-programs.service';
 import { BusyComponent } from '../../shared/busy-loader/busy.component';
 import { UnenrollPatientProgramsComponent
    } from '../../patient-dashboard/common/programs/unenroll-patient-programs.component';
-import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
 
 class FakePatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> =
@@ -62,7 +61,6 @@ describe('Component: LandingPageComponent', () => {
       providers: [
         MockBackend,
         BaseRequestOptions,
-        ZeroVlPipe,
         PatientProgramService,
         {
           provide: PatientService,
@@ -88,8 +86,7 @@ describe('Component: LandingPageComponent', () => {
         }
 
       ],
-      declarations: [GeneralLandingPageComponent, HivProgramSnapshotComponent, BusyComponent,
-      UnenrollPatientProgramsComponent, ZeroVlPipe],
+      declarations: [],
       imports: [PanelModule, CommonModule, FormsModule, CohortMemberModule,
         NgamrsSharedModule, OpenmrsApi, RouterModule, DialogModule]
     }).compileComponents().then(() => {

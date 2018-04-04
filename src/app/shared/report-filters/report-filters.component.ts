@@ -1,6 +1,7 @@
 
 import {
-  Component, OnInit, EventEmitter, ElementRef, forwardRef, ViewEncapsulation, AfterViewInit
+  Component, OnInit, EventEmitter, ElementRef, forwardRef,
+  ViewEncapsulation, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { Output, Input } from '@angular/core';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
@@ -10,13 +11,28 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
+import {
+  ProgramWorkFlowResourceService
+} from '../../openmrs-api/program-workflow-resource.service';
 declare var jQuery;
 require('ion-rangeslider');
 
 @Component({
   selector: 'report-filters',
-  styleUrls: ['report-filters.component.css'],
+ // styleUrls: ['report-filters.component.css'],
   templateUrl: 'report-filters.component.html',
+  styles: [`
+    ng-select > div > div.multiple input {
+      width: 100% !important;
+    }
+    .location-filter ng-select > div > div.multiple > div.option {
+      color: #fff !important;
+      border-color: #357ebd !important;
+      flex-shrink: initial;
+      background-color: #428bca !important;
+    }
+  `],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -35,10 +51,16 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public filterCollapsed: boolean = false;
   public initialized: boolean = false;
   public indicatorOptions: Array<any>;
+  public programOptions: Array<any>;
+  public statesOptions: Array<any>;
+  @Output() public onProgramChange = new EventEmitter<any>();
   @Output() public onIndicatorChange = new EventEmitter<any>();
   @Output() public onDateChange = new EventEmitter<any>();
+  @Output() public onStatesChange = new EventEmitter<any>();
   public genderOptions: Array<any>;
   public selectedIndicatorTagsSelectedAll: boolean = false;
+  public selectedProgramTagsSelectedAll: boolean = false;
+  public selectedStatesTagsSelectedAll: boolean = false;
   @Output() public onGenderChange = new EventEmitter<any>();
   public disableGenerateReportBtn: boolean = false;
   @Output()
@@ -65,9 +87,14 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   private _report: string;
   private _indicators: Array<any> = [];
   private _gender: Array<any> = [];
+  private _programs: Array<any> = [];
+  private _states: Array<any> = [];
   constructor(private indicatorResourceService: IndicatorResourceService,
               private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
-              private elementRef: ElementRef) {
+              private programResourceService: ProgramResourceService,
+              private programWorkFlowResourceService: ProgramWorkFlowResourceService,
+              private elementRef: ElementRef,
+              private cd: ChangeDetectorRef) {
   }
   public get startDate(): Date {
     return this._startDate;
@@ -105,6 +132,29 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.onIndicatorChange.emit(this._indicators);
   }
   @Input()
+  public get selectedPrograms(): Array<any> {
+    return this._programs ;
+  }
+  public set selectedPrograms(v: Array<any>) {
+    this._programs = v;
+    if (this._programs) {
+      this.statesOptions = [];
+      this.getProgramWorkFlowStates(this._programs);
+    }
+
+    this.onProgramChange.emit(this._programs);
+
+  }
+  @Input()
+  public get selectedStates(): Array<any> {
+    return this._states ;
+  }
+  public set selectedStates(v: Array<any>) {
+    this._states = v;
+    this.onStatesChange.emit(this._states);
+
+  }
+  @Input()
   public get selectedGender(): Array<any> {
     return this._gender;
   }
@@ -133,17 +183,24 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
     this.genderOptions = [
       {
-        id: 'F',
-        text: 'Female'
+        value: 'F',
+        label: 'Female'
       },
       {
-        id: 'M',
-        text: 'Male'
+        value: 'M',
+        label: 'Male'
       }
     ];
+
     this._gender = this._gender.length > 0 ? this._gender : this.genderOptions;
+    this.selectedGender = _.map(this.genderOptions, 'value');
     if (this._indicators.length > 0) {
       this.selectedIndicatorTagsSelectedAll = true;
+    }
+    if (this._programs.length > 0) {
+      this.selectedProgramTagsSelectedAll = true;
+    }else {
+      this._programs = this.programOptions;
     }
     this.getCachedLocations();
 
@@ -154,6 +211,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public renderFilterControls(): void {
     if (this.isEnabled('indicatorsControl')) {
       this.getIndicators();
+    }
+    if (this.isEnabled('programWorkFlowControl')) {
+      this.getPrograms();
     }
   }
    public getCachedLocations() {
@@ -181,8 +241,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
            if (data.hasOwnProperty(r)) {
              let id = data.name;
              let text = data.label;
-             data['id'] = id;
-             data['text'] = text;
+             data['value'] = id;
+             data['label'] = text;
            }
          }
          indicators.push(data);
@@ -193,18 +253,88 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
   }
 
+  public getPrograms() {
+    let programs = [];
+    this.programResourceService.getPrograms().subscribe(
+      (results: any[]) => {
+
+          for (let data of results) {
+
+            if (!_.isEmpty(data.allWorkflows)) {
+            for (let r in data) {
+
+              if (data.hasOwnProperty(r)) {
+                let id = data.uuid;
+                let text = data.display;
+                data['value'] = id;
+                data['label'] = text;
+
+              }
+            }
+            programs.push(data);
+            }
+
+          }
+          this.programOptions = programs;
+      }
+    );
+
+  }
+  public getProgramWorkFlowStates(uuid) {
+    let selectedProgram;
+    if (uuid[0] && uuid[0] !== 'undefined' && uuid[0] !== undefined) {
+       selectedProgram = uuid[0];
+
+    }
+
+    let programs = [];
+    if (selectedProgram) {
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
+      (results) => {
+        let workflows = _.get(results, 'allWorkflows');
+        if (workflows.length > 0) {
+            _.each(workflows, (workflow: any) => {
+              if (workflow.states.length > 0) {
+                programs = _.map(workflow.states, (state: any) => {
+                  return {
+/*
+                    id: state.uuid,
+                    text: state.concept.display
+*/
+                    value: state.concept.uuid,
+                    label: state.concept.display
+                  };
+                });
+              }
+            });
+          }
+        this.statesOptions = programs;
+      }
+    );
+   }
+  }
+
   public selectAll() {
-    let indicatorsSelected = [];
     if (this.indicatorOptions .length > 0) {
       if (this.selectedIndicatorTagsSelectedAll === false) {
         this.selectedIndicatorTagsSelectedAll = true;
-        _.each(this.indicatorOptions, (data) => {
-          indicatorsSelected.push( data);
-        });
-        this.selectedIndicators = indicatorsSelected;
+        this.selectedIndicators = _.map(this.indicatorOptions, 'value');
       } else {
         this.selectedIndicatorTagsSelectedAll = false;
         this.selectedIndicators = [];
+      }
+    }
+
+  }
+
+  public selectAllPrograms() {
+    if (this.programOptions .length > 0) {
+      if (this.selectedProgramTagsSelectedAll === false) {
+        this.selectedProgramTagsSelectedAll = true;
+        this.selectedPrograms = _.map(this.programOptions, 'value');
+      } else {
+        this.selectedProgramTagsSelectedAll = false;
+        this.selectedPrograms = [];
       }
     }
   }
@@ -216,13 +346,22 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);
   }
-  /*getAgeRangeOnFinish(event) {
-    this.ageRange.emit(event);
-  }*/
+  public selectAllStates() {
+    if (this.programOptions .length > 0) {
+      if (this.selectedStatesTagsSelectedAll === false) {
+        this.selectedStatesTagsSelectedAll = true;
+        this.selectedStates = _.map(this.statesOptions, 'value');
+      } else {
+        this.selectedStatesTagsSelectedAll = false;
+        this.selectedStates = [];
+      }
+    }
+  }
   public onClickedGenerate() {
     this.generateReport.emit();
   }
   public ngAfterViewInit() {
+    this.cd.detectChanges();
     this.sliderElt = jQuery(this.elementRef.nativeElement).find('.slider');
     this.sliderElt.ionRangeSlider({
       type: 'double',
@@ -261,4 +400,5 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
  public registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
  public registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+
 }

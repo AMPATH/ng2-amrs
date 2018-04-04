@@ -1,0 +1,95 @@
+<div class="component-body">
+  <div class="panel panel-info" style="margin:2px; box-shadow:none;">
+    <div class="panel-body_">
+      <form>
+        <fieldset [disabled]="programWorkflows.length === 0">
+          <legend>{{program.program.display}}</legend>
+          <div class="panel panel-info" *ngIf="programWorkflows.length === 0">
+            <div class="panel-heading">
+              <h5>
+                <strong class="text-info" style="padding-bottom: 12px;">
+                  <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle-thin fa-stack-2x"></i>
+                      <i class="fa fa-info fa-stack-1x"></i>
+                  </span>
+                </strong>
+                This program has no workflows. Referrals are based on program workflows.
+              </h5>
+            </div>
+          </div>
+          <div class="panel panel-info" *ngIf="patientOnRefferal">
+            <div class="panel-heading">
+              <h5>
+                <strong class="text-info" style="padding-bottom: 12px;">
+                  <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle-thin fa-stack-2x"></i>
+                      <i class="fa fa-info fa-stack-1x"></i>
+                  </span>
+                </strong>
+                This patient was referred to <strong>{{program.enrolledProgram.location.display}}</strong>
+                in <strong>{{program.enrolledProgram.dateEnrolled}}</strong> for this program.
+                <span *ngIf="currentWorkflowState">The current state of referral is <strong>{{currentWorkflowState}}</strong> </span>
+              </h5>
+              <div style="text-align: right;" class="buttons">
+                <button class="btn btn-danger" (click)="undoReferral()" type="button">Change</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-success" *ngIf="newErollment && patientReferralOnSuccess">
+            <div class="panel-heading">
+              <h5>
+                  <strong class="text-success">
+                  <i class="fa fa-check-circle-o fa-2x"></i>
+                </strong>The patient has been referred to <strong>{{newErollment.location.display}}</strong>
+                on <strong>{{newErollment.dateEnrolled | date:'MMM dd, yyyy'}}</strong> for <strong>{{newErollment.program.name}}</strong> successfully.
+                  <span>The current state of referral is <strong>{{newErollment.states[0].state.concept.display}}</strong> </span>
+              </h5>
+            </div>
+          </div>
+          <div class="row" style="position: relative;" *ngIf="!patientOnRefferal && !patientReferralOnSuccess && programWorkflows.length > 0">
+            <div [ngBusy]="{busy:[program.isReferring && refer],message:'Referring the patient...'}"></div>
+            <div class="col-md-12 col-xs-12 col-sm-12">
+              <label>Location</label>
+              <location-filter class="no-padding" [showLabel]="false"
+                               (onLocationChange)="getSelectedLocation($event); false"
+                               [disable-county]="true"></location-filter>
+            </div>
+            <div class="hide col-md-6 col-xs-12 col-sm-6">
+              <label>Workflow</label>
+              <select name="workflow" class="form-control" [(ngModel)]="selectedWorkflow"
+                      (ngModelChange)="getWorkFlowStates($event)">
+                <option *ngFor="let workflow of programWorkflows" [ngValue]="workflow">
+                  {{workflow.concept.display}}
+                </option>
+              </select>
+            </div>
+            <div class="hide col-md-6 col-xs-12 col-sm-6">
+              <label>State</label>
+              <select name="workFlowState" class="form-control" [(ngModel)]="selectedWorkFlowState"
+                      (ngModelChange)="getWorkFlowState($event)">
+                <option *ngFor="let state of workflowStates" [ngValue]="state">
+                  {{state.concept.display}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-12 col-xs-12 col-sm-12">
+              <label>Reason</label>
+              <textarea name="referralReason" class="form-control" [(ngModel)]="referralReason"
+                        cols="40" rows="4"></textarea>
+            </div>
+          </div>
+          <div *ngIf="inputError">
+            <h5 class="text-danger">
+              <strong>
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-warning fa-stack-1x"></i>
+					</span>
+                {{inputError}}
+              </strong>
+            </h5>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

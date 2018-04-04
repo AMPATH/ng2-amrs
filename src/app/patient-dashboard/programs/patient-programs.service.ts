@@ -96,6 +96,7 @@ export class PatientProgramService {
 
         _programs.push({
           program: program,
+          concept: program.concept,
           enrolledProgram: _enrolledProgram,
           programUuid: program.uuid,
           isFocused: false,

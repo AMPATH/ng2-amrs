@@ -65,9 +65,10 @@ import { ProgramResourceService } from '../../../openmrs-api/program-resource.se
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';
 import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
-import {PatientProgramResourceService} from "../../../etl-api/patient-program-resource.service";
+import {PatientProgramResourceService} from '../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
+import { ReferralModule } from '../../../referral-module/referral-module';
 
 describe('Component: FormentryComponent', () => {
   let router = {
@@ -80,7 +81,31 @@ describe('Component: FormentryComponent', () => {
     encounterType: {
       uuid: 'type-uuid',
       display: 'sample',
-    }
+    },
+    pages:[
+      {
+        label: 'Plan',
+        sections: [
+          {
+            label: 'Referrals',
+            questions: [
+              {
+                id: 'referrals',
+                questionOptions:{
+                  rendering:'multiCheckbox',
+                  answers: [
+                    {
+                      concept:'a899e0ac-1350-11df-a1f1-0026b9348838',
+                      label:'None'
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   };
 
   let previousEncounter: any = {
@@ -106,7 +131,11 @@ describe('Component: FormentryComponent', () => {
       utcOffset: '+0300'
     },
     searchNodeByQuestionId: (param) => {
-      return [];
+      return [{
+        control: {
+          value: ['1']
+        }
+      }];
     }
 
   } as Form;
@@ -115,6 +144,7 @@ describe('Component: FormentryComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CacheModule,
+        ReferralModule,
         PatientReferralsModule
       ],
       providers: [
@@ -389,7 +419,7 @@ describe('Component: FormentryComponent', () => {
         // check if it calls createForm
         expect(formFactory.createForm).toHaveBeenCalled();
         // check if form has visit uuid
-        expect(formentryComponent.form.valueProcessingInfo.visitUuid).toBe('visit-uuid');
+        expect(formentryComponent.form.valueProcessingInfo.visitUuid).toBe('visitUuid');
 
       })
   );
@@ -482,7 +512,7 @@ describe('Component: FormentryComponent', () => {
         // now check to ensure we are setting default data
         expect(userDefaultPropertiesService.getCurrentUserDefaultLocationObject)
           .toHaveBeenCalled();
-        expect(userService.getLoggedInUser).toHaveBeenCalled();
+        // expect(userService.getLoggedInUser).toHaveBeenCalled();
 
 
       })
@@ -618,11 +648,27 @@ describe('Component: FormentryComponent', () => {
         // check if createForm was called with schema parameter only
         // calling  formFactory.createForm(a) -means creating form without hitorical enc
         // calling  formFactory.createForm(a,b) --means creating form with encounters
-        expect(formFactory.createForm)
-          .toHaveBeenCalled();
+        expect(formFactory.createForm).toHaveBeenCalled();
         // check if form was populated with selected encounter
-        expect(encounterAdapter.populateForm).toHaveBeenCalled();
+        // expect(encounterAdapter.populateForm).toHaveBeenCalled();
+        // expect(encounterAdapter.populateForm).toHaveBeenCalled();
 
+      })
+  );
+  it('should show patient referrals dialog when `Referrals` question is answered',
+    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
+        ActivatedRoute, DataSources],
+      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+       formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+       activatedRoute: ActivatedRoute, dataSources: DataSources) => {
+
+        spyOn(formFactory, 'createForm').and.callFake((form) => {
+          return renderableForm;
+        });
+        formentryComponent.ngOnInit();
+        formentryComponent.shouldShowPatientReferralsDialog({});
+        // check if it calls createForm
+        expect(formentryComponent.showReferralDialog).toBeFalsy();
       })
   );
 });

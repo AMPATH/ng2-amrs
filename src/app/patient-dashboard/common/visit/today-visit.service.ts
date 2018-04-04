@@ -332,6 +332,8 @@ export class TodayVisitService {
         return 'CDM';
       case 'oncology':
         return 'Hemato-Oncology';
+      case 'referral':
+        return 'Referred Programs';
       default:
         return (new TitleCasePipe()).transform(departmentRoute);
     }

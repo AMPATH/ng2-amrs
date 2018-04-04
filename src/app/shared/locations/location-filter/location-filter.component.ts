@@ -63,7 +63,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
   public onLocationSelected(locations: Array<any>) {
-    if (this.selectedCounty) {
+    if (this.selectedCounty && this.selectedCounty !== 'N/A') {
       this.getLocationsByCounty().then((countyLocations) => {
         if (locations && _.isArray(locations) && locations.length < countyLocations.length) {
           this.allFromCounty = true;

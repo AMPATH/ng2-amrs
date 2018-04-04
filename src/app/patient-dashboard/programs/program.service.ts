@@ -12,10 +12,16 @@ import {
 import { Program } from '../../models/program.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import * as _ from 'lodash';
+import { ProgramWorkFlowStateResourceService
+} from '../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowResourceService
+} from '../../openmrs-api/program-workflow-resource.service';
 
 @Injectable()
 export class ProgramService {
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
+              private programWorkFlowResourceService: ProgramWorkFlowResourceService,
+              private programWorkFlowStateResourceService: ProgramWorkFlowStateResourceService,
               private programResourceService: ProgramResourceService) { }
 
   public getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
@@ -111,6 +117,24 @@ export class ProgramService {
       return null;
     }
     return this.programEnrollmentResourceService.saveUpdateProgramEnrollment(payload);
+  }
+
+  public getProgramWorkFlows(programUuid: string) {
+    return Observable.create((observer: Subject<any[]>) => {
+      this.programWorkFlowResourceService.getProgramWorkFlows(programUuid)
+        .subscribe((workflows: any) => {
+          observer.next(workflows.allWorkflows);
+        });
+    }).first();
+  }
+
+  public getProgramWorkFlowStates(workflowUuid: any) {
+    return Observable.create((observer: Subject<any[]>) => {
+      this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflowUuid)
+        .subscribe((states) => {
+          observer.next(states);
+        });
+    }).first();
   }
 
   public getSelectedProgram(programs, programUuid) {

@@ -106,6 +106,10 @@ export const routes = [
             path: 'hiv', loadChildren: './hiv/hiv-program.module#HivProgramModule'
           },
           { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' },
+          {
+            path: 'referral',
+            loadChildren: './referral/patient-referral-program.module#PatientReferralProgramModule'
+          }
         ]
       }
     ]

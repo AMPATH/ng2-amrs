@@ -16,6 +16,10 @@ import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { ProgramService } from '../../programs/program.service';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Service: TodayVisit', () => {
   let progConfig = {
@@ -169,6 +173,8 @@ describe('Service: TodayVisit', () => {
         TodayVisitService,
         PatientService,
         PatientProgramService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         ProgramService,
         {
           provide: PatientProgramResourceService,

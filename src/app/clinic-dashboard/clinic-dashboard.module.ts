@@ -118,6 +118,9 @@ import { DataAnalyticsDashboardService
 import {
   ProgramVisitEncounterSearchModule
 } from '../program-visit-encounter-search/program-visit-encounter-search.module';
+import {
+  PatientReferralProgramModule
+} from './referral/patient-referral-program.module';
 @NgModule({
   declarations: [
     /**
@@ -182,7 +185,8 @@ import {
     MdProgressBarModule,
     CacheModule,
     MdSlideToggleModule,
-    ProgramVisitEncounterSearchModule
+    ProgramVisitEncounterSearchModule,
+    PatientReferralProgramModule
   ],
   providers: [
     ClinicDashboardCacheService,
