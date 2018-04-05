@@ -1867,8 +1867,8 @@ module.exports = function () {
                         let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations', 'isAggregated'], requestParams);
                         requestCopy.locations = reportParams.requestParams.locations;
                         // console.log('report params', reportParams)
-                        requestParams.limitParam = requestParams.limit;
-                        requestParams.offSetParam = requestParams.startIndex;
+                        requestCopy.limitParam = requestParams.limit;
+                        requestCopy.offSetParam = requestParams.startIndex;
                         if (request.query.reportName === 'MOH-731-report-2017') {
                             let moh731 = new Moh731Report('MOH-731-greencard',requestCopy);
 

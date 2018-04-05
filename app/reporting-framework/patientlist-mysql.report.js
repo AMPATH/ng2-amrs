@@ -29,26 +29,32 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                     // determine patient list seed schemas
                     let aggs = this.determineBaseAndAggrSchema(that.reportSchemas, indicators);
                     if (aggs.length > 0) {
+                        console.log('Potential schemas with supplied indicators', aggs.length);
                         that.plSchemasRaw = this.determineBaseAndAggrSchema(that.reportSchemas, indicators)[0];
                     }
-                    if (that.plSchemasRaw && that.plSchemasRaw.aggregate) {
+                    if (that.plSchemasRaw && that.plSchemasRaw.aggregate && that.plSchemasRaw.base) {
                         that.fetchPatientListTemplate(that.plSchemasRaw.aggregate)
                             .then((template) => {
                                 that.plTemplate = template.main;
 
+                                
+
                                 let generated =
                                     that.generatePatientListJsonQuery(that.plSchemasRaw.aggregate, that.plSchemasRaw.base, that.plTemplate, that.params);
-                                // hack to ensure it works
-                                // console.log('GENERATED', generated);
-                                if (generated.generated.filters && generated.generated.filters.conditions.length > 0) {
-                                    generated.generated.filters.conditions.forEach(condition => {
-                                        if (condition.dynamicallyGenerated) {
-                                            // condition.filterType = "tableColumns";
-                                            condition.conditionExpession = condition.conditionExpression;
-                                            // condition.parameterName = "";
-                                        }
-                                    });
-                                }
+
+                                // console.log('GENERATED', generated.generated.filters, that.params);
+                                // if (this.hasEmptyDynamicExpressions(generated) && aggs.length > 1) {
+                                //     for (let i = 1; i < aggs.length; i++) {
+                                //         that.plSchemasRaw = this.determineBaseAndAggrSchema(that.reportSchemas, indicators)[i];
+                                //         generated =
+                                //             that.generatePatientListJsonQuery(that.plSchemasRaw.aggregate, that.plSchemasRaw.base,
+                                //                 that.plTemplate, that.params);
+                                //         if (!this.hasEmptyDynamicExpressions(generated)) {
+                                //             break;
+                                //         }
+                                //     }
+        
+                                // }
 
                                 that.generatedPL = {
                                     main: generated.generated
@@ -119,6 +125,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                 aggregate: agg,
                 base: schemas[agg.uses[0].name]
             };
+            console.log('added base agg pair', agg);
             found.push(s);
         });
         return found;
@@ -224,6 +231,21 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
         }
 
         return indicators;
+    }
+
+    // hack to take care of mis-matched schemas for an indicator
+    hasEmptyDynamicExpressions(generated) {
+        let hasEmpty = false;
+        if (generated.generated.filters && generated.generated.filters.conditions.length > 0) {
+            generated.generated.filters.conditions.forEach(condition => {
+                if (condition.dynamicallyGenerated &&
+                    condition.filterType === 'tableColumns' &&
+                    condition.conditionExpression === '') {
+                    hasEmpty = true;
+                }
+            });
+        }
+        return hasEmpty;
     }
 
     isEven(n) {
