@@ -26,3 +26,19 @@
 .box-body .component-wrapper {
   padding-bottom: 20px;
 }
+#search {
+  padding-top: 11px;
+  padding-bottom: 11px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#reset{
+  padding-top: 11px;
+  padding-bottom: 11px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+}
+#search-textbox{
+  margin-bottom: 5px;
+}
