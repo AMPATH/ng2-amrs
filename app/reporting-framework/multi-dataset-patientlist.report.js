@@ -24,7 +24,8 @@ export class MultiDatasetPatientlistReport extends MultiDatasetReport {
                                 queriesAndSchemas: results[i],
                                 indicators: indicators,
                                 size: that.params.limit,
-                                startIndex : that.params.startIndex
+                                startIndex : that.params.startIndex,
+                                allResults: results
                             });
                             break;
                         }
