@@ -19,20 +19,35 @@ export class EncounterResourceService {
 
     public getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
                                       v: string = null): Observable<any> {
-        if (!patientUuid) {
-            return null;
-        }
-        let url = this.getUrl() + 'encounter';
-        const params = new URLSearchParams();
-        params.set('patient', patientUuid);
-        params.set('v', this.v);
+      if (!patientUuid) {
+        return null;
+      }
+      let url = this.getUrl() + 'encounter';
+      const params = new URLSearchParams();
+      params.set('patient', patientUuid);
+      params.set('v', this.v);
 
-        return this.http.get(url, {
+      return this.http.get(url, {
+        search: params
+      }).map((response: Response) =>
+        response.json()).flatMap((encounters: any) => {
+
+        if(encounters.results.length >= 500) {
+          params.set('startIndex', '500');
+          return this.http.get(url, {
             search: params
-        }).map((response: Response) => {
-            // console.log('Results', response.json());
-            return response.json().results;
-        });
+          }).map((res: Response) =>{
+
+            return encounters.results.concat(res.json().results)
+
+          })
+
+        } else {
+
+          return Observable.of(encounters.results)
+        }
+
+      });
     }
     public getEncounterByUuid(uuid: string): Observable<any> {
         if (!uuid) {
