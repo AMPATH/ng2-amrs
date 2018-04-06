@@ -106,6 +106,7 @@ export class LabOrderSearchComponent implements OnInit {
         this.isLoading = false;
         this.orderDeleted = false;
         this.hasBeenSearched = false;
+        this.isResetButton = true;
         this.resetInputMargin();
       });
   }
