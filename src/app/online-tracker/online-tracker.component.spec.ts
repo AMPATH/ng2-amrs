@@ -90,7 +90,7 @@ describe('Component: OnlineTracker', () => {
     tick();
     component.subscribeToTimer = false;
     expect(component.isOnline).toBe(false);
-    expect(component.isUpdating).toBe(true);
+    expect(component.isUpdating).toBe(false);
     expect(spy.calls.any()).toEqual(true);
     discardPeriodicTasks();
 
