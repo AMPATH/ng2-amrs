@@ -35,6 +35,7 @@ import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
 } from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
+import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
 
 @NgModule({
   imports: [
@@ -73,11 +74,11 @@ import { EtlApi } from '../etl-api/etl-api.module';
   ],
   exports: [BusyModule, LaddaModule, DisplayErrorComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent,
-    BuildVersionComponent,
+    BuildVersionComponent, KibanaVizHostComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
   declarations: [
-    DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe,
+    DisplayErrorComponent, StringToDatePipe, Ng2FilterPipe, KibanaVizHostComponent,
     OnlineTrackerComponent, ToastComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent
   ],
