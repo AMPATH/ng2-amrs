@@ -1717,5 +1717,14 @@
         "description": "This is a test location for POC Testers.",
         "mflCode": "test",
         "eidDisplay": ""
+    },
+    "10446739-2ef2-4fb3-b134-29840d97acbe": {
+        "mrsId": 198,
+        "mrsDisplay": "MTRH Adolescent Clinic",
+        "cityVillage": "Eldoret",
+        "county": "",
+        "description": "Moi Teaching and Referral Hospital Adolescent Clinic.",
+        "mflCode": "15204",
+        "eidDisplay": ""
     }
 }
