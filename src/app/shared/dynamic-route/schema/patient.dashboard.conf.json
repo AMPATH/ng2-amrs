@@ -167,6 +167,16 @@
       "routes": []
     },
     {
+      "programName": "HIV Social Work",
+      "programUuid": "a685c057-d475-42ef-bb33-8b0c1d73b122",
+      "baseRoute": "a685c057-d475-42ef-bb33-8b0c1d73b122",
+      "alias": "hiv",
+      "published": true,
+      "shared-routes-class": "hiv",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "DTG Pharmaco-Vigilance",
       "programUuid": "6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
       "baseRoute": "6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
