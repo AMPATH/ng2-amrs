@@ -790,6 +790,14 @@
             "display": "RESISTANCECLINIC"
           },
           {
+            "uuid": "b690e24a-6dc7-40a8-8cbd-0924dd507dca",
+            "display": "YOUTHTHIRDLINE"
+          },
+          {
+            "uuid": "fed9ffa5-da88-484a-8259-bee7daa6d6f2",
+            "display": "PEDSTHIRDLINE"
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           },
@@ -804,6 +812,33 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          }
+        ]
+      }
+    ]
+  },
+  "a685c057-d475-42ef-bb33-8b0c1d73b122": {
+    "name": "HIV SOCIAL WORK PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [
+    ],
+    "transferCare": {
+      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
+      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+    },
+    "visitTypes": [
+      {
+        "uuid": "404e44e7-f2b0-4f20-bf14-bfb98bac75df",
+        "name": "HIV social work Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "7cc419d5-b145-4315-a0a8-4614b710ff5f",
+            "display": "SOCIALWORKSUPPORT"
           }
         ]
       }
