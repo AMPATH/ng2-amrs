@@ -143,6 +143,7 @@ import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PatientImagingComponent } from './imaging/patient-imaging.component';
 
 @NgModule({
   imports: [
@@ -234,7 +235,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ZeroVlPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter],
+    EncounterTypeFilter,
+    PatientImagingComponent],
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
@@ -281,7 +283,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter],
+    EncounterTypeFilter,
+    // ZeroVlPipe,
+    PatientImagingComponent],
+
   providers: [
     FormUpdaterService,
     PatientEncounterService,
