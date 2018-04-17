@@ -1,8 +1,5 @@
 import { Component, OnInit , OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Http, Response, Headers } from '@angular/http';
-
-import { SessionService } from '../openmrs-api/session.service';
 import { OnlineTrackerService } from './online-tracker.service';
 
 @Component({
@@ -19,7 +16,6 @@ export class OnlineTrackerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('Tracker Loaded');
     this.timer = Observable.timer(1000, 30000);
     this.timer
       .takeWhile(() => this.subscribeToTimer)
@@ -28,17 +24,14 @@ export class OnlineTrackerComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.subscribeToTimer = false;
-    console.log('Timer Unsubscription');
   }
 
   public getOnlineStatus() {
     this.isUpdating = true;
     this._onlineTrackerService.updateOnlineStatus()
       .then((results: any) => {
-        if (results) {
-          this.isOnline = results;
-          this.isUpdating = !results;
-        }
+        this.isOnline = results;
+        this.isUpdating = false;
       }).catch((error) => {
       this.isOnline = false;
       console.error('ERROR: GetOnline Status Error', error);
