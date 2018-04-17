@@ -43,6 +43,11 @@
           "url": "programs",
           "label": "Manage Enrollments",
           "icon": "icon-i-family-practice"
+        },
+        {
+          "url": "patient-imaging",
+          "label": "Imaging",
+          "icon": "icon-i-radiology"
         }
       ]
     },
