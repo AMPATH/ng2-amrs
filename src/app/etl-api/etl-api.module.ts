@@ -38,6 +38,8 @@ import {
 import { PatientProgramResourceService } from './patient-program-resource.service';
 import { PatientReferralResourceService } from './patient-referral-resource.service';
 // import { ReferralProviderResourceService } from './referral-provider-resource.service';
+import { RadiologyImagingResourceService } from './radiology-imaging-resource.service';
+
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -68,8 +70,9 @@ import { PatientReferralResourceService } from './patient-referral-resource.serv
     DefaulterListResourceService,
     HivMonthlySummaryIndicatorsResourceService,
     PatientProgramResourceService,
-    PatientReferralResourceService
+    PatientReferralResourceService,
     // ReferralProviderResourceService
+    RadiologyImagingResourceService
   ],
   exports: []
 })
