@@ -32,19 +32,19 @@ export class EncounterResourceService {
       }).map((response: Response) =>
         response.json()).flatMap((encounters: any) => {
 
-        if(encounters.results.length >= 500) {
+        if (encounters.results.length >= 500) {
           params.set('startIndex', '500');
           return this.http.get(url, {
             search: params
-          }).map((res: Response) =>{
+          }).map((res: Response) => {
 
-            return encounters.results.concat(res.json().results)
+            return encounters.results.concat(res.json().results);
 
-          })
+          });
 
         } else {
 
-          return Observable.of(encounters.results)
+          return Observable.of(encounters.results);
         }
 
       });

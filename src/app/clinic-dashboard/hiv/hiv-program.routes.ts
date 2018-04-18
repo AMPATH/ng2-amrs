@@ -11,11 +11,15 @@ import {
 import {
     PatientsRequiringVLComponent
 } from './patients-requiring-vl/patients-requiring-vl.component';
-import { HivCareComparativeComponent
+import {
+    HivCareComparativeComponent
 } from './hiv-visualization/hiv-care-overview.component';
 import {
-  VisualizationPatientListComponent
+    VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
+import {
+    Moh731MonthlyVizComponent
+} from './moh731-monthly-viz/moh731-monthly-viz.component';
 
 const routes: Routes = [
     {
@@ -25,6 +29,10 @@ const routes: Routes = [
     {
         path: 'moh-731-report',
         component: Moh731ReportComponent // replace with landing page for module
+    },
+    {
+        path: 'moh-731-monthly-viz',
+        component: Moh731MonthlyVizComponent // replace with landing page for module
     },
     {
         path: 'hiv-summary-indicator-report',
@@ -44,18 +52,18 @@ const routes: Routes = [
         component: PatientsRequiringVLComponent,
     },
     {
-      path: 'hiv-comparative-chart',
-      children: [
-        {
-          path: '',
-          component: HivCareComparativeComponent
-        },
-        {
-          path: 'patient-list/:report/:indicator/:period',
-          component: VisualizationPatientListComponent
-        }
+        path: 'hiv-comparative-chart',
+        children: [
+            {
+                path: '',
+                component: HivCareComparativeComponent
+            },
+            {
+                path: 'patient-list/:report/:indicator/:period',
+                component: VisualizationPatientListComponent
+            }
 
-      ]
+        ]
 
     },
 ];

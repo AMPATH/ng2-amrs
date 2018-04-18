@@ -22,6 +22,8 @@ import { DailyScheduleClinicFlowComponent
 } from './clinic-flow/daily-schedule-clinic-flow.component';
 import { HivCareComparativeComponent
 } from './hiv-visualization/hiv-care-overview.component';
+import { Moh731MonthlyVizComponent
+} from './moh731-monthly-viz/moh731-monthly-viz.component';
 
 @NgModule({
     imports: [
@@ -44,6 +46,7 @@ import { HivCareComparativeComponent
         HivSummaryIndicatorComponent,
         DailyScheduleClinicFlowComponent,
         PatientsRequiringVLComponent,
+        Moh731MonthlyVizComponent,
        // HivSummaryIndicatorsPatientListComponent,
       HivCareComparativeComponent],
     providers: [],

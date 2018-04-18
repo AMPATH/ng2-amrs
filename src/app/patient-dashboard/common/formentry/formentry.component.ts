@@ -115,7 +115,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
         !componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
-        setTimeout(()=> {
+        setTimeout(() => {
           this.confirmationService.confirm({
             header: 'Unsaved Draft Form',
             message: 'You have unsaved changes on your last form ' +

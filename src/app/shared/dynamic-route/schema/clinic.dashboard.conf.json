@@ -46,6 +46,12 @@
       "isSideBarOpen": false
     },
     {
+      "url": "hiv/moh-731-monthly-viz",
+      "label": "MOH 731 Monthly Viz",
+      "icon": "fa fa-line-chart",
+      "isSideBarOpen": false
+    },
+    {
       "url": "hiv/hiv-summary-indicator-report",
       "label": "HIV Summary Indicators",
       "icon": "fa fa-file-pdf-o",

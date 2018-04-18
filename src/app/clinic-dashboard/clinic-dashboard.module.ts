@@ -112,6 +112,7 @@ export function highchartsFactory() {
   return hc;
 }
 import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
+import { ClinicKibanaVizComponent } from './clinic-kibana-viz/clinic-kibana-viz.component';
 import { CacheModule } from 'ionic-cache';
 import { DataAnalyticsDashboardService
 } from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
@@ -146,7 +147,8 @@ import {
     PatientStatusChangeListComponent,
     PatientStatusDatalistCellComponent,
     PatientStatusChangeVisualizationComponent,
-    PatientStatusChangeVisualizationContainerComponent
+    PatientStatusChangeVisualizationContainerComponent,
+    ClinicKibanaVizComponent
   ],
   imports: [
     CommonModule,
