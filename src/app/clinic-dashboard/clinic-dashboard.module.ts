@@ -118,6 +118,12 @@ import { DataAnalyticsDashboardService
 import {
   ProgramVisitEncounterSearchModule
 } from '../program-visit-encounter-search/program-visit-encounter-search.module';
+import { DepartmentProgramFilterModule } from
+'./../department-program-filter/department-program-filter.module';
+import { PatientProgramEnrollmentService } from
+'./../etl-api/patient-program-enrollment.service';
+import { PatientProgramEnrollmentModule } from
+'./../patients-program-enrollment/patients-program-enrollment.module';
 @NgModule({
   declarations: [
     /**
@@ -182,7 +188,9 @@ import {
     MdProgressBarModule,
     CacheModule,
     MdSlideToggleModule,
-    ProgramVisitEncounterSearchModule
+    ProgramVisitEncounterSearchModule,
+    DepartmentProgramFilterModule,
+    PatientProgramEnrollmentModule
   ],
   providers: [
     ClinicDashboardCacheService,
@@ -202,7 +210,8 @@ import {
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService
     },
-    DataAnalyticsDashboardService
+    DataAnalyticsDashboardService,
+    PatientProgramEnrollmentService
   ],
   entryComponents: [PatientStatusDatalistCellComponent]
 })

@@ -1,0 +1,32 @@
+<div class="container-fluid">
+        <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+           </i>{{busyIndicator.message}}</span>
+        </div>
+    <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <h4 class="component-title" style="color: green;"><span class="fa fa fa-list-alt"></span> {{title}}</h4>
+                </div>
+    </div>
+    <div class="row">
+           
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <department-program-filter 
+            (filterSelected)="selectedFilter($event)"
+            (filterReset)="filterReset($event)"
+            >
+           </department-program-filter>
+        </div>
+    </div>
+    <hr class="intro-divider" />
+
+    <program-enrollment-summary
+    [enrolledSummary]="enrolledSummary"
+    [startDate]="startDate"
+    [endDate]="endDate"
+    [hide]="showSummary"
+    [locationSelected]="selectedLocation"
+    (programSelected)="getProgramEnrollments($event)"
+    >
+    </program-enrollment-summary>
+
+</div>

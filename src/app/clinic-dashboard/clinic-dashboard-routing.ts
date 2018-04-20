@@ -34,6 +34,10 @@ import {
 import {
   DailyScheduleClinicFlowComponent
 } from './hiv/clinic-flow/daily-schedule-clinic-flow.component';
+import { PatientsProgramEnrollmentComponent } from
+'../patients-program-enrollment/patients-program-enrollment.component';
+import { ProgramEnrollmentPatientListComponent } from
+'./../patients-program-enrollment/program-enrollent-patient-list.component';
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,
@@ -78,6 +82,19 @@ const clinicDashboardRoutes: Routes = [
             component: PatientStatusChangeListComponent
           },
           {path: '', redirectTo: 'cumulative', pathMatch: 'prefix'}
+        ]
+      },
+      {
+        path: 'program-enrollment',
+        children: [
+          {
+            path: '',
+            component: PatientsProgramEnrollmentComponent
+          },
+          {
+            path: 'patient-list',
+            component: ProgramEnrollmentPatientListComponent
+          }
         ]
       },
       {path: 'clinic-lab-orders', component: ClinicLabOrdersComponent},
