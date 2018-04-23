@@ -18,6 +18,10 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
+import { ProgramWorkFlowResourceService }
+ from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Component: Address Unit Tests', () => {
 
@@ -29,6 +33,8 @@ describe('Component: Address Unit Tests', () => {
       providers: [
         MockBackend,
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         EncounterResourceService,
         BaseRequestOptions,
         FakeAppFeatureAnalytics,

@@ -6,15 +6,14 @@ import *  as _ from 'lodash';
 import { Subscription, Observable } from 'rxjs';
 
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
-import {
-  UserDefaultPropertiesService
-} from '../../user-default-properties/user-default-properties.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
 import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
+import { UserDefaultPropertiesService
+} from '../../../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'visit',
@@ -47,7 +46,8 @@ export class VisitComponent implements OnInit, OnDestroy {
   private todayVisitsEventSub: Subscription;
 
   constructor(
-    private todayVisitService: TodayVisitService
+    private todayVisitService: TodayVisitService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) { }
 
   public ngOnInit() {
@@ -184,6 +184,18 @@ export class VisitComponent implements OnInit, OnDestroy {
     this.onProgramVisitsLoadingStarted();
     this.todayVisitService.getProgramVisits()
       .subscribe(() => { }, (error) => { });
+  }
+
+  public get programIsOnReferral() {
+    // has states and current location is same as the enrolled location
+    /*let referringLocation = _.get(this.currentEnrollment, 'location.uuid');
+    let location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    if (location && location.uuid) {*/
+      return this.currentEnrollment ? this.currentEnrollment.states.length > 0 : false;
+      /*
+      && location.uuid === referringLocation;
+    }
+    return false*/
   }
 
 }

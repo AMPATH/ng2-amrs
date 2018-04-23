@@ -26,6 +26,7 @@ import { CookieService } from 'ngx-cookie';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { CacheModule } from 'ionic-cache';
 import { NavigationModule } from '../navigation';
+import { ProviderDashboardModule } from '../provider-dashboard/provider-dashboard.module';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { NavigationModule } from '../navigation';
     LabOrderSearchModule,
     UsefulLinksModule,
     UserDefaultPropertiesModule,
+    // ProviderDashboardModule,
     // CacheModule,
     // PatientListCohortModule,
     // PatientDashboardModule

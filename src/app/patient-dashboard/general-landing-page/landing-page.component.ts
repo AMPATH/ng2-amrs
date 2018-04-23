@@ -21,6 +21,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
   public currentError: string;
   public availablePrograms: any[] = [];
+  public availableProgramsOptions: any[] = [];
   public hasError: boolean = false;
   public hasValidationErrors: boolean = false;
   public programsBusy: boolean = false;
@@ -45,6 +46,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   The selected program is incompatible with the following programs, please unenroll to continue.`;
   public selectedLocation: any;
   public allProgramVisitConfigs: any = {};
+  public programHasWorkflows: boolean = false;
+  public selectedWorkflow: any;
+  public programWorkflows: any[] = [];
+  public selectedWorkFlowState: any;
+  public workflowStates: any[] = [];
 //  public programList: any[] = require('../programs/programs.json');
   private _datePipe: DatePipe;
   private subscription: Subscription;
@@ -129,12 +135,21 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     if (this.programIncompatible === true) {
           this.isFocused = false;
     } else {
-       if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
+       if (this.isValidForm({
+           dateEnrolled: this.dateEnrolled,
+           dateCompleted: this.dateCompleted
+       })) {
        payload = this.programService.createEnrollmentPayload(
         this.program, this.patient, this.dateEnrolled,
         this.dateCompleted, this.selectedLocation.locations, '');
        if (payload) {
-           this._updatePatientProgramEnrollment(payload);
+         if (this.programHasWorkflows) {
+           _.merge(payload, {'states': [{
+             'state': this.selectedWorkFlowState.uuid,
+             'startDate': this.toOpenmrsDateFormat(new Date())
+           }]});
+         }
+         this._updatePatientProgramEnrollment(payload);
       }
     }
 
@@ -151,17 +166,42 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public onProgramChange($event) {
-      let programUuid = $event ? $event.target.value : null;
+      let programUuid = $event ? $event.value : null;
       if (programUuid) {
        this.programIncompatible = false;
        this.incompatibleProgrames = [];
-
+       this.getProgramWorkflows(programUuid);
       // check the compatibility of the program
        this.checkIncompatibility(programUuid);
       }
       this.updateEnrollmentButtonState();
 
   }
+
+  public getWorkFlowState(state) {
+    this.selectedWorkFlowState = state;
+  }
+
+  public getProgramWorkflows(programUuid) {
+    this.programService.getProgramWorkFlows(programUuid).subscribe((workflows: any[]) => {
+        this.programWorkflows = workflows;
+        this.programHasWorkflows = this.programWorkflows.length > 0;
+        // we don't need to select states any more. Default state is 'In Care'
+        this.selectedWorkflow = _.first(this.programWorkflows);
+        this.workflowStates = _.filter(this.selectedWorkflow.states, (state: any) => {
+          return state.concept.uuid === 'e517d6e2-6236-42db-9f71-0b6270c6cfa9';
+        });
+
+        if (!_.isEmpty(this.workflowStates)) {
+          this.selectedWorkFlowState = _.first(this.workflowStates);
+        }
+      });
+  }
+
+  public setWorkFlowStates() {
+    this.workflowStates = this.selectedWorkflow.states;
+  }
+
   public fetchAllProgramVisitConfigs() {
     this.allProgramVisitConfigs = {};
     let sub = this.patientProgramResourceService.
@@ -190,6 +230,15 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       this.patientService.fetchPatientByUuid(this.patient.uuid);
     }
   }
+
+  private toOpenmrsDateFormat(dateToConvert: any): string {
+    let date = moment(dateToConvert);
+    if (date.isValid()) {
+      return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
+    }
+    return '';
+  }
+
   private updateEnrollmentButtonState() {
     this.enrollmentButtonActive = !_.isNil(this.selectedLocation) && !_.isNil(this.program) &&
       !_.isNil(this.dateEnrolled);
@@ -207,6 +256,16 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
               return item.program.uuid !== '781d8a88-1359-11df-a1f1-0026b9348838' &&
                 item.program.uuid !== '781d8880-1359-11df-a1f1-0026b9348838';
             });
+          this.availableProgramsOptions = _.map(this.availablePrograms,
+            (availableProgram) => {
+            return {
+              label: availableProgram.program.display,
+              value: availableProgram.program.uuid
+            };
+          });
+          // sort alphabetically;
+          this.availableProgramsOptions = _.orderBy(this.availableProgramsOptions,
+            ['label'], ['asc']);
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
         }
       }, (err) => {
@@ -281,6 +340,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       return false;
     }
 
+    if (this.programHasWorkflows
+      && (_.isNil(this.selectedWorkflow) || _.isNil(this.selectedWorkFlowState))) {
+      this._showErrorMessage('You must assign a workflow and state to the program');
+      return false;
+    }
+
     if (!_.isNil(enrolledDate) && !_.isNil(completedDate) && !this.isEdit) {
       this._showErrorMessage('Date Completed should not be specified while enrolling');
       return false;
@@ -337,6 +402,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.dateCompleted = undefined;
     this.selectedLocation = undefined;
     this.isEditLocation = undefined;
+    this.selectedWorkFlowState = undefined;
+    this.selectedWorkflow = undefined;
   }
 
   private checkIncompatibility(programUUid) {

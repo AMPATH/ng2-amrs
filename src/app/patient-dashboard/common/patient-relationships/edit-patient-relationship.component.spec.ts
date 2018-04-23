@@ -12,6 +12,9 @@ import { PatientService } from '../../services/patient.service';
 import { EditPatientRelationshipComponent } from './edit-patient-relationship.component';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { PatientRelationshipTypeService } from './patient-relation-type.service';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Component: EditRelationship Unit Tests', () => {
 
@@ -25,7 +28,8 @@ describe('Component: EditRelationship Unit Tests', () => {
                 MockBackend,
                 BaseRequestOptions,
                 FakeAppFeatureAnalytics,
-
+              ProgramWorkFlowResourceService,
+              ProgramWorkFlowStateResourceService,
                 {
                     provide: Http,
                     useFactory: (backendInstance: MockBackend,

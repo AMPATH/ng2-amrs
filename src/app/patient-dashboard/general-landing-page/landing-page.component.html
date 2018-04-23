@@ -93,31 +93,47 @@
       <em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em>
       <div class="container-fluid">
         <div class="row" style="padding:4px">
-          <div class="col-md-4 cell">
-            <label for="programs">Select Program:</label>
-            <div>
-              <select class="form-control" id="programs" [(ngModel)]="program"
-                      (change)="onProgramChange($event)" type="date">
-                <option value=""></option>
-                <ng-container *ngFor="let row of availablePrograms">
-                  <option *ngIf="!row.isEnrolled" value="{{row.program.uuid}}">
-                    {{row.program.display}}
-                  </option>
-                </ng-container>
-              </select>
-            </div>
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
+            <label for="program">Select Program:</label>
+            <ng-select [multiple]="false" id="program"
+                       [placeholder]="'Select a program...'"
+                       (selected)="onProgramChange($event)"
+                       [(ngModel)]="program" [options]="availableProgramsOptions">
+            </ng-select>
           </div>
-          <div class="col-md-4 cell">
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
             <label for="enrolledDate">Date Enrolled:</label>
             <div>
               <input class="form-control" id="enrolledDate" [(ngModel)]="dateEnrolled" type="date"/>
             </div>
           </div>
-          <div class="col-md-4 cell">
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
             <location-filter (onLocationChange)="getSelectedLocation($event)"
                              [disable-county]="true"></location-filter>
           </div>
-          <div class="col-md-4 cell enroll-button">
+        </div>
+        <div class="hide row" style="position: relative;" *ngIf="programHasWorkflows">
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
+            <label>Workflow</label>
+            <select name="workflow" class="form-control" [(ngModel)]="selectedWorkflow"
+                    (ngModelChange)="setWorkFlowStates($event)">
+              <option *ngFor="let workflow of programWorkflows" [ngValue]="workflow">
+                {{workflow.concept.display}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
+            <label>State</label>
+            <select name="workFlowState" class="form-control" [(ngModel)]="selectedWorkFlowState"
+                    (ngModelChange)="getWorkFlowState($event)">
+              <option *ngFor="let state of workflowStates" [ngValue]="state">
+                {{state.concept.display}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-xs-12 col-sm-4 cell enroll-button">
             <label class="buttons"></label>
             <div class="buttons" style="width:100%">
               <button [disabled]="!enrollmentButtonActive" class="btn"

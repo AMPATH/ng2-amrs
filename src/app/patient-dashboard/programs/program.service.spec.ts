@@ -20,6 +20,10 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AppSettingsService } from '../../app-settings';
 
 import { LocalStorageService } from '../../utils/local-storage.service';
+import { ProgramWorkFlowResourceService
+} from '../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../openmrs-api/program-workflow-state-resource.service';
 describe('Service: ProgramService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +34,8 @@ describe('Service: ProgramService', () => {
         BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {provide: APP_BASE_HREF, useValue: '/'},
         {
           provide: Http,
