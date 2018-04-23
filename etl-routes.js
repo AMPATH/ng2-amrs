@@ -863,7 +863,6 @@ module.exports = function () {
         },
         {
             method: 'POST',
-
             path: '/etl/forms/error',
             config: {
                 auth: 'simple',
