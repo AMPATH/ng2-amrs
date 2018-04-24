@@ -28,6 +28,12 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
     public stack = [];
 
+    @Input()
+    public isAggregated: boolean = false;
+
+    @Input()
+    public selectedLocations: Array<string>;
+
     @Input() public sectionsDef: any;
     @Input() public startDate: any;
     @Input() public endDate: any;
@@ -49,9 +55,10 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         return this._data;
     }
 
-    constructor(private mohReportService: MOHReportService,
-                private locationResourceService: LocationResourceService,
-                private domSanitizer: DomSanitizer) {
+    constructor(
+        private mohReportService: MOHReportService,
+        private locationResourceService: LocationResourceService,
+        private domSanitizer: DomSanitizer) {
 
     }
 
@@ -151,11 +158,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             // tslint:disable-next-line:prefer-for-of
             // for (let i = 0; i < reportsData.length; i++) {
 
-            let paramsArray = [];
-
-            reportsData.forEach((element) => {
-                paramsArray.push(this.getParams(element.location_uuid));
-            });
+            let paramsArray = this.getLocationHeaders(reportsData);
 
             this.mohReportService.generateMultiplePdfs(paramsArray, reportsData, sectionDefinitions)
                 .subscribe(
@@ -175,6 +178,77 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                 );
         }
 
+    }
+
+    private getLocationHeaders(reportDataArray) {
+        let paramsArray = [];
+        reportDataArray.forEach((element) => {
+            paramsArray.push(this.getParams(element.location_uuid));
+        });
+
+        // process location aggregation
+        if (this.isAggregated) {
+            let aggregatedLocationsHeader = {
+                facilityName: '',
+                facility: '',
+                district: '',
+                county: '',
+                startDate: this.startDate,
+                endDate: this.endDate,
+                location_uuid: '',
+                location_name: ''
+            };
+
+            // tslint:disable-next-line:prefer-for-of
+            for (let i = 0; i < this.selectedLocations.length; i++) {
+                let p = this.getParams(this.selectedLocations[i]);
+                if (aggregatedLocationsHeader.facilityName.indexOf(p.facilityName) < 0) {
+                    aggregatedLocationsHeader.facilityName =
+                        aggregatedLocationsHeader.facilityName +
+                        (aggregatedLocationsHeader.facilityName.length === 0 ? '' : ', ') +
+                        p.facilityName;
+                }
+
+                if (aggregatedLocationsHeader.facility.indexOf(p.facility) < 0) {
+                    aggregatedLocationsHeader.facility =
+                        aggregatedLocationsHeader.facility +
+                        (aggregatedLocationsHeader.facility.length === 0 ? '' : ', ') +
+                        p.facility;
+                }
+
+                if (aggregatedLocationsHeader.district.indexOf(p.district) < 0) {
+                    aggregatedLocationsHeader.district =
+                        aggregatedLocationsHeader.district +
+                        (aggregatedLocationsHeader.district.length === 0 ? '' : ', ') +
+                        p.district;
+                }
+
+                if (aggregatedLocationsHeader.county.indexOf(p.county) < 0) {
+                    aggregatedLocationsHeader.county =
+                        aggregatedLocationsHeader.county +
+                        (aggregatedLocationsHeader.county.length === 0 ? '' : ', ') +
+                        p.county;
+                }
+
+                if (aggregatedLocationsHeader.location_name.indexOf(p.location_name) < 0) {
+                    aggregatedLocationsHeader.location_name =
+                        aggregatedLocationsHeader.location_name +
+                        (aggregatedLocationsHeader.location_name.length === 0 ? '' : ', ') +
+                        p.location_name;
+                }
+
+                if (aggregatedLocationsHeader.location_uuid.indexOf(p.location_uuid) < 0) {
+                    aggregatedLocationsHeader.location_uuid =
+                        aggregatedLocationsHeader.location_uuid +
+                        (aggregatedLocationsHeader.location_uuid.length === 0 ? '' : ', ') +
+                        p.location_uuid;
+                }
+            }
+
+            paramsArray = [aggregatedLocationsHeader];
+            console.log('facility lenth', aggregatedLocationsHeader.facilityName.length);
+        }
+        return paramsArray;
     }
 
     private getParams(locationUid) {

@@ -8,9 +8,9 @@ import * as Moment from 'moment';
 @Component({
     selector: 'moh-731-report-filters',
     templateUrl: 'moh-731-report-filters.component.html',
+    styleUrls: ['./moh-731-report-filters.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class Moh731ReportFiltersComponent implements OnInit {
     public filterCollapsed: boolean;
     @Output()

@@ -146,7 +146,8 @@ export class MOHReportService {
         return {
             content: [
                 {
-                    text: params.facilityName,
+                    text: params.facilityName.length < 150 ? params.facilityName :
+                        params.facilityName.slice(0, 150) + '...',
                     style: 'header',
                     alignment: 'center'
                 },
@@ -163,7 +164,8 @@ export class MOHReportService {
                     columns: [
                         {
                             width: '*',
-                            text: 'Facility:' + params.facility
+                            text: 'Facility:' + (params.facility.length < 150 ?
+                                params.facility : params.facility.slice(0, 150) + '...')
                         }
                     ]
                 },
