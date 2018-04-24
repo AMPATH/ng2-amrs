@@ -23,6 +23,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   public startIndex: Array<any> = [];
   public currentStartIndexPerIndicator: number;
   public isLoading: boolean = false;
+  public hasLoadedAll: boolean = false;
   public dataLoadedPerIndicator: boolean = false;
   public dataLoaded: Array<any> = [];
   @Input() public startDate;
@@ -88,6 +89,12 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         if (data.size < 300 && !this.dataLoaded[this.indicator]) {
           this.dataLoaded[this.indicator] = true;
         }
+
+        //  console.log('loaded patients', data);
+        if (data.result.length < 300) {
+          this.hasLoadedAll = true;
+        }
+
         this.dataLoadedPerIndicator = this.dataLoaded[this.indicator];
         this._startDate = moment(this.startDate);
         this._endDate = moment(this.endDate);
