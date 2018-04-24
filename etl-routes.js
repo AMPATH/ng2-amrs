@@ -26,6 +26,7 @@ var departmentProgramsService = require('./departments/departments-programs.serv
 var enrollmentService = require('./service/enrollment.service');
 var resolveLocationUuidToId = require('./location/resolve-location-uuid-to-id');
 var resolveProgramEnrollmentFilterParams = require('./resolve-program-visit-encounter-Ids/resolve-program-visit-encounter-idsv2');
+var imagingService = require('./service/radilogy-imaging.service');
 import {
     MonthlyScheduleService
 } from './service/monthly-schedule-service';
@@ -3530,38 +3531,139 @@ module.exports = function () {
                     }
                 },
                 handler: function (request, reply) {
-                        resolveLocationUuidToId.resolveLocationUuidsParamsToIds(request.query)
+                    resolveLocationUuidToId.resolveLocationUuidsParamsToIds(request.query)
                         .then((result) => {
 
                             let locationIds = result;
                             request.query.locations = locationIds;
 
                             resolveProgramEnrollmentFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
-                            .then((resolve) => {
-                               
-                                  let programTypeIds = resolve.programTypeIds;
-                                  request.query.programTypeIds = programTypeIds;
-                                  enrollmentService.getActiveProgramEnrollmentsPatientList(request.query)
-                                    .then((result)=> {
-                                      reply(result);
+                                .then((resolve) => {
 
-                                    }).catch((error)=> {
+                                    let programTypeIds = resolve.programTypeIds;
+                                    request.query.programTypeIds = programTypeIds;
+                                    enrollmentService.getActiveProgramEnrollmentsPatientList(request.query)
+                                        .then((result) => {
+                                            reply(result);
 
-                                      reply(error);
+                                        }).catch((error) => {
+
+                                        reply(error);
 
                                     });
-                            }).catch((error) => {
+                                }).catch((error) => {
                                 console.log(error);
                             });
 
                         })
-                        .catch((error)=>{
+                        .catch((error) => {
                             console.log(error);
                         });
                 },
                 description: 'Get a list of patients enrolled in a program in a location in a certain period',
                 notes: 'Returns a list of active patients enrolled',
                 tags: ['api'],
+            }
+        },
+        {
+
+        method: 'GET',
+        path: '/etl/radiology-diagnostic-report',
+        config: {
+            auth: 'simple',
+            plugins: {},
+            handler: function (request, reply) {
+                var requestParams = request.query;
+                console.log('requestParams',requestParams);
+                imagingService.getImagingResultsByPatientIdentifier(requestParams)
+                    .then(function (results) {
+                        if (results === null) {
+                            reply(Boom.notFound('Resource does not exist'));
+                        } else {
+                            reply(results);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                        reply(error);
+                    });
+
+            },
+            description: "Get particular patient imaging report",
+            notes: "Api endpoint that returns patient imaging report based on the patient identifier",
+            tags: ['api']
+        }
+    },
+        {
+            method: 'GET',
+            path: '/etl/radiology-images',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+                    var requestParams = request.query;
+                  //  console.log('requestParams=====>>>',requestParams);
+                    imagingService.getPatientImagesByPatientIdentifier(requestParams)
+                        .then(function (results) {
+                    //        console.log('results',results);
+                            imagingService.constructWadoUrl(results)
+                                .then(function (res) {
+                                    reply(res);
+
+                                })
+                        })
+                        .catch(function (error) {
+                            reply(error);
+                        });
+
+                },
+                description: "Get particular radiology patient images",
+                notes: "Api endpoint that returns patient images based on the patient identifier",
+                tags: ['api']
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/radiology-all-patient-images',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+                    var requestParams = request.query;
+                    imagingService.getAllPatientImages(requestParams)
+                        .then(function (results) {
+                            reply(results);
+                        })
+                        .catch(function (error) {
+                            reply(error);
+                        });
+
+                },
+                description: "Get particular radiology patient images",
+                notes: "Api endpoint that returns patient images based on the patient identifier",
+                tags: ['api']
+            }
+        },
+        {
+            method: 'POST',
+            path: '/etl/radiology-comments',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+                    var payload = request.payload;
+                    imagingService.postRadiologyImagingComments(payload)
+                        .then(function (results) {
+                            reply(results);
+                        })
+                        .catch(function (error) {
+                            reply(error);
+                        });
+
+                },
+                description: "Post Radiology imaging comments",
+                notes: "Api endpoint that post comments on a particular image",
+                tags: ['api']
             }
         }
     ];

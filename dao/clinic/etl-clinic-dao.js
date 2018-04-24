@@ -285,7 +285,7 @@ module.exports = function () {
                 columns: request.query.fields || ["*", "extract(year from (from_days(datediff(now(),t3.birthdate)))) as age"],
                 table: "etl.flat_defaulters",
                 joins: [
-                    ['amrs.person', 't3', 't1.person_id = t3.person_id']
+                    ['amrs.person', 't3', 't1.person_id = t3.person_id ']
                 ],
                 where: ["location_uuid = ? and days_since_rtc >= ?", uuid, defaulterPeriod],
                 order: order || [{
