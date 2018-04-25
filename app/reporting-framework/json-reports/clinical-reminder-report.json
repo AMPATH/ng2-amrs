@@ -1,0 +1,231 @@
+{
+    "name": "clinical_reminder_report",
+    "version": "1.0",
+    "tag": "clinical_reminder_report",
+    "description": "Clinical Reminder Report",
+    "uses":[
+        {
+            "name":"flatLabsAndImagingDataSetbase",
+            "version":"1.0",
+            "type":"dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary",
+            "alias": "t1"
+        },
+        {
+            "table": "etl.flat_labs_and_imaging",
+            "alias": "t2",
+            "join": {
+                "type": "LEFT OUTER",
+                "joinCondition": "date(t1.encounter_datetime) = date(t2.test_datetime)"
+            }
+        },
+
+
+        {
+            "table": "amrs.person",
+            "alias": "t5",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t5.person_id = t1.person_id"
+            }
+        },
+        {
+            "dataSet": "flatLabsAndImagingDataSetbase",
+            "alias": "t3",
+            "join": {
+              "type": "LEFT OUTER",
+              "joinCondition": "t3.person_uuid = t1.uuid"
+            }
+          }
+    ],
+    "columns": [
+
+        {
+            "type": "derived_column",
+            "alias": "needs_vl_coded",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"case when (cur_arv_meds is null) then 0 when (timestampdiff(month,vl_1_date, date('{referenceDate}')) > 3) and vl_1 > 1000 and arv_start_date < vl_1_date then 1 when (timestampdiff(month,arv_start_date,date('{referenceDate}')) between 6 and 12) and (vl_1_date is null or vl_1_date < arv_start_date ) then 2 when (timestampdiff(month,arv_start_date,'{referenceDate}') > 12) and (vl_1_date is null or timestampdiff(month,vl_1_date,'{referenceDate}') > 12) then 3 else 0 end"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "overdue_vl_lab_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"case when (timestampdiff(day,vl_order_date, '{referenceDate}') >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) and vl_error <> 1 then timestampdiff(day,vl_order_date, '{referenceDate}') else 0 end"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "new_viral_load_present",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"DATE_ADD(vl_1_date, INTERVAL 90 DAY) > NOW()"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "needs_cd4_count_coded",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,cd4_1_date, '{referenceDate}') >= 90 then 1 when timestampdiff(month,arv_start_date, '{referenceDate}') <= 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, '{referenceDate}') > 6) then 2 when timestampdiff(month,arv_start_date, '{referenceDate}') > 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, '{referenceDate}') > 12) then 3 else 0 end"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "months_since_last_vl_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"timestampdiff(month,vl_1_date, '{referenceDate}')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "overdue_cd4_count_lab_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"case when timestampdiff(day,cd4_order_date, '{referenceDate}') > 30 and cd4_1_date is null or cd4_order_date > cd4_1_date then timestampdiff(day,cd4_order_date, '{referenceDate}') else 0 end "
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_on_inh_treatment",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"tb_prophylaxis_start_date is not null "
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "qualifies_differenciated_care",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date('{referenceDate}')) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,'{referenceDate}')) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) then 1 else 0 end"
+            }
+        },
+
+        {
+            "type": "simple_column",
+            "alias":"last_encounter_date",
+            "column":"t1.encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias":"birth_date",
+            "column":"t5.birthdate"
+        },
+        {
+              "type": "simple_column",
+              "alias":"person_id",
+              "column":"t1.person_id"
+        },
+        {
+              "type": "simple_column",
+              "alias":"person_uuid",
+              "column":"t1.uuid"
+        },
+        {
+              "type": "simple_column",
+              "alias":"arv_start_date",
+              "column":"t1.arv_start_date"
+         },
+         {
+              "type": "simple_column",
+              "alias":"cur_arv_meds",
+              "column":"t1.cur_arv_meds"
+          },
+          {
+              "type": "simple_column",
+              "alias":"viral_load",
+              "column":"t1.vl_1"
+          },
+          {
+              "type": "simple_column",
+              "alias":"vl_order_date",
+              "column":"t1.vl_order_date"
+          },
+          {
+              "type": "simple_column",
+              "alias":"last_vl_date",
+              "column":"t1.vl_1_date"
+          },
+        {
+          "type": "simple_column",
+          "alias":"vl_error",
+          "column":"t2.vl_error"
+        },
+        {
+          "type": "simple_column",
+          "alias":"vl_error_date",
+          "column":"t2.test_datetime"
+        },
+        {
+          "type": "simple_column",
+          "alias":"ordered_vl_has_error",
+          "column":"t3.ordered_vl_has_error"
+        },
+        {
+          "type": "simple_column",
+          "alias":"vl_error_order_date",
+          "column":"t3.vl_error_order_date"
+        },
+        {
+            "type": "derived_column",
+            "alias": "tb_prophylaxis_end_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY)"
+            }
+        },
+        {
+          "type": "simple_column",
+          "alias":"tb_prophylaxis_start_date",
+          "column":"t1.tb_prophylaxis_start_date"
+        },
+        {
+            "type": "derived_column",
+            "alias": "inh_treatment_days_remaining",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATEDIFF(DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY), now())"
+            }
+        }
+    ],
+    "indexDirectives": [
+      {
+        "type": "force",
+        "indexList": ["person_uuid"]
+      }],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.uuid = ?",
+                "parameterName": "patientUuid"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.encounter_datetime < ?",
+                "parameterName": "referenceDate"
+            }
+        ]
+    },
+    "orderBy": {
+        "orderByParam": "orderByParam",
+        "columns": [{
+          "column": "t1.encounter_datetime",
+          "order": "desc"
+    }]
+   },
+   "paging":  {
+    "offSetParam":"offSetParam",
+    "limitParam": "limitParam"
+  }
+
+}
