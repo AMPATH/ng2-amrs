@@ -5,12 +5,13 @@ import * as rison from 'rison-node';
 import { isEmpty } from 'rxjs/operator/isEmpty';
 import { Subscription } from 'rxjs';
 
+import { KibanaVizComponent } from '../../shared/kibana-viz/kibana-viz.component';
+
 @Component({
     selector: 'clinic-kibana-viz',
-    templateUrl: 'clinic-kibana-viz.component.html',
-    styleUrls: ['clinic-kibana-viz.component.css']
+    templateUrl: '../../shared/kibana-viz/kibana-viz.component.html'
 })
-export class ClinicKibanaVizComponent implements OnInit, OnDestroy {
+export class ClinicKibanaVizComponent extends KibanaVizComponent implements OnInit, OnDestroy {
 
     public kibanaVizUrl: string;
     public locationUuid: string;
@@ -18,12 +19,11 @@ export class ClinicKibanaVizComponent implements OnInit, OnDestroy {
     public width: string = '99%';
     public lastVizUrl: string;
     public sub: Subscription;
-    constructor(
-        private route: ActivatedRoute,
-        private location: Location,
-        private router: Router
+    constructor(route: ActivatedRoute,
+                location: Location,
+                router: Router
     ) {
-
+        super(route, location, router);
     }
 
     public ngOnInit() {
@@ -34,36 +34,12 @@ export class ClinicKibanaVizComponent implements OnInit, OnDestroy {
             // this.resolveLocationUuidtoLocation();
             this.filterVizByLocation(this.locationUuid);
         });
-        this.loadVizUrlFromUrl();
+        super.ngOnInit();
     }
 
     public ngOnDestroy() {
         this.sub.unsubscribe();
-    }
-
-    public loadVizUrlFromUrl() {
-        let path = this.router.parseUrl(this.location.path());
-
-        if (path.queryParams['vizUrl']) {
-            this.kibanaVizUrl = path.queryParams['vizUrl'];
-        }
-    }
-
-    public onVizUrlChanged(newUrl: string) {
-        // store the new url on the route
-        // console.log('viz url', newUrl);
-        this.lastVizUrl = newUrl;
-        let path = this.router.parseUrl(this.location.path());
-        path.queryParams = {
-            'vizUrl': this.lastVizUrl
-        };
-        this.location.replaceState(path.toString());
-    }
-
-    public onPatientNavigationRequested(patientUuid: string) {
-        // console.log('load the specified patient here', patientUuid);
-        this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-            '/general/general/landing-page']);
+        super.ngOnDestroy();
     }
 
     public filterVizByLocation(locationUuid: string) {

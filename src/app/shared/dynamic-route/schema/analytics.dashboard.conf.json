@@ -31,6 +31,12 @@
       "label": "MOH 731 Reports",
       "icon": "glyphicon glyphicon-equalizer",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/moh-731-monthly",
+      "label": "MOH 731 Monthly Viz",
+      "icon": "fa fa-line-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

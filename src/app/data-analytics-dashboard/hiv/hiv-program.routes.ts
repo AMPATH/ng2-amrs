@@ -31,6 +31,10 @@ import {
   Moh731ReportComponent
 } from './moh-731/moh-731-report.component';
 
+import {
+  Moh731MonthlyVizComponent
+} from './moh-731-monthly-viz/moh-731-monthly-viz.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -82,6 +86,15 @@ const routes: Routes = [
               {
                 path: '',
                 component: Moh731ReportComponent
+              }
+            ]
+          },
+          {
+            path: 'moh-731-monthly',
+            children: [
+              {
+                path: '',
+                component: Moh731MonthlyVizComponent
               }
             ]
           },

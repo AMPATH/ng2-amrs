@@ -28,6 +28,10 @@ import {
   Moh731ReportComponent
 } from './moh-731/moh-731-report.component';
 
+import {
+  Moh731MonthlyVizComponent
+} from './moh-731-monthly-viz/moh-731-monthly-viz.component';
+
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -55,6 +59,7 @@ import {
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
     Moh731ReportComponent,
+    Moh731MonthlyVizComponent,
     HivCareComparativeAnalyticsComponent,
     HivSummaryMonthlyIndicatorsComponent],
   providers: [
