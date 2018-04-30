@@ -45,6 +45,36 @@ import * as starting_art_disaggregation_age_only_green from './json-reports/star
 import * as medical_history_dataset_base from './json-reports/medical-history-dataset-base.json';
 import * as patint_change_status_tracker_aggregate from './json-reports/patint-change-status-tracker-aggregate.json';
 import * as patint_change_status_tracker_base from './json-reports/patint-change-status-tracker-base.json';
+import * as hiv_monthly_summary_dataset_base from './json-reports/hiv-monthly-summary-dataset-base.json';
+import * as hiv_monthly_summary_dataset_aggregation from './json-reports/hiv-monthly-summary-aggregate.json';
+
+import * as clinic_comparator_aggregate from './json-reports/clinic-comparator-aggregate.json';
+import * as clinic_comparator_base from './json-reports/clinic-comparator-base.json';
+
+import * as dataentry_statistics_aggregate from './json-reports/dataentry-statistics-aggregate.json';
+import * as dataentry_statistics_base from './json-reports/dataentry-statistics-base.json';
+
+import * as hiv_summary_aggregate from './json-reports/hiv-summary-aggregate.json';
+import * as hiv_summary_base from './json-reports/hiv-summary-base.json';
+
+import * as patient_flow from './json-reports/patient-flow.json';
+
+import * as clinical_art_overview_aggregate from './json-reports/clinical-art-overview-aggregate.json';
+import * as clinical_art_overview_base from './json-reports/clinical-art-overview-base.json';
+
+import * as clinical_hiv_comparative_overview_aggregate from './json-reports/clinical-hiv-comparative-overview-aggregate.json';
+import * as clinical_hiv_comparative_overview_base from './json-reports/clinical-hiv-comparative-overview-base.json';
+
+import * as daily_has_not_returned_aggregate from './json-reports/daily-has-not-returned-aggregate.json';
+import * as daily_has_not_returned_base from './json-reports/daily-has-not-returned-base.json';
+import * as daily_has_not_returned_cohort from './json-reports/daily-has-not-returned-cohort.json';
+
+import * as daily_appointments_aggregate from './json-reports/daily-appointments-aggregate.json';
+import * as daily_appointments_base from './json-reports/daily-appointments-base.json';
+
+import * as daily_attendance_aggregate from './json-reports/daily-attendance-aggregate.json';
+import * as daily_attendance_base from './json-reports/daily-attendance-base.json';
+
 
 import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
 import * as breast_cancer_monthly_screening_summary_base from './json-reports/breast-cancer-monthly-screening-summary-base.json';
@@ -72,9 +102,9 @@ export class BaseMysqlReport{
                     // generate query
                     that.generateReportQuery(that.reportSchemas, that.params)
                         .then((sqlQuery) => {
-                            // console.log(sqlQuery);
                             // allow user to use 'null' as parameter values
                             sqlQuery = sqlQuery.replace(/\'null\'/g, "null");
+
                             that.reportQuery = sqlQuery;
                             // run query
                             that.executeReportQuery(that.reportQuery)
@@ -175,6 +205,71 @@ export class BaseMysqlReport{
                     resolve({
                         main: pep_dataset_aggregate,
                         pepDataSetbase: pep_dataset_base
+                    });
+                    break;
+                case 'hivMonthlySummaryReportAggregate':
+                    resolve({
+                        main: hiv_monthly_summary_dataset_aggregation,
+                        hivMonthlySummaryDataSetBase: hiv_monthly_summary_dataset_base
+                    });
+                    break;
+                case 'clinicComparatorAggregate':
+                    resolve({
+                        main: clinic_comparator_aggregate,
+                        clinicComparatorBase: clinic_comparator_base
+                    });
+                    break;
+                case 'dataEntryStatisticsAggregate':
+                    resolve({
+                        main: dataentry_statistics_aggregate,
+                        dataEntryStatistics: dataentry_statistics_base
+                    });
+                    break;
+                case 'hivSummaryBaseAggregate':
+                    resolve({
+                        main: hiv_summary_aggregate,
+                        hivSummaryBase: hiv_summary_base
+                    });
+                    break;
+                case 'patientFlow':
+                    resolve({
+                        main: patient_flow
+                    });
+                    break;
+                case 'clinicHivComparativeOverviewAggregate':
+                    resolve({
+                        main: clinical_hiv_comparative_overview_aggregate,
+                        clinicHivComparativeOverviewBase: clinical_hiv_comparative_overview_base
+                    });
+                    break;
+                case 'clinicalArtOverviewAggregeate':
+                    resolve({
+                        main: clinical_art_overview_aggregate,
+                        clinicalArtOverviewBase: clinical_art_overview_base
+                    });
+                    break;
+                case 'dailyAppointmentsAggregate':
+                    resolve({
+                        main: daily_appointments_aggregate,
+                        dailyAppointmentsBase: daily_appointments_base
+                    });
+                    break;
+                case 'dailyAttendanceAggregate':
+                    resolve({
+                        main: daily_attendance_aggregate,
+                        dailyAttendanceBase: daily_attendance_base
+                    });
+                    break;
+                case 'dailyHasNotReturnedAggregate':
+                    resolve({
+                        main: daily_has_not_returned_aggregate,
+                        dailyHasNotReturnedBase: daily_has_not_returned_base,
+                        dailyHasNotReturnedCohort: daily_has_not_returned_cohort
+                    });
+                    break;
+                case 'dailyHasNotReturnedCohort':
+                    resolve({
+                        main: daily_has_not_returned_cohort
                     });
                     break;
                 case 'patintChangeStatusTrackerAggregate':
