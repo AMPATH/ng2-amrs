@@ -1,0 +1,19 @@
+<!--component html goes here -->
+<h3 *ngIf="isBusy">Loading available dashboards ...</h3>
+<div *ngIf="!isBusy && errorMessage !== '' " style="border: 1px solid gray; padding: 4px; color:darkred;">
+ <span class="fa fa-warning"></span> {{errorMessage}}
+</div>
+<div *ngIf="!isBusy && errorMessage === '' " >
+<div class="row">
+    <div *ngFor="let db of dashboards" class="card-item col-sm-3">
+      <div class="card" style="padding: 4px;">
+        <div class="card-body">
+          
+          <h4 class="card-title" style="color:rgb(34, 84, 110);"><span class="fa fa-area-chart" style="color:rgb(34, 84, 110);"></span> {{db.title}}</h4>
+          <p class="card-text">{{db.description}}</p>
+          <a (click)="viewDashboard(db)" class="btn btn-default">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

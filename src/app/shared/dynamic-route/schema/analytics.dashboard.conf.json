@@ -37,6 +37,12 @@
       "label": "MOH 731 Monthly Viz",
       "icon": "fa fa-line-chart",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/hiv-viz",
+      "label": "HIV Viz",
+      "icon": "fa fa-area-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

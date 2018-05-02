@@ -45,16 +45,16 @@ export class KibanaVizComponent implements OnInit, OnDestroy {
         // console.log('viz url', newUrl);
         this.lastVizUrl = newUrl;
         let path = this.router.parseUrl(this.location.path());
-        path.queryParams = {
-            'vizUrl': this.lastVizUrl
-        };
+        path.queryParams['vizUrl'] = this.lastVizUrl;
         this.location.replaceState(path.toString());
     }
 
     public onPatientNavigationRequested(patientUuid: string) {
         // console.log('load the specified patient here', patientUuid);
-        this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-            '/general/general/landing-page']);
+        if (patientUuid.length > 4) {
+            this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+                '/general/general/landing-page']);
+        }
     }
 
 }

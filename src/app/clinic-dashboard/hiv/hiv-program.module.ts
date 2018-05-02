@@ -25,6 +25,10 @@ import { HivCareComparativeComponent
 import { Moh731MonthlyVizComponent
 } from './moh731-monthly-viz/moh731-monthly-viz.component';
 
+import {
+    KibanaLibModule
+} from '../../kibana-lib';
+
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -36,7 +40,8 @@ import { Moh731MonthlyVizComponent
         FormsModule,
         MdTabsModule,
         MdProgressSpinnerModule,
-        MdProgressBarModule
+        MdProgressBarModule,
+        KibanaLibModule
     ],
     exports: [HivSummaryIndicatorComponent,
       DailyScheduleClinicFlowComponent,

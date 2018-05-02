@@ -35,6 +35,10 @@ import {
   Moh731MonthlyVizComponent
 } from './moh-731-monthly-viz/moh-731-monthly-viz.component';
 
+import {
+  DashboardsViewerComponent
+} from '../../kibana-lib';
+
 const routes: Routes = [
   {
     path: '',
@@ -95,6 +99,15 @@ const routes: Routes = [
               {
                 path: '',
                 component: Moh731MonthlyVizComponent
+              }
+            ]
+          },
+          {
+            path: 'hiv-viz',
+            children: [
+              {
+                path: '',
+                component: DashboardsViewerComponent
               }
             ]
           },

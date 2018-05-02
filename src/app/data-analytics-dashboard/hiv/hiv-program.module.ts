@@ -12,6 +12,7 @@ import {
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AdminDashboardClinicFlowComponent } from './clinic-flow/admin-dashboard-clinic-flow';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
+import { KibanaLibModule } from '../../kibana-lib';
 import { dataAnalyticsDashboardHivRouting } from './hiv-program.routes';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { HivSummaryIndicatorsComponent } from './hiv-summary-indicators/hiv-summary-indicators';
@@ -45,7 +46,8 @@ import {
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-     MdSlideToggleModule
+     MdSlideToggleModule,
+     KibanaLibModule
   ],
   exports: [
     DataAnalyticsDashboardComponent,

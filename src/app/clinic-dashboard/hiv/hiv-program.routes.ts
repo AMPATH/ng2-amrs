@@ -21,6 +21,10 @@ import {
     Moh731MonthlyVizComponent
 } from './moh731-monthly-viz/moh731-monthly-viz.component';
 
+import {
+    DashboardsViewerComponent
+} from '../../kibana-lib';
+
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -33,6 +37,10 @@ const routes: Routes = [
     {
         path: 'moh-731-monthly-viz',
         component: Moh731MonthlyVizComponent // replace with landing page for module
+    },
+    {
+        path: 'hiv-viz',
+        component: DashboardsViewerComponent
     },
     {
         path: 'hiv-summary-indicator-report',
