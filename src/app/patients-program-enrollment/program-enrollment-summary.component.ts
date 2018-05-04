@@ -1,0 +1,85 @@
+import { Component, OnInit , Output , EventEmitter, Input
+} from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+    selector: 'program-enrollment-summary',
+    templateUrl: './program-enrollment-summary.component.html'
+})
+
+export class ProgramEnrollmentSummaryComponent implements OnInit {
+
+    public params: any;
+
+    @Input() public enrolledSummary: any = [];
+    @Input() public hide: boolean;
+    @Input() public locationSelected: any = [];
+    @Input() public startDate: string = '';
+    @Input() public endDate: string = '';
+    @Output() public programSelected: EventEmitter<any> = new EventEmitter();
+
+    public summaryGridOptions: any = {
+        enableColResize: true,
+        enableSorting : true,
+        enableFilter : true,
+        showToolPanel : false,
+        groupDefaultExpanded: -1,
+        onGridSizeChanged : () => {
+            this.summaryGridOptions.api.sizeColumnsToFit();
+
+        },
+        getRowStyle : (params) => {
+            return {'font-size': '14px', 'cursor': 'pointer'};
+        }
+    };
+    public enrollmentSummaryColdef: any = [
+        { headerName: 'Department', field: 'dept', rowGroup: true , hide: true},
+        { headerName: 'Program', field: 'program'},
+        { headerName: '#Enrolled', field: 'enrolled' ,
+        cellRenderer: (column) => {
+            if (typeof column.value !== 'undefined') {
+                return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
+            }else {
+                return '';
+            }
+        },
+        onCellClicked: (column: any) => {
+            this.params = {
+                'startDate': this.startDate,
+                'endDate': this.endDate,
+                'locationUuids': this.locationSelected,
+                'programType': column.data.programUuid
+            };
+
+            this.programSelected.emit(this.params);
+        }}
+    ];
+    public style = {
+        marginTop: '20px',
+        width: '100%',
+        height: '100%',
+        boxSizing: 'border-box'
+    };
+    constructor(
+        private _router: Router) {
+    }
+
+    public ngOnInit() {
+    }
+
+    public exportPatientListToCsv() {
+        this.summaryGridOptions.api.exportDataAsCsv();
+    }
+    public redirectTopatientInfo(patientUuid) {
+
+        if (patientUuid === undefined || patientUuid === null) {
+            return;
+          } else {
+
+            this._router.navigate(['/patient-dashboard/patient/' + patientUuid +
+            '/general/general/landing-page']);
+
+          }
+    }
+
+}

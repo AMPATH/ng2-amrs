@@ -27,6 +27,10 @@ import {
 import {
   Moh731ReportComponent
 } from './moh-731/moh-731-report.component';
+import { PatientsProgramEnrollmentComponent } from
+'../../patients-program-enrollment/patients-program-enrollment.component';
+import { PatientProgramEnrollmentModule } from
+'../../patients-program-enrollment/patients-program-enrollment.module';
 
 @NgModule({
   imports: [
@@ -41,7 +45,8 @@ import {
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-     MdSlideToggleModule
+    MdSlideToggleModule,
+    PatientProgramEnrollmentModule
   ],
   exports: [
     DataAnalyticsDashboardComponent,

@@ -17,6 +17,12 @@
       "isSideBarOpen": false
     },
     {
+      "url": "program-enrollment",
+      "label": "Program Enrollment",
+      "icon": "fa fa-list-alt",
+      "isSideBarOpen": false
+    },
+    {
       "url": "hiv/hiv-comparative-chart",
       "label": "Clinical Visualization",
       "icon": "fa fa-line-chart",

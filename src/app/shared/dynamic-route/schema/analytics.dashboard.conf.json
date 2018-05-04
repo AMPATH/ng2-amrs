@@ -29,7 +29,12 @@
     {
       "url": "hiv/moh-731-report",
       "label": "MOH 731 Reports",
-      "icon": "glyphicon glyphicon-equalizer",
+      "icon": "glyphicon glyphicon-equalizer"
+    },
+    {
+      "url": "program-enrollment",
+      "label": "Program Enrollment",
+      "icon": "fa fa-list-alt",
       "isSideBarOpen": false
     }
   ],

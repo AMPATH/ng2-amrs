@@ -26,7 +26,10 @@ import {
 import {
   HivMonthlySummaryIndicatorsPatientListComponent
 } from '../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component';
-
+import { PatientsProgramEnrollmentComponent } from
+'../../patients-program-enrollment/patients-program-enrollment.component';
+import { ProgramEnrollmentPatientListComponent }
+from './../../patients-program-enrollment/program-enrollent-patient-list.component';
 import {
   Moh731ReportComponent
 } from './moh-731/moh-731-report.component';
@@ -49,6 +52,18 @@ const routes: Routes = [
           },
           {
             path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+          },
+          { path: 'program-enrollment',
+            children: [
+              {
+                path: '',
+                component: PatientsProgramEnrollmentComponent
+              },
+              {
+                path: 'patient-list',
+                component: ProgramEnrollmentPatientListComponent
+              }
+            ]
           },
           {
             path: 'hiv-comparative-chart-analytics',
