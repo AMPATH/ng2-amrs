@@ -426,6 +426,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
+            "display": "GENCONSULTATION"
           }
         ]
       }
