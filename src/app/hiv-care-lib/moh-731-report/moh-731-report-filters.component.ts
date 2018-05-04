@@ -8,9 +8,9 @@ import * as Moment from 'moment';
 @Component({
     selector: 'moh-731-report-filters',
     templateUrl: 'moh-731-report-filters.component.html',
+    styleUrls: ['./moh-731-report-filters.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class Moh731ReportFiltersComponent implements OnInit {
     public filterCollapsed: boolean;
     @Output()
@@ -36,6 +36,9 @@ export class Moh731ReportFiltersComponent implements OnInit {
 
     @Input()
     public parentIsBusy: boolean = false;
+
+    @Input()
+    public isMonthMode: boolean = true;
 
     private _showIsAggregateControl: boolean = false;
     public get showIsAggregateControl(): boolean {
@@ -63,6 +66,7 @@ export class Moh731ReportFiltersComponent implements OnInit {
     public set startDate(v: Date) {
         // console.log('changing date', v);
         this._startDate = v;
+        this._month = v;
         this.startDateChange.emit(this.startDate);
     }
 
@@ -88,7 +92,28 @@ export class Moh731ReportFiltersComponent implements OnInit {
     public set endDate(v: Date) {
         // console.log('changing date', v);
         this._endDate = v;
+        this._month = v;
         this.endDateChange.emit(this.endDate);
+    }
+
+    public get monthString(): string {
+        return this.month ? Moment(this.month).format('YYYY-MM') : null;
+    }
+    public set monthString(v: string) {
+        console.log('set-month', v);
+        this.month = new Date(v);
+    }
+
+    private _month: Date;
+    public get month(): Date {
+        return this._month;
+    }
+    @Input()
+    public set month(v: Date) {
+        // console.log('changing date', v);
+        this._month = v;
+        this.startDate = Moment(this._month).startOf('month').toDate();
+        this.endDate = Moment(this._month).endOf('month').toDate();
     }
 
     private _isAggregated: boolean;
