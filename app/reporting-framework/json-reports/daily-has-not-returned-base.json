@@ -1,0 +1,146 @@
+{
+    "name": "dailyHasNotReturnedBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "dailyHasNotReturnedCohort",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary",
+            "alias": "t2"
+        },
+        {
+            "table": "etl.flat_hiv_summary",
+            "alias": "t8",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t2.person_id = t8.person_id and t8.encounter_type=116 and t2.encounter_datetime < t8.encounter_datetime"
+            }
+        },
+        {
+            "table": "amrs.visit",
+            "alias": "t20",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t2.visit_id  = t20.visit_id"
+            }
+        },
+        {
+            "table": "etl.program_visit_map",
+            "alias": "t21",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t21.visit_type_id  = t20.visit_type_id"
+            }
+        },
+        {
+            "dataSet": "dailyHasNotReturnedCohort",
+            "alias": "t7",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t2.person_id = t7.person_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t2.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_type",
+            "column": "t2.encounter_type"
+        },
+        {
+            "type": "simple_column",
+            "alias": "uuid",
+            "column": "t2.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "d",
+            "column": "date_format(t2.rtc_date,'%Y-%m-%d')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_not_returned",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(date(t2.rtc_date) < DATE(NOW()) and t2.rtc_date = t7.max_rtc_date AND COALESCE(t2.death_date) IS NULL AND t2.transfer_out IS NULL AND t2.next_clinical_datetime_hiv IS NULL AND t8.person_id is null, t2.person_id, null)"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.rtc_date >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.rtc_date <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.location_uuid in (?)",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.encounter_type in ?",
+                "parameterName": "encounterIds"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t21.visit_type_id in ?",
+                "parameterName": "visitTypeIds"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t21.program_type_id in ?",
+                "parameterName": "programTypeIds"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "coalesce(t2.death_date) is null",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.transfer_out IS NULL",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.next_clinical_datetime_hiv IS NULL",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.encounter_type != 110",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(max_rtc_date) < DATE(NOW())",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.rtc_date = max_rtc_date",
+                "parameterName": ""
+            }
+        ]
+    }
+}

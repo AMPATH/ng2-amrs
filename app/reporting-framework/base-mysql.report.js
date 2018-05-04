@@ -56,22 +56,16 @@ import * as dataentry_statistics_base from './json-reports/dataentry-statistics-
 
 import * as hiv_summary_aggregate from './json-reports/hiv-summary-aggregate.json';
 import * as hiv_summary_base from './json-reports/hiv-summary-base.json';
-
 import * as patient_flow from './json-reports/patient-flow.json';
-
 import * as clinical_art_overview_aggregate from './json-reports/clinical-art-overview-aggregate.json';
 import * as clinical_art_overview_base from './json-reports/clinical-art-overview-base.json';
-
 import * as clinical_hiv_comparative_overview_aggregate from './json-reports/clinical-hiv-comparative-overview-aggregate.json';
 import * as clinical_hiv_comparative_overview_base from './json-reports/clinical-hiv-comparative-overview-base.json';
-
 import * as daily_has_not_returned_aggregate from './json-reports/daily-has-not-returned-aggregate.json';
 import * as daily_has_not_returned_base from './json-reports/daily-has-not-returned-base.json';
 import * as daily_has_not_returned_cohort from './json-reports/daily-has-not-returned-cohort.json';
-
 import * as daily_appointments_aggregate from './json-reports/daily-appointments-aggregate.json';
 import * as daily_appointments_base from './json-reports/daily-appointments-base.json';
-
 import * as daily_attendance_aggregate from './json-reports/daily-attendance-aggregate.json';
 import * as daily_attendance_base from './json-reports/daily-attendance-base.json';
 
@@ -83,7 +77,7 @@ import * as breast_cancer_patient_list_template from './json-reports/breast-canc
 import * as cervical_cancer_monthly_screening_summary_aggregate from './json-reports/cervical-cancer-monthly-screening-summary-aggregate.json';
 import * as cervical_cancer_monthly_screening_summary_base from './json-reports/cervical-cancer-monthly-screening-summary-base.json';
 
-export class BaseMysqlReport{
+export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
         this.params = params;

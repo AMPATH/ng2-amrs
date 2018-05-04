@@ -1,0 +1,207 @@
+{
+    "name": "clinicHivComparativeOverviewBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.dates",
+            "alias": "t2"
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "t1",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "date(t1.encounter_datetime) <= date(t2.endDate)"
+            }
+        },
+        {
+            "table": "amrs.orders",
+            "alias": "orders",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "orders.voided=0 and t1.encounter_id=orders.encounter_id"
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "t3",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t1.person_id = t3.person_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t1.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "t1.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "currently_in_care_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end,t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_art_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(encounter_datetime >= arv_start_date,t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_on_art_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((encounter_datetime < arv_start_date  or arv_start_date is null),t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "patients_requiring_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month,arv_start_date,encounter_datetime) >= 6,t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tested_appropriately",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365,t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_tested_appropriately",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null),t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_annual_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (DATE_ADD(vl_1_date, INTERVAL 1 YEAR)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and (orders.date_created is null or orders.concept_id!=856),t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "pending_vl_orders",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and date(vl_1_date) != date(orders.date_created) and  date(vl_1_date) < DATE_FORMAT(t2.endDate,'%Y-%m-01'),t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "missing_vl_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856),t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "virally_suppressed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 < 1000,t1.person_id,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 >= 1000,t1.person_id,null)"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "reporting_date",
+            "column": "t2.endDate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "endDate",
+            "column": "t2.endDate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "t1.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t1.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "reporting_month",
+            "column": "date_format(t2.endDate, '%Y/%m')"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.endDate >= date(?)",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.endDate <= date(?)",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.location_id in ?",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.is_clinical_encounter=1",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then false when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > t2.endDate)",
+                "parameterName": ""
+            }
+        ]
+    }
+}

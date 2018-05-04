@@ -1,3 +1,10 @@
+import {
+    BaseMysqlReport
+} from '../app/reporting-framework/base-mysql.report';
+import {
+    PatientlistMysqlReport
+} from '../app/reporting-framework/patientlist-mysql.report';
+
 const dao = require('../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
@@ -6,28 +13,44 @@ export class HivSummaryIndicatorsService {
 
     getAggregateReport(reportParams) {
         let self = this;
-        return new Promise(function (resolve, reject) {
-            reportParams.groupBy = 'groupByLocation';
-            reportParams.countBy = 'num_persons';
-            Promise.join(dao.runReport(reportParams),
-                (results) => {
-                    resolve(results);
-                    //TODO Do some post processing
-                }).catch((errors) => {
-                    reject(errors);
-                });
+        reportParams.groupBy = 'groupByLocation';
+        reportParams.countBy = 'num_persons';
+        let params = reportParams.requestParams;
+
+        if (params.indicators) {
+            let indicators = params.indicators.split(',');
+            let columnWhitelist = indicators.concat(['location_id', 'month', 'location', 'encounter_datetime', 'person_id']);
+            params.columnWhitelist = columnWhitelist;
+        }
+        let report = new BaseMysqlReport('hivSummaryBaseAggregate', params)
+        Promise.join(report.generateReport(),
+            (results) => {
+                let returnedResult = {};
+                returnedResult.schemas = result.schemas;
+                returnedResult.sqlQuery = result.sqlQuery;
+                returnedResult.result = result.results.results;
+                resolve(returnedResult);
+                //TODO Do some post processing
+            }).catch((errors) => {
+            reject(errors);
         });
     }
     getPatientListReport(reportParams) {
         let self = this;
+        let report = new PatientlistMysqlReport('hivSummaryBaseAggregate', params)
         return new Promise(function (resolve, reject) {
+            let report = new PatientlistMysqlReport(reportParams);
             //TODO: Do some pre processing
-            Promise.join(dao.getPatientListReport(reportParams),
+            Promise.join(report.generatePatientListReport(),
                 (results) => {
-                    resolve(results);
+                    let returnedResult = {};
+                    returnedResult.schemas = result.schemas;
+                    returnedResult.sqlQuery = result.sqlQuery;
+                    returnedResult.result = result.results.results;
+                    resolve(returnedResult);
                 }).catch((errors) => {
-                    reject(errors);
-                });
+                reject(errors);
+            });
         });
     }
 }

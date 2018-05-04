@@ -1,0 +1,124 @@
+{
+    "name": "dailyAppointmentsBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary",
+            "alias": "t2"
+        },
+        {
+            "table": "amrs.visit",
+            "alias": "t5",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t2.visit_id  = t5.visit_id"
+            }
+        },
+        {
+            "table": "etl.program_visit_map",
+            "alias": "t6",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t5.visit_type_id  = t6.visit_type_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t2.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_type",
+            "column": "t2.encounter_type"
+        },
+        {
+            "type": "simple_column",
+            "alias": "rtc_date",
+            "column": "t2.rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "scheduled_date",
+            "column": "date_format(t2.rtc_date,'%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "uuid",
+            "column": "t2.uuid"
+        },
+        {
+            "type": "derived_column",
+            "alias": "followed_up_by_outreach",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(next_encounter_type_hiv =21, 1,0)"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(rtc_date) >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(t2.rtc_date) <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.location_uuid in (?)",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "encounter_type in ?",
+                "parameterName": "encounterIds"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t6.visit_type_id in ?",
+                "parameterName": "visitTypeIds"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t6.program_type_id in ?",
+                "parameterName": "programTypeIds"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "coalesce(t2.death_date) is null",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "coalesce(t2.death_date, out_of_care) is null",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "encounter_type not in (21,99999)",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "coalesce(t2.death_date) is null",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "coalesce(t2.transfer_out) is null",
+                "parameterName": ""
+            }
+        ]
+    }
+}

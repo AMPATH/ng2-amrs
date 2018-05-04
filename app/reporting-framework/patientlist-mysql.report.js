@@ -22,7 +22,6 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
             that.fetchReportSchema(that.reportName)
                 .then((reportSchemas) => {
                     that.reportSchemas = reportSchemas;
-
                     // consolidate params and indicators
                     indicators = that.consolidateParamsAndIndicators(that.params, indicators);
                    
@@ -56,20 +55,18 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
         
                                 // }
 
+                               // let aggregateDatasets = that.fetchReportSchema(that.reportSchemas);
                                 that.generatedPL = {
                                     main: generated.generated
                                 };
-
+                                let combined = Object.assign(that.reportSchemas,that.generatedPL)
                                 that.modifiedParam = generated.params;
-
                                 // generate query
-                                that.generateReportQuery(that.generatedPL, that.modifiedParam)
+                                that.generateReportQuery(combined, that.modifiedParam)
                                     .then((sqlQuery) => {
                                         //allow 'null' as parameter value
                                         sqlQuery=sqlQuery.replace(/\'null\'/g,"null");
                                         that.reportQuery = sqlQuery;
-                                        // console.log('Patient List Query', sqlQuery);
-                                        
                                         // run query
                                         that.executeReportQuery(that.reportQuery)
                                             .then((results) => {
