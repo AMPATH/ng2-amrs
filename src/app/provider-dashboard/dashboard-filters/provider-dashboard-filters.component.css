@@ -1,0 +1,26 @@
+range-slider {
+  display: block;
+}
+
+date-range {
+  display: block;
+  margin:0 -15px;
+}
+
+.irs-line-mid,
+.irs-line-left,
+.irs-line-right,
+.irs-bar,
+.irs-from,
+.irs-to,
+.irs-single,
+.irs-bar-edge,
+.irs-slider {
+  background: #337ab7;
+}
+
+.irs-from:after,
+.irs-to:after,
+.irs-single:after {
+  border-top-color: #337ab7;
+}

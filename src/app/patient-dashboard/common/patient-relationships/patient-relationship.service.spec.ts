@@ -20,6 +20,10 @@ import { RoutesProviderService } from '../../../shared/dynamic-route/route-confi
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Service: PatientRelationshipService', () => {
   beforeEach(() => {
@@ -38,6 +42,8 @@ describe('Service: PatientRelationshipService', () => {
         ProgramService,
         ProgramResourceService,
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         EncounterResourceService,
         {
           provide: Http,

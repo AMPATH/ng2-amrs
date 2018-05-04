@@ -137,6 +137,10 @@ user-default-properties .btn.btn-info {
   white-space: pre;
 }
 
+.sharp-corners.ng-select .ng-select-container {
+  border-radius: 0;
+}
+
 pagination-controls, pagination-controls ul {
   padding-left: 0;
 }

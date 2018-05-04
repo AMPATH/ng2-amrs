@@ -18,7 +18,7 @@
     <div class="panel-body_">
       <ng-container *ngFor="let program of transferCarePrograms">
         <h4>{{program.enrolledProgram.display}}</h4>
-        <form-list [showFilter]="program.hasForms" (onFormSelected)="fillForm($event)"
+        <form-list [showFilter]="false" (onFormSelected)="fillForm($event)"
                    [excludedForms]="program.excludedForms"
                    [encounterTypeFilter]="program.encounterForms"></form-list>
         <h5 *ngIf="!program.hasForms">

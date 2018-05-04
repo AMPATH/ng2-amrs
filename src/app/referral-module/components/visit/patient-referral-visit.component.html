@@ -1,0 +1,15 @@
+<div class="patient-referral-visit">
+  <div style="margin-top: 4px; margin-bottom: 4px;">
+    <span *ngIf="program" style="color: gray;">
+        Patient was referred for <strong>{{program.display}}</strong>
+      at <strong>{{ program.location.display }}</strong>
+      on <strong>{{ program.dateEnrolled }}</strong>. <span *ngIf="currentWorkflow">The current workflow is <strong>{{currentWorkflow?.concept.display}}</strong> with state of <strong>{{currentWorkflowState.concept.display}}.</strong> </span>
+    </span><a *ngIf="!inCare && enrolledInProviderLocation" (click)="changeState()" href="javascript:void(0)">Put patient <strong>In Care</strong></a>
+  </div>
+  <p-dialog styleClass="referral-dialog" header="Patient State" width="80%" [(visible)]="display" modal="true" appendTo="body">
+    <div class="item-container" style="position: relative;">
+      <div [ngBusy]="{busy:[isUpdating],message:'Updating...'}"></div>
+    </div>
+  </p-dialog>
+</div>
+

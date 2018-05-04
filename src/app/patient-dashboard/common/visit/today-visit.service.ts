@@ -17,10 +17,10 @@ export enum VisitsEvent {
 }
 
 @Injectable()
-export class TodayVisitService {
+export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   public patient: any;
 
-  public allProgramVisitConfigs: any = {};
+  public patientProgramVisitConfigs: any = {};
   public errors: Array<any> = [];
 
   public allPatientVisits = [];
@@ -77,29 +77,35 @@ export class TodayVisitService {
       });
   }
 
-  public fetchAllProgramVisitConfigs(): Observable<any> {
+  public fetchPatientProgramVisitConfigs(): Observable<any> {
     let subject: Subject<any> = new Subject<any>();
 
-    this.allProgramVisitConfigs = {};
-    this.patientProgramResourceService.
-      getAllProgramVisitConfigs().subscribe(
-      (programConfigs) => {
-        this.allProgramVisitConfigs = programConfigs;
-        subject.next(programConfigs);
-      },
-      (error) => {
-        this.errors.push({
-          id: 'program configs',
-          message: 'There was an error fetching all the program configs'
+    this.patientProgramVisitConfigs = {};
+    if (!(this.patient && this.patient.uuid)) {
+      setTimeout(() => {
+        subject.error('Patient is required');
+      }, 0);
+    } else {
+      this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).subscribe(
+        (programConfigs) => {
+          this.patientProgramVisitConfigs = programConfigs;
+          subject.next(programConfigs);
+        },
+        (error) => {
+          this.errors.push({
+            id: 'program configs',
+            message: 'There was an error fetching all the program configs'
+          });
+          console.error('Error fetching program configs', error);
+          subject.error(error);
         });
-        console.error('Error fetching program configs', error);
-        subject.error(error);
-      });
+    }
+
     return subject;
   }
 
   public getProgramConfigurationObject(programUuid: string): any {
-    return this.allProgramVisitConfigs[programUuid];
+    return this.patientProgramVisitConfigs[programUuid];
   }
 
   public getPatientVisits(): Observable<any> {
@@ -253,11 +259,7 @@ export class TodayVisitService {
 
   public loadDataToProcessProgramVisits(): Observable<any> {
     let subject = new Subject();
-    if (!(this.allProgramVisitConfigs === null ||
-      _.isEmpty(this.allProgramVisitConfigs))) {
-      return this.getPatientVisits();
-    }
-    this.fetchAllProgramVisitConfigs()
+    this.fetchPatientProgramVisitConfigs()
       .subscribe(() => {
         this.getPatientVisits()
           .subscribe(() => {
@@ -332,6 +334,8 @@ export class TodayVisitService {
         return 'CDM';
       case 'oncology':
         return 'Hemato-Oncology';
+      case 'referral':
+        return 'Referred Programs';
       default:
         return (new TitleCasePipe()).transform(departmentRoute);
     }

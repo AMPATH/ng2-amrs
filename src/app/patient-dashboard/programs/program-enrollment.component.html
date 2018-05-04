@@ -1,23 +1,43 @@
-<landing-page [hideList]="true"></landing-page>
+<landing-page [hideList]="true" ></landing-page>
 <h4 class="component-title">Current Enrollments</h4>
-<table class="table table-striped table-hover">
+<table class="table table-striped">
   <thead>
   <tr>
     <th>Program</th>
     <th>Location Enrolled</th>
     <th>Date Enrolled</th>
+    <th>State</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngIf="loadingPatientPrograms">
-    <td colspan="3">
+    <td colspan="4">
       <div [ngBusy]="{busy:[loadingPatientPrograms],message:'Loading program enrollments.........'}"></div>
     </td>
   </tr>
   <tr style="cursor: pointer;" *ngFor="let row of enrolledPrograms">
-    <td>{{row.program.display}}</td>
-    <td>{{row.enrolledProgram.openmrsModel.location?.display}}</td>
-    <td>{{row.dateEnrolledView}}</td>
+    <td style="vertical-align: baseline;">{{row.program.display}}</td>
+    <td style="vertical-align: baseline;">{{row.enrolledProgram.openmrsModel.location?.display}}</td>
+    <td style="vertical-align: baseline;">{{row.dateEnrolledView}}</td>
+    <td style="vertical-align: baseline;">
+      <div *ngIf="row.hasWorkflows" class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 6px 12px;">
+          <ng-container *ngIf="row.enrolledProgram.states.length > 0">
+            <ng-container *ngFor="let patientState of row.enrolledProgram.states">
+              <span *ngIf="!patientState.endDate" >{{patientState.state.concept.display}}</span>
+            </ng-container>
+          </ng-container>
+          <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-left">
+          <li *ngIf="row.program.openmrsModel.allWorkflows[0].states.length === 0">
+            <span class="text-danger">No states to manage</span>
+          </li>
+          <li *ngFor="let state of row.program.openmrsModel.allWorkflows[0].states">
+            <a *ngIf="state.visible" href="javascript:void(0)" (click)="updateState(row, state)">{{state.concept.display}}</a>
+          </li>
+        </ul>
+      </div>
+    </td>
   </tr>
   </tbody>
 </table>

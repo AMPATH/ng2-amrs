@@ -25,6 +25,8 @@ import { PatientProgramService } from './programs/patient-programs.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from './programs/program.service';
 import { ProgramResourceService } from '../openmrs-api/program-resource.service';
+import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../openmrs-api/program-workflow-state-resource.service';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
@@ -52,6 +54,8 @@ describe('Component: PatientDashboard', () => {
         RoutesProviderService,
         ProgramEnrollmentResourceService,
         LabsResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {

@@ -1,0 +1,35 @@
+<ng-container *ngIf="stateType">
+  <h4 class="component-title"><span class="icon-i-family-practice"></span>
+    {{stateType.program.program.display}}
+    <span style="display: inline-block; margin-right: 12px; margin-left: 12px; color: #dadada;">|</span>
+    {{stateType.concept.display}} process forms
+  </h4>
+  <div class="forms">
+    <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+    <form-list [showFilter]="false" (onFormSelected)="fillForm($event)"
+               [encounterTypeFilter]="encounterForms"></form-list>
+    <!--<div *ngIf="!hasForms">
+      <h5>
+        <strong class="text-info">
+          You have already filled all the above forms for this patient's program state change
+        </strong>
+      </h5>
+      <p>
+        <button class="btn btn-primary" (click)="completeProcess($event)" type="button">Finish</button>
+      </p>
+    </div>-->
+
+    <div class="panel panel-danger" style="margin:2px" *ngIf="!isBusy && hasError">
+      <div class="panel-heading">
+        <h5>
+          <strong class="text-danger">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-warning fa-stack-1x"></i>
+					</span>
+            There was an error while trying to get forms. Process can not proceed
+          </strong>
+        </h5>
+      </div>
+    </div>
+  </div>
+</ng-container>

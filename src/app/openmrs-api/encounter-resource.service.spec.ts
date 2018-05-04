@@ -80,7 +80,8 @@ describe('EncounterResourceService', () => {
                         + patientUuid + '&v=custom:(uuid,encounterDatetime,patient:(uuid,uuid),' +
                         'form:(uuid,name),visit:(uuid,display,auditInfo,startDatetime,' +
                         'stopDatetime,location:(uuid,display),' +
-                        'visitType:(uuid,name)),location:ref,encounterType:ref,encounterProviders)');
+                        'visitType:(uuid,name)),location:ref,encounterType:ref,encounterProviders' +
+                        ':(uuid,display,provider:(uuid,display)))');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(encountersResponse) })));
@@ -143,9 +144,9 @@ describe('EncounterResourceService', () => {
                     let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
                     'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
                     'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
-                    'location:ref,encounterType:ref,encounterProviders,orders:full,' +
-                    'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),' +
-                    'value:ref,groupMembers))';
+                    'location:ref,encounterType:ref,encounterProviders:(uuid,display' +
+                     ',provider:(uuid,display)),orders:full,obs:(uuid,obsDatetime,' +
+                    'concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter/' + patientUuid + '?v='
                         + _customDefaultRep);

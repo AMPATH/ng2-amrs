@@ -393,7 +393,7 @@ location-filter.edit label {
   padding-bottom: 140px;
 }
 
-location-filter.transfer-care .col-md-12 {
+location-filter.no-padding .col-md-12 {
   padding-left: 0;
   padding-right: 0;
 }

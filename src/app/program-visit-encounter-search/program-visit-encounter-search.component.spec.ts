@@ -21,6 +21,7 @@ import { DepartmentProgramsConfigService } from './../etl-api/department-program
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { IonicStorageModule } from '@ionic/storage';
+import { PatientService } from '../patient-dashboard/services/patient.service';
 
 class MockRouter {
  public navigate = jasmine.createSpy('navigate');
@@ -123,6 +124,33 @@ const visitTypes = [
 
 ];
 
+export class FakePatientProgramResourceService {
+
+  constructor() {}
+
+  getAllProgramVisitConfigs() {
+    return Observable.of(mockProgramVisitsConfig).delay(50);
+  }
+
+  getPatientProgramVisitConfigs(uuid) {
+    return Observable.of(mockProgramVisitsConfig).delay(50);
+  }
+
+  getPatientProgramVisitTypes(patient: string, program: string,
+                              enrollment: string, location: string) {
+    return Observable.of(visitTypes);
+  }
+}
+
+export class FakeDepartmentProgramsConfigService {
+
+  constructor() {}
+
+  getDartmentProgramsConfig() {
+    return Observable.of(departmentConfig).delay(50);
+  }
+}
+
 describe('Component: ProgramVisitEncounterSearch', () => {
   let fixture: ComponentFixture<ProgramVisitEncounterSearchComponent>;
   let comp: ProgramVisitEncounterSearchComponent;
@@ -148,12 +176,12 @@ describe('Component: ProgramVisitEncounterSearch', () => {
           ProgramVisitEncounterSearchComponent
       ],
       providers: [
-        PatientProgramResourceService,
         AppSettingsService,
         LocalStorageService,
         DepartmentProgramsConfigService,
         DataCacheService,
         CacheService,
+        PatientService,
         Storage,
         {
           provide: Http,
@@ -170,6 +198,14 @@ describe('Component: ProgramVisitEncounterSearch', () => {
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
+        },
+        {
+          provide: PatientProgramResourceService,
+          useFactory: () => {new FakePatientProgramResourceService() }
+        },
+        {
+          provide: DepartmentProgramsConfigService,
+          useFactory: () => { new FakeDepartmentProgramsConfigService() }
         },
         MockBackend,
         BaseRequestOptions

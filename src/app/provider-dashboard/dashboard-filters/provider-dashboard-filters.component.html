@@ -1,0 +1,83 @@
+
+            <div style="margin-top: 4px; margin-bottom: 4px" class="container-fluid">
+                    <div style="padding: 0px; border: 1px double lightgray; border-bottom: 0px; cursor: pointer;" class="row" (click)="filterCollapsed = !filterCollapsed">
+                      <span class="text-info" style="margin:2px; font-weight:bold;"> <span class="glyphicon glyphicon-filter" style="font-weight: normal;"></span>        Report filters</span>
+                      <span style="margin:2px;" class="label label-default pull-right">
+                              <span class="glyphicon glyphicon-chevron-down" *ngIf="!filterCollapsed"></span>
+                          <span class="glyphicon glyphicon-chevron-up" *ngIf="filterCollapsed"></span>
+                          </span>
+                    </div>
+                    <div style="padding: 0px; border: 1px double lightgray" class="row">
+                      <div [hidden]="filterCollapsed">
+                          <location-filter [multiple]="true" [locationUuids]="locationOptions" (onLocationChange)="getSelectedLocations($event)"></location-filter>
+                        <div class="date-range" >
+                          <div class="form-group col-md-6">
+                            <div class="form-row">
+                              <label for="startDate">Start Date:</label>
+                              <date-time-picker tabindex="0" [modelValue]="startDate" [id]="'startDate'"
+                                 (onDateChange)="updateStartDate($event)"></date-time-picker>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <div class="form-row">
+                              <label for="endDate">End Date:</label>
+                              <date-time-picker tabindex="0" [modelValue]="endDate" [id]="'endDate'"
+                              (onDateChange)="updateEndDate($event)"></date-time-picker>
+                            </div>
+                            <div>
+
+                            </div>
+                          </div>
+                          <div class="clear-fix clear"></div>
+                        </div>
+
+                        <div >
+                          <div class="form-group col-md-6" >
+                            <label for="program">Program </label>
+                            <div class="input-group">
+                              <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+                              <ng-select class="sharp-corners" [multiple]="true" id="program"
+                                         [placeholder]="'Select desired Program(s) or type to search...'"
+                                         [(ngModel)]="selectedPrograms" [items]="programOptions" (active)="selectedPrograms">
+                              </ng-select>
+                              <div class="input-group-addon" (click)="selectAllPrograms()" style="cursor: pointer;">
+                                <div>
+                                  <span *ngIf="selectedProgramTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
+                                  <span *ngIf="!selectedProgramTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+                                  <span *ngIf="!selectedProgramTagsSelectedAll" >Select All</span>
+                                  <span *ngIf="selectedProgramTagsSelectedAll">Select None</span>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-6" >
+                            <label for="states">States </label>
+                            <div class="input-group">
+                              <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+                              <ng-select class="sharp-corners" [multiple]="true" id="states"
+                                         [placeholder]="'Select desired State(s) or type to search...'"
+                                         [(ngModel)]="selectedStates" [items]="statesOptions" (active)="selectedStates">
+                              </ng-select>
+                              <div class="input-group-addon" (click)="selectAllStates()" style="cursor: pointer;">
+                                <div>
+                                  <span *ngIf="selectedStatesTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
+                                  <span *ngIf="!selectedStatesTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+                                  <span *ngIf="!selectedStatesTagsSelectedAll" >Select All</span>
+                                  <span *ngIf="selectedStatesTagsSelectedAll">Select None</span>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row" style="margin-top: 4px; padding: 0px;" >
+                      <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right"
+                              (click)="onClickedGenerate()">Generate Report</button>
+                      <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
+                      <!--[disabled]="(selectedIndicators.length === 0 ||selectedPrograms.length === 0) ? !disableGenerateButton : disableGenerateButton"-->
+                    </div>
+
+                  </div>

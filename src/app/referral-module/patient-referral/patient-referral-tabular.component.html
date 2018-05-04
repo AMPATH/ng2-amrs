@@ -1,0 +1,35 @@
+
+
+<ag-grid-angular #agGrid style="width: 100%; height: 200px;" class="ag-blue" [rowData]="data" [gridOptions]="gridOptions"
+	(cellClicked)='onCellClicked($event)'>
+</ag-grid-angular>
+
+
+
+
+<div>
+  <div class="loader" *ngIf="isLoading"><span><i class="fa fa-spinner fa-spin">
+      </i>Loading...</span></div>
+<div *ngIf="this.patientData">
+  <h3>Patient List ({{stateName}} | {{programName}})</h3>
+  <patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns"  [data]="patientData"></patient-list>
+
+  <!--<div *ngIf='!dataLoaded'>
+    <button [disabled]="isLoading" class="btn btn-primary" (click)="loadMorePatients()">
+      <span class="glyphicon glyphicon-refresh"></span> Load More
+      <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+    </button>
+  </div>
+  <div *ngIf='dataLoaded'>
+    <p class="bg-info" style="padding:4px;">
+      <b>
+        <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + patientData.length + ' ]'}}</span>
+      </b>
+    <p>
+  </div>-->
+</div>
+</div>
+
+
+
+

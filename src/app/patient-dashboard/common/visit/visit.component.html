@@ -1,4 +1,4 @@
-<div style="margin-top: 4px; margin-bottom: 4px;">
+<div style="margin-top: 4px; margin-bottom: 4px;" *ngIf="!programIsOnReferral">
   <strong *ngIf="currentEnrollment" style="color: gray;">
     <span>
       Patient enrolled in {{toTitleCase(currentEnrollment.openmrsModel.display)}}
@@ -9,33 +9,47 @@
     <span *ngIf="!currentEnrollment.openmrsModel.location" style="text-transform:none;"> Please associate this program with a clinic.</span>
   </strong>
 </div>
-  
+<patient-referral-visit *ngIf="programIsOnReferral" [patient]="patient"
+                        [program]="currentEnrollment"></patient-referral-visit>
 <div [ngBusy]="{busy:[isBusy],message:'Loading...'}">
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    {{error.message}}
   </div>
-  <div  class="alert alert-success alert-dismissible" *ngIf="showVisitStartedMsg && visit && patient && visit.stopDatetime === null">
+  <div class="alert alert-success alert-dismissible"
+       *ngIf="showVisitStartedMsg && visit && patient && visit.stopDatetime === null">
     Visit has been successfully started
-    <button type="button" (click)="removeVisitStartedMsg()" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <button type="button" (click)="removeVisitStartedMsg()" class="close" data-dismiss="alert"
+            aria-hidden="true">×
+    </button>
   </div>
-  
-  <h3 *ngIf="visit && patient && visit.stopDatetime === null" style="margin-left: -8px; margin-bottom: -4px; margin-top: -8px;">Current Visit</h3>
-  <div *ngIf="visit && patient && visit.stopDatetime === null" style="border:solid #80D651; border-width: 1px 1px 1px 4px; padding: 4px;">
-    <app-visit-details [visit]="visit" (encounterSelected)="onEncounterSelected($event)" [programVisitTypesConfig]="currentProgramConfig"
-      [programEnrollmentUuid]="currentProgramEnrollmentUuid" [programUuid]="programUuid" (formSelected)="onFormSelected($event)"
-      (visitCancelled)="onVisitStartedOrChanged($event)" (visitChanged)="onVisitStartedOrChanged($event)">
+
+  <h3 *ngIf="visit && patient && visit.stopDatetime === null"
+      style="margin-left: -8px; margin-bottom: -4px; margin-top: -8px;">Current Visit</h3>
+  <div *ngIf="visit && patient && visit.stopDatetime === null"
+       style="border:solid #80D651; border-width: 1px 1px 1px 4px; padding: 4px;">
+    <app-visit-details [visit]="visit" (encounterSelected)="onEncounterSelected($event)"
+                       [programVisitTypesConfig]="currentProgramConfig"
+                       [programEnrollmentUuid]="currentProgramEnrollmentUuid"
+                       [programUuid]="programUuid" (formSelected)="onFormSelected($event)"
+                       (visitCancelled)="onVisitStartedOrChanged($event)"
+                       (visitChanged)="onVisitStartedOrChanged($event)">
     </app-visit-details>
   </div>
 
-  <h3 *ngIf="patient && (!visit || visit.stopDatetime !== null)" style="margin-left: -8px; margin-bottom: -16px; margin-top: -8px;">Start a Visit</h3>
-  <div *ngIf="patient && (!visit || visit.stopDatetime !== null)" style="border:solid lightgray; border-width: 1px 1px 1px 1px; padding: 4px; margin-top:10px;">
+  <h3 *ngIf="patient && (!visit || visit.stopDatetime !== null)"
+      style="margin-left: -8px; margin-bottom: -16px; margin-top: -8px;">Start a Visit</h3>
+  <div *ngIf="patient && (!visit || visit.stopDatetime !== null)"
+       style="border:solid lightgray; border-width: 1px 1px 1px 1px; padding: 4px; margin-top:10px;">
     <h4>
       <!-- <span class="fa  fa-info"></span>  -->
       Select location, then select visit type to start:
     </h4>
     <div class="box-body forms-list">
-      <app-visit-starter [patientUuid]="patient.uuid" [programEnrollmentUuid]="currentProgramEnrollmentUuid" [programUuid]="programUuid"
-        (visitStarted)="onVisitStartedOrChanged($event)"></app-visit-starter>
+      <app-visit-starter [patientUuid]="patient.uuid"
+                         [programEnrollmentUuid]="currentProgramEnrollmentUuid"
+                         [programUuid]="programUuid"
+                         (visitStarted)="onVisitStartedOrChanged($event)"></app-visit-starter>
     </div>
   </div>
 </div>

@@ -1,0 +1,19 @@
+{
+  "id": "ProviderDashboard",
+  "name": "Provider Dashboard",
+  "baseRoute": "provider-dashboard",
+  "routeParameter": "",
+  "nonProgramRoutes": [
+    {
+      "url": "referrals",
+      "label": "Provider Referrals",
+      "icon": "icon-i-family-practice",
+      "isSideBarOpen": false
+    }
+  ],
+  "programs": [
+    {
+
+    }
+  ]
+}
