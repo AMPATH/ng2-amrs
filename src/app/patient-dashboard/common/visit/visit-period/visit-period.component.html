@@ -8,7 +8,7 @@
 
       <div *ngIf="editLocation">
         <label> Select location:</label>
-        <ng-select (selected)="loadedLocation($event)" [(ngModel)]="locationUuid" [options]="locations">
+        <ng-select class="sharp-corners" (change)="loadedLocation($event)" [(ngModel)]="locationUuid" [items]="locations">
         </ng-select>
 
         <button class="btn app-btn">

@@ -8,7 +8,6 @@ import { EncounterResourceService } from '../../../openmrs-api/encounter-resourc
 import { Encounter } from '../../../models/encounter.model';
 import { FakeEncounterResourceService } from '../../../openmrs-api/patient-encounter-service.mock';
 
-
 describe('Service: PatientEncounter', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({

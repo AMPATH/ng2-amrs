@@ -7,7 +7,6 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { RouterModule } from '@angular/router';
 
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { PatientService } from '../services/patient.service';
 import { ProgramService } from '../programs/program.service';
 import { GeneralLandingPageComponent } from './landing-page.component';
@@ -15,21 +14,43 @@ import { Patient } from '../../models/patient.model';
 import { PanelModule, DialogModule } from 'primeng/primeng';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
-import { HivProgramSnapshotComponent
-} from '../hiv/program-snapshot/hiv-program-snapshot.component';
 import { CohortMemberModule }
  from '../../patient-list-cohort/cohort-member/cohort-member.module';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { PatientProgramService } from '../programs/patient-programs.service';
-import { BusyComponent } from '../../shared/busy-loader/busy.component';
-import { UnenrollPatientProgramsComponent
-   } from '../../patient-dashboard/common/programs/unenroll-patient-programs.component';
 import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
 import { DepartmentProgramsConfigService
 } from '../../etl-api/department-programs-config.service';
 import { DataCacheService
 } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
+import { PatientReferralService
+} from '../../referral-module/services/patient-referral-service';
+import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
+import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
+import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
+
+let progConfig = {
+  uuid: 'some-uuid',
+  visitTypes: [
+    {
+      uuid: 'visit-one',
+      encounterTypes: []
+    },
+    {
+      uuid: 'some-visit-type-uuid',
+      encounterTypes: []
+    },
+    {
+      uuid: 'visit-two',
+      encounterTypes: []
+    }
+  ]
+};
+
+let prog = {
+  'some-uuid': progConfig
+};
 
 class FakePatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> =
@@ -53,12 +74,82 @@ class LocationStub {
     return Observable.of({status: 'okay'});
   }
 }
+class FakePatientReferralService {
+  formsComplete: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  constructor() {
+  }
+
+  public saveProcessPayload(payload) {
+  }
+
+  public getProcessPayload() {
+    return Observable.of({});
+  }
+}
 class FakeProgramService {
   constructor() {
   }
 
   public saveUpdateProgramEnrollment(payload) {
     return Observable.of(payload);
+  }
+}
+class FakePatientReferralResourceService {
+  constructor() {
+  }
+
+  public getPatientReferralReport(params) {
+    return Observable.of({});
+
+  }
+
+  public getPatientReferralPatientList(params) {
+    return Observable.of({});
+  }
+
+  public getReferralLocationByEnrollmentUuid(uuid: string) {
+    return Observable.of({});
+  }
+}
+class FakePatientProgramResourceService {
+  constructor() {
+  }
+
+  getAllProgramVisitConfigs() {
+    return Observable.of(prog).delay(50);
+  }
+
+  getPatientProgramVisitConfigs (uuid) {
+    return Observable.of(prog).delay(50);
+  }
+  getPatientProgramVisitTypes (patient: string, program: string,
+                               enrollment: string, location: string) {
+    return Observable.of(progConfig);
+  }
+}
+class FakeUserDefaultPropertiesService {
+  public locationSubject = new BehaviorSubject<any>('');
+
+  constructor() { }
+
+  public getLocations(): Observable<any> {
+    return Observable.of([{}]);
+
+  }
+
+  public getCurrentUserDefaultLocation() {
+  return 'location';
+  }
+
+  public getCurrentUserDefaultLocationObject() {
+    return null;
+  }
+  public getAuthenticatedUser() {
+    return {};
+  }
+
+  public setUserProperty(propertyKey: string, property: string) {
+
   }
 }
 describe('Component: LandingPageComponent', () => {
@@ -76,6 +167,22 @@ describe('Component: LandingPageComponent', () => {
         {
           provide: PatientService,
           useClass: FakePatientService
+        },
+        {
+          provide: PatientReferralService,
+          useClass: FakePatientReferralService
+        },
+        {
+          provide: PatientReferralResourceService,
+          useClass: FakePatientReferralResourceService
+        },
+        {
+          provide: PatientProgramResourceService,
+          useClass: FakePatientProgramResourceService
+        },
+        {
+          provide: UserDefaultPropertiesService,
+          useClass: FakeUserDefaultPropertiesService
         },
         {
           provide: LocationResourceService,
@@ -97,9 +204,8 @@ describe('Component: LandingPageComponent', () => {
         }
 
       ],
-      declarations: [GeneralLandingPageComponent, HivProgramSnapshotComponent, BusyComponent,
-      UnenrollPatientProgramsComponent, ZeroVlPipe],
-      imports: [PanelModule, NgSelectModule, CommonModule, FormsModule, CohortMemberModule,
+      declarations: [],
+      imports: [PanelModule, CommonModule, FormsModule, CohortMemberModule,
         NgamrsSharedModule, OpenmrsApi, RouterModule, DialogModule]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(GeneralLandingPageComponent);

@@ -36,6 +36,10 @@ import { AppFeatureAnalytics } from
   '../../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from
   '../../../../shared/app-analytics/app-feature-analytcis.mock';
+import { ProgramWorkFlowResourceService
+} from '../../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../../openmrs-api/program-workflow-state-resource.service';
 class LocationServiceMock {
   constructor() {
   }
@@ -47,14 +51,14 @@ class LocationServiceMock {
 class RouterStub {
   public navigateByUrl(url: string) { return url; }
 }
-
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('TodayVisitsComponent', () => {
   let component: TodayVisitsComponent;
   let fixture: ComponentFixture<TodayVisitsComponent>;
 
   beforeEach(async(() => {
     let fakePatientProgramResourceService = {
-      getAllProgramVisitConfigs: () => {
+      getPatientProgramVisitConfigs: (uuid) => {
         return Observable.of({});
       },
       getPatientProgramVisitTypes: (
@@ -101,6 +105,8 @@ describe('TodayVisitsComponent', () => {
           }
         },
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {
           provide: PatientProgramResourceService, useFactory: () => {
             return fakePatientProgramResourceService;

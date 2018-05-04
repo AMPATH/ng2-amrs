@@ -5,8 +5,7 @@ import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
-import { SelectModule } from 'ng2-openmrs-formentry/dist/components/select';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DashboardFiltersComponent } from './dashboard-filters.component';
 import { DateRangeComponent } from './date-range/date-range.component';
@@ -72,7 +71,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
         DateTimePickerModule,
         FormsModule,
         CommonModule,
-        SelectModule
+        NgSelectModule
       ],
       providers: [
         {

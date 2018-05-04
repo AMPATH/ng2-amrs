@@ -97,7 +97,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
 
   public setIdentifierType(identifierType) {
-    if ( identifierType.val ==='58a47054-1359-11df-a1f1-0026b9348838') {
+    if ( identifierType.val === '58a47054-1359-11df-a1f1-0026b9348838') {
       this.showNationalIdTexBox = true;
       this.showGeneralTexBox = true;
     } else {

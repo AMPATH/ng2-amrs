@@ -40,6 +40,14 @@ import { AngularMultiSelectModule } from
 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService }
 from './../../etl-api/department-programs-config.service';
+import { PatientService } from '../../patient-dashboard/services/patient.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { PatientProgramService } from '../../patient-dashboard/programs/patient-programs.service';
+import { ProgramService } from '../../patient-dashboard/programs/program.service';
+import { ProgramWorkFlowResourceService
+} from '../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Component: DailySchedule', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics,
@@ -62,6 +70,12 @@ describe('Component: DailySchedule', () => {
         LocalStorageService,
         CacheService,
         DataCacheService,
+        PatientService,
+        PatientResourceService,
+        PatientProgramService,
+        ProgramService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         ClinicFlowCacheService,
         ChildrenOutletContexts,
         DepartmentProgramsConfigService,

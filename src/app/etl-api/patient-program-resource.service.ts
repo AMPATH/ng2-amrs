@@ -11,8 +11,16 @@ export class PatientProgramResourceService {
   }
 
   public getAllProgramVisitConfigs(ttl?: number): Observable<any> {
-    let url = this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'program-visit-configs';
+    let url = this.appSettingsService.getEtlRestbaseurl().trim();
+    url += 'program-visit-configs';
+    return this.http.get(url).map((response: Response) => {
+      return response.json();
+    });
+  }
+
+  public getPatientProgramVisitConfigs(patientUuid: string): Observable<any> {
+    let url = this.appSettingsService.getEtlRestbaseurl().trim();
+    url += 'patient-program-config?patientUuid=' + patientUuid;
     return this.http.get(url).map((response: Response) => {
       return response.json();
     });

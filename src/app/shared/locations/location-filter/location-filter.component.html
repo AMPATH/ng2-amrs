@@ -6,7 +6,7 @@
         <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
         <span *ngIf="!loading" class="glyphicon glyphicon-map-marker"></span>
       </div>
-      <ng-select [multiple]="multiple" id="location-filter" (ngModelChange)="onLocationSelected($event)"
+      <ng-select class="sharp-corners" [multiple]="multiple" id="location-filter" (change)="onLocationSelected($event)"
                  [placeholder]="'Select a location...'"
                  [(ngModel)]="selectedLocations" [items]="locationDropdownOptions">
       </ng-select>

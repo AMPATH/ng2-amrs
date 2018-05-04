@@ -1,7 +1,7 @@
 <div>
     Select list to add patient to:
     <br/>
-    <ng-select [allowClear]="false" [items]="cohortList" (selected)="selectCohort($event)" placeholder="No cohort selected">
+    <ng-select class="sharp-corners" [allowClear]="false" [items]="cohortList" (change)="selectCohort($event)" placeholder="No cohort selected">
     </ng-select>
     <span *ngIf="loadingList">Loading patient lists..</span>
 </div>

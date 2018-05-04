@@ -70,7 +70,7 @@ export class AppSettingsService {
       this.setOpenmrsServer(AppSettingsService.DEFAULT_OPENMRS_SERVER_URL);
     }
 
-   let cachedEtlUrls = localStorageService.getItem(AppSettingsService.ETL_LIST_STORAGE_KEY);
+    let cachedEtlUrls = localStorageService.getItem(AppSettingsService.ETL_LIST_STORAGE_KEY);
     if (cachedEtlUrls) {
       this._etlServerUrls = JSON.parse(cachedEtlUrls);
     } else {

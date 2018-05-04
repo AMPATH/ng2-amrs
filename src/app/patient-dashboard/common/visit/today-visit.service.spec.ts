@@ -16,7 +16,11 @@ import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { ProgramService } from '../../programs/program.service';
-
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('Service: TodayVisit', () => {
   let progConfig = {
     uuid: 'some-uuid',
@@ -108,7 +112,10 @@ describe('Service: TodayVisit', () => {
 
   let fakePatientProgramResourceService = {
     getAllProgramVisitConfigs: () => {
-      return Observable.of(prog).delay(100);
+      return Observable.of(prog).delay(50);
+    },
+    getPatientProgramVisitConfigs: (uuid) => {
+      return Observable.of(prog).delay(50);
     },
     getPatientProgramVisitTypes: (
       patient: string, program: string,
@@ -169,6 +176,8 @@ describe('Service: TodayVisit', () => {
         TodayVisitService,
         PatientService,
         PatientProgramService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         ProgramService,
         {
           provide: PatientProgramResourceService,
@@ -191,20 +200,25 @@ describe('Service: TodayVisit', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should fetch all programs configs', (done) => {
+  it('should fetch a patient\'s programs configs', (done) => {
     let progService: PatientProgramResourceService =
       TestBed.get(PatientProgramResourceService);
 
+    let patientService: PatientService =
+      TestBed.get(PatientService);
+    patientService.currentlyLoadedPatient.next(new Patient({
+      uuid: 'uuid',
+      person: { uuid: 'uuid' }
+    }));
     let service: TodayVisitService = TestBed.get(TodayVisitService);
 
     let progVisitTypeSpy =
-      spyOn(progService, 'getAllProgramVisitConfigs')
+      spyOn(progService, 'getPatientProgramVisitConfigs')
         .and.callThrough();
-    service.fetchAllProgramVisitConfigs();
-
+    service.fetchPatientProgramVisitConfigs();
     setTimeout(() => {
       expect(progVisitTypeSpy.calls.count()).toBe(1);
-      expect(service.allProgramVisitConfigs).toEqual(prog);
+      expect(service.patientProgramVisitConfigs).toEqual(prog);
       done();
     }, 100);
   });
@@ -277,7 +291,7 @@ describe('Service: TodayVisit', () => {
 
   it('should extract a program config from all program configs', () => {
     let service: TodayVisitService = TestBed.get(TodayVisitService);
-    service.allProgramVisitConfigs = prog;
+    service.patientProgramVisitConfigs = prog;
     let filteredProgConfig = service.getProgramConfigurationObject('some-uuid');
     expect(filteredProgConfig).toBe(progConfig);
   });
@@ -336,7 +350,7 @@ describe('Service: TodayVisit', () => {
       }
     };
 
-    service.allProgramVisitConfigs = programConfigs;
+    service.patientProgramVisitConfigs = programConfigs;
 
     let expected = {
       'some-uuid': {
@@ -364,7 +378,7 @@ describe('Service: TodayVisit', () => {
       // the visit could have been ended or it could be an active visit
 
       let service: TodayVisitService = TestBed.get(TodayVisitService);
-      service.allProgramVisitConfigs = prog;
+      service.patientProgramVisitConfigs = prog;
 
       // CASE 3: Visits and Program Config Loaded
       // SUB-CASE: Today's Visit Present for Current Program
@@ -431,7 +445,7 @@ describe('Service: TodayVisit', () => {
         visitTypes: []
       };
 
-      service.allProgramVisitConfigs = {
+      service.patientProgramVisitConfigs = {
         'some-uuid': currentProgramConfig
       };
 
@@ -487,7 +501,7 @@ describe('Service: TodayVisit', () => {
       person: { uuid: 'uuid' }
     };
 
-    service.allProgramVisitConfigs = programConfigs;
+    service.patientProgramVisitConfigs = programConfigs;
     service.patient.enrolledPrograms = programs;
     service.enrolledPrograms = programs;
     service.hasFetchedVisits = true;
@@ -519,10 +533,10 @@ describe('Service: TodayVisit', () => {
     expect(classProcessingSpy.calls.count()).toBe(1);
   });
 
-  it('should fetch all data required to process visits per programs', (done) => {
+  it('should fetch all data required to process patient visits per programs', (done) => {
     let service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    service.allProgramVisitConfigs = null;
+    service.patientProgramVisitConfigs = null;
     service.hasFetchedVisits = false;
     service.allPatientVisits = null;
     service.patient = {
@@ -530,7 +544,7 @@ describe('Service: TodayVisit', () => {
       person: { uuid: 'uuid' }
     };
 
-    let progConfigSpy = spyOn(service, 'fetchAllProgramVisitConfigs')
+    let progConfigSpy = spyOn(service, 'fetchPatientProgramVisitConfigs')
       .and.callThrough();
 
     let visitSpy = spyOn(service, 'getPatientVisits')
@@ -540,18 +554,7 @@ describe('Service: TodayVisit', () => {
       .subscribe((data) => {
         expect(progConfigSpy.calls.count()).toBe(1);
         expect(visitSpy.calls.count()).toBe(1);
-        // done();
-
-        // CASE 2: program config already loaded
-        service.loadDataToProcessProgramVisits()
-          .subscribe((data2) => {
-            expect(progConfigSpy.calls.count()).toBe(1);
-            expect(visitSpy.calls.count()).toBe(2);
-            done();
-          }, (error) => {
-            expect('not expecting error with given test case').toBeFalsy();
-          });
-
+        done();
       }, (error) => {
         console.error('returned', error);
         expect('not expecting error with given test case').toBeFalsy();
@@ -559,7 +562,7 @@ describe('Service: TodayVisit', () => {
 
   });
 
-  it('should fetch and process visits for all programs', (done) => {
+  it('should fetch and process patient visits for all programs', (done) => {
     // If visit is stale, i.e needsVisitReload = true, then fetch afresh.
     // Should check if all required data is fetched before trying to fetch
     // i.e visits, enrolledPrograms, programs config

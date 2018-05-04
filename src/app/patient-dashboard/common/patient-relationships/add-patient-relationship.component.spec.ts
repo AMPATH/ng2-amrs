@@ -12,6 +12,10 @@ import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { PatientRelationshipTypeService } from './patient-relation-type.service';
 import { AddPatientRelationshipComponent } from './add-patient-relationship.component';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Component: AddRelationship Unit Tests', () => {
 
@@ -47,6 +51,8 @@ describe('Component: AddRelationship Unit Tests', () => {
                 {
                     provide: PatientService
                 },
+              ProgramWorkFlowResourceService,
+              ProgramWorkFlowStateResourceService,
                 AppSettingsService,
                 LocalStorageService
             ]

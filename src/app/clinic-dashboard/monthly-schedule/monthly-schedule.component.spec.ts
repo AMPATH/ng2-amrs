@@ -29,6 +29,19 @@ import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService }
 from './../../etl-api/department-programs-config.service';
+import { PatientService } from '../../patient-dashboard/services/patient.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { PatientProgramService } from '../../patient-dashboard/programs/patient-programs.service';
+import { ProgramService } from '../../patient-dashboard/programs/program.service';
+import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
+import { ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
+import { ProgramWorkFlowResourceService
+} from '../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {
@@ -245,6 +258,16 @@ describe('MonthlyScheduleComponent', () => {
         DepartmentProgramsConfigService,
         LocalStorageService,
         DataCacheService,
+        PatientService,
+        PatientResourceService,
+        PatientProgramService,
+        ProgramResourceService,
+        ProgramService,
+        RoutesProviderService,
+        ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
+        EncounterResourceService,
         CacheService,
         {
           provide: Http, useFactory: (backend, options) => {

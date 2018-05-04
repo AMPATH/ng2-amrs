@@ -6,7 +6,16 @@ import { PatientSearchService } from './patient-search.service';
 import { Patient } from '../models/patient.model';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
-
+import {
+  UserDefaultPropertiesService
+} from
+  '../user-default-properties/user-default-properties.service';
+import {
+  PatientReferralService
+} from
+  '../referral-module/services/patient-referral-service';
+import * as Moment from 'moment';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-patient-search',
   templateUrl: './patient-search.component.html',
@@ -15,17 +24,25 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 
 export class PatientSearchComponent implements OnInit, OnDestroy {
   public patients: Patient[];
+  public referred: any[] = [];
+  public referredBack: any[] = [];
+  public errors: any[];
   public isResetButton: boolean = true;
   public totalPatients: number;
   public isLoading: boolean = false;
+  public dataLoaded: boolean = false;
   public hasConductedSearch = false;
   public page: number = 1;
   public adjustInputMargin: string = '240px';
   public subscription: Subscription;
+  public referralSubscription: Subscription;
   public title: string = 'Patient Search';
   public errorMessage: string = '';
   public noMatchingResults: boolean = false;
+  public loadingReferralProviders: boolean = false;
   public lastSearchString: string = '';
+  public providerUuid: string = '';
+
   /*
    patientSelected emits the patient object
    to other components so they can use
@@ -48,13 +65,24 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.hasConductedSearch = false;
   }
 
+  private endDate: any;
+  private startDate: any;
+  private locationUuids: any;
+  private providerUuids: any;
+  private REFER_CONCEPT_UUID = '0c5565c5-45cf-40ab-aa6d-5694aeabae18';
+  private REFERBACK_CONCEPT_UUID = '15977097-13b7-4186-80a7-a78535f27866';
   constructor(private patientSearchService: PatientSearchService,
               private route: ActivatedRoute,
               private appFeatureAnalytics: AppFeatureAnalytics,
+              private defaultPropertiesService: UserDefaultPropertiesService,
+              private referralService: PatientReferralService,
+              private location: Location,
               private router: Router) {
   }
 
   public ngOnInit() {
+    this.getPatientReferrals(this.REFER_CONCEPT_UUID);
+    this.getPatientReferrals(this.REFERBACK_CONCEPT_UUID);
     if (window.innerWidth <= 768) {
       this.adjustInputMargin = '0';
     }
@@ -79,6 +107,9 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.referralSubscription) {
+      this.referralSubscription.unsubscribe();
     }
   }
 
@@ -177,4 +208,120 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  public loadReferredData() {
+    this.router.navigate(['/provider-dashboard'],
+    {queryParams: {
+      'endDate': this.endDate,
+      'startDate': this.startDate,
+      'locationUuids': (this.locationUuids as any),
+      'stateUuids': this.REFER_CONCEPT_UUID,
+      'urlSource': 'REFER'
+    }});
+    // this.referralService.setUrlSource('REFER');
+  }
+  public loadReferredBackData() {
+    this.router.navigate(['/provider-dashboard'],
+    {queryParams: {
+      'endDate': this.endDate,
+      'startDate': this.startDate,
+      'providerUuids': (this.providerUuids as any),
+      'stateUuids': this.REFERBACK_CONCEPT_UUID,
+      'urlSource': 'REFERBACK'
+    }});
+  }
+
+  private getPatientReferrals( referalType: any) {
+    let location = this.defaultPropertiesService.getCurrentUserDefaultLocationObject()
+            || {};
+    let selectedLocationUuid = location.uuid || 'Default location not set';
+    let user = this.defaultPropertiesService.getAuthenticatedUser()
+            || {};
+
+    this.referralService.getUserProviderDetails(user)
+      .then((provider) => {
+        this.providerUuid = provider.uuid;
+        let currentDateMoment = Moment(new Date());
+        let endDate =  currentDateMoment.format('YYYY-MM-DD');
+        let startDate = currentDateMoment.add(-1, 'M').format('YYYY-MM-DD');
+
+        let params = this.getRequestParams(referalType, this.providerUuid,
+           selectedLocationUuid, startDate, endDate);
+        console.log( params);
+        this.referralSubscription = this.referralService.getProviderReferralPatientList(params)
+          .subscribe(
+            (referralData) => {
+              this.loadingReferralProviders = false;
+              if (referralData.length >= 1) {
+                 if (referalType === this.REFERBACK_CONCEPT_UUID) {
+                  this.referredBack = referralData;
+                 }
+
+                 if (referalType === this.REFER_CONCEPT_UUID) {
+                  this.referred = referralData;
+                 }
+                 this.dataLoaded = true;
+
+              } else {
+                this.dataLoaded = false;
+              }
+
+            },
+            (error) => {
+              this.loadingReferralProviders = false;
+              this.dataLoaded = true;
+              this.errors.push({
+                id: 'Referral Providers',
+                message: 'error fetching referral providers'
+              });
+            }
+          );
+      })
+      .catch((error) => {
+        this.errors.push({
+          id: 'Referral Providers',
+          message: 'error fetching current user provider information'
+        });
+      });
+
+  }
+
+  private getRequestParams(referalType, provider, location, startDate, endDate) {
+    let params = {
+      endDate: endDate,
+      locationUuids: location,
+      startDate: startDate,
+      providerUuids: provider,
+      stateUuids: referalType
+    };
+
+    if (referalType === this.REFER_CONCEPT_UUID) {
+      // do not filter by provider when getting referred patients
+      delete params['providerUuids'];
+      this.locationUuids = location;
+    }
+
+    if (referalType === this.REFERBACK_CONCEPT_UUID) {
+      // do not filter by location when getting referred back patients
+      delete params['locationUuids'];
+      this.providerUuids = provider;
+    }
+    this.startDate = startDate;
+    this.endDate = endDate;
+    return params;
+  }
+
+   private getCurrentProvider(user: any) {
+            if (user) {
+              this.referralService.getUserProviderDetails(user)
+                .then((provider) => {
+                  this.providerUuid = provider.uuid;
+                })
+                .catch((error) => {
+                  this.errors.push({
+                  id: 'Referral Providers',
+                 message: 'error fetching current user provider information'
+                  });
+                });
+            }
+  }
 }

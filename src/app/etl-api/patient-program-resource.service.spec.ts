@@ -98,6 +98,32 @@ describe('Patient Program Resource Service Unit Tests', () => {
       });
 
   });
+  it('should make API call to get patient program visit configs', (done) => {
+    backend = TestBed.get(MockBackend);
+    let patientProgramResourceService: PatientProgramResourceService =
+      TestBed.get(PatientProgramResourceService);
+    let appsetting =
+      TestBed.get(AppSettingsService);
+
+    backend.connections.subscribe((connection: MockConnection) => {
+
+      expect(connection.request.method).toBe(RequestMethod.Get);
+      expect(connection.request.url)
+        .toEqual(
+          appsetting.getEtlRestbaseurl().trim() +
+          'patient-program-config?patientUuid=uuid'
+        );
+      let options = new ResponseOptions({
+        body: JSON.stringify({})
+      });
+      connection.mockRespond(new Response(options));
+    });
+    patientProgramResourceService.getPatientProgramVisitConfigs('uuid')
+      .subscribe((response) => {
+        done();
+      });
+
+  });
   it('should return an error when fetching all program configs fail',
     async(inject([PatientProgramResourceService, MockBackend],
       (patientProgramResourceService: PatientProgramResourceService,

@@ -105,7 +105,7 @@ export class FormListComponent implements OnInit {
     // filter by visitTypeForms
     if (Array.isArray(this.encounterTypeFilter) && this.encounterTypeFilter.length > 0) {
       this.forms = this.forms.filter((form) => {
-        if (this.encounterTypeFilter.indexOf(form.encounterType.uuid) > -1) {
+        if (form.encounterType && this.encounterTypeFilter.indexOf(form.encounterType.uuid) > -1) {
           return true;
         } else {
           return false;

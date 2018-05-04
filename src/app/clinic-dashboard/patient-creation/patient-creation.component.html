@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    
+
     <hr class="intro-divider patient-info-divider" />
     <div class="row">
       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
@@ -120,14 +120,14 @@
           </div>
         </div>
         <div>
-          
+
         </div>
       </div>
 
       <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
         <div class="form-group">
           <label class="control-label">Patient Identifier</label>
-          <input [disabled]="!patientIdentifierType" type="text" id="commonIdentifier" class="form-control" [(ngModel)]="commonIdentifier" 
+          <input [disabled]="!patientIdentifierType" type="text" id="commonIdentifier" class="form-control" [(ngModel)]="commonIdentifier"
           (ngModelChange)="checkIdentifier($event)">
           <div *ngIf="identifierValidity">
             <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
@@ -142,7 +142,7 @@
             <div class="help-block" style="color: blue;">Please add the Identifier!</div>
           </div>
         </div>
-      
+
       </div>
 
       <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
@@ -165,7 +165,7 @@
         </table>
       </div>
     </div>
-    
+
     <div class="row" *ngIf="identifierAdded && identifiers.length > 1">
       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group" >
@@ -183,9 +183,9 @@
       <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label class="control-label">Identifier Location <span *ngIf="!selectedLocation" class="required"> * </span></label>
-              <ng-select  id="selectedDevice" (ngModelChange)="setIdentifierLocation($event)"
+              <ng-select class="sharp-corners" id="selectedDevice" (ngModelChange)="setIdentifierLocation($event)"
                         [placeholder]="'Select a location or type to search...'"
-                        [(ngModel)]="selectedLocation" [options]="locations">
+                        [(ngModel)]="selectedLocation" [items]="locations">
               </ng-select>
               <div *ngIf="errors && !selectedLocation" class="required">
                 <span class="help-block" style="color:red;">Location is required!</span>
@@ -302,7 +302,7 @@
     <div class="row">
       <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
         <button class="btn btn-primary" (click)="createPatient()">
-              
+
         Save</button>
         <button type="button" class="btn btn-danger pull-right" (click)="cancel()">Cancel</button>
       </div>
@@ -327,13 +327,13 @@
       <div class="alert alert-danger" *ngIf="!familyName">Family Name is required!</div>
       <div class="alert alert-danger" *ngIf="!gender">Gender is required!</div>
       <div class="alert alert-danger" *ngIf="!birthDate">Birth Date is required!</div>
-      <span *ngIf="!patientExists">    
+      <span *ngIf="!patientExists">
         <div class="alert alert-danger" *ngIf="identifiers.length === 0 && !patientIdentifier">Universal ID is required!</div>
         <div class="alert alert-danger" *ngIf="identifiers.length === 0 && patientIdentifier">Please add the Universal ID!</div>
         <div class="alert alert-danger" *ngIf="commonIdentifier && patientIdentifierType && !preferredIdentifier">Preferred Identifier is required!</div>
         <div class="alert alert-danger" *ngIf="commonIdentifier && !commonAdded">Please add the Identifier!</div>
         <div class="alert alert-danger" *ngIf="!selectedLocation">Identifier Location is required!</div>
-        
+
       </span>
     </div>
   </div>
@@ -387,7 +387,7 @@
   <button type="button" class="btn btn-default" (click)="back()">Back</button>
 </div>
 
-<ng-template #successModal> 
+<ng-template #successModal>
   <div bsModal class="modal-body" [config]="{backdrop: 'static'}">
     <div class="alert alert-success" role="alert">
       You have successfully registered the patient <strong>{{ createdPatient?.person.display | uppercase }}</strong>

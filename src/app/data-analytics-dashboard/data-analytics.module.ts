@@ -33,6 +33,9 @@ import { DataAnalyticsHivProgramModule } from './hiv/hiv-program.module';
 import { dataAnalyticsDashboardRouting } from './data-analytics-dashboard-routes';
 import { DataEntryStatisticsModule } from
 './../data-entry-statistics/data-entry-statistics.module';
+import {
+  AnalyticsPatientReferralProgramModule
+} from './referral/referral-program.module';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -62,6 +65,7 @@ import { DataEntryStatisticsModule } from
       })
     ),
     DataAnalyticsHivProgramModule,
+    AnalyticsPatientReferralProgramModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgxMyDatePickerModule,

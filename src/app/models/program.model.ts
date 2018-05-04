@@ -18,6 +18,11 @@ export class Program extends BaseModel {
   }
 
   @serializable()
+  public get concept(): string {
+    return this._openmrsModel.concept;
+  }
+
+  @serializable()
   public get description(): string {
     return this._openmrsModel.description;
   }

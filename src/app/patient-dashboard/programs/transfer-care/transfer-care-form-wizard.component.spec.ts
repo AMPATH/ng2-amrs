@@ -27,6 +27,10 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FormOrderMetaDataService } from '../../common/forms/form-order-metadata.service';
 import { PatientProgramResourceService
 } from '../../../etl-api/patient-program-resource.service';
+import { ProgramWorkFlowResourceService
+} from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
@@ -47,6 +51,8 @@ describe('Component: ProgramsTransferCareFormWizardComponent', () => {
         LocalStorageService,
         FormOrderMetaDataService,
         ProgramService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         { provide: Router,
           useClass: MockRouter
         },
@@ -70,7 +76,7 @@ describe('Component: ProgramsTransferCareFormWizardComponent', () => {
         MockBackend,
         BaseRequestOptions,
       ],
-      declarations: [FormListComponent, ProgramsTransferCareFormWizardComponent],
+      declarations: [ProgramsTransferCareFormWizardComponent],
       imports: [FormsModule, RouterTestingModule, NgamrsSharedModule]
     });
   });

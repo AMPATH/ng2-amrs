@@ -26,6 +26,18 @@
 			   </div>
 
 		</form>
+
+		<div style="padding-left:15px;" >
+		   <div style="padding-top:10px; padding-bottom:10px; ">
+                 <i class="icon-i-family-practice" style="color:red" *ngIf="referred.length>0 || referredBack.length>0"></i>
+			      <a href="javascript:void(0)" (click)="loadReferredData()" *ngIf="referred.length>0"  >
+              <strong>{{referred.length}}</strong> Patient(s) referred
+                 </a>
+			      <a href="javascript:void(0)" (click)="loadReferredBackData()"  *ngIf="referredBack.length>0" >
+              <strong>{{referredBack.length}}</strong> Patient(s) referred back
+                 </a>
+	        </div>
+	   </div>
 		<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="noMatchingResults===true">
 			<div  class="alert">
 				<span>No Matching results for <i class="total text-bold">{{lastSearchString}}</i></span>
