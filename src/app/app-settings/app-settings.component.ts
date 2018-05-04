@@ -37,7 +37,7 @@ export class AppSettingsComponent implements OnInit {
     let templates = this.appSettingsService.getServerTemplates();
 
     if (!window.location.host.match(new RegExp('localhost'))) {
-      this.changeServerSettings(templates[0]);
+      // this.changeServerSettings(templates[0]);
     }
 
     this.checkDebugMode();
