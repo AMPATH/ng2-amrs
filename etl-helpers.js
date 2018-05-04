@@ -309,7 +309,11 @@ module.exports = function () {
                 where.providerUuid = queryParams.provideruuid;
             }
             if (queryParams.creatoruuid) {
-                where.creatorUuid = queryParams.creatoruuid;
+                var creatorUuids = [];
+                _.each(queryParams.creatoruuid.split(','), function (creator) {
+                    creatorUuids.push(creator);
+                });
+                where.creator = creatorUuids;
             }
             if (queryParams.encounterTypeIds) {
                 var encounterTypes = [];

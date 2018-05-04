@@ -151,7 +151,9 @@
  "joins":[
      {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"}
+     {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"person_name","alias":"t5","joinExpression":"t4.person_id = t5.person_id"},
+     {"joinType":"JOIN","schema":"etl","tableName":"clinical_encounter_type_map","alias":"t6","joinExpression":"t6.encounter_type = t2.encounter_type"}
  ],
  "parameters": [
      {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -213,6 +215,16 @@
             "label":"encounter_type_uuid",
             "type":"single",
             "sql":"t3.uuid"
+        },
+        {
+                "label":"provider_name",
+                "type":"single",
+                "sql":"CONCAT(COALESCE(t5.given_name, ''),' ', COALESCE(t5.middle_name, ''),' ', COALESCE(t5.family_name, ''))"
+        },
+        {
+            "label":"is_clinical_encounter",
+            "type":"single",
+            "sql":"t6.is_clinical"
         }
     ]
 },
@@ -223,7 +235,9 @@
      {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
      {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"}
+     {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"person_name","alias":"t6","joinExpression":"t4.person_id = t6.person_id"},
+     {"joinType":"JOIN","schema":"etl","tableName":"clinical_encounter_type_map","alias":"t7","joinExpression":"t7.encounter_type = t2.encounter_type"}
  ],
  "parameters": [
      {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -249,7 +263,7 @@
      {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
-     {"expression":"t5.uuid = ?", "parameter":"creatorUuid"}
+     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"}
  ],
  "groupClause":[
      {"parameter":"groupByCreatorId"},
@@ -287,6 +301,16 @@
             "label":"encounter_type_uuid",
             "type":"single",
             "sql":"t3.uuid"
+        },
+        {
+                "label":"creator_name",
+                "type":"single",
+                "sql":"CONCAT(COALESCE(t6.given_name, ''),' ', COALESCE(t6.middle_name, ''),' ', COALESCE(t6.family_name, ''))"
+        },
+        {
+            "label":"is_clinical_encounter",
+            "type":"single",
+            "sql":"t7.is_clinical"
         }
     ]
 },

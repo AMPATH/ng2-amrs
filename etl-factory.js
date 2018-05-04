@@ -187,7 +187,6 @@ module.exports = function () {
     }
 
     function _buildQueryParts(requestParams, reportName, queryPartsArray) {
-        console.log('Build Query Parts Request Params',requestParams );
         if (reportName) {
             reportName = reportName;
         } else {
@@ -213,11 +212,9 @@ module.exports = function () {
 
                 if(report.table['tableName'] === '@tableName'){
                      tableName = requestParams.tableName;
-                     console.log('Empty Table Name', requestParams.tableName );
                 } else{
                      tableName = report.table['tableName'];
                 }
-                console.log('Table Name', tableName);
                 var queryParts = {
                     columns: indicatorsToColumns(report, requestParams.countBy, requestParams),
                     concatColumns: concatColumnsToColumns(report),
@@ -254,7 +251,6 @@ module.exports = function () {
                 asc: (orderBy.order.toLowerCase() === "asc")
             });
         });
-        console.log('----------------------->returned order by', order)
         return order;
     }
 
