@@ -27,6 +27,9 @@ import * as retention_dataset_base from './json-reports/retention-dataset-base.j
 import * as pep_dataset_aggregate from './json-reports/pep-dataset-aggregate.json';
 import * as pep_dataset_base from './json-reports/pep-dataset-base.json';
 import * as patient_list_template from './json-reports/patient-list-template.json';
+import * as referral_patient_list_template from './json-reports/referral-patient-list-template.json';
+import * as referral_dataset_base from './json-reports/referral-dataset-base.json';
+import * as referral_aggregate from './json-reports/referral-aggregate.json';
 
 export class BaseMysqlReport {
     constructor(reportName, params) {
@@ -149,6 +152,17 @@ export class BaseMysqlReport {
                     resolve({
                         main: pep_dataset_aggregate,
                         pepDataSetbase: pep_dataset_base
+                    });
+                    break;
+                case 'referral-patient-list-template':
+                    resolve({
+                        main: referral_patient_list_template
+                    });
+                    break;
+                case 'referralAggregate':
+                    resolve({
+                        main: referral_aggregate,
+                        referralDatasetbase: referral_dataset_base
                     });
                     break;
                 default:

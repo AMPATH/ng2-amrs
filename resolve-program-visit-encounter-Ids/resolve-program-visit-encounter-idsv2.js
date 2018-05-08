@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const dao = require('../etl-dao');
-const programsConfig = require('../programs/program-visits-config');
+const programsConfig = require('../programs/patient-program-config');
 var encounterTypeService = require('../encounter-type/encounter-type-service.js');
 var visitTypeService = require('../visit-type/visit-type-service');
 var programTypeService = require('../programs/program-type.service');

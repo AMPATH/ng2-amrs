@@ -3,13 +3,15 @@ var _ = require('underscore');
 var helpers = require('./etl-helpers');
 var patientFlowProcessor = require('./report-post-processors/patient-flow-processor');
 var clinicalComparatorProcessor = require('./report-post-processors/clinic-comparator-processor');
+var patientReferralProcessor = require('./report-post-processors/patient-referral-processor');
 
 module.exports = function () {
   return {
     convertConceptIdToName: convertConceptIdToName,
     processPatientFlow: processPatientFlow,
     processClinicalComparator: processClinicalComparator,
-    findChanges: findChanges
+    findChanges: findChanges,
+    processPatientReferral: processPatientReferral,
   };
 
   function convertConceptIdToName(indicators, queryResults, requestIndicators) {
@@ -76,4 +78,15 @@ module.exports = function () {
 
     return queryResults;
   }
+
+    function processPatientReferral(indicators, queryResults, requestIndicators) {
+        queryResults.result =
+            patientReferralProcessor.UngroupResults(queryResults.results);
+        queryResults.groupedResult =
+            patientReferralProcessor.groupResultsByLocation(queryResults.result);
+        queryResults.stateNames =
+            patientReferralProcessor.getListOfDistinctStatesFromResult(queryResults.result);
+
+        return queryResults;
+    }
 } ();

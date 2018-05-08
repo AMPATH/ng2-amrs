@@ -28,6 +28,7 @@ function buildScope(dataDictionary) {
 
 function buildPatientScopeMembers(scope, patient) {
     scope.age = patient.person.age;
+    scope.gender = patient.person.gender;
 }
 
 function buildProgramScopeMembers(scope, programEnrollment) {

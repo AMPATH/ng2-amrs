@@ -354,7 +354,9 @@ module.exports = function () {
             var reportName = requestParams.reportName || 'hiv-summary-report';
             var locationIds = requestParams.locations || '';
             var locationUuids = [];
+            var stateUuids = [];
             var locations = [];
+            var programUuids= [];
             var startAge = requestParams.startAge || 0;
             var endAge = requestParams.endAge || 150;
             var gender = (requestParams.gender || 'M,F').split(',');
@@ -367,6 +369,17 @@ module.exports = function () {
             if (requestParams.locationUuids) {
                 _.each(requestParams.locationUuids.split(','), function (loc) {
                     locationUuids.push(String(loc));
+                });
+            }
+            //format StateUuids
+            if (requestParams.stateUuids) {
+                _.each(requestParams.stateUuids.split(','), function (s) {
+                    stateUuids.push(String(s));
+                });
+            }
+            if (requestParams.programUuids) {
+                _.each(requestParams.programUuids.split(','), function (s) {
+                    programUuids.push(String(s));
                 });
             }
 
@@ -399,11 +412,21 @@ module.exports = function () {
                 }, {
                     "name": "gender",
                     "value": gender
-                }],
+                },
+                {
+                    "name": "programUuids",
+                    "value": programUuids
+                },
+                {
+                    "name": "stateUuids",
+                    "value": stateUuids
+                }
+
+                ],
                 startIndex: requestParams.startIndex || 0,
                 limit: requestParams.limit || 300
             };
-            console.log('Params', queryParams);
+
             var queryParts = reportFactory.buildPatientListReportExpression(queryParams);
             return new Promise(function (resolve, reject) {
                 if (!_.isEmpty(queryParts)) {
