@@ -723,7 +723,7 @@ public loadSavedFilterItems() {
 
          // get all the programs under the department
 
-         _.each(this.departmentConf, (department: any, index) => {
+         _.each(this.programDepartments, (department: any, index) => {
                   if (index === departmentUuid) {
                          _.each(department.programs, (deptProgram: any) => {
                            departmentPrograms.push(deptProgram.uuid);
