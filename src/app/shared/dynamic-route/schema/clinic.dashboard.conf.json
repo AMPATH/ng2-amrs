@@ -62,6 +62,12 @@
       "label": "Patients Requiring VL",
       "icon": "icon-i-laboratory",
       "isSideBarOpen": false
+    },
+    {
+      "url": "patient-registration",
+      "label": "Patient Registration",
+      "icon": "glyphicon glyphicon-user",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

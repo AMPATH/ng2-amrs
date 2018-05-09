@@ -50,6 +50,7 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 import {
   HivCareIndicatorDefComponent
@@ -124,6 +125,12 @@ import { PatientProgramEnrollmentService } from
 './../etl-api/patient-program-enrollment.service';
 import { PatientProgramEnrollmentModule } from
 './../patients-program-enrollment/patients-program-enrollment.module';
+import { PatientCreationComponent } from './patient-creation/patient-creation.component';
+import { PatientCreationService } from './patient-creation/patient-creation.service';
+import {
+  PatientCreationResourceService
+} from '../openmrs-api/patient-creation-resource.service';
+
 @NgModule({
   declarations: [
     /**
@@ -152,7 +159,8 @@ import { PatientProgramEnrollmentModule } from
     PatientStatusChangeListComponent,
     PatientStatusDatalistCellComponent,
     PatientStatusChangeVisualizationComponent,
-    PatientStatusChangeVisualizationContainerComponent
+    PatientStatusChangeVisualizationContainerComponent,
+    PatientCreationComponent
   ],
   imports: [
     CommonModule,
@@ -190,7 +198,8 @@ import { PatientProgramEnrollmentModule } from
     MdSlideToggleModule,
     ProgramVisitEncounterSearchModule,
     DepartmentProgramFilterModule,
-    PatientProgramEnrollmentModule
+    PatientProgramEnrollmentModule,
+    Ng2PaginationModule
   ],
   providers: [
     ClinicDashboardCacheService,
@@ -211,7 +220,10 @@ import { PatientProgramEnrollmentModule } from
       useExisting: HivClinicFlowResourceService
     },
     DataAnalyticsDashboardService,
-    PatientProgramEnrollmentService
+    PatientProgramEnrollmentService,
+    PatientCreationResourceService,
+    PatientCreationService
+
   ],
   entryComponents: [PatientStatusDatalistCellComponent]
 })
