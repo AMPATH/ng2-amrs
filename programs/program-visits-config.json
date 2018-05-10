@@ -6,6 +6,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d897a-1359-11df-a1f1-0026b9348838",
       "96047aaf-7ab3-45e9-be6a-b61810fe617d",
@@ -547,12 +571,52 @@
     ]
   },
   "781d897a-1359-11df-a1f1-0026b9348838": {
-    "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV",
+    "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV(pMTCT)",
     "dataDependencies": [
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        },
+        {
+          "qtype" : "pregnancyStatus",
+          "name" : "Pregnancy Status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "96047aaf-7ab3-45e9-be6a-b61810fe617d",
@@ -651,6 +715,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "negative",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
@@ -710,6 +798,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "negative",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
@@ -769,6 +881,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
     ],
     "transferCare": {
@@ -855,6 +991,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
@@ -946,6 +1106,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
@@ -1338,6 +1522,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [],
     "transferCare": {
       "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
@@ -1384,6 +1592,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d897a-1359-11df-a1f1-0026b9348838",
       "96047aaf-7ab3-45e9-be6a-b61810fe617d",
@@ -1428,6 +1660,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d897a-1359-11df-a1f1-0026b9348838",
       "96047aaf-7ab3-45e9-be6a-b61810fe617d",
@@ -1492,6 +1748,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
@@ -1582,6 +1862,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
       ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
       "visitTypes": [
       {
         "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
@@ -1664,6 +1968,30 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype" : "hivStatus",
+          "name" : "Mother's HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers" : [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ]
+    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
