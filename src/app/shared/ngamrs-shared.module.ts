@@ -30,6 +30,7 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
 import { Angulartics2Module } from 'angulartics2';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CacheModule } from 'ionic-cache';
 import { LocationFilterComponent
@@ -68,7 +69,8 @@ import { EtlApi } from '../etl-api/etl-api.module';
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
-    SelectModule,
+    // SelectModule,
+    NgSelectModule,
     MdSnackBarModule
   ],
   exports: [BusyModule, LaddaModule, DisplayErrorComponent,

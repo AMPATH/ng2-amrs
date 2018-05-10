@@ -1,5 +1,5 @@
 <div class="location-filter suggest-container form-group" *ngIf="counties">
-  <div [ngClass]="{'col-md-12 col-sm-12 col-xs-12':disableCounty, 'col-md-6 col-sm-12 col-xs-12':!disableCounty}">
+  <div [ngClass]="{'col-md-6 col-sm-12 col-xs-12':!disableCounty}">
     <label *ngIf="showLabel" for="location-filter">Location</label>
     <div class="input-group" [ngClass]="{'show-reset': selectedLocations && selectedLocations.length > 0, 'hide-reset': !selectedLocations || selectedLocations.length == 0 }">
       <div class="input-group-addon">
@@ -8,7 +8,7 @@
       </div>
       <ng-select [multiple]="multiple" id="location-filter" (ngModelChange)="onLocationSelected($event)"
                  [placeholder]="'Select a location...'"
-                 [(ngModel)]="selectedLocations" [options]="locationDropdownOptions">
+                 [(ngModel)]="selectedLocations" [items]="locationDropdownOptions">
       </ng-select>
       <div class="input-group-addon">
                <div>

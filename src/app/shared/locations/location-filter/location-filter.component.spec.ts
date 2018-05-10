@@ -8,6 +8,7 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { LocationFilterComponent } from './location-filter.component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const locations = [
   {
@@ -51,7 +52,7 @@ describe('Component: Location Filter Component', () => {
   let locationResourceService: LocationResourceService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, SelectModule],
+      imports: [FormsModule, NgSelectModule],
       providers: [
         MockBackend,
         BaseRequestOptions,
@@ -154,7 +155,10 @@ describe('Component: Location Filter Component', () => {
     component.ngOnInit();
     tick();
     fixture.detectChanges();
-    expect(component.selectedLocations).toEqual(['123', '456']);
+    expect(component.selectedLocations).toEqual([
+      {value: '123', label: 'MTRH Module 1'},
+      {value: '456', label: 'MTRH Module 2'}
+    ]);
   }));
 
   it('should set county when an array of locations is given', fakeAsync(() => {

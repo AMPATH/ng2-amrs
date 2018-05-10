@@ -9,6 +9,7 @@ TabViewModule, PanelModule
 import { MdProgressSpinnerModule, MdProgressBarModule, MdSlideToggleModule, MdTabsModule
 } from '@angular/material';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { routes } from './patient-dashboard.routes';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
@@ -57,6 +58,7 @@ import { HttpClient } from '../shared/services/http-client.service';
     LabOrderSearchModule,
     Ng2PaginationModule,
     NgamrsSharedModule,
+    NgSelectModule,
     PatientDashboardCdmModule,
     PatientDashboardOncologyModule,
     PatientDashboardCommonModule,

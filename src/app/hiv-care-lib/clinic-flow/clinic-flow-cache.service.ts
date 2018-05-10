@@ -26,11 +26,11 @@ export class ClinicFlowCacheService {
     }
 
     public setSelectedLocation(locationUuids: any) {
-        let locations: Array<string> = Array.isArray(locationUuids) ? locationUuids :
+      let locations: Array<string> = Array.isArray(locationUuids) ? locationUuids :
           locationUuids.split(',');
-        this.setIsLoading(true);
-        this.initialUuid = locations[0] ;
-        this.selectedLocations.next(locations);
+      this.setIsLoading(true);
+      this.initialUuid = locations[0] ;
+      this.selectedLocations.next(locations);
     }
 
     public getSelectedLocation() {

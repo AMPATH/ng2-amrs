@@ -7,6 +7,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { RouterModule } from '@angular/router';
 
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { PatientService } from '../services/patient.service';
 import { ProgramService } from '../programs/program.service';
 import { GeneralLandingPageComponent } from './landing-page.component';
@@ -24,6 +25,11 @@ import { BusyComponent } from '../../shared/busy-loader/busy.component';
 import { UnenrollPatientProgramsComponent
    } from '../../patient-dashboard/common/programs/unenroll-patient-programs.component';
 import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
+import { DepartmentProgramsConfigService
+} from '../../etl-api/department-programs-config.service';
+import { DataCacheService
+} from '../../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache';
 
 class FakePatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> =
@@ -64,6 +70,9 @@ describe('Component: LandingPageComponent', () => {
         BaseRequestOptions,
         ZeroVlPipe,
         PatientProgramService,
+        DepartmentProgramsConfigService,
+        DataCacheService,
+        CacheService,
         {
           provide: PatientService,
           useClass: FakePatientService
@@ -90,7 +99,7 @@ describe('Component: LandingPageComponent', () => {
       ],
       declarations: [GeneralLandingPageComponent, HivProgramSnapshotComponent, BusyComponent,
       UnenrollPatientProgramsComponent, ZeroVlPipe],
-      imports: [PanelModule, CommonModule, FormsModule, CohortMemberModule,
+      imports: [PanelModule, NgSelectModule, CommonModule, FormsModule, CohortMemberModule,
         NgamrsSharedModule, OpenmrsApi, RouterModule, DialogModule]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(GeneralLandingPageComponent);

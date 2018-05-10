@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { Subscription , Observable , Subject } from 'rxjs';
@@ -9,11 +9,14 @@ import { ProgramService } from '../programs/program.service';
 import { PatientService } from '../services/patient.service';
 import { Patient } from '../../models/patient.model';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
+import { DepartmentProgramsConfigService
+} from '../../etl-api/department-programs-config.service';
 
 @Component({
   selector: 'landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  styleUrls: ['./landing-page.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   @Input()
@@ -21,10 +24,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
   public currentError: string;
   public availablePrograms: any[] = [];
+  public requiredProgramQuestions: any[] = [];
   public hasError: boolean = false;
   public hasValidationErrors: boolean = false;
   public programsBusy: boolean = false;
-  public program: string = '';
+  public program: any;
   public errors: any[] = [];
   public enrollmentButtonActive: boolean  = false;
   public enrollmentCompleted: boolean  = false;
@@ -45,19 +49,25 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   The selected program is incompatible with the following programs, please unenroll to continue.`;
   public selectedLocation: any;
   public allProgramVisitConfigs: any = {};
+  public programDepartments: any = [];
+  public department: string;
 //  public programList: any[] = require('../programs/programs.json');
+  public availableDepartmentPrograms: any[] = [];
+  private departmentConf: any[];
   private _datePipe: DatePipe;
   private subscription: Subscription;
 
   constructor(private patientService: PatientService,
               private programService: ProgramService,
-              private patientProgramResourceService: PatientProgramResourceService) {
+              private patientProgramResourceService: PatientProgramResourceService,
+              private departmentProgramService: DepartmentProgramsConfigService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public ngOnInit() {
     this.updateEnrollmentButtonState();
     this.loadProgramBatch();
+    this.getDepartmentConf();
     this.fetchAllProgramVisitConfigs();
   }
 
@@ -92,7 +102,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public getSelectedLocation(loc) {
-    this.selectedLocation = loc;
+    if (loc.locations) {
+      this.selectedLocation = loc;
+    } else {
+      this.selectedLocation = null;
+    }
+    this._removeErrorMessage();
     this.updateEnrollmentButtonState();
   }
 
@@ -125,14 +140,17 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isFocused = true;
     this.isEdit = false;
     let payload = {};
-    this.checkIncompatibility(this.program);
+    this.checkIncompatibility(this.program.value);
     if (this.programIncompatible === true) {
           this.isFocused = false;
     } else {
-       if (this.isValidForm({dateEnrolled: this.dateEnrolled, dateCompleted: this.dateCompleted})) {
+       if (this.isValidForm({
+           dateEnrolled: this.dateEnrolled,
+           dateCompleted: this.dateCompleted
+       })) {
        payload = this.programService.createEnrollmentPayload(
-        this.program, this.patient, this.dateEnrolled,
-        this.dateCompleted, this.selectedLocation.locations, '');
+        this.program.value, this.patient, this.dateEnrolled,
+        this.dateCompleted, this.selectedLocation.locations.value, '');
        if (payload) {
            this._updatePatientProgramEnrollment(payload);
       }
@@ -151,11 +169,13 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public onProgramChange($event) {
-      let programUuid = $event ? $event.target.value : null;
+      let programUuid = $event ? $event.value : null;
       if (programUuid) {
        this.programIncompatible = false;
+       this.hasValidationErrors = false;
+       this.currentError = undefined;
        this.incompatibleProgrames = [];
-
+       this.checkForRequiredQuestions();
       // check the compatibility of the program
        this.checkIncompatibility(programUuid);
       }
@@ -180,7 +200,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public isUnenrollmentCancel(event) {
     if (event) {
-      this.program = '';
+      this.program = undefined;
       this.programIncompatible = false;
     }
   }
@@ -188,12 +208,59 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     if (event) {
       this.programIncompatible = false;
       this.patientService.fetchPatientByUuid(this.patient.uuid);
+      this.loadProgramBatch();
+      this.getSelectedDepartment(this.department);
     }
   }
-  private updateEnrollmentButtonState() {
-    this.enrollmentButtonActive = !_.isNil(this.selectedLocation) && !_.isNil(this.program) &&
-      !_.isNil(this.dateEnrolled);
+
+  public checkForRequiredQuestions(): void {
+    this.requiredProgramQuestions = [];
+    let program: any = this.allProgramVisitConfigs[this.program.value];
+    if (program && !_.isUndefined(program.enrollmentOptions)
+      && !_.isUndefined(program.enrollmentOptions.requiredProgramQuestions)) {
+      this.requiredProgramQuestions = program.enrollmentOptions.requiredProgramQuestions;
+    }
   }
+
+  public onRequiredQuestionChange(event: string, question: any) {
+    this._preQualifyProgramEnrollment(question);
+  }
+
+  public getDepartmentConf() {
+    this.departmentProgramService.getDartmentProgramsConfig()
+      .subscribe((results) => {
+        if (results) {
+          this.departmentConf = results;
+          this._filterDepartmentConfigByName();
+        }
+      });
+
+  }
+
+  public getSelectedDepartment(department: string) {
+    this.department = department;
+    this.program = undefined;
+    let departmentPrograms = _.map(this._getProgramsByDepartmentName(), 'uuid');
+    this.availableDepartmentPrograms = _.filter(this.availablePrograms, (program: any) => {
+      return _.includes(departmentPrograms, program.program.uuid) && !program.isEnrolled;
+    });
+    this.availableDepartmentPrograms = _.map(this.availableDepartmentPrograms,
+      (availableProgram) => {
+        return {
+          label: availableProgram.program.display,
+          value: availableProgram.program.uuid
+        };
+      });
+    // sort alphabetically;
+    this.availableDepartmentPrograms = _.orderBy(this.availableDepartmentPrograms,
+      ['label'], ['asc']);
+  }
+
+  private updateEnrollmentButtonState() {
+    // just return true. disabling the button is a bad idea
+    this.enrollmentButtonActive = true;
+  }
+
   private loadProgramBatch(): void {
     this._resetVariables();
     this.programsBusy = true;
@@ -222,17 +289,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   private isValidForm(row: any) {
     let currentLocation;
-    let location;
-    if (typeof this.isEditLocation === 'undefined') {
-        location = this.selectedLocation.locations;
-    }else {
-        location = this.isEditLocation.locations;
-    }
     if (row.enrolledProgram && row.enrolledProgram.openmrsModel &&
       row.enrolledProgram.openmrsModel.location) {
       currentLocation = row.enrolledProgram.openmrsModel.location.uuid;
     }
-    if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted, location || currentLocation
+    if (!this._formFieldsValid(row.dateEnrolled, row.dateCompleted,
+        this.selectedLocation || currentLocation
       )) {
       row.validationError = this.currentError;
       this.isFocused = false;
@@ -249,6 +311,30 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     return !this.hasValidationErrors;
   }
 
+  private _preQualifyProgramEnrollment(question: any) {
+    let requiredStatus = _.find(question.answers, (ans) => ans.value === question.enrollIf);
+    if (requiredStatus && question.value !== question.enrollIf) {
+      this._showErrorMessage(question.name + ' MUST be ' + question.enrollIf + ' to be able to' +
+        ' enroll the patient into this program');
+    } else {
+      this._removeErrorMessage();
+    }
+    this.updateEnrollmentButtonState();
+  }
+
+  private _filterDepartmentConfigByName() {
+    this.programDepartments = _.map(this.departmentConf, (config: any) => {
+      return {name: config.name};
+    });
+  }
+
+  private _getProgramsByDepartmentName() {
+    let department = _.find(this.departmentConf, (config: any) => {
+      return config.name === this.department;
+    });
+    return department ? department.programs : [];
+  }
+
   private _updatePatientProgramEnrollment(payload) {
     this.programService.saveUpdateProgramEnrollment(payload).subscribe(
       (enrollment) => {
@@ -258,13 +344,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           this.enrollmentCompleted = true;
           let currentProgram: any = _.first(_.filter(this.availablePrograms,
             (_program: any) => {
-              return !_program.isEnrolled && (_program.programUuid === this.program);
+              return !_program.isEnrolled && (_program.programUuid === this.program.value);
             }));
           if (currentProgram) {
             this.confirmationMesssage = 'The patient has been enrolled in ' +
               currentProgram.program.display  + ' at ' + enrollment.location.display +
               ' starting ' + moment(enrollment.dateEnrolled).format('MMM Do, YYYY');
           }
+          this.loadProgramBatch();
           setTimeout(() => {
             this._resetVariables();
             this.patientService.fetchPatientByUuid(this.patient.uuid);
@@ -276,7 +363,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   private _formFieldsValid(enrolledDate, completedDate, location) {
-    if (!this.isEdit && this.program === '') {
+
+    if (!this._isAllRequiredQuestionsAnswered()) {
+      return false;
+    }
+
+    if (!this.isEdit && _.isUndefined(this.program)) {
       this._showErrorMessage('Program is required.');
       return false;
     }
@@ -309,6 +401,22 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  private _isAllRequiredQuestionsAnswered(): boolean {
+    let program: any = this.allProgramVisitConfigs[this.program.value];
+    if (program && !_.isUndefined(program.enrollmentOptions)
+      && !_.isUndefined(program.enrollmentOptions.requiredProgramQuestions)) {
+      let unAnsweredQuestions = _.filter(program.enrollmentOptions.requiredProgramQuestions,
+        (question) => {
+        return _.isNil(question.value);
+      });
+      if (unAnsweredQuestions.length > 0) {
+        this._showErrorMessage('All required questions must be filled');
+        return false;
+      }
+    }
+    return true;
+  }
+
   private _isFutureDates(enrolledDate, completedDate) {
     let today: Date;
     today = new Date();
@@ -324,13 +432,19 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.currentError = message;
   }
 
+  private _removeErrorMessage() {
+    this.hasValidationErrors = false;
+    this.currentError = undefined;
+  }
+
   private _resetVariables() {
     this.availablePrograms = [];
     this.programsBusy = false;
     this.hasError = false;
     this.hasValidationErrors = false;
     this.currentError = '';
-    this.program = '';
+    this.program = undefined;
+    this.department = undefined;
     this.isEdit = false;
     this.errors = [];
     this.dateEnrolled = undefined;
