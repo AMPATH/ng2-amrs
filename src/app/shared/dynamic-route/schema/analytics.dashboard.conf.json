@@ -36,6 +36,12 @@
       "label": "Program Enrollment",
       "icon": "fa fa-list-alt",
       "isSideBarOpen": false
+    },
+    {
+      "url": "data-entry-statistics",
+      "label": "Data Entry Statistics",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

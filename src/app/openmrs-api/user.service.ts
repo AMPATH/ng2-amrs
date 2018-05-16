@@ -56,4 +56,25 @@ export class UserService {
         return response.json().results;
       });
   }
+
+  // fetch user by uuid
+
+  public getUserByUuid(uuid: string) {
+    if (!uuid) {
+        return null;
+     }
+    let c = 'custom:(uuid,display,person)';
+    console.log('getUserByUuid', uuid);
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('v', c);
+
+    let userUrl: string = this.baseOpenMrsUrl + 'user/' + uuid ;
+
+    return this._http.get(userUrl, {
+      search: params
+    })
+      .map((response) => {
+        return response.json();
+      });
+  }
 }

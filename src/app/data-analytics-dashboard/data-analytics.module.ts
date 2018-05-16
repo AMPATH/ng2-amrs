@@ -31,6 +31,8 @@ import {
 } from './services/data-analytics-dashboard.services';
 import { DataAnalyticsHivProgramModule } from './hiv/hiv-program.module';
 import { dataAnalyticsDashboardRouting } from './data-analytics-dashboard-routes';
+import { DataEntryStatisticsModule } from
+'./../data-entry-statistics/data-entry-statistics.module';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -66,7 +68,8 @@ import { dataAnalyticsDashboardRouting } from './data-analytics-dashboard-routes
     MdTabsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
-    CacheModule
+    CacheModule,
+    DataEntryStatisticsModule
   ],
   declarations: [
   ],

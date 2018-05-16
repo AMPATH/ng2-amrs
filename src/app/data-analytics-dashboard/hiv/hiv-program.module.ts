@@ -31,7 +31,8 @@ import { PatientsProgramEnrollmentComponent } from
 '../../patients-program-enrollment/patients-program-enrollment.component';
 import { PatientProgramEnrollmentModule } from
 '../../patients-program-enrollment/patients-program-enrollment.module';
-
+import { DataEntryStatisticsModule } from
+'./../../data-entry-statistics/data-entry-statistics.module';
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -43,6 +44,7 @@ import { PatientProgramEnrollmentModule } from
     FormsModule,
     RouterModule,
     MdTabsModule,
+    DataEntryStatisticsModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
     MdSlideToggleModule,

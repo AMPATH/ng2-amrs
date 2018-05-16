@@ -71,7 +71,7 @@ export class EncounterResourceService {
         }
         let url = this.getUrl() + 'encountertype';
         return this.http.get(url).map((response: Response) => {
-            return response.json().encountertype;
+            return response.json().results;
         });
     }
 

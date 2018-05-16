@@ -177,6 +177,7 @@ describe('Component : DepartmentProgramFilter', () => {
         comp.program = programsSelected;
         comp.location = mocklocationSelected;
         comp.setFilter();
+        cd.detectChanges();
         expect(comp.params).toEqual(mockParams);
     });
 
