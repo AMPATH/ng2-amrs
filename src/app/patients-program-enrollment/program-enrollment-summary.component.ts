@@ -1,6 +1,7 @@
 import { Component, OnInit , Output , EventEmitter, Input
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { GridOptions } from 'ag-grid/main';
 
 @Component({
     selector: 'program-enrollment-summary',
@@ -18,14 +19,16 @@ export class ProgramEnrollmentSummaryComponent implements OnInit {
     @Input() public endDate: string = '';
     @Output() public programSelected: EventEmitter<any> = new EventEmitter();
 
-    public summaryGridOptions: any = {
+    public summaryGridOptions: GridOptions = {
         enableColResize: true,
         enableSorting : true,
         enableFilter : true,
         showToolPanel : false,
         groupDefaultExpanded: -1,
         onGridSizeChanged : () => {
+            if (this.summaryGridOptions.api) {
             this.summaryGridOptions.api.sizeColumnsToFit();
+            }
 
         },
         getRowStyle : (params) => {
