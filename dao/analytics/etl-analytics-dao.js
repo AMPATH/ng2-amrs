@@ -74,8 +74,8 @@ module.exports = function () {
             var startDate = request.query.startDate || new Date().toISOString().substring(0, 10);
             var endDate = request.query.endDate || new Date().toISOString().substring(0, 10);
             var providerUuid;
-            var creatorUuid;
-            if (request.query.creatorUuid) creatorUuid = request.query.creatorUuid;
+            // var creatorUuid;
+            // if (request.query.creatorUuid) creatorUuid = request.query.creatorUuid;
             if (request.query.providerUuid) providerUuid = request.query.providerUuid;
 
             var queryParams = {
@@ -83,7 +83,8 @@ module.exports = function () {
                 countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
                 locations: request.query.locationIds,
                 encounterTypeIds: request.query.encounterTypeIds,
-                formIds: request.query.formIds
+                formIds: request.query.formIds,
+                creatoruuid: request.query.creatorUuid
             };
 
             var where = {};
@@ -95,6 +96,7 @@ module.exports = function () {
             //build query params
             if (!_.isUndefined(startDate)) startDate = startDate.split('T')[0];
             if (!_.isUndefined(endDate)) endDate = endDate.split('T')[0];
+            console.log('Where', where);
             var requestParams = {
                 reportName: reportName,
                 whereParams: [
@@ -120,7 +122,7 @@ module.exports = function () {
                     },
                     {
                         "name": "creatorUuid",
-                        "value": creatorUuid
+                        "value": where.creator
                     },
                     {
                         "name": "encounterTypeIds",
@@ -129,10 +131,11 @@ module.exports = function () {
                 ],
                 groupBy: request.query.groupBy || 'groupByEncounterTypeId',
                 offset: request.query.startIndex,
-                limit: request.query.limit
+                limit: request.query.limit || 1000000
             };
             //build report
             var queryParts = reportFactory.singleReportToSql(requestParams);
+            // console.log('Query Parts', queryParts);
             db.reportQueryServer(queryParts, function (results) {
                 callback(reportFactory.resolveIndicators(reportName, results));
             });
