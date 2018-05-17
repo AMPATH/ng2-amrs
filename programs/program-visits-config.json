@@ -2020,5 +2020,32 @@
       }
     ]
 
+  },
+  "03552f68-8233-4793-8353-3db1847bb617": {
+    "name": "NUTRITION PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "transferCare": {
+      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
+      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+    },
+    "visitTypes": [
+      {
+        "uuid": "540444dc-5dc1-436b-90f0-0dceb7c7df89",
+        "name": "Nutrition Visit",
+        "encounterTypes": [
+          {
+            "uuid": "3cd9dd0a-a5d1-4482-9f45-a0fea4f5e556",
+            "display": "NUTRITIONENCOUNTER"
+          }
+        ]
+      }
+    ]
+
   }
 }
