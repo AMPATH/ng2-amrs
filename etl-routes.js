@@ -79,6 +79,9 @@ var patientReminderService = require('./service/patient-reminder.service.js');
 import {
     patientMedicationHistService
 } from './service/patient-medication-history.service';
+import {
+    PatientMedicalHistoryService
+} from './service/patient-medical-history.service';
 
 import {
     Moh731Report
@@ -3432,7 +3435,8 @@ module.exports = function () {
                 let requestParams = Object.assign({}, request.query, request.params);
                 let reportParams = etlHelpers.getReportParams('medical-history-report', ['patientUuid'],
                     requestParams);
-                dao.runReport(reportParams).then((result) => {
+                    let report = new PatientMedicalHistoryService('medicalHistoryReport',reportParams.requestParams);
+                    report.generateReport().then((result) => {
                     let medicalHist = new patientMedicationHistService();
                     let processedResults = medicalHist.processMedicationHistory(result);
                     reply(processedResults);

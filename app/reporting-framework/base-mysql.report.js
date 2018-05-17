@@ -42,6 +42,7 @@ import * as starting_art_aggregation_age_green from './json-reports/starting-art
 import * as starting_art_base_age_green from './json-reports/starting-art-base-age-green.json';
 import * as starting_art_disaggregation_age_green from './json-reports/starting-art-disaggregation-age-green.json';
 import * as starting_art_disaggregation_age_only_green from './json-reports/starting-art-disaggregation-age-only-green.json';
+import * as medical_history_dataset_base from './json-reports/medical-history-dataset-base.json';
 
 import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
 import * as breast_cancer_monthly_screening_summary_base from './json-reports/breast-cancer-monthly-screening-summary-base.json';
@@ -225,6 +226,11 @@ export class BaseMysqlReport{
                     resolve({
                         main: starting_art_disaggregation_age_only_green,
                         StartingARTSetBaseAgeGreen: starting_art_base_age_green
+                    })
+                case 'medicalHistoryReport':
+                    resolve({
+                        main: medical_history_dataset_base
+
                     });
                     break;
                 case 'breastCancerMonthlySummaryAggregate':
