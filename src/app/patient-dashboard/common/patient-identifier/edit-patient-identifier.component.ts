@@ -9,6 +9,7 @@ import {
 } from '../../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'edit-identifiers',
@@ -40,6 +41,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public errorAlert: string;
   public successAlert: string = '';
   public errorTitle: string;
+  public showNationalIdTexBox: boolean = false;
+  public showGeneralTexBox: boolean = false;
   private subscription: Subscription;
   private initialPatientIdentifier: string = '';
   constructor(private patientService: PatientService,
@@ -94,6 +97,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
 
   public setIdentifierType(identifierType) {
+    if ( identifierType.val ==='58a47054-1359-11df-a1f1-0026b9348838') {
+      this.showNationalIdTexBox = true;
+      this.showGeneralTexBox = true;
+    } else {
+      this.showGeneralTexBox = false;
+      this.showNationalIdTexBox = false;
+    }
     this.identifierValidity = '';
     this.identifierType = identifierType;
     let id = this.getCurrentIdentifierByType(this.patientIdentifiers, identifierType);
@@ -117,7 +127,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
      (this.identifierType as any));
     let personIdentifierPayload = {
       uuid: this.patientIdentifierUuid,
-      identifier: this.patientIdentifier, // patientIdentifier
+      identifier: this.patientIdentifier.toString(), // patientIdentifier
       identifierType: (this.identifierType as any).val, // identifierType
       preferred: this.preferredIdentifier, // preferred
       location: this.identifierLocation // location
@@ -150,6 +160,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
        console.error('ERROR : Invalid identifier type');
     }
   }
+  }
+
+  public _keyPress(event: any) {
+    const pattern = /^[0-9]*$/ ;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
   }
 
 private saveIdentifier(personIdentifierPayload, person) {
