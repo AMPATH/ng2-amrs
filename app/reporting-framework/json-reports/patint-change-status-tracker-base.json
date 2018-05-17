@@ -1,0 +1,162 @@
+{
+    "name": "patintChangeStatusTrackerDataSetbase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.dates",
+            "alias": "t2"
+        },
+        {
+            "table": "etl.flat_hiv_summary",
+            "alias": "t1",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "date(t1.encounter_datetime) <= date(t2.endDate)"
+            }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = t1.location_id"
+            }
+        }
+    ],
+    "columns":[
+        {
+            "type":"simple_column",
+            "alias":"person_id",
+            "column":"t1.person_id"
+         },
+         {
+            "type":"derived_column",
+            "alias":"active_in_care",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+               "expression":"case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"active_return",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then null when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null  when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null  when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 else null end"
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"LTFU",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 then 1 else null end"
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"deaths",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then 1 else null end "
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"transfer_out_patients",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null  when t1.transfer_out is not null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then 1 else null end"
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"HIV_negative_patients",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null  when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then 1 else null end"
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"self_disengaged_patients",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then 1 else null end "
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"new_enrollments",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null  when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then 1 else null end"
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"transfer_in",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end "
+            }
+         },
+         {
+            "type":"derived_column",
+            "alias":"reporting_month",
+            "expressionType":"simple_expression",
+            "expressionOptions":{
+             "expression": "date_format(t2.endDate, '%m/%Y') "
+            }
+         },
+        {
+            "type":"simple_column",
+            "alias":"reporting_date",
+            "column":"t2.endDate"
+       },
+       {
+            "type":"simple_column",
+            "alias":"location_uuid",
+            "column":"t1.location_uuid"
+       },
+       {
+            "type":"simple_column",
+            "alias":"location_id",
+            "column":"t1.location_id"
+       }
+     ],
+
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.enddate >= date(?)",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.enddate <= date(?)",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.location_id in ?",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.is_clinical_encounter=1",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression":  "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > t2.endDate)",
+                "parameterName": ""
+            }
+        ]
+    }
+}

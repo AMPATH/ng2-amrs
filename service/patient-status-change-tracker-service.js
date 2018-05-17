@@ -5,6 +5,8 @@ const _ = require('lodash');
 const underscore = require('underscore');
 const indicatorsKeys = ['active_return', 'new_enrollment', 'transfer_in', 'LTFU', 'transfer_out', 'dead', 'HIV_negative',
     'self_disengaged', 'self_transfer_out'];
+
+import { BaseMysqlReport } from '../app/reporting-framework/base-mysql.report';
 export class PatientStatusChangeTrackerService {
 
     getAggregateReport(reportParams) {
@@ -138,9 +140,13 @@ export class PatientStatusChangeTrackerService {
         return new Promise((resolve, reject) => {
             reportParams.groupBy = 'groupByEndDate';
             let start = new Date();
-            dao.runReport(reportParams)
+            let report = new BaseMysqlReport("patintChangeStatusTrackerAggregate",reportParams.requestParams);
+            report.generateReport()
                 .then((results) => {
                         results.duration = (new Date() - start) / 1000;
+                        results.size=results?results.results.results.length:0;
+                        results.result=results?results.results.results:[];
+                        delete results['results'];
                         resolve(results);
                     }
                 ).catch((errors) => {

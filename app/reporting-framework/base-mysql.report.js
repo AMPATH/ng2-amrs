@@ -43,6 +43,8 @@ import * as starting_art_base_age_green from './json-reports/starting-art-base-a
 import * as starting_art_disaggregation_age_green from './json-reports/starting-art-disaggregation-age-green.json';
 import * as starting_art_disaggregation_age_only_green from './json-reports/starting-art-disaggregation-age-only-green.json';
 import * as medical_history_dataset_base from './json-reports/medical-history-dataset-base.json';
+import * as patint_change_status_tracker_aggregate from './json-reports/patint-change-status-tracker-aggregate.json';
+import * as patint_change_status_tracker_base from './json-reports/patint-change-status-tracker-base.json';
 
 import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
 import * as breast_cancer_monthly_screening_summary_base from './json-reports/breast-cancer-monthly-screening-summary-base.json';
@@ -173,6 +175,12 @@ export class BaseMysqlReport{
                     resolve({
                         main: pep_dataset_aggregate,
                         pepDataSetbase: pep_dataset_base
+                    });
+                    break;
+                case 'patintChangeStatusTrackerAggregate':
+                    resolve({
+                        main: patint_change_status_tracker_aggregate,
+                        patintChangeStatusTrackerDataSetbase: patint_change_status_tracker_base
                     });
                     break;
                 case 'everOnARTAggregate':
