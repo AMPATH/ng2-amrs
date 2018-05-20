@@ -30,6 +30,7 @@ import { ProgramsTransferCareComponent } from './programs/transfer-care/transfer
 import { ProgramsTransferCareFormWizardGuard
 } from './programs/transfer-care/transfer-care-forms.guard';
 import { ProgramEnrollmentComponent } from './programs/program-enrollment.component';
+import { PatientImagingComponent } from './common/imaging/patient-imaging.component';
 
 export const routes = [
   {
@@ -88,6 +89,7 @@ export const routes = [
             component: PatientMonthlyStatusComponent
           },
           { path: ':programClass/:program/lab-data-summary', component: LabDataSummaryComponent },
+          { path: ':programClass/:program/patient-imaging', component: PatientImagingComponent },
           { path: ':programClass/:program/lab-orders', component: LabOrdersComponent },
           {
             path: ':programClass/:program/programs',

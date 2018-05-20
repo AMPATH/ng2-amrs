@@ -143,6 +143,7 @@ import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
+import { PatientImagingComponent } from './imaging/patient-imaging.component';
 
 @NgModule({
   imports: [
@@ -237,7 +238,8 @@ import { HttpClient } from '../../shared/services/http-client.service';
     ZeroVlPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter],
+    EncounterTypeFilter,
+    PatientImagingComponent],
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
@@ -289,7 +291,8 @@ import { HttpClient } from '../../shared/services/http-client.service';
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
-    ZeroVlPipe],
+    ZeroVlPipe,
+    PatientImagingComponent],
   providers: [
     FormUpdaterService,
     PatientEncounterService,

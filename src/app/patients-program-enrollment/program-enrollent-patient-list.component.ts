@@ -153,7 +153,6 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             let enrollmentDateDetail = enrollment.program_name + '( Enrolled - ' +
             Moment(enrollment.enrolled_date).format('DD-MMM-YYYY') + ')' +  completedDetail;
 
-
             if (typeof patientObjMap === 'undefined') {
 
             let patient = {
