@@ -4,6 +4,9 @@ import { UserService } from '../openmrs-api/user.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
 import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
+import { DepartmentProgramsConfigService
+} from '../etl-api/department-programs-config.service';
 @Component({
     selector: 'feedback',
     templateUrl: 'feedback.component.html',
@@ -13,11 +16,15 @@ import { Subscription } from 'rxjs';
 export class FeedBackComponent implements OnInit, OnDestroy {
     public success = false;
     public error = false;
+    public programDepartments: any = [];
+    public department: string;
+    public selectedDepartment: string;
     private payload = {
         name: '',
         phone: '',
         message: '',
-        location: ''
+        location: '',
+        department: ''
     };
     private busy: Subscription;
     private errorMessage: string = '';
@@ -25,11 +32,14 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     private r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
     private r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
     private patterns = new RegExp(this.r1.source + this.r2.source);
+    private departmentConf: any[];
     constructor(private feedBackService: FeedBackService,
                 private userService: UserService,
-                private userDefaultPropertiesService: UserDefaultPropertiesService) { }
+                private userDefaultPropertiesService: UserDefaultPropertiesService,
+                private departmentProgramService: DepartmentProgramsConfigService) { }
 
     public ngOnInit() {
+      this.getDepartmentConf();
     }
 
     public ngOnDestroy() {
@@ -44,6 +54,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
             || {};
         this.payload.location = location.display || 'Default location not set';
+        this.payload.department = this.selectedDepartment || 'Department not selected';
         this.busy = this.feedBackService.postFeedback(this.payload).subscribe((res) => {
             this.success = true;
             console.log('this.payload', this.payload.phone);
@@ -51,7 +62,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
                 name: '',
                 phone: '',
                 message: '',
-                location: ''
+                location: '',
+                department: ''
             };
         }, (error) => {
             console.log('Error');
@@ -69,6 +81,19 @@ export class FeedBackComponent implements OnInit, OnDestroy {
 
     public dismissError() {
         this.error = false;
+    }
+    public getDepartmentConf() {
+      this.departmentProgramService.getDartmentProgramsConfig()
+        .subscribe((results) => {
+          console.log('results===', results); if (results) {
+            this.departmentConf = results;
+            this._filterDepartmentConfigByName();
+          }
+        });
+
+    }
+    public getSelectedDepartment(dep) {
+      this.selectedDepartment = dep;
     }
 
     private setErroMessage(message) {
@@ -90,5 +115,10 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     private isNullOrUndefined(val) {
         return val === null || val === undefined || val === ''
             || val === 'null' || val === 'undefined';
+    }
+    private _filterDepartmentConfigByName() {
+      this.programDepartments = _.map(this.departmentConf, (config: any) => {
+        return {name: config.name};
+      });
     }
 }

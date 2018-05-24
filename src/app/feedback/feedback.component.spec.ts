@@ -14,6 +14,8 @@ import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
 
 import { FormsModule } from '@angular/forms';
+import { DepartmentProgramsConfigService
+} from '../etl-api/department-programs-config.service';
 class DataStub {
 
     public postFeedback(payload): Observable<any> {
@@ -38,6 +40,15 @@ class UserDefaultPropertiesServiceStub {
         };
     }
 }
+
+class FakeDepartmentProgramsConfigService {
+
+  getDartmentProgramsConfig(): Observable<any> {
+    return Observable.of({ status: 'okay' });
+  }
+
+}
+
 describe('FeedBackComponent', () => {
     let fixture: ComponentFixture<FeedBackComponent>;
     let comp: FeedBackComponent;
@@ -50,11 +61,16 @@ describe('FeedBackComponent', () => {
         }).overrideComponent(FeedBackComponent, {
             set: {
                 providers: [
+
                     {
                         provide: UserDefaultPropertiesService,
                         useClass: UserDefaultPropertiesServiceStub
                     },
-                    { provide: FeedBackService, useClass: DataStub },
+                    {
+                      provide: DepartmentProgramsConfigService,
+                      useClass: FakeDepartmentProgramsConfigService
+                    },
+                      { provide: FeedBackService, useClass: DataStub },
                     { provide: UserService, useClass: UserServiceStub },
                     {
                         provide: Http, useFactory: (backend, options) => {

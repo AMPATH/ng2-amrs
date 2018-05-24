@@ -34,7 +34,6 @@ export class DataEntryStatisticsService {
 
   public getDataEntryStatistics(payload): Observable<any> {
 
-
     if (payload && payload.subType && payload.startDate && payload.endDate && payload.groupBy) {
 
       let urlParams: URLSearchParams = new URLSearchParams();
