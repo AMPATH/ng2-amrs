@@ -42,7 +42,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+              <div class="row">
+              <div class="col-md-12" include="form-input-select()">
+                <!--<label>Department</label>-->
+                <select  class="form-control" [ngModel]="department" [ngModelOptions]="{standalone:true}"
+                        (ngModelChange)="getSelectedDepartment($event)">
+                  <option [ngValue]="undefined" disabled selected="selected" hidden style="color: gray">Please select department</option>
+                  <option *ngFor="let d of programDepartments" [ngValue]="d.name">{{d.name}}</option>
+                </select>
+              </div>
+              </div>
+                <div class="row" style="margin-top:15px;">
                     <div class="col-md-12">
                         <div class="form-group">
                             <textarea class="form-control textarea" rows="3" [(ngModel)]="payload.message" name="Message" id="Message" placeholder="Message"></textarea>

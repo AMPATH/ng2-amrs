@@ -39,6 +39,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CookieModule } from 'ngx-cookie';
 import { OnlineTrackerService } from './online-tracker/online-tracker.service';
+import {
+  DepartmentProgramsConfigService
+} from './etl-api/department-programs-config.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -115,6 +118,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     LoginGuard,
     LocalStorageService,
     OnlineTrackerService,
+    DepartmentProgramsConfigService,
     {
       provide: Http,
       useFactory: httpClient,
