@@ -27,9 +27,15 @@
        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group">
            <label class="control-label">Patient Identifier</label>
+          <div [hidden]="showGeneralTexBox">
            <input type="text" id="patientIdentifier" class="form-control" [(ngModel)]="patientIdentifier" name=""
-               (ngModelChange)="setPatientIdentifier(patientIdentifier)" >
+                  (ngModelChange)="setPatientIdentifier(patientIdentifier)" > </div>
+          <div [hidden]="!showNationalIdTexBox">
+          <input type="number" id="patientId" class="form-control" [(ngModel)]="patientIdentifier" name=""
+                 (ngModelChange)="setPatientIdentifier(patientIdentifier)" (keypress) ="_keyPress($event)">
+          </div>
                 <div *ngIf="identifierValidity">
+
             <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
             </div>
             <div ng-messages="patientIdentifier.$error">
