@@ -260,7 +260,7 @@ module.exports = function () {
                 columns: request.query.fields || ["*", "extract(year from (from_days(datediff(now(),t3.birthdate)))) as age"],
                 table: "etl.flat_defaulters",
                 joins: [
-                    ['amrs.person', 't3', 't1.person_id = t3.person_id']
+                    ['amrs.person', 't3', 't1.person_id = t3.person_id and t3.death_date is null']
                 ],
                 where: ["location_uuid in (?) and days_since_rtc >= ? " + maxDefaultPeriodFilter, uuids, defaulterPeriod, maxPeriod],
                 order: order || [{
