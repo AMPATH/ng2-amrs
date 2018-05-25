@@ -18,7 +18,6 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public address2: string;
   public address3: string;
   public cityVillage: string;
-  public stateProvince: string;
   public preferredAddressUuid: string;
   public errors: any = [];
   public showSuccessAlert: boolean = false;
@@ -50,7 +49,6 @@ export class EditAddressComponent implements OnInit, OnDestroy {
             this.address2 = (this.patients.person.preferredAddress as any).address2;
             this.address3 = (this.patients.person.preferredAddress as any).address3;
             this.cityVillage = (this.patients.person.preferredAddress as any).cityVillage;
-            this.stateProvince = (this.patients.person.preferredAddress as any).stateProvince;
             this.preferredAddressUuid = (this.patients.person.preferredAddress as any).uuid;
           }
         }
@@ -74,7 +72,6 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         address2: this.address2,
         address3: this.address3,
         cityVillage: this.cityVillage,
-        stateProvince: this.stateProvince,
         uuid: this.preferredAddressUuid,
       }]
     };

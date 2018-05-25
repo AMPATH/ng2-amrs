@@ -5,6 +5,7 @@
     <tbody>
        <tr *ngFor="let identifier of identifiers">
          <td><strong>{{identifier.identifierType.name}} : </strong> {{identifier.identifier}}</td>
+         <td><strong>Location : </strong>{{identifier.location.name}}</td>
        </tr>
     </tbody>
   </table>
