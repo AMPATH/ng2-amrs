@@ -39,13 +39,8 @@ describe('Component: PatientIdentifier', () => {
         name: 'CCC NUMBER',
         uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
       },
-      uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
-    },
-    {
-      identifier: '16061-02511',
-      identifierType: {
-        name: 'CCC NUMBER',
-        uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
+      location: {
+        'name': 'Location Test'
       },
       uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
     },
@@ -54,6 +49,20 @@ describe('Component: PatientIdentifier', () => {
       identifierType: {
         name: 'CCC NUMBER',
         uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
+      },
+      location: {
+        'name': 'Location Test'
+      },
+      uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
+    },
+    {
+      identifier: '16061-02511',
+      identifierType: {
+        name: 'CCC NUMBER',
+        uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
+      },
+      location: {
+        'name': 'Location Test'
       },
       uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
     }
