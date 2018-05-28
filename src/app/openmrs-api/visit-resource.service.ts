@@ -29,7 +29,8 @@ export class VisitResourceService {
         }
         const custom = 'custom:(uuid,encounters:(uuid,encounterDatetime,' +
             'form:(uuid,name),location:ref,' +
-            'encounterType:ref,encounterProviders),patient:(uuid,uuid),' +
+            'encounterType:ref,encounterProviders:(uuid,display,' +
+            'provider:(uuid,display))),patient:(uuid,uuid),' +
             'visitType:(uuid,name),location:ref,startDatetime,' +
             'stopDatetime)';
         const params = new URLSearchParams();

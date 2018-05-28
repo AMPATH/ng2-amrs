@@ -59,15 +59,11 @@ export class FormListService {
         if (!Array.isArray(unsortArray)) {
             throw new Error('Input must be an array');
         }
+        // comment out /*item.published && */ for all unretired forms (NOTE : ng-forms build)
+        let publishedOpenmrsForms = _.filter(unsortArray, (item) => {
+          return item.published && !item.retired;
+        });
 
-        let publishedOpenmrsForms = [];
-
-        _.each(unsortArray,
-            (item) => {
-                if (item.published === true) {
-                    publishedOpenmrsForms.push(item);
-                }
-            });
         return publishedOpenmrsForms;
     }
 

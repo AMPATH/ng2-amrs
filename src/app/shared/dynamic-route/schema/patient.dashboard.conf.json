@@ -413,6 +413,16 @@
       "shared-routes-class": "hiv",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Hypertension Referral",
+      "programUuid": "2114265d-dcc4-4440-9059-fe194a5f23a6",
+      "baseRoute": "2114265d-dcc4-4440-9059-fe194a5f23a6",
+      "alias": "referral",
+      "published": false,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 

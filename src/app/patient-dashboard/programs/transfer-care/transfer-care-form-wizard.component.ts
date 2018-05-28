@@ -76,7 +76,8 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   }
 
   private _init() {
-    this.transferCareService.getPayload().takeUntil(this.ngUnsubscribe).subscribe((payload) => {
+    this.transferCareService.getPayload().takeUntil(this.ngUnsubscribe)
+      .subscribe((payload) => {
       this.transferCareService.setTransferStatus(false);
       if (!payload) {
         if (this.isModal) {
@@ -130,8 +131,8 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
         return _.extend(p, {location: payload.location ? payload.location : {}});
       }));
     } else {
-      this.transferCareService.fetchAllProgramTransferConfigs().takeUntil(this.ngUnsubscribe)
-        .subscribe((configs) => {
+      this.transferCareService.fetchAllProgramTransferConfigs(this.patient.uuid)
+        .takeUntil(this.ngUnsubscribe).subscribe((configs) => {
           if (configs) {
             this._loadProgramBatch(payload.programs, configs).takeUntil(this.ngUnsubscribe)
               .subscribe((programs) => {
@@ -179,11 +180,18 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   }
 
   private _transformProgram(program, payload, encounterTypeUuids): void {
+    let unfilledForms = [];
+    if (this.lastDischargeEncounters.length > 0) {
+      unfilledForms = _.filter(program.encounterForms, (form) => {
+        return !_.includes(this.lastDischargeEncounters, form);
+      });
+    }
+    unfilledForms = _.compact(unfilledForms);
+    console.log(unfilledForms, encounterTypeUuids);
     _.extend(program, {
       location: payload.location ? payload.location : {},
-      hasForms: (_.xor(program.encounterForms, this.lastDischargeEncounters)).length > 0,
-      excludedForms: _.xor(_.xor(program.encounterForms, this.lastDischargeEncounters),
-        encounterTypeUuids)
+      hasForms: unfilledForms.length > 0,
+      excludedForms: _.xor(unfilledForms, encounterTypeUuids)
     });
   }
 

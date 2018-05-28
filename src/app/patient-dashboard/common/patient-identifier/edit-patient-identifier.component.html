@@ -59,9 +59,9 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
                <label class="control-label">Identifier Location</label>
-                  <ng-select  id="selectedDevice" (ngModelChange)="seIdentifierLocation($event)"
+                  <ng-select class="sharp-corners" id="selectedDevice" (change)="seIdentifierLocation($event)"
                             [placeholder]="'Select a location or type to search...'"
-                            [(ngModel)]="selectedDevice" [options]="locations">
+                            [(ngModel)]="selectedDevice" [items]="locations">
                   </ng-select>
                   <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
                     {{invalidLocationCheck}}</span>

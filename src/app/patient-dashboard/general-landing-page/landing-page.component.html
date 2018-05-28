@@ -10,16 +10,19 @@
             {{row.dateEnrolledView}})
           </h2>
           <div class="clear"></div>
+          <div *ngIf="row.referred_from_location"
+               class="referral-message-container alert refer-status">
+                <p class="">Patient Refered to this clinic on
+                  <strong>{{ row.dateEnrolledView }}</strong>
+                  from <strong>{{row.referred_from_location}}</strong>
+                </p>
+            <p>&nbsp;</p>
+            <h4>Clinical questions asked:</h4>
+            <hr />
+            <p>&#9679; <span style="color:#333; padding-left:7px;">{{row.referral_reason}}</span></p>
+          </div>
         </div>
         <div class="dropdown" [ngClass]="{'open': row.isEdit}">
-          <!--<a *ngIf="!row.isEdit" class="edit-toggle pull-right" type="button"
-             (click)="toggleDropDown(row)">
-            <i class="fa fa-pencil"></i>Edit/Complete
-          </a>
-          <a *ngIf="row.isEdit" class="edit-toggle pull-right" type="button"
-             (click)="toggleDropDown(row)">
-            <i class="fa fa-times"></i>Close
-          </a>-->
           <div class="edit-dropdown dropdown-menu-right">
             <em class="text-danger" *ngIf="hasValidationErrors">{{row.validationError}}</em>
             <div class="row">
@@ -74,6 +77,8 @@
               <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}"
                  *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
               <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}" *ngIf="row.isEnrolled">{{row.buttons.visit.display}}</a>
+              <a class="btn btn-success" (click)="showReferralEncounter(row)" *ngIf="row.referred_from_location">Referral Details</a>
+              <a class="btn btn-warning" (click)="referBack(row)" *ngIf="encounterViewed && row.referred_from_location">Respond to referral</a>
             </div>
           </div>
         </div>
@@ -91,7 +96,7 @@
     </div>
     <div class="program-body">
       <h3><em class="text-danger" *ngIf="hasValidationErrors">{{currentError}}</em></h3>
-      <div class="container-fluid">
+      <div class="program-container-fluid">
         <div class="row">
           <div class="cell col-sm-12 col-xs-12 col-md-12" style="margin-bottom: 30px;">
             <label>Department</label>
@@ -104,10 +109,10 @@
         <div class="row" style="padding:4px" *ngIf="department">
           <div style="margin-bottom: 12px;" class="col-md-4 cell">
             <label for="program">Select Program</label>
-            <ng-select [multiple]="false" id="program"
+            <ng-select class="sharp-corners" [multiple]="false" id="program"
                        [items]="availableDepartmentPrograms"
                        [placeholder]="'Select a program...'"
-                       (add)="onProgramChange($event)"
+                       (change)="onProgramChange($event)"
                        [(ngModel)]="program">
             </ng-select>
           </div>
@@ -131,11 +136,33 @@
               <input class="form-control" id="enrolledDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" [(ngModel)]="dateEnrolled" type="date"/>
             </div>
           </div>
-          <div style="margin-bottom: 12px;" class="col-md-4 cell">
-            <location-filter [multiple]="false" (onLocationChange)="getSelectedLocation($event)"
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
+            <location-filter (onLocationChange)="getSelectedLocation($event)"
                              [disable-county]="true"></location-filter>
           </div>
-          <div class="col-md-12 cell enroll-button">
+        </div>
+        <div class="hide row" style="position: relative;" *ngIf="programHasWorkflows">
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
+            <label>Workflow</label>
+            <select name="workflow" class="form-control" [(ngModel)]="selectedWorkflow"
+                    (ngModelChange)="setWorkFlowStates($event)">
+              <option *ngFor="let workflow of programWorkflows" [ngValue]="workflow">
+                {{workflow.concept.display}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4 col-xs-12 col-sm-4 cell">
+            <label>State</label>
+            <select name="workFlowState" class="form-control" [(ngModel)]="selectedWorkFlowState"
+                    (ngModelChange)="getWorkFlowState($event)">
+              <option *ngFor="let state of workflowStates" [ngValue]="state">
+                {{state.concept.display}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-xs-12 col-sm-4 cell enroll-button">
             <label class="buttons"></label>
             <div class="buttons" style="width:100%">
               <button [disabled]="!enrollmentButtonActive" class="btn"
@@ -144,6 +171,13 @@
                 <span *ngIf="!isFocused">Enroll</span>
                 <span *ngIf="isFocused">Enrolling.....</span>
               </button>
+              <ng-container *ngIf="programHasWorkflows">
+                <span class="seperator vertical">OR</span>
+                <button style="" [disabled]="!enrollmentButtonActive" class="btn btn-info"
+                        (click)="referPatient()">Refer
+                </button>
+              </ng-container>
+
             </div>
           </div>
         </div>
@@ -173,3 +207,39 @@
     </div>
   </div>
 </p-dialog>
+<p-dialog header="Patient Referral" [(visible)]="isReferral" modal="modal" responsive="true">
+  <program-enrollment-manager-form-wizard *ngIf="programForms.length > 0"
+    [patient]="patient"
+    [forms]="programForms"
+    [parentComponent]="parentComponent"
+    (onFormsCompleted)="formsCompleted($event)"
+  ></program-enrollment-manager-form-wizard>
+  <patient-referral-container *ngIf="referralPrograms.length > 0 && programForms.length === 0"
+                              (onSuccess)="onReferralSuccess()"
+                              (onAborting)="onAbortingReferral($event)"
+                              [submittedEncounter]="submittedEncounter.encounter"
+                              [patient]="patient"
+                              [selectedState]="selectedWorkFlowState"
+                              [location]="submittedEncounter.encounterLocation"
+                              [locationUuid]="selectedLocation"
+                              [programs]="referralPrograms"></patient-referral-container>
+</p-dialog>
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Latest Referral Encounter</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideEncounterModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="obs-wrapper">
+          <pretty-encounter-viewer *ngIf="showReferralEncounterDetail" [encounter]="selectedEncounter"></pretty-encounter-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -28,13 +28,13 @@ export class UserDefaultPropertiesService {
 
   public getCurrentUserDefaultLocation() {
 
-    let userDisplay = this.getAuthenticatedUser().display;
+    let userDisplay = this.getAuthenticatedUser() ?  this.getAuthenticatedUser().display : null;
     let location = this.localStorage.getItem('userDefaultLocation' + userDisplay);
     return JSON.parse(location) ? JSON.parse(location).display : undefined;
   }
 
   public getCurrentUserDefaultLocationObject() {
-    let userDisplay = this.getAuthenticatedUser().display;
+    let userDisplay = this.getAuthenticatedUser() ? this.getAuthenticatedUser().display : null;
     let location = this.localStorage.getItem('userDefaultLocation' + userDisplay);
     if (location) {
       return JSON.parse(location);

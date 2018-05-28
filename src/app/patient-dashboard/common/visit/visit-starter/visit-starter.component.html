@@ -1,10 +1,8 @@
 <div class="loader" *ngIf="startedVisit"><span><i class="fa fa-spinner fa-spin">
       </i>Starting Visit...please wait</span></div>
-<div class="location-filter-border">
   <location-filter [locationUuids]="selectedLocations" [showLabel]="false"
   [disable-county]="true" [multiple]="false" (onLocationChange)="onLocationChanged($event)">
   </location-filter>
-</div>
 <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
 </div>

@@ -66,7 +66,7 @@ describe('VisitStarterComponent', () => {
   let allProgConfigs = { 'some-uuid': progConfig };
 
   let fakePatientProgramResourceService = {
-    getAllProgramVisitConfigs: () => {
+    getPatientProgramVisitConfigs: (uuid) => {
       return Observable.of(allProgConfigs);
     },
     getPatientProgramVisitTypes: (

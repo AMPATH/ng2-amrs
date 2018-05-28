@@ -2,9 +2,9 @@
   <label for="indicator">Indicator</label>
   <div class="input-group">
     <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-    <ng-select [multiple]="true" id="indicator" (ngModelChange)="onIndicatorSelected($event)"
+    <ng-select class="sharp-corners" [multiple]="true" id="indicator" (change)="onIndicatorSelected($event)"
                [placeholder]="'Select desired Indicator(s) or type to search...'"
-               [(ngModel)]="selectedIndicators" [options]="indicatorOptions">
+               [(ngModel)]="selectedIndicators" [items]="indicatorOptions">
     </ng-select>
     <div class="input-group-addon">
       <i class="glyphicon glyphicon-pushpin"></i>

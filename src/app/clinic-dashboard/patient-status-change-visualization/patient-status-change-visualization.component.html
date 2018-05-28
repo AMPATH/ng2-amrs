@@ -19,9 +19,9 @@
 
   <div class="input-group">
     <div class="input-group-addon"><span class="glyphicon glyphicon-cog"></span></div>
-    <ng-select [multiple]="false" (ngModelChange)="onAnalysisTypeChange($event)"
+    <ng-select class="sharp-corners" [multiple]="false" (change)="onAnalysisTypeChange($event)"
                [placeholder]="'Select Analysis Type...'"
-               [(ngModel)]="selectedAnalysisType" [options]="analysisTypes">
+               [(ngModel)]="selectedAnalysisType" [items]="analysisTypes">
     </ng-select>
     <div class="input-group-addon">
       <i class="glyphicon glyphicon-pushpin"></i>

@@ -26,7 +26,7 @@ import {
   RouterModule, ChildrenOutletContexts,
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SelectModule } from 'angular2-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
 import { BusyModule, BusyConfig } from 'angular2-busy';
@@ -35,6 +35,10 @@ import { RoutesProviderService
 } from '../../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../../programs/program.service';
 import { ProgramResourceService } from '../../../../openmrs-api/program-resource.service';
+import { ProgramWorkFlowResourceService
+} from '../../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../../openmrs-api/program-workflow-state-resource.service';
 class MockActivatedRoute {
   public params: any = {};
   public queryParams = Observable.of(this.params);
@@ -84,6 +88,8 @@ describe('Component: Visit Period Component Unit Tests', () => {
         VisitResourceService,
         EncounterResourceService,
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         ConfirmationService,
         LocationResourceService,
         LocalStorageService,
@@ -124,7 +130,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
       declarations: [
         VisitPeriodComponent
       ],
-      imports: [FormsModule, SelectModule, BusyModule]
+      imports: [FormsModule, NgSelectModule, BusyModule]
     });
   });
 

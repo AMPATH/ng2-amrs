@@ -1,25 +1,24 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { MdProgressSpinnerModule, MdProgressBarModule, MdSlideToggleModule, MdTabsModule
+} from '@angular/material';
 
 import { SharedModule, ConfirmDialogModule, DialogModule, MessagesModule,
 TabViewModule, PanelModule
 } from 'primeng/primeng';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdSlideToggleModule, MdTabsModule
-} from '@angular/material';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { routes } from './patient-dashboard.routes';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { ProgramService } from './programs/program.service';
-import { ProgramsComponent } from './programs/programs.component';
 import { PatientSearchService } from '../patient-search/patient-search.service';
 import { PatientService } from './services/patient.service';
 import { PatientPreviousEncounterService } from './services/patient-previous-encounter.service';
 import { LabOrderSearchModule } from '../lab-order-search/lab-order-search.module';
-import { GeneralLandingPageComponent } from './general-landing-page/landing-page.component';
 import { PatientRoutesFactory } from '../navigation';
 import { PatientDashboardCommonModule } from './common/patient-dashboard.common.module';
 import { PatientDashboardHivModule } from './hiv/patient-dashboard-hiv.module';
@@ -31,14 +30,10 @@ import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm
 import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
-import { ProgramsContainerComponent } from './programs/programs-container.component';
 import { ProgramTransferCareModule } from './programs/transfer-care/transfer-care.module';
-import { ProgramEnrollmentComponent } from './programs/program-enrollment.component';
-
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
+import { ReferralModule } from '../referral-module/referral-module';
 
 @NgModule({
   imports: [
@@ -66,14 +61,11 @@ import { HttpClient } from '../shared/services/http-client.service';
     PatientDashboardDermatologyModule,
     PatientSearchModule,
     ProgramTransferCareModule,
+    ReferralModule,
     RouterModule.forChild(routes)
   ],
   declarations: [
-    GeneralLandingPageComponent,
-    PatientDashboardComponent,
-    ProgramEnrollmentComponent,
-    ProgramsContainerComponent,
-    ProgramsComponent
+    PatientDashboardComponent
   ],
   providers: [
     PatientDashboardGuard,
@@ -94,10 +86,6 @@ import { HttpClient } from '../shared/services/http-client.service';
     }
   ],
   exports: [
-    GeneralLandingPageComponent,
-    ProgramsContainerComponent,
-    ProgramEnrollmentComponent,
-    ProgramsComponent
   ]
 })
 export class PatientDashboardModule {

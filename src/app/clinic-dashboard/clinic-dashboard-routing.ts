@@ -105,6 +105,11 @@ const clinicDashboardRoutes: Routes = [
           .then((mod) => mod.HivProgramModule)
       },
       {path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix'},
+      {
+        path: 'referral', loadChildren: () =>
+        System.import('./referral/patient-referral-program.module')
+          .then((mod) => mod.PatientReferralProgramModule)
+      }
 
     ],
     canActivate: [

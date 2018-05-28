@@ -37,6 +37,9 @@ import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'angular2-select';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 
 class LocationServiceMock {
   constructor() {
@@ -49,14 +52,14 @@ class LocationServiceMock {
 class RouterStub {
   public navigateByUrl(url: string) { return url; }
 }
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('Component: Visit', () => {
 
   let fixture, comp: VisitComponent, nativeElement;
 
   beforeEach(async(() => {
     let fakePatientProgramResourceService = {
-      getAllProgramVisitConfigs: () => {
+      getPatientProgramVisitConfigs: (uuid) => {
         return Observable.of({});
       },
       getPatientProgramVisitTypes: (
@@ -99,6 +102,8 @@ describe('Component: Visit', () => {
           }
         },
         ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         {
           provide: UserDefaultPropertiesService, useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();
@@ -145,6 +150,7 @@ describe('Component: Visit', () => {
           uuid: 'uuid',
           person: { uuid: 'uuid' }
         };
+        comp.currentEnrollment = {states:[]};
         nativeElement = fixture.nativeElement;
         fixture.detectChanges();
       });
@@ -161,7 +167,7 @@ describe('Component: Visit', () => {
     comp.visits = [{}];
     comp.patient = {};
     comp.currentProgramConfig = {};
-    comp.currentEnrollment = {};
+    comp.currentEnrollment = {states:[]};
     comp.currentProgramEnrollmentUuid = 'some-text';
     comp.programVisitsObj = {};
     comp.isBusy = false;
@@ -277,7 +283,7 @@ describe('Component: Visit', () => {
     comp.visits = [];
     comp.programUuid = 'some-uuid';
     comp.currentProgramConfig = undefined;
-    comp.currentEnrollment = undefined;
+    comp.currentEnrollment = {states:[]};
     comp.currentProgramEnrollmentUuid = '';
     comp.programVisitsObj = sampleProgramConfig;
 

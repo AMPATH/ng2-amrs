@@ -191,6 +191,10 @@ h3 {
   border-top: 0;
 }
 
+.program-container-fluid {
+  padding: 0 10px 0 10px;
+}
+
 .program hr {
   margin: 1rem 0;
   line-height: 1;
@@ -215,11 +219,11 @@ h3 {
   height:1px;
 }
 
-.dropdown button {
+/*.dropdown button {
   position: absolute;
   top: -38px;
   right:12px;
-}
+}*/
 
 .edit-dropdown {
   margin-right: 12px;
@@ -251,8 +255,9 @@ a.btn {
   margin-right: 7px;
 }
 
-a.btn.btn-info {
+.btn.btn-info {
   margin-bottom: 0;
+  margin-left: 0;
 }
 
 .fa-pencil:before {
@@ -280,4 +285,32 @@ margin-top:-2px;
 .ng-select.ng-single .ng-control {
   height: 34px;
   min-height: 34px;
+}
+.refer-status {
+display: block;
+background-color:#ACD5B6;
+color: rgb(2, 2, 26);
+font-size: 2rem;
+
+}
+
+.referral-message-container {
+  padding: 20px 15px;
+  margin-bottom: -26px;
+  border-left: 1px solid #dcdcdc;
+  border-right: 1px solid #dcdcdc
+}
+
+.buttons button {
+  float: left;
+}
+
+span.seperator {
+  padding: 0 !important;
+  display: inline-block;
+  float: left;
+  margin-right: 20px;
+  margin-left: 20px;
+  font-size: 24px;
+  font-weight: bolder;
 }

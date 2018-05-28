@@ -69,8 +69,10 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     }
 
     public ngOnInit() {
-      this.getProgramVisitsConfig();
-      this.getDepartmentConfig();
+
+        this.getProgramVisitsConfig();
+        // console.log('Form List', formList);
+        this.getDepartmentConfig();
     }
 
     public getDepartmentConfig() {

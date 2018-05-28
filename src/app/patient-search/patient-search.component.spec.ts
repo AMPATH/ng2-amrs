@@ -15,7 +15,38 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
-import { PatientResourceService } from './../openmrs-api/patient-resource.service';
+import { PatientResourceService } from '../openmrs-api/patient-resource.service';
+import {
+  UserDefaultPropertiesService
+} from
+  '../user-default-properties/user-default-properties.service';
+import {
+  PatientReferralService
+} from
+  '../referral-module/services/patient-referral-service';
+import { UserService } from '../openmrs-api/user.service';
+import { SessionStorageService } from '../utils/session-storage.service';
+import { ProgramService } from '../patient-dashboard/programs/program.service';
+import { ProgramEnrollmentResourceService }
+ from '../openmrs-api/program-enrollment-resource.service';
+import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../openmrs-api/program-workflow-state-resource.service';
+import { ProgramResourceService } from '../openmrs-api/program-resource.service';
+import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
+import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
+import { ProviderResourceService } from '../openmrs-api/provider-resource.service';
+import { PersonResourceService } from '../openmrs-api/person-resource.service';
+import { PatientReferralResourceService } from '../etl-api/patient-referral-resource.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheService } from 'ionic-cache';
+import { IonicStorageModule } from '@ionic/storage';
+import { SpyLocation } from '@angular/common/testing';
+import { Location } from '@angular/common';
+import { PatientProgramResourceService } from '../etl-api/patient-program-resource.service';
+import { ProgramsTransferCareService
+} from '../patient-dashboard/programs/transfer-care/transfer-care.service';
+
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
@@ -48,92 +79,115 @@ let results: any = [
 
 describe('Component: PatientSearch', () => {
 
-  let comp:    PatientSearchComponent;
+  let comp: PatientSearchComponent;
   let fixture: ComponentFixture<PatientSearchComponent>;
-  let inputde, searchBtne , resetBtne:      DebugElement;
-  let inputel, searchBtnel, resetBtnel:      HTMLElement;
+  let inputde, searchBtne, resetBtne: DebugElement;
+  let inputel, searchBtnel, resetBtnel: HTMLElement;
   let nativeElement;
 
 
   // async beforeEach
-beforeEach(async(() => {
+  beforeEach(async(() => {
 
-        TestBed.configureTestingModule({
-              declarations: [ PatientSearchComponent ], // declare the test component
-              imports: [
-                    FormsModule,
-                    Ng2PaginationModule
-              ],
-              providers: [
-                  PatientSearchService,
-                  PatientResourceService,
-                  MockBackend,
-                  LocalStorageService,
-                  BaseRequestOptions,
-                  AppSettingsService,
-                  MockRouter,
-                  MockActivatedRoute,
-                  FakeAppFeatureAnalytics,
-                  {
-                    provide: Http,
-                    useFactory: (backendInstance: MockBackend,
-                      defaultOptions: BaseRequestOptions) => {
-                      return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                  },
-                  {
-                    provide: AppFeatureAnalytics,
-                    useClass: FakeAppFeatureAnalytics
-                  },
-                  { provide: Router, useClass: MockRouter },
-                  {
-                    provide: ActivatedRoute,
-                    useClass: MockActivatedRoute
-                  }
-            ]
-            })
-            .compileComponents();  // compile template and css
-          }));
+    TestBed.configureTestingModule({
+      declarations: [PatientSearchComponent], // declare the test component
+      imports: [
+        FormsModule,
+        Ng2PaginationModule,
+        IonicStorageModule.forRoot(),
+      ],
+      providers: [
+        PatientSearchService,
+        PatientResourceService,
+        MockBackend,
+        LocalStorageService,
+        BaseRequestOptions,
+        AppSettingsService,
+        MockRouter,
+        MockActivatedRoute,
+        FakeAppFeatureAnalytics,
+        UserDefaultPropertiesService,
+        PatientReferralService,
+        UserService,
+        SessionStorageService,
+        ProgramService,
+        ProgramEnrollmentResourceService,
+        ProgramResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
+        ProgramReferralResourceService,
+        EncounterResourceService,
+        ProviderResourceService,
+        PersonResourceService,
+        PatientReferralResourceService,
+        ProgramsTransferCareService,
+        DataCacheService,
+        CacheService,
+        LocalStorageService,
+        CacheService,
+        DataCacheService,
+        PatientProgramResourceService,
+        Location,
+        {
+          provide: Http,
+          useFactory: (backendInstance: MockBackend,
+                       defaultOptions: BaseRequestOptions) => {
+            return new Http(backendInstance, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        },
+        {
+          provide: AppFeatureAnalytics,
+          useClass: FakeAppFeatureAnalytics
+        },
+        { provide: Location, useClass: SpyLocation },
+        { provide: Router, useClass: MockRouter },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        }
+      ]
+    })
+      .compileComponents();  // compile template and css
+  }));
 
-          beforeEach(() => {
-              fixture = TestBed.createComponent(PatientSearchComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PatientSearchComponent);
 
-              comp = fixture.componentInstance; // PatientSearch test instance
+    comp = fixture.componentInstance; // PatientSearch test instance
 
-              nativeElement = fixture.nativeElement;
+    nativeElement = fixture.nativeElement;
 
-              inputde = fixture.debugElement.query(By.css('.search-texbox'));
-              inputel = inputde.nativeElement;
+    inputde = fixture.debugElement.query(By.css('.search-texbox'));
+    inputel = inputde.nativeElement;
 
-              searchBtne = fixture.debugElement.query(By.css('.search-texbox'));
-              searchBtnel = searchBtne.nativeElement;
+    searchBtne = fixture.debugElement.query(By.css('.search-texbox'));
+    searchBtnel = searchBtne.nativeElement;
 
-               resetBtne = fixture.debugElement.query(By.css('.search-texbox'));
-               resetBtnel = resetBtne.nativeElement;
+    resetBtne = fixture.debugElement.query(By.css('.search-texbox'));
+    resetBtnel = resetBtne.nativeElement;
 
-              // Service from the root injector
-              let patientSearchService = fixture.debugElement.injector.get(PatientSearchService);
-              let route = fixture.debugElement.injector.get(MockRouter);
-              let appFeatureAnalytics = fixture.debugElement.injector.get(FakeAppFeatureAnalytics);
-              let router = fixture.debugElement.injector.get(MockRouter);
+    // Service from the root injector
+    let patientSearchService = fixture.debugElement.injector.get(PatientSearchService);
+    let route = fixture.debugElement.injector.get(MockRouter);
+    let appFeatureAnalytics = fixture.debugElement.injector.get(FakeAppFeatureAnalytics);
+    let router = fixture.debugElement.injector.get(MockRouter);
 
-          });
+  });
 
+  it('Should Instantiate Component', async(() => {
+    expect(comp).toBeTruthy();
+  }));
 
-    it('Should Instantiate Component', async(() => {
-         expect(comp).toBeTruthy();
-    }));
+  it('Should Have a title of Patient Search', async(() => {
+    expect(comp.title).toBe('Patient Search');
+  }));
 
-    it('Should Have a title of Patient Search', async(() => {
-         expect(comp.title).toBe('Patient Search');
-    }));
-
-    it('Should Load the search textbox , search and reset button', async(() => {
-            expect( inputel === null).toBe(false);
-            expect( searchBtnel === null).toBe(false);
-            expect(  resetBtnel === null).toBe(false);
-    }));
+  it('Should Load the search textbox , search and reset button', async(() => {
+    expect(inputel === null).toBe(false);
+    expect(searchBtnel === null).toBe(false);
+    expect(resetBtnel === null).toBe(false);
+  }));
 
 
 

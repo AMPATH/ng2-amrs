@@ -56,10 +56,10 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       this.selectedCounty = this.county;
     }
     if (this.locationUuids) {
-      if (_.isArray(this.locationUuids)) {
+      if (this.multiple && _.isArray(this.locationUuids)) {
         this.selectedLocations = this.locationUuids;
       } else {
-        this.selectedLocations = this.locationUuids.split(',');
+        this.selectedLocations = this.locationUuids;
       }
     }
     this.resolveLocationDetails();
@@ -69,7 +69,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
   public onLocationSelected(locations: Array<any>) {
-    if (this.selectedCounty) {
+    if (this.selectedCounty && this.selectedCounty !== 'N/A') {
       this.getLocationsByCounty().then((countyLocations) => {
         if (locations && _.isArray(locations) && locations.length < countyLocations.length) {
           this.allFromCounty = true;

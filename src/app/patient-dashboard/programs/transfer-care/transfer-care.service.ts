@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { ProgramService } from '../program.service';
 import { Patient } from '../../../models/patient.model';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 
 @Injectable()
 export class ProgramsTransferCareService {
@@ -14,6 +17,7 @@ export class ProgramsTransferCareService {
   public transferStatus: boolean = false;
 
   constructor(private patientProgramResourceService: PatientProgramResourceService,
+              private encounterResourceService: EncounterResourceService,
               private programService: ProgramService) {
   }
 
@@ -64,9 +68,10 @@ export class ProgramsTransferCareService {
     }).first();
   }
 
-  public fetchAllProgramTransferConfigs(): Observable<any> {
+  public fetchAllProgramTransferConfigs(patientUuid): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.patientProgramResourceService.getAllProgramVisitConfigs().subscribe((programConfigs) => {
+    this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid)
+      .subscribe((programConfigs) => {
       subject.next(programConfigs);
     });
     return subject;
@@ -85,6 +90,16 @@ export class ProgramsTransferCareService {
         let enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid, patient, program.transferDate, null,
           program.location.locations, '');
+        console.log();
+        if (program.enrolledProgram.states) {
+          let state: any = _.first(program.enrolledProgram.states);
+          if (state) {
+            _.merge(enrollPayload, {'states': [{
+              'state': state.state.uuid,
+              'startDate': this.toOpenmrsDateFormat(new Date())
+            }]});
+          }
+        }
         programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload));
         programBatch.push(this.programService.saveUpdateProgramEnrollment(enrollPayload));
       } else {
@@ -93,5 +108,35 @@ export class ProgramsTransferCareService {
       }
     });
     return Observable.forkJoin(programBatch);
+  }
+
+  public getPatientEncounters(patient: Patient): Observable<any> {
+    return Observable.create((observer: Subject<any>) => {
+      this.encounterResourceService.getEncountersByPatientUuid(patient.uuid, false, null)
+        .subscribe((resp) => {
+        observer.next(resp.reverse());
+      }, (err) => {
+          observer.error(err);
+        });
+    });
+  }
+
+  public pickEncountersByLastFilledDate(patientEncounters: any[], date: any) {
+    let encounters = _.map(_.filter(patientEncounters, (encounter: any) => {
+      let encounterDate = moment(encounter.encounterDatetime).format('DD-MM-YYYY');
+      let lastDischargeDate = moment(date).format('DD-MM-YYYY');
+      return encounterDate === lastDischargeDate;
+    }), (encounter: any) => {
+      return encounter.encounterType.uuid;
+    });
+    return _.uniq(encounters);
+  }
+
+  private toOpenmrsDateFormat(dateToConvert: any): string {
+    let date = moment(dateToConvert);
+    if (date.isValid()) {
+      return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
+    }
+    return '';
   }
 }

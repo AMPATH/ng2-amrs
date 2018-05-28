@@ -107,7 +107,6 @@ import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
-import { SelectModule } from 'angular2-select';
 import { CohortMemberModule } from '../../patient-list-cohort/cohort-member/cohort-member.module';
 import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component';
 import {
@@ -127,7 +126,6 @@ import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { LabOrderSearchModule } from '../../lab-order-search/lab-order-search.module';
 import { PatientSearchModule } from '../../patient-search/patient-search.module';
 import { PatientProgramService } from '../programs/patient-programs.service';
-import { BusyComponent } from '../../shared/busy-loader/busy.component';
 import { FormentryReferralsHandlerService } from './formentry/formentry-referrals-handler.service';
 import { PatientReferralsModule } from './patient-referrals/patient-referrals.module';
 import { VisitDetailsComponent } from './visit/visit-details/visit-details.component';
@@ -138,11 +136,13 @@ import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.compo
 import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
 import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
 import { FormUpdaterService } from './formentry/form-updater.service';
+import { ReferralModule } from '../../referral-module/referral-module';
 
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -175,7 +175,8 @@ import { HttpClient } from '../../shared/services/http-client.service';
     EtlApi,
     ButtonModule,
     DateTimePickerModule,
-    SelectModule,
+    ReferralModule,
+    NgSelectModule,
     AgGridModule.withComponents([
 
     ]),
@@ -189,9 +190,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
   ],
   exports: [
     PatientInfoComponent,
-    BusyComponent,
     PatientEncountersComponent,
-    PatientEncounterObservationsComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,
@@ -207,7 +206,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     AddressComponent,
     PatientDemographicsComponent,
     FormentryComponent,
-    PrettyEncounterViewerComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
     TodaysVitalsComponent,
@@ -231,7 +229,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
-    UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     PatientEncounterProviderPipe,
     ZeroVlPipe,
@@ -241,9 +238,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
-    BusyComponent,
     PatientEncountersComponent,
-    PatientEncounterObservationsComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,
@@ -260,7 +255,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     AddressComponent,
     PatientDemographicsComponent,
     FormentryComponent,
-    PrettyEncounterViewerComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
     TodaysVitalsComponent,
@@ -283,13 +277,11 @@ import { HttpClient } from '../../shared/services/http-client.service';
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
-    UnenrollPatientProgramsComponent,
     VisitEncountersPipe,
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter,
-    ZeroVlPipe],
+    EncounterTypeFilter],
   providers: [
     FormUpdaterService,
     PatientEncounterService,

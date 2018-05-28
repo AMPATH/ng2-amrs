@@ -4,9 +4,9 @@
       <i *ngIf="!loaderStatus" class="fa fa-map-marker"></i>
       <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
     </div>
-    <ng-select (ngModelChange)="locationChanged($event)" [(ngModel)]="locationUuid"
+    <ng-select class="sharp-corners" (ngModelChange)="locationChanged($event)" [(ngModel)]="locationUuid"
                [placeholder]="'Select a location or type to search...'"
-               [options]="locations">
+               [items]="locations">
     </ng-select>
     <div (click)="getLocations()" class="input-group-addon" style="cursor: pointer;">
         <i *ngIf="!loaderStatus" class="fa  fa-refresh fa-1x fa-fw"></i>
