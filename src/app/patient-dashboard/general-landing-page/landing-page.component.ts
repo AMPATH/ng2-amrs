@@ -104,7 +104,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.updateEnrollmentButtonState();
     this.loadProgramBatch();
     this.getDepartmentConf();
-    this.fetchPatientProgramVisitConfigs();
+    // this.fetchPatientProgramVisitConfigs();
     this.handleReferral();
   }
 
