@@ -10,7 +10,8 @@ var authorizer = require('../../authorization/etl-authorizer');
 
 var def = {
     createPatientReferral: createPatientReferral,
-    updatePatientReferralNotification:updatePatientReferralNotification
+    updatePatientReferralNotification:updatePatientReferralNotification,
+    getPatientReferralByEnrollmentUuid:getPatientReferralByEnrollmentUuid
 };
 
 module.exports = def;
@@ -32,7 +33,8 @@ function createPatientReferral(newPatientReferral) {
             
                 validateCreateReferralPayload(newPateintReferral)
                     .then(function (validationStatus) {
-                        if (validationStatus.isValid === false) {
+
+                        if (validationStatus && validationStatus.isValid === false) {
                             reject(validationStatus);
                         } else {
                             connection.getServerConnection()
@@ -53,12 +55,17 @@ function createPatientReferral(newPatientReferral) {
                                         .toString();
 
                                     conn.query(query, {}, function (err, rows, fields) {
+                                        console.log(err)
                                         if (err) {
                                             reject('Error updating resource');
                                         }
                                         else {
 
-                                                    
+                                            var resolvedFieldsCheck = checkResolvedReferralFields(newPateintReferral)
+                                            if (!resolvedFieldsCheck.isValid) {
+                                                return reject(resolvedFieldsCheck);
+                                            } 
+
                                             findPatientReferral( 
                                                                 newPateintReferral.encounterId,  
                                                                 newPateintReferral.providerId,
@@ -76,7 +83,8 @@ function createPatientReferral(newPatientReferral) {
                                     });
                                 })
                                 .catch(function (err) {
-                                    reject('Error establishing connection to MySql Server');
+                                    console.log(err)
+                                    reject('Error establishing connection to MySql Server for updated resource');
                                 });
                         }
 
@@ -127,7 +135,8 @@ function updatePatientReferralNotification(patientReferralId, newPatientReferral
                             });
                         })
                         .catch(function (err) {
-                            reject('Error establishing connection to MySql Server');
+
+                            reject('Error establishing connection to MySql Server to update the resource');
                         });
                 }
 
@@ -150,7 +159,7 @@ function getPatientReferral(patientReferralId) {
                     .field('pr.notification_status') 
 					.field('pr.referral_reason')  
                     .from('etl.patient_referral', 'pr')
-                    .join('amrs.encounter', 'u', 'pr.encounter_id = u.encounter_id')
+                    // .join('amrs.encounter', 'u', 'pr.encounter_id = u.encounter_id')
                     .join('amrs.provider', 'ap', 'ap.provider_id = pr.provider_id')
                     .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
                     .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
@@ -161,7 +170,51 @@ function getPatientReferral(patientReferralId) {
                 conn.query(query, {}, function (err, rows, fields) {
                     if (err) {
                         console.log(err)
-                        reject('Error querying server');
+                        reject('Error querying to get patient referral by Id server');
+                    }
+                    else {
+                        if (rows.length > 0) {
+                            resolve(rows[0]);
+                        } else {
+                            resolve(null);
+                        }
+                    }
+                    conn.release();
+                });
+            })
+            .catch(function (err) {
+                reject('Error establishing connection to MySql Server');
+            });
+    });
+}
+function getPatientReferralByEnrollmentUuid(programEnrollmentUuid) {
+    return new Promise(function (resolve, reject) {
+        connection.getServerConnection()
+            .then(function (conn) {
+                var query = squel.select()
+                    .field('pr.patient_referral_id')
+                    .field('pr.voided')
+                    .field('pr.encounter_id')
+                    .field('pr.provider_id')
+                    .field('pr.referred_to_location_id') 
+                    .field('pr.referred_from_location_id') 
+                    .field('pr.patient_program_id')
+                    .field('pr.notification_status') 
+					.field('pr.referral_reason')  
+					.field('lr.name as referred_to_location')  
+					.field('lt.name as referred_from_location')  
+                    .from('etl.patient_referral', 'pr')
+                    .join('amrs.provider', 'ap', 'ap.provider_id = pr.provider_id')
+                    .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
+                    .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
+                    .join('amrs.patient_program', 'p', 'pr.patient_program_id = p.patient_program_id')
+                    .where('p.uuid = ?', programEnrollmentUuid)
+                    .toString();
+
+                conn.query(query, {}, function (err, rows, fields) {
+                    if (err) {
+                        console.log(err)
+                        reject('Error querying to get patient referral details by enrollment server');
                     }
                     else {
                         if (rows.length > 0) {
@@ -202,25 +255,37 @@ function validateCreateReferralPayload(patientReferralPayload) {
             isValid: true,
             errors: []
         };
-        findPatientReferral( 
-        patientReferralPayload.encounterId,  
-        patientReferralPayload.providerId,
-        patientReferralPayload.referredToLocationId,
-        patientReferralPayload.referredFromLocationId,
-        patientReferralPayload.programWorkflowStateId, 0)
-            .then(function (results) {
-                if (results.length > 0) {
-                    validationErrors.isValid = false;
-                    validationErrors.errors.push({
-                        field: 'Patient Referral details',
-                        error: 'Duplicate record exists.'
-                    });
-                }
-                resolve(validationErrors);
-            })
-            .catch(function (error) {
-                reject('An error occured while trying to validate patient referral payload',error);
-            })
+
+        var resolvedFieldsCheck = checkResolvedReferralFields(patientReferralPayload)
+             if (!resolvedFieldsCheck.isValid) {
+                     return reject(resolvedFieldsCheck);
+            }
+
+            findPatientReferral( 
+                patientReferralPayload.encounterId,  
+                patientReferralPayload.providerId,
+                patientReferralPayload.referredToLocationId,
+                patientReferralPayload.referredFromLocationId,
+                patientReferralPayload.programWorkflowStateId, 0)
+                    .then(function (results) {
+                        if (results.length > 0) {
+                            validationErrors.isValid = false;
+                            validationErrors.errors.push({
+                                field: 'Patient Referral details',
+                                error: 'Duplicate record exists.'
+                            });
+                        }
+                        resolve(validationErrors);
+                    })
+                    .catch(function (error) {
+                        validationErrors.isValid = false;
+                        resolve(validationErrors);
+                        console.log('An error occured while trying to validate patient referral payload',error);
+                    })
+        
+
+    }).catch(function (error) {
+        console.log('An error occured while trying to validate patient referral payload',error);
     });
 }
 
@@ -238,15 +303,7 @@ function hasRequiredReferralFields(newPatientReferralPayload) {
             message: 'Provider is required'
         });
     }
-
-    if (_.isEmpty(newPatientReferralPayload.encounter)) {
-        validationResult.isValid = false;
-        validationResult.errors.push({
-            field: 'encounter',
-            message: 'Encounter is required'
-        });
-    }
-
+  
     if (_.isEmpty(newPatientReferralPayload.referredToLocation)) {
         validationResult.isValid = false;
         validationResult.errors.push({
@@ -337,29 +394,78 @@ function resolveEnrollmentUuidsToIds(referralPayload) {
                     })
             })
             .catch(function (error) {
-                console.error(err);
-                reject(error);
+                console.error(error);
+                resolve(error);
             })
     });
 }
 
 
 function findPatientReferral(encounterId, providerId,referredToLocationId,referredFromLocationId,programWorkflowStateId, voided) {
+   
+        return new Promise(function (resolve, reject) {
+            connection.getServerConnection()
+                .then(function (conn) {
+                    var query = squel.select()
+                        .field('pr.patient_referral_id')
+                        .field('pr.encounter_id')
+                        .field('pr.provider_id')
+                        .field('pr.referred_to_location_id') 
+                        .field('pr.referred_from_location_id') 
+                        .field('pr.patient_program_id') 
+                        .field('pr.notification_status') 
+                        .field('pr.referral_reason') 
+                        .from('etl.patient_referral', 'pr')
+                        .join('amrs.encounter', 'u', 'pr.encounter_id = u.encounter_id')
+                        .join('amrs.provider', 'apr', 'apr.provider_id = pr.provider_id')
+                        .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
+                        .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
+                        .join('amrs.patient_program', 'p', 'pr.patient_program_id = p.patient_program_id')
+                        .join('amrs.program_workflow_state', 'ps', 'pr.program_workflow_state_id = ps.program_workflow_state_id')
+                        .where('pr.provider_id = ?', providerId)
+                        .where('pr.encounter_id = ?', encounterId)
+                        .where('pr.referred_to_location_id = ?', referredToLocationId)
+                        .where('pr.referred_from_location_id = ?', referredFromLocationId)
+                        .where('pr.program_workflow_state_id = ?', programWorkflowStateId)
+                        .where('pr.voided = ?', voided)
+                        .toString();
+    
+                    conn.query(query, {}, function (err, rows, fields) {
+                        console.log(err)
+                        if (err) {
+                            reject('Error querying to find if duplicate record exists server');
+                        }
+                        else {
+                            resolve(rows);
+                        }
+                        conn.release();
+                    });
+                })
+                .catch(function (err) {
+                    console.log(err)
+                    reject('Error establishing connection to MySql Server find duplicate');
+                });
+        });
+    
+    
+}
+function getPatientReferralStats(providerId,startDate,endDate) {
+   
     return new Promise(function (resolve, reject) {
         connection.getServerConnection()
             .then(function (conn) {
                 var query = squel.select()
                     .field('pr.patient_referral_id')
                     .field('pr.encounter_id')
-					.field('pr.provider_id')
-					.field('pr.referred_to_location_id') 
-					.field('pr.referred_from_location_id') 
-					.field('pr.patient_program_id') 
-					.field('pr.notification_status') 
-					.field('pr.referral_reason') 
+                    .field('pr.provider_id')
+                    .field('pr.referred_to_location_id') 
+                    .field('pr.referred_from_location_id') 
+                    .field('pr.patient_program_id') 
+                    .field('pr.notification_status') 
+                    .field('pr.referral_reason') 
                     .from('etl.patient_referral', 'pr')
                     .join('amrs.encounter', 'u', 'pr.encounter_id = u.encounter_id')
-                    .join('amrs.provider', 'pr', 'pr.provider_id = pr.provider_id')
+                    .join('amrs.provider', 'apr', 'apr.provider_id = pr.provider_id')
                     .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
                     .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
                     .join('amrs.patient_program', 'p', 'pr.patient_program_id = p.patient_program_id')
@@ -373,8 +479,9 @@ function findPatientReferral(encounterId, providerId,referredToLocationId,referr
                     .toString();
 
                 conn.query(query, {}, function (err, rows, fields) {
+                    console.log(err)
                     if (err) {
-                        reject('Error querying server');
+                        reject('Error querying to find if duplicate record exists server');
                     }
                     else {
                         resolve(rows);
@@ -383,70 +490,77 @@ function findPatientReferral(encounterId, providerId,referredToLocationId,referr
                 });
             })
             .catch(function (err) {
-                reject('Error establishing connection to MySql Server');
+                console.log(err)
+                reject('Error establishing connection to MySql Server find duplicate');
+
             });
     });
+
+
 }
-
-
-function  getEncounterId(patientUuid) {
-    return new Promise(function (resolve, reject) {
-        connection.getServerConnection()
-            .then(function (conn) {
-                var query = squel.select()
-                    .field('u.encounter_id')
-                    .from('amrs.encounter', 'u')
-                    .where('u.uuid = ?', patientUuid)
-                    .toString();
-
-                conn.query(query, {}, function (err, rows, fields) {
-                    if (err) {
-                        reject('Error querying server');
-                    }
-                    else {
-                        if (rows.length > 0) {
-                            resolve(rows[0]['encounter_id']);
-                        } else {
-                            resolve(undefined);
+    
+    
+    function  getEncounterId(encounterUuid) {
+        return new Promise(function (resolve, reject) {
+            connection.getServerConnection()
+                .then(function (conn) {
+                    var query = squel.select()
+                        .field('u.encounter_id')
+                        .from('amrs.encounter', 'u')
+                        .where('u.uuid = ?', encounterUuid)
+                        .toString();
+    
+                    conn.query(query, {}, function (err, rows, fields) {
+                        if (err) {
+                            console.log(err)
+                            resolve('Error querying server Encounter');
                         }
-                    }
-                    conn.release();
-                });
-            })
-            .catch(function (err) {
-                reject('Error establishing connection to MySql Server');
-            });
-    });
-}
-function getPatientProgramId(patientProgramUuid) {
-    return new Promise(function (resolve, reject) {
-        connection.getServerConnection()
-            .then(function (conn) {
-                var query = squel.select()
-                    .field('u.patient_program_id')
-                    .from('amrs.patient_program', 'u')
-                    .where('u.uuid = ?', patientProgramUuid)
-                    .toString();
-
-                conn.query(query, {}, function (err, rows, fields) {
-                    if (err) {
-                        reject('Error querying server');
-                    }
-                    else {
-                        if (rows.length > 0) {
-                            resolve(rows[0]['patient_program_id']);
-                        } else {
-                            resolve(undefined);
+                        else {
+                            if (rows.length > 0) {
+                                resolve(rows[0]['encounter_id']);
+                            } else {
+                                resolve(undefined);
+                            }
                         }
-                    }
-                    conn.release();
+                        conn.release();
+                    });
+                })
+                .catch(function (err) {
+                    resolve('Error establishing connection to MySql Server to resolve encounter id');
                 });
-            })
-            .catch(function (err) {
-                reject('Error establishing connection to MySql Server');
-            });
-    });
-}
+        });
+    }
+    function getPatientProgramId(patientProgramUuid) {
+        return new Promise(function (resolve, reject) {
+            connection.getServerConnection()
+                .then(function (conn) {
+                    var query = squel.select()
+                        .field('u.patient_program_id')
+                        .from('amrs.patient_program', 'u')
+                        .where('u.uuid = ?', patientProgramUuid)
+                        .toString();
+    
+                    conn.query(query, {}, function (err, rows, fields) {
+                        if (err) {
+                            reject('Error querying patient program server');
+                        }
+                        else {
+                            if (rows.length > 0) {
+                                resolve(rows[0]['patient_program_id']);
+                            } else {
+                                resolve(undefined);
+                            }
+                        }
+                        conn.release();
+                    });
+                })
+                .catch(function (err) {
+                    reject('Error establishing connection to MySql Server  to resolve patient program');
+                });
+        });
+    } 
+   
+
 
 
 function getProviderId(providerUuid) {
@@ -461,7 +575,7 @@ function getProviderId(providerUuid) {
 
                 conn.query(query, {}, function (err, rows, fields) {
                     if (err) {
-                        reject('Error querying server');
+                        reject('Error querying for provider server');
                     }
                     else {
                         if (rows.length > 0) {
@@ -474,7 +588,7 @@ function getProviderId(providerUuid) {
                 });
             })
             .catch(function (err) {
-                reject('Error establishing connection to MySql Server');
+                reject('Error establishing connection to MySql Server to get provider');
             });
     });
 }
@@ -491,7 +605,7 @@ function getWorkFlowState(workFlowStateUuid) {
 
                 conn.query(query, {}, function (err, rows, fields) {
                     if (err) {
-                        reject('Error querying server');
+                        reject('Error querying for workflow state server');
                     }
                     else {
                         if (rows.length > 0) {
@@ -504,7 +618,7 @@ function getWorkFlowState(workFlowStateUuid) {
                 });
             })
             .catch(function (err) {
-                reject('Error establishing connection to MySql Server');
+                reject('Error establishing connection to MySql Server to get workflow state');
             });
     });
 }
@@ -521,7 +635,7 @@ function getLocation(locationUuid) {
 
                 conn.query(query, {}, function (err, rows, fields) {
                     if (err) {
-                        reject('Error querying server');
+                        reject('Error querying location server');
                     }
                     else {
                         if (rows.length > 0) {
@@ -534,7 +648,7 @@ function getLocation(locationUuid) {
                 });
             })
             .catch(function (err) {
-                reject('Error establishing connection to MySql Server');
+                reject('Error establishing connection to MySql Server for location');
             });
     });
 }
@@ -542,4 +656,56 @@ function getLocation(locationUuid) {
 function getCurrentUserIdSquel() {
     return squel.select().field('MAX(user_id)')
         .from('amrs.users').where('uuid = ?', authorizer.getUser().uuid);
+}
+
+function checkResolvedReferralFields(newPatientReferralPayload) {
+    var validationResult = {
+        isValid: true,
+        errors: []
+    };
+    if (_.isEmpty(newPatientReferralPayload.providerId) && newPatientReferralPayload.providerId===undefined) {
+        validationResult.isValid = false;
+        validationResult.errors.push({
+            field: 'provider',
+            message: 'Provider is Not Found'
+        });
+    }
+
+    if (_.isEmpty(newPatientReferralPayload.encounterId) && newPatientReferralPayload.encounterId===undefined) {
+        validationResult.isValid = true;
+    }
+
+    if (_.isEmpty(newPatientReferralPayload.referredToLocationId) && newPatientReferralPayload.referredToLocationId===undefined) {
+        validationResult.isValid = false;
+        validationResult.errors.push({
+            field: 'referredToLocation',
+            message: 'Referred To Location is Not Found'
+        });
+    }
+
+    if (_.isEmpty(newPatientReferralPayload.patientProgramId) && newPatientReferralPayload.patientProgramId===undefined) {
+        validationResult.isValid = false;
+        validationResult.errors.push({
+            field: 'patientProgram',
+            message: 'Patient Program is Not Found'
+        });
+    }
+
+    if (_.isEmpty(newPatientReferralPayload.referredFromLocationId) && newPatientReferralPayload.referredFromLocationId===undefined) {
+        validationResult.isValid = false;
+        validationResult.errors.push({
+            field: 'referredFromLocation',
+            message: 'Referred From Location is Not Found'
+        });
+    }
+
+    if (_.isEmpty(newPatientReferralPayload.programWorkflowStateId) && newPatientReferralPayload.programWorkflowStateId===undefined) {
+        validationResult.isValid = false;
+        validationResult.errors.push({
+            field: 'state',
+            message: 'Program Workflow State is Not Found'
+        });
+    }
+    
+    return validationResult;
 }

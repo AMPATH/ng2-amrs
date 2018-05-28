@@ -32,7 +32,6 @@ function createPayload(inputLine) {
         uuid:column[0]
     };
     enrollmentUuid = column[0];
-    console.log('enrollmentUuid===>>>>>', enrollmentUuid);
     return payload;
 }
 
@@ -71,7 +70,6 @@ var s = fs.createReadStream(input_file)
                     },
                     method: 'POST'
                 };
-                console.log('options----->>>>', options);
 
                 curl.request(options, function (err, parts) {
 

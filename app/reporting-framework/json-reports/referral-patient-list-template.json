@@ -1,8 +1,8 @@
 {
-    "name": "patient_list_template",
+    "name": "referral_patient_list_template",
     "version": "1.0",
-    "tag": "patient_list_template",
-    "description": "Patient list template",
+    "tag": "referral_patient_list_template",
+    "description": "Referral patient list template",
     "sources": [
         {
             "table": "amrs.person",
@@ -63,15 +63,55 @@
             }
         },
         {
+            "type": "simple_column",
+            "alias": "given_name",
+            "column": "person_name.given_name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "family_name",
+            "column": "person_name.family_name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "middle_name",
+            "column": "person_name.middle_name"
+        },
+        {
             "type": "derived_column",
             "alias": "identifiers",
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
             }
+        },
+        {
+            "type": "simple_column",
+            "alias": "program_name",
+            "column": "t5.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "t9.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "state_name",
+            "column": "t8.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "current_state_date",
+            "column": "t6.date_created"
+        },
+        {
+            "type": "simple_column",
+            "alias": "initial_referral_date",
+            "column": "t4.date_created"
         }
     ],
     "groupBy":{
-        "columns":["t1.person_id"]
+        "columns":["t3.patient_id"]
     }
 }

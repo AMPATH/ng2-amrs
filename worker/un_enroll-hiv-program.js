@@ -66,7 +66,6 @@ var s = fs.createReadStream(input_file)
                     },
                     method: 'POST'
                 };
-                console.log('options----->>>>', options);
 
                 curl.request(options, function (err, parts) {
 

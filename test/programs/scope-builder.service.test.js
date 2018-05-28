@@ -37,7 +37,8 @@ describe('SCOPE BUILDER SERVICE:', function () {
             var dataDictionary = {
                 'patient' : {
                     'person' : {
-                        age: 20
+                        age: 20,
+                      gender: 'F'
                     }
                 },
                 'intendedVisitLocationUuid' : 'location-uuid',
@@ -54,6 +55,7 @@ describe('SCOPE BUILDER SERVICE:', function () {
 
             var expectedScopeObject = {
                 age: 20,
+              gender: 'F',
                 intendedVisitLocationUuid: 'location-uuid',
                 programLocation: 'some location uuid'
             };

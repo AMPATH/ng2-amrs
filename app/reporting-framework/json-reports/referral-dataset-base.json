@@ -1,0 +1,176 @@
+{
+    "name": "referralDataSetbase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+
+        {
+            "table": "amrs.patient_program",
+            "alias": "t3"
+        },
+        {
+            "table": "etl.patient_referral",
+            "alias": "t4",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t4.patient_program_id  = t3.patient_program_id"
+            }
+        },
+        {
+            "table": "amrs.program",
+            "alias": "t5",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t3.program_id = t5.program_id"
+            }
+        },
+        {
+            "table": "amrs.patient_state",
+            "alias": "t6",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t3.patient_program_id = t6.patient_program_id and t6.end_date is null"
+            }
+        },
+        {
+            "table": "amrs.program_workflow_state",
+            "alias": "t7",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t6.state = t7.program_workflow_state_id"
+            }
+        },
+        {
+            "table": "amrs.concept_name",
+            "alias": "t8",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t8.concept_id = t7.concept_id and t8.voided = 0"
+            }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "t9",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t3.location_id = t9.location_id"
+            }
+        },
+        {
+            "table": "amrs.concept",
+            "alias": "t10",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t10.concept_id = t7.concept_id"
+            }
+        },
+        {
+            "table": "amrs.provider",
+            "alias": "t11",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t11.provider_id = t4.provider_id"
+            }
+        }
+    ],
+    "columns": [        
+      
+        {
+            "type": "simple_column",
+            "alias": "patient_id",
+            "column": "t3.patient_id"
+        },       
+        {
+            "type": "simple_column",
+            "alias": "program",
+            "column": "t5.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "programUuids",
+            "column": "t5.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program_id",
+            "column": "t5.program_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "t9.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "locationUuids",
+            "column": "t9.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t9.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "state_name",
+            "column": "t8.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "conceptUuids",
+            "column": "t10.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "stateUuids",
+            "column": "t10.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "state_concept_id",
+            "column": "t10.concept_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "providerUuids",
+            "column": "t11.uuid"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE_FORMAT(t6.date_created, '%Y-%m-%d') >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE_FORMAT(t6.date_created, '%Y-%m-%d') <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t9.uuid in (?)",
+                "parameterName": "locationUuids"        
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t11.uuid in (?)",
+                "parameterName": "providerUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t5.uuid in  (?)",
+                "parameterName": "programUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t10.uuid in  (?)",
+                "parameterName": "stateUuids"
+            }
+        ]
+    }
+}

@@ -33,11 +33,64 @@ module.exports = function () {
             var locationUuids = [];
             if (queryParams.locationUuids) {
                 _.each(queryParams.locationUuids.split(','), function (loc) {
-                    locationUuids.push(String(loc));
+                    if(loc =='' || loc=='undefined' || loc == undefined){
+                       console.log(loc);
+                    } else{
+                        locationUuids.push(String(loc));
+                    }
+                    
                 });
-                queryParams.locationUuids = locationUuids;
+
+               if(locationUuids.length>0){
+                  queryParams.locationUuids = locationUuids;
+               }else{
+                  delete queryParams['locationUuids'];
+               }             
+                               
+            }
+            // format programUuids
+            var programUuids = [];
+            if (queryParams.programUuids) {
+                _.each(queryParams.programUuids.split(','), function (program) {
+                    programUuids.push(String(program));
+                });
+                queryParams.programUuids = programUuids || ["*"];
+            }
+            var stateUuids = [];
+            if (queryParams.stateUuids) {
+                _.each(queryParams.stateUuids.split(','), function (state) {
+                    stateUuids.push(String(state));
+                });
+                queryParams.stateUuids = stateUuids || ["*"];
             }
 
+            var providerUuids = [];
+            if (queryParams.providerUuids) {
+                _.each(queryParams.providerUuids.split(','), function (provider) {
+                    if(provider =='' || provider=='undefined' || provider == undefined){
+                        console.log(provider);
+                     } else{
+                        providerUuids.push(String(provider));
+                     }
+                   
+                });
+
+                if(providerUuids.length>0){
+                    queryParams.providerUuids = providerUuids
+                 }else{
+                    delete queryParams['providerUuids'];
+                 }
+                
+                
+            }
+            // format conceptUuid
+            var conceptUuids = [];
+            if (queryParams.conceptUuids) {
+                _.each(queryParams.conceptUuids.split(','), function (state) {
+                    conceptUuids.push(String(state));
+                });
+                queryParams.conceptUuids = conceptUuids;
+            }
             //
             for (let filter of whereClause) {
                 whereParams.push({

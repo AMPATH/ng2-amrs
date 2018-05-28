@@ -66,7 +66,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                                 that.generateReportQuery(that.generatedPL, that.modifiedParam)
                                     .then((sqlQuery) => {
                                         that.reportQuery = sqlQuery;
-
+                                        
                                         // run query
                                         that.executeReportQuery(that.reportQuery)
                                             .then((results) => {
