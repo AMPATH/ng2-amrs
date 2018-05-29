@@ -289,7 +289,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
     let programs = [];
     if (selectedProgram) {
-    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram.value).subscribe(
       (results) => {
         let workflows = _.get(results, 'allWorkflows');
         if (workflows.length > 0) {
@@ -318,7 +318,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this.indicatorOptions .length > 0) {
       if (this.selectedIndicatorTagsSelectedAll === false) {
         this.selectedIndicatorTagsSelectedAll = true;
-        this.selectedIndicators = _.map(this.indicatorOptions, 'value');
+        this.selectedIndicators = this.indicatorOptions;
       } else {
         this.selectedIndicatorTagsSelectedAll = false;
         this.selectedIndicators = [];
@@ -331,7 +331,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this.programOptions .length > 0) {
       if (this.selectedProgramTagsSelectedAll === false) {
         this.selectedProgramTagsSelectedAll = true;
-        this.selectedPrograms = _.map(this.programOptions, 'value');
+        this.selectedPrograms = this.programOptions;
       } else {
         this.selectedProgramTagsSelectedAll = false;
         this.selectedPrograms = [];
@@ -340,7 +340,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   public getSelectedLocations(locs: any) {
-      this.dataAnalyticsDashboardService.setSelectedLocations(locs);
+    this.dataAnalyticsDashboardService.setSelectedLocations(locs);
     }
   public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
@@ -350,7 +350,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this.programOptions .length > 0) {
       if (this.selectedStatesTagsSelectedAll === false) {
         this.selectedStatesTagsSelectedAll = true;
-        this.selectedStates = _.map(this.statesOptions, 'value');
+        this.selectedStates = this.statesOptions;
       } else {
         this.selectedStatesTagsSelectedAll = false;
         this.selectedStates = [];
@@ -382,6 +382,10 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       }
     });
     this.initialized = true;
+  }
+  public  onSelectedIndicators(v: Array<any>) {
+    this._indicators = v;
+    this.onIndicatorChange.emit(this._indicators);
   }
 
   set value(value: any) {

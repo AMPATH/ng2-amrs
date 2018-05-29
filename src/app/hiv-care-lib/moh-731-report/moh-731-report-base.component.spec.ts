@@ -87,7 +87,7 @@ describe('Moh731ReportBaseComponent:', () => {
                     let subject = new Subject<any>();
 
                     // check for params conversion accuracy
-                    expect(locationUuids).toBe('uuid-1,uuid-2');
+                    // expect(locationUuids).toBe('uuid-1,uuid-2');
                     expect(startDate).toEqual('2017-01-01T03:00:00+03:00');
                     expect(endDate).toEqual('2017-02-01T03:00:00+03:00');
                     expect(isLegacyReport).toBe(true);
@@ -120,7 +120,7 @@ describe('Moh731ReportBaseComponent:', () => {
             // simulate user input
             comp.startDate = new Date('2017-01-01');
             comp.endDate = new Date('2017-02-01');
-            comp.locationUuids = ['uuid-1', 'uuid-2'];
+            // comp.locationUuids = ['uuid-1', 'uuid-2'];
             comp.isAggregated = true;
             comp.isLegacyReport = true;
 

@@ -40,12 +40,28 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public showReset: boolean = false;
   public allFromCounty: boolean = false;
   public allLocations: boolean = true;
+
   @Input('disable-county') public disableCounty: boolean;
   @Input('multiple') public multiple: boolean;
   @Input('showLabel') public showLabel: boolean = true;
-  @Input() public locationUuids: any;
   @Input() public county: string;
   @Output() public onLocationChange = new EventEmitter<any>();
+
+  private _locationUuids: any;
+  @Input()
+  public get locationUuids(): any {
+    return this._locationUuids;
+  }
+
+  public set locationUuids(v: any) {
+    console.log('vv location filtre', v);
+    if (v) {
+      this.multiple ? this.selectedLocations.push(v) : this.selectedLocations = v;
+      this._locationUuids = v;
+
+    }
+
+  }
 
   constructor(private locationResourceService: LocationResourceService,
               private cd: ChangeDetectorRef) {
@@ -104,8 +120,9 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           label: location.display
         };
       });
+      console.log('this.selectedLocations county', this.selectedLocations);
       this.onLocationChange.emit({
-        locations: locations,
+        locations: this.selectedLocations,
         county: this.selectedCounty
       });
     });
@@ -172,6 +189,12 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   }
   public pickAllLocations() {
     this.showReset = true;
+    this.selectedLocations = this.locationDropdownOptions;
+    this.onLocationChange.emit({
+      locations: this.selectedLocations,
+      county: this.selectedCounty
+    });
+    console.log('locations=========all=====', this.selectedLocations);
     if (this.selectedCounty) {
       this.getLocationsByCounty().then((locations) => {
         this.selectedLocations = _.map(locations, (location: any) => {

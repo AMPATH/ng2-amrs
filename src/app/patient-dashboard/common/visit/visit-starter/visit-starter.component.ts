@@ -49,23 +49,16 @@ export class VisitStarterComponent implements OnInit {
   public set programEnrollmentUuid(v: string) {
     this._programEnrollmentUuid = v;
   }
+  private _selectedLocation: any;
+  public get selectedLocation(): any {
+    return this._selectedLocation;
 
-  private _selectedLocations: Array<string> = [];
-  public get selectedLocations(): Array<string> {
-    return this._selectedLocations;
   }
-  public set selectedLocations(v: Array<string>) {
-    this._selectedLocations = v;
+
+  public set selectedLocation(v: any) {
+    this._selectedLocation = v;
     this.getCurrentProgramEnrollmentConfig();
-  }
 
-  public get selectedLocation(): string {
-    return this._selectedLocations.length > 0 ? this._selectedLocations[0] : '';
-  }
-  public set selectedLocation(v: string) {
-    if (v !== this.selectedLocation) {
-      this.selectedLocations = [v];
-    }
   }
 
   public get visitTypes(): Array<any> {
@@ -95,13 +88,13 @@ export class VisitStarterComponent implements OnInit {
 
   public ngOnInit() {
     this.setUserDefaultLocation();
-    // this.getCurrentProgramEnrollmentConfig();
+   // this.getCurrentProgramEnrollmentConfig();
   }
 
   public setUserDefaultLocation() {
     let location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     if (location && location.uuid) {
-      this._selectedLocations.push(location.uuid);
+      this.selectedLocation = {value: location.uuid, label: location.display};
     }
   }
 
@@ -114,7 +107,7 @@ export class VisitStarterComponent implements OnInit {
     this.error = '';
     this.patientProgramResourceService
       .getPatientProgramVisitTypes(this.patientUuid,
-      this.programUuid, this.programEnrollmentUuid, this.selectedLocation)
+      this.programUuid, this.programEnrollmentUuid, this.selectedLocation.value)
       .subscribe(
       (progConfig) => {
         this.isBusy = false;
@@ -133,7 +126,7 @@ export class VisitStarterComponent implements OnInit {
     this.error = '';
     let payload = {
       patient: this.patientUuid,
-      location: this.selectedLocation,
+      location: this.selectedLocation.value,
       startDatetime: new Date(),
       visitType: visitTypeUuid
     };

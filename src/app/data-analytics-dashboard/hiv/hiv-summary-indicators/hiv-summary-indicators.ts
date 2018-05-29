@@ -49,6 +49,7 @@ implements OnInit {
     this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
       (data)  => {
         if (data) {
+          console.log('data.locations==data analytices', data.locations);
           this.locationUuids = data.locations;
         }
 

@@ -42,7 +42,8 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
      * If a better way can be found, please consider
      */
     let urlPieces = window.location.hash.split('/');
-    this.locationUuids = urlPieces[2];
+    let loc = {value: urlPieces[2]};
+    this.locationUuids = loc.value;
   }
 
   public ngOnInit() {
@@ -79,7 +80,8 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
       (data) => {
         if (data) {
-          this.locationUuids = data.locations;
+          console.log('data---->>viz', data);
+          this.locationUuids =  this.getSelectedLocations( data.locations);
         }
 
       });
@@ -122,5 +124,22 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
       '/general/general/landing-page']);
   }
+  private getSelectedLocations(locationUuids: Array<string>): string {
+    if (!locationUuids || locationUuids.length === 0) {
+      return '';
+    }
+
+    let selectedLocations = '';
+
+    for (let i = 0; i < locationUuids.length; i++) {
+      if (i === 0) {
+        selectedLocations = selectedLocations + (locationUuids[0] as any).value;
+      } else {
+        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+      }
+    }
+    return selectedLocations;
+  }
+
 
 }

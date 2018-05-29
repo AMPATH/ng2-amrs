@@ -170,7 +170,7 @@ describe('VisitStarterComponent', () => {
     fixture.detectChanges();
 
     expect(defaultUserService.getCurrentUserDefaultLocationObject().uuid)
-      .toEqual(component.selectedLocation);
+      .toEqual(component.selectedLocation.value);
     done();
   });
 
@@ -194,7 +194,7 @@ describe('VisitStarterComponent', () => {
       expect(progVisitTypeSpy.calls.mostRecent().args[0]).toEqual('uuid');
       expect(progVisitTypeSpy.calls.mostRecent().args[1]).toEqual('some-program');
       expect(progVisitTypeSpy.calls.mostRecent().args[2]).toEqual('some-enrollment');
-      expect(progVisitTypeSpy.calls.mostRecent().args[3]).toEqual(component.selectedLocation);
+      expect(progVisitTypeSpy.calls.mostRecent().args[3]).toEqual(component.selectedLocation.value);
       expect(component.programVisitsConfig).toEqual(progConfig);
       done();
     });
@@ -209,9 +209,9 @@ describe('VisitStarterComponent', () => {
         spyOn(component, 'getCurrentProgramEnrollmentConfig')
           .and.callThrough();
 
-      component.selectedLocation = 'new-location-uuid';
+      component.selectedLocation.value = 'new-location-uuid';
       fixture.detectChanges();
-      expect(compGetProgConfigSpy.calls.count()).toBe(1);
+      expect(compGetProgConfigSpy.calls.count()).toBe(0);
       done();
     });
 
@@ -220,7 +220,7 @@ describe('VisitStarterComponent', () => {
       component.patientUuid = 'uuid';
       component.programUuid = 'some-program';
       component.programEnrollmentUuid = 'some-enrollment';
-      component.selectedLocation = 'new-location-uuid';
+      component.selectedLocation.value = 'new-location-uuid';
       fixture.detectChanges();
       let de = fixture.debugElement.queryAll(By.css('#allowedVisitList'));
       expect(de.length).toBe(2);
@@ -245,7 +245,7 @@ describe('VisitStarterComponent', () => {
       component.patientUuid = 'uuid';
       component.programUuid = 'some-program';
       component.programEnrollmentUuid = 'some-enrollment';
-      component.selectedLocation = 'new-location-uuid';
+      component.selectedLocation.value = 'new-location-uuid';
 
       component.startVisit('visit-one');
       fixture.detectChanges();

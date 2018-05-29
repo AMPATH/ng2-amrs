@@ -108,6 +108,7 @@ export class PatientReferralBaseComponent implements OnInit {
     this.isLoadingReport = true;
 
     let filterLocation = this.getSelectedLocations(this.locationUuids);
+    console.log('filterLocation', filterLocation);
     let filterProvider = this.provider ;
     let loadSourceType = this.dataAnalyticsDashboardService.getUrlSource();
     // disable provider filter when searching for refer patients for current location
@@ -172,9 +173,9 @@ export class PatientReferralBaseComponent implements OnInit {
 
     for (let i = 0; i < programsUuids.length; i++) {
       if (i === 0) {
-        selectedPrograms = selectedPrograms + programsUuids[0];
+        selectedPrograms = selectedPrograms + programsUuids[0].value;
       } else {
-        selectedPrograms = selectedPrograms + ',' + programsUuids[i];
+        selectedPrograms = selectedPrograms + ',' + programsUuids[i].value;
       }
     }
 
@@ -190,9 +191,9 @@ export class PatientReferralBaseComponent implements OnInit {
 
     for (let i = 0; i < stateUuids.length; i++) {
       if (i === 0) {
-        selectedStates = selectedStates + stateUuids[0];
+        selectedStates = selectedStates + stateUuids[0].value;
       } else {
-        selectedStates = selectedStates + ',' + stateUuids[i];
+        selectedStates = selectedStates + ',' + stateUuids[i].value;
       }
     }
     return this.states = selectedStates;
@@ -205,13 +206,20 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   private getSelectedLocations(locationUuids: Array<string>): string {
+
     if (!locationUuids || locationUuids.length === 0) {
       return '';
     }
 
-    let selectedLocations = locationUuids.join(',');
-    this.dataAnalyticsDashboardService.setSelectedLocations(selectedLocations);
+    let selectedLocations = '';
 
+    for (let i = 0; i < locationUuids.length; i++) {
+      if (i === 0) {
+        selectedLocations = selectedLocations + (locationUuids[0] as any).value;
+      } else {
+        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+      }
+    }
     return selectedLocations;
   }
 
