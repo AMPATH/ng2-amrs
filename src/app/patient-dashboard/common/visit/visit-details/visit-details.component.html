@@ -31,31 +31,39 @@
     <visit-period [visitUuid]="visit.uuid" (editedLocation)="onVisitLocationEditted($event)" [iseditLocation]="editingLocation"></visit-period>
     <edit-visit-types [visit]="visit" [isEditVisitType]="editingVisitType" [programUuid]="programUuid" (visitTypeEdited)="onVisitTypeEditted($event)"
       [programEnrollmentUuid]="programEnrollmentUuid"></edit-visit-types>
+    <edit-retro-provider (retroVisitProviderChanged)="onVisitProviderChanged($event)" [visit]="visit" [isEditRetroProvider]="editingProvider"></edit-retro-provider>
   </div>
   <!-- </div> -->
 
   <div class="button-nav">
     <div class="add-borders ">
       <div class="btn-group blocks">
-        <a style="cursor: pointer;" *ngIf="!editingLocation" (click)="toggleEditLocation()">
-          <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
+        <ng-container *ngIf="!hideButtonNav">
+          <a style="cursor: pointer;" *ngIf="!editingLocation" (click)="toggleEditLocation()">
+            <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
 
-        <a style="cursor: pointer;" *ngIf="editingLocation" class="cancel-edit" (click)="toggleEditLocation()">
-          <i class="glyphicon glyphicon-remove"></i> Cancel Edit
-        </a>
-        <a style="cursor: pointer;" *ngIf="!editingVisitType" (click)="toggleEditVisitType()">
-          <i class="glyphicon glyphicon-edit"></i> Edit Visit Type</a>
+          <a style="cursor: pointer;" *ngIf="editingLocation" class="cancel-edit" (click)="toggleEditLocation()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Edit Location
+          </a>
+          <!--<a style="cursor: pointer;" *ngIf="!editingProvider" (click)="toggleEditVisitProvider()">
+            <i class="glyphicon glyphicon-edit"></i> Edit Provider</a>-->
 
-        <a style="cursor: pointer;" *ngIf="editingVisitType" class="cancel-edit" (click)="toggleEditVisitType()">
-          <i class="glyphicon glyphicon-remove"></i> Cancel Edit Visit Type
-        </a>
+          <!--<a style="cursor: pointer;" *ngIf="editingProvider" class="cancel-edit" (click)="toggleEditVisitProvider()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Edit Provider
+          </a>-->
+          <a style="cursor: pointer;" *ngIf="!editingVisitType" (click)="toggleEditVisitType()">
+            <i class="glyphicon glyphicon-edit"></i> Edit Visit Type</a>
+
+          <a style="cursor: pointer;" *ngIf="editingVisitType" class="cancel-edit" (click)="toggleEditVisitType()">
+            <i class="glyphicon glyphicon-remove"></i> Cancel Edit Visit Type
+          </a>
+        </ng-container>
 
         <a style="cursor: pointer;" *ngIf="!isVisitEnded" id="endVisitButton" (click)="confirmAction('end-visit')">
           <i class="glyphicon glyphicon-check"></i> End Visit</a>
 
         <a style="cursor: pointer;" id="cancelVisitButton" (click)="confirmAction('cancel-visit')">
           <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a>
-
       </div>
     </div>
   </div>

@@ -11,15 +11,12 @@ import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { DialogModule } from 'primeng/primeng';
-import { SelectModule } from 'angular2-select';
 import { CacheService } from 'ionic-cache';
 
 import { VisitStarterComponent } from './visit-starter.component';
 import { ProgramEnrollmentResourceService } from
   '../../../../openmrs-api/program-enrollment-resource.service';
 import { UserDefaultPropertiesService } from '../../../../user-default-properties/index';
-import { FakeDefaultUserPropertiesFactory } from
-  '../../formentry/mock/default-user-properties-factory.service.mock';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
 import { UserDefaultPropertiesModule } from
@@ -29,6 +26,14 @@ import { PatientDashboardModule } from '../../../patient-dashboard.module';
 import { PatientProgramResourceService } from
   '../../../../etl-api/patient-program-resource.service';
 import { TodayVisitService } from '../today-visit.service';
+import { RetrospectiveDataEntryModule
+} from '../../../../retrospective-data-entry/retrospective-data-entry.module';
+import { FakeRetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { FakeDefaultUserPropertiesFactory
+} from '../../formentry/mock/default-user-properties-factory.service.mock';
+import { RetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 class RouterStub {
   public navigateByUrl(url: string) { return url; }
@@ -123,6 +128,11 @@ describe('VisitStarterComponent', () => {
             return new FakeDefaultUserPropertiesFactory();
           }
         },
+      {
+        provide: RetrospectiveDataEntryService, useFactory: () => {
+        return new FakeRetrospectiveDataEntryService();
+      }
+      },
         {
           provide: PatientProgramResourceService, useFactory: () => {
             return fakePatientProgramResourceService;
@@ -141,9 +151,9 @@ describe('VisitStarterComponent', () => {
       imports: [
         BusyModule,
         UserDefaultPropertiesModule,
+        RetrospectiveDataEntryModule,
         DialogModule,
         FormsModule,
-        SelectModule,
         NgamrsSharedModule,
         PatientDashboardModule,
         HttpModule,
@@ -245,7 +255,7 @@ describe('VisitStarterComponent', () => {
       component.patientUuid = 'uuid';
       component.programUuid = 'some-program';
       component.programEnrollmentUuid = 'some-enrollment';
-      component.selectedLocation.value = 'new-location-uuid';
+      component.selectedLocation = {value: 'new-location-uuid'};
 
       component.startVisit('visit-one');
       fixture.detectChanges();

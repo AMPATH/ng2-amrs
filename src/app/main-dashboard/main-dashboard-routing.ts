@@ -13,6 +13,8 @@ import {
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
+import { RetrospectiveContainerComponent
+} from '../retrospective-data-entry/components/container/retrospective-container.component';
 export function patientDashboardModule() {
   return PatientDashboardModule;
 }
@@ -45,6 +47,10 @@ export const dashboardRoutes: Routes = [
       {
         path: 'user-default-properties',
         component: UserDefaultPropertiesComponent
+      },
+      {
+        path: 'retrospective-data',
+        component: RetrospectiveContainerComponent
       },
       {
         path: 'lab-order-search',

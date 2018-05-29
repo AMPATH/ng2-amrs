@@ -8,6 +8,8 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
+import { RetrospectiveDataEntryService
+} from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 export enum VisitsEvent {
   VisitsLoadingStarted,
@@ -35,25 +37,25 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
   public visitsEvents: Subject<VisitsEvent> = new Subject<VisitsEvent>();
   private isLoading = false;
-  constructor(
-    private patientProgramResourceService: PatientProgramResourceService,
-    private visitResourceService: VisitResourceService,
-    private patientService: PatientService
-  ) {
+
+  constructor(private patientProgramResourceService: PatientProgramResourceService,
+              private visitResourceService: VisitResourceService,
+              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+              private patientService: PatientService) {
     this.subscribeToPatientChanges();
   }
 
-   public activateVisitStartedMsg() {
-        this.showVisitStartedMsg = true;
-    }
+  public activateVisitStartedMsg() {
+    this.showVisitStartedMsg = true;
+  }
 
-    public hideVisitStartedMessage() {
-        this.showVisitStartedMsg = false;
-    }
+  public hideVisitStartedMessage() {
+    this.showVisitStartedMsg = false;
+  }
 
-    public getVisitStartedMsgStatus() {
-        return this.showVisitStartedMsg;
-    }
+  public getVisitStartedMsgStatus() {
+    return this.showVisitStartedMsg;
+  }
 
   public subscribeToPatientChanges() {
     this.patientService.currentlyLoadedPatient.subscribe(
@@ -154,6 +156,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   public filterVisitsByDate(visits: Array<any>, date: Date): Array<any> {
     let returnVal = [];
     returnVal = _.filter(visits, (visit) => {
+      // Don't filter out retrospective visits
       let sameDate = moment(visit.startDatetime).isSame(moment(date), 'days');
       if (sameDate) {
         return true;
@@ -195,7 +198,12 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
   public filterVisitsAndCurrentVisits(programVisitObj, visits) {
     // Filter out visits not in the program
-    let todaysVisits = this.filterVisitsByDate(visits, moment().toDate());
+    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
+    let filterVisitDate = moment();
+    if (retroSettings && retroSettings.enabled) {
+      filterVisitDate = moment(retroSettings.visitDate);
+    }
+    let todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
     let programVisits = this.filterVisitsByVisitTypes(todaysVisits,
       this.getProgramVisitTypesUuid(programVisitObj.config));
     let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
@@ -203,7 +211,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
     programVisitObj.visits = orderedVisits;
 
     if (orderedVisits.length > 0 &&
-      moment(orderedVisits[0].startDatetime).isSame(moment(), 'days')) {
+      moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
       programVisitObj.currentVisit = orderedVisits[0];
     } else {
       programVisitObj.currentVisit = null;

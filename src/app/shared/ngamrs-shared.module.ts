@@ -70,6 +70,8 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
                            router: Router, sessionStorageService: SessionStorageService) {
   return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
   }
+import { RetrospectiveDataEntryModule
+} from '../retrospective-data-entry/retrospective-data-entry.module';
 
 @NgModule({
   imports: [
@@ -108,25 +110,27 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     NgSelectModule,
     MdTabsModule,
     FormEntryModule,
+    RetrospectiveDataEntryModule,
     ConfirmDialogModule, DialogModule,
     MdSnackBarModule
   ],
   exports: [BusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
+    RetrospectiveDataEntryModule,
     PatientReferralContainerComponent, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
-    BuildVersionComponent, BusyComponent, UnenrollPatientProgramsComponent,
+    BuildVersionComponent, UnenrollPatientProgramsComponent,
     ProgramsContainerComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,
     ProgramEnrollmentComponent, FormListComponent, ReportFiltersComponent,
     PatientReferralItemComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, ToastComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,
     ProgramsContainerComponent, FormListComponent, PatientReferralContainerComponent,
     ProgramEnrollmentComponent, ReportFiltersComponent, PatientReferralItemComponent,
-    OnlineTrackerComponent, ToastComponent, BusyComponent, UnenrollPatientProgramsComponent,
-    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent,
+    OnlineTrackerComponent, ToastComponent, UnenrollPatientProgramsComponent,
+    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent
   ],
   entryComponents: [

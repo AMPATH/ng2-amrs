@@ -1,5 +1,4 @@
 import { FormsModule } from '@angular/forms';
-import { SelectModule } from 'angular2-select';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';

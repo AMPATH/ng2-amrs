@@ -7,6 +7,9 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class PatientReferralResourceService {
+  public cache;
+  private requestUrl = '';
+
   constructor(protected http: Http, protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
@@ -83,8 +86,16 @@ export class PatientReferralResourceService {
         return response.json();
       });
 
-    this.cacheService.cacheRequest(url, urlParams, request);
-    return request;
+    let key = url + '?' + urlParams.toString();
+    if (key !== this.requestUrl) {
+      // clear cache after 1 minute
+      let refreshCacheTime = 1 * 60 * 1000;
+      this.requestUrl = key;
+      this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
+    }
+
+    // this.cacheService.cacheRequest(url, urlParams, request);
+    return this.cache;
 
   }
 
@@ -105,8 +116,19 @@ export class PatientReferralResourceService {
         return response.json().result;
       });
 
-    this.cacheService.cacheRequest(url, urlParams, request);
-    return request;
+    let key = url + '?' + urlParams.toString();
+    if (key !== this.requestUrl) {
+      // clear cache after 1 minute
+      let refreshCacheTime = 1 * 60 * 1000;
+      this.requestUrl = key;
+      this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
+    }
+
+    // this.cacheService.cacheRequest(url, urlParams, request);
+    return this.cache;
+
+    /*this.cacheService.cacheRequest(url, urlParams, request);
+    return request;*/
   }
 
   public getReferralLocationByEnrollmentUuid(uuid: string) {

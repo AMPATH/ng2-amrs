@@ -92,9 +92,9 @@ body {
   }
 }
 @media (max-width: 767px) {
-  .sidebar-open .content-wrapper,
+  /*.sidebar-open .content-wrapper,
   .sidebar-open .right-side,
-  .sidebar-open .main-footer {
+  .sidebar-open .main-footer*/ {
     -webkit-transform: translate(230px, 0);
     -ms-transform: translate(230px, 0);
     -o-transform: translate(230px, 0);
@@ -644,7 +644,7 @@ a:focus {
     -o-transform: translate(0, 0);
     transform: translate(0, 0);
     width: 55px !important;
-    z-index: 850;
+    z-index: 2000;
   }
   .sidebar-mini.sidebar-collapse .sidebar-menu > li {
     position: relative;

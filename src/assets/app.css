@@ -107,9 +107,6 @@ body .icon-menu-label {
 .content-wrapper dd, user-default-properties .btn.btn-info {
   margin: 0 0 0 0;
 }
-user-default-properties .btn.btn-info {
-  margin-top: -30px;
-}
 
 .content-wrapper dd::after {
   content: '\A';
@@ -352,6 +349,7 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
 .picker-header-content span.month:hover, .picker-header-content span.year:hover {
   cursor: pointer;
 }
+
 .selected-list .c-list {
   overflow: auto !important;
   white-space: nowrap !important;
@@ -364,4 +362,15 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
 .selected-list .c-list .c-token {
   float: none !important;
   display: inline-block !important;
+}
+
+.cdk-overlay-container {
+  z-index: 1005;
+}
+.ng-select.sharp-corners .ng-select-container {
+  border-radius: 0;
+}
+
+.ng-select.sharp-corners.ng-select-single .ng-select-container {
+  height: 34px;
 }

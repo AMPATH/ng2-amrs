@@ -155,7 +155,6 @@ export class DataEntryStatisticsDailyListComponent
 
          }
 
-
         let encounterObj = {
           'location': stat.location,
           'locationUuid': stat.locationUuid,
@@ -190,7 +189,6 @@ export class DataEntryStatisticsDailyListComponent
           } else {
 
             savedEncounter.encounterTypes[stat.encounter_type] = e;
-
 
           }
           encounterMap.set(stat.location, savedEncounter);

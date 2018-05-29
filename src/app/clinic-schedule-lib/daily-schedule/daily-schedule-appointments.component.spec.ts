@@ -3,7 +3,6 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { SelectModule } from 'angular2-select';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import { MockBackend } from '@angular/http/testing';
@@ -89,7 +88,6 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
                 DialogModule,
                 CalendarModule,
                 DataListsModule,
-                SelectModule,
                 AngularMultiSelectModule,
                 NgamrsSharedModule]
         });

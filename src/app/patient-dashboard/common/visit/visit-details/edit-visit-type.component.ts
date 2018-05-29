@@ -12,12 +12,11 @@ import { VisitResourceService } from '../../../../openmrs-api/visit-resource.ser
 
 export class EditVisitTypeComponent implements OnInit {
     @Output() public visitTypeEdited = new EventEmitter();
-
     @Input() public visit: any;
     @Input() public isEditVisitType: any;
     @Input() public programUuid: any;
     @Input() public programEnrollmentUuid: any;
-    public visitType: string;
+    public visitType: any;
     public programVisitsConfig: any = {};
     public visitTypes = [];
     public saving = false;
@@ -36,7 +35,10 @@ export class EditVisitTypeComponent implements OnInit {
             (progConfig) => {
                 this.programVisitsConfig = progConfig;
                 setTimeout(() => {
-                    this.visitType = this.visit.visitType.name;
+                    this.visitType = {
+                      value: this.visit.visitType.uuid,
+                      label: this.visit.visitType.name
+                    } ;
                 });
                 this.visitTypes = this.programVisitsConfig.visitTypes.allowed.map((data, idx) => {
                     return { label: data.name, value: data.uuid };
@@ -58,7 +60,8 @@ export class EditVisitTypeComponent implements OnInit {
         });
 
     }
-    public loadedLocation(event) {
+    public onVisitTypeChanged(event) {
+      this.visitType = event;
     }
 
 }

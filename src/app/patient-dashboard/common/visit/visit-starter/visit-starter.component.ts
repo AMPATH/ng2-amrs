@@ -1,10 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import * as moment from  'moment';
+import { isEqual } from 'lodash';
+
 import { UserDefaultPropertiesService } from
   '../../../../user-default-properties/index';
 import { PatientProgramResourceService } from
   '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { TodayVisitService } from '../today-visit.service';
+import { RetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
   selector: 'app-visit-starter',
@@ -52,13 +58,11 @@ export class VisitStarterComponent implements OnInit {
   private _selectedLocation: any;
   public get selectedLocation(): any {
     return this._selectedLocation;
-
   }
 
   public set selectedLocation(v: any) {
     this._selectedLocation = v;
     this.getCurrentProgramEnrollmentConfig();
-
   }
 
   public get visitTypes(): Array<any> {
@@ -82,6 +86,7 @@ export class VisitStarterComponent implements OnInit {
   constructor(
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private patientProgramResourceService: PatientProgramResourceService,
+    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
     private visitResourceService: VisitResourceService,
     private todayVisitService: TodayVisitService
   ) { }
@@ -93,9 +98,18 @@ export class VisitStarterComponent implements OnInit {
 
   public setUserDefaultLocation() {
     let location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    if (location && location.uuid) {
-      this.selectedLocation = {value: location.uuid, label: location.display};
-    }
+    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+      if (location && location.uuid) {
+        if (retroSettings && retroSettings.enabled) {
+          this.selectedLocation = retroSettings.location;
+        } else {
+          this.selectedLocation = {
+            value: location.uuid,
+            label: location.display
+          };
+        }
+      }
+    });
   }
 
   public getCurrentProgramEnrollmentConfig() {
@@ -121,6 +135,7 @@ export class VisitStarterComponent implements OnInit {
   }
 
   public startVisit(visitTypeUuid) {
+    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
     this.startedVisit = true;
     this.isBusy = true;
     this.error = '';
@@ -130,6 +145,17 @@ export class VisitStarterComponent implements OnInit {
       startDatetime: new Date(),
       visitType: visitTypeUuid
     };
+
+    if (retroSettings && retroSettings.enabled) {
+      payload.location = retroSettings.location.value;
+      payload.startDatetime = this.setRetroDateTime(retroSettings);
+      payload['attributes'] = [
+        {
+          attributeType: '3bb41949-6596-4ff9-a54f-d3d7883a69ed',
+          value: 'true'
+        }
+      ];
+    }
 
     this.visitResourceService.saveVisit(payload).subscribe(
       (savedVisit) => {
@@ -154,6 +180,10 @@ export class VisitStarterComponent implements OnInit {
 
   public onLocationChanged(locations) {
     this.selectedLocation = locations.locations;
+  }
+
+  public setRetroDateTime(settings) {
+    return new Date(settings.visitDate + ', ' + settings.visitTime);
   }
 
 }

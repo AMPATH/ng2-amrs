@@ -112,7 +112,6 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         this.labEncouonters = result.results;
         this.labOrders = result.results;
 
-
         this.labOrders.sort((a, b) => {
           let key1 = a.dateActivated;
           let key2 = b.dateActivated;
@@ -213,7 +212,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       let clone = { sampleMessage: 'Sample collected is required' };
       this.errors.push(clone);
       this.errors = this.errors[0];
-      console.log('this.errors',this.errors);
+      console.log('this.errors', this.errors);
       return;
     }
     if (this.collectionDate === '' as any) {

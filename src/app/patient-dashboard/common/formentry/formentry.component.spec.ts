@@ -70,6 +70,12 @@ import { VisitResourceService } from '../../../openmrs-api/visit-resource.servic
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { ReferralModule } from '../../../referral-module/referral-module';
 import { PatientReferralService } from '../../../referral-module/services/patient-referral-service';
+import { RetrospectiveDataEntryModule
+} from '../../../retrospective-data-entry/retrospective-data-entry.module';
+import { FakeRetrospectiveDataEntryService
+} from '../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { RetrospectiveDataEntryService
+} from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 
 export class FakeConceptResourceService {
@@ -268,9 +274,14 @@ describe('Component: FormentryComponent', () => {
         }, deps: []
         },
         {
+          provide: RetrospectiveDataEntryService, useFactory: () => {
+          return new FakeRetrospectiveDataEntryService();
+        }
+        },
+        {
           provide: AppFeatureAnalytics, useFactory: () => {
-            return new FakeAppFeatureAnalytics();
-          }, deps: []
+          return new FakeAppFeatureAnalytics();
+        }, deps: []
         }
       ]
     });

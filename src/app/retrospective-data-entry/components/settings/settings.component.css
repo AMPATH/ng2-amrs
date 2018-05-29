@@ -1,0 +1,23 @@
+fieldset {
+  padding: .35em .625em .75em;
+  margin: 0 2px;
+  border: 1px solid silver;
+}
+
+fieldset legend {
+  display: inline-block;
+  width: auto;
+  padding: 0 10px 0 10px;
+  margin-bottom: 0;
+  border: 0;
+  border-bottom: 0;
+}
+
+.row.m-t-20 {
+  margin-top: 20px;
+}
+
+md-form-field.md-datepicker {
+  position: relative;
+}
+
