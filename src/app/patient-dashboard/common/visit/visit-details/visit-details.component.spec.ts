@@ -10,7 +10,6 @@ import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { DialogModule } from 'primeng/primeng';
-import { SelectModule } from 'angular2-select';
 import { CacheService } from 'ionic-cache';
 import { VisitDetailsComponent } from './visit-details.component';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
@@ -19,10 +18,16 @@ import { UserDefaultPropertiesModule } from
 import { NgamrsSharedModule } from '../../../../shared/ngamrs-shared.module';
 import { PatientDashboardModule } from '../../../patient-dashboard.module';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
+import { RetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 class RouterStub {
   public navigateByUrl(url: string) { return url; }
 }
+class FakeRetrospectiveDataEntryService {
+  public retroSettings: Observable<any> = Observable.of({enabled: false});
+}
+
 
 describe('VisitDetailsComponent: ', () => {
   let component: VisitDetailsComponent;
@@ -98,6 +103,11 @@ describe('VisitDetailsComponent: ', () => {
       providers: [
         { provide: Router, useClass: RouterStub },
         { provide: ActivatedRoute, useValue: {} },
+        {
+          provide: RetrospectiveDataEntryService, useFactory: () => {
+          return new FakeRetrospectiveDataEntryService();
+        }
+        },
         DataCacheService,
         CacheService
       ],
@@ -106,7 +116,6 @@ describe('VisitDetailsComponent: ', () => {
         UserDefaultPropertiesModule,
         DialogModule,
         FormsModule,
-        SelectModule,
         NgamrsSharedModule,
         PatientDashboardModule,
         HttpModule,
@@ -177,7 +186,7 @@ describe('VisitDetailsComponent: ', () => {
       'form:(uuid,name),location:ref,' +
       'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
-      'stopDatetime)';
+      'stopDatetime,attributes:(uuid,value))';
     expect(updateVisitSpy.calls.first().args[1]).toEqual({ v: expectedVisitVersion });
     expect(component.visit).toBe(visitClone);
   });

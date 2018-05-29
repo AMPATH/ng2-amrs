@@ -23,7 +23,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import { SelectModule } from 'angular2-select';
 import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
@@ -246,7 +245,7 @@ describe('MonthlyScheduleComponent', () => {
 
   beforeEach( async(() => {
     TestBed.configureTestingModule({
-      imports: [BusyModule, CalendarModule.forRoot(),  SelectModule,
+      imports: [BusyModule, CalendarModule.forRoot(),
        BrowserAnimationsModule, CacheModule, AngularMultiSelectModule ,
        FormsModule],
       declarations: [MonthlyScheduleComponent, ProgramVisitEncounterSearchComponent],

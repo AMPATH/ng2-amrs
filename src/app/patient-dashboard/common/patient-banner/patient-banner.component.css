@@ -59,7 +59,7 @@
     top: 119px;
     bottom: auto;
     width: inherit;
-    /* z-index: 10 !important; */
+    z-index: 1020;
 }
 
 .sticky .container-fluid.patient-banner-partially{

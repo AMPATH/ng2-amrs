@@ -1,0 +1,6 @@
+<div class="retrospective-banner" *ngIf="retroEnabled">
+  <retrospective-data-entry-settings (onSettingsChange)="toggleDialog($event)" [bannerMode]="true"></retrospective-data-entry-settings>
+  <p-dialog header="Retrospective Data Entry" [(visible)]="displayDialog" minHieght="300" position="center" modal="true">
+    <retrospective-data-entry-settings (onSettingsChange)="toggleDialog($event)" [modalMode]="true" [bannerMode]="false"></retrospective-data-entry-settings>
+  </p-dialog>
+</div>

@@ -10,7 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { DialogModule } from 'primeng/primeng';
-import { SelectModule } from 'angular2-select';
 import { CacheService } from 'ionic-cache';
 import { BusyModule } from 'angular2-busy';
 
@@ -40,6 +39,10 @@ import { ProgramWorkFlowResourceService
 } from '../../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../../openmrs-api/program-workflow-state-resource.service';
+import { FakeRetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { RetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 class LocationServiceMock {
   constructor() {
   }
@@ -113,6 +116,11 @@ describe('TodayVisitsComponent', () => {
           }
         },
         {
+          provide: RetrospectiveDataEntryService, useFactory: () => {
+          return new FakeRetrospectiveDataEntryService();
+        }
+        },
+        {
           provide: VisitResourceService,
           useValue: fakeVisitResourceService
         },
@@ -137,7 +145,6 @@ describe('TodayVisitsComponent', () => {
         UserDefaultPropertiesModule,
         DialogModule,
         FormsModule,
-        SelectModule,
         NgamrsSharedModule,
         PatientDashboardModule,
         HttpModule,

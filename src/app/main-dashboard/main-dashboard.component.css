@@ -267,6 +267,7 @@ a img {
   bottom: 0;
   left: 0;
   width: 100%;
+  z-index: 2000;
 }
 
 .content {
@@ -408,15 +409,6 @@ location-filter.no-padding .col-md-12 {
   }
 }
 
-@media screen and (max-width: 767px) {
-  .content-wrapper {
-    margin-left: 55px !important;
-  }
-  .fixed .main-sidebar {
-    z-index: initial;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .main-header .sidebar-toggle {
     float: none;
@@ -430,13 +422,14 @@ location-filter.no-padding .col-md-12 {
     font-size: 32px;
   }
   .sidebar-open .content-wrapper {
-    margin-left: 0 !important;
+    margin-left: 55px !important;
   }
   .skin-black-light .main-sidebar {
     top: 80px;
   }
   .skin-black-light.sidebar-open .main-sidebar {
     width: 230px;
+    z-index: 2000;
   }
   .sidebar-mini .main-header .logo {
     display: none !important;
@@ -449,10 +442,7 @@ location-filter.no-padding .col-md-12 {
   }
   .fixed .main-header {
     background: #f9fafc;
-  }
-  .sidebar-mini.sidebar-open .main-footer {
-    margin-left: -230px;
-    z-index: 999;
+    z-index: 1031;
   }
   .main-header .menu-text {
     display: inline-block;
@@ -508,7 +498,6 @@ location-filter.no-padding .col-md-12 {
 
   body .ui-dialog.ui-widget.ui-widget-content{
     width:calc(100% - 66px) !important;
-    left:60px !important;
   }
 
   app-patient-search .input-wrapper {
@@ -561,6 +550,15 @@ location-filter.no-padding .col-md-12 {
     width:50% !important;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .content-wrapper {
+    margin-left: 55px !important;
+  }
+  .fixed .main-sidebar {
+    z-index: initial;
   }
 }
 

@@ -177,7 +177,6 @@ import { PatientImagingComponent } from './imaging/patient-imaging.component';
     ButtonModule,
     DateTimePickerModule,
     ReferralModule,
-    NgSelectModule,
     AgGridModule.withComponents([
 
     ]),

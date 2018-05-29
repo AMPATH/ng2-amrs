@@ -6,6 +6,10 @@ export class FakeDefaultUserPropertiesFactory {
   }
 
   public getCurrentUserDefaultLocationObject(): any {
-    return { uuid: 'test-uuid' };
+    return { uuid: 'test-uuid', value: 'test-uuid'};
+  }
+
+  public getUserProperty() {
+    return { value: 'test-uuid' };
   }
 }

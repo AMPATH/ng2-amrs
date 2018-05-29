@@ -7,7 +7,12 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { UserDefaultPropertiesMockService } from './user-default-properties.service.mock';
-
+import { DataCacheService } from '../shared/services/data-cache.service';
+import { CacheModule, CacheService } from 'ionic-cache';
+import { FakeRetrospectiveDataEntryService
+} from '../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { RetrospectiveDataEntryService
+} from '../retrospective-data-entry/services/retrospective-data-entry.service';
 
 describe('User Default Service Unit Tests', () => {
 
@@ -26,6 +31,11 @@ describe('User Default Service Unit Tests', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         UserDefaultPropertiesMockService,
+        {
+          provide: RetrospectiveDataEntryService, useFactory: () => {
+          return new FakeRetrospectiveDataEntryService();
+        }
+        },
         AppSettingsService,
         LocalStorageService,
         SessionStorageService,
