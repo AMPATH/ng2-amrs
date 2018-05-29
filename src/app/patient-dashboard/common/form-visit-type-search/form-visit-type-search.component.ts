@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { FormListService } from '../forms/form-list.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
-import { PatientService } from '../../services/patient.service';
 
 @Component({
     selector: 'form-visit-type-search',
@@ -27,7 +26,6 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
      constructor(
      private _formListService: FormListService,
-     private _patientService: PatientService,
      private _patientProgramService: PatientProgramResourceService) {}
 
   public ngOnInit() {
