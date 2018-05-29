@@ -19,6 +19,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public programDepartments: any = [];
     public department: string;
     public selectedDepartment: string;
+    public departmentIsSelected = false;
     private payload = {
         name: '',
         phone: '',
@@ -94,6 +95,9 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     }
     public getSelectedDepartment(dep) {
       this.selectedDepartment = dep;
+      if (dep) {
+        this.departmentIsSelected = true;
+      }
     }
 
     private setErroMessage(message) {
