@@ -60,11 +60,12 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges() {
-        this.busyIndicator = {
-            busy: true,
-            'message': 'Loading Encounters..'
-        };
+
         if (this.encounters.length > 0) {
+            this.busyIndicator = {
+                busy: true,
+                'message': 'Loading Encounters..'
+            };
             this.groupEncountersByVisits(this.encounters);
         }
 
