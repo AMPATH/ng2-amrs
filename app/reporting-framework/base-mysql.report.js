@@ -52,7 +52,6 @@ export class BaseMysqlReport {
                     that.generateReportQuery(that.reportSchemas, that.params)
                         .then((sqlQuery) => {
                             that.reportQuery = sqlQuery;
-
                             // run query
                             that.executeReportQuery(that.reportQuery)
                                 .then((result) => {
