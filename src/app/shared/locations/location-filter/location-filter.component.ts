@@ -78,6 +78,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
     this.cd.detectChanges();
   }
+
   public onLocationSelected(locations: any | Array<any>) {
     this.selectedLocations = locations;
     this.getCountyByLocations().then((county) => {

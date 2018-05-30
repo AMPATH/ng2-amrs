@@ -162,6 +162,14 @@ export class PatientReferralService {
     return referral.asObservable();
   }
 
+  public updateReferalNotificationStatus(payload) {
+    return this.patientReferralResourceService.updateReferralNotificationStatus(payload);
+  }
+
+  public getReferralEncounterDetails(encounterUuid) {
+    return this.encounterResourceService.getEncounterByUuid(encounterUuid);
+  }
+
   private toOpenmrsDateFormat(dateToConvert: any): string {
     let date = moment(dateToConvert);
     if (date.isValid()) {

@@ -71,6 +71,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public diffCareReferralStatus: any = undefined;
   public transferCareForm: string = null;
   public programEncounter: string = null;
+  public referralEncounterType: string;
   public encounterLocation: any;
   private subscription: Subscription;
   private encounterUuid: string = null;
@@ -119,6 +120,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       componentRef.encounterUuid = params['encounter'];
       componentRef.transferCareForm = params['transferCareEncounter'];
       componentRef.programEncounter = params['programEncounter'];
+      componentRef.referralEncounterType = params['referralEncounterType'];
       if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
         componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
@@ -155,6 +157,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Unloaded', 'ngOnDestroy');
+    this.showReferralDialog = false;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -226,13 +229,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
         break;
       case 'transferCareformWizard':
         this.preserveFormAsDraft = false;
+        let processId = _.uniqueId('form_transfer_care_');
         if (this.transferCareService.isModal.getValue()) {
           this.router.navigate(['/patient-dashboard/patient/' +
             this.patient.uuid + '/general/general/landing-page'],
-            {queryParams: {completeEnrollment: true}});
+            {queryParams: {completeEnrollment: true, processId: processId}});
         } else {
           this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/general/programs/transfer-care/forms']);
+          this.patient.uuid + '/general/general/programs/transfer-care/forms'],
+            {queryParams: {processId: processId}});
         }
         break;
       case 'enrollmentManager':
@@ -307,6 +312,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
       encounterProvider[0].control.setValue(this.compiledSchemaWithEncounter.provider.uuid);
     }
 
+    this.autoSelectReferPatientStateIfReferring();
+
+  }
+
+  public autoSelectReferPatientStateIfReferring() {
+    let patientState = this.form.searchNodeByQuestionId('state');
+    if (patientState.length > 0 && (_.isNil(this.referralEncounterType)
+        || !_.includes(['DERMRESPONSE'], this.form.schema.encounterType.name))) {
+      // refer concept uuid
+      let referConceptUuuid = '0c5565c5-45cf-40ab-aa6d-5694aeabae18';
+      patientState[0].control.setValue(referConceptUuuid);
+    }
   }
 
   public onAbortingReferral(event) {
@@ -332,7 +349,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       referralQuestion = this.form.searchNodeByQuestionId('state');
     }
     // if question exists provide for referrals
-    if (referralQuestion.length > 0 && !_.isNull(this.programEncounter)) {
+    if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
       let answer = _.first(referralQuestion).control.value;
       if (answer) {
         let dermEncounterTypes = ['DERMATOLOGY', 'DERMATOLOGYREFERRAL', 'DERMINITIAL',
@@ -826,7 +843,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.shouldShowPatientReferralsDialog(data);
     this.referralCompleteStatus.subscribe((success) => {
 
-      /*let referralsData = this.referralsHandler.extractRequiredValues(this.form);
+      let referralsData = this.referralsHandler.extractRequiredValues(this.form);
       this.diffCareReferralStatus = undefined;
 
       if (referralsData.hasDifferentiatedCareReferal) {
@@ -860,8 +877,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else {
         // display success dialog
         this.showSuccessDialog = true;
-      }*/
-      this.showSuccessDialog = true;
+      }
+      // this.showSuccessDialog = true;
     });
   }
 

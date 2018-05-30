@@ -112,5 +112,14 @@
       [patient]="patient"
       [location]="encounterLocation"
       [programs]="referralPrograms"></patient-referral-container>
+    <h5 *ngIf="referralPrograms.length === 0">
+      <strong class="text-info">
+					<span class="fa-stack fa-lg">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+        The patient must be enrolled in the program in the current location to be able to refer
+      </strong>
+    </h5>
   </p-dialog>
 </div>

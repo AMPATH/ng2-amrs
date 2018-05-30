@@ -71,7 +71,7 @@
       <div class="input-group_">
         <div class="col-md-6 col-xs-12 col-sm-6">
           <label for="transferDate">Transfer Date:</label>
-          <input class="form-control" id="transferDate" [(ngModel)]="dateOfTransfer" type="date"/>
+          <input class="form-control" id="transferDate" [max]="maxDate" [(ngModel)]="dateOfTransfer" type="date"/>
         </div>
       </div>
     </div>

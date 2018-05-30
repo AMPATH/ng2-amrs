@@ -8,17 +8,6 @@
     <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
     <form-list [showFilter]="false" (onFormSelected)="fillForm($event)"
                [encounterTypeFilter]="encounterForms"></form-list>
-    <!--<div *ngIf="!hasForms">
-      <h5>
-        <strong class="text-info">
-          You have already filled all the above forms for this patient's program state change
-        </strong>
-      </h5>
-      <p>
-        <button class="btn btn-primary" (click)="completeProcess($event)" type="button">Finish</button>
-      </p>
-    </div>-->
-
     <div class="panel panel-danger" style="margin:2px" *ngIf="!isBusy && hasError">
       <div class="panel-heading">
         <h5>

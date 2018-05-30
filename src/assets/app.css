@@ -137,8 +137,10 @@ user-default-properties .btn.btn-info {
   white-space: pre;
 }
 
-.sharp-corners.ng-select .ng-select-container {
+.sharp-corners.ng-select.ng-select-single .ng-select-container {
   border-radius: 0;
+  height: 34px;
+  min-height: 34px;
 }
 
 pagination-controls, pagination-controls ul {
@@ -256,6 +258,10 @@ form-renderer {
   display: block;
   position: relative;
 
+}
+
+.ui-dialog .component-title {
+  margin-top: 0;
 }
 
 .dropdown-tabs a.dropdown-toggle {

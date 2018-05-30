@@ -64,7 +64,6 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
         }
 
         if (propName === 'refer' && cur === true) {
-          console.log(this.selectedState, this.selectedWorkFlowState.uuid);
           let encounter: any = _.first(this.submittedEncounter);
           let programInfo = {
             referredToLocation: this.location,
@@ -115,11 +114,11 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   public getSelectedLocation(location) {
-    this.location = location.value;
+    this.location = location.locations.value;
     // check if this patient is enrolled in this location
     if (this.patientEnrolledInSameLocation()) {
       this.setCurrentWorkflowState();
-      this.patientOnRefferal = true;
+      // this.patientOnRefferal = true;
       // this.onAborting.emit(this.program);
     }
     this.hasValidInput();
@@ -127,7 +126,8 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   public undoReferral() {
-    this.patientOnRefferal = false;
+      this.patientOnRefferal = false;
+      this._abortReferral(this.program);
   }
 
   private _completeReferral(programInfo) {
@@ -135,10 +135,14 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
       this.refer = true;
       this.enrollPatientInReferredProgram(programInfo);
     } else {
-      this.program.isReferring = false;
-      this.refer = false;
-      this.onAborting.emit(true);
+      this._abortReferral(programInfo);
     }
+  }
+
+  private _abortReferral(programInfo) {
+    this.program.isReferring = false;
+    this.refer = false;
+    this.onAborting.emit(programInfo);
   }
 
   private hasValidInput() {
@@ -154,6 +158,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   private enrollPatientInReferredProgram(programInfo) {
+    console.log('this.program', this.program);
     // 1. Enroll patient
     this.patientReferralService.enrollPatient(this.program.programUuid,
       this.patient, this.location, this.selectedWorkFlowState, '')
@@ -166,12 +171,21 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
           this.patientReferralService.saveReferralEncounter(programInfo)
             .subscribe((savedEncounter) => {
               console.log('savedEncounter', savedEncounter);
-              this.patientReferralOnSuccess = true;
-              this.program.isReferring = false;
-              this.patientOnRefferal = false;
-              this.inputError = undefined;
-              this.refer = false;
-              this.onSuccess.emit(true);
+              // 3. complete referral if its referring back
+              if (this.program.patient_referral_id) {
+                this.patientReferralService.updateReferalNotificationStatus({
+                  patient_referral_id: this.program.patient_referral_id,
+                  notificationStatus: 1
+                }).subscribe((response) => {
+                  this.handleSuccessfulReferral();
+                }, (error) => {
+                  console.log('updateReferalNotificationStatus error ====> ', error);
+                  // complete the referral anyway
+                  this.handleSuccessfulReferral();
+                });
+              } else {
+                this.handleSuccessfulReferral();
+              }
             }, (error) => {
               this.handleError(error);
             });
@@ -229,5 +243,14 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
 
   private handleError(err) {
     console.log(err);
+  }
+
+  private handleSuccessfulReferral() {
+    this.patientReferralOnSuccess = true;
+    this.program.isReferring = false;
+    this.patientOnRefferal = false;
+    this.inputError = undefined;
+    this.refer = false;
+    this.onSuccess.emit(true);
   }
 }
