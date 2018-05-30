@@ -1058,32 +1058,14 @@ module.exports = function () {
                         });
                   
             },
-            description: "Get the clinical hiv comparative overview patient",
-            notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
+            description: "Makes a referral stale once viewed or replied to",
+            notes: "Changes the notification_status from null to 1",
             tags: ['api'],
             validate: {
-                query: {
-                    indicator: Joi.string()
+                params: {
+                  patientReferralId: Joi.string()
                         .required()
-                        .description("A list of comma separated indicators"),
-                    locationUuids: Joi.string()
-                        .optional()
-                        .description("A list of comma separated location uuids"),
-                    reportName: Joi.string()
-                        .optional()
-                        .description("the name of the report you want patient list"),
-                    startDate: Joi.string()
-                        .optional()
-                        .description("The start date to filter by"),
-                    endDate: Joi.string()
-                        .optional()
-                        .description("The end date to filter by"),
-                    startIndex: Joi.number()
-                        .required()
-                        .description("The startIndex to control pagination"),
-                    limit: Joi.number()
-                        .required()
-                        .description("The offset to control pagination")
+                        .description("patientReferralId")
                 }
             }
         }
@@ -3151,6 +3133,9 @@ module.exports = function () {
         path: '/etl/fileupload',
         config: {
             auth: 'simple',
+            /*payload: {
+              maxBytes: 50
+            },*/
             handler: function (request, reply) {
                 var replyPayload = {};
                 var image = etlHelpers.decodeBase64Image(request.payload.data);

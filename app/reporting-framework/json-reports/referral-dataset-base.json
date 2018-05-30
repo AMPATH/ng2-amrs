@@ -170,6 +170,11 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "t10.uuid in  (?)",
                 "parameterName": "stateUuids"
+            },
+            {
+              "filterType": "tableColumns",
+              "conditionExpression": "t4.notification_status is null",
+              "parameterName": ""
             }
         ]
     }
