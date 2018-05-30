@@ -1,5 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { LaddaModule } from 'angular2-ladda';
@@ -64,6 +64,12 @@ import { PatientEncounterObservationsComponent
 } from '../patient-dashboard/common/patient-encounters/patient-encounter-observations.component';
 import { PrettyEncounterViewerComponent
 } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
+import { XHRBackend, RequestOptions, Http } from '@angular/http';
+import { HttpClient } from './services/http-client.service';
+export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
+                          router: Router, sessionStorageService: SessionStorageService) {
+  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
+  }
 
 @NgModule({
   imports: [
@@ -127,7 +133,11 @@ import { PrettyEncounterViewerComponent
     ToastComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
-    HivSummaryService],
+    HivSummaryService,{
+      provide: Http,
+      useFactory: httpClient,
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+    }],
 })
 export class NgamrsSharedModule {
 
