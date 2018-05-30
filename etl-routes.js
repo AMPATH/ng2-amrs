@@ -978,8 +978,66 @@ module.exports = function () {
             tags: ['api'],
             validate: {}
         }
-    }
-    ,
+    },
+        {
+            method: 'GET',
+            path: '/etl/clinical-hiv-comparative-overview/patient-list',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        role: privileges.canViewPatient
+                    },
+                    'openmrsLocationAuthorizer': {
+                        locationParameter: [{
+                            type: 'query', //can be in either query or params so you have to specify
+                            name: 'locationUuids' //name of the location parameter
+                        }]
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.reportName = 'clinical-hiv-comparative-overview-report';
+                    preRequest.resolveLocationIdsToLocationUuids(request,
+                        function () {
+                            let requestParams = Object.assign({}, request.query, request.params);
+                            let service = new hivComparativeOverviewService();
+                            service.getPatientListReport(requestParams).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                reply(error);
+                            });
+                        });
+                },
+                description: "Get the clinical hiv comparative overview patient",
+                notes: "Returns the patient list for various indicators in the clinical hiv comparative summary",
+                tags: ['api'],
+                validate: {
+                    query: {
+                        indicator: Joi.string()
+                            .required()
+                            .description("A list of comma separated indicators"),
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        reportName: Joi.string()
+                            .optional()
+                            .description("the name of the report you want patient list"),
+                        startDate: Joi.string()
+                            .optional()
+                            .description("The start date to filter by"),
+                        endDate: Joi.string()
+                            .optional()
+                            .description("The end date to filter by"),
+                        startIndex: Joi.number()
+                            .required()
+                            .description("The startIndex to control pagination"),
+                        limit: Joi.number()
+                            .required()
+                            .description("The offset to control pagination")
+                    }
+                }
+            }
+        },
         {
             method: 'POST',
             path: '/etl/patient-referral/{patientReferralId}',
