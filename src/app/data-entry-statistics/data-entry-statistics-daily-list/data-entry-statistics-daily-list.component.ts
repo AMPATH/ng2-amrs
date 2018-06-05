@@ -34,6 +34,7 @@ export class DataEntryStatisticsDailyListComponent
     onGridReady: (params) => {
         if (this.gridOptions.api) {
         this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.groupDefaultExpanded = -1;
         }
     }
   };
@@ -69,7 +70,6 @@ export class DataEntryStatisticsDailyListComponent
    // process encounter list data
 
    public processEncounterListData() {
-
     let dataEntryArray = [];
     let columnArray = [];
     let trackColumns = [];
@@ -81,16 +81,24 @@ export class DataEntryStatisticsDailyListComponent
 
     this.dataEntryEncounterColdef.push(
       {
+        headerName: 'Location',
+        field: 'location',
+        // pinned: 'left',
+        rowGroup: true,
+        hide: true
+      },
+      {
         headerName: 'Encounter Types',
-        field: 'encounterType'
+        field: 'encounter_type' // 'encounterType'
       },
       {
         headerName: 'Total',
-        field: 'rowTotals',
+        field: 'encounters_count', // 'rowTotals',
         onCellClicked: (column) => {
           let patientListParams = {
              'providerUuid': this.params.providerUuid,
-             'locationUuids': this.params.locationUuids,
+             'locationUuids': column.data.locationUuid,
+             'encounterTypeUuids': column.data.encounter_type_uuid,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
@@ -98,7 +106,7 @@ export class DataEntryStatisticsDailyListComponent
         },
         cellRenderer: (column) => {
                   if (typeof column.value === 'undefined') {
-                    return 0;
+                    return ' ';
                   }else {
                     return '<a href="javascript:void(0);" title="providercount">'
                   + column.value + '</a>';
@@ -106,9 +114,9 @@ export class DataEntryStatisticsDailyListComponent
         }
       }
     );
+    // this.gridOptions.groupDefaultExpanded = -1;
 
     _.each(dataEntryEncounters, (stat: any) => {
-
         // load the other columns based on date
         let encounterDate = Moment(stat.date).format('DD-MM-YYYY');
         let startDate = Moment(stat.date).toISOString();
@@ -119,13 +127,13 @@ export class DataEntryStatisticsDailyListComponent
               this.dataEntryEncounterColdef.push(
                 {
                   headerName: encounterDate,
-                  field: encounterDate,
+                  field: 'encounters_count', // encounterDate,
                   onCellClicked: (column) => {
                     let patientListParams = {
                        'startDate': Moment(stat.date).format('YYYY-MM-DD'),
-                       'encounterTypeUuids': column.data.encounterUuid,
+                       'encounterTypeUuids': column.data.encounter_type_uuid,
                        'endDate': Moment(stat.date).format('YYYY-MM-DD'),
-                       'locationUuids': this.params.locationUuids,
+                       'locationUuids': column.data.locationUuid,
                        'providerUuid': this.params.providerUuid,
                     };
                     this.patientListParams.emit(patientListParams);
@@ -133,7 +141,7 @@ export class DataEntryStatisticsDailyListComponent
                   cellRenderer: (column) => {
                     if (typeof column.value === 'undefined') {
 
-                       return 0;
+                       return ' ';
                      }else {
 
                       return '<a href="javascript:void(0);" title="Identifiers">'
@@ -157,7 +165,10 @@ export class DataEntryStatisticsDailyListComponent
               'encounterCount': stat.encounters_count,
 
             }
-          ]
+          ],
+          'locations': stat.locations,
+          'location': stat.location,
+          'encounterCount': stat.encounters_count,
       };
 
         let savedEncounter = encounterMap.get(encounterId);
@@ -189,10 +200,12 @@ export class DataEntryStatisticsDailyListComponent
       let colSumMap = new Map();
 
       encounterMap.forEach((encounterItem: any) => {
-           // console.log('Encounter Item', encounterItem);
            let encounterRow = {
             encounterType : encounterItem.encounterType,
             'encounterUuid': encounterItem.encounterUuid,
+             locations : encounterItem.locations,
+             location : encounterItem.location,
+             encounterCount: encounterItem.encounterCount,
             'rowTotals': 0
           };
            let rowTotal = 0;

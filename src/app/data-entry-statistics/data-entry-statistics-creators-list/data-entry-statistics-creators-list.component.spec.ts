@@ -17,7 +17,10 @@ const mockCreatorResult: any = [
     encounter_type_uuid: 'uuid1',
     encounters_count: 6,
     is_clinical_encounter: 1,
-    user_uuid: 'uuuud'
+    user_uuid: 'uuuud',
+    location:'MTRH-1',
+    locations: 1,
+    locationUuid: 'uuid',
   },
   {
     creator_id: 1,
@@ -27,7 +30,10 @@ const mockCreatorResult: any = [
     encounter_type_uuid: 'db9f6a5c-e141-49fc-ad2b-bdce3f9a6c80',
     encounters_count: 1,
     is_clinical_encounter: 0,
-    user_uuid: '5a99b536-13a9-11df-a1f1-0026b9348838'
+    user_uuid: '5a99b536-13a9-11df-a1f1-0026b9348838',
+    location:'MTRH-1',
+    locations: 1,
+    locationUuid: 'uuid',
   }
 ];
 
@@ -39,7 +45,8 @@ const mockCreatorResultRow: any = [
     BETWEENCAREVISIT: 1,
     total: 7,
     total_clinical: 6,
-    clinicalEncounters: [ 'uuid1' ]
+    clinicalEncounters: [ 'uuid1' ],
+    location:'MTRH-1',
    }
 ];
 const mockParams = {

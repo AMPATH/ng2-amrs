@@ -66,16 +66,24 @@ export class DataEntryStatisticsMonthlyListComponent
 
     this.dataEntryEncounterColdef.push(
       {
+        headerName: 'Location',
+        field: 'location',
+        // pinned: 'left',
+        rowGroup: true,
+        hide: true
+      },
+      {
         headerName: 'Encounter Types',
-        field: 'encounterType'
+        field: 'encounter_type', // 'encounterType'
       },
       {
         headerName: 'Total',
-        field: 'rowTotals',
+        field:  'encounters_count', // 'rowTotals',
         onCellClicked: (column) => {
           let patientListParams = {
              'providerUuid': this.params.providerUuid,
-             'locationUuids': this.params.locationUuids,
+             'locationUuids': column.data.locationUuid,
+             'encounterTypeUuids': column.data.encounter_type_uuid,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
@@ -83,7 +91,7 @@ export class DataEntryStatisticsMonthlyListComponent
         },
         cellRenderer: (column) => {
                   if (typeof column.value === 'undefined') {
-                    return 0;
+                    return ' ';
                   }else {
                     return '<a href="javascript:void(0);" title="providercount">'
                   + column.value + '</a>';
@@ -91,6 +99,7 @@ export class DataEntryStatisticsMonthlyListComponent
         }
       }
     );
+    // this.gridOptions.groupDefaultExpanded = -1;
 
     _.each(dataEntryEncounters, (stat: any) => {
           let encounterId = stat.encounter_type_id;
@@ -103,12 +112,12 @@ export class DataEntryStatisticsMonthlyListComponent
             this.dataEntryEncounterColdef.push(
                 {
                   headerName: month,
-                  field: month,
+                  field: 'encounters_count',
                   onCellClicked: (column) => {
                     let patientListParams = {
                        'startDate': monthStart,
-                       'encounterTypeUuids': column.data.encounterUuid,
-                       'locationUuids': this.params.locationUuids,
+                       'encounterTypeUuids': column.data.encounter_type_uuid,
+                       'locationUuids': column.data.locationUuid,
                        'providerUuid': this.params.providerUuid,
                        'endDate': monthEnd
 
@@ -118,7 +127,7 @@ export class DataEntryStatisticsMonthlyListComponent
                   cellRenderer: (column) => {
                     if (typeof column.value === 'undefined') {
 
-                       return 0;
+                       return ' ';
                      }else {
 
                       return '<a href="javascript:void(0);" title="Identifiers">'

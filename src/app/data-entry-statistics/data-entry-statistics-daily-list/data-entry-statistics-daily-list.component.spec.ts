@@ -14,14 +14,20 @@ const mockDailyResult: any = [
     encounter_type: 'ADULTINITIAL',
     encounter_type_id: 1,
     encounter_type_uuid: 'uuid',
-    encounters_count: 23
+    encounters_count: 23,
+    location:'MTRH-1',
+    locations: 1,
+    locationUuid: 'uuid',
   },
   {
     date: '2018-04-16',
     encounter_type: 'ADULTRETURN',
     encounter_type_id: '2',
     encounter_type_uuid: 'uuid2',
-    encounters_count: 1023
+    encounters_count: 1023,
+    location:'MTRH-1',
+    locations: 1,
+    locationUuid: 'uuid',
   }
 ];
 
@@ -91,7 +97,7 @@ describe('Component: Data Entry Daily List', () => {
     spyOn(comp, 'setPinnedRow').and.returnValue(true);
     comp.processEncounterListData();
     cd.detectChanges();
-    expect(comp.dataEntryRowData).toEqual(mockDailyResultRow);
+    expect(comp.dataEntryEncounters).toEqual(mockDailyResult);
     done();
   });
 
