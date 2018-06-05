@@ -35,8 +35,8 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public loading: boolean = false;
   public locationDropdownOptions: Array<any> = [];
   public countyDropdownOptions: Array<any> = [];
-  public selectedLocations: Array<any> = [];
-  public selectedCounty: string = '';
+  public selectedLocations: any | Array<any>;
+  public selectedCounty: string;
   public showReset: boolean = false;
   public allFromCounty: boolean = false;
   public allLocations: boolean = true;
@@ -47,17 +47,16 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   @Input() public county: string;
   @Output() public onLocationChange = new EventEmitter<any>();
 
-  private _locationUuids: any;
+  private _locationUuids: any | Array<any>;
   @Input()
   public get locationUuids(): any {
     return this._locationUuids;
   }
 
-  public set locationUuids(v: any) {
+  public set locationUuids(v: any | Array<any>) {
     if (v) {
-      this.multiple ? this.selectedLocations.push(v) : this.selectedLocations = v;
+      this.selectedLocations = v;
       this._locationUuids = v;
-
     }
 
   }
@@ -71,11 +70,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       this.selectedCounty = this.county;
     }
     if (this.locationUuids) {
-      if (this.multiple && _.isArray(this.locationUuids)) {
         this.selectedLocations = this.locationUuids;
-      } else {
-        this.selectedLocations = this.locationUuids;
-      }
     }
     this.resolveLocationDetails();
   }
@@ -83,25 +78,27 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
     this.cd.detectChanges();
   }
-  public onLocationSelected(locations: Array<any>) {
-    if (this.selectedCounty && this.selectedCounty !== 'N/A') {
-      this.getLocationsByCounty().then((countyLocations) => {
-        if (locations && _.isArray(locations) && locations.length < countyLocations.length) {
-          this.allFromCounty = true;
-          this.showReset = false;
-          this.allLocations = false;
-        } else if (locations && locations.length === countyLocations.length) {
-          this.allFromCounty = false;
-        }
-      });
-    } else if (locations && _.isArray(locations) && locations.length === 0) {
-      this.showReset = false;
-      this.allFromCounty = false;
-      this.allLocations = true;
-    }
+  public onLocationSelected(locations: any | Array<any>) {
     this.selectedLocations = locations;
     this.getCountyByLocations().then((county) => {
-      this.selectedCounty = county ? county : '';
+      this.selectedCounty = county ? county : 'N/A';
+      if (!_.isNil(this.selectedCounty) && this.selectedCounty !== 'N/A') {
+        this.getLocationsByCounty().then((countyLocations) => {
+          if (locations && _.isArray(locations) && locations.length < countyLocations.length) {
+            this.allFromCounty = true;
+            this.showReset = false;
+            this.allLocations = false;
+          } else if (locations && locations.length === countyLocations.length) {
+            this.allFromCounty = false;
+          }
+        });
+      } else if (locations && _.isArray(locations) && locations.length === 0) {
+
+        this.showReset = false;
+        this.allFromCounty = false;
+        this.allLocations = true;
+
+      }
       this.onLocationChange.emit({
         locations: this.selectedLocations,
         county: this.selectedCounty
@@ -172,7 +169,9 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     return new Promise((resolve) => {
       // filter the locations
       let filteredCounties = _.filter(this.locations, (location) => {
-        return _.includes(this.selectedLocations, location.uuid);
+        let mappedLocations = this.multiple ? _.map(this.selectedLocations, 'value')
+          : [this.selectedLocations.value];
+        return _.includes(mappedLocations, location.uuid);
       });
       // group them by county
       let groupedByCounty = _.groupBy(filteredCounties, 'county');
@@ -187,14 +186,9 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   }
   public pickAllLocations() {
     this.showReset = true;
-    this.selectedLocations = this.locationDropdownOptions;
-    this.onLocationChange.emit({
-      locations: this.selectedLocations,
-      county: this.selectedCounty
-    });
-    console.log('locations=========all=====', this.selectedLocations);
     if (this.selectedCounty) {
       this.getLocationsByCounty().then((locations) => {
+        this.allFromCounty = false;
         this.selectedLocations = _.map(locations, (location: any) => {
           return {
             value: location.uuid,
@@ -202,10 +196,15 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           };
         });
       });
+
     } else {
       this.allLocations = false;
       this.selectedLocations = this.locationDropdownOptions;
     }
+    this.onLocationChange.emit({
+      locations: this.selectedLocations,
+      county: this.selectedCounty
+    });
   }
   public resetLocations() {
     this.showReset = false;

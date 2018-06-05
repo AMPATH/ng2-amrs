@@ -162,15 +162,19 @@ describe('Component: Location Filter Component', () => {
   }));
 
   it('should set county when an array of locations is given', fakeAsync(() => {
-    component.locationUuids = ['123', '456'];
+    component.locationUuids = [
+      {value: '123', label: 'MTRH Module 1'},
+      {value: '456', label: 'MTRH Module 2'}
+    ];
+    component.multiple = true;
     component.ngOnInit();
     tick();
     fixture.detectChanges();
     expect(component.selectedCounty).toEqual('Uasin Gishu');
   }));
 
-  it('should set county when a coma separated string of locations is given', fakeAsync(() => {
-    component.locationUuids = '123,456';
+  it('should set county when an object of location is given', fakeAsync(() => {
+    component.locationUuids = {value: '123', label: 'MTRH Module 1'};
     component.ngOnInit();
     tick();
     fixture.detectChanges();
@@ -179,11 +183,14 @@ describe('Component: Location Filter Component', () => {
 
   it('should NOT set county when locations from different counties are given', fakeAsync(() => {
     // 123 = Uasin Gishu && 789 = Nandi
-    component.locationUuids = '123,789';
+    component.locationUuids = [
+      {value: '123', label: 'MTRH Module 1'},
+      {value: '789', label: 'Mosoriot'}
+    ];
     component.ngOnInit();
     tick();
     fixture.detectChanges();
-    expect(component.selectedCounty).toEqual('');
+    expect(component.selectedCounty).toEqual('N/A');
   }));
 
 });

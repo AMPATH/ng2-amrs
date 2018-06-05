@@ -11,21 +11,20 @@
       <div class="input-group-addon">
         <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
         <span *ngIf="!loading" class="glyphicon glyphicon-map-marker"></span>
-        <sup><span style="font-size: 12px; font-weight: bold; color:#428bca;">{{selectedLocations.length}}</span></sup>
+        <sup *ngIf="selectedLocations && multiple"><span style="font-size: 12px; font-weight: bold; color:#428bca;">{{selectedLocations.length}}</span></sup>
       </div>
       <ng-select class="sharp-corners" [multiple]="multiple" id="location-filter" (change)="onLocationSelected($event)"
                  [placeholder]="'Select a location...'"
                  [(ngModel)]="selectedLocations" [items]="locationDropdownOptions">
       </ng-select>
       <div class="input-group-addon">
-        <div>
-          <span style="cursor: pointer;" *ngIf="showReset" class="glyphicon glyphicon-trash"></span>
-          <span style="cursor: pointer;" *ngIf="!showReset || allFromCounty" class="glyphicon glyphicon-pushpin"></span>
-          <span style="cursor: pointer;" *ngIf="allLocations && (!disableCounty || multiple)" (click)="pickAllLocations()">Select all</span>
-          <span style="cursor: pointer;" *ngIf="allFromCounty && !disableCounty" (click)="pickAllLocations()">Select all from this county</span>
-          <span style="cursor: pointer;" *ngIf="showReset  && (!disableCounty || multiple)" (click)="resetLocations()">Select None</span>
-        </div>
-
+               <div>
+                  <span  style="cursor: pointer;" *ngIf="showReset" class="glyphicon glyphicon-trash"></span>
+                  <span  style="cursor: pointer;" *ngIf="!showReset" class="glyphicon glyphicon-pushpin"></span>
+                  <span  style="cursor: pointer;" *ngIf="allLocations" (click)="pickAllLocations()" >Select all</span>
+                 <span  style="cursor: pointer;"  *ngIf="allFromCounty" (click)="pickAllLocations()" >Select all from this county</span>
+                  <span  style="cursor: pointer;" *ngIf="showReset" (click)="resetLocations()">Select None</span>
+                </div>
       </div>
     </div>
   </div>

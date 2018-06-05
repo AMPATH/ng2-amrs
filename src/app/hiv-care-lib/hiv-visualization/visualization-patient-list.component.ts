@@ -141,5 +141,4 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     return selectedLocations;
   }
 
-
 }
