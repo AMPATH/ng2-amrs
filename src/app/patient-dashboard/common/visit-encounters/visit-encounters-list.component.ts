@@ -191,7 +191,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
                 'time': '',
                 'form': form,
                 'encounterType': encounterType,
-                'location': '',
+                'location': location, // added location to display under  visit encounter
                 'provider': provider,
                 'visit': '',
                 'encounter': encounterType,
