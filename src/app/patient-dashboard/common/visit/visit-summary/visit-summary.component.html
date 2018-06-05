@@ -1,7 +1,7 @@
 <div class="list-group">
   <div id="VisitSummaryList" style="margin-bottom: 4px;" *ngFor="let visitSummaryDetails of visitSummaryDetails">
 
-    <a id="visitSummary" style="width:100%; text-align: left; font-size: 16px;" (click)="viewVisitDetails(visitSummaryDetails )"
+    <a id="visitSummary" style="width:100%; text-align: left; font-size: 16px; color: red" (click)="viewVisitDetails(visitSummaryDetails )"
     class="btn btn-default btn-lg"
       [ngStyle]="{'border-left': visitSummaryDetails.stopDatetime ===null?'5px solid #80D651':'5px solid skyblue'}">
 

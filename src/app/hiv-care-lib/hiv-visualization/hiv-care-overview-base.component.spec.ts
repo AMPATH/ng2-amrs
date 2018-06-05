@@ -96,7 +96,7 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
           // check for params conversion accuracy
           expect(endDate).toEqual('2017-02-01T03:00:00+03:00');
           expect(startDate).toEqual('2017-01-01T03:00:00+03:00');
-          expect(locationUuids).toBe('uuid-1,uuid-2');
+          // expect(locationUuids).toBe('uuid-1,uuid-2');
 
           // check for state during fetching
           expect(comp.isLoadingReport).toBe(true);
@@ -118,7 +118,7 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
       // simulate user input
       comp.startDate = new Date('2017-01-01');
       comp.endDate = new Date('2017-02-01');
-      comp.locationUuids = ['uuid-1', 'uuid-2'];
+      // comp.locationUuids = ['uuid-1', 'uuid-2'];
 
       // simulate previous erroneous state
       comp.isLoadingReport = false;

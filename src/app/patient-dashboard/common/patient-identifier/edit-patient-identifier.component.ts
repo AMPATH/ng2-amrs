@@ -92,7 +92,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.preferredIdentifier = preferredIdentifier;
   }
   public seIdentifierLocation(location) {
-    this.identifierLocation = location;
+    this.identifierLocation = location.value;
     this.invalidLocationCheck = '';
   }
 
@@ -108,10 +108,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.identifierType = identifierType;
     let id = this.getCurrentIdentifierByType(this.patientIdentifiers, identifierType);
     if ( id ) {
+      let loc = {value: (id as any).location.uuid, label: (id as any).location.name};
       this.patientIdentifier = (id as any).identifier;
       this.patientIdentifierUuid = (id as any).uuid;
       this.preferredIdentifier = (id as any).preferred;
-      this.selectedDevice = (id as any).location.uuid;
+      this.selectedDevice = loc;
     }else {
       this.patientIdentifier = '';
       this.patientIdentifierUuid = '';

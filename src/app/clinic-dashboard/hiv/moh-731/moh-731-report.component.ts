@@ -25,8 +25,10 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     public ngOnInit() {
 
         this.route.parent.parent.url.subscribe((url) => {
-            this.locationUuids = [];
-            this.locationUuids.push(url[0].path);
+          let data = {};
+          data['value'] = url[0].path;
+          this.locationUuids = [];
+          this.locationUuids.push(data as any);
         });
         this.loadReportParamsFromUrl();
     }

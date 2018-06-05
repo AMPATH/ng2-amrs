@@ -129,9 +129,9 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     if (selectedIndicator) {
       for (let i = 0; i < selectedIndicator.length; i++) {
         if (i === 0) {
-          indicators = '' + selectedIndicator[i];
+          indicators = '' + selectedIndicator[i].value;
         } else {
-          indicators = indicators + ',' + selectedIndicator[i];
+          indicators = indicators + ',' + selectedIndicator[i].value;
         }
       }
     }
@@ -151,9 +151,9 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
 
     for (let i = 0; i < locationUuids.length; i++) {
       if (i === 0) {
-        selectedLocations = selectedLocations + locationUuids[0];
+        selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + locationUuids[i];
+        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;

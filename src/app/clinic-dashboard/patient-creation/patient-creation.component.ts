@@ -310,7 +310,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public setIdentifierLocation(location) {
-    this.identifierLocation = location;
+    this.identifierLocation = location.value;
   }
 
   public setPatientIdentifier(commonIdentifier) {

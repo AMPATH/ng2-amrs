@@ -38,7 +38,9 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     this.route.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
       if (params.location_uuid) {
-        this.locationUuids.push(params.location_uuid);
+        let data = {};
+        data['value'] = params.location_uuid;
+        this.locationUuids.push(data as any);
       }
     });
     this.loadReportParamsFromUrl();

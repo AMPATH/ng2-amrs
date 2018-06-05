@@ -105,9 +105,9 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
 
     for (let i = 0; i < locationUuids.length; i++) {
       if (i === 0) {
-        selectedLocations = selectedLocations + locationUuids[0];
+        selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + locationUuids[i];
+        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;

@@ -66,9 +66,9 @@ export class ClinicDashboardComponent implements OnInit {
   }
 
   public locationChanged($event) {
-    if ($event && $event !== this.locationUuid) {
+    if ($event && $event.value !== this.locationUuid) {
       let splitUrl = this.router.routerState.snapshot.url.split('/');
-      splitUrl[2] = $event;
+      splitUrl[2] = $event.value;
       this.clinicDashboardCacheService.clear();
       this.router.navigateByUrl(splitUrl.join('/'));
     }
