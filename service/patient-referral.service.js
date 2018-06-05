@@ -12,8 +12,14 @@ import {
     PatientReferralAggregateService
 } from './patient-referral-aggregate.service'
 export class PatientReferralService {
+
   
     getAggregateReport(reportParams) {
+
+        reportParams.stateUuids = reportParams.stateUuids.replace(/,/g,"','");
+        reportParams.locationUuids = reportParams.locationUuids.replace(/,/g,"','");
+        reportParams.programUuids = reportParams.programUuids.replace(/,/g,"','");
+
         let self = this;
         return new Promise(function (resolve, reject) {
             reportParams.groupBy = 'groupByLocation,groupByProgram,groupByState';
@@ -48,7 +54,6 @@ export class PatientReferralService {
         let self = this;
         return new Promise(function (resolve, reject) {
             reportParams.groupBy = 'groupByPerson';
-
             let report = new PatientlistMysqlReport('referralAggregate',reportParams);
             Promise.join(report.generatePatientListReport([]),
                 (results) => {
