@@ -2178,6 +2178,14 @@
           {
             "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
             "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "9150f9e5-d284-45e0-9702-faf8d2bcd1f9",
+            "display": "DERMRETURN"
+          },
+          {
+            "uuid": "fa49ec8b-1f19-41b2-ade2-e31ae291196b",
+            "display": "DERMINITIAL"
           }
 
         ]
