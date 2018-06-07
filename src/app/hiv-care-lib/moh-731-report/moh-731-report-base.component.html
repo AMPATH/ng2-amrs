@@ -22,20 +22,12 @@
 <div *ngIf="!isLoadingReport && !encounteredError">
     <p-tabView (onChange)="onTabChanged($event)">
         <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
-            <moh-731-pdf #mohPdf [startDate]="startDate" [endDate]="endDate" [data]="data" [sectionsDef]="sectionsDef"></moh-731-pdf>
+            <moh-731-pdf #mohPdf [selectedLocations]="locationUuids" [isAggregated]="isAggregated" [startDate]="startDate" [endDate]="endDate" [data]="data" [sectionsDef]="sectionsDef"></moh-731-pdf>
         </p-tabPanel>
         <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
           <button class="btn btn-primary" (click)="toggleMohTables()" *ngIf="!showTabularView">Go back to tabular view</button>
           <div class="loader" *ngIf="showPatientListLoader">Loading patient list....</div>
              <moh-731-tabular [hidden]="!showTabularView" [sectionDefs]="sectionsDef" (indicatorSelected)="onIndicatorSelected($event)" [rowData]="data"></moh-731-tabular>
-              <moh-731-patientlist *ngIf="currentIndicator.length > 0" [hidden]="!showPatientList"
-                (onLoadComplete)="onLoadCompleted($event)"
-                [startDate]="startDate"
-                [endDate]="endDate"
-                [locations]="patientListLocationUuids"
-                [indicator]="currentIndicator"
-                [isLegacy]="isLegacyReport"
-              ></moh-731-patientlist>
         </p-tabPanel>
     </p-tabView>
 

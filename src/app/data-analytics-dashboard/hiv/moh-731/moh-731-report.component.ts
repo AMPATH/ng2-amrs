@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import * as rison from 'rison-node';
 
 import { Moh731ReportBaseComponent }
     from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
@@ -16,25 +17,61 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     public sectionsDef = [];
 
     constructor(public moh731Resource: Moh731ResourceService,
-                private route: ActivatedRoute, private location: Location,
-                private router: Router) {
-        super(moh731Resource);
+                public route: ActivatedRoute, private location: Location,
+                public router: Router) {
+        super(moh731Resource, route , router);
 
         this.showIsAggregateControl = true;
         this.showLocationsControl = true;
     }
 
     public ngOnInit() {
-        // this.loadReportParamsFromUrl();
+        this.loadReportParamsFromUrl();
     }
 
     public generateReport() {
-        // this.storeReportParamsInUrl();
+        this.storeReportParamsInUrl();
 
         if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
             super.generateReport();
         } else {
             this.errorMessage = 'Locations are required!';
+        }
+    }
+
+    public storeReportParamsInUrl() {
+        let state = {
+            startDate: this.startDate.toUTCString(),
+            endDate: this.endDate.toUTCString(),
+            isLegacy: this.isLegacyReport,
+            view: this.currentView,
+            isAggregated: this.isAggregated,
+            locations: this.locationUuids
+        };
+        let stateUrl = rison.encode(state);
+        let path = this.router.parseUrl(this.location.path());
+        path.queryParams = {
+            'state': stateUrl
+        };
+
+        this.location.replaceState(path.toString());
+    }
+
+    public loadReportParamsFromUrl() {
+        let path = this.router.parseUrl(this.location.path());
+
+        if (path.queryParams['state']) {
+            let state = rison.decode(path.queryParams['state']);
+            this.startDate = new Date(state.startDate);
+            this.endDate = new Date(state.endDate);
+            this.isLegacyReport = state.isLegacy;
+            this.currentView = state.view;
+            this.isAggregated = state.isAggregated;
+            this.locationUuids = state.locations;
+        }
+
+        if (path.queryParams['state']) {
+            this.generateReport();
         }
     }
 

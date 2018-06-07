@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute , Params } from '@angular/router';
 // import { Observable, Subject } from 'rxjs/Rx';
 
 import * as Moment from 'moment';
+import * as _ from 'lodash';
 
 import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
 
@@ -46,22 +48,27 @@ export class Moh731ReportBaseComponent implements OnInit {
     this._endDate = v;
   }
 
-  private _locationUuids: Array<string> = [];
+  private _locationUuids: any = [];
   public get locationUuids(): Array<string> {
     return this._locationUuids;
   }
 
   public set locationUuids(v: Array<string>) {
-    // console.log('Received locations', v);
-    this._locationUuids = v;
+    let locationUuids = [];
+    _.each( v , (location: any) => {
+        if (location.value) {
+           locationUuids.push(location);
+        }
+    });
+    this._locationUuids = locationUuids;
   }
 
   private _patientListLocationUuids: Array<string> = [];
-  public get patientListLocationUuids(): Array<string> {
+  public get patientListLocationUuids(): any {
     return this._patientListLocationUuids;
   }
 
-  public set patientListLocationUuids(v: Array<string>) {
+  public set patientListLocationUuids(v: any) {
     this._patientListLocationUuids = v;
   }
 
@@ -82,7 +89,10 @@ export class Moh731ReportBaseComponent implements OnInit {
     this._isAggregated = v;
   }
 
-  constructor(public moh731Resource: Moh731ResourceService) {
+  constructor(
+    public moh731Resource: Moh731ResourceService,
+    public route: ActivatedRoute,
+    public router: Router) {
   }
 
   public ngOnInit() {
@@ -112,14 +122,15 @@ export class Moh731ReportBaseComponent implements OnInit {
           });
   }
 
-  public onIndicatorSelected(indicator) {
+  public onIndicatorSelected(indicator: any) {
     this.currentIndicator = '';
-    this.patientListLocationUuids = [];
     setTimeout(() => {
       if (this.isAggregated) {
         this.patientListLocationUuids = this._locationUuids;
       } else {
-        this.patientListLocationUuids = [indicator.location];
+        this.patientListLocationUuids = [{
+          value: indicator.location
+        }];
       }
       this.currentIndicator = indicator.indicator;
       this.goToPatientList();
@@ -133,8 +144,20 @@ export class Moh731ReportBaseComponent implements OnInit {
       this.patientListLocationUuids.length > 0 && this.currentIndicator) {
       this.showTabularView = false;
       this.showPatientListLoader = true;
+      let params = {
+        startDate: this.toDateString(this.startDate),
+        endDate: this.toDateString(this.endDate),
+        locations: this.getSelectedLocations(this.patientListLocationUuids),
+        indicators: this.currentIndicator,
+        isLegacy: this.isLegacyReport
+      };
       // console.log('loading pl for', this.patientListLocationUuids);
       // console.log('loading pl for', this.currentIndicator);
+      this.router.navigate(['patient-list']
+        , {
+           relativeTo: this.route,
+          queryParams: params
+       });
     }
   }
 
@@ -165,7 +188,7 @@ export class Moh731ReportBaseComponent implements OnInit {
     }
   }
 
-  private getSelectedLocations(locationUuids: Array<string>): string {
+  private getSelectedLocations(locationUuids: any): string {
     if (!locationUuids || locationUuids.length === 0) {
       return '';
     }

@@ -79,8 +79,7 @@ export class Moh731TabularComponent implements OnInit {
                     indicator: e.colDef.field,
                     value: e.value,
                     location: e.data.location_uuid
-                };
-                // console.log('selected', selectedIndicator);
+            };
                 this.indicatorSelected.emit(selectedIndicator);
             }
         };

@@ -18,17 +18,26 @@ import { EtlApi } from '../../etl-api/etl-api.module';
 import { Moh731PatientListResourceService
 } from '../../etl-api/moh-731-patientlist-resource.service';
 
+const mockParams: any = {
+  startDate: '2018-05-01',
+  endDate: '2018-05-31',
+  locations: 'uuid1',
+  indicators: 'arv_first_regimen_start_date',
+  isLegacy: 'true'
+
+};
+
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+  public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{'id': 1}]);
-  data = Observable.of({'moh731Params': 1});
+  public params = Observable.of(mockParams);
+  public data = Observable.of({'moh731Params': 1});
 }
 
 class FakeMoh731PatientListResourceService {
 
-  getMoh731PatientListReport(params): Observable<any> {
+  public getMoh731PatientListReport(params): Observable<any> {
     return Observable.of({
       a: 'b'
     });
@@ -52,6 +61,8 @@ const indicators = [
 describe('Component: Moh731PatientListComponent', () => {
   let currentTestComponent: Moh731PatientListComponent;
   let currentTestFixture;
+  let route;
+  let router;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -82,6 +93,8 @@ describe('Component: Moh731PatientListComponent', () => {
     }).compileComponents().then(() => {
       currentTestFixture = TestBed.createComponent(Moh731PatientListComponent);
       currentTestComponent = currentTestFixture.componentInstance;
+      route =  currentTestFixture.debugElement.injector.get(Router);
+      router =  currentTestFixture.debugElement.injector.get(ActivatedRoute);
     });
 
   }));
@@ -106,7 +119,7 @@ describe('Component: Moh731PatientListComponent', () => {
       let inCare = h4strong[0].nativeElement;
       let locations = h4strong[1].nativeElement;
       let startDate = h4strong[2].nativeElement;
-      let endDate = h4strong[3].nativeElement;
+      let endDate = h4strong[2].nativeElement;
       expect(h4strong.length).toBe(4);
       expect(inCare.textContent).toContain('Currently in care total');
       expect(locations.textContent).toContain('MTRH Module 1, MTRH Module 2');
