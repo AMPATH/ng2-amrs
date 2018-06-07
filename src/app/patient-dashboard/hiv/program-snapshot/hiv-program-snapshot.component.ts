@@ -22,6 +22,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public hasLoadedData: boolean = false;
   public isVirallyUnsuppressed: boolean = false;
   public patientCareStatus: any;
+  public lastVlDate: any;
   @Output() public addBackground = new EventEmitter();
   public location: any = {};
   public backgroundColor: any = {
@@ -54,7 +55,7 @@ export class HivProgramSnapshotComponent implements OnInit {
         if (results[0]) {
            this.patientCareStatus = results[0].patient_care_status;
          }
-
+        this.lastVlDate = this.getLastVlDate(results);
         this.patientData = _.first(_.filter(results, (encounter: any) => {
           return encounter.is_clinical_encounter === 1;
         }));
@@ -122,4 +123,11 @@ export class HivProgramSnapshotComponent implements OnInit {
     return text.replace(/\w\S*/g, (txt) => {return txt.charAt(0).toUpperCase() +
       txt.substr(1).toLowerCase(); });
   }
+
+  private getLastVlDate(a) {
+    let notNullDefault = _.reject(a, ['vl_1_date', null]);
+    return new Date(Math.max.apply(null, notNullDefault.map((e) => {
+     return new Date(e.vl_1_date);
+   })));
+   }
 }
