@@ -5,6 +5,8 @@
         "regimenDataSetAggregate",
         "retentionDataSetAggregate",
         "mainDatasetAggregateNoDisaggregation",
-        "pepDatasetAggregate"
+        "pepDatasetAggregate",
+        "everOnARTAggregate",
+        "everOnARTDisaggregation"
     ]
 }

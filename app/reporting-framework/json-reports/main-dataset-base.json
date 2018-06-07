@@ -137,14 +137,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when arv_first_regimen_start_date IS NOT NULL AND transfer_in_date IS NULL then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "current_in_care",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -180,7 +172,7 @@
             "alias": "started_art_and_has_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id AND tb_screened_this_month = 1,1,null)"
+                "expression": "if(started_art_this_month=1 AND started_tb_tx_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id,1,null)"
             }
         },
         {
@@ -204,7 +196,7 @@
             "alias": "current_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when status='active' and on_art_this_month=1 then 1 else null end"
+                "expression": "case when on_art_this_month=1 then 1 else null end"
             }
         },
         {

@@ -255,22 +255,22 @@
          {
             "label": "Ever on ART - Below 15yrs(M)",
             "ref": "HV03-40",
-            "indicator": "dc__gender__M__age_range__below_15_years__ever_on_art"
+            "indicator": "dc__gender__M__age_range__below_15__ever_on_art"
          },
          {
             "label": "Ever on ART - Below 15yrs(F)",
             "ref": "HV03-41",
-            "indicator": "dc__gender__F__age_range__below_15_years__ever_on_art"
+            "indicator": "dc__gender__F__age_range__below_15__ever_on_art"
          },
          {
             "label": "Ever on ART - 15yrs & older(M)",
             "ref": "HV03-42",
-            "indicator": "dc__gender__M__age_range__older_than_15__ever_on_art"
+            "indicator": "dc__gender__M__age_range__15_and_above__ever_on_art"
          },
          {
             "label": "Ever on ART - 15yrs & older(F)",
             "ref": "HV03-43",
-            "indicator": "dc__gender__F__age_range__older_than_15__ever_on_art"
+            "indicator": "dc__gender__F__age_range__15_and_above__ever_on_art"
          },
          {
             "label": "Total Ever on ART (Sum HV03-40 to HV03-43)",

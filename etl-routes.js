@@ -267,7 +267,6 @@ module.exports = function () {
             },
             handler: function (request, reply) {
                 if (request.query.locationUuids) {
-                    console.log('Request', request.query);
                     resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                         .then((resolve) => {
                             let encounterIds = resolve.encounterTypeIds;
@@ -277,7 +276,6 @@ module.exports = function () {
                             request.query.visitTypeIds = visitTypeIds;
                             request.query.programTypeIds = programTypeIds;
                             let reportParams = etlHelpers.getReportParams('name', ['startDate', 'endDate', 'encounterIds', 'visitTypeIds', 'programTypeIds', 'locationUuids'], request.query);
-                            console.log('Monthly report params', reportParams);
                             let service = new MonthlyScheduleService();
                             service.getMonthlyScheduled(reportParams).then((result) => {
                                 reply(result);

@@ -27,6 +27,9 @@ import * as retention_dataset_base from './json-reports/retention-dataset-base.j
 import * as pep_dataset_aggregate from './json-reports/pep-dataset-aggregate.json';
 import * as pep_dataset_base from './json-reports/pep-dataset-base.json';
 import * as patient_list_template from './json-reports/patient-list-template.json';
+import * as ever_on_art_aggregate from './json-reports/ever-on-art-aggregate.json';
+import * as ever_on_art_disaggregation from './json-reports/ever-on-art-disaggregation.json';
+import * as ever_on_art_base from './json-reports/ever-on-art-base.json';
 import * as referral_patient_list_template from './json-reports/referral-patient-list-template.json';
 import * as referral_dataset_base from './json-reports/referral-dataset-base.json';
 import * as referral_aggregate from './json-reports/referral-aggregate.json';
@@ -153,6 +156,18 @@ export class BaseMysqlReport {
                         pepDataSetbase: pep_dataset_base
                     });
                     break;
+                case 'everOnARTAggregate':
+                    resolve({
+                        main: ever_on_art_aggregate,
+                        everOnARTBase: ever_on_art_base
+                    });
+                    break;
+                case 'everOnARTDisaggregation':
+                    resolve({
+                        main: ever_on_art_disaggregation,
+                        everOnARTBase: ever_on_art_base
+                    })
+                    break;
                 case 'referral-patient-list-template':
                     resolve({
                         main: referral_patient_list_template
@@ -185,7 +200,7 @@ export class BaseMysqlReport {
             }
         });
     }
-    
+
 
     getJson2Sql(reportSchemas, params) {
         return new Json2Sql(reportSchemas.main, reportSchemas, params);
