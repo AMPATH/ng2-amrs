@@ -92,14 +92,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.ever_on_art)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "started_art_and_has_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {

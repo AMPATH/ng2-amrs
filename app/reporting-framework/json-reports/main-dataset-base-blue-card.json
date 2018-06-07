@@ -153,14 +153,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when arv_first_regimen_start_date IS NOT NULL AND transfer_in_date IS NULL then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "on_ctx_prophylaxis",
             "expressionType": "simple_expression",
             "expressionOptions": {

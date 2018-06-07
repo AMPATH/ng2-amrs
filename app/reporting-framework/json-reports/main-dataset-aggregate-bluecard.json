@@ -95,14 +95,6 @@
             "expressionOptions": {
                 "expression": "count(hmsd.art_revisit_this_month)"
             }
-        },
-        {
-            "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.ever_on_art)"
-            }
         }
         , {
             "type": "derived_column",
