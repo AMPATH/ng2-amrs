@@ -106,7 +106,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
       let id = indicator;
 
       let data = {
-        value: id,
+        value: id, // indicator
         label: text
       };
       this.selectedIndicators.push(data.value);

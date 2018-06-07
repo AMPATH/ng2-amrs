@@ -115,10 +115,10 @@ implements OnInit {
       let id = indicator;
 
       let data = {
-        id: id,
-        text: text
+        value: id,
+        label: text
       };
-      this.selectedIndicators.push(data);
+      this.selectedIndicators.push(data.value);
     });
   }
 
