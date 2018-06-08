@@ -7,6 +7,7 @@ import { USER_DEFAULT_PROPERTIES_ROUTE } from './user-default-properties.routes'
 import { UtilsModule } from '../utils/utils.module';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
+import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { UserDefaultPropertiesService } from './user-default-properties.service'
   ],
   declarations: [UserDefaultPropertiesComponent],
   providers: [
-    UserDefaultPropertiesService
+    UserDefaultPropertiesService,
+    DepartmentProgramsConfigService
   ],
   exports: [
     RouterModule

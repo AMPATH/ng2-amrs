@@ -51,7 +51,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   @Input() public county: string;
   @Output() public onLocationChange = new EventEmitter<any>();
 
-  private _locationUuids: any | Array<any>;
+  public _locationUuids: any;
   @Input()
   public get locationUuids(): any {
     return this._locationUuids;

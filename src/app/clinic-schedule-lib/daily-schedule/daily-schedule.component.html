@@ -1,0 +1,34 @@
+<h4 class="component-title" style="color: green;"><span class="fa fa-calendar-o"></span> Daily Schedule</h4>
+<div style="margin-bottom:0.5cm;">
+  <!-- <div [ngBusy]="{busy:loadingData,message:'Please Wait...'}"></div> -->
+  <program-visit-encounter-search (filterSelected) ="filterSelected($event)"></program-visit-encounter-search>
+  <hr>
+  <div class="row" id="daily-schedule-row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3">
+          <button class="btn btn-info previous" style="margin: 0px; float: left;" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <date-time-picker tabindex="0" [modelValue]="changeDate" [id]="'changeDate'" (onDateChange)="getSelectedDate($event)"></date-time-picker>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3">
+          <button class="btn btn-info next" style="margin: 0px; float: right;" (click)="navigateDay(1)"><span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span> <span class="glyphicon glyphicon-chevron-right"></span></button>
+        </div>
+      </div>
+      <hr>
+      <nav md-tab-nav-bar aria-label="weather navigation links">
+        <a md-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
+          (click)="activeLinkIndex = i">
+            {{tabLink.label}}
+        </a>
+      </nav>
+      <router-outlet></router-outlet>
+    </div>
+    <div *ngIf='errors.length>0'>
+      <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+      </div>
+    </div>
+  </div>
+</div>

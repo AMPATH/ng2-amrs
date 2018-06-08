@@ -85,7 +85,6 @@ describe('Component: Todays Vitals Unit Tests', () => {
     //   return patientSubject.asObservable();
     // });
 
-
   });
 
   beforeEach(async(() => {
