@@ -46,10 +46,11 @@ implements OnInit {
     super.generateReport();
   }
   public getLocationsSelected() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+    this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().subscribe(
       (data)  => {
         if (data) {
           this.locationUuids = data.locations;
+
         }
 
       });

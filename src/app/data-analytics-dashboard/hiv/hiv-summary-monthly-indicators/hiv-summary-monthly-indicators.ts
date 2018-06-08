@@ -50,7 +50,7 @@ implements OnInit {
     super.generateReport();
   }
   public getLocationsSelected() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+    this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
       (data)  => {
         if (data) {
           this.locationUuids = data.locations;

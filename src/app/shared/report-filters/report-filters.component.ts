@@ -217,12 +217,28 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
    public getCachedLocations() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
-      (data)  => {
-        if (data) {
-          this.locations = data.locations;
-        }
-      });
+      if (this._report === 'hiv-summary-report') {
+        this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().subscribe(
+          (data)  => {
+            if (data) {
+              this.locations = data.locations;
+            }
+          });
+      } else if (this._report === 'hiv-summary-monthly-report') {
+        this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
+          (data)  => {
+            if (data) {
+              this.locations = data.locations;
+            }
+          });
+      } else {
+        this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+          (data)  => {
+            if (data) {
+              this.locations = data.locations;
+            }
+          });
+      }
 }
 
   public onIndicatorSelected(indicator) {
@@ -338,10 +354,17 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       }
     }
   }
-
   public getSelectedLocations(locs: any) {
-    this.dataAnalyticsDashboardService.setSelectedLocations(locs);
+    if (this._report === 'hiv-summary-report') {
+      this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
+      return;
     }
+    if (this._report === 'hiv-summary-monthly-report') {
+      this.dataAnalyticsDashboardService.setSelectedMonthlyIndicatorLocations(locs);
+      return;
+    }
+    this.dataAnalyticsDashboardService.setSelectedLocations(locs);
+  }
   public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);
