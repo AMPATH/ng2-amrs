@@ -20,6 +20,7 @@ import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { RouterTestingModule } from '@angular/router/testing';
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('Service: TodayVisit', () => {
   let progConfig = {
@@ -189,6 +190,7 @@ describe('Service: TodayVisit', () => {
         }
       ],
       imports: [
+        RouterTestingModule,
         HttpModule,
         NgamrsSharedModule,
         UserDefaultPropertiesModule,
