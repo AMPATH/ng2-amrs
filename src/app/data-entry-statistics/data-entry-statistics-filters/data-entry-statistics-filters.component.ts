@@ -51,7 +51,7 @@ export class DataEntryStatisticsFiltersComponent
   public selectedStartDate: any = Moment().format();
   public selectedEndDate: any =  Moment(this.selectedStartDate).add(6, 'days' ).format();
   public subType: string = '';
-  public groupBy: any = ['groupByDate', 'groupByEncounterTypeId'];
+  public groupBy: any = ['groupByLocationId', 'groupByDate', 'groupByEncounterTypeId'];
   public selectedLocation: any = [];
   public selectedCreatorUuid: any = [];
   public selectedProviderUuid: string = '';
@@ -472,25 +472,25 @@ export class DataEntryStatisticsFiltersComponent
         this.selectedStartDate = Moment().format();
         this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
         this.subType = 'by-date-by-encounter-type';
-        this.groupBy = ['groupByDate', 'groupByEncounterTypeId'];
+        this.groupBy = ['groupByLocationId', 'groupByDate', 'groupByEncounterTypeId'];
         break;
       case 'view2':
         this.selectedStartDate = Moment().startOf('month').toISOString();
         this.selectedEndDate = Moment(this.selectedStartDate).add(12, 'months' ).format();
         this.subType = 'by-month-by-encounter-type';
-        this.groupBy = ['groupByMonth', 'groupByEncounterTypeId'];
+        this.groupBy = ['groupByLocationId', 'groupByMonth', 'groupByEncounterTypeId'];
         break;
       case 'view3':
         this.selectedStartDate = Moment().format();
         this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
         this.subType = 'by-provider-by-encounter-type';
-        this.groupBy = ['groupByProviderId', 'groupByEncounterTypeId'];
+        this.groupBy = ['groupByLocationId', 'groupByProviderId', 'groupByEncounterTypeId'];
         break;
       case 'view4':
         this.selectedStartDate = Moment().format();
         this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
         this.subType = 'by-creator-by-encounter-type';
-        this.groupBy = ['groupByCreatorId', 'groupByEncounterTypeId'];
+        this.groupBy = ['groupByLocationId', 'groupByCreatorId', 'groupByEncounterTypeId'];
         break;
       default:
     }

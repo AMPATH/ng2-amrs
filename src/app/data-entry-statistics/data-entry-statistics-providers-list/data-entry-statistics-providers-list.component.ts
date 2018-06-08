@@ -58,7 +58,6 @@ export class DataEntryStatisticsProviderListComponent
   }
 
   public processProviderData() {
-
     let dataEntryArray = [];
     let columnArray = [];
     let trackColumns = [];
@@ -67,6 +66,13 @@ export class DataEntryStatisticsProviderListComponent
     this.pinnedBottomRowData = [];
 
     this.dataEntryEncounterColdef.push(
+      {
+        headerName: 'Location',
+        field: 'location',
+        // pinned: 'left',
+        rowGroup: true,
+        hide: true
+      },
       {
         headerName: 'Provider',
         field: 'providers'
@@ -91,7 +97,7 @@ export class DataEntryStatisticsProviderListComponent
         },
         cellRenderer: (column) => {
           if (typeof column.value === 'undefined' || column.value === 0) {
-             return 0;
+             return '';
            }else {
             return '<a href="javascript:void(0);" title="Total Encounters">'
            + column.value + '</a>';
@@ -113,7 +119,7 @@ export class DataEntryStatisticsProviderListComponent
         },
         cellRenderer: (column) => {
                     if (typeof column.value === 'undefined' || column.value === 0) {
-                      return 0;
+                      return '';
                     }else {
                       return '<a href="javascript:void(0);" title="Total Clinical Encounters">'
                     + column.value + '</a>';
@@ -122,6 +128,7 @@ export class DataEntryStatisticsProviderListComponent
 
       }
     );
+    // this.gridOptions.groupDefaultExpanded = -1;
 
     let providerMap =  new Map();
 
@@ -150,7 +157,7 @@ export class DataEntryStatisticsProviderListComponent
                   },
                   cellRenderer: (column) => {
                     if (typeof column.value === 'undefined') {
-                       return 0;
+                       return '';
                      }else {
                       return '<a href="javascript:void(0);" title="providercount">'
                      + column.value + '</a>';
@@ -171,7 +178,8 @@ export class DataEntryStatisticsProviderListComponent
               }
             ],
             'providerName': stat.provider_name,
-            'providerUuid': stat.provider_uuid
+            'providerUuid': stat.provider_uuid,
+            'location': stat.location
           };
 
           let providerSaved = providerMap.get(providerId);
@@ -182,7 +190,8 @@ export class DataEntryStatisticsProviderListComponent
                 'encounterUuid': stat.encounter_type_uuid,
                 'encounter_type' : stat.encounter_type,
                 'encounters_count' : stat.encounters_count,
-                'is_clinical' : stat.is_clinical_encounter
+                'is_clinical' : stat.is_clinical_encounter,
+                 'location': stat.location
                });
 
           }else {
@@ -208,6 +217,7 @@ export class DataEntryStatisticsProviderListComponent
       let totalClinical = 0;
       let specificProvider: any = {
         providers: providerItem.providerName,
+        location: providerItem.location,
         providerUuid: providerItem.providerUuid,
         clinicalEncounters: []
       };

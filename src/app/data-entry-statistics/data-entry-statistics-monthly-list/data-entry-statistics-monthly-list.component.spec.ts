@@ -14,6 +14,9 @@ const mockMonthlyResult: any = [
         encounter_type_id : 167,
         encounter_type_uuid : 'uuid1',
         encounters_count : 12 ,
+        location:'MTRH-1',
+        locations: 1,
+        locationUuid: 'uuid',
         month : 'April, 2018',
         month_number : 4,
         year : 2018
@@ -77,7 +80,7 @@ describe('Component: Data Entry Monthly List', () => {
     spyOn(comp, 'setPinnedRow').and.returnValue(true);
     comp.procesMonthlyData();
     cd.detectChanges();
-    expect(comp.monthlyRowData).toEqual(mockMonthlyResultRow);
+    expect(comp.dataEntryEncounters).toEqual(mockMonthlyResult);
     done();
   });
 

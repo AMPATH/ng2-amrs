@@ -64,6 +64,13 @@ export class DataEntryStatisticsCreatorsListComponent
     this.pinnedBottomRowData = [];
     this.dataEntryEncounterColdef.push(
       {
+        headerName: 'Location',
+        field: 'location',
+        // pinned: 'left',
+        rowGroup: true,
+        hide: true
+      },
+      {
         headerName: 'Creator',
         field: 'creators'
       },
@@ -81,7 +88,7 @@ export class DataEntryStatisticsCreatorsListComponent
         },
         cellRenderer: (column) => {
                     if (typeof column.value === 'undefined') {
-                       return 0;
+                       return '';
                      }else {
                       return '<a href="javascript:void(0);" title="providercount">'
                      + column.value + '</a>';
@@ -103,7 +110,7 @@ export class DataEntryStatisticsCreatorsListComponent
         },
         cellRenderer: (column) => {
                     if (typeof column.value === 'undefined' || column.value === 0) {
-                      return 0;
+                      return '';
                     }else {
                       return '<a href="javascript:void(0);" title="providercount">'
                     + column.value + '</a>';
@@ -111,6 +118,7 @@ export class DataEntryStatisticsCreatorsListComponent
         }
       }
     );
+    // this.gridOptions.groupDefaultExpanded = -1;
     let creatorMap =  new Map();
     _.each(dataEntryStats, (stat: any) => {
           let form = stat.encounter_type;
@@ -137,7 +145,7 @@ export class DataEntryStatisticsCreatorsListComponent
                   },
                   cellRenderer: (column) => {
                     if (typeof column.value === 'undefined' || column.value === 0) {
-                       return 0;
+                       return '';
                      }else {
                       return '<a href="javascript:void(0);" title="providercount">'
                      + column.value + '</a>';
@@ -158,7 +166,8 @@ export class DataEntryStatisticsCreatorsListComponent
               }
             ],
             'creatorUuid': stat.user_uuid,
-            'creatorName': stat.creator_name
+            'creatorName': stat.creator_name,
+            location: stat.location
           };
 
           let creatorSaved = creatorMap.get(creatorId);
@@ -169,7 +178,8 @@ export class DataEntryStatisticsCreatorsListComponent
                 'encounter_type' : stat.encounter_type,
                 'encounterUuid': stat.encounter_type_uuid,
                 'encounters_count' : stat.encounters_count,
-                'is_clinical' : stat.is_clinical_encounter
+                'is_clinical' : stat.is_clinical_encounter,
+                 location: stat.location
                });
 
           }else {
@@ -197,6 +207,7 @@ export class DataEntryStatisticsCreatorsListComponent
       let specificcreator: any = {
         creators: creatorItem.creatorName,
         creatorUuid: creatorItem.creatorUuid,
+        location: creatorItem.location,
         clinicalEncounters: []
       };
 

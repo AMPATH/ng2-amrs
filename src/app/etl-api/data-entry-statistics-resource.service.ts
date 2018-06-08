@@ -133,7 +133,7 @@ export class DataEntryStatisticsService {
       let url = baseUrl + dataEntryStatsPatientListUrl;
       urlParams.set('startDate', params.startDate);
       urlParams.set('endDate', params.endDate);
-      urlParams.set('groupBy', 'groupByPatientId');
+      urlParams.set('groupBy', 'groupByLocationId,groupByPatientId');
 
       if (params.encounterTypeUuids && params.encounterTypeUuids.length > 0) {
           urlParams.set('encounterTypeUuids', params.encounterTypeUuids);
