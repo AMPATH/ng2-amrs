@@ -15,11 +15,34 @@ import { Moh731ReportBaseComponent } from './moh-731-report-base.component';
 import { Moh731ReportFiltersComponent } from './moh-731-report-filters.component';
 import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
 import { Moh731ResourceServiceMock } from '../../etl-api/moh-731-resource.service.mock';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+const mockParams = {
+    startDate: '2018-05-01',
+    endDate: '2018-05-31',
+    locations: 'uuid1',
+    indicators: 'test_indicator',
+    isLegacy: true
+};
+
+class MockRouter {
+    public navigate = jasmine.createSpy('navigate');
+   }
+
+const mockActivatedRoute = {
+  queryParams: {
+    subscribe: jasmine.createSpy('subscribe')
+      .and
+      .returnValue(Observable.of(mockParams))
+  }
+};
 
 describe('Moh731ReportBaseComponent:', () => {
     let fixture: ComponentFixture<Moh731ReportBaseComponent>;
     let comp: Moh731ReportBaseComponent;
     let el;
+    let route: Router;
+    let router: ActivatedRoute;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -28,7 +51,12 @@ describe('Moh731ReportBaseComponent:', () => {
               Moh731ReportFiltersComponent
             ],
             providers: [
-                { provide: Moh731ResourceService, useClass: Moh731ResourceServiceMock }
+                { provide: Moh731ResourceService, useClass: Moh731ResourceServiceMock },
+                { provide: Router, useClass: MockRouter },
+                {
+                    provide: ActivatedRoute,
+                    useValue: mockActivatedRoute
+                },
             ],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [
@@ -41,6 +69,8 @@ describe('Moh731ReportBaseComponent:', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(Moh731ReportBaseComponent);
             comp = fixture.componentInstance;
+            route = fixture.debugElement.injector.get(Router);
+            router = fixture.debugElement.injector.get(ActivatedRoute);
 
             // el = fixture.debugElement.query(By.css('h1'));
         });

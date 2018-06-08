@@ -16,6 +16,8 @@ import { HivCareComparativeComponent
 import {
   VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
+import { Moh731PatientListComponent } from
+'./../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 
 const routes: Routes = [
     {
@@ -25,6 +27,10 @@ const routes: Routes = [
     {
         path: 'moh-731-report',
         component: Moh731ReportComponent // replace with landing page for module
+    },
+    {
+        path: 'moh-731-report/patient-list',
+        component: Moh731PatientListComponent
     },
     {
         path: 'hiv-summary-indicator-report',

@@ -54,7 +54,6 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   }
 
   public set locationUuids(v: any) {
-    console.log('vv location filtre', v);
     if (v) {
       this.multiple ? this.selectedLocations.push(v) : this.selectedLocations = v;
       this._locationUuids = v;
@@ -120,7 +119,6 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           label: location.display
         };
       });
-      console.log('this.selectedLocations county', this.selectedLocations);
       this.onLocationChange.emit({
         locations: this.selectedLocations,
         county: this.selectedCounty

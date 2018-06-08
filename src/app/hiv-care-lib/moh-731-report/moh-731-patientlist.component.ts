@@ -11,7 +11,8 @@ import {
 
 @Component({
   selector: 'moh-731-patientlist',
-  templateUrl: 'moh-731-patientlist.component.html'
+  templateUrl: 'moh-731-patientlist.component.html',
+  styleUrls: ['moh-731-patientlist.component.css']
 })
 export class Moh731PatientListComponent implements OnInit, OnChanges {
   public patientList: Array<any> = [];
@@ -23,18 +24,25 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   public startIndex: Array<any> = [];
   public currentStartIndexPerIndicator: number;
   public isLoading: boolean = false;
+  public hasLoadedAll: boolean = false;
   public dataLoadedPerIndicator: boolean = false;
   public dataLoaded: Array<any> = [];
-  @Input() public startDate;
-  @Input() public endDate: any;
-  @Input() public locations;
-  @Input() public isLegacy;
-  @Input() public indicator: string;
-  @Output() public onLoadComplete = new EventEmitter<any>();
+  public params: any = {
+    startDate: '',
+    endDate: '',
+    locations: '',
+    indicators: '',
+    isLegacy: ''
+
+  };
   public _locations: string = '';
   public _indicator: string = '';
   public _startDate;
   public _endDate;
+  public busyIndicator: any = {
+     busy: false,
+     message: ''
+  };
 
   constructor(public route: ActivatedRoute,
               private router: Router,
@@ -53,21 +61,34 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.loadPatientList();
+    this.route
+    .queryParams
+    .subscribe((params) => {
+    if (params) {
+            this.params = params;
+            this.loadPatientList(this.params);
+        }
+    }, (error) => {
+        console.error('Error', error);
+    });
   }
 
-  public loadPatientList() {
+  public loadPatientList(params: any) {
+    console.log('Params', params);
+    this.busyIndicator = {
+      busy: true,
+      message: 'Loading Patient List...please wait'
+    };
     let rowCount: number = 0;
     this.moh731PatientListResourceService.getMoh731PatientListReport({
-      indicator: this.indicator,
-      isLegacy: this.isLegacy,
-      startIndex: this.startIndex[this.indicator] ? this.startIndex[this.indicator] : 0,
-      startDate: moment(this.startDate).format('YYYY-MM-DD'),
-      endDate: moment(this.endDate).endOf('day').format('YYYY-MM-DD'),
-      reportName: 'MOH-731-report',
-      locationUuids: _.isArray(this.locations) ? this.locations.join(',') : this.locations
+      indicator: params.indicators,
+      isLegacy: params.isLegacy,
+      startIndex: this.startIndex[params.indicators] ? this.startIndex[params.indicators] : 0,
+      startDate: moment(params.startDate).format('YYYY-MM-DD'),
+      endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
+      reportName: 'MOH-731-report-2017',
+      locationUuids: _.isArray(params.locations) ? params.locations.join(',') : params.locations
     }).subscribe((data) => {
-      this.onLoadComplete.emit(true);
       this.isLoading = false;
       if (data.errorMessage) {
         this.hasError = true;
@@ -76,21 +97,27 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         /**
          * Track everything per indicator provided
          */
-        this.patientListPerIndicator = this.patientList[this.indicator] ?
-          this.patientList[this.indicator] : [];
+        this.patientListPerIndicator = this.patientList[params.indicators] ?
+          this.patientList[params.indicators] : [];
         this.patientListPerIndicator = this.patientListPerIndicator.concat(data.result);
-        this.patientList[this.indicator] = this.patientListPerIndicator;
-        this.currentStartIndexPerIndicator = this.startIndex[this.indicator];
+        this.patientList[params.indicators] = this.patientListPerIndicator;
+        this.currentStartIndexPerIndicator = this.startIndex[params.indicators];
         this.currentStartIndexPerIndicator = this.currentStartIndexPerIndicator ?
           this.currentStartIndexPerIndicator : 0;
         this.currentStartIndexPerIndicator += data.size;
-        this.startIndex[this.indicator] = this.currentStartIndexPerIndicator;
-        if (data.size < 300 && !this.dataLoaded[this.indicator]) {
-          this.dataLoaded[this.indicator] = true;
+        this.startIndex[params.indicators] = this.currentStartIndexPerIndicator;
+        if (data.size < 300 && !this.dataLoaded[params.indicators]) {
+          this.dataLoaded[params.indicator] = true;
         }
-        this.dataLoadedPerIndicator = this.dataLoaded[this.indicator];
-        this._startDate = moment(this.startDate);
-        this._endDate = moment(this.endDate);
+
+        //  console.log('loaded patients', data);
+        if (data.result.length < 300) {
+          this.hasLoadedAll = true;
+        }
+
+        this.dataLoadedPerIndicator = this.dataLoaded[params.indicators];
+        this._startDate = moment(params.startDate);
+        this._endDate = moment(params.endDate);
         if (data.locations) {
           let _location = '';
           _.each(data.locations, (location: any) => {
@@ -100,7 +127,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         }
 
         if (data.indicators) {
-          this.searchIndicator(data.indicators, this.indicator).then(
+          this.searchIndicator(data.indicators, params.indicators).then(
             (matchingIndicator: Array<any>) => {
               if (matchingIndicator.length > 0) {
                 this._indicator = matchingIndicator[0]['label'];
@@ -123,8 +150,16 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
          };*/
         this.addExtraColumns(data.indicators);
       }
+      this.busyIndicator = {
+        busy: false,
+        message: ''
+      };
     }, (err) => {
       this.isLoading = false;
+      this.busyIndicator = {
+        busy: false,
+        message: ''
+      };
     });
 
     this.overrideColumns.push({
@@ -140,7 +175,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public loadMorePatients() {
     this.isLoading = true;
-    this.loadPatientList();
+    this.loadPatientList(this.params);
   }
 
   public goTopatientInfo(patientUuid) {

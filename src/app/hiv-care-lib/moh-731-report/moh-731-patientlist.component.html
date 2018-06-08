@@ -1,31 +1,31 @@
-<div class="wrapper" *ngIf="!hasError && patientListPerIndicator.length > 0">
+<div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+  </i>{{busyIndicator.message}}</span>
+</div>
+<div class="container-fluid" *ngIf="!hasError && patientListPerIndicator.length > 0">
   <div class="row">
-    <div class="col-sm-12 col-md-4">
-      <h4>Patient List: <strong>{{_indicator}}</strong> in location(s) <strong>{{_locations}}</strong></h4>
-    </div>
-    <div class="col-sm-12 col-md-4">
-      <h4>
-        Start date: <strong>{{_startDate | moment: 'DD/MM/YYYY'}}</strong>
-        End date: <strong>{{_endDate | moment: 'DD/MM/YYYY'}} </strong>
-      </h4>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <h4 class="section-title">MOH-731 Patient List</h4>
+        <hr class="intro-divider" />
+        <h4 align="center"><strong>{{_indicator}}</strong> in location(s) <strong>{{_locations}}</strong> 
+          from <strong>{{_startDate | moment: 'DD/MM/YYYY'}}</strong> to <strong>{{_endDate | moment: 'DD/MM/YYYY'}}</strong></h4>
     </div>
     <div class="col-sm-12 col-md-6">&nbsp;</div>
   </div>
   <patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns"  [data]="patientListPerIndicator"></patient-list>
-  <div *ngIf='!dataLoadedPerIndicator'>
+  <div *ngIf='!hasLoadedAll'>
     <div class="button">
       <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMorePatients()">
         <span class=""></span>Load More...</button>
     </div>
   </div>
 
-  <div *ngIf='dataLoadedPerIndicator'>
+  <div *ngIf='hasLoadedAll'>
     <p class="bg-info" style="padding:4px;">
       <b>
         <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + patientListPerIndicator.length + ' ]'}}</span></b>
     <p>
   </div>
-</div>
 <div *ngIf="hasError">
   <p class="alert-error alert">Error loading patient list.</p>
+</div>
 </div>
