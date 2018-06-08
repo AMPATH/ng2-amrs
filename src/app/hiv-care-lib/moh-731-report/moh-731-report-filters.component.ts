@@ -149,6 +149,8 @@ export class Moh731ReportFiltersComponent implements OnInit {
     }
 
     public onLocationsSelected(val) {
-        this.locationUuidsChange.emit(val.locations);
+        if (val) {
+          this.locationUuidsChange.emit(val.locations);
+        }
     }
 }
