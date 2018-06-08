@@ -91,9 +91,9 @@
 
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -677,9 +677,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -816,6 +816,11 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
+    "transferCare": {
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
+    },
     "visitTypes": [
       {
         "uuid": "0883d972-4122-454d-a746-9d28ecb23b66",
@@ -951,6 +956,11 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
+    "transferCare": {
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
+    },
     "visitTypes": []
   },
   "781d8a88-1359-11df-a1f1-0026b9348838": {
@@ -961,9 +971,9 @@
       "hivLastTenClinicalEncounters"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "incompatibleWith": [],
     "visitTypes": []
@@ -1010,9 +1020,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -1093,9 +1103,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -1168,9 +1178,9 @@
     "incompatibleWith": [
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -1227,9 +1237,9 @@
     "incompatibleWith": [
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -1286,9 +1296,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -1401,9 +1411,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -1819,9 +1829,9 @@
       "hivLastTenClinicalEncounters"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
@@ -1926,9 +1936,9 @@
     },
     "incompatibleWith": [],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -2006,9 +2016,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -2073,9 +2083,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -2235,9 +2245,9 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -2308,6 +2318,11 @@
   "c4246ff0-b081-460c-bcc5-b0678012659e":{
     "name": "MDT PROGRAM",
     "incompatibleWith": [],
+    "transferCare": {
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
+      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
+    },
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -2391,9 +2406,9 @@
     ],
     "incompatibleWith": [],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -2454,9 +2469,9 @@
       "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {
@@ -2481,9 +2496,9 @@
     ],
     "incompatibleWith": [],
     "transferCare": {
-      "AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
+      "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],
       "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"]
+      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
     },
     "visitTypes": [
       {

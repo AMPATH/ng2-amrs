@@ -3,7 +3,7 @@
 
 var Promise = require('bluebird');
 var squel = require('squel');
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 var connection = require('../../dao/connection/mysql-connection-service.js');
 var authorizer = require('../../authorization/etl-authorizer');
@@ -202,11 +202,15 @@ function getPatientReferralByEnrollmentUuid(programEnrollmentUuid) {
                     .field('pr.notification_status') 
 					.field('pr.referral_reason')  
 					.field('lr.name as referred_to_location')  
-					.field('lt.name as referred_from_location')  
-                    .from('etl.patient_referral', 'pr')
+					.field('wfs.uuid as program_workflow_state_uuid')
+                  .field('cn.name as program_workflow_state')
+                  .field('lt.name as referred_from_location')
+                  .from('etl.patient_referral', 'pr')
                     .join('amrs.provider', 'ap', 'ap.provider_id = pr.provider_id')
                     .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
-                    .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
+                    .join('amrs.program_workflow_state', 'wfs', 'pr.program_workflow_state_id = wfs.program_workflow_state_id')
+                  .join('amrs.concept_name', 'cn', 'cn.concept_id = wfs.concept_id')
+                  .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
                     .join('amrs.patient_program', 'p', 'pr.patient_program_id = p.patient_program_id')
                     .where('p.uuid = ?', programEnrollmentUuid)
                     .toString();
@@ -238,7 +242,7 @@ function validateUpdateNotificationPayload(newPatientReferralPayload) {
             isValid: true,
             errors: []
         };
-        if (_.isEmpty(newPatientReferralPayload.notificationStatus)) {
+        if (_.isNil(newPatientReferralPayload.notificationStatus)) {
             validationResult.isValid = false;
             validationResult.errors.push({
                 field: 'Notification status',
