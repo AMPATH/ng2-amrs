@@ -87,7 +87,8 @@
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
       "781d8880-1359-11df-a1f1-0026b9348838",
       "0904172d-0b6a-40df-b8a2-b3653d16dc45",
-      "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
+      "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
+      "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31"
 
     ],
     "transferCare": {
@@ -1176,6 +1177,7 @@
       ]
     },
     "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838"
     ],
     "transferCare": {
       "AMPATH": ["fb11a9d8-c084-4187-9059-09c95b9c27d1"],

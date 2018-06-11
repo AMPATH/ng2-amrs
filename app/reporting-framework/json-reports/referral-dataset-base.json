@@ -14,10 +14,10 @@
             "table": "etl.patient_referral",
             "alias": "t4",
             "join": {
-                "type": "INNER",
+                "type": "LEFT",
                 "joinCondition": "t4.patient_program_id  = t3.patient_program_id"
             }
-        },
+        },        
         {
             "table": "amrs.program",
             "alias": "t5",
@@ -70,7 +70,7 @@
             "table": "amrs.provider",
             "alias": "t11",
             "join": {
-                "type": "INNER",
+                "type": "LEFT",
                 "joinCondition": "t11.provider_id = t4.provider_id"
             }
         }
@@ -173,8 +173,8 @@
             },
             {
               "filterType": "tableColumns",
-              "conditionExpression": "t4.notification_status is null",
-              "parameterName": ""
+              "conditionExpression": "t4.notification_status is ?",
+              "parameterName": "notificationStatus"
             }
         ]
     }

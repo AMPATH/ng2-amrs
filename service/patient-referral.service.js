@@ -16,10 +16,13 @@ export class PatientReferralService {
   
     getAggregateReport(reportParams) {
 
-        reportParams.stateUuids = reportParams.stateUuids.replace(/,/g,"','");
-        reportParams.locationUuids = reportParams.locationUuids.replace(/,/g,"','");
-        reportParams.programUuids = reportParams.programUuids.replace(/,/g,"','");
-
+        reportParams.stateUuids = reportParams.stateUuids?reportParams.stateUuids.replace(/,/g,"','"):null;
+        reportParams.locationUuids = reportParams.locationUuids?reportParams.locationUuids.replace(/,/g,"','"):null;
+        reportParams.programUuids =reportParams.programUuids? reportParams.programUuids.replace(/,/g,"','"):null;
+        // notificationStatus param can either be ALL or null
+        // notificationStatus param with ALL is used to get all patients irrespective of notification status 
+        // if notificationStatus is not provided : only  patients notification with null notification status are included
+        reportParams.notificationStatus =reportParams.notificationStatus?null:'null';
         let self = this;
         return new Promise(function (resolve, reject) {
             reportParams.groupBy = 'groupByLocation,groupByProgram,groupByState';
@@ -54,6 +57,7 @@ export class PatientReferralService {
         let self = this;
         return new Promise(function (resolve, reject) {
             reportParams.groupBy = 'groupByPerson';
+            reportParams.notificationStatus =reportParams.notificationStatus?null:'null';
             let report = new PatientlistMysqlReport('referralAggregate',reportParams);
             Promise.join(report.generatePatientListReport([]),
                 (results) => {
