@@ -67,7 +67,7 @@ import { PrettyEncounterViewerComponent
 import { XHRBackend, RequestOptions, Http } from '@angular/http';
 import { HttpClient } from './services/http-client.service';
 export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                          router: Router, sessionStorageService: SessionStorageService) {
+                           router: Router, sessionStorageService: SessionStorageService) {
   return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
   }
 
@@ -133,7 +133,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     ToastComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
-    HivSummaryService,{
+    HivSummaryService, {
       provide: Http,
       useFactory: httpClient,
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]

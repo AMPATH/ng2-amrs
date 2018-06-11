@@ -41,6 +41,7 @@ export class PatientReferralTabularComponent implements OnInit {
   public agGrid: AgGridNg2;
   private routeParamsSubscription: Subscription;
   private _sectionDefs: Array<any>;
+  private _notificationStatus = 'All';
   public get sectionDefs(): Array<any> {
     return this._sectionDefs;
   }
@@ -184,9 +185,9 @@ export class PatientReferralTabularComponent implements OnInit {
       stateUuids: this.stateUuid ? this.stateUuid : null,
       providerUuids: filterProvider,
       startIndex: this.startIndex ? this.startIndex : null,
+      notificationStatus: this._notificationStatus,
     }).subscribe((report) => {
       this.patientData = report;
-
        // this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;
