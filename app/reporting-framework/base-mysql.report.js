@@ -54,7 +54,10 @@ export class BaseMysqlReport {
                     // generate query
                     that.generateReportQuery(that.reportSchemas, that.params)
                         .then((sqlQuery) => {
-                            that.reportQuery = sqlQuery;
+                            
+                            // allow user to use 'null' as parameter values
+                            sqlQuery=sqlQuery.replace(/\'null\'/g,"null");
+                            that.reportQuery = sqlQuery;                                              
                             // run query
                             that.executeReportQuery(that.reportQuery)
                                 .then((result) => {

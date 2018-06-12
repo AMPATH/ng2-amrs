@@ -25,7 +25,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
 
                     // consolidate params and indicators
                     indicators = that.consolidateParamsAndIndicators(that.params, indicators);
-
+                   
                     // determine patient list seed schemas
                     let aggs = this.determineBaseAndAggrSchema(that.reportSchemas, indicators);
                     if (aggs.length > 0) {
@@ -41,7 +41,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
 
                                 let generated =
                                     that.generatePatientListJsonQuery(that.plSchemasRaw.aggregate, that.plSchemasRaw.base, that.plTemplate, that.params);
-
+                                    
                                 // console.log('GENERATED', generated.generated.filters, that.params);
                                 // if (this.hasEmptyDynamicExpressions(generated) && aggs.length > 1) {
                                 //     for (let i = 1; i < aggs.length; i++) {
@@ -65,6 +65,8 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                                 // generate query
                                 that.generateReportQuery(that.generatedPL, that.modifiedParam)
                                     .then((sqlQuery) => {
+                                        //allow 'null' as parameter value
+                                        sqlQuery=sqlQuery.replace(/\'null\'/g,"null");
                                         that.reportQuery = sqlQuery;
                                         
                                         // run query

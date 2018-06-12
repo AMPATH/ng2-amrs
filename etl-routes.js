@@ -2325,7 +2325,10 @@ module.exports = function () {
                            .description("The conceptUuids to filter by"),
                        providerUuids: Joi.string()
                            .optional()
-                           .description("A list of comma separated provider uuids")
+                           .description("A list of comma separated provider uuids"),
+                       notificationStatus: Joi.string()
+                           .optional()
+                           .description("Referral status whether all or those with null status")
 
                    }
                }
@@ -2409,7 +2412,10 @@ module.exports = function () {
                            .description("The limit to indicate number of rows"),
                        providerUuids: Joi.string()
                            .optional()
-                           .description("A list of comma separated provider uuids")
+                           .description("A list of comma separated provider uuids"),
+                       notificationStatus: Joi.string()
+                           .optional()
+                           .description("Referral status whether all or those with null status")
 
                    }
                }
