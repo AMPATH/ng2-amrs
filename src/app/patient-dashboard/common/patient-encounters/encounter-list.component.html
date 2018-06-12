@@ -37,8 +37,8 @@
           <th>Encounter Date</th>
           <th>Encounter Type</th>
           <th>Form</th>
-          <th>Location</th>
           <th>Provider</th>
+          <th> Provider Location</th>
           <th colspan="2">Actions</th>
         </tr>
       </thead>
@@ -47,8 +47,8 @@
           <td>{{encounter.encounterDatetime | date: 'MMM dd, yyyy hh:mm a'}}</td>
           <td>{{encounter.encounterType.display}}</td>
           <td><span *ngIf="encounter.form">{{encounter.form.name}}</span></td>
-          <td>{{encounter.location.display}}</td>
           <td>{{encounter.provider.display | patientEncounterProviderPipe}}</td>
+          <td>{{encounter.location.display}}</td>
           <td>
             <a *ngIf="(encounter && encounter.form && encounter.form.name && encounter.form.name.indexOf('POC') >= 0)" (click)="editEncounter(encounter)">
                             <span class="glyphicon text-primary glyphicon-edit"></span>

@@ -41,8 +41,8 @@
 								<div class="col-md-2 col-lg-2 col-xs-2 visit_col"><a (click)="sortByDate()">Date/Time<span class="{{dateIcon}}"></span></a></div>
 								<div class="col-md-2 col-lg-2 col-sm-3 col-xs-3 visit_col">Visit</div>
 								<div class="col-md-3 col-lg-3 col-sm-3 col-xs-2 visit_col">Form</div>
-								<div class="col-md-2 col-lg-2 col-sm-1 col-xs-2 visit_col">Location</div>
 								<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 visit_col">Provider</div>
+                <div class="col-md-2 col-lg-2 col-sm-1 col-xs-2 visit_col"> Provider Location</div>
 								<div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 visit_col">Actions</div>
 						</div>
 			         </li>
@@ -63,12 +63,12 @@
 							 <div class="col-md-3 col-lg-3 col-sm-2 col-xs-2">
 								 -
 							 </div>
-							 <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
-								 {{visit.location}}
-							 </div>
-							 <div class="col-md-1 col-lg-1 col-sm-2 col-xs-2">
+							 <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"> <!--"col-md-1 col-lg-1 col-sm-2 col-xs-2"-->
 								 {{visit.provider}}
 							  </div>
+              <div class="col-md-1 col-lg-1 col-sm-2 col-xs-2"> <!--col-md-2 col-lg-2 col-sm-2 col-xs-2"-->
+                {{visit.location}}
+              </div>
 						</div>
 						<div class="row encounter_row" *ngFor="let encounter of visit.encounters | encounterTypeFilter:encounterFilterTypeArray | myOrderByTime">
 							<div class="col-md-offset-1 col-md-1   col-sm-2 col-lg-offset-1 col-lg-1 col-xs-2">
@@ -80,12 +80,12 @@
 							 <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
 								 {{encounter.form}}
 							 </div>
-							  <div class="col-md-2 col-sm-1 col-lg-2 col-xs-1">
-                  {{encounter.location}}
-							 </div>
 							  <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
 								 {{encounter.provider}}
 							 </div>
+                <div class="col-md-2 col-sm-1 col-lg-2 col-xs-1">
+                  {{encounter.location}}
+                </div>
 							  <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
 								  <div class="row">
 									  <div class="col-md-3 col-sm-3 col-lg-3" *ngIf="encounter.form.indexOf('POC') > -1">
