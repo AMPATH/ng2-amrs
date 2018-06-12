@@ -102,7 +102,7 @@ describe('FormListService', () => {
 
         }));
 
-    xit('should filter out unpublished openmrs forms from a list',
+    it('should filter out unpublished openmrs forms from a list',
         inject([FormListService], (formListService: FormListService) => {
             let expectedFilteredList = [{
                 name: 'form 1',
@@ -182,7 +182,7 @@ describe('FormListService', () => {
 
         }));
 
-    xit('should fetch and process the final form list when getFormList is invoked',
+    it('should fetch and process the final form list when getFormList is invoked',
         async(inject([FormListService, FormOrderMetaDataService, FormsResourceService],
             (formListService: FormListService,
                 formOrderMetaDataService: FormOrderMetaDataService,
