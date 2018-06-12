@@ -6,6 +6,7 @@ import { Patient } from '../../models/patient.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { ProgramsTransferCareService } from './transfer-care.service';
 import { PatientProgramService } from '../patient-programs.service';
@@ -32,6 +33,7 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
   public showLocationSelect: boolean = false;
   public hasTransferError: boolean = false;
   public programsToTransfer: any[] = [];
+  public maxDate: string;
   private departmentConf: any[];
   private subscription: Subscription;
 
@@ -41,6 +43,7 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
               private patientService: PatientService,
               private patientProgramService: PatientProgramService,
               private departmentProgramService: DepartmentProgramsConfigService) {
+    this.maxDate = moment().format('YYYY-MM-DD');
   }
 
   public ngOnInit() {
@@ -104,11 +107,13 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
           transferType: this.transferType
         });
       });
+
       let payLoad = {
         programs: _programsToTransfer,
         transferDate: this.dateOfTransfer,
         transferType: this.transferType
       };
+
       if (this.transferToLocation) {
         _.extend(payLoad, {location: this.transferToLocation});
       }
@@ -123,7 +128,12 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
     if (this.isModal) {
       this.showFormWizard.emit(true);
     } else {
-      this.router.navigate(['forms'], { relativeTo: this.route });
+      this.router.navigate(['forms'], {
+        queryParams: {
+          processId: _.uniqueId('component_transfer_care_')
+        },
+        relativeTo: this.route
+      });
     }
   }
 

@@ -3,7 +3,7 @@
 <div class="component-body">
   <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
   <div class="panel panel-info" style="margin:2px"
-       *ngIf="(!isBusy && totalProgramsForms > 0 && !allFormsFilled && transferType !== 'AMPATH' && !hasError) && !modalProcessComplete">
+       *ngIf="(!isBusy && totalProgramsForms > 0 && !hasError) && !modalProcessComplete">
     <div class="panel-heading">
       <h5>
         <strong class="text-info">
@@ -19,13 +19,7 @@
       <ng-container *ngFor="let program of transferCarePrograms">
         <h4>{{program.enrolledProgram.display}}</h4>
         <form-list [showFilter]="false" (onFormSelected)="fillForm($event)"
-                   [excludedForms]="program.excludedForms"
                    [encounterTypeFilter]="program.encounterForms"></form-list>
-        <h5 *ngIf="!program.hasForms">
-          <strong class="text-info">
-            You have already filled transfer forms for this program or it has no forms to be filled
-          </strong>
-        </h5>
       </ng-container>
     </div>
   </div>

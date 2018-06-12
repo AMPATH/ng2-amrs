@@ -57,6 +57,7 @@ export class EnrollmentManagerFormWizardComponent implements OnInit, OnDestroy {
     let routeOptions = {
       queryParams: {
         programEncounter: form.encounterType.uuid,
+        referralEncounterType: form.encounterType.name,
         parentComponent: this.parentComponent
       }
     };

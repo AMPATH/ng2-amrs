@@ -89,8 +89,7 @@ export class ProgramsTransferCareService {
       if (program.transferType === 'AMPATH') {
         let enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid, patient, program.transferDate, null,
-          program.location.locations, '');
-        console.log();
+          program.location.locations.value, '');
         if (program.enrolledProgram.states) {
           let state: any = _.first(program.enrolledProgram.states);
           if (state) {

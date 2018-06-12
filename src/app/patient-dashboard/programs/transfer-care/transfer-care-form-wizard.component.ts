@@ -13,6 +13,7 @@ import { FormListService } from '../../common/forms/form-list.service';
 import { Subject } from 'rxjs/Subject';
 import { Patient } from '../../../models/patient.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'transfer-care-form-wizard',
@@ -29,11 +30,14 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   public transferType: string;
   public hasError: boolean = false;
   public totalProgramsForms: number = 0;
-  public lastDischargeEncounters: any[] = [];
+  public lastFilledEncounters: any[] = [];
   public isBusy: boolean = false;
   public allFormsFilled: boolean = false;
   public modalProcessComplete: boolean = false;
   public confirmMessage: string = '';
+  private currentProcessId: string;
+  private previousProcessId: string;
+  private subscription: Subscription;
   private ngUnsubscribe: Subject<any> = new Subject();
   private hasPayload: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -46,12 +50,17 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   }
 
   public ngOnInit() {
-    this._init();
+    this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+        if (patient !== null) {
+          this.patient = patient;
+          this._init();
+        }
+      });
+
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.subscription.unsubscribe();
   }
 
   public fillForm(form) {
@@ -76,43 +85,41 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   }
 
   private _init() {
-    this.transferCareService.getPayload().takeUntil(this.ngUnsubscribe)
-      .subscribe((payload) => {
-      this.transferCareService.setTransferStatus(false);
-      if (!payload) {
-        if (this.isModal) {
-          this.hideModal.emit(true);
-        } else {
-          this.transferCareService.setTransferStatus(true);
-          this.router.navigate(['..'], {relativeTo: this.route});
-        }
-      } else {
-        this.transferType = payload.transferType;
-        this.patientService.currentlyLoadedPatient.takeUntil(this.ngUnsubscribe)
-          .subscribe((patient) => {
-            if (patient !== null) {
-              this.patient = patient;
-              this.hasError = false;
-              this._filterTransferCareForms(payload);
+    this.route.queryParams.subscribe((params) => {
+      this.transferCareService.getPayload().takeUntil(this.ngUnsubscribe)
+        .subscribe((payload) => {
+          this.transferCareService.setTransferStatus(false);
+          if (!payload) {
+            if (this.isModal/* && _.startsWith(params['processId'], 'form_')*/) {
+              this.hideModal.emit(true);
+            } else {
+              this.transferCareService.setTransferStatus(true);
+              this.router.navigate(['..'], {relativeTo: this.route});
             }
-          });
-      }
-    }, (err) => {
-      console.log(err);
-      this.hasError = true;
+          } else {
+            this.currentProcessId = params['processId'];
+            this.transferType = payload.transferType;
+            this._filterTransferCareForms(payload);
+          }
+        }, (err) => {
+          console.log(err);
+          this.hasError = true;
+        });
     });
   }
 
   private _getPatientEncounters(): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
-      this.encounterResourceService.getEncountersByPatientUuid(this.patient.uuid, false, null)
-        .takeUntil(this.ngUnsubscribe).subscribe((resp) => {
+      this.subscription = this.encounterResourceService.getEncountersByPatientUuid(
+        this.patient.uuid, false, null).subscribe((resp) => {
         observer.next(resp.reverse());
+      }, () => {}, () => {
+        this.subscription.unsubscribe();
       });
     });
   }
 
-  private _pickEncountersByLastDischargeDate(patientEncounters: any[], date: string) {
+  private _pickEncountersByLastTransferDate(patientEncounters: any[], date: string) {
     let encounters = _.map(_.filter(patientEncounters, (encounter: any) => {
       let encounterDate = moment(encounter.encounterDatetime).format('DD-MM-YYYY');
       let lastDischargeDate = moment(date).format('DD-MM-YYYY');
@@ -120,84 +127,77 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
     }), (encounter: any) => {
       return encounter.encounterType.uuid;
     });
-    this.lastDischargeEncounters = _.uniq(encounters);
+    this.lastFilledEncounters = _.uniq(encounters);
   }
 
   private _filterTransferCareForms(payload: any) {
     this.isBusy = true;
     this.hasError = false;
-    if (this.transferType === 'AMPATH') {
-      this._transferPatient(_.map(payload.programs, (p) => {
-        return _.extend(p, {location: payload.location ? payload.location : {}});
-      }));
-    } else {
-      this.transferCareService.fetchAllProgramTransferConfigs(this.patient.uuid)
-        .takeUntil(this.ngUnsubscribe).subscribe((configs) => {
-          if (configs) {
-            this._loadProgramBatch(payload.programs, configs).takeUntil(this.ngUnsubscribe)
-              .subscribe((programs) => {
-                this.formListService.getFormList().takeUntil(this.ngUnsubscribe)
-                  .subscribe((forms: any[]) => {
-                    if (forms.length > 0) {
-                      this._getPatientEncounters().subscribe((encounters) => {
-                        let encounterTypeUuids = _.map(forms, (form) => {
-                          return form.encounterType.uuid;
-                        });
-
-                        // pick today's encounters to remove already filled forms
-                        this._pickEncountersByLastDischargeDate(encounters, payload.transferDate);
-                        let allEncounterForms = [];
-                        _.each(programs, (program) => {
-                          allEncounterForms = allEncounterForms.concat(program.encounterForms);
-                          this._transformProgram(program, payload, encounterTypeUuids);
-                        });
-                        this.isBusy = false;
-                        this.transferCarePrograms = programs;
-                        this.totalProgramsForms = (_.uniq(allEncounterForms)).length;
-                        let totalFilledForms =
-                          _.intersection(allEncounterForms, this.lastDischargeEncounters);
-                        this.allFormsFilled = this.totalProgramsForms === totalFilledForms.length;
-                        // transfer patient if all forms have been filled
-                        if (this.allFormsFilled) {
-                          this._transferPatient(programs);
-                        }
-                      }, (err) => {
-                        this.isBusy = false;
-                        console.log(err);
-                      });
+    this.transferCareService.fetchAllProgramTransferConfigs(this.patient.uuid)
+      .takeUntil(this.ngUnsubscribe).subscribe((configs) => {
+      if (configs) {
+        this._loadProgramBatch(payload.programs, configs).takeUntil(this.ngUnsubscribe)
+          .subscribe((programs) => {
+            this.formListService.getFormList().subscribe((forms: any[]) => {
+                if (forms.length > 0) {
+                  this.subscription = this._getPatientEncounters()
+                    .subscribe((encounters) => {
+                    // pick today's encounters to remove already filled forms
+                    this._pickEncountersByLastTransferDate(encounters, payload.transferDate);
+                    let allEncounterForms = [];
+                    _.each(programs, (program) => {
+                      allEncounterForms = allEncounterForms.concat(program.encounterForms);
+                      this._transformProgram(program, payload);
+                    });
+                    this.isBusy = false;
+                    this.transferCarePrograms = programs;
+                    this.totalProgramsForms = (_.uniq(allEncounterForms)).length;
+                    let totalFilledForms =
+                      _.intersection(allEncounterForms, this.lastFilledEncounters);
+                    this.allFormsFilled = this.totalProgramsForms === totalFilledForms.length;
+                    // transfer patient if all forms have been filled
+                    if (allEncounterForms.length === 0
+                      || (_.startsWith(this.currentProcessId, 'form_'))) {
+                      this.previousProcessId = this.currentProcessId;
+                      this._transferPatient(programs);
                     }
-                  });
-              }, (err) => {
-                this.isBusy = false;
-                console.log(err);
+
+                  }, (err) => {
+                    this.isBusy = false;
+                    console.log(err);
+                  }, () => { this.subscription.unsubscribe(); });
+                }
               });
-          }
-        }, (err) => {
-          this.isBusy = false;
-          console.error(err);
-        });
-    }
+          }, (err) => {
+            this.isBusy = false;
+            console.log(err);
+          });
+      }
+    }, (err) => {
+      this.isBusy = false;
+      console.error(err);
+    });
   }
 
-  private _transformProgram(program, payload, encounterTypeUuids): void {
+  private _transformProgram(program, payload): void {
     let unfilledForms = [];
-    if (this.lastDischargeEncounters.length > 0) {
+    if (this.lastFilledEncounters.length > 0) {
       unfilledForms = _.filter(program.encounterForms, (form) => {
-        return !_.includes(this.lastDischargeEncounters, form);
+        return !_.includes(this.lastFilledEncounters, form);
       });
+    } else {
+      unfilledForms = program.encounterForms;
     }
     unfilledForms = _.compact(unfilledForms);
-    console.log(unfilledForms, encounterTypeUuids);
     _.extend(program, {
       location: payload.location ? payload.location : {},
-      hasForms: unfilledForms.length > 0,
-      excludedForms: _.xor(unfilledForms, encounterTypeUuids)
+      hasForms: unfilledForms.length > 0
     });
   }
 
   private _transferPatient(programs: any[]) {
     this.transferCareService.transferPatient(this.patient, programs)
-      .takeUntil(this.ngUnsubscribe).subscribe(() => {
+      .subscribe(() => {
       this.allFormsFilled = false;
       this.transferCareService.setTransferStatus(true);
       this.hasError = false;
@@ -225,12 +225,18 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
           this.modalProcessComplete = true;
           setTimeout(() => {
             this.transferCareService.setTransferStatus(false);
+            this.hasPayload.next(false);
+            this.modalProcessComplete = false;
             this.hideModal.emit(true);
+            this._completeProcess();
+            let currentUrl = this.router.url.split('?')[0];
+            this.router.navigate([currentUrl]);
             this.patientService.fetchPatientByUuid(this.patient.uuid);
           }, 2000);
         }
       } else {
         setTimeout(() => {
+          this._completeProcess();
           this.router.navigate(['..'], {relativeTo: this.route});
           this.patientService.fetchPatientByUuid(this.patient.uuid);
         }, 50);
@@ -247,5 +253,11 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
       programBatch.push(this.transferCareService.attachEncounterForms(program, configs));
     });
     return Observable.forkJoin(programBatch);
+  }
+
+  private _completeProcess() {
+    this.transferCareService.savePayload(null);
+    this.currentProcessId = undefined;
+    this.allFormsFilled = false;
   }
 }

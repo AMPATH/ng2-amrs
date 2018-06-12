@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
+import { Http, RequestOptions, Headers, Response, URLSearchParams } from '@angular/http';
+
 import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -21,6 +22,11 @@ export class PatientReferralResourceService {
   public getReferralLocationUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim()
       + 'patient-referral-details';
+  }
+
+  public getReferralNotificationUrl(): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim()
+      + 'patient-referral';
   }
 
   public getUrlRequestParams(params): URLSearchParams {
@@ -50,6 +56,19 @@ export class PatientReferralResourceService {
       urlParams.set('providerUuids', params.providerUuids);
     }
     return urlParams;
+  }
+
+  public updateReferralNotificationStatus(payload) {
+    if (!payload || (payload && !payload.patient_referral_id)) {
+      return null;
+    }
+    let url = this.getReferralNotificationUrl() + '/' + payload.patient_referral_id;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers});
+    return this.http.post(url, JSON.stringify(payload), options)
+      .map((response: Response) => {
+        return response.json();
+      }).catch(this.handleError);
   }
 
   public getPatientReferralReport(params) {
@@ -92,5 +111,13 @@ export class PatientReferralResourceService {
     return this.http.get(url).map((response: Response) => {
         return response.json();
     });
+  }
+
+  private handleError(error: any) {
+    return Observable.throw(error.message
+      ? error.message
+      : error.status
+        ? `${error.status} - ${error.statusText}`
+        : 'Server Error');
   }
 }

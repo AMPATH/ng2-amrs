@@ -186,7 +186,7 @@ h3 {
   background-color: whitesmoke;
   color: #fff;
   margin: 0;
-  padding: 5px 12px;
+  padding: 5px;
   border: 1px solid rgba(34, 36, 38, .15);
   border-top: 0;
 }
@@ -219,12 +219,6 @@ h3 {
   height:1px;
 }
 
-/*.dropdown button {
-  position: absolute;
-  top: -38px;
-  right:12px;
-}*/
-
 .edit-dropdown {
   margin-right: 12px;
   width: calc(100% - 12px);
@@ -249,10 +243,16 @@ h3 {
   -webkit-transition: all 0.2s linear;
 }
 
-landing-page a.btn {
+landing-page .program-footer a.btn {
   color: #fff !important;
   display: inline-block;
-  margin-right: 7px;
+  float: left;
+  margin-right: 10px;
+  padding: 6px 9px;
+}
+
+landing-page .program-footer a.btn:last-child {
+  margin-right: 0;
 }
 
 .btn.btn-info {
@@ -282,10 +282,6 @@ label.buttons {
 margin-top:-2px;
 }
 
-.ng-select.ng-single .ng-control {
-  height: 34px;
-  min-height: 34px;
-}
 .refer-status {
 display: block;
 background-color:#ACD5B6;

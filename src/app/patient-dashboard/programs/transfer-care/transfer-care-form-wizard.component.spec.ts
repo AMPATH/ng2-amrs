@@ -37,6 +37,7 @@ class MockRouter {
 }
 class MockActivatedRoute {
   public params = Observable.of([{ 'id': 1 }]);
+  public queryParams = Observable.of([{ 'processId': 1 }]);
 }
 
 describe('Component: ProgramsTransferCareFormWizardComponent', () => {
@@ -153,7 +154,9 @@ describe('Component: ProgramsTransferCareFormWizardComponent', () => {
           if (_.includes(conn.request.url, '/etl/program-visit-configs')) {
             conn.mockRespond(new Response(new ResponseOptions({body: JSON.stringify(configs)})));
           } else {
-            expect(conn.request.url).toBe('12');
+            expect(conn.request.url)
+              .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient-program-config' +
+                '?patientUuid=uuid');
           }
         });
         component.ngOnInit();

@@ -21,7 +21,7 @@
                <div>
                   <span  style="cursor: pointer;" *ngIf="showReset" class="glyphicon glyphicon-trash"></span>
                   <span  style="cursor: pointer;" *ngIf="!showReset" class="glyphicon glyphicon-pushpin"></span>
-                  <span  style="cursor: pointer;" *ngIf="allLocations" (click)="pickAllLocations()" >Select all</span>
+                  <span  style="cursor: pointer;" *ngIf="allLocations && multiple" (click)="pickAllLocations()" >Select all</span>
                  <span  style="cursor: pointer;"  *ngIf="allFromCounty" (click)="pickAllLocations()" >Select all from this county</span>
                   <span  style="cursor: pointer;" *ngIf="showReset" (click)="resetLocations()">Select None</span>
                 </div>

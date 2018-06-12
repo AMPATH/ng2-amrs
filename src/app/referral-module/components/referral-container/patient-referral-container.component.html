@@ -1,4 +1,4 @@
-<div *ngIf="selectedState && programsForReferral.length > 0">
+<div *ngIf="programsForReferral.length > 0">
   <div class="items" style="position: relative;">
     <patient-referral-item *ngFor="let program of programsForReferral"
                            [form] = "form"
@@ -16,7 +16,10 @@
   <div style="text-align: right;" class="buttons">
     <button class="btn btn-danger" (click)="cancelReferral()" type="button">Cancel</button>
     <button style="margin-left: 12px;" *ngIf="!((programsForReferral.length === abortedReferrals) || (programsForReferral.length === successfulReferrals))" class="btn btn-primary" (click)="referPatient()" type="button">
-      {{(selectedState.concept.display === 'REFER' || selectedState.concept.display === 'REFER BACK')? selectedState.concept.display : 'REFER' }}
+      <ng-container *ngIf="selectedState">
+        {{(selectedState.concept.display === 'REFER' || selectedState.concept.display === 'REFER BACK')? selectedState.concept.display : 'REFER' }}
+      </ng-container>
+      <ng-container *ngIf="!selectedState">REFER</ng-container>
     </button>
     <button style="margin-left: 12px;" *ngIf="(programsForReferral.length === abortedReferrals) || (programsForReferral.length === successfulReferrals)" class="btn btn-success" (click)="closeReferralDialog()" type="button">Close</button>
   </div>

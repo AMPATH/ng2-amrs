@@ -17,7 +17,7 @@
               </h5>
             </div>
           </div>
-          <div class="panel panel-info" *ngIf="patientOnRefferal">
+          <!--<div class="panel panel-info" *ngIf="patientOnRefferal">
             <div class="panel-heading">
               <h5>
                 <strong class="text-info" style="padding-bottom: 12px;">
@@ -31,10 +31,10 @@
                 <span *ngIf="currentWorkflowState">The current state of referral is <strong>{{currentWorkflowState}}</strong> </span>
               </h5>
               <div style="text-align: right;" class="buttons">
-                <button class="btn btn-danger" (click)="undoReferral()" type="button">Change</button>
+                <button class="btn btn-info" (click)="undoReferral()" type="button">Change</button>
               </div>
             </div>
-          </div>
+          </div>-->
           <div class="panel panel-success" *ngIf="newErollment && patientReferralOnSuccess">
             <div class="panel-heading">
               <h5>
@@ -46,12 +46,12 @@
               </h5>
             </div>
           </div>
-          <div class="row" style="position: relative;" *ngIf="(!patientOnRefferal && !patientReferralOnSuccess && programWorkflows.length > 0)">
+          <div class="row" style="position: relative;" *ngIf="!patientReferralOnSuccess && programWorkflows.length > 0">
             <div [ngBusy]="{busy:[program.isReferring && refer],message:'Referring the patient...'}"></div>
             <div class="col-md-12 col-xs-12 col-sm-12">
               <label>Location</label>
               <location-filter class="no-padding" [showLabel]="false" [locationUuids]="locationUuid"
-                               (onLocationChange)="getSelectedLocation($event); false"
+                               (onLocationChange)="getSelectedLocation($event);"
                                [disable-county]="true"></location-filter>
             </div>
             <div class="hide col-md-6 col-xs-12 col-sm-6">
@@ -73,7 +73,7 @@
               </select>
             </div>
             <div class="col-md-12 col-xs-12 col-sm-12">
-              <label>Clinical Questions</label>
+              <label>Clinical Questions/Notes</label>
               <textarea name="referralReason" class="form-control" [(ngModel)]="referralReason"
                         cols="40" rows="4"></textarea>
             </div>
