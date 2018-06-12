@@ -34,6 +34,7 @@ import { ProgramTransferCareModule } from './programs/transfer-care/transfer-car
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
 import { ReferralModule } from '../referral-module/referral-module';
+// import { PatientRegistrationModule } from '../patient-creation/patient-creation.module';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { ReferralModule } from '../referral-module/referral-module';
     PatientSearchModule,
     ProgramTransferCareModule,
     ReferralModule,
+    // PatientRegistrationModule,
     RouterModule.forChild(routes)
   ],
   declarations: [
