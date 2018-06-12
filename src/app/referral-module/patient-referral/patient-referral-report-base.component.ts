@@ -130,7 +130,8 @@ export class PatientReferralBaseComponent implements OnInit {
         stateUuids: this.states,
         startAge: this.startAge,
         endAge: this.endAge,
-        providerUuids: filterProvider
+        providerUuids: filterProvider,
+        notificationStatus: 'All'
       }).subscribe(
       (data) => {
         this.isLoadingReport = false;

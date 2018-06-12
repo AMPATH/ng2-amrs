@@ -201,7 +201,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                 location_name: ''
             };
 
-
             // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i < this.selectedLocations.length; i++) {
              if (this.selectedLocations[i].value) {

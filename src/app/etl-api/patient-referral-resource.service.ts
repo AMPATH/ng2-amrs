@@ -55,6 +55,9 @@ export class PatientReferralResourceService {
     if (params.providerUuids  && params.providerUuids !== 'undefined') {
       urlParams.set('providerUuids', params.providerUuids);
     }
+    if (params.notificationStatus  && params.notificationStatus !== 'undefined') {
+      urlParams.set('notificationStatus', params.notificationStatus);
+    }
     return urlParams;
   }
 
