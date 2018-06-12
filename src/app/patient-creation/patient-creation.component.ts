@@ -4,22 +4,21 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
-import { GridOptions, HeaderTemplateLoader } from 'ag-grid/main';
 import 'ag-grid-enterprise/main';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { Patient } from '../../models/patient.model';
-import { UserService } from '../../openmrs-api/user.service';
+import { Patient } from '../models/patient.model';
+import { UserService } from '../openmrs-api/user.service';
 import { PatientCreationService } from './patient-creation.service';
 import {
   PatientCreationResourceService
-} from '../../openmrs-api/patient-creation-resource.service';
+} from '../openmrs-api/patient-creation-resource.service';
 import {
   LocationResourceService
-} from '../../openmrs-api/location-resource.service';
+} from '../openmrs-api/location-resource.service';
 import {
   PatientIdentifierTypeResService
-} from '../../openmrs-api/patient-identifierTypes-resource.service';
+} from '../openmrs-api/patient-identifierTypes-resource.service';
 import { constants } from 'os';
 import { of } from 'rxjs/observable/of';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -27,7 +26,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import {
   MdSnackBar
 } from '@angular/material';
-import { SessionStorageService } from './../../utils/session-storage.service';
+import { SessionStorageService } from '../utils/session-storage.service';
 
 @Component({
   selector: 'patient-creation',
@@ -553,7 +552,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   public cancel() {
     this.sessionStorageService.remove('person');
-    this.router.navigate(['/clinic-dashboard/']);
+    this.router.navigate(['/patient-dashboard/patient-search']);
     this.errors = false;
   }
   public ngOnDestroy(): void {

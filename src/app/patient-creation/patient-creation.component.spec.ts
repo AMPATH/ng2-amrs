@@ -5,10 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 
-import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
-import { LocalStorageService } from '../../utils/local-storage.service';
+import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
+import { AppSettingsService } from '../app-settings';
+import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientCreationComponent } from './patient-creation.component';
 import { PatientCreationService } from './patient-creation.service';
 import { Observable } from 'rxjs';
@@ -19,19 +19,19 @@ import {
 } from '@angular/material';
 import {
   PatientCreationResourceService
-} from '../../openmrs-api/patient-creation-resource.service';
+} from '../openmrs-api/patient-creation-resource.service';
 import {
   LocationResourceService
-} from '../../openmrs-api/location-resource.service';
+} from '../openmrs-api/location-resource.service';
 import {
   PatientIdentifierTypeResService
-} from '../../openmrs-api/patient-identifierTypes-resource.service';
+} from '../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientIdentifierService }
-from '../../patient-dashboard/common/patient-identifier/patient-identifiers.service';
-import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
-import { UserService } from '../../openmrs-api/user.service';
-import { SessionStorageService } from '../../utils/session-storage.service';
-import { DataCacheService } from '../../shared/services/data-cache.service';
+from '../patient-dashboard/common/patient-identifier/patient-identifiers.service';
+import { PatientResourceService } from '../openmrs-api/patient-resource.service';
+import { UserService } from '../openmrs-api/user.service';
+import { SessionStorageService } from '../utils/session-storage.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { Storage } from '@ionic/storage';
 import { ModalModule } from 'ngx-bootstrap';
