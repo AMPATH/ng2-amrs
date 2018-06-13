@@ -148,7 +148,7 @@
             "alias": "art_revisit_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when art_revisit_this_month=1 then 1 else null end"
+                "expression": "case when art_revisit_this_month=1 and status = 'active' then 1 else null end"
             }
         },
         {
