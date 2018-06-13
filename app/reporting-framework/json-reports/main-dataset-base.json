@@ -196,7 +196,7 @@
             "alias": "current_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when on_art_this_month=1 then 1 else null end"
+                "expression": "case when on_art_this_month=1 and status='active' then 1 else null end"
             }
         },
         {

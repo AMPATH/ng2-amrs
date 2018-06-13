@@ -94,11 +94,11 @@
                 "caseOptions": [
                     {
                         "condition": "hmsd.age >= 15",
-                        "value": "15_and_above"
+                        "value": "older_than_15"
                     },
                     {
                         "condition": "else",
-                        "value": "below_15"
+                        "value": "below_15_years"
                     }
                 ]
             }
