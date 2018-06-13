@@ -197,6 +197,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.errors = true;
     } else {
       this.errors = false;
+      this.loaderStatus = true;
       this.person = {
         givenName: this.givenName,
         middleName: this.middleName,
@@ -209,6 +210,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       let searchString = this.givenName;
       this.patientCreationService.searchPatient(searchString, false)
       .subscribe((results) => {
+        this.loaderStatus = false;
         if (results.length > 0) {
           let birthdate = this.getAge(this.birthDate);
           results = _.filter(results, (o) => {
@@ -414,6 +416,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.birthDate) {
       this.errors = true;
     }
+
     if (!this.patientIdentifier) {
       this.errors = true;
     }
@@ -421,9 +424,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.errors = true;
     }
     if (this.commonIdentifier && !this.commonAdded) {
-      this.errors = true;
-    }
-    if (!this.preferredIdentifier) {
       this.errors = true;
     }
     if (!this.selectedLocation) {
@@ -461,6 +461,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         }
       });
     }
+
     if (!this.errors) {
       this.loaderStatus = true;
       this.birthError = '';
