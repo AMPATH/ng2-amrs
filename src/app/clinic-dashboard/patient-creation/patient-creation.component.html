@@ -73,6 +73,9 @@
       <button *ngIf="givenName && familyName && this.gender && this.birthDate || this.ageEstimate || middleName"
         type="button" class="btn btn-danger pull-right" (click)="reset()">Reset</button>
     </div>
+    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+      <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+    </div>
   </div>
   <!-- End of Demographics -->
 
