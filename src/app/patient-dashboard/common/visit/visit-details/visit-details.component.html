@@ -40,7 +40,7 @@
         <a style="cursor: pointer;" *ngIf="!editingLocation" (click)="toggleEditLocation()">
           <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
 
-        <a style="cursor: pointer;" *ngIf="editingLocation" class="cancel-edit" (click)="toggleEditVisitType()">
+        <a style="cursor: pointer;" *ngIf="editingLocation" class="cancel-edit" (click)="toggleEditLocation()">
           <i class="glyphicon glyphicon-remove"></i> Cancel Edit
         </a>
         <a style="cursor: pointer;" *ngIf="!editingVisitType" (click)="toggleEditVisitType()">

@@ -155,7 +155,9 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   public loadedLocation(event) {
-    if (event && this.encounterVisitUuid && this.locationUuid && this.locationUuid !== event) {
+    if (event && this.encounterVisitUuid && this.currentVisit && this.currentVisit.location
+
+      && this.currentVisit.location.uuid !== event.value) {
 
       let visitPayload = {
         location: event.value
@@ -184,7 +186,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   private setInitialLocation() {
     this.locationUuid = this.currentVisit && this.currentVisit.location ?
-      this.currentVisit.location.uuid : '';
+      this.currentVisit.location.display : '';
   }
 
   private getEncounterVisit(encounterUuid) {

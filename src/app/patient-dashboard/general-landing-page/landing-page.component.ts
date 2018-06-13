@@ -208,6 +208,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       this.selectedLocation = null;
     }
     this._removeErrorMessage();
+    this.checkIfEnrollmentIsAllowed();
     this.updateEnrollmentButtonState();
   }
 
