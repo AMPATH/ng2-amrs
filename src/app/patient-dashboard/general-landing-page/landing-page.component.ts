@@ -209,6 +209,9 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     }
     this._removeErrorMessage();
     this.checkIfEnrollmentIsAllowed();
+    if (this.isReferral) {
+      this.referPatient();
+    }
     this.updateEnrollmentButtonState();
   }
 
@@ -221,6 +224,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public onAbortingReferral() {
     this.patientReferralService.saveProcessPayload(null);
+    this._removeErrorMessage();
     this.isReferral = false;
   }
 
@@ -284,9 +288,13 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public referPatient() {
-    if (this.hasValidateReferralDate()) {
+    if (this.hasValidReferralDate()) {
       this.isReferral = true;
-      this.handleReferral();
+      if (this.isValidForm({
+          dateEnrolled: this.dateEnrolled,
+          dateCompleted: this.dateCompleted})) {
+        this.handleReferral();
+      }
     }
   }
 
@@ -298,14 +306,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isEditLocation = loc;
   }
 
-  public hasValidateReferralDate() {
+  public hasValidReferralDate() {
     if (this.dateEnrolled !== moment().format('Y-MM-DD')) {
       this.hasValidationErrors = true;
-      this.currentError = 'Referral date cannot be in future or in the past';
+      this.currentError = this.dateEnrolled ? 'Referral date cannot be in future or in the past'
+      : 'Date Enrolled is required';
       return false;
     } else {
-      this.hasValidationErrors = false;
-      this.currentError = undefined;
+      this._removeErrorMessage();
       return true;
     }
   }
@@ -643,7 +651,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   private _sameEnrollmentLocationAllowed() {
     let patientEnrolled = !_.isNil(this.selectedProgram.enrolledProgram);
-    if (patientEnrolled && !this.isReferral) {
+    if (patientEnrolled && !this.isReferral && !_.isNil(this.selectedLocation)) {
       let hasLocation = this.selectedProgram.enrolledProgram.location;
       if (!_.isNil(hasLocation) && hasLocation.uuid === this.selectedLocation.value) {
         this._showErrorMessage('Patient is already enrolled in this location in same program. ' +
@@ -724,53 +732,55 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   // THIS FUNCTION  HAS SOME EDIT MODE CODE. SEE THE BEGINNING OF THIS COMPONENT CLASS FOR MORE
   private _formFieldsValid(enrolledDate, completedDate, location) {
 
+    let allFieldsValid = true;
     if (!this._isAllRequiredQuestionsAnswered()) {
-      return false;
+      allFieldsValid = false;
     }
 
     if (!this._sameEnrollmentLocationAllowed()) {
-      return false;
+      allFieldsValid = false;
     }
 
     if (!this.isEdit && _.isUndefined(this.program)) {
       this._showErrorMessage('Program is required.');
-      return false;
+      allFieldsValid = false;
     }
 
     if (this.programHasWorkflows
       && (_.isNil(this.selectedWorkflow) || _.isNil(this.selectedWorkFlowState))) {
       this._showErrorMessage('You must assign a workflow and state to the program');
-      return false;
+      allFieldsValid = false;
     }
 
     // EDIT MODE CODE
     if (!_.isNil(enrolledDate) && !_.isNil(completedDate) && !this.isEdit) {
       this._showErrorMessage('Date Completed should not be specified while enrolling');
-      return false;
+      allFieldsValid = false;
     }
 
     // when date is reset, the date remains an empty string instead of undefined.
     // Hence empty validation
     if (_.isNil(enrolledDate) || _.isEmpty(enrolledDate)) {
       this._showErrorMessage('Date Enrolled is required.');
-      return false;
+      allFieldsValid = false;
     }
+
     if (_.isNil(location)) {
       this._showErrorMessage('Location Enrolled is required.');
-      return false;
+      allFieldsValid = false;
     }
 
     if ((!_.isNil(completedDate) && !moment(completedDate).isAfter(enrolledDate))) {
       this._showErrorMessage('Date Completed should be after Date Enrolled');
-      return false;
+      allFieldsValid = false;
     }
 
     if (this._isFutureDates(enrolledDate, completedDate) === true) {
       this._showErrorMessage('Date Enrolled or Date Completed should not be in future');
-      return false;
+      allFieldsValid = false;
     }
 
-    return true;
+    return allFieldsValid;
   }
 
   private _isAllRequiredQuestionsAnswered(): boolean {
@@ -824,6 +834,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.department = undefined;
     this.isEdit = false;
     this.errors = [];
+    this.isReferral = false;
     this.programForms = [];
     this.referralPrograms = [];
     this.dateEnrolled = undefined;

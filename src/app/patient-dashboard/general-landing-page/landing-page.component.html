@@ -212,7 +212,7 @@
     </div>
   </div>
 </p-dialog>
-<p-dialog header="Patient Referral" [(visible)]="isReferral" modal="modal" responsive="true">
+<p-dialog (onAfterHide)="onAbortingReferral()" header="Patient Referral" [(visible)]="isReferral && !hasValidationErrors" modal="modal" responsive="true">
   <program-enrollment-manager-form-wizard *ngIf="programForms.length > 0"
                                           [patient]="patient"
                                           [forms]="programForms"
