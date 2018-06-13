@@ -36,7 +36,7 @@ export class EditVisitTypeComponent implements OnInit {
             (progConfig) => {
                 this.programVisitsConfig = progConfig;
                 setTimeout(() => {
-                    this.visitType = this.visit.visitType.uuid;
+                    this.visitType = this.visit.visitType.name;
                 });
                 this.visitTypes = this.programVisitsConfig.visitTypes.allowed.map((data, idx) => {
                     return { label: data.name, value: data.uuid };
@@ -49,7 +49,7 @@ export class EditVisitTypeComponent implements OnInit {
     public saveVisit() {
         this.saving = true;
         let visitPayload = {
-            visitType: this.visitType
+            visitType: (this.visitType as any).value
         };
         this.visitResourceService.updateVisit(this.visit.uuid, visitPayload)
         .subscribe((updateVisit) => {
