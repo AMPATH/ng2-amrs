@@ -111,8 +111,9 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="clear"></div>
 		<!-- DNAPCR ends -->
-		<div class="clear">
+
 			<div *ngIf="!isBusy" class="container-fluid">
         <div class="row">
           <div>
@@ -168,7 +169,6 @@
 					</button>
 					<button id="reset-btn" class="btn btn-default" style="margin-left:4px;" (click)="resetOrder()">Cancel</button>
 				</div>
-			</div>
 		</div>
 	</div>
 	<div class="wrapper" *ngIf="orderPostSuccessful">
