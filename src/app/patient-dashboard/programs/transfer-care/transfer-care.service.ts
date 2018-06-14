@@ -69,12 +69,7 @@ export class ProgramsTransferCareService {
   }
 
   public fetchAllProgramTransferConfigs(patientUuid): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid)
-      .subscribe((programConfigs) => {
-      subject.next(programConfigs);
-    });
-    return subject;
+    return this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid);
   }
 
   public transferPatient(patient: Patient, programs: any[]) {
