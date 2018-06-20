@@ -450,7 +450,7 @@
         "schema": "etl",
         "tableName": "flat_hiv_summary",
         "alias": "t8",
-        "joinExpression": "t1.person_id = t8.person_id and t8.encounter_type=116 and t1.encounter_datetime < t8.encounter_datetime"
+        "joinExpression": "t1.person_id = t8.person_id and t8.encounter_type =116 and t1.encounter_datetime < t8.encounter_datetime"
       },
       {
         "joinType": "INNER JOIN",
@@ -548,6 +548,11 @@
       },
       {
         "expression": "t8.person_id is null",
+        "processForce": true,
+        "parameter": ""
+      },
+      {
+        "expression": "t1.encounter_type !=116",
         "processForce": true,
         "parameter": ""
       }
