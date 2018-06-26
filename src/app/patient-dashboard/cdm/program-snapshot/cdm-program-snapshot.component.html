@@ -1,0 +1,58 @@
+<div class="snapshot">
+  <div *ngIf="hasError">
+    <p class="alert alert-error text-error">Error generating CDM program snapshot</p>
+  </div>
+  <div *ngIf="!hasData && !hasError && hasLoadedData">
+    <p class="alert alert-warning">No patient data to generate CDM program snapshot</p>
+  </div>
+  <div *ngIf="!hasError && hasData">
+    <div class="snapshot-summary">
+      <div class="snapshot-body">
+      <div class="col-md-12">
+        <p>Last Visit: {{ patientData?.encounter_datetime ? (patientData?.encounter_datetime | date:'dd-MM-yyyy') : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Last DM Medication: {{ patientData?.dm_meds_name ? patientData?.dm_meds_name : '' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Last HTN Medication: {{ patientData?.htn_meds_name ? patientData?.htn_meds_name : '' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Last BP: {{ patientData?.sbp ? patientData?.sbp: '(None)' }}/{{ patientData?.dbp ? patientData?.dbp: '(None)' }} mmHg</p>
+      </div>
+      <div class="col-md-12">
+        <p>Last PR: {{ patientData?.pulse ? patientData?.pulse : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Last BS: {{ patientData?.rbs ? patientData?.rbs: '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-6 col-xs-12"><p>RTC Date: {{ patientData?.rtc_date ? (patientData?.rtc_date | date:'dd-MM-yyyy') : '(None)' }}</p></div>
+      </div>
+      <div class="col-md-12">
+        <p>HbA1C: {{ patientData?.hb_a1c ? patientData?.hb_a1c : '(None)' }} | {{ patientData?.hb_a1c_date ? ( patientData?.hb_a1c_date | date:'dd-MM-yyyy') : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>LMP: {{ patientData?.lmp ? patientData?.lmp : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Creatinine: {{ patientData?.creatinine ? patientData?.creatinine : '(None)' }} | {{ patientData?.creatinine_date ? (patientData?.creatinine_date | date:'dd-MM-yyyy') : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Lipids: {{ patientData?.ldl ? patientData?.ldl : '(None)' }} | {{ patientData?.lipid_panel_date ? (patientData?.lipid_panel_date | date:'dd-MM-yyyy') : '(None)' }} </p>
+      </div>
+      <div class="col-md-12">
+        <p>DM Status: {{ patientData?.dm_status_name ? patientData?.dm_status_name : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>HTN Status: {{ patientData?.htn_status_name ? patientData?.htn_status_name : '(None)' }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>Complications: {{ patientData?.problems_name ? patientData?.problems_name : '(None)' }}</p>
+      </div>
+      <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!hasLoadedData && !hasError"><p>Loading patient data....</p></div>
+</div>

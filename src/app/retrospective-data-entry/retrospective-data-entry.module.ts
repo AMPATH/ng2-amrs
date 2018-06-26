@@ -28,7 +28,7 @@ import { ProgramWorkFlowStateResourceService } from
     NgSelectModule,
     MdCheckboxModule,
     SharedModule,
-    DialogModule
+    DialogModule,
   ],
   exports: [MdCheckboxModule, NgSelectModule, RetrospectiveSettingsComponent, BusyComponent,
     LocationFilterComponent, RetrospectiveContainerComponent,
