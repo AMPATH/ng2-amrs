@@ -35,8 +35,6 @@ import { Angulartics2Module } from 'angulartics2';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CacheModule } from 'ionic-cache';
-import { LocationFilterComponent
-} from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { BusyComponent } from './busy-loader/busy.component';
 import { UnenrollPatientProgramsComponent
@@ -44,6 +42,8 @@ import { UnenrollPatientProgramsComponent
 import { ConfirmDialogModule, DialogModule, TabViewModule } from 'primeng/primeng';
 import { HivProgramSnapshotComponent
 } from '../patient-dashboard/hiv/program-snapshot/hiv-program-snapshot.component';
+import { CdmProgramSnapshotComponent
+} from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
 import { GeneralLandingPageComponent
 } from '../patient-dashboard/general-landing-page/landing-page.component';
 import { ProgramsContainerComponent
@@ -123,7 +123,9 @@ import { RetrospectiveDataEntryModule
     ProgramEnrollmentComponent, FormListComponent, ReportFiltersComponent,
     PatientReferralItemComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, ToastComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, ToastComponent,
+    CdmProgramSnapshotComponent
+  ],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,
@@ -131,7 +133,8 @@ import { RetrospectiveDataEntryModule
     ProgramEnrollmentComponent, ReportFiltersComponent, PatientReferralItemComponent,
     OnlineTrackerComponent, ToastComponent, UnenrollPatientProgramsComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent,
-    PatientEncounterObservationsComponent, PrettyEncounterViewerComponent
+    PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
+    CdmProgramSnapshotComponent
   ],
   entryComponents: [
     ToastComponent

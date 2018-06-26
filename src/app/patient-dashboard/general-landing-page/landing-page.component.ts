@@ -164,7 +164,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           return singleOb.concept.uuid === 'aad64a84-1a63-47e3-a806-fb704b52b709';
         });
         this.referralProgramOnDetail = row;
-          // override the default state value
+        // override the default state value
         this.referralProgramOnDetail.program_workflow_state = patientState.value.display;
         this.staticModal.show();
         this.showReferralEncounterDetail = true;

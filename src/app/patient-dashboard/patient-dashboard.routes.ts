@@ -6,6 +6,7 @@ import { FormsComponent } from './common/forms/forms.component';
 import { LabDataSummaryComponent } from './common/lab-data-summary/lab-data-summary.component';
 import { LabOrdersComponent } from './common/lab-orders/lab-orders.component';
 import { HivSummaryComponent } from './hiv/hiv-summary/hiv-summary.component';
+import { CdmSummaryComponent } from './cdm/cdm-summary/cdm-summary.component';
 import { ClinicalNotesComponent } from './common/clinical-notes/clinical-notes.component';
 import { FormentryComponent } from './common/formentry/formentry.component';
 import { PatientMonthlyStatusComponent } from
@@ -67,7 +68,7 @@ export const routes = [
           },
           {
             path: 'cdm/:program/landing-page', // CDM Landing Page
-            component: PatientInfoComponent
+            component: CdmSummaryComponent
           },
           {
             path: 'dermatology/:program/landing-page', // CDM Landing Page
@@ -90,6 +91,7 @@ export const routes = [
             }
           },
           { path: ':programClass/:program/hiv-summary', component: HivSummaryComponent },
+          { path: ':programClass/:program/cdm-summary', component: CdmSummaryComponent },
           {
             path: ':programClass/:program/patient-monthly-status-history',
             component: PatientMonthlyStatusComponent
