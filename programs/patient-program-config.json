@@ -32,7 +32,7 @@
       "allowMultipleEnrollment": false,
       "requiredProgramEnrollment": []
     },
-    "stateChangeForms": [
+    "stateChangeForms_commented": [
       {
         "type": "inCare",
         "uuid": "72443cac-4822-4dce-8460-794af7af8167",
