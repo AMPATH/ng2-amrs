@@ -102,7 +102,7 @@ describe('FormListService', () => {
 
         }));
 
-    xit('should filter out unpublished openmrs forms from a list',
+    it('should filter out unpublished openmrs forms from a list',
         inject([FormListService], (formListService: FormListService) => {
             let expectedFilteredList = [{
                 name: 'form 1',

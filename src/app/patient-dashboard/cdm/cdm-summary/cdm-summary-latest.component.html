@@ -1,0 +1,24 @@
+<div [ngBusy]="{busy:[loadingCdmSummary],message:'Please Wait...'}"></div>
+
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+
+<div>
+  <ul class="list-group">
+    <li class="list-group-item">Last Visit: {{ patientData?.encounter_datetime ? (patientData?.encounter_datetime | date:'dd-MM-yyyy') : '(None)' }}</li>
+    <li class="list-group-item">Last DM Medication: {{ patientData?.dm_meds_name ? patientData?.dm_meds_name : '' }}</li>
+    <li class="list-group-item">Last HTN Medication:{{ patientData?.htn_meds_name ? patientData?.htn_meds_name : '' }}</li>
+    <li class="list-group-item">Last BP: {{ patientData?.sbp ? patientData?.sbp: '(None)' }}/{{ patientData?.dbp ? patientData?.dbp: '(None)' }} mmHg</li>
+    <li class="list-group-item">Last PR: {{ patientData?.pulse ? patientData?.pulse : '(None)' }}</li>
+    <li class="list-group-item">Last BS: {{ patientData?.rbs ? patientData?.rbs: '(None)' }}</li>
+    <li class="list-group-item">RTC Date: {{ patientData?.rtc_date ? (patientData?.rtc_date | date:'dd-MM-yyyy') : '(None)' }}</li>
+    <li class="list-group-item">HbA1C: {{ patientData?.hb_a1c ? patientData?.hb_a1c : '(None)' }} | {{ patientData?.hb_a1c_date ? ( patientData?.hb_a1c_date | date:'dd-MM-yyyy') : '(None)' }}</li>
+    <li class="list-group-item">LMP: {{ patientData?.lmp ? patientData?.lmp : '(None)' }}</li>
+    <li class="list-group-item">Creatinine: {{ patientData?.creatinine ? patientData?.creatinine : '(None)' }} | {{ patientData?.creatinine_date ? (patientData?.creatinine_date | date:'dd-MM-yyyy') : '(None)' }}</li>
+    <li class="list-group-item">Lipids: {{ patientData?.ldl ? patientData?.ldl : '(None)' }} | {{ patientData?.lipid_panel_date ? (patientData?.lipid_panel_date | date:'dd-MM-yyyy') : '(None)' }}</li>
+    <li class="list-group-item">DM Status: {{ patientData?.dm_status_name ? patientData?.dm_status_name : '(None)' }}</li>
+    <li class="list-group-item">HTN Status: {{ patientData?.htn_status_name ? patientData?.htn_status_name : '(None)' }}</li>
+    <li class="list-group-item">Complications: {{ patientData?.problems_name ? patientData?.problems_name: '(None)' }} </li>
+  </ul>
+</div>
