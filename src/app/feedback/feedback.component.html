@@ -47,9 +47,9 @@
                 </div>
                 <div class="row">
                         <div class="col-md-12" include="form-input-select()">
-                           <!--<label>Department</label>-->            
+                           <!--<label>Department</label>-->
                            <div style="display:inline-block; color:red;padding-right:2px;">
-                              *                         
+                              *
                            </div>
                            <div style="display:inline-block; width: 98%;">
                               <select  class="form-control"  [ngModel]="department" [ngModelOptions]="{standalone:true}"
@@ -72,7 +72,8 @@
                  </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right" [disabled]="!name.valid || name.length < 0 || !departmentIsSelected">Send a message</button>
+                        <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right" [disabled]="!name.valid || name.length < 0 || !departmentIsSelected
+ || !payload.message">Send a message</button>
                         <button type="button" (click)="goBack()" class="btn pull-left">Back</button>
                     </div>
                 </div>

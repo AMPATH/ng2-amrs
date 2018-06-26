@@ -6,7 +6,7 @@
     <th>Program</th>
     <th>Location Enrolled</th>
     <th>Date Enrolled</th>
-    <th>State</th>
+    <!--<th>State</th>-->
   </tr>
   </thead>
   <tbody>
@@ -19,7 +19,7 @@
     <td style="vertical-align: baseline;">{{row.program.display}}</td>
     <td style="vertical-align: baseline;">{{row.enrolledProgram.openmrsModel.location?.display}}</td>
     <td style="vertical-align: baseline;">{{row.dateEnrolledView}}</td>
-    <td style="vertical-align: baseline;">
+    <!--<td style="vertical-align: baseline;">
       <div *ngIf="row.hasWorkflows" class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 6px 12px;">
           <ng-container *ngIf="row.enrolledProgram.states.length > 0">
@@ -37,7 +37,7 @@
           </li>
         </ul>
       </div>
-    </td>
+    </td>-->
   </tr>
   </tbody>
 </table>
