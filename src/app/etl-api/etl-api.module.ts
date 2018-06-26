@@ -37,6 +37,7 @@ import {
 } from './hiv-monthly-summary-indicators-resource.service';
 import { PatientProgramResourceService } from './patient-program-resource.service';
 import { PatientReferralResourceService } from './patient-referral-resource.service';
+import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 // import { ReferralProviderResourceService } from './referral-provider-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -68,7 +69,8 @@ import { PatientReferralResourceService } from './patient-referral-resource.serv
     DefaulterListResourceService,
     HivMonthlySummaryIndicatorsResourceService,
     PatientProgramResourceService,
-    PatientReferralResourceService
+    PatientReferralResourceService,
+    CdmSummaryResourceService
     // ReferralProviderResourceService
   ],
   exports: []
