@@ -573,7 +573,7 @@
     ]
   },
   "bd9a8b06-73c7-44a8-928c-5e72247f4c1d": {
-    "name": "DIABETES AND HYPERTENSION AT CENTER OF EXCELLENCE PROGRAM",
+    "name": "HTN-DM TERTIARY CARE",
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -583,48 +583,166 @@
     "visitTypes": [
       {
         "uuid": "67da2bee-70de-451c-8002-75429c71c46c",
-        "name": "DM-HTN COE visit",
+        "name": "DM-HTN Tertiary visit",
         "encounterTypes": [
           {
             "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
             "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "14c3b999-2d5c-4c2e-b173-5212b9170652",
+            "display": "COEDMINITIAL"
+          },
+          {
+            "uuid": "0d2ff377-a3df-453e-ae20-e92da3aa3a17",
+            "display": "COEDMRETURN"
+          },
+          {
+            "uuid": "db9b637c-6289-4259-a66a-326b2d2f2a5d",
+            "display": "HTNDMPEDINITIAL"
+          },
+          {
+            "uuid": "f26104d5-45bc-4b19-acf9-8207e414a579",
+            "display": "HTNDMPEDRETURN"
+          },
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "display": "HTNDMREFERRAL"
           }
         ]
       }
     ]
   },
   "b731ba72-cf99-4176-9fcd-37cd186400c7": {
-    "name": "DIABETES AND HYPERTENSION CARE AT HEALTH CENTER PROGRAM",
+    "name": "HTN-DM SECONDARY CARE",
     "dataDependencies": [
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "visibleLocations": [
+      {"uuid":"08feb2dc-1352-11df-a1f1-0026b9348838", "display":"Turbo"},
+      {"uuid":"0900948a-1352-11df-a1f1-0026b9348838", "display":"Huruma SDH"}
+    ],
+    "stateChangeForms": [
+      {
+        "type": "inCare",
+        "uuid": "72443cac-4822-4dce-8460-794af7af8167",
+        "forms": []
+      },
+      {
+        "type": "referred",
+        "uuid": "0c5565c5-45cf-40ab-aa6d-5694aeabae18",
+        "forms": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "required":true
+          }
+        ]
+      },
+      {
+        "type": "referredBack",
+        "uuid": "15977097-13b7-4186-80a7-a78535f27866",
+        "forms": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "required":true
+          }
+        ]
+      }],
     "incompatibleWith": [],
     "visitTypes": [
       {
         "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
-        "name": "DM-HTN Health Center visit",
+        "name": "DM-HTN Secondary Visit",
+        "transitionStateOnVisitStart":{"state":"inCare", "uuid":"72443cac-4822-4dce-8460-794af7af8167"},
         "encounterTypes": [
           {
             "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
             "display": "CDMTRIAGE"
           },
           {
-            "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
-            "display": "HTNDMRETRUN"
-          },
-          {
             "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
             "display": "HTNDMINITIAL"
           },
           {
-            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-            "display": "DEATHREPORT"
+            "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
+            "display": "HTNDMRETRUN"
           },
           {
-            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
-            "display": "DERMATOLOGYREFERRAL"
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "display": "HTNDMREFERRAL"
+          }
+        ]
+      }
+    ]
+  },
+  "876a154d-310d-4caf-8b58-be9dbcc7e753": {
+    "name": "HTN-DM PRIMARY CARE",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visibleLocations": [
+      {"uuid":"0900880a-1352-11df-a1f1-0026b9348838","display":"Chepsaita"},
+      {"uuid":"96d2964e-8cec-4eca-ad05-a9c1fb29a045","display":"Cheramei"},
+      {"uuid":"2003e950-5b62-4330-a94c-cf8165f75084","display":"Murgusi"},
+      {"uuid":"441451e5-aabd-4e71-87dd-8b7c5f651434","display":"Cheplaskei"},
+      {"uuid":"f030c7f2-9790-41d0-a704-f5a164909d17","display":"Sugoi A"},
+      {"uuid":"a27cec49-110c-41a1-9a6f-964d6ac2359d","display":"Sugoi B"},
+      {"uuid":"d09c6925-1e9a-4973-921d-d0014d7825ec","display":"Chepkemel"},
+      {"uuid":"e8c7759a-c99a-46de-82f8-d7c9f67eb237","display":"Sambut"},
+      {"uuid":"00ce435c-3f27-4e89-a7f8-80fd102ff410","display":"Ngenyilel"},
+      {"uuid":"e05cbb83-9418-4ebc-9240-ae2512d70321","display":"Kapyemit"},
+      {"uuid":"e2546b92-17df-4640-a38b-c4f30b0cfd81","display":"Murgor Hills"},
+      {"uuid":"3e04788f-6761-412a-8db6-08a713f59afc","display":"Osorongai"},
+      {"uuid":"d83e9d9e-8211-414d-8269-7b9308184b82","display":"West Clinic Health Centre"}
+    ],
+    "stateChangeForms": [
+      {
+        "type": "inCare",
+        "uuid": "72443cac-4822-4dce-8460-794af7af8167",
+        "forms": []
+      },
+        {
+        "type": "referred",
+        "uuid": "0c5565c5-45cf-40ab-aa6d-5694aeabae18",
+        "forms": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "required":true
+          }
+        ]
+      },
+      {
+        "type": "referredBack",
+        "uuid": "15977097-13b7-4186-80a7-a78535f27866",
+        "forms": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "required":true
+          }
+        ]
+      }],
+    "visitTypes": [
+      {
+        "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
+        "name": "DM-HTN Primary Care Visit",
+        "transitionStateOnVisitStart":{"state":"inCare", "uuid":"72443cac-4822-4dce-8460-794af7af8167"},
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "1871ce37-7def-4335-972f-9861195ba683",
+            "display": "CDMDispensary"
+          },
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "display": "HTNDMREFERRAL"
           }
         ]
       }
