@@ -26,8 +26,8 @@ const expectedResults = {
       middle_name: 'Middle Name',
       family_name: 'Family Name',
       identifiers: 'identifier-1,identifier-2',
-      order_no: 'ORD-28212',
-      location: 'location Test',
+      orderNumber: 'ORD-28212',
+      location_name: 'location Test',
       patient_uuid: '5ed39ae0-1359-11df-a1f1-0026b9348838',
       date_activated: '2017-03-06'
     },
@@ -38,8 +38,8 @@ const expectedResults = {
       middle_name: 'Middle Name',
       family_name: 'Family Name',
       identifiers: 'identifier-11,identifier-22',
-      order_no: 'ORD-28212',
-      location: 'location Test',
+      orderNumber: 'ORD-28212',
+      location_name: 'location Test',
       patient_uuid: '5ed39ae0-1359-11df-a1f1-0026b9348838',
       date_activated: '2017-03-06'
     }

@@ -20,8 +20,8 @@ const expectedResults = {
       middle_name: 'Middle Name',
       family_name: 'Family Name',
       identifiers: 'identifier-1,identifier-2',
-      order_no: 'ORD-28212',
-      location: 'location Test',
+      orderNumber: 'ORD-28212',
+      location_name: 'location Test',
       patient_uuid: '5ed39ae0-1359-11df-a1f1-0026b9348838',
       date_activated: '2017-03-06'
     },
@@ -32,8 +32,8 @@ const expectedResults = {
       middle_name: 'Middle Name',
       family_name: 'Family Name',
       identifiers: 'identifier-11,identifier-22',
-      order_no: 'ORD-28212',
-      location: 'location Test',
+      orderNumber: 'ORD-28212',
+      location_name: 'location Test',
       patient_uuid: '5ed39ae0-1359-11df-a1f1-0026b9348838',
       date_activated: '2017-03-06'
     }
@@ -82,10 +82,12 @@ describe('ClinicLabOrdersResourceService Tests', () => {
       (s: ClinicLabOrdersResourceService, backend: MockBackend) => {
         backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toContain('/etl/clinic-lab-orders/2017-02-01');
+          expect(connection.request.url).toContain('/etl/clinic-lab-orders');
           expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-            + '/etl/clinic-lab-orders/2017-02-01?'
-            + 'locationUuids=uuid');
+            + '/etl/clinic-lab-orders?'
+            + 'locationUuids=uuid'
+            + '&endDate=2017-02-01'
+            + '&startDate=2017-02-01');
           expect(connection.request.url).toContain('locationUuids=uuid');
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -94,8 +96,9 @@ describe('ClinicLabOrdersResourceService Tests', () => {
             )));
         });
         s.getClinicLabOrders({
-          dateActivated: '2017-02-01',
+          startDate: '2017-02-01',
           locationUuids: 'uuid',
+          endDate: '2017-02-01',
         }).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(expectedResults.result);
