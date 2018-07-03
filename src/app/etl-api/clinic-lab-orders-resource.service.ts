@@ -7,24 +7,41 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
 export class ClinicLabOrdersResourceService {
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService,
-              protected dataCache: DataCacheService) { }
+  constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
 
-  public getUrl(reportName, selectedDate): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}/${selectedDate}`;
+  public getUrl(reportName): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + `${reportName}`;
 
   }
 
   public getClinicLabOrders(params): Observable<any> {
-    let url = this.getUrl('clinic-lab-orders', params.dateActivated);
+    let url = this.getUrl('clinic-lab-orders');
     let urlParams: URLSearchParams = new URLSearchParams();
     urlParams.set('locationUuids', params.locationUuids);
-    let request =  this.http.get(url , {
+    urlParams.set('endDate', params.endDate);
+    urlParams.set('startDate', params.startDate);
+    return  this.http.get(url , {
       search: urlParams
     })
       .map((response: Response) => {
         return response.json().result;
       });
-    return this.dataCache.cacheRequest(url, urlParams, request);
+   // return this.dataCache.cacheRequest(url, urlParams, request);
+  }
+  public getLabOrdersByPatientUuid(patientUuid): Observable<any> {
+    let url = this.getUrls();
+    let urlParams: URLSearchParams = new URLSearchParams();
+    urlParams.set('patientUuid', patientUuid);
+    return this.http.get(url , {
+      search: urlParams
+    })
+      .map((response: Response) => {
+        return response.json().result;
+      });
+     // return this.dataCache.cacheRequest(url, urlParams, request);
+  }
+
+  public getUrls(): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + `lab-orders-by-patient`;
   }
 }

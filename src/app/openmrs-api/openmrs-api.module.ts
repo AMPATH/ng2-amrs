@@ -20,6 +20,7 @@ import {
  } from './patient-relationship-type-resource.service';
 import { PatientIdentifierTypeResService } from './patient-identifierTypes-resource.service';
 import { PatientCreationResourceService } from './patient-creation-resource.service';
+import { ObsResourceService } from './obs-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -44,7 +45,8 @@ import { PatientCreationResourceService } from './patient-creation-resource.serv
     PatientRelationshipResourceService,
     PatientRelationshipTypeResourceService,
     PatientIdentifierTypeResService,
-    PatientCreationResourceService
+    PatientCreationResourceService,
+    ObsResourceService
   ],
   exports: []
 })
