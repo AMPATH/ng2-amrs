@@ -38,6 +38,8 @@ import {
 import {
     clinicalArtOverviewService
 } from './service/clinical-art-overview.service';
+import { labOrdersService } from './service/lab-orders.service';
+
 import {
     hivComparativeOverviewService
 } from './service/hiv-comparative-overview.service';
@@ -439,7 +441,7 @@ module.exports = function () {
     },
     {
         method: 'GET',
-        path: '/etl/clinic-lab-orders/{dateActivated}',
+        path: '/etl/clinic-lab-orders',
         config: {
             plugins: {
                 'hapiAuthorization': {
@@ -458,7 +460,7 @@ module.exports = function () {
                         function () {
                             request.query.groupBy = 'groupByPerson,groupByd';
                             let compineRequestParams = Object.assign({}, request.query, request.params);
-                            let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['dateActivated', 'locations', 'groupBy'], compineRequestParams);
+                            let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['startDate','endDate', 'locations', 'groupBy'], compineRequestParams);
 
                             dao.runReport(reportParams).then((result) => {
                                 _.each(result.result, (row) => {
@@ -3512,6 +3514,51 @@ module.exports = function () {
                 description: 'Get enrollment summary details based on location and time filters',
                 notes: 'Returns a list of active patients enrolled',
                 tags: ['api'],
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/lab-orders-by-patient',
+            config: {
+                auth: 'simple',
+                plugins: {
+                    'hapiAuthorization': {
+                        roles: [privileges.canViewPatient,privileges.canViewClinicDashBoard]
+                    }
+                },
+                handler: function (request, reply) {
+                    request.query.reportName = 'clinic-lab-orders-report';
+                    //security check
+                    if (!authorizer.hasReportAccess(request.query.reportName)) {
+                        return reply(Boom.forbidden('Unauthorized'));
+                    }
+                    request.params.limit = 1000;
+                    let requestParams = Object.assign({}, request.query, request.params);
+                    let reportParams = etlHelpers.getReportParams('clinic-lab-orders-report', ['patientUuid'], requestParams);
+
+                    let service = new labOrdersService();
+                    service.getAggregateReport(reportParams).then((result) => {
+                        reply(result);
+                    }).catch((error) => {
+                        reply(error);
+                    });
+                },
+                description: "Get lab orders based on patient uuid",
+                notes: "Api endpoint that returns lab order(s) based on the patient uuid",
+                tags: ['api'],
+                validate: {
+                    options: {
+                        allowUnknown: true
+                    },
+                    query: {
+                        locationUuids: Joi.string()
+                            .optional()
+                            .description("A list of comma separated location uuids"),
+                        patientUuid: Joi.string()
+                            .optional()
+                            .description("A list of comma separated patient uuids"),
+                    }
+                }
             }
         },
         {
