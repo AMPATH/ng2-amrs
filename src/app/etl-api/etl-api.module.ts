@@ -35,6 +35,8 @@ import { DefaulterListResourceService } from './defaulter-list-resource.service'
 import {
   HivMonthlySummaryIndicatorsResourceService
 } from './hiv-monthly-summary-indicators-resource.service';
+import { CdmMonthlySummaryIndicatorsResourceService } from
+'./cdm-monthly-summary-indicators-resource.service';
 import { PatientProgramResourceService } from './patient-program-resource.service';
 import { PatientReferralResourceService } from './patient-referral-resource.service';
 // import { ReferralProviderResourceService } from './referral-provider-resource.service';
@@ -67,6 +69,7 @@ import { PatientReferralResourceService } from './patient-referral-resource.serv
     PatientsRequiringVLResourceServiceMock,
     DefaulterListResourceService,
     HivMonthlySummaryIndicatorsResourceService,
+    CdmMonthlySummaryIndicatorsResourceService,
     PatientProgramResourceService,
     PatientReferralResourceService
     // ReferralProviderResourceService

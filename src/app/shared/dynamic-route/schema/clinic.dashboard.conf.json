@@ -74,6 +74,18 @@
       "label": "Patient Referral",
       "icon": "fa fa-file-pdf-o",
       "isSideBarOpen": false
+    },
+    {
+      "url": "cdm/cdm-summary-indicator-report",
+      "label": "CDM summary Indicators",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "cdm/cdm-summary-monthly-indicator-report",
+      "label": "CDM Monthly summary Indicators",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": []
