@@ -11,7 +11,6 @@ export class MOHReportService {
 
     public generateMultiplePdfs(params: any, rows: Array<any>,
                                 sectionDefinitions: any): Observable<any> {
-
         return Observable.create((observer: Subject<any>) => {
             if (Array.isArray(rows) && rows.length > 0) {
 
