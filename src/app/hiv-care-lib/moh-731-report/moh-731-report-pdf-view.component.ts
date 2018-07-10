@@ -158,9 +158,11 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             // tslint:disable-next-line:prefer-for-of
             // for (let i = 0; i < reportsData.length; i++) {
 
-            let paramsArray = this.getLocationHeaders(reportsData);
 
-            this.mohReportService.generateMultiplePdfs(paramsArray, reportsData, sectionDefinitions)
+            let paramsArray = this.getLocationHeaders(reportsData);
+            let rowsArray = this.getJoinLocations(reportsData);
+
+            this.mohReportService.generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions)
                 .subscribe(
                     (pdf) => {
                         this.pdfSrc = pdf.pdfSrc;
@@ -177,6 +179,19 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                     }
                 );
         }
+
+    }
+
+    private getJoinLocations(reportsData) {
+
+        let rowsArray = [];
+        reportsData.forEach((element) => {
+            if (element.join_location) {
+                rowsArray.push(element);
+            }
+        });
+
+        return rowsArray;
 
     }
 
