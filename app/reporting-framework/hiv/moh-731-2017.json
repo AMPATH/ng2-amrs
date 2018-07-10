@@ -100,42 +100,42 @@
             {
                 "label": "Starting ART - 10 to 14yrs(M)",
                 "ref": "HV03-018",
-                "indicator": "dc__gender__M__age_range__10_to_14__started_art"
+                "indicator": "dc__age_range__10_to_14__gender__M__started_art"
             },
             {
                 "label": "Starting ART - 10 to 14yrs(F)",
                 "ref": "HV03-019",
-                "indicator": "dc__gender__F__age_range__10_to_14__started_art"
+                "indicator": "dc__age_range__10_to_14__gender__F__started_art"
             },
             {
                 "label": "Starting ART - 15 to 19yrs(M)",
                 "ref": "HV03-020",
-                "indicator": "dc__gender__M__age_range__15_to_19__started_art"
+                "indicator": "dc__age_range__15_to_19__gender__M__started_art"
             },
             {
                 "label": "Starting ART - 15 to 19yrs(F)",
                 "ref": "HV03-021",
-                "indicator": "dc__gender__F__age_range__15_to_19__started_art"
+                "indicator": "dc__age_range__15_to_19__gender__F__started_art"
             },
             {
                 "label": "Starting ART - 20 to 24yrs(M)",
                 "ref": "HV03-022",
-                "indicator": "dc__gender__M__age_range__20_to_24__started_art"
+                "indicator": "dc__age_range__20_to_24__gender__M__started_art"
             },
             {
                 "label": "Starting ART - 20 to 24yrs(F)",
                 "ref": "HV03-023",
-                "indicator": "dc__gender__F__age_range__20_to_24__started_art"
+                "indicator": "dc__age_range__20_to_24__gender__F__started_art"
             },
             {
                 "label": "Starting ART - 25 and older(M)",
                 "ref": "HV03-024",
-                "indicator": "dc__gender__M__age_range__older_than_24__started_art"
+                "indicator": "dc__age_range__older_than_24__gender__M__started_art"
             },
             {
                 "label": "Starting ART - 25 and older(F)",
                 "ref": "HV03-025",
-                "indicator": "dc__gender__F__age_range__older_than_24__started_art"
+                "indicator": "dc__age_range__older_than_24__gender__F__started_art"
             },
             {
                 "label": "Starting on ART - Total (Sum HV03-016 to HV03-025)",

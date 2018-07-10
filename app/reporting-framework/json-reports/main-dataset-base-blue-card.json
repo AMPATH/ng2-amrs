@@ -108,7 +108,7 @@
             "alias": "enrolled_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when enrolled_this_month=1 then 1 else null end"
+                "expression": "case when enrolled_this_month=1 AND NOT (enrollment_date > arv_first_regimen_start_date) then 1 else null end"
             }
         },
         {
@@ -125,14 +125,6 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "if(arv_first_regimen is null and status='active',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id,1,null)"
             }
         },
         {

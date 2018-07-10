@@ -125,32 +125,32 @@
          {
             "label": "Starting ART -Below 1yr(M)",
             "ref": "HV03-20",
-            "indicator": "dc__gender__M__age_range__0_to_1__started_art"
+            "indicator": "dc__age_range__0_to_1__gender__M__started_art"
          },
          {
             "label": "Starting ART -Below 1yr(F)",
             "ref": "HV03-20",
-            "indicator": "dc__gender__F__age_range__0_to_1__started_art"
+            "indicator": "dc__age_range__0_to_1__gender__F__started_art"
          },
          {
             "label": "Starting ART -Below 15yrs(M)",
             "ref": "HV03-21",
-            "indicator": "dc__gender__M__age_range__below_15_years__started_art"
+            "indicator": "dc__age_range__below_15_years__gender__M__started_art"
          },
          {
             "label": "Starting ART -Below 15yrs(F)",
             "ref": "HV03-22",
-            "indicator": "dc__gender__F__age_range__below_15_years__started_art"
+            "indicator": "dc__age_range__below_15_years__gender__F__started_art"
          },
          {
             "label": "Starting ART -15yr and Older(M)",
             "ref": "HV03-23",
-            "indicator": "dc__gender__M__age_range__older_than_15__started_art"
+            "indicator": "dc__age_range__older_than_15__gender__M__started_art"
          },
          {
             "label": "Starting ART -15yr and Older(F)",
             "ref": "HV03-24",
-            "indicator": "dc__gender__F__age_range__older_than_15__started_art"
+            "indicator": "dc__age_range__older_than_15__gender__F__started_art"
          },
          {
             "label": "Starting on ART -Total (Sum HV03-21 to HV03-24)",
