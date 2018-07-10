@@ -87,12 +87,6 @@ export class ProgramsTransferCareService {
           program.location.locations.value, '');
         if (program.enrolledProgram.states) {
           let state: any = _.first(program.enrolledProgram.states);
-          if (state) {
-            _.merge(enrollPayload, {'states': [{
-              'state': state.state.uuid,
-              'startDate': this.toOpenmrsDateFormat(new Date())
-            }]});
-          }
         }
         programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload));
         programBatch.push(this.programService.saveUpdateProgramEnrollment(enrollPayload));
