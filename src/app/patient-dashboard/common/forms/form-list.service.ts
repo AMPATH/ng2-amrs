@@ -64,7 +64,7 @@ export class FormListService {
           return item.published && !item.retired;
         });
 
-        return publishedOpenmrsForms;
+        return unsortArray; // publishedOpenmrsForms;
     }
 
     public processFavouriteForms(openmrsForms, favouriteForms) {

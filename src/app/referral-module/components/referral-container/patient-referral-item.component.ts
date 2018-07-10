@@ -109,6 +109,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
   }
 
   public getWorkFlowState(state) {
+    console.log('statestatestate', state);
     this.selectedWorkFlowState = state;
     this.hasValidInput();
   }
