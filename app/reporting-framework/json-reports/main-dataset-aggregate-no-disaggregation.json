@@ -68,14 +68,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "started_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.started_art)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "started_art_pregnant",
             "expressionType": "simple_expression",
             "expressionOptions": {

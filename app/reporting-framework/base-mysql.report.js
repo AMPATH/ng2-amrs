@@ -34,6 +34,15 @@ import * as referral_patient_list_template from './json-reports/referral-patient
 import * as referral_dataset_base from './json-reports/referral-dataset-base.json';
 import * as referral_aggregate from './json-reports/referral-aggregate.json';
 
+import * as starting_art_aggregation_age15 from './json-reports/starting-art-aggregation-age15.json';
+import * as starting_art_base_age15 from './json-reports/starting-art-base-age15.json';
+import * as starting_art_disaggregation_age15 from './json-reports/starting-art-disaggregation-age15.json';
+
+import * as starting_art_aggregation_age_green from './json-reports/starting-art-aggregation-age-green.json';
+import * as starting_art_base_age_green from './json-reports/starting-art-base-age-green.json';
+import * as starting_art_disaggregation_age_green from './json-reports/starting-art-disaggregation-age-green.json';
+import * as starting_art_disaggregation_age_only_green from './json-reports/starting-art-disaggregation-age-only-green.json';
+
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -54,10 +63,10 @@ export class BaseMysqlReport {
                     // generate query
                     that.generateReportQuery(that.reportSchemas, that.params)
                         .then((sqlQuery) => {
-                            
+
                             // allow user to use 'null' as parameter values
-                            sqlQuery=sqlQuery.replace(/\'null\'/g,"null");
-                            that.reportQuery = sqlQuery;                                              
+                            sqlQuery = sqlQuery.replace(/\'null\'/g, "null");
+                            that.reportQuery = sqlQuery;
                             // run query
                             that.executeReportQuery(that.reportQuery)
                                 .then((result) => {
@@ -180,6 +189,36 @@ export class BaseMysqlReport {
                     resolve({
                         main: referral_aggregate,
                         referralDatasetbase: referral_dataset_base
+                    });
+                    break;
+                case 'StartingARTAggregationAge15':
+                    resolve({
+                        main: starting_art_aggregation_age15,
+                        StartingARTSetBaseAge15: starting_art_base_age15
+                    });
+                    break;
+                case 'StartingARTDisaggregationAge15':
+                    resolve({
+                        main: starting_art_disaggregation_age15,
+                        StartingARTSetBaseAge15: starting_art_base_age15
+                    });
+                    break;
+                case 'StartingARTAggregationAgeGreen':
+                    resolve({
+                        main: starting_art_aggregation_age_green,
+                        StartingARTSetBaseAgeGreen: starting_art_base_age_green
+                    });
+                    break;
+                case 'StartingARTDisaggregationAgeGreen':
+                    resolve({
+                        main: starting_art_disaggregation_age_green,
+                        StartingARTSetBaseAgeGreen: starting_art_base_age_green
+                    });
+                    break;
+                case 'StartingARTDisaggregationAgeOnlyGreen':
+                    resolve({
+                        main: starting_art_disaggregation_age_only_green,
+                        StartingARTSetBaseAgeGreen: starting_art_base_age_green
                     });
                     break;
                 default:

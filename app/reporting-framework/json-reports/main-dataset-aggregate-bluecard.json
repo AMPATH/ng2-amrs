@@ -68,13 +68,6 @@
             }
         }, {
             "type": "derived_column",
-            "alias": "started_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.started_art)"
-            }
-        }, {
-            "type": "derived_column",
             "alias": "current_in_care",
             "expressionType": "simple_expression",
             "expressionOptions": {
