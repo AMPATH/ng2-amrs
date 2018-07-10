@@ -1,4 +1,6 @@
-	<div class="patient-search">
+<div class="box-body">
+	<div class="component-wrapper">
+		<div class="patient-search">
 		<div clas="row">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 				    <h2>{{title}}</h2>
@@ -92,5 +94,14 @@
 			</div>
 			<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
 		</div>
+	</div>
+	<div class="row" *ngIf="patientData && showPatientList">
+		<div class="container-fluid" style="margin-left:15px; margin-right:15px;">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+				<h3>Patient List <span class="btn btn-danger pull-right" (click)="close()">X</span></h3>
+			</div>
+			<patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns"  [data]="patientData"></patient-list>
 		</div>
 	</div>
+	</div>
+</div>

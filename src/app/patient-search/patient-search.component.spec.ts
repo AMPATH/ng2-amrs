@@ -46,13 +46,13 @@ import { Location } from '@angular/common';
 import { PatientProgramResourceService } from '../etl-api/patient-program-resource.service';
 import { ProgramsTransferCareService
 } from '../patient-dashboard/programs/transfer-care/transfer-care.service';
-
+import { DataListsModule } from '../shared/data-lists/data-lists.module';
 
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+  public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  public params = Observable.of([{ 'id': 1 }]);
 }
 
 let results: any = [
@@ -75,8 +75,6 @@ let results: any = [
   }
 ];
 
-
-
 describe('Component: PatientSearch', () => {
 
   let comp: PatientSearchComponent;
@@ -84,7 +82,6 @@ describe('Component: PatientSearch', () => {
   let inputde, searchBtne, resetBtne: DebugElement;
   let inputel, searchBtnel, resetBtnel: HTMLElement;
   let nativeElement;
-
 
   // async beforeEach
   beforeEach(async(() => {
@@ -94,6 +91,7 @@ describe('Component: PatientSearch', () => {
       imports: [
         FormsModule,
         Ng2PaginationModule,
+        DataListsModule,
         IonicStorageModule.forRoot(),
       ],
       providers: [
@@ -188,8 +186,5 @@ describe('Component: PatientSearch', () => {
     expect(searchBtnel === null).toBe(false);
     expect(resetBtnel === null).toBe(false);
   }));
-
-
-
 
 });

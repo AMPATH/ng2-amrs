@@ -42,6 +42,10 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public loadingReferralProviders: boolean = false;
   public lastSearchString: string = '';
   public providerUuid: string = '';
+  public patientData: any;
+  public extraColumns: Array<any> = [];
+  public overrideColumns: Array<any> = [];
+  public showPatientList = false;
 
   /*
    patientSelected emits the patient object
@@ -102,6 +106,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
         );
       }
     });
+    this.showPatientList = false;
   }
 
   public ngOnDestroy() {
@@ -131,12 +136,12 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public onError(error) {
     this.isLoading = false;
     this.resetInputMargin();
-    console.error('error', error);
     this.errorMessage = error;
     this.hasConductedSearch = false;
   }
 
   public loadPatient(): void {
+    this.showPatientList = false;
     this.totalPatients = 0;
     if (this.subscription) {
        this.subscription.unsubscribe();
@@ -209,25 +214,33 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   }
 
   public loadReferredData() {
-    this.router.navigate(['/provider-dashboard'],
-    {queryParams: {
-      'endDate': this.endDate,
-      'startDate': this.startDate,
-      'locationUuids': (this.locationUuids as any),
-      'stateUuids': this.REFER_CONCEPT_UUID,
-      'urlSource': 'REFER'
-    }});
+    this.showPatientList = true;
+    this.hideResults = true;
+    // this.router.navigate(['/provider-dashboard'],
+    // {queryParams: {
+    //   'endDate': this.endDate,
+    //   'startDate': this.startDate,
+    //   'locationUuids': (this.locationUuids as any),
+    //   'stateUuids': this.REFER_CONCEPT_UUID,
+    //   'urlSource': 'REFER'
+    // }});
     // this.referralService.setUrlSource('REFER');
   }
   public loadReferredBackData() {
-    this.router.navigate(['/provider-dashboard'],
-    {queryParams: {
-      'endDate': this.endDate,
-      'startDate': this.startDate,
-      'providerUuids': (this.providerUuids as any),
-      'stateUuids': this.REFERBACK_CONCEPT_UUID,
-      'urlSource': 'REFERBACK'
-    }});
+    this.showPatientList = true;
+    this.hideResults = true;
+    // this.router.navigate(['/provider-dashboard'],
+    // {queryParams: {
+    //   'endDate': this.endDate,
+    //   'startDate': this.startDate,
+    //   'providerUuids': (this.providerUuids as any),
+    //   'stateUuids': this.REFERBACK_CONCEPT_UUID,
+    //   'urlSource': 'REFERBACK'
+    // }});
+  }
+
+  public close() {
+    this.showPatientList = false;
   }
 
   private getPatientReferrals( referalType: any) {
@@ -246,7 +259,6 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
         let params = this.getRequestParams(referalType, this.providerUuid,
            selectedLocationUuid, startDate, endDate);
-        console.log( params);
         this.referralSubscription = this.referralService.getProviderReferralPatientList(params)
           .subscribe(
             (referralData) => {
@@ -258,8 +270,57 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
                  if (referalType === this.REFER_CONCEPT_UUID) {
                   this.referred = referralData;
+                  this.patientData = referralData;
                  }
                  this.dataLoaded = true;
+                 this.overrideColumns.push({
+                  field: 'identifiers',
+                  headerName: 'Identifier',
+                  onCellClicked: (column) => {
+                    this.redirectTopatientInfo(column.data.patient_uuid);
+                  },
+                  cellRenderer: (column) => {
+                    return '<a href="javascript:void(0);" title="Identifiers">'
+                      + column.value + '</a>';
+                  }
+                  });
+                 this.extraColumns.push(
+                  {
+                    headerName: 'Program',
+                    field: 'program',
+                    cellRenderer: (paras) => {
+                      let program = '';
+                      if (paras.value) {
+                        program = paras.value;
+                      }
+                      return  '<small>' + program + '</small>';
+                    }
+                  },
+                  {
+                    headerName: 'Initial Referral Date',
+                    field: 'initial_referral_date',
+                    cellRenderer: (paras) => {
+                      let date = '';
+                      let time = '';
+                      if (paras.value) {
+                          date = Moment(paras.value).format('DD-MM-YYYY');
+                          time = Moment(paras.value).format('H:mmA');
+                      }
+                      return  '<small>' + date + '</small>';
+                    }
+                  },
+                  {
+                    headerName: 'Current State Date',
+                    field: 'current_state_date',
+                    cellRenderer: (paras) => {
+                      let date = '';
+                      let time = '';
+                      if (paras.value) {
+                          date = Moment(paras.value).format('DD-MM-YYYY');
+                      }
+                      return  '<small>' + date + '</small>';
+                    }
+                  });
 
               } else {
                 this.dataLoaded = false;
@@ -283,6 +344,12 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
         });
       });
 
+  }
+  private redirectTopatientInfo(patientUuid) {
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general']);
   }
 
   private getRequestParams(referalType, provider, location, startDate, endDate) {
