@@ -25,6 +25,10 @@ import { Dictionary } from 'lodash';
     .ng-select .ng-arrow-zone {
       display: none;
     }
+    .location-filter ng-select>div>div.multiple {
+      max-height: 100px;
+      overflow: scroll;
+    }
   `],
   encapsulation: ViewEncapsulation.None
 })
