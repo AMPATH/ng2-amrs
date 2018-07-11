@@ -363,6 +363,10 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       this.dataAnalyticsDashboardService.setSelectedMonthlyIndicatorLocations(locs);
       return;
     }
+    if (this._report === 'cdm-summary-monthly-report') {
+      this.dataAnalyticsDashboardService.setSelectedMonthlyIndicatorLocations(locs);
+      return;
+    }
     this.dataAnalyticsDashboardService.setSelectedLocations(locs);
   }
   public onGenderSelected(selectedGender) {

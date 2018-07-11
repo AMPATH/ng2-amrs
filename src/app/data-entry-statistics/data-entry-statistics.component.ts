@@ -116,7 +116,7 @@ public getEncounterPatientList(patientListParams) {
      , {
           relativeTo: this._route,
              queryParams: patientListParams
-            });
+          });
 
 }
 

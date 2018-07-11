@@ -236,7 +236,7 @@ public createTotalsRow(totalsMap, totalEncounters) {
  public setPinnedRow() {
 
   if (this.gridOptions.api) {
-    this.gridOptions.api.setPinnedBottomRowData(this.pinnedBottomRowData);
+      this.gridOptions.api.setPinnedBottomRowData(this.pinnedBottomRowData);
   }
   return true;
 
