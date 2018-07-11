@@ -67,6 +67,9 @@
                 <hiv-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'hiv'"
                               [patient]="patient">
                 </hiv-snapshot>
+                <cdm-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'cdm'"
+                              [patient]="patient">
+                </cdm-snapshot>
               </div>
             </div>
             <div class="clear clear-fix">&nbsp;</div>
@@ -143,7 +146,7 @@
           </div>
           <div class="col-md-4 col-xs-12 col-sm-4 cell">
             <location-filter (onLocationChange)="getSelectedLocation($event)"
-                             [disable-county]="true"></location-filter>
+                             [disable-county]="true" [programLocations]="programSpecificLocations"></location-filter>
           </div>
         </div>
         <div class="hide row" style="position: relative;" *ngIf="programHasWorkflows">

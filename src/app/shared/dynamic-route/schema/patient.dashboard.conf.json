@@ -405,6 +405,16 @@
       "routes": []
     },
     {
+      "programName": "CDM Care at MOH Facility",
+      "programUuid": "876a154d-310d-4caf-8b58-be9dbcc7e753",
+      "baseRoute": "876a154d-310d-4caf-8b58-be9dbcc7e753",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "MDT",
       "programUuid": "c4246ff0-b081-460c-bcc5-b0678012659e",
       "baseRoute": "c4246ff0-b081-460c-bcc5-b0678012659e",
@@ -503,6 +513,11 @@
         "url": "patient-vitals",
         "label": "Vitals",
         "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "cdm-summary",
+        "label": "CDM Summary",
+        "icon": "fa fa-medkit"
       },
       {
         "url": "lab-data-summary",

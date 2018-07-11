@@ -36,6 +36,7 @@ import { DataEntryStatisticsModule } from
 import {
   AnalyticsPatientReferralProgramModule
 } from './referral/referral-program.module';
+import { DataAnalyticsCdmProgramModule } from './cdm/data-analytics-cdm-program.module';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
