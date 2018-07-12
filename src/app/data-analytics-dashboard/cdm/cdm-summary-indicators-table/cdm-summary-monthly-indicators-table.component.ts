@@ -62,16 +62,29 @@ export class CdmSummaryMonthlyTableComponent implements OnInit, OnChanges {
     let cols = [];
     _.each(firstRow, (data, index ) => {
           console.log('Index', index);
-          cols.push(
-            {
-              headerName: index,
-              field: index
-            }
-         );
+          if (index === 'encounter_month' || index === 'encounter_year'){
+
+          }else {
+
+            cols.push(
+              {
+                headerName: this.translateIndicator(index),
+                field: index
+              }
+           );
+
+          }
       });
 
     this.columns = cols;
 
+  }
+
+
+  public translateIndicator(indicator: string) {
+    return indicator.toLowerCase().split('_').map((word) => {
+      return (word.charAt(0) + word.slice(1));
+    }).join(' ');
   }
 
   public setRowData(allRowsData) {
@@ -105,8 +118,8 @@ export class CdmSummaryMonthlyTableComponent implements OnInit, OnChanges {
       endAge: this.params.endAge,
       locationUuids: this.params.locationUuids,
       indicators : data.colDef.field,
-      startDate: moment(data.data.reporting_month, 'DD/MM/YYYY').startOf('month').format(),
-      endDate : moment(data.data.reporting_month , 'DD/MM/YYYY').endOf('month').format()
+      startDate: moment(data.data.reporting_month, 'MM-YYYY').startOf('month').format(),
+      endDate : moment(data.data.reporting_month , 'MM-YYYY').endOf('month').format()
     };
     console.log('Query params', queryParams);
     console.log('Query-params', params);

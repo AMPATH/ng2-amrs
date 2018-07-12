@@ -71,7 +71,6 @@ export class CdmMonthlySummaryIndicatorsResourceService {
                 return response.json().result;
             });
 
-        this.cacheService.cacheRequest(url, urlParams, request);
-        return request;
+        return this.cacheService.cacheRequest(url, urlParams, request);
     }
 }

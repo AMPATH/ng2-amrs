@@ -23,19 +23,6 @@ const routes: Routes = [
         ],
         children: [
           {
-            path: 'cdm-summary-indicator-report',
-            children: [
-              {
-                path: '',
-                component:  CdmSummaryIndicatorsComponent
-              },
-              {
-                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
-                component: CdmsummaryIndicatorsPatientListComponent,
-              }
-            ]
-          },
-          {
             path: 'cdm-summary-monthly-indicator-report',
             children: [
               {
