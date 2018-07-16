@@ -3,6 +3,8 @@ var async            = require('async');
 var scopeBuilder     = require("./scope-builder.service");
 var dataResolver     = require("./patient-data-resolver.service");
 var expressionRunner = require('../expression-runner/expression-runner');
+var _ = require('underscore');
+_ = require('lodash');
 
 var def = {
   validateEnrollmentOptions: validateEnrollmentOptions
@@ -17,18 +19,12 @@ function isEnrollmentAllowed (scope, enrollmentOptions) {
   return expressionRunner.run(enrollmentOptions.enrollIf, scope);
 }
 
-function updateProgramConfig (patientUuid, program, callback) {
+function updateProgramConfig (patientUuid, program, callback,res) {
   if (program.enrollmentOptions) {
-    dataResolver.getAllDataDependencies(program.dataDependencies || [], patientUuid, {})
-      .then(function (dataObject) {
-        // build scope
-        var scopeObj = scopeBuilder.buildScope(dataObject);
-        program.enrollmentAllowed = isEnrollmentAllowed(scopeObj, program.enrollmentOptions);
-        callback();
-      }).catch(function (dataErr) {
-      console.error(dataErr);
-      callback(dataErr);
-    });
+      var scopeObj = scopeBuilder.buildScope(res);
+      program.enrollmentAllowed = isEnrollmentAllowed(scopeObj, program.enrollmentOptions);
+      callback();
+
   } else {
     callback();
   }
@@ -36,8 +32,17 @@ function updateProgramConfig (patientUuid, program, callback) {
 
 function validateEnrollmentOptions (patientUuid, allProgramsConfig) {
   return new Promise(function (resolve, reject) {
+      var dataObject  = getDependanciesKeysAndData(allProgramsConfig, patientUuid);
+
+
+
     async.each(allProgramsConfig, function (program, callback) {
-      updateProgramConfig(patientUuid, program, callback);
+        dataObject.then(function (res) {
+            updateProgramConfig(patientUuid, program, callback, res);
+
+
+        });
+
     }, function (err) {
       if (!err) {
         resolve(allProgramsConfig);
@@ -47,4 +52,25 @@ function validateEnrollmentOptions (patientUuid, allProgramsConfig) {
     });
   });
 }
+
+function getDependanciesKeysAndData(allProgramsConfig, patientUuid) {
+    return new Promise(function (resolve, reject) {
+        var dep = [];
+        _.each(allProgramsConfig, function (prog) {
+
+            dep.push(prog.dataDependencies);
+
+        });
+        dataResolver.getAllDataDependencies(dep[0] || [], patientUuid, {})
+            .then(function (dataObject) {
+                resolve(dataObject);
+
+            }).catch((error) => {
+            reject(error)
+
+        });
+    });
+
+}
+
 
