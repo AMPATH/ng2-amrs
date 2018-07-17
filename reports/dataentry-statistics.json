@@ -285,6 +285,11 @@
          "sql":"t2.location_id"
        },
        {
+        "label":"location_uuid",
+        "type":"single",
+        "sql":"t7.uuid"
+       },
+       {
          "label":"location",
          "type":"single",
          "sql":"t7.name"
@@ -390,6 +395,11 @@
          "type":"single",
          "sql":"t2.location_id"
        },
+       {
+        "label":"location_uuid",
+        "type":"single",
+        "sql":"t8.uuid"
+      },
        {
          "label":"location",
          "type":"single",
