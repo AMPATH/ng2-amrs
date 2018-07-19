@@ -247,6 +247,16 @@
       "routes": []
     },
     {
+      "programName": "Lung Cancer Treatment Program",
+      "programUuid": "e8bc5036-1462-44fa-bcfe-ced21eae2790",
+      "baseRoute": "e8bc5036-1462-44fa-bcfe-ced21eae2790",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "Sickle Cell",
       "programUuid": "e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
       "baseRoute": "e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
