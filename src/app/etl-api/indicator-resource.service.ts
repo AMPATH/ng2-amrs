@@ -36,14 +36,14 @@ export class IndicatorResourceService {
   public getReportIndicators(params) {
     let urlParams = this.getUrlRequestParams(params);
     let url = this.getUrl();
-    let request = this.http.get(url, {
+    return this.http.get(url, {
       search: urlParams
     })
       .map((response: Response) => {
         return response.json().result;
       });
 
-    return this.cacheService.cacheRequest(url, urlParams, request);
+    // return this.cacheService.cacheRequest(url, urlParams, request);
 
   }
 }

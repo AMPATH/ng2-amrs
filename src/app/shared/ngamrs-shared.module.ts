@@ -44,6 +44,8 @@ import { UnenrollPatientProgramsComponent
 import { ConfirmDialogModule, DialogModule, TabViewModule } from 'primeng/primeng';
 import { HivProgramSnapshotComponent
 } from '../patient-dashboard/hiv/program-snapshot/hiv-program-snapshot.component';
+import { CdmProgramSnapshotComponent
+} from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
 import { GeneralLandingPageComponent
 } from '../patient-dashboard/general-landing-page/landing-page.component';
 import { ProgramsContainerComponent
@@ -119,7 +121,9 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     ProgramEnrollmentComponent, FormListComponent, ReportFiltersComponent,
     PatientReferralItemComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, LocationFilterComponent, ToastComponent,
+    CdmProgramSnapshotComponent
+  ],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,
@@ -127,7 +131,8 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     ProgramEnrollmentComponent, ReportFiltersComponent, PatientReferralItemComponent,
     OnlineTrackerComponent, ToastComponent, BusyComponent, UnenrollPatientProgramsComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent, LocationFilterComponent,
-    PatientEncounterObservationsComponent, PrettyEncounterViewerComponent
+    PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
+    CdmProgramSnapshotComponent
   ],
   entryComponents: [
     ToastComponent

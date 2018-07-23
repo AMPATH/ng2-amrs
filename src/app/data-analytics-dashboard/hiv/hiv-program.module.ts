@@ -33,6 +33,18 @@ import { PatientProgramEnrollmentModule } from
 '../../patients-program-enrollment/patients-program-enrollment.module';
 import { DataEntryStatisticsModule } from
 './../../data-entry-statistics/data-entry-statistics.module';
+
+import { CdmSummaryIndicatorsComponent } from
+'./../cdm/cdm-summary-indicators/cdm-summary-indicators.component';
+import { CdmSummaryMonthlyIndicatorsComponent }
+from './../cdm/cdm-summary-monthly-indicators/cdm-summary-monthly-indicators.component';
+import { CdmSummaryIndicatorsResourceService }
+from './../../etl-api/cdm-summary-indicators-resource.service';
+import { CdmsummaryIndicatorsPatientListComponent }
+from './../cdm/cdm-summary-indicators-patient-list/cdm-summary-indicators-patient-list.component';
+import { CdmSummaryMonthlyTableComponent }
+from './../cdm/cdm-summary-indicators-table/cdm-summary-monthly-indicators-table.component';
+import { AgGridModule } from 'ag-grid-angular/main';
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -48,7 +60,8 @@ import { DataEntryStatisticsModule } from
     MdProgressSpinnerModule,
     MdProgressBarModule,
     MdSlideToggleModule,
-    PatientProgramEnrollmentModule
+    PatientProgramEnrollmentModule,
+    AgGridModule
   ],
   exports: [
     DataAnalyticsDashboardComponent,
@@ -63,10 +76,16 @@ import { DataEntryStatisticsModule } from
     HivSummaryIndicatorsComponent,
     Moh731ReportComponent,
     HivCareComparativeAnalyticsComponent,
-    HivSummaryMonthlyIndicatorsComponent],
+    HivSummaryMonthlyIndicatorsComponent,
+    CdmSummaryMonthlyIndicatorsComponent,
+    CdmsummaryIndicatorsPatientListComponent,
+    CdmSummaryIndicatorsComponent,
+    CdmSummaryMonthlyTableComponent
+  ],
   providers: [
     DataAnalyticsDashboardService,
     HivClinicFlowResourceService,
+    CdmSummaryIndicatorsResourceService,
     ClinicFlowCacheService
   ],
 })

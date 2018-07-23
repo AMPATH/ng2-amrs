@@ -42,6 +42,18 @@
       "label": "Data Entry Statistics",
       "icon": "fa fa-bar-chart",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/cdm-summary-indicator-report",
+      "label": "CDM summary Indicators",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/cdm-summary-monthly-indicator-report",
+      "label": "CDM Monthly summary Indicators",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": []

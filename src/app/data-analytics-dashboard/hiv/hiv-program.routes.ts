@@ -1,3 +1,4 @@
+
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HivSummaryIndicatorComponent }
@@ -37,6 +38,13 @@ import {
 
 import { Moh731PatientListComponent } from
 './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
+
+import { CdmSummaryIndicatorsComponent } from
+'./../cdm/cdm-summary-indicators/cdm-summary-indicators.component';
+import { CdmSummaryMonthlyIndicatorsComponent }
+ from './../cdm/cdm-summary-monthly-indicators/cdm-summary-monthly-indicators.component';
+import { CdmsummaryIndicatorsPatientListComponent } from
+ './../cdm/cdm-summary-indicators-patient-list/cdm-summary-indicators-patient-list.component';
 
 const routes: Routes = [
   {
@@ -135,6 +143,33 @@ const routes: Routes = [
               }
             ]
           },
+          {
+            path: 'cdm-summary-indicator-report',
+            children: [
+              {
+                path: '',
+                component:  CdmSummaryIndicatorsComponent
+              },
+              {
+                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+                component: CdmsummaryIndicatorsPatientListComponent,
+              }
+            ]
+          },
+          {
+            path: 'cdm-summary-monthly-indicator-report',
+            children: [
+              {
+                path: '',
+                component: CdmSummaryMonthlyIndicatorsComponent
+              },
+              {
+                path: 'patient-list',
+                component: CdmsummaryIndicatorsPatientListComponent,
+              }
+            ]
+          }
+          ,
         ]
       }
     ]

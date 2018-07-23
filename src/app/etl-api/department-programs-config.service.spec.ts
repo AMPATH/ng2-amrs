@@ -63,6 +63,10 @@ const mockResponse = {
             {
                 'uuid': 'bd9a8b06-73c7-44a8-928c-5e72247f4c1d',
                 'name': 'DIABETES AND HYPERTENSION AT CENTER OF EXCELLENCE PROGRAM'
+            },
+            {
+                'uuid': '876a154d-310d-4caf-8b58-be9dbcc7e753',
+                'name': 'DIABETES AND HYPERTENSION CARE AT MOH FACILITY'
             }
 
 

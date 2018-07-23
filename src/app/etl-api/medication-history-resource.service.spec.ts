@@ -7,7 +7,6 @@ import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { MedicationHistoryResourceService } from './medication-history-resource.service';
 
-
 describe('Medication Resource Service Unit Tests', () => {
 
   let backend: MockBackend, patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
@@ -62,14 +61,13 @@ describe('Medication Resource Service Unit Tests', () => {
       expect(connection.request.url).toContain('patientUuId=' + params.patientUuId);
     });
 
-
   });
   it('should return the correct parameters from the api',
     async(inject([MedicationHistoryResourceService, MockBackend],
       (medicationHistoryResourceService: MedicationHistoryResourceService,
        mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe(c =>
+        mockBackend.connections.subscribe((c) =>
           c.mockError(new Error('An error occured while processing the request')));
 
         medicationHistoryResourceService.getReport(report , patientUuid).subscribe((data) => { },
