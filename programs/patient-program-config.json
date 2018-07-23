@@ -1620,6 +1620,39 @@
       }
     ]
   },
+  "e8bc5036-1462-44fa-bcfe-ced21eae2790": {
+    "name": "LUNG CANCER TREATMENT PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "9c9a8308-631e-4b2b-98d1-5bcd72f9f6f9",
+        "name": "Lung Cancer Visit",
+        "encounterTypes": [
+          {
+            "uuid": "be7b0971-b2ab-4f4d-88c7-e7322aa58dbb",
+            "display": "LUNGCANCERINITIAL"
+          },
+          {
+            "uuid": "eca95bb1-b651-45b7-85f8-2d3ce7e8313e",
+            "display": "LUNGCANCERRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          }
+        ]
+      }
+    ]
+  },
   "e48b266e-4d80-41f8-a56a-a8ce5449ebc6": {
     "name": "SICKLE CELL PROGRAM",
     "dataDependencies": [
