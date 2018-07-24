@@ -102,6 +102,13 @@
               <span class="note-info">{{ccHpiAssessment.assessment}}</span>
             </td>
           </tr>
+          <tr *ngFor="let assessment of note.otherAssessment">
+            <td>{{ assessment.encounterType }}</td>
+            <td>
+              <span class="note-label">Assessment: </span>
+              <span class="note-info">{{ assessment.value }}</span>
+            </td>
+          </tr>
           </tbody>
         </table>
       </td>
