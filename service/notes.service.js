@@ -16,7 +16,8 @@
         TB_TX_PLAN: 'a89c1fd4-1350-11df-a1f1-0026b9348838',
         CC_HPI: 'a89ffbf4-1350-11df-a1f1-0026b9348838',
         ASSESSMENT: '23f710cc-7f9c-4255-9b6b-c3e240215dba',
-        TB_PROPHY_PLAN: 'a89c1cfa-1350-11df-a1f1-0026b9348838'
+        TB_PROPHY_PLAN: 'a89c1cfa-1350-11df-a1f1-0026b9348838',
+        OTHER_ASSESSMENT: '5e4dc798-2cce-4a1a-97e9-bcf22d64b07c'
     };
 
     var encOrder = {
@@ -33,6 +34,7 @@
     };
 
     var generateNotes = function(encounters, hivSummaries, vitals, endDate) {
+
         // Make endDate today if not specified
         if (endDate) {
             if (typeof endDate === 'string') {
@@ -118,7 +120,6 @@
                     vitalDateGrouped[dateKey], encDateGrouped[dateKey]);
                 notes.push(note);
             }
-
             return notes;
         }
     }
@@ -128,6 +129,7 @@
      * fail because one of the expected data object is null
      */
     function generateNote(hivSummary, vitals, encounters) {
+        
         var noInfo = '';
         var note = {
             visitDate: hivSummary.encounter_datetime,
@@ -153,6 +155,7 @@
             },
             ccHpi: [],
             assessment: [],
+            otherAssessment: [],
             vitals: {
                 weight: noInfo,
                 height: noInfo,
@@ -205,6 +208,12 @@
 
             // Sort assessment
             note.assessment.sort(function(ass1, ass2) {
+                return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+            });
+            note.otherAssessment = _findTextObsValue(encounters, CONCEPT_UUIDS.OTHER_ASSESSMENT,
+                __findObsWithGivenConcept);
+            // Sort assessment
+            note.otherAssessment.sort(function(ass1, ass2) {
                 return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
             });
 
