@@ -164,11 +164,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         let patientState = _.find(encounterWithObs.obs, (singleOb) => {
           return singleOb.concept.uuid === 'aad64a84-1a63-47e3-a806-fb704b52b709';
         });
-          this.referralProgramOnDetail = row;
-          // override the default state value
-          this.referralProgramOnDetail.program_workflow_state = patientState.value.display;
-          this.staticModal.show();
-          this.showReferralEncounterDetail = true;
+        this.referralProgramOnDetail = row;
+        // override the default state value
+        this.referralProgramOnDetail.program_workflow_state = patientState.value.display;
+        this.staticModal.show();
+        this.showReferralEncounterDetail = true;
       });
     });
   }
@@ -473,7 +473,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public removeFromQueue() {
-    this.updateReferalNotificationStatus()
+    this.updateReferalNotificationStatus();
   }
 
   private updateEnrollmentButtonState() {
