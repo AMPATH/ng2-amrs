@@ -40,7 +40,6 @@ import { PatientsProgramEnrollmentComponent } from
 '../patients-program-enrollment/patients-program-enrollment.component';
 import { ProgramEnrollmentPatientListComponent } from
 './../patients-program-enrollment/program-enrollent-patient-list.component';
-import { PatientCreationComponent } from './patient-creation/patient-creation.component';
 
 export const routes = [
   {
@@ -123,7 +122,6 @@ export const routes = [
             path: 'hiv', loadChildren: './hiv/hiv-program.module#HivProgramModule'
           },
           { path: '', redirectTo: 'daily-schedule', pathMatch: 'prefix' },
-          { path: 'patient-registration', component: PatientCreationComponent },
           {
             path: 'referral',
             loadChildren: './referral/patient-referral-program.module#PatientReferralProgramModule'

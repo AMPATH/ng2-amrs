@@ -34,7 +34,8 @@ import { EnrollmentManagerComponent
 } from '../referral-module/components/enrollment-manager/enrollment-manager.component';
 import { EnrollmentManagerFormWizardComponent
 } from '../referral-module/components/enrollment-manager/enrollment-manager-form-wizard.component';
-
+import { PATIENTS } from './services/patient.mock';
+import { PatientCreationComponent } from '../patient-creation/patient-creation.component';
 export const routes = [
   {
     path: '', children: [
@@ -144,5 +145,17 @@ export const routes = [
       }
     ]
   },
-  { path: 'patient-search', component: PatientSearchContainerComponent },
+  {
+    path: 'patient-search',
+    children: [
+      {
+        path: '',
+        component: PatientSearchContainerComponent
+      },
+      {
+        path: 'patient-registration',
+        component: PatientCreationComponent
+      }
+    ]
+  }
 ];

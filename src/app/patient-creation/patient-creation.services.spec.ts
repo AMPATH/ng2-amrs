@@ -6,15 +6,15 @@ import {
     Http, Response, Headers, BaseRequestOptions, ResponseOptions,
     RequestMethod
   } from '@angular/http';
-import { LocalStorageService } from '../../utils/local-storage.service';
-import { AppSettingsService } from '../../app-settings';
+import { LocalStorageService } from '../utils/local-storage.service';
+import { AppSettingsService } from '../app-settings';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PatientCreationService } from './patient-creation.service';
-import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import {
   PatientCreationResourceService
-} from '../../openmrs-api/patient-creation-resource.service';
-import { Patient } from '../../models/patient.model';
+} from '../openmrs-api/patient-creation-resource.service';
+import { Patient } from '../models/patient.model';
 
 describe('Service: PatientCreation', () => {
   beforeEach(() => {

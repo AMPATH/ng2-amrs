@@ -124,12 +124,6 @@ import { PatientProgramEnrollmentService } from
 './../etl-api/patient-program-enrollment.service';
 import { PatientProgramEnrollmentModule } from
 './../patients-program-enrollment/patients-program-enrollment.module';
-import { PatientCreationComponent } from './patient-creation/patient-creation.component';
-import { PatientCreationService } from './patient-creation/patient-creation.service';
-import {
-  PatientCreationResourceService
-} from '../openmrs-api/patient-creation-resource.service';
-
 import {
   PatientReferralProgramModule
 } from './referral/patient-referral-program.module';
@@ -161,8 +155,7 @@ import {
     PatientStatusChangeListComponent,
     PatientStatusDatalistCellComponent,
     PatientStatusChangeVisualizationComponent,
-    PatientStatusChangeVisualizationContainerComponent,
-    PatientCreationComponent
+    PatientStatusChangeVisualizationContainerComponent
   ],
   imports: [
     CommonModule,
@@ -221,9 +214,7 @@ import {
       useExisting: HivClinicFlowResourceService
     },
     DataAnalyticsDashboardService,
-    PatientProgramEnrollmentService,
-    PatientCreationResourceService,
-    PatientCreationService
+    PatientProgramEnrollmentService
 
   ],
   entryComponents: [PatientStatusDatalistCellComponent]

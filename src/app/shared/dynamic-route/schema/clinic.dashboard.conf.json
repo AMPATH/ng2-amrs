@@ -64,12 +64,6 @@
       "isSideBarOpen": false
     },
     {
-      "url": "patient-registration",
-      "label": "Patient Registration",
-      "icon": "glyphicon glyphicon-user",
-      "isSideBarOpen": false
-    },
-    {
       "url": "referral/patient-referral-report",
       "label": "Patient Referral",
       "icon": "fa fa-file-pdf-o",
