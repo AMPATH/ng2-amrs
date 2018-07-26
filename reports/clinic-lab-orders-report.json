@@ -42,7 +42,57 @@
         "tableName": "person",
         "alias": "t6",
         "joinExpression": "t1.patient_id  = t6.person_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "obs",
+        "alias": "t7",
+        "joinExpression": "t1.order_id  = t7.order_id and (t7.voided is null || t7.voided = 0)"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "concept_name",
+        "alias": "t8",
+        "joinExpression": "t7.concept_id  = t8.concept_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "concept_name",
+        "alias": "t9",
+        "joinExpression": "t7.value_coded  = t9.concept_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "provider",
+        "alias": "t10",
+        "joinExpression": "t1.orderer  = t10.provider_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t11",
+        "joinExpression": "t10.person_id  = t11.person_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "concept",
+        "alias": "t13",
+        "joinExpression": "t1.concept_id  = t13.concept_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "concept_name",
+        "alias": "t12",
+        "joinExpression": "t1.concept_id  = t12.concept_id"
       }
+
 
     ],
     "parameters": [
@@ -52,6 +102,8 @@
           "10-10-2015"
         ]
       },
+      {"name":"startDate", "defaultValue":["10-10-2015"]},
+      {"name":"endDate", "defaultValue":["defaultValue"]},
       {
         "name": "locations"
       },
@@ -63,7 +115,17 @@
             "expression": "t3.person_id"
           }
         ]
-      }
+      },
+      {
+        "name": "groupByOrderId",
+        "defaultValue": [
+          {
+            "label": "order_id",
+            "expression": "t1.order_id"
+          }
+        ]
+      },
+      {"name": "patientUuid"}
     ],
     "filters": [
       {
@@ -71,13 +133,32 @@
         "parameter": "dateActivated"
       },
       {
+        "expression":"date(t1.date_activated) >= ?",
+        "parameter":"startDate"
+      },
+      {
+        "expression":"date(t1.date_activated) <= ?",
+        "parameter":"endDate"
+      },
+      {
         "expression": "t2.location_id in ?",
         "parameter": "locations"
+      },
+      {
+        "expression": "t6.uuid  = ?",
+        "parameter": "patientUuid"
+      },
+      {
+        "expression": "(t1.voided is null || t1.voided = 0)",
+        "processForce": true
       }
     ],
     "groupClause": [
       {
         "parameter": "groupByPerson"
+      },
+      {
+        "parameter": "groupByOrderId"
       }
     ],
     "orderBy": [
@@ -86,14 +167,34 @@
     "indicators": [],
     "supplementColumns": [
       {
-        "label": "order_no",
+        "label": "orderNumber",
         "type": "single",
-        "sql": "t1.order_number"
+        "sql": " t1.order_number"
       },
       {
         "label": "order_type",
         "type": "single",
         "sql": "t1.concept_id"
+      },
+      {
+        "label": "display",
+        "type": "single",
+        "sql": "t12.name"
+      },
+      {
+        "label": "conceptUuid",
+        "type": "single",
+        "sql": "t13.uuid"
+      },
+      {
+        "label": "uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "obs_uuid",
+        "type": "single",
+        "sql": "t7.uuid"
       },
       {
         "label": "date_activated",
@@ -104,6 +205,16 @@
         "label": "patient_id",
         "type": "single",
         "sql": "t1.patient_id"
+      },
+      {
+        "label": "sample_drawn",
+        "type": "single",
+        "sql": "t9.name"
+      },
+      {
+        "label": "sample_collection_date",
+        "type": "single",
+        "sql": "date(t7.obs_datetime)"
       },
       {
         "label": "given_name",
@@ -131,9 +242,14 @@
         "sql": "concat(COALESCE(t3.given_name,''),' ',COALESCE(t3.middle_name,''),' ',COALESCE(t3.family_name,''))"
       },
       {
-        "label":"location",
+        "label":"location_name",
         "type":"single",
         "sql":"t5.name"
+      },
+      {
+        "label":"locationUuid",
+        "type":"single",
+        "sql":"t5.uuid"
       },
       {
         "label":"location_id",
@@ -144,6 +260,16 @@
         "label": "patient_uuid",
         "type": "single",
         "sql": "t6.uuid"
+      },
+      {
+        "label": "provider_uuid",
+        "type": "single",
+        "sql": "t10.uuid"
+      },
+      {
+        "label": "provider_name",
+        "type": "single",
+        "sql": "concat(COALESCE(t11.given_name,''),' ',COALESCE(t11.middle_name,''),' ',COALESCE(t11.family_name,''))"
       }
 
     ]
