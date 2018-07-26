@@ -15,13 +15,13 @@
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="startDate">Start Date:</label>
-            <input id="startDate" type="date" class="form-control" [(ngModel)]="startDate" />
+            <input id="startDate" type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="startDateChanged($event)" />
           </div>
         </div>
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="endDate">End Date:</label>
-            <input id="endDate" type="date" class="form-control" [(ngModel)]="endDate" />
+            <input id="endDate" type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="endDateChanged($event)"/>
           </div>
           <div>
 

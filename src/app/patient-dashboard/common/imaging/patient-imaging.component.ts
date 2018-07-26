@@ -96,26 +96,29 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
 
     this.radiologyImagingResourceService.getPatientImagingReport(patientIdentifier)
       .subscribe((result) => {
-
-      if (result) {
-        this.result = result.entry;
-        this.imagingResults = this.formatReportTest(this.result);
-        this.fetchAllImageFromRefpacs();
-        this.imagingResults.sort((a, b) => {
-          let key1 = a.effectiveDateTime;
-          let key2 = b.effectiveDateTime;
-          if (key1 > key2) {
-            return -1;
-          } else if (key1 === key2) {
-            return 0;
-          } else {
-            return 1;
-          }
-        });
-        this.splitReportContent(this.imagingResults);
-
-        this.fetchingResults = false;
+        if(result.resourceType === 'OperationOutcome') {
+          this.fetchingResults = false;
         }
+
+        if (result.entry) {
+          this.result = result.entry;
+          this.imagingResults = this.formatReportTest(this.result);
+          this.fetchAllImageFromRefpacs();
+          this.imagingResults.sort((a, b) => {
+            let key1 = a.effectiveDateTime;
+            let key2 = b.effectiveDateTime;
+            if (key1 > key2) {
+              return -1;
+            } else if (key1 === key2) {
+              return 0;
+            } else {
+              return 1;
+            }
+          });
+          this.splitReportContent(this.imagingResults);
+
+          this.fetchingResults = false;
+          }
       }, (err) => {
         this.fetchingResults = false;
         this.error = err;

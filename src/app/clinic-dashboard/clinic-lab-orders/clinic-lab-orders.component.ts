@@ -40,18 +40,24 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.startDate = this._datePipe.transform(
-      new Date(), 'yyyy-MM-dd');
-    this.endDate = this._datePipe.transform(
-      new Date(), 'yyyy-MM-dd');
+
 
     let cachedParam = this.getClinicOrderParam('clinicordersparam');
     if (cachedParam !== undefined) {
       this.selectedDate = this._datePipe.transform(
         cachedParam.selectedDate, 'yyyy-MM-dd');
       this.location = cachedParam.selectedLocation;
+      this.startDate = this._datePipe.transform(
+        cachedParam.startDate, 'yyyy-MM-dd');
+      this.endDate = this._datePipe.transform(
+        cachedParam.endDate, 'yyyy-MM-dd');
+      this.onClickedGenerate();
     } else {
       this.selectedDate = this._datePipe.transform(
+        new Date(), 'yyyy-MM-dd');
+      this.startDate = this._datePipe.transform(
+        new Date(), 'yyyy-MM-dd');
+      this.endDate = this._datePipe.transform(
         new Date(), 'yyyy-MM-dd');
     }
 
@@ -123,7 +129,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public getCurrentLocation() {
     this.route.parent.params.subscribe((params) => {
       this.location = params['location_uuid'];
-      this.setClinicOrderParam(this.location, this.selectedDate);
+      this.setClinicOrderParam(this.location, this.selectedDate, this.startDate, this.endDate);
     });
   }
 
@@ -132,9 +138,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     '/general/general/landing-page']);
   }
 
-  public dateChanged(selectedDate) {
-    this.setClinicOrderParam(this.location, selectedDate);
-    // this.getClinicLabOrders(this.location, selectedDate);
+  public startDateChanged(startDate) {
+    this.setClinicOrderParam(this.location, '',startDate, this.endDate);
+  }
+  public endDateChanged(endDate) {
+    this.setClinicOrderParam(this.location, '',this.startDate, endDate);
   }
 
   public exportAllData() {
@@ -177,10 +185,12 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   }
 
-  private setClinicOrderParam(selectedLocation, selectedDate) {
+  private setClinicOrderParam(selectedLocation, selectedDate, startDate, endDate) {
     this.clinicDashboardCacheService.add('clinicordersparam', {
       selectedLocation: selectedLocation,
-      selectedDate: selectedDate
+      selectedDate: selectedDate,
+      startDate: startDate,
+      endDate: endDate
     });
   }
 
@@ -307,5 +317,6 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     return numbers;
 
   }
+
 
 }
