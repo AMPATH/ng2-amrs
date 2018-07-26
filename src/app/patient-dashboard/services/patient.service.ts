@@ -58,4 +58,11 @@ export class PatientService {
       });
 
   }
+
+  public reloadCurrentPatient() {
+    if (this.currentlyLoadedPatient.value !== null) {
+      let previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
+      this.fetchPatientByUuid(previousPatient.uuid);
+    }
+  }
 }
