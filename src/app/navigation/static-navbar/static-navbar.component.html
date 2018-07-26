@@ -48,6 +48,8 @@
             <dl>
               <dt>Location:</dt>
               <dd>{{userLocation}}</dd>
+              <dt *ngIf="department">Department:</dt>
+              <dd *ngIf="department">{{ department }}</dd>
               <dt>Role(s):</dt>
               <dd>- {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
             </dl>

@@ -51,11 +51,11 @@ describe('Service: DynamicRoutesService', () => {
       routes: []
     };
 
-    service.routes.subscribe(routes => {
+    service.routes.subscribe((routes) => {
         expect(routes).toEqual(dynamicRouteMock);
         done();
       },
-      err => console.log(err),
+      (err) => console.log(err),
       () => console.log('Completed'));
     service.setRoutes(dynamicRouteMock);
   });

@@ -14,7 +14,8 @@ import { TodaysVitalsService } from './todays-vitals.service';
 import { FakeVisitResourceService } from '../../../openmrs-api/fake-visit-resource.service';
 import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 describe('Service: TodaysVitalsService', () => {
   beforeEach(fakeAsync (() => {
     TestBed.configureTestingModule({
@@ -30,7 +31,8 @@ describe('Service: TodaysVitalsService', () => {
 
         {
           provide: Http,
-          useFactory: (backendInstance: MockBackend,
+          useFactory: (
+            backendInstance: MockBackend,
             defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
@@ -43,7 +45,7 @@ describe('Service: TodaysVitalsService', () => {
         }
       ]
     });
-  });
+  }));
 
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -172,4 +174,3 @@ describe('Service: TodaysVitalsService', () => {
   });
 
 });
-
