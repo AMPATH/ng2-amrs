@@ -38,6 +38,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   private currentProcessId: string;
   private previousProcessId: string;
   private subscription: Subscription;
+  private patientSub: Subscription;
   private ngUnsubscribe: Subject<any> = new Subject();
   private hasPayload: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -52,15 +53,26 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   public ngOnInit() {
     // Do not subscribe to patient service. when you reload it at the end of the process,
     // it becomes recursive
-    this.patient = this.patientService.currentlyLoadedPatient.value;
-    if (!_.isNil(this.patient)) {
-      this._init();
-    }
+    this.patientSub = this.patientService.currentlyLoadedPatient
+    .subscribe((patient) => {
+        if (patient !== null) {
+          this.patient = patient;
+          this._init();
+          console.log('patient received', this.patient);
+        }
+
+    }, (error) => {
+      // this.patient = null;
+    });
   }
 
   public ngOnDestroy(): void {
     if (!_.isNil(this.subscription)) {
       this.subscription.unsubscribe();
+    }
+
+    if (!_.isNil(this.patientSub)) {
+      this.patientSub.unsubscribe();
     }
   }
 
@@ -228,14 +240,14 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
             this._completeProcess();
             let currentUrl = this.router.url.split('?')[0];
             this.router.navigate([currentUrl]);
-            this.patientService.fetchPatientByUuid(this.patient.uuid);
-          }, 2500);
+            this.patientService.reloadCurrentPatient();
+          }, 500);
         }
       } else {
         setTimeout(() => {
           this._completeProcess();
           this.router.navigate(['..'], {relativeTo: this.route});
-          this.patientService.fetchPatientByUuid(this.patient.uuid);
+          this.patientService.reloadCurrentPatient();
         }, 50);
       }
     }, (err) => {
