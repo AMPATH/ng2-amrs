@@ -158,7 +158,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             // tslint:disable-next-line:prefer-for-of
             // for (let i = 0; i < reportsData.length; i++) {
 
-
             let paramsArray = this.getLocationHeaders(reportsData);
             let rowsArray = this.getJoinLocations(reportsData);
 
