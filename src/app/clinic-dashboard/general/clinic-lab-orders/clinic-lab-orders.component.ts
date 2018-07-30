@@ -9,7 +9,7 @@ import { GridOptions } from 'ag-grid/main';
 import 'ag-grid-enterprise/main';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'clinic-lab-orders',
   templateUrl: './clinic-lab-orders.component.html',
@@ -18,7 +18,16 @@ import { DatePipe } from '@angular/common';
 export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public location: string = '';
   public gridOptions: GridOptions;
+  public selectedVisitType: any;
   public results = [];
+  public totalOrderds: any;
+  public totalSampleCollected: any;
+  public orders: any;
+  public totalSampleNotCollected: any;
+  public startDate: any;
+  public endDate: any;
+  public isLoadingReport: boolean = false;
+  public totalCounts: any;
   @Input() public selectedDate: any;
   public errors: any = [];
   private response: Subscription = new Subscription();
@@ -33,13 +42,23 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
     let cachedParam = this.getClinicOrderParam('clinicordersparam');
     if (cachedParam !== undefined) {
       this.selectedDate = this._datePipe.transform(
         cachedParam.selectedDate, 'yyyy-MM-dd');
       this.location = cachedParam.selectedLocation;
+      this.startDate = this._datePipe.transform(
+        cachedParam.startDate, 'yyyy-MM-dd');
+      this.endDate = this._datePipe.transform(
+        cachedParam.endDate, 'yyyy-MM-dd');
+      this.onClickedGenerate();
     } else {
       this.selectedDate = this._datePipe.transform(
+        new Date(), 'yyyy-MM-dd');
+      this.startDate = this._datePipe.transform(
+        new Date(), 'yyyy-MM-dd');
+      this.endDate = this._datePipe.transform(
         new Date(), 'yyyy-MM-dd');
     }
 
@@ -79,12 +98,25 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     this.response.unsubscribe();
   }
 
-  public getClinicLabOrders(location, selectDate) {
+  public onClickedGenerate() {
+    this.isLoadingReport = true;
     this.response = this.clinicLabOrdersResourceService.getClinicLabOrders({
-      dateActivated: selectDate,
-      locationUuids: location
+      locationUuids: this.location,
+      startDate: this.startDate,
+      endDate: this.endDate
+
     }).subscribe((results) => {
-        this.results = this.formatDateField(results);
+        if (results) {
+          this.orders = results;
+          this.selectedVisitType = 'Total Ordered';
+          this.totalSampleCollectedFilter( this.orders);
+          this.totalSampleNotCollectedFilter( this.orders);
+          this.results = this.formatDateField(results);
+          this.totalOrderds = this.results.length;
+          this.totalCounts = this.totalOrderds;
+        }
+        this.isLoadingReport = false;
+
       },
       (error) => {
         this.errors.push({
@@ -98,9 +130,15 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public getCurrentLocation() {
     this.route.parent.parent.params.subscribe((params) => {
       this.location = params['location_uuid'];
-      this.setClinicOrderParam(this.location, this.selectedDate);
-      this.getClinicLabOrders(this.location, this.selectedDate);
+      this.setClinicOrderParam(this.location, this.selectedDate, this.startDate, this.endDate);
     });
+  }
+  public startDateChanged(startDate) {
+    this.setClinicOrderParam(this.location, '',startDate, this.endDate);
+  }
+
+  public endDateChanged(endDate) {
+    this.setClinicOrderParam(this.location, '',this.startDate, endDate);
   }
 
   public onRowClicked(event) {
@@ -108,26 +146,25 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     '/general/general/landing-page']);
   }
 
-  public navigateDay(value) {
-    if (value) {
-      let m = Moment(new Date(this.selectedDate));
-      let revisedDate = m.add(value, 'd');
-      this.selectedDate = this._datePipe.transform(
-        revisedDate, 'yyyy-MM-dd');
-    }
-    this.setClinicOrderParam(this.location, this.selectedDate);
-    this.getClinicLabOrders(this.location, this.selectedDate);
-  }
-
-  public dateChanged(selectedDate) {
-    selectedDate = this._datePipe.transform(
-      selectedDate, 'yyyy-MM-dd');
-    this.setClinicOrderParam(this.location, selectedDate);
-    this.getClinicLabOrders(this.location, selectedDate);
-  }
-
   public exportAllData() {
      this.gridOptions.api.exportDataAsCsv();
+  }
+  public allTestOrdered() {
+    this.selectedVisitType = 'Total Ordered';
+    this.onClickedGenerate();
+    this.totalCounts = this.totalOrderds;
+  }
+  public sampleCollected() {
+    this.selectedVisitType = 'Total Sample Collected';
+    let sampleCollected = this.totalSampleCollectedFilter( this.orders);
+    this.results  = sampleCollected;
+
+  }
+  public sampleNotCollected() {
+    this.selectedVisitType = 'Total Sample NOT Collected';
+    let notCollected = this.totalSampleNotCollectedFilter( this.orders);
+    this.results  = notCollected;
+
   }
 
   private formatDateField(result) {
@@ -138,6 +175,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         if (data.hasOwnProperty(r)) {
           let dateActivated = Moment(data.date_activated).format('DD-MM-YYYY');
           data['DateActivated'] = dateActivated;
+          data['sampleCollectionDate'] = Moment(data.sample_collection_date).format('DD-MM-YYYY');
+
           data['#'] = i + 1;
         }
       }
@@ -147,10 +186,12 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   }
 
-  private setClinicOrderParam(selectedLocation, selectedDate) {
+  private setClinicOrderParam(selectedLocation, selectedDate,startDate, endDate) {
     this.clinicDashboardCacheService.add('clinicordersparam', {
       selectedLocation: selectedLocation,
-      selectedDate: selectedDate
+      selectedDate: selectedDate,
+      startDate: startDate,
+      endDate: endDate
     });
   }
 
@@ -166,16 +207,16 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         width: 60,
         pinned: true
       },
-      {
+      /*{
         headerName: 'Location',
-        field: 'location',
+        field: 'location_name',
         width: 90,
         cellStyle: {
           'white-space': 'normal'
         },
         pinned: true,
         filter: 'text'
-      },
+      },*/
       {
         headerName: 'Identifiers',
         field: 'identifiers',
@@ -196,7 +237,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
       },
       {
         headerName: 'Order No',
-        field: 'order_no',
+        field: 'orderNumber',
         width: 90,
         filter: 'text'
       },
@@ -213,8 +254,69 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         headerName: 'Date Ordered',
         field: 'DateActivated',
         width: 120
+      },
+      {
+        headerName: 'Sample Collected',
+        field: 'sample_drawn',
+        cellStyle: (params) => {
+          if (params.data.sample_drawn === 'NO') {
+            return {color: 'red'};
+          } else {
+            return null;
+          }
+        },
+        width: 120
+      },
+      {
+        headerName: 'Date Sample Collected',
+        field: 'sampleCollectionDate',
+        cellRenderer: (params) => {
+          if (params.data.sample_drawn === null || params.data.sample_drawn === 'NO') {
+              return ' ';
+          }
+          return params.value;
+        },
+        width: 120
       }
     ];
+  }
+  private totalSampleCollectedFilter(result) {
+
+    let res = _.filter(result, ['sample_drawn', 'YES']);
+    let numbers = [];
+    for (let i = 0; i < res.length; ++i) {
+      let data = res[i];
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+          data['#'] = i + 1;
+        }
+      }
+      numbers.push(data);
+    }
+    this.totalSampleCollected = numbers.length;
+    this.totalCounts = this.totalSampleCollected;
+    return numbers;
+
+  }
+  private totalSampleNotCollectedFilter(result) {
+    let resNull = _.filter(result, ['sample_drawn', null]);
+    let resNo = _.filter(result, ['sample_drawn', 'NO']);
+    let res = _.concat(resNull, resNo);
+    let numbers = [];
+    for (let i = 0; i < res.length; ++i) {
+      let data = res[i];
+      for (let r in data) {
+        if (data.hasOwnProperty(r)) {
+          data['#'] = i + 1;
+        }
+      }
+      numbers.push(data);
+    }
+    this.totalSampleNotCollected = numbers.length;
+    this.totalCounts = this.totalSampleNotCollected;
+
+    return numbers;
+
   }
 
 }
