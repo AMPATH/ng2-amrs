@@ -163,7 +163,6 @@ export class DataEntryStatisticsMonthlyListComponent
             ]
            };
 
-
           let savedEncounter = encounterMap.get(stat.location);
           if (typeof savedEncounter !== 'undefined') {
 

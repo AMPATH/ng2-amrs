@@ -40,6 +40,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysVitals(patientUuid) {
+    this.todaysVitals = [];
 
     this.resetVariables();
 
@@ -55,6 +56,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
                  this.loadingTodaysVitals = false;
                  if (data.length > 0) {
                    this.todaysVitals = new Array(data[0]);
+                   console.log('this.todaysVitals', this.todaysVitals);
                    this.dataLoaded = true;
                  } else {
                    this.dataLoaded = false;
@@ -75,6 +77,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysEncounters(encounters) {
+    this.todaysVitals = [];
     let today = Moment().format('YYYY-MM-DD');
     let todaysEncounters = [];
     _.each(encounters, (encounter: any) => {
@@ -89,6 +92,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysEncounterDetails(todaysEncounters) {
+    this.todaysVitals = [];
 
     return new Promise((resolve, reject) => {
 
@@ -137,7 +141,6 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
  public resetVariables() {
-    this.todaysVitals = [];
     this.dataLoaded = false;
     this.loadingTodaysVitals = false;
   }

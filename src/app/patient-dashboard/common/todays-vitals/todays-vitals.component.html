@@ -16,7 +16,9 @@
                   <strong class="text-primary">Oxygen Sat : </strong>{{vital.oxygenSaturation}} </span>|
           <span *ngIf="vital.height"><strong class="text-primary">Height : </strong>{{vital.height}} |</span>
           <span *ngIf="vital.weight"><strong class="text-primary">Weight : </strong>{{vital.weight}} |</span>
-          <span [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" *ngIf="vital.bmi"><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} </span>
+          <span [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" *ngIf="vital.bmi"><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} | </span>
+          <span *ngIf="vital.heightZscore"><strong class="text-primary">Height for Age Z-score : </strong>{{vital.heightZscore}} |</span>
+          <span *ngIf="vital.weightZscore"><strong class="text-primary">Weight for Height Z-score : </strong>{{vital.weightZscore}}</span>
 
       </li>
     </ul>

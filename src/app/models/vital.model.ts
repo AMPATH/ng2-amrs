@@ -35,8 +35,22 @@ export class Vital extends BaseModel {
     public set temperature(v: number) {
         this._openmrsModel.temperature = v;
     }
+    public get heightZscore(): number {
+      return this._openmrsModel.heightZscore;
+    }
 
-    public get oxygenSaturation(): number {
+    public set heightZscore(v: number) {
+      this._openmrsModel.heightZscore = v;
+    }
+    public get weightZscore(): number {
+      return this._openmrsModel.weightZscore;
+    }
+
+    public set weightZscore(v: number) {
+      this._openmrsModel.weightZscore = v;
+    }
+
+  public get oxygenSaturation(): number {
         return this._openmrsModel.oxygenSaturation;
     }
 

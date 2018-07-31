@@ -19,7 +19,8 @@ export class TodaysVitalsService {
     public vitalModel = {
         diastolic: null, systolic: null,
         pulse: null, temperature: null, oxygenSaturation: null,
-        height: null, weight: null, bmi: null
+        height: null, weight: null, bmi: null, heightZscore: null,
+        weightZscore: null
     };
 
     constructor(
@@ -85,7 +86,11 @@ export class TodaysVitalsService {
     }
 
     private getVitalsFromObs(obsArray) {
-        for (let obs of obsArray) {
+      this.vitalModel = { diastolic: null, systolic: null,
+        pulse: null, temperature: null, oxygenSaturation: null,
+        height: null, weight: null, bmi: null, heightZscore: null,
+        weightZscore: null };
+      for (let obs of obsArray) {
             let ob = obs;
             if (typeof ob.concept !== 'undefined') {
                 // HIV Triage vitals stored in groupmembers property on obs property
@@ -155,6 +160,10 @@ export class TodaysVitalsService {
                 return this.vitalModel.height = ob.value;
             case 'a8a660ca-1350-11df-a1f1-0026b9348838':
                 return this.vitalModel.weight = ob.value;
+            case '507f48e7-26fc-490b-a521-35d7c5aa8e9f':
+              return this.vitalModel.heightZscore = ob.value;
+            case '5099d8a8-36c1-4574-a568-9bc49c15c08c':
+              return this.vitalModel.weightZscore = ob.value;
 
             default:
                 return ;

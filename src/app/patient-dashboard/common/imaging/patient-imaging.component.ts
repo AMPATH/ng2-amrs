@@ -96,7 +96,7 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
 
     this.radiologyImagingResourceService.getPatientImagingReport(patientIdentifier)
       .subscribe((result) => {
-        if(result.resourceType === 'OperationOutcome') {
+        if (result.resourceType === 'OperationOutcome') {
           this.fetchingResults = false;
         }
 
