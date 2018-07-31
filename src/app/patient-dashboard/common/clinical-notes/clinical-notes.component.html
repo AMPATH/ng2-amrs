@@ -111,6 +111,23 @@
           </tr>
           </tbody>
         </table>
+        <table *ngIf="note.adherenceNotes.length > 0" class="table table-stripped table-condensed table-bordered">
+          <thead>
+            <tr>
+              <th width="30%">Encounter</th>
+              <th colspan="2">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let adherence of note.adherenceNotes">
+              <td>{{ adherence.encounterType }}</td>
+              <td>
+                <span class="note-label">Adherence Notes: </span>
+                <span class="note-info">{{ adherence.value }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </td>
     </tr>
   </table>
