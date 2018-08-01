@@ -20,8 +20,8 @@ export class ClinicKibanaVizComponent extends KibanaVizComponent implements OnIn
     public lastVizUrl: string;
     public sub: Subscription;
     constructor(route: ActivatedRoute,
-                location: Location,
-                router: Router
+        location: Location,
+        router: Router
     ) {
         super(route, location, router);
     }
@@ -38,7 +38,9 @@ export class ClinicKibanaVizComponent extends KibanaVizComponent implements OnIn
     }
 
     public ngOnDestroy() {
-        this.sub.unsubscribe();
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
         super.ngOnDestroy();
     }
 
@@ -53,6 +55,10 @@ export class ClinicKibanaVizComponent extends KibanaVizComponent implements OnIn
 
         // STEP 1: First decode the kibana viz params
         let aVar = this.getQueryVariable('_a', newUrl);
+
+        if (aVar === undefined) {
+            return;
+        }
         let passedInAppState = rison.decode(aVar);
         let passedInGlobalState = rison.decode(this.getQueryVariable('_g', newUrl));
 
