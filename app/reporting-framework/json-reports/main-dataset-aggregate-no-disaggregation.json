@@ -55,7 +55,7 @@
             "alias": "enrolled_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.enrolled_this_month)"
+                "expression": "sum(hmsd.enrolled_this_month)"
             }
         },
         {
@@ -63,7 +63,7 @@
             "alias": "pre_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.pre_art)"
+                "expression": "sum(hmsd.pre_art)"
             }
         },
         {
@@ -71,7 +71,7 @@
             "alias": "started_art_pregnant",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.started_art_pregnant)"
+                "expression": "sum(hmsd.started_art_pregnant)"
             }
         },
         {
@@ -79,7 +79,7 @@
             "alias": "art_revisit_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.art_revisit_this_month)"
+                "expression": "sum(hmsd.art_revisit_this_month)"
             }
         },
         {
@@ -87,7 +87,7 @@
             "alias": "started_art_and_has_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.started_art_and_has_tb)"
+                "expression": "sum(hmsd.started_art_and_has_tb)"
             }
         },
         {
@@ -95,7 +95,7 @@
             "alias": "current_in_care",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.current_in_care)"
+                "expression": "sum(hmsd.current_in_care)"
             }
         },
         {
@@ -103,7 +103,7 @@
             "alias": "active_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.active_on_art)"
+                "expression": "sum(hmsd.active_on_art)"
             }
         },
         {
@@ -111,7 +111,7 @@
             "alias": "on_ctx_prophylaxis",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.on_ctx_prophylaxis)"
+                "expression": "sum(hmsd.on_ctx_prophylaxis)"
             }
         },
         {
@@ -127,7 +127,7 @@
             "alias": "current_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.current_on_art)"
+                "expression": "sum(hmsd.current_on_art)"
             }
         },
         {
@@ -156,10 +156,10 @@
         },
         {
             "type": "derived_column",
-            "alias": "tb_screened_since_active",
+            "alias": "screened_for_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "sum(hmsd.tb_screened_since_active)"
+                "expression": "sum(hmsd.screened_for_tb)"
             }
         },
         {

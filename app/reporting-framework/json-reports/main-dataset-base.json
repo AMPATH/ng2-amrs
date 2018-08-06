@@ -120,100 +120,59 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "enrolled_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when enrolled_this_month=1 AND NOT (enrollment_date > arv_first_regimen_start_date) then 1 else null end"
-            }
+            "column": "hmsd.enrolled_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "art_revisit_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when art_revisit_this_month=1 and status = 'active' then 1 else null end"
-            }
+            "column": "hmsd.art_revisit_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "current_in_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' then 1 else null end"
-            }
+            "column": "hmsd.active_in_care_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "pre_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(arv_first_regimen is null and status='active',1,null)"
-            }
+            "column": "hmsd.is_pre_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "started_art_pregnant",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id AND pregnant_this_month = 1,1,null)"
-            }
+            "column": "hmsd.is_pregnant_and_started_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "started_art_and_has_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(started_art_this_month=1 AND started_tb_tx_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id,1,null)"
-            }
+            "column": "hmsd.on_tb_tx_and_started_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "active_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' and on_art_this_month=1 then 1 else null end"
-            }
+            "column": "hmsd.on_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "on_ctx_prophylaxis",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' and on_pcp_prophylaxis_this_month=1 then 1 else null end"
-            }
+            "column": "hmsd.on_pcp_prophylaxis_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "current_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when on_art_this_month=1 and status='active' then 1 else null end"
-            }
+            "column": "hmsd.on_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "screened_for_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "tb_screened_this_month"
-            }
+            "column": "hmsd.tb_screened_this_month"
         },
         {
-            "type": "derived_column",
-            "alias": "tb_screened_since_active",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "tb_screened_since_active"
-            }
-        },
-        {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "tb_screened_positive",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "tb_screened_positive_this_month"
-            }
+            "column": "hmsd.presumed_tb_positive_this_month"
         },
         {
             "type": "derived_column",
@@ -224,12 +183,9 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "started_ipt",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "started_ipt_this_month"
-            }
+            "column": "hmsd.started_ipt_this_month"
         },
         {
             "type": "derived_column",
@@ -256,44 +212,29 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.gender='F' and age>=15 and modern_contraception_since_active=1,1,0)"
-            }
+            "column": "hmsd.on_modern_contraception_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "scheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.on_schedule=1 and visit_this_month=1,1,0)"
-            }
+            "column": "hmsd.scheduled_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "unscheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.on_schedule=0 and visit_this_month=1,1,0)"
-            }
+            "column": "hmsd.unscheduled_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "total_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(visit_this_month=1,1,0)"
-            }
+            "column": "hmsd.visit_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "f_gte_18_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.gender='F' and age >= 18 and visit_this_month=1,1,0)"
-            }
+            "column": "hmsd.f_18_and_older_this_month"
         }
     ],
     "filters": {
