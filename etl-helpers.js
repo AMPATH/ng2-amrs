@@ -181,7 +181,7 @@ module.exports = function () {
             return concepts[code];
         },
         getARVNames: function getARVNames(str) {
-            if (str === null || str === undefined || str === 'unknown') {
+            if (str === null || str === undefined || str === 'unknown' || str === '-1') {
                 return "";
             }
             var arvs = {
