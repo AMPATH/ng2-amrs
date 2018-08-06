@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.hiv_monthly_report_dataset_2018_06_12",
+            "table": "etl.hiv_monthly_report_dataset_frozen",
             "alias": "hmsd"
         },
         {
@@ -104,36 +104,24 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "enrolled_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when enrolled_this_month=1 AND NOT (enrollment_date > arv_first_regimen_start_date) then 1 else null end"
-            }
+            "column": "hmsd.enrolled_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "current_in_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' then 1 else null end"
-            }
+            "column": "hmsd.active_in_care_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "pre_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(arv_first_regimen is null and status='active',1,null)"
-            }
+            "column": "hmsd.is_pre_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "active_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' and on_art_this_month=1 then 1 else null end"
-            }
+            "column": "hmsd.on_art_this_month"
         },
         {
             "type": "derived_column",
@@ -144,36 +132,24 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "on_ctx_prophylaxis",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' and on_pcp_prophylaxis_this_month=1 then 1 else null end"
-            }
+            "column": "hmsd.on_pcp_prophylaxis_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "current_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' and on_art_this_month=1 then 1 else null end"
-            }
+            "column": "hmsd.on_art_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "screened_for_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "tb_screened_this_month"
-            }
+            "column": "hmsd.tb_screened_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "tb_screened_positive",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "tb_screened_positive_this_month"
-            }
+            "column": "hmsd.presumed_tb_positive_this_month"
         },
         {
             "type": "derived_column",
@@ -184,12 +160,9 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "started_ipt",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "started_ipt_this_month"
-            }
+            "column": "hmsd.started_ipt_this_month"
         },
         {
             "type": "derived_column",
@@ -216,20 +189,14 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.gender='F' and age>=15 and modern_contraception_since_active=1,1,0)"
-            }
+            "column": "hmsd.on_modern_contraception_this_month"
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "f_gte_18_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.gender='F' and age >= 18 and visit_this_month=1,1,0)"
-            }
+            "column": "hmsd.f_18_and_older_this_month"
         }
     ],
     "filters": {

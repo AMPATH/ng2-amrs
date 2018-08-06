@@ -48,7 +48,7 @@
             "alias": "current_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.current_on_art)"
+                "expression": "sum(hmsd.current_on_art)"
             }
         },
 
@@ -57,28 +57,28 @@
             "alias": "enrolled_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.enrolled_this_month)"
+                "expression": "sum(hmsd.enrolled_this_month)"
             }
         }, {
             "type": "derived_column",
             "alias": "pre_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.pre_art)"
+                "expression": "sum(hmsd.pre_art)"
             }
         }, {
             "type": "derived_column",
             "alias": "current_in_care",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.current_in_care)"
+                "expression": "sum(hmsd.current_in_care)"
             }
         }, {
             "type": "derived_column",
             "alias": "active_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.active_on_art)"
+                "expression": "sum(hmsd.active_on_art)"
             }
         },
         {
@@ -86,7 +86,7 @@
             "alias": "art_revisit_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.art_revisit_this_month)"
+                "expression": "sum(hmsd.art_revisit_this_month)"
             }
         }
         , {
@@ -94,7 +94,7 @@
             "alias": "on_ctx_prophylaxis",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.on_ctx_prophylaxis)"
+                "expression": "sum(hmsd.on_ctx_prophylaxis)"
             }
         }, {
             "type": "derived_column",

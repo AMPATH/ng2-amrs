@@ -53,7 +53,7 @@
             "alias": "started_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(hmsd.started_art)"
+                "expression": "sum(hmsd.started_art)"
             }
         }
     ],

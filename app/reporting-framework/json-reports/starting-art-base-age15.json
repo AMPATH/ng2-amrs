@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.hiv_monthly_report_dataset_2018_06_12",
+            "table": "etl.hiv_monthly_report_dataset_frozen",
             "alias": "hmsd"
         },
         {
@@ -74,12 +74,9 @@
             }
         },
         {
-            "type": "derived_column",
+            "type": "simple_column",
             "alias": "started_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(started_art_this_month=1  AND hmsd.location_id = arv_first_regimen_location_id,1,null)"
-            }
+            "column": "started_art_this_month"
         }
     ],
     "filters": {
