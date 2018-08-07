@@ -43,6 +43,7 @@ import { PatientReferralService } from '../../../referral-module/services/patien
 import { EncounterType } from '../../../models/encounter-type.model';
 import { RetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 
 @Component({
   selector: 'app-formentry',
@@ -108,7 +109,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
               private formentryHelperService: FormentryHelperService,
               private patientReminderService: PatientReminderService,
               private transferCareService: ProgramsTransferCareService,
-              private confirmationService: ConfirmationService) {
+              private confirmationService: ConfirmationService,
+              private personResourceService: PersonResourceService) {
   }
 
   public ngOnInit() {
@@ -392,6 +394,49 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
     } else {
       this.referralCompleteStatus.next(false);
+    }
+  }
+
+  public updatePatientDemographics(data: any): void {
+    // check if patient status was filled
+    // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
+    let patientCareStatus = this.form.searchNodeByQuestionId('patstat');
+    let deathDate = this.form.searchNodeByQuestionId('deathDate');
+    let causeOfDeath = this.form.searchNodeByQuestionId('reasdeath');
+    if (causeOfDeath.length === 0 ) {
+      causeOfDeath = this.form.searchNodeByQuestionId('deathCause');
+    }
+
+    // if question exists provide for demographic update
+    /* UPDATE: at the moment, only deathDate  and cause are the only consistent concepts across
+     *  the forms.
+     *  none of the fields are required. By assumption, if someone fills death death and cause,
+     *  the patient is dead
+     */
+
+    if (patientCareStatus.length > 0
+      && _.first(patientCareStatus).control.value !== 'a89335d6-1350-11df-a1f1-0026b9') {
+      this.personResourceService.saveUpdatePerson(this.patient.uuid, {
+        dead : false,
+        deathDate: null,
+        causeOfDeath: null
+      }).subscribe(() => {
+
+        });
+    }
+
+    if ((causeOfDeath.length > 0 && _.first(causeOfDeath).control.value.length > 0)
+      && (deathDate.length > 0 && _.first(deathDate).control.value.length > 0)) {
+        let personNamePayload = {
+          dead: true,
+          deathDate: _.first(deathDate).control.value,
+          causeOfDeath: _.first(causeOfDeath).control.value
+        };
+
+        this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
+          .subscribe(() => {
+
+        });
     }
   }
 
@@ -856,7 +901,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.formSubmissionErrors = null;
     this.failedPayloadTypes = null;
     // this.showSuccessDialog = true;
-
+    this.updatePatientDemographics(response);
     // handle referrals here
     this.handleFormReferrals(response);
   }
