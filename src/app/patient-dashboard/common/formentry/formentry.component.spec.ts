@@ -90,6 +90,12 @@ export class FakeConceptResourceService {
 
 }
 
+export class FakePersonResourceService {
+  public saveUpdatePerson(uuid, payload): Observable<any> {
+    return Observable.of({});
+  }
+}
+
 describe('Component: FormentryComponent', () => {
   let router = {
     navigate: jasmine.createSpy('navigate')
@@ -266,6 +272,11 @@ describe('Component: FormentryComponent', () => {
         {
           provide: ConceptResourceService, useFactory: () => {
           return new FakeConceptResourceService();
+        }, deps: []
+        },
+        {
+          provide: PersonResourceService, useFactory: () => {
+          return new FakePersonResourceService();
         }, deps: []
         },
         {
