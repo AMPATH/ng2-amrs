@@ -2,13 +2,19 @@ const dao = require('../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
+import {
+    BaseMysqlReport
+} from '../app/reporting-framework/base-mysql.report';
+import {
+    PatientlistMysqlReport
+} from '../app/reporting-framework/patientlist-mysql.report';
 export class clinicalArtOverviewService {
 
     getAggregateReport(reportParams) {
         let self = this;
         let report = new BaseMysqlReport('clinicalArtOverviewAggregeate', reportParams)
         Promise.join(report.generateReport(),
-            (results) => {
+            (result) => {
                 let returnedResult = {};
                 returnedResult.schemas = result.schemas;
                 returnedResult.sqlQuery = result.sqlQuery;
@@ -21,12 +27,12 @@ export class clinicalArtOverviewService {
     }
     getPatientListReport(reportParams) {
         let self = this;
-        let report = new PatientlistMysqlReport('clinicalArtOverviewAggregeate', params)
+        let indicators = reportParams.indicator.split(',');
+        let report = new PatientlistMysqlReport('clinicalArtOverviewAggregeate', reportParams)
         return new Promise(function (resolve, reject) {
-            let report = new PatientlistMysqlReport();
             //TODO: Do some pre processing
-            Promise.join(report.generatePatientListReport(reportParams),
-                (results) => {
+            Promise.join(report.generatePatientListReport(indicators),
+                (result) => {
                     let returnedResult = {};
                     returnedResult.schemas = result.schemas;
                     returnedResult.sqlQuery = result.sqlQuery;

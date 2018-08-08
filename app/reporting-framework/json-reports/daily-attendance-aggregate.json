@@ -26,6 +26,11 @@
             "type": "simple_column",
             "alias": "attended",
             "column": "count(distinct person_id)"
+        },
+        {
+            "type": "simple_column",
+            "alias": "patients",
+            "column": "patients"
         }
     ],
     "groupBy": {

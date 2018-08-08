@@ -35,6 +35,11 @@ export class MonthlyScheduleService {
                         }
                     }).value();
                     resolve({
+                        reports:{
+                            attended: attended,
+                            scheduled: scheduled,
+                            hasNotReturned: hasNotReturned
+                        },
                         results: results
                     });
                 }).catch((errors) => {

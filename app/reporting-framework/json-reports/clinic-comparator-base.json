@@ -205,7 +205,7 @@
             "alias": "pregnant_and_on_arvs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(edd > encounter_datetime and cur_arv_line is not null,hmsd.person_id,null)"
+                "expression": "if(is_pregnant is not null and cur_arv_line is not null,hmsd.person_id,null)"
             }
         },
         {

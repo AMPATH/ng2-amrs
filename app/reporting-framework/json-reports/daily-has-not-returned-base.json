@@ -12,11 +12,11 @@
     ],
     "sources": [
         {
-            "table": "etl.flat_hiv_summary",
+            "table": "etl.flat_appointment",
             "alias": "t2"
         },
         {
-            "table": "etl.flat_hiv_summary",
+            "table": "etl.flat_appointment",
             "alias": "t8",
             "join": {
                 "type": "LEFT",
@@ -61,11 +61,6 @@
         },
         {
             "type": "simple_column",
-            "alias": "uuid",
-            "column": "t2.uuid"
-        },
-        {
-            "type": "simple_column",
             "alias": "d",
             "column": "date_format(t2.rtc_date,'%Y-%m-%d')"
         },
@@ -74,7 +69,15 @@
             "alias": "has_not_returned",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(date(t2.rtc_date) < DATE(NOW()) and t2.rtc_date = t7.max_rtc_date AND COALESCE(t2.death_date) IS NULL AND t2.transfer_out IS NULL AND t2.next_clinical_datetime_hiv IS NULL AND t8.person_id is null, t2.person_id, null)"
+                "expression": "if(date(t2.rtc_date) < DATE(NOW()) and t2.rtc_date = t7.max_rtc_date  AND t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, t2.person_id, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "patients",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(date(t2.rtc_date) = DATE('{startDate}') and t2.rtc_date = t7.max_rtc_date AND  t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, 1, null)"
             }
         }
     ],
@@ -93,8 +96,8 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.location_uuid in (?)",
-                "parameterName": "locationUuids"
+                "conditionExpression": "t2.location_id in (?)",
+                "parameterName": "locations"
             },
             {
                 "filterType": "tableColumns",
@@ -113,17 +116,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "coalesce(t2.death_date) is null",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.transfer_out IS NULL",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.next_clinical_datetime_hiv IS NULL",
+                "conditionExpression": "t2.next_program_clinical_datetime IS NULL",
                 "parameterName": ""
             },
             {

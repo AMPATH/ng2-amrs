@@ -43,7 +43,6 @@ import * as starting_art_base_age_green from './json-reports/starting-art-base-a
 import * as starting_art_disaggregation_age_green from './json-reports/starting-art-disaggregation-age-green.json';
 import * as starting_art_disaggregation_age_only_green from './json-reports/starting-art-disaggregation-age-only-green.json';
 import * as medical_history_dataset_base from './json-reports/medical-history-dataset-base.json';
-import * as patint_change_status_tracker_aggregate from './json-reports/patint-change-status-tracker-aggregate.json';
 import * as patint_change_status_tracker_base from './json-reports/patint-change-status-tracker-base.json';
 import * as hiv_monthly_summary_dataset_base from './json-reports/hiv-monthly-summary-dataset-base.json';
 import * as hiv_monthly_summary_dataset_aggregation from './json-reports/hiv-monthly-summary-aggregate.json';
@@ -68,6 +67,12 @@ import * as daily_appointments_aggregate from './json-reports/daily-appointments
 import * as daily_appointments_base from './json-reports/daily-appointments-base.json';
 import * as daily_attendance_aggregate from './json-reports/daily-attendance-aggregate.json';
 import * as daily_attendance_base from './json-reports/daily-attendance-base.json';
+import * as patint_change_status_tracker_aggregate from './json-reports/patint-change-status-tracker-aggregate.json';
+import * as labs_report_aggregate from './json-reports/labs-report-aggregate.json';
+import * as labs_report_base from './json-reports/labs-report-base.json';
+import * as labs_and_imaging_dataset_base from './json-reports/labs-and-imaging-dataset-base.json';
+import * as patients_requiring_viral_load_template from './json-reports/patients-requiring-viral-load-template.json';
+import * as clinic_lab_orders_report from './json-reports/clinic-lab-orders-report-base.json';
 
 
 import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
@@ -101,6 +106,7 @@ export class BaseMysqlReport {
 
                             that.reportQuery = sqlQuery;
                             // run query
+                            console.log('Query', that.reportQuery);
                             that.executeReportQuery(that.reportQuery)
                                 .then((result) => {
                                     return that.transFormResults(that.reportSchemas, result);
@@ -289,6 +295,11 @@ export class BaseMysqlReport {
                         main: referral_patient_list_template
                     });
                     break;
+                case 'patients-requiring-viral-load-template':
+                    resolve({
+                        main: patients_requiring_viral_load_template
+                    });
+                    break;
                 case 'referralAggregate':
                     resolve({
                         main: referral_aggregate,
@@ -337,17 +348,34 @@ export class BaseMysqlReport {
                     });
                     break;
                 case 'breast_cancer_patient_list_template':
-                resolve({
-                    main: breast_cancer_patient_list_template
-                });
-                break;
+                    resolve({
+                        main: breast_cancer_patient_list_template
+                    });
+                    break;
                 case 'cervicalCancerMonthlySummaryAggregate':
-                resolve({
-                    main: cervical_cancer_monthly_screening_summary_aggregate,
-                    cervicalCancerMonthlyReportBase: cervical_cancer_monthly_screening_summary_base
-                });
-                break;
+                    resolve({
+                        main: cervical_cancer_monthly_screening_summary_aggregate,
+                        cervicalCancerMonthlyReportBase: cervical_cancer_monthly_screening_summary_base
+                    });
+                    break;
 
+                case 'labsReportAggregate':
+                    resolve({
+                        main: labs_report_aggregate,
+                        labsReportBase: labs_report_base,
+
+                    });
+                    break;
+                case 'patients-requiring-viral-load-template':
+                    resolve({
+                        main: patients_requiring_viral_load_template
+                    });
+                    break;
+                case 'clinicLabOrdersReport':
+                    resolve({
+                        main: clinic_lab_orders_report
+                    });
+                    break;
                 default:
                     reject('Unknown report ', reportName);
                     break;

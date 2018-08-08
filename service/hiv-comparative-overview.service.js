@@ -5,6 +5,9 @@ const _ = require('lodash');
 import {
     BaseMysqlReport
 } from '../app/reporting-framework/base-mysql.report';
+import {
+    PatientlistMysqlReport
+} from '../app/reporting-framework/patientlist-mysql.report';
 
 export class hivComparativeOverviewService {
 
@@ -13,7 +16,7 @@ export class hivComparativeOverviewService {
         let report = new BaseMysqlReport('clinicHivComparativeOverviewAggregate', reportParams);
         return new Promise(function (resolve, reject) {
             Promise.join(report.generateReport(),
-                (results) => {
+                (result) => {
                     let returnedResult = {};
                     returnedResult.schemas = result.schemas;
                     returnedResult.sqlQuery = result.sqlQuery;
@@ -27,12 +30,17 @@ export class hivComparativeOverviewService {
     }
     getPatientListReport(reportParams) {
         let self = this;
-        let report = new PatientlistMysqlReport('clinicHivComparativeOverviewAggregate', reportParams)
+        let endDate = reportParams.endDate.split('T')[0];
+        let startDate = reportParams.startDate.split('T')[0];
+        reportParams.endDate = endDate;
+        reportParams.startDate = startDate;
+        let locations = reportParams.locations.split(',');
+        reportParams.locations = locations;
         return new Promise(function (resolve, reject) {
-            let report = new PatientlistMysqlReport(reportParams);
             //TODO: Do some pre processing
-            Promise.join(report.generatePatientListReport(),
-                (results) => {
+            let report = new PatientlistMysqlReport('clinicHivComparativeOverviewAggregate', reportParams)
+            Promise.join(report.generatePatientListReport(reportParams.indicator.split(',')),
+                (result) => {
                     let returnedResult = {};
                     returnedResult.schemas = result.schemas;
                     returnedResult.sqlQuery = result.sqlQuery;

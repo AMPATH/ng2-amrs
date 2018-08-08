@@ -27,7 +27,7 @@ module.exports = function () {
         ] : ["uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)", uuid];
         var queryParts = {
             columns: request.query.fields || "*",
-            table: "etl.flat_hiv_summary",
+            table: "etl.flat_hiv_summary_v15b",
             where: whereClause,
             order: order || [{
                 column: 'encounter_datetime',

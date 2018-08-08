@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.flat_hiv_summary",
+            "table": "etl.flat_appointment",
             "alias": "t2"
         }
     ],
@@ -32,8 +32,8 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.location_uuid in (?)",
-                "parameterName": "locationUuids"
+                "conditionExpression": "t2.location_id in (?)",
+                "parameterName": "locations"
             }
         ]
     },

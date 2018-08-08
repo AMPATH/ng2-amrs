@@ -37,7 +37,7 @@
             "alias": "currently_in_care_total",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct currently_in_care_total)"
+                "expression": "count(distinct  concat(currently_in_care_total, hmsd.person_id))"
             }
         },
         {
@@ -45,7 +45,7 @@
             "alias": "on_art_total",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct on_art_total)"
+                "expression": "count(distinct concat(on_art_total, hmsd.person_id))"
             }
         },
         {
@@ -53,7 +53,7 @@
             "alias": "not_on_art_total",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct not_on_art_total)"
+                "expression": "count(distinct concat(not_on_art_total, hmsd.person_id))"
             }
         },
         {
@@ -61,7 +61,7 @@
             "alias": "patients_requiring_vl",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct patients_requiring_vl)"
+                "expression": "count(distinct concat(patients_requiring_vl, hmsd.person_id))"
             }
         },
         {
@@ -69,7 +69,7 @@
             "alias": "tested_appropriately",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct tested_appropriately)"
+                "expression": "count(distinct concat(tested_appropriately, hmsd.person_id))"
             }
         },
         {
@@ -77,7 +77,7 @@
             "alias": "not_tested_appropriately",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct not_tested_appropriately)"
+                "expression": "count(distinct concat(not_tested_appropriately, hmsd.person_id))"
             }
         },
         {
@@ -85,7 +85,7 @@
             "alias": "due_for_annual_vl",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct due_for_annual_vl)"
+                "expression": "count(distinct concat(due_for_annual_vl, hmsd.person_id))"
             }
         },
         {
@@ -93,7 +93,7 @@
             "alias": "pending_vl_orders",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct pending_vl_orders)"
+                "expression": "count(distinct concat(pending_vl_orders, hmsd.person_id))"
             }
         },
         {
@@ -101,7 +101,7 @@
             "alias": "missing_vl_order",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct missing_vl_order)"
+                "expression": "count(distinct concat(missing_vl_order, hmsd.person_id))"
             }
         },
         {
@@ -109,7 +109,7 @@
             "alias": "virally_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct virally_suppressed)"
+                "expression": "count(distinct concat(virally_suppressed, hmsd.person_id))"
             }
         },
         {
@@ -117,7 +117,7 @@
             "alias": "not_virally_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct not_virally_suppressed)"
+                "expression": "count(distinct concat(not_virally_suppressed, hmsd.person_id))"
             }
         },
         {
@@ -125,7 +125,7 @@
             "alias": "perc_tested_appropriately",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(count(distinct tested_appropriately)=0, 0,(count(distinct tested_appropriately)/count(distinct patients_requiring_vl)*100))"
+                "expression": "if(count(distinct concat(tested_appropriately, hmsd.person_id))=0, 0,(count(distinct concat(tested_appropriately, hmsd.person_id))/count(distinct concat(patients_requiring_vl, hmsd.person_id))*100))"
             }
         },
         {
@@ -133,7 +133,7 @@
             "alias": "perc_virally_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(count(distinct virally_suppressed)=0, 0,(count(distinct virally_suppressed)/count(distinct tested_appropriately)*100))"
+                "expression": "if(count(distinct concat(virally_suppressed, hmsd.person_id))=0, 0,(count(distinct concat(virally_suppressed, hmsd.person_id))/count(distinct concat(tested_appropriately, hmsd.person_id))*100))"
             }
         },
         {

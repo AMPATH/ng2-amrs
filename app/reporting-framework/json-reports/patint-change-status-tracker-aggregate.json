@@ -52,12 +52,12 @@
           {
             "type": "derived_column",
             "alias": "HIV_negative_patients",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.HIV_negative_patients)"}
+            "expressionType": "simple_expression","expressionOptions": {"expression": "0"}
           },
           {
             "type": "derived_column",
             "alias": "self_disengaged_patients",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.self_disengaged_patients)"}
+            "expressionType": "simple_expression","expressionOptions": {"expression": "0"}
           },
           {
             "type": "derived_column",
@@ -106,7 +106,7 @@
                 "joinDirectives": {
                     "joinType": "INNER",
                     "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "t1.person_id",
+                    "baseColumn": "person_id",
                     "templateColumn": "person_id"
                 }
             }

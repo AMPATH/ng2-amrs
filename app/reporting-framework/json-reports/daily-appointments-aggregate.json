@@ -29,11 +29,6 @@
         },
         {
             "type": "simple_column",
-            "alias": "uuid",
-            "column": "t2.uuid"
-        },
-        {
-            "type": "simple_column",
             "alias": "scheduled",
             "column": "count(distinct t2.person_id)"
         },
@@ -44,8 +39,8 @@
         },
         {
             "type": "simple_column",
-            "alias": "followed_up_by_outreach",
-            "column": "followed_up_by_outreach"
+            "alias": "patients",
+            "column": "patients"
         }
     ],
     "groupBy": {

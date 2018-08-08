@@ -15,7 +15,6 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
         // 4. Generate patient list json query
         // 5. Generate report sql using json2sql
         // 6. Execute sql statement using sql generator
-
         const that = this;
         return new Promise((resolve, error) => {
             // fetch reports
@@ -32,15 +31,14 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                         that.plSchemasRaw = this.determineBaseAndAggrSchema(that.reportSchemas, indicators)[0];
                     }
                     if (that.plSchemasRaw && that.plSchemasRaw.aggregate && that.plSchemasRaw.base) {
+
                         that.fetchPatientListTemplate(that.plSchemasRaw.aggregate)
                             .then((template) => {
                                 that.plTemplate = template.main;
 
-                                
 
                                 let generated =
                                     that.generatePatientListJsonQuery(that.plSchemasRaw.aggregate, that.plSchemasRaw.base, that.plTemplate, that.params);
-                                    
                                 // console.log('GENERATED', generated.generated.filters, that.params);
                                 // if (this.hasEmptyDynamicExpressions(generated) && aggs.length > 1) {
                                 //     for (let i = 1; i < aggs.length; i++) {
@@ -54,24 +52,28 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                                 //     }
         
                                 // }
-
                                // let aggregateDatasets = that.fetchReportSchema(that.reportSchemas);
-                                that.generatedPL = {
+
+                               // assign all reports
+                               that.generatedPL = {
                                     main: generated.generated
                                 };
                                 let combined = Object.assign(that.reportSchemas,that.generatedPL)
+                                that.generatedPL = combined;
+
+                                // console.log('Potential schemas with supplied indicators', JSON.stringify(combined));
                                 that.modifiedParam = generated.params;
                                 // generate query
-                                that.generateReportQuery(combined, that.modifiedParam)
+                                that.generateReportQuery(that.generatedPL, that.modifiedParam)
                                     .then((sqlQuery) => {
                                         //allow 'null' as parameter value
                                         sqlQuery=sqlQuery.replace(/\'null\'/g,"null");
                                         that.reportQuery = sqlQuery;
                                         // run query
+
                                         that.executeReportQuery(that.reportQuery)
                                             .then((results) => {
                                                 that.queryResults = results;
-
                                                 resolve({
                                                     schemas: that.reportSchemas,
                                                     generatedSchemas: that.generatedPL,
@@ -80,6 +82,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                                                 });
                                             })
                                             .catch((err) => {
+                                                console.error(that.reportQuery);
                                                 error(err);
                                             });
 

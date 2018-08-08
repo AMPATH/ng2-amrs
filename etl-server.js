@@ -188,7 +188,12 @@ server.register([
 
         //Adding routes
         for (var route in routes) {
+            try {
             server.route(routes[route]);
+            }
+            catch (badThing){
+                console.error(badThing);
+            }
         }
 
         for (var route in elasticRoutes) {
