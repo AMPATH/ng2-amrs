@@ -58,6 +58,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "newly_on_second_line",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(cur_arv_line=2 and arv_start_date between '{startDate}' and '{endDate}',1,null)"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "on_arvs_third_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -270,14 +278,6 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "if(vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_gt_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) > 26,1,null)"
             }
         },
         {

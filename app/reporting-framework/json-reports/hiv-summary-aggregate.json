@@ -51,6 +51,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "newly_on_second_line",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(newly_on_second_line, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "on_arvs_third_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -326,7 +334,7 @@
             "alias": "perc_on_arvs_gt_6_months",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_gt_26_weeks, hsb.person_id)) / count(distinct person_id)"
+                "expression": "count(distinct concat(on_arvs_gt_26_weeks, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
             }
         },
         {
@@ -382,7 +390,7 @@
             "alias": "early_scheduled_visits",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct concat(vl_unsuppressed_patients, hsb.person_id))"
+                "expression": "count(distinct concat(early_scheduled_visits, hsb.person_id))"
             }
         },
         {
