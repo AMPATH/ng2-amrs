@@ -8,6 +8,14 @@
         {
             "table": "etl.flat_appointment",
             "alias": "t2"
+        },
+        {
+            "table": "etl.program_visit_map",
+            "alias": "t6",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t2.visit_type_id = t6.visit_type_id"
+            }
         }
     ],
     "columns": [
@@ -70,7 +78,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.program_id in ?",
+                "conditionExpression": "t6.program_type_id in ?",
                 "parameterName": "programTypeIds"
             },
             {
