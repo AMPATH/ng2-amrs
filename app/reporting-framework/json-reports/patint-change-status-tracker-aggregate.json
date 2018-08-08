@@ -20,77 +20,104 @@
         {
             "type": "derived_column",
             "alias": "total_patients",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.person_id)"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.person_id)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "active_in_care",
-           "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.active_in_care)"}
-
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.active_in_care)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "active_return",
-           "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.active_return)"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.active_return)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "LTFU",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.LTFU)"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.LTFU)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "deaths",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.deaths)"}
-
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.deaths)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "transfer_out_patients",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.transfer_out_patients)"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.transfer_out_patients)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "HIV_negative_patients",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "0"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.HIV_negative_patients)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "self_disengaged_patients",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "0"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.self_disengaged_patients)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "new_enrollments",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.new_enrollments)"}
-          },
-          {
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.new_enrollments)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "transfer_in",
-            "expressionType": "simple_expression","expressionOptions": {"expression": "count(hmsd.transfer_in)"}
-          },
-          {
-            "type":"simple_column",
-            "alias":"reporting_date",
-            "column":"hmsd.reporting_date"
-       },
-       {
-            "type":"simple_column",
-            "alias":"location_uuid",
-            "column":"hmsd.location_uuid"
-       },
-       {
-            "type":"simple_column",
-            "alias":"location_id",
-            "column":"hmsd.location_id"
-       },
-       {
-            "type":"simple_column",
-            "alias":"reporting_month",
-            "column":"hmsd.reporting_month"
-       }
-
-        ],
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(hmsd.transfer_in)"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "reporting_date",
+            "column": "hmsd.reporting_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "hmsd.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "hmsd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "reporting_month",
+            "column": "hmsd.reporting_month"
+        }
+    ],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
