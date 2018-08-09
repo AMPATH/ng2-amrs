@@ -43,7 +43,14 @@ import * as starting_art_base_age_green from './json-reports/starting-art-base-a
 import * as starting_art_disaggregation_age_green from './json-reports/starting-art-disaggregation-age-green.json';
 import * as starting_art_disaggregation_age_only_green from './json-reports/starting-art-disaggregation-age-only-green.json';
 
-export class BaseMysqlReport {
+import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
+import * as breast_cancer_monthly_screening_summary_base from './json-reports/breast-cancer-monthly-screening-summary-base.json';
+import * as breast_cancer_patient_list_template from './json-reports/breast-cancer-patient-list-template.json';
+
+import * as cervical_cancer_monthly_screening_summary_aggregate from './json-reports/cervical-cancer-monthly-screening-summary-aggregate.json';
+import * as cervical_cancer_monthly_screening_summary_base from './json-reports/cervical-cancer-monthly-screening-summary-base.json';
+
+export class BaseMysqlReport{
     constructor(reportName, params) {
         this.reportName = reportName;
         this.params = params;
@@ -59,11 +66,10 @@ export class BaseMysqlReport {
             that.fetchReportSchema(that.reportName)
                 .then((reportSchemas) => {
                     that.reportSchemas = reportSchemas;
-
                     // generate query
                     that.generateReportQuery(that.reportSchemas, that.params)
                         .then((sqlQuery) => {
-
+                            // console.log(sqlQuery);
                             // allow user to use 'null' as parameter values
                             sqlQuery = sqlQuery.replace(/\'null\'/g, "null");
                             that.reportQuery = sqlQuery;
@@ -221,6 +227,24 @@ export class BaseMysqlReport {
                         StartingARTSetBaseAgeGreen: starting_art_base_age_green
                     });
                     break;
+                case 'breastCancerMonthlySummaryAggregate':
+                    resolve({
+                        main: breast_cancer_monthly_screening_summary_aggregate,
+                        breastCancerMonthlySummaryBase: breast_cancer_monthly_screening_summary_base
+                    });
+                    break;
+                case 'breast_cancer_patient_list_template':
+                resolve({
+                    main: breast_cancer_patient_list_template
+                });
+                break;
+                case 'cervicalCancerMonthlySummaryAggregate':
+                resolve({
+                    main: cervical_cancer_monthly_screening_summary_aggregate,
+                    cervicalCancerMonthlyReportBase: cervical_cancer_monthly_screening_summary_base
+                });
+                break;
+
                 default:
                     reject('Unknown report ', reportName);
                     break;

@@ -16,6 +16,7 @@ module.exports = function () {
             queryParams.startAge = queryParams.startAge || 0;
             queryParams.endAge = queryParams.endAge || 150;
             queryParams.gender = (queryParams.gender || 'M,F').split(',');
+            queryParams.genders = (queryParams.genders || 'M,F').split(',');
 
             // resolve requested indicators parameter name
             queryParams.requestIndicators = queryParams.indicators;
