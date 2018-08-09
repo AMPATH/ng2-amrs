@@ -124,6 +124,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "screened_for_tb_blue",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.screened_for_tb_blue)"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "current_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -152,14 +160,6 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "sum(hmsd.completed_ipt_past_12_months)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "screened_for_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.screened_for_tb)"
             }
         },
         {

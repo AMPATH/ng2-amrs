@@ -108,6 +108,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "screened_for_tb_blue",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.screened_for_tb_blue)"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "tb_screened_positive",
             "expressionType": "simple_expression",
             "expressionOptions": {

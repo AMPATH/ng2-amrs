@@ -171,6 +171,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "screened_for_tb_blue",
+            "column": "hmsd.screened_for_tb_blue"
+        },
+        {
+            "type": "simple_column",
             "alias": "tb_screened_positive",
             "column": "hmsd.presumed_tb_positive_this_month"
         },
