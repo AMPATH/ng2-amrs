@@ -88,7 +88,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "!(next_encounter_type = 116 AND rtc_date>=next_encounter_datetime)",
+                "conditionExpression":  "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR rtc_date >= next_encounter_datetime)",
                 "parameterName": ""
             }
         ]
