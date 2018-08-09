@@ -1,3 +1,4 @@
+import { OncologyProgramModule } from '../oncology-care-lib/oncology-care-lib.module';
 import {  NgModule  } from '@angular/core';
 import {  CommonModule  } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -30,9 +31,11 @@ import {
   DataAnalyticsDashboardService
 } from './services/data-analytics-dashboard.services';
 import { DataAnalyticsHivProgramModule } from './hiv/hiv-program.module';
+import { DataAnalyticsOncologyProgramModule }
+from './oncology/data-analytics-oncology-program.module';
 import { dataAnalyticsDashboardRouting } from './data-analytics-dashboard-routes';
 import { DataEntryStatisticsModule } from
-'./../data-entry-statistics/data-entry-statistics.module';
+'../data-entry-statistics/data-entry-statistics.module';
 import {
   AnalyticsPatientReferralProgramModule
 } from './referral/referral-program.module';
@@ -65,6 +68,7 @@ import {
       })
     ),
     DataAnalyticsHivProgramModule,
+    DataAnalyticsOncologyProgramModule,
     AnalyticsPatientReferralProgramModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),

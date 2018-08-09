@@ -10,6 +10,11 @@ const routes: Routes = [
         path: 'hiv', loadChildren: './hiv/hiv-program.module#DataAnalyticsHivProgramModule'
       },
       {
+        path: 'oncology',
+        loadChildren:
+        './oncology/data-analytics-oncology-program.module#DataAnalyticsOncologyProgramModule'
+      },
+      {
         path: 'referral',
         loadChildren: './referral/referral-program.module#AnalyticsPatientReferralProgramModule'
       }
