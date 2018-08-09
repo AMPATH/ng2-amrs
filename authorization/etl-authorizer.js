@@ -82,8 +82,8 @@ authorizer.hasPrivilege = function (privilege) {
     if (authorizer.isSuperUser()) {
         return true;
     }
-    //console.log('Current user privileges: ', JSON.stringify(currentUserPrivileges));
-    //console.log('Looking for privilege: ', privilege);
+    console.log('Current user privileges: ', JSON.stringify(currentUserPrivileges));
+    console.log('Looking for privilege: ', privilege);
     if (currentUserPrivileges.indexOf(privilege) > -1) {
         return true;
     }

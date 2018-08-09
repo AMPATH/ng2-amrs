@@ -27,6 +27,7 @@ var enrollmentService = require('./service/enrollment.service');
 var resolveLocationUuidToId = require('./location/resolve-location-uuid-to-id');
 var resolveProgramEnrollmentFilterParams = require('./resolve-program-visit-encounter-Ids/resolve-program-visit-encounter-idsv2');
 var imagingService = require('./service/radilogy-imaging.service');
+var oncologyReportsService = require('./oncology-reports/oncology-reports-service');
 import {
     MonthlyScheduleService
 } from './service/monthly-schedule-service';
@@ -81,7 +82,13 @@ import {
 
 import {
     Moh731Report
-} from './app/reporting-framework/hiv/moh-731.report'
+} from './app/reporting-framework/hiv/moh-731.report';
+import {
+    BreastCancerMonthlySummaryService
+} from './service/breast-cancer-monthly-summary.service';
+import {
+    CervicalCancerMonthlySummaryService
+} from './service/cervical-cancer-monthly-summary.service';
 
 module.exports = function () {
 
@@ -3698,6 +3705,7 @@ module.exports = function () {
                 auth: 'simple',
                 plugins: {},
                 handler: function (request, reply) {
+
                     var payload = request.payload;
                     imagingService.postRadiologyImagingComments(payload)
                         .then(function (results) {
@@ -3712,7 +3720,217 @@ module.exports = function () {
                 notes: "Api endpoint that post comments on a particular image",
                 tags: ['api']
             }
+        },
+        {
+            method: 'GET',
+            path: '/etl/oncology-reports',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+
+                    oncologyReportsService.getOncologyReports()
+                    .then((result)=> {
+                        reply(result);
+                    })
+                    .catch((error) => {
+                        reply(error);
+                    });
+                },
+                description: 'Get a list of Oncology reports ',
+                notes: 'Returns a  list of Oncology program reports',
+                tags: ['api'],
+                validate: {
+                    options: {
+                        allowUnknown: true
+                    },
+                    params: {
+    
+                    }
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/etl/oncology-report',
+            config: {
+                auth: 'simple',
+                plugins: {},
+                handler: function (request, reply) {
+
+                    if(request.query.reportUuid) {
+
+                        let reportUuid = request.query.reportUuid;
+                        oncologyReportsService.getSpecificOncologyReport(reportUuid)
+                        .then((result)=> {
+                            reply(result);
+                        })
+                        .catch((error) => {
+                            reply(error);
+                        });
+                    }else{
+                        reply('ERROR:Report uuid Undefined');
+                        console.error('ERROR:Report uuid Undefined');
+                        
+                    }
+                },
+                description: 'Get a specific Oncology report',
+                notes: 'Returns a specific Oncology program report',
+                tags: ['api'],
+                validate: {
+                    options: {
+                        allowUnknown: true
+                    },
+                    params: {
+    
+                    }
+                }
+            }
+       },
+       {
+        method: 'GET',
+        path: '/etl/breast-cancer-screening-numbers',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewClinicDashBoard
+                },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                request.query.reportName = 'breast-cancer-monthly-summary';
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let reportParams = etlHelpers.getReportParams('breast-cancer-summary-dataset', 
+                        ['startDate', 'endDate', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'], 
+                        requestParams);
+                        let service = new BreastCancerMonthlySummaryService();
+                        service.getAggregateReport(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
+                
+            },
+            description: 'Get breast cancer monthly screening summary details based on location and time filters',
+            notes: 'Returns aggeregates of breast cancer screening',
+            tags: ['api'],
         }
+
+    },
+    {
+        method: 'GET',
+        path: '/etl/breast-cancer-screening-numbers-patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                request.query.reportName = 'breast-cancer-monthly-screening-summary';
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new BreastCancerMonthlySummaryService();
+                        service.getPatientListReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
+                
+            },
+            description: 'Get breast cancer monthly screening summary patient list based on location and time filters',
+            notes: 'Returns details of patients who underwent breast cancer screenings',
+            tags: ['api'],
+        }
+
+    },
+    {
+        method: 'GET',
+        path: '/etl/cervical-cancer-screening-numbers',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'hapiAuthorization': {
+                    role: privileges.canViewClinicDashBoard
+                },
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                request.query.reportName = 'cervical-cancer-monthly-screening-summary';
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let reportParams = etlHelpers.getReportParams('cervical-cancer-monthly-summary', 
+                        ['startDate', 'endDate', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'], 
+                        requestParams);
+                        let service = new CervicalCancerMonthlySummaryService();
+                        service.getAggregateReport(reportParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
+                
+            },
+            description: 'Get cervical cancer monthly screening summary based on location and time filters',
+            notes: 'Returns aggeregates of cervical cancer screenings',
+            tags: ['api'],
+        }
+
+    },
+    {
+        method: 'GET',
+        path: '/etl/cervical-cancer-screening-numbers-patient-list',
+        config: {
+            auth: 'simple',
+            plugins: {
+                'openmrsLocationAuthorizer': {
+                    locationParameter: [{
+                        type: 'query', //can be in either query or params so you have to specify
+                        name: 'locationUuids' //name of the location parameter
+                    }]
+                }
+            },
+            handler: function (request, reply) {
+                request.query.reportName = 'cervical-cancer-monthly-screening-summary';
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                    function () {
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new CervicalCancerMonthlySummaryService();
+                        service.getPatientListReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+                    });
+                
+            },
+            description: 'Get cervical cancer monthly screening patient list based on location and time filters',
+            notes: 'Returns details of patients who underwent cervical cancer screenings',
+            tags: ['api'],
+        }
+
+    }
     ];
 
     return routes;

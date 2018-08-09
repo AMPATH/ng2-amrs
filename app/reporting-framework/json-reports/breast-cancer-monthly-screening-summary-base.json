@@ -1,0 +1,289 @@
+{
+    "name": "breastCancerMonthlySummaryBase",
+    "version": "1.0",
+    "tag": "breast_cancer_monthly_summary_base",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_breast_cancer_screening",
+            "alias": "fbcs"
+        },
+        {
+            "table": "amrs.person_name",
+            "alias": "patient_name",
+            "join": {
+                "type": "inner",
+                "joinCondition": "fbcs.person_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
+                
+            }
+        },
+        {
+            "table": "amrs.patient_identifier",
+            "alias": "patient_id",
+            "join": {
+                "type": "inner",
+                "joinCondition": "fbcs.person_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
+                
+            }
+
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "l.location_id = fbcs.location_id"
+                
+            }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "p",
+            "join": {
+                "type": "left",
+                "joinCondition": "fbcs.person_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
+
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fbcs.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "person_name",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "phone_number",
+            "column": "p.value"
+        },
+        {
+            "type": "derived_column",
+            "alias": "identifiers",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "group_concat(distinct patient_id.identifier separator ', ')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "fbcs.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "fbcs.age"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "fbcs.location_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "type_of_abnormality",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when cur_physical_findings=0 then 'Normal' when cur_physical_findings=1 then 'Mastitis' when cur_physical_findings=2 then 'Breast lumps' when cur_physical_findings=3 then 'Cracked nipple' when cur_physical_findings=4 then 'Others' when cur_physical_findings=5 then 'Mass' when cur_physical_findings=6 then 'Nipple discharge' when cur_physical_findings=7 then 'Breast skin changes' when cur_physical_findings=8 then 'Not done' when cur_physical_findings=9 then 'Abscess breast' when cur_physical_findings=10 then 'Breast engorgement' when cur_physical_findings=11 then 'Abnormal' when cur_physical_findings=12 then 'Calor' when cur_physical_findings=13 then 'Peau Dorange' when cur_physical_findings=14 then 'Unknown' when cur_physical_findings=15 then 'Fine nodularity' when cur_physical_findings=16 then 'Dense nodularity' when cur_physical_findings=17 then 'Skin edema' when cur_physical_findings=18 then 'Nipple areolar change' when cur_physical_findings=19 then 'Muscle tenderness' when cur_physical_findings=20 then 'Benign' else null end"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "fbcs.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "fbcs.encounter_datetime"
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if(cur_physical_findings = 0 or cur_physical_findings is null, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if(cur_physical_findings != 0, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "biopsy_results_within_2wks",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "TIMESTAMPDIFF(WEEK, DATE(encounter_datetime), DATE(date_patient_notified_of_biopsy_results)) <= 2",
+                        "value": 1
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "clients_staged_before_treatment",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "(IF(cancer_staging IN (1 , 2, 3, 4), 1, NULL))"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "procedure_done",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "procedure_done = 1",
+                        "value": "Ultrasound"
+                    },
+                    {
+                        "condition": "procedure_done = 2",
+                        "value": "Mammogram"
+                    },
+                    {
+                        "condition": "procedure_done = 3",
+                        "value": "Core Needle Biopsy"
+                    },
+                    {
+                        "condition": "procedure_done = 4",
+                        "value": "FNA"
+                    },
+                    {
+                        "condition": "procedure_done = 5",
+                        "value": "Surgical biopsy"
+                    },
+                    {
+                        "condition": "procedure_done = 6",
+                        "value": "Incisional biopsy"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "diagnosis",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "diagnosis IN (9618 , 6544, 6250, 6243, 2220, 115)",
+                        "value": 1
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "cancer_stage",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "cancer_staging = 1",
+                        "value": "Stage I"
+                    },
+                    {
+                        "condition": "cancer_staging = 2",
+                        "value": "Stage II"
+                    },
+                    {
+                        "condition": "cancer_staging = 3",
+                        "value": "stage III"
+                    },
+                    {
+                        "condition": "cancer_staging = 4",
+                        "value": "Stage IV"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "date_patient_informed_of_results",
+            "column": "fbcs.date_patient_informed_and_referred_for_management"
+        },
+        {
+            "type": "derived_column",
+            "alias": "diagnostic_interval",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                        "expression": "TIMESTAMPDIFF(DAY, DATE(biopsy_workup_date), DATE(date_patient_notified_of_biopsy_results))"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_reffered_for_followup",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                        "expression": "if(referred_orderd = 1, 1, NULL)"
+                       }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.age >= ?",
+                "parameterName": "startAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.age <= ?",
+                "parameterName": "endAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.encounter_datetime >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.encounter_datetime <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.encounter_type = 86"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.location_uuid in ?",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.gender in ?",
+                "parameterName": "genders"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "person_id"
+        ]
+    }
+}

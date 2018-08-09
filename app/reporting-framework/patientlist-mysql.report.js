@@ -29,7 +29,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                     // determine patient list seed schemas
                     let aggs = this.determineBaseAndAggrSchema(that.reportSchemas, indicators);
                     if (aggs.length > 0) {
-                        console.log('Potential schemas with supplied indicators', aggs.length);
+                        // console.log('Potential schemas with supplied indicators', aggs.length);
                         that.plSchemasRaw = this.determineBaseAndAggrSchema(that.reportSchemas, indicators)[0];
                     }
                     if (that.plSchemasRaw && that.plSchemasRaw.aggregate && that.plSchemasRaw.base) {
@@ -68,6 +68,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                                         //allow 'null' as parameter value
                                         sqlQuery=sqlQuery.replace(/\'null\'/g,"null");
                                         that.reportQuery = sqlQuery;
+                                        // console.log('Patient List Query', sqlQuery);
                                         
                                         // run query
                                         that.executeReportQuery(that.reportQuery)
@@ -127,7 +128,7 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                 aggregate: agg,
                 base: schemas[agg.uses[0].name]
             };
-            console.log('added base agg pair', agg);
+            // console.log('added base agg pair', agg);
             found.push(s);
         });
         return found;

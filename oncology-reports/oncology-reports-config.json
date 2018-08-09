@@ -1,0 +1,23 @@
+[{
+    "program": "Breast Cancer",
+    "uuid": "142939b0-28a9-4649-baf9-a9d012bf3b3d",
+    "reports": [
+      {
+        "name": "B1. Breast screening numbers",
+        "type": "breast-cancer-screening-numbers",
+        "description": "Breast screening numbers contains the following indicators - total breast screened,normal breast screened,abnormal breast screening findings,breast call rate, biopsy within 2 weeks,clients staged before treatment and total referred for follow up"
+      }
+    ]
+},
+{
+  "program": "Cervical Cancer",
+  "uuid": "cad71628-692c-4d8f-8dac-b2e20bece27f",
+  "reports": [
+    {
+      "name": "C1. Cervical screening numbers",
+      "type": "cervical-cancer-screening-numbers",
+      "description": "Cervical screening numbers contains the following indicators - total cervical screened,normal cervical screened,abnormal cervical screening findings,cervical call rate, biopsy within 2 weeks,clients staged before treatment and total referred for follow up"
+    }
+  ]
+}
+]

@@ -1,0 +1,117 @@
+{
+    "name": "breastCancerMonthlySummaryAggregate",
+    "version": "1.0",
+    "tag": "breast_cancer_summary_aggregate",
+    "uses": [
+        {
+            "name": "breastCancerMonthlySummaryBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "breastCancerMonthlySummaryBase",
+            "alias": "bcsd"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "location_name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "location_uuid"
+        },
+        {
+            "type": "derived_column",
+            "alias": "encounter_datetime",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(bcsd.encounter_datetime, '%m-%Y')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_breast_screened",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(person_id)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_call_rate%",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " ROUND(count(normal_breast_screening_findings)/count(person_id)*100,2)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_call_rate%",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "ROUND(count(abnormal_breast_screening_findings)/count(person_id)*100,2)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "diagnostic_interval",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "diagnostic_interval"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "clients_staged_before_treatment",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(clients_staged_before_treatment)"
+            }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "location_id",
+            "year(bcsd.encounter_datetime)",
+            "month(bcsd.encounter_datetime)"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "breast_cancer_patient_list_template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

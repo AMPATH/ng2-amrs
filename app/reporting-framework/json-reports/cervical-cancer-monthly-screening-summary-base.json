@@ -1,0 +1,237 @@
+{
+    "name": "cervicalCancerMonthlyReportBase",
+    "version": "1.0",
+    "tag": "",
+    "uses": [],
+    "sources": [{
+            "table": "etl.flat_cervical_cancer_screening",
+            "alias": "fccs"
+        },
+        {
+            "table": "amrs.person_name",
+            "alias": "p2",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "fccs.person_id = p2.person_id AND (p2.voided is null || p2.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.patient_identifier",
+            "alias": "p3",
+            "join": {
+                "type": "LEFT OUTER",
+                "joinCondition": "fccs.person_id = p3.patient_id AND (p3.voided is null || p3.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "p5",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "fccs.person_id = p5.person_id AND (p5.voided is null || p5.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = fccs.location_id"
+            }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "p4",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "fccs.person_id = p4.person_id AND (p4.voided is null|| p4.voided = 0 and (p4.person_attribute_type_id =10))"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fccs.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "person_name",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "CONCAT(COALESCE(p2.given_name, ''), ' ', COALESCE(p2.middle_name, ''), ' ', COALESCE(p2.family_name, ''))"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "phone_number",
+            "column": "p4.value"
+        },
+        {
+            "type": "derived_column",
+            "alias": "identifiers",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "GROUP_CONCAT(DISTINCT p3.identifier SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "type_of_abnormality",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when cur_via_result=1 then 'Normal' when cur_via_result=2 then 'Acetowhite lesion' when cur_via_result=3 then 'Friable tissue' when cur_via_result=4 then 'Atypical blood vessels' when cur_via_result=5 then 'Streptococcal sore throat' when cur_via_result=6 then 'Punctuated capillaries' when cur_via_result=7 then 'Dysfunctional uterine bleeding' else null end"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "fccs.age"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "p5.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "fccs.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "fccs.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "fccs.encounter_datetime"
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result != 1, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result =1 or fccs.cur_via_result is null,1,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "cancer_stage",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "cancer_staging = 1",
+                        "value": "Stage I"
+                    },
+                    {
+                        "condition": "cancer_staging = 2",
+                        "value": "Stage II"
+                    },
+                    {
+                        "condition": "cancer_staging = 3",
+                        "value": "stage III"
+                    },
+                    {
+                        "condition": "cancer_staging = 4",
+                        "value": "Stage IV"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "clients_staged_before_treatment",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "(if(cancer_staging in (1,2,3,4),1,null))"
+                       }
+        },
+        {
+            "type": "simple_column",
+            "alias": "date_patient_informed_of_results",
+            "column": "fccs.prior_biopsy_result_date"
+        },
+        {
+            "type": "derived_column",
+            "alias": "diagnostic_interval",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                        "expression": "TIMESTAMPDIFF(DAY, DATE(encounter_datetime), DATE(prior_biopsy_result_date))"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "biopsy_results_within_2wks",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "TIMESTAMPDIFF(day, DATE(encounter_datetime), DATE(prior_biopsy_result_date)) <= 14",
+                        "value": 1
+                    }
+                ]
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.age >= ?",
+                "parameterName": "startAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.age <= ?",
+                "parameterName": "endAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.encounter_datetime >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.encounter_datetime <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.encounter_type = 69"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.location_uuid in ?",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "p5.gender in ?",
+                "parameterName": "genders"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "person_id"
+        ]
+    }
+}
