@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.hiv_monthly_report_dataset",
+            "table": "etl.hiv_monthly_report_dataset_frozen",
             "alias": "fhs"
         },
         {
@@ -47,7 +47,7 @@
             "alias": "on_art_total",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when on_art_this_month=1 and status='active' then 1 else null end"
+                "expression": "case when on_art_this_month=1 then 1 else null end"
             }
         },
         {
@@ -55,7 +55,7 @@
             "alias": "not_on_art_total",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when on_art_this_month=0 and status='active' then 1 else null end"
+                "expression": "case when on_art_this_month=0 then 1 else null end"
             }
         },
         {
@@ -168,7 +168,7 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.endDate >= date(?)",
+                "conditionExpression": "fhs.endDate > date(?)",
                 "parameterName": "startDate"
             },
             {

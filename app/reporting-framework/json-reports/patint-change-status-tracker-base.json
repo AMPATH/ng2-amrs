@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.hiv_monthly_report_dataset",
+            "table": "etl.hiv_monthly_report_dataset_frozen",
             "alias": "fhs"
         },
         {
