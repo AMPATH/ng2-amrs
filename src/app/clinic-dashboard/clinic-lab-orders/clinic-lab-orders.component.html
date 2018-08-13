@@ -80,5 +80,12 @@
          <span>Export</span>
        </button>
      </div>
+
+
+    <button class="btn btn-primary"
+                    (click)="downloadPdf()" [disabled]="!results.length>0">
+              <i class="fa fa-download">
+              </i> Download PDF
+    </button>
 </div>
 

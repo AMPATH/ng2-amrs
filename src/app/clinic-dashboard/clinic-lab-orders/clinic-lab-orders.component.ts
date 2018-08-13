@@ -8,6 +8,8 @@ import 'ag-grid-enterprise/main';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
+const pdf = require('pdfmake/build/pdfmake.js');
+require('pdfmake/build/vfs_fonts.js');
 @Component({
   selector: 'clinic-lab-orders',
   templateUrl: './clinic-lab-orders.component.html',
@@ -30,6 +32,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public errors: any = [];
   private response: Subscription = new Subscription();
   private _datePipe: DatePipe;
+  private locationName: string = '';
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private clinicLabOrdersResourceService: ClinicLabOrdersResourceService,
@@ -166,6 +169,126 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   }
 
+  public downloadPdf(): void {
+
+    let fdata =   [
+         {text: '#', style: 'tableHeader'},
+         {text: 'Identifiers', style: 'tableHeader'},
+         {text: 'Person Name', style: 'tableHeader'},
+         {text: 'Order No', style: 'tableHeader'},
+         {text: 'Order Type', style: 'tableHeader'},
+         {text: 'Date Ordered', style: 'tableHeader'},
+         {text: 'Sample Collected', style: 'tableHeader'},
+         {text: 'Date Sample Collected', style: 'tableHeader'}
+        ];
+
+    let data = this.getRptBodyData(fdata);
+    let docDefinition = {
+      header: (page, pages) => {
+        return {
+          text: ' Page ' + page + ' of ' + pages,
+          alignment: 'right',
+          style: 'reportPage'
+        };
+      },
+      footer:  (page, pages) => {
+        return {
+          text:  'Lab orders report generated for ' + this.locationName
+          + ' From: ' + this.startDate + ' To: ' + this.endDate,
+          alignment: 'center',
+          style: 'companysection'
+        };
+      },
+      content: [
+        {text: this.locationName, style: 'Header'},
+        {text: 'Lab Test Orders ' + ' From ' + this.startDate +
+        ' To ' + this.endDate, style: 'subHeader'},
+        {
+          style: 'tableExample',
+          table: {
+            body: data
+          },
+          layout: {
+            fillColor: (i, node) => {
+              return (i % 2 === 0) ? '#d9edf7' : null;
+            },
+            hLineWidth: (i, node) => {
+              return (i === 0 || i === node.table.body.length) ? 1 : 1;
+            },
+            vLineWidth: (i, node) => {
+                    return (i === 0 || i === node.table.widths.length) ? 1 : 1;
+            },
+            hLineColor: (i, node) => {
+                    return (i === 0 || i === node.table.body.length) ? 'black' : 'black';
+            },
+            vLineColor: (i, node) => {
+                    return (i === 0 || i === node.table.widths.length) ? 'black' : 'black';
+            }
+          }
+        }
+      ],
+      styles: {
+        Header: {
+          fontSize: 14,
+          marginBottom: 5,
+          bold: true
+        },
+        subHeader: {
+          fontSize: 11,
+          marginBottom: 10,
+          bold: true
+        },
+        tableHeader: {
+          fontSize: 10,
+          margin: [0, 0, 0, 10],
+          bold: true
+        },
+        cellData: {
+          fontSize: 8
+        },
+        companysection: {
+          fontSize: 8,
+          bold: true,
+          margin: [0, 10, 0, 5]
+        },
+        reportPage: {
+          fontSize: 8,
+          margin: [0, 5, 20, 15],
+          color: 'black'
+        }
+      }
+     };
+    pdf.createPdf(docDefinition).download((this.getReportName()) + '.pdf');
+    }
+    private getRptBodyData(headers) {
+    let dataArray =  [headers];
+    let cnt = 1;
+    _.each(this.results, (data: any) => {
+            let dataRow = [];
+            let sampleDrawn = data.sample_drawn ? data.sample_drawn : ' ';
+            if (cnt === 1) {
+              this.locationName = data.location_name;
+            }
+            dataRow.push({text: cnt, style: 'cellData'});
+            dataRow.push({text: data.identifiers.replace( /,/g, ', '), style: 'cellData'});
+            dataRow.push({text: data.person_name, style: 'cellData'});
+            dataRow.push({text: data.orderNumber, style: 'cellData'});
+            dataRow.push({text: data.order_type, style: 'cellData'});
+            dataRow.push({text: data.DateActivated, style: 'cellData'});
+            dataRow.push({text: sampleDrawn, style: 'cellData'});
+            dataRow.push({text: data.sampleCollectionDate, style: 'cellData'});
+            cnt++;
+            dataArray.push(dataRow);
+        });
+    return dataArray;
+    }
+
+  private getReportName() {
+    return this.locationName.replace( / /g, '-')
+    + '-lab-orders-report_from_'
+    + this.startDate +
+    '_to_' + this.endDate;
+  }
   private formatDateField(result) {
     let orders = [];
     for (let i = 0; i < result.length; ++i) {
