@@ -138,6 +138,7 @@ describe('Component: Oncology Monthly Indicator', () => {
         oncologySummryService = fixture.debugElement.injector
         .get(OncolgyMonthlySummaryIndicatorsResourceService);
         route = fixture.debugElement.injector.get(Router);
+        cd = fixture.debugElement.injector.get(ChangeDetectorRef);
         router = fixture.debugElement.injector.get(ActivatedRoute);
 
       });

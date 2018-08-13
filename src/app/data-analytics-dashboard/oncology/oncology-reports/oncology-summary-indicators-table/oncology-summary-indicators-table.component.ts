@@ -219,16 +219,17 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
             if (data.data.location_name === 'Totals') {
                 startDate = this.params.startDate;
                 endDate  = this.params.endDate;
-                location = '';
+                location = this.params.locationUuids;
             }else {
                 startDate =
-                moment(data.data.encounter_datetime, 'MM-YYYY').startOf('month').format();
+                moment(data.data.encounter_datetime, 'MM-YYYY').startOf('month')
+                .format('YYYY-MM-DD');
                 endDate =
-                moment(data.data.encounter_datetime, 'MM-YYYY').endOf('month').format();
+                moment(data.data.encounter_datetime, 'MM-YYYY').endOf('month').format('YYYY-MM-DD');
                 location = data.data.location_uuid;
             }
 
-            let queryParams = this.route.snapshot.params;
+            // let queryParams = this.route.snapshot.params;
             let params: any = {
                 startAge: this.params.startAge,
                 endAge: this.params.endAge,

@@ -1,4 +1,4 @@
-import { Component, OnInit , Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { OncologyReportService } from '../../../../etl-api/oncology-reports.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OncolgyMonthlySummaryIndicatorsResourceService }
@@ -11,7 +11,7 @@ import * as _ from 'lodash';
   templateUrl: './oncology-monthly-indicators.component.html',
   styleUrls: ['./oncology-monthly-indicators.component.css']
 })
-export class OncologyMonthlyIndicatorSummaryComponent implements OnInit {
+export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterViewInit {
 
   public tittle: string  = '';
   public monthlySummary: any = [];
@@ -37,7 +37,8 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private _oncologySummaryService: OncolgyMonthlySummaryIndicatorsResourceService,
-    private _oncologyReportService: OncologyReportService
+    private _oncologyReportService: OncologyReportService,
+    private _cd: ChangeDetectorRef
   ) {
   }
 
@@ -60,11 +61,27 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit {
          console.error('Error', error);
       });
   }
+ public ngAfterViewInit() {
+    this._cd.detectChanges();
+  }
 
   public setReportData(params: any) {
        this.tittle = params.report;
        this.reportType = params.type;
+       if (params.startDate) {
+        this.startDate = params.startDate;
+       }
+       if (params.endDate) {
+          this.endDate = params.endDate;
+       }
+       if (params.startAge) {
+         this.startAge = params.startAge;
+       }
+       if (params.endAge) {
+        this.endAge = params.endAge;
+       }
        this.indicators = params.indicators;
+
        if (typeof params.gender === 'string') {
             let genderArray = [];
             genderArray.push(params.gender);
