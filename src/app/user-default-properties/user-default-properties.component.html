@@ -29,6 +29,7 @@
         <div class="clear clearfix">&nbsp;</div>
       </div>
       <!-- Select department -->
+    <!--
       <div class="form-group">
         <label for="department">Select a Department</label>
         <select class="form-control" [(ngModel)]="selectedDepartment" (ngModelChange)="selectDepartment($event)">
@@ -42,11 +43,12 @@
           </div>
       </div>
       <div class="clear">&nbsp;</div>
+    -->
 
     </div>
     <!--<retrospective-data-entry-settings></retrospective-data-entry-settings>-->
     <div style="margin-top: 30px;">
-      <button [disabled]="((!location || !currentLocation) && !selectedDepartment)" class="btn btn-info previous"
+      <button [disabled]="(!location && !currentLocation)" class="btn btn-info previous"
               (click)="goToPatientSearch()">Done
         <span class="glyphicon glyphicon-chevron-right"></span>
         <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
