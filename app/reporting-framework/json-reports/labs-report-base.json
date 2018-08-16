@@ -1,0 +1,99 @@
+{
+    "name": "labsReportBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "t2"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t2.location_uuid = l.uuid"
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "t3",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t3.person_id = t2.person_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t2.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "needs_vl_in_period",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, '{endDate}') >= 90) then true when (timestampdiff(month,arv_start_date, '{endDate}') <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, '{endDate}') >= 6)  and (timestampdiff(month,arv_start_date, '{endDate}')>=6) then true when (timestampdiff(month,arv_start_date, '{endDate}') >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, '{endDate}') >= 12) then true else false end,1,0)"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t2.location_id"
+        },
+        {
+        "type": "simple_column",
+        "alias": "location_uuid",
+        "column": "t2.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "t2.encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias": "month",
+            "column": "MONTH(encounter_datetime)"
+        },
+        {
+            "type": "simple_column",
+            "alias": "reporting_month",
+            "column": "date_format(t2.encounter_datetime, '%m/%Y')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "year",
+            "column": "YEAR(encounter_datetime)"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "(t2.next_clinical_datetime_hiv is null or date(t2.next_clinical_datetime_hiv) > ?)",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.location_uuid in ?",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "coalesce(t2.death_date, out_of_care) is null",
+                "parameterName": ""
+            }
+        ]
+    }
+}

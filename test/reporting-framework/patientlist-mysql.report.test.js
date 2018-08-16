@@ -268,7 +268,12 @@ describe('PatientlistMysqlReport:', () => {
       expect(report.modifiedParam).to.deep.equal(generated.params);
 
       // generated report query
-      expect(generateReportQueryStub.calledWithExactly(report.generatedPL, report.modifiedParam)).to.be.true;
+
+      console.log('Called with', generateReportQueryStub.firstCall.args);
+      console.log('report.generatedPL', report.generatedPL);
+      console.log('report.modifiedParam', report.modifiedParam); //(report.generatedPL, report.modifiedParam)
+      expect(generateReportQueryStub.firstCall.args[0]).to.deep.equal(report.generatedPL);
+      expect(generateReportQueryStub.firstCall.args[1]).to.deep.equal(report.modifiedParam);
       expect(report.reportQuery).to.equal(reportQuery);
 
       // execute report query
@@ -277,7 +282,7 @@ describe('PatientlistMysqlReport:', () => {
 
       expect(res).to.deep.equal({
         schemas: reports,
-        generatedSchemas: { main: generated.generated },
+        generatedSchemas: report.generatedPL,
         sqlQuery: reportQuery,
         results: results
       });

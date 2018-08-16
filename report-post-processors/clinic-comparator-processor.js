@@ -38,7 +38,6 @@ function groupResultsByMonth(results, indicator){
     //stringify
     results=JSON.stringify(results);
     results= JSON.parse(results);
-
     var finalReport=[];
     var locationIds=getListOfLocationIdsFromResult(results);
     var distinctMonth=getListOfDistinctMonthFromResult(results);

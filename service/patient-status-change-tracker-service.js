@@ -5,6 +5,11 @@ const _ = require('lodash');
 const underscore = require('underscore');
 const indicatorsKeys = ['active_return', 'new_enrollment', 'transfer_in', 'LTFU', 'transfer_out', 'dead', 'HIV_negative',
     'self_disengaged', 'self_transfer_out'];
+
+import { BaseMysqlReport } from '../app/reporting-framework/base-mysql.report';
+import {
+    PatientlistMysqlReport
+} from '../app/reporting-framework/patientlist-mysql.report';
 export class PatientStatusChangeTrackerService {
 
     getAggregateReport(reportParams) {
@@ -118,35 +123,79 @@ export class PatientStatusChangeTrackerService {
                     }
                 );
             } else {
-                Promise.join(dao.getPatientListReport(reportParams),
-                    (results) => {
-                        if (results.error) {
-                            console.log(results.error);
-                            reject(results);
-                        } else {
-                            resolve(results);
-                        }
-
-                    }
-                );
+                let self = this;
+                let indicators = reportParams.indicator.split(',');
+                let locations = reportParams.locations.split(',');
+                reportParams.locations = locations;
+                console.log('Params', reportParams);
+                let report = new PatientlistMysqlReport('patintChangeStatusTrackerAggregate', reportParams);
+                try {
+                    Promise.join(report.generatePatientListReport(indicators),
+                        (result) => {
+                            let returnedResult = {};
+                            returnedResult.schemas = result.schemas;
+                            returnedResult.sqlQuery = result.sqlQuery;
+                            returnedResult.result = result.results.results;
+                            resolve(returnedResult);
+                        }).catch((errors) => {
+                            console.log(errors)
+                            reject(errors);
+                        });
+                } catch (error) {
+                    console.log(error)
+                    reject(error);
+                }
             }
 
         });
     }
 
+    // getPatientListReport(reportParams) {
+    //     let self = this;
+    //     let indicators = reportParams.indicator.split(',');
+    //     let locations = reportParams.locations.split(',');
+
+    //     reportParams.locations = locations;
+    //     console.log('Params', reportParams);
+    //     let report = new PatientlistMysqlReport('patintChangeStatusTrackerAggregate', reportParams);
+    //     return new Promise(function (resolve, reject) {
+    //         try {
+    //             Promise.join(report.generatePatientListReport(indicators),
+    //                 (result) => {
+    //                     let returnedResult = {};
+    //                     returnedResult.schemas = result.schemas;
+    //                     returnedResult.sqlQuery = result.sqlQuery;
+    //                     returnedResult.result = result.results.results;
+    //                     resolve(returnedResult);
+    //                 }).catch((errors) => {
+    //                     console.log(errors)
+    //                     reject(errors);
+    //                 });
+    //         } catch (error) {
+    //             console.log(error)
+    //             reject(error);
+    //         }
+    //     });
+
+    // }
+
     getCumulativeAggregates(reportParams) {
         return new Promise((resolve, reject) => {
             reportParams.groupBy = 'groupByEndDate';
             let start = new Date();
-            dao.runReport(reportParams)
+            let report = new BaseMysqlReport("patintChangeStatusTrackerAggregate", reportParams.requestParams);
+            report.generateReport()
                 .then((results) => {
-                        results.duration = (new Date() - start) / 1000;
-                        resolve(results);
-                    }
+                    results.duration = (new Date() - start) / 1000;
+                    results.size = results ? results.results.results.length : 0;
+                    results.result = results ? results.results.results : [];
+                    delete results['results'];
+                    resolve(results);
+                }
                 ).catch((errors) => {
-                console.log(errors);
-                reject(errors);
-            });
+                    console.log(errors);
+                    reject(errors);
+                });
         });
     }
 

@@ -73,10 +73,10 @@ module.exports = function () {
   }
 
   function processClinicalComparator(indicators, queryResults, requestIndicators) {
-    queryResults.result =
-      clinicalComparatorProcessor.groupResultsByMonth(queryResults.result, requestIndicators);
+   let result =
+      clinicalComparatorProcessor.groupResultsByMonth(queryResults, requestIndicators);
 
-    return queryResults;
+    return result;
   }
 
     function processPatientReferral(indicators, queryResults, requestIndicators) {

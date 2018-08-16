@@ -1,7 +1,7 @@
 {
-    "name": "patient_list_template",
+    "name": "patient_requiring_viral_load_template",
     "version": "1.0",
-    "tag": "patient_list_template",
+    "tag": "patient_requiring_viral_load_template",
     "description": "Patient list template",
     "sources": [
         {
@@ -30,14 +30,6 @@
             "type": "simple_column",
             "alias": "patient_uuid",
             "column": "t1.uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "uuid",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "t1.uuid"
-            }
         },
         {
             "type": "simple_column",
@@ -76,6 +68,46 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_pending_vl_test",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when (timestampdiff(day,t2.vl_order_date,now()) between 0 and 14) and (t2.vl_1_date is null or t2.vl_order_date > t2.vl_1_date) then true else false end"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "current_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "t2.vl_1 "
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "current_vl_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(t2.vl_1_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "last_vl_order_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(t2.vl_order_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "days_since_last_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "timestampdiff(day, vl_order_date, now())"
             }
         }
     ],
