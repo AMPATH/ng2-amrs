@@ -8,17 +8,12 @@ const highCharts = require('highcharts');
 @Injectable()
 export class PatientStatuChangeVisualizationService {
   public indicatorsKeys: Array<any> = [
-    {value: 'active_return', label: 'Active Return Analysis', indicator: 'active_return'},
-    {value: 'new_enrollment', label: 'New Enrollment Analysis', indicator: 'new_enrollments'},
-    {value: 'transfer_in', label: 'Transfer In Analysis', indicator: 'transfer_in'},
-    {value: 'LTFU', label: 'LTFU Analysis', indicator: 'LTFU'},
-    {value: 'transfer_out', label: 'Transfer Out Analysis', indicator: 'transfer_out_patients'},
-    {value: 'dead', label: 'Deaths Analysis', indicator: 'deaths'},
-    {value: 'HIV_negative', label: 'HIV Negative Analysis', indicator: 'HIV_negative_patients'},
-    {
-      value: 'self_disengaged', label: 'Self Disengagements Analysis',
-      indicator: 'self_disengaged_patients'
-    },
+    { value: 'active_return', label: 'Active Return Analysis', indicator: 'active_return' },
+    { value: 'new_enrollment', label: 'New Enrollment Analysis', indicator: 'new_enrollments' },
+    { value: 'transfer_in', label: 'Transfer In Analysis', indicator: 'transfer_in' },
+    { value: 'LTFU', label: 'LTFU Analysis', indicator: 'LTFU' },
+    { value: 'transfer_out', label: 'Transfer Out Analysis', indicator: 'transfer_out_patients' },
+    { value: 'dead', label: 'Deaths Analysis', indicator: 'deaths' },
     {
       value: 'self_transfer_out', label: 'Self Transfer Out Analysis',
       indicator: 'self_transfer_out'
@@ -28,15 +23,13 @@ export class PatientStatuChangeVisualizationService {
     cumulativeAnalysis: {
       chartOptions: {
         barIndicators: [],
-        lineIndicators: [{name: 'total_patients', yAxis: 0}],
+        lineIndicators: [{ name: 'total_patients', yAxis: 0 }],
         areaIndicators: [],
         columnIndicators: [
-          {name: 'active_in_care', yAxis: 0, stack: 'total_patients'},
-          {name: 'LTFU', yAxis: 0, stack: 'total_patients'},
-          {name: 'deaths', yAxis: 0, stack: 'total_patients'},
-          {name: 'transfer_out_patients', yAxis: 0, stack: 'total_patients'},
-          {name: 'HIV_negative_patients', yAxis: 0, stack: 'total_patients'},
-          {name: 'self_disengaged_patients', yAxis: 0, stack: 'total_patients'}]
+          { name: 'active_in_care', yAxis: 0, stack: 'total_patients' },
+          { name: 'LTFU', yAxis: 0, stack: 'total_patients' },
+          { name: 'deaths', yAxis: 0, stack: 'total_patients' },
+          { name: 'transfer_out_patients', yAxis: 0, stack: 'total_patients' }]
       },
       tableOptions: {
         columnOptions: {
@@ -76,28 +69,13 @@ export class PatientStatuChangeVisualizationService {
             width: 160,
             patient_list: true
           },
-          'HIV_negative_patients': {
-            columnTitle: 'HIV -Ve Cumulative',
-            pinned: false,
-            color: 'deepskyblue',
-            width: 160,
-            patient_list: true
-          },
           'transfer_out_patients': {
             columnTitle: 'Transfer Out Cumulative',
             pinned: false,
             color: 'deepskyblue',
             width: 200,
             patient_list: true
-          },
-          'self_disengaged_patients': {
-            columnTitle: 'Self Disengaged Cumulative',
-            pinned: false,
-            color: 'deepskyblue',
-            width: 250,
-            patient_list: true
           }
-
         }
       }
     },
@@ -212,13 +190,13 @@ export class PatientStatuChangeVisualizationService {
       },
       subtitle: {
         text: 'This graph shows cumulative breakdown of patient care status indicators.' +
-        ' For each month, Total Patients = Active + LTFU + Deaths + Transfer Out' +
-        ' + HIV Negative + Self Disengaged',
+          ' For each month, Total Patients = Active + LTFU + Deaths + Transfer Out' +
+          ' + HIV Negative + Self Disengaged',
       },
       zoomType: 'x',
       xAxis: {
         categories: this.generateCategories(options.data),
-        title: {text: 'Months'},
+        title: { text: 'Months' },
         crosshair: true
       },
       yAxis: [
@@ -241,7 +219,7 @@ export class PatientStatuChangeVisualizationService {
       ],
       tooltip: {
         pointFormat: '<span style="color:{series.color}">{series.name}</span>: ' +
-        '<b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+          '<b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
         shared: false
       },
       credits: {
@@ -264,7 +242,13 @@ export class PatientStatuChangeVisualizationService {
     let options: any = {};
     Object.assign(options, chartOptions);
     let colors: Array<any> = this.getMonoChromeColors(options.analysisType);
-    let lineIndicators = _.union(options.lineIndicators, [{name: options.analysisType, yAxis: 1}]);
+    let lineIndicators = _.union(options.lineIndicators,
+      [
+        {
+          name: options.analysisType,
+          yAxis: 1
+        }
+      ]);
     let columnSeries = this.generateSeries(options,
       this.generateSeriesDefinition(options.analysisType), 'column');
     let barSeries = this.generateSeries(options, options.barIndicators, 'bar');
@@ -280,13 +264,13 @@ export class PatientStatuChangeVisualizationService {
       },
       subtitle: {
         text: 'This graph shows monthly transition of patients to/from '
-        + this.snakeToTitle(options.analysisType) + ' Patient Status',
+          + this.snakeToTitle(options.analysisType) + ' Patient Status',
       },
       colors: colors,
       zoomType: 'x',
       xAxis: {
         categories: this.generateCategories(options.data),
-        title: {text: 'Months'},
+        title: { text: 'Months' },
         lineWidth: 2,
         tickWidth: 2,
         crosshair: true
@@ -329,7 +313,7 @@ export class PatientStatuChangeVisualizationService {
       ],
       tooltip: {
         pointFormat: '<span style="color:{series.color}">{series.name}</span>: ' +
-        '<b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+          '<b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
         shared: true
       },
       credits: {
@@ -370,7 +354,7 @@ export class PatientStatuChangeVisualizationService {
   }
 
   public generateColumnDefinitions(renderType: string, analysisType: string,
-                                   indicatorDef: any) {
+    indicatorDef: any) {
     let columnLabelMap: any =
       this.generateDynamicColumns(analysisType, renderType, indicatorDef);
     let columns = [];
@@ -439,7 +423,7 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private generateDynamicColumns(analysisType: string, renderType: string,
-                                 indicatorDef: any): any {
+    indicatorDef: any): any {
     let column = {};
     Object.assign(column, this.renderOptions[renderType].tableOptions.columnOptions);
     if (renderType === 'cumulativeAnalysis' || renderType === 'cohortAnalysis') {

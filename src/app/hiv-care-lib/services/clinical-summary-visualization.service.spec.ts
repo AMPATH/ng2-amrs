@@ -33,8 +33,6 @@ describe('Service : ClinicalSummaryVisualizationService', () => {
       'transferred_out_patients': 'Transferred Out Patients',
       'deceased_patients': 'Deceased Patients',
       'untraceable_patients': 'Untraceable Patients',
-      'hiv_negative_patients': 'HIV Negative Patients',
-      'self_disengaged_from_care': 'Self Disengaged From Care',
       'defaulters': 'Defaulters',
       'other_patient_care_status': 'Others'
     }
