@@ -67,22 +67,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "HIV_negative_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.HIV_negative_patients)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "self_disengaged_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.self_disengaged_patients)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "new_enrollments",
             "expressionType": "simple_expression",
             "expressionOptions": {

@@ -82,22 +82,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "HIV_negative_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "null"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "self_disengaged_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "null"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "reporting_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
