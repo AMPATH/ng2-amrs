@@ -38,7 +38,7 @@
 
             <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
             </div>
-            <div ng-messages="patientIdentifier.$error">
+            <div  ng-messages="patientIdentifier.$error">
               <div class="help-block" ng-message="required">Identifier is required.</div>
             </div>
             <div *ngIf="hasError" style="margin-bottom:10px;">
@@ -66,6 +66,7 @@
                   <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
                     {{invalidLocationCheck}}</span>
                   </div>
+                  
             </div>
           </div>
 

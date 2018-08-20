@@ -92,12 +92,6 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     });
     component.getPatient((err, data) => {
     });
-    expect(component.getPatient).toHaveBeenCalled();
-    spyOn(component, 'getCommonIdentifierTypes').and.callFake((err, data) => {
-    });
-    component.getCommonIdentifierTypes((err, data) => {
-    });
-    expect(component.getCommonIdentifierTypes).toHaveBeenCalled();
     spyOn(component, 'checkIdentifierFormat').and.callFake((err, data) => {
 
     });
