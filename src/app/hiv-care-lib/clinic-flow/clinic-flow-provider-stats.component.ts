@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, ViewChild } from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';

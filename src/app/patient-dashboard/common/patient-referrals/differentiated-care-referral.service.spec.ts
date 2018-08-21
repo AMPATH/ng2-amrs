@@ -2,8 +2,7 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { of,  Subject } from 'rxjs';
 
 import * as moment from 'moment';
 
@@ -57,7 +56,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
               }]
             }
           );
-          return Observable.of(payload);
+          return of(payload);
         }
       );
 
@@ -88,7 +87,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
             dateEnrolled: service.toOpenmrsDateFormat(encounterDate)
           }
         );
-        return Observable.of(payload);
+        return of(payload);
       }
     );
 
@@ -191,7 +190,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
               dateCompleted: service.toOpenmrsDateFormat(dateCompleted)
             }
           );
-          return Observable.of(payload);
+          return of(payload);
         }
       );
 
@@ -232,7 +231,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
     let endProgEnrollmentSpy = spyOn(service, 'endProgramEnrollment')
       .and.callFake((uuid, date) => {
-        return Observable.of({
+        return of({
           uuid: uuid,
           dateCompleted: date
         });

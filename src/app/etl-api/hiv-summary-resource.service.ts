@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class HivSummaryResourceService {
@@ -28,9 +30,9 @@ export class HivSummaryResourceService {
 
     return this.http.get(url, {
       search: params
-    })
-      .map((response: Response) => {
+    }).pipe(
+      map((response: Response) => {
         return response.json().result;
-      });
+      }));
   }
 }

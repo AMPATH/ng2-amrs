@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import * as _ from 'lodash';
-import { Dictionary } from 'lodash';
 
 @Component({
   selector: 'location-filter',
@@ -25,16 +24,12 @@ import { Dictionary } from 'lodash';
     .ng-select .ng-arrow-zone {
       display: none;
     }
-    .location-filter ng-select>div>div.multiple {
-      max-height: 100px;
-      overflow: scroll;
-    }
   `],
   encapsulation: ViewEncapsulation.None
 })
 export class LocationFilterComponent implements OnInit, AfterViewInit {
 
-  public locations: Dictionary<any> = {};
+  public locations = {};
   public counties: any;
   public loading: boolean = false;
   public locationDropdownOptions: Array<any> = [];
@@ -51,7 +46,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   @Input() public county: string;
   @Output() public onLocationChange = new EventEmitter<any>();
 
-  public _locationUuids: any;
+  private _locationUuids: any | Array<any>;
   @Input()
   public get locationUuids(): any {
     return this._locationUuids;

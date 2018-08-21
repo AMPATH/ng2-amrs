@@ -1,32 +1,8 @@
-<ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#visits" (click)="showVisits()">Visits</a></li>
-  <li><a data-toggle="tab" href="#encounters" (click)="showEncounters()">Encounters</a></li>
-</ul>
-
-<div class="tab-content">
-   <div id="visits" class="tab-pane fade in active">
-
-     
-	 <visit-encounters-list [encounters]="patientEncounters" [showVisitsObservations]="showVisitsObservations"></visit-encounters-list>
-
-	 
-     
-
- </div>
-  <div id="encounters" class="tab-pane fade ">
-
-    <div class="container-fluid">
-
-	  <!-- encounters list -->
-
-	   <app-patient-encounters ></app-patient-encounters>
-
-	  
-
-	  <!-- end of encounters list -->
-
-    </div>
-    
-  </div>
- 
-</div>
+<p-tabView>
+    <p-tabPanel header="Visits">
+        <visit-encounters-list [encounters]="patientEncounters" [showVisitsObservations]="showVisitsObservations"></visit-encounters-list>
+    </p-tabPanel>
+    <p-tabPanel header="Encounters">
+        <app-patient-encounters ></app-patient-encounters>
+    </p-tabPanel>
+  </p-tabView>

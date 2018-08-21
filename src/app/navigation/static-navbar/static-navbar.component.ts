@@ -21,7 +21,6 @@ import { FormUpdaterService } from '../../patient-dashboard/common/formentry/for
 export class StaticNavBarComponent implements OnInit {
   public user: User;
   public userLocation: string = '';
-  public department: any;
   constructor(private router: Router,
               private localStore: LocalStorageService,
               private authenticationService: AuthenticationService,
@@ -32,10 +31,6 @@ export class StaticNavBarComponent implements OnInit {
 
   public ngOnInit() {
     this.setUserLocation();
-    let department = this.localStore.getItem('userDefaultDepartment');
-    if (department) {
-      this.department = JSON.parse(department)[0].itemName;
-    }
   }
   public logout() {
     this.router.navigateByUrl('/login').then((result) => {

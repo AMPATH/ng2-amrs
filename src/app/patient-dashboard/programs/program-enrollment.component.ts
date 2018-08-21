@@ -6,7 +6,7 @@ import queue from 'async/queue';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Patient } from '../../models/patient.model';
 import { PatientReferralService } from '../../referral-module/services/patient-referral-service';
 

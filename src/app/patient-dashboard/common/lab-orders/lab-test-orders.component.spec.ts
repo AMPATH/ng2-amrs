@@ -25,12 +25,6 @@ import { ProgramWorkFlowResourceService
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 
-import { ObsResourceService } from '../../../openmrs-api/obs-resource.service';
-import { ClinicLabOrdersResourceService
-} from '../../../etl-api/clinic-lab-orders-resource.service';
-import { DataCacheService } from '../../../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache';
-
 describe('Component: Lab Test Orders Unit Tests', () => {
 
   let orderResourceService: OrderResourceService,
@@ -53,11 +47,6 @@ describe('Component: Lab Test Orders Unit Tests', () => {
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         PatientResourceService,
-        ClinicLabOrdersResourceService,
-        LocalStorageService,
-        DataCacheService,
-        CacheService,
-        ObsResourceService,
         LabelService,
         {
           provide: Http,
@@ -73,7 +62,8 @@ describe('Component: Lab Test Orders Unit Tests', () => {
         {
           provide: OrderResourceService,
         },
-        AppSettingsService
+        AppSettingsService,
+        LocalStorageService
       ]
     });
 

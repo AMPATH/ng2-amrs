@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
-var Rx_1 = require("rxjs/Rx");
+var Rx_1 = require("rxjs");
 require("rxjs/add/operator/toPromise");
 var IndicatorResourceService = (function () {
     function IndicatorResourceService(http, appSettingsService) {

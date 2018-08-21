@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import * as PDFDocument from 'pdfkit';
-import * as pdf from 'pdfmake';
-import * as blobStream from 'blob-stream';
+// import * as blobStream from 'blob-stream';
 import * as bardcode from 'bardcode';
 import { RectangleToPath } from './rectangle-to-path';
 import { DymoTurbo } from './dymo-turbo';
