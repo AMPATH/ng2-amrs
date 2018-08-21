@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, inject } from '@angular/core/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Patient } from '../../../models/patient.model';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import 'pdfmake/build/pdfmake.js';

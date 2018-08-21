@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -5,7 +7,7 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 import { ProgramsTransferCareService } from './transfer-care.service';
 
@@ -19,7 +21,7 @@ export class ProgramsTransferCareGuard implements CanActivate {
 
   public canActivate(routeSnapshot: ActivatedRouteSnapshot,
                      state: RouterStateSnapshot): Observable<boolean> {
-    return Observable.of(true).map(() => {
+    return of(true).pipe(map(() => {
       this.transferCareService.getPayload().subscribe((payload) => {
         if (payload) {
           let head: string;
@@ -49,6 +51,6 @@ export class ProgramsTransferCareGuard implements CanActivate {
         this.transferCareService.setTransferStatus(false);
       }
       return true;
-    });
+    }));
   }
 }

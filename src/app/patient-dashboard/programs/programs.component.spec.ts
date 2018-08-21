@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-
 import { ProgramService } from './program.service';
 import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
@@ -39,7 +39,7 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 class LocationStub {
 
   public getLocations(payload): Observable<any> {
-    return Observable.of({status: 'okay'});
+    return of({status: 'okay'});
   }
 }
 import { HivProgramSnapshotComponent
@@ -94,7 +94,7 @@ describe('Component: ProgramsComponent', () => {
 
         }],
       declarations: [ProgramsComponent, HivProgramSnapshotComponent, ZeroVlPipe],
-      imports: [BusyModule, FormsModule,
+      imports: [NgBusyModule, FormsModule,
         DialogModule,
         CalendarModule, BrowserAnimationsModule]
     });

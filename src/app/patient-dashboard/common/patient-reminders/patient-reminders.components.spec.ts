@@ -4,14 +4,14 @@ import { PatientReminderService } from './patient-reminders.service';
 import { PatientService } from '../../services/patient.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import {
     ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import { AppSettingsService } from '../../../app-settings';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toastr';
+import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -33,12 +33,12 @@ describe('Component: PatientReminders', () => {
                 PatientReminderService,
                 BaseRequestOptions,
                 PatientService,
-              PatientProgramService,
-              RoutesProviderService,
-              ProgramService,
-              ProgramResourceService,
-              ProgramWorkFlowResourceService,
-              ProgramWorkFlowStateResourceService,
+                PatientProgramService,
+                RoutesProviderService,
+                ProgramService,
+                ProgramResourceService,
+                ProgramWorkFlowResourceService,
+                ProgramWorkFlowStateResourceService,
                 PatientResourceService,
                 LocalStorageService,
                 PatientReminderResourceService,
@@ -54,19 +54,15 @@ describe('Component: PatientReminders', () => {
                     deps: [MockBackend, BaseRequestOptions]
                 },
                 {
-                    provide: ToastrConfig, useFactory: () => {
-                        return new ToastrConfigMock();
-                    }, deps: []
-                },
-                {
-                  provide: AppFeatureAnalytics,
-                  useClass: FakeAppFeatureAnalytics
+                    provide: AppFeatureAnalytics,
+                    useClass: FakeAppFeatureAnalytics
                 },
                 AppSettingsService,
                 ToastrService,
                 Overlay,
                 OverlayContainer
-            ]
+            ],
+            imports: [ToastrModule.forRoot()]
 
         });
     });

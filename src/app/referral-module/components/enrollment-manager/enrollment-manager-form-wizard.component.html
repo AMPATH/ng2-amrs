@@ -5,7 +5,7 @@
     {{stateType.concept.display}} process forms
   </h4>
   <div class="forms">
-    <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+    <!-- <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div> -->
     <form-list [showFilter]="false" (onFormSelected)="fillForm($event)"
                [encounterTypeFilter]="encounterForms"></form-list>
     <div class="panel panel-danger" style="margin:2px" *ngIf="!isBusy && hasError">
