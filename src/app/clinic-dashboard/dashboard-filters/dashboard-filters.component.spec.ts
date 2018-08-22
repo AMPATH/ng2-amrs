@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DashboardFiltersComponent } from './dashboard-filters.component';
@@ -14,7 +14,7 @@ import { IndicatorSelectComponent } from './indicator-selector/indicator-selecto
 import { RangeSliderComponent } from './range-slider/range-slider.component';
 import {
   VisualizationComponent
-} from '../hiv/clinical-summary-visualization/visualization-component';
+} from '../clinical-summary-visualization/visualization-component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   ClinicalSummaryVisualizationResourceService
@@ -25,7 +25,7 @@ import { Http } from '@angular/http';
 import {
   ClinicalSummaryVisualizationService
 } from '../../hiv-care-lib/services/clinical-summary-visualization.service';
-/* tslint:disable */
+
 @Component({
   selector: 'hiv-care-overview',
   template: `<p></p>`
@@ -62,7 +62,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
 
 }
 
-describe('Component: DashboardFiltersComponent', () => {
+ describe('Component: DashboardFiltersComponent', () => {
   let parentComponent: DashboardFiltersComponent;
   let parentFixture;
   beforeEach(() => {

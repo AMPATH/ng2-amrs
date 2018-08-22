@@ -14,7 +14,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var core_1 = require("@angular/core");
 var patient_list_columns_data_1 = require("./patient-list-columns.data");
-var Rx_1 = require("rxjs/Rx");
+var Rx_1 = require("rxjs");
 var _ = require('lodash');
 var PatientListComponent = (function () {
   function PatientListComponent(router) {

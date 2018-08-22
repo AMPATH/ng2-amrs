@@ -6,10 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of  } from 'rxjs';
 
 import * as moment from 'moment';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { DialogModule } from 'primeng/primeng';
 import { SelectModule } from 'angular2-select';
 import { CacheService } from 'ionic-cache';
@@ -67,21 +67,21 @@ describe('VisitStarterComponent', () => {
 
   let fakePatientProgramResourceService = {
     getPatientProgramVisitConfigs: (uuid) => {
-      return Observable.of(allProgConfigs);
+      return of(allProgConfigs);
     },
     getPatientProgramVisitTypes: (
       patient: string, program: string,
       enrollment: string, location: string) => {
-      return Observable.of(progConfig);
+      return of(progConfig);
     }
   };
 
   let fakeVisitResourceService = {
     getVisitTypes: (args) => {
-      return Observable.of([]);
+      return of([]);
     },
     getPatientVisits: (args) => {
-      return Observable.of([]);
+      return of([]);
     },
     saveVisit: (payload) => {
       let response = {
@@ -93,7 +93,7 @@ describe('VisitStarterComponent', () => {
         },
         startDatetime: new Date()
       };
-      return Observable.of(response);
+      return of(response);
     },
     updateVisit: (uuid, payload) => {
       let response = {
@@ -109,7 +109,7 @@ describe('VisitStarterComponent', () => {
         response.voided = true;
       }
 
-      return Observable.of(response);
+      return of(response);
     }
   };
 
@@ -139,7 +139,7 @@ describe('VisitStarterComponent', () => {
         CacheService
       ],
       imports: [
-        BusyModule,
+        NgBusyModule,
         UserDefaultPropertiesModule,
         DialogModule,
         FormsModule,

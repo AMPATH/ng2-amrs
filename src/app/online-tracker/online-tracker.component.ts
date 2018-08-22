@@ -1,6 +1,7 @@
 import { Component, OnInit , OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, timer } from 'rxjs';
 import { OnlineTrackerService } from './online-tracker.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'online-tracker',
@@ -16,9 +17,9 @@ export class OnlineTrackerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.timer = Observable.timer(1000, 30000);
-    this.timer
-      .takeWhile(() => this.subscribeToTimer)
+    this.timer = timer(1000, 30000);
+    this.timer.pipe(
+      takeWhile(() => this.subscribeToTimer))
       .subscribe((t) => this.getOnlineStatus());
   }
 
