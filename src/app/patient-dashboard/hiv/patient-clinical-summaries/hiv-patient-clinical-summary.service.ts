@@ -1,10 +1,11 @@
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 declare let pdfMake: any;
 declare let $: any;
-
+import { VERSION } from '../../../../environments/version';
+import { first } from 'rxjs/operators';
 export class HivPatientClinicalSummaryService {
   public static data: object = null;
 
@@ -21,14 +22,14 @@ export class HivPatientClinicalSummaryService {
               bold: true,
               color: 'red',
               text: 'Note: Confidentiality is one of the core duties of all' +
-              ' medical practitioners.' +
-              ' Patient\'s personal health information should be kept private.',
+                ' medical practitioners.' +
+                ' Patient\'s personal health information should be kept private.',
               style: ['quote', 'small']
             }, {
               bold: true,
               color: 'black',
               text: 'Generated Using: POC v' +
-              this._getAppVersion() + ' | Generated On: ' + new Date(),
+                this._getAppVersion() + ' | Generated On: ' + new Date(),
               style: ['quote', 'small']
             }
             ],
@@ -227,14 +228,14 @@ export class HivPatientClinicalSummaryService {
           }
         });
       });
-    }).first();
+    }).pipe(first());
 
   }
 
   private static _constructPatientDemographicsDetails(patient: Patient): Array<Array<any>> {
     let demographics: Array<Array<any>> = [['Patient has no demographics data']];
     try {
-      if (patient.person !== {}) {
+      if (!_.isEmpty(patient.person)) {
         demographics = [
           [{
 
@@ -302,50 +303,50 @@ export class HivPatientClinicalSummaryService {
               }]
 
             },
-              {
-                columns: [{
-                  text: 'Sub-County:',
-                  width: 47,
-                  bold: true,
-                }, {
-                  text: (patient.person.preferredAddress as any).address2 || 'N/A',
-                  width: '*',
-                  alignment: 'left',
-                  color: '#2a2a2a',
-                }]
-              }
+            {
+              columns: [{
+                text: 'Sub-County:',
+                width: 47,
+                bold: true,
+              }, {
+                text: (patient.person.preferredAddress as any).address2 || 'N/A',
+                width: '*',
+                alignment: 'left',
+                color: '#2a2a2a',
+              }]
+            }
               ,
-              {
-                columns: [{
-                  text: 'Estate:',
-                  width: 27,
-                  bold: true,
-                }, {
-                  text: (patient.person.preferredAddress as any).address3 || 'N/A',
-                  width: '*',
-                  alignment: 'left',
-                  color: '#2a2a2a',
-                }]
-              }
+            {
+              columns: [{
+                text: 'Estate:',
+                width: 27,
+                bold: true,
+              }, {
+                text: (patient.person.preferredAddress as any).address3 || 'N/A',
+                width: '*',
+                alignment: 'left',
+                color: '#2a2a2a',
+              }]
+            }
               ,
-              {
-                columns: [{
-                  text: 'Town/Village:',
-                  width: 52,
-                  bold: true,
-                }, {
-                  text: (patient.person.preferredAddress as any).cityVillage || 'N/A',
-                  width: '*',
-                  alignment: 'left',
-                  color: '#2a2a2a',
-                }]
+            {
+              columns: [{
+                text: 'Town/Village:',
+                width: 52,
+                bold: true,
+              }, {
+                text: (patient.person.preferredAddress as any).cityVillage || 'N/A',
+                width: '*',
+                alignment: 'left',
+                color: '#2a2a2a',
+              }]
 
-              }
+            }
 
             ]
           }]
         ]
-        ;
+          ;
       }
     } catch (e) {
     }
@@ -366,13 +367,7 @@ export class HivPatientClinicalSummaryService {
 
   private static _getAppVersion(): string {
     try {
-
-      let json = require('../../../version.json');
-
-      if (json && json.version) {
-        return json.version.version + ' build: ' + new Date(json.version.buildDate);
-      }
-
+      return VERSION.version + VERSION.hash;
     } catch (e) {
       return '2';
     }
@@ -430,14 +425,14 @@ export class HivPatientClinicalSummaryService {
       if (hivSummaryData.length > 0) {
         let patientHivSummary: any;
         let summary: any;
-        for (summary of hivSummaryData){
+        for (summary of hivSummaryData) {
 
-            if (summary.is_clinical_encounter === 1) {
+          if (summary.is_clinical_encounter === 1) {
 
-                patientHivSummary = summary;
-                break;
+            patientHivSummary = summary;
+            break;
 
-            }
+          }
 
         }
         hivSummary = [
@@ -449,7 +444,7 @@ export class HivPatientClinicalSummaryService {
                 bold: true,
               }, {
                 text: this._formatDate(patientHivSummary.encounter_datetime) +
-                ' (' + patientHivSummary.encounter_type_name + ')' || 'N/A',
+                  ' (' + patientHivSummary.encounter_type_name + ')' || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -474,8 +469,8 @@ export class HivPatientClinicalSummaryService {
               }, {
                 text: (
                   patientHivSummary.vl_1 != null ?
-                  this.transformZeroVl(patientHivSummary.vl_1) : 'N/A').toString() +
-                ' (' + this._formatDate(patientHivSummary.vl_1_date) + ')' || 'N/A',
+                    this.transformZeroVl(patientHivSummary.vl_1) : 'N/A').toString() +
+                  ' (' + this._formatDate(patientHivSummary.vl_1_date) + ')' || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -488,7 +483,7 @@ export class HivPatientClinicalSummaryService {
               }, {
                 text: (patientHivSummary.cd4_1 != null ?
                   patientHivSummary.cd4_1 : 'N/A').toString() +
-                ' (' + this._formatDate(patientHivSummary.cd4_1_date) + ')' || 'N/A',
+                  ' (' + this._formatDate(patientHivSummary.cd4_1_date) + ')' || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -539,8 +534,8 @@ export class HivPatientClinicalSummaryService {
                 width: 60,
                 bold: true,
               },
-                {
-                text: this._formatDate(patientHivSummary.arv_first_regimen_start_date ) || 'N/A',
+              {
+                text: this._formatDate(patientHivSummary.arv_first_regimen_start_date) || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -619,19 +614,19 @@ export class HivPatientClinicalSummaryService {
           ]
         ];
         _.each(vitals, (vital) => {
-            patientVitals.push([
-              this._formatDate(vital.encounter_datetime) || 'N/A',
-              (vital.systolic_bp || '').toString() + '/' + (vital.diastolic_bp || '').toString(),
-              (vital.pulse || '').toString(),
-              (vital.temp || '').toString(),
-              (vital.oxygen_sat || '').toString(),
-              (vital.height || '').toString(),
-              (vital.weight || '').toString(),
-              (vital.BMI || '').toString(),
-            ]);
-          }
+          patientVitals.push([
+            this._formatDate(vital.encounter_datetime) || 'N/A',
+            (vital.systolic_bp || '').toString() + '/' + (vital.diastolic_bp || '').toString(),
+            (vital.pulse || '').toString(),
+            (vital.temp || '').toString(),
+            (vital.oxygen_sat || '').toString(),
+            (vital.height || '').toString(),
+            (vital.weight || '').toString(),
+            (vital.BMI || '').toString(),
+          ]);
+        }
         )
-        ;
+          ;
       }
     } catch (e) {
     }
@@ -673,19 +668,19 @@ export class HivPatientClinicalSummaryService {
           ]
         ];
         _.each(labTests, (labs: any) => {
-            if (labs.cd4_count != null || labs.cd4_percent != null || labs.hiv_viral_load != null) {
-              patientLabTests.push([
-                this._formatDate(labs.test_datetime) || 'N/A',
-                (labs.cd4_count != null ? labs.cd4_count : '').toString(),
-                (labs.cd4_percent != null ? labs.cd4_percent : '').toString(),
-                (labs.hiv_viral_load != null ?
-                  this.transformZeroVl(labs.hiv_viral_load) : '').toString(),
-                (labs.cur_arv_meds != null ? labs.cur_arv_meds : '').toString()
-              ]);
-            }
+          if (labs.cd4_count != null || labs.cd4_percent != null || labs.hiv_viral_load != null) {
+            patientLabTests.push([
+              this._formatDate(labs.test_datetime) || 'N/A',
+              (labs.cd4_count != null ? labs.cd4_count : '').toString(),
+              (labs.cd4_percent != null ? labs.cd4_percent : '').toString(),
+              (labs.hiv_viral_load != null ?
+                this.transformZeroVl(labs.hiv_viral_load) : '').toString(),
+              (labs.cur_arv_meds != null ? labs.cur_arv_meds : '').toString()
+            ]);
           }
+        }
         )
-        ;
+          ;
         // patientLabTests = patientLabTests.slice(0, 5);
         if (patientLabTests.length < 2) {
           patientLabTests = [['Patient has no Lab Test']];
@@ -703,23 +698,23 @@ export class HivPatientClinicalSummaryService {
         clinicalReminders = clinicalReminders.slice(0, 4); // get only the first 5
         patientReminders = [];
         _.each(clinicalReminders, (reminder) => {
-            patientReminders.push([
-              {
-                columns: [{
-                  text: reminder.title + ':',
-                  width: 100,
-                  bold: true,
-                }, {
-                  text: reminder.message,
-                  width: '*',
-                  // color: '#2a2a2a',
-                  bold: true,
-                }]
-              }
-            ]);
-          }
+          patientReminders.push([
+            {
+              columns: [{
+                text: reminder.title + ':',
+                width: 100,
+                bold: true,
+              }, {
+                text: reminder.message,
+                width: '*',
+                // color: '#2a2a2a',
+                bold: true,
+              }]
+            }
+          ]);
+        }
         )
-        ;
+          ;
       }
     } catch (e) {
     }
@@ -740,7 +735,7 @@ export class HivPatientClinicalSummaryService {
                 bold: true,
               }, {
                 text: (this._formatDate(clinicalNotes.visitDate) || 'N/A') +
-                ' (' + (clinicalNotes.scheduled || 'N/A') + ')',
+                  ' (' + (clinicalNotes.scheduled || 'N/A') + ')',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -765,7 +760,7 @@ export class HivPatientClinicalSummaryService {
               }, {
                 text: (clinicalNotes.lastViralLoad.value != null ?
                   this.transformZeroVl(clinicalNotes.lastViralLoad.value) : 'N/A').toString()
-                + ' (' + this._formatDate(clinicalNotes.lastViralLoad.date) + ')',
+                  + ' (' + this._formatDate(clinicalNotes.lastViralLoad.date) + ')',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -778,7 +773,7 @@ export class HivPatientClinicalSummaryService {
               }, {
                 text: (clinicalNotes.lastCD4Count.value != null ?
                   clinicalNotes.lastCD4Count.value : 'N/A').toString()
-                + ' (' + this._formatDate(clinicalNotes.lastCD4Count.date) + ')',
+                  + ' (' + this._formatDate(clinicalNotes.lastCD4Count.date) + ')',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -990,7 +985,7 @@ export class HivPatientClinicalSummaryService {
 
   private static _getLogo(url: string, callback: any): void {
     let image: any = new Image();
-    image.onload = function() {
+    image.onload = function () {
       let canvas: any = document.createElement('canvas');
       canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
       canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
@@ -1010,11 +1005,11 @@ export class HivPatientClinicalSummaryService {
   private static transformZeroVl(vl) {
 
     if (vl === 0 || vl === '0') {
-        return 'LDL';
-    }else {
-        return vl;
+      return 'LDL';
+    } else {
+      return vl;
     }
- }
+  }
 
   public constructor(
   ) {
@@ -1047,7 +1042,7 @@ export class HivPatientClinicalSummaryService {
       } else {
         observer.error('some properties are missing');
       }
-    }).first();
+    }).pipe(first());
 
   }
 

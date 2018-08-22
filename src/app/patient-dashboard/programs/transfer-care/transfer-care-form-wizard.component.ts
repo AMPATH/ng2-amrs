@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin ,  Observable ,  Subject ,  BehaviorSubject ,  Subscription } from 'rxjs';
 
 import { PatientService } from '../../services/patient.service';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
@@ -8,12 +9,8 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ProgramsTransferCareService } from './transfer-care.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { Observable } from 'rxjs/Observable';
 import { FormListService } from '../../common/forms/form-list.service';
-import { Subject } from 'rxjs/Subject';
 import { Patient } from '../../../models/patient.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'transfer-care-form-wizard',
@@ -38,7 +35,6 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   private currentProcessId: string;
   private previousProcessId: string;
   private subscription: Subscription;
-  private patientSub: Subscription;
   private ngUnsubscribe: Subject<any> = new Subject();
   private hasPayload: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -53,26 +49,15 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
   public ngOnInit() {
     // Do not subscribe to patient service. when you reload it at the end of the process,
     // it becomes recursive
-    this.patientSub = this.patientService.currentlyLoadedPatient
-    .subscribe((patient) => {
-        if (patient !== null) {
-          this.patient = patient;
-          this._init();
-          console.log('patient received', this.patient);
-        }
-
-    }, (error) => {
-      // this.patient = null;
-    });
+    this.patient = this.patientService.currentlyLoadedPatient.value;
+    if (!_.isNil(this.patient)) {
+      this._init();
+    }
   }
 
   public ngOnDestroy(): void {
     if (!_.isNil(this.subscription)) {
       this.subscription.unsubscribe();
-    }
-
-    if (!_.isNil(this.patientSub)) {
-      this.patientSub.unsubscribe();
     }
   }
 
@@ -240,14 +225,14 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
             this._completeProcess();
             let currentUrl = this.router.url.split('?')[0];
             this.router.navigate([currentUrl]);
-            this.patientService.reloadCurrentPatient();
-          }, 500);
+            this.patientService.fetchPatientByUuid(this.patient.uuid);
+          }, 2500);
         }
       } else {
         setTimeout(() => {
           this._completeProcess();
           this.router.navigate(['..'], {relativeTo: this.route});
-          this.patientService.reloadCurrentPatient();
+          this.patientService.fetchPatientByUuid(this.patient.uuid);
         }, 50);
       }
     }, (err) => {
@@ -261,7 +246,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
     _.each(programs, (program: any) => {
       programBatch.push(this.transferCareService.attachEncounterForms(program, configs));
     });
-    return Observable.forkJoin(programBatch);
+    return forkJoin(programBatch);
   }
 
   private _completeProcess() {

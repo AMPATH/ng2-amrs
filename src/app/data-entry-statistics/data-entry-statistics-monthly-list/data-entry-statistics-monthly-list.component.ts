@@ -2,8 +2,7 @@ import { Component,
     OnInit , OnDestroy , AfterViewInit, OnChanges ,
     Output , EventEmitter, Input , ChangeDetectorRef,
     ViewChild , SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { GridOptions } from 'ag-grid/main';
@@ -78,12 +77,12 @@ export class DataEntryStatisticsMonthlyListComponent
       },
       {
         headerName: 'Total',
-        field:  'rowTotals', // 'rowTotals',
+        field:  'encounters_count', // 'rowTotals',
         onCellClicked: (column) => {
           let patientListParams = {
              'providerUuid': this.params.providerUuid,
              'locationUuids': column.data.locationUuid,
-             'encounterTypeUuids': column.data.encounterTypeUuid,
+             'encounterTypeUuids': column.data.encounter_type_uuid,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
@@ -99,26 +98,24 @@ export class DataEntryStatisticsMonthlyListComponent
         }
       }
     );
-    this.gridOptions.groupDefaultExpanded = -1;
+    // this.gridOptions.groupDefaultExpanded = -1;
 
     _.each(dataEntryEncounters, (stat: any) => {
           let encounterId = stat.encounter_type_id;
           let month = stat.month;
           let monthStart = Moment(month).startOf('month').format('YYYY-MM-DD');
           let monthEnd = Moment(month).endOf('month').format('YYYY-MM-DD');
-          let location = stat.location;
-          // console.log('Stat', stat);
 
           if (_.includes(trackColumns, month) === false) {
 
             this.dataEntryEncounterColdef.push(
                 {
                   headerName: month,
-                  field: month,
+                  field: 'encounters_count',
                   onCellClicked: (column) => {
                     let patientListParams = {
                        'startDate': monthStart,
-                       'encounterTypeUuids': column.data.encounterTypeUuid,
+                       'encounterTypeUuids': column.data.encounter_type_uuid,
                        'locationUuids': column.data.locationUuid,
                        'providerUuid': this.params.providerUuid,
                        'endDate': monthEnd
@@ -144,52 +141,28 @@ export class DataEntryStatisticsMonthlyListComponent
 
             }
 
-          let encounterTypes = [];
+          let monthlyObj = {
+                encounterType: stat.encounter_type,
+                'encounterUuid': stat.encounter_type_uuid,
+                'encounterCounts': [
+                  {
+                  'encounterMonth' : stat.month ,
+                  'encounterCount': stat.encounters_count
+                  }
+                ]
 
-          let monthlyObj: any = {
-                'location': stat.location,
-                'locationUuid': stat.locationUuid,
-                 'encounterTypes' : []
            };
 
-          let e = {
-            'encounterTypeUuid': stat.encounter_type_uuid,
-            'encounterName': stat.encounter_type,
-            'encounterCounts': [
-              {
+          let savedEncounter = encounterMap.get(encounterId);
+
+           // console.log('Saved Encounter', savedEncounter);
+          if (typeof savedEncounter !== 'undefined') {
+             savedEncounter.encounterCounts.push({
               'encounterMonth' : stat.month ,
               'encounterCount': stat.encounters_count
-              }
-            ]
-           };
-
-
-          let savedEncounter = encounterMap.get(stat.location);
-          if (typeof savedEncounter !== 'undefined') {
-
-               let savedEncounterTypes: any =  savedEncounter.encounterTypes;
-               let savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
-
-               if (typeof savedSpecificEncounter !== 'undefined') {
-
-                savedEncounter.encounterTypes[stat.encounter_type].encounterCounts.push({
-                    'encounterMonth': stat.month,
-                    'encounterCount': stat.encounters_count
-                });
-
-               } else {
-
-                 savedEncounter.encounterTypes[stat.encounter_type] = e;
-
-               }
-
-               encounterMap.set(stat.location, savedEncounter);
-
+             });
             }else {
-
-              monthlyObj.encounterTypes[stat.encounter_type] = e;
-
-              encounterMap.set(stat.location, monthlyObj);
+             encounterMap.set(encounterId, monthlyObj);
             }
 
       });
@@ -203,42 +176,42 @@ export class DataEntryStatisticsMonthlyListComponent
     let allRows = [];
     let totalEncounters = 0;
     let colSumMap = new Map();
-    let encountersRows = [];
-    encounterMap.forEach((encounterItem: any, encounterIndex) => {
-        let locationName = encounterItem.location;
-        let locationUuid = encounterItem.locationUuid;
-        let encounterTypes = encounterItem.encounterTypes;
+    encounterMap.forEach((encounterItem: any) => {
+         let encounterRow = {
+           encounterType : encounterItem.encounterType,
+           'encounterUuid': encounterItem.encounterUuid,
+           'rowTotals': 0
+         };
+         let rowTotal = 0;
 
-        Object.keys(encounterTypes).forEach((key) => {
-          // console.log(key);
-          let encounterRow = {
-            'rowTotals': 0
-          };
-          encounterRow['location'] =  locationName;
-          encounterRow['locationUuid'] =  locationUuid;
-          encounterRow['encounter_type'] =  key;
-          encounterRow['encounterTypeUuid'] = encounterTypes[key].encounterTypeUuid;
-          let encounterType = encounterTypes[key];
-          let encounterCounts = encounterType.encounterCounts;
-          let rowTotal = 0;
-          _.each(encounterCounts, (encounterCount) => {
-            encounterRow[encounterCount.encounterMonth] = encounterCount.encounterCount;
-            rowTotal += encounterCount.encounterCount;
+         let encounterCounts = encounterItem.encounterCounts;
 
-           });
-          encounterRow['rowTotals'] = rowTotal;
-          totalEncounters += rowTotal;
-          allRows.push(encounterRow);
-        });
+         _.each(encounterCounts, (encounterCount: any) => {
 
+              encounterRow[encounterCount.encounterMonth] = encounterCount.encounterCount;
+              rowTotal += encounterCount.encounterCount;
+              let colTotal = colSumMap.get(encounterCount.encounterMonth);
+              if (typeof colTotal === 'undefined') {
+                    colSumMap.set(encounterCount.encounterMonth, encounterCount.encounterCount);
+              }else {
+                      let newTotal = colTotal + encounterCount.encounterCount;
+                      colSumMap.set(encounterCount.encounterMonth, newTotal);
+              }
+
+          });
+
+         encounterRow.rowTotals = rowTotal;
+         totalEncounters += rowTotal;
+
+         allRows.push(encounterRow);
     });
 
     this.totalMonthlyEncounters = totalEncounters;
 
-    // let totalsRow = this.createTotalsRow(colSumMap, totalEncounters);
-    // let totalRowArray = [];
-    // totalRowArray.push(totalsRow);
-   // this.pinnedBottomRowData = totalRowArray;
+    let totalsRow = this.createTotalsRow(colSumMap, totalEncounters);
+    let totalRowArray = [];
+    totalRowArray.push(totalsRow);
+    this.pinnedBottomRowData = totalRowArray;
     this.monthlyRowData = allRows;
     this.setPinnedRow();
 

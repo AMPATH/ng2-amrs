@@ -2,8 +2,7 @@ import { Component,
     OnInit , OnDestroy , AfterViewInit, OnChanges ,
     Output , EventEmitter, Input , ChangeDetectorRef,
     ViewChild , SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
@@ -80,7 +79,7 @@ export class DataEntryStatisticsCreatorsListComponent
         onCellClicked: (column) => {
                     let patientListParams = {
                        'creatorUuid': column.data.creatorUuid,
-                       'locationUuids': column.data.locationUuid,
+                       'locationUuids': this.params.locationUuids,
                        'startDate': this.params.startDate,
                        'endDate': this.params.endDate
                        };
@@ -101,7 +100,7 @@ export class DataEntryStatisticsCreatorsListComponent
         onCellClicked: (column) => {
           let patientListParams = {
              'creatorUuid': column.data.creatorUuid,
-             'locationUuids': column.data.locationUuid,
+             'locationUuids': this.params.locationUuids,
              'encounterTypeUuids': column.data.clinicalEncounters,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
@@ -118,7 +117,7 @@ export class DataEntryStatisticsCreatorsListComponent
         }
       }
     );
-    this.gridOptions.groupDefaultExpanded = -1;
+    // this.gridOptions.groupDefaultExpanded = -1;
     let creatorMap =  new Map();
     _.each(dataEntryStats, (stat: any) => {
           let form = stat.encounter_type;
@@ -137,7 +136,7 @@ export class DataEntryStatisticsCreatorsListComponent
                     let patientListParams = {
                        'creatorUuid': column.data.creatorUuid,
                        'encounterTypeUuids': encounterTypeUuid,
-                       'locationUuids': column.data.locationUuid,
+                       'locationUuids': this.params.locationUuids,
                        'startDate': this.params.startDate,
                        'endDate': this.params.endDate
                     };
@@ -167,8 +166,7 @@ export class DataEntryStatisticsCreatorsListComponent
             ],
             'creatorUuid': stat.user_uuid,
             'creatorName': stat.creator_name,
-            'location': stat.location,
-            'locationUuid' : stat.location_uuid
+            location: stat.location
           };
 
           let creatorSaved = creatorMap.get(creatorId);
@@ -180,8 +178,7 @@ export class DataEntryStatisticsCreatorsListComponent
                 'encounterUuid': stat.encounter_type_uuid,
                 'encounters_count' : stat.encounters_count,
                 'is_clinical' : stat.is_clinical_encounter,
-                 'location': stat.location,
-                 'locationUuid': stat.location_uuid
+                 location: stat.location
                });
 
           }else {
@@ -210,7 +207,6 @@ export class DataEntryStatisticsCreatorsListComponent
         creators: creatorItem.creatorName,
         creatorUuid: creatorItem.creatorUuid,
         location: creatorItem.location,
-        locationUuid: creatorItem.locationUuid,
         clinicalEncounters: []
       };
 
@@ -254,8 +250,7 @@ export class DataEntryStatisticsCreatorsListComponent
       'creatorUuid': '',
       'total': totalCreatorEncounters,
       'total_clinical': totalCreatorClinicalEncounters,
-      'clinicalEncounters': _.uniq(this.allClicalEncounters),
-      'locationUuid': this.params.locationUuids,
+      'clinicalEncounters': _.uniq(this.allClicalEncounters)
     };
     totalsMap.forEach( (monthTotal, index) => {
         rowTotalObj[index] = monthTotal;

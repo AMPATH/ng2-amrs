@@ -1,0 +1,76 @@
+<mat-progress-bar *ngIf="loading"
+                 class="example-margin"
+                 [color]="'primary'"
+                 [mode]="'determinate'"
+                 [value]="progressBarTick"
+                 [bufferValue]="90">
+</mat-progress-bar>
+<div class="loader" *ngIf="loading"><span><i class="fa fa-spinner fa-spin">
+      </i>{{progressBarTick}}% Loading...</span>
+</div>
+
+<dashboard-filters [options]="options" [(filterModel)]="filterModel"
+                   [startDate]="startDate" [endDate]="endDate"
+                   (filterModelChange)="onFilterModelChange($event)"
+>
+</dashboard-filters>
+
+<div class="suggest-container form-group" *ngIf="showAnalysisTypeSelector===true">
+
+  <div class="input-group">
+    <div class="input-group-addon"><span class="glyphicon glyphicon-cog"></span></div>
+    <ng-select class="sharp-corners" [multiple]="false" (change)="onAnalysisTypeChange($event)"
+               [placeholder]="'Select Analysis Type...'"
+               [(ngModel)]="selectedAnalysisType" [items]="analysisTypes">
+    </ng-select>
+    <div class="input-group-addon">
+      <i class="glyphicon glyphicon-pushpin"></i>
+    </div>
+  </div>
+</div>
+<div [hidden]="renderType==='cohortAnalysis'">
+  <hr>
+  <chart [options]="chartOptions">
+  </chart>
+
+</div>
+<hr>
+<div>
+  <div *ngIf="showTable">
+    <hr>
+    <ag-grid-angular #agGrid style="width: 100%; height: 250px;" class="ag-blue" [rowData]="dataTable"
+                     [gridOptions]="gridOptions">
+    </ag-grid-angular>
+
+    <em class="text-info">Hover the cursor on each cell of the table, to view indicator
+      definitions.</em>
+  </div>
+  <div class="slide-toggle">
+  <mat-slide-toggle
+    style="float:right"
+    [color]="'primary'"
+    [(ngModel)]="showTable"
+    [checked]="showTable"
+  ><span *ngIf="!showTable">Show</span> <span *ngIf="showTable">Hide</span> Tabular View
+  </mat-slide-toggle>
+    </div>
+  <div class="clear" *ngIf="showIndicatorDefinitions"></div>
+  <div *ngIf="showIndicatorDefinitions">
+    <hr>
+    <ul class="list-group">
+      <li class="list-group-item text-primary" *ngFor="let column of columns">
+        <strong>{{column.headerName}}: </strong>{{column.tooltip}}
+      </li>
+    </ul>
+  </div>
+  <div class="slide-toggle">
+  <mat-slide-toggle
+    style="float:right"
+    [color]="'primary'"
+    [(ngModel)]="showIndicatorDefinitions"
+    [checked]="showIndicatorDefinitions"
+  ><span *ngIf="!showIndicatorDefinitions">Show</span> <span *ngIf="showIndicatorDefinitions">Hide</span> Indicator
+    Definitions
+  </mat-slide-toggle></div>
+  <div class="clear" *ngIf="showTable"></div>
+</div>
