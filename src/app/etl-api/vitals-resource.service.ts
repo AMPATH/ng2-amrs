@@ -1,10 +1,8 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Observable } from 'rxjs';
+import { AppSettingsService } from '../app-settings';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class VitalsResourceService {
@@ -24,8 +22,8 @@ export class VitalsResourceService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json().result;
-    }));
+    });
   }
 }

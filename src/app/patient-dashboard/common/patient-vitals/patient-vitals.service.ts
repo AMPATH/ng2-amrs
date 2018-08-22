@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 import { VitalsResourceService } from '../../../etl-api/vitals-resource.service';
 

@@ -1,5 +1,3 @@
-
-import {map,  first } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   Router,
@@ -11,7 +9,8 @@ import {
   CanLoad,
   RouterStateSnapshot
 } from '@angular/router';
-import { Observable, ReplaySubject, Subject, of } from 'rxjs';
+
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
@@ -36,7 +35,7 @@ export class PatientDashboardGuard implements CanActivate,
 
   public canActivate(routeSnapshot: ActivatedRouteSnapshot,
                      state: RouterStateSnapshot): Observable<boolean> {
-    return of(true).pipe(map(() => {
+    return Observable.of(true).map(() => {
       const component: any = routeSnapshot.component;
       if (component.name === 'PatientDashboardComponent') {
         const patientUuid = routeSnapshot.params['patient_uuid'];
@@ -56,7 +55,7 @@ export class PatientDashboardGuard implements CanActivate,
         }
       }
       return true;
-    }));
+    });
 
   }
 
@@ -66,7 +65,7 @@ export class PatientDashboardGuard implements CanActivate,
       this.draftedFormsService.lastDraftedForm === undefined ||
       !this.draftedFormsService.lastDraftedForm.rootNode.control.dirty) {
       this.dynamicRoutesService.resetRoutes();
-      return of(true);
+      return Observable.of(true);
     }
 
     // confirm with user
@@ -83,6 +82,6 @@ export class PatientDashboardGuard implements CanActivate,
           observer.next(false);
         }
       });
-    }).pipe(first());
+    }).first();
   }
 }

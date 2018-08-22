@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // analytics
 import { Angulartics2 } from 'angulartics2';
-
+import { Angulartics2Piwik } from 'angulartics2/dist/providers';
 import { UserService } from '../../openmrs-api/user.service';
 import { User } from '../../models/user.model';
 
@@ -11,6 +11,7 @@ export class AppFeatureAnalytics {
   private appUser: User;
 
   constructor(private angulartics2: Angulartics2,
+              private angulartics2Piwik: Angulartics2Piwik,
               private userService: UserService) {
   }
 

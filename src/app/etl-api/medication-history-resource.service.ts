@@ -1,10 +1,8 @@
 
-import {map} from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class MedicationHistoryResourceService {
@@ -22,8 +20,8 @@ export class MedicationHistoryResourceService {
 
     let params: URLSearchParams = new URLSearchParams();
 
-    return this.http.get(api, { search: params }).pipe(map((response: Response) => {
+    return this.http.get(api, { search: params }).map((response: Response) => {
       return response.json();
-    }));
+    });
   }
 }

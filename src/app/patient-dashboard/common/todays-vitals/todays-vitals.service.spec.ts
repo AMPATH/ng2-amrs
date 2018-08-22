@@ -2,7 +2,7 @@
 
 import { TestBed, async , fakeAsync } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../../app-settings';
@@ -14,7 +14,8 @@ import { TodaysVitalsService } from './todays-vitals.service';
 import { FakeVisitResourceService } from '../../../openmrs-api/fake-visit-resource.service';
 import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowStateResourceService
+} from '../../../openmrs-api/program-workflow-state-resource.service';
 describe('Service: TodaysVitalsService', () => {
   beforeEach(fakeAsync (() => {
     TestBed.configureTestingModule({
@@ -30,7 +31,8 @@ describe('Service: TodaysVitalsService', () => {
 
         {
           provide: Http,
-          useFactory: (backendInstance: MockBackend,
+          useFactory: (
+            backendInstance: MockBackend,
             defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
@@ -172,4 +174,3 @@ describe('Service: TodaysVitalsService', () => {
   });
 
 });
-

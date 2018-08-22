@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 Injectable();
 export class Moh731PatientListResourceService {
@@ -7,7 +7,7 @@ export class Moh731PatientListResourceService {
   }
 
   public getMoh731PatientListReport(params): Observable<any> {
-    return of({
+    return Observable.of({
       'startIndex': 0,
       'size': 2,
       'locations': [

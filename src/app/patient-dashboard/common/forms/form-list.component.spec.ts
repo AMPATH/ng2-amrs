@@ -3,7 +3,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import {
     BaseRequestOptions, Http, HttpModule, Response,
     ResponseOptions, RequestMethod, ResponseType
@@ -115,19 +115,19 @@ describe('FormList Component', () => {
 
                 const favouriteFormsSpy = spyOn(formOrderMetaDataService,
                     'getFavouriteForm').and.returnValue(
-                    of(favourite)
+                    Observable.of(favourite)
                     );
                 const defaultOrderSpy = spyOn(formOrderMetaDataService,
                     'getDefaultFormOrder').and.returnValue(
-                    of(defualtOrdering)
+                    Observable.of(defualtOrdering)
                     );
                 const formListSpy = spyOn(formsResourceService,
                     'getForms').and.returnValue(
-                    of(forms)
+                    Observable.of(forms)
                     );
                 const formServiceSpy = spyOn(service,
                     'getFormList').and.returnValue(
-                    of(forms)
+                    Observable.of(forms)
                     );
                 let toggleFavouriteSpy = spyOn(comp, 'toggleFavourite');
                 let formSelectedSypy = spyOn(comp, 'formSelected');

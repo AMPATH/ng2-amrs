@@ -12,6 +12,8 @@ import {
   '../user-default-properties/user-default-properties.service';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
+import { ClinicRoutesFactory
+} from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
 
 @Injectable()
 export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDashboardComponent> {
@@ -19,7 +21,9 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
   constructor(private dynamicRoutesService: DynamicRoutesService, private router: Router,
               private route: ActivatedRoute, private routesProvider: RoutesProviderService,
               private userDefaultProperties: UserDefaultPropertiesService,
-              private clinicDashboardCacheService: ClinicDashboardCacheService) {
+              private clinicDashboardCacheService: ClinicDashboardCacheService,
+              private clinicRoutesFactory: ClinicRoutesFactory
+            ) {
   }
 
   public canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -29,19 +33,13 @@ export class ClinicDashboardGuard implements CanActivate, CanDeactivate<ClinicDa
       const locationUuid = routeSnapshot.params['location_uuid'];
       if (locationUuid) {
         this.clinicDashboardCacheService.setCurrentClinic(locationUuid);
-        this.dynamicRoutesService.setRoutes({
-          dashboardId: 'clinicDashboard',
-          programs: [], // TODO: Fetch this data from user service
-          moduleLabel: 'Clinic Dashboard',
-          params: {
-            locationUuid
-          },
-          routes: []
-        });
+        const routes = this.clinicRoutesFactory
+        .createClinicDashboardRoutes(locationUuid);
+        this.dynamicRoutesService.setClinicDashBoardRoutes(routes);
       } else if (userLocation && userLocation.uuid) {
         this.clinicDashboardCacheService.setCurrentClinic(userLocation.uuid);
         this.router.navigate(['/clinic-dashboard', userLocation.uuid,
-          'daily-schedule']);
+          'general', 'daily-schedule']);
       } else {
         return true;
       }

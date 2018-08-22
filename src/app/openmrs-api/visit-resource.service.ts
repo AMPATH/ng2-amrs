@@ -1,11 +1,8 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
-
-import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class VisitResourceService {
@@ -21,9 +18,9 @@ export class VisitResourceService {
         return this.http
             .get(`${this.getUrl()}/${uuid}`, {
                 search: params
-            }).pipe(
-            map(this.parseVisitResponse),
-            catchError(this.handleError),);
+            })
+            .map(this.parseVisitResponse)
+            .catch(this.handleError);
     }
 
     public getPatientVisits(searchParams) {
@@ -42,9 +39,9 @@ export class VisitResourceService {
         return this.http
             .get(`${this.getUrl()}`, {
                 search: params
-            }).pipe(
-            map(this.parseVisitsResponse),
-            catchError(this.handleError),);
+            })
+            .map(this.parseVisitsResponse)
+            .catch(this.handleError);
     }
 
     public getVisitTypes(searchParams) {
@@ -53,9 +50,9 @@ export class VisitResourceService {
         }
         return this.http
             .get(`${this.appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`, {
-            }).pipe(
-            map(this.parseVisitTypesResponse),
-            catchError(this.handleError),);
+            })
+            .map(this.parseVisitTypesResponse)
+            .catch(this.handleError);
     }
 
     public saveVisit(payload) {
@@ -64,9 +61,9 @@ export class VisitResourceService {
         }
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers });
-        return this.http.post(`${this.getUrl()}`, payload, options).pipe(
-            map(this.parseVisitResponse),
-            catchError(this.handleError),);
+        return this.http.post(`${this.getUrl()}`, payload, options)
+            .map(this.parseVisitResponse)
+            .catch(this.handleError);
     }
 
     public updateVisit(uuid, payload) {
@@ -75,9 +72,9 @@ export class VisitResourceService {
         }
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers });
-        return this.http.post(`${this.getUrl()}/${uuid}`, payload, options).pipe(
-            map(this.parseVisitResponse),
-            catchError(this.handleError),);
+        return this.http.post(`${this.getUrl()}/${uuid}`, payload, options)
+            .map(this.parseVisitResponse)
+            .catch(this.handleError);
     }
 
     public getVisitEncounters(uuid) {
@@ -94,9 +91,9 @@ export class VisitResourceService {
         return this.http
             .get(`${this.getUrl()}/${uuid}`, {
                 search: params
-            }).pipe(
-            map(this.parseVisitEncounters),
-            catchError(this.handleError),);
+            })
+            .map(this.parseVisitEncounters)
+            .catch(this.handleError);
     }
     private getUrl() {
         return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'visit';
@@ -126,7 +123,7 @@ export class VisitResourceService {
     }
 
     private handleError(error: any) {
-        return observableThrowError(error.message
+        return Observable.throw(error.message
             ? error.message
             : error.status
                 ? `${error.status} - ${error.statusText}`

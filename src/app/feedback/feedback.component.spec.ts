@@ -1,15 +1,14 @@
 
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject, fakeAsync } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { FeedBackService } from './feedback.service';
 import { FeedBackComponent } from './feedback.component';
-import { NgBusyModule, BusyConfig } from 'ng-busy';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 import { UserService } from '../openmrs-api/user.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
@@ -20,7 +19,7 @@ import { DepartmentProgramsConfigService
 class DataStub {
 
     public postFeedback(payload): Observable<any> {
-        return of({ status: 'okay' });
+        return Observable.of({ status: 'okay' });
     }
 
 }
@@ -45,7 +44,7 @@ class UserDefaultPropertiesServiceStub {
 class FakeDepartmentProgramsConfigService {
 
   getDartmentProgramsConfig(): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
 
 }
@@ -57,7 +56,7 @@ describe('FeedBackComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, NgBusyModule],
+            imports: [FormsModule, BusyModule],
             declarations: [FeedBackComponent]
         }).overrideComponent(FeedBackComponent, {
             set: {
@@ -104,7 +103,7 @@ describe('FeedBackComponent', () => {
 
     it('should hit the success callback when postFeedback returns success', fakeAsync(() => {
         const spy = spyOn(dataStub, 'postFeedback').and.returnValue(
-            of({ status: 'okay' })
+            Observable.of({ status: 'okay' })
         );
         comp.sendFeedBack();
         fixture.detectChanges();
@@ -114,7 +113,7 @@ describe('FeedBackComponent', () => {
 
     it('should hit the error callback when postFeedback returns an error', fakeAsync(() => {
         const spy = spyOn(dataStub, 'postFeedback').and.returnValue(
-            observableThrowError({ error: '' })
+            Observable.throw({ error: '' })
         );
         comp.sendFeedBack();
         fixture.detectChanges();

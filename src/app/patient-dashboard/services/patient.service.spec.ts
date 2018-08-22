@@ -1,22 +1,23 @@
-import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, inject } from '@angular/core/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Patient } from '../../models/patient.model';
 import { FakePatientResourceService } from '../../openmrs-api/fake-patient-resource';
 import { PatientService } from './patient.service';
-import { BehaviorSubject ,  Observable ,  Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/Rx';
 import {
   ProgramEnrollmentResourceService
 }
   from '../../openmrs-api/program-enrollment-resource.service';
-import { first } from 'rxjs/operators';
+
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { FakeEncounterResourceService } from '../../openmrs-api/fake-encounter-resource.service';
 import { PatientProgramService } from '../programs/patient-programs.service';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { FakeProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service.mock';
-import { doesNotThrow } from 'assert';
 
 class FakePatientProgramService {
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
@@ -43,7 +44,7 @@ class FakePatientProgramService {
         },
         isEnrolled: false
       }]);
-    }).pipe(first());
+    }).first();
   }
 }
 
@@ -217,7 +218,7 @@ describe('Service: PatientService', () => {
       let uuid2: string = 'patient-uuid-2';
       let patientObject: Patient = new Patient({uuid: uuid1, encounters: []});
       spyOn(patientProgramService, 'getCurrentlyEnrolledPatientPrograms')
-      .and.callFake((params) => {
+        .and.callFake((params) => {
         let subject = new BehaviorSubject<any>({});
         subject.next([{
           uuid: 'uuid',
@@ -225,14 +226,12 @@ describe('Service: PatientService', () => {
         }]);
         return subject;
       });
-
       // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
       service.currentlyLoadedPatient.next(patientObject);
       service.currentlyLoadedPatientUuid.next(patientObject.uuid);
       // now try to set with a different uuid i.e @{uuid2}
       service.setCurrentlyLoadedPatientByUuid(uuid2);
       // check to ensure programEnrollmentResourceService.getProgramEnrollmentByPatientUuid was hit
-      tick(1000);
       expect(patientProgramService.getCurrentlyEnrolledPatientPrograms).toHaveBeenCalled();
 
     })));

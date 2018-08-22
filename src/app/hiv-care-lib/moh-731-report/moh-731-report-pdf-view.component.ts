@@ -159,8 +159,9 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             // for (let i = 0; i < reportsData.length; i++) {
 
             let paramsArray = this.getLocationHeaders(reportsData);
+            let rowsArray = this.getJoinLocations(reportsData);
 
-            this.mohReportService.generateMultiplePdfs(paramsArray, reportsData, sectionDefinitions)
+            this.mohReportService.generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions)
                 .subscribe(
                     (pdf) => {
                         this.pdfSrc = pdf.pdfSrc;
@@ -177,6 +178,19 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                     }
                 );
         }
+
+    }
+
+    private getJoinLocations(reportsData) {
+
+        let rowsArray = [];
+        reportsData.forEach((element) => {
+            if (element.join_location) {
+                rowsArray.push(element);
+            }
+        });
+
+        return rowsArray;
 
     }
 

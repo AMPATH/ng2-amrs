@@ -1,10 +1,11 @@
-import { of } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { LocalStorageService } from './../utils/local-storage.service';
+import { Observable } from 'rxjs/Observable';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { PatientSearchComponent } from './patient-search.component';
 import { By }              from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2PaginationModule } from 'ng2-pagination';
 import { FormsModule } from '@angular/forms';
 import { PatientSearchService } from './patient-search.service';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -51,7 +52,7 @@ class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = of([{ 'id': 1 }]);
+  params = Observable.of([{ 'id': 1 }]);
 }
 
 let results: any = [
@@ -92,7 +93,7 @@ describe('Component: PatientSearch', () => {
       declarations: [PatientSearchComponent], // declare the test component
       imports: [
         FormsModule,
-        NgxPaginationModule,
+        Ng2PaginationModule,
         IonicStorageModule.forRoot(),
       ],
       providers: [

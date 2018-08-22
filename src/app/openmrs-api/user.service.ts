@@ -1,14 +1,12 @@
-
-import {map} from 'rxjs/operators';
 // import { AppSettingsService } from './../app-settings';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http , Response , Headers, RequestOptions } from '@angular/http';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { Constants } from '../utils/constants';
 import { User } from '../models/user.model';
 import {  URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class UserService {
@@ -34,10 +32,10 @@ export class UserService {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
 
-    return this._http.get(url, options).pipe(
-      map((response) => {
+    return this._http.get(url, options)
+      .map((response) => {
         return response.json().results;
-      }));
+      });
   }
   public getOpenMrsBaseUrl(): string {
 
@@ -53,10 +51,10 @@ export class UserService {
 
     return this._http.get(allCohortMembersUrl, {
       search: params
-    }).pipe(
-      map((response) => {
+    })
+      .map((response) => {
         return response.json().results;
-      }));
+      });
   }
 
   // fetch user by uuid
@@ -74,9 +72,9 @@ export class UserService {
 
     return this._http.get(userUrl, {
       search: params
-    }).pipe(
-      map((response) => {
+    })
+      .map((response) => {
         return response.json();
-      }));
+      });
   }
 }

@@ -1,10 +1,8 @@
-
-import {map} from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
-
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import 'rxjs/add/operator/toPromise';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -35,7 +33,7 @@ export class PatientsRequiringVLResourceService {
         urlParams.set('startIndex', startIndex);
         urlParams.set('limit', limit);
 
-        let request = this._http.get(api, { search: urlParams }).pipe(map((data) => data.json()));
+        let request = this._http.get(api, { search: urlParams }).map((data) => data.json());
         return this.cacheService.cacheRequest(api, urlParams, request);
 
     }

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule, ConfirmDialogModule, DialogModule, MessagesModule,
   TabViewModule, PanelModule
 } from 'primeng/primeng';
+import { MdSlideToggleModule, MdTabsModule } from '@angular/material';
 import { ProgramService } from '../program.service';
 import { PatientService } from '../../services/patient.service';
 import { PatientProgramService } from '../patient-programs.service';
@@ -31,6 +32,8 @@ import { FormListComponent } from '../../common/forms/form-list.component';
     MessagesModule,
     TabViewModule,
     PanelModule,
+    MdTabsModule,
+    MdSlideToggleModule,
     NgamrsSharedModule,
     RouterModule
   ],

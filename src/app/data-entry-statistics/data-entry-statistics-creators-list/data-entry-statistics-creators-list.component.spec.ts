@@ -18,9 +18,9 @@ const mockCreatorResult: any = [
     encounters_count: 6,
     is_clinical_encounter: 1,
     user_uuid: 'uuuud',
-    location:'MTRH-1',
+    location: 'MTRH-1',
     locations: 1,
-    locationUuid: 'uuid',
+    location_uuid: 'uuid',
   },
   {
     creator_id: 1,
@@ -31,9 +31,9 @@ const mockCreatorResult: any = [
     encounters_count: 1,
     is_clinical_encounter: 0,
     user_uuid: '5a99b536-13a9-11df-a1f1-0026b9348838',
-    location:'MTRH-1',
+    location: 'MTRH-1',
     locations: 1,
-    locationUuid: 'uuid',
+    location_uuid: 'uuid'
   }
 ];
 
@@ -46,7 +46,8 @@ const mockCreatorResultRow: any = [
     total: 7,
     total_clinical: 6,
     clinicalEncounters: [ 'uuid1' ],
-    location:'MTRH-1',
+    location: 'MTRH-1',
+    locationUuid: 'uuid'
    }
 ];
 const mockParams = {

@@ -12,7 +12,8 @@ import { Patient } from '../../../models/patient.model';
 import { ProgramEnrollment } from '../../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
 import * as _ from 'lodash';
-import { of } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { ProgramsTransferCareService } from './transfer-care.service';
 import { ProgramsTransferCareFormWizardComponent } from './transfer-care-form-wizard.component';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -35,8 +36,8 @@ class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = of([{ 'id': 1 }]);
-  public queryParams = of([{ 'processId': 1 }]);
+  public params = Observable.of([{ 'id': 1 }]);
+  public queryParams = Observable.of([{ 'processId': 1 }]);
 }
 
 describe('Component: ProgramsTransferCareFormWizardComponent', () => {

@@ -4,77 +4,138 @@
   "baseRoute": "clinic-dashboard",
   "routeParameter": "locationUuid",
   "nonProgramRoutes": [
-    {
-      "url": "daily-schedule",
-      "label": "Daily Schedule",
-      "icon": "fa fa-calendar-o",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "monthly-schedule",
-      "label": "Monthly Schedule",
-      "icon": "fa fa-calendar",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "program-enrollment",
-      "label": "Program Enrollment",
-      "icon": "fa fa-list-alt",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "hiv/hiv-comparative-chart",
-      "label": "Clinical Visualization",
-      "icon": "fa fa-line-chart",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "patient-status-change-visualization",
-      "label": "Patient Care Status",
-      "icon": "fa fa-bar-chart"
-    },
-    {
-      "url": "clinic-lab-orders",
-      "label": "Lab Orders",
-      "icon": "icon-i-pathology",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "defaulter-list",
-      "label": "Defaulter List",
-      "icon": "fa fa-list",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "hiv/moh-731-report",
-      "label": "MOH 731 Reports",
-      "icon": "glyphicon glyphicon-equalizer",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "hiv/hiv-summary-indicator-report",
-      "label": "HIV Summary Indicators",
-      "icon": "fa fa-file-pdf-o",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "hiv/patients-requiring-vl",
-      "label": "Patients Requiring VL",
-      "icon": "icon-i-laboratory",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "patient-registration",
-      "label": "Patient Registration",
-      "icon": "glyphicon glyphicon-user",
-      "isSideBarOpen": false
-    },
-    {
-      "url": "referral/patient-referral-report",
-      "label": "Patient Referral",
-      "icon": "fa fa-file-pdf-o",
-      "isSideBarOpen": false
-    }
   ],
-  "programs": []
+  "programs": [],
+  "departments": [
+    {
+      "departmentName": "General",
+      "baseRoute": "general",
+      "alias": "general",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "monthly-schedule",
+          "label": "Monthly Schedule",
+          "icon": "fa fa-calendar",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "clinic-lab-orders",
+          "label": "Lab Test Orders",
+          "icon": "icon-i-pathology",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "defaulter-list",
+          "label": "Defaulter List",
+          "icon": "fa fa-list",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "program-enrollment",
+          "label": "Program Enrollment",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "referral/patient-referral-report",
+          "label": "Patient Referral",
+          "icon": "fa fa-file-pdf-o",
+          "isSideBarOpen": false
+        }
+      ]
+    },
+    {
+      "departmentName": "HIV",
+      "baseRoute": "hiv",
+      "alias": "hiv",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "monthly-schedule",
+          "label": "Monthly Schedule",
+          "icon": "fa fa-calendar",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "hiv-comparative-chart",
+          "label": "Clinical Visualization",
+          "icon": "fa fa-line-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "patient-status-change-visualization",
+          "label": "Patient Care Status",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "moh-731-report",
+          "label": "MOH 731 Reports",
+          "icon": "glyphicon glyphicon-equalizer",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "hiv-summary-indicator-report",
+          "label": "HIV Summary Indicators",
+          "icon": "fa fa-file-pdf-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "patients-requiring-vl",
+          "label": "Patients Requiring VL",
+          "icon": "icon-i-laboratory",
+          "isSideBarOpen": false
+        }
+      ]
+    },
+    {
+      "departmentName": "ONCOLOGY",
+      "baseRoute": "oncology",
+      "alias": "oncology",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "monthly-schedule",
+          "label": "Monthly Schedule",
+          "icon": "fa fa-calendar",
+          "isSideBarOpen": false
+        }
+      ]
+    },
+    {
+      "departmentName": "CDM",
+      "baseRoute": "cdm",
+      "alias": "cdm",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "monthly-schedule",
+          "label": "Monthly Schedule",
+          "icon": "fa fa-calendar",
+          "isSideBarOpen": false
+        }
+      ]
+    }
+  ]
 }

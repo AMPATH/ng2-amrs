@@ -1,9 +1,8 @@
 
 /* tslint:disable:no-unused-variable */
 
-
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
+import { Observable } from 'rxjs/Rx';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -29,14 +28,14 @@ import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 class DataStub {
 
   public getUserCohorts(payload): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
 
 }
 class DataStubUser {
 
   public getLoggedInUser(payload): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
 
 }
@@ -88,7 +87,7 @@ describe('CohortListComponent', () => {
           { provide: Router, useValue: mockRouter },
           {
             provide: ActivatedRoute,
-            useValue: { parent: { params: of({id: 'testId'}) }}
+            useValue: { parent: { params: Observable.of({id: 'testId'}) }}
           },
           MockBackend,
           BaseRequestOptions,
@@ -107,7 +106,7 @@ describe('CohortListComponent', () => {
   it('should hit the success callback when getAllCohorts returns success',
     (done)  => {
       const spy = spyOn(dataStub, 'getUserCohorts').and.returnValue(
-        of(expectedResults)
+        Observable.of(expectedResults)
       );
       comp.getCohortList();
       fixture.detectChanges();
@@ -118,7 +117,7 @@ describe('CohortListComponent', () => {
   it('should hit the error callback when getAllCohorts returns an error',
     fakeAsync(() => {
       const spy = spyOn(dataStub, 'getUserCohorts').and.returnValue(
-        observableThrowError({ error: '' })
+        Observable.throw({ error: '' })
       );
       comp.getCohortList();
       fixture.detectChanges();

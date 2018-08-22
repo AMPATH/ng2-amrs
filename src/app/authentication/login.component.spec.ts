@@ -17,6 +17,7 @@ import { LoginComponent } from './login.component';
 import { provideRoutes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieModule } from 'ngx-cookie';
+import { MdSnackBarModule } from '@angular/material';
 import { UserDefaultPropertiesService } from
   '../user-default-properties/user-default-properties.service';
 import { UserService } from '../openmrs-api/user.service';
@@ -26,9 +27,9 @@ import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-u
 import { FormOrderMetaDataService }
 from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
-import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { MdSnackBar } from '@angular/material';
 describe('LoginComponent Unit Tests', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEach(() => TestBed.configureTestingModule({
@@ -59,10 +60,11 @@ describe('LoginComponent Unit Tests', () => {
       FormSchemaService,
       FormUpdaterService,
       FormOrderMetaDataService,
+      MdSnackBar
     ],
     imports: [
       RouterTestingModule,
-      NgamrsSharedModule,
+      MdSnackBarModule,
       CookieModule.forRoot()
     ]
   }));

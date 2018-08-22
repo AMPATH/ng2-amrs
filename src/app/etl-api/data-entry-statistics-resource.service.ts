@@ -1,9 +1,7 @@
-
-import { throwError as observableThrowError,  Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class DataEntryStatisticsService {
@@ -31,7 +29,7 @@ export class DataEntryStatisticsService {
           subType: 'Encounters Types Per Creator'
       }];
 
-      return of(dataStatisticsTypes);
+      return Observable.of(dataStatisticsTypes);
    }
 
   public getDataEntryStatistics(payload): Observable<any> {
@@ -61,10 +59,10 @@ export class DataEntryStatisticsService {
          urlParams.set('creatorUuid', params.creatorUuid);
       }
 
-      let request = this.http.get(url, {search : urlParams}).pipe(
-        map((response) => {
+      let request = this.http.get(url, {search : urlParams})
+        .map((response) => {
            return response.json().result;
-        }));
+        });
 
       return this.cacheService.cacheRequest(url, urlParams, request);
 
@@ -72,7 +70,7 @@ export class DataEntryStatisticsService {
 
       console.log('Error getting params');
 
-      return observableThrowError({ error:
+      return Observable.throw({ error:
         'Request must contain subtype,startDate,endDate and groupBy' });
 
     }
@@ -150,10 +148,10 @@ export class DataEntryStatisticsService {
            urlParams.set('locationUuids', params.locationUuids);
       }
 
-      let request = this.http.get(url, {search : urlParams}).pipe(
-        map((response) => {
+      let request = this.http.get(url, {search : urlParams})
+        .map((response) => {
            return response.json().result;
-        }));
+        });
 
       return this.cacheService.cacheRequest(url, urlParams, request);
 

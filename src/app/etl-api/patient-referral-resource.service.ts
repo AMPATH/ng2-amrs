@@ -1,12 +1,9 @@
-
-import {throwError as observableThrowError,  Observable, Subject } from 'rxjs';
-
-import {map, catchError} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, Response, URLSearchParams } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class PatientReferralResourceService {
@@ -71,10 +68,10 @@ export class PatientReferralResourceService {
     let url = this.getReferralNotificationUrl() + '/' + payload.patient_referral_id;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers});
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options)
+      .map((response: Response) => {
         return response.json();
-      }),catchError(this.handleError),);
+      }).catch(this.handleError);
   }
 
   public getPatientReferralReport(params) {
@@ -82,9 +79,9 @@ export class PatientReferralResourceService {
     let url: string = this.getUrl();
     let request = this.http.get(url, {
       search: urlParams
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
         return response.json();
-      }));
+      });
 
     this.cacheService.cacheRequest(url, urlParams, request);
     return request;
@@ -103,10 +100,10 @@ export class PatientReferralResourceService {
     let url = this.getPatientListUrl();
     let request = this.http.get(url, {
       search: urlParams
-    }).pipe(
-      map((response: Response) => {
+    })
+      .map((response: Response) => {
         return response.json().result;
-      }));
+      });
 
     this.cacheService.cacheRequest(url, urlParams, request);
     return request;
@@ -114,13 +111,13 @@ export class PatientReferralResourceService {
 
   public getReferralLocationByEnrollmentUuid(uuid: string) {
     let url = this.getReferralLocationUrl()  + '/' + uuid;
-    return this.http.get(url).pipe(map((response: Response) => {
+    return this.http.get(url).map((response: Response) => {
         return response.json();
-    }));
+    });
   }
 
   private handleError(error: any) {
-    return observableThrowError(error.message
+    return Observable.throw(error.message
       ? error.message
       : error.status
         ? `${error.status} - ${error.statusText}`

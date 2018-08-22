@@ -3,22 +3,21 @@
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
  */
 
-
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { PatientMonthlyStatusComponent } from './patient-monthly-status.component';
 import { PatientCareStatusResourceService } from
   '../../../etl-api/patient-care-status-resource.service';
 import { PatientService } from '../../services/patient.service';
 class MockPatientService {
-    currentlyLoadedPatient = of({ uuid: '', person: { uuid: 'persion_uui' } });
+    currentlyLoadedPatient = Observable.of({ uuid: '', person: { uuid: 'persion_uui' } });
 }
 class MockPatientCareStatusResourceService {
-    getMonthlyPatientCareStatus(options) { return of({ month: '' }); };
+    getMonthlyPatientCareStatus(options) { return Observable.of({ month: '' }); };
 }
 describe('PatientMonthlyStatusComponent', () => {
     let fixture: ComponentFixture<PatientMonthlyStatusComponent>;
@@ -27,11 +26,11 @@ describe('PatientMonthlyStatusComponent', () => {
     let dataStub;
 
     let fakePatientService = {
-        currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'persion_uui' } })
+        currentlyLoadedPatient: Observable.of({ uuid: '', person: { uuid: 'persion_uui' } })
     };
 
     let fakeMonthlyStatus = {
-        getMonthlyPatientCareStatus: of({ month: '' })
+        getMonthlyPatientCareStatus: Observable.of({ month: '' })
     };
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -59,7 +58,7 @@ describe('PatientMonthlyStatusComponent', () => {
     it('Should hit the success when the history is fetched', () => {
         fixture.detectChanges();
         const spy = spyOn(dataStub, 'getMonthlyPatientCareStatus').and.returnValue(
-            of([
+            Observable.of([
                 {
                     month: ''
                 }
@@ -73,7 +72,7 @@ describe('PatientMonthlyStatusComponent', () => {
 
     it('Should hit the error callback when an error occurs', () => {
         const spy = spyOn(dataStub, 'getMonthlyPatientCareStatus').and.returnValue(
-            observableThrowError({ error: '' })
+            Observable.throw({ error: '' })
         );
         comp.getCareStatusHistory();
         fixture.detectChanges();

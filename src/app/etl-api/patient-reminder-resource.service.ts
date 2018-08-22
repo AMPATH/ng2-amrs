@@ -1,11 +1,9 @@
 
-import {map} from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DatePipe } from '@angular/common';
 
 @Injectable()
@@ -25,8 +23,8 @@ export class PatientReminderResourceService {
 
   public getPatientLevelReminders(patientUuid: string): Observable<any> {
     let url = this.getUrl(patientUuid)  + '/' + this.referenceDate;
-    return this.http.get(url).pipe(map((response: Response) => {
+    return this.http.get(url).map((response: Response) => {
         return response.json().result;
-    }));
+    });
   }
 }

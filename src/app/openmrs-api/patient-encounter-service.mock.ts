@@ -1,5 +1,5 @@
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 
 /**

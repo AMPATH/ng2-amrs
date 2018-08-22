@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { UserDefaultPropertiesService } from
   '../user-default-properties/user-default-properties.service';
+import { LocalStorageService } from '../utils/local-storage.service';
 @Component({
   selector: 'clinic-dashboard',
   templateUrl: 'clinic-dashboard.component.html'
@@ -21,16 +22,28 @@ export class ClinicDashboardComponent implements OnInit {
   public locations = [];
   public selectedLocation: any = {};
   public selectingLocation: boolean = true;
+  public selectedDepartment: any;
 
   constructor(private locationResourceService: LocationResourceService,
               private route: ActivatedRoute, private router: Router,
               private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private userDefaultProperties: UserDefaultPropertiesService) {
+              private userDefaultProperties: UserDefaultPropertiesService,
+              private localStorageService: LocalStorageService
+            ) {
     this.loaderStatus = false;
   }
 
   public ngOnInit() {
     this.getLocations();
+    this.getUserDepartment();
+  }
+
+  public getUserDepartment() {
+    let department = this.localStorageService.getItem('userDefaultDepartment');
+    if (!department) {
+      this.router.navigate(['/user-default-properties']);
+    }
+    this.selectedDepartment = JSON.parse(department);
   }
 
   public getLocations() {
@@ -53,8 +66,9 @@ export class ClinicDashboardComponent implements OnInit {
             }
           } else {
             const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
+            const department = this.selectedDepartment[0].itemName.toLowerCase();
             this.router.navigate(['/clinic-dashboard', userLocation.uuid,
-              'daily-schedule']);
+              department, 'daily-schedule']);
           }
         });
       });

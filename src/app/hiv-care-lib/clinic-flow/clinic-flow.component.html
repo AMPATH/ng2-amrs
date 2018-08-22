@@ -8,21 +8,21 @@
               <div class="loader" *ngIf="dataLoading">
                 <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
               </div>
-              <mat-tab-group [selectedIndex]="selectedTab" *ngIf="!hasError">
-                <mat-tab label="Summary">
+              <md-tab-group [selectedIndex]="selectedTab" *ngIf="!hasError">
+                <md-tab label="Summary">
                   <clinic-flow-summary></clinic-flow-summary>
-                </mat-tab>
-                <mat-tab label="Visits">
+                </md-tab>
+                <md-tab label="Visits">
                   <clinic-flow-visits></clinic-flow-visits>
-                </mat-tab>
-                <mat-tab label="Provider Statistics">
+                </md-tab>
+                <md-tab label="Provider Statistics">
                   <clinic-flow-provider-stats></clinic-flow-provider-stats>
-                </mat-tab>
-                <mat-tab label="Location Statistics">
+                </md-tab>
+                <md-tab label="Location Statistics">
                   <clinic-flow-location-stats></clinic-flow-location-stats>
-                </mat-tab>
+                </md-tab>
                 <router-outlet></router-outlet>
-              </mat-tab-group>
+              </md-tab-group>
 
                 <br>
             </div>

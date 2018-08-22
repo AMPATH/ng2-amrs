@@ -1,8 +1,7 @@
-
-import { throwError as observableThrowError ,  Observable, of } from 'rxjs';
 import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LabOrderSearchComponent } from './lab-order-search.component';
@@ -11,7 +10,7 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
 class FakeOrderResourceService {
   public searchOrdersById(orderId: string, cached: boolean = false,
                           v: string = null): Observable<any> {
-    return of({
+    return Observable.of({
       _body: {
         'orderNumber': 'ORD-34557',
         'accessionNumber': null
@@ -62,7 +61,7 @@ describe('Component: LabOrderSearchComponent', () => {
 
   it('should hit the success callback when searchOrdersById returns success', fakeAsync(() => {
     const spy = spyOn(fakeOrderResourceService, 'searchOrdersById').and.returnValue(
-      of({_body: {
+      Observable.of({_body: {
         'orderNumber': 'ORD-34557',
         'accessionNumber': null
       }})
@@ -74,7 +73,7 @@ describe('Component: LabOrderSearchComponent', () => {
 
   it('should hit the error callback when searchOrdersById returns an error', fakeAsync(() => {
     const spy = spyOn(fakeOrderResourceService, 'searchOrdersById').and.returnValue(
-      observableThrowError({ error: '' })
+      Observable.throw({ error: '' })
     );
     comp.searchOrderId();
     fixture.detectChanges();

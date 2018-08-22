@@ -1,11 +1,9 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { DatePipe } from '@angular/common';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -40,10 +38,10 @@ export class Moh731ResourceService {
 
     let request = this.http.get(this.url, {
       search: urlParams
-    }).pipe(
-      map((response: Response) => {
+    })
+      .map((response: Response) => {
         return response.json();
-      }));
+      });
 
     return cacheTtl === 0 ?
       request : this.cacheService.cacheSingleRequest(this.url, urlParams, request, cacheTtl);

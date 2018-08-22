@@ -2,11 +2,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import {
   BaseRequestOptions, Http, HttpModule
 } from '@angular/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/Rx';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormSchemaService } from './form-schema.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
 import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../../app-settings';
 

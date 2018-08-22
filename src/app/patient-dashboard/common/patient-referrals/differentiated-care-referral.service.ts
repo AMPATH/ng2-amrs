@@ -1,7 +1,8 @@
-
-import {throwError as observableThrowError,  Observable, forkJoin ,  Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { Subject } from 'rxjs/Subject';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { ProgramEnrollmentResourceService } from
@@ -70,7 +71,7 @@ export class DifferentiatedCareReferralService {
     let validity = this.validateReferralInputs(patient, providerUuid, encounterDateTime,
       rtcDate, locationUuid);
     if (validity !== '') {
-      return observableThrowError(validity);
+      return Observable.throw(validity);
     }
 
     let patientUuid = patient.uuid;
@@ -246,7 +247,7 @@ export class DifferentiatedCareReferralService {
       }
     });
 
-    return forkJoin(allprogramsObservables);
+    return Observable.forkJoin(allprogramsObservables);
   }
 
   private onReferralStepCompletion(status: any, finalSubject: Subject<any>) {

@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
 import * as moment from 'moment';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
@@ -21,7 +21,6 @@ import { ProgramWorkFlowResourceService
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { delay } from 'rxjs/operators';
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('Service: TodayVisit', () => {
   let progConfig = {
@@ -114,21 +113,21 @@ describe('Service: TodayVisit', () => {
 
   let fakePatientProgramResourceService = {
     getAllProgramVisitConfigs: () => {
-      return of(prog).pipe(delay(50));
+      return Observable.of(prog).delay(50);
     },
     getPatientProgramVisitConfigs: (uuid) => {
-      return of(prog).pipe(delay(50));
+      return Observable.of(prog).delay(50);
     },
     getPatientProgramVisitTypes: (
       patient: string, program: string,
       enrollment: string, location: string) => {
-      return of(progConfig);
+      return Observable.of(progConfig);
     }
   };
 
   let fakeVisitResourceService = {
     getVisitTypes: (args) => {
-      return of([{
+      return Observable.of([{
         'uuid': '4c84516f-279e-4994-b111-84d4d35a2d97',
         'name': 'Youth HIV Return Visit '
       },
@@ -138,9 +137,9 @@ describe('Service: TodayVisit', () => {
       }]);
     },
     getPatientVisits: (args): Observable<any> => {
-      let obs: Observable<any> = of(visitsSample);
+      let obs: Observable<any> = Observable.of(visitsSample);
       console.log('fake visit resource in use');
-      return obs.pipe(delay(50));
+      return obs.delay(50);
     },
     saveVisit: (payload) => {
       let response = {
@@ -152,7 +151,7 @@ describe('Service: TodayVisit', () => {
         },
         startDatetime: new Date()
       };
-      return of(response);
+      return Observable.of(response);
     },
     updateVisit: (uuid, payload) => {
       let response = {
@@ -168,7 +167,7 @@ describe('Service: TodayVisit', () => {
         response.voided = true;
       }
 
-      return of(response);
+      return Observable.of(response);
     }
   };
 
@@ -239,7 +238,7 @@ describe('Service: TodayVisit', () => {
     let patientVisitsSpy =
       spyOn(visitResService, 'getPatientVisits')
         .and.callFake((params) => {
-          return of(visitsSample);
+          return Observable.of(visitsSample);
         });
 
     service.hasFetchedVisits = false;

@@ -6,6 +6,7 @@
                 (onAgeChangeFinish)="onAgeChangeFinished($event)"
                      (onGenderChange)="getSelectedGender($event)"
                      (onIndicatorChange)="getSelectedIndicators($event)"
+                    (onselectedLocationChange) ="getLocations($event)"
                     [selectedIndicators]="selectedIndicators"
                     [selectedGender]="selectedGender"
                      [reportName]="reportName" [parentIsBusy]="isLoadingReport"

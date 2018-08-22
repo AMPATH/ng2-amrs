@@ -1,9 +1,7 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 // TODO inject service
 
@@ -28,10 +26,10 @@ export class PatientIdentifierTypeResService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(
-      map((response: Response) => {
+    })
+      .map((response: Response) => {
         return response.json().results;
-      }));
+      });
   }
 
 }

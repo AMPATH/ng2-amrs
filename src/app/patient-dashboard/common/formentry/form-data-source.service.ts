@@ -1,8 +1,6 @@
-
-import {map,  flatMap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Provider } from '../../../models/provider.model';
 import { Patient } from '../../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
@@ -200,22 +198,24 @@ export class FormDataSourceService {
 
   public getProviderByUuid(uuid): Observable<any> {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    return this.providerResourceService.getProviderByUuid(uuid, false).pipe(
-      map(
-      (provider) => { return {
+    this.providerResourceService.getProviderByUuid(uuid, false)
+      .subscribe(
+      (provider) => {
+        let mappedProvider = {
           label: provider.display,
           value: provider.uuid,
           providerUuid: (provider as any).uuid
         };
-      })).pipe(
-          flatMap((mappedProvider) => {
-                     providerSearchResults.next(mappedProvider);
-                     return providerSearchResults.asObservable();
-      }),
-       catchError((error) => {
+        providerSearchResults.next(mappedProvider);
+
+      },
+      (error) => {
         providerSearchResults.error(error); // test case that returns error
-        return providerSearchResults.asObservable();
-      }));
+      }
+
+      );
+    return providerSearchResults.asObservable();
+
   }
   public getProviderByPersonUuid(uuid) {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -276,22 +276,21 @@ export class FormDataSourceService {
   }
 
   public getLocationByUuid(uuid): Observable<any> {
-    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    return this.locationResourceService.getLocationByUuid(uuid, false).pipe(
-      map(
-      (location) => { return {
+    let locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    this.locationResourceService.getLocationByUuid(uuid, false)
+      .subscribe(
+      (location) => {
+        let mappedLocation = {
           label: location.display,
           value: location.uuid
-        }; })).pipe(
-          flatMap((mappedLocation) => {
-            locationSearchResults.next(mappedLocation);
-            return locationSearchResults.asObservable();
-          }),
-          catchError((error) => {
-            locationSearchResults.error(error);
-            return locationSearchResults.asObservable();
-          })
+        };
+        locationSearchResults.next(mappedLocation);
+      },
+      (error) => {
+        locationSearchResults.error(error);
+      }
       );
+    return locationSearchResults.asObservable();
   }
 
   public resolveConcept(uuid) {

@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as Moment from 'moment';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Rx';
 import {
   PatientReferralResourceService
 } from '../../etl-api/patient-referral-resource.service';

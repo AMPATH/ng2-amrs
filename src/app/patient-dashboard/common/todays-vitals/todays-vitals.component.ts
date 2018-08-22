@@ -1,10 +1,11 @@
-import { Observable ,  Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 
 import { Vital } from '../../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
+import { Subscription } from 'rxjs';
 import { EncounterResourceService }
 from './../../../openmrs-api/encounter-resource.service';
 import * as _ from 'lodash';

@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 let _ = require('lodash');
 

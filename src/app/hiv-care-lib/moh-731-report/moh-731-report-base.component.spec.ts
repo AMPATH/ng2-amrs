@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { Moh731ReportBaseComponent } from './moh-731-report-base.component';
 import { Moh731ReportFiltersComponent } from './moh-731-report-filters.component';
@@ -33,7 +33,7 @@ const mockActivatedRoute = {
   queryParams: {
     subscribe: jasmine.createSpy('subscribe')
       .and
-      .returnValue(of(mockParams))
+      .returnValue(Observable.of(mockParams))
   }
 };
 

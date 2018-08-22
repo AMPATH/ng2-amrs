@@ -16,7 +16,7 @@
 <div *ngIf="experiencedLoadingError" class="alert alert-danger">
   <p>Sorry, an error occured while fetching!</p>
 </div>
-<!-- <div [ngBusy]="isBusy"></div> -->
+<div [ngBusy]="isBusy"></div>
 <div *ngIf="hasNotes">
   <table class="table table-container">
     <tr *ngFor="let note of notes" class="note-table-row">
@@ -100,6 +100,13 @@
               <hr/>
               <span class="note-label">Assessment: </span>
               <span class="note-info">{{ccHpiAssessment.assessment}}</span>
+            </td>
+          </tr>
+          <tr *ngFor="let assessment of note.otherAssessment">
+            <td>{{ assessment.encounterType }}</td>
+            <td>
+              <span class="note-label">Assessment: </span>
+              <span class="note-info">{{ assessment.value }}</span>
             </td>
           </tr>
           </tbody>

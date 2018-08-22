@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { PatientResourceService } from './../openmrs-api/patient-resource.service';
 import { Patient } from './../models/patient.model';
 
