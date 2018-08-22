@@ -224,7 +224,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
               this.locations = data.locations;
             }
           });
-      } else if (this._report === 'hiv-summary-monthly-report') {
+      } else if (this._report === 'hiv-summary-monthly-report' ||
+      this._report === 'oncology-summary-monthly-report') {
         this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
           (data)  => {
             if (data) {
@@ -239,6 +240,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
             }
           });
       }
+
 }
 
   public onIndicatorSelected(indicator) {
@@ -359,7 +361,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
       return;
     }
-    if (this._report === 'hiv-summary-monthly-report') {
+    if (this._report === 'hiv-summary-monthly-report' ||
+    this._report === 'oncology-summary-monthly-report') {
       this.dataAnalyticsDashboardService.setSelectedMonthlyIndicatorLocations(locs);
       return;
     }

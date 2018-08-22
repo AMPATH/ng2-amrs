@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="row" style="position: relative;" *ngIf="!patientReferralOnSuccess && programWorkflows.length > 0">
-            <div [ngBusy]="{busy:[program.isReferring && refer],message:'Referring the patient...'}"></div>
+            <!-- <div [ngBusy]="{busy:[program.isReferring && refer],message:'Referring the patient...'}"></div> -->
             <div class="col-md-12 col-xs-12 col-sm-12">
               <label>Location</label>
               <location-filter class="no-padding" [showLabel]="false" [locationUuids]="locationUuid"

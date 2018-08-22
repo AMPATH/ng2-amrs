@@ -18,11 +18,11 @@
                       <label class="control-label" *ngIf="mainFilterType !== 'visitType' && mainFilterType !== 'form'">Second Filter</label>
                       <label class="control-label" *ngIf="mainFilterType == 'visitType'">Select Visit Type</label>
                       <label class="control-label" *ngIf="mainFilterType == 'form'">Select Form Type</label>
-                      <select name="secondaryFilter" class="form-control" [(ngModel)]="secondaryFilter" (change)="selectSecondaryFilter(secondaryFilter)">
+                      <!-- <select name="secondaryFilter" class="form-control" [(ngModel)]="secondaryFilter" (change)="selectSecondaryFilter(secondaryFilter)">
                           <option value="" selected>Select Filter Type </option>
                           <option value="all">All</option>
                           <option *ngFor="let secondFilter of secondFilters" [ngValue]="secondFilter">{{secondFilter.name}}</option>
-                      </select>
+                      </select> -->
                     </div>
                   </div>
         </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class FakeEncounterResourceService {
@@ -17,7 +17,7 @@ export class FakeEncounterResourceService {
 
   public getEncountersByPatientUuid(patientUuid: string, cached: boolean = false,
                                     v: string = null): Observable<any> {
-    return Observable.of([
+    return of([
       {
         'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
         'encounterDatetime': '2011-02-09T00:00:00.000+0300',
@@ -42,7 +42,7 @@ export class FakeEncounterResourceService {
   }
   public getEncounterByUuid(uuid: string): Observable<any> {
 
-    return Observable.of({
+    return of({
       'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
       'encounterDatetime': '2011-02-09T00:00:00.000+0300',
       'patient': {

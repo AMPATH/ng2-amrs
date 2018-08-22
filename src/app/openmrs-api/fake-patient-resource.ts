@@ -1,7 +1,7 @@
 import { PatientResourceService } from './patient-resource.service';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Patient } from '../models/patient.model';
 /**
  * FakePatientResourceService

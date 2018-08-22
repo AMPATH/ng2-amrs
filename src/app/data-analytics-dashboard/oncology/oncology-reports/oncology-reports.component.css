@@ -1,0 +1,30 @@
+#report-container{
+    background:#FFF;
+    margin-top:10px;
+}
+.question-tooltip{
+    transform: translateY(-30px)
+}
+.report-info{
+    max-height:0px;
+    opacity: 0;
+    transition: opacity 1s, max-height 1s ease; 
+    color:#31708f;
+    border-radius: 1px;
+    border-color: rgb(51, 122, 183);
+    border-style: solid;
+    margin-top: 1px;
+    border-width: 2px;
+}
+
+.question-tooltip:hover ~ .report-info {
+    max-height: 999px;
+    opacity: 1;
+   
+}
+.list-group-item {
+padding: 10px 10px !important
+}
+.question-tooltip:hover ~ .info-spacing {
+margin-bottom: 5px;
+}

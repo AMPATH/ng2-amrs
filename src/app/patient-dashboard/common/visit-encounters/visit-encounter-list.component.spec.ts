@@ -10,10 +10,10 @@ import { PatientEncounterObservationsComponent } from
 import { VisitEncountersPipe } from './visit-encounters.pipe';
 import { EncounterTypeFilter } from
   '../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderByAlphabetPipe } from './visit-encounter.component.order.pipe';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable ,  Subject, of } from 'rxjs';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
@@ -36,21 +36,20 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { ProgramService } from '../../programs/program.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { Subject } from 'rxjs/Subject';
-
+import { first } from 'rxjs/operators';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = Observable.of([{ 'id': 1 }]);
+  public params = of([{ 'id': 1 }]);
 }
 
 class FakePatientProgramService {
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
     return Observable.create((observer: Subject<any[]>) => {
       observer.next([{
-        program: {uuid: '123'},
-        enrolledProgram: {programUuid: '123', uuid: '12345'},
+        program: { uuid: '123' },
+        enrolledProgram: { programUuid: '123', uuid: '12345' },
         programUuid: '12345',
         isFocused: false,
         dateEnrolled: null,
@@ -70,7 +69,7 @@ class FakePatientProgramService {
         },
         isEnrolled: false
       }]);
-    }).first();
+    }).pipe(first());
   }
 }
 
@@ -131,11 +130,11 @@ let mockEncounterResponse = [{
   },
   'encounterProviders': [
     {
-    'provider': {
-    'uuid': '4d25650a-5347-4047-8efa-c7030c4f6d35',
-    'display': '1234-45-Mzito Provider'
-    }
-  }]
+      'provider': {
+        'uuid': '4d25650a-5347-4047-8efa-c7030c4f6d35',
+        'display': '1234-45-Mzito Provider'
+      }
+    }]
 }];
 
 let encounterObj = {
@@ -235,8 +234,10 @@ let visitEncounterGrouping = [{
           }
         ]
       }
-      ]
-  }];
+    }
+  }
+  ]
+}];
 
 describe('Component : Visit-Encounters', () => {
   let comp: VisitEncountersListComponent;
@@ -252,7 +253,7 @@ describe('Component : Visit-Encounters', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         FormsModule,
-        Ng2PaginationModule,
+        NgxPaginationModule,
         ModalModule.forRoot()
       ],
       declarations: [VisitEncountersListComponent,
@@ -266,8 +267,8 @@ describe('Component : Visit-Encounters', () => {
         PatientService,
         {
           provide: PatientProgramService, useFactory: () => {
-          return new FakePatientProgramService();
-        }
+            return new FakePatientProgramService();
+          }
         },
         ProgramService,
         RoutesProviderService,
@@ -287,7 +288,7 @@ describe('Component : Visit-Encounters', () => {
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
+            defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]
@@ -296,7 +297,7 @@ describe('Component : Visit-Encounters', () => {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
-        {provide: Router, useClass: MockRouter}, {
+        { provide: Router, useClass: MockRouter }, {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
         },
@@ -340,7 +341,7 @@ describe('Component : Visit-Encounters', () => {
     }));
   it('should generate a new visits array based on encounters',
     async(() => {
-      let encounterObs = Observable.of(mockEncounterResponse);
+      let encounterObs = of(mockEncounterResponse);
 
       encounterObs.subscribe((res) => {
         comp.groupEncountersByVisits(res);

@@ -5,10 +5,10 @@ import { DebugElement } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import * as moment from 'moment';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { DialogModule } from 'primeng/primeng';
 import { SelectModule } from 'angular2-select';
 import { CacheService } from 'ionic-cache';
@@ -102,7 +102,7 @@ describe('VisitDetailsComponent: ', () => {
         CacheService
       ],
       imports: [
-        BusyModule,
+        NgBusyModule,
         UserDefaultPropertiesModule,
         DialogModule,
         FormsModule,
@@ -165,7 +165,7 @@ describe('VisitDetailsComponent: ', () => {
 
     let updateVisitSpy = spyOn(resService, 'getVisitByUuid')
       .and.callFake(() => {
-        return Observable.of(visitClone);
+        return of(visitClone);
       });
 
     component.reloadVisit();
@@ -194,7 +194,7 @@ describe('VisitDetailsComponent: ', () => {
           let visitClone: any = {};
           Object.assign(visitClone, exampleVisit);
           visitClone.stopDatetime = new Date();
-          return Observable.of(visitClone);
+          return of(visitClone);
         });
 
       let reloadSpy = spyOn(component, 'reloadVisit')
@@ -223,7 +223,7 @@ describe('VisitDetailsComponent: ', () => {
           let visitClone: any = {};
           Object.assign(visitClone, exampleVisit);
           visitClone.voided = true;
-          return Observable.of(visitClone);
+          return of(visitClone);
         });
 
       let voidVisitEncountersSpy =

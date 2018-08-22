@@ -14,14 +14,14 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 })
 export class EditPatientRelationshipComponent implements OnInit {
   public selectedRelative: any;
-  public relationships: any;
-  public display: boolean = false;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public relationships: Relationship[];
+  public display: Boolean = false;
+  public showSuccessAlert: Boolean = false;
+  public showErrorAlert: Boolean = false;
   public successAlert: string;
   public errorAlert: string;
   public errors: any = [];
-  public isLoading: boolean = false;
+  public isLoading: Boolean = false;
   public patientRelationshipTypes: any = [];
   public selectedRelationshipType: any;
   public patientUuid: string;
@@ -44,13 +44,13 @@ export class EditPatientRelationshipComponent implements OnInit {
   }
 
   public getRelationShipTypes(): void {
-    let request = this.patientRelationshipTypeService.getRelationshipTypes();
-    request.subscribe((relationshipTypes) => {
+    const request = this.patientRelationshipTypeService.getRelationshipTypes();
+    request.subscribe((relationshipTypes: RelationshipType[]) => {
       if (relationshipTypes) {
         this.patientRelationshipTypes = relationshipTypes;
         this.selectedRelationshipType = _.find(relationshipTypes,
-          (patientRelationshipType) => {
-            let foundRelationshipType = new RelationshipType(patientRelationshipType);
+          (patientRelationshipType: RelationshipType) => {
+            const foundRelationshipType = new RelationshipType(patientRelationshipType);
             if (foundRelationshipType.uuid === this.selectedRelative.relationshipTypeUuId) {
               return foundRelationshipType;
             }
@@ -72,10 +72,10 @@ export class EditPatientRelationshipComponent implements OnInit {
 
   public updateRelationship() {
     this.isLoading = true;
-    _.find(this.relationships, (relationship) => {
-      let relative = new Relationship(relationship);
+    _.find(this.relationships, (relationship: Relationship) => {
+      const relative = relationship;
       if (this.selectedRelative.relatedPersonUuid === relative.relatedPersonUuid) {
-        let patientRelationshipPayload = {
+        const patientRelationshipPayload = {
           relationshipType: this.selectedRelationshipType.uuid
         };
         this.patientRelationshipService.updateRelationship(relative.uuid,

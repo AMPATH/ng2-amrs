@@ -2,8 +2,7 @@ import { Component,
     OnInit , OnDestroy , AfterViewInit, OnChanges ,
     Output , EventEmitter, Input , ChangeDetectorRef,
     ViewChild , SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
@@ -89,11 +88,10 @@ export class DataEntryStatisticsProviderListComponent
         onCellClicked: (column) => {
           let patientListParams = {
              'providerUuid': column.data.providerUuid,
-             'locationUuids': column.data.locationUuid,
+             'locationUuids': this.params.locationUuids,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
-          console.log('Columns', column);
           this.patientListParams.emit(patientListParams);
         },
         cellRenderer: (column) => {
@@ -129,7 +127,7 @@ export class DataEntryStatisticsProviderListComponent
 
       }
     );
-    this.gridOptions.groupDefaultExpanded = -1;
+    // this.gridOptions.groupDefaultExpanded = -1;
 
     let providerMap =  new Map();
 
@@ -150,11 +148,10 @@ export class DataEntryStatisticsProviderListComponent
                     let patientListParams = {
                        'providerUuid': column.data.providerUuid,
                        'encounterTypeUuids': encounterTypeUuid,
-                       'locationUuids': column.data.locationUuid,
+                       'locationUuids': this.params.locationUuids,
                        'startDate': this.params.startDate,
                        'endDate':  this.params.endDate
                     };
-                    // console.log('column', column);
                     this.patientListParams.emit(patientListParams);
                   },
                   cellRenderer: (column) => {
@@ -181,8 +178,7 @@ export class DataEntryStatisticsProviderListComponent
             ],
             'providerName': stat.provider_name,
             'providerUuid': stat.provider_uuid,
-            'location': stat.location,
-            'locationUuid': stat.location_uuid
+            'location': stat.location
           };
 
           let providerSaved = providerMap.get(providerId);
@@ -194,8 +190,7 @@ export class DataEntryStatisticsProviderListComponent
                 'encounter_type' : stat.encounter_type,
                 'encounters_count' : stat.encounters_count,
                 'is_clinical' : stat.is_clinical_encounter,
-                'location': stat.location,
-                'locationUuid': stat.location_uuid
+                 'location': stat.location
                });
 
           }else {
@@ -222,7 +217,6 @@ export class DataEntryStatisticsProviderListComponent
       let specificProvider: any = {
         providers: providerItem.providerName,
         location: providerItem.location,
-        locationUuid: providerItem.locationUuid,
         providerUuid: providerItem.providerUuid,
         clinicalEncounters: []
       };
@@ -255,7 +249,6 @@ export class DataEntryStatisticsProviderListComponent
       totalProviderClinicalEncounters);
     let totalRowArray = [];
     totalRowArray.push(totalRow);
-    console.log('Totals Row', totalRow);
     this.totalProviderEncounters = totalProvidersEncounters;
     this.providerRowData = rowArray;
     this.pinnedBottomRowData = totalRowArray;
@@ -266,11 +259,10 @@ export class DataEntryStatisticsProviderListComponent
 
     let rowTotalObj = {
       'providers': 'Total',
-      'providerUuid': this.params.providerUuid,
+      'providerUuid': '',
       'total': totalProvidersEncounters,
       'total_clinical': totalProviderClinicalEncounters,
-      'clinicalEncounters': _.uniq(this.allClicalEncounters),
-      'locationUuid': this.params.locationUuids,
+      'clinicalEncounters': _.uniq(this.allClicalEncounters)
     };
     totalsMap.forEach( (monthTotal, index) => {
         rowTotalObj[index] = monthTotal;

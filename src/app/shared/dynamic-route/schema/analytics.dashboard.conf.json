@@ -42,8 +42,13 @@
       "label": "Data Entry Statistics",
       "icon": "fa fa-bar-chart",
       "isSideBarOpen": false
+    },
+    {
+      "url": "oncology-reports",
+      "label": "Oncology Reports",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
     }
   ],
-  "programs": [],
-  "departments": []
+  "programs": []
 }
