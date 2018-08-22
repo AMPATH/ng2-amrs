@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { ReportFiltersComponent } from '../../shared/report-filters/report-filters.component';
 import {
   HivCareComparativeOverviewBaseComponent

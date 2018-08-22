@@ -1,13 +1,12 @@
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'angular2-select';
 import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, HttpModule } from '@angular/http';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BaseRequestOptions, Http } from '@angular/http';
+
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { LocationFilterComponent } from './location-filter.component';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 const locations = [
@@ -40,7 +39,7 @@ class FakeLocationResourceService {
   constructor() {
   }
 
-  public getLocations(): Observable<any> {
+  getLocations(): Observable<any> {
     this.locations.next(locations);
     return this.locations.asObservable();
   }
@@ -52,8 +51,7 @@ describe('Component: Location Filter Component', () => {
   let locationResourceService: LocationResourceService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, NgSelectModule, HttpModule,
-        HttpClientModule],
+      imports: [FormsModule, NgSelectModule],
       providers: [
         MockBackend,
         BaseRequestOptions,
@@ -82,11 +80,12 @@ describe('Component: Location Filter Component', () => {
     // component.county = undefined;
   }));
 
-  beforeEach((done) => {
+  it('should instantiate the component', (done) => {
     expect(component).toBeTruthy();
     done();
   });
-  beforeEach((async(() => {
+  it('should generate locations, counties, locationDropdownOptions, countyDropdownOptions in ' +
+    'the correct format', async(() => {
     spyOn(component, 'resolveLocationDetails').and.callThrough();
     component.resolveLocationDetails();
     let _locations = {
@@ -148,9 +147,9 @@ describe('Component: Location Filter Component', () => {
         {value: '789', label: 'Mosoriot'}
       ]);
     expect(component.countyDropdownOptions).toEqual(['Uasin Gishu', 'Nandi']);
-  })));
+  }));
 
-  beforeEach(fakeAsync(() => {
+  it('should set locations when a county is given', fakeAsync(() => {
     component.county = 'Uasin Gishu';
     component.ngOnInit();
     tick();
@@ -161,23 +160,27 @@ describe('Component: Location Filter Component', () => {
     ]);
   }));
 
-  beforeEach(fakeAsync(() => {
-    component.locationUuids = ['123', '456'];
+  it('should set county when an array of locations is given', fakeAsync(() => {
+    component.locationUuids = [
+      {value: '123', label: 'MTRH Module 1'},
+      {value: '456', label: 'MTRH Module 2'}
+    ];
+    component.multiple = true;
     component.ngOnInit();
     tick();
     fixture.detectChanges();
     expect(component.selectedCounty).toEqual('Uasin Gishu');
   }));
 
-  beforeEach(fakeAsync(() => {
-    component.locationUuids = '123,456';
+  it('should set county when an object of location is given', fakeAsync(() => {
+    component.locationUuids = {value: '123', label: 'MTRH Module 1'};
     component.ngOnInit();
     tick();
     fixture.detectChanges();
     expect(component.selectedCounty).toEqual('Uasin Gishu');
   }));
 
-  beforeEach(fakeAsync(() => {
+  it('should NOT set county when locations from different counties are given', fakeAsync(() => {
     // 123 = Uasin Gishu && 789 = Nandi
     component.locationUuids = [
       {value: '123', label: 'MTRH Module 1'},
@@ -190,3 +193,4 @@ describe('Component: Location Filter Component', () => {
   }));
 
 });
+

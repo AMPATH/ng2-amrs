@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription ,  BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import * as _ from 'lodash';
 import { PatientService } from '../../../services/patient.service';
 import { LocationResourceService } from '../../../../openmrs-api/location-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'visit-period',

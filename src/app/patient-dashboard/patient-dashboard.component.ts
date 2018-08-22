@@ -5,8 +5,10 @@ import { PatientService } from './services/patient.service';
 import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import * as Moment from 'moment';
-import { ToastrService, ToastrConfig } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
+import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
+import { PatientRoutesFactory } from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -31,20 +33,24 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   private containerElement;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private patientService: PatientService,
-              private labsResourceService: LabsResourceService,
-              private appFeatureAnalytics: AppFeatureAnalytics,
-              private toastrConfig: ToastrConfig, private toastrService: ToastrService) {
+    private patientService: PatientService,
+    private labsResourceService: LabsResourceService,
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private patientRoutesFactory: PatientRoutesFactory,
+    private dynamicRoutesService: DynamicRoutesService,
+    private toastrService: ToastrService) {
 
-    toastrConfig.timeOut = 0;
-    toastrConfig.closeButton = true;
-    toastrConfig.positionClass = 'toast-bottom-right';
-    toastrConfig.extendedTimeOut = 0;
-    toastrConfig.preventDuplicates = true;
-    toastrConfig.enableHtml = true;
   }
 
   public ngOnInit() {
+    this.patientService.currentlyLoadedPatient.subscribe(
+      (patientObject) => {
+        if (patientObject) {
+          const routes = this.patientRoutesFactory
+          .createPatientDashboardRoutes(patientObject);
+          this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
+        }
+      });
     this.patientService.isBusy.subscribe(
       (isLoading) => {
         this.fetchingPatient = isLoading;

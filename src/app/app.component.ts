@@ -3,6 +3,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { AppState } from './app.service';
 import { LicenseManager } from 'ag-grid-enterprise/main';
 import { DataCacheService } from './shared/services/data-cache.service';
+import { PouchdbService } from './pouchdb-service/pouchdb.service';
 declare const AgGridLicence: any;
 @Component({
   selector: 'app-root',
@@ -13,7 +14,9 @@ declare const AgGridLicence: any;
 export class AppComponent implements OnInit {
   public title = 'Ampath POC';
   private routes: any[];
-  constructor(public appState: AppState, public dataCache: DataCacheService) {
+  constructor(public appState: AppState,
+    public dataCache: DataCacheService,
+    private pouchdbservice: PouchdbService) {
     this.setUpAgGridLicense();
   }
 
@@ -23,9 +26,9 @@ export class AppComponent implements OnInit {
   }
 
   public setUpAgGridLicense() {
-    if (AgGridLicence) {
-      // console.error('AG Grid License', AgGridLicence);
-      LicenseManager.setLicenseKey(AgGridLicence);
-    }
+    // if (AgGridLicence) {
+    //   // console.error('AG Grid License', AgGridLicence);
+    //   LicenseManager.setLicenseKey(AgGridLicence);
+    // }
   }
 }

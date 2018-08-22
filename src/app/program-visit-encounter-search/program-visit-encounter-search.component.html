@@ -6,82 +6,70 @@
                           <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading Saved Filters ...
                     </div>
                 </div>
-                <div class="row" data-toggle="collapse" data-target="#filter-search">
-                    <div class="col-md-12">
-                        <div style="background-color: #f5f5f5; padding: 1%; box-shadow: 0px 1px 5px #959595">
-                            <strong>Report Filters</strong> <span class="glyphicon glyphicon-chevron-down pull-right"></span>
-                        </div>
-                    </div>
-                </div>
-                <div id="filter-search" class="collapse">
-                    <div class="row" *ngIf="!loadingFilters">
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="!myDepartment">                                        
-                            <label class="control-label">Departments</label>
-                            <angular2-multiselect
-                                        [data]="departments" 
-                                        [(ngModel)]="department" 
-                                        [settings]="dropdownSettings" 
-                                        (onSelect)="selectDepartment($event)" 
-                                        (onDeSelect)="departmentDeselect($event)"
-                                        (onSelectAll)="onSelectAllDepartments($event)"
-                                        (onDeSelectAll)="onDeSelectAllDepartment($event)"
-                                        name="department-filter">
-                            </angular2-multiselect>
-                        </div>
-                        <div *ngIf="programs">
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                            <label class="control-label">Program</label>
-                            <angular2-multiselect #programSelect 
-                                        [data]="programs" 
-                                        [(ngModel)]="program" 
-                                        [settings]="dropdownSettings" 
-                                        (onSelect)="selectProgram($event)" 
-                                        (onDeSelect)="programDeSelect($event)"
-                                        (onSelectAll)="onSelectAllPrograms($event)"
-                                        (onDeSelectAll)="onDeSelectAllPrograms($event)"
-                                        name="program-filter">
-                            </angular2-multiselect>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                <label class="control-label">Visit Type</label>                                          
-                                <angular2-multiselect #visitTypeFilter
-                                                [data]="visitTypes" 
-                                                [(ngModel)]="visitType"
-                                                [settings]="dropdownSettings" 
-                                                (onSelect)="selectVisitType($event)" 
-                                                (onDeSelect)="visitTypeDeSelect($event)"
-                                                (onSelectAll)="onSelectAllVisitTypes($event)"
-                                                (onDeSelectAll)="onDeSelectAllVisitTypes($event)"
-                                                name="visitType-filter">
-                                </angular2-multiselect>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                        <label class="control-label">Encounter Type</label>
-
-                            
-                            <angular2-multiselect #encounterTypeFilter
-                                                [data]="encounterTypes" 
-                                                [(ngModel)]="encounterType"
-                                                [settings]="dropdownSettings" 
-                                                (onSelect)="selectEncounterType($event)" 
-                                                (onDeSelect)="encounterTypeDeSelect($event)"
-                                                (onSelectAll)="onSelectAllEncounterTypes($event)"
-                                                (onDeSelectAll)="onDeSelectAllEncounterTypes($event)"
-                                                name="encounterType-filter">
-                            </angular2-multiselect>
-
-                        </div>
-                        </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12" id="filter-btns">
-                        <span class="pull-left">
-                            <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="!filterSet">Generate Report<i class="fa fa-gear fa-fw"></i></button>
-                            <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="filterSet" disabled>Set Filter <i class="fa fa-gear fa-fw"></i></button></span>
-                        <span class="pull-right">
-                            <button class="btn btn-danger btn-search" (click)="resetFilter()">Clear Filters <i class="fa fa-trash fa-fw"></i></button>
-                        </span>
-                    </div>
+                <div class="row" *ngIf="!loadingFilters">
+                                  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                      <label class="control-label">Departments</label>
+                                                        <angular2-multiselect
+                                                                    [data]="departments" 
+                                                                    [(ngModel)]="department" 
+                                                                    [settings]="dropdownSettings" 
+                                                                    (onSelect)="selectDepartment($event)" 
+                                                                    (onDeSelect)="departmentDeselect($event)"
+                                                                    (onSelectAll)="onSelectAllDepartments($event)"
+                                                                    (onDeSelectAll)="onDeSelectAllDepartment($event)"
+                                                                    name="department-filter">
+                                                        </angular2-multiselect>
+                                    </div>
+                                    <div *ngIf="department.length > 0">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                        <label class="control-label">Program</label>
+                                                        <angular2-multiselect #programSelect 
+                                                                    [data]="programs" 
+                                                                    [(ngModel)]="program" 
+                                                                    [settings]="dropdownSettings" 
+                                                                    (onSelect)="selectProgram($event)" 
+                                                                    (onDeSelect)="programDeSelect($event)"
+                                                                    (onSelectAll)="onSelectAllPrograms($event)"
+                                                                    (onDeSelectAll)="onDeSelectAllPrograms($event)"
+                                                                    name="program-filter">
+                                                        </angular2-multiselect>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                            <label class="control-label">Visit Type</label>                                          
+                                                            <angular2-multiselect #visitTypeFilter
+                                                                            [data]="visitTypes" 
+                                                                            [(ngModel)]="visitType"
+                                                                            [settings]="dropdownSettings" 
+                                                                            (onSelect)="selectVisitType($event)" 
+                                                                            (onDeSelect)="visitTypeDeSelect($event)"
+                                                                            (onSelectAll)="onSelectAllVisitTypes($event)"
+                                                                            (onDeSelectAll)="onDeSelectAllVisitTypes($event)"
+                                                                            name="visitType-filter">
+                                                            </angular2-multiselect>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label class="control-label">Encounter Type</label>
+                        
+                                                        
+                                                        <angular2-multiselect #encounterTypeFilter
+                                                                            [data]="encounterTypes" 
+                                                                            [(ngModel)]="encounterType"
+                                                                            [settings]="dropdownSettings" 
+                                                                            (onSelect)="selectEncounterType($event)" 
+                                                                            (onDeSelect)="encounterTypeDeSelect($event)"
+                                                                            (onSelectAll)="onSelectAllEncounterTypes($event)"
+                                                                            (onDeSelectAll)="onDeSelectAllEncounterTypes($event)"
+                                                                            name="encounterType-filter">
+                                                        </angular2-multiselect>
+                                                    
+                                </div>
+                            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4" id="filter-btns">
+                    <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="!filterSet">Apply Filter <i class="fa fa-gear fa-fw"></i></button>
+                     <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="filterSet" disabled>Set Filter <i class="fa fa-gear fa-fw"></i></button>
+                    <button class="btn btn-danger btn-search" (click)="resetFilter()">Clear Filters <i class="fa fa-trash fa-fw"></i></button>
                 </div>
             </div>
         </form>

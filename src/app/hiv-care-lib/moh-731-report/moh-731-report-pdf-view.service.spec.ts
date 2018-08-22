@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, inject } from '@angular/core/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import { MOHReportService } from './moh-731-report-pdf-view.service';
 require('pdfmake/build/pdfmake.js');
 require('pdfmake/build/vfs_fonts.js');

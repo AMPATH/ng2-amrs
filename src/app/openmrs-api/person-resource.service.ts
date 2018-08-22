@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 
@@ -24,9 +26,9 @@ export class PersonResourceService {
     params.set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       search: params
-    }).map((response: Response) => {
+    }).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
 
   public saveUpdatePerson(uuid, payload) {
@@ -36,9 +38,9 @@ export class PersonResourceService {
     let url = this.getUrl() + '/' + uuid;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options).pipe(
+      map((response: Response) => {
         return response.json().person;
-      });
+      }));
   }
 }

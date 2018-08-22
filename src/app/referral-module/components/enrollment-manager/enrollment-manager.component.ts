@@ -1,18 +1,18 @@
+
+import {map} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientService } from '../../../patient-dashboard/services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { Subscription ,  BehaviorSubject ,  Subject } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PatientReferralService } from '../../services/patient-referral-service';
 import { EnrollementWorkflowService } from '../../services/enrollment-workflow-service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { UserDefaultPropertiesService
 } from '../../../user-default-properties/user-default-properties.service';
-import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'program-enrollment-manager',
@@ -37,10 +37,10 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
   public availablePrograms: any[];
   public availableProgramsOptions: any[];
   public locationUuids: any;
+  public state: any;
   private location: any;
   private stateChangeRequiresModal: boolean = false;
   private program: any;
-  private state: any;
   private configs: any[];
   private confirmMessage: BehaviorSubject<any> = new BehaviorSubject(null);
   private subscription: Subscription;
@@ -310,8 +310,8 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
 
   private _filterLocationByLocationName(name) {
     return new Promise((resolve, reject) => {
-      this.userDefaultPropertiesService.getLocations()
-        .map((response: Response) => response.json()).subscribe((locations: any) => {
+      this.userDefaultPropertiesService.getLocations().pipe(
+        map((response: Response) => response.json())).subscribe((locations: any) => {
         let location = _.filter(locations.results, (_location: any) => {
           return _location.display.trim() === name.trim();
         });
