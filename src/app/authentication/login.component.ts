@@ -6,22 +6,21 @@ import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
-import { Subscription } from 'rxjs';
+import { Subscription ,  Observable } from 'rxjs';
 import {
   UserDefaultPropertiesService
 } from
   '../user-default-properties/user-default-properties.service';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
 import { FormOrderMetaDataService }
 from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
-import { Observable } from 'rxjs/Observable';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import * as _ from 'lodash';
 @Component({
   selector: 'login',

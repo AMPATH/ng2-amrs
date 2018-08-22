@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs/Rx';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientService } from '../../services/patient.service';
 
 @Component({
@@ -45,7 +46,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   }
 
   public onFileChange(file) {
-    this.subscriptions.push(this.fileUploadResourceService.upload(file).flatMap((result) => {
+    this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result) => {
       let updatePayload = {
         attributes: [{
           attributeType: this.attributeType,
@@ -57,7 +58,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
       this.imageSaved = false;
       return this.personResourceService
         .saveUpdatePerson(this.patient.person.uuid, updatePayload);
-    }).subscribe((patient) => {
+    })).subscribe((patient) => {
       this.loading = false;
       this.imageSaved = true;
       this.patientService.fetchPatientByUuid(this.patient.person.uuid);

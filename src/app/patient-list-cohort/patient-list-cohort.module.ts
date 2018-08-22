@@ -23,7 +23,7 @@ import { ShareCohortListComponent } from './share-cohort-list.component';
 /*import { SelectModule } from 'ng2-select';*/
 import { SelectModule } from 'angular2-select';
 import { UserSearchComponent } from './user-search.component';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { AddCohortMemberContainerComponent } from './add-cohort-member-container.component';
 
@@ -38,7 +38,6 @@ import { AddCohortMemberContainerComponent } from './add-cohort-member-container
     CohortMemberModule,
     ConfirmDialogModule, DialogModule,
     SelectModule,
-    Ng2PaginationModule,
     EtlApi
   ],
   declarations: [CohortListComponent, AddCohortListComponent,

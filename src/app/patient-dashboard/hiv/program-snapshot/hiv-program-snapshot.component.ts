@@ -1,10 +1,12 @@
+
+import {map} from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import * as _ from 'lodash';
 import { Patient } from '../../../models/patient.model';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
@@ -78,9 +80,9 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   public getLocation(): Observable<any> {
     let api = this.appSettingsService.getOpenmrsServer() + '/ws/rest/v1/location?v=default';
-    return this.http.get(api).map((response: Response) => {
+    return this.http.get(api).pipe(map((response: Response) => {
       return response.json().results;
-    });
+    }));
   }
 
   public getPatientCareStatus(id: any) {

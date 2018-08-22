@@ -20,20 +20,20 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public department: string;
     public selectedDepartment: string;
     public departmentIsSelected = false;
-    private payload = {
+    public payload = {
         name: '',
         phone: '',
         message: '',
         location: '',
         department: ''
     };
-    private busy: Subscription;
-    private errorMessage: string = '';
-    private hasError: boolean = false;
-    private r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
-    private r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
-    private patterns = new RegExp(this.r1.source + this.r2.source);
-    private departmentConf: any[];
+    public busy: Subscription;
+    public errorMessage: string = '';
+    public hasError: boolean = false;
+    public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
+    public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+    public patterns = new RegExp(this.r1.source + this.r2.source);
+    public departmentConf: any[];
     constructor(private feedBackService: FeedBackService,
                 private userService: UserService,
                 private userDefaultPropertiesService: UserDefaultPropertiesService,

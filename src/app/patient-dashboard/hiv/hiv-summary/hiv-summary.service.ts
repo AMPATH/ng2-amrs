@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { Helpers } from '../../../utils/helpers';

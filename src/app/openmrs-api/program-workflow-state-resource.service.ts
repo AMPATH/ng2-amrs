@@ -1,7 +1,10 @@
+
+import {throwError as observableThrowError,  Observable, Subject } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
 
 // TODO inject service
 
@@ -30,13 +33,13 @@ export class ProgramWorkFlowStateResourceService {
     params.set('v', v);
     return this.http.get(url, {
       search: params
-    }).map((response: Response) => {
+    }).pipe(map((response: Response) => {
       return response.json().results;
-    }).catch(this.handleError);
+    }),catchError(this.handleError),);
   }
 
 private handleError(error: any) {
-    return Observable.throw(error.message
+    return observableThrowError(error.message
       ? error.message
       : error.status
         ? `${error.status} - ${error.statusText}`

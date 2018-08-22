@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class PatientCreationResourceService {
@@ -26,26 +28,26 @@ export class PatientCreationResourceService {
 
   public getPatientIdentifierTypes() {
       const url = this.getResourceUrl();
-      return this.http.get(url).map((results) => {
+      return this.http.get(url).pipe(map((results) => {
           return results.json().results;
-      });
+      }));
   }
 
   public generatePatientIdentifier(source) {
 
       const getUrl = this.getUrl() + source;
 
-      return this.http.get(getUrl).map((res) => {
+      return this.http.get(getUrl).pipe(map((res) => {
         return res.json();
-      });
+      }));
 
   }
 
   public generateIdentifier(user) {
     let url = this.idgenUrl + '/generateidentifier';
-    return this.http.post(url, user).map((res) => {
+    return this.http.post(url, user).pipe(map((res) => {
         return res.json();
-    });
+    }));
 
 }
 
@@ -54,10 +56,10 @@ export class PatientCreationResourceService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(url, JSON.stringify(payload), options)
-    .map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options).pipe(
+    map((response: Response) => {
       return response.json();
-    });
+    }));
   }
 
 }

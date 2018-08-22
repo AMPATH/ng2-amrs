@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { PatientEncounterService } from './patient-encounters.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';

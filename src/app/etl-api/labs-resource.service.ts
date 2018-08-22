@@ -1,8 +1,11 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class LabsResourceService {
@@ -16,8 +19,8 @@ export class LabsResourceService {
         urlParams.set('endDate', params.endDate);
         urlParams.set('patientUuId', params.patientUuId);
         return this.http.get(this.getUrl(),
-            { search: urlParams }).map(this.parseNewLabResults)
-            .catch(this.handleError);
+            { search: urlParams }).pipe(map(this.parseNewLabResults),
+            catchError(this.handleError),);
     }
 
     public getHistoricalPatientLabResults(patientUuId,
@@ -37,8 +40,8 @@ export class LabsResourceService {
         urlParams.set('limit', params.limit);
         return this.http.get(this.appSettingsService.getEtlRestbaseurl().trim()
             + `patient/${patientUuId}/data`,
-            { search: urlParams }).map(this.parseHistoricalLabResults)
-            .catch(this.handleError);
+            { search: urlParams }).pipe(map(this.parseHistoricalLabResults),
+            catchError(this.handleError),);
     }
 
     private getUrl() {
@@ -58,7 +61,7 @@ export class LabsResourceService {
         return body.updatedObs;
     }
     private handleError(error: any) {
-        return Observable.throw(error.message
+        return observableThrowError(error.message
             ? error.message
             : error.status
                 ? `${error.status} - ${error.statusText}`

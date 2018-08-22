@@ -4,8 +4,6 @@ import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 @Component({
   selector: 'app-settings',
   templateUrl: './app-settings.component.html',
@@ -26,8 +24,7 @@ export class AppSettingsComponent implements OnInit {
   constructor(private router: Router,
               private appSettingsService: AppSettingsService,
               private localStorageService: LocalStorageService,
-              private authenticationService: AuthenticationService,
-              private _cookieService: CookieService) { }
+              private authenticationService: AuthenticationService) { }
 
   public getServerTemplates(): Array<object> {
     return this.appSettingsService.getServerTemplates();
@@ -40,7 +37,7 @@ export class AppSettingsComponent implements OnInit {
       // this.changeServerSettings(templates[0]);
     }
 
-    this.checkDebugMode();
+   // this.checkDebugMode();
 
   }
 
@@ -109,62 +106,62 @@ export class AppSettingsComponent implements OnInit {
 
   // check if debug cookie has been set
 
-  public checkDebugMode() {
+  // public checkDebugMode() {
 
-        let isCookieSet = this.getDebugMode();
+  //       let isCookieSet = this.getDebugMode();
 
-        if (isCookieSet === 'undefined') {
-               this.hideFields = false;
-           } else {
-              // get the value of the debug mode
-              if (isCookieSet === 'true') {
-                      this.hideFields = true;
-              } else {
-                      this.hideFields = false;
-              }
-        }
+  //       if (isCookieSet === 'undefined') {
+  //              this.hideFields = false;
+  //          } else {
+  //             // get the value of the debug mode
+  //             if (isCookieSet === 'true') {
+  //                     this.hideFields = true;
+  //             } else {
+  //                     this.hideFields = false;
+  //             }
+  //       }
 
-  }
+  // }
 
   // get the debug cookie value
 
-  public getDebugMode() {
+  // public getDebugMode() {
 
-      let debugModeCookie = this._cookieService.get(this.cookieKey);
+  //     let debugModeCookie = this._cookieService.get(this.cookieKey);
 
-      if (typeof debugModeCookie === 'undefined') {
-        return debugModeCookie;
-      } else {
-        return debugModeCookie;
-      }
+  //     if (typeof debugModeCookie === 'undefined') {
+  //       return debugModeCookie;
+  //     } else {
+  //       return debugModeCookie;
+  //     }
 
-  }
+  // }
 
-  public toggleDebugMode() {
-      // check if hidefields cookie has been set
+  // public toggleDebugMode() {
+  //     // check if hidefields cookie has been set
 
-      let isCookieSet = this.getDebugMode();
+  //     let isCookieSet = this.getDebugMode();
 
-      if (isCookieSet === 'true') {
-           // remove the initial cookie set
-           this._cookieService.remove(this.cookieKey);
-       } else {
+  //     if (isCookieSet === 'true') {
+  //          // remove the initial cookie set
+  //          this._cookieService.remove(this.cookieKey);
+  //      } else {
 
-       }
+  //      }
 
-      this.cookieVal = '' + this.hideFields;
+  //     this.cookieVal = '' + this.hideFields;
 
-      this._cookieService.put(this.cookieKey, this.cookieVal);
-  }
-   public removeDebugCookie() {
+  //     this._cookieService.put(this.cookieKey, this.cookieVal);
+  // }
+  //  public removeDebugCookie() {
 
-      let isCookieSet = this.getDebugMode();
+  //     let isCookieSet = this.getDebugMode();
 
-      if (isCookieSet === 'true') {
-           // remove the cookie set
-           this._cookieService.remove(this.cookieKey);
-       } else {
+  //     if (isCookieSet === 'true') {
+  //          // remove the cookie set
+  //          this._cookieService.remove(this.cookieKey);
+  //      } else {
 
-       }
-  }
+  //      }
+  // }
 }

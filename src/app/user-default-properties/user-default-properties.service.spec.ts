@@ -2,13 +2,12 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { UserDefaultPropertiesMockService } from './user-default-properties.service.mock';
-import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheModule, CacheService } from 'ionic-cache';
+
 
 describe('User Default Service Unit Tests', () => {
 
@@ -30,12 +29,7 @@ describe('User Default Service Unit Tests', () => {
         AppSettingsService,
         LocalStorageService,
         SessionStorageService,
-        DataCacheService,
-        CacheService,
         UserService
-      ],
-      imports: [
-        CacheModule
       ]
     });
 
@@ -72,6 +66,7 @@ describe('User Default Service Unit Tests', () => {
 
     });
 
+
   });
 
   it('should return the correct parameters from the api',
@@ -84,7 +79,7 @@ describe('User Default Service Unit Tests', () => {
           }
         }));
 
-        mockBackend.connections.subscribe((c) => c.mockRespond(mockResponse));
+        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
 
         propertiesResourceService.getLocations().subscribe((response: Response) => {
 
@@ -101,7 +96,7 @@ describe('User Default Service Unit Tests', () => {
     async(inject([UserDefaultPropertiesMockService, MockBackend],
       (propertiesResourceService: UserDefaultPropertiesMockService, mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe((c) =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         propertiesResourceService.getLocations().subscribe((response: Response) => {
@@ -112,9 +107,9 @@ describe('User Default Service Unit Tests', () => {
       })));
 
   it('should set and get location property',
-    async(inject([UserDefaultPropertiesMockService, LocalStorageService], (
-      propertiesResourceService: UserDefaultPropertiesMockService,
-      localStore: LocalStorageService) => {
+    async(inject([UserDefaultPropertiesMockService, LocalStorageService],
+      (propertiesResourceService: UserDefaultPropertiesMockService
+        , localStore: LocalStorageService) => {
 
         expect(propertiesResourceService.getCurrentUserDefaultLocation())
           .toEqual('userDefaultLocationtest');

@@ -1,6 +1,6 @@
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Location } from '@angular/common';

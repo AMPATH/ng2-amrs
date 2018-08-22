@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { AngularMultiSelectModule }
 from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AgGridModule } from 'ag-grid-angular/main';

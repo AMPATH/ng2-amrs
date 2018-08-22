@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ReplaySubject, Subject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
 
 import {
     VisitResourceService

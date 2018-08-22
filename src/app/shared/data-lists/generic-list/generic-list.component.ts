@@ -3,7 +3,7 @@ import {
   Input, SimpleChange, EventEmitter, OnChanges
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({

@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import * as _ from 'lodash';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
@@ -41,10 +43,10 @@ export class ClinicalSummaryVisualizationResourceService {
         let url = this.getUrl('clinical-hiv-comparative-overview');
         let request = this.http.get(url, {
             search: urlParams
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
 
         return this.cacheService.cacheRequest(url, urlParams, request);
 
@@ -55,10 +57,10 @@ export class ClinicalSummaryVisualizationResourceService {
       let url = this.getPatientListUrl(reportName);
       let request = this.http.get(url, {
         search: urlParams
-      })
-        .map((response: Response) => {
+      }).pipe(
+        map((response: Response) => {
           return response.json().result;
-        });
+        }));
 
       return this.cacheService.cacheRequest(url, urlParams, request);
     }
@@ -68,10 +70,10 @@ export class ClinicalSummaryVisualizationResourceService {
         let url = this.getPatientListUrl('clinical-hiv-comparative-overview');
         let request = this.http.get(url, {
             search: urlParams
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 return response.json().result;
-            });
+            }));
 
         this.cacheService.cacheRequest(url, urlParams, request);
         return request;
@@ -82,10 +84,10 @@ export class ClinicalSummaryVisualizationResourceService {
         let url = this.getUrl('clinical-art-overview');
         let request = this.http.get(url, {
             search: urlParams
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
 
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
@@ -95,10 +97,10 @@ export class ClinicalSummaryVisualizationResourceService {
         let url = this.getPatientListUrl('clinical-art-overview');
         let request = this.http.get(url, {
             search: urlParams
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 return response.json().result;
-            });
+            }));
 
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
@@ -108,10 +110,10 @@ export class ClinicalSummaryVisualizationResourceService {
         let url = this.getUrl('clinical-patient-care-status-overview');
         let request = this.http.get(url, {
             search: urlParams
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
 
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
@@ -121,10 +123,10 @@ export class ClinicalSummaryVisualizationResourceService {
         let url = this.getPatientListUrl('clinical-patient-care-status-overview');
         let request = this.http.get(url, {
             search: urlParams
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 return response.json().result;
-            });
+            }));
 
         return this.cacheService.cacheRequest(url, urlParams, request);
     }

@@ -1,6 +1,7 @@
+
+import {map,  first } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-
 import { Subscription , Observable , Subject } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -139,7 +140,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       } else {
         observer.error('patientUuid is required');
       }
-    }).first();
+    }).pipe(first());
   }
 
   public toggleDropDown(row: any) {
@@ -148,8 +149,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public showReferralEncounter(row: any) {
     this.getProgramWorkflows(row.programUuid);
-    this.userDefaultPropertiesService.getLocations()
-      .map((response: Response) => response.json()).subscribe((locations: any) => {
+    this.userDefaultPropertiesService.getLocations().pipe(
+      map((response: Response) => response.json())).subscribe((locations: any) => {
       let location = _.find(locations.results, (_location: any) => {
         return _location.display.trim() === row.referred_from_location.trim();
       });
@@ -164,11 +165,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         let patientState = _.find(encounterWithObs.obs, (singleOb) => {
           return singleOb.concept.uuid === 'aad64a84-1a63-47e3-a806-fb704b52b709';
         });
-        this.referralProgramOnDetail = row;
+          this.referralProgramOnDetail = row;
           // override the default state value
-        this.referralProgramOnDetail.program_workflow_state = patientState.value.display;
-        this.staticModal.show();
-        this.showReferralEncounterDetail = true;
+          this.referralProgramOnDetail.program_workflow_state = patientState.value.display;
+          this.staticModal.show();
+          this.showReferralEncounterDetail = true;
       });
     });
   }
@@ -184,8 +185,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isReferral = true;
     this.selectedProgram = row;
     this.program = { value: row.programUuid };
-    this.userDefaultPropertiesService.getLocations()
-      .map((response: Response) => response.json()).subscribe((locations: any) => {
+    this.userDefaultPropertiesService.getLocations().pipe(
+      map((response: Response) => response.json())).subscribe((locations: any) => {
       let location = _.find(locations.results, (_location: any) => {
         return _location.display.trim() === row.referred_from_location.trim();
       });
@@ -473,7 +474,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public removeFromQueue() {
-    this.updateReferalNotificationStatus();
+    this.updateReferalNotificationStatus()
   }
 
   private updateEnrollmentButtonState() {

@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="row" style="position: relative;" *ngIf="!patientOnReferral && !modalProcessOnSuccess">
-              <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+              <!-- <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div> -->
               <div class="col-md-12 col-xs-12 col-sm-12">
                 <label>Refer To</label>
                 <location-filter class="no-padding" [showLabel]="false"
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="row" style="position: relative;" *ngIf="!modalProcessOnSuccess">
-          <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+          <!-- <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div> -->
           <div class="col-md-12 col-xs-12 col-sm-12">
             <label>Location</label>
             <location-filter class="no-padding" [showLabel]="false" [locationUuids]="locationUuids"
@@ -166,7 +166,7 @@
           </div>
         </div>
         <div class="row" style="position: relative;" *ngIf="availableProgramsOptions && !modalProcessOnSuccess">
-          <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div>
+          <!-- <div [ngBusy]="{busy:[isBusy],message:'Please wait...'}"></div> -->
           <div class="col-md-12 col-xs-12 col-sm-12">
             <label for="program">Select Program:</label>
             <ng-select class="sharp-corners" [multiple]="false" id="program" name="newProgram"

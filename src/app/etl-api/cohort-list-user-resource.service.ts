@@ -1,9 +1,11 @@
 
+import {map} from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response, Headers, RequestOptions } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
-import { Observable } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CohortUserResourceService {
@@ -23,29 +25,29 @@ export class CohortUserResourceService {
 
     return this.http.get(url, {
       search: params
-    }).map((response: Response) => {
+    }).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
   public voidCohortUser(cohortUserId) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
     url += '/' + cohortUserId ;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.delete(url, options)
-      .map(( response) => {
+    return this.http.delete(url, options).pipe(
+      map(( response) => {
         return response;
-      });
+      }));
 
   }
   public createCohortUser(payload) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options).pipe(
+      map((response: Response) => {
         return response.json();
-      });
+      }));
 
   }
   public updateCohortUser(cohortUserId,  payload) {
@@ -53,10 +55,10 @@ export class CohortUserResourceService {
     url += '/' + cohortUserId ;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options).pipe(
+      map((response: Response) => {
         return response.json();
-      });
+      }));
 
   }
 }

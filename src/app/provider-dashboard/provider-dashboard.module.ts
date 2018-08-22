@@ -2,11 +2,10 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MdTabsModule, MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 
 import { routes } from './provider-dashboard.routes';
 import { ProviderDashboardComponent } from './provider-dashboard.component';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { PatientReferralService } from '../referral-module/services/patient-referral-service';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
@@ -32,10 +31,7 @@ import { ProviderReferralComponent
     CommonModule,
     FormsModule,
     NgamrsSharedModule,
-    MdTabsModule,
     DateTimePickerModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
     RouterModule.forChild(routes),
     ReferralModule
   ],

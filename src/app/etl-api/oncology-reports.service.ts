@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
-import { Observable } from 'rxjs/Observable';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable, of } from 'rxjs';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import * as _ from 'lodash';
 
@@ -159,10 +161,10 @@ export class OncologyReportService {
   public getOncologyReports(): Observable<any> {
 
     let url = this.getBaseUrl() + 'oncology-reports';
-    let request = this.http.get(url)
-      .map((response: Response) => {
+    let request = this.http.get(url).pipe(
+      map((response: Response) => {
         return response.json();
-      });
+      }));
 
     return this.cacheService.cacheRequest(url, '' , request);
 
@@ -176,14 +178,14 @@ export class OncologyReportService {
     if (reportUuid && reportUuid !== '') {
         urlParams.set('reportUuid', reportUuid);
     } else {
-       return Observable.of({
+       return of({
          'error': 'Null ReportUuid'
        });
     }
-    let request = this.http.get(url, { search: urlParams })
-      .map((response: Response) => {
+    let request = this.http.get(url, { search: urlParams }).pipe(
+      map((response: Response) => {
         return response.json();
-      });
+      }));
 
     return this.cacheService.cacheRequest(url, '' , request);
 

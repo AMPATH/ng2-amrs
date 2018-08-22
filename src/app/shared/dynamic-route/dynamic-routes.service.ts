@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs';
 import { DynamicRouteModel } from './dynamic-route.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { DashboardModel } from './dashboard.model';
@@ -8,7 +8,6 @@ import { RouteModel } from './route.model';
 export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
   public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
-  public clinicRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
   public analyticsDashboardConfig: object = require('./schema/analytics.dashboard.conf.json');
@@ -37,7 +36,6 @@ export class DynamicRoutesService {
     });
     this.routes.next(this.routesModel);
     this.patientRoutes.next(new Array<RouteModel>());
-    this.clinicRoutes.next(new Array<RouteModel>());
   }
 
   public setRoutes(route: DynamicRouteModel) {
@@ -51,10 +49,6 @@ export class DynamicRoutesService {
 
   public setPatientDashBoardRoutes(pRoutes: Array<RouteModel>) {
     this.patientRoutes.next(pRoutes);
-  }
-
-  public setClinicDashBoardRoutes(cRoutes: Array<RouteModel>) {
-    this.clinicRoutes.next(cRoutes);
   }
 
   public extractRoutes(route: DynamicRouteModel, dashboardConfig: object): Array<object> {
@@ -102,25 +96,6 @@ export class DynamicRoutesService {
         }
       });
     });
-
-    // extract routes that is deparment specific
-    dashboard['departments'].forEach((department: Array<object>) => {
-      department['routes'].forEach((departmentRoute: object) => {
-        let url = dashboard['baseRoute'] +
-          this.extractParameter(dashboard['routeParameter'], route)
-          + '/' + departmentRoute['url'];
-        let singleRoute = {
-          url,
-          label: departmentRoute['label'],
-          icon: departmentRoute['icon'],
-          menuStartLetter: this.getMenuStartLetter(departmentRoute['label']),
-          isSideBarOpen: departmentRoute['isSideBarOpen'],
-          onClick: this.hideSidebar
-        };
-        routes.push(singleRoute);
-      });
-    });
-
     return routes;
   }
 

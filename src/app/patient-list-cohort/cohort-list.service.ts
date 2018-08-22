@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CohortListService {

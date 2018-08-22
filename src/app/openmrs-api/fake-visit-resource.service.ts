@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 import { Http } from '@angular/http';
 
 @Injectable()
@@ -101,7 +101,7 @@ export class FakeVisitResourceService {
     };
 
     if (!this.returnErrorOnNext) {
-      return Observable.of(visit);
+      return of(visit);
     } else {
       setTimeout(() => {
         test.error(new Error('Error loading patient'));

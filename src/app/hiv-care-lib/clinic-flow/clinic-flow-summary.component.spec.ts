@@ -14,7 +14,7 @@ import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-anal
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
   Router, ActivatedRoute, Params,
   RouterModule, ChildrenOutletContexts
@@ -33,7 +33,7 @@ import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { MdTabsModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
@@ -43,7 +43,7 @@ import {
   HivClinicFlowResourceService
 } from
   '../../etl-api/hiv-clinic-flow-resource.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { MockHivClinicFlowResourceService
 } from '../../etl-api/hiv-clinic-flow-resource.service.mock';
 
@@ -97,7 +97,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
 
       ],
       declarations: [ClinicFlowSummaryComponent, ClinicFlowHourlyStatsVizComponent],
-      imports: [BusyModule,
+      imports: [NgBusyModule,
         ChartModule.forRoot(require('highcharts')),
         FormsModule,
         DialogModule,
@@ -106,7 +106,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
         NgamrsSharedModule,
         NgxMyDatePickerModule,
         NgxMyDatePickerModule,
-        MdTabsModule,
+        MatTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule
       ]

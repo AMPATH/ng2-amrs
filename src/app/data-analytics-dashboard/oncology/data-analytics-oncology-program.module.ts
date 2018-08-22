@@ -22,7 +22,7 @@ import {  OncologySummaryIndicatorsTableComponent } from
 './oncology-reports/oncology-summary-indicators-table/oncology-summary-indicators-table.component';
 import { OncologysummaryIndicatorsPatientListComponent } from
 './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
-import { BusyModule } from 'angular2-busy';
+import { NgBusyModule } from 'ng-busy';
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import { BusyModule } from 'angular2-busy';
     FormsModule,
     DataListsModule,
     AgGridModule,
-    BusyModule
+    NgBusyModule
   ],
   exports: [
     OncologyReportsComponent,

@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
@@ -12,6 +14,6 @@ export class FeedBackService {
     public postFeedback(payload) {
         let url = this.appSettingsService.getEtlServer() +
             '/user-feedback';
-        return this.http.post(url, payload).map((data) => data.json());
+        return this.http.post(url, payload).pipe(map((data) => data.json()));
     }
 }

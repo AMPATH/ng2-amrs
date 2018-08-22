@@ -1,8 +1,8 @@
 import {
-  Component, OnInit, Input, ViewChild, Output, EventEmitter, style,
+  Component, OnInit, Input, ViewChild, Output, EventEmitter,
   ViewEncapsulation
 } from '@angular/core';
-
+import { style } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
 import { ProgramsTransferCareService } from './transfer-care.service';
 
@@ -31,7 +31,7 @@ export class TransferCareDialogComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute,
-              private transferCareService: ProgramsTransferCareService) { }
+    private transferCareService: ProgramsTransferCareService) { }
 
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {

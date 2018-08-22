@@ -13,7 +13,7 @@ export class UsefulLinksComponent implements OnInit {
   public currentUrl = window.location;
   public formVisitSearchUrl: string = '';
 
-  private _links = [
+  public _links = [
     {
       url: 'https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual',
       title: 'POC General Troubleshooting Manual (PDF)'

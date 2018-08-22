@@ -4,7 +4,6 @@ import { DatePipe } from '@angular/common';
 
 import { ClinicFlowCacheService
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 
 @Component({
   selector: 'daily-schedule-clinic-flow-component',
@@ -14,9 +13,7 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
 export class DailyScheduleClinicFlowComponent implements OnInit {
   public selectedDate: any;
   private _datePipe: DatePipe;
-  constructor(
-    private clinicFlowCache: ClinicFlowCacheService,
-    private clinicDashboardCacheService: ClinicDashboardCacheService) {
+  constructor(private clinicFlowCache: ClinicFlowCacheService) {
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -27,8 +24,5 @@ export class DailyScheduleClinicFlowComponent implements OnInit {
       this.selectedDate = this._datePipe.transform(new Date(), 'yyyy-MM-dd');
       this.clinicFlowCache.setSelectedDate(this.selectedDate);
     }
-    this.clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
-      this.clinicFlowCache.setSelectedLocation(clinic);
-    });
   }
 }

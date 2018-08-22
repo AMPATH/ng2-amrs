@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject, of } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 import { ProgramsTransferCareFormWizardComponent } from './transfer-care-form-wizard.component';
 import { ProgramsTransferCareService } from './transfer-care.service';
-
+import { first } from 'rxjs/operators';
 @Injectable()
 export class ProgramsTransferCareFormWizardGuard implements
   CanDeactivate<ProgramsTransferCareFormWizardComponent> {
@@ -16,7 +16,7 @@ export class ProgramsTransferCareFormWizardGuard implements
 
   public canDeactivate(): Observable<boolean> {
     if (this.transferCareService.transferComplete()) {
-      return Observable.of(true);
+      return of(true);
     }
     // confirm with user
     return Observable.create((observer: Subject<boolean>) => {
@@ -60,6 +60,6 @@ export class ProgramsTransferCareFormWizardGuard implements
       } else {
         return true;
       }
-    }).first();
+    }).pipe(first());
   }
 }

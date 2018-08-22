@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 
 @Injectable()

@@ -6,14 +6,38 @@ import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
-import { MdTabsModule, MdSlideToggleModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
+import {
+  PatientStatusIndicatorDefComponent
+} from './clinical-summary-visualization/patient-status-overview/indicator-definition.component';
 import { EtlApi } from '../etl-api/etl-api.module';
+
 import { routes } from './clinic-dashboard.routes';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
+import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
+import { MonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
+import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
+import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
+import { DailyScheduleAppointmentsComponent }
+  from './daily-schedule/daily-schedule-appointments.component';
+import { DailyScheduleNotReturnedComponent
+} from './daily-schedule/daily-schedule-not-returned.component';
+
+import {
+  ArtOverviewComponent
+} from './clinical-summary-visualization/art-overview/art-overview.component';
+import { DateRangeComponent } from './dashboard-filters/date-range/date-range.component';
+import { RangeSliderComponent } from './dashboard-filters/range-slider/range-slider.component';
+import {
+  IndicatorSelectComponent
+} from './dashboard-filters/indicator-selector/indicator-selector.component';
+import {
+  GenderSelectComponent
+} from './dashboard-filters/gender-selector/gender-selector.component';
+import { DashboardFiltersComponent } from './dashboard-filters/dashboard-filters.component';
 import {
   TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
   AccordionModule
@@ -21,17 +45,57 @@ import {
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+
+
+import {
+  HivCareIndicatorDefComponent
+} from
+  './clinical-summary-visualization/hiv-care-comparative-overview/indicator-definitions.component';
+import {
+  HivCareComparativeOverviewComponent
+} from
+  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-overview.component';
+import {
+  HivCareTabularViewComponent
+} from
+  './clinical-summary-visualization/hiv-care-comparative-overview/hiv-care-tabularview.component';
 import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
-import { GeneralModule } from './general/general.module';
-import { CdmModule } from './cdm/cdm-program.module';
+
+// import { ClinicFlowComponent } from '../clinic-flow/clinic-flow.component';
+
+import {
+  PatientStatusOverviewComponent
+} from './clinical-summary-visualization/patient-status-overview/patient-status-overview.component';
+import {
+  VisualizationPatientListComponent
+} from
+  // tslint:disable-next-line:max-line-length
+  './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+import {
+  PatientStatusChangeVisualizationContainerComponent
+} from
+  './patient-status-change-visualization/patient-status-change-visualization.container.component';
+import {
+  PatientStatusChangeVisualizationComponent
+} from
+  './patient-status-change-visualization/patient-status-change-visualization.component';
+import {
+  ClinicalSummaryVisualizationService
+} from '../hiv-care-lib/services/clinical-summary-visualization.service';
+import {
+  ArtOverviewIndicatorDefComponent
+} from './clinical-summary-visualization/art-overview/indicator-definitions.component';
 import { HivProgramModule } from './hiv/hiv-program.module';
-import { OncologyProgramModule } from './oncology/oncology-program.module';
 import { ClinicFlowCacheService } from '../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
-import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
+import {
+  PatientStatusDatalistCellComponent
+} from './patient-status-change-visualization/patient-status-data-list-cell.component';
+import { PatientStatusChangeListComponent } from
+  './patient-status-change-visualization/patient-status-change-list.component';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
 import {
@@ -45,6 +109,7 @@ export function highchartsFactory() {
   // hx(hm);
   return hc;
 }
+import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
 import { CacheModule } from 'ionic-cache';
 import { DataAnalyticsDashboardService
 } from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
@@ -57,28 +122,54 @@ import { PatientProgramEnrollmentService } from
 './../etl-api/patient-program-enrollment.service';
 import { PatientProgramEnrollmentModule } from
 './../patients-program-enrollment/patients-program-enrollment.module';
+import { PatientCreationComponent } from './patient-creation/patient-creation.component';
+import { PatientCreationService } from './patient-creation/patient-creation.service';
+import {
+  PatientCreationResourceService
+} from '../openmrs-api/patient-creation-resource.service';
+
 import {
   PatientReferralProgramModule
 } from './referral/patient-referral-program.module';
-import { ClinicRoutesFactory
-} from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
 @NgModule({
   declarations: [
     /**
      * Components / Directives/ Pipes
      */
-    ClinicDashboardComponent
+    // ClinicFlowComponent,
+    ArtOverviewIndicatorDefComponent,
+    ClinicDashboardComponent,
+    DailyScheduleComponent,
+    MonthlyScheduleComponent,
+    VisualizationComponent,
+    ClinicLabOrdersComponent,
+    DailyScheduleAppointmentsComponent,
+    DailyScheduleNotReturnedComponent,
+    DailyScheduleVisitsComponent,
+    PatientStatusIndicatorDefComponent,
+    DashboardFiltersComponent,
+    GenderSelectComponent,
+    IndicatorSelectComponent,
+    DateRangeComponent,
+    RangeSliderComponent,
+    ArtOverviewComponent,
+    PatientStatusOverviewComponent,
+    VisualizationPatientListComponent,
+    DefaulterListComponent,
+    PatientStatusChangeListComponent,
+    PatientStatusDatalistCellComponent,
+    PatientStatusChangeVisualizationComponent,
+    PatientStatusChangeVisualizationContainerComponent,
+    PatientCreationComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     OpenmrsApi,
     EtlApi,
-    Angulartics2Module.forChild(),
     NgamrsSharedModule,
     ChartModule,
     CalendarModule.forRoot(),
-    MdTabsModule,
     RouterModule.forChild(routes),
     DateTimePickerModule,
     DataListsModule,
@@ -88,31 +179,26 @@ import { ClinicRoutesFactory
     ButtonModule,
     GrowlModule,
     AccordionModule,
-    CdmModule,
-    GeneralModule,
     HivProgramModule,
     OpenmrsApi,
     EtlApi,
-    Angulartics2Module.forChild(),
     NgamrsSharedModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
-    NgxMyDatePickerModule,
-    MdTabsModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
     CacheModule,
-    MdSlideToggleModule,
     ProgramVisitEncounterSearchModule,
     DepartmentProgramFilterModule,
     PatientProgramEnrollmentModule,
-    Ng2PaginationModule,
-    PatientReferralProgramModule,
-    OncologyProgramModule
+    PatientReferralProgramModule
   ],
   providers: [
     ClinicDashboardCacheService,
     ClinicDashboardGuard,
+    ClinicDashboardGuard,
+    ClinicDashboardCacheService,
+    ClinicalSummaryVisualizationService,
+    HivClinicFlowResourceService,
+    ClinicFlowCacheService,
     ClinicFlowCacheService,
     {
       provide: HighchartsStatic,
@@ -125,10 +211,11 @@ import { ClinicRoutesFactory
     },
     DataAnalyticsDashboardService,
     PatientProgramEnrollmentService,
-    ClinicRoutesFactory
+    PatientCreationResourceService,
+    PatientCreationService
 
   ],
-  entryComponents: []
+  entryComponents: [PatientStatusDatalistCellComponent]
 })
 export class ClinicDashboardModule {
   public static routes = routes;

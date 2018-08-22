@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router, NavigationEnd } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject ,  Subscription } from 'rxjs';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
-import { Subscription } from 'rxjs';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';

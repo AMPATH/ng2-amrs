@@ -29,14 +29,8 @@ import { Vital } from './vital.model';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [ConceptClass, Concept, ConceptName, Encounter, EncounterType,
-    PersonAddress, Form, Location, Patient, PatientIdentifier, PatientIdentifierType,
-    Person, PersonAttribute, PersonAttributeType, Program, ProgramEnrollment, Provider,
-    Relationship, RelationshipType, User, Visit, Vital],
+  declarations: [],
   providers: [],
-  exports: [ConceptClass, Concept, ConceptName, Encounter, EncounterType,
-    PersonAddress, Form, Location, Patient, PatientIdentifier, PatientIdentifierType,
-    Person, PersonAttribute, PersonAttributeType, Program, ProgramEnrollment, Provider,
-    Relationship, RelationshipType, User, Visit, Vital]
+  exports: []
 })
 export class ModelsModule { }

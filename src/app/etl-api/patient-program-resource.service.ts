@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Program } from '../models/program.model';
 
@@ -13,17 +15,17 @@ export class PatientProgramResourceService {
   public getAllProgramVisitConfigs(ttl?: number): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
     url += 'program-visit-configs';
-    return this.http.get(url).map((response: Response) => {
+    return this.http.get(url).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
 
   public getPatientProgramVisitConfigs(patientUuid: string): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
     url += 'patient-program-config?patientUuid=' + patientUuid;
-    return this.http.get(url).map((response: Response) => {
+    return this.http.get(url).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
 
   /**
@@ -46,8 +48,8 @@ export class PatientProgramResourceService {
     let params: URLSearchParams = new URLSearchParams();
     params.set('intendedLocationUuid', (locationUuid && locationUuid.length > 0)
       ? locationUuid : locationUuid);
-    return this.http.get(url, { search: params }).map((response: Response) => {
+    return this.http.get(url, { search: params }).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
 }

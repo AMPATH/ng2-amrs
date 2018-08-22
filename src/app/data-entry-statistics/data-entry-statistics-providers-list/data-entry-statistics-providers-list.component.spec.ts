@@ -18,9 +18,9 @@ const mockProviderResult: any = [
     provider_id: 44,
     provider_name: 'Test Patient',
     provider_uuid: 'uuid1',
-    location: 'MTRH-1',
+    location:'MTRH-1',
     locations: 1,
-    location_uuid: 'uuid',
+    locationUuid: 'uuid',
   },
   {
     encounter_type: 'BETWEENCAREVISIT',
@@ -31,9 +31,9 @@ const mockProviderResult: any = [
     provider_id: 44,
     provider_name: 'Test Patient',
     provider_uuid: 'uuid1',
-    location: 'MTRH-1',
+    location:'MTRH-1',
     locations: 1,
-    location_uuid: 'uuid',
+    locationUuid: 'uuid',
   }
 ];
 
@@ -46,8 +46,7 @@ const mockProviderResultRow: any = [
     total: 7,
     total_clinical: 6,
     clinicalEncounters: [ 'uuid' ],
-    location: 'MTRH-1',
-    locationUuid: 'uuid'
+    location:'MTRH-1',
   }
 ];
 

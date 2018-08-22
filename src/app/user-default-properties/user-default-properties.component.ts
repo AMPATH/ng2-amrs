@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router, ActivatedRoute, Params }    from '@angular/router';
-import * as _ from 'lodash';
+
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
-import { LocalStorageService } from '../utils/local-storage.service';
-import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 
 @Component({
   selector: 'user-default-properties',
@@ -20,8 +18,6 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public user: User;
   public locations: Array<any> = [];
   public filteredList: Array<any> = [];
-  public departments = [];
-  public selectedDepartment;
   public currentLocation: string = '';
   public selectedIdx: number = -1;
   public isLoading: boolean = false;
@@ -29,9 +25,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private propertyLocationService: UserDefaultPropertiesService,
-              private userService: UserService,
-              private localStorageService: LocalStorageService,
-              private departmentProgramService: DepartmentProgramsConfigService
+              private userService: UserService
   ) {
     this.user = this.userService.getLoggedInUser();
 
@@ -54,14 +48,6 @@ export class UserDefaultPropertiesComponent implements OnInit {
       this.isBusy = false;
     });
 
-    let department = this.localStorageService.getItem('userDefaultDepartment');
-    department = JSON.parse(department);
-    if (department) {
-      this.selectedDepartment = department[0];
-    }
-
-    this.getDepartments();
-
   }
 
   public goToPatientSearch() {
@@ -83,31 +69,6 @@ export class UserDefaultPropertiesComponent implements OnInit {
     } else {
       this.filteredList = [];
     }
-  }
-
-  public getDepartments() {
-    this.departmentProgramService.getDartmentProgramsConfig()
-     .subscribe((results) => {
-        if (results) {
-          _.each(results, (department, key) => {
-            if (key !== 'uud4') {
-              let dept = {
-                'itemName': department.name,
-                'id': key
-              };
-              this.departments.push(dept);
-              this.departments = _.remove(this.departments, (dep) => {
-                return dep.id !== 'uud5';
-              });
-            }
-          });
-        }
-     });
-  }
-
-  public selectDepartment(event) {
-    let department = [event];
-    this.localStorageService.setItem('userDefaultDepartment', JSON.stringify(department));
   }
 
  public select(item) {

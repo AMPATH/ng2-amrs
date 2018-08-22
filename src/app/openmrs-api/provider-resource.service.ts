@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject , ReplaySubject } from 'rxjs/Rx';
+import { Observable, Subject , ReplaySubject } from 'rxjs';
 import { PersonResourceService } from './person-resource.service';
 import * as _ from 'lodash';
 
@@ -32,10 +34,10 @@ export class ProviderResourceService {
 
     return this.http.get(url, {
       search: params
-    })
-      .map((response: Response) => {
+    }).pipe(
+      map((response: Response) => {
         return response.json().results;
-      });
+      }));
   }
 
   public getProviderByUuid(uuid: string, cached: boolean = false, v: string = null):
@@ -49,9 +51,9 @@ export class ProviderResourceService {
     params.set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       search: params
-    }).map((response: Response) => {
+    }).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
   public getProviderByPersonUuid(uuid) {
     let providerResults = new ReplaySubject(1);

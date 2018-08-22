@@ -31,7 +31,7 @@ var AppSettingsService = (function () {
             {
                 name: 'AMRS POC Beta',
                 amrsUrl: '/amrs',
-                etlUrl: 'https://amrs.ampath.or.ke/etl-latest/etl'
+                etlUrl: 'https://ngx.ampath.or.ke/etl-latest/etl'
             },
             {
                 name: 'AMRS Test',
@@ -142,8 +142,8 @@ var AppSettingsService = (function () {
             return this.getEtlServer() + '/';
         }
     };
-    AppSettingsService.DEFAULT_OPENMRS_SERVER_URL = 'https://amrs.ampath.or.ke:8443/amrs';
-    AppSettingsService.DEFAULT_ETL_SERVER_URL = 'https://amrsreporting.ampath.or.ke:8002/etl';
+    AppSettingsService.DEFAULT_OPENMRS_SERVER_URL = 'https://ngx.ampath.or.ke/amrs';
+    AppSettingsService.DEFAULT_ETL_SERVER_URL = 'https://ngx.ampath.or.ke/etl-latest/etl';
     AppSettingsService.OPENMRS_LIST_STORAGE_KEY = 'appSettings.openmrsServersList';
     AppSettingsService.ETL_LIST_STORAGE_KEY = 'appSettings.etlServersList';
     AppSettingsService.OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';

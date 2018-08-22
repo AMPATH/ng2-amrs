@@ -1,8 +1,10 @@
-import { Observable } from 'rxjs/Observable';
+
+import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -29,10 +31,10 @@ export class CohortResourceService {
         return this._http.get(allCohortsUrl,
             {
                 search: params
-            })
-            .map((response) => {
+            }).pipe(
+            map((response) => {
                 return response.json();
-            });
+            }));
         // return this.cacheService.cacheRequest(allCohortsUrl, params, request);
     }
 
@@ -51,10 +53,10 @@ export class CohortResourceService {
         }
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.get(cohortUrl, options)
-            .map((response: Response) => {
+        return this._http.get(cohortUrl, options).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
 
     }
 
@@ -69,10 +71,10 @@ export class CohortResourceService {
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.post(addCohortUrl, JSON.stringify(payload), options)
-            .map((response: Response) => {
+        return this._http.post(addCohortUrl, JSON.stringify(payload), options).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
 
     }
 
@@ -88,10 +90,10 @@ export class CohortResourceService {
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.post(editCohortUrl, JSON.stringify(payload), options)
-            .map((response: Response) => {
+        return this._http.post(editCohortUrl, JSON.stringify(payload), options).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
 
     }
 
@@ -108,10 +110,10 @@ export class CohortResourceService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.delete(deleteCohortUrl, options)
-            .map((response) => {
+        return this._http.delete(deleteCohortUrl, options).pipe(
+            map((response) => {
                 return response.json();
-            });
+            }));
 
     }
 

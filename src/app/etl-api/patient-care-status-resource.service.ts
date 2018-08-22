@@ -1,8 +1,10 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class PatientCareStatusResourceService {
@@ -14,7 +16,7 @@ export class PatientCareStatusResourceService {
         let api: string = this.appSettingsService.getEtlServer() +
             '/patient/' + options.patient_uuid + '/monthly-care-status';
         let params: URLSearchParams = this.getUrlRequestParams(options);
-        return this.http.get(api, { search: params }).map((data) => data.json());
+        return this.http.get(api, { search: params }).pipe(map((data) => data.json()));
     }
 
     public getDailyPatientCareStatus(options: {
@@ -24,7 +26,7 @@ export class PatientCareStatusResourceService {
             '/patient/' + options.patient_uuid + '/daily-care-status';
         let urlParams: URLSearchParams = new URLSearchParams();
         urlParams.set('referenceDate', options.referenceDate);
-        return this.http.get(api, { search: urlParams }).map((data) => data.json());
+        return this.http.get(api, { search: urlParams }).pipe(map((data) => data.json()));
     }
 
     private getUrlRequestParams(options: {

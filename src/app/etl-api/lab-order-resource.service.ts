@@ -1,9 +1,11 @@
 
+import {map} from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { ReplaySubject } from 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings';
+import { ReplaySubject } from 'rxjs';
+
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class LabOrderResourceService {
@@ -18,9 +20,9 @@ export class LabOrderResourceService {
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options).pipe(
+      map((response: Response) => {
         return response.json();
-      });
+      }));
   }
 }

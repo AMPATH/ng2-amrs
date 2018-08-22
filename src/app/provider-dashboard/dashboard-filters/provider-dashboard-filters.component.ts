@@ -29,6 +29,8 @@ export class ProviderDashboardFiltersComponent
   @Input() public end: number;
   public initialized: boolean = false;
   public loaderStatus: boolean = false;
+  public filterCollapsed: boolean = false;
+  public parentIsBusy: boolean = false;
   public programOptions: Array<any>;
   public statesOptions: Array<any>;
   public locationOptions: Array<any>;

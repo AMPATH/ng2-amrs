@@ -12,7 +12,7 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../app-settings';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
   Router, ActivatedRoute, Params,
   RouterModule, RouterOutletMap
@@ -31,7 +31,7 @@ import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { MdTabsModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
 import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
@@ -41,7 +41,7 @@ import {
   HivClinicFlowResourceService
 } from
   '../etl-api/hiv-clinic-flow-resource.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 describe('Component: ClinicFlowComponent', () => {
   let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
@@ -91,7 +91,7 @@ describe('Component: ClinicFlowComponent', () => {
 
       ],
       declarations: [ClinicFlowComponent],
-      imports: [BusyModule,
+      imports: [NgBusyModule,
         FormsModule,
         DialogModule,
         CalendarModule,
@@ -99,7 +99,7 @@ describe('Component: ClinicFlowComponent', () => {
         NgamrsSharedModule,
         NgxMyDatePickerModule,
         NgxMyDatePickerModule,
-        MdTabsModule,
+        MatTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule,
       ]

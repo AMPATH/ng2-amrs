@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { Patient } from '../../models/patient.model';

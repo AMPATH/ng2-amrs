@@ -1,6 +1,6 @@
 import { TestBed, fakeAsync, inject } from '@angular/core/testing';
 import { ProgramService } from './program.service';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
 }

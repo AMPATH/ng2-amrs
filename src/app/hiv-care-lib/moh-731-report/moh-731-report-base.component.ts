@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute , Params } from '@angular/router';
-// import { Observable, Subject } from 'rxjs/Rx';
+// import { Observable, Subject } from 'rxjs';
 
 import * as Moment from 'moment';
 import * as _ from 'lodash';
