@@ -13,6 +13,7 @@ export class PatientIdentifierService {
 
   }
   public getLuhnCheckDigit(numbers) {
+    console.log('getLuhnCheckDigit', numbers);
     let validChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVYWXZ_';
     numbers = numbers.toUpperCase().trim();
     let sum = 0;
@@ -49,7 +50,8 @@ export class PatientIdentifierService {
       'KENYAN NATIONAL ID NUMBER',
       'AMRS Medical Record Number',
       'AMRS Universal ID',
-      'CCC Number'];
+      'CCC Number',
+      'MTRH Hospital Number'];
   }
   public patientIdentifierTypeFormat() {
     return [
@@ -60,7 +62,9 @@ export class PatientIdentifierService {
         {label: 'AMRS Universal ID', format: null, checkdigit: 1,
         val: '58a4732e-1359-11df-a1f1-0026b9348838'},
         {label: 'CCC Number', format: '^\\d{5}-\\d{5}$', checkdigit: null,
-        val: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'}
+        val: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'},
+        {label: 'MTRH Hospital Number', format: null, checkdigit: 0,
+        val: '43f78399-ca5d-4c1e-acb7-b30fc327283f'}
     ];
 }
 }

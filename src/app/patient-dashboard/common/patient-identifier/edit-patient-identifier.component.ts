@@ -223,7 +223,6 @@ private saveIdentifier(personIdentifierPayload, person) {
   private checkIdentifierFormat() {
     this.identifierValidity = '';
     let selectedIdentifierType: any = this.identifierType;
-
     if (selectedIdentifierType) {
       let identifierHasFormat = selectedIdentifierType.format;
       let identifierHasCheckDigit = selectedIdentifierType.checkdigit;
