@@ -1,9 +1,7 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Observable } from 'rxjs';
+import { AppSettingsService } from '../app-settings';
+import { Observable } from 'rxjs/Observable';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -31,10 +29,10 @@ export class DailyScheduleResourceService {
         let url = this.getUrl('daily-visits', params.startDate);
         let request = this.http.get(url, {
             search: urlParams
-        }).pipe(
-            map((response: Response) => {
+        })
+            .map((response: Response) => {
                 return response.json().result;
-            }));
+            });
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
@@ -57,10 +55,10 @@ export class DailyScheduleResourceService {
         let url = this.getUrl('daily-appointments', params.startDate);
         let request = this.http.get(url, {
             search: urlParams
-        }).pipe(
-            map((response: Response) => {
+        })
+            .map((response: Response) => {
                 return response.json().result;
-            }));
+            });
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
@@ -81,10 +79,10 @@ export class DailyScheduleResourceService {
         let url = this.getUrl('daily-has-not-returned', params.startDate);
         let request = this.http.get(url, {
             search: urlParams
-        }).pipe(
-            map((response: Response) => {
+        })
+            .map((response: Response) => {
                 return response.json().result;
-            }));
+            });
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 

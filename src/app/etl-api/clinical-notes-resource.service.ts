@@ -1,9 +1,7 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class ClinicalNotesResourceService {
@@ -27,6 +25,6 @@ export class ClinicalNotesResourceService {
     params.set('startIndex', startIndex as any as string);
     params.set('limit', limit as any as string);
 
-    return this.http.get(api, {search: params}).pipe(map((data) => data.json()));
+    return this.http.get(api, {search: params}).map((data) => data.json());
   }
 }

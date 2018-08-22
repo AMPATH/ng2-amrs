@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
@@ -39,7 +39,7 @@ let mockReportsResponse: any = [
 
 // Make the spy return a synchronous Observable with the test data
 const getReportsSpy = getOncologyReportsService.getOncologyReports
-.and.returnValue(of(mockReportsResponse) );
+.and.returnValue(Observable.of(mockReportsResponse) );
 
 const mockParams = {};
 
@@ -51,7 +51,7 @@ const mockActivatedRoute = {
   queryParams: {
     subscribe: jasmine.createSpy('subscribe')
       .and
-      .returnValue(of(mockParams))
+      .returnValue(Observable.of(mockParams))
   }
 };
 

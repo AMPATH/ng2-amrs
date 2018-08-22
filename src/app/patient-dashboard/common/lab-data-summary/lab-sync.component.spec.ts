@@ -2,7 +2,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { of } from 'rxjs';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
 
 import { Patient } from '../../../models/patient.model';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
@@ -18,11 +18,11 @@ export class FakeTranslatePipe implements PipeTransform {
 }
 describe('LabSyncComponent', () => {
     let fakePatientService = {
-        currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'persion_uui' } })
+        currentlyLoadedPatient: Observable.of({ uuid: '', person: { uuid: 'persion_uui' } })
     };
     let fakeLabsServiceName = {
         getNewPatientLabResults: (args) => {
-            return of(
+            return Observable.of(
                 [{
                     obsDatetime: new Date(),
                     concept: {
@@ -132,7 +132,7 @@ describe('LabSyncComponent', () => {
     it('should not render new results table if results is empty',
         inject([LabsResourceService, PatientService],
             (service: LabsResourceService) => {
-                spyOn(service, 'getNewPatientLabResults').and.returnValue(of(
+                spyOn(service, 'getNewPatientLabResults').and.returnValue(Observable.of(
                     []
                 ));
                 comp.ngOnInit();

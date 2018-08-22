@@ -1,9 +1,8 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
-import { Observable ,  Subscriber } from 'rxjs';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class FileUploadResourceService {
@@ -14,9 +13,9 @@ export class FileUploadResourceService {
     }
     public upload(formData) {
         const url = this.getUrl();
-        return this.http.post(url, formData).pipe(
-            map((x) => x.json()
-            ));
+        return this.http.post(url, formData)
+            .map((x) => x.json()
+            );
     }
     public getFile(url: string): Observable<any> {
         let fullUrl = this.appSettingsService.getEtlRestbaseurl().trim() + 'files/' + url;

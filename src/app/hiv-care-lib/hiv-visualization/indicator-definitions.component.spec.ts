@@ -3,7 +3,7 @@
 import {
   TestBed, async, fakeAsync, ComponentFixture, ComponentFixtureAutoDetect
 } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,7 @@ import {
 class DataStub {
 
   public getHivComparativeOverviewReport(payload): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
 
 }
@@ -93,7 +93,7 @@ describe('HivCareIndicatorDefComponent', () => {
 
   it('should return an object dictionary for indicatorDefinitions', fakeAsync(() => {
     const spy = spyOn(dataStub, 'getHivComparativeOverviewReport').and.returnValue(
-      of(results)
+      Observable.of(results)
     );
     comp.createIndicatorDefinitionsDictionary(results.indicatorDefinitions);
     expect(comp.indicatorDefinitionsArr).toEqual(indicatorDefinitions);

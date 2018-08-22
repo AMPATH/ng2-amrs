@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject ,  Subscription } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../models/encounter.model';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class PatientEncounterService {

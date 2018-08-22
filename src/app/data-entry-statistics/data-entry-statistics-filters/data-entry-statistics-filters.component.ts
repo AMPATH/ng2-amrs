@@ -1,6 +1,7 @@
 import { Component, OnInit , OnDestroy , AfterViewInit, OnChanges , Output ,
   EventEmitter, Input , ChangeDetectorRef, ViewChild , SimpleChanges } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
@@ -24,6 +25,7 @@ export class DataEntryStatisticsFiltersComponent
   @Output() public viewSelected: any = new EventEmitter<string>();
   @Output() public filterReset: any = new EventEmitter<boolean>();
   public sendRequest: boolean = true;
+  public today: any = Moment().format();
   public params: any  = [];
   public gridOptions: any = {
     enableColResize: true,
@@ -179,6 +181,7 @@ export class DataEntryStatisticsFiltersComponent
                   this.location = [];
                   let locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
                   this.location = locations;
+                  this.loadSelectedLocation();
                   newParams.locationUuids = params.locationUuids;
               }
               if (params.startDate) {
@@ -194,6 +197,7 @@ export class DataEntryStatisticsFiltersComponent
                   let encounterTypes =
                   this.loadFilterFromMap(params.encounterTypeUuids, this.encounterMap);
                   this.encounterType = encounterTypes;
+                  this.loadSelectedEncounterType();
                   newParams.encounterTypeUuids = params.encounterTypeUuids;
               }
               if (params.groupBy) {

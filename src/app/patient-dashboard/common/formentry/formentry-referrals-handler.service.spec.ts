@@ -3,9 +3,9 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 import * as moment from 'moment';
-import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { Form } from 'ng2-openmrs-formentry';
 
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';

@@ -1,8 +1,6 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class Moh731PatientListResourceService {
@@ -37,10 +35,10 @@ export class Moh731PatientListResourceService {
     let url = this.getPatientListUrl('MOH-731-report');
     let request = this.http.get(url, {
       search: urlParams
-    }).pipe(
-      map((response: Response) => {
+    })
+      .map((response: Response) => {
         return response.json();
-      }));
+      });
     return request;
   }
 

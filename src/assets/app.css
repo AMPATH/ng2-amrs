@@ -352,3 +352,16 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
 .picker-header-content span.month:hover, .picker-header-content span.year:hover {
   cursor: pointer;
 }
+.selected-list .c-list {
+  overflow: auto !important;
+  white-space: nowrap !important;
+  margin-right: 15px !important;
+}
+.c-list::-webkit-scrollbar {
+  display: none !important;
+}
+
+.selected-list .c-list .c-token {
+  float: none !important;
+  display: inline-block !important;
+}

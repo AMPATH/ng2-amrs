@@ -1,13 +1,13 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DataAnalyticsDashboardGuard } from './data-analytics-guard';
-import { DataAnalyticsHivProgramModule } from './hiv/data-analytics-hiv-program.module';
+
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'hiv', loadChildren: () => DataAnalyticsHivProgramModule
+        path: 'hiv', loadChildren: './hiv/hiv-program.module#DataAnalyticsHivProgramModule'
       },
       {
         path: 'oncology',

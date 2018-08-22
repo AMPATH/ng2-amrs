@@ -1,16 +1,14 @@
-
-import {throwError as observableThrowError,  forkJoin ,  Observable, Subject, of } from 'rxjs';
-
-import {catchError,  first } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
-import { EncounterAdapter, PersonAttribuAdapter } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { Form } from 'ng2-openmrs-formentry';
+import { EncounterAdapter, PersonAttribuAdapter } from 'ng2-openmrs-formentry';
+import { Observable, Subject } from 'rxjs/Rx';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
 import { FormDataSourceService } from './form-data-source.service';
 import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
 import * as _ from 'lodash';
+
 @Injectable()
 export class FormSubmissionService {
   private payloadTypes: Array<string> = ['encounter', 'personAttribute'];
@@ -29,7 +27,7 @@ export class FormSubmissionService {
     // create payload batch to be submitted on concurrently
     let payloadBatch: Array<Observable<any>> = this.createPayloadBatch(form, payloadTypes);
     return Observable.create((observer: Subject<any>) => {
-      return forkJoin(payloadBatch).subscribe(
+      return Observable.forkJoin(payloadBatch).subscribe(
         (responses: Array<any>) => {
           if (responses) {
             let response: any = this.processFormSubmissionResponse(responses);
@@ -42,7 +40,7 @@ export class FormSubmissionService {
         }
       );
 
-    }).pipe(first());
+    }).first();
   }
 
   public setSubmitStatus(status: boolean) {
@@ -70,14 +68,14 @@ export class FormSubmissionService {
             let encounterPayload: any = this.encounterAdapter.generateFormPayload(form);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
-                this.submitEncounterPayload(form, encounterPayload).pipe(
-                  catchError((res: any) => of({
+                this.submitEncounterPayload(form, encounterPayload)
+                  .catch((res: any) => Observable.of({
                     hasError: true,
                     payloadType: [payloadType],
                     response: res.json(),
                     errorMessages: this.processFormSubmissionErrors(
                       res.json(), payloadType, encounterPayload)
-                  })))
+                  }))
               );
             }
             break;
@@ -87,14 +85,14 @@ export class FormSubmissionService {
               this.personAttributeAdapter.generateFormPayload(form);
             if (!_.isEmpty(personAttrPayload)) { // this should be > 0
               payloadBatch.push(
-                this.submitPersonAttributePayload(form, personAttrPayload).pipe(
-                  catchError((res: any) => of({
+                this.submitPersonAttributePayload(form, personAttrPayload)
+                  .catch((res: any) => Observable.of({
                     hasError: true,
                     payloadType: [payloadType],
                     response: res.json(),
                     errorMessages: this.processFormSubmissionErrors(
                       res.json(), payloadType, personAttrPayload)
-                  })))
+                  }))
               );
             }
             break;
@@ -124,7 +122,7 @@ export class FormSubmissionService {
       return this.personResourceService
         .saveUpdatePerson(form.valueProcessingInfo.personUuid, personAttributePayload);
     } else {
-      return observableThrowError('Form does not have: form.valueProcessingInfo.personUuid');
+      return Observable.throw('Form does not have: form.valueProcessingInfo.personUuid');
     }
   }
 

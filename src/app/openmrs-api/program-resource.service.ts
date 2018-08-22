@@ -1,9 +1,7 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 // TODO inject service
 
@@ -28,17 +26,17 @@ export class ProgramResourceService {
     params.set('v', v);
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json().results;
-    }));
+    });
   }
 
   // get proggram incompatibilities
 
   public getProgramsIncompatibilities() {
-       return this.http.get('../patient-dashboard/programs/programs.json').pipe(
-        map((response) => {
+       return this.http.get('../patient-dashboard/programs/programs.json')
+        .map((response) => {
         return response.json();
-      }));
+      });
   }
 }

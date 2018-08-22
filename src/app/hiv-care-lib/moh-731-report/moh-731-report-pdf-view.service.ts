@@ -1,5 +1,4 @@
-import { Observable, Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 require('pdfmake/build/pdfmake.js');
@@ -12,7 +11,6 @@ export class MOHReportService {
 
     public generateMultiplePdfs(params: any, rows: Array<any>,
                                 sectionDefinitions: any): Observable<any> {
-
         return Observable.create((observer: Subject<any>) => {
             if (Array.isArray(rows) && rows.length > 0) {
 
@@ -47,7 +45,7 @@ export class MOHReportService {
             } else {
                 observer.error('some properties are missing');
             }
-        }).pie(first());
+        }).first();
 
     }
 
@@ -81,7 +79,7 @@ export class MOHReportService {
             } else {
                 observer.error('some properties are missing');
             }
-        }).pipe(first());
+        }).first();
 
     }
 

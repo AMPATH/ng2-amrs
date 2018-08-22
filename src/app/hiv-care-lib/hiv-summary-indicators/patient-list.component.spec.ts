@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import * as moment from 'moment';
 import { SpyLocation } from '@angular/common/testing';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
@@ -14,19 +14,19 @@ import {
     HivSummaryIndicatorsResourceService
 } from '../../etl-api/hiv-summary-indicators-resource.service';
 import { HivSummaryIndicatorsPatientListComponent } from './patient-list.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 
 class MockRouter {
     navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-    params = of([{ 'id': 1 }]);
+    params = Observable.of([{ 'id': 1 }]);
 }
 
 class FakeHivSummaryIndicatorsResourceService {
 
     getHivSummaryIndicatorsPatientList(params): Observable<any> {
-        return of({ status: 'okay' });
+        return Observable.of({ status: 'okay' });
     }
 
 }

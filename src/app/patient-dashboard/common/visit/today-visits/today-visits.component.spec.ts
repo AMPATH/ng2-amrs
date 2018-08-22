@@ -8,11 +8,11 @@ import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { DialogModule } from 'primeng/primeng';
 import { SelectModule } from 'angular2-select';
 import { CacheService } from 'ionic-cache';
-import { NgBusyModule } from 'ng-busy';
+import { BusyModule } from 'angular2-busy';
 
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
 import { UserDefaultPropertieservice } from
@@ -44,7 +44,7 @@ class LocationServiceMock {
   constructor() {
   }
   public getLocations(): Observable<any> {
-    return of([]);
+    return Observable.of([]);
   }
 }
 
@@ -59,27 +59,27 @@ describe('TodayVisitsComponent', () => {
   beforeEach(async(() => {
     let fakePatientProgramResourceService = {
       getPatientProgramVisitConfigs: (uuid) => {
-        return of({});
+        return Observable.of({});
       },
       getPatientProgramVisitTypes: (
         patient: string, program: string,
         enrollment: string, location: string) => {
-        return of({});
+        return Observable.of({});
       }
     };
 
     let fakeVisitResourceService = {
       getVisitTypes: (args) => {
-        return of([]);
+        return Observable.of([]);
       },
       getPatientVisits: (args) => {
-        return of([]);
+        return Observable.of([]);
       },
       saveVisit: (payload) => {
-        return of(null);
+        return Observable.of(null);
       },
       updateVisit: (uuid, payload) => {
-        return of(null);
+        return Observable.of(null);
       }
     };
 
@@ -94,9 +94,9 @@ describe('TodayVisitsComponent', () => {
         { provide: Router, useClass: RouterStub },
         {
           provide: ActivatedRoute, useValue: {
-            queryParams: of({}),
+            queryParams: Observable.of({}),
             snapshot: { params: { program: 'some-uuid' } },
-            params: of({ program: 'some-uuid' }),
+            params: Observable.of({ program: 'some-uuid' }),
           }
         },
         {
@@ -133,7 +133,7 @@ describe('TodayVisitsComponent', () => {
         },
       ],
       imports: [
-        NgBusyModule,
+        BusyModule,
         UserDefaultPropertiesModule,
         DialogModule,
         FormsModule,

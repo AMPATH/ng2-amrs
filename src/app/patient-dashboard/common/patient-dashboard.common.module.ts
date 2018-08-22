@@ -10,8 +10,10 @@ import {
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
+import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
+import { Ng2PaginationModule } from 'ng2-pagination';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import {
@@ -52,7 +54,7 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
 import { PrettyEncounterViewerComponent } from './formentry/pretty-encounter-viewer.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
-import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormEntryModule } from 'ng2-openmrs-formentry';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from '../services/patient-previous-encounter.service';
 import {
@@ -101,7 +103,7 @@ import {
   HivPatientClinicalSummaryService
 } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
@@ -141,6 +143,7 @@ import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PatientImagingComponent } from './imaging/patient-imaging.component';
 
 @NgModule({
   imports: [
@@ -157,19 +160,19 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ButtonModule,
     CalendarModule,
     NgamrsSharedModule,
+    Ng2PaginationModule,
     Ng2Bs3ModalModule,
     OpenmrsApi,
     UtilsModule,
     TabViewModule,
     GrowlModule, PanelModule,
+    Angulartics2Module.forChild(),
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
     FormEntryModule,
     ReactiveFormsModule,
     ConfirmDialogModule, DialogModule,
-    ToastrModule.forRoot({
-      timeOut: 0,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-    }),
+    ToastrModule.forRoot(),
     EtlApi,
     ButtonModule,
     DateTimePickerModule,
@@ -232,7 +235,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ZeroVlPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter],
+    EncounterTypeFilter,
+    PatientImagingComponent],
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
@@ -279,7 +283,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
-    EncounterTypeFilter],
+    EncounterTypeFilter,
+    // ZeroVlPipe,
+    PatientImagingComponent],
+
   providers: [
     FormUpdaterService,
     PatientEncounterService,
@@ -313,7 +320,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     {
       provide: Http,
       useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
+                   router: Router, sessionStorageService: SessionStorageService) =>
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },

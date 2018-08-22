@@ -51,35 +51,35 @@ describe('HivClinicFlowResourceService Tests', () => {
         })
     );
 
-    // it('should return clinic flow information for a given '
-    //     + ' date  and location ',
-    //     inject([HivClinicFlowResourceService, MockBackend],
-    //         (s: HivClinicFlowResourceService, backend: MockBackend) => {
-    //             backend.connections.subscribe((connection: MockConnection) => {
-    //                 expect(connection.request.method).toBe(RequestMethod.Get);
-    //                 expect(connection.request.url).toContain('/etl/patient-flow-data');
-    //                 expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-    //                     + '/etl/patient-flow-data?dateStarted=2017-03-29T12:03:48.190Z'
-    //                     + '&locationUuids=uuid');
-    //                 expect(connection.request.url).toContain('locationUuids=uuid');
+    it('should return clinic flow information for a given '
+        + ' date  and location ',
+        inject([HivClinicFlowResourceService, MockBackend],
+            (s: HivClinicFlowResourceService, backend: MockBackend) => {
+                backend.connections.subscribe((connection: MockConnection) => {
+                    expect(connection.request.method).toBe(RequestMethod.Get);
+                    expect(connection.request.url).toContain('/etl/patient-flow-data');
+                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
+                        + '/etl/patient-flow-data?dateStarted=2017-03-29T12:03:48.190Z'
+                        + '&locationUuids=uuid');
+                    expect(connection.request.url).toContain('locationUuids=uuid');
 
-    //                 let mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
-    //                 let expectedResults = mockHivClinicFlow.getHivDummyData();
+                    let mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
+                    let expectedResults = mockHivClinicFlow.getHivDummyData();
 
-    //                 connection.mockRespond(new Response(
-    //                     new ResponseOptions({
-    //                         body: expectedResults
-    //                     }
-    //                     )));
-    //             });
-    //             s.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid')
-    //                 .subscribe((result) => {
-    //                     expect(result).toBeDefined();
-    //                     let mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
-    //                     let expectedResults = mockHivClinicFlow.getHivDummyData();
-    //                     expect(result).toEqual(expectedResults.result);
-    //                 });
-    //         })
-    // );
+                    connection.mockRespond(new Response(
+                        new ResponseOptions({
+                            body: expectedResults
+                        }
+                        )));
+                });
+                s.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid')
+                    .subscribe((result) => {
+                        expect(result).toBeDefined();
+                        let mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
+                        let expectedResults = mockHivClinicFlow.getHivDummyData();
+                        expect(result).toEqual(expectedResults.result);
+                    });
+            })
+    );
 
 });

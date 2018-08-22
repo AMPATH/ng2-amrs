@@ -1,10 +1,7 @@
-
-import {throwError as observableThrowError,  Observable, Subject } from 'rxjs';
-
-import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { Observable, Subject } from 'rxjs/Rx';
 
 // TODO inject service
 
@@ -37,9 +34,9 @@ export class ProgramEnrollmentResourceService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json().results;
-    }));
+    });
   }
 
   public getProgramEnrollmentStates(uuid: string): Observable<any> {
@@ -58,9 +55,9 @@ export class ProgramEnrollmentResourceService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json().results;
-    }));
+    });
   }
 
   public saveUpdateProgramEnrollment(payload) {
@@ -74,10 +71,10 @@ export class ProgramEnrollmentResourceService {
     delete payload['uuid'];
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options)
+      .map((response: Response) => {
         return response.json();
-      }),catchError(this.handleError),);
+      }).catch(this.handleError);
   }
 
     public updateProgramEnrollmentState(programEnrollmentUuid, payload) {
@@ -94,14 +91,14 @@ export class ProgramEnrollmentResourceService {
     delete payload['uuid'];
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
+    return this.http.post(url, JSON.stringify(payload), options)
+      .map((response: Response) => {
         return response.json();
-      }),catchError(this.handleError),);
+      }).catch(this.handleError);
   }
 
   private handleError(error: any) {
-    return observableThrowError(error.message
+    return Observable.throw(error.message
       ? error.message
       : error.status
         ? `${error.status} - ${error.statusText}`

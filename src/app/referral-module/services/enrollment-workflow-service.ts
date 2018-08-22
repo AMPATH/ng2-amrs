@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { Observable ,  Subject ,  forkJoin } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { Patient } from '../../models/patient.model';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class EnrollementWorkflowService {
@@ -43,7 +44,7 @@ export class EnrollementWorkflowService {
       enrollmentUuid));*/
     programBatch.push(this.enrollPatient(programUuid, patient, currentLocation, state, ''));
 
-    return forkJoin(programBatch);
+    return Observable.forkJoin(programBatch);
   }
 
   public switchProgram(enrollProgramUuid, unenrollProgramUuid, patient: Patient, location, state,
@@ -55,7 +56,7 @@ export class EnrollementWorkflowService {
     programBatch.push(this.enrollPatient(enrollProgramUuid, patient, location, null,
       ''));
 
-    return forkJoin(programBatch);
+    return Observable.forkJoin(programBatch);
 
   }
 
@@ -68,7 +69,7 @@ export class EnrollementWorkflowService {
     programBatch.push(this.enrollPatient(programUuid, patient, ToLocation, newState,
       ''));
 
-    return forkJoin(programBatch);
+    return Observable.forkJoin(programBatch);
 
   }
 
@@ -79,7 +80,7 @@ export class EnrollementWorkflowService {
       enrollmentUuid, dateEnrolled));
     programBatch.push(this.enrollPatient(programUuid, patient, toLocation, state, ''));
 
-    return forkJoin(programBatch);
+    return Observable.forkJoin(programBatch);
   }
 
   // handling different enrollment types

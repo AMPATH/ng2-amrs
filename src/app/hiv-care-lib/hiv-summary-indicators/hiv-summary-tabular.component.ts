@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'hiv-summary-tabular',
   templateUrl: 'hiv-summary-tabular.component.html',

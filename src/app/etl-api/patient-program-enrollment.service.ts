@@ -1,10 +1,9 @@
-
-import {map} from 'rxjs/operators';
-import { Observable ,  ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { ReplaySubject } from 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -46,10 +45,10 @@ export class PatientProgramEnrollmentService {
     let url = this.getBaseUrl() + 'patient-program-enrollments';
     let request = this._http.get(url, {
         search: urlParams
-    }).pipe(
-        map((response: Response) => {
+    })
+        .map((response: Response) => {
             return response.json();
-        }));
+        });
     return this._cacheService.cacheRequest(url, urlParams, request);
 
   }
@@ -77,10 +76,10 @@ export class PatientProgramEnrollmentService {
     let url = this.getBaseUrl() + 'program-enrollment/patient-list';
     let request = this._http.get(url, {
         search: urlParams
-    }).pipe(
-        map((response: Response) => {
+    })
+        .map((response: Response) => {
             return response.json();
-        }));
+        });
     return this._cacheService.cacheRequest(url, urlParams, request);
 
   }

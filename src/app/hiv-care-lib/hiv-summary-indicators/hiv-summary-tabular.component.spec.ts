@@ -8,14 +8,14 @@ import { AgGridModule } from 'ag-grid-angular/main';
 
 ;
 import { HivSummaryTabularComponent } from './hiv-summary-tabular.component';
-import { of } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = of([{ 'id': 1 }]);
+  params = Observable.of([{ 'id': 1 }]);
 }
 
 describe('HivSummaryTabularComponent: ', () => {

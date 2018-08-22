@@ -2,7 +2,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -25,29 +25,29 @@ import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { ShareCohortListComponent } from './share-cohort-list.component';
 import { CohortUserResourceService } from '../etl-api/cohort-list-user-resource.service';
 import { UserSearchComponent } from './user-search.component';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 class DataStub {
 
   public getCohortUser(payload): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
   public createCohortUser(payload): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
 
 }
 class DataStubUser {
 
   public getLoggedInUser(payload): Observable<any> {
-    return of({ status: 'okay' });
+    return Observable.of({ status: 'okay' });
   }
 
 }
 class DummyComponent {
 }
 class MockActivatedRoute {
- // params = of([{ 'id': 1 }]);
+ // params = Observable.of([{ 'id': 1 }]);
   snapshot = {
     params: { cohort_uuid: 'uuid' }
   };
@@ -79,7 +79,7 @@ describe('ShareCohortListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule,
-        FormsModule, NgxPaginationModule,
+        FormsModule, Ng2PaginationModule,
         RouterTestingModule.withRoutes([
           { path: 'add-cohort-list', component: DummyComponent }
         ])],
@@ -117,7 +117,7 @@ describe('ShareCohortListComponent', () => {
   /*it('should hit the success callback when getCohortUser returns success',
     (done)  => {
       const spy = spyOn(dataStub, 'getCohortUser').and.returnValue(
-        of(expectedResults)
+        Observable.of(expectedResults)
       );
       comp.getCohortUsers();
       fixture.detectChanges();
@@ -127,7 +127,7 @@ describe('ShareCohortListComponent', () => {
   /*it('should hit the success callback when createCohortUser returns success',
     (done)  => {
       const spy = spyOn(dataStub, 'createCohortUser').and.returnValue(
-        of(expectedPayload)
+        Observable.of(expectedPayload)
       );
       comp.ShareCohortWithNewUser();
       fixture.detectChanges();

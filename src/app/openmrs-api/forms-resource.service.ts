@@ -1,10 +1,8 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
-import { ReplaySubject, Observable } from 'rxjs';
-
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { ReplaySubject, Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class FormsResourceService {
@@ -35,8 +33,8 @@ export class FormsResourceService {
         {
           search: params
         }
-      ).pipe(
-        map((res: Response) => res.json()))
+      )
+        .map((res: Response) => res.json())
         .subscribe(
           (data) => this.forms.next(data.results),
           (error) => this.forms.error(error)
@@ -57,9 +55,9 @@ export class FormsResourceService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json();
-    }));
+    });
   }
 
   public getFormMetaDataByUuid(uuid: string, v: string = null): Observable<any> {
@@ -73,9 +71,9 @@ export class FormsResourceService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json();
-    }));
+    });
   }
 
 }

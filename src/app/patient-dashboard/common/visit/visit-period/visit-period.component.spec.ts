@@ -1,7 +1,7 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs/Rx';
 
 import { AppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytics.service';
@@ -29,7 +29,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
-import { NgBusyModule, BusyConfig } from 'ng-busy';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 import { PatientProgramService } from '../../../programs/patient-programs.service';
 import { RoutesProviderService
 } from '../../../../shared/dynamic-route/route-config-provider.service';
@@ -41,14 +41,14 @@ import { ProgramWorkFlowStateResourceService
 } from '../../../../openmrs-api/program-workflow-state-resource.service';
 class MockActivatedRoute {
   public params: any = {};
-  public queryParams = of(this.params);
+  public queryParams = Observable.of(this.params);
 }
 
 class LocationServiceMock {
   constructor() {
   }
   public getLocations(): Observable<any> {
-    return of([{
+    return Observable.of([{
       uuid: '08feae7c-1352-11df-a1f1-0026b9348838',
       display: 'location',
       name: 'location',
@@ -130,7 +130,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
       declarations: [
         VisitPeriodComponent
       ],
-      imports: [FormsModule, NgSelectModule, NgBusyModule]
+      imports: [FormsModule, NgSelectModule, BusyModule]
     });
   });
 

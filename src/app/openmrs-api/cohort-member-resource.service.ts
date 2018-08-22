@@ -1,10 +1,8 @@
-
-import {map} from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 
 @Injectable()
 export class CohortMemberResourceService {
@@ -29,10 +27,10 @@ export class CohortMemberResourceService {
 
          let allCohortMembersUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
 
-         return this._http.get(allCohortMembersUrl).pipe(
-           map((response) => {
+         return this._http.get(allCohortMembersUrl)
+           .map((response) => {
                return response.json().results;
-           }));
+           });
     }
 
     // Fetch specific Cohort
@@ -47,10 +45,10 @@ export class CohortMemberResourceService {
 
          let headers = new Headers({ 'Content-Type': 'application/json' });
          let options = new RequestOptions({ headers: headers });
-         return this._http.get(cohortUrl , options).pipe(
-            map((response: Response) => {
+         return this._http.get(cohortUrl , options)
+            .map((response: Response) => {
                 return response.json();
-            }));
+            });
 
     }
 
@@ -64,10 +62,10 @@ export class CohortMemberResourceService {
          let addCohortUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
          let headers = new Headers({ 'Content-Type': 'application/json' });
          let options = new RequestOptions({ headers: headers });
-         return this._http.post(addCohortUrl , JSON.stringify(payload), options).pipe(
-            map((response: Response) => {
+         return this._http.post(addCohortUrl , JSON.stringify(payload), options)
+            .map((response: Response) => {
                 return response.json();
-            }));
+            });
 
     }
 
@@ -86,10 +84,10 @@ export class CohortMemberResourceService {
          let headers = new Headers({ 'Content-Type': 'application/json' });
          let options = new RequestOptions({ headers: headers });
 
-         return this._http.delete(retireCohortUrl , options).pipe(
-                map((response) => {
+         return this._http.delete(retireCohortUrl , options)
+                .map((response) => {
                     return response.json();
-                }));
+                });
 
     }
 

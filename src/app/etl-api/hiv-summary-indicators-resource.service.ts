@@ -1,8 +1,6 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class HivSummaryIndicatorsResourceService {
@@ -44,10 +42,10 @@ export class HivSummaryIndicatorsResourceService {
         let url = this.getUrl();
         let request = this.http.get(url, {
             search: urlParams
-        }).pipe(
-            map((response: Response) => {
+        })
+            .map((response: Response) => {
                 return response.json();
-            }));
+            });
 
         return this.cacheService.cacheRequest(url, urlParams, request);
 
@@ -66,10 +64,10 @@ export class HivSummaryIndicatorsResourceService {
         let url = this.getPatientListUrl();
         let request = this.http.get(url, {
             search: urlParams
-        }).pipe(
-            map((response: Response) => {
+        })
+            .map((response: Response) => {
                 return response.json().result;
-            }));
+            });
 
         this.cacheService.cacheRequest(url, urlParams, request);
         return request;

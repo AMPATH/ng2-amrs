@@ -18,23 +18,39 @@
           current location</p>
 
         <div class="float pull-left">
-          <p *ngIf="currentLocation!=''" class="form-text text-bold">Your current location : <span
-            class="current-location">{{currentLocation}}</span>
+          <p *ngIf="currentLocation!=''" class="form-text">Your current location : <span
+            class="current-location text-bold">{{currentLocation}}</span>
           </p>
         </div>
         <div class="float pull-right">
           <span class="text-bold" *ngIf="query!=''">New Location: {{query}}</span>
         </div>
-        <div class="clear clearfix">&nbsp;</div>
+        <div class="clear">&nbsp;</div>
         <ul class="suggestions list-group">
           <li *ngFor="let item of filteredList; let i = index;" (click)="select(item)" class="list-group-item">
             {{item.display}}
           </li>
         </ul>
+        
       </div>
+      <!-- Select department -->
+      <div class="form-group">
+        <label for="department">Select a Department</label>
+        <select class="form-control" [(ngModel)]="selectedDepartment" (ngModelChange)="selectDepartment($event)">
+            <option></option>
+          <option *ngFor="let department of departments;" [ngValue]="department">{{ department.itemName }}</option>
+        </select>
+        <div class="float pull-left">
+            <p *ngIf="selectedDepartment" class="form-text">Your current department : <span
+              class="current-location form-text text-bold">{{ selectedDepartment.itemName }}</span>
+            </p>
+          </div>
+      </div>
+      <div class="clear">&nbsp;</div>
+      
     </div>
-    <div>
-      <button [disabled]="query=='' && currentLocation==''" class="btn btn-info previous"
+    <div style="margin-top: 30px;"> 
+      <button [disabled]="query=='' && currentLocation=='' || !selectedDepartment" class="btn btn-info previous"
               (click)="goToPatientSearch()">Done
         <span class="glyphicon glyphicon-chevron-right"></span>
         <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>

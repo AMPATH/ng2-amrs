@@ -165,18 +165,17 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
                 }
             ]
         );
-        // expect(comp.graphOptions.xAxis.categories).toBeDefined();
-        // expect(comp.graphOptions.xAxis.categories.lenght).toBe(3);
+
+        it('should redraw the bar graph when data changes', () => {
+            fixture.detectChanges();
+            comp = fixture.componentInstance;
+
+            comp.data = testData;
+
+            fixture.detectChanges();
+
+            expect(comp.graphOptions.xAxis.categories).toBeDefined();
+            expect(comp.graphOptions.xAxis.categories.lenght).toBe(3);
+        });
     });
-    // it('should redraw the bar graph when data changes', () => {
-    //     fixture.detectChanges();
-    //     comp = fixture.componentInstance;
-
-    //     comp.data = testData;
-
-    //     fixture.detectChanges();
-
-    //     expect(comp.graphOptions.xAxis.categories).toBeDefined();
-    //     expect(comp.graphOptions.xAxis.categories.lenght).toBe(3);
-    // });
 });

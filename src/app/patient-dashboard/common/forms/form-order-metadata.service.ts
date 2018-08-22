@@ -1,9 +1,6 @@
-
-import {throwError as observableThrowError,  ReplaySubject, Observable } from 'rxjs';
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
+import { ReplaySubject, Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
 
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -15,7 +12,7 @@ export class FormOrderMetaDataService {
         if (!this.formsOrder.observers.length || forceRefresh) {
             this.http.get(
                 './assets/schemas/form-order.json'
-            ).pipe(map((res: Response) => res.json()))
+            ).map((res: Response) => res.json())
                 .subscribe(
                 (data) => this.formsOrder.next(data),
                 (error) => this.formsOrder.error(error)
@@ -53,7 +50,7 @@ export class FormOrderMetaDataService {
     }
 
     private handleError(error: any) {
-        return observableThrowError(error.message
+        return Observable.throw(error.message
             ? error.message
             : error.status
                 ? `${error.status} - ${error.statusText}`

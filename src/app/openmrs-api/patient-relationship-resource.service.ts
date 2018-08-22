@@ -1,9 +1,7 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class PatientRelationshipResourceService {
@@ -32,9 +30,9 @@ export class PatientRelationshipResourceService {
 
     return this.http.get(url, {
       search: params
-    }).pipe(map((response: Response) => {
+    }).map((response: Response) => {
       return response.json().results;
-    }));
+    });
   }
 
   public saveRelationship(payload) {
@@ -44,10 +42,10 @@ export class PatientRelationshipResourceService {
     let url = this.getUrl();
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, payload, options).pipe(
-      map((response: Response) => {
+    return this.http.post(url, payload, options)
+      .map((response: Response) => {
         return response.json();
-      }));
+      });
   }
 
   public updateRelationship(uuid, payload) {
@@ -57,10 +55,10 @@ export class PatientRelationshipResourceService {
     let url = this.getUrl() + '/' + uuid;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, payload, options).pipe(
-      map((response: Response) => {
+    return this.http.post(url, payload, options)
+      .map((response: Response) => {
         return response.json();
-      }));
+      });
   }
 
   public deleteRelationship(uuid) {

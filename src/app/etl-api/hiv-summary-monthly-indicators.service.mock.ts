@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 import {
   HivMonthlySummaryIndicatorsResourceService
 } from './hiv-monthly-summary-indicators-resource.service';

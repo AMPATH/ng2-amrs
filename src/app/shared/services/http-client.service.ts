@@ -1,17 +1,12 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
-
-import {catchError} from 'rxjs/operators';
 import {
   Http, Request, RequestOptionsArgs, Response, XHRBackend,
   RequestOptions, ConnectionBackend, Headers
 } from '@angular/http';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { Constants } from '../../utils/constants';
-import { Injectable } from '@angular/core';
-@Injectable()
 export class HttpClient extends Http {
   constructor(backend: ConnectionBackend, defaultOptions: RequestOptions,
               private _router: Router, private sessionStorageService: SessionStorageService) {
@@ -45,7 +40,7 @@ export class HttpClient extends Http {
     if (options.headers == null) {
       options.headers = new Headers();
     }
-    const credentials = this.sessionStorageService.getItem(Constants.CREDENTIALS_KEY);
+    let credentials = this.sessionStorageService.getItem(Constants.CREDENTIALS_KEY);
     if (credentials) {
       options.headers.append('Authorization', 'Basic ' + credentials);
     }
@@ -53,14 +48,14 @@ export class HttpClient extends Http {
   }
 
   public intercept(observable: Observable<Response>): Observable<Response> {
-    return observable.pipe(catchError((err, source) => {
+    return observable.catch((err, source) => {
       // if (err.status  == 401 && !_.endsWith(err.url, '/session')) {
       //   this._router.navigate(['/login']);
       //   return Observable.empty();
       // } else {
       //   return Observable.throw(err);
       // }
-      return observableThrowError(err);
-    }));
+      return Observable.throw(err);
+    });
   }
 }

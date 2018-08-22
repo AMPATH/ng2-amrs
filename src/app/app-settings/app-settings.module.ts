@@ -6,9 +6,8 @@ import { RouterModule } from '@angular/router';
 import { APP_SETTINGS_ROUTES } from './app-settings.routes';
 import { UtilsModule } from '../utils/utils.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppSettingsService } from './app-settings.service';
-import { CookieService } from 'ngx-cookie';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @NgModule({
   imports: [
@@ -16,7 +15,6 @@ import { CookieService } from 'ngx-cookie';
     FormsModule,
     ModalModule,
     UtilsModule,
-    BsDropdownModule,
     RouterModule.forChild(APP_SETTINGS_ROUTES)
   ],
   declarations: [AppSettingsComponent],

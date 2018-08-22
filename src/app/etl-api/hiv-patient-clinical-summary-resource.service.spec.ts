@@ -6,11 +6,10 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings';
 import {
   HivPatientClinicalSummaryResourceService
 } from './hiv-patient-clinical-summary-resource.service';
-import { DataCacheService } from '../shared/services/data-cache.service';
 
 describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
@@ -30,7 +29,6 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         AppSettingsService,
-        DataCacheService,
         HivPatientClinicalSummaryResourceService
       ],
     });
@@ -42,11 +40,11 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
   it('should be injected with all dependencies',
     inject([HivPatientClinicalSummaryResourceService],
-      (hivPatientClinicalSummaryResourceService: HivPatientClinicalSummaryResourceService) => {
-         expect(hivPatientClinicalSummaryResourceService).toBeTruthy();
-      }));
+      (hivPatientClinicalSummaryResourceService: HivPatientClinicalSummaryResourceService) =>
+        expect(hivPatientClinicalSummaryResourceService).toBeTruthy()));
 
   it('should make API call with the correct url parameters', () => {
+
     let hivPatientClinicalSummaryResourceService: HivPatientClinicalSummaryResourceService = TestBed
       .get(HivPatientClinicalSummaryResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
@@ -116,7 +114,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
       .subscribe((response) => {
         },
         (error: Error) => {
-          expect(error).toBeDefined();
+          expect(error).toBeTruthy();
           done();
         });
   });

@@ -26,7 +26,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public patients: Patient[];
   public referred: any[] = [];
   public referredBack: any[] = [];
-  public errors: any[] = [];
+  public errors: any[];
   public isResetButton: boolean = true;
   public totalPatients: number;
   public isLoading: boolean = false;
@@ -55,6 +55,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   */
   @Output() public patientSelected: EventEmitter<any> = new EventEmitter<any>();
   @Input() public hideResults: boolean = false;
+  @Input() public hideRegistration: boolean = false;
 
   private _searchString: string;
   public get searchString(): string {

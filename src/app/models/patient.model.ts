@@ -69,9 +69,7 @@ export class Patient extends BaseModel {
     }
     return mappedEncounters.reverse();
   }
-  public set encounters(encounters: any[]) {
-     this._encounters = encounters;
-  }
+
   public get searchIdentifiers() {
 
     if (this._identifier.length > 0) {

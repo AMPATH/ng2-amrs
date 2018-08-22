@@ -6,7 +6,7 @@ import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/ht
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { RouterModule } from '@angular/router';
 
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { PatientService } from '../services/patient.service';
 import { ProgramService } from '../programs/program.service';
 import { GeneralLandingPageComponent } from './landing-page.component';
@@ -29,7 +29,6 @@ import { PatientReferralService
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
-import { delay } from 'rxjs/operators';
 
 let progConfig = {
   uuid: 'some-uuid',
@@ -72,7 +71,7 @@ class FakePatientService {
 class LocationStub {
 
   public getLocations(payload): Observable<any> {
-    return of({status: 'okay'});
+    return Observable.of({status: 'okay'});
   }
 }
 class FakePatientReferralService {
@@ -84,7 +83,7 @@ class FakePatientReferralService {
   }
 
   public getProcessPayload() {
-    return of({});
+    return Observable.of({});
   }
 }
 class FakeProgramService {
@@ -92,7 +91,7 @@ class FakeProgramService {
   }
 
   public saveUpdateProgramEnrollment(payload) {
-    return of(payload);
+    return Observable.of(payload);
   }
 }
 class FakePatientReferralResourceService {
@@ -100,16 +99,16 @@ class FakePatientReferralResourceService {
   }
 
   public getPatientReferralReport(params) {
-    return of({});
+    return Observable.of({});
 
   }
 
   public getPatientReferralPatientList(params) {
-    return of({});
+    return Observable.of({});
   }
 
   public getReferralLocationByEnrollmentUuid(uuid: string) {
-    return of({});
+    return Observable.of({});
   }
 }
 class FakePatientProgramResourceService {
@@ -117,15 +116,15 @@ class FakePatientProgramResourceService {
   }
 
   getAllProgramVisitConfigs() {
-    return of(prog).pipe(delay(50));
+    return Observable.of(prog).delay(50);
   }
 
   getPatientProgramVisitConfigs (uuid) {
-    return of(prog).pipe(delay(50));
+    return Observable.of(prog).delay(50);
   }
   getPatientProgramVisitTypes (patient: string, program: string,
                                enrollment: string, location: string) {
-    return of(progConfig);
+    return Observable.of(progConfig);
   }
 }
 class FakeUserDefaultPropertiesService {
@@ -134,7 +133,7 @@ class FakeUserDefaultPropertiesService {
   constructor() { }
 
   public getLocations(): Observable<any> {
-    return of([{}]);
+    return Observable.of([{}]);
 
   }
 
