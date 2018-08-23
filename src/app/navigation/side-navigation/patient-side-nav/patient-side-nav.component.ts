@@ -27,6 +27,9 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
     public selectedRoute: RouteModel = null;
     public viewingChildRoutes = false;
     public changingRoutesSub: Subscription;
+    public canViewFormsTab = false;
+
+
     constructor(private dynamicRoutesService: DynamicRoutesService,
                 private navigationService: NavigationService) {
         this.subscribeToRoutesChangeEvents();
@@ -34,8 +37,12 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.subscribeToRoutesChangeEvents();
+        this.setFormsTabViewingRight();
     }
 
+    public setFormsTabViewingRight() {
+        this.canViewFormsTab = this.navigationService.checkFormsTabViewingRight();
+    }
     public ngOnDestroy() {
         this.changingRoutesSub.unsubscribe();
     }

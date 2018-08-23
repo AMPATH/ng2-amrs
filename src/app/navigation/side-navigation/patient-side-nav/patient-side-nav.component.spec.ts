@@ -13,18 +13,47 @@ import { DynamicRoutesService } from '../../../shared/dynamic-route/dynamic-rout
 import {  } from 'jasmine';
 import { PatientSideNavComponent } from './patient-side-nav.component';
 import { NavigationService } from '../../navigation.service';
+import { UserService } from '../../../openmrs-api/user.service';
+import { SessionStorageService } from '../../../utils/session-storage.service';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 describe('PatientSideNavComponent:', () => {
     let fixture: ComponentFixture<PatientSideNavComponent>;
     let comp: PatientSideNavComponent;
-    let el;
+    let formRouteLabelEl;
+    let navigationServiceStub: Partial<NavigationService>;
+    navigationServiceStub = {
+        checkFormsTabViewingRight: () => true,
+        expandSideBar: () => false,
+        collapseSideBar: () => true,
+    };
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [
                 PatientSideNavComponent
             ],
-            providers: [DynamicRoutesService, NavigationService],
+            providers: [
+                        DynamicRoutesService,
+                        {
+                            provide: NavigationService,
+                            useValue: navigationServiceStub
+                        },
+                        UserService,
+                        MockBackend,
+                        BaseRequestOptions,
+                        {
+                          provide: Http,
+                          useFactory: (
+                              backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
+                          return new Http(backendInstance, defaultOptions);
+                        },
+                        deps: [MockBackend, BaseRequestOptions]
+                       },
+                       AppSettingsService
+                    ],
             schemas: [NO_ERRORS_SCHEMA]
         });
     });
@@ -33,8 +62,6 @@ describe('PatientSideNavComponent:', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(PatientSideNavComponent);
             comp = fixture.componentInstance;
-
-            // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
 
@@ -95,6 +122,46 @@ describe('PatientSideNavComponent:', () => {
 
             expect(fixture.componentInstance.viewingChildRoutes).toBe(true);
             expect(fixture.componentInstance.selectedRoute).toBe(programRoute);
+            done();
+        });
+
+        it('should display Forms Tab depending on the roles', (done) => {
+            let dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+            let programRoute = new RouteModel();
+            programRoute.renderingInfo = {};
+            programRoute.initials = 'G';
+            programRoute.label = 'General Info';
+            programRoute.url = 'url';
+
+            programRoute.childRoutes = [
+                {
+                    childRoutes: [],
+                    initials: 'F',
+                    label: 'Forms',
+                    renderingInfo: { icon: 'fa fa-circle' },
+                    url: 'some/url/'
+                }
+            ];
+
+            const newRoutes: Array<RouteModel> = [programRoute, new RouteModel()];
+            dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);
+            fixture.detectChanges();
+            comp.viewChildRoutes(programRoute);
+            fixture.detectChanges();
+
+            formRouteLabelEl = fixture.debugElement.query(By.css('.child-route-label'));
+            expect(comp.viewingChildRoutes).toBe(true);
+            expect(comp.selectedRoute).toBe(programRoute);
+            expect(comp.canViewFormsTab).toBe(true, 'Can View Forms Tab If Authorized');
+            expect(formRouteLabelEl.nativeElement.textContent).toMatch('Forms');
+
+            const navigationService = TestBed.get(NavigationService);
+            navigationService.checkFormsTabViewingRight = () => false;
+            comp.setFormsTabViewingRight();
+            fixture.detectChanges();
+            expect(comp.canViewFormsTab).toBe(false, 'Can\'t View Forms Tab If not Authorized');
+            formRouteLabelEl = fixture.debugElement.query(By.css('.child-route-label'));
+            expect(formRouteLabelEl).toBeNull();
             done();
         });
 });
