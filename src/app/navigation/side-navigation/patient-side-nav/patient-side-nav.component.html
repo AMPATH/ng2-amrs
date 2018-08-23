@@ -20,12 +20,12 @@
             <span style="color:lightskyblue" class="icon-menu-label">{{selectedRoute.label}}</span>
         </li>
         <li routerLinkActive="active" *ngFor='let route of selectedRoute.childRoutes'>
-            <a routerLink="/{{route.url}}" (click)="collapseSideBar()">
+            <a *ngIf="(route.label == 'Forms' && canViewFormsTab) || route.label != 'Forms'" routerLink="/{{route.url}}" (click)="collapseSideBar()">
                 <span class="icon-menu">
             <span class="icon-menu-letter">{{route.initials}}</span>
                 <span class="icon-menu-icon"><i class="{{route.renderingInfo.icon}}"></i></span>
                 </span>
-                <span class="icon-menu-label">{{route.label}}</span>
+                <span class="icon-menu-label child-route-label">{{route.label}}</span>
             </a>
         </li>
     </ul>
