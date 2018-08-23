@@ -1,0 +1,10 @@
+<div *ngIf="isEditRetroProvider" class="form-group">
+  <label for="retroProvider">Select Provider:</label>
+      <div class="input-group">
+        <ng-select class="sharp-corners" name="retroProvider" id="retroProvider" [(ngModel)]="provider" [items]="providers">
+        </ng-select>
+        <div class="input-group-addon" style="padding: 0px;">
+          <button (click)="updateVisit()" class="btn btn-primary" style="border-radius: 0px;">Save <i  *ngIf="saving" class='fa fa-circle-o-notch fa-spin'></i></button>
+        </div>
+      </div>
+</div>

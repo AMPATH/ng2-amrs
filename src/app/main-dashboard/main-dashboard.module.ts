@@ -27,6 +27,8 @@ import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.
 import { CacheModule } from 'ionic-cache';
 import { NavigationModule } from '../navigation';
 import { ProviderDashboardModule } from '../provider-dashboard/provider-dashboard.module';
+import { RetrospectiveDataEntryModule
+} from '../retrospective-data-entry/retrospective-data-entry.module';
 
 @NgModule({
   imports: [
@@ -40,6 +42,7 @@ import { ProviderDashboardModule } from '../provider-dashboard/provider-dashboar
     LabOrderSearchModule,
     UsefulLinksModule,
     UserDefaultPropertiesModule,
+    RetrospectiveDataEntryModule
     // ProviderDashboardModule,
     // CacheModule,
     // PatientListCohortModule,

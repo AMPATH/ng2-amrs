@@ -26,7 +26,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public patients: Patient[];
   public referred: any[] = [];
   public referredBack: any[] = [];
-  public errors: any[];
+  public errors: any[] = [];
   public isResetButton: boolean = true;
   public totalPatients: number;
   public isLoading: boolean = false;
@@ -247,7 +247,6 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
         let params = this.getRequestParams(referalType, this.providerUuid,
            selectedLocationUuid, startDate, endDate);
-        console.log( params);
         this.referralSubscription = this.referralService.getProviderReferralPatientList(params)
           .subscribe(
             (referralData) => {

@@ -24,7 +24,6 @@ import { OncologysummaryIndicatorsPatientListComponent } from
 './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { BusyModule } from 'angular2-busy';
 
-
 @NgModule({
   imports: [
     DataAnalyticsDashboardOncologyRouting,

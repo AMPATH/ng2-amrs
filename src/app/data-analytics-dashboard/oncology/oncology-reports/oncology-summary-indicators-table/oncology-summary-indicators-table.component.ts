@@ -188,7 +188,6 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
             averageCervicalAbNormalRate.toFixed(2) + ' % ';
        }
 
-
         totalObj.location_name = 'Totals';
         totalObj['encounter_datetime'] = 'Totals';
         totalRow.push(totalObj);

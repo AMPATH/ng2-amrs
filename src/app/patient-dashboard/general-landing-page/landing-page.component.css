@@ -34,6 +34,11 @@ landing-page {
   color: inherit;
 }
 
+.program-container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 .program .program-body {
   padding-top:12px;
   padding-bottom:12px;
@@ -255,7 +260,7 @@ landing-page .program-footer a.btn:last-child {
   margin-right: 0;
 }
 
-.btn.btn-info {
+landing-page a.btn.btn-info {
   margin-bottom: 0;
   margin-left: 0;
 }

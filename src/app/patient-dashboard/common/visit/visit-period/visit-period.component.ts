@@ -6,7 +6,8 @@ import * as _ from 'lodash';
 import { PatientService } from '../../../services/patient.service';
 import { LocationResourceService } from '../../../../openmrs-api/location-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
-import { BehaviorSubject } from 'rxjs';
+import { RetrospectiveDataEntryService
+} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
   selector: 'visit-period',
@@ -24,10 +25,11 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   public encounterUuid: string = '';
   public startDatetime: string = '';
   public stopDatetime: string = '';
+  public retroProviderAttribute: any;
   public encounters: any[] = [];
   public data: any;
   public genderOptions: any;
-  public locationUuid: string;
+  public locationUuid: any;
   public loaderStatus: boolean;
   public locations = [];
   public loadedInitialLocation: boolean = false;
@@ -55,6 +57,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   constructor(private patientService: PatientService, private visitResource: VisitResourceService,
               private router: Router, private route: ActivatedRoute,
               private locationResourceService: LocationResourceService,
+              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
               private confirmationService: ConfirmationService) {
 
   }
@@ -156,7 +159,6 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   public loadedLocation(event) {
     if (event && this.encounterVisitUuid && this.currentVisit && this.currentVisit.location
-
       && this.currentVisit.location.uuid !== event.value) {
 
       let visitPayload = {
@@ -186,7 +188,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   private setInitialLocation() {
     this.locationUuid = this.currentVisit && this.currentVisit.location ?
-      this.currentVisit.location.display : '';
+      { value: this.currentVisit.location.uuid, label:  this.currentVisit.location.display } : '';
   }
 
   private getEncounterVisit(encounterUuid) {
@@ -214,7 +216,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       'location:ref' +
       '),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
-      'stopDatetime)';
+      'stopDatetime,attributes:(uuid,value))';
     this.loadingVisit = true;
     this.visitSubscription = this.visitResource.getVisitByUuid(uuid, { v: custom })
       .subscribe((visit) => {
@@ -223,12 +225,16 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private setVisit(visit) {
+    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
     this.stopDatetime = visit.stopDatetime;
     this.startDatetime = visit.startDatetime;
     this.currentVisit = visit ? visit : '';
-    this.locationUuid = visit ? visit.location.uuid : null;
+    this.locationUuid = visit ? {value: visit.location.uuid, label: visit.location.display} : null;
     this.locationName = visit ? visit.location.display : null;
     this.encounterVisitUuid = visit ? visit.uuid : null;
+    if (retroSettings && retroSettings.enabled) {
+      this.retroProviderAttribute = retroSettings.provider;
+    }
     this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
     this.loadingVisit = false;
   }
@@ -239,7 +245,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     this.startDatetime = '';
     this.encounterVisitUuid = '';
     this.currentVisit = '';
-    this.locationUuid = '';
+    this.locationUuid = undefined;
     this.currentVisitType = '';
   }
 }

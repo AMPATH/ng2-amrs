@@ -31,7 +31,7 @@ export class VisitResourceService {
             'form:(uuid,name),location:ref,' +
             'encounterType:ref,encounterProviders:(uuid,display,' +
             'provider:(uuid,display))),patient:(uuid,uuid),' +
-            'visitType:(uuid,name),location:ref,startDatetime,' +
+            'visitType:(uuid,name),attributes:(uuid,display,value),location:ref,startDatetime,' +
             'stopDatetime)';
         const params = new URLSearchParams();
         params.set('v', searchParams.v || custom);

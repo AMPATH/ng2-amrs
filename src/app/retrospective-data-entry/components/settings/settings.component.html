@@ -1,0 +1,92 @@
+<div class="retro-data-entry">
+  <fieldset>
+    <busy [message]="'Loading patient search...'" *ngIf="isLoading"></busy>
+    <legend *ngIf="!modalMode">Retrospective Data Entry</legend>
+    <div class="row m-t-20" *ngIf="!bannerMode">
+      <div class="col-md-12 col-xs-12" style="margin-bottom: 20px;">
+        <md-checkbox color="primary" labelPosition="after" (change)="saveRetroState($event)"
+                     [(ngModel)]="enableRetro">
+          Enable Retrospective Data Entry
+        </md-checkbox>
+      </div>
+    </div>
+    <ng-container *ngIf="enableRetro">
+      <div class="row" *ngIf="!bannerMode">
+        <div class="col-md-4 col-xs-12">
+          <div class="form-group">
+            <label>Paper Forms Provider</label>
+            <ng-select [loading]="providerLoading"  [typeahead]="suggest" class="sharp-corners" [(ngModel)]="provider" [items]="providers"
+                       (change)="saveProvider($event)"></ng-select>
+            <p class="text-danger" *ngIf="error && error.provider"><strong>Paper Forms Provider</strong> is required</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="form-group">
+            <label>Original Visit Date</label>
+            <input class="form-control" type="date" name="visitDate" [value]="visitDate"
+                   [(ngModel)]="visitDate"
+                   (ngModelChange)="onDateChanged($event)" max="{{maxDate}}" min="2000-01-01" step="1">
+            <p class="text-danger" *ngIf="error && error.visitDate"><strong>Visit Date</strong> is required</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="form-group">
+            <label>Original Visit Time</label>
+            <div class="row">
+              <div class="col-md-5 col-xs-5" style="padding-right: 0;">
+                <select name="visitTimeState" class="form-control" id="no-time" [ngModel]="visitTimeState" (ngModelChange)="onTimeStateChanged($event)">
+                <option value="0">N/A</option>
+                <option value="1">Visit Time</option>
+              </select></div>
+              <div class="col-md-7 col-xs-7">
+                <input class="form-control" type="time" name="visitTime" [value]="visitTime"
+                                   [(ngModel)]="visitTime"
+                                   (ngModelChange)="onTimeChanged($event)"></div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-12 col-xs-12" *ngIf="modalMode">
+          <div class="form-group">
+            <label for="location">Select a Location</label>
+            <location-filter id="location" [locationUuids]="location" [showLabel]="false"
+                             [disable-county]="true" [multiple]="false" (onLocationChange)="select($event)">
+            </location-filter>
+          </div>
+        </div>
+        <div class="col-md-12 col-xs-12" *ngIf="!modalMode && !bannerMode">
+          <h5>
+            <strong>
+              <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle-thin fa-stack-2x"></i>
+                  <i class="fa fa-info fa-stack-1x"></i>
+              </span>
+              Visit location will be your current location above. You can also change it from the
+              current visit page
+            </strong>
+          </h5>
+        </div>
+        <div class="col-md-12 col-xs-12">
+          <div class="form-group text-right" *ngIf="modalMode">
+            <button class="btn btn-primary" (click)="changeSettings(false)">Save</button>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="bannerMode">
+        <div class="col-md-3 col-xs-6" *ngIf="provider">
+          Provider: <strong>{{provider.label}}</strong>
+        </div>
+        <div class="col-md-3 col-xs-6" *ngIf="location">
+          Location: <strong>{{location.label}}</strong>
+        </div>
+        <div class="col-md-3 col-xs-9" *ngIf="visitDate">
+          Visit Date: <strong>{{visitDate | date:'mediumDate'}}, {{visitDate +', '+ visitTime | date:'mediumTime'}}</strong>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <button class="btn btn-primary" (click)="changeSettings(true)">Update Settings</button>
+        </div>
+      </div>
+    </ng-container>
+  </fieldset>
+</div>

@@ -113,7 +113,8 @@ export class PatientReferralService {
 
   public getProviderReferralPatientList(params: any) {
     let referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let referralObservable = this.patientReferralResourceService.getPatientReferralPatientList({
+    let referralObservable = this.patientReferralResourceService
+      .getPatientReferralPatientList({
       endDate: params.endDate,
       locationUuids: params.locationUuids,
       startDate: params.startDate,

@@ -1,5 +1,6 @@
 <div class="box-body">
   <div class="component-wrapper">
+    <busy [message]="'Loading patient dashboard...'" *ngIf="isLoading"></busy>
     <div class="animate-show">
       <h3 class="text-primary"><span class="glyphicon glyphicon-user"></span> User Default
         Properties</h3>
@@ -8,22 +9,16 @@
         <label for="location">Search a Location</label>
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-          <input id="location" type="text" class="validate filter-input form-control"
-                 [(ngModel)]=query
-                 (keyup)=filter($event)>
-
+          <ng-select class="sharp-corners" placeholder="Please type to search" id="location" [(ngModel)]="location" [items]="locations" (change)="select($event)"></ng-select>
           <div *ngIf="isBusy" class="input-group-addon"><i class="fa fa-spinner fa-spin"></i></div>
         </div>
-        <p *ngIf="query=='' && currentLocation==''" class="form-text text-muted">Please select your
-          current location</p>
-
         <div class="float pull-left">
-          <p *ngIf="currentLocation!=''" class="form-text">Your current location : <span
-            class="current-location text-bold">{{currentLocation}}</span>
+          <p *ngIf="currentLocation" class="form-text text-bold">Your current location : <span
+            class="current-location">{{currentLocation.display}}</span>
           </p>
         </div>
         <div class="float pull-right">
-          <span class="text-bold" *ngIf="query!=''">New Location: {{query}}</span>
+          <span class="text-bold" *ngIf="location && !confirming">New Location: {{location.label}}</span>
         </div>
         <div class="clear">&nbsp;</div>
         <ul class="suggestions list-group">
@@ -31,7 +26,7 @@
             {{item.display}}
           </li>
         </ul>
-        
+        <div class="clear clearfix">&nbsp;</div>
       </div>
       <!-- Select department -->
       <div class="form-group">
@@ -47,10 +42,11 @@
           </div>
       </div>
       <div class="clear">&nbsp;</div>
-      
+
     </div>
-    <div style="margin-top: 30px;"> 
-      <button [disabled]="query=='' && currentLocation=='' || !selectedDepartment" class="btn btn-info previous"
+    <!--<retrospective-data-entry-settings></retrospective-data-entry-settings>-->
+    <div style="margin-top: 30px;">
+      <button [disabled]="((!location || !currentLocation) && !selectedDepartment)" class="btn btn-info previous"
               (click)="goToPatientSearch()">Done
         <span class="glyphicon glyphicon-chevron-right"></span>
         <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>

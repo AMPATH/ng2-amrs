@@ -1,11 +1,13 @@
 <div class="list-group-item" *ngIf="encounterVisitUuid">
     <div class="px-nested-panel-heading clearfix">
-      {{currentVisitType}} Started at: <strong>{{startDatetime | date: 'hh:mm:ss a MMM, dd yyyy'}} </strong>
+      {{currentVisitType}} Started at: <strong>{{startDatetime | date: 'hh:mm:ss a, MMM, dd yyyy'}} </strong>
       <span *ngIf="stopDatetime">
        Ended at: <strong>{{stopDatetime | date: 'hh:mm:ss a MMM, dd yyyy'}}</strong>
        </span>
-      <span>At: <strong>{{locationName}}</strong></span>
-
+      <span>at: <strong>{{locationName}}</strong></span>
+      <span *ngIf="retroProviderAttribute">
+       By: <strong>{{retroProviderAttribute.label}}</strong> - retrospectively
+       </span>
       <div *ngIf="editLocation">
         <label> Select location:</label>
         <ng-select class="sharp-corners" (change)="loadedLocation($event)" [(ngModel)]="locationUuid" [items]="locations">

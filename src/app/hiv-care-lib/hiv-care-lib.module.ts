@@ -6,7 +6,6 @@ import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule , MdSlideTog
 import { RouterModule } from '@angular/router';
 
 import { AgGridModule } from 'ag-grid-angular/main';
-import { SelectModule } from 'ng2-select';
 import { ChartModule } from 'angular2-highcharts';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import {
@@ -102,7 +101,6 @@ import {
     DropdownModule,
     ButtonModule,
     CalendarModule,
-    SelectModule,
     ChartModule.forRoot(require('highcharts'),
       require('highcharts/highcharts-more'),
       require('highcharts/modules/exporting')
