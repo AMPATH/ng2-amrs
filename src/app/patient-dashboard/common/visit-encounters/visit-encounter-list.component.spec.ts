@@ -235,6 +235,8 @@ let visitEncounterGrouping = [{
           }
         ]
       }
+    }
+  }
       ]
   }];
 
