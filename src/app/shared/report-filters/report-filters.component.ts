@@ -57,7 +57,16 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   @Output() public onIndicatorChange = new EventEmitter<any>();
   @Output() public onDateChange = new EventEmitter<any>();
   @Output() public onStatesChange = new EventEmitter<any>();
-  public genderOptions: Array<any>;
+  public genderOptions: Array<any> = [
+    {
+      value: 'F',
+      label: 'F'
+    },
+    {
+      value: 'M',
+      label: 'M'
+    }
+  ];
   public selectedIndicatorTagsSelectedAll: boolean = false;
   public selectedProgramTagsSelectedAll: boolean = false;
   public selectedStatesTagsSelectedAll: boolean = false;
@@ -181,19 +190,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this.start && this.end) {
       this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
     }
-    this.genderOptions = [
-      {
-        value: 'F',
-        label: 'Female'
-      },
-      {
-        value: 'M',
-        label: 'Male'
-      }
-    ];
 
-    this._gender = this._gender.length > 0 ? this._gender : this.genderOptions;
-    this.selectedGender = _.map(this.genderOptions, 'value');
+    // this._gender = this._gender.length > 0 ? this._gender : this.genderOptions;
+    // this.selectedGender = _.map(this.genderOptions, 'value');
     if (this._indicators.length > 0) {
       this.selectedIndicatorTagsSelectedAll = true;
     }

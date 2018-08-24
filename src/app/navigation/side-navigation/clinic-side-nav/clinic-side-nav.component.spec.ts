@@ -13,6 +13,12 @@ import { DynamicRoutesService } from '../../../shared/dynamic-route/dynamic-rout
 import {  } from 'jasmine';
 import { ClinicSideNavComponent } from './clinic-side-nav.component';
 import { NavigationService } from '../../navigation.service';
+import { UserService } from '../../../openmrs-api/user.service';
+import { MockBackend } from '@angular/http/testing';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { AppSettingsService } from '../../../app-settings';
+import { SessionStorageService } from '../../../utils/session-storage.service';
+import { LocalStorageService } from '../../../utils/local-storage.service';
 
 describe('ClinicSideNavComponent:', () => {
     let fixture: ComponentFixture<ClinicSideNavComponent>;
@@ -24,7 +30,23 @@ describe('ClinicSideNavComponent:', () => {
             declarations: [
                 ClinicSideNavComponent
             ],
-            providers: [DynamicRoutesService, NavigationService],
+            providers: [DynamicRoutesService,
+                        NavigationService,
+                        UserService,
+                        MockBackend,
+                        BaseRequestOptions,
+                        {
+                          provide: Http,
+                          useFactory: (
+                              backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
+                          return new Http(backendInstance, defaultOptions);
+                        },
+                        deps: [MockBackend, BaseRequestOptions]
+                       },
+                       AppSettingsService,
+                       SessionStorageService,
+                       LocalStorageService
+                    ],
             schemas: [NO_ERRORS_SCHEMA]
         });
     });
