@@ -1,4 +1,4 @@
-import { Component, OnInit , Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataAnalyticsDashboardService } from
 '../../../services/data-analytics-dashboard.services';
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   templateUrl: './oncology-summary-filters.component.html',
   styleUrls: ['./oncology-summary-filters.component.css']
 })
-export class OncologySummaryFiltersComponent implements OnInit {
+export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
 
   public tittle: string  = 'Filters';
   public data = [];
@@ -51,6 +51,10 @@ export class OncologySummaryFiltersComponent implements OnInit {
 
   public ngOnInit() {
   }
+  public ngOnChanges(changes: SimpleChanges) {
+    this.processFilterData(changes);
+
+  }
 
   public getLocationsSelected() {
     this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
@@ -60,6 +64,27 @@ export class OncologySummaryFiltersComponent implements OnInit {
         }
 
       });
+  }
+
+  public processFilterData(filterChanges: any) {
+     if (filterChanges.gender.currentValue) {
+          this.formatGenderFilter(filterChanges.gender.currentValue
+          );
+     }
+
+  }
+
+  public formatGenderFilter(genderArray) {
+       let selectedGender = [];
+       _.each(genderArray, (gender) => {
+           selectedGender.push({
+             'label': gender,
+             'value':  gender
+           });
+       });
+
+       this.selectedGender = selectedGender;
+
   }
 
   public generateReport() {

@@ -30,7 +30,7 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
         if (params.startDate && params.startDate !== '') {
             urlParams.set('startDate', params.startDate);
         }
-        if (params.gender && params.gender !== '') {
+        if (params.gender && params.gender.length > 0) {
             urlParams.set('genders', params.gender);
         }
         if (params.startAge && params.startAge !== '') {
@@ -49,7 +49,7 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
     public getOncologySummaryMonthlyIndicatorsReport(params) {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl(params);
-        let request = this.http.get(url, {
+        let request =  this.http.get(url, {
             search: urlParams
         })
             .map((response: Response) => {

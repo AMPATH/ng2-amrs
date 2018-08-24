@@ -7,6 +7,7 @@ export class User extends BaseModel {
     super(openmrsModel);
   }
 
+
   public get roleDisplay(): string {
 
     let roleDisplay: string = '';
@@ -49,5 +50,13 @@ export class User extends BaseModel {
   }
   public get person(): any {
     return this._openmrsModel.person;
+  }
+
+  public get privileges(): any[] {
+    const privileges = this._openmrsModel.privileges;
+    if (privileges && privileges.length > 0) {
+      return privileges;
+    }
+    return null;
   }
 }
