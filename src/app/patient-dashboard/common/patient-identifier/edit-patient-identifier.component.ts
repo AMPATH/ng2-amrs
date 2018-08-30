@@ -55,7 +55,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.getPatient();
     this.fetchLocations();
-    this.getCommonIdentifierTypes();
+    this.commonIdentifierTypes = this.patientIdentifierService.patientIdentifierTypeFormat();
   }
 
   public ngOnDestroy(): void {
@@ -85,8 +85,12 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
   public setPatientIdentifier(patientIdentifier) {
     this.patientIdentifier = patientIdentifier;
-    this.identifierValidity = '';
-    this.errorMessage = '';
+    if (this.identifierType || this.identifierType !== '') {
+      this.hasError = false;
+      this.checkIdentifierFormat();
+      this.errorAlert = '';
+    }
+
   }
   public setPreferredIdentifier(preferredIdentifier) {
     this.preferredIdentifier = preferredIdentifier;
@@ -113,6 +117,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.patientIdentifierUuid = (id as any).uuid;
       this.preferredIdentifier = (id as any).preferred;
       this.selectedDevice = loc;
+      this.identifierLocation = loc.value;
     }else {
       this.patientIdentifier = '';
       this.patientIdentifierUuid = '';
@@ -132,14 +137,17 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       identifierType: (this.identifierType as any).val, // identifierType
       preferred: this.preferredIdentifier, // preferred
       location: this.identifierLocation // location
-
     };
     if (idExists) {
       delete personIdentifierPayload['identifier'];
       delete personIdentifierPayload['identifierType'];
       this.saveIdentifier(personIdentifierPayload, person);
     } else {
-    this.validateFormFields(this.patientIdentifier);
+    this.identifierValidity = 'Patient identifier is required.';
+    if (!this.validateFormFields(this.patientIdentifier)) {
+      return ;
+    }
+
     this.checkIdentifierFormat();
     if (this.isValidIdentifier === true) {
       this.patientResourceService.searchPatient(this.patientIdentifier).subscribe(
@@ -157,8 +165,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
           }
         }
       );
-    }else {
-       console.error('ERROR : Invalid identifier type');
+    } else {
+      console.log('Invalid Identifier');
     }
   }
   }
@@ -211,58 +219,38 @@ private saveIdentifier(personIdentifierPayload, person) {
       }
     );
   }
-  private getCommonIdentifierTypes() {
-    this.patientIdentifierTypeResService.getPatientIdentifierTypes().subscribe(
-      (data) => {
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < data.length; i++) {
-          let  commonIdentifierTypeNames = this.patientIdentifierService.commonIdentifierTypes();
-          if (_.includes(commonIdentifierTypeNames, data[i].name) === true) {
-            this.commonIdentifierTypes.push({ val: data[i].uuid,
-              label: data[i].name });
-            this.commonIdentifierTypeFormats[data[i].uuid] = {
-              format: data[i].format,
-              checkdigit: data[i].checkDigit
-              };
-          }
 
-        }
-
-      },
-      (error) => {
-        console.error('Error Occurred while retrieving common patient identifier types', error);
-      });
-  }
   private checkIdentifierFormat() {
-    // this.isValidIdentifier = false;
     this.identifierValidity = '';
-    let identifierType = this.identifierType;
-    if (this.commonIdentifierTypeFormats[(identifierType as any).val]) {
-      let identifierFormat = this.commonIdentifierTypeFormats[(identifierType as any).val];
+    let selectedIdentifierType: any = this.identifierType;
 
-      if (identifierFormat.checkdigit) {
+    if (selectedIdentifierType) {
+      let identifierHasFormat = selectedIdentifierType.format;
+      let identifierHasCheckDigit = selectedIdentifierType.checkdigit;
+      if (identifierHasCheckDigit) {
         this.checkLuhnCheckDigit();
-      }else {
-        console.error('ERROR : Check Digit Failed');
+        if (this.isValidIdentifier === false) {
+            this.identifierValidity = 'Invalid Check Digit.';
+            return ;
+        }
       }
-      if (identifierFormat.format && identifierFormat.format !== 'NULL') {
+
+      if (identifierHasFormat) {
         this.isValidIdentifier =
-          this.patientIdentifierService.checkRegexValidity(identifierFormat.format,
+          this.patientIdentifierService.checkRegexValidity(identifierHasFormat,
             this.patientIdentifier);
         if (this.isValidIdentifier === false) {
-          this.identifierValidity = 'Invalid Identifier Format. {' + identifierFormat.format + '}';
+          this.identifierValidity = 'Invalid Identifier Format. {' + identifierHasFormat + '}';
+          return ;
         }
       }
-      if ((identifierFormat.format === '' || identifierFormat.format === 'NULL'
-        || identifierFormat.format === null) &&
-        (identifierFormat.checkdigit === 0 || identifierFormat.checkdigit === false)) {
-        this.isValidIdentifier = true;
-      }else {
-        console.error('ERROR: Invalid Identifier Format', identifierFormat.format);
-      }
+
       if (!this.identifierLocation) {
         this.invalidLocationCheck = 'Location is Required';
+        return;
       }
+      this.isValidIdentifier = true;
+
     }
 
   }
@@ -278,7 +266,7 @@ private saveIdentifier(personIdentifierPayload, person) {
     if (expectedCheckDigit === parseInt(checkDigit, 10)) {
       this.isValidIdentifier = true;
     } else {
-      console.error('ERROR : Expected Check Digit');
+      console.error('ERROR : Expected Check Digit', expectedCheckDigit);
       this.identifierValidity = 'Invalid Check Digit';
     }
 
@@ -291,11 +279,9 @@ private saveIdentifier(personIdentifierPayload, person) {
   private validateFormFields(patientIdentifier) {
     let isNullOrUndefined = this.isNullOrUndefined(patientIdentifier);
     if (isNullOrUndefined === false) {
-      this.isValidIdentifier = true;
       return true;
     }else {
       this.setErroMessage('Patient identifier is required.');
-      this.isValidIdentifier = false;
       return false;
     }
   }

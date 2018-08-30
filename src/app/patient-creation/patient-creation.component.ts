@@ -689,29 +689,33 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private checkIdentifierFormat() {
-    // this.isValidIdentifier = false;
+    this.isValidIdentifier = false;
     this.identifierValidity = '';
     let identifierType = this.patientIdentifierType;
-    if (this.commonIdentifierTypeFormats[(identifierType as any).val]) {
-      let identifierFormat = this.commonIdentifierTypeFormats[(identifierType as any).val];
+    let identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
+      (identifierType as any).val);
+    let identifierHasCheckDigit = null;
+    let identifierHasRegex = null;
 
-      if (identifierFormat.checkdigit) {
+    if (identifierTypeSpecifiedFormat.length > 0) {
+      identifierHasRegex = identifierTypeSpecifiedFormat[0].format;
+      identifierHasCheckDigit = identifierTypeSpecifiedFormat[0].checkdigit;
+      if (identifierHasCheckDigit) {
         this.checkLuhnCheckDigit();
+        return;
       }
-      if (identifierFormat.format && identifierFormat.format !== 'NULL') {
+      if (identifierHasRegex) {
         this.isValidIdentifier =
-          this.patientCreationService.checkRegexValidity(identifierFormat.format,
+          this.patientCreationService.checkRegexValidity(identifierHasRegex,
             this.commonIdentifier);
         if (this.isValidIdentifier === false) {
-          this.identifierValidity = 'Invalid Identifier Format. {' + identifierFormat.format + '}';
+          this.identifierValidity = 'Invalid Identifier Format. {' + identifierHasRegex + '}';
         }
+        return;
       }
-      if ((identifierFormat.format === '' || identifierFormat.format === 'NULL'
-        || identifierFormat.format === null) &&
-        (identifierFormat.checkdigit === 0 || identifierFormat.checkdigit === false
-        || identifierFormat.checkdigit === undefined)) {
-        this.isValidIdentifier = true;
-      }
+
+    } else {
+      this.isValidIdentifier = true;
     }
 
   }
