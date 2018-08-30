@@ -33,6 +33,7 @@ import * as ever_on_art_base from './json-reports/ever-on-art-base.json';
 import * as referral_patient_list_template from './json-reports/referral-patient-list-template.json';
 import * as referral_dataset_base from './json-reports/referral-dataset-base.json';
 import * as referral_aggregate from './json-reports/referral-aggregate.json';
+import * as cdm_dataset_base from './json-reports/cdm/cdm-dataset-base.json';
 
 import * as starting_art_aggregation_age15 from './json-reports/starting-art-aggregation-age15.json';
 import * as starting_art_base_age15 from './json-reports/starting-art-base-age15.json';
@@ -374,6 +375,11 @@ export class BaseMysqlReport {
                 case 'clinicLabOrdersReport':
                     resolve({
                         main: clinic_lab_orders_report
+                    })
+                    break;
+                case 'cdmPatientSummary':
+                    resolve({
+                        main: cdm_dataset_base
                     });
                     break;
                 default:

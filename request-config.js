@@ -4,7 +4,6 @@ module.exports = function() {
  var authorizationHeader = '';
  return {
    getRequestPromise: function getRequestPromise(queryString,url) {
-       console.log('queryString======',queryString,url);
      var options = {
        uri: url,
         qs:queryString,

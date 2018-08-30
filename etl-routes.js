@@ -96,6 +96,10 @@ import {
 import {
     BaseMysqlReport
 } from './app/reporting-framework/base-mysql.report'
+import {
+    CDMReportingService
+} from './service/cdm/cdm-reporting.service'
+
 module.exports = function () {
 
     var routes =
@@ -589,6 +593,78 @@ module.exports = function () {
                     validate: {
                         options: {
                             allowUnknown: true
+                        }
+                    }
+                }
+            },
+            {
+                method: 'GET',
+                path: '/etl/patient/{patientUuids}/cdm-summary',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewPatient
+                        }
+                    },
+                    handler: function (request, reply) {
+                             let requestParams = Object.assign({}, request.query, request.params);
+                                   let service = new CDMReportingService();                           
+                                   service.getPatientSummaryReport(requestParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+                    },
+                    description: 'Get patient CDM summary',
+                    notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
+                        "A patient's CDM summary includes details such as last visit date, " +
+                        "current medication regimen etc. as at that encounter's date. ",
+                    tags: ['api'],
+                    validate: {
+                        options: {
+                            allowUnknown: true
+                        },
+                        params: {
+                            patientUuids: Joi.string()
+                                .required()
+                                .description("The patient's uuid(universally unique identifier)."),
+                        }
+                    }
+                }
+            },
+            {
+                method: 'GET',
+                path: '/etl/patient/{patientUuids}/medication-change',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewPatient
+                        }
+                    },
+                    handler: function (request, reply) {
+                             let requestParams = Object.assign({}, request.query, request.params);
+                                   let service = new CDMReportingService();                                                 
+                                   service.getPatientMedicationHistoryReport(requestParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+                    },
+                    description: 'Get patient medication history',
+                    notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
+                        "A patient's medication history details such as medication by encounter, " +
+                        "current medication  etc. as at that encounter's date. ",
+                    tags: ['api'],
+                    validate: {
+                        options: {
+                            allowUnknown: true
+                        },
+                        params: {
+                            patientUuids: Joi.string()
+                                .required()
+                                .description("The patient's uuid(universally unique identifier)."),
                         }
                     }
                 }
