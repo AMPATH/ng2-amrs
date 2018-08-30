@@ -17,13 +17,6 @@ export class EnrollementWorkflowService {
     let enrollPayload = this.programService.createEnrollmentPayload(
       programUuid, patient, this.toOpenmrsDateFormat(new Date()), null,
       location, enrollmentUuid);
-    if (state) {
-      // catch the switch case | no state
-      _.merge(enrollPayload, {'states': [{
-        'state': state.uuid,
-        'startDate': this.toOpenmrsDateFormat(new Date())
-      }]});
-    }
     return this.programService.saveUpdateProgramEnrollment(enrollPayload);
   }
 
