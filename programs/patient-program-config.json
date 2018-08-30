@@ -465,6 +465,16 @@
             "display": "TXSUPPORTERMEDREFILL"
           }
         ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          }
+        ]
       }
     ]
   },
