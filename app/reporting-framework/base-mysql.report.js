@@ -74,6 +74,8 @@ import * as labs_report_base from './json-reports/labs-report-base.json';
 import * as labs_and_imaging_dataset_base from './json-reports/labs-and-imaging-dataset-base.json';
 import * as patients_requiring_viral_load_template from './json-reports/patients-requiring-viral-load-template.json';
 import * as clinic_lab_orders_report from './json-reports/clinic-lab-orders-report-base.json';
+import * as clinical_reminders_report from './json-reports/clinical-reminder-report.json';
+
 
 
 import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
@@ -107,7 +109,7 @@ export class BaseMysqlReport {
 
                             that.reportQuery = sqlQuery;
                             // run query
-                            console.log('Query', that.reportQuery);
+                            // console.log('Query', that.reportQuery);
                             that.executeReportQuery(that.reportQuery)
                                 .then((result) => {
                                     return that.transFormResults(that.reportSchemas, result);
@@ -380,6 +382,12 @@ export class BaseMysqlReport {
                 case 'cdmPatientSummary':
                     resolve({
                         main: cdm_dataset_base
+                    });
+                    break;
+                case 'clinicalReminderReport':
+                    resolve({
+                        main: clinical_reminders_report,
+                        flatLabsAndImagingDataSetbase : labs_and_imaging_dataset_base
                     });
                     break;
                 default:

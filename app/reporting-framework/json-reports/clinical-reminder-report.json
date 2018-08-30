@@ -19,28 +19,34 @@
             "table": "etl.flat_labs_and_imaging",
             "alias": "t2",
             "join": {
-                "type": "LEFT OUTER",
+                "type": "left",
                 "joinCondition": "date(t1.encounter_datetime) = date(t2.test_datetime)"
             }
         },
-
-
         {
             "table": "amrs.person",
             "alias": "t5",
             "join": {
-                "type": "INNER",
+                "type": "left",
                 "joinCondition": "t5.person_id = t1.person_id"
+            }
+        },
+        {
+            "table": "amrs.patient_program",
+            "alias": "p",
+            "join": {
+                "type": "left",
+                "joinCondition": "t1.person_id = p.patient_id AND p.program_id = 9 AND date_completed IS NULL"
             }
         },
         {
             "dataSet": "flatLabsAndImagingDataSetbase",
             "alias": "t3",
             "join": {
-              "type": "LEFT OUTER",
+              "type": "left",
               "joinCondition": "t3.person_uuid = t1.uuid"
             }
-          }
+        }
     ],
     "columns": [
 
@@ -97,7 +103,7 @@
             "alias": "is_on_inh_treatment",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression":"tb_prophylaxis_start_date is not null "
+                "expression":"ipt_start_date is not null "
             }
         },
         {
@@ -105,7 +111,7 @@
             "alias": "qualifies_differenciated_care",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date('{referenceDate}')) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,'{referenceDate}')) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) then 1 else 0 end"
+                "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date('{referenceDate}')) > 18) and (timestampdiff(month,ipt_start_date,if(ipt_completion_date,ipt_completion_date,'{referenceDate}')) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) AND p.program_id IS NULL then 1 else 0 end"
             }
         },
 
@@ -176,23 +182,23 @@
         },
         {
             "type": "derived_column",
-            "alias": "tb_prophylaxis_end_date",
+            "alias": "ipt_completion_date",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY)"
+                "expression": "DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY)"
             }
         },
         {
           "type": "simple_column",
-          "alias":"tb_prophylaxis_start_date",
-          "column":"t1.tb_prophylaxis_start_date"
+          "alias":"ipt_start_date",
+          "column":"t1.ipt_start_date"
         },
         {
             "type": "derived_column",
             "alias": "inh_treatment_days_remaining",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "DATEDIFF(DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY), now())"
+                "expression": "DATEDIFF(DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY), now())"
             }
         }
     ],
