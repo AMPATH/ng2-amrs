@@ -21,9 +21,7 @@ const expectedPatientCareResults = {
             deceased_patients: 49,
             untraceable_patients: 163,
             transferred_out_patients: 166,
-            hiv_negative_patients: 2,
             patients_continuing_care: 4238,
-            self_disengaged_from_care: 4,
             defaulters: 239,
             transfer_to_MNCH: 7,
             other_patient_care_status: 93

@@ -126,14 +126,6 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
           color: '#d62728', indicator: 'untraceable_patients'
         },
         {
-          y: data.hiv_negative_patients, name: 'HIV Negative Patients',
-          color: '#9467bd', indicator: 'hiv_negative_patients'
-        },
-        {
-          y: data.self_disengaged_from_care,  name: 'Self Disengaged From Care',
-          color: '#8c564b', indicator: 'self_disengaged_from_care'
-        },
-        {
           y: data.defaulters, name: 'Defaulters',
           color: '#e377c2' , indicator: 'defaulters'
         },
