@@ -620,7 +620,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
-    "visibleLocations": [
+    "HidevisibleLocations": [
       {"uuid":"08feb2dc-1352-11df-a1f1-0026b9348838", "display":"Turbo"},
       {"uuid":"0900948a-1352-11df-a1f1-0026b9348838", "display":"Huruma SDH"}
     ],
@@ -685,7 +685,7 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visibleLocations": [
+    "HidevisibleLocations": [
       {"uuid":"0900880a-1352-11df-a1f1-0026b9348838","display":"Chepsaita"},
       {"uuid":"96d2964e-8cec-4eca-ad05-a9c1fb29a045","display":"Cheramei"},
       {"uuid":"2003e950-5b62-4330-a94c-cf8165f75084","display":"Murgusi"},
