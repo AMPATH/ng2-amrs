@@ -51,6 +51,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public enrollmentCompleted: boolean  = false;
   public isFocused: boolean = false;
   public locations: any = [];
+  public programSpecificLocations: any = [];
   public dateEnrolled: string;
   public isEditLocation: any;
   public addBackground: any;
@@ -148,16 +149,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public showReferralEncounter(row: any) {
     this.getProgramWorkflows(row.programUuid);
-    this.userDefaultPropertiesService.getLocations()
-      .map((response: Response) => response.json()).subscribe((locations: any) => {
-      let location = _.find(locations.results, (_location: any) => {
-        return _location.display.trim() === row.referred_from_location.trim();
-      });
-      let referralEncounters = _.filter(this.patient.encounters, (encounter) => {
-        return encounter.location.uuid === location.uuid;
+    let referralEncounters = _.filter(this.patient.encounters, (encounter: any) => {
+        if (encounter && encounter.location && encounter.location.uuid) {
+            return encounter.location.uuid === row.referred_from_location_uuid;
+        }
       });
 
-      this.selectedEncounter = new Encounter(_.first(referralEncounters));
+    this.selectedEncounter = new Encounter(_.first(referralEncounters));
+    if (this.selectedEncounter && this.selectedEncounter.uuid) {
       this.patientReferralService.getReferralEncounterDetails(this.selectedEncounter.uuid)
         .subscribe((encounterWithObs) => {
         // search for PATIENT CHANGE STATE obs item. PATIENT CHANGE STATE is a required field
@@ -165,12 +164,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           return singleOb.concept.uuid === 'aad64a84-1a63-47e3-a806-fb704b52b709';
         });
         this.referralProgramOnDetail = row;
-          // override the default state value
+        // override the default state value
         this.referralProgramOnDetail.program_workflow_state = patientState.value.display;
         this.staticModal.show();
         this.showReferralEncounterDetail = true;
       });
-    });
+    }
   }
 
   public hideEncounterModal() {
@@ -270,15 +269,6 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         this.program.value, this.patient, this.dateEnrolled,
         this.dateCompleted, this.selectedLocation.value, '');
        if (payload) {
-         if (this.programHasWorkflows) {
-           _.merge(payload, {'states': [{
-             'state': this.selectedWorkFlowState.uuid,
-             'startDate': this.toOpenmrsDateFormat(new Date())
-           }]});
-         }
-         if (asReferral) {
-
-         }
          this._updatePatientProgramEnrollment(payload);
       }
     }
@@ -327,6 +317,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
        this.selectedProgram = _.find(this.patient.enrolledPrograms, (_program) => {
           return _program.programUuid === programUuid;
         });
+       this.programSpecificLocations = this.getProgramSpecificLocations(
+       this.selectedProgram.program.uuid);
        this.getProgramWorkflows(programUuid);
        this.checkIfEnrollmentIsAllowed();
       // check the compatibility of the program
@@ -336,6 +328,10 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
       this.updateEnrollmentButtonState();
 
+  }
+
+  public getProgramSpecificLocations(uuid) {
+    return this.allProgramVisitConfigs[uuid].visibleLocations;
   }
 
   public getWorkFlowState(state) {
@@ -349,14 +345,16 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       // we don't need to select states any more. Default state is 'In Care'
       this.selectedWorkflow = _.first(this.programWorkflows);
       // add program state if it has a workflow
+      // console.log('sssssssssssssssssssssssssssaa====', this.selectedWorkflow);
       if (this.selectedWorkflow) {
         // incare state
         this.workflowStates = _.filter(this.selectedWorkflow.states, (state: any) => {
           return state.concept.uuid === '72443cac-4822-4dce-8460-794af7af8167';
         });
-
+        // console.log('xxxxxxxxxxxxxxxxxxxx====', this.workflowStates);
         if (!_.isEmpty(this.workflowStates)) {
-          this.selectedWorkFlowState = _.first(this.workflowStates);
+          this.selectedWorkFlowState = JSON.stringify(_.first(this.workflowStates));
+          // console.log('sssssssssssssssssssssssssssaa====', this.selectedWorkFlowState);
         }
       }
     });
@@ -597,6 +595,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
                     program.referral_reason = referral.referral_reason;
                     program.program_workflow_state = referral.program_workflow_state;
                     program.patient_referral_id = referral.patient_referral_id;
+                    program.referred_from_location_uuid = referral.referred_from_location_uuid;
                 });
               }
           });

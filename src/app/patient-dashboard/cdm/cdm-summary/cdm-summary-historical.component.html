@@ -1,0 +1,46 @@
+<div [ngBusy]="{busy:[loadingCdmSummary],message:'Please Wait...'}"></div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <th>Date</th>
+      <th>Encounter Type</th>
+      <th>RTC Date</th>
+      <th>DM Medication</th>
+      <th>HTN Medication</th>
+      <th>HbA1C</th>
+      <th>FBS</th>
+      <th>RBS</th>
+      <th>BP</th>
+      <th>PR</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cdmSummary of cdmSummaries | paginate: { id:'history', itemsPerPage: 10, currentPage: page }; let i = index;">
+        <td>{{ cdmSummary?.encounter_datetime | date:'dd-MM-yyyy' }}</td>
+        <td>{{ cdmSummary?.encounter_type }}</td>
+        <td>{{ cdmSummary?.rtc_date | date:'dd-MM-yyyy'}}</td>
+        <td>{{ cdmSummary?.dm_meds_name }}</td>
+        <td>{{ cdmSummary?.htn_meds_name }}</td>
+        <td>{{ cdmSummary?.hb_a1c }}</td>
+        <td>{{ cdmSummary?.fbs }}</td>
+        <td>{{ cdmSummary?.rbs }}</td>
+        <td>{{ cdmSummary?.sbp }}/{{ cdmSummary?.dbp }}</td>
+        <td>{{ cdmSummary?.pulse }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls id="history" *ngIf="cdmSummaries" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+
+
+<div *ngIf="dataLoaded">
+  <p class="bg-info" style="padding:4px;">
+    <b>
+      <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + cdmSummaries.length + ' ]'}}</span></b>
+    <p>
+</div>

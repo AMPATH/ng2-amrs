@@ -33,10 +33,6 @@ export class PatientReferralService {
       let enrollPayload = this.programService.createEnrollmentPayload(
         programUuid, patient, this.toOpenmrsDateFormat(new Date()), null,
         location, enrollmentUuid);
-      _.merge(enrollPayload, {'states': [{
-        'state': state.uuid,
-        'startDate': this.toOpenmrsDateFormat(new Date())
-      }]});
       return this.programService.saveUpdateProgramEnrollment(enrollPayload);
   }
 

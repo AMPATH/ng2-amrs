@@ -65,6 +65,29 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   }
 
+  private _programLocations: Array<any> = [];
+  @Input()
+  public get programLocations(): any {
+    return this._programLocations;
+  }
+
+  public set programLocations(v: any | Array<any>) {
+    if (v) {
+      this._programLocations = v;
+      if ( v.length > 0) {
+        this.resetLocations();
+        this.locationDropdownOptions = v.map((location) => {
+          return {
+            value: location.uuid,
+            label: location.display
+          };
+      });
+      }
+    }else {
+      this.locationDropdownOptions = this.allEncounterLocations;
+    }
+  }
+private allEncounterLocations: Array<any> = [];
   constructor(private locationResourceService: LocationResourceService,
               private cd: ChangeDetectorRef) {
   }
@@ -131,12 +154,14 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public resolveLocationDetails(): void {
     this.loading = true;
     this.locationResourceService.getLocations().subscribe((locations: any[]) => {
-      this.locationDropdownOptions = locations.map((location) => {
+      let locs = locations.map((location) => {
         return {
           value: location.uuid,
           label: location.display
         };
       });
+      this.locationDropdownOptions = locs;
+      this.allEncounterLocations = locs;
       this.counties = _.groupBy(locations, 'stateProvince');
       this.countyDropdownOptions = _.compact(_.keys(this.counties));
       _.each(locations, (location) => {

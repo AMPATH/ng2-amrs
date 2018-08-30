@@ -394,17 +394,17 @@
       ]
     },
     {
-      "programName": "CDM",
-      "programUuid": "fc15ac01-5381-4854-bf5e-917c907aa77f",
-      "baseRoute": "fc15ac01-5381-4854-bf5e-917c907aa77f",
+      "programName": "HTN/DM Primary Care",
+      "programUuid": "876a154d-310d-4caf-8b58-be9dbcc7e753",
+      "baseRoute": "876a154d-310d-4caf-8b58-be9dbcc7e753",
       "alias": "cdm",
-      "published": false,
+      "published": true,
       "requiresPatientEnrollment": true,
       "shared-routes-class": "cdm",
       "routes": []
     },
     {
-      "programName": "CDM Care at Health Center",
+      "programName": "HTN/DM Secondary Care",
       "programUuid": "b731ba72-cf99-4176-9fcd-37cd186400c7",
       "baseRoute": "b731ba72-cf99-4176-9fcd-37cd186400c7",
       "alias": "cdm",
@@ -414,7 +414,7 @@
       "routes": []
     },
     {
-      "programName": "CDM Care at COE",
+      "programName": "HTN/DM Tertiary Care",
       "programUuid": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
       "baseRoute": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
       "alias": "cdm",
@@ -532,6 +532,11 @@
         "url": "patient-vitals",
         "label": "Vitals",
         "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "cdm-summary",
+        "label": "CDM Summary",
+        "icon": "fa fa-medkit"
       },
       {
         "url": "lab-data-summary",
