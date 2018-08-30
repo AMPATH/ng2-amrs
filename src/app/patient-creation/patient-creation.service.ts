@@ -112,6 +112,8 @@ export class PatientCreationService {
           return [
               {label: 'AMRS Medical Record Number', format: null, checkdigit: 1,
               val: '58a46e2e-1359-11df-a1f1-0026b9348838'},
+              {label: 'AMRS Medical Record1', format: null, checkdigit: 1,
+              val: 'df6840a6-47e9-4f7a-9112-0ca6fd783941'},
               {label: 'AMRS Universal ID', format: null, checkdigit: 1,
               val: '58a4732e-1359-11df-a1f1-0026b9348838'},
               {label: 'CCC Number', format: '^\\d{5}-\\d{5}$', checkdigit: null,

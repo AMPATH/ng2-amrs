@@ -696,12 +696,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       (identifierType as any).val);
     let identifierHasCheckDigit = null;
     let identifierHasRegex = null;
-    if (identifierTypeSpecifiedFormat) {
+
+    if (identifierTypeSpecifiedFormat.length > 0) {
       identifierHasRegex = identifierTypeSpecifiedFormat[0].format;
       identifierHasCheckDigit = identifierTypeSpecifiedFormat[0].checkdigit;
-      }
-
-    if (identifierTypeSpecifiedFormat) {
       if (identifierHasCheckDigit) {
         this.checkLuhnCheckDigit();
         return;

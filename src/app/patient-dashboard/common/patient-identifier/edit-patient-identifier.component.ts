@@ -236,7 +236,7 @@ private saveIdentifier(personIdentifierPayload, person) {
         }
       }
 
-      if (identifierHasFormat && identifierHasFormat !== 'NULL') {
+      if (identifierHasFormat) {
         this.isValidIdentifier =
           this.patientIdentifierService.checkRegexValidity(identifierHasFormat,
             this.patientIdentifier);
@@ -250,14 +250,7 @@ private saveIdentifier(personIdentifierPayload, person) {
         this.invalidLocationCheck = 'Location is Required';
         return;
       }
-
-      if ((identifierHasFormat === '' || identifierHasFormat === 'NULL'
-        || identifierHasFormat === null) &&
-        (identifierHasCheckDigit === 0 || identifierHasCheckDigit === false
-          || identifierHasCheckDigit === false)) {
-        this.isValidIdentifier = true;
-        return;
-      }
+      this.isValidIdentifier = true;
 
     }
 
