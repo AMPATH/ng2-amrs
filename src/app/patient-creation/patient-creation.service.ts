@@ -6,6 +6,7 @@ import {
     PatientCreationResourceService
 } from '../openmrs-api/patient-creation-resource.service';
 import { Patient } from '../models/patient.model';
+import * as _ from 'lodash';
 
 @Injectable()
 export class PatientCreationService {
