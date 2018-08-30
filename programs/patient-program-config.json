@@ -812,34 +812,146 @@
     },
     "visitTypes": [
       {
-        "uuid": "45b55bfd-84f5-4783-b7fb-ac4d82832c24",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
-        "message": "Patient has to be in the location he enrolled into the program ",
-        "name": "PMTCT Visit ",
+        "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
+        "message": "Patient must not have prior clinical encounter.",
+        "allowedIf": "age > 2 && isFirstAMPATHHIVVisit",
+        "name": "PMTCT Antenatal Initial Visit",
         "encounterTypes": [
           {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
+            "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTINITIAL"
           },
           {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "7bf4632a-00e8-4c0a-a296-c3977fdd6671",
-            "display": "PMTCTENCOUNTER"
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
           },
           {
-            "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
-            "display": "HEIFOLLOWUP"
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
           },
           {
-            "uuid": "b1e9ed0f-5222-4d47-98f7-5678b8a21ebd",
-            "display": "PMTCTPOSTNATAL "
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
           },
           {
-            "uuid": "df553c4a-1350-11df-a1f1-0026b9348838",
-            "display": "PMTCTANC"
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "02e3ce61-fa24-445e-a1f0-6e3299142966",
+        "message": "Patient must have prior clinical encounter.",
+        "allowedIf": "!isFirstAMPATHHIVVisit",
+        "name": "PMTCT Antenatal Return Visit",
+        "encounterTypes": [
+          {
+            "uuid": "8e942fd1-135d-42bd-9701-04560f180ec5",
+            "display": "MOH257BLUECARD"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "b1a978ca-9315-4ba2-ac2b-84efb9a68c5c",
+        "message": "Patient must not have prior clinical encounter.",
+        "allowedIf": "age > 2 && isFirstAMPATHHIVVisit",
+        "name": "PMTCT Postnatal Initial Visit",
+        "encounterTypes": [
+          {
+            "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTINITIAL"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
+        "message": "Patient must have prior clinical encounter.",
+        "allowedIf": "!isFirstAMPATHHIVVisit",
+        "name": "PMTCT Postnatal Return Visit",
+        "encounterTypes": [
+          {
+            "uuid": "8e942fd1-135d-42bd-9701-04560f180ec5",
+            "display": "MOH257BLUECARD"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "9ff9cf16-1f9c-4e9b-8471-de19ce1906e6",
+        "message": "Patient must have no prior clinical encounter.",
+        "allowedIf": "age >= 0 && age <= 2 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
+        "name": "Pediatric PMTCT Initial Visit",
+        "encounterTypes": [
+          {
+            "uuid": "8d5b2dde-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSINITIAL"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
