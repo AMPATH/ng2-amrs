@@ -280,7 +280,7 @@ module.exports = function () {
                 6965: { mapped_to_ids: "625;628", name: "LAMIVUDINE AND STAVUDINE" },
                 9435: { mapped_to_ids: "9435", name: "EVIPLERA" },
                 9759: { mapped_to_ids: "9759", name: "DOLUTEGRAVIR" },
-                9759: { mapped_to_ids: "9026", name: "LOPINAVIR" }
+                9026: { mapped_to_ids: "9026", name: "LOPINAVIR" }
             };
             var arvCodes = str.split(" ## ");
             var arvNames = [];
