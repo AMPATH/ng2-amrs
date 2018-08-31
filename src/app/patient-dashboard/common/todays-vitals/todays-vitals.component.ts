@@ -75,6 +75,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysEncounters(encounters) {
+    this.todaysVitals = [];
     let today = Moment().format('YYYY-MM-DD');
     let todaysEncounters = [];
     _.each(encounters, (encounter: any) => {
@@ -89,6 +90,8 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysEncounterDetails(todaysEncounters) {
+
+    this.todaysVitals = [];
 
     return new Promise((resolve, reject) => {
 

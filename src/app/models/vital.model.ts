@@ -67,4 +67,10 @@ export class Vital extends BaseModel {
     public set bmi(v: number) {
         this._openmrsModel.bmi = v;
     }
+    public get bsa(): number {
+        return this._openmrsModel.bsa;
+    }
+    public set bsa(v: number) {
+        this._openmrsModel.bsa = v;
+    }
 }

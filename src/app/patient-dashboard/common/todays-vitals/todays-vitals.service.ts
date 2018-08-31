@@ -19,7 +19,7 @@ export class TodaysVitalsService {
     public vitalModel = {
         diastolic: null, systolic: null,
         pulse: null, temperature: null, oxygenSaturation: null,
-        height: null, weight: null, bmi: null
+        height: null, weight: null, bmi: null , bsa: null
     };
 
     constructor(
@@ -155,7 +155,8 @@ export class TodaysVitalsService {
                 return this.vitalModel.height = ob.value;
             case 'a8a660ca-1350-11df-a1f1-0026b9348838':
                 return this.vitalModel.weight = ob.value;
-
+            case 'a898c87a-1350-11df-a1f1-0026b9348838':
+                return this.vitalModel.bsa = (ob.value).toFixed(2);
             default:
                 return ;
         }

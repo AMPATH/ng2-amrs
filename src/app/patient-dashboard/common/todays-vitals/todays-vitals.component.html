@@ -17,7 +17,7 @@
           <span *ngIf="vital.height"><strong class="text-primary">Height : </strong>{{vital.height}} |</span>
           <span *ngIf="vital.weight"><strong class="text-primary">Weight : </strong>{{vital.weight}} |</span>
           <span [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" *ngIf="vital.bmi"><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} </span>
-
+          <span *ngIf="vital.bsa"><strong class="text-primary">BSA : </strong>{{vital.bsa}} |</span>
       </li>
     </ul>
   </div>
