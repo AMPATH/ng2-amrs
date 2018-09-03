@@ -690,18 +690,23 @@ module.exports = function () {
                                 let report = new BaseMysqlReport('clinicalReminderReport', reportParams.requestParams);
                                 report.generateReport().then((results) => {
                                     try {
-                                        let processedResults = patientReminderService.generateReminders(results.results.results, eidReminders);
-                                        results.result = processedResults;
+                                        if(results.results.results.length > 0 ) {
+                                            let processedResults = patientReminderService.generateReminders(results.results.results, eidReminders);
+                                            results.result = processedResults;
+                                        } else {
+                                            results.result = {
+                                                person_uuid: combineRequestParams.person_uuid,
+                                                reminders: []
+                                            };
+                                        }
+                                        reply(results);
                                     } catch (error) {
-                                        console.log(error)
+                                        console.log('Error generating reminders', error);
+                                        reply(Boom.badImplementation('An internal error occurred'));
                                     }
-                                    reply(results);
-
-
-
-
                                 }).catch((error) => {
-                                    reply(error);
+                                    console.log('Error generating reminders', error);
+                                    reply(Boom.badImplementation('An internal error occurred'));
                                 });
                             }).catch((err) => {
                                 console.log('EID lab results err', err);
