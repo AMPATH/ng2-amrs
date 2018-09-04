@@ -100,22 +100,26 @@ function qualifiesDifferenciatedReminders(data){
 
 function inhReminders(data) {
     let reminders = [];
-    if (data.is_on_inh_treatment && data.inh_treatment_days_remaining > 30 &&
-        data.inh_treatment_days_remaining < 150) {
-        reminders.push({
-            message: 'Patient started INH treatment on (' +
-            Moment(data.tb_prophylaxis_start_date).format('DD-MM-YYYY') + ')' +
-            'Expected to end on (' +
-            Moment(data.tb_prophylaxis_end_date).format('DD-MM-YYYY') + ')'
-            + data.inh_treatment_days_remaining +
-            ' days remaining.',
-            title: 'INH Treatment Reminder',
-            type: 'danger',
-            display: {
-                banner: true,
-                toast: true
-            }
-        });
+    try{
+        if (data.is_on_inh_treatment && data.inh_treatment_days_remaining > 30 &&
+            data.inh_treatment_days_remaining < 150) {
+            reminders.push({
+                message: 'Patient started INH treatment on (' +
+                Moment(data.ipt_start_date).format('DD-MM-YYYY') + ')' +
+                'Expected to end on (' +
+                Moment(data.ipt_completion_date).format('DD-MM-YYYY') + ')'
+                + data.inh_treatment_days_remaining +
+                ' days remaining.',
+                title: 'INH Treatment Reminder',
+                type: 'danger',
+                display: {
+                    banner: true,
+                    toast: true
+                }
+            });
+        }
+     } catch(e){
+        console.log(e)
     }
     // INH Treatment Reminder - last mont
     if (data.is_on_inh_treatment && data.inh_treatment_days_remaining <= 30 &&
