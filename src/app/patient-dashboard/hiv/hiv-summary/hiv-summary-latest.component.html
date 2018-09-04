@@ -27,10 +27,15 @@
     <li class="list-group-item" style="font-size:large">Current ARV Regimen Start Date: {{hivSummary?.arv_start_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">Enrollment Date: {{hivSummary?.enrollment_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">ARV Initiation Start Date: {{hivSummary?.arv_first_regimen_start_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">INH Prophylaxis Start Date :{{hivSummary?.tb_prophylaxis_start_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">INH Prophylaxis End Date :{{hivSummary?.tb_prophylaxis_end_date | date:'dd-MM-yyyy'}}</li>
+    <li class="list-group-item" style="font-size:large">INH Prophylaxis Start Date : {{hivSummary?.ipt_start_date | date:'dd-MM-yyyy'}}</li>
+    <li class="list-group-item" style="font-size:large">INH Prophylaxis End Date : {{hivSummary?.ipt_completion_date | date:'dd-MM-yyyy'}}
+      <span *ngIf="hivSummary?.ipt_start_date && !isEmptyDate(hivSummary?.ipt_completion_date)">
+        Not completed
+      </span>
+    </li>
     <li class="list-group-item" style="font-size:large">Current WHO Stage: {{hivSummary?.cur_who_stage}}</li>
     <li class="list-group-item" style="font-size:large">TB Treatment Start Date: {{ hivSummary?.tb_tx_start_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">TB Treatment End Date: {{ hivSummary?.tb_tx_end_date | date:'dd-MM-yyyy'}}</li>
   </ul>
 </div>
+
