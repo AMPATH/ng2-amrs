@@ -65,6 +65,10 @@ describe('ClinicLabOrdersResourceService Tests', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined',
     inject([ClinicLabOrdersResourceService], (s: ClinicLabOrdersResourceService) => {
       expect(s).toBeTruthy();

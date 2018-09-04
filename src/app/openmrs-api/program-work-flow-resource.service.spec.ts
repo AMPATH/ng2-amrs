@@ -30,6 +30,10 @@ describe('Service: ProgramWorkFlowResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   let programWorkFlowResponse = {
     results: [
       {

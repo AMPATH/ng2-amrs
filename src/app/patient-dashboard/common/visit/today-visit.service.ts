@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import * as moment from 'moment';
 import *  as _ from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
+import { flatMap, delay } from 'rxjs/operators';
 
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
@@ -136,7 +137,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
           subject.error(error);
         });
     }
-    return subject.delay(100);
+    return subject.pipe(delay(100));
   }
 
   public filterVisitsByVisitTypes(visits: Array<any>, visitTypes: Array<string>): Array<any> {
@@ -285,7 +286,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
   public getProgramVisits(): Observable<any> {
     if (this.isLoading) {
-      return Observable.of({ loading: true });
+      return of({ loading: true });
     }
     this.isLoading = true;
     // clear errors and visits

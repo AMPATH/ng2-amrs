@@ -62,6 +62,10 @@ describe('Component: PatientInfo', () => {
     component = TestBed.get(PatientInfoComponent);
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
 
     expect(component).toBeTruthy();

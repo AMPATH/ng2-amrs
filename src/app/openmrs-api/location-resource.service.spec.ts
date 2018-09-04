@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
@@ -32,6 +32,10 @@ describe('LocationResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have getLocations defined',
     inject([LocationResourceService],
       (locationResourceService: LocationResourceService) => {
@@ -46,6 +50,7 @@ describe('LocationResourceService Unit Tests', () => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/ws/rest/v1/location?v=full');
         });
+        tick(50);
         expect(locationResourceService.getLocations());
       })));
 

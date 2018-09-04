@@ -30,6 +30,10 @@ describe('Service : Motd Notification Service Unit Tests', () => {
 
       });
 
+      afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
   let motdNotificationsResponse = {
     'results': [{
         'type': 'warning',

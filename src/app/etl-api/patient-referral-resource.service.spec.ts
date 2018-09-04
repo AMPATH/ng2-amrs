@@ -85,6 +85,10 @@ describe('PatientReferralResourceService Tests', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined',
     inject([PatientReferralResourceService],
       (s: PatientReferralResourceService) => {

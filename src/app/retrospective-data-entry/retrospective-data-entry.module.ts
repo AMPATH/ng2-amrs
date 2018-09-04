@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MdCheckboxModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material';
 
 import { SharedModule, DialogModule } from 'primeng/primeng';
 
@@ -26,11 +26,11 @@ import { ProgramWorkFlowStateResourceService } from
     FormsModule,
     CommonModule,
     NgSelectModule,
-    MdCheckboxModule,
+    MatCheckboxModule,
     SharedModule,
     DialogModule,
   ],
-  exports: [MdCheckboxModule, NgSelectModule, RetrospectiveSettingsComponent, BusyComponent,
+  exports: [MatCheckboxModule, NgSelectModule, RetrospectiveSettingsComponent, BusyComponent,
     LocationFilterComponent, RetrospectiveContainerComponent,
     RetrospectiveBannerComponent, EditRetroVisitProviderComponent],
   declarations: [BusyComponent, RetrospectiveSettingsComponent, RetrospectiveBannerComponent,

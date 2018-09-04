@@ -5,7 +5,7 @@ import {
     ResponseOptions, RequestMethod, ResponseType
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 
 import { FormListService } from './form-list.service';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
@@ -37,6 +37,10 @@ describe('FormListService', () => {
                 HttpModule
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined',
@@ -226,11 +230,11 @@ describe('FormListService', () => {
                     );
                 const defaultOrderSpy = spyOn(formOrderMetaDataService,
                     'getDefaultFormOrder').and.returnValue(
-                    Observable.of(defualtOrdering)
+                    of(defualtOrdering)
                     );
                 const formListSpy = spyOn(formsResourceService,
                     'getForms').and.returnValue(
-                    Observable.of(forms)
+                    of(forms)
                     );
                 formListService.getFormList().subscribe((actualFormList) => {
                     expect(actualFormList).toBeTruthy();

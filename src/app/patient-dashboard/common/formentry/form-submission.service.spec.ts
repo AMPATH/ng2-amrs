@@ -1,3 +1,5 @@
+
+import {throwError as observableThrowError, of,  Observable, Subject } from 'rxjs';
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -5,7 +7,7 @@ import { Http, BaseRequestOptions, Response, ResponseOptions, HttpModule } from 
 import { FormSubmissionService } from './form-submission.service';
 import {
   EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper, Form
-} from 'ng2-openmrs-formentry';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { AppSettingsService } from '../../../app-settings';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
@@ -15,7 +17,6 @@ import { ConceptResourceService } from '../../../openmrs-api/concept-resource.se
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
-import { Observable, Subject } from 'rxjs/Rx';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 
@@ -144,13 +145,13 @@ describe('Service: FormSubmissionService', () => {
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // spy personResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // encounter adaptor
@@ -188,13 +189,13 @@ describe('Service: FormSubmissionService', () => {
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // spy personResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // encounter adaptor
@@ -232,7 +233,7 @@ describe('Service: FormSubmissionService', () => {
         // spy encounterResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
         // encounter adaptor
         spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
@@ -264,13 +265,13 @@ describe('Service: FormSubmissionService', () => {
         // case when creating new encounter
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // case when creating new encounter
         spyOn(encounterResourceService, 'updateEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
         // encounter adaptor
         spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
@@ -303,13 +304,13 @@ describe('Service: FormSubmissionService', () => {
         // case when creating new encounter
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // case when creating new encounter
         spyOn(encounterResourceService, 'updateEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
         // encounter adaptor
         spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
@@ -344,13 +345,13 @@ describe('Service: FormSubmissionService', () => {
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
             // throw an error
-            return Observable.throw(sampleSubmissionError);
+            return observableThrowError(sampleSubmissionError);
           });
 
         // spy personResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // encounter adaptor
@@ -404,14 +405,14 @@ describe('Service: FormSubmissionService', () => {
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
-            return Observable.of(payload);
+            return of(payload);
           });
 
         // spy personResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
           (payload) => {
             // Throw an error
-            return Observable.throw(sampleSubmissionError);
+            return observableThrowError(sampleSubmissionError);
           });
 
         // encounter adaptor
@@ -466,14 +467,14 @@ describe('Service: FormSubmissionService', () => {
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
             // Throw an error
-            return Observable.throw(sampleSubmissionError);
+            return observableThrowError(sampleSubmissionError);
           });
 
         // spy personResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
           (payload) => {
             // Throw an error
-            return Observable.throw(sampleSubmissionError);
+            return observableThrowError(sampleSubmissionError);
           });
 
         // encounter adaptor

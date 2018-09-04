@@ -4,7 +4,7 @@ import { Http, Response } from '@angular/http';
 import { CdmSummaryResourceService } from '../../../etl-api/cdm-summary-resource.service';
 import * as _ from 'lodash';
 import { Patient } from '../../../models/patient.model';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 

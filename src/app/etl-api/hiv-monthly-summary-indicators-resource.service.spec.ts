@@ -96,6 +96,10 @@ describe('HivMonthlySummaryIndicatorsResourceService Tests', () => {
         });
     });
 
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([HivMonthlySummaryIndicatorsResourceService],
             (s: HivMonthlySummaryIndicatorsResourceService) => {

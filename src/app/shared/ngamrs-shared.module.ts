@@ -1,19 +1,24 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+import { SelectModule } from 'ngx-select';
 
 import {
-  MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule, MdSnackBarModule
+  MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule, MatSnackBarModule, MatSlideToggleModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DateSelectorComponent } from './components/date-selector.component';
@@ -29,45 +34,58 @@ import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summ
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { UserDefaultPropertiesService
+import { Angulartics2Piwik } from 'angulartics2/piwik';
+import {
+  UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
 import { Angulartics2Module } from 'angulartics2';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Ng2PaginationModule } from 'ng2-pagination';
 import { CacheModule } from 'ionic-cache';
+import {
+  LocationFilterComponent
+} from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { BusyComponent } from './busy-loader/busy.component';
-import { UnenrollPatientProgramsComponent
+import {
+  UnenrollPatientProgramsComponent
 } from '../patient-dashboard/common/programs/unenroll-patient-programs.component';
 import { ConfirmDialogModule, DialogModule, TabViewModule } from 'primeng/primeng';
-import { HivProgramSnapshotComponent
+import {
+  HivProgramSnapshotComponent
 } from '../patient-dashboard/hiv/program-snapshot/hiv-program-snapshot.component';
 import { CdmProgramSnapshotComponent
 } from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
 import { GeneralLandingPageComponent
 } from '../patient-dashboard/general-landing-page/landing-page.component';
-import { ProgramsContainerComponent
+import {
+  ProgramsContainerComponent
 } from '../patient-dashboard/programs/programs-container.component';
-import { ProgramEnrollmentComponent
+import {
+  ProgramEnrollmentComponent
 } from '../patient-dashboard/programs/program-enrollment.component';
 import { ProgramsComponent } from '../patient-dashboard/programs/programs.component';
 import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
 import { ReportFiltersComponent } from './report-filters/report-filters.component';
-import { EnrollmentManagerFormWizardComponent
+import {
+  EnrollmentManagerFormWizardComponent
 } from '../referral-module/components/enrollment-manager/enrollment-manager-form-wizard.component';
-import { PatientReferralContainerComponent
+import {
+  PatientReferralContainerComponent
 } from '../referral-module/components/referral-container/patient-referral-container.component';
-import { PatientReferralItemComponent
+import {
+  PatientReferralItemComponent
 } from '../referral-module/components/referral-container/patient-referral-item.component';
 import { ZeroVlPipe } from './pipes/zero-vl-pipe';
-import { PatientEncounterObservationsComponent
+import {
+  PatientEncounterObservationsComponent
 } from '../patient-dashboard/common/patient-encounters/patient-encounter-observations.component';
-import { PrettyEncounterViewerComponent
+import {
+  PrettyEncounterViewerComponent
 } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
 import { XHRBackend, RequestOptions, Http } from '@angular/http';
 import { HttpClient } from './services/http-client.service';
 export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                           router: Router, sessionStorageService: SessionStorageService) {
+  router: Router, sessionStorageService: SessionStorageService) {
   return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
   }
 import { RetrospectiveDataEntryModule
@@ -75,18 +93,6 @@ import { RetrospectiveDataEntryModule
 
 @NgModule({
   imports: [
-    BusyModule.forRoot(
-      {
-        message: 'Please Wait...',
-        backdrop: false,
-        delay: 200,
-        minDuration: 600,
-        wrapperClass: 'my-class',
-        template: `
-                      <div class='loader' ><span><i class='fa fa-spinner fa-spin'>
-      </i>{{message}}</span></div>`,
-      }
-    ),
     LaddaModule.forRoot({
       style: 'expand-right',
       spinnerSize: 20,
@@ -96,25 +102,32 @@ import { RetrospectiveDataEntryModule
     CommonModule,
     OpenmrsApi,
     EtlApi,
-    Angulartics2Module.forChild(),
+    Angulartics2Module,
+    Angulartics2Module.forRoot([Angulartics2Piwik]),
     FormsModule,
     NgxMyDatePickerModule,
     RouterModule,
     Ng2Bs3ModalModule,
-    Ng2PaginationModule,
     DateTimePickerModule,
+    BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
     // SelectModule,
     NgSelectModule,
-    MdTabsModule,
+    MatTabsModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MatSnackBarModule,
+    MatSlideToggleModule,
     FormEntryModule,
     RetrospectiveDataEntryModule,
     ConfirmDialogModule, DialogModule,
-    MdSnackBarModule
+    MatSnackBarModule, NgxPaginationModule
   ],
-  exports: [BusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
+  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
     RetrospectiveDataEntryModule,
     PatientReferralContainerComponent, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
@@ -123,9 +136,9 @@ import { RetrospectiveDataEntryModule
     ProgramEnrollmentComponent, FormListComponent, ReportFiltersComponent,
     PatientReferralItemComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, ToastComponent,
-    CdmProgramSnapshotComponent
-  ],
+    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
+    LocationFilterComponent, ToastComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
+    MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, CdmProgramSnapshotComponent],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,

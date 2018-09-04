@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
@@ -15,7 +15,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytcis.mock';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { UserService } from './../openmrs-api/user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -83,7 +83,7 @@ const mockActivatedRoute = {
   queryParams: {
     subscribe: jasmine.createSpy('subscribe')
       .and
-      .returnValue(Observable.of(mockParams))
+      .returnValue(of(mockParams))
   }
 };
 
@@ -164,8 +164,12 @@ describe('Component : DepartmentProgramFilter', () => {
         });
       }));
 
+      afterAll(() => {
+        TestBed.resetTestingModule();
+      });
+
     it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
     });
 
     it('should set params and emit params on set filter', () => {

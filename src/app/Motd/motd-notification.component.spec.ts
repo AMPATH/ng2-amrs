@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { AppSettingsService } from './../app-settings';
-import { FakeAppSettingsService } from './../etl-api/moh-731-patientlist-resource.service.spec';
-import { LocalStorageService } from './../utils/local-storage.service';
+import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
+import { LocalStorageService } from '../utils/local-storage.service';
 import { ComponentFixture, TestBed, async , inject } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { MOTDNotificationComponent } from './motd-notification.component';
-import { MOTDNotificationService } from './../etl-api/motd.notification.service';
+import { MOTDNotificationService } from '../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
 import { Http, RequestMethod , BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -17,7 +17,7 @@ class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  params = of([{ 'id': 1 }]);
 }
 
 let today = Moment().format('YYYY-MM-DD');
@@ -127,8 +127,12 @@ describe('Component : MOTD Notification', () => {
 
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
 it('Should be create an instance of the component', async(() => {
-  expect(comp).toBeTruthy();
+  expect(comp).toBeDefined();
 }));
 
 

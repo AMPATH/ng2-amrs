@@ -135,6 +135,10 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([ClinicalSummaryVisualizationResourceService],
             (s: ClinicalSummaryVisualizationResourceService) => {

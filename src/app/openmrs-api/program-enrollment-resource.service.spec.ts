@@ -30,6 +30,10 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   let programEnrollmentResponse = {
     results: [
       {

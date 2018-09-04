@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Response } from '@angular/http';
-import { Router, ActivatedRoute, Params }    from '@angular/router';
-import * as _ from 'lodash';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
@@ -9,6 +9,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { RetrospectiveDataEntryService
 } from '../retrospective-data-entry/services/retrospective-data-entry.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'user-default-properties',
