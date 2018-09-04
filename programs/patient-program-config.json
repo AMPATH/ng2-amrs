@@ -130,6 +130,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -162,6 +166,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
 
         ]
@@ -199,6 +207,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -235,6 +247,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -266,6 +282,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -302,6 +322,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -338,6 +362,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -370,6 +398,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -406,6 +438,10 @@
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -438,6 +474,10 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -453,6 +493,10 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -463,6 +507,10 @@
           {
             "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
             "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       },
