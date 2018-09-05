@@ -93,6 +93,20 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
               for (let test of result) {
                 if (test.groupMembers) {
                   for (let l of test.groupMembers) {
+                    let concept: any = l.concept;
+                    if (typeof concept !== 'undefined') {
+                        switch (concept.uuid) {
+                          case 'a8970a26-1350-11df-a1f1-0026b9348838':
+                            content = content +  `CD4%: ${l.value} ` +
+                            `${l.display}` + '</br>';
+                            break;
+                          case 'a8a8bb18-1350-11df-a1f1-0026b9348838':
+                            content = content + `CD4: ${l.value} ` + `${l.display}` + '</br>';
+                            break;
+                          default:
+                        }
+
+                    }
                     if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
                       content = content +
                         `CD4%: ${l.value} `;
@@ -102,6 +116,8 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
                         `CD4: ${l.value} `;
                     }
                   }
+                  content = content + `(collected on ${Moment(test.obsDatetime)
+                    .format('DD/MM/YYYY')})`;
                 } else {
                   content = content +
                     `${test.display} (collected on ${Moment(test.obsDatetime)
