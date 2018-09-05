@@ -4,7 +4,7 @@ import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
-
+import * as Moment from 'moment';
 @Component({
   selector: 'hiv-summary-latest',
   templateUrl: './hiv-summary-latest.component.html',
@@ -70,5 +70,17 @@ export class HivSummaryLatestComponent implements OnInit {
           message: 'An error occured while loading Hiv Summary. Please try again.'
         });
       });
+  }
+
+  public endDateIsBeforeStartDate(startDate: any, endDate: any) {
+    return Moment(endDate, 'DD-MM-YYYY')
+    .isBefore(Moment(startDate, 'YYYY-MM-DD'));
+  }
+
+  public isEmptyDate(date: any) {
+    if (date) {
+      return Moment(date).isValid();
+    }
+    return false;
   }
 }
