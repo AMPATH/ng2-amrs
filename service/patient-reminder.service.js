@@ -105,9 +105,9 @@ function inhReminders(data) {
             data.inh_treatment_days_remaining < 150) {
             reminders.push({
                 message: 'Patient started INH treatment on (' +
-                Moment(data.ipt_start_date).format('DD-MM-YYYY') + ')' +
+                Moment(data.ipt_start_date).format('DD-MM-YYYY') + ') ' +
                 'Expected to end on (' +
-                Moment(data.ipt_completion_date).format('DD-MM-YYYY') + ')'
+                Moment(data.ipt_completion_date).format('DD-MM-YYYY') + '). '
                 + data.inh_treatment_days_remaining +
                 ' days remaining.',
                 title: 'INH Treatment Reminder',
@@ -126,7 +126,7 @@ function inhReminders(data) {
         data.inh_treatment_days_remaining > 0) {
         reminders.push({
             message: 'Patient has been on INH treatment for the last 5 months, expected to end on (' +
-            Moment(data.tb_prophylaxis_end_date).format('MM-DD-YYYY') + ')',
+            Moment(data.ipt_completion_date).format('MM-DD-YYYY') + ') ',
             title: 'INH Treatment Reminder',
             type: 'danger',
             display: {
