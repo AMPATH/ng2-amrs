@@ -103,9 +103,11 @@ function inhReminders(data) {
     try{
         if (data.is_on_inh_treatment && data.inh_treatment_days_remaining > 30 &&
             data.inh_treatment_days_remaining < 150) {
+                
             reminders.push({
                 message: 'Patient started INH treatment on (' +
-                Moment(data.ipt_start_date).format('DD-MM-YYYY') + ') ' +
+
+                Moment(data.ipt_start_date).format('DD-MM-YYYY') + '). ' +
                 'Expected to end on (' +
                 Moment(data.ipt_completion_date).format('DD-MM-YYYY') + '). '
                 + data.inh_treatment_days_remaining +
