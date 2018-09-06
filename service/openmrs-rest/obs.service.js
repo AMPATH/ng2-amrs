@@ -118,7 +118,9 @@ module.exports = function () {
         { "conceptId": 9238, "uuid": "457c741d-8f71-4829-b59d-594e0a618892" },
         { "conceptId": 1238, "uuid": "a89b5856-1350-11df-a1f1-0026b9348838" },
         { "conceptId": 856, "uuid": "a8982474-1350-11df-a1f1-0026b9348838" },
-        { "conceptId": 1030, "uuid": "a898fe80-1350-11df-a1f1-0026b9348838" }
+        { "conceptId": 1030, "uuid": "a898fe80-1350-11df-a1f1-0026b9348838" },
+        { "conceptId": 730, "uuid": "a8970a26-1350-11df-a1f1-0026b9348838" },
+        { "conceptId": 5497, "uuid": "a8a8bb18-1350-11df-a1f1-0026b9348838" }
       ]
     }
     var promiseArray = [];
@@ -149,7 +151,9 @@ module.exports = function () {
         { "conceptId": 9238, "uuid": "457c741d-8f71-4829-b59d-594e0a618892" },
         { "conceptId": 1238, "uuid": "a89b5856-1350-11df-a1f1-0026b9348838" },
         { "conceptId": 856, "uuid": "a8982474-1350-11df-a1f1-0026b9348838" },
-        { "conceptId": 1030, "uuid": "a898fe80-1350-11df-a1f1-0026b9348838" }
+        { "conceptId": 1030, "uuid": "a898fe80-1350-11df-a1f1-0026b9348838" },
+        { "conceptId": 730, "uuid": "a8970a26-1350-11df-a1f1-0026b9348838" },
+        { "conceptId": 5497, "uuid": "a8a8bb18-1350-11df-a1f1-0026b9348838" }
       ]
     }
     var promiseArray = [];
