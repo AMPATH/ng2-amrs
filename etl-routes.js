@@ -56,10 +56,10 @@ import {
 } from './service/patient-register-report.service';
 import {
     HivSummaryIndicatorsService
-} from './service/hiv-summary-indicators.service';
+} from './app/reporting-framework/hiv/hiv-summary-indicators.service';
 import {
     HivSummaryMonthlyIndicatorsService
-} from './service/hiv-summary-monthly-indicators.service';
+} from './app/reporting-framework/hiv/hiv-summary-monthly-indicators.service';
 import {
     PatientMonthlyStatusHistory
 } from './service/patient-monthly-status-history'
@@ -2623,7 +2623,8 @@ module.exports = function () {
                                 service.getAggregateReport(reportParams).then((result) => {
                                     reply(result);
                                 }).catch((error) => {
-                                    reply(error);
+                                    console.error('Error fetching HIV summary', error);
+                                    reply(Boom.badImplementation('An error occured', error));
                                 });
                             });
                     },
@@ -2680,9 +2681,11 @@ module.exports = function () {
                         let requestParams = Object.assign({}, request.query, request.params);
                         let service = new HivSummaryMonthlyIndicatorsService();
                         service.getPatientListReport(requestParams).then((result) => {
+                            console.log('result', result);
                             reply(result);
                         }).catch((error) => {
-                            reply(error);
+                            console.error('Error fetching HIV summary', error);
+                            reply(Boom.badImplementation('An error occured', error));
                         });
                     },
                     description: "Get hiv summary monthly indicator's patient list for selected clinic",

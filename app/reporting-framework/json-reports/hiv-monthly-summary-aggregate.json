@@ -513,10 +513,11 @@
             "joinDirectives": {
                 "joinType": "INNER",
                 "joinCondition": "<<base_column>> = <<template_column>>",
-                "baseColumn": "t4.person_id",
+                "baseColumn": "person_id",
                 "templateColumn": "person_id"
             }
-        }
+        },
+        "skipParams": ["gender"]
     }
 }
 }
