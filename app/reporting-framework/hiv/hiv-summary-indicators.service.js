@@ -1,14 +1,14 @@
 import {
     BaseMysqlReport
-} from '../app/reporting-framework/base-mysql.report';
+} from '../base-mysql.report';
 import {
     PatientlistMysqlReport
-} from '../app/reporting-framework/patientlist-mysql.report';
+} from '../patientlist-mysql.report';
 import {
     IndicatorDefinitionService
-} from '../app/reporting-framework/indicator-definition.service';
+} from './indicator-definition.service';
 
-const dao = require('../etl-dao');
+const dao = require('../../../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
