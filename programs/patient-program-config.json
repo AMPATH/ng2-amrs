@@ -126,14 +126,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -162,16 +154,7 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
-
         ]
       },
       {
@@ -203,14 +186,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -243,14 +218,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -278,14 +245,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -318,14 +277,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -358,14 +309,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -394,14 +337,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -434,14 +369,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -466,18 +393,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
+          },          
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -493,10 +412,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -507,10 +422,6 @@
           {
             "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
             "display": "TXSUPPORTERMEDREFILL"
-          },
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
           }
         ]
       },
@@ -521,6 +432,20 @@
           {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -884,10 +809,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -916,10 +837,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -948,10 +865,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -980,10 +893,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -1012,10 +921,30 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
           },
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -1128,10 +1057,6 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -1158,10 +1083,6 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -1341,10 +1262,30 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
           },
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -1424,10 +1365,30 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
           },
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -1508,10 +1469,30 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
           },
           {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -1620,10 +1601,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -1654,6 +1631,30 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -1726,13 +1727,34 @@
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
           },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
+          
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -2183,10 +2205,6 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       },
@@ -2214,10 +2232,7 @@
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
           },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
+         
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
@@ -2269,10 +2284,6 @@
         "name": "Outreach Visit ",
         "encounterTypes": [
           {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
-          },
-          {
             "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
             "display": "OUTREACHFIELDFU"
           },
@@ -2289,8 +2300,32 @@
             "display": "FAMILYSTATUS"
           },
           {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -2359,6 +2394,30 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
@@ -2635,6 +2694,30 @@
             "display": "FAMILYSTATUS"
           }
         ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          }
+        ]
       }
     ]
   },
@@ -2711,10 +2794,6 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
           }
         ]
       }
@@ -2804,6 +2883,30 @@
           {
             "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
             "display": "HEIFOLLOWUP"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           }
         ]
       }
