@@ -94,21 +94,6 @@
             "type": "simple_column",
             "alias": "location_name",
             "column": "t9.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "state_name",
-            "column": "t8.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "current_state_date",
-            "column": "t6.date_created"
-        },
-        {
-            "type": "simple_column",
-            "alias": "initial_referral_date",
-            "column": "t4.date_created"
         }
     ],
     "groupBy":{

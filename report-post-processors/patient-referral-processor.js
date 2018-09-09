@@ -87,7 +87,6 @@ function groupResultsByLocation(arrayOfResults) {
 }
 
 function _handlePrograms(result, loc) {
-    var prev = '';
     if (!_.isNull(result.program_id)) {
         var program = {
             locationUuids: result.locationUuids,
@@ -96,13 +95,8 @@ function _handlePrograms(result, loc) {
             program_id: result.program_id,
             program: result.program,
             programUuids: result.programUuids,
-          //  state_name: result.state_name,
-            counts:result.counts,
-            [result.state_name.split(' ').join('_')]: result.counts,
-            [result.state_name.split(' ').join('_') + '_' + 'conceptUuids']: result.conceptUuids
+            counts:result.counts
         };
-       // console.log('program===', program);
-
         var existingProg = _.find(loc.programs, function (prog) {
             return result.program_id === prog.program_id
         });

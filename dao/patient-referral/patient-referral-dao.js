@@ -46,14 +46,12 @@ function createPatientReferral(newPatientReferral) {
                                         .set('provider_id', newPateintReferral.providerId)
                                         .set('referred_from_location_id', newPateintReferral.referredFromLocationId)
                                         .set('referred_to_location_id', newPateintReferral.referredToLocationId)
-                                        .set('program_workflow_state_id', newPateintReferral.programWorkflowStateId)
                                         .set('notification_status', newPateintReferral.notificationStatus)
                                         .set('referral_reason', newPateintReferral.referralReason)
-                                        .set('date_created', squel.fval('NOW()'))
                                         .set('creator', getCurrentUserIdSquel())
                                         .set('voided', 0)
                                         .toString();
-
+                                    console.log('-------->', query);
                                     conn.query(query, {}, function (err, rows, fields) {
                                         console.log(err)
                                         if (err) {
@@ -70,8 +68,7 @@ function createPatientReferral(newPatientReferral) {
                                                                 newPateintReferral.encounterId,  
                                                                 newPateintReferral.providerId,
                                                                 newPateintReferral.referredToLocationId,
-                                                                newPateintReferral.referredFromLocationId,
-                                                                newPateintReferral.programWorkflowStateId, 0)
+                                                                newPateintReferral.referredFromLocationId, 0)
                                                 .then(function (updatedCohort) {
                                                     resolve(updatedCohort);
                                                 })
@@ -112,7 +109,7 @@ function updatePatientReferralNotification(patientReferralId, newPatientReferral
                             var query = squel.update()
                                 .table('etl.patient_referral')
                                 .set('notification_status', newPatientReferral.notificationStatus)
-                                .set('date_changed', squel.fval('NOW()'))
+                                .set('date_changed', 'NOW()')
                                 .set('changed_by', getCurrentUserIdSquel())
                                 .where('patient_referral_id = ?', patientReferralId)
                                 .toString();
@@ -187,45 +184,43 @@ function getPatientReferral(patientReferralId) {
             });
     });
 }
-function getPatientReferralByEnrollmentUuid(programEnrollmentUuid) {
+function getPatientReferralByEnrollmentUuid(locationUuid, enrollmentUuid) {
     return new Promise(function (resolve, reject) {
         connection.getServerConnection()
             .then(function (conn) {
                 var query = squel.select()
                     .field('pr.patient_referral_id')
                     .field('pr.voided')
-                    .field('pr.encounter_id')
+                    .field('e.uuid as encounter_uuid')
                     .field('pr.provider_id')
                     .field('pr.referred_to_location_id') 
                     .field('pr.referred_from_location_id')                     
                     .field('pr.patient_program_id')
-                    .field('pr.notification_status') 
-					.field('pr.referral_reason')  
-					.field('lr.name as referred_to_location')   
-					.field('wfs.uuid as program_workflow_state_uuid')
-                  .field('cn.name as program_workflow_state')
-                  .field('lt.name as referred_from_location')
-                  .field('lt.uuid as referred_from_location_uuid') 
+                    .field('pr.notification_status')
+					        .field('lt.name as referred_to_location')
+                  .field('lt.uuid as referred_to_location_uuid')
+                  .field('lf.name as referred_from_location')
+                  .field('lf.uuid as referred_from_location_uuid')
+                  .field('p.uuid as patient_program_uuid')
                   .from('etl.patient_referral', 'pr')
                     .join('amrs.provider', 'ap', 'ap.provider_id = pr.provider_id')
-                    .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
-                    .join('amrs.program_workflow_state', 'wfs', 'pr.program_workflow_state_id = wfs.program_workflow_state_id')
-                  .join('amrs.concept_name', 'cn', 'cn.concept_id = wfs.concept_id')
-                  .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
+                    .join('amrs.location', 'lt', 'pr.referred_to_location_id = lt.location_id')
+                  .join('amrs.encounter', 'e', 'e.encounter_id = pr.encounter_id')
+                  .join('amrs.location', 'lf', 'pr.referred_from_location_id = lf.location_id')
                     .join('amrs.patient_program', 'p', 'pr.patient_program_id = p.patient_program_id')
-                    .where('p.uuid = ?', programEnrollmentUuid)
+                    .where('lt.uuid = ?', locationUuid)
+                  .where('p.uuid = ?', enrollmentUuid)
                     .toString();
 
                 conn.query(query, {}, function (err, rows, fields) {
                     if (err) {
-                        console.log(err)
+                        console.log(err);
                         reject('Error querying to get patient referral details by enrollment server');
-                    }
-                    else {
+                    } else {
                         if (rows.length > 0) {
                             resolve(rows[0]);
                         } else {
-                            resolve(null);
+                            resolve({});
                         }
                     }
                     conn.release();
@@ -270,8 +265,7 @@ function validateCreateReferralPayload(patientReferralPayload) {
                 patientReferralPayload.encounterId,  
                 patientReferralPayload.providerId,
                 patientReferralPayload.referredToLocationId,
-                patientReferralPayload.referredFromLocationId,
-                patientReferralPayload.programWorkflowStateId, 0)
+                patientReferralPayload.referredFromLocationId, 0)
                     .then(function (results) {
                         if (results.length > 0) {
                             validationErrors.isValid = false;
@@ -333,21 +327,6 @@ function hasRequiredReferralFields(newPatientReferralPayload) {
         });
     }
 
-    if (_.isEmpty(newPatientReferralPayload.state)) {
-        validationResult.isValid = false;
-        validationResult.errors.push({
-            field: 'state',
-            message: 'Program Workflow State is required'
-        });
-    }
-    if (_.isEmpty(newPatientReferralPayload.referralReason)) {
-        validationResult.isValid = false;
-        validationResult.errors.push({
-            field: 'referral reason',
-            message: 'Referral reason is required'
-        });
-    }
-
     return validationResult;
 }
 
@@ -367,16 +346,8 @@ function resolveEnrollmentUuidsToIds(referralPayload) {
                                                         referralPayload.referredToLocationId = referredToLocationId;
                                                             getLocation(referralPayload.referredFromLocation)
                                                                 .then(function (referredFromLocationId) {
-                                                                    referralPayload.referredFromLocationId = referredFromLocationId;																	
-                                                                     getWorkFlowState(referralPayload.state)
-                                                                        .then(function (stateId) {
-                                                                            referralPayload.programWorkflowStateId = stateId;
-                                                                            resolve(referralPayload);
-                                                                        })
-                                                                        .catch(function (err) {
-                                                                            console.error(err);
-                                                                            reject(err);
-                                                                        })
+                                                                    referralPayload.referredFromLocationId = referredFromLocationId;
+                                                                  resolve(referralPayload);
                                                                 })
                                                                 .catch(function (err) {
                                                                     console.error(err);
@@ -406,7 +377,7 @@ function resolveEnrollmentUuidsToIds(referralPayload) {
 }
 
 
-function findPatientReferral(encounterId, providerId,referredToLocationId,referredFromLocationId,programWorkflowStateId, voided) {
+function findPatientReferral(encounterId, providerId,referredToLocationId,referredFromLocationId, voided) {
    
         return new Promise(function (resolve, reject) {
             connection.getServerConnection()
@@ -426,12 +397,10 @@ function findPatientReferral(encounterId, providerId,referredToLocationId,referr
                         .join('amrs.location', 'lr', 'pr.referred_to_location_id = lr.location_id')
                         .join('amrs.location', 'lt', 'pr.referred_from_location_id = lt.location_id')
                         .join('amrs.patient_program', 'p', 'pr.patient_program_id = p.patient_program_id')
-                        .join('amrs.program_workflow_state', 'ps', 'pr.program_workflow_state_id = ps.program_workflow_state_id')
                         .where('pr.provider_id = ?', providerId)
                         .where('pr.encounter_id = ?', encounterId)
                         .where('pr.referred_to_location_id = ?', referredToLocationId)
                         .where('pr.referred_from_location_id = ?', referredFromLocationId)
-                        .where('pr.program_workflow_state_id = ?', programWorkflowStateId)
                         .where('pr.voided = ?', voided)
                         .toString();
     
@@ -701,14 +670,6 @@ function checkResolvedReferralFields(newPatientReferralPayload) {
         validationResult.errors.push({
             field: 'referredFromLocation',
             message: 'Referred From Location is Not Found'
-        });
-    }
-
-    if (_.isEmpty(newPatientReferralPayload.programWorkflowStateId) && newPatientReferralPayload.programWorkflowStateId===undefined) {
-        validationResult.isValid = false;
-        validationResult.errors.push({
-            field: 'state',
-            message: 'Program Workflow State is Not Found'
         });
     }
     
