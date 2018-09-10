@@ -85,6 +85,8 @@ import * as breast_cancer_patient_list_template from './json-reports/breast-canc
 import * as cervical_cancer_monthly_screening_summary_aggregate from './json-reports/cervical-cancer-monthly-screening-summary-aggregate.json';
 import * as cervical_cancer_monthly_screening_summary_base from './json-reports/cervical-cancer-monthly-screening-summary-base.json';
 
+import * as patient_list_with_contacts_template from './json-reports/patient-list-with-contacts-template.json';
+
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -154,6 +156,11 @@ export class BaseMysqlReport {
                 case 'patient-list-template':
                     resolve({
                         main: patient_list_template
+                    });
+                    break;
+                case 'patient-list-with-contacts-template':
+                    resolve({
+                        main: patient_list_with_contacts_template
                     });
                     break;
                 case 'mainDatasetAggregate':
