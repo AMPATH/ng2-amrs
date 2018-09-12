@@ -70,6 +70,10 @@ describe('Service :  Data Entry Statictics Service', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([DataEntryStatisticsService], (d: DataEntryStatisticsService) => {
             expect(d).toBeTruthy();

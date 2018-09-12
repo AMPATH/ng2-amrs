@@ -136,6 +136,10 @@ describe('MonthlyScheduleResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([MonthlyScheduleResourceService], (s: MonthlyScheduleResourceService,
                 dataCacheService: DataCacheService,

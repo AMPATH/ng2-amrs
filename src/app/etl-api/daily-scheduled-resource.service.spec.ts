@@ -61,6 +61,10 @@ describe('DailyScheduleResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([DailyScheduleResourceService], (s: DailyScheduleResourceService) => {
             expect(s).toBeTruthy();

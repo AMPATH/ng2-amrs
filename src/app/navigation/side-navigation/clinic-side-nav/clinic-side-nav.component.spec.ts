@@ -58,6 +58,10 @@ describe('ClinicSideNavComponent:', () => {
         });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be injected', () => {
         fixture.detectChanges();
         expect(fixture.componentInstance).toBeTruthy();

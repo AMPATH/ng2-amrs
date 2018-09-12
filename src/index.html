@@ -5,17 +5,18 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
-
   <title>
     Ampath POC
   </title>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="./assets/css/bootstrap.min.css"/>
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"/>
-  <link href="./assets/css/material.font.css" rel="stylesheet">
-     <script src="./assets/rgbcolor/index.js"></script>
+  <!-- <link href="./assets/css/material.font.css" rel="stylesheet"> -->
+     <!-- <script src="./assets/rgbcolor/index.js"></script>
     <script src="./assets/StackBlur/StackBlur.js"></script>
-    <script src="./assets/canvg/dist/canvg.js"></script>
+    <script src="./assets/canvg/dist/canvg.js"></script> -->
   <!-- <link rel="stylesheet" href="./assets/app.css"/> -->
 
   <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
@@ -154,15 +155,12 @@
   <!-- End Piwik Code -->
 
 
-  <% if (webpackConfig.htmlElements.headTags) { %>
-  <!-- Configured Head Tags  -->
-  <%= webpackConfig.htmlElements.headTags %>
-  <% } %>
-
   <!-- base url -->
-  <base href="<%= htmlWebpackPlugin.options.baseUrl %>">
+  <base href="./">
 
 
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1976d2">
 </head>
 
 <body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
@@ -184,10 +182,6 @@
     </div>
   </div>
 </app-root>
-<% if (htmlWebpackPlugin.options.isDevServer && htmlWebpackPlugin.options.HMR !== true) { %>
-<!-- Webpack Dev Server reload -->
-<script src="/webpack-dev-server.js"></script>
-<% } %>
 </body>
 
 </html>

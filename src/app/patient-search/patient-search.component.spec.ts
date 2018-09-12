@@ -1,11 +1,10 @@
-import { Subscription } from 'rxjs/Subscription';
+import { of } from 'rxjs';
 import { LocalStorageService } from './../utils/local-storage.service';
-import { Observable } from 'rxjs/Observable';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { PatientSearchComponent } from './patient-search.component';
 import { By }              from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { PatientSearchService } from './patient-search.service';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -52,7 +51,7 @@ class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  params = of([{ 'id': 1 }]);
 }
 
 let results: any = [
@@ -93,7 +92,7 @@ describe('Component: PatientSearch', () => {
       declarations: [PatientSearchComponent], // declare the test component
       imports: [
         FormsModule,
-        Ng2PaginationModule,
+        NgxPaginationModule,
         IonicStorageModule.forRoot(),
       ],
       providers: [
@@ -175,8 +174,12 @@ describe('Component: PatientSearch', () => {
 
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('Should Instantiate Component', async(() => {
-    expect(comp).toBeTruthy();
+    expect(comp).toBeDefined();
   }));
 
   it('Should Have a title of Patient Search', async(() => {

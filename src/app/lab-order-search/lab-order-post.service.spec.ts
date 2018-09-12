@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { LabOrderPostService } from './lab-order-post.service';
 import { FakeLabOrderResourceService } from '../etl-api/lab-order-resource.mock';

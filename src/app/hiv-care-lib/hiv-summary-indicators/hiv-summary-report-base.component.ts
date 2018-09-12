@@ -19,8 +19,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
-  public startAge: number;
-  public endAge: number;
+  public startAge = 0;
+  public endAge = 120;
   public indicators: string ;
   public selectedIndicators  = [];
   public selectedGender = [];
@@ -59,11 +59,11 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public set locationUuids(v: Array<string>) {
     this._locationUuids = v;
   }
-  private _gender: Array<string>;
-  public get gender(): Array<string> {
+  private _gender: string;
+  public get gender(): string {
     return this._gender;
   }
-  public set gender(v: Array<string>) {
+  public set gender(v: string) {
     this._gender = v;
   }
 
@@ -88,7 +88,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     this.hivSummaryIndicatorsResourceService
       .getHivSummaryIndicatorsReport({
           endDate: this.toDateString(this.endDate),
-          gender: this.gender ? this.gender : 'F,M',
+          gender: this.gender ? this.gender : undefined,
           startDate: this.toDateString(this.startDate),
           indicators: this.indicators,
           locationUuids: this.getSelectedLocations(this.locationUuids),
@@ -116,9 +116,9 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
-          gender = '' + selectedGender[i];
+          gender = '' + selectedGender[i].value;
         } else {
-          gender = gender + ',' + selectedGender[i];
+          gender = gender + ',' + selectedGender[i].value;
         }
       }
     }

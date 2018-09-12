@@ -46,6 +46,10 @@ describe('PatientCareStatusResource', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should enter the assertion',
         inject([PatientCareStatusResourceService], (s: PatientCareStatusResourceService) => {
             expect(s).toBeTruthy();

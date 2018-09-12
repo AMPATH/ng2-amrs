@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Response, Headers,
   RequestOptions, ResponseContentType } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
-import { Observable } from 'rxjs/Rx';
-import { Subscriber } from 'rxjs/Subscriber';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable, Subscriber } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()

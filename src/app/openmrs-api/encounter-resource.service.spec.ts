@@ -29,6 +29,10 @@ describe('EncounterResourceService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined', async(inject(
         [EncounterResourceService, MockBackend], (service, mockBackend) => {
 

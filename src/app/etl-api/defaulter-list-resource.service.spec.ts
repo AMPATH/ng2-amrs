@@ -109,6 +109,10 @@ describe('DefaulterListResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([DefaulterListResourceService], (s: DefaulterListResourceService) => {
             expect(s).toBeTruthy();

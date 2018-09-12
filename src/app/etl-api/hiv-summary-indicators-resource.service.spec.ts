@@ -84,6 +84,10 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([HivSummaryIndicatorsResourceService],
             (s: HivSummaryIndicatorsResourceService) => {

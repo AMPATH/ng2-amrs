@@ -1,6 +1,7 @@
+
+import {map,  first } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-
 import { Subscription , Observable , Subject } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -140,7 +141,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       } else {
         observer.error('patientUuid is required');
       }
-    }).first();
+    }).pipe(first());
   }
 
   public toggleDropDown(row: any) {
@@ -183,8 +184,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isReferral = true;
     this.selectedProgram = row;
     this.program = { value: row.programUuid };
-    this.userDefaultPropertiesService.getLocations()
-      .map((response: Response) => response.json()).subscribe((locations: any) => {
+    this.userDefaultPropertiesService.getLocations().pipe(
+      map((response: Response) => response.json())).subscribe((locations: any) => {
       let location = _.find(locations.results, (_location: any) => {
         return _location.display.trim() === row.referred_from_location.trim();
       });
@@ -471,7 +472,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public removeFromQueue() {
-    this.updateReferalNotificationStatus();
+    this.updateReferalNotificationStatus()
   }
 
   private updateEnrollmentButtonState() {

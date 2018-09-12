@@ -15,6 +15,11 @@ describe('Component: GenericList', () => {
       ]
     });
   });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
     let router: Router = TestBed.get(Router);
     let component = new PatientListComponent(router);

@@ -68,6 +68,10 @@ describe('Component: PatientIdentifier', () => {
     }
   ];
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
     expect(component).toBeTruthy();
   });

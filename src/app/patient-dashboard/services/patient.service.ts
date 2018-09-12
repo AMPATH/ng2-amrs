@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable, forkJoin, combineLatest } from 'rxjs';
 import { Patient } from '../../models/patient.model';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
@@ -12,8 +12,8 @@ export class PatientService {
   public isBusy: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private patientResourceService: PatientResourceService,
-              private patientProgramsService: PatientProgramService,
-              private encounterResource: EncounterResourceService) {
+    private patientProgramsService: PatientProgramService,
+    private encounterResource: EncounterResourceService) {
   }
 
   public setCurrentlyLoadedPatientByUuid(patientUuid: string): BehaviorSubject<Patient> {
@@ -31,20 +31,19 @@ export class PatientService {
     return this.currentlyLoadedPatient;
   }
 
-  public fetchPatientByUuid(patientUuid: string): void {
+  public fetchPatientByUuid(patientUuid: string) {
     // reset patient
     this.currentlyLoadedPatient.next(null);
     this.currentlyLoadedPatientUuid = new ReplaySubject(1);
     // busy
     this.isBusy.next(true);
     // hit server
-    Observable.forkJoin(
+    return combineLatest(
       this.patientResourceService.getPatientByUuid(patientUuid, false),
       this.patientProgramsService.getCurrentlyEnrolledPatientPrograms(patientUuid),
       this.encounterResource.getEncountersByPatientUuid(patientUuid)
     ).subscribe(
       (data) => {
-
         let patient = data[0];
         patient.enrolledPrograms = data[1];
         patient.encounters = data[2];
@@ -57,12 +56,12 @@ export class PatientService {
         this.isBusy.next(false);
       });
 
-  }
-
-  public reloadCurrentPatient() {
-    if (this.currentlyLoadedPatient.value !== null) {
-      let previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
-      this.fetchPatientByUuid(previousPatient.uuid);
     }
+
+    public reloadCurrentPatient() {
+      if (this.currentlyLoadedPatient.value !== null) {
+        let previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
+        this.fetchPatientByUuid(previousPatient.uuid);
+      }
   }
 }

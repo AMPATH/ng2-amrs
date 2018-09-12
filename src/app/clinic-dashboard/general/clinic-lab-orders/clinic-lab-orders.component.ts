@@ -2,7 +2,6 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { ClinicLabOrdersResourceService
 } from '../../../etl-api/clinic-lab-orders-resource.service';
-import { MdDatepickerModule } from '@angular/material';
 import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { GridOptions } from 'ag-grid/main';

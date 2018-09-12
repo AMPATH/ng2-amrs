@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { HivProgramSnapshotComponent } from './hiv-program-snapshot.component';
 import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -24,7 +24,7 @@ class FakeHivSummaryResourceService {
   }
 
   getHivSummary(patientUuid, startIndex, size) {
-    return Observable.of([summaryResult]);
+    return of([summaryResult]);
   }
 }
 
@@ -71,6 +71,10 @@ describe('Component: HivProgramSnapshotComponent', () => {
       component = fixture.componentInstance;
     });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should create an instance', (done) => {
     expect(component).toBeTruthy();

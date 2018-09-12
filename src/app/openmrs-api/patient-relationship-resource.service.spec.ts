@@ -30,6 +30,10 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   let patientRelationshipResponse = {
     results: [
       {

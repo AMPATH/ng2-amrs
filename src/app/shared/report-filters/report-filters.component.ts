@@ -138,6 +138,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public set selectedIndicators(v: Array<any>) {
     this._indicators = v;
+    console.log('SELECTED INDICATORS', v);
     this.onIndicatorChange.emit(this._indicators);
   }
   @Input()

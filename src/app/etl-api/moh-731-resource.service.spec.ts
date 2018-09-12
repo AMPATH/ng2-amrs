@@ -4,7 +4,7 @@ import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
     ResponseOptions, Response
 } from '@angular/http';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { CacheModule, CacheService } from 'ionic-cache';
 
@@ -37,6 +37,10 @@ describe('Moh731ResourceService Tests', () => {
                 Moh731ResourceService
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined',
