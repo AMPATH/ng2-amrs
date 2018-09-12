@@ -1,0 +1,52 @@
+<div class="box-body">
+		<div class="group-search">
+			<div clas="row">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+				<h2>Group Search</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container-fluid">
+					<form class="form-horizontal">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="input-group">
+                                <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg search-texbox" 
+                                [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
+								 placeholder="Enter the Group Name or Number" autofocus="true">
+								<span class="input-group-btn">
+									<button [disabled]="isLoading" class="btn btn-primary btn-lg search_btn" (click)="searchGroup()">
+										<span><i class="fa fa-search"></i> Search </span>
+										<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+									</button>
+									<button class="btn btn-danger btn-lg reset_btn" (click)="resetSearchList()">
+										<i class="fa fa-trash fa-fw"></i> Reset
+									</button>
+								</span>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="errorMessage">
+			<div  class="alert">
+				<span>An error occurred: <i class="total text-bold text-danger">{{errorMessage}}</i></span>
+			</div>
+		</div>
+		<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="totalGroups == 0">
+				<div  class="alert">
+					<span>No Matching results for <i class="total text-bold">{{lastSearchString}}</i></span>
+				</div>
+		</div>
+        <div *ngIf="searchResults && totalGroups > 0 && !hideResults">
+            <group-manager-search-results [groups]="searchResults" (groupSelected)="onGroupSelected($event)"></group-manager-search-results>
+        </div>
+		<div clas="row">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+				<span class="badge" style="background-color: whitesmoke !important; padding: 10px; font-size: 16px; margin-top: 15px;">
+					<a><span class="fa fa-users"></span> Create New Group</a>
+				</span>
+			</div>
+        </div>
+</div>
+

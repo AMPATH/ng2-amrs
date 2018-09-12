@@ -1,0 +1,312 @@
+<div class="alert alert-danger" *ngIf="group">
+  <h4 class="text-danger"> Disbanded on {{group.endDate | date : medium}}</h4>
+</div>
+<mat-card>
+  <mat-card-title>
+    <h4 class="text">Group Summary</h4>
+  </mat-card-title>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Group Number :</strong> <span *ngIf="groupNumber">{{groupNumber.value}}</span></td>
+          <td><strong>Group Name :</strong> <span *ngIf="group.name">{{group.name}}</span></td>
+        </tr>
+        <tr>
+          <td><strong>Provider : </strong> <span *ngIf="provider">{{provider.person.display}}</span></td>
+          <td><strong>Facility: </strong> <span *ngIf="group.location">{{group.location.display}}</span></td>
+        </tr>
+        <tr>
+          <td><strong>Members :</strong> {{group.cohortMembers.length}}</td>
+          <td><strong>Landmark : </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
+        </tr>
+        <tr>
+          <td><strong>Active Since : </strong> {{group.startDate | date : medium}}</td>
+          <td><strong>Last Meeting : </strong> <span>-</span></td>
+        </tr>
+        <tr>
+          <td *ngIf="currentLeader"><strong>Leader : </strong>
+            <span *ngIf="currentLeader">
+              <span *ngIf="currentLeader.name"> {{currentLeader.name}} ({{currentLeader.leadershipType}}), </span>
+              <span>since {{currentLeader.startDate | date : medium}}</span>
+            </span>
+          </td>
+          <td *ngIf="currentLeader">
+            <strong>Leader Contacts : </strong>
+            <span *ngIf="currentLeader">
+              <span *ngIf="currentLeader.primaryContacts">{{currentLeader.primaryContacts.value}}</span>
+              <span *ngIf="currentLeader.alternativeContacts">, {{currentLeader.alternativeContacts.value}}</span>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="btn-group pull-right" role="group">
+      <button type="button" class="btn btn-default" (click)="showModal(editBasicDetails)">Edit Details</button>
+      <button type="button" class="btn btn-default" *ngIf="currentLeader" (click)="showModal(editLeadership)">Change Leader</button>
+      <button type="button" class="btn btn-default" *ngIf="!currentLeader" (click)="showModal(addLeadership)">Add Leader</button>
+      <button type="button" class="btn btn-danger" (click)="showDisbandDateModal(group, 'Disband ' + group.name)">Disband</button>
+    </div>
+  </div>
+</mat-card>
+
+<!-- modals -->
+<ng-template #editLeadership>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Leadership</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">Current Leader</div>
+      <div class="panel-body">
+        <form class="form-horizontal" #editLeaderForm="ngForm">
+          <div class="form-group">
+            <label class="col-xs-2">Type <span style="color:red;">*</span></label>
+            <div class="col-xs-10">
+              <mat-radio-group (change)="onLeadershipTypeChanged($event)">
+                <mat-radio-button value="peer" [checked]="currentLeader.leadershipType == 'peer'">Peer Leadership</mat-radio-button>
+                <mat-radio-button value="staff" [checked]="currentLeader.leadershipType == 'staff'">Community Staff
+                  Leadership</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-xs-2">Leader <span style="color:red">*</span></label>
+            <div class="col-xs-10">
+              <select *ngIf="currentLeader.leadershipType == 'staff'" type="text" class="form-control" name="staffLeader"
+                [ngModel]="provider.person.uuid" disabled>
+                <option [value]="provider.person.uuid">{{provider.person.display}}</option>
+              </select>
+              <select *ngIf="currentLeader.leadershipType != 'staff'" [ngModel]="currentLeader.uuid" name="peerLeader"
+                class="form-control" (change)="onLeaderSelected($event.target.value, group.cohortMembers)">
+                <option *ngFor="let member of group.cohortMembers" [value]="member.patient.person.uuid">{{member.patient.person.display}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-xs-2">Contacts</label>
+            <div class="col-xs-10">
+              <div class="input-group">
+                <input type="text" class="form-control" [ngModel]="currentLeader.primaryContacts?.value" name="primaryContacts"
+                  disabled>
+                <span class="input-group-addon" style="cursor: pointer" (click)="showNestedModal(editContacts)"><i
+                    class="fa fa-edit"></i></span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="panel panel-default" *ngIf="group.cohortLeaders.length >= 2">
+      <div class="panel-heading" >Previous Leaders</div>
+      <div id="tablePanelBody" class="panel-body">
+        <table class="table table-striped table-bordered" *ngIf="group.cohortLeaders">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>From</th>
+              <th>To</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let leader of group.cohortLeaders">
+              <td *ngIf="leader.endDate">{{ leader.person.display }}</td>
+              <td *ngIf="leader.endDate">{{ leader.startDate | date : medium }}</td>
+              <td *ngIf="leader.endDate">{{ leader.endDate | date : medium }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="!currentLeader.uuid" (click)="updateGroupLeader(editLeaderForm.value)">Save</button>
+    <button type="button" class="btn btn-default" (click)="resetLeader(group)"> Cancel </button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #addLeadership>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Leader</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+        <form class="form-horizontal" #addLeaderForm="ngForm">
+          <div class="form-group">
+            <label class="col-xs-2">Type <span style="color:red;">*</span></label>
+            <div class="col-xs-10">
+              <mat-radio-group (change)="onDefaultLeadershipTypeChanged($event)">
+                <mat-radio-button value="peer" [checked]="defaultLeadershipType == 'peer'">Peer Leadership</mat-radio-button>
+                <mat-radio-button value="staff" [checked]="defaultLeadershipType !== 'peer'">Community Staff
+                  Leadership</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-xs-2">Leader <span style="color:red">*</span></label>
+            <div class="col-xs-10">
+              <select *ngIf="defaultLeadershipType == 'staff'" type="text" class="form-control" name="staffLeader"
+                [ngModel]="provider.person.uuid">
+                <option [value]="provider.person.uuid">{{provider.person.display}}</option>
+              </select>
+              <select *ngIf="defaultLeadershipType != 'staff'" name="peerLeader"
+                class="form-control" ngModel>
+                <option *ngFor="let member of group.cohortMembers" [value]="member.patient.person.uuid">{{member.patient.person.display}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+    <br/>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="!addLeaderForm.valid" (click)="addGroupLeader(addLeaderForm.value)">Save</button>
+    <button type="button" class="btn btn-default" (click)="resetLeader(group)"> Cancel </button>
+  </div>
+</ng-template>
+
+
+
+
+
+
+<ng-template #editContacts>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit contacts</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefNested.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #editContactsForm="ngForm">
+      <div class="row">
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Phone Number</label>
+            <input type="text" class="form-control" name="primaryContacts" [ngModel]="currentLeader.primaryContacts?.value">
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Alternative Phone Number</label>
+            <input type="text" class="form-control" name="alternativeContacts" [ngModel]="currentLeader.alternativeContacts?.value">
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6">
+          <label class="control-label">Spouse Phone Number</label>
+          <input type="text" class="form-control" name="spouseContacts" [ngModel]="currentLeader.spouseContacts?.value">
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Next Of Kin Phone Number</label>
+            <input type="text" class="form-control" name="nextOfKinContacts" [ngModel]="currentLeader.nextOfKinContacts?.value">
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="pull-right">
+          <button class="btn btn-primary" style="margin-right: 10px" (click)="updateContacts(currentLeader, editContactsForm.value)">
+            Save </button>
+          <button class="btn btn-danger" style="margin-right: 10px" (click)="modalRefNested.hide()"> Cancel </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #editBasicDetails>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Basic Details</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #editDetailsForm="ngForm">
+
+      <div class="form-group">
+
+        <label class="col-xs-4 col-sm-4 col-md-4">Facility
+            <span class="text-bold text-danger">*</span>
+        </label>
+        <div class="col-xs-8" *ngIf="locations">
+          <ng-select class="sharp-corners" placeholder="Please type to search" id="location" [ngModel]="group.location?.uuid"
+            bindLabel="display" bindValue="uuid" name="location" [items]="locations" required></ng-select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-4 col-sm-4 col-md-4">Group Name
+            <span class="text-bold text-danger">*</span>
+        </label>
+        <div class="col-xs-8">
+          <input type="text" class="form-control" name="name" [ngModel]="group.name" required>
+        </div>
+      </div>
+
+      <fieldset ngModelGroup="attributes">
+        <div class="form-group">
+
+          <label class="col-xs-4 col-sm-4 col-md-4">Group Number
+              <span class="text-bold text-danger">*</span>
+          </label>
+          <div class="col-xs-8">
+            <input type="text" class="form-control" name="groupNumber" [ngModel]="groupNumber?.value" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-4 col-sm-4 col-md-4">Landmark
+              <span class="text-bold text-danger">*</span>
+          </label>
+          <div class="col-xs-8">
+            <input type="text" class="form-control" name="landmark" [ngModel]="landmark?.value" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-xs-4 col-sm-4 col-md-4">Health Provider <span class="text-bold text-danger">*</span></label>
+          <div class="col-xs-8">
+            <ng-select [loading]="providerLoading" class="sharp-corners" [ngModel]="provider?.uuid" [items]="providers"
+              name="provider" bindValue="uuid" bindLabel="display" required></ng-select>
+          </div>
+        </div>
+      </fieldset>
+
+
+    </form>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="pull-right">
+          <button class="btn btn-primary" [disabled]="!editDetailsForm.valid" (click)="editGroupDetails(editDetailsForm.value, group.uuid)">Save</button>
+          <button class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
