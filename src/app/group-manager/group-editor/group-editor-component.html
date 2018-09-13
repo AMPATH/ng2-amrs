@@ -1,0 +1,153 @@
+<p-dialog header="New Group" [(visible)]="showGroupDialog" modal="true" width="400" [closable]="false" responsive="true">
+<div id="editor-row">
+<div class="container-fluid">
+    <div clas="row">
+           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+             <h3 align="center">{{editType}} Group </h3>
+             <hr class="intro-divider" />
+             <div class="alert alert-success" *ngIf="success && message!==''">
+              <strong>Success!</strong> {{message}}
+             </div>
+             <div class="alert alert-danger" *ngIf="!success && message!== ''">
+              <strong>Error!</strong> {{message}}
+            </div>
+           </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                    <div class="row">
+                            <div class="col-md-4 col-lg-4 col-md-4 col-sm-6">
+                                <div class="form-group">
+                                  <label for="location" class="control-label">Facility</label>
+                                  </div>
+                            </div>
+                            <div class="col-md-6 col-lg-8 col-md-8 col-sm-6">
+                                <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+                                    <ng-select 
+                                           class="sharp-corners" 
+                                           placeholder="Please type to search" 
+                                           id="location" 
+                                           [(ngModel)]="facility" 
+                                           [items]="facilities" 
+                                           (change)="selectFacility($event)">
+                                    </ng-select>
+                                  </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                              <div class="form-group">
+                                <label for="groupNo">Group No</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-lg-8 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                  <input type="text" class="form-control" [(ngModel)]="groupNo" name="groupNo" id="groupNo"
+                                  placeholder="">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                          <div class="form-group">
+                            <label for="middleName">Group Name</label>
+                          </div>
+                        </div>
+                        <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="groupName" name="groupName"
+                                placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                          <div class="form-group">
+                            <label for="givenName">Group Type</label>
+                          </div>
+                      </div>
+                      <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                          <div class="input-group">
+                              <div class="input-group-addon"></div>
+                              <ng-select 
+                                     class="sharp-corners" 
+                                     placeholder="Please type to search" 
+                                     id="location" 
+                                     [(ngModel)]="groupType" 
+                                     [items]="groupTypes" 
+                                     (change)="selectGroupType($event)">
+                              </ng-select>
+                            </div>
+                      </div>
+                   </div>
+                   <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                          <label for="givenName">Group Program</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <ng-select 
+                                   class="sharp-corners" 
+                                   placeholder="Please type to search" 
+                                   id="location" 
+                                   [(ngModel)]="groupProgram" 
+                                   [items]="groupPrograms" 
+                                   (change)="selectGroupProgram($event)">
+                            </ng-select>
+                          </div>
+                    </div>
+                 </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                          <label for="middleName">Address/LandMark</label>
+                        </div>
+                      </div>
+                      <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                          <div class="form-group">
+                              <input type="text" class="form-control" [(ngModel)]="address" name="address"
+                              placeholder="">
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                          <label for="givenName">Health Provider</label>
+                        </div>
+                      </div>
+                      <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                          <input type="text" class="form-control" id="provider-input" [(ngModel)]="provider" placeholder="Type to search" (keyup)="searchProvider($event.target.value)">
+                          <ul *ngIf="providers" class="list-group dynamic-provider-list">
+                          <a>
+                                  <li class="list-group-item" *ngFor="let provider of providers" (click)="selectProvider(provider)">
+                                     {{ provider.name }}
+                                  </li>
+                          </a>
+                          </ul>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                          <button class="btn btn-danger pull-left" (click)="resetValues()">Cancel</button>
+                          <button class="btn btn-primary pull-right" (click)="createUpdateGroup()" *ngIf="!busy">{{editType}} Group</button>
+                          <button class="btn btn-primary pull-right" (click)="createUpdateGroup()" *ngIf="busy" disabled>{{editType}} Group</button>
+                        </div>
+                    </div>
+                    
+            </div>
+    </div>
+    </div>
+    <br>
+    <br>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button (click)="closeDialogue()" type="button" id="onNo" class="btn btn-danger">Close</button>
+        </div>
+      </footer>
+</div>
+</p-dialog>

@@ -1,0 +1,11 @@
+.dynamic-provider-list{
+    z-index: 1;
+    position: absolute;
+  }
+  label{
+      text-align: right !important;
+  }
+  #editor-row{
+    margin-top: 5px;
+    margin-bottom: 30px;
+  }
