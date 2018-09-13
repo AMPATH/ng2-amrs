@@ -9,3 +9,10 @@
     margin-top: 5px;
     margin-bottom: 30px;
   }
+  .submit-btn{
+    margin-right: 5px;
+  }
+  label{ 
+    font-size: 16px;
+    font-weight:500;
+  }

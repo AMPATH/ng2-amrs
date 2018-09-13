@@ -43,23 +43,9 @@
         </div>
 		<div clas="row">
 			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-				<span (click)="showCreateGroup()" class="badge create_group_btn" style="background-color: whitesmoke !important; padding: 10px; font-size: 16px; margin-top: 15px;">
+				<span (click)="showCreateGroupModal()" class="badge create_group_btn" style="background-color: whitesmoke !important; padding: 10px; font-size: 16px; margin-top: 15px;">
 					<a><span class="fa fa-users"></span> Create New Group</a>
 				</span>
 			</div>
 		</div>
-
-	<group-editor [groupName]=""
-		[groupUuid] =""
-		[groupNo]=""
-		[facility]=""
-		[groupType]=""
-		[groupProgram]=""
-		[address]= ""
-		[provider] = ""
-		[showGroupDialog] = "showGroupDialog"
-		[editType]= "'Create'"
-		(hideDialog)="hideEditDialog($event)"
-		>
-	</group-editor>
 

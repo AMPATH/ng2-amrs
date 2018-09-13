@@ -1,10 +1,14 @@
-<p-dialog header="New Group" [(visible)]="showGroupDialog" modal="true" width="400" [closable]="false" responsive="true">
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{editType}} Group</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
 <div id="editor-row">
 <div class="container-fluid">
     <div clas="row">
            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-             <h3 align="center">{{editType}} Group </h3>
-             <hr class="intro-divider" />
              <div class="alert alert-success" *ngIf="success && message!==''">
               <strong>Success!</strong> {{message}}
              </div>
@@ -14,12 +18,12 @@
            </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                     <div class="row">
-                            <div class="col-md-4 col-lg-4 col-md-4 col-sm-6">
+                            <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                                 <div class="form-group">
                                   <label for="location" class="control-label">Facility</label>
                                   </div>
                             </div>
-                            <div class="col-md-6 col-lg-8 col-md-8 col-sm-6">
+                            <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
                                 <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
@@ -27,7 +31,7 @@
                                            class="sharp-corners" 
                                            placeholder="Please type to search" 
                                            id="location" 
-                                           [(ngModel)]="facility" 
+                                           [(ngModel)]="facility"
                                            [items]="facilities" 
                                            (change)="selectFacility($event)">
                                     </ng-select>
@@ -36,12 +40,12 @@
                             </div>
                     </div>
                     <div class="row">
-                            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                            <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                               <div class="form-group">
-                                <label for="groupNo">Group No</label>
+                                <label for="groupNo">Group Number</label>
                               </div>
                             </div>
-                            <div class="col-md-6 col-lg-8 col-sm-6 col-xs-6">
+                            <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
                                 <div class="form-group">
                                   <input type="text" class="form-control" [(ngModel)]="groupNo" name="groupNo" id="groupNo"
                                   placeholder="">
@@ -49,12 +53,12 @@
                             </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                        <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                           <div class="form-group">
                             <label for="middleName">Group Name</label>
                           </div>
                         </div>
-                        <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                        <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
                             <div class="form-group">
                                 <input type="text" class="form-control" [(ngModel)]="groupName" name="groupName"
                                 placeholder="">
@@ -62,14 +66,12 @@
                         </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                           <div class="form-group">
                             <label for="givenName">Group Type</label>
                           </div>
                       </div>
-                      <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
-                          <div class="input-group">
-                              <div class="input-group-addon"></div>
+                      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
                               <ng-select 
                                      class="sharp-corners" 
                                      placeholder="Please type to search" 
@@ -78,36 +80,32 @@
                                      [items]="groupTypes" 
                                      (change)="selectGroupType($event)">
                               </ng-select>
-                            </div>
-                      </div>
+                   </div>
                    </div>
                    <div class="row">
-                    <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                         <div class="form-group">
                           <label for="givenName">Group Program</label>
                         </div>
                     </div>
-                    <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
-                        <div class="input-group">
-                            <div class="input-group-addon"></div>
+                    <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
                             <ng-select 
                                    class="sharp-corners" 
                                    placeholder="Please type to search" 
                                    id="location" 
-                                   [(ngModel)]="groupProgram" 
+                                   [(ngModel)]="groupProgram"
                                    [items]="groupPrograms" 
                                    (change)="selectGroupProgram($event)">
                             </ng-select>
-                          </div>
-                    </div>
+                 </div>
                  </div>
                     <div class="row">
-                      <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                         <div class="form-group">
-                          <label for="middleName">Address/LandMark</label>
+                          <label for="middleName">Landmark</label>
                         </div>
                       </div>
-                      <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
+                      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
                           <div class="form-group">
                               <input type="text" class="form-control" [(ngModel)]="address" name="address"
                               placeholder="">
@@ -115,39 +113,28 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+                      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
                         <div class="form-group">
                           <label for="givenName">Health Provider</label>
                         </div>
                       </div>
-                      <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
-                          <input type="text" class="form-control" id="provider-input" [(ngModel)]="provider" placeholder="Type to search" (keyup)="searchProvider($event.target.value)">
-                          <ul *ngIf="providers" class="list-group dynamic-provider-list">
-                          <a>
-                                  <li class="list-group-item" *ngFor="let provider of providers" (click)="selectProvider(provider)">
-                                     {{ provider.name }}
-                                  </li>
-                          </a>
-                          </ul>
+                      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                        <ng-select [loading]="providerLoading" class="sharp-corners" [items]="providers"
+                        name="provider" [(ngModel)]="provider" required></ng-select>
                       </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                          <button class="btn btn-danger pull-left" (click)="resetValues()">Cancel</button>
-                          <button class="btn btn-primary pull-right" (click)="createUpdateGroup()" *ngIf="!busy">{{editType}} Group</button>
-                          <button class="btn btn-primary pull-right" (click)="createUpdateGroup()" *ngIf="busy" disabled>{{editType}} Group</button>
-                        </div>
-                    </div>
                     
+                    
+             
             </div>
     </div>
     </div>
     <br>
     <br>
-    <footer>
-        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-          <button (click)="closeDialogue()" type="button" id="onNo" class="btn btn-danger">Close</button>
-        </div>
-      </footer>
+    <div class="modal-footer">
+      <button class="btn btn-danger pull-right submit-btn" (click)="modalRef.hide()">Cancel</button>
+      <button class="btn btn-primary pull-right submit-btn" (click)="createUpdateGroup()" [disabled]="busy"> {{editType}} Group</button>
+    </div>
+      
 </div>
-</p-dialog>
+</div>

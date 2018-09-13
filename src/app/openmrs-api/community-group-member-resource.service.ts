@@ -8,7 +8,7 @@ import { PersonResourceService } from './person-resource.service';
 
 @Injectable()
 export class CommunityGroupMemberService {
-    
+
 
     constructor(private http: Http,
                 private _appSettingsService: AppSettingsService) {}
@@ -32,6 +32,6 @@ export class CommunityGroupMemberService {
     createPersonAttribute(personUuid: string, attributeType: string, value: any): any {
         const url = this.getOpenMrsBaseUrl() + '/person/' + personUuid + '/attribute/';
         const body = {value, attributeType};
-        return this.http.post(url, body).pipe(map((response) => response.json()))
+        return this.http.post(url, body).pipe(map((response) => response.json()));
     }
 }

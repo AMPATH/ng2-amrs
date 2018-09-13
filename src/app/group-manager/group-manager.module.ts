@@ -45,7 +45,8 @@ import { GroupEditorComponent } from './group-editor/group-editor-component';
     ],
     entryComponents: [
         DatePickerModalComponent,
-        SuccessModalComponent
+        SuccessModalComponent,
+        GroupEditorComponent
     ]
 })
 export class GroupManagerModule {}

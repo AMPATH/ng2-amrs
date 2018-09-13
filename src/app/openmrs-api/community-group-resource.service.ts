@@ -147,20 +147,11 @@ export class CommunityGroupService {
         if (locationUuid) {
             body['location'] = locationUuid;
         }
-        if (body) {
-            requests.push(this.http.post(url, body));
-        }
-
         if (attributes) {
-            const attributeUrls = this.communityGroupAttributeService.generateAttributeUrls(attributes);
-            _.forEach((attributeUrls), (attributeUrl) => {
-              requests.push(this.http.post(attributeUrl['url'], attributeUrl['body']));
-            });
-
+            body['attributes'] = attributes;
         }
 
-        console.log(requests);
-        return forkJoin(requests);
+        return this.http.post(url, body).pipe(map((res) => res.json()));
 
     }
     public updateCohortGroup(payload, uuid): Observable<any> {

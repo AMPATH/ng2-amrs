@@ -1,8 +1,3 @@
-/*
- * Testing a Service
- * More info: https://angular.io/docs/ts/latest/guide/testing.html
- */
-
 import { TestBed, async, inject } from '@angular/core/testing';
 import { CommunityGroupService } from './community-group-resource.service';
 import { MockBackend } from '@angular/http/testing';
