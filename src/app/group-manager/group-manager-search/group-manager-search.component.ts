@@ -4,6 +4,8 @@ import * as _ from 'lodash';
 import { Group } from '../group-model';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { GroupEditorComponent } from '../group-editor/group-editor-component';
 @Component({
     selector: 'group-manager-search',
     templateUrl: './group-manager-search.component.html',
@@ -22,8 +24,11 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     public errorMessage: String;
     public showGroupDialog = false;
     public subscription: Subscription;
+    public modalRef: BsModalRef;
+
     constructor(private groupService: CommunityGroupService,
                 private router: Router,
+                private bsModalService: BsModalService,
                 private route: ActivatedRoute) { }
 
     ngOnInit(): void { }
@@ -56,8 +61,12 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     public onGroupSelected(groupUuid: string) {
         this.router.navigate(['../group', groupUuid], {relativeTo: this.route});
     }
-    public showCreateGroup() {
-       this.showGroupDialog = true;
+    public showCreateGroupModal() {
+       const initialState = { editType: 'Create' };
+       this.modalRef = this.bsModalService.show(GroupEditorComponent, {initialState: initialState});
+       this.modalRef.content.onSave.subscribe((group) => {
+           this.router.navigate(['../group', group['uuid']], {relativeTo: this.route});
+       });
     }
     public closeDialogue() {
         this.showGroupDialog = false;
@@ -71,4 +80,5 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+
 }

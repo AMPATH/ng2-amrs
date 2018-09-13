@@ -1,4 +1,4 @@
-<div class="alert alert-danger" *ngIf="group">
+<div class="alert alert-danger" *ngIf="group.endDate">
   <h4 class="text-danger"> Disbanded on {{group.endDate | date : medium}}</h4>
 </div>
 <mat-card>
@@ -51,7 +51,7 @@
 
   <div class="row">
     <div class="btn-group pull-right" role="group">
-      <button type="button" class="btn btn-default" (click)="showEditGroupModal()">Edit Details</button>
+      <button type="button" class="btn btn-default" (click)="showUpdateGroupModal()">Edit Details</button>
       <button type="button" class="btn btn-default" *ngIf="currentLeader" (click)="showModal(editLeadership)">Change Leader</button>
       <button type="button" class="btn btn-default" *ngIf="!currentLeader" (click)="showModal(addLeadership)">Add Leader</button>
       <button type="button" class="btn btn-danger" (click)="showDisbandDateModal(group, 'Disband ' + group.name)">Disband</button>
@@ -237,18 +237,3 @@
 
   </div>
 </ng-template>
-
-<group-editor [groupName]="group.name"
-    [groupUuid] ="group?.uuid"
-    [groupNo]="groupNumber?.value"
-    [facility]="group.location?.display"
-    [groupType]=""
-    [groupProgram]=""
-    [address]= "landmark?.value"
-    [provider] = "provider?.person.display"
-    [showGroupDialog] = "showGroupEditDialog"
-    [editType]= "'Edit'"
-    (hideDialog)="hideEditDialog($event)"
-
-    >
-</group-editor>

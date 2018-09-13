@@ -6,6 +6,11 @@ import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { UserService } from '../../openmrs-api/user.service';
+import { Subject } from 'rxjs';
+import { timeout } from 'rxjs/operators';
+import { UserDefaultPropertiesService } from '../../user-default-properties';
 @Component({
     selector: 'group-editor',
     templateUrl: './group-editor-component.html',
@@ -13,46 +18,50 @@ import { ProviderResourceService } from '../../openmrs-api/provider-resource.ser
 })
 export class GroupEditorComponent implements OnInit, OnChanges {
 
-    @Input() public provider: string;
-    @Output() public hideDialog = new EventEmitter<boolean>();
+    public provider: any;
     public selectedProviderUuid: string;
     public providers: any = [];
     public facilities: any = [];
-    @Input() public groupNo: string;
-    @Input() public groupUuid: string;
-    @Input() public groupName: string;
-    @Input() public facility: any;
-    @Input() public address: string;
-    @Input() public showGroupDialog = false;
+    public groupNo: string;
+    public groupUuid: string;
+    public groupName: string;
+    public facility: any;
+    public address: string;
+    public showGroupDialog = false;
     public groupTypes: any = [];
-    @Input() public groupType: any;
-    @Input() public editType: string;
+    public groupType: any;
+    public editType: string;
     public groupPrograms: any = [];
-    @Input() public groupProgram: any;
+    public groupProgram: any;
     public success = false;
     public message = '';
     public busy  = false;
+    public providerLoading;
+    public currentLoggedInProvider;
+    public onSave: Subject<any> = new Subject();
+
     constructor(
                 private _communityService: CommunityGroupService,
                 private _providerResourceService: ProviderResourceService,
                 private _locationSservice: LocationResourceService,
-                private _router: Router,
-                private _route: ActivatedRoute) { }
+                public modalRef: BsModalRef,
+                private userResourceService: UserService,
+                private userLocationService: UserDefaultPropertiesService,
+                private providerResourceService: ProviderResourceService) { }
 
     ngOnInit(): void {
         this.allFacilities();
         this.getCohortTypes();
         this.getCohortPrograms();
-        console.log('Load Group Editor');
+        this.fetchProviderOptions();
+        if (this.editType.toLowerCase() === 'create') {
+            this.getLoggedInProvider();
+            this.getCurrentUserLocation();
+        }
     }
     ngOnChanges(changes: SimpleChanges) {
-        console.log('Chnages', changes);
-
     }
 
-    public showCreateDolog() {
-       this.showGroupDialog = true;
-    }
     public allFacilities() {
 
         this._locationSservice.getLocations()
@@ -86,21 +95,6 @@ export class GroupEditorComponent implements OnInit, OnChanges {
          }
      }
 
-    public processProviders(providers) {
-
-        const providersArray = [];
-        _.each(providers, (provider: any) => {
-           const providerPerson = provider.person;
-           if (providerPerson !== null) {
-             const specificProvider = {
-                 'name': provider.display,
-                 'uuid': provider.uuid
-             };
-             providersArray.push(specificProvider);
-            }
-        });
-        this.providers = providersArray;
-    }
 
     public selectFacility($event) {
 
@@ -110,13 +104,12 @@ export class GroupEditorComponent implements OnInit, OnChanges {
         this.resetMessage();
         this.busy = true;
         const formValid = this.formValid();
-        console.log('Edit  Type', this.editType);
         if (formValid) {
 
-          if (this.editType === 'Edit') {
+          if (this.editType.toLowerCase() === 'edit') {
               this.updateCohort();
           }
-          if (this.editType === 'Create') {
+          if (this.editType.toLowerCase() === 'create') {
               this.createCohortGroup();
           }
         } else {
@@ -127,15 +120,14 @@ export class GroupEditorComponent implements OnInit, OnChanges {
 
     }
     public createCohortGroup() {
-        console.log('create Cohort....');
 
         const payLoad = this.generatePayload();
-
         this._communityService.createCohort(payLoad)
             .subscribe((result) => {
-                this.message = 'Cohort Group has been Succesfully Created';
-                this.success = true;
-                this.busy = false;
+                this.modalRef.hide();
+                setTimeout(() => {
+                    this.onSave.next(result);
+                }, 2500);
             },
             (error) => {
                 this.message = 'Error creating cohort group, kindly try again';
@@ -145,10 +137,11 @@ export class GroupEditorComponent implements OnInit, OnChanges {
             );
 
     }
+
     public generatePayload() {
         const attributes: any = [];
         if (this.groupNo !== '') {
-            attributes.push(  {
+            attributes.push({
                 cohortAttributeType: 'groupNumber',
                 value: this.groupNo
             });
@@ -162,7 +155,7 @@ export class GroupEditorComponent implements OnInit, OnChanges {
         if (this.provider !== '') {
             attributes.push(  {
                 cohortAttributeType: 'provider',
-                value: this.provider
+                value: this.provider['value']
             });
         }
         const payLoad = {
@@ -185,6 +178,7 @@ export class GroupEditorComponent implements OnInit, OnChanges {
             this.message = 'Cohort Group has been Succesfully Updated';
             this.success = true;
             this.busy = false;
+            this.onSave.next(results);
 
         },
         (error) => {
@@ -261,8 +255,51 @@ export class GroupEditorComponent implements OnInit, OnChanges {
        }
     }
 
-    public closeDialogue() {
-        this.showGroupDialog = false;
-        this.hideDialog.emit(false);
+
+    public fetchProviderOptions(term: string = null) {
+        if (!_.isNull(term)) {
+          this.providers = [];
+          this.providerLoading = true;
+        }
+         const findProvider = this.providerResourceService.searchProvider(term, false);
+        findProvider.subscribe(
+          (providers) => {
+            this.processProviders(providers);
+          },
+          (error) => {
+            console.error(error); // test case that returns error
+          }
+        );
+        return findProvider;
+      }
+         private processProviders(providers) {
+            this.providerLoading = false;
+            const filteredProviders = _.filter(providers, (p: any) => !_.isNil(p.person));
+            this.providers = filteredProviders.map((provider) => {
+                return {
+                    label: provider.person.display,
+                    value: provider.uuid
+                };
+            });
+          }
+
+    public getLoggedInProvider() {
+        const providerPersonUuid = this.userResourceService.getLoggedInUser().personUuid;
+        this.providerResourceService.getProviderByPersonUuid(providerPersonUuid)
+        .subscribe((provider: any) => {
+            this.provider = {
+                label: provider.person.display,
+                value: providerPersonUuid
+            };
+        });
     }
+
+    public getCurrentUserLocation() {
+        const location = this.userLocationService.getCurrentUserDefaultLocationObject();
+        if (location) {
+            this.facility = { label: location.display, value: location.uuid};
+        }
+
+    }
+
 }

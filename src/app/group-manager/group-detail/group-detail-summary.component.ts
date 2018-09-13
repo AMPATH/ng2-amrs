@@ -12,6 +12,7 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
 import { DatePickerModalComponent } from '../modals/date-picker-modal.component';
 import { SuccessModalComponent } from '../modals/success-modal.component';
+import { GroupEditorComponent } from '../group-editor/group-editor-component';
 
 const PEER = 'peer';
 const STAFF = 'staff';
@@ -42,7 +43,6 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public defaultLeadershipType = STAFF;
     public providers = [];
     public providerLoading = false;
-    public showGroupEditDialog = false;
 
     @ViewChild('successModal') public successModal: BsModalRef;
 
@@ -60,7 +60,6 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
         this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
         this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
-        console.log(this.currentLeader);
         this.getProvider(this.communityGroupService.getGroupAttribute('provider', this.group.attributes));
 
     }
@@ -74,10 +73,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         private communityGroupMemberService: CommunityGroupMemberService,
         private communityGroupLeaderService: CommunityGroupLeaderService) { }
 
-    ngOnInit(): void {
-        this.locationService.getLocations().subscribe((results: any) => this.locations = results);
-        this.fetchProviderOptions();
-    }
+    ngOnInit(): void {}
 
 
 
@@ -89,6 +85,15 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         return currentLeader;
     }
 
+    public reloadData() {
+        this.communityGroupService.getCohortByUuid(this.group.uuid).subscribe((group) => {
+            this.group = group;
+            this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
+            this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
+            this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
+            this.getProvider(this.communityGroupService.getGroupAttribute('provider', this.group.attributes));
+        });
+    }
 
     public generateLeaderObject(leader, allMembers = []) {
         const currentLeader = {};
@@ -102,7 +107,6 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         currentLeader['spouseContacts'] = this.getContacts(SPOUSE_CONTACTS, leader.person.attributes);
         currentLeader['nextOfKinContacts'] = this.getContacts(NEXT_OF_KIN_CONTACTS, leader.person.attributes);
         currentLeader['leadershipType'] = this.getLeadershipType(leader.person.uuid, allMembers);
-        console.log(currentLeader['leadershipType']);
         return currentLeader;
     }
 
@@ -149,8 +153,8 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
 
     public getProvider(providerUuid) {
         if (providerUuid) {
-            const v = 'custom:(uuid,name,person:(uuid,display,attributes)';
-            this.subscription = this.providerResourceService.getProviderByUuid(providerUuid.value, false, v)
+            const v = 'custom:(person:(uuid,display,attributes:(attributeType:(uuid),value,display)),uuid)';
+            this.subscription = this.providerResourceService.getProviderByPersonUuid(providerUuid.value, v)
                 .subscribe((provider) => {
                     this.provider = provider;
                 });
@@ -180,6 +184,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
 
     public onLeadershipTypeChanged(event) {
         if (event.value === STAFF) {
+            console.log(this.provider, 'OnleadershipTYpeChanged');
             this.currentLeader = this.generateLeaderObject(this.provider);
         } else {
             this.currentLeader = this.getCurrentLeader(this.group.cohortLeaders, this.group.cohortMembers);
@@ -195,7 +200,12 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     }
 
     public addGroupLeader(value) {
-        console.log(value);
+        const personUuid = value['staffLeader'] || value['peerLeader'];
+        this.modalRef.hide();
+        this.communityGroupLeaderService.addGroupLeader(this.group.uuid, personUuid, new Date())
+        .subscribe((res) => {
+            this.reloadData();
+        });
     }
     public disbandGroup(uuid, date) {
         this.communityGroupService.disbandGroup(uuid, date)
@@ -230,6 +240,25 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
             console.log(error);
         });
 
+    }
+
+    public showUpdateGroupModal() {
+        const initialState = {editType: 'Edit',
+                              groupName: this.group.name,
+                              groupNo: this.groupNumber.value,
+                              facility:  {label: this.group.location['display'], value: this.group.location['uuid']},
+                              groupType: {label: this.group.cohortType['name'], value: this.group.cohortType['uuid']},
+                              groupProgram: {label: this.group.cohortProgram['name'], value: this.group.cohortProgram['uuid']},
+                              provider: {label: this.provider['name'], value: this.provider.person['uuid']},
+                              address: this.landmark.value,
+                              groupUuid: this.group.uuid
+                              };
+        this.modalRef = this.modalService.show(GroupEditorComponent, {initialState: initialState});
+        this.modalRef.content.onSave.subscribe((res) => {
+            this._group = res;
+            this.modalRef.hide();
+            this.showSuccessModal('Successfully updated group ' + this.group.name);
+        });
     }
 
     public updateContactsUIState(updatedContacts, leader) {
@@ -283,94 +312,16 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
                 this.communityGroupLeaderService.updateGroupLeader(this.group['uuid'], currentLeader['leaderUuid'], selectedLeaderUuid)
                 .subscribe((res) => {
                     this.showSuccessModal('Successfully changed leader for ' + this.group.name);
+                    this.reloadData();
                 },
                 (error) => { console.log(error); });
             }
         } else {
             this.communityGroupLeaderService.addGroupLeader(this.group['uuid'], selectedLeaderUuid, new Date()).subscribe(
-                (res) => console.log(res),
+                (res) => this.reloadData(),
                 (error) => console.log(error));
         }
     }
-
-
-    public editGroupDetails(formValue, groupUuid: string) {
-        const attr = [];
-        if (formValue.attributes) {
-            if (formValue.attributes.groupNumber !== this.groupNumber.value) {
-                const obj =  {};
-                obj['attributeType'] = this.groupNumber.cohortAttributeType.uuid;
-                obj['value'] = formValue.attributes.groupNumber;
-                obj['group'] = groupUuid;
-                if (this.groupNumber) {
-                    obj['uuid'] = this.groupNumber.uuid;
-                }
-                attr.push(obj);
-            }
-            if (formValue.attributes.landmark !== this.landmark.value) {
-                    const obj =  {};
-                    obj['attributeType'] = this.landmark.cohortAttributeType.uuid;
-                    obj['value'] = formValue.attributes.landmark;
-                    obj['group'] = groupUuid;
-                    if (this.landmark) {
-                        obj['uuid'] = this.landmark.uuid;
-                    }
-                    attr.push(obj);
-            }
-            if (formValue.attributes.provider !== this.provider.uuid) {
-                    const obj =  {};
-                    const providerAttr = this.communityGroupService.getGroupAttribute('provider', this.group.attributes);
-                    obj['attributeType'] = providerAttr.cohortAttributeType.uuid;
-                    obj['value'] = formValue.attributes.provider;
-                    obj['group'] = groupUuid;
-                    if (providerAttr) {
-                        obj['uuid'] = providerAttr.uuid;
-                }
-                attr.push(obj);
-
-            }
-        }
-        this.communityGroupService.updateGroup(groupUuid, formValue['name'], formValue['location'], attr)
-        .subscribe((res) => {
-            this.modalRef.hide();
-            console.log('RESPONSE', res);
-            this.showSuccessModal('Successfully updated cohort details for ' + this.group.name);
-        }, (error) => console.log(error));
-    }
-
-    public showEditGroupModal() {
-        this.showGroupEditDialog = true;
-        console.log('Show Edit modal');
-    }
-    public hideEditDialog($event) {
-        console.log('hideEditDialog', $event);
-        this.showGroupEditDialog = $event;
-    }
-
-
-  public fetchProviderOptions(term: string = null) {
-    if (!_.isNull(term)) {
-      this.providers = [];
-      this.providerLoading = true;
-    }
-
-    const findProvider = this.providerResourceService.searchProvider(term, false);
-    findProvider.subscribe(
-      (providers) => {
-        this.processProviders(providers);
-      },
-      (error) => {
-        console.error(error); // test case that returns error
-      }
-    );
-    return findProvider;
-  }
-
-    private processProviders(providers) {
-        this.providerLoading = false;
-        const filteredProviders = _.filter(providers, (p: any) => !_.isNil(p.person));
-        this.providers = filteredProviders;
-      }
 
 
     public openDateModal(onSaveMethod, title) {

@@ -12,4 +12,5 @@ export interface Group {
     name: string;
     links: any[];
     resourceVersion: string;
+    cohortProgram: string;
 }
