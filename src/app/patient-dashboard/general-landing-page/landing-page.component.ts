@@ -76,6 +76,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public selectedWorkFlowState: any;
   public workflowStates: any[] = [];
   public parentComponent: string = 'landing-page';
+  public loaderStatus: boolean = false;
 //  public programList: any[] = require('../programs/programs.json');
   public availableDepartmentPrograms: any[] = [];
   public selectedEncounter: Encounter;
@@ -254,12 +255,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public enrollPatientToProgram(asReferral: boolean = false) {
+    this.loaderStatus = true;
     this.isFocused = true;
     this.isEdit = false;
     let payload = {};
     this.checkIncompatibility(this.program.value);
     if (this.programIncompatible === true) {
           this.isFocused = false;
+          this.loaderStatus = false;
     } else {
        if (this.isValidForm({
            dateEnrolled: this.dateEnrolled,
@@ -655,6 +658,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       if (!_.isNil(hasLocation) && hasLocation.uuid === this.selectedLocation.value) {
         this._showErrorMessage('Patient is already enrolled in this location in same program. ' +
           'You can only refer to same location. Otherwise change program or location.');
+        this.loaderStatus = false;
       } else {
         this._removeErrorMessage();
       }
@@ -691,10 +695,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   private _updatePatientProgramEnrollment(payload) {
+    this.loaderStatus = true;
     this.programService.saveUpdateProgramEnrollment(payload).subscribe(
       (enrollment) => {
         this.isFocused = false;
         this.isEdit = false;
+        this.loaderStatus = false;
         if (enrollment) {
           this.enrollmentCompleted = true;
           let currentProgram: any = _.first(_.filter(this.availablePrograms,
@@ -724,7 +730,9 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
             this.updateEnrollmentButtonState();
           }, 3500);
         }
-      }
+      }, ((err) => {
+        this.loaderStatus = false;
+      })
     );
   }
 

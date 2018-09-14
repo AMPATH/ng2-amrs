@@ -173,7 +173,7 @@
           <div class="col-md-12 col-xs-12 col-sm-4 cell enroll-button">
             <label class="buttons"></label>
             <div class="buttons" style="width:100%">
-              <button [disabled]="!enrollmentButtonActive" class="btn"
+              <button [disabled]="!enrollmentButtonActive || loaderStatus" class="btn"
                       [ngClass]="{'btn-primary': !isFocused, 'btn-info': isFocused}"
                       (click)="enrollPatientToProgram()">
                 <span *ngIf="!isFocused">Enroll</span>
@@ -187,6 +187,7 @@
               </ng-container>
 
             </div>
+            <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
           </div>
         </div>
       </div>
