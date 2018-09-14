@@ -43,6 +43,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public errorTitle: string;
   public showNationalIdTexBox: boolean = false;
   public showGeneralTexBox: boolean = false;
+  public identifierDialogTitle: string = 'Add Patient Identifier';
   private subscription: Subscription;
   private initialPatientIdentifier: string = '';
   constructor(private patientService: PatientService,
@@ -77,7 +78,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
   }
 
-  public showDialog() {
+  public showDialog(id) {
+    this.initIdentifier(id);
     this.display = true;
   }
   public dismissDialog() {
@@ -182,6 +184,17 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
+private initIdentifier(id) {
+    if (id) {
+      this.patientIdentifier = id.identifier;
+      this.identifierType = {value: id.identifierType.uuid, label: id.identifierType.name};
+      this.preferredIdentifier = id.preferred;
+      this.selectedDevice = {value: id.location.uuid, label: id.location.name};
+      this.patientIdentifierUuid = id.uuid;
+      this.identifierLocation = id.location.uuid;
+      this.identifierDialogTitle = 'Edit Patient Identifier';
+    }
+}
 private saveIdentifier(personIdentifierPayload, person) {
   this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,

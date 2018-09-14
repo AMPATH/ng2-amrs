@@ -12,6 +12,13 @@ import { PatientIdentifierComponent } from './patient-identifier.component';
 export class FakeNgContentDirective {
 }
 
+@Directive({
+  selector: `edit-identifiers`
+})
+
+export class FakeEditIdentifierDirective {
+}
+
 describe('Component: PatientIdentifier', () => {
   let component: PatientIdentifierComponent;
   let fixture: ComponentFixture<PatientIdentifierComponent>;
@@ -20,7 +27,8 @@ describe('Component: PatientIdentifier', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PatientIdentifierComponent, FakeNgContentDirective],
+      declarations: [PatientIdentifierComponent, FakeNgContentDirective,
+        FakeEditIdentifierDirective],
     });
 
     fixture = TestBed.createComponent(PatientIdentifierComponent);
