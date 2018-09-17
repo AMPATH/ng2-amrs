@@ -43,6 +43,9 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public defaultLeadershipType = STAFF;
     public providers = [];
     public providerLoading = false;
+    public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
+    public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+    public pattern = new RegExp(this.r1.source + this.r2.source);
 
     @ViewChild('successModal') public successModal: BsModalRef;
 
@@ -86,7 +89,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     }
 
     public reloadData() {
-        this.communityGroupService.getCohortByUuid(this.group.uuid).subscribe((group) => {
+        this.communityGroupService.getGroupByUuid(this.group.uuid).subscribe((group) => {
             this.group = group;
             this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
             this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
@@ -249,7 +252,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
                               facility:  {label: this.group.location['display'], value: this.group.location['uuid']},
                               groupType: {label: this.group.cohortType['name'], value: this.group.cohortType['uuid']},
                               groupProgram: {label: this.group.cohortProgram['name'], value: this.group.cohortProgram['uuid']},
-                              provider: {label: this.provider['name'], value: this.provider.person['uuid']},
+                              provider: {label: this.provider.person.display, value: this.provider.person.uuid},
                               address: this.landmark.value,
                               groupUuid: this.group.uuid
                               };
@@ -334,6 +337,15 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
             title: title
         };
         this.modalRef = this.modalService.show(DatePickerModalComponent, {initialState});
+    }
+
+
+    public activateGroup(group: any) {
+        this.communityGroupService.activateGroup(group.uuid).subscribe((res) => {
+            this.showSuccessModal('Successfully reactivated group.');
+            this.group = res;
+        },
+        (error) => (console.log(error)));
     }
 
     ngOnDestroy(): void {

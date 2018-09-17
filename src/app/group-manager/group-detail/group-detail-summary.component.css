@@ -41,3 +41,7 @@ td, th {
     padding: 4px;
     line-height: 35px;
 }
+
+.warnings {
+    font-size: 12px;
+}

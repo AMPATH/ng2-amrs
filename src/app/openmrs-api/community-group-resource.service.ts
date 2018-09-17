@@ -7,70 +7,74 @@ import { CommunityGroupAttributeService } from './community-group-attribute-reso
 import { map, catchError } from 'rxjs/operators';
 @Injectable()
 export class CommunityGroupService {
+  public v = 'full';
 
-    public v = 'full';
-    constructor(private http: Http,
-                private _appSettingsService: AppSettingsService,
-                private communityGroupAttributeService: CommunityGroupAttributeService) {
+  constructor(private http: Http,
+    private _appSettingsService: AppSettingsService,
+    private communityGroupAttributeService: CommunityGroupAttributeService) {
 
+  }
+
+  public getOpenMrsBaseUrl(): string {
+    return this._appSettingsService.getOpenmrsRestbaseurl() + 'cohortm';
+  }
+
+  public searchCohort(searchString: string, searchByLandmark = false) {
+    if (searchByLandmark) {
+      return this.getGroupsByLandmark(searchString);
+    } else {
+      const regex = new RegExp(/^\d+$/);
+      if (regex.test(searchString)) {
+        return this.getGroupByGroupNumber(searchString);
+      } else {
+        return this.getGroupByName(searchString);
+      }
     }
 
-    public getOpenMrsBaseUrl(): string {
-        return this._appSettingsService.getOpenmrsRestbaseurl() + 'cohortm';
-    }
+  }
 
-    public searchCohort(searchString: string) {
-        const regex = new RegExp(/^\d+$/);
-        if (regex.test(searchString)) {
-            return this.getGroupByGroupNumber(searchString);
-        } else {
-            return this.getGroupByName(searchString);
-        }
-
-    }
-
-    public getGroupByGroupNumber(groupNumber: string): Observable<any> {
-        const params = new URLSearchParams();
-        params.set('attributes', `"groupNumber":"${groupNumber}"`);
-        params.set('v', this.v);
-        const url = this.getOpenMrsBaseUrl() + '/cohort';
-        return this.http.get(url, {
-            search: params
-        })
-        .pipe(
-            map((response) => response.json().results),
-            catchError((error) => 'An error occurred ' + error)
-        );
-    }
-
-    public getCohortByName(name: string): Observable<any> {
-        const params = new URLSearchParams();
-        params.set('v', this.v);
-        params.set('q', name);
-        return this.http.get(this.getOpenMrsBaseUrl() + '/cohort', {
-            search: params
-        }).pipe(
-            map((response) => response.json().results),
-            catchError((error) => 'An error occurred ' + error)
-        );
-    }
-
-  public getCohortByUuid(groupUuid: string): Observable<any> {
-      const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
-      return this.http.get(url).pipe(
-        map((response) => response.json()),
+  public getGroupByGroupNumber(groupNumber: string): Observable < any > {
+    const params = new URLSearchParams();
+    params.set('attributes', `"groupNumber":"${groupNumber}"`);
+    params.set('v', this.v);
+    const url = this.getOpenMrsBaseUrl() + '/cohort';
+    return this.http.get(url, {
+        search: params
+      })
+      .pipe(
+        map((response) => response.json().results),
         catchError((error) => 'An error occurred ' + error)
       );
-    }
+  }
 
-  public getCohortTypes(): Observable<any> {
+  public getGroupByName(name: string): Observable < any > {
+    const params = new URLSearchParams();
+    params.set('v', this.v);
+    params.set('q', name);
+    return this.http.get(this.getOpenMrsBaseUrl() + '/cohort', {
+      search: params
+    }).pipe(
+      map((response) => response.json().results),
+      catchError((error) => 'An error occurred ' + error)
+    );
+  }
+
+  public getGroupByUuid(groupUuid: string): Observable < any > {
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
+    return this.http.get(url).pipe(
+      map((response) => response.json()),
+      catchError((error) => 'An error occurred ' + error)
+    );
+  }
+
+  public getCohortTypes(): Observable < any > {
     const params = new URLSearchParams();
     params.set('v', this.v);
     const url = this.getOpenMrsBaseUrl() + '/cohorttype';
     return this.http.get(url, {
-        search: params
+      search: params
     }).pipe(map((response) => {
-        return response.json().results;
+      return response.json().results;
     }));
 
   }
@@ -80,91 +84,89 @@ export class CommunityGroupService {
     params.set('v', this.v);
     const url = this.getOpenMrsBaseUrl() + '/cohortprogram';
     return this.http.get(url, {
-        search: params
+      search: params
     }).pipe(map((response) => {
-        return response.json().results;
+      return response.json().results;
     }));
 
   }
 
-  public createCohort(payload) {
+  public createGroup(payload) {
 
     if (!payload) {
-        return null;
+      return null;
     }
 
     const params = new URLSearchParams();
     params.set('v', this.v);
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
     const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http.post(url, JSON.stringify(payload), options).pipe(
-        map((response: Response) => {
-            return response.json();
-        }));
+      map((response: Response) => {
+        return response.json();
+      }));
 
   }
 
-    public getGroupByName(name: string): Observable<any> {
-        console.log('Name', name);
-        const params = new URLSearchParams();
-        params.set('v', this.v);
-        params.set('q', name);
-        return this.http.get(this.getOpenMrsBaseUrl() +  '/cohort' , {
-            search: params
-        }).pipe(
-            map((response) => response.json().results)
-        );
-    }
-
-  public getGroupByUuid(groupUuid: string): Observable<any> {
-      const url = this.getOpenMrsBaseUrl() +  '/cohort' + `/${groupUuid}`;
-      return this.http.get(url).pipe(
-        map((response) => response.json())
-      );
-    }
 
   public disbandGroup(uuid: string, endDate: Date): any {
-        const url = this.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`;
-        const body = {endDate};
-        return this.http.post(url, body).pipe(
-            map((response) => response.json())
-          );
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`;
+    const body = {
+      endDate
+    };
+    return this.http.post(url, body).pipe(
+      map((response) => response.json())
+    );
+  }
+
+  public getGroupAttribute(attributeType: string, attributes: any[]): any {
+    return _.filter(attributes, (attribute) => attribute.cohortAttributeType.name === attributeType)[0];
+  }
+
+
+  public updateCohortGroup(payload, uuid): Observable < any > {
+    if (!payload) {
+      return null;
     }
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    const url = this.getOpenMrsBaseUrl() + '/cohort/' + uuid;
+    return this.http.post(url, JSON.stringify(payload), options).pipe(
+      map((response: Response) => {
+        return response.json();
+      }));
 
-    public getGroupAttribute(attributeType: string, attributes: any[]): any {
-        return _.filter(attributes, (attribute) => attribute.cohortAttributeType.name === attributeType)[0];
-    }
+  }
 
+  public activateGroup(uuid: any): any {
+    const body = {
+      endDate: null
+    };
+    const url = this.getOpenMrsBaseUrl() + `/cohort/${uuid}`;
+    return this.http.post(url, body).pipe(
+      map((response: Response) => response.json())
+    );
+  }
 
-    public updateGroup(uuid: string, groupName?: string, locationUuid?: string, attributes?: any): Observable<any> {
-        const url = `${this.getOpenMrsBaseUrl()}/${uuid}`;
-        const requests = [];
-        const body = {};
-        if (groupName) {
-            body['name'] = groupName;
-        }
-        if (locationUuid) {
-            body['location'] = locationUuid;
-        }
-        if (attributes) {
-            body['attributes'] = attributes;
-        }
-
-        return this.http.post(url, body).pipe(map((res) => res.json()));
-
-    }
-    public updateCohortGroup(payload, uuid): Observable<any> {
-        if (!payload) {
-            return null;
-        }
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
-        const url = this.getOpenMrsBaseUrl() + '/cohort/' + uuid;
-        return this.http.post(url, JSON.stringify(payload), options).pipe(
-            map((response: Response) => {
-                return response.json();
-            }));
-
-    }
+  public getGroupsByLandmark(landmark: string) {
+    const params = new URLSearchParams();
+    params.set('attributes', `"landmark":"${landmark}"`);
+    params.set('v', this.v);
+    const url = this.getOpenMrsBaseUrl() + '/cohort';
+    return this.http.get(url, {
+        search: params
+      })
+      .pipe(
+        map((response) => response.json().results)
+      );
+  }
 }

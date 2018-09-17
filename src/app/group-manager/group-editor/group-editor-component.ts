@@ -39,6 +39,8 @@ export class GroupEditorComponent implements OnInit, OnChanges {
     public providerLoading;
     public currentLoggedInProvider;
     public onSave: Subject<any> = new Subject();
+    public onCreate: Subject<boolean> = new Subject();
+    public groupNumberPattern = /\d{5}-\d{3}/;
 
     constructor(
                 private _communityService: CommunityGroupService,
@@ -120,9 +122,11 @@ export class GroupEditorComponent implements OnInit, OnChanges {
 
     }
     public createCohortGroup() {
-
         const payLoad = this.generatePayload();
-        this._communityService.createCohort(payLoad)
+        if (this.formValid()) {
+            this.onCreate.next(true);
+        }
+        this._communityService.createGroup(payLoad)
             .subscribe((result) => {
                 this.modalRef.hide();
                 setTimeout(() => {
