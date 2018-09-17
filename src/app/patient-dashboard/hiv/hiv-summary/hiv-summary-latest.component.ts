@@ -5,6 +5,7 @@ import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
+import * as _ from 'lodash';
 @Component({
   selector: 'hiv-summary-latest',
   templateUrl: './hiv-summary-latest.component.html',
@@ -61,6 +62,24 @@ export class HivSummaryLatestComponent implements OnInit {
 
          }
 
+          let lastVlDate: any = this.getLatestVlDate(data);
+          if (this.endDateIsBeforeStartDate(this.hivSummary.vl_1_date, lastVlDate)) {
+            let filtered = _.find(data, (summaryObj: any) => {
+              let vlDateMoment = Moment(Moment(summaryObj['vl_1_date']), 'DD-MM-YYYY');
+              let lastVlDateMoment = Moment(lastVlDate, 'DD-MM-YYYY');
+              if (summaryObj['vl_1_date']) {
+                if (vlDateMoment.isSame(lastVlDateMoment)) {
+                  return true;
+                } else {
+                  return false;
+                }
+              }
+            });
+       //   Replace the lab data with latest lab results that may not be clinical
+            this.hivSummary.vl_1_date = filtered.vl_1_date;
+            this.hivSummary.vl_1 = filtered.vl_1;
+          }
+
         }
         this.loadingHivSummary = false;
       }, (err) => {
@@ -73,8 +92,8 @@ export class HivSummaryLatestComponent implements OnInit {
   }
 
   public endDateIsBeforeStartDate(startDate: any, endDate: any) {
-    return Moment(endDate, 'DD-MM-YYYY')
-    .isBefore(Moment(startDate, 'YYYY-MM-DD'));
+     return Moment(endDate, 'DD-MM-YYYY')
+    .isBefore(Moment(startDate, 'DD-MM-YYYY'));
   }
 
   public isEmptyDate(date: any) {
@@ -83,4 +102,11 @@ export class HivSummaryLatestComponent implements OnInit {
     }
     return false;
   }
+
+  private getLatestVlDate(data) {
+  let latestVlDate = new Date(Math.max.apply(null, data.map((dataItem) => {
+    return new Date(dataItem.vl_1_date);
+  })));
+  return latestVlDate;
+ }
 }
