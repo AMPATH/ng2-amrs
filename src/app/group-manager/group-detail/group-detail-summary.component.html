@@ -1,5 +1,5 @@
 <div class="alert alert-danger" *ngIf="group.endDate">
-  <h4 class="text-danger"> Disbanded on {{group.endDate | date : medium}}</h4>
+  <h4 class="text-danger"> Ended on {{group.endDate | date : medium}}</h4>
 </div>
 <mat-card>
   <mat-card-title>
@@ -23,7 +23,10 @@
           <td><strong>Facility: </strong> <span *ngIf="group.location">{{group.location.display}}</span></td>
         </tr>
         <tr>
-          <td><strong>Members :</strong> {{group.cohortMembers.length}}</td>
+          <td><strong>Members :</strong> 
+            <span *ngIf="group.cohortMembers">{{group.cohortMembers.length}}</span>
+            <span *ngIf="!group.cohortMembers">0</span>
+          </td>
           <td><strong>Landmark : </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
         </tr>
         <tr>
@@ -41,7 +44,6 @@
             <strong>Leader Contacts : </strong>
             <span *ngIf="currentLeader">
               <span *ngIf="currentLeader.primaryContacts">{{currentLeader.primaryContacts.value}}</span>
-              <span *ngIf="currentLeader.alternativeContacts">, {{currentLeader.alternativeContacts.value}}</span>
             </span>
           </td>
         </tr>
@@ -51,10 +53,11 @@
 
   <div class="row">
     <div class="btn-group pull-right" role="group">
-      <button type="button" class="btn btn-default" (click)="showUpdateGroupModal()">Edit Details</button>
-      <button type="button" class="btn btn-default" *ngIf="currentLeader" (click)="showModal(editLeadership)">Change Leader</button>
-      <button type="button" class="btn btn-default" *ngIf="!currentLeader" (click)="showModal(addLeadership)">Add Leader</button>
-      <button type="button" class="btn btn-danger" (click)="showDisbandDateModal(group, 'Disband ' + group.name)">Disband</button>
+      <button type="button" class="btn btn-default" *ngIf="!group.endDate"  (click)="showUpdateGroupModal()">Edit Details</button>
+      <button type="button" class="btn btn-default" *ngIf="currentLeader && !group.endDate" (click)="showModal(editLeadership)">Edit Leader</button>
+      <button type="button" class="btn btn-default" *ngIf="!currentLeader && !group.endDate" (click)="showModal(addLeadership)">Add Leader</button>
+      <button type="button" class="btn btn-danger" *ngIf="!group.endDate" (click)="showDisbandDateModal(group, 'End ' + group.name)">End Group</button>
+      <button type="button" class="btn btn-success" *ngIf="group.endDate" (click)="activateGroup(group)">Activate Group</button>
     </div>
   </div>
 </mat-card>
@@ -76,26 +79,29 @@
             <label class="col-xs-2">Type <span style="color:red;">*</span></label>
             <div class="col-xs-10">
               <mat-radio-group (change)="onLeadershipTypeChanged($event)">
-                <mat-radio-button value="peer" [checked]="currentLeader.leadershipType == 'peer'">Peer Leadership</mat-radio-button>
-                <mat-radio-button value="staff" [checked]="currentLeader.leadershipType == 'staff'">Community Staff
+                <mat-radio-button value="peer" [checked]="currentLeader.leadershipType == 'peer'" [color]="primary">Peer Leadership</mat-radio-button>
+                <mat-radio-button value="staff" [checked]="currentLeader.leadershipType == 'staff'" [color]="primary">Community Staff
                   Leadership</mat-radio-button>
               </mat-radio-group>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-xs-2">Leader <span style="color:red">*</span></label>
+            <label class="col-xs-2" >Leader <span style="color:red">*</span></label>
             <div class="col-xs-10">
               <select *ngIf="currentLeader.leadershipType == 'staff'" type="text" class="form-control" name="staffLeader"
                 [ngModel]="provider.person.uuid" disabled>
                 <option [value]="provider.person.uuid">{{provider.person.display}}</option>
               </select>
-              <select *ngIf="currentLeader.leadershipType != 'staff'" [ngModel]="currentLeader.uuid" name="peerLeader"
+              <select *ngIf="currentLeader.leadershipType != 'staff' && group.cohortMembers.length" [ngModel]="currentLeader.uuid" name="peerLeader"
                 class="form-control" (change)="onLeaderSelected($event.target.value, group.cohortMembers)">
                 <option *ngFor="let member of group.cohortMembers" [value]="member.patient.person.uuid">{{member.patient.person.display}}</option>
               </select>
+              <span class="alert alert-warning" *ngIf="currentLeader.leadershipType != 'staff' && !group.cohortMembers.length">
+                  Add members to the group to be able to assign peer leadership.
+              </span>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="currentLeader.leadershipType == 'staff' && !group.cohortMembers.length">
             <label class="col-xs-2">Contacts</label>
             <div class="col-xs-10">
               <div class="input-group">
@@ -168,10 +174,13 @@
                 [ngModel]="provider.person.uuid">
                 <option [value]="provider.person.uuid">{{provider.person.display}}</option>
               </select>
-              <select *ngIf="defaultLeadershipType != 'staff'" name="peerLeader"
+              <select *ngIf="defaultLeadershipType != 'staff' && group.cohortMembers.length" name="peerLeader"
                 class="form-control" ngModel>
                 <option *ngFor="let member of group.cohortMembers" [value]="member.patient.person.uuid">{{member.patient.person.display}}</option>
               </select>
+              <span class="alert alert-warning" *ngIf="defaultLeadershipType != 'staff' && !group.cohortMembers.length">
+                  Add members to the group to be able to assign peer leadership.
+              </span>
             </div>
           </div>
         </form>
@@ -201,13 +210,37 @@
         <div class="col-md-6 col-sm-6">
           <div class="form-group">
             <label class="control-label">Phone Number</label>
-            <input type="text" class="form-control" name="primaryContacts" [ngModel]="currentLeader.primaryContacts?.value">
+            <input type="text" class="form-control" name="primaryContacts" [ngModel]="currentLeader.primaryContacts?.value" 
+                   minlength="10" maxlength="15" [pattern]="pattern" #primaryContacts="ngModel">
+            <div *ngIf="primaryContacts.errors && (primaryContacts.dirty || primaryContacts.touched)" class="text-danger">
+                <div [hidden]="!primaryContacts.errors.minlength" class="warnings">
+                  Phone number must be at least 10  digits.
+                </div>
+                <div [hidden]="!primaryContacts.errors.maxlength" class="warnings">
+                  Phone number  max length is 15 digits.
+                </div>
+                <div *ngIf="primaryContacts.errors.pattern" class="warnings">
+                  Valid phone number is required
+                </div>
+            </div>
           </div>
         </div>
         <div class="col-md-6 col-sm-6">
           <div class="form-group">
             <label class="control-label">Alternative Phone Number</label>
-            <input type="text" class="form-control" name="alternativeContacts" [ngModel]="currentLeader.alternativeContacts?.value">
+            <input type="text" class="form-control" name="alternativeContacts" [ngModel]="currentLeader.alternativeContacts?.value" 
+            minlength="10" maxlength="15" [pattern]="pattern" #alternativeContacts="ngModel">
+            <div *ngIf="alternativeContacts.errors && (alternativeContacts.dirty || alternativeContacts.touched)" class="text-danger">
+                <div [hidden]="!alternativeContacts.errors.minlength" class="warnings">
+                  Phone number must be at least 10  digits.
+                </div>
+                <div [hidden]="!alternativeContacts.errors.maxlength" class="warnings">
+                  Phone number  max length is 15 digits.
+                </div>
+                <div *ngIf="alternativeContacts.errors.pattern" class="warnings">
+                  Valid phone number is required
+                </div>
+            </div>
           </div>
         </div>
 
@@ -215,12 +248,36 @@
       <div class="row">
         <div class="col-md-6 col-sm-6">
           <label class="control-label">Spouse Phone Number</label>
-          <input type="text" class="form-control" name="spouseContacts" [ngModel]="currentLeader.spouseContacts?.value">
+          <input type="text" class="form-control" name="spouseContacts" [ngModel]="currentLeader.spouseContacts?.value" 
+          minlength="10" maxlength="15" [pattern]="pattern" #spouseContacts="ngModel">
+          <div *ngIf="spouseContacts.errors && (spouseContacts.dirty || spouseContacts.touched)" class="text-danger">
+              <div [hidden]="!spouseContacts.errors.minlength" class="warnings">
+                Phone number must be at least 10  digits.
+              </div>
+              <div [hidden]="!spouseContacts.errors.maxlength" class="warnings">
+                Phone number  max length is 15 digits.
+              </div>
+              <div *ngIf="spouseContacts.errors.pattern" class="warnings">
+                Valid phone number is required
+              </div>
+          </div>
         </div>
         <div class="col-md-6 col-sm-6">
           <div class="form-group">
             <label class="control-label">Next Of Kin Phone Number</label>
-            <input type="text" class="form-control" name="nextOfKinContacts" [ngModel]="currentLeader.nextOfKinContacts?.value">
+            <input type="text" class="form-control" name="nextOfKinContacts" [ngModel]="currentLeader.nextOfKinContacts?.value"
+            minlength="10" maxlength="15" [pattern]="pattern" #nextOfKinContacts="ngModel">
+            <div *ngIf="nextOfKinContacts.errors && (nextOfKinContacts.dirty || nextOfKinContacts.touched)" class="text-danger">
+                <div [hidden]="!nextOfKinContacts.errors.minlength" class="warnings">
+                  Phone number must be at least 10  digits.
+                </div>
+                <div [hidden]="!nextOfKinContacts.errors.maxlength" class="warnings">
+                  Phone number  max length is 15 digits.
+                </div>
+                <div *ngIf="nextOfKinContacts.errors.pattern" class="warnings">
+                  Valid phone number is required
+                </div>
+            </div>
           </div>
         </div>
       </div>

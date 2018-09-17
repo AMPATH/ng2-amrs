@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import * as _ from 'lodash';
 import { Group } from '../group-model';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, Event} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { GroupEditorComponent } from '../group-editor/group-editor-component';
@@ -25,13 +25,31 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     public showGroupDialog = false;
     public subscription: Subscription;
     public modalRef: BsModalRef;
+    public searchByLandmark = false;
+    public routeLoading = false;
 
     constructor(private groupService: CommunityGroupService,
                 private router: Router,
                 private bsModalService: BsModalService,
                 private route: ActivatedRoute) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.router.events.subscribe((event: Event) => {
+            switch (true) {
+                case event instanceof NavigationStart: {
+                    this.routeLoading = true;
+                    break;
+                }
+                case event instanceof NavigationEnd:
+                case event instanceof NavigationCancel:
+                case event instanceof NavigationError:
+                    this.routeLoading = false;
+                    break;
+                default:
+                    break;
+            }
+        });
+     }
 
     public searchGroup() {
         this.hideResults = false;
@@ -40,15 +58,16 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         if (!_.isEmpty(this.errorMessage)) {
             this.errorMessage = '';
         }
-        this.subscription = this.groupService.searchCohort(this.searchString).subscribe((res) => {
-            this.searchResults = res;
-            this.totalGroups = this.searchResults.length;
+        if (this.searchString) {
+            this.subscription = this.groupService.searchCohort(this.searchString, this.searchByLandmark).subscribe((res) => {
+                this.searchResults = res;
+                this.totalGroups = this.searchResults.length;
+                this.isLoading = false;
+            },
+        (error) => {
             this.isLoading = false;
-        },
-    (error) => {
-        this.isLoading = false;
-    });
-
+        });
+        }
     }
 
     public resetSearchList() {
@@ -64,15 +83,10 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     public showCreateGroupModal() {
        const initialState = { editType: 'Create' };
        this.modalRef = this.bsModalService.show(GroupEditorComponent, {initialState: initialState});
+       this.modalRef.content.onCreate.subscribe((creatingGroup) => this.routeLoading = true);
        this.modalRef.content.onSave.subscribe((group) => {
            this.router.navigate(['../group', group['uuid']], {relativeTo: this.route});
        });
-    }
-    public closeDialogue() {
-        this.showGroupDialog = false;
-    }
-    public hideEditDialog($event) {
-        this.showGroupDialog = $event;
     }
 
     public ngOnDestroy() {
@@ -80,5 +94,15 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+
+    public toggleSearchByLandmark(event) {
+        if (event.checked) {
+            this.searchByLandmark = true;
+        } else {
+            this.searchByLandmark = false;
+        }
+    }
+
+
 
 }

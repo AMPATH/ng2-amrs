@@ -79,4 +79,10 @@
         font-size:20px;
       } 
   }
-  
+  .group-search {
+    margin-top: 25px;
+  }
+  .btn.btn-default {
+    background-color: white;
+    border-color: none;
+  }
