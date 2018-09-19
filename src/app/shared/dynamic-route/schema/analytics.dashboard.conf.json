@@ -21,12 +21,6 @@
       "isSideBarOpen": false
     },
     {
-      "url": "hiv/hiv-summary-monthly-indicator-report",
-      "label": "HIV Summary Monthly Indicators",
-      "icon": "fa fa-file-pdf-o",
-      "isSideBarOpen": false
-    },
-    {
       "url": "hiv/moh-731-report",
       "label": "MOH 731 Reports",
       "icon": "glyphicon glyphicon-equalizer"
