@@ -17,6 +17,10 @@ export class CommunityGroupMemberService {
         return this._appSettingsService.getOpenmrsRestbaseurl();
     }
 
+    public getOpenMrsGroupModuleUrl(): string {
+        return this.getOpenMrsBaseUrl() + 'cohortm/cohortmember/';
+    }
+
     public endMembership(memberUuid: any, date: any): Observable<any> {
         const url = this.getOpenMrsBaseUrl() + 'cohortm/cohortmember/' + memberUuid;
         const body = {endDate: date, voided: true};
@@ -33,5 +37,19 @@ export class CommunityGroupMemberService {
         const url = this.getOpenMrsBaseUrl() + '/person/' + personUuid + '/attribute/';
         const body = {value, attributeType};
         return this.http.post(url, body).pipe(map((response) => response.json()));
+    }
+
+    createMember(cohortUuid: string, patientUuid: string): Observable<any> {
+        const url = this.getOpenMrsGroupModuleUrl();
+        const body = {cohort: cohortUuid, patient: patientUuid, startDate: new Date()};
+        return this.http.post(url, body).pipe(map((response) => response.json()));
+    }
+
+    getMemberCohortsByPatientUuid(patientUuid: string): Observable<any> {
+        const url = this.getOpenMrsGroupModuleUrl();
+        const params = new URLSearchParams();
+        params.set('v', 'full');
+        params.set('patient', patientUuid);
+        return this.http.get(url, {search: params}).pipe(map((response) => response.json().results));
     }
 }
