@@ -30,6 +30,10 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   let programEnrollmentResponse = {
     results: [
       {
@@ -84,7 +88,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
   it('should return null when PatientUuid not specified', async(inject(
     [ProgramEnrollmentResourceService, MockBackend], (service, mockBackend) => {
 
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         throw new Error('No requests should be made.');
       });
 
@@ -96,7 +100,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     [ProgramEnrollmentResourceService, MockBackend], (service, mockBackend) => {
       let patientUuid = 'uuid';
       let serverUrl = 'http://example.url.com/';
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         expect(conn.request.url)
           .toBe(serverUrl + 'ws/rest/v1/programenrollment?v=custom:(uuid,display,voided' +
             ',dateEnrolled,dateCompleted,location,program:(uuid),states:(uuid,startDate,endDate,' +
@@ -113,7 +117,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     [ProgramEnrollmentResourceService, MockBackend], (service, mockBackend) => {
       let programEnrollmentUuid = 'program-enrollment-uuid';
       let serverUrl = 'http://example.url.com/';
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         expect(conn.request.url)
           .toBe(serverUrl + 'ws/rest/v1/programenrollment/program-enrollment-uuid?v=' +
           'custom:(uuid,display,states:(uuid,startDate,endDate,state:(uuid,concept:(uuid,display' +
@@ -133,7 +137,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
         'uuid': 'uuid-1', 'state': 'state-uuid',
         'startDate': '2011-02-06', 'endDate': '2011-02-08'
       };
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         expect(conn.request.url)
           .toBe('http://example.url.com/ws/rest/v1/programenrollment/programenrollment-uuid/' +
           'state/uuid-1');
@@ -150,7 +154,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
   it('should return null when params are not specified', async(inject(
     [ProgramEnrollmentResourceService, MockBackend], (service, mockBackend) => {
 
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         throw new Error('No requests should be made.');
       });
 

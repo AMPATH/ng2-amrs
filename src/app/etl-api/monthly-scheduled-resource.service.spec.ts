@@ -136,6 +136,10 @@ describe('MonthlyScheduleResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([MonthlyScheduleResourceService], (s: MonthlyScheduleResourceService,
                 dataCacheService: DataCacheService,
@@ -147,7 +151,7 @@ describe('MonthlyScheduleResourceService Tests', () => {
     it('should return a list containing visits and appointments for a given months',
         inject([MonthlyScheduleResourceService, MockBackend],
             (s: MonthlyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/get-monthly-schedule');
                     expect(connection.request.url).toContain('endDate=2017-02-28');
@@ -167,7 +171,7 @@ describe('MonthlyScheduleResourceService Tests', () => {
                     endDate: '2017-02-28',
                     locationUuids: 'uuid',
                     limit: '1000000'
-                }).subscribe((result) => {
+                }).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expected.results);
                 });

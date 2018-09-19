@@ -43,7 +43,7 @@ describe('Lab Order Resource Service Unit Tests', () => {
     inject([LabOrderResourceService, MockBackend],
       (labOrderResourceService: LabOrderResourceService, backend: MockBackend) => {
         let expectedResults = {'result': {'locationUuid': '1234'}};
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Post);
           expect(connection.request.url).toContain('eid/order');
           connection.mockRespond(new Response(
@@ -59,7 +59,7 @@ describe('Lab Order Resource Service Unit Tests', () => {
         };
 
         labOrderResourceService.postOrderToEid(location, payload)
-          .subscribe((result) => {
+          .take(1).subscribe((result) => {
             expect(result).toBeDefined();
             expect(result).toEqual(expectedResults);
           });

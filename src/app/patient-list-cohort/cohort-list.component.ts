@@ -48,7 +48,7 @@ export class CohortListComponent implements OnInit {
     this.fetchingResults = true;
     let sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
     if ( sub ) {
-       sub.subscribe(
+       sub.take(1).subscribe(
          (cohorts) => {
             if (cohorts) {
            this.cohortList = cohorts.result;
@@ -78,7 +78,7 @@ export class CohortListComponent implements OnInit {
   }
   public voidCohortList() {
     if (this.selectedCohortListUuid) {
-      this.cohortResourceService.retireCohort(this.selectedCohortListUuid).subscribe(
+      this.cohortResourceService.retireCohort(this.selectedCohortListUuid).take(1).subscribe(
         (success) => {
           this.displayConfirmDialog = false;
           this.displaySuccessAlert('Cohort list deleted successfully');

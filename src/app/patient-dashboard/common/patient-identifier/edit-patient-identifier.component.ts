@@ -151,7 +151,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
     this.checkIdentifierFormat();
     if (this.isValidIdentifier === true) {
-      this.patientResourceService.searchPatient(this.patientIdentifier).subscribe(
+      this.patientResourceService.searchPatient(this.patientIdentifier).take(1).subscribe(
         (result) => {
           if (result <= 0) {
             if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
@@ -186,10 +186,10 @@ private saveIdentifier(personIdentifierPayload, person) {
   this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
               personIdentifierPayload)
-              .subscribe(
+              .take(1).subscribe(
                 (success) => {
                   this.displaySuccessAlert('Identifiers saved successfully');
-                  this.patientService.fetchPatientByUuid(this.patients.person.uuid);
+                  this.patientService.reloadCurrentPatient();
                   setTimeout(() => {
                     this.display = false;
                   }, 1000);
@@ -207,7 +207,7 @@ private saveIdentifier(personIdentifierPayload, person) {
     return existingIdentifier;
   }
   private fetchLocations(): void {
-    this.locationResourceService.getLocations().subscribe(
+    this.locationResourceService.getLocations().take(1).subscribe(
       (locations: any[]) => {
         this.locations = [];
         // tslint:disable-next-line:prefer-for-of

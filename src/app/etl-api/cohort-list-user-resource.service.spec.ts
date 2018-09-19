@@ -44,7 +44,7 @@ describe('CohortUserResourceService Unit Tests', () => {
 
     backend = TestBed.get(MockBackend);
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       /*expect(connection.request.url).toMatch('/patient/(*)/vitals');
@@ -60,10 +60,10 @@ describe('CohortUserResourceService Unit Tests', () => {
     async(inject([CohortUserResourceService, MockBackend],
       (cohortUserResourceService: CohortUserResourceService, mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe(c =>
+        mockBackend.connections.take(1).subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        cohortUserResourceService.getCohortUser(cohortUuid).subscribe((data) => { },
+        cohortUserResourceService.getCohortUser(cohortUuid).take(1).subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
 

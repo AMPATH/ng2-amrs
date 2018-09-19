@@ -1,18 +1,18 @@
+
+import {map} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientService } from '../../../patient-dashboard/services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { Subscription ,  BehaviorSubject ,  Subject } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PatientReferralService } from '../../services/patient-referral-service';
 import { EnrollementWorkflowService } from '../../services/enrollment-workflow-service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { UserDefaultPropertiesService
 } from '../../../user-default-properties/user-default-properties.service';
-import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'program-enrollment-manager',
@@ -37,10 +37,10 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
   public availablePrograms: any[];
   public availableProgramsOptions: any[];
   public locationUuids: any;
+  public state: any;
   private location: any;
   private stateChangeRequiresModal: boolean = false;
   private program: any;
-  private state: any;
   private configs: any[];
   private confirmMessage: BehaviorSubject<any> = new BehaviorSubject(null);
   private subscription: Subscription;
@@ -56,7 +56,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.showFormWizard = false;
-    this.patientReferralService.getProcessPayload().subscribe((stateChange) => {
+    this.patientReferralService.getProcessPayload().take(1).subscribe((stateChange) => {
         if (stateChange) {
           this.state = stateChange;
           this.program = stateChange.program;
@@ -67,11 +67,11 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
           }
         }
       });
-    this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+      this.subscription = this.patientService.currentlyLoadedPatient.subscribe((patient) => {
       if (patient !== null) {
         this.patient = patient;
         this.patientReferralService.fetchAllProgramManagementConfigs(this.patient.uuid)
-          .subscribe((configs) => {
+          .take(1).subscribe((configs) => {
           if (configs) {
             this.configs = configs;
           }
@@ -112,7 +112,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
       this.enrollementWorkflowService.processWorkflowStateChange(this.program.programUuid,
         this.patient, this.program.enrolledProgram.location.uuid, targetState,
         this.program.enrolledProgram.uuid, (this.location ? this.location.value : null),
-        this.program.dateEnrolled).subscribe((response: any) => {
+        this.program.dateEnrolled).take(1).subscribe((response: any) => {
         if (_.isArray(response)) {
           this.newEnrollment = _.find(response,
             (program) => _.isNull(program.dateCompleted));
@@ -123,7 +123,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
         if (this.modalProcessOnSuccess) {
           this.modalProcessOnSuccess = false;
         }
-        this.patientService.fetchPatientByUuid(this.patient.uuid);
+        this.patientService.reloadCurrentPatient();
         this.onReloadPrograms.next(true);
       });
     }
@@ -176,26 +176,26 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
       if (this._hasValidInput()) {
         this.enrollementWorkflowService.enrollPatient(
           this.program.programUuid, this.patient, this.program.enrolledProgram.location.uuid,
-          this.state, this.program.enrolledProgram.uuid).subscribe((updatedEnrollment) => {
+          this.state, this.program.enrolledProgram.uuid).take(1).subscribe((updatedEnrollment) => {
           if (updatedEnrollment) {
             let referState =
               this._getSpecificStateByConceptUuid('0c5565c5-45cf-40ab-aa6d-5694aeabae18');
             this.patientReferralService.getProgramWorkflows(this.newProgram.value)
-              .subscribe((hasWorkFlows) => {
+              .take(1).subscribe((hasWorkFlows) => {
                 if (!hasWorkFlows) {
                   referState = null;
                 }
                 // need to update the new enrollment again with the right state and location
                 this.enrollementWorkflowService.enrollPatient(
                   this.newProgram.value, this.patient, this.location,
-                  referState, '').subscribe((enrollment) => {
+                  referState, '').take(1).subscribe((enrollment) => {
                   this.newEnrollment = enrollment;
                   // 2. Save encounter
                   _.extend(programInfo, {
                     patientProgram: enrollment.uuid
                   });
                   this.patientReferralService.saveReferralEncounter(programInfo)
-                    .subscribe((savedEncounter) => {
+                    .take(1).subscribe((savedEncounter) => {
                       this._processComplete();
                     }, (error) => {
                     });
@@ -235,7 +235,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
       this.program.enrolledProgram.location.uuid, targetState, this.program.enrolledProgram.uuid,
       (this.location ? this.location.value : null),
       this.program.dateEnrolled, this.program.programUuid, newState)
-      .subscribe((response: any) => {
+      .take(1).subscribe((response: any) => {
         if (_.isArray(response)) {
           this.newEnrollment = _.find(response,
             (_program) => _.isNull(_program.dateCompleted));
@@ -310,8 +310,8 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
 
   private _filterLocationByLocationName(name) {
     return new Promise((resolve, reject) => {
-      this.userDefaultPropertiesService.getLocations()
-        .map((response: Response) => response.json()).subscribe((locations: any) => {
+      this.userDefaultPropertiesService.getLocations().pipe(
+        map((response: Response) => response.json())).take(1).subscribe((locations: any) => {
         let location = _.filter(locations.results, (_location: any) => {
           return _location.display.trim() === name.trim();
         });
@@ -322,7 +322,7 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
 
   private _confirmAction() {
     this.patientReferralService.getReferredByLocation(this.program.enrolledProgram.uuid)
-      .subscribe((reply) => {
+      .take(1).subscribe((reply) => {
         this._filterLocationByLocationName(reply.referred_from_location)
           .then((loc: any) => {
           this.locationUuids = { value: loc.uuid, label: loc.display };

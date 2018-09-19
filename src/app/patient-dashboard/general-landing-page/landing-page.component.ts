@@ -1,6 +1,7 @@
+
+import {map,  first } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-
 import { Subscription , Observable , Subject } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -83,7 +84,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public encounterViewed: boolean = false;
   private departmentConf: any[];
   private _datePipe: DatePipe;
-  private subscription: Subscription;
+  private subscriptions: Subscription[] = [];
   private locationSubscription: Subscription;
   private locationReferredFrom: any = '';
   /**
@@ -102,11 +103,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.patientReferralService.formsComplete.subscribe((complete) => {
+    const sub = this.patientReferralService.formsComplete.subscribe((complete) => {
       if (complete) {
         this.formsCompleted(complete);
       }
     });
+    this.subscriptions.push(sub);
     this.updateEnrollmentButtonState();
     this.loadProgramBatch();
     this.getDepartmentConf();
@@ -115,18 +117,15 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    if (this.locationSubscription) {
-      this.locationSubscription.unsubscribe();
-    }
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
   }
 
   public loadProgramsPatientIsEnrolledIn(patientUuid: string) {
     return Observable.create((observer: Subject <any>) => {
       if (patientUuid) {
-        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
+        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).take(1).subscribe(
           (data) => {
             if (data) {
               this.enrolledProgrames = data;
@@ -140,7 +139,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       } else {
         observer.error('patientUuid is required');
       }
-    }).first();
+    }).pipe(first());
   }
 
   public toggleDropDown(row: any) {
@@ -158,7 +157,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.selectedEncounter = new Encounter(_.first(referralEncounters));
     if (this.selectedEncounter && this.selectedEncounter.uuid) {
       this.patientReferralService.getReferralEncounterDetails(this.selectedEncounter.uuid)
-        .subscribe((encounterWithObs) => {
+        .take(1).subscribe((encounterWithObs) => {
         // search for PATIENT CHANGE STATE obs item. PATIENT CHANGE STATE is a required field
         let patientState = _.find(encounterWithObs.obs, (singleOb) => {
           return singleOb.concept.uuid === 'aad64a84-1a63-47e3-a806-fb704b52b709';
@@ -183,8 +182,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isReferral = true;
     this.selectedProgram = row;
     this.program = { value: row.programUuid };
-    this.userDefaultPropertiesService.getLocations()
-      .map((response: Response) => response.json()).subscribe((locations: any) => {
+    this.userDefaultPropertiesService.getLocations().pipe(
+      map((response: Response) => response.json())).take(1).subscribe((locations: any) => {
       let location = _.find(locations.results, (_location: any) => {
         return _location.display.trim() === row.referred_from_location.trim();
       });
@@ -218,7 +217,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isReferral = false;
     this.patientReferralService.saveProcessPayload(null);
     this._resetVariables();
-    this.patientService.fetchPatientByUuid(this.patient.uuid);
+    this.patientService.reloadCurrentPatient();
   }
 
   public onAbortingReferral() {
@@ -339,7 +338,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public getProgramWorkflows(programUuid) {
-    this.programService.getProgramWorkFlows(programUuid).subscribe((workflows: any[]) => {
+    this.programService.getProgramWorkFlows(programUuid).take(1).subscribe((workflows: any[]) => {
       this.programWorkflows = _.filter(workflows, (w) => !w.retired);
       this.programHasWorkflows = this.programWorkflows.length > 0;
       // we don't need to select states any more. Default state is 'In Care'
@@ -377,8 +376,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public fetchPatientProgramVisitConfigs() {
     this.allProgramVisitConfigs = {};
-    let sub = this.patientProgramResourceService.
-    getPatientProgramVisitConfigs(this.patient.uuid).subscribe(
+    this.patientProgramResourceService.
+    getPatientProgramVisitConfigs(this.patient.uuid).take(1).subscribe(
       (programConfigs) => {
         this.allProgramVisitConfigs = programConfigs;
       },
@@ -400,7 +399,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public isUnenrollmentComplete(event) {
     if (event) {
       this.programIncompatible = false;
-      this.patientService.fetchPatientByUuid(this.patient.uuid);
+      this.patientService.reloadCurrentPatient();
       this.loadProgramBatch();
       this.getSelectedDepartment(this.department);
     }
@@ -431,7 +430,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public getDepartmentConf() {
     this.departmentProgramService.getDartmentProgramsConfig()
-      .subscribe((results) => {
+      .take(1).subscribe((results) => {
         if (results) {
           this.departmentConf = results;
           this._filterDepartmentConfigByName();
@@ -471,7 +470,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public removeFromQueue() {
-    this.updateReferalNotificationStatus();
+    this.updateReferalNotificationStatus()
   }
 
   private updateEnrollmentButtonState() {
@@ -487,7 +486,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         encounter: []
       };
     }
-    this.patientReferralService.getProcessPayload().subscribe((payload) => {
+    this.patientReferralService.getProcessPayload().take(1).subscribe((payload) => {
       if (payload && !_.isUndefined(payload.submittedEncounter)) {
           this.isReferral = true;
           this.program = payload.program.program;
@@ -564,7 +563,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   private loadProgramBatch(): void {
     this._resetVariables();
     this.programsBusy = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.programsBusy = false;
         if (patient) {
@@ -589,7 +588,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           _.each(this.enrolledProgrames, (program) => {
               if (this.isReferred(program.enrolledProgram)) {
                 this.getReferredByLocation(program.enrolledProgram.uuid)
-                  .subscribe((referral) => {
+                  .take(1).subscribe((referral) => {
                     program.referred_from_location = referral.referred_from_location;
                     program.referral_completed = !_.isNil(referral.notification_status);
                     program.referral_reason = referral.referral_reason;
@@ -610,15 +609,17 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         });
         this.programsBusy = false;
       });
+
+      this.subscriptions.push(sub);
   }
 
   private updateReferalNotificationStatus() {
     this.patientReferralService.updateReferalNotificationStatus({
       patient_referral_id: this.referralProgramOnDetail.patient_referral_id,
       notificationStatus: 1
-    }).subscribe((response) => {
+    }).take(1).subscribe((response) => {
       this.hideEncounterModal();
-      this.patientService.fetchPatientByUuid(this.patient.uuid);
+      this.patientService.reloadCurrentPatient();
     }, (error) => {
       console.log('updateReferalNotificationStatus error ====> ', error);
     });
@@ -691,7 +692,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   private _updatePatientProgramEnrollment(payload) {
-    this.programService.saveUpdateProgramEnrollment(payload).subscribe(
+    this.programService.saveUpdateProgramEnrollment(payload).take(1).subscribe(
       (enrollment) => {
         this.isFocused = false;
         this.isEdit = false;
@@ -719,7 +720,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this._resetVariables();
             this.patientReferralService.saveProcessPayload(null);
-            this.patientService.fetchPatientByUuid(this.patient.uuid);
+            this.patientService.reloadCurrentPatient();
             this.enrollmentCompleted = false;
             this.updateEnrollmentButtonState();
           }, 3500);

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { of, Subject } from 'rxjs';
 import { PatientsRequiringVLBaseComponent } from './patients-requiring-vl-base.component';
 import { PatientsRequiringVLReportFiltersComponent
     } from './patients-requiring-vl-report-filters.component';
@@ -20,7 +20,7 @@ class MockRouter {
     public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-    public params = Observable.of([{ startDate: '2017-07-31T03:00:00+03:00' }]);
+    public params = of([{ startDate: '2017-07-31T03:00:00+03:00' }]);
 
 }
 
@@ -57,6 +57,10 @@ describe('PatientsRequiringVLBaseComponent:', () => {
             comp = fixture.componentInstance;
         });
     }));
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
 
     it('should be injected', () => {
         fixture.detectChanges();

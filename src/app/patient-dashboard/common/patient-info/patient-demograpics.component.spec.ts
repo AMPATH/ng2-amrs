@@ -3,7 +3,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 
 import { PatientService } from '../../services/patient.service';
 import { PatientDemographicsComponent } from './patient-demograpics.component';
@@ -20,7 +20,7 @@ export class FakeTranslatePipe implements PipeTransform {
 }
 describe('Component: Patient Demographics Unit Tests', () => {
   let fakePatientService = {
-    currentlyLoadedPatient: Observable.of({
+    currentlyLoadedPatient: of({
       uuid: '',
       person: {
         uuid: 'person_uuid', display: 'name', age: 20,
@@ -66,6 +66,11 @@ describe('Component: Patient Demographics Unit Tests', () => {
         fixture.detectChanges();
       });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
     let fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     let component = new PatientDemographicsComponent(null, fakeAppFeatureAnalytics);

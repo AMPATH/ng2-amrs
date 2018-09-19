@@ -49,7 +49,7 @@ describe('HivSummaryService Unit Tests', () => {
     let startIndex = '0';
     let limit = '20';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
@@ -68,7 +68,7 @@ describe('HivSummaryService Unit Tests', () => {
     let startIndex = 0;
     let limit = 20;
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       let options = new ResponseOptions({
         body: JSON.stringify({
@@ -89,7 +89,7 @@ describe('HivSummaryService Unit Tests', () => {
       connection.mockRespond(new Response(options));
     });
     hivSummaryResourceService.getHivSummary(patientUuid, startIndex, limit)
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.length).toBeGreaterThan(0);
       done();
@@ -106,13 +106,13 @@ describe('HivSummaryService Unit Tests', () => {
     let startIndex = 0;
     let limit = 20;
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
     hivSummaryResourceService.getHivSummary(patientUuid, startIndex, limit)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
       },
       (error: Error) => {
         expect(error).toBeTruthy();

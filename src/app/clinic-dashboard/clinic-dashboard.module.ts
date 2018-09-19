@@ -6,7 +6,7 @@ import { Angulartics2Module } from 'angulartics2';
 import { ChartModule } from 'angular2-highcharts';
 import { CalendarModule } from 'angular-calendar';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
-import { MdTabsModule, MdSlideToggleModule } from '@angular/material';
+import { MatTabsModule, MatSlideToggleModule } from '@angular/material';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
@@ -22,18 +22,14 @@ import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utili
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
-import { Ng2PaginationModule } from 'ng2-pagination';
-import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { GeneralModule } from './general/general.module';
 import { CdmModule } from './cdm/cdm-program.module';
 import { HivProgramModule } from './hiv/hiv-program.module';
 import { OncologyProgramModule } from './oncology/oncology-program.module';
 import { ClinicFlowCacheService } from '../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { Moh731ResourceService } from '../etl-api/moh-731-resource.service';
-import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
-import { SessionStorageService } from '../utils/session-storage.service';
-import { HttpClient } from '../shared/services/http-client.service';
+import { MatProgressSpinnerModule, MatProgressBarModule } from '@angular/material';
 import {
   HivClinicFlowResourceService
 } from '../etl-api/hiv-clinic-flow-resource.service';
@@ -51,12 +47,12 @@ import { DataAnalyticsDashboardService
 import {
   ProgramVisitEncounterSearchModule
 } from '../program-visit-encounter-search/program-visit-encounter-search.module';
-import { DepartmentProgramFilterModule } from
-'./../department-program-filter/department-program-filter.module';
-import { PatientProgramEnrollmentService } from
-'./../etl-api/patient-program-enrollment.service';
-import { PatientProgramEnrollmentModule } from
-'./../patients-program-enrollment/patients-program-enrollment.module';
+import { DepartmentProgramFilterModule
+} from './../department-program-filter/department-program-filter.module';
+import { PatientProgramEnrollmentService
+} from './../etl-api/patient-program-enrollment.service';
+import { PatientProgramEnrollmentModule
+} from './../patients-program-enrollment/patients-program-enrollment.module';
 import {
   PatientReferralProgramModule
 } from './referral/patient-referral-program.module';
@@ -74,11 +70,11 @@ import { ClinicRoutesFactory
     FormsModule,
     OpenmrsApi,
     EtlApi,
-    Angulartics2Module.forChild(),
+    Angulartics2Module,
     NgamrsSharedModule,
     ChartModule,
     CalendarModule.forRoot(),
-    MdTabsModule,
+    MatTabsModule,
     RouterModule.forChild(routes),
     DateTimePickerModule,
     DataListsModule,
@@ -93,20 +89,20 @@ import { ClinicRoutesFactory
     HivProgramModule,
     OpenmrsApi,
     EtlApi,
-    Angulartics2Module.forChild(),
+    Angulartics2Module,
     NgamrsSharedModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
     NgxMyDatePickerModule,
-    MdTabsModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     CacheModule,
-    MdSlideToggleModule,
+    MatSlideToggleModule,
     ProgramVisitEncounterSearchModule,
     DepartmentProgramFilterModule,
     PatientProgramEnrollmentModule,
-    Ng2PaginationModule,
+    NgxPaginationModule,
     PatientReferralProgramModule,
     OncologyProgramModule
   ],

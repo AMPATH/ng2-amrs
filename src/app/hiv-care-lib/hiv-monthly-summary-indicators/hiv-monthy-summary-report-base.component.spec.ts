@@ -8,7 +8,7 @@ import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { ReportFiltersComponent } from '../../shared/report-filters/report-filters.component';
 import {
   DataAnalyticsDashboardService
@@ -24,7 +24,7 @@ import {
 } from '../../etl-api/hiv-summary-monthly-indicators.service.mock';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/dist/providers';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { Location } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -75,6 +75,10 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
       comp = fixture.componentInstance;
     });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should be injected', () => {
     fixture.detectChanges();

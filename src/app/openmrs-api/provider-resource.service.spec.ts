@@ -54,7 +54,7 @@ describe('Service : ProviderResourceService Unit Tests', () => {
 
     let providerUuid = 'xxx-xxx-xxx-xxx';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('provider/' + providerUuid);
       expect(connection.request.url).toContain('v=');
@@ -66,7 +66,7 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     });
 
     providerResourceService.getProviderByUuid(providerUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
   });
@@ -77,7 +77,7 @@ describe('Service : ProviderResourceService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -96,7 +96,7 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     });
 
     provideresourceService.searchProvider(searchText)
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         expect(data.length).toBeGreaterThan(0);
         done();
       });
@@ -109,7 +109,7 @@ describe('Service : ProviderResourceService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -118,7 +118,7 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     });
 
     providerResourceService.searchProvider(searchText)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         },
         (error: Error) => {
           expect(error).toBeTruthy();

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { SessionService } from './session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { Constants } from '../utils/constants';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class AuthenticationService {
     let request = this.sessionService.getSession(credentials);
 
     request
-      .subscribe(
+      .take(1).subscribe(
       (response: Response) => {
 
         let data = response.json();
@@ -51,7 +51,7 @@ export class AuthenticationService {
     let response = this.sessionService.deleteSession();
 
     response
-      .subscribe(
+      .take(1).subscribe(
       (res: Response) => {
 
         this.clearSessionCache();

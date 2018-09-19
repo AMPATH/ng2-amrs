@@ -79,7 +79,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       (success) => {
         if (success) {
           this.displaySuccessAlert('Address saved successfully');
-          this.patientService.fetchPatientByUuid(this.patients.person.uuid);
+          this.patientService.reloadCurrentPatient();
         }
       },
       (error) => {

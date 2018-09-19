@@ -1,12 +1,13 @@
+
+import {map} from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import * as _ from 'lodash';
 import { Patient } from '../../../models/patient.model';
-import { AppSettingsService } from '../../../app-settings';
-import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 
 @Component({
   selector: 'hiv-snapshot',
@@ -28,9 +29,8 @@ export class HivProgramSnapshotComponent implements OnInit {
     pink: 'pink',
     yellow: 'yellow'
   };
-  constructor(private hivSummaryResourceService: HivSummaryResourceService
-    ,         private http: Http
-    ,         private appSettingsService: AppSettingsService) {
+  constructor(private hivSummaryResourceService: HivSummaryResourceService,
+              private locationResource: LocationResourceService) {
 
   }
 
@@ -47,8 +47,7 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   public getHivSummary(patientUuid) {
     this.loadingData = true;
-    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).subscribe((results) => {
-      this.getLocation().subscribe((locations) => {
+    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).take(1).subscribe((results) => {
         this.loadingData = false;
         this.hasLoadedData = true;
         if (results[0]) {
@@ -67,19 +66,20 @@ export class HivProgramSnapshotComponent implements OnInit {
             this.isVirallyUnsuppressed = true;
           }
           this.hasData = true;
-          let encounterLocations = _.filter(locations, (location, key) => {
-            return location['uuid'] === this.patientData.location_uuid;
-          });
-          this.location = _.first(encounterLocations);
+          this.location = null;
+          if (this.patientData.location_uuid) {
+            this.resolveLastEncounterLocation(this.patientData.location_uuid);
+          }
         }
       });
-    });
   }
 
-  public getLocation(): Observable<any> {
-    let api = this.appSettingsService.getOpenmrsServer() + '/ws/rest/v1/location?v=default';
-    return this.http.get(api).map((response: Response) => {
-      return response.json().results;
+  public resolveLastEncounterLocation(location_uuid) {
+    this.locationResource.getLocationByUuid(location_uuid, true)
+    .subscribe((location) => {
+      this.location = location;
+    }, (error) => {
+      console.error('Error resolving locations', error);
     });
   }
 

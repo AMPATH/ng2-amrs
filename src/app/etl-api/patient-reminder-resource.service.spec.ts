@@ -46,7 +46,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
     backend = TestBed.get(MockBackend);
     let patientReminderResourceService: PatientReminderResourceService =
       TestBed.get(PatientReminderResourceService);
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
@@ -59,7 +59,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       connection.mockRespond(new Response(options));
     });
     patientReminderResourceService.getPatientLevelReminders(patientUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
 
@@ -69,11 +69,11 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       (patientReminderResourceService: PatientReminderResourceService,
        mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe(c =>
+        mockBackend.connections.take(1).subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         patientReminderResourceService.getPatientLevelReminders(patientUuid)
-          .subscribe((data) => {
+          .take(1).subscribe((data) => {
             },
             (error: Error) => {
               expect(error).toBeTruthy();

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
+import { forkJoin ,  Observable, Subject, Subscription ,  BehaviorSubject, of } from 'rxjs';
+import { flatMap, first } from 'rxjs/operators';
 
 import * as moment from 'moment';
 import *  as _ from 'lodash';
@@ -11,16 +13,15 @@ import { DraftedFormsService } from './drafted-forms.service';
 import {
   FormFactory, EncounterAdapter, Form, PersonAttribuAdapter,
   HistoricalEncounterDataService
- } from 'ng2-openmrs-formentry';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../../services/patient.service';
 import { FormDataSourceService } from './form-data-source.service';
-import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/data-sources';
+import { DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { Patient } from '../../../models/patient.model';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
-import { Observable, Subject, Subscription } from 'rxjs/Rx';
 import { ConfirmationService } from 'primeng/primeng';
 import { FormentryHelperService } from './formentry-helper.service';
 
@@ -38,7 +39,6 @@ import { FormentryReferralsHandlerService } from './formentry-referrals-handler.
 import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PatientReferralService } from '../../../referral-module/services/patient-referral-service';
 import { EncounterType } from '../../../models/encounter-type.model';
 import { RetrospectiveDataEntryService
@@ -116,7 +116,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
     this.wireDataSources();
-    let componentRef = this;
+    const componentRef = this;
 
     // get visitUuid & encounterUuid then load form
     this.route.queryParams.subscribe((params) => {
@@ -137,7 +137,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.confirmationService.confirm({
             header: 'Unsaved Draft Form',
             message: 'You have unsaved changes on your last form ' +
-            'that will be lost upon confirmation. Do you want to continue?',
+              'that will be lost upon confirmation. Do you want to continue?',
             rejectVisible: true,
             acceptVisible: true,
             accept: () => {
@@ -168,6 +168,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public wireDataSources() {
+    console.log('Wiring Data Souces');
     this.dataSources.registerDataSource('location',
       this.formDataSourceService.getDataSources()['location']);
     this.dataSources.registerDataSource('provider',
@@ -224,7 +225,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
           this.patient.uuid + '/general/general/landing-page']);
-        this.patientService.fetchPatientByUuid(this.patient.uuid);
+        this.patientService.reloadCurrentPatient();
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
@@ -237,16 +238,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
         if (this.transferCareService.isModal.getValue()) {
           this.router.navigate(['/patient-dashboard/patient/' +
             this.patient.uuid + '/general/general/landing-page'],
-            {queryParams: {completeEnrollment: true, processId: processId}});
+            { queryParams: { completeEnrollment: true, processId: processId } });
         } else {
           this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/general/programs/transfer-care/forms'],
-            {queryParams: {processId: processId}});
+            this.patient.uuid + '/general/general/programs/transfer-care/forms'],
+            { queryParams: { processId: processId } });
         }
         break;
       case 'enrollmentManager':
         this.preserveFormAsDraft = false;
-        this.patientReferralService.getProcessPayload().subscribe((payload) => {
+        this.patientReferralService.getProcessPayload().take(1).subscribe((payload) => {
           if (payload && _.isUndefined(payload.submittedEncounter)) {
             // use this processId to signal end of process
             _.extend(payload, {
@@ -265,17 +266,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
           let toLandingPage = params['parentComponent'] === 'landing-page';
           if (toLandingPage) {
             this.router.navigate(['/patient-dashboard/patient/' +
-            this.patient.uuid + '/general/general/landing-page']);
+              this.patient.uuid + '/general/general/landing-page']);
           } else {
             this.router.navigate(['/patient-dashboard/patient/' +
-            this.patient.uuid + '/general/general/programs/enrollment-manager']);
+              this.patient.uuid + '/general/general/programs/enrollment-manager']);
           }
         });
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient-search'], {
-          queryParams: {reset: true}
+          queryParams: { reset: true }
         });
         break;
       default:
@@ -295,7 +296,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
     // let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.take(1).subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
         location = {
           uuid: retroSettings.location.value,
@@ -308,7 +309,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (encounterDate.length > 0) {
         encounterDate[0].control.setValue(currentDate);
       }
-
       let encounterLocation = this.form.searchNodeByQuestionId('location',
         'encounterLocation');
       if (encounterLocation.length > 0 && location) {
@@ -335,7 +335,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public autoSelectReferPatientStateIfReferring() {
     let patientState = this.form.searchNodeByQuestionId('state');
     if (patientState.length > 0 && (_.isNil(this.referralEncounterType)
-        || !_.includes(['DERMRESPONSE'], this.form.schema.encounterType.name))) {
+      || !_.includes(['DERMRESPONSE'], this.form.schema.encounterType.name))) {
       // refer concept uuid
       let referConceptUuuid = '0c5565c5-45cf-40ab-aa6d-5694aeabae18';
       patientState[0].control.setValue(referConceptUuuid);
@@ -380,7 +380,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           }
         } else {
           // map concept with program
-          this.searchReferralConcepts(answer).subscribe((concepts) => {
+          this.searchReferralConcepts(answer).take(1).subscribe((concepts) => {
             this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
               return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
             });
@@ -398,9 +398,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private searchReferralConcepts(concepts) {
     let searchBatch: Array<Observable<any>> = [];
     _.each(concepts, (concept: any) => {
-        searchBatch.push(this.conceptResourceService.getConceptByUuid(concept));
+      searchBatch.push(this.conceptResourceService.getConceptByUuid(concept));
     });
-    return Observable.forkJoin(searchBatch);
+    return forkJoin(searchBatch);
   }
 
   private setRetroDateTime(settings) {
@@ -413,7 +413,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     // get patient
 
-    this.getPatient().subscribe((results) => {
+    this.getPatient().take(1).subscribe((results) => {
       this.patient = results;
     });
 
@@ -432,23 +432,23 @@ export class FormentryComponent implements OnInit, OnDestroy {
     observableBatch.push(this.getEncounters()); // encounters [2]
 
     // forkjoin all requests
-    this.subscription = Observable.forkJoin(
+    this.subscription = forkJoin(
       observableBatch
-    ).flatMap((data) => {
+    ).pipe(flatMap((data) => {
       // now init private and public properties
       this.compiledSchemaWithEncounter = data[0] || null;
       this.patient = data[1] || null;
       this.encounter = data[2] || null;
       // now render form
       return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
-    }).subscribe(
+    })).take(1).subscribe(
       (data: any) => {
         console.log(data.generatedReminders);
         let reminder = _.find(data.generatedReminders, (o: any) => {
           return o.title === 'Viral Load Reminder';
         });
         if (reminder) {
-          this.dataSources.registerDataSource('vlFormAlert', {needsVl: true}, true);
+          this.dataSources.registerDataSource('vlFormAlert', { needsVl: true }, true);
         }
         this.renderForm();
         this.isBusyIndicator(false);
@@ -640,7 +640,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         (err) => {
           observer.error(err);
         });
-    }).first();
+    }).pipe(first());
   }
 
   private getPatient(): Observable<Patient> {
@@ -655,7 +655,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         (err) => {
           observer.error(err);
         });
-    }).first();
+    }).pipe(first());
   }
 
   private registerVLDatasource(reminders: any) {
@@ -664,9 +664,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         return o.title === 'Viral Load Reminder';
       });
       if (vlReminder) {
-        this.dataSources.registerDataSource('vlFormAlert', {needsVl: true}, true);
+        this.dataSources.registerDataSource('vlFormAlert', { needsVl: true }, true);
       } else {
-        this.dataSources.registerDataSource('vlFormAlert', {needsVl: false}, true);
+        this.dataSources.registerDataSource('vlFormAlert', { needsVl: false }, true);
       }
     }
 
@@ -677,7 +677,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     return Observable.create((observer: Subject<any>) => {
       if (this.encounterUuid && this.encounterUuid !== '') {
         this.encounterResource.getEncounterByUuid(this.encounterUuid)
-          .subscribe((encounter) => {
+          .take(1).subscribe((encounter) => {
             // let wrappedEnconter: Encounter = new Encounter(encounter);
             observer.next(encounter);
           }, (error) => {
@@ -686,7 +686,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else {
         observer.next(null);
       }
-    }).first();
+    }).pipe(first());
   }
 
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
@@ -716,10 +716,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.enableSubmitBtn();
     }
 
-    }
+  }
 
   private saveEncounterOrUpdate(payloadTypes) {
-    this.formSubmissionService.submitPayload(this.form, payloadTypes).subscribe(
+    this.formSubmissionService.submitPayload(this.form, payloadTypes).take(1).subscribe(
       (data) => {
         this.isBusyIndicator(false); // hide busy indicator
         this.handleSuccessfulFormSubmission(data);
@@ -736,35 +736,35 @@ export class FormentryComponent implements OnInit, OnDestroy {
       });
   }
   private checkDuplicate(payloadTypes) {
-     this.patientService.currentlyLoadedPatientUuid
-        .flatMap((patientUuid: string) => {
-          return this.encounterResource.getEncountersByPatientUuid(patientUuid);
-        }
-        ).flatMap((encounters) => {
-      this.previousEncounters = encounters;
-      if (this.formentryHelperService.encounterTypeFilled(encounters,
-        this.form.schema.encounterType.uuid,
-        this.extractEncounterDate()) && !this.submitDuplicate) {
-        return Observable.of(true);
-      }else {
-        return Observable.of(false);
+    this.patientService.currentlyLoadedPatientUuid
+      .pipe(flatMap((patientUuid: string) => {
+        return this.encounterResource.getEncountersByPatientUuid(patientUuid);
       }
-    }).subscribe(
-      (isDuplicate) => {
-        this.isBusyIndicator(false); // hide busy indicator
-        if (isDuplicate) {
-          this.saveDuplicate();
-        }else {
-          this.saveEncounterOrUpdate(payloadTypes);
+      ), flatMap((encounters) => {
+        this.previousEncounters = encounters;
+        if (this.formentryHelperService.encounterTypeFilled(encounters,
+          this.form.schema.encounterType.uuid,
+          this.extractEncounterDate()) && !this.submitDuplicate) {
+          return of(true);
+        } else {
+          return of(false);
         }
-      },
-      (err) => {
-        console.error('error', err);
-        this.isBusyIndicator(false); // hide busy indicator
-        this.handleFormSubmissionErrors(err);
-        this.enableSubmitBtn();
-        this.formSubmissionService.setSubmitStatus(false);
-      });
+      })).take(1).subscribe(
+        (isDuplicate) => {
+          this.isBusyIndicator(false); // hide busy indicator
+          if (isDuplicate) {
+            this.saveDuplicate();
+          } else {
+            this.saveEncounterOrUpdate(payloadTypes);
+          }
+        },
+        (err) => {
+          console.error('error', err);
+          this.isBusyIndicator(false); // hide busy indicator
+          this.handleFormSubmissionErrors(err);
+          this.enableSubmitBtn();
+          this.formSubmissionService.setSubmitStatus(false);
+        });
   }
 
   private checkFormSumittedStatus() {
@@ -818,20 +818,20 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private saveDuplicate() {
     let encounterDate = this.extractEncounterDate();
     let duplicateEncounter = this.formentryHelperService
-    .getLastDuplicateEncounter(this.previousEncounters,
-      this.form.schema.encounterType.uuid, encounterDate);
+      .getLastDuplicateEncounter(this.previousEncounters,
+        this.form.schema.encounterType.uuid, encounterDate);
     let duplicateMoment = Object.assign({}, moment);
     let encounterDateMoment = moment(new Date(encounterDate));
     this.confirmationService.confirm({
       header: 'Form Duplication warning',
       key: 'duplicateWarning',
       message: `A similar form was completed on  ` +
-      `${format(duplicateEncounter.encounterDatetime , 'DD/MM/YYYY')} ` +
-      ` at ${format(duplicateEncounter.encounterDatetime, 'HH:mm')} ` +
-      `by  ${duplicateEncounter.encounterProviders[0].provider.display}
+        `${format(duplicateEncounter.encounterDatetime, 'DD/MM/YYYY')} ` +
+        ` at ${format(duplicateEncounter.encounterDatetime, 'HH:mm')} ` +
+        `by  ${duplicateEncounter.encounterProviders[0].provider.display}
       Are you sure you want to submit this encounter ` +
-      ` for the current specified date ${format(new Date(encounterDate), 'DD/MM/YYYY')} at ` +
-      `${format(new Date(encounterDate), 'HH:mm')}`,
+        ` for the current specified date ${format(new Date(encounterDate), 'DD/MM/YYYY')} at ` +
+        `${format(new Date(encounterDate), 'HH:mm')}`,
       accept: () => {
         this.submitDuplicate = true;
         this.submitForm();
@@ -863,7 +863,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
-    this.referralCompleteStatus.subscribe((success) => {
+    this.referralCompleteStatus.take(1).subscribe((success) => {
 
       let referralsData = this.referralsHandler.extractRequiredValues(this.form);
       this.diffCareReferralStatus = undefined;
@@ -872,12 +872,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.confirmationService.confirm({
           header: 'Process Referrals',
           message: 'You have referred the patient to ' +
-          'differentiated care program. Do you want to enroll patient to the program?',
+            'differentiated care program. Do you want to enroll patient to the program?',
           accept: () => {
             this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
             this.referralsHandler.handleFormReferals(this.patient,
               this.form)
-              .subscribe(
+              .take(1).subscribe(
                 (results) => {
                   this.isBusyIndicator(false, '');
                   this.showSuccessDialog = true;
@@ -918,7 +918,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       // resolve order numbers
       if (this.submittedOrders.orders.length > 0) {
         this.encounterResource.getEncounterByUuid(this.submittedOrders.encounterUuid)
-          .subscribe((encounter) => {
+          .take(1).subscribe((encounter) => {
             if (encounter && encounter.orders) {
               orders = [];
               // filter out voided orders : voided is not included so we use auditInfo
@@ -952,7 +952,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private setProviderUuid() {
     let request = this.getProviderUuid();
     request
-      .subscribe(
+      .take(1).subscribe(
         (data) => {
           this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
             let provider = data.providerUuid;

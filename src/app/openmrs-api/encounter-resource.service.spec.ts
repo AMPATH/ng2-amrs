@@ -29,6 +29,10 @@ describe('EncounterResourceService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined', async(inject(
         [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
@@ -63,7 +67,7 @@ describe('EncounterResourceService', () => {
         it('should return null when PatientUuid not specified', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -74,7 +78,7 @@ describe('EncounterResourceService', () => {
         it('should call the right endpoint', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
                 let patientUuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
                         + patientUuid + '&v=custom:(uuid,encounterDatetime,patient:(uuid,uuid),' +
@@ -129,7 +133,7 @@ describe('EncounterResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -140,7 +144,7 @@ describe('EncounterResourceService', () => {
         it('should call the right endpoint', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
                 let patientUuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
                     'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
                     'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
@@ -187,7 +191,7 @@ describe('EncounterResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -197,7 +201,7 @@ describe('EncounterResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encountertype');
                     expect(conn.request.method).toBe(RequestMethod.Get);
@@ -246,7 +250,7 @@ describe('EncounterResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -256,7 +260,7 @@ describe('EncounterResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url).toBe('http://example.url.com/ws/rest/v1/encounter');
                     expect(conn.request.method).toBe(RequestMethod.Post);
                     conn.mockRespond(new Response(
@@ -302,7 +306,7 @@ describe('EncounterResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -312,7 +316,7 @@ describe('EncounterResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter/' + uuid);
                     expect(conn.request.method).toBe(RequestMethod.Post);
@@ -329,7 +333,7 @@ describe('EncounterResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -340,7 +344,7 @@ describe('EncounterResourceService', () => {
 
         it('should call the right endpoint', async(inject(
             [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url)
                         .toBe('http://example.url.com/ws/rest/v1/encounter/' + uuid + '?!purge');
                     expect(conn.request.method).toBe(RequestMethod.Delete);

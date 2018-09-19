@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import { BehaviorSubject, Subject } from 'rxjs';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 @Injectable()

@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, Input, AfterViewInit,
-  ChangeDetectorRef } from '@angular/core';
+  ChangeDetectorRef,
+  OnDestroy} from '@angular/core';
 import * as _ from 'lodash';
 import {
   ClinicDashboardCacheService
@@ -9,6 +10,7 @@ import {
 } from '../../../etl-api/clinical-summary-visualization-resource.service';
 import { ClinicalSummaryVisualizationService
 } from '../../../hiv-care-lib/services/clinical-summary-visualization.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'clinical-summary-visualization',
@@ -16,7 +18,7 @@ import { ClinicalSummaryVisualizationService
   styleUrls: ['./visualization-component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class VisualizationComponent implements OnInit, AfterViewInit {
+export class VisualizationComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public filterModel: any;
   public hivComparativeChartOptions: any = {};
   public options: any = {
@@ -32,6 +34,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
   private _endDate: any;
   private locationUuid: any;
   private patientStatusChartOptionsFilters: any;
+  private subs: Subscription[] = [];
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private changeDetectionRef: ChangeDetectorRef,
               private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
@@ -59,17 +62,25 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       this.startDate = _filterModel.startDate.format();
       this.endDate = _filterModel.endDate.format();
     }
-    this.clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
       if (this.locationUuid && clinic !== this.locationUuid && this.filterModel.startDate) {
         this.locationUuid = clinic;
         this.filterModel['locationUuid'] = this.locationUuid;
         this.renderCharts();
       }
     });
+
+    this.subs.push(sub);
   }
 
   public ngAfterViewInit(): void {
      this.changeDetectionRef.detectChanges();
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public renderCharts() {
@@ -122,7 +133,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       order: 'encounter_datetime|asc',
       report: 'clinical-art-overview',
       startDate: this.filterModel.startDate.startOf('month').format()
-    }).subscribe((report) => {
+    }).take(1).subscribe((report) => {
       _.merge(_options,
         { data: report.result },
         { indicatorDefinitions: report.indicatorDefinitions });
@@ -166,7 +177,7 @@ export class VisualizationComponent implements OnInit, AfterViewInit {
       order: 'encounter_datetime|asc',
       report: 'clinical-hiv-comparative-overview-report',
       startDate: this.filterModel.startDate.format()
-    }).subscribe((report) => {
+    }).take(1).subscribe((report) => {
       _.merge(_options,
         { data: report.result },
         { indicatorDefinitions: report.indicatorDefinitions });

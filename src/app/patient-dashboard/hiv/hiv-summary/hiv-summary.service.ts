@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { Helpers } from '../../../utils/helpers';
@@ -17,7 +17,7 @@ export class HivSummaryService {
     let hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.hivSummaryResourceService.getHivSummary(patientUuid,
-      startIndex, this.limit, includeNonClinicalEncounter).subscribe((data) => {
+      startIndex, this.limit, includeNonClinicalEncounter).take(1).subscribe((data) => {
         if (data) {
           // tslint:disable-next-line:prefer-for-of
             for (let r = 0; r < data.length; r++) {

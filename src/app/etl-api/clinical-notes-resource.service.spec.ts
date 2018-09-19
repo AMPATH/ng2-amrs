@@ -44,7 +44,7 @@ describe('Clinical notes Resource Service Unit Tests', () => {
 
     backend = TestBed.get(MockBackend);
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url).toMatch('/patient/(*)/clinical-notes');
@@ -67,9 +67,9 @@ describe('Clinical notes Resource Service Unit Tests', () => {
           }
         }));
 
-        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
+        mockBackend.connections.take(1).subscribe(c => c.mockRespond(mockResponse));
 
-        notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data) => {
+        notesResourceService.getClinicalNotes(patientUuid, 0, 10).take(1).subscribe((data) => {
 
           expect(data).toBeTruthy();
           expect(data.status).toBeDefined();
@@ -84,10 +84,10 @@ describe('Clinical notes Resource Service Unit Tests', () => {
     async(inject([ClinicalNotesResourceService, MockBackend],
       (notesResourceService: ClinicalNotesResourceService, mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe(c =>
+        mockBackend.connections.take(1).subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data) => { },
+        notesResourceService.getClinicalNotes(patientUuid, 0, 10).take(1).subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
           });

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +22,7 @@ import { ReportFiltersComponent } from
 import { AppFeatureAnalytics } from
 '../../../../shared/app-analytics/app-feature-analytics.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/dist/providers';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { FakeAppFeatureAnalytics } from
 '../../../../shared/app-analytics/app-feature-analytcis.mock';
 import { LocalStorageService } from '../../../../utils/local-storage.service';
@@ -66,7 +66,7 @@ let mockReportsResponse: any = [
 
 // Make the spy return a synchronous Observable with the test data
 const getReportsSpy = getOncologySummaryService.getOncologySummaryMonthlyIndicatorsReport
-.and.returnValue(Observable.of(mockReportsResponse) );
+.and.returnValue(of(mockReportsResponse) );
 
 const mockParams = {};
 
@@ -78,7 +78,7 @@ const mockActivatedRoute = {
   queryParams: {
     subscribe: jasmine.createSpy('subscribe')
       .and
-      .returnValue(Observable.of(mockParams))
+      .returnValue(of(mockParams))
   }
 };
 
@@ -144,8 +144,12 @@ describe('Component: Oncology Monthly Indicator', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
 
 });

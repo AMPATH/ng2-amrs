@@ -49,7 +49,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
     let conceptUuid = 'a8945ba0-1350-11df-a1f1-0026b9348838';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('concept/' + conceptUuid);
       expect(connection.request.url).toContain('v=');
@@ -61,7 +61,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
     });
 
     conceptResourceService.getConceptByUuid(conceptUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
   });
@@ -72,7 +72,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -99,7 +99,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
     });
 
     conceptResourceService.searchConcept(searchText)
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         expect(data.length).toBeGreaterThan(0);
         done();
       });

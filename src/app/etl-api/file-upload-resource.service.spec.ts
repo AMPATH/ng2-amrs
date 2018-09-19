@@ -29,12 +29,16 @@ describe('FileUploadResourceService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should upload file when upload is called', inject(
         [MockBackend, FileUploadResourceService],
         (backend: MockBackend, s: FileUploadResourceService) => {
             const urls = [];
 
-            backend.connections.subscribe((connection: MockConnection) => {
+            backend.connections.take(1).subscribe((connection: MockConnection) => {
                 const req = connection.request;
                 urls.push(req.url);
                 if (req.method === RequestMethod.Get && req.url === '/enter/the/url') {
@@ -49,7 +53,7 @@ describe('FileUploadResourceService', () => {
                 }
             });
 
-            s.upload({}).subscribe((response) => {
+            s.upload({}).take(1).subscribe((response) => {
                 expect(response.image).toBe('uploaded-image');
             });
         })

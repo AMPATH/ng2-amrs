@@ -62,7 +62,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
 
   public viewCohortListMembers() {
     this.fetchingResults = true;
-    this.subscription = this.cohortListService.getData().subscribe(
+    this.cohortListService.getData().take(1).subscribe(
       (data) => {
         if (data) {
           this.selectedCohortUuid = data.uuid;
@@ -77,7 +77,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
 
   }
   public fetchMembers() {
-    this.cohortMemberResourceService.getAllCohortMembers(this.selectedCohortUuid).subscribe(
+    this.cohortMemberResourceService.getAllCohortMembers(this.selectedCohortUuid).take(1).subscribe(
       (members) => {
         if (members) {
           this.cohortMembers = members;
@@ -101,7 +101,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
 
   public voidCohortList() {
     if (this.selectedCohortUuid) {
-      this.cohortResourceService.retireCohort(this.selectedCohortUuid).subscribe(
+      this.cohortResourceService.retireCohort(this.selectedCohortUuid).take(1).subscribe(
         (success) => {
           this.displayConfirmDialog = false;
           this.displayConfirmDeleteCohortDialog = false;
@@ -157,7 +157,7 @@ export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
   public voidCohortMember() {
     if (this.selectedCohortUuid) {
       this.cohortMemberResourceService.retireCohortMember(this.selectedCohortUuid,
-        this.selectedMemberUuid).subscribe(
+        this.selectedMemberUuid).take(1).subscribe(
         (success) => {
           // if (success) {
 

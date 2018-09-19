@@ -31,7 +31,7 @@ export class EditVisitTypeComponent implements OnInit {
         this.patientProgramResourceService
             .getPatientProgramVisitTypes(this.visit.patient.uuid,
             this.programUuid, this.programEnrollmentUuid, this.visit.location.uuid)
-            .subscribe(
+            .take(1).subscribe(
             (progConfig) => {
                 this.programVisitsConfig = progConfig;
                 setTimeout(() => {
@@ -54,7 +54,7 @@ export class EditVisitTypeComponent implements OnInit {
             visitType: (this.visitType as any).value
         };
         this.visitResourceService.updateVisit(this.visit.uuid, visitPayload)
-        .subscribe((updateVisit) => {
+        .take(1).subscribe((updateVisit) => {
             this.saving = false;
             this.visitTypeEdited.emit(this.visit);
         });

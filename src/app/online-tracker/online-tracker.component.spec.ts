@@ -62,6 +62,10 @@ describe('Component: OnlineTracker', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
     expect(component).toBeTruthy();
   });

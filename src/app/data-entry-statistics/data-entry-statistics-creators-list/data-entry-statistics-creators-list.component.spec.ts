@@ -82,8 +82,12 @@ describe('Component: Data Entry Creators List', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
   it('should create encounter Creator rows from obtained result', (done: DoneFn) => {
     comp.dataEntryEncounters = mockCreatorResult;

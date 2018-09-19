@@ -36,7 +36,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
     }
   }
   public getCohortListToEdit() {
-    this.subscription = this.cohortListService.getData().subscribe(
+   this.cohortListService.getData().take(1).subscribe(
       (data) => {
         if (data) {
           this.selectedCohortDescription = data.description;
@@ -58,11 +58,11 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
         // memberIds: []
       };
       this.cohortResourceService.editCohort(this.selectedCohortUuid,
-        cohortListPayload).subscribe(
+        cohortListPayload).take(1).subscribe(
         (success) => {
           if ( success ) {
             this.successAlert = 'Successfully edited cohort';
-            this.cohortResourceService.getCohort(this.selectedCohortUuid).subscribe(
+            this.cohortResourceService.getCohort(this.selectedCohortUuid).take(1).subscribe(
               (edited) => {
                 this.cohortListService.setData(edited);
               }

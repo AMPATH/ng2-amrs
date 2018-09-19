@@ -1,7 +1,7 @@
 import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
@@ -96,6 +96,10 @@ describe('LabOrderSearchPostComponent', () => {
         fixture = TestBed.createComponent(LabOrderSearchPostComponent);
       });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should be initialised', (done) => {
     fixture.componentInstance.ngOnInit();

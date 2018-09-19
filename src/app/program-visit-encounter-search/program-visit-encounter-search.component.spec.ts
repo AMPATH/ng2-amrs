@@ -1,9 +1,11 @@
+
+
 /* tslint:disable:no-unused-variable */
 import { ChangeDetectorRef } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { ProgramVisitEncounterSearchComponent } from './program-visit-encounter-search.component';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
@@ -21,11 +23,14 @@ import { CacheService } from 'ionic-cache';
 import { IonicStorageModule } from '@ionic/storage';
 import { SelectDepartmentService } from './program-visit-encounter-search.service';
 
+import { PatientService } from '../patient-dashboard/services/patient.service';
+import { delay } from 'rxjs/operators';
+
 class MockRouter {
  public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
- public params = Observable.of([{ 'id': 1 }]);
+ public params = of([{ 'id': 1 }]);
  public snapshot = {
     queryParams: { date: '' }
   };
@@ -122,6 +127,33 @@ const visitTypes = [
 
 ];
 
+export class FakePatientProgramResourceService {
+
+  constructor() {}
+
+  getAllProgramVisitConfigs() {
+    return of(mockProgramVisitsConfig).pipe(delay(50));
+  }
+
+  getPatientProgramVisitConfigs(uuid) {
+    return of(mockProgramVisitsConfig).pipe(delay(50));
+  }
+
+  getPatientProgramVisitTypes(patient: string, program: string,
+                              enrollment: string, location: string) {
+    return of(visitTypes);
+  }
+}
+
+export class FakeDepartmentProgramsConfigService {
+
+  constructor() {}
+
+  getDartmentProgramsConfig() {
+    return of(departmentConfig).pipe(delay(50));
+  }
+}
+
 describe('Component: ProgramVisitEncounterSearch', () => {
   let fixture: ComponentFixture<ProgramVisitEncounterSearchComponent>;
   let comp: ProgramVisitEncounterSearchComponent;
@@ -154,6 +186,7 @@ describe('Component: ProgramVisitEncounterSearch', () => {
         DataCacheService,
         SelectDepartmentService,
         CacheService,
+        PatientService,
         Storage,
         {
           provide: Http,
@@ -170,6 +203,14 @@ describe('Component: ProgramVisitEncounterSearch', () => {
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
+        },
+        {
+          provide: PatientProgramResourceService,
+          useFactory: () => {new FakePatientProgramResourceService() }
+        },
+        {
+          provide: DepartmentProgramsConfigService,
+          useFactory: () => { new FakeDepartmentProgramsConfigService() }
         },
         MockBackend,
         BaseRequestOptions
@@ -189,8 +230,12 @@ describe('Component: ProgramVisitEncounterSearch', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
   it('should load departments from departments config', () => {
     comp.programDepartments = departmentConfig;
@@ -207,7 +252,7 @@ describe('Component: ProgramVisitEncounterSearch', () => {
     comp.programDepartments = departmentConfig;
     comp.programVisitsEncounters = JSON.parse(JSON.stringify(mockProgramVisitsConfig));
     comp.selectDepartment(departmentSelected);
-    let programs = JSON.stringify(programsSelected);
+    let programs = JSON.stringify(comp.programs);
 
     expect(programs).toEqual(JSON.stringify(programsSelected));
   });

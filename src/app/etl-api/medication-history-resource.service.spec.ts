@@ -49,7 +49,7 @@ describe('Medication Resource Service Unit Tests', () => {
       patientUuId: 'uuid'
     };
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url).toMatch('');
@@ -67,10 +67,10 @@ describe('Medication Resource Service Unit Tests', () => {
       (medicationHistoryResourceService: MedicationHistoryResourceService,
        mockBackend: MockBackend) => {
 
-        mockBackend.connections.subscribe((c) =>
+        mockBackend.connections.take(1).subscribe((c) =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        medicationHistoryResourceService.getReport(report , patientUuid).subscribe((data) => { },
+        medicationHistoryResourceService.getReport(report , patientUuid).take(1).subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
 

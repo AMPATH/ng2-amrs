@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 
 import { VitalsResourceService } from '../../../etl-api/vitals-resource.service';
 
@@ -14,7 +14,7 @@ export class PatientVitalsService {
     let vitals: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.vitalsResourceService.getVitals(patientUuid,
-      startIndex, this.limit).subscribe((data) => {
+      startIndex, this.limit).take(1).subscribe((data) => {
         if (data) {
           let weight: string;
 
