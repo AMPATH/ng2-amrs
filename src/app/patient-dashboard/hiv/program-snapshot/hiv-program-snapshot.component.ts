@@ -51,14 +51,24 @@ export class HivProgramSnapshotComponent implements OnInit {
       this.getLocation().subscribe((locations) => {
         this.loadingData = false;
         this.hasLoadedData = true;
+        let latestVlResult: any;
+        let latestVlDate = '';
+        let latestVl = '';
         if (results[0]) {
            this.patientCareStatus = results[0].patient_care_status;
+           latestVlResult = this.getlatestVlResult(results);
+           latestVlDate = latestVlResult.vl_1_date;
+           latestVl =  latestVlResult.vl_1;
          }
 
         this.patientData = _.first(_.filter(results, (encounter: any) => {
           return encounter.is_clinical_encounter === 1;
         }));
+        let patientDataCopy = this.patientData;
         if (!_.isNil(this.patientData)) {
+          // assign latest vl and vl_1_date
+          this.patientData = Object.assign(patientDataCopy,
+            {vl_1_date: latestVlDate , vl_1 : latestVl });
           // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
           if ((this.patientData.vl_1 > 1000 && (
               moment(this.patientData.vl_1_date) >
@@ -115,6 +125,16 @@ export class HivProgramSnapshotComponent implements OnInit {
     }
 
     return this._toProperCase(translateMap[id]);
+  }
+
+  private getlatestVlResult(hivSummaryData) {
+
+    const orderByVlDate = _.orderBy(hivSummaryData, (hivSummary) => {
+      return moment(hivSummary.vl_1_date);
+    }, ['desc']);
+
+    return orderByVlDate[0];
+
   }
 
   private _toProperCase(text: string) {
