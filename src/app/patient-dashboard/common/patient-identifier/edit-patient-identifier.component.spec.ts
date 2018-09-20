@@ -16,6 +16,9 @@ import {
 } from '../../../openmrs-api/patient-identifierTypes-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
+import { UserService } from '../../../openmrs-api/user.service';
+import { PatientCreationResourceService
+} from '../../../openmrs-api/patient-creation-resource.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 
 describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
@@ -25,7 +28,9 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     fixture, component, locationResourceService: LocationResourceService,
     patientIdentifierService: PatientIdentifierService,
     patientIdentifierTypeResService: PatientIdentifierTypeResService,
-    patientResourceService: PatientResourceService;
+    patientResourceService: PatientResourceService,
+    patientCreationResourceService: PatientCreationResourceService,
+    userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,7 +71,8 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = new EditPatientIdentifierComponent(patientService, locationResourceService,
-      patientIdentifierService, patientIdentifierTypeResService, patientResourceService);
+      patientIdentifierService, patientIdentifierTypeResService, patientResourceService,
+      patientCreationResourceService, userService);
   });
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -98,7 +104,6 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     component.checkIdentifierFormat((err, data) => {
     });
     expect(component.checkIdentifierFormat).toHaveBeenCalled();
-
 
     done();
 

@@ -8,8 +8,12 @@ import {
   PatientIdentifierTypeResService
 } from '../../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
+import { UserService } from '../../../openmrs-api/user.service';
+import { PatientCreationResourceService
+} from '../../../openmrs-api/patient-creation-resource.service';
 import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { isArray } from 'util';
 
 @Component({
   selector: 'edit-identifiers',
@@ -21,6 +25,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public errorMessage: string = '';
   public hasError: boolean = false;
   public display: boolean = false;
+  public addDialog: boolean = false;
   public patientIdentifier: string = '';
   public preferredIdentifier: string = '';
   public identifierLocation: string = '';
@@ -43,19 +48,26 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public errorTitle: string;
   public showNationalIdTexBox: boolean = false;
   public showGeneralTexBox: boolean = false;
+  public checkUniversal: boolean = false;
+  public userId;
+  public newLocation = '';
   private subscription: Subscription;
   private initialPatientIdentifier: string = '';
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,
               private patientIdentifierTypeResService: PatientIdentifierTypeResService,
-              private patientResourceService: PatientResourceService) {
+              private patientResourceService: PatientResourceService,
+              private patientCreationResourceService: PatientCreationResourceService,
+              private userService: UserService
+              ) {
   }
 
   public ngOnInit(): void {
     this.getPatient();
     this.fetchLocations();
     this.commonIdentifierTypes = this.patientIdentifierService.patientIdentifierTypeFormat();
+    this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
   }
 
   public ngOnDestroy(): void {
@@ -77,12 +89,43 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
   }
 
-  public showDialog() {
-    this.display = true;
+  public showDialog(param, id) {
+    if (param === 'edit' && id) {
+      this.display = true;
+      this.initIdentifier(id);
+    } else if (param === 'add') {
+      this.addDialog = true;
+      if (isArray(id)) {
+        let check = _.find(id, (el) => {
+          return el.identifierType.uuid === '58a4732e-1359-11df-a1f1-0026b9348838';
+        });
+        if (check) {
+          this.commonIdentifierTypes = _.filter(this.commonIdentifierTypes, (o) => {
+            return o.val !== '58a4732e-1359-11df-a1f1-0026b9348838';
+          });
+        }
+      }
+
+    }
   }
+
+  public initIdentifier(id) {
+    if (id) {
+      this.patientIdentifier = id.identifier;
+      this.identifierType = {value: id.identifierType.uuid, label: id.identifierType.name};
+      this.preferredIdentifier = id.preferred;
+      this.selectedDevice = {value: id.location.uuid, label: id.location.name};
+      this.patientIdentifierUuid = id.uuid;
+      this.identifierLocation = id.location.uuid;
+      this.newLocation = this.identifierLocation;
+    }
+}
+
   public dismissDialog() {
     this.display = false;
+    this.addDialog = false;
   }
+
   public setPatientIdentifier(patientIdentifier) {
     this.patientIdentifier = patientIdentifier;
     if (this.identifierType || this.identifierType !== '') {
@@ -96,11 +139,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.preferredIdentifier = preferredIdentifier;
   }
   public seIdentifierLocation(location) {
-    this.identifierLocation = location.value;
+    // this.identifierLocation = location.value;
+    this.newLocation = location.value;
     this.invalidLocationCheck = '';
   }
 
   public setIdentifierType(identifierType) {
+    this.checkUniversal = false;
     if ( identifierType.val === '58a47054-1359-11df-a1f1-0026b9348838') {
       this.showNationalIdTexBox = true;
       this.showGeneralTexBox = true;
@@ -108,6 +153,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.showGeneralTexBox = false;
       this.showNationalIdTexBox = false;
     }
+
     this.identifierValidity = '';
     this.identifierType = identifierType;
     let id = this.getCurrentIdentifierByType(this.patientIdentifiers, identifierType);
@@ -118,11 +164,35 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.preferredIdentifier = (id as any).preferred;
       this.selectedDevice = loc;
       this.identifierLocation = loc.value;
-    }else {
+    } else {
       this.patientIdentifier = '';
       this.patientIdentifierUuid = '';
     }
 
+    if (identifierType.val === '58a4732e-1359-11df-a1f1-0026b9348838'
+    && this.patientIdentifier) {
+      this.checkUniversal = false;
+    } else if (identifierType.val === '58a4732e-1359-11df-a1f1-0026b9348838'
+    && !this.patientIdentifier) {
+      this.checkUniversal = true;
+    }
+
+  }
+
+  public selectIdentifierType(identifierType) {
+    this.checkUniversal = false;
+    this.identifierType = identifierType;
+    if (identifierType.val === '58a4732e-1359-11df-a1f1-0026b9348838'
+    && this.patientIdentifier) {
+      this.checkUniversal = false;
+    } else if (identifierType.val === '58a4732e-1359-11df-a1f1-0026b9348838'
+    && !this.patientIdentifier) {
+      this.checkUniversal = true;
+    } else {
+      this.patientIdentifier = '';
+      this.patientIdentifierUuid = '';
+      this.preferredIdentifier = '';
+    }
   }
 
   public updatePatientIdentifier() {
@@ -136,12 +206,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       identifier: this.patientIdentifier.toString(), // patientIdentifier
       identifierType: (this.identifierType as any).val, // identifierType
       preferred: this.preferredIdentifier, // preferred
-      location: this.identifierLocation // location
+      location: this.newLocation // location
+
     };
     if (idExists) {
       delete personIdentifierPayload['identifier'];
       delete personIdentifierPayload['identifierType'];
-      this.saveIdentifier(personIdentifierPayload, person);
+      // this.saveIdentifier(personIdentifierPayload, person);
     } else {
     this.identifierValidity = 'Patient identifier is required.';
     if (!this.validateFormFields(this.patientIdentifier)) {
@@ -159,8 +230,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             }
             this.saveIdentifier(personIdentifierPayload, person);
           }else {
-            this.identifierValidity = 'A patient with this Identifier exists';
-            this.display = true;
+            if (this.newLocation !== this.identifierLocation) {
+              this.saveIdentifier(personIdentifierPayload, person);
+            } else {
+              this.identifierValidity = 'A patient with this Identifier exists!';
+              this.invalidLocationCheck = 'Identifier Location already exists!';
+              this.display = true;
+            }
 
           }
         }
@@ -181,6 +257,15 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
+  public generatePatientIdentifier() {
+    this.patientCreationResourceService.generateIdentifier(this.userId).subscribe((data) => {
+      this.patientIdentifier = data.identifier;
+      this.checkUniversal = false;
+    }, ((err) => {
+      console.log(err.json());
+    }));
+  }
+
 private saveIdentifier(personIdentifierPayload, person) {
   this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
@@ -188,9 +273,14 @@ private saveIdentifier(personIdentifierPayload, person) {
               .subscribe(
                 (success) => {
                   this.displaySuccessAlert('Identifiers saved successfully');
+                  this.patientIdentifier = '';
+                  this.identifierLocation = '';
+                  this.preferredIdentifier = '';
+                  this.identifierType = '';
                   this.patientService.fetchPatientByUuid(this.patients.person.uuid);
                   setTimeout(() => {
                     this.display = false;
+                    this.addDialog = false;
                   }, 1000);
 
                 },
