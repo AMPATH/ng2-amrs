@@ -374,3 +374,9 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
 .ng-select.sharp-corners.ng-select-single .ng-select-container {
   height: 34px;
 }
+.form-entry ng-select>div>div.multiple {
+  overflow-x: hidden;
+}
+.form-entry ng-select {
+  overflow-x: visible !important;
+}
