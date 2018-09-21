@@ -32,7 +32,7 @@
 <div class="row patient-info-row">
   <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
     <h5 class="info_section_title">Identifiers</h5>
-    <a (click)="identifiers.showDialog()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Edit</span></a>
+    <a (click)="identifiers.showDialog()" class="edit_link"><span><i class="fa fa-plus fa-fw"></i> Add</span></a>
   </div>
   <edit-identifiers #identifiers></edit-identifiers>
   <patient-identifier [identifiers]="patient?._identifier"></patient-identifier>

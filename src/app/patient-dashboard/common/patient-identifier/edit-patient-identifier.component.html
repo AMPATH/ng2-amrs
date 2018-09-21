@@ -1,4 +1,4 @@
-<p-dialog header="Edit patient identifiers" [(visible)]="display" closable="true" styleClass="edit-identifier-dialog">
+<p-dialog header="{{identifierDialogTitle}}" [(visible)]="display" closable="true" styleClass="edit-identifier-dialog">
   <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
@@ -15,9 +15,11 @@
       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group">
           <label class="control-label">Patient Identifier Type:</label>
-          <select class="form-control"  [ngModel]="identifierType" (ngModelChange)="setIdentifierType($event)" >
-            <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{c.label}}</option>
-          </select>
+          <ng-select class="sharp-corners" id="identifierType"
+          [placeholder]="'Select a identifier type or type to search...'"
+          [(ngModel)]="identifierType" [items]="commonIdentifierTypes">
+          </ng-select>
+
           <div ng-messages="personForm.identifierType.$error">
               <div class="help-block" ng-message="required">Identifier Type is required.</div>
           </div>
