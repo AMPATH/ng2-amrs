@@ -1,7 +1,7 @@
    [
        {
         "name": "labs-report",
-        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
+        "table":{"schema":"etl","tableName":"flat_hiv_summary_v15b","alias":"t1"},
         "joins":[
             {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
             {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}

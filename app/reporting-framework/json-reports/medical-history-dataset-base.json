@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.flat_hiv_summary",
+            "table": "etl.flat_hiv_summary_v15b",
             "alias": "t1"
         },
         {

@@ -1,5 +1,9 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
+import {
+    BaseMysqlReport
+} from '../../app/reporting-framework/base-mysql.report';
+
 var Promise = require('bluebird');
 var noteService = require('../../service/notes.service');
 var encounterService = require('../../service/openmrs-rest/encounter.js')
@@ -16,6 +20,7 @@ var config = require('../../conf/config');
 var moment = require('moment');
 var analytics = require('../../dao/analytics/etl-analytics-dao');
 var patientReminderService = require('../../service/patient-reminder.service.js');
+
 
 module.exports = function () {
     function getPatientHivSummary(request, callback) {
@@ -132,15 +137,18 @@ module.exports = function () {
                 resolve(result);
             });
         });
-        var patientReminders = new Promise(function (resolve) {
+        var patientReminders = new Promise(function (resolve, reject) {
             var extendedRequest = request;
             extendedRequest.query.limit = 1;
             extendedRequest.params['referenceDate'] = new Date().toISOString().substring(0, 10);
             extendedRequest.params.patientUuid = patientUuid;
 
-            getPatientReminders(extendedRequest, function (result) {
-                resolve(result);
-            });
+            getPatientReminders(extendedRequest,
+                function (result) {
+                    resolve(result);
+                }, function (error) {
+                    reject(error);
+                });
         });
 
         Promise.all([patientEncounters, patientHivSummary, patientVitals, patientLabData, patientReminders])
@@ -162,28 +170,59 @@ module.exports = function () {
             })
             .catch(function (e) {
                 // Return  error
+                console.error('An error occured', e);
                 callback(Boom.badData(JSON.stringify(e)));
             });
     }
 
-    function getPatientReminders(request, callback) {
-        var reportParams = helpers.getReportParams('clinical-reminder-report',
-            ['referenceDate', 'patientUuid'],
-            Object.assign({}, request.query, request.params));
-        analytics.runReport(reportParams).then(function (results) {
-            try {
-                var processedResults = patientReminderService.generateReminders(results.result, { viralLoad: [] });
-                results.result = processedResults;
-                callback(results);
-            } catch (err) {
-                callback(err);
-                console.log('Error occurred while processing reminders', err)
-            }
+    // function getPatientReminders(request, callback) {
+    //     var reportParams = helpers.getReportParams('clinical-reminder-report',
+    //         ['referenceDate', 'patientUuid'],
+    //         Object.assign({}, request.query, request.params));
+    //     analytics.runReport(reportParams).then(function (results) {
+    //         try {
+    //             var processedResults = patientReminderService.generateReminders(results.result, { viralLoad: [] });
+    //             results.result = processedResults;
+    //             console.log('reminder results', results);
+    //             callback(results);
+    //         } catch (err) {
+    //             callback(err);
+    //             console.log('Error occurred while processing reminders', err);
+    //         }
 
-        }).catch(function (error) {
-            callback(error);
-        })
+    //     }).catch(function (error) {
+    //         callback(error);
+    //     });
+    // }
+
+    function getPatientReminders(request, onSuccess, onError) {
+        var combineRequestParams = Object.assign({}, request.query, request.params);
+        combineRequestParams.limitParam = 1;
+        var reportParams = helpers.getReportParams('clinical-reminder-report', ['referenceDate', 'patientUuid', 'offSetParam', 'limitParam'], combineRequestParams);
+
+        var report = new BaseMysqlReport('clinicalReminderReport', reportParams.requestParams);
+        report.generateReport().then(function(results) {
+            try {
+                if (results.results.results.length > 0) {
+                    var processedResults = patientReminderService.generateReminders(results.results.results, []);
+                    results.result = processedResults;
+                } else {
+                    results.result = {
+                        person_uuid: combineRequestParams.person_uuid,
+                        reminders: []
+                    };
+                }
+                onSuccess(results);
+            } catch (error){
+                console.error('Error generating reminders', error);
+                onError(new Error('Error generating reminders'));
+            }
+        }).catch( function(error) {
+            console.error('Error generating reminders', error);
+            onError(new Error('Error generating reminders'));
+        });
     }
+
 
     function getClinicalNotes(request, callback) {
         var patientEncounters = encounterService.getPatientEncounters(request.params.uuid);
@@ -220,7 +259,7 @@ module.exports = function () {
             columns: request.query.fields || "t1.*, t2.cur_arv_meds",
             table: "etl.flat_labs_and_imaging",
             leftOuterJoins: [
-                ['(select * from etl.flat_hiv_summary where is_clinical_encounter and uuid="' + uuid + '" group by date(encounter_datetime))',
+                ['(select * from etl.flat_hiv_summary_v15b where is_clinical_encounter and uuid="' + uuid + '" group by date(encounter_datetime))',
                     't2', 'date(t1.test_datetime) = date(t2.encounter_datetime)'
                 ]
             ],
@@ -254,7 +293,7 @@ module.exports = function () {
 
         var queryParts = {
             columns: request.query.fields || "*",
-            table: "etl.flat_hiv_summary",
+            table: "etl.flat_hiv_summary_v15b",
             where: ["uuid = ?", uuid],
             order: order || [{
                 column: 'encounter_datetime',

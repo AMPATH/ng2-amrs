@@ -16,7 +16,7 @@ function getPatientHivSummary(patientUuid, clinicalOnly,
         ['uuid = ?', patientUuid];
     var queryObject = {
         columns: '*',
-        table: 'etl.flat_hiv_summary',
+        table: 'etl.flat_hiv_summary_v15b',
         where: whereClause,
         order: [{
             column: 'encounter_datetime',
