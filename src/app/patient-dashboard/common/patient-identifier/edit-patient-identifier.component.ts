@@ -335,7 +335,7 @@ private saveIdentifier(personIdentifierPayload, person) {
         }
       }
 
-      if (!this.identifierLocation) {
+      if (!this.newLocation) {
         this.invalidLocationCheck = 'Location is Required';
         return;
       }
