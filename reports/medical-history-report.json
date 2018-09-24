@@ -3,7 +3,7 @@
     "name": "medical-history-report",
     "table": {
       "schema": "etl",
-      "tableName": "flat_hiv_summary",
+      "tableName": "flat_hiv_summary_v15b",
       "alias": "t1"
     },
     "joins": [

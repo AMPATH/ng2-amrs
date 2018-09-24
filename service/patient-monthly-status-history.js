@@ -103,7 +103,7 @@ FROM   (SELECT t1.person_id                AS p1,
                        outreach.transfer_out            AS outreach_transfer_out 
                        , 
                        t1.hiv_start_date, 
-                       t1.arv_start_location, 
+                       t1.arv_first_regimen_location_id,
                        CASE 
                          WHEN Date(t1.encounter_datetime) <= t2.enddate THEN 1 
                          ELSE NULL 
@@ -238,10 +238,10 @@ FROM   (SELECT t1.person_id                AS p1,
                          ELSE NULL 
                        end                              AS LTFU 
                 FROM   etl.dates t2 
-                       INNER JOIN etl.flat_hiv_summary t1 
+                       INNER JOIN etl.flat_hiv_summary_v15b t1
                                ON ( Date(t1.encounter_datetime) <= 
                                     Date(t2.enddate) ) 
-                       LEFT OUTER JOIN etl.flat_hiv_summary outreach 
+                       LEFT OUTER JOIN etl.flat_hiv_summary_v15b outreach
                                     ON ( t1.person_id = outreach.person_id 
                                          AND outreach.encounter_type = 21 
                                          AND outreach.encounter_datetime > 
@@ -254,7 +254,7 @@ FROM   (SELECT t1.person_id                AS p1,
                        t2.enddate 
                         OR outreach.next_encounter_datetime_hiv IS NULL 
                                              ) ) 
-                       LEFT OUTER JOIN etl.flat_hiv_summary transfer 
+                       LEFT OUTER JOIN etl.flat_hiv_summary_v15b transfer
                                     ON ( t1.person_id = transfer.person_id 
                                          AND transfer.encounter_type = 116 
                                          AND transfer.encounter_datetime > 
@@ -296,7 +296,7 @@ FROM   (SELECT t1.person_id                AS p1,
                                        outreach.transfer_out            AS 
                        outreach_transfer_out, 
                                        t1.hiv_start_date, 
-                                       t1.arv_start_location, 
+                                       t1.arv_first_regimen_location_id,
                                        CASE 
                                          WHEN Date(t1.encounter_datetime) <= 
                                               t2.enddate 
@@ -456,9 +456,9 @@ FROM   (SELECT t1.person_id                AS p1,
                ELSE NULL 
                end                              AS LTFU 
                FROM   etl.dates t2 
-               INNER JOIN etl.flat_hiv_summary t1 
+               INNER JOIN etl.flat_hiv_summary_v15b t1
                ON ( Date(t1.encounter_datetime) <= Date(t2.enddate) ) 
-               LEFT OUTER JOIN etl.flat_hiv_summary outreach 
+               LEFT OUTER JOIN etl.flat_hiv_summary_v15b outreach
                ON ( t1.person_id = outreach.person_id 
                AND outreach.encounter_type = 21 
                AND outreach.encounter_datetime > 
@@ -468,7 +468,7 @@ FROM   (SELECT t1.person_id                AS p1,
                t2.enddate 
                OR outreach.next_encounter_datetime_hiv IS NULL 
                ) ) 
-               LEFT OUTER JOIN etl.flat_hiv_summary transfer 
+               LEFT OUTER JOIN etl.flat_hiv_summary_v15b transfer
                ON ( t1.person_id = transfer.person_id 
                AND transfer.encounter_type = 116 
                AND transfer.encounter_datetime > 

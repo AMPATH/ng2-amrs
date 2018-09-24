@@ -325,7 +325,7 @@ module.exports = function () {
                 "date_format(t2.endDate, '%m/%Y') as reporting_month, " +
                 "t2.endDate,t1.uuid,t1.person_id, " + indicators.toString() +
                 " FROM etl.dates `t2` " +
-                "INNER JOIN etl.flat_hiv_summary `t1` force index (loc_id_enc_date_next_clinic)  ON" +
+                "INNER JOIN etl.flat_hiv_summary_v15b `t1` force index (loc_id_enc_date_next_clinic)  ON" +
                 " (date(t1.encounter_datetime) <= date(t2.endDate)) " +
                 "WHERE (" +
                 whereClause +

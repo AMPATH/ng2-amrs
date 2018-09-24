@@ -331,7 +331,7 @@ module.exports = function () {
                 whereClause = ["date(encounter_datetime) >= ? and date(encounter_datetime) <= ?", startDate, endDate];
             var queryParts = {
                 columns: columns,
-                table: "etl.flat_hiv_summary",
+                table: "etl.flat_hiv_summary_v15b",
                 where: whereClause,
                 joins: [
                     ['amrs.location', 't2', 't1.location_uuid = t2.uuid'],

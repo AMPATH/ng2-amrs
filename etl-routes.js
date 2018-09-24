@@ -62,7 +62,7 @@ import {
 } from './app/reporting-framework/hiv/hiv-summary-monthly-indicators.service';
 import {
     PatientMonthlyStatusHistory
-} from './service/patient-monthly-status-history'
+} from './service/patient-monthly-status-history';
 import {
     cohortUserService
 } from './service/cohort-user.service.js';
@@ -95,7 +95,7 @@ import {
 } from './app/reporting-framework/patientlist-mysql.report'
 import {
     BaseMysqlReport
-} from './app/reporting-framework/base-mysql.report'
+} from './app/reporting-framework/base-mysql.report';
 import {
     CDMReportingService
 } from './service/cdm/cdm-reporting.service'

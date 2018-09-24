@@ -3,7 +3,7 @@
         "name": "patient-daily-care-status",
         "table": {
             "schema": "etl",
-            "tableName": "flat_hiv_summary",
+            "tableName": "flat_hiv_summary_v15b",
             "alias": "t1"
         },
         "joins": [],
