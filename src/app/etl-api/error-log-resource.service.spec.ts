@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
@@ -28,6 +28,10 @@ describe('ErrorLogResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have service defined',
     inject([ErrorLogResourceService],
       (errorLogResourceService: ErrorLogResourceService) => {
@@ -43,11 +47,12 @@ describe('ErrorLogResourceService Unit Tests', () => {
   it('should Post Error with correct ReguestMethod and correct API call',
     inject([ErrorLogResourceService, MockBackend],
       fakeAsync((errorLogResourceService: ErrorLogResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Post);
           expect(connection.request.url).toContain('/forms/error');
         });
+        tick(50);
         expect(errorLogResourceService.postFormError({ error: 'error' }));
       })));
 

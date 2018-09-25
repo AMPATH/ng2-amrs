@@ -48,7 +48,7 @@ describe('SessionService Unit Tests', () => {
   it('It should return a session', inject([MockBackend, SessionService],
     (backend: MockBackend, sessionService: SessionService) => {
 
-      backend.connections.subscribe((connection: MockConnection) => {
+      backend.connections.take(1).subscribe((connection: MockConnection) => {
         let options = new ResponseOptions({
           body: JSON.stringify({
             authenticated: true,
@@ -64,7 +64,7 @@ describe('SessionService Unit Tests', () => {
       };
 
       sessionService.getSession(credentials)
-        .subscribe((response) => {
+        .take(1).subscribe((response) => {
           expect(response.json().authenticated).toEqual(true);
           expect(response.json().user).toBeTruthy();
         });

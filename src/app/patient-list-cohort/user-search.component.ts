@@ -54,9 +54,9 @@ export class UserSearchComponent implements OnInit, OnDestroy {
       }
       this.isLoading = true;
       this.users = [];
-      this.subscription = this.userService
+      this.userService
         .searchUsers(this.searchString)
-        .subscribe(
+        .take(1).subscribe(
           (data) => {
             if (data.length > 0) {
               this.users = [];

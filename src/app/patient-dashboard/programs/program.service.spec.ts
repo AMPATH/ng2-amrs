@@ -1,6 +1,6 @@
-import { TestBed, fakeAsync, inject } from '@angular/core/testing';
+import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { ProgramService } from './program.service';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
 }
@@ -79,6 +79,7 @@ describe('Service: ProgramService', () => {
           });
         // setting enrolledPrograms for the second time
         service.getPatientEnrolledProgramsByUuid(uuid);
+        tick(50);
         expect(programEnrollmentResourceService.
           getProgramEnrollmentByPatientUuid).toHaveBeenCalled();
 
@@ -98,6 +99,7 @@ describe('Service: ProgramService', () => {
             return subject;
           });
         service.getAvailablePrograms();
+        tick(50);
         expect(programResourceService.
           getPrograms).toHaveBeenCalled();
 
@@ -172,7 +174,7 @@ describe('Service: ProgramService', () => {
       dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
 
     let enrollmement = service.saveUpdateProgramEnrollment(payload);
-    enrollmement.subscribe((results) => {
+    enrollmement.take(1).subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();
       }

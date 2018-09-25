@@ -24,7 +24,7 @@ import { MonthlyScheduleResourceService
 export class CdmMonthlyScheduleComponent extends
 MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
-  public subscription: Subscription = new Subscription();
+  public routeSub: Subscription = new Subscription();
   public myDepartment = 'CDM';
 
   constructor(
@@ -43,13 +43,13 @@ MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.selectDepartmentService.setDepartment(this.myDepartment);
-    this.route.parent.parent.params.subscribe((params) => {
+    this.routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
 }

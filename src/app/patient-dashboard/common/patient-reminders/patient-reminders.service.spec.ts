@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -49,7 +49,7 @@ describe('Service: PatientReminderService', () => {
 
 
   it('should load Patient reminders', (done) => {
-    reminders.subscribe((results) => {
+    reminders.take(1).subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();
       }
@@ -63,11 +63,11 @@ describe('Service: PatientReminderService', () => {
 
     let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
     service.getPatientReminders(patientUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         },
         (error: Error) => {
           expect(error).toBeTruthy();

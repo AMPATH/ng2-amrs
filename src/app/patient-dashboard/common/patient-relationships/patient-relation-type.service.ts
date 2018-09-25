@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
-import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
-import { Relationship } from '../../../models/relationship.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
     PatientRelationshipTypeResourceService
 } from '../../../openmrs-api/patient-relationship-type-resource.service';
@@ -11,13 +8,12 @@ import {
 export class PatientRelationshipTypeService {
     public relationshipsTypeSubject: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    constructor(private patientService: PatientService,
-                private patientRelationshipTypeResourceService:
+    constructor(private patientRelationshipTypeResourceService:
                 PatientRelationshipTypeResourceService) {
     }
 
     public getRelationshipTypes(): Observable<any> {
-        this.patientRelationshipTypeResourceService.getPatientRelationshipTypes().subscribe(
+        this.patientRelationshipTypeResourceService.getPatientRelationshipTypes().take(1).subscribe(
             (relatinshipTypes) => {
                 if (relatinshipTypes) {
                     this.relationshipsTypeSubject.next(relatinshipTypes);

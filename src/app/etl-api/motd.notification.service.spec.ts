@@ -30,6 +30,10 @@ describe('Service : Motd Notification Service Unit Tests', () => {
 
       });
 
+      afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
   let motdNotificationsResponse = {
     'results': [{
         'type': 'warning',
@@ -65,13 +69,13 @@ describe('Get All MOTD Notification', () => {
     it('should hit right endpoint for getMotdNotification and get right response', async(inject(
 
            [MOTDNotificationService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url)
                     .toContain('/etl/motdNotifications');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                 });
 
-                 service.getMotdNotification().subscribe(res => {
+                 service.getMotdNotification().take(1).subscribe(res => {
                          expect(res).toEqual(motdNotificationsResponse);
                 });
 

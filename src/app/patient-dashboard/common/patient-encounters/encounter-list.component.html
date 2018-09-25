@@ -2,7 +2,7 @@
   <div>
     <app-display-error [isVisible]="isVisible" [messageType]="messageType" [message]="message"></app-display-error>
   </div>
-  <div [ngBusy]="{busy:encountersLoading ,message:'Please Wait...'}"></div>
+  <!-- <div [ngBusy]="{busy:encountersLoading ,message:'Please Wait...'}"></div> -->
   <p *ngIf="!encountersLoading && encounters.length === 0" class="">The patient has no encounters</p>
   <div *ngIf="showFilterers" clas="row">
     <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">

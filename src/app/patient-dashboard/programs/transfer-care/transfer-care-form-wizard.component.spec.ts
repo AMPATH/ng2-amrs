@@ -12,8 +12,7 @@ import { Patient } from '../../../models/patient.model';
 import { ProgramEnrollment } from '../../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { of } from 'rxjs';
 import { ProgramsTransferCareService } from './transfer-care.service';
 import { ProgramsTransferCareFormWizardComponent } from './transfer-care-form-wizard.component';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -36,8 +35,8 @@ class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = Observable.of([{ 'id': 1 }]);
-  public queryParams = Observable.of([{ 'processId': 1 }]);
+  public params = of([{ 'id': 1 }]);
+  public queryParams = of([{ 'processId': 1 }]);
 }
 
 describe('Component: ProgramsTransferCareFormWizardComponent', () => {
@@ -150,7 +149,7 @@ describe('Component: ProgramsTransferCareFormWizardComponent', () => {
               }
             }]
         };
-        mockBackend.connections.subscribe((conn) => {
+        mockBackend.connections.take(1).subscribe((conn) => {
           if (_.includes(conn.request.url, '/etl/program-visit-configs')) {
             conn.mockRespond(new Response(new ResponseOptions({body: JSON.stringify(configs)})));
           } else {
@@ -160,5 +159,6 @@ describe('Component: ProgramsTransferCareFormWizardComponent', () => {
           }
         });
         component.ngOnInit();
+        tick(50);
       })));
 });

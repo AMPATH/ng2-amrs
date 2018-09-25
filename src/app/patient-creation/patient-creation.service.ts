@@ -22,7 +22,7 @@ export class PatientCreationService {
     public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
         let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
         this.resouceService.searchPatient(searchText.trim(), false)
-        .subscribe(
+        .take(1).subscribe(
         (patients) => {
         let mappedPatients: Patient[] = new Array<Patient>();
         for (let patient of patients) {

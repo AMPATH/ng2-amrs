@@ -17,7 +17,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { CookieModule } from 'ngx-cookie';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 describe('AppSettingsComponent Tests', () => {
   let comp: AppSettingsComponent;
@@ -55,8 +55,12 @@ describe('AppSettingsComponent Tests', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('AppSettingsComponent should exist', () => {
-    expect(comp).toBeTruthy();
+    expect(comp).toBeDefined();
   });
 
   it('Should display default Openmrs server url', () => {

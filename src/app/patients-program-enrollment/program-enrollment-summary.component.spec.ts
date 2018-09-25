@@ -32,7 +32,11 @@ describe('Component: Program Enrollment Summary', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
 });

@@ -42,6 +42,10 @@ describe('FeedBackService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
 
     it('should be defined',
         inject([FeedBackService], (s: FeedBackService) => {
@@ -52,7 +56,7 @@ describe('FeedBackService', () => {
         inject([FeedBackService, AppSettingsService,
             MockBackend, Http], (feedbackService, appSettingsService, backend, http) => {
                 let samplePayload = { phone: '070000000', message: 'message' };
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     let url = appSettingsService.getEtlServer() +
                         '/user-feedback';
                     expect(connection.request.url).toEqual(url);
@@ -64,7 +68,7 @@ describe('FeedBackService', () => {
                     connection.mockRespond(mockResponse);
                 });
 
-                feedbackService.postFeedback(samplePayload).subscribe(response => {
+                feedbackService.postFeedback(samplePayload).take(1).subscribe(response => {
                     expect(response).toEqual([{ status: 'okay' }]);
                 });
             }));

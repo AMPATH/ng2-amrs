@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 // TODO inject service
 
@@ -31,9 +33,9 @@ export class ProgramWorkFlowResourceService {
     params.set('v', v);
     return this.http.get(url, {
       search: params
-    }).map((response: Response) => {
+    }).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
   }
 
 }

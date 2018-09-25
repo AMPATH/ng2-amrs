@@ -118,7 +118,7 @@ export class TodayVisitsComponent implements OnInit {
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
     this.todayVisitService.getProgramVisits()
-      .subscribe(() => { }, (error) => { });
+      .take(1).subscribe(() => { }, (error) => { });
   }
 
   public onVisitLoadedEvent() {

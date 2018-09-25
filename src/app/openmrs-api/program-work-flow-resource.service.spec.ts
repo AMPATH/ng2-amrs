@@ -30,6 +30,10 @@ describe('Service: ProgramWorkFlowResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   let programWorkFlowResponse = {
     results: [
       {
@@ -64,7 +68,7 @@ describe('Service: ProgramWorkFlowResourceService', () => {
   it('should return null when programUuid not specified', async(inject(
     [ProgramWorkFlowResourceService, MockBackend], (service, mockBackend) => {
 
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         throw new Error('No requests should be made.');
       });
 
@@ -76,7 +80,7 @@ describe('Service: ProgramWorkFlowResourceService', () => {
   it('should call the right endpoint', async(inject(
     [ProgramWorkFlowResourceService, MockBackend], (service, mockBackend) => {
       let programUuid = 'uuid';
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         expect(conn.request.url)
           .toBe('http://example.url.com/ws/rest/v1/program/uuid?v=' +
             'custom:(uuid,display,allWorkflows:(uuid,retired,concept:(uuid,display),' +
@@ -93,7 +97,7 @@ describe('Service: ProgramWorkFlowResourceService', () => {
   it('should return null when params are not specified', async(inject(
     [ProgramWorkFlowResourceService, MockBackend], (service, mockBackend) => {
 
-      mockBackend.connections.subscribe((conn) => {
+      mockBackend.connections.take(1).subscribe((conn) => {
         throw new Error('No requests should be made.');
       });
 

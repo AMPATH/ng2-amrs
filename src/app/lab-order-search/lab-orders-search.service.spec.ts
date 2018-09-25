@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { LabOrdersSearchService } from './lab-orders-search.service';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -46,7 +46,7 @@ describe('Service: LabOrdersSearchService', () => {
         let service: LabOrdersSearchService = TestBed.get(LabOrdersSearchService);
         let result = service.searchLabOrder('ORD-4312', false);
 
-        result.subscribe((order) => {
+        result.take(1).subscribe((order) => {
             expect(order).toBeTruthy();
             expect(order.uuid).toEqual('2f949c58-0396-4eff-a398-bad3d5a9610e');
         });
@@ -59,7 +59,7 @@ describe('Service: LabOrdersSearchService', () => {
 
         let results = service.searchLabOrder('ORD-4312', false);
 
-        results.subscribe((result) => {
+        results.take(1).subscribe((result) => {
         },
             (error) => {
                 // when it gets here, then it returned an error

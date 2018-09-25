@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
@@ -101,7 +101,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         if (result === null) {
             throw new Error('Null clinic flow observable');
         } else {
-            this.clinicFlowSubscription = result.subscribe(
+            result.take(1).subscribe(
                 (dataList) => {
                     this.incompleteVisitsCount = dataList.incompleteVisitsCount;
                     this.completeVisitsCount = dataList.completeVisitsCount;

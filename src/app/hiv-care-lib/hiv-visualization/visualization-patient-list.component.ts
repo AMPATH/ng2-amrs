@@ -95,14 +95,13 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public loadPatientData(reportName: string) {
-
-    this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
+    this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
       locationUuids: this.locationUuids,
       startIndex: this.startIndex,
       startDate: this.startDate.format()
-    }).subscribe((report) => {
+    }).take(1).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;

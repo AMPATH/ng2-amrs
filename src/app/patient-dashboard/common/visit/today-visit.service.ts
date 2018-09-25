@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import * as moment from 'moment';
 import *  as _ from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of, Subscription } from 'rxjs';
+import { flatMap, delay } from 'rxjs/operators';
 
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
@@ -19,7 +20,7 @@ export enum VisitsEvent {
 }
 
 @Injectable()
-export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
+export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS PER PATIENT
   public patient: any;
 
   public patientProgramVisitConfigs: any = {};
@@ -38,11 +39,20 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   public visitsEvents: Subject<VisitsEvent> = new Subject<VisitsEvent>();
   private isLoading = false;
 
+  private subs: Subscription[] = [];
+
   constructor(private patientProgramResourceService: PatientProgramResourceService,
               private visitResourceService: VisitResourceService,
               private retrospectiveDataEntryService: RetrospectiveDataEntryService,
               private patientService: PatientService) {
     this.subscribeToPatientChanges();
+  }
+
+  public ngOnDestroy() {
+    this.subs.forEach(sub => {
+      sub.unsubscribe();
+    });
+    this.subs = [];
   }
 
   public activateVisitStartedMsg() {
@@ -58,7 +68,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   }
 
   public subscribeToPatientChanges() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
@@ -77,6 +87,8 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
         });
         console.error('Error on published patient', err);
       });
+
+      this.subs.push(sub);
   }
 
   public fetchPatientProgramVisitConfigs(): Observable<any> {
@@ -88,7 +100,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
         subject.error('Patient is required');
       }, 0);
     } else {
-      this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).subscribe(
+      this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).take(1).subscribe(
         (programConfigs) => {
           this.patientProgramVisitConfigs = programConfigs;
           subject.next(programConfigs);
@@ -123,7 +135,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
       this.visitResourceService
         .getPatientVisits({ patientUuid: this.patient.uuid })
-        .subscribe((visits) => {
+        .take(1).subscribe((visits) => {
           this.allPatientVisits = visits;
           this.hasFetchedVisits = true;
           subject.next(visits);
@@ -136,7 +148,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
           subject.error(error);
         });
     }
-    return subject.delay(100);
+    return subject.pipe(delay(100));
   }
 
   public filterVisitsByVisitTypes(visits: Array<any>, visitTypes: Array<string>): Array<any> {
@@ -268,9 +280,9 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   public loadDataToProcessProgramVisits(): Observable<any> {
     let subject = new Subject();
     this.fetchPatientProgramVisitConfigs()
-      .subscribe(() => {
+      .take(1).subscribe(() => {
         this.getPatientVisits()
-          .subscribe(() => {
+          .take(1).subscribe(() => {
             subject.next({ done: true });
           }, (error) => {
             subject.error(error);
@@ -285,7 +297,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
   public getProgramVisits(): Observable<any> {
     if (this.isLoading) {
-      return Observable.of({ loading: true });
+      return of({ loading: true });
     }
     this.isLoading = true;
     // clear errors and visits
@@ -303,7 +315,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
     } else {
       this.programVisits = null;
       this.loadDataToProcessProgramVisits()
-        .subscribe((data) => {
+        .take(1).subscribe((data) => {
           this.processVisitsForPrograms();
           this.needsVisitReload = false;
           this.isLoading = false;

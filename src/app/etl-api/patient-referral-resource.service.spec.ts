@@ -85,6 +85,10 @@ describe('PatientReferralResourceService Tests', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined',
     inject([PatientReferralResourceService],
       (s: PatientReferralResourceService) => {
@@ -121,7 +125,7 @@ describe('PatientReferralResourceService Tests', () => {
   it('should return Patient referral  Report',
     inject([PatientReferralResourceService, MockBackend],
       (s: PatientReferralResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -130,7 +134,7 @@ describe('PatientReferralResourceService Tests', () => {
             )));
         });
 
-        s.getPatientReferralReport(reportParams).subscribe((result) => {
+        s.getPatientReferralReport(reportParams).take(1).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(expectedPatientReferralResults);
         });
@@ -140,7 +144,7 @@ describe('PatientReferralResourceService Tests', () => {
   it('should return Patient referral Report Patient List',
     inject([PatientReferralResourceService, MockBackend],
       (s: PatientReferralResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -149,7 +153,7 @@ describe('PatientReferralResourceService Tests', () => {
             )));
         });
 
-        s.getPatientReferralPatientList(reportParams).subscribe((result) => {
+        s.getPatientReferralPatientList(reportParams).take(1).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(patientList.result);
         });

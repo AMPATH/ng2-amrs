@@ -89,7 +89,7 @@ export class LabOrderSearchComponent implements OnInit {
     this.isLoading = true;
     this.orderResourceService.searchOrdersById(this.orderId, false,
       this.customOrderObjectDefinition)
-      .subscribe((resp) => {
+      .take(1).subscribe((resp) => {
         if (resp && resp.orderVoided) {
           this.orderDeleted = true;
         } else {

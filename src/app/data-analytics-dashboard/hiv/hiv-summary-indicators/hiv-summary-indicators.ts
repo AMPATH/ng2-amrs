@@ -74,7 +74,7 @@ implements OnInit {
     }
     if (path.queryParams['gender']) {
       this.gender = (path.queryParams['gender'] as any);
-      this.formatGenderToSelectArray(path.queryParams['gender']);
+      this.formatGenderToSelectArray(this.gender);
     }
     if (path.queryParams['startAge']) {
       this.startAge = (path.queryParams['startAge'] as any);
@@ -96,7 +96,7 @@ implements OnInit {
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString(),
       'indicators': this.indicators,
-      'gender': (this.gender ? this.gender : 'F,M' as any),
+      'gender': this.gender === undefined ? '' : this.gender,
       'startAge': (this.startAge as any),
       'endAge': (this.endAge as any),
       'view': this.currentView
@@ -115,7 +115,7 @@ implements OnInit {
         value: id,
         label: text
       };
-      this.selectedIndicators.push(data.value);
+      this.selectedIndicators.push(data);
     });
   }
 
@@ -126,23 +126,16 @@ implements OnInit {
   }
 
   public formatGenderToSelectArray(genderParam: string) {
-    if (genderParam.length > 1) {
-      let arr = genderParam.split(',');
-      _.each(arr, (gender) => {
-        let id = gender;
-        let text = gender === 'M' ? 'Male' : 'Female';
-        let data = {
-          id: id,
-          text: text
-        };
-        this.selectedGender.push(data);
-      });
-    } else {
+    let arr = genderParam.split(',');
+    _.each(arr, (indicator) => {
+      let text = indicator;
+      let id = indicator;
+
       let data = {
-        id: genderParam,
-        text: genderParam === 'M' ? 'Male' : 'Female'
+        value: id, // indicator
+        label: text
       };
       this.selectedGender.push(data);
-    }
+    });
   }
 }

@@ -58,7 +58,7 @@ describe('Service: PatientCreation', () => {
     let service: PatientCreationService = TestBed.get(PatientCreationService);
     let result = service.searchPatient('text', false);
 
-    result.subscribe((results) => {
+    result.take(1).subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');

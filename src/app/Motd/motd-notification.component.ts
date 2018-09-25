@@ -52,7 +52,7 @@ export class MOTDNotificationComponent implements OnInit {
 
   public getMotdNotifications() {
     this._motdSservice.getMotdNotification()
-      .subscribe((res) => {
+      .take(1).subscribe((res) => {
         this.notifications = res;
 
         if (res.length > 0) {

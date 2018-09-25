@@ -130,7 +130,7 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
   public fetchReport() {
     this.loading();
     this._oncologySummaryService.getOncologySummaryMonthlyIndicatorsReport(this.params)
-    .subscribe((result) => {
+    .take(1).subscribe((result) => {
       this.monthlySummary = result.result;
       this.endLoading();
     });

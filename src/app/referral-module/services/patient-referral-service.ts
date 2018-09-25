@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { Patient } from '../../models/patient.model';
@@ -61,7 +60,7 @@ export class PatientReferralService {
   public getEncounterProvider(encounterUuid: string): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     this.encounterResourceService.getEncounterByUuid(encounterUuid)
-      .subscribe((encounter) => {
+      .take(1).subscribe((encounter) => {
         let encounterProvider: any = _.first(encounter.encounterProviders);
         if (encounterProvider) {
           subject.next(encounterProvider.provider);
@@ -76,7 +75,7 @@ export class PatientReferralService {
       if (user && user.person) {
         this.providerResourceService
           .getProviderByPersonUuid(user.person.uuid)
-          .subscribe(
+          .take(1).subscribe(
           (provider) => {
             resolve(provider);
           },
@@ -93,7 +92,7 @@ export class PatientReferralService {
   public fetchAllProgramManagementConfigs(patientUuid): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid)
-      .subscribe((programConfigs) => {
+      .take(1).subscribe((programConfigs) => {
       subject.next(programConfigs);
     });
     return subject;
@@ -126,7 +125,7 @@ export class PatientReferralService {
     if (referralObservable === null) {
       throw new Error('Null referral provider observable');
     } else {
-      referralObservable.subscribe(
+      referralObservable.take(1).subscribe(
           (referrals) => {
               referralInfo.next(referrals);
            });
@@ -136,7 +135,7 @@ export class PatientReferralService {
 
   public getProgramWorkflows(programUuid) {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.programService.getProgramWorkFlows(programUuid).subscribe((workflows: any[]) => {
+    this.programService.getProgramWorkFlows(programUuid).take(1).subscribe((workflows: any[]) => {
       let programWorkflows = _.filter(workflows, (w) => !w.retired);
       subject.next(programWorkflows.length > 0);
     });
@@ -151,7 +150,7 @@ export class PatientReferralService {
     if (referralObservable === null) {
       throw new Error('Null referral location observable');
     } else {
-      referralObservable.subscribe(
+      referralObservable.take(1).subscribe(
           (referrals) => {
               referral.next(referrals);
            });
