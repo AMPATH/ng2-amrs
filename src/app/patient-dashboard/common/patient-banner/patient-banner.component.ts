@@ -20,6 +20,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
   public searchIdentifiers: object;
   public attributes: any;
   public birthdate;
+  public formattedPatientAge;
   private subscription: Subscription;
 
   constructor(private patientService: PatientService,
@@ -44,6 +45,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
           });
 
           this.birthdate = Moment(patient.person.birthdate).format('l');
+          this.formattedPatientAge = this.getPatientAge(patient.person.birthdate);
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
@@ -71,6 +73,20 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
 
   public onAddingToCohortClosed() {
     this.showingAddToCohort = false;
+  }
+
+  private getPatientAge(birthdate) {
+    if (birthdate) {
+      const todayMoment: any = Moment();
+      const birthDateMoment: any = Moment(birthdate);
+      const years = todayMoment.diff(birthDateMoment, 'year');
+      birthDateMoment.add(years, 'years');
+      const months = todayMoment.diff(birthDateMoment, 'months');
+      birthDateMoment.add(months, 'months');
+      const days = todayMoment.diff(birthDateMoment, 'days');
+      return years + ' y ' + months + ' m ' + days + ' d';
+    }
+    return null;
   }
 
 }

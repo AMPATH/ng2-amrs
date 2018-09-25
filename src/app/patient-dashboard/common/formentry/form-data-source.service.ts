@@ -10,7 +10,16 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import * as _ from 'lodash';
+import * as Moment from 'moment';
+const bfaMale5Above = require('../../../../assets/zscore/bfa_boys_5_above.json');
+const wflMaleBelow5 = require('../../../../assets/zscore/wfl_boys_below5.json');
+const hfaMale5Above = require('../../../../assets/zscore/hfa_boys_5_above.json');
+const hfaMaleBelow5 = require('../../../../assets/zscore/hfa_boys_below5.json');
 
+const bfaFemale5Above = require('../../../../assets/zscore/bfa_girls_5_above.json');
+const wflFemaleBelow5 = require('../../../../assets/zscore/wfl_girls_below5.json');
+const hfaFemale5Above = require('../../../../assets/zscore/hfa_girls_5_above.json');
+const hfaFemaleBelow5 = require('../../../../assets/zscore/hfa_girls_below5.json');
 @Injectable()
 
 export class FormDataSourceService {
@@ -241,15 +250,38 @@ export class FormDataSourceService {
     let model: object = {};
     let gender = patient.person.gender;
     let age = patient.person.age;
+    let birthdate = patient.person.birthdate;
     model['sex'] = gender;
     model['age'] = age;
-
+    model['birthdate'] = birthdate;
+    const ageInMonths = Moment().diff(birthdate, 'months');
+    const ageInDays = Moment().diff(birthdate, 'days');
     // define gender based constant:
     if (gender === 'F') {
         model['gendercreatconstant'] = 0.85;
+
+        if ( age < 5 ) {
+          model['weightForHeightRef'] = wflFemaleBelow5;
+          model['heightForAgeRef'] = this.getZscoreRef(hfaFemaleBelow5, 'Day', ageInDays);
+          }
+          if ( age > 5 && age < 18 ) {
+            model['bmiForAgeRef'] =  this.getZscoreRef(bfaFemale5Above, 'Month', ageInMonths);
+            model['heightForAgeRef'] = this.getZscoreRef(hfaFemale5Above, 'Month', ageInMonths);
+          }
+
     }
     if (gender === 'M') {
         model['gendercreatconstant'] = 1;
+        if ( age < 5 ) {
+        model['weightForHeightRef'] = wflMaleBelow5;
+        model['heightForAgeRef'] = this.getZscoreRef(hfaMaleBelow5, 'Day', ageInDays);
+        }
+
+        if ( age > 5 && age < 18 ) {
+          model['bmiForAgeRef'] =  this.getZscoreRef(bfaMale5Above, 'Month', ageInMonths);
+          model['heightForAgeRef'] = this.getZscoreRef(hfaMale5Above, 'Month', ageInMonths);
+        }
+
     }
 
     return model;
@@ -399,5 +431,11 @@ export class FormDataSourceService {
   private setCachedProviderSearchResults(searchProviderResults): void {
     let sourcekey = 'cachedproviders';
     this.localStorageService.setObject(sourcekey, searchProviderResults);
+  }
+
+  private getZscoreRef(refData, searchKey, searchValue): any {
+    return _.filter(refData, (refObject) => {
+       return refObject[searchKey] === searchValue;
+    });
   }
 }
