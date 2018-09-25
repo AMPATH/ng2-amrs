@@ -91,7 +91,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
 
         if (this. _formFieldsValid(enrolledDate, completedDate, enrollmentUuid)) {
         let payload = this.createPayload(enrollmentUuid, completedDate);
-        this.programService.saveUpdateProgramEnrollment(payload).subscribe(
+        this.programService.saveUpdateProgramEnrollment(payload).take(1).subscribe(
                 (enrollment) => {
                     if (enrollment) {
                     this.removeEnrolledProgram(enrollmentUuid);

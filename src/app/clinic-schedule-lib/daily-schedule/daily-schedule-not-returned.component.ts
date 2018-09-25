@@ -35,9 +35,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     field: 'phone_number'
   };
   public fetchCount: number = 0;
-  private currentClinicSubscription: Subscription;
-  private selectedDateSubscription: Subscription;
-  private visitsSubscription: Subscription;
+  private subs: Subscription[] = [];
   @Input()
   set options(value) {
     this._data.next(value);
@@ -57,11 +55,11 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   public ngOnInit() {
      this.filterSelected();
      this.selectedDate = Moment().format('YYYY-MM-DD');
-     this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
+     const sub = this.clinicDashboardCacheService.getCurrentClinic()
        .subscribe((location) => {
          this.selectedClinic = location;
          if (this.selectedClinic) {
-           this.selectedDateSubscription = this.clinicDashboardCacheService.
+           const dateSub = this.clinicDashboardCacheService.
              getDailyTabCurrentDate().subscribe((date) => {
                if (this.loadingDailyNotReturned === false) {
                  this.selectedDate = date;
@@ -71,11 +69,13 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
                }
 
              });
-
+            this.subs.push(dateSub);
          }
        });
 
-     this.route
+      this.subs.push(sub);
+
+     const sub2 = this.route
        .queryParams
        .subscribe((params) => {
          if (params) {
@@ -93,10 +93,14 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
            this.fetchCount++;
          }
        });
+
+       this.subs.push(sub2);
   }
 
   public ngOnDestroy(): void {
-
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
   public loadMoreNotReturned() {
 
@@ -137,7 +141,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null daily not returned');
     } else {
-      result.subscribe(
+      result.take(1).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.notReturnedPatientList = this.notReturnedPatientList.concat(

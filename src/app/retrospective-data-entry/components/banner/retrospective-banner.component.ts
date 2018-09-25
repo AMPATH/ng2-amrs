@@ -20,7 +20,7 @@ export class RetrospectiveBannerComponent implements OnInit {
     this.retroEnabled = this.retrospectiveDataEntryService
       .getProperty('enableRetro') === 'true';
     this.retrospectiveDataEntryService.enableRetro.next(this.retroEnabled);
-    this.retrospectiveDataEntryService.enableRetro.subscribe((enabled: boolean) => {
+    this.retrospectiveDataEntryService.enableRetro.take(1).subscribe((enabled: boolean) => {
       if (!enabled && this.displayDialog) {
           this.displayDialog = false;
       }

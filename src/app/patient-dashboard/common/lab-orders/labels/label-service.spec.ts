@@ -12,6 +12,10 @@ describe('LabelService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should return a blob url of pdf file', async(inject([LabelService], (s: LabelService) => {
         let labels = [{
             orderDate: '20/03/2017',
@@ -24,7 +28,7 @@ describe('LabelService', () => {
             identifier: 'ME',
             orderNumber: 'ORD-100'
         }];
-        s.generateBarcodes(labels).subscribe((url) => {
+        s.generateBarcodes(labels).take(1).subscribe((url) => {
             expect(typeof url).toBe('string');
         });
     })));

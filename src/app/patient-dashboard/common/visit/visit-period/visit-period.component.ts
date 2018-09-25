@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription ,  BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import * as _ from 'lodash';
@@ -143,7 +143,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().subscribe((results: any) => {
+    this.locationResourceService.getLocations().take(1).subscribe((results: any) => {
       this.locations = results.map((location) => {
         return {
           value: location.uuid,
@@ -173,7 +173,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
           this.loadingVisit = true;
 
           this.visitResource.updateVisit(this.encounterVisitUuid, visitPayload)
-            .subscribe((updateVisit) => {
+            .take(1).subscribe((updateVisit) => {
               this.loadingVisit = false;
               this.locationName = updateVisit.location.display;
               this.editLocation = !this.editLocation;
@@ -219,7 +219,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       'stopDatetime,attributes:(uuid,value))';
     this.loadingVisit = true;
     this.visitSubscription = this.visitResource.getVisitByUuid(uuid, { v: custom })
-      .subscribe((visit) => {
+      .take(1).subscribe((visit) => {
         this.setVisit(visit);
       });
   }

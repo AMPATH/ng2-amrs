@@ -48,7 +48,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
 
     let patientUuid = '3a8cd157-38d4-4a50-9121-ab15c7459382';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).
       toBe('http://example.url.com/ws/rest/v1/order?patient=' + patientUuid +
@@ -63,7 +63,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     });
 
     orderResourceService.getOrdersByPatientUuid(patientUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
   });
@@ -74,7 +74,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
 
     let orderId = 'ORD-8934';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toBe(
         'http://example.url.com/ws/rest/v1/order/' + orderId + '?' +
@@ -89,7 +89,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     });
 
    orderResourceService.searchOrdersById(orderId)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
 
@@ -101,7 +101,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
 
     let orderUUid = 'uuid';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toBe(
         'http://example.url.com/ws/rest/v1/order/' + orderUUid + '?' +
@@ -117,7 +117,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     });
 
     orderResourceService.getOrderByUuid(orderUUid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
 

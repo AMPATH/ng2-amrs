@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 
 import * as _ from 'lodash';
-import { Form } from 'ng2-openmrs-formentry';
+import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { Patient } from '../../../models/patient.model';
 import { ProgramWorkFlowResourceService
@@ -76,7 +76,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
           if (encounter) {
             _.extend(programInfo, { encounter: encounter.uuid});
             this.patientReferralService.getEncounterProvider(encounter.uuid)
-              .subscribe((provider) => {
+              .take(1).subscribe((provider) => {
                 if (provider) {
                   _.extend(programInfo, { provider: provider.uuid});
                   this._completeReferral(programInfo);
@@ -99,7 +99,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
 
   public getWorkFlowStates(workflow) {
     this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflow.uuid)
-      .subscribe((states) => {
+      .take(1).subscribe((states) => {
         this.workflowStates = _.filter(states, (state: any) => {
           return state.initial;
         });
@@ -163,21 +163,21 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
     // 1. Enroll patient
     this.patientReferralService.enrollPatient(this.program.programUuid,
       this.patient, this.location, this.selectedWorkFlowState, '')
-      .subscribe((enrollment) => {
+      .take(1).subscribe((enrollment) => {
           this.newErollment = enrollment;
           // 2. Save encounter
           _.extend(programInfo, {
             patientProgram: enrollment.uuid
           });
           this.patientReferralService.saveReferralEncounter(programInfo)
-            .subscribe((savedEncounter) => {
+            .take(1).subscribe((savedEncounter) => {
               console.log('savedEncounter', savedEncounter);
               // 3. complete referral if its referring back
               if (this.program.patient_referral_id) {
                 this.patientReferralService.updateReferalNotificationStatus({
                   patient_referral_id: this.program.patient_referral_id,
                   notificationStatus: 1
-                }).subscribe((response) => {
+                }).take(1).subscribe((response) => {
                   this.handleSuccessfulReferral();
                 }, (error) => {
                   console.log('updateReferalNotificationStatus error ====> ', error);
@@ -198,7 +198,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
 
   private _init() {
     this.programWorkFlowResourceService.getProgramWorkFlows(this.program.programUuid)
-      .subscribe((workflows: any) => {
+      .take(1).subscribe((workflows: any) => {
         this.programWorkflows = workflows.allWorkflows;
         if (this.programWorkflows.length === 0) {
           this.program.isReferring = false;
@@ -209,7 +209,7 @@ export class PatientReferralItemComponent implements OnInit, OnChanges {
           // uuid
           let workflow = _.first(_.filter(this.programWorkflows, (w) => !w.retired ));
           this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflow.uuid)
-            .subscribe((states) => {
+            .take(1).subscribe((states) => {
               this.workflowStates = _.filter(states, (state: any) => {
                 return state.initial &&
                   state.concept.uuid === '0c5565c5-45cf-40ab-aa6d-5694aeabae18';

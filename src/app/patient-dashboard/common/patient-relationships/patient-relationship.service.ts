@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
 import { Relationship } from '../../../models/relationship.model';
 import {
   PatientRelationshipResourceService
@@ -13,13 +12,12 @@ export class PatientRelationshipService {
   public relationshipsSubject: BehaviorSubject<any> = new BehaviorSubject(null);
   public patientToBindRelationship: Patient;
 
-  constructor(private patientService: PatientService,
-              private patientRelationshipResourceService: PatientRelationshipResourceService) {
+  constructor(private patientRelationshipResourceService: PatientRelationshipResourceService) {
   }
 
   public getRelationships(uuid) {
     let relationshipsArr = [];
-    this.patientRelationshipResourceService.getPatientRelationships(uuid).subscribe(
+    this.patientRelationshipResourceService.getPatientRelationships(uuid).take(1).subscribe(
       (relationships) => {
         if (relationships) {
           for (let relationship of relationships) {

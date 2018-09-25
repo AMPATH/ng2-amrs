@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
@@ -30,6 +30,10 @@ describe('FormResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have getForms defined',
     inject([FormsResourceService],
       (formsResourceService: FormsResourceService) => {
@@ -40,7 +44,7 @@ describe('FormResourceService Unit Tests', () => {
     inject([FormsResourceService, MockBackend],
       fakeAsync((formsResourceService: FormsResourceService,
         backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url)
@@ -48,6 +52,7 @@ describe('FormResourceService Unit Tests', () => {
             '(uuid,name),version,published,retired,' +
             'resources:(uuid,name,dataType,valueReference))&q=POC');
         });
+        tick(50);
         expect(formsResourceService.getForms());
       })));
 
@@ -55,7 +60,7 @@ describe('FormResourceService Unit Tests', () => {
     inject([MockBackend, FormsResourceService],
       (backend: MockBackend, formsResourceService: FormsResourceService) => {
         // stubbing
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           let options = new ResponseOptions({
             body: JSON.stringify({
               results: [
@@ -68,7 +73,7 @@ describe('FormResourceService Unit Tests', () => {
         });
 
         formsResourceService.getForms()
-          .subscribe((response: any) => {
+          .take(1).subscribe((response: any) => {
             expect(response).toContain({ name: 'form1' });
             expect(response).toBeDefined();
             expect(response.length).toBeGreaterThan(1);
@@ -80,12 +85,13 @@ describe('FormResourceService Unit Tests', () => {
     inject([FormsResourceService, MockBackend],
       fakeAsync((formsResourceService: FormsResourceService,
         backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url)
             .toContain('/ws/rest/v1/clobdata/form-uuid?v=full');
         });
+        tick(50);
         expect(formsResourceService.getFormClobDataByUuid('form-uuid'));
       })));
 
@@ -93,7 +99,7 @@ describe('FormResourceService Unit Tests', () => {
 
     let formsResourceService: FormsResourceService = TestBed.get(FormsResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
       expect(connection.request.url).toContain('v=');
 
       let options = new ResponseOptions({
@@ -108,7 +114,7 @@ describe('FormResourceService Unit Tests', () => {
     });
 
     formsResourceService.getFormClobDataByUuid('form-uuid')
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         expect(data.uuid).toBeTruthy();
         done();
       });
@@ -119,7 +125,7 @@ describe('FormResourceService Unit Tests', () => {
     inject([FormsResourceService, MockBackend],
       fakeAsync((formsResourceService: FormsResourceService,
         backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url)
@@ -132,7 +138,7 @@ describe('FormResourceService Unit Tests', () => {
 
     let formsResourceService: FormsResourceService = TestBed.get(FormsResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
       expect(connection.request.url).toContain('v=');
 
       let options = new ResponseOptions({
@@ -147,7 +153,7 @@ describe('FormResourceService Unit Tests', () => {
     });
 
     formsResourceService.getFormMetaDataByUuid('form-uuid')
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         expect(data.uuid).toBeTruthy();
         done();
       });

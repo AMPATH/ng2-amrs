@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { SessionService } from './session.service';
 import { AuthenticationService } from './authentication.service';
@@ -45,6 +45,10 @@ describe('AuthenticationService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('it should authenticate user requests', inject([MockBackend,
     SessionStorageService, AuthenticationService],
     (backend: MockBackend, service: SessionStorageService,
@@ -53,7 +57,7 @@ describe('AuthenticationService Unit Tests', () => {
       let username = 'test';
       let password = 'test';
 
-      backend.connections.subscribe((connection: MockConnection) => {
+      backend.connections.take(1).subscribe((connection: MockConnection) => {
         let options = new ResponseOptions({
           body: JSON.stringify({
             authenticated: true,
@@ -64,7 +68,7 @@ describe('AuthenticationService Unit Tests', () => {
       });
 
       authenticationService.authenticate(username, password)
-        .subscribe((response) => {
+        .take(1).subscribe((response) => {
           expect(response.json().authenticated).toEqual(true);
           expect(response.json().user).toBeTruthy();
 
@@ -81,7 +85,7 @@ describe('AuthenticationService Unit Tests', () => {
     (backend: MockBackend, service: SessionStorageService,
       authenticationService: AuthenticationService) => {
 
-      backend.connections.subscribe((connection: MockConnection) => {
+      backend.connections.take(1).subscribe((connection: MockConnection) => {
         let options = new ResponseOptions({
           body: JSON.stringify({})
         });
@@ -89,7 +93,7 @@ describe('AuthenticationService Unit Tests', () => {
       });
 
       authenticationService.logOut()
-        .subscribe((response) => {
+        .take(1).subscribe((response) => {
           expect(response.json()).toEqual({});
 
           expect(service.getItem(Constants.CREDENTIALS_KEY)).toEqual(null);

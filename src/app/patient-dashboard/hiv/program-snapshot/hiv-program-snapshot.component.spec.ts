@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { HivProgramSnapshotComponent } from './hiv-program-snapshot.component';
 import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -24,7 +24,7 @@ class FakeHivSummaryResourceService {
   }
 
   getHivSummary(patientUuid, startIndex, size) {
-    return Observable.of([summaryResult]);
+    return of([summaryResult]);
   }
 }
 
@@ -72,6 +72,10 @@ describe('Component: HivProgramSnapshotComponent', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', (done) => {
     expect(component).toBeTruthy();
     done();
@@ -89,7 +93,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
   it('should set patient data and location when `getHivSummary` is called',
     inject([AppSettingsService, HivSummaryResourceService, MockBackend],
       (s: AppSettingsService, hs: HivSummaryResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           connection.mockRespond(new Response(
             new ResponseOptions({
                 body: {results: [{uuid: '123'}]}
@@ -105,7 +109,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
   it('should return a list locations',
     inject([AppSettingsService, MockBackend],
       (s: AppSettingsService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.url).toEqual('openmrs-url/ws/rest/v1/location?v=default');
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -113,7 +117,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
               }
             )));
         });
-        component.getLocation().subscribe((result) => {
+        component.getLocation().take(1).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual([{uuid: '123'}]);
         });

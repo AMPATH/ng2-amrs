@@ -89,7 +89,7 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public subscribeToVisitsServiceEvents() {
     this.todayVisitService.visitsEvents
-      .subscribe((event: VisitsEvent) => {
+      .take(1).subscribe((event: VisitsEvent) => {
         switch (event) {
           case VisitsEvent.VisitsLoadingStarted:
             this.onProgramVisitsLoadingStarted();
@@ -183,7 +183,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
     this.todayVisitService.getProgramVisits()
-      .subscribe(() => { }, (error) => { });
+      .take(1).subscribe(() => { }, (error) => { });
   }
 
   public get programIsOnReferral() {

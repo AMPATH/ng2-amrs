@@ -65,6 +65,10 @@ describe('ClinicLabOrdersResourceService Tests', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined',
     inject([ClinicLabOrdersResourceService], (s: ClinicLabOrdersResourceService) => {
       expect(s).toBeTruthy();
@@ -80,7 +84,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
   it('should return a list containing clinic lab orders for a given date',
     inject([ClinicLabOrdersResourceService, MockBackend],
       (s: ClinicLabOrdersResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/etl/clinic-lab-orders');
           expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
@@ -99,7 +103,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
           startDate: '2017-02-01',
           locationUuids: 'uuid',
           endDate: '2017-02-01',
-        }).subscribe((result) => {
+        }).take(1).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(expectedResults.result);
         });

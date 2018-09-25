@@ -70,6 +70,10 @@ describe('Service :  Data Entry Statictics Service', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([DataEntryStatisticsService], (d: DataEntryStatisticsService) => {
             expect(d).toBeTruthy();
@@ -79,7 +83,7 @@ describe('Service :  Data Entry Statictics Service', () => {
     it('should call the correct data entry stats url',
         inject([DataEntryStatisticsService, MockBackend],
             (d: DataEntryStatisticsService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('data-entry-statistics');
                 });

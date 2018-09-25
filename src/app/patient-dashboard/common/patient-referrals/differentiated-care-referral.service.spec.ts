@@ -2,8 +2,7 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { of,  Subject } from 'rxjs';
 
 import * as moment from 'moment';
 
@@ -22,6 +21,10 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
         HttpModule
       ]
     });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should inject the differentiated care referral service', () => {
@@ -57,13 +60,13 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
               }]
             }
           );
-          return Observable.of(payload);
+          return of(payload);
         }
       );
 
       service.createDifferentiatedCareEncounter('patient-uuid', 'provider-uuid',
         encounterDate, rtcDate, 'location-uuid')
-        .subscribe((createdEncounter) => {
+        .take(1).subscribe((createdEncounter) => {
           expect(postEncounterSpy.calls.count()).toBe(1);
           done();
         }, (error) => {
@@ -88,13 +91,13 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
             dateEnrolled: service.toOpenmrsDateFormat(encounterDate)
           }
         );
-        return Observable.of(payload);
+        return of(payload);
       }
     );
 
     service.enrollPatientToDifferentiatedCare('patient-uuid', encounterDate,
       'location-uuid')
-      .subscribe((enrollment) => {
+      .take(1).subscribe((enrollment) => {
         expect(postEnrollmentSpy.calls.count()).toBe(1);
         done();
       }, (error) => {
@@ -191,12 +194,12 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
               dateCompleted: service.toOpenmrsDateFormat(dateCompleted)
             }
           );
-          return Observable.of(payload);
+          return of(payload);
         }
       );
 
       service.endProgramEnrollment('some-uuid', dateCompleted)
-        .subscribe((enrollment) => {
+        .take(1).subscribe((enrollment) => {
           expect(postEnrollmentSpy.calls.count()).toBe(1);
           done();
         }, (error) => {
@@ -232,14 +235,14 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
     let endProgEnrollmentSpy = spyOn(service, 'endProgramEnrollment')
       .and.callFake((uuid, date) => {
-        return Observable.of({
+        return of({
           uuid: uuid,
           dateCompleted: date
         });
       });
 
     service.endProgramEnrollments(samplePrograms, dateCompleted)
-      .subscribe((results) => {
+      .take(1).subscribe((results) => {
         expect(endProgEnrollmentSpy.calls.count()).toBe(2);
         expect(endProgEnrollmentSpy.calls.allArgs()).toEqual([
           ['uuid-1', dateCompleted],
@@ -321,7 +324,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
       let sub = service.referToDifferentiatedCare(patient,
         'provider-uuid', encounterDate, rtcDate, 'location-uuid');
-      sub.subscribe((status) => {
+      sub.take(1).subscribe((status) => {
         // console.log('status', status);
 
         expect(hasActiveSpy.calls.count()).toBe(1);

@@ -1,12 +1,12 @@
 import { LocalStorageService } from './../../utils/local-storage.service';
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {
   ClinicDashboardCacheService
 } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'daily-schedule-appointments',
@@ -40,9 +40,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     return this._data.getValue();
   }
   private _data = new BehaviorSubject<any>([]);
-  private currentClinicSubscription: Subscription;
-  private selectedDateSubscription: Subscription;
-  private appointmentSubscription: Subscription;
+  private subs: Subscription[] = [];
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
               private localStorageService: LocalStorageService,
@@ -53,11 +51,11 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     this.filterSelected();
     this.selectedDate = Moment().format('YYYY-MM-DD');
 
-    this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedClinic = location;
         if (this.selectedClinic) {
-          this.selectedDateSubscription = this.clinicDashboardCacheService.
+          const dateSub = this.clinicDashboardCacheService.
             getDailyTabCurrentDate().subscribe((date) => {
             if ( this.loadingDailyAppointments === false) {
               this.selectedDate = date;
@@ -67,12 +65,16 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
             }
 
           });
+
+          this.subs.push(dateSub);
         }
 
       });
 
+    this.subs.push(sub);
+
     // get the current page url and params
-    this.route
+    const routeSub = this.route
       .queryParams
       .subscribe((params) => {
         if (params) {
@@ -82,7 +84,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
             it has been already fetched
             */
 
-          }else {
+          } else {
             this.initParams();
             let searchParams = this.getQueryParams();
             this.getDailyAppointments(searchParams);
@@ -90,19 +92,14 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
           this.fetchCount++;
         }
       });
+
+      this.subs.push(routeSub);
   }
 
   public ngOnDestroy(): void {
-    if (this.currentClinicSubscription) {
-      this.currentClinicSubscription.unsubscribe();
-    }
-    if (this.selectedDateSubscription) {
-      this.selectedDateSubscription.unsubscribe();
-    }
-    if (this.appointmentSubscription) {
-      this.appointmentSubscription.unsubscribe();
-    }
-
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public getDailyAppointments(params) {
@@ -114,7 +111,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null daily appointments observable');
     } else {
-      this.appointmentSubscription = result.subscribe(
+      result.take(1).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.dailyAppointmentsPatientList = this.dailyAppointmentsPatientList.concat(

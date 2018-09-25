@@ -8,7 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { DraftedFormsService } from './drafted-forms.service';
-import { Form } from 'ng2-openmrs-formentry';
+import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 describe('Drafted Forms Service:', () => {
 
@@ -22,6 +22,10 @@ describe('Drafted Forms Service:', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be injected ', () => {
         let service = TestBed.get(DraftedFormsService);
         expect(service).toBeTruthy();
@@ -31,7 +35,7 @@ describe('Drafted Forms Service:', () => {
         let service = TestBed.get(DraftedFormsService);
 
         let sampleForm: Form = new Form(null, null, null);
-        service.draftedForm.subscribe(form => {
+        service.draftedForm.take(1).subscribe(form => {
             if (form) {
                 expect(service.lastDraftedForm).toBe(sampleForm);
                 expect(form).toBe(sampleForm);

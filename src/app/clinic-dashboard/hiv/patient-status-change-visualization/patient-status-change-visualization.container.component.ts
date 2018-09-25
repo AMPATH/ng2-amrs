@@ -31,7 +31,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   public cumulativeAnalysis: any = {};
   public monthlyAnalysisResults = this.results;
   public monthlyAnalysis: any = {};
-  public subscription = new Subscription();
+  public subs: Subscription[] = [];
   public cohortAnalysisResults = this.results;
   public cohortAnalysis: any = {};
 
@@ -72,7 +72,9 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subs.forEach(element => {
+      element.unsubscribe();
+    });
   }
 
   public handleTabChange(e) {
@@ -117,7 +119,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
   public loadCumulativeAnalysis(event) {
     let analysisType = 'cumulativeAnalysis';
-    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .flatMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
@@ -135,11 +137,12 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
       }, (error) => {
         this.triggerBusyIndicators(analysisType, false, true);
       });
+    this.subs.push(sub);
   }
 
   public loadMonthlyAnalysis(event) {
     let analysisType = 'monthlyAnalysis';
-    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .flatMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
@@ -157,11 +160,12 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
       }, (error) => {
         this.triggerBusyIndicators(analysisType, false, true);
       });
+      this.subs.push(sub);
   }
 
   public loadCohortAnalysis(event) {
     let analysisType = 'cohortAnalysis';
-    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .flatMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
@@ -179,6 +183,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
       }, (error) => {
         this.triggerBusyIndicators(analysisType, false, true);
       });
+    this.subs.push(sub);
   }
 
   private triggerBusyIndicators(view, showBusyIndicator, hasError: boolean): void {

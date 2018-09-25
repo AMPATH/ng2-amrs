@@ -3,7 +3,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
 import { PatientService } from '../../services/patient.service';
@@ -18,11 +18,11 @@ export class FakeTranslatePipe implements PipeTransform {
 }
 describe('Component: Lab Results Unit Tests', () => {
   let fakePatientService = {
-    currentlyLoadedPatient: Observable.of({ uuid: '', person: { uuid: 'person_uuid' } })
+    currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'person_uuid' } })
 };
   let fakeLabsServiceName = {
     getHistoricalPatientLabResults: (args) => {
-      return Observable.of(
+      return of(
         [
           {
             ast: null,
@@ -83,9 +83,13 @@ describe('Component: Lab Results Unit Tests', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined', inject([LabsResourceService],
     (service: LabsResourceService) => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
     }));
   /*it('should render result table when there are new results',
     inject([LabsResourceService, PatientService],

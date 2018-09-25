@@ -16,7 +16,7 @@
 <div *ngIf="experiencedLoadingError" class="alert alert-danger">
   <p>Sorry, an error occured while fetching!</p>
 </div>
-<div [ngBusy]="isBusy"></div>
+<!-- <div [ngBusy]="isBusy"></div> -->
 <div *ngIf="hasNotes">
   <table class="table table-container">
     <tr *ngFor="let note of notes" class="note-table-row">

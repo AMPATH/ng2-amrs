@@ -3,7 +3,7 @@ import {
   Output
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -16,7 +16,7 @@ import { User } from '../../../models/user.model';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { RetrospectiveDataEntryService } from '../../services/retrospective-data-entry.service';
-import { PatientService } from '../../../patient-dashboard/services/patient.service';
+// import { PatientService } from '../../../patient-dashboard/services/patient.service';
 import { Subject, Observable } from 'rxjs';
 
 @Component({
@@ -51,7 +51,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
               private providerResourceService: ProviderResourceService,
               private localStorageService: LocalStorageService,
               private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              private patientService: PatientService,
+              // private patientService: PatientService,
               private cdRef: ChangeDetectorRef,
               private userService: UserService) {
     this.user = this.userService.getLoggedInUser();
@@ -73,7 +73,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   public fetchLocationOptions() {
     this.propertyLocationService.getLocations().map((response: Response) => {
       return response.json();
-    }).subscribe((locations: any) => {
+    }).take(1).subscribe((locations: any) => {
       this.locations = locations.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);
@@ -89,7 +89,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     }
 
     let findProvider = this.providerResourceService.searchProvider(term, false);
-    findProvider.subscribe(
+    findProvider.take(1).subscribe(
       (providers) => {
         this.processProviders(providers);
       },
@@ -100,7 +100,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     return findProvider;
   }
 
-  public saveRetroState(state: MdCheckboxChange) {
+  public saveRetroState(state: MatCheckboxChange) {
     this.enableRetro = state.checked;
     this.retrospectiveDataEntryService.updateProperty('enableRetro', state.checked);
     if (!this.enableRetro) {
@@ -195,7 +195,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   private _init() {
     this.isLoading = false;
-    this.propertyLocationService.locationSubject.subscribe((item: any) => {
+    this.propertyLocationService.locationSubject.take(1).subscribe((item: any) => {
       if (item) {
         if (this.enableRetro) {
           let retroLocation = this.retrospectiveDataEntryService
@@ -207,7 +207,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
         this.currentLocation = JSON.parse(item);
       }
     });
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.take(1).subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
         if (!_.isNull(retroSettings.error)) {
           this.error = JSON.parse(retroSettings.error);
@@ -235,12 +235,12 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
       this.suggest.debounceTime(500)
         .switchMap((term) => this.providerResourceService.searchProvider(term))
-        .subscribe((data) => {
+        .take(1).subscribe((data) => {
           this.processProviders(data);
           this.cdRef.detectChanges();
         });
 
-      /*this.suggest.debounceTime(200).distinctUntilChanged().subscribe((term) => {
+      /*this.suggest.debounceTime(200).distinctUntilChanged().take(1).subscribe((term) => {
         if (!_.isNull(term)) {
             this.fetchProviderOptions(term);
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
 import { CdmSummaryResourceService } from '../../../etl-api/cdm-summary-resource.service';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   selector: 'cdm-summary-latest',
   templateUrl: './cdm-summary-latest.component.html'
 })
-export class CdmSummaryLatestComponent implements OnInit {
+export class CdmSummaryLatestComponent implements OnInit, OnDestroy {
   public loadingCdmSummary: boolean = false;
   public subscription: Subscription;
   public patient: Patient;
@@ -25,9 +25,15 @@ export class CdmSummaryLatestComponent implements OnInit {
     this.getPatient();
   }
 
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   public getPatient() {
     this.loadingCdmSummary = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
       (patient) => {
         if (patient) {
           this.loadingCdmSummary = false;
@@ -46,7 +52,7 @@ export class CdmSummaryLatestComponent implements OnInit {
 
   public loadCdmSummary(patientUuid) {
     this.cdmSummaryService.getCdmSummary(patientUuid, 0, 1, false)
-    .subscribe((data) => {
+    .take(1).subscribe((data) => {
       if (data) {
         for (let summary of data){
           if ( summary.is_clinical_encounter === 1) {

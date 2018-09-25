@@ -135,6 +135,10 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([ClinicalSummaryVisualizationResourceService],
             (s: ClinicalSummaryVisualizationResourceService) => {
@@ -178,7 +182,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
     it('should return Hiv Comparative Overview Report',
         inject([ClinicalSummaryVisualizationResourceService, MockBackend],
             (s: ClinicalSummaryVisualizationResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-hiv-comparative-overview?startIndex=0&endDate='
@@ -192,7 +196,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                         )));
                 });
 
-                s.getHivComparativeOverviewReport(reportParams).subscribe((result) => {
+                s.getHivComparativeOverviewReport(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedComparativeResults);
                 });
@@ -202,7 +206,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
     it('should return Hiv Comparative Overview Report Patient List',
         inject([ClinicalSummaryVisualizationResourceService, MockBackend],
             (s: ClinicalSummaryVisualizationResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-hiv-comparative-overview/patient-list?startIndex=0'
@@ -216,7 +220,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                         )));
                 });
 
-                s.getHivComparativeOverviewPatientList(reportParams).subscribe((result) => {
+                s.getHivComparativeOverviewPatientList(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(patientList.result);
                 });
@@ -227,7 +231,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
     it('should return clinical-art-overview Report',
         inject([ClinicalSummaryVisualizationResourceService, MockBackend],
             (s: ClinicalSummaryVisualizationResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-art-overview?startIndex=0&endDate='
@@ -241,7 +245,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                         )));
                 });
 
-                s.getArtOverviewReport(reportParams).subscribe((result) => {
+                s.getArtOverviewReport(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedArtResults);
                 });
@@ -251,7 +255,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
     it('should return clinical-art-overview Report Patient List',
         inject([ClinicalSummaryVisualizationResourceService, MockBackend],
             (s: ClinicalSummaryVisualizationResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-art-overview/patient-list?startIndex=0'
@@ -265,7 +269,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                         )));
                 });
 
-                s.getArtOverviewReportPatientList(reportParams).subscribe((result) => {
+                s.getArtOverviewReportPatientList(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(patientList.result);
                 });
@@ -275,7 +279,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
     it('should return clinical-patient-care-status-overview Report',
         inject([ClinicalSummaryVisualizationResourceService, MockBackend],
             (s: ClinicalSummaryVisualizationResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-patient-care-status-overview?startIndex=0&endDate='
@@ -289,7 +293,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                         )));
                 });
 
-                s.getPatientCareStatusReport(reportParams).subscribe((result) => {
+                s.getPatientCareStatusReport(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedPatientCareResults);
                 });
@@ -299,7 +303,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
     it('should return clinical-patient-care-status-overview Report Patient List',
         inject([ClinicalSummaryVisualizationResourceService, MockBackend],
             (s: ClinicalSummaryVisualizationResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                         + '/etl/clinical-patient-care-status-overview/patient-list?startIndex=0'
@@ -313,7 +317,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                         )));
                 });
 
-                s.getPatientCareStatusReportList(reportParams).subscribe((result) => {
+                s.getPatientCareStatusReportList(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(patientList.result);
                 });

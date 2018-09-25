@@ -109,6 +109,10 @@ describe('DefaulterListResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([DefaulterListResourceService], (s: DefaulterListResourceService) => {
             expect(s).toBeTruthy();
@@ -126,7 +130,7 @@ describe('DefaulterListResourceService Tests', () => {
         + ' date range and location ',
         inject([DefaulterListResourceService, MockBackend],
             (s: DefaulterListResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/defaulter-list');
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
@@ -146,7 +150,7 @@ describe('DefaulterListResourceService Tests', () => {
                     startIndex: undefined,
                     locationUuids: 'uuid',
                     limit: undefined
-                }).subscribe((result) => {
+                }).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedResults.result);
                 });

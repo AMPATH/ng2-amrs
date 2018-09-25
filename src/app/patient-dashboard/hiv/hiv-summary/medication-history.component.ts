@@ -23,7 +23,7 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
 
   public fetchMedicationHistory(report, patientUuid): void {
     this.medicationHistoryResourceService.getReport(report, patientUuid)
-      .subscribe(
+      .take(1).subscribe(
       (medication) => {
         this.encounters = this.convertPreviousVlValueTostring(medication.result);
       }

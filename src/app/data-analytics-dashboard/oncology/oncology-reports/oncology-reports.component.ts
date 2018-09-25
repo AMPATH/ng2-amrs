@@ -30,7 +30,7 @@ export class OncologyReportsComponent implements OnInit {
 
   public getOncologyReports() {
      this._oncologyReportService.getOncologyReports()
-        .subscribe((result) => {
+        .take(1).subscribe((result) => {
            this.oncologyReports = result;
         });
   }

@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -48,7 +48,7 @@ describe('Service: HivSummary', () => {
 
 
   it('should load hiv summary', (done) => {
-    result.subscribe((results) => {
+    result.take(1).subscribe((results) => {
       if (results) {
       expect(results).toBeTruthy();
        expect(results.length).toBeGreaterThan(0);
@@ -66,7 +66,7 @@ describe('Service: HivSummary', () => {
     let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
     let startIndex = 0;
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
@@ -76,7 +76,7 @@ describe('Service: HivSummary', () => {
     });
 
     service.getHivSummary(patientUuid, 0, 20)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
     },
       (error: Error) => {
         expect(error).toBeTruthy();
@@ -96,7 +96,7 @@ describe('Service: HivSummary', () => {
         }
       ];
 
-      result.subscribe((results) => {
+      result.take(1).subscribe((results) => {
         if (results) {
         expect(JSON.stringify(results.isPendingViralLoad))
           .toContain(JSON.stringify(isPendingViralLoadMock));
@@ -117,7 +117,7 @@ describe('Service: HivSummary', () => {
         }
       ];
 
-      result.subscribe((results) => {
+      result.take(1).subscribe((results) => {
         if (results) {
         expect(JSON.stringify(results.isPendingCD4))
           .toContain(JSON.stringify(isPendingCD4Mock));

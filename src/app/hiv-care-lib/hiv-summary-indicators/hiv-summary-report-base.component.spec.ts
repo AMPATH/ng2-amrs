@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { HivSummaryIndicatorBaseComponent } from './hiv-summary-report-base.component';
 import { ReportFiltersComponent } from '../../shared/report-filters/report-filters.component';
 import {
@@ -49,6 +49,10 @@ describe('HivSummaryIndicatorBaseComponent:', () => {
       comp = fixture.componentInstance;
     });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should be injected', () => {
     fixture.detectChanges();

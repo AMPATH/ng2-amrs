@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import {  BaseRequestOptions, Http, HttpModule, Response,
   ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -35,6 +35,10 @@ describe('Service: OnlineTracker', () => {
     });
     onlineTrackerService = TestBed.get(OnlineTrackerService);
     sessionServiceSpy = TestBed.get(SessionService);
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create an instance', () => {

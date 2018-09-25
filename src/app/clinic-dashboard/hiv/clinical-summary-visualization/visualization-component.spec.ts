@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { SelectModule } from 'ng2-openmrs-formentry/dist/components/select';
-import { BusyModule } from 'angular2-busy';
+import { NgBusyModule } from 'ng-busy';
 
 import {
   DashboardFiltersComponent
@@ -167,7 +167,7 @@ describe('Component: VisualizationComponent', () => {
         NgamrsSharedModule,
         CommonModule,
         AgGridModule,
-        BusyModule,
+        NgBusyModule,
         GrowlModule,
         PanelModule,
         TabViewModule,
@@ -227,7 +227,7 @@ describe('Component: VisualizationComponent', () => {
 
     dateComponent.updateStartDate(moment([2016, 2, 23]).format());
     dateComponent.updateEndDate(moment([2017, 2, 23]).format());
-    dateComponent.onDateChange.subscribe((v) => {
+    dateComponent.onDateChange.take(1).subscribe((v) => {
       setTimeout(() => {
         dashboardFiltersComponent.onDateChanged(v);
       }, 100);
@@ -239,7 +239,7 @@ describe('Component: VisualizationComponent', () => {
       gender_select: false
     };
 
-    dashboardFiltersComponent.filterModelChange.subscribe((vv) => {
+    dashboardFiltersComponent.filterModelChange.take(1).subscribe((vv) => {
       setTimeout(() => {
         expect(moment(currentTestComponent.filterModel.startDate)
           .format('DD/MM/YYYY')).toBe('23/03/2016');
