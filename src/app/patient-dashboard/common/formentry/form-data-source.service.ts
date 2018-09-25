@@ -10,14 +10,16 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import * as _ from 'lodash';
-
+import * as Moment from 'moment';
+import { ZscoreService } from '../../../shared/services/zscore.service';
 @Injectable()
 export class FormDataSourceService {
 
   constructor(private providerResourceService: ProviderResourceService,
               private locationResourceService: LocationResourceService,
               private conceptResourceService: ConceptResourceService,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private zscoreService: ZscoreService) {
   }
 
   public getDataSources() {
@@ -239,8 +241,18 @@ export class FormDataSourceService {
     let model: object = {};
     let gender = patient.person.gender;
     let age = patient.person.age;
+    let birthdate = patient.person.birthdate;
     model['sex'] = gender;
     model['age'] = age;
+    model['birthdate'] = birthdate;
+
+    // zscore calculations addition
+    // reference date to today
+    const refDate = new Date();
+    const zscoreRef = this.zscoreService.getZRefByGenderAndAge(gender, birthdate, refDate);
+    model['weightForHeightRef'] = zscoreRef.weightForHeightRef;
+    model['heightForAgeRef'] = zscoreRef.heightForAgeRef;
+    model['bmiForAgeRef'] = zscoreRef.bmiForAgeRef;
 
     // define gender based constant:
     if (gender === 'F') {
@@ -404,4 +416,5 @@ export class FormDataSourceService {
     let sourcekey = 'cachedproviders';
     this.localStorageService.setObject(sourcekey, searchProviderResults);
   }
+
 }

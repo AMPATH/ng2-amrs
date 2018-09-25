@@ -117,8 +117,7 @@ import {
   OrderByAlphabetPipe
 } from './visit-encounters/visit-encounter.component.order.pipe';
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
-import { EncounterTypeFilter } from
-  './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
+import { EncounterTypeFilter } from './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { LabOrderSearchModule } from '../../lab-order-search/lab-order-search.module';
@@ -139,6 +138,7 @@ import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
 import { ProgramManagerModule } from '../../program-manager/program-manager.module';
+import { ZscoreService } from '../../shared/services/zscore.service';
 
 @NgModule({
   imports: [
@@ -310,6 +310,7 @@ import { ProgramManagerModule } from '../../program-manager/program-manager.modu
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,
     PatientCareStatusResourceService,
+    ZscoreService,
     {
       provide: Http,
       useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
