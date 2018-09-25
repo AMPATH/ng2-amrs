@@ -44,7 +44,10 @@
     <div class="row clearfix">
       <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
       <span>{{ patient?.person.gender}}</span>
-      <span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span></span>
+      <span>{{ birthdate }} 
+        <span *ngIf="birthdate && patient?.person.age>=18">({{ patient?.person.age }} yo)</span>
+        <span *ngIf="birthdate && patient?.person.age<18">({{ formattedPatientAge }} )</span>
+      </span>
       <span *ngIf="patient?.person.dead">Died on <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
       <span style="margin-left:0px;">
 			<span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span> {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>

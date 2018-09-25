@@ -38,17 +38,17 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getTodaysVitals(patientUuid) {
-
+  public getTodaysVitals(patient: Patient) {
+   const patientUuid = patient.person.uuid;
     this.resetVariables();
 
     this._encounterResourceService.getEncountersByPatientUuid(patientUuid).
     subscribe((encounters) => {
         this.todaysVitals = [];
-        let todaysEncounters = this.getTodaysEncounters(encounters);
+        const todaysEncounters = this.getTodaysEncounters(encounters);
         this.getTodaysEncounterDetails(todaysEncounters)
         .then((encounterDetails) => {
-          this.vitalService.getTodaysVitals(encounterDetails)
+          this.vitalService.getTodaysVitals(patient, encounterDetails)
            .then( (data: any) => {
              if (data) {
                  this.loadingTodaysVitals = false;
@@ -132,7 +132,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     this.currentPatientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
-          this.getTodaysVitals(patient.person.uuid);
+          this.getTodaysVitals(patient);
         }
       }
     );
