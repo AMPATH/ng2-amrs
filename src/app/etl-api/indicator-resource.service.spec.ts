@@ -1,6 +1,6 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { IndicatorResourceService } from './indicator-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -32,6 +32,10 @@ describe('IndicatorResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have getIndicators defined',
     inject([IndicatorResourceService],
       (indicatorResourceService: IndicatorResourceService) => {
@@ -41,11 +45,12 @@ describe('IndicatorResourceService Unit Tests', () => {
   it('should make API call with correct URL',
     inject([IndicatorResourceService, MockBackend],
       fakeAsync((indicatorResourceService: IndicatorResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/indicators-schema?report=reportName');
         });
+        tick(50);
         expect(indicatorResourceService.getReportIndicators({ report: 'reportName' }));
       })));
 
@@ -53,7 +58,7 @@ describe('IndicatorResourceService Unit Tests', () => {
     inject([MockBackend, IndicatorResourceService],
       (backend: MockBackend, indicatorResourceService: IndicatorResourceService) => {
         // stubbing
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           let options = new ResponseOptions({
             body: JSON.stringify({
               result: [
@@ -66,7 +71,7 @@ describe('IndicatorResourceService Unit Tests', () => {
         });
 
         indicatorResourceService.getReportIndicators({ report: 'reportName' })
-          .subscribe((response) => {
+          .take(1).subscribe((response) => {
             expect(response).toContain({ name: 'Indicator1' });
             expect(response).toBeDefined();
             expect(response['length']).toBeGreaterThan(1);

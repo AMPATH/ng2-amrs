@@ -138,6 +138,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public set selectedIndicators(v: Array<any>) {
     this._indicators = v;
+    console.log('SELECTED INDICATORS', v);
     this.onIndicatorChange.emit(this._indicators);
   }
   @Input()
@@ -217,7 +218,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
    public getCachedLocations() {
       if (this._report === 'hiv-summary-report') {
-        this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().subscribe(
+        this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().take(1).subscribe(
           (data)  => {
             if (data) {
               this.locations = data.locations;
@@ -225,14 +226,14 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
           });
       } else if (this._report === 'hiv-summary-monthly-report' ||
       this._report === 'oncology-summary-monthly-report') {
-        this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
+        this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().take(1).subscribe(
           (data)  => {
             if (data) {
               this.locations = data.locations;
             }
           });
       } else {
-        this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+        this.dataAnalyticsDashboardService.getSelectedLocations().take(1).subscribe(
           (data)  => {
             if (data) {
               this.locations = data.locations;
@@ -250,7 +251,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     let indicators = [];
     this.indicatorResourceService.getReportIndicators({
      report: this.reportName
-   }).subscribe(
+   }).take(1).subscribe(
      (results: any[]) => {
 
        for (let data of results) {
@@ -272,7 +273,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
   public getPrograms() {
     let programs = [];
-    this.programResourceService.getPrograms().subscribe(
+    this.programResourceService.getPrograms().take(1).subscribe(
       (results: any[]) => {
 
           for (let data of results) {
@@ -306,7 +307,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
 
     let programs = [];
     if (selectedProgram) {
-    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram.value).subscribe(
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram.value).take(1).subscribe(
       (results) => {
         let workflows = _.get(results, 'allWorkflows');
         if (workflows.length > 0) {

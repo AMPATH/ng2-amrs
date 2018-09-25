@@ -32,6 +32,10 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined', async(inject(
     [PatientRelationshipTypeResourceService, MockBackend], (service, mockBackend) => {
 
@@ -66,7 +70,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     let backend: MockBackend = TestBed.get(MockBackend);
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toEqual('http://example.url.com/ws/rest/v1/relationshiptype?v=full');
@@ -79,7 +83,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
 
     s.getPatientRelationshipTypes()
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
   });

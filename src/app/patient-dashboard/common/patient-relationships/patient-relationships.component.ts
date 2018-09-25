@@ -45,7 +45,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
           this.patientUuid = patient.person.uuid;
           let request = this.patientRelationshipService.getRelationships(this.patientUuid);
           request
-            .subscribe(
+            .take(1).subscribe(
             (relationships) => {
               if (relationships) {
                 this.relationships = relationships;
@@ -66,10 +66,10 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
 
   public voidRelationship() {
     if (this.selectedRelationshipUuid) {
-      this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).subscribe(
+      this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).take(1).subscribe(
         (success) => {
           if (success) {
-            this.patientService.fetchPatientByUuid(this.patientUuid);
+            this.patientService.reloadCurrentPatient();
             this.displayConfirmDialog = false;
             this.displaySuccessAlert('Relationship deleted successfully');
           }

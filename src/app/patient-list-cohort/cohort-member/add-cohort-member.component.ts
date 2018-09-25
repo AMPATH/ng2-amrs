@@ -113,7 +113,7 @@ export class AddCohortMemberComponent implements OnInit {
 
         this.cohortMemberResource.addCohortMember(cohortUuid, {
             patient: patientUuid
-        }).subscribe(
+        }).take(1).subscribe(
             (saved) => {
                 this.isBusy = false;
                 this.saved.next();
@@ -143,7 +143,7 @@ export class AddCohortMemberComponent implements OnInit {
 
     public resolveCohortUuidToCohort() {
         this.cohortResourceService.getCohort(this._cohortUuid, 'ref')
-            .subscribe((cohort) => {
+            .take(1).subscribe((cohort) => {
                 this.cohort = cohort;
             },
             (error) => {
@@ -155,7 +155,7 @@ export class AddCohortMemberComponent implements OnInit {
 
     public resolvePatientUuidToPatient() {
         this.patientResourceService.getPatientByUuid(this._patientUuid, true)
-            .subscribe((patient) => {
+            .take(1).subscribe((patient) => {
                 this.patient = new Patient(patient);
             }, (error) => {
                 console.error('Error occured while resolving patient', error);

@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { PatientSearchService } from './patient-search.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
@@ -36,7 +36,7 @@ describe('Service: PatientSearch', () => {
     let service: PatientSearchService = TestBed.get(PatientSearchService);
     let result = service.searchPatient('text', false);
 
-    result.subscribe((results) => {
+    result.take(1).subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');
@@ -54,7 +54,7 @@ describe('Service: PatientSearch', () => {
     fakeRes.returnErrorOnNext = true;
     let results = service.searchPatient('text', false);
 
-    results.subscribe((result) => {
+    results.take(1).subscribe((result) => {
     },
       (error) => {
         // when it gets here, then it returned an error

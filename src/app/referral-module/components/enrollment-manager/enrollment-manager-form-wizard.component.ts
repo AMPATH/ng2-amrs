@@ -31,7 +31,7 @@ export class EnrollmentManagerFormWizardComponent implements OnInit, OnDestroy {
   public hasForms: boolean = false;
   public hasError: boolean = false;
   public allFormsFilled: boolean = false;
-  private subscription: Subscription;
+  private subscription: Subscription[] = [];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -46,9 +46,13 @@ export class EnrollmentManagerFormWizardComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     // this.onFormsCompleted.emit(true);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.cleanUp();
+  }
+
+  public cleanUp() {
+    this.subscription.forEach(element => {
+      element.unsubscribe();
+    });
   }
 
   public fillForm(form) {
@@ -70,11 +74,11 @@ export class EnrollmentManagerFormWizardComponent implements OnInit, OnDestroy {
   }
 
   private _init() {
-    this.subscription = this.patientReferralService.getProcessPayload().subscribe((stateChange) => {
+    const sub1 = this.patientReferralService.getProcessPayload().subscribe((stateChange) => {
       if (!stateChange) {
           this.router.navigate(['..'], {relativeTo: this.route});
       } else {
-        this.subscription = this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+        const sub2 = this.patientService.currentlyLoadedPatient.subscribe((patient) => {
             if (patient !== null) {
               this.patient = patient;
               this.hasError = false;
@@ -85,19 +89,22 @@ export class EnrollmentManagerFormWizardComponent implements OnInit, OnDestroy {
             }
           });
 
+          this.subscription.push(sub2);
+
       }
     }, (err) => {
       console.log(err);
       this.hasError = true;
     });
+    this.subscription.push(sub1);
   }
 
   private _filterForms(stateChange: any) {
     this.isBusy = true;
-    this.subscription = this.formListService.getFormList().subscribe((forms: any[]) => {
+    this.formListService.getFormList().take(1).subscribe((forms: any[]) => {
       if (forms.length > 0) {
-        this.subscription = this.patientReferralService.getPatientEncounters(this.patient)
-          .subscribe((encounters) => {
+        this.patientReferralService.getPatientEncounters(this.patient)
+          .take(1).subscribe((encounters) => {
             // pick today's encounters to remove already filled forms
             let lastFilledEncounters =
               this.patientReferralService.pickEncountersByLastFilledDate(encounters,

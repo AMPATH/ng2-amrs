@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DashboardFiltersComponent } from './dashboard-filters.component';
@@ -62,7 +62,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
 
 }
 
-describe('Component: DashboardFiltersComponent', () => {
+ describe('Component: DashboardFiltersComponent', () => {
   let parentComponent: DashboardFiltersComponent;
   let parentFixture;
   beforeEach(() => {
@@ -104,6 +104,10 @@ describe('Component: DashboardFiltersComponent', () => {
     parentComponent = parentFixture.componentInstance;
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have a defined component', () => {
     expect(parentComponent).toBeDefined();
   });
@@ -116,7 +120,7 @@ describe('Component: DashboardFiltersComponent', () => {
     component.updateStartDate(moment([2016, 2, 22]).format());
     component.updateEndDate(moment([2017, 2, 22]).format());
     fixture.detectChanges();
-    component.onDateChange.subscribe((v) => {
+    component.onDateChange.take(1).subscribe((v) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         parentComponent.onDateChanged(v);
@@ -129,7 +133,7 @@ describe('Component: DashboardFiltersComponent', () => {
       gender_select: false
     };
     parentFixture.detectChanges();
-    parentComponent.filterModelChange.subscribe((vv) => {
+    parentComponent.filterModelChange.take(1).subscribe((vv) => {
       setTimeout(() => {
         expect(moment(parentComponent.filterModel.startDate)
           .format('DD/MM/YYYY')).toBe('22/03/2016');
@@ -146,7 +150,7 @@ describe('Component: DashboardFiltersComponent', () => {
     let component = fixture.componentInstance;
     expect(component.selectedGender.length).toEqual(0);
     component.onGenderSelected(['F']);
-    component.onGenderChange.subscribe((gender) => {
+    component.onGenderChange.take(1).subscribe((gender) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         expect(component.selectedGender.length).toEqual(1);
@@ -161,7 +165,7 @@ describe('Component: DashboardFiltersComponent', () => {
       gender_select: true
     };
     fixture.detectChanges();
-    parentComponent.filterModelChange.subscribe((vv) => {
+    parentComponent.filterModelChange.take(1).subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.gender).toBeDefined();
         expect(parentComponent.filterModel.gender[0]).toEqual('F');
@@ -176,7 +180,7 @@ describe('Component: DashboardFiltersComponent', () => {
     let component = fixture.componentInstance;
     expect(component.selectedIndicators.length).toEqual(0);
     component.onIndicatorSelected(['indicator']);
-    component.onIndicatorChange.subscribe((indicators) => {
+    component.onIndicatorChange.take(1).subscribe((indicators) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         expect(component.selectedIndicators.length).toEqual(1);
@@ -190,7 +194,7 @@ describe('Component: DashboardFiltersComponent', () => {
       range_slider: false,
       gender_select: false
     };
-    parentComponent.filterModelChange.subscribe((vv) => {
+    parentComponent.filterModelChange.take(1).subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.indicators).toBeDefined();
         expect(parentComponent.filterModel.indicators[0]).toEqual('indicator');
@@ -205,7 +209,7 @@ describe('Component: DashboardFiltersComponent', () => {
     let component = fixture.componentInstance;
     component.start = 11;
     component.end = 13;
-    component.onAgeChangeFinish.subscribe((age) => {
+    component.onAgeChangeFinish.take(1).subscribe((age) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         expect(component.start).toEqual(11);
@@ -220,7 +224,7 @@ describe('Component: DashboardFiltersComponent', () => {
       gender_select: false
     };
     fixture.detectChanges();
-    parentComponent.filterModelChange.subscribe((vv) => {
+    parentComponent.filterModelChange.take(1).subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.ageFrom).toBeDefined();
         expect(parentComponent.filterModel.ageTo).toBeDefined();

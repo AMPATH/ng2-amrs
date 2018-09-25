@@ -106,7 +106,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
       this.patientUuid,
       startIndex,
       limit
-    ).subscribe((data) => {
+    ).take(1).subscribe((data) => {
 
       let _notes = data.notes;
 

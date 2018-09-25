@@ -125,7 +125,7 @@ public ngOnInit() {
    public loadHivSummary(patientUuid) {
 
     this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false)
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         this.hivSummary = data && data.length > 0 ? data[0] : null;
         this.isBusy = false;
       }, (err) => {
@@ -165,7 +165,7 @@ public ngOnInit() {
    public getDnaPcrConcepts(uuid, property) {
 
     if (uuid) {
-      this.conceptResourceService.getConceptByUuid(uuid).subscribe((data) => {
+      this.conceptResourceService.getConceptByUuid(uuid).take(1).subscribe((data) => {
           if (data) {
               this.dnaPcrData[property] = data.name.display;
           }
@@ -185,7 +185,7 @@ public ngOnInit() {
     const location = this.selectedLabLocation;
     this.isBusy = true;
     this.labOrderPostService.postOrderToEid(location, payload)
-      .subscribe((resp) => {
+      .take(1).subscribe((resp) => {
         this.selectedLabLocation = null;
         this.selectedIdentifier = null;
         this.selectedSampleType = null;

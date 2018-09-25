@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable, Subject } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable, Subject } from 'rxjs';
+import { concat, first } from 'rxjs/operators';
+
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 @Injectable()
 export class FormSchemaService {
@@ -151,7 +153,7 @@ export class FormSchemaService {
 
       let concatenatedObservables = observableBatch[0];
       for (let i = 1; i < observableBatch.length; i++) {
-        concatenatedObservables = concatenatedObservables.concat(observableBatch[i]);
+        concatenatedObservables = concatenatedObservables.pipe(concat(observableBatch[i]));
       }
       concatenatedObservables.subscribe(
         (schema) => {
@@ -165,8 +167,7 @@ export class FormSchemaService {
         }
       );
 
-    }).first();
-
+    }).pipe(first());
   }
 
   private fetchFormSchemaUsingFormMetadata(formUuid: string): Observable<any> {
@@ -197,7 +198,7 @@ export class FormSchemaService {
           observer.error(err);
         });
 
-    }).first();
+    }).pipe(first());
   }
 
   private getFormUuidArray(formSchemaReferences: Array<object>) {

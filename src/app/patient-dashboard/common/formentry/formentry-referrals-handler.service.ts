@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Rx';
-import { Form } from 'ng2-openmrs-formentry';
+import { Observable ,  Subject } from 'rxjs';
+import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { DifferentiatedCareReferralService } from
   '../patient-referrals/differentiated-care-referral.service';
@@ -20,7 +19,7 @@ export class FormentryReferralsHandlerService {
 
     if (values.hasDifferentiatedCareReferal) {
       this.handleDifferentiatedCareReferal(patient, values)
-        .subscribe((results) => {
+        .take(1).subscribe((results) => {
           subject.next(
             {
               success: true,

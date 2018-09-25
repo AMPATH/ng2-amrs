@@ -6,10 +6,11 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   HivPatientClinicalSummaryResourceService
 } from './hiv-patient-clinical-summary-resource.service';
+import { DataCacheService } from '../shared/services/data-cache.service';
 
 describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
@@ -29,6 +30,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         AppSettingsService,
+        DataCacheService,
         HivPatientClinicalSummaryResourceService
       ],
     });
@@ -40,18 +42,18 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
   it('should be injected with all dependencies',
     inject([HivPatientClinicalSummaryResourceService],
-      (hivPatientClinicalSummaryResourceService: HivPatientClinicalSummaryResourceService) =>
-        expect(hivPatientClinicalSummaryResourceService).toBeTruthy()));
+      (hivPatientClinicalSummaryResourceService: HivPatientClinicalSummaryResourceService) => {
+         expect(hivPatientClinicalSummaryResourceService).toBeTruthy();
+      }));
 
   it('should make API call with the correct url parameters', () => {
-
     let hivPatientClinicalSummaryResourceService: HivPatientClinicalSummaryResourceService = TestBed
       .get(HivPatientClinicalSummaryResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
         .toContain(patientUuid + '/hiv-patient-clinical-summary');
@@ -68,7 +70,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       let options = new ResponseOptions({
         body: {
@@ -84,7 +86,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
     });
     hivPatientClinicalSummaryResourceService
       .fetchPatientSummary(patientUuid)
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         expect(data).toBeTruthy();
         expect(data.patientUuid).toBeDefined();
         expect(data.notes).toBeDefined();
@@ -104,17 +106,17 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
     hivPatientClinicalSummaryResourceService
       .fetchPatientSummary(patientUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         },
         (error: Error) => {
-          expect(error).toBeTruthy();
+          expect(error).toBeDefined();
           done();
         });
   });

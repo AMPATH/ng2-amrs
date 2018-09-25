@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule
 } from '@angular/material';
 
-import {
-  DateTimePickerModule
-} from 'ng2-openmrs-formentry/src/app/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 
@@ -17,12 +15,12 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
     DataListsModule,
     CommonModule,
     FormsModule,
-    MdTabsModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   exports: [],
   declarations: [],
   providers: [],
 })
-export class CdmProgramModule { }
+export class CdmModule { }

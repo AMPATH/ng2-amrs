@@ -4,7 +4,7 @@ import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
     ResponseOptions, Response
 } from '@angular/http';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { CacheModule, CacheService } from 'ionic-cache';
 
@@ -39,6 +39,10 @@ describe('Moh731ResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([Moh731ResourceService], (s: Moh731ResourceService) => {
             expect(s).toBeTruthy();
@@ -55,7 +59,7 @@ describe('Moh731ResourceService Tests', () => {
                 result: []
             };
 
-            backend.connections.subscribe((connection: MockConnection) => {
+            backend.connections.take(1).subscribe((connection: MockConnection) => {
                 expect(connection.request.method).toBe(RequestMethod.Get);
                 expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
                     + '/etl/MOH-731-report?locationUuids=uuid-1,uuid-2&startDate=2017-01-01'
@@ -73,7 +77,7 @@ describe('Moh731ResourceService Tests', () => {
             });
 
             s.getMoh731Report('uuid-1,uuid-2', '2017-01-01', '2017-03-01', false, true)
-                .subscribe((result) => {
+                .take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(mockedResults);
                     expect(triggeredBackend).toBe(true);
@@ -82,7 +86,7 @@ describe('Moh731ResourceService Tests', () => {
                     errorOnNext = true;
 
                     s.getMoh731Report('uuid-1,uuid-2', '2017-01-01', '2017-03-01', false, true)
-                        .subscribe((result2) => {
+                        .take(1).subscribe((result2) => {
                             // didn't expect error at this point
                             expect(true).toBe(false); // force test to fail
                             done();
@@ -113,14 +117,14 @@ describe('Moh731ResourceService Tests', () => {
 
             s.getMoh731Report('uuid-1,uuid-2', '2017-01-01', '2017-03-01', false, true,
                 5 * 60 * 1000) // cache for 5 minutes
-                .subscribe((result) => {
+                .take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(mockedResults);
 
                     // test for data caching
                     s.getMoh731Report('uuid-1,uuid-2', '2017-01-01', '2017-03-01', false, true,
                         5 * 60 * 1000) // cache for 5 minutes)
-                        .subscribe((result2) => {
+                        .take(1).subscribe((result2) => {
                             expect(result2).toEqual(mockedResults);
                             expect(spy.calls.count()).toBe(2);
                             done();

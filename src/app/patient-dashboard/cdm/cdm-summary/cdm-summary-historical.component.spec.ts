@@ -6,7 +6,7 @@ import { CdmSummaryHistoricalComponent } from './cdm-summary-historical.componen
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CdmSummaryResourceService,
 } from '../../../etl-api/cdm-summary-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 describe('Component: CdmSummaryHistorical Unit Tests', () => {
 

@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
@@ -32,6 +32,10 @@ describe('LocationResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have getLocations defined',
     inject([LocationResourceService],
       (locationResourceService: LocationResourceService) => {
@@ -41,11 +45,12 @@ describe('LocationResourceService Unit Tests', () => {
   it('should make API call with correct URL',
     inject([LocationResourceService, MockBackend],
       fakeAsync((locationResourceService: LocationResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/ws/rest/v1/location?v=full');
         });
+        tick(50);
         expect(locationResourceService.getLocations());
       })));
 
@@ -53,7 +58,7 @@ describe('LocationResourceService Unit Tests', () => {
     inject([MockBackend, LocationResourceService],
       (backend: MockBackend, locationResourceService: LocationResourceService) => {
         // stubbing
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           let options = new ResponseOptions({
             body: JSON.stringify({
               results: [
@@ -71,7 +76,7 @@ describe('LocationResourceService Unit Tests', () => {
         });
 
         locationResourceService.getLocations()
-          .subscribe((response) => {
+          .take(1).subscribe((response) => {
             expect(response).toContain({ uuid: 'uuid', display: 'location' });
             expect(response).toBeDefined();
 
@@ -83,7 +88,7 @@ describe('LocationResourceService Unit Tests', () => {
       (backend: MockBackend, locationResourceService: LocationResourceService) => {
         // stubbing
         let locationUuid = 'xxx-xxx-xxx-xxx';
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.url).toContain('location/' + locationUuid);
           expect(connection.request.url).toContain('v=');
 
@@ -101,7 +106,7 @@ describe('LocationResourceService Unit Tests', () => {
         });
 
         locationResourceService.getLocationByUuid(locationUuid)
-          .subscribe((response) => {
+          .take(1).subscribe((response) => {
             expect(response.results[0].uuid).toBe('xxx-xxx-xxx-xxx');
           });
       }));
@@ -111,7 +116,7 @@ describe('LocationResourceService Unit Tests', () => {
       (backend: MockBackend, locationResourceService: LocationResourceService) => {
         // stubbing
         let searchText = 'test';
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.url).toContain('q=' + searchText);
           expect(connection.request.url).toContain('v=');
 
@@ -133,7 +138,7 @@ describe('LocationResourceService Unit Tests', () => {
         });
 
         locationResourceService.searchLocation(searchText)
-          .subscribe((data) => {
+          .take(1).subscribe((data) => {
             expect(data.length).toBeGreaterThan(0);
           });
 

@@ -3,11 +3,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/dist/providers';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { Location } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -86,6 +86,10 @@ describe('PatientReferralBaseComponent:', () => {
       comp = fixture.componentInstance;
     });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should be injected', () => {
     fixture.detectChanges();

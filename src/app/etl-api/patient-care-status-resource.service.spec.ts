@@ -46,6 +46,10 @@ describe('PatientCareStatusResource', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should enter the assertion',
         inject([PatientCareStatusResourceService], (s: PatientCareStatusResourceService) => {
             expect(s).toBeTruthy();
@@ -59,7 +63,7 @@ describe('PatientCareStatusResource', () => {
                     patient_uuid: 'patient_uuid', startDate: 'date1',
                     endDate: 'date2'
                 })).toBeTruthy();
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl'
                         + '/patient/patient_uuid/monthly-care-status?'
@@ -72,7 +76,7 @@ describe('PatientCareStatusResource', () => {
                     s.getMonthlyPatientCareStatus({
                         patient_uuid: 'patient_uuid', startDate: 'date1',
                         endDate: 'date2'
-                    }).subscribe((response) => {
+                    }).take(1).subscribe((response) => {
                         expect(response.result).toBeTruthy();
                         expect(response.result[0].monthly_patient_care_status).toBe('active');
                     });
@@ -95,7 +99,7 @@ describe('PatientCareStatusResource', () => {
                 expect(s.getDailyPatientCareStatus({
                     patient_uuid: 'patient_uuid', referenceDate: 'date1'
                 })).toBeTruthy();
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl'
                         + '/patient/patient_uuid/daily-care-status?'
@@ -108,7 +112,7 @@ describe('PatientCareStatusResource', () => {
                     s.getDailyPatientCareStatus({
                         patient_uuid: 'patient_uuid', referenceDate: 'date1'
                     }
-                    ).subscribe((response) => {
+                    ).take(1).subscribe((response) => {
                         expect(response.result).toBeTruthy();
                         expect(response.result[0].patient_daily_care_status).toBe('ltfu');
                     });

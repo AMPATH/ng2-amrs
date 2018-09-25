@@ -93,7 +93,7 @@ describe('Component: CdmProgramSnapshotComponent', () => {
   it('should set patient data and location when `getCdmSummary` is called',
     inject([AppSettingsService, CdmSummaryResourceService, MockBackend],
       (s: AppSettingsService, hs: CdmSummaryResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           connection.mockRespond(new Response(
             new ResponseOptions({
                 body: {results: [{uuid: '123'}]}
@@ -109,7 +109,7 @@ describe('Component: CdmProgramSnapshotComponent', () => {
   it('should return a list locations',
     inject([AppSettingsService, MockBackend],
       (s: AppSettingsService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           expect(connection.request.url).toEqual('openmrs-url/ws/rest/v1/location?v=default');
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -117,7 +117,7 @@ describe('Component: CdmProgramSnapshotComponent', () => {
               }
             )));
         });
-        component.getLocation().subscribe((result) => {
+        component.getLocation().take(1).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual([{uuid: '123'}]);
         });

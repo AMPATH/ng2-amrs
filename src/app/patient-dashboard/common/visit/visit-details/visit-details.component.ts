@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable ,  forkJoin } from 'rxjs';
 import * as moment from 'moment';
 
 import { VisitResourceService } from
@@ -149,7 +149,7 @@ export class VisitDetailsComponent implements OnInit {
         'stopDatetime,attributes:(uuid,value))';
       this.visitResourceService.getVisitByUuid(visitUuid,
         { v: custom })
-        .subscribe((visit) => {
+        .take(1).subscribe((visit) => {
           this.isBusy = false;
           this.visit = visit;
           this.extractAllowedEncounterTypesForVisit();
@@ -167,7 +167,7 @@ export class VisitDetailsComponent implements OnInit {
     this.error = '';
     this.visitResourceService.updateVisit(this.visit.uuid, {
       stopDatetime: new Date()
-    }).subscribe(
+    }).take(1).subscribe(
       (udpatedVisit) => {
         this.isBusy = false;
         this.visitChanged.next(udpatedVisit);
@@ -187,7 +187,7 @@ export class VisitDetailsComponent implements OnInit {
     this.error = '';
     this.visitResourceService.updateVisit(this.visit.uuid, {
       voided: true
-    }).subscribe(
+    }).take(1).subscribe(
       (udpatedVisit) => {
         // this.isBusy = false;
         this.voidVisitEncounters();
@@ -215,9 +215,9 @@ export class VisitDetailsComponent implements OnInit {
 
       // forkjoin all requests
       this.isBusy = true;
-      Observable.forkJoin(
+     forkJoin(
         observableBatch
-      ).subscribe(
+      ).take(1).subscribe(
         (data) => {
           this.isBusy = false;
           this.visitCancelled.next(this.visit);

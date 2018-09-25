@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~primeng/resources/primeng.css";
+@import "~primeng/resources/themes/bootstrap/theme.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~font-awesome/css/font-awesome.css";
+@import "~webfont-medical-icons2/packages/webfont-medical-icons/wfmi-style.css";
+
+@import "./assets/css/AdminLTE.css";
+@import "./assets/skin-black-light.css";
+@import "./assets/app.css";
+@import "~ladda/dist/ladda.min.css";
+@import '~ngx-toastr/toastr.css';
+@import '~angular-calendar/css/angular-calendar.css';
+@import '~ag-grid/dist/styles/ag-grid.css';
+@import '~ag-grid/dist/styles/theme-fresh.css';
+@import '~ag-grid/dist/styles/theme-blue.css';
+@import '~ion-rangeslider/css/ion.rangeSlider.css';
+@import '~ion-rangeslider/css/ion.rangeSlider.skinFlat.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";

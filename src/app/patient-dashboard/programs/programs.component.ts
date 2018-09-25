@@ -33,7 +33,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
   public hasError: boolean = false;
   public errorMessage: string = '';
   public locations: any[] = [];
-  public subscription: Subscription;
+  public subs: Subscription[] = [];
   private _datePipe: DatePipe;
 
     constructor(private appFeatureAnalytics: AppFeatureAnalytics,
@@ -53,24 +53,25 @@ export class ProgramsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-      }
+      this.subs.forEach((sub) => {
+          sub.unsubscribe();
+      });
     }
 
   public subscribeToEnrollmentChangeEvent(payload) {
-        this.programService.saveUpdateProgramEnrollment(payload).subscribe(
+       const sub =  this.programService.saveUpdateProgramEnrollment(payload).subscribe(
             (enrollment) => {
                 if (enrollment) {
-                    this.patientService.fetchPatientByUuid(this.patient.uuid);
+                    this.patientService.reloadCurrentPatient();
                 }
             }
         );
+        this.subs.push(sub);
     }
 
   public subscribeToPatientChangeEvent() {
         this.programsBusy = true;
-        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+        const sub = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient) {
                     this.patient = patient;
@@ -78,6 +79,8 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                 }
             }
         );
+
+        this.subs.push(sub);
     }
 
   public openNewEnrollmentDialog(programUuid: string) {
@@ -137,7 +140,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         if (patientUuid) {
             this.loadingPatientPrograms = true;
             this.programService.getPatientEnrolledProgramsByUuid(patientUuid)
-                .subscribe(
+                .take(1).subscribe(
                 (data) => {
 
                     if (data) {
@@ -161,7 +164,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
     }
 
     public getAvailablePrograms() {
-        this.programService.getAvailablePrograms().subscribe(
+        this.programService.getAvailablePrograms().take(1).subscribe(
             (programs) => {
                 if (programs) {
                     this.availablePrograms = programs;
@@ -255,7 +258,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
       return false;
   }
   private fetchLocations(): void {
-    this.locationResourceService.getLocations().subscribe(
+    this.locationResourceService.getLocations().take(1).subscribe(
       (locations: any[]) => {
         this.locations = [];
         for (const item of locations) {

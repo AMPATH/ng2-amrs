@@ -1,7 +1,10 @@
+
+import {of as observableOf,  Observable, Subject } from 'rxjs';
+
+import {map,  flatMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class EncounterResourceService {
@@ -29,25 +32,25 @@ export class EncounterResourceService {
 
       return this.http.get(url, {
         search: params
-      }).map((response: Response) =>
-        response.json()).flatMap((encounters: any) => {
+      }).pipe(map((response: Response) =>
+        response.json())).pipe(flatMap((encounters: any) => {
 
         if (encounters.results.length >= 500) {
           params.set('startIndex', '500');
           return this.http.get(url, {
             search: params
-          }).map((res: Response) => {
+          }).pipe(map((res: Response) => {
 
             return encounters.results.concat(res.json().results);
 
-          });
+          }));
 
         } else {
 
-          return Observable.of(encounters.results);
+          return observableOf(encounters.results);
         }
 
-      });
+      }));
     }
     public getEncounterByUuid(uuid: string): Observable<any> {
         if (!uuid) {
@@ -62,18 +65,18 @@ export class EncounterResourceService {
         let params = new URLSearchParams();
         params.set('v', _customDefaultRep);
         let url = this.getUrl() + 'encounter/' + uuid;
-        return this.http.get(url, { search: params }).map((response: Response) => {
+        return this.http.get(url, { search: params }).pipe(map((response: Response) => {
             return response.json();
-        });
+        }));
     }
     public getEncounterTypes(v: string) {
         if (!v) {
             return null;
         }
         let url = this.getUrl() + 'encountertype';
-        return this.http.get(url).map((response: Response) => {
+        return this.http.get(url).pipe(map((response: Response) => {
             return response.json().results;
-        });
+        }));
     }
 
     public saveEncounter(payload) {
@@ -84,10 +87,10 @@ export class EncounterResourceService {
       let url = this.getUrl() + 'encounter';
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      return this.http.post(url, JSON.stringify(payload), options)
-            .map((response: Response) => {
+      return this.http.post(url, JSON.stringify(payload), options).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
     }
 
     public updateEncounter(uuid, payload) {
@@ -97,10 +100,10 @@ export class EncounterResourceService {
         let url = this.getUrl() + 'encounter/' + uuid;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(url, JSON.stringify(payload), options)
-            .map((response: Response) => {
+        return this.http.post(url, JSON.stringify(payload), options).pipe(
+            map((response: Response) => {
                 return response.json();
-            });
+            }));
     }
 
     public voidEncounter(uuid) {

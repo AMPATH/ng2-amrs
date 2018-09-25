@@ -3,10 +3,10 @@ import { PatientService } from '../../services/patient.service';
 import { FormSchemaService } from '../../common/formentry/form-schema.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
-import { FormFactory, Form, EncounterAdapter, DataSources } from 'ng2-openmrs-formentry';
+import { FormFactory, Form, EncounterAdapter, DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { Patient } from '../../../models/patient.model';
 import { Encounter } from '../../../models/encounter.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { FormDataSourceService } from '../../common/formentry/form-data-source.service';
@@ -96,7 +96,7 @@ export class PreviousVisitComponent implements OnInit, OnDestroy {
         const searchParams = 'custom:(uuid,encounters)';
         this.visitResourceService
         .getPatientVisits({patientUuid: patientUuid, v: searchParams})
-        .subscribe((visits) => {
+        .take(1).subscribe((visits) => {
             _.forEach(visits, (visit) => {
                 if (visit.encounters.length > 0) { this.lastVisit = visit; return false; }});
             if (this.lastVisit) {

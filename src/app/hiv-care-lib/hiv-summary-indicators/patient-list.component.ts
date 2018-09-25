@@ -1,6 +1,6 @@
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import {
@@ -95,7 +95,7 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
       endAge: this.endAge,
       gender: this.gender,
       startIndex: this.startIndex
-    }).subscribe((report) => {
+    }).take(1).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;

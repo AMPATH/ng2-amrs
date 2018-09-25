@@ -51,7 +51,7 @@ export class PatientReferralVisitComponent implements OnInit, OnChanges {
 
   public getWorkFlowStates() {
     this.programWorkFlowStateResourceService.getProgramWorkFlowState(this.currentWorkflow.uuid)
-      .subscribe((states) => {
+      .take(1).subscribe((states) => {
         this.workflowStates = _.filter(states, (state: any) => {
           return state.uuid !== this.currentWorkflowState.uuid && !state.initial;
         });
@@ -69,8 +69,8 @@ export class PatientReferralVisitComponent implements OnInit, OnChanges {
     // 1. Update enroll patient
     this.patientReferralService.enrollPatient(this.program.programUuid,
       this.patient, this.location, this.selectedWorkFlowState, this.program.uuid)
-      .subscribe((enrollment) => {
-          this.patientService.fetchPatientByUuid(this.patient.uuid);
+      .take(1).subscribe((enrollment) => {
+          this.patientService.reloadCurrentPatient();
           // this.toggleUpdateButton(false);
           this.display = false;
           this.isUpdating = false;
@@ -101,7 +101,7 @@ export class PatientReferralVisitComponent implements OnInit, OnChanges {
     this.setCurrentWorkflowState();
     this.checkEnrollmentInProviderLocation();
     this.programWorkFlowResourceService.getProgramWorkFlows(this.program.programUuid)
-      .subscribe((workflows: any) => {
+      .take(1).subscribe((workflows: any) => {
         this.programWorkflows = _.filter(workflows.allWorkflows,
           (w) => !w.retired );
         this.setCurrentWorkflow();

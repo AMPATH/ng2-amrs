@@ -7,9 +7,7 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription ,  Observable ,  BehaviorSubject } from 'rxjs';
 
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';

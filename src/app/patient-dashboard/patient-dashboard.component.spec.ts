@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
@@ -19,7 +19,7 @@ import {
   ProgramEnrollmentResourceService
 }
   from '../openmrs-api/program-enrollment-resource.service';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toastr';
+import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from './programs/patient-programs.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
@@ -27,11 +27,12 @@ import { ProgramService } from './programs/program.service';
 import { ProgramResourceService } from '../openmrs-api/program-resource.service';
 import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../openmrs-api/program-workflow-state-resource.service';
+import { PatientRoutesFactory } from '../navigation';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = Observable.of([{ 'id': 1 }]);
+  public params = of([{ 'id': 1 }]);
 }
 
 describe('Component: PatientDashboard', () => {
@@ -55,6 +56,7 @@ describe('Component: PatientDashboard', () => {
         ProgramEnrollmentResourceService,
         LabsResourceService,
         ProgramWorkFlowResourceService,
+        PatientRoutesFactory,
         ProgramWorkFlowStateResourceService,
         {
           provide: Http,
@@ -71,17 +73,23 @@ describe('Component: PatientDashboard', () => {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
         }, DynamicRoutesService,
-        {
-          provide: ToastrConfig, useFactory: () => {
-            return new ToastrConfigMock();
-          }, deps: []
-        },
+        // {
+        //   provide: ToastrConfig, useFactory: () => {
+        //     return new ToastrConfigMock();
+        //   }, deps: []
+        // },
         ToastrService,
         Overlay,
         OverlayContainer
-      ]
+      ],
+      imports: [ToastrModule.forRoot()]
     });
   });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
     let component = TestBed.get(PatientDashboardComponent);
     expect(component).toBeTruthy();

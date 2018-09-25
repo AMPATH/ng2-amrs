@@ -8,7 +8,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService, CacheModule } from 'ionic-cache';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
     PatientsRequiringVLResourceService
@@ -38,6 +38,10 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
         });
 
 
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     let patientsRequiringVLResponse = {
@@ -102,13 +106,13 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
 
             [PatientsRequiringVLResourceService, MockBackend],
             (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
+                mockBackend.connections.take(1).subscribe(conn => {
                     expect(conn.request.url)
                         .toContain('/etl/patients-requiring-viral-load-order');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                 });
 
-                service.getPatientList().subscribe(res => {
+                service.getPatientList().take(1).subscribe(res => {
                     expect(res).toEqual(patientsRequiringVLResponse);
                 });
 

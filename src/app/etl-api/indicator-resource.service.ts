@@ -1,9 +1,11 @@
 
+import {map} from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { ReplaySubject } from 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings';
+import { ReplaySubject } from 'rxjs';
+
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -38,10 +40,10 @@ export class IndicatorResourceService {
     let url = this.getUrl();
     let request = this.http.get(url, {
       search: urlParams
-    })
-      .map((response: Response) => {
+    }).pipe(
+      map((response: Response) => {
         return response.json().result;
-      });
+      }));
 
     return this.cacheService.cacheRequest(url, urlParams, request);
 

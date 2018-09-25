@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
@@ -24,19 +24,16 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
     public selectedLocation: any;
     public selectedDate: any;
     public dataLoaded: boolean = false;
-    private clinicFlowSubscription: Subscription;
-    private currentLocationSubscription: Subscription;
-    private selectedDateSubscription: Subscription;
-
+    private subs: Subscription[] = [];
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
                 private router: Router,
                 @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     public ngOnInit() {
-        this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
+        const sub = this.clinicFlowCacheService.getSelectedLocation()
             .subscribe((clinic) => {
                 this.selectedLocation = clinic;
-                this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
+                const dateSub = this.clinicFlowCacheService.getSelectedDate()
                     .subscribe((date) => {
                         this.selectedDate = date;
                         if (this.selectedLocation && this.selectedDate) {
@@ -47,15 +44,15 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
                         }
 
                     });
-
+                this.subs.push(dateSub);
             });
+        this.subs.push(sub);
     }
 
     public ngOnDestroy(): void {
-        if (this.clinicFlowSubscription) {
-            this.clinicFlowSubscription.unsubscribe();
-        }
-
+        this.subs.forEach((sub) => {
+            sub.unsubscribe();
+        });
     }
 
     public getClinicFlow(dateStated, locations) {
@@ -68,7 +65,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
         if (result === null) {
             throw new Error('Null clinic flow observable');
         } else {
-            this.clinicFlowSubscription = result.subscribe(
+            result.take(1).subscribe(
                 (data) => {
                     if (data && data.result.length > 0) {
                         let formatted = this.clinicFlowCacheService.formatData(

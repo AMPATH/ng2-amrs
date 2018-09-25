@@ -135,7 +135,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   }
   public getCauseOfDeath() {
     let conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
-    this.conceptResourceService.getConceptByUuid(conceptUid).subscribe((data) => {
+    this.conceptResourceService.getConceptByUuid(conceptUid).take(1).subscribe((data) => {
       if (data) {
         this.causesOfDeath = data.answers;
       }
@@ -222,11 +222,11 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         birthdateEstimated: this.birthdateEstimated
 
       };
-      this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).subscribe(
+      this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).take(1).subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('Demographics saved successfully');
-            this.patientService.fetchPatientByUuid(this.patients.person.uuid);
+            this.patientService.reloadCurrentPatient();
           }
           // this.successAlert = 'Successfully updated Patient Demographics';
         },

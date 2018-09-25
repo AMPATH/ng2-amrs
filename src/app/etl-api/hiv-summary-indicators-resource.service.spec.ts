@@ -84,6 +84,10 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([HivSummaryIndicatorsResourceService],
             (s: HivSummaryIndicatorsResourceService) => {
@@ -121,7 +125,7 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
     it('should return Hiv Summary Indicators Report',
         inject([HivSummaryIndicatorsResourceService, MockBackend],
             (s: HivSummaryIndicatorsResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -130,7 +134,7 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
                         )));
                 });
 
-                s.getHivSummaryIndicatorsReport(reportParams).subscribe((result) => {
+                s.getHivSummaryIndicatorsReport(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedHivSummaryIndicatorsResults);
                 });
@@ -140,7 +144,7 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
     it('should return Hiv Summary Indicators Report Patient List',
         inject([HivSummaryIndicatorsResourceService, MockBackend],
             (s: HivSummaryIndicatorsResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
+                backend.connections.take(1).subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     connection.mockRespond(new Response(
                         new ResponseOptions({
@@ -149,7 +153,7 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
                         )));
                 });
 
-                s.getHivSummaryIndicatorsPatientList(reportParams).subscribe((result) => {
+                s.getHivSummaryIndicatorsPatientList(reportParams).take(1).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(patientList.result);
                 });

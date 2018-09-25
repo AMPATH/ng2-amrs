@@ -132,6 +132,10 @@ describe('Clinic Routes Factory:', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   // you can also wrap inject() with async() for asynchronous tasks
   // it('...', async(inject([...], (...) => {}));
 

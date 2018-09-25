@@ -17,9 +17,8 @@ import {
 })
 export class CdmDailyScheduleComponent extends
 DailyScheduleBaseComponent implements OnInit, OnDestroy {
-
-  public subscription: Subscription = new Subscription();
   public myDepartment = 'CDM';
+  public routeSub: Subscription;
 
   constructor(
     public clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -33,7 +32,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.selectDepartmentService.setDepartment(this.myDepartment);
-    this.route.parent.parent.params.subscribe((params) => {
+    this.routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
@@ -45,7 +44,9 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 
 }

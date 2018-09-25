@@ -1,6 +1,8 @@
+
+import {map,  flatMap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
-import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Provider } from '../../../models/provider.model';
 import { Patient } from '../../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
@@ -8,7 +10,16 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import * as _ from 'lodash';
+import * as Moment from 'moment';
+const bfaMale5Above = require('../../../../assets/zscore/bfa_boys_5_above.json');
+const wflMaleBelow5 = require('../../../../assets/zscore/wfl_boys_below5.json');
+const hfaMale5Above = require('../../../../assets/zscore/hfa_boys_5_above.json');
+const hfaMaleBelow5 = require('../../../../assets/zscore/hfa_boys_below5.json');
 
+const bfaFemale5Above = require('../../../../assets/zscore/bfa_girls_5_above.json');
+const wflFemaleBelow5 = require('../../../../assets/zscore/wfl_girls_below5.json');
+const hfaFemale5Above = require('../../../../assets/zscore/hfa_girls_5_above.json');
+const hfaFemaleBelow5 = require('../../../../assets/zscore/hfa_girls_below5.json');
 @Injectable()
 
 export class FormDataSourceService {
@@ -198,24 +209,22 @@ export class FormDataSourceService {
 
   public getProviderByUuid(uuid): Observable<any> {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    this.providerResourceService.getProviderByUuid(uuid, false)
-      .subscribe(
-      (provider) => {
-        let mappedProvider = {
+    return this.providerResourceService.getProviderByUuid(uuid, false).pipe(
+      map(
+      (provider) => { return {
           label: provider.display,
           value: provider.uuid,
           providerUuid: (provider as any).uuid
         };
-        providerSearchResults.next(mappedProvider);
-
-      },
-      (error) => {
+      })).pipe(
+          flatMap((mappedProvider) => {
+                     providerSearchResults.next(mappedProvider);
+                     return providerSearchResults.asObservable();
+      }),
+       catchError((error) => {
         providerSearchResults.error(error); // test case that returns error
-      }
-
-      );
-    return providerSearchResults.asObservable();
-
+        return providerSearchResults.asObservable();
+      }));
   }
   public getProviderByPersonUuid(uuid) {
     let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -241,15 +250,38 @@ export class FormDataSourceService {
     let model: object = {};
     let gender = patient.person.gender;
     let age = patient.person.age;
+    let birthdate = patient.person.birthdate;
     model['sex'] = gender;
     model['age'] = age;
-
+    model['birthdate'] = birthdate;
+    const ageInMonths = Moment().diff(birthdate, 'months');
+    const ageInDays = Moment().diff(birthdate, 'days');
     // define gender based constant:
     if (gender === 'F') {
         model['gendercreatconstant'] = 0.85;
+
+        if ( age < 5 ) {
+          model['weightForHeightRef'] = wflFemaleBelow5;
+          model['heightForAgeRef'] = this.getZscoreRef(hfaFemaleBelow5, 'Day', ageInDays);
+          }
+          if ( age > 5 && age < 18 ) {
+            model['bmiForAgeRef'] =  this.getZscoreRef(bfaFemale5Above, 'Month', ageInMonths);
+            model['heightForAgeRef'] = this.getZscoreRef(hfaFemale5Above, 'Month', ageInMonths);
+          }
+
     }
     if (gender === 'M') {
         model['gendercreatconstant'] = 1;
+        if ( age < 5 ) {
+        model['weightForHeightRef'] = wflMaleBelow5;
+        model['heightForAgeRef'] = this.getZscoreRef(hfaMaleBelow5, 'Day', ageInDays);
+        }
+
+        if ( age > 5 && age < 18 ) {
+          model['bmiForAgeRef'] =  this.getZscoreRef(bfaMale5Above, 'Month', ageInMonths);
+          model['heightForAgeRef'] = this.getZscoreRef(hfaMale5Above, 'Month', ageInMonths);
+        }
+
     }
 
     return model;
@@ -276,21 +308,22 @@ export class FormDataSourceService {
   }
 
   public getLocationByUuid(uuid): Observable<any> {
-    let locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    this.locationResourceService.getLocationByUuid(uuid, false)
-      .subscribe(
-      (location) => {
-        let mappedLocation = {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    return this.locationResourceService.getLocationByUuid(uuid, false).pipe(
+      map(
+      (location) => { return {
           label: location.display,
           value: location.uuid
-        };
-        locationSearchResults.next(mappedLocation);
-      },
-      (error) => {
-        locationSearchResults.error(error);
-      }
+        }; })).pipe(
+          flatMap((mappedLocation) => {
+            locationSearchResults.next(mappedLocation);
+            return locationSearchResults.asObservable();
+          }),
+          catchError((error) => {
+            locationSearchResults.error(error);
+            return locationSearchResults.asObservable();
+          })
       );
-    return locationSearchResults.asObservable();
   }
 
   public resolveConcept(uuid) {
@@ -398,5 +431,11 @@ export class FormDataSourceService {
   private setCachedProviderSearchResults(searchProviderResults): void {
     let sourcekey = 'cachedproviders';
     this.localStorageService.setObject(sourcekey, searchProviderResults);
+  }
+
+  private getZscoreRef(refData, searchKey, searchValue): any {
+    return _.filter(refData, (refObject) => {
+       return refObject[searchKey] === searchValue;
+    });
   }
 }

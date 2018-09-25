@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 
 import * as _ from 'lodash';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
@@ -64,7 +64,7 @@ export class FormListService {
           return item.published && !item.retired;
         });
 
-        return publishedOpenmrsForms;
+        return unsortArray ; // publishedOpenmrsForms;
     }
 
     public processFavouriteForms(openmrsForms, favouriteForms) {

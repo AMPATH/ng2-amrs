@@ -2,8 +2,7 @@ import { Component,
     OnInit , OnDestroy , AfterViewInit,
     Output , EventEmitter, Input , ChangeDetectorRef,
     ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import { DataEntryStatisticsService } from
 '../etl-api/data-entry-statistics-resource.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -75,7 +74,7 @@ export class DataEntryStatisticsComponent
 
    this.showEncounterList();
    this._dataEntryStatisticsService.getDataEntryStatistics(this.params)
-   .subscribe((results) => {
+   .take(1).subscribe((results) => {
        if (results) {
         this.dataEntryEncounters = results;
         this.busyIndicator = {

@@ -90,14 +90,16 @@ describe('Service: ProgramsTransferCareService', () => {
     service.savePayload({
       test: 'payload'
     });
-    service.getPayload().subscribe((payload) => {
+    service.getPayload().take(1).subscribe((payload) => {
       expect(payload).toEqual({test: 'payload'});
     });
+    tick(50);
 
   })));
 
   it('should update transfer status', inject([], fakeAsync(() => {
     service.setTransferStatus(true);
+    tick(50);
     expect(service.transferComplete()).toBeTruthy();
   })));
 
@@ -106,11 +108,12 @@ describe('Service: ProgramsTransferCareService', () => {
       programUuid: '781d8768-1359-11df-a1f1-0026b9348838',
       transferType: 'AMPATH'
     };
-    service.attachEncounterForms(program, configs).subscribe((_programs) => {
+    service.attachEncounterForms(program, configs).take(1).subscribe((_programs) => {
       expect(_programs.encounterForms).toBeDefined();
       expect(_programs.encounterForms.length).toEqual(1);
       expect(_programs.encounterForms[0]).toEqual('cbe2d31d-2201-44ce-b52e-fbd5dc7cff33');
     });
+    tick(50);
   })));
 
   it('should return NO forms when program is not in the configs', inject([], fakeAsync(() => {
@@ -118,9 +121,10 @@ describe('Service: ProgramsTransferCareService', () => {
       programUuid: '781d8768-1359-12df-a1f1-0026b9348838',
       transferType: 'AMPATH'
     };
-    service.attachEncounterForms(program, configs).subscribe((_programs) => {
+    service.attachEncounterForms(program, configs).take(1).subscribe((_programs) => {
       expect(_programs.encounterForms).toBeDefined();
       expect(_programs.encounterForms.length).toEqual(0);
     });
+    tick(50);
   })));
 });

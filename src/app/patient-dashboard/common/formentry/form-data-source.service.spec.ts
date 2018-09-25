@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { TestBed, async, fakeAsync, inject, tick } from '@angular/core/testing';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { FormDataSourceService } from './form-data-source.service';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { FakeProviderResourceService } from '../../../openmrs-api/provider-resource.service.mock';
@@ -59,7 +59,7 @@ describe('Service: FormDataSourceService', () => {
     let service: FormDataSourceService = TestBed.get(FormDataSourceService);
     let result = service.findProvider('text');
 
-    result.subscribe((results) => {
+    result.take(1).subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0]['value']).toEqual('uuid');
@@ -86,6 +86,7 @@ describe('Service: FormDataSourceService', () => {
       });
       //
       service.getProviderByPersonUuid(uuid);
+      tick(50);
       expect(providerResourceService.getProviderByPersonUuid).toHaveBeenCalled();
 
     })));
@@ -106,6 +107,7 @@ describe('Service: FormDataSourceService', () => {
       });
       //
       service.getProviderByUuid(uuid);
+      tick(50);
       expect(providerResourceService.getProviderByUuid).toHaveBeenCalled();
 
     })));
@@ -114,22 +116,31 @@ describe('Service: FormDataSourceService', () => {
     let service: FormDataSourceService = TestBed.get(FormDataSourceService);
     let result = service.findLocation('test');
 
-    result.subscribe((results) => {
+    result.take(1).subscribe((results) => {
       expect(results).toBeTruthy();
       done();
     });
 
   });
 
-  it('should get location by location uuid', (done) => {
-    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
-    let result = service.getLocationByUuid('08feae7c-1352-11df-a1f1-0026b9348838');
+  it('should get location by location uuid', inject([LocationResourceService],
+    fakeAsync((locationResourceService: LocationResourceService) => {
+      let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+      let uuid: string = 'location-uuid-1';
+      spyOn(locationResourceService, 'getLocationByUuid')
+        .and.callFake((params) => {
+        let subject = new BehaviorSubject<any>({});
+        subject.next({
+          uuid: 'uuid',
+          display: 'display'
+        });
+        return subject;
+      });
+      //
+      service.getLocationByUuid(uuid);
+      tick(50);
+      expect(locationResourceService.getLocationByUuid).toHaveBeenCalled();
 
-    result.subscribe((results) => {
-      expect(results).toBeTruthy();
-      done();
-    });
-
-  });
+    })));
 
 });

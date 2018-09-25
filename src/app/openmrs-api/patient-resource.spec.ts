@@ -49,7 +49,7 @@ describe('PatientService Unit Tests', () => {
 
     let patientUuid = 'xxx-xxx-xxx-xxx';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('patient/' + patientUuid);
       expect(connection.request.url).toContain('v=');
@@ -61,7 +61,7 @@ describe('PatientService Unit Tests', () => {
     });
 
     patientResourceService.getPatientByUuid(patientUuid)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
         done();
       });
   });
@@ -73,7 +73,7 @@ describe('PatientService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -92,7 +92,7 @@ describe('PatientService Unit Tests', () => {
     });
 
     patientResourceService.searchPatient(searchText)
-      .subscribe((data) => {
+      .take(1).subscribe((data) => {
         expect(data.length).toBeGreaterThan(0);
         done();
       });
@@ -106,7 +106,7 @@ describe('PatientService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    backend.connections.take(1).subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -115,7 +115,7 @@ describe('PatientService Unit Tests', () => {
     });
 
     patientResourceService.searchPatient(searchText)
-      .subscribe((response) => {
+      .take(1).subscribe((response) => {
       },
       (error: Error) => {
         expect(error).toBeTruthy();

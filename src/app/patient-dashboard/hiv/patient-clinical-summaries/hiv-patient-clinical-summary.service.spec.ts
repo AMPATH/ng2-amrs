@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, inject } from '@angular/core/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Patient } from '../../../models/patient.model';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import 'pdfmake/build/pdfmake.js';
@@ -47,7 +47,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         reminders: [],
         labDataSummary: []
       };
-      service.generatePdf(pdfDependencies).subscribe(
+      service.generatePdf(pdfDependencies).take(1).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
           expect(pdf.pdfDefinition).toBeDefined();
@@ -73,7 +73,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         reminders: [],
         labDataSummary: []
       };
-      service.generatePdf(pdfDependencies).subscribe(
+      service.generatePdf(pdfDependencies).take(1).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
           expect(pdf.pdfDefinition).toBeDefined();
@@ -115,7 +115,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         reminders: [],
         labDataSummary: []
       };
-      service.generatePdf(pdfDependencies).subscribe(
+      service.generatePdf(pdfDependencies).take(1).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
 
@@ -136,7 +136,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
     (done) => {
       let service: HivPatientClinicalSummaryService = TestBed.get(HivPatientClinicalSummaryService);
       let pdfDependencies: any = null;
-      service.generatePdf(pdfDependencies).subscribe(
+      service.generatePdf(pdfDependencies).take(1).subscribe(
         (pdf) => {
           expect(pdf).not.toBeDefined(); // this means it has errored, we don't expect this!!!!
           expect(pdf.pdfSrc).not.toBeDefined();

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { PatientService } from '../services/patient.service';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import * as _ from 'lodash';
@@ -6,7 +6,7 @@ import queue from 'async/queue';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 
-import { Subject } from 'rxjs/Subject';
+import { Subject, Subscription } from 'rxjs';
 import { Patient } from '../../models/patient.model';
 import { PatientReferralService } from '../../referral-module/services/patient-referral-service';
 
@@ -28,18 +28,25 @@ import { PatientReferralService } from '../../referral-module/services/patient-r
 
   `]
 })
-export class ProgramEnrollmentComponent implements OnInit {
+export class ProgramEnrollmentComponent implements OnInit, OnDestroy {
   @Output() public onManageProgram: EventEmitter<any> = new EventEmitter();
   @Input() public onReloadPrograms: Subject<boolean>;
   public loadingPatientPrograms: boolean = false;
   public enrolledPrograms: ProgramEnrollment[];
   private patient: Patient;
+  private subscription:Subscription;
   constructor(private patientService: PatientService,
               private patientReferralService: PatientReferralService,
               private userDefaultPropertiesService: UserDefaultPropertiesService) {}
 
   public ngOnInit() {
     this._init();
+  }
+
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public updateState(enrolledProgram: any, state: any) {
@@ -62,11 +69,11 @@ export class ProgramEnrollmentComponent implements OnInit {
   private _init() {
     this.onReloadPrograms.subscribe((reload) => {
       if (reload) {
-        this.patientService.fetchPatientByUuid(this.patient.uuid);
+        this.patientService.reloadCurrentPatient();
       }
     });
     this.loadingPatientPrograms = true;
-    this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+    this.subscription = this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         if (patient) {
           this.patient = patient;
           this.enrolledPrograms = _.filter(patient.enrolledPrograms, 'isEnrolled');
@@ -75,7 +82,7 @@ export class ProgramEnrollmentComponent implements OnInit {
             if (this.hasActiveWorkflows(row)) {
                 _.extend(row, {hasWorkflows : true});
                 this.patientReferralService.getReferredByLocation(row.enrolledProgram.uuid)
-                  .subscribe((reply) => {
+                  .take(1).subscribe((reply) => {
                     if (reply) {
                       _.extend(row, {programWasReferred : true});
                       this._filterState(row, callback);

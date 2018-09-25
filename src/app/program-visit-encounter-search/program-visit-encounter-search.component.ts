@@ -82,13 +82,13 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     public getDepartmentConfig() {
 
      this.departmentProgramService.getDartmentProgramsConfig()
-     .subscribe((results) => {
+     .take(1).subscribe((results) => {
          if (results) {
               this.programDepartments = results;
               this.getSavedDepartment();
           }
      });
-     this.selectDepartmentService.getDepartment().subscribe((d) => {
+     this.selectDepartmentService.getDepartment().take(1).subscribe((d) => {
         this.myDepartment = d;
     });
 
@@ -105,7 +105,7 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
 
   public getProgramVisitsConfig() {
     this._patientProgramService.getAllProgramVisitConfigs()
-    .subscribe((response) => {
+    .take(1).subscribe((response) => {
       if (response) {
         this.programVisitsEncounters = JSON.parse(JSON.stringify(response));
         this.getSavedFilters();
