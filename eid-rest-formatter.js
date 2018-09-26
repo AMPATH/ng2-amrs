@@ -23,6 +23,7 @@ module.exports = function () {
     var hasLessThanSymbol = /</g;
     if (_.isEmpty(viralLoadPayload)) return -1;
     var viralLoadResult = removeWhiteSpace(viralLoadPayload.FinalResult);
+   
 
     if (_.isEmpty(viralLoadResult)) {
       return -1;
@@ -31,12 +32,13 @@ module.exports = function () {
     if (hasNumbersOnly.test(viralLoadResult)) {
       status = 1;
     }
-    else if (hasLessThanSymbol.test(viralLoadResult)) {
+    else if (hasLessThanSymbol.test(viralLoadResult) || viralLoadPayload.FinalResult.trim()==='Target Not Detected') {
       status = 0;
     }
     else {
       status = 2;
     }
+    // console.log('ASSESSING EID RESULT ',status, viralLoadResult);
     return status;
   }
   function isViralLoadError(viralLoadPayload) {
@@ -193,7 +195,8 @@ module.exports = function () {
       person: patientUuId,
       obsDatetime: date,
       concept: "a8982474-1350-11df-a1f1-0026b9348838",
-      value: 0
+      value: 0,
+      comment: '[' + viralLoad.FinalResult + ']'
     };
 
     if (viralLoad['OrderNo'] && stringNotEmpty(viralLoad['OrderNo'])) {
