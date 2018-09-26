@@ -190,7 +190,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       if (this.deathDate == null) {
         this.errors.push({ message: 'Death Date is required' });
       }
-      if (this.causeOfDeath == null) {
+      if (!this.causeOfDeath) {
         this.errors.push({ message: 'Cause of Death is required' });
       }
 
@@ -233,7 +233,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         (error) => {
           console.error('error', error);
           this.errors.push({
-            message: 'error updating demographics'
+            message: 'Error Updating Demographics!'
           });
         }
       );

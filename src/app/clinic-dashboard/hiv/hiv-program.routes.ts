@@ -48,6 +48,7 @@ import {
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
 import { ClinicFlowSummaryComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
+import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
 
 const routes: Routes = [
     {
@@ -131,6 +132,10 @@ const routes: Routes = [
     {
         path: 'monthly-schedule',
         component: HivMonthlyScheduleComponent
+    },
+    {
+        path: 'hiv-enhanced-program',
+        component: HivEnhancedComponent
     }
 ];
 
