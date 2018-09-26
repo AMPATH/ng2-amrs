@@ -32,6 +32,7 @@ function findAllMissingEidResults(allEidResults, arrayOfObs) {
     };
 
     if (allEidResults.viralLoad.length > 0) {
+        // console.log('EID Viral load results', results.viralLoad);
         results.viralLoad =
             moduleDefinition.findMissingEidResults(filterOutResultsWithoutDateCollected(allEidResults.viralLoad),
                 arrayOfObs, isViralLoadEquivalent);
@@ -49,6 +50,7 @@ function findAllMissingEidResults(allEidResults, arrayOfObs) {
                 arrayOfObs, isCd4PanelEquivalent);
     }
 
+    // console.log('MISSING LABS', results);
     return results;
 }
 
@@ -165,7 +167,8 @@ function areViralLoadValuesEquivalent(eidViralLoad, amrsViralLoadObs) {
         return parseInt(eidViralLoad.FinalResult) === amrsViralLoadObs.value;
     }
 
-    if (_hasLessThanSymbol(eidViralLoad.FinalResult) &&
+    if ((_hasLessThanSymbol(eidViralLoad.FinalResult) || 
+        eidViralLoad.FinalResult === 'Target Not Detected')  &&
         _hasNumbersOnly(amrsViralLoadObs.value + '')) {
         return amrsViralLoadObs.value === 0;
     }
@@ -232,9 +235,12 @@ function isEidViralLoadError(eidViralLoadResult) {
     var isError = false;
     if (_.isEmpty(eidViralLoadResult)) return false;
     var viralLoadResult = eidViralLoadResult.FinalResult;
-    if (!_hasNumbersOnly(viralLoadResult) && !_hasLessThanSymbol(viralLoadResult)) {
+    if (!_hasNumbersOnly(viralLoadResult) && 
+    !_hasLessThanSymbol(viralLoadResult) &&
+    (viralLoadResult.trim() === 'Target Not Detected') === false) {
         isError = true;
     }
+    // console.log('Checking Values:::::::', eidViralLoadResult.FinalResult, isError);
     return isError;
 }
 
