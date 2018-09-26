@@ -79,7 +79,7 @@
 
     <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
         <div [hidden]="!dead" class="form-group">
-          <label for="deathDate">Approximate Death Date</label><br>
+          <label for="deathDate">Approximate Death Date <span class="pull-right" style="color: red;"> *</span></label><br>
           <date-time-picker tabindex="0" [modelValue]="deathDate" [id]="'deathDate'"
                             (onDateChange)="updateDeathDate($event)"></date-time-picker>
         </div>
@@ -87,7 +87,7 @@
 
     <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
       <div [hidden]="!dead" class="form-group">
-        <label for="causeOfDate">Cause of Death</label>
+        <label for="causeOfDate">Cause of Death <span class="pull-right" style="color: red;"> *</span></label>
         <select class="form-control" name="personDeadSelect" [(ngModel)]="causeOfDeath">
           <option *ngFor="let cause of causesOfDeath" [value]="cause.uuid">{{cause.display}}</option>
         </select>
