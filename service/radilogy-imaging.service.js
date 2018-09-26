@@ -40,8 +40,8 @@ function getRequestPromise(queryString,resource) {
 console.log('resource.apiKey',resource.apiKey);
 console.log('resource.url',resource.url);
     var options = {
-        uri: resource.url,
-        qs:queryString,
+        uri: (resource.url + '/' + queryString.id),
+        // qs:queryString,
         headers: {
             'User-Agent': 'Request-Promise',
             'authorization': authorizationHeader,
@@ -51,7 +51,8 @@ console.log('resource.url',resource.url);
         rejectUnauthorized: false,
         requestCert: true
     };
-    return rp(options);
+    var ret = rp(options);
+    return ret;
 }
 
 function getRefpacsServerUrl() {
@@ -111,24 +112,40 @@ function getPatientImagesByPatientIdentifier(queryString) {
 
     var resource = getRefpacsImagingStudyUrl();
 
+
     return getRequestPromise(queryString, resource);
 }
 
 function constructWadoUrl(load) {
 
     return new Promise(function (resolve, reject) {
-        var studyUID =  _.trimStart(load.uid, 'urn:oid:');
-        var objectUID =  _.trimStart(load.series[0].instance[0].uid, 'urn:oid:');
-        var seriesUID =  _.trimStart(load.series[0].uid, 'urn:oid:');
-        var res = getImagesFromWado(studyUID,objectUID,seriesUID);
-        resolve( res);
-    })
-        .catch((error) => {
+        try {
+            // console.log('Response', JSON.stringify(load));
+            var studyUID;
+            var objectUID;
+            var seriesUID;
+            if (Array.isArray(load.series) && load.series.length > 0 ) {
+                studyUID =  _.trimStart(load.uid, 'urn:oid:');
+                objectUID =  _.trimStart(load.series[0].instance[0].uid, 'urn:oid:');
+                seriesUID =  _.trimStart(load.series[0].uid, 'urn:oid:');
+            } else if (Array.isArray(load.entry) && load.entry.length > 0 ) {
+                // console.log('Radiology load:',load.entry[0].resource);
+                // studyUID =  _.trimStart(load.uid, 'urn:oid:');
+                // studyUID =  load.entry[0].resource.id;
+                // objectUID =  _.trimStart(load.entry[0].resource.series[0].instance[0].uid, 'urn:oid:');
+                // seriesUID =  _.trimStart(load.entry[0].resource.series[0].uid, 'urn:oid:');
+                throw new Error('Request to Radiology could be incorrect');
+            } else {
+                throw new Error('Unknown Response from Radiology');
+            }
+            var res = getImagesFromWado(studyUID,objectUID,seriesUID);
+            resolve(res);
+        } catch(err) {
+            console.log('An Error occured while accessing radiology server', err);
+            reject(err);
+        }
 
-            reject(error);
-        })
-
-
+    });
 }
 function getCorrespondingImages(results) {
 
