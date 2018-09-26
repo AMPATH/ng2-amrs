@@ -28,20 +28,23 @@ var wado ={};
 
 function getImagingResultsByPatientIdentifier(queryString) {
     var resource = getRefpacsServerUrl();
+    // resource.url = resource.url + '/' + queryString.id;
+    // console.log('CASE 111111');
     return getRequestPromise(queryString, resource);
 }
 function getAllPatientImages(queryString) {
     var resource = getRefpacsImagingStudyUrl();
+    // console.log('CASE 2222222');
     return getRequestPromise(queryString, resource);
 
 }
 
 function getRequestPromise(queryString,resource) {
-console.log('resource.apiKey',resource.apiKey);
-console.log('resource.url',resource.url);
+    console.log('resource.apiKey',resource.apiKey);
+    console.log('resource.url',resource.url);
     var options = {
-        uri: (resource.url + '/' + queryString.id),
-        // qs:queryString,
+        uri: resource.url,
+        qs:queryString,
         headers: {
             'User-Agent': 'Request-Promise',
             'authorization': authorizationHeader,
@@ -111,9 +114,9 @@ function postRadiologyImagingComments(payload) {
 function getPatientImagesByPatientIdentifier(queryString) {
 
     var resource = getRefpacsImagingStudyUrl();
-
-
-    return getRequestPromise(queryString, resource);
+    resource.url = resource.url + '/' + queryString.id;
+    // console.log('CASE 3333333');
+    return getRequestPromise(null, resource);
 }
 
 function constructWadoUrl(load) {
