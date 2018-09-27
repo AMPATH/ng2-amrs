@@ -231,15 +231,9 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
               delete personIdentifierPayload.uuid;
             }
             this.saveIdentifier(personIdentifierPayload, person);
-          }else {
-            if (this.newLocation !== this.identifierLocation) {
-              this.saveIdentifier(personIdentifierPayload, person);
-            } else {
-              this.identifierValidity = 'A patient with this Identifier exists!';
-              this.invalidLocationCheck = 'Identifier Location already exists!';
-              this.display = true;
-            }
-
+          } else {
+            this.identifierValidity = 'A patient with this Identifier exists!';
+            this.display = true;
           }
         }
       );
