@@ -223,26 +223,20 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     if (this.isValidIdentifier === true) {
       this.patientResourceService.searchPatient(this.patientIdentifier).subscribe(
         (result) => {
-          if (result <= 0) {
+          if (result <= 0 && this.newLocation !== this.identifierLocation) {
             if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
               personIdentifierPayload.uuid === null) {
               delete personIdentifierPayload.uuid;
             }
             this.saveIdentifier(personIdentifierPayload, person);
-          }else {
-            if (this.newLocation !== this.identifierLocation) {
-              this.saveIdentifier(personIdentifierPayload, person);
-            } else {
-              this.identifierValidity = 'A patient with this Identifier exists!';
-              this.invalidLocationCheck = 'Identifier Location already exists!';
-              this.display = true;
-            }
-
+          } else {
+            this.identifierValidity = 'A patient with this Identifier exists!';
+            this.display = true;
           }
         }
       );
     } else {
-      console.log('Invalid Identifier');
+      this.identifierValidity = 'Invalid Identifier';
     }
   }
   }
