@@ -3,13 +3,13 @@
     <span class="text-bold"> Manage Groups \ {{group.name}}</span>
   </h3>
   
- <group-detail-summary [_group]="group"></group-detail-summary>
+ <group-detail-summary [_group]="group" (updatedGroup)="onGroupDetailsChanged($event)"></group-detail-summary>
   <mat-card>
     <div class="row" style="margin-bottom: 15px;">
       <h4 class="col-md-5 col-sm-5">
         Group Members and Meetings
       </h4>
-      <div class="col-md-3 col-sm-3 pull-right">
+      <div class="col-md-3 col-sm-3 pull-right" *ngIf="group.cohortMembers.length">
           <div class="btn-group" role="group">
               <button type="button" class="btn btn-sm btn-default"><i class="fa fa-filter"></i></button>
             <button type="button"  [ngClass]="{'btn-primary': isFiltered, 'btn-default': !isFiltered }" class="btn btn-sm" (click)="filterCurrent()">Current</button>
@@ -17,8 +17,12 @@
           </div>
           </div>
     </div>
-        
-    <table class="table table-striped table-bordered" *ngIf="group.cohortMembers">
+
+    <div class="alert alert-warning" *ngIf="group.cohortMembers.length == 0">
+      No members to display. Please add members to the group.
+    </div>
+    <div *ngIf="group.cohortMembers.length > 0">
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>Identifiers</th>
@@ -56,6 +60,7 @@
           </div>
         </div>
     </div>
+  </div>
   </mat-card>
 </div>
 

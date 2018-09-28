@@ -1,22 +1,25 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output ,
-    EventEmitter } from '@angular/core';
+import { Component, OnInit, Output , EventEmitter } from '@angular/core';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap';
 import { UserService } from '../../openmrs-api/user.service';
 import { Subject } from 'rxjs';
-import { timeout } from 'rxjs/operators';
 import { UserDefaultPropertiesService } from '../../user-default-properties';
+import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
+import { CommunityGroupAttributeService } from '../../openmrs-api/community-group-attribute-resource.service';
+import * as _ from 'lodash';
+import * as Moment from 'moment';
+
+const DEFAULT_GROUP_TYPE = 'community_group';
+const HIV_DIFFERENTIATED_CARE_PROGRAM = {'label': 'HIV DIFFERENTIATED CARE PROGRAM', 'value': '334c9e98-173f-4454-a8ce-f80b20b7fdf0'};
 @Component({
     selector: 'group-editor',
     templateUrl: './group-editor-component.html',
     styleUrls: ['./group-editor-component.css']
 })
-export class GroupEditorComponent implements OnInit, OnChanges {
+
+export class GroupEditorComponent implements OnInit {
 
     public provider: any;
     public selectedProviderUuid: string;
@@ -30,7 +33,7 @@ export class GroupEditorComponent implements OnInit, OnChanges {
     public showGroupDialog = false;
     public groupTypes: any = [];
     public groupType: any;
-    public editType: string;
+    public editType = 'create';
     public groupPrograms: any = [];
     public groupProgram: any;
     public success = false;
@@ -40,28 +43,44 @@ export class GroupEditorComponent implements OnInit, OnChanges {
     public currentLoggedInProvider;
     public onSave: Subject<any> = new Subject();
     public onCreate: Subject<boolean> = new Subject();
-    public groupNumberPattern = /\d{5}-\d{3}/;
+    public groupNumberPattern = /\d{5}-\d{5}/;
+    public groupNamePattern = /[a-zA-Z]+/;
+    public isModal = false;
+    public groupNoErrorMessage = '';
+    public allGroupNumbers = [];
+    @Output() newGroup: EventEmitter<any> = new EventEmitter<any>();
+    @Output() hide: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     constructor(
                 private _communityService: CommunityGroupService,
                 private _providerResourceService: ProviderResourceService,
                 private _locationSservice: LocationResourceService,
                 public modalRef: BsModalRef,
+                private _communityAttributeService: CommunityGroupAttributeService,
                 private userResourceService: UserService,
                 private userLocationService: UserDefaultPropertiesService,
-                private providerResourceService: ProviderResourceService) { }
+                private providerResourceService: ProviderResourceService,
+                private programResourceService: ProgramResourceService) { }
 
     ngOnInit(): void {
         this.allFacilities();
-        this.getCohortTypes();
         this.getCohortPrograms();
         this.fetchProviderOptions();
         if (this.editType.toLowerCase() === 'create') {
             this.getLoggedInProvider();
             this.getCurrentUserLocation();
+            this.setDefaultProgram();
         }
+        this.fetchAllGroupNumbers();
     }
-    ngOnChanges(changes: SimpleChanges) {
+
+    public fetchAllGroupNumbers() {
+        this._communityAttributeService.getAttributesByAttributeType('groupNumber')
+        .subscribe((attributes) => {
+            _.forEach(attributes, (attribute) => {
+                this.allGroupNumbers.push(attribute.value);
+            });
+        });
     }
 
     public allFacilities() {
@@ -102,6 +121,16 @@ export class GroupEditorComponent implements OnInit, OnChanges {
 
     }
 
+    public checkGroupNumber(enteredGroupNumber) {
+        this.groupNo = enteredGroupNumber;
+        const check = _.filter(this.allGroupNumbers, (groupNumber) => this.groupNo === groupNumber);
+        if (this.editType.toLowerCase() === 'create') {
+            check.length > 0 ? this.groupNoErrorMessage = 'Group Number Already Exists!' : this.groupNoErrorMessage = '';
+        } else {
+            check.length > 1 ? this.groupNoErrorMessage = 'Group Number Already Exists!' : this.groupNoErrorMessage = '';
+        }
+    }
+
     public createUpdateGroup() {
         this.resetMessage();
         this.busy = true;
@@ -116,7 +145,7 @@ export class GroupEditorComponent implements OnInit, OnChanges {
           }
         } else {
             this.success = false;
-            this.message = 'Pease ensure you have filled all the fields';
+            this.message = 'Please ensure you have filled all the fields';
             this.busy = false;
         }
 
@@ -137,6 +166,7 @@ export class GroupEditorComponent implements OnInit, OnChanges {
                 this.message = 'Error creating cohort group, kindly try again';
                 this.success = false;
                 this.busy = false;
+                this.onCreate.next(false);
             }
             );
 
@@ -162,13 +192,18 @@ export class GroupEditorComponent implements OnInit, OnChanges {
                 value: this.provider['value']
             });
         }
+        if (this.groupProgram !== '') {
+            attributes.push( {
+                cohortAttributeType: 'programUuid',
+                value: this.groupProgram['value']
+            });
+        }
         const payLoad = {
             name : this.groupName,
             description: '',
             location: this.facility.value,
             startDate: Moment().format('YYYY-MM-DD'),
-            cohortType: this.groupType.value,
-            cohortProgram: this.groupProgram.value,
+            cohortType: DEFAULT_GROUP_TYPE,
             groupCohort: true,
             attributes : attributes
         };
@@ -193,27 +228,14 @@ export class GroupEditorComponent implements OnInit, OnChanges {
 
     }
 
-    public getCohortTypes() {
-
-        this._communityService.getCohortTypes()
-        .subscribe((results) => {
-           this.groupTypes = results.map((groupType: any) => {
-            return {
-                 label : groupType.name,
-                 value: groupType.uuid
-             };
-        });
-        });
-
-    }
 
     public getCohortPrograms() {
 
-        this._communityService.getCohortPrograms()
+        this.programResourceService.getPrograms()
         .subscribe((results) => {
            this.groupPrograms = results.map((groupProgram: any) => {
             return {
-                 label : groupProgram.name,
+                 label : groupProgram.display,
                  value: groupProgram.uuid
              };
         });
@@ -246,7 +268,7 @@ export class GroupEditorComponent implements OnInit, OnChanges {
             name : this.groupName,
             description: '',
             location: this.facility,
-            cohortType: this.groupType,
+            cohortType: DEFAULT_GROUP_TYPE,
             cohortProgram: this.groupProgram,
             groupNo: this.groupNo
         };
@@ -306,4 +328,15 @@ export class GroupEditorComponent implements OnInit, OnChanges {
 
     }
 
+    public setDefaultProgram() {
+        this.groupProgram = HIV_DIFFERENTIATED_CARE_PROGRAM;
+    }
+    public createAndEmit() {
+      const payload = this.generatePayload();
+      this._communityService.createGroup(payload).subscribe((newGroup) =>
+      this.newGroup.emit(newGroup));
+    }
+    public onCancel() {
+      this.hide.emit(true);
+    }
 }

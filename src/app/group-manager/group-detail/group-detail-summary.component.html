@@ -15,33 +15,33 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong>Group Number :</strong> <span *ngIf="groupNumber">{{groupNumber.value}}</span></td>
-          <td><strong>Group Name :</strong> <span *ngIf="group.name">{{group.name}}</span></td>
+          <td><strong>Group Number: </strong> <span *ngIf="groupNumber">{{groupNumber.value}}</span></td>
+          <td><strong>Group Name: </strong> <span *ngIf="group.name">{{group.name}}</span></td>
         </tr>
         <tr>
-          <td><strong>Provider : </strong> <span *ngIf="provider">{{provider.person.display}}</span></td>
+          <td><strong>Provider: </strong> <span *ngIf="provider">{{provider.person.display}}</span></td>
           <td><strong>Facility: </strong> <span *ngIf="group.location">{{group.location.display}}</span></td>
         </tr>
         <tr>
-          <td><strong>Members :</strong> 
+          <td><strong>Members: </strong> 
             <span *ngIf="group.cohortMembers">{{group.cohortMembers.length}}</span>
             <span *ngIf="!group.cohortMembers">0</span>
           </td>
-          <td><strong>Landmark : </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
+          <td><strong>Landmark: </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
         </tr>
         <tr>
-          <td><strong>Active Since : </strong> {{group.startDate | date : medium}}</td>
-          <td><strong>Last Meeting : </strong> <span>-</span></td>
+          <td><strong>Active Since: </strong> {{group.startDate | date : medium}}</td>
+          <td><strong>Last Meeting: </strong> <span>None</span></td>
         </tr>
         <tr>
-          <td *ngIf="currentLeader"><strong>Leader : </strong>
+          <td *ngIf="currentLeader"><strong>Leader: </strong>
             <span *ngIf="currentLeader">
               <span *ngIf="currentLeader.name"> {{currentLeader.name}} ({{currentLeader.leadershipType}}), </span>
               <span>since {{currentLeader.startDate | date : medium}}</span>
             </span>
           </td>
           <td *ngIf="currentLeader">
-            <strong>Leader Contacts : </strong>
+            <strong>Leader Contacts: </strong>
             <span *ngIf="currentLeader">
               <span *ngIf="currentLeader.primaryContacts">{{currentLeader.primaryContacts.value}}</span>
             </span>
@@ -94,14 +94,17 @@
               </select>
               <select *ngIf="currentLeader.leadershipType != 'staff' && group.cohortMembers.length" [ngModel]="currentLeader.uuid" name="peerLeader"
                 class="form-control" (change)="onLeaderSelected($event.target.value, group.cohortMembers)">
-                <option *ngFor="let member of group.cohortMembers" [value]="member.patient.person.uuid">{{member.patient.person.display}}</option>
+                <ng-container *ngFor="let member of group.cohortMembers">
+                <option  *ngIf="!member.endDate" [value]="member.patient.person.uuid">
+                  {{member.patient.person.display}}</option>
+                </ng-container>
               </select>
               <span class="alert alert-warning" *ngIf="currentLeader.leadershipType != 'staff' && !group.cohortMembers.length">
                   Add members to the group to be able to assign peer leadership.
               </span>
             </div>
           </div>
-          <div class="form-group" *ngIf="currentLeader.leadershipType == 'staff' && !group.cohortMembers.length">
+          <div class="form-group" *ngIf="currentLeader.leadershipType == 'staff' || group.cohortMembers.length > 0">
             <label class="col-xs-2">Contacts</label>
             <div class="col-xs-10">
               <div class="input-group">

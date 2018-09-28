@@ -6,7 +6,6 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { CommunityGroupAttributeService } from './community-group-attribute-resource.service';
 
 fdescribe('CommunityGroupService', () => {
-    let service;
 
     beforeEach(() => {
         TestBed.configureTestingModule({

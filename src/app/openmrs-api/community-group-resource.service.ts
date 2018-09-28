@@ -10,8 +10,7 @@ export class CommunityGroupService {
   public v = 'full';
 
   constructor(private http: Http,
-    private _appSettingsService: AppSettingsService,
-    private communityGroupAttributeService: CommunityGroupAttributeService) {
+    private _appSettingsService: AppSettingsService) {
 
   }
 
@@ -23,7 +22,7 @@ export class CommunityGroupService {
     if (searchByLandmark) {
       return this.getGroupsByLandmark(searchString);
     } else {
-      const regex = new RegExp(/^\d+$/);
+      const regex = new RegExp(/^\d/);
       if (regex.test(searchString)) {
         return this.getGroupByGroupNumber(searchString);
       } else {
@@ -42,8 +41,7 @@ export class CommunityGroupService {
         search: params
       })
       .pipe(
-        map((response) => response.json().results),
-        catchError((error) => 'An error occurred ' + error)
+        map((response) => response.json().results)
       );
   }
 
@@ -55,15 +53,13 @@ export class CommunityGroupService {
       search: params
     }).pipe(
       map((response) => response.json().results),
-      catchError((error) => 'An error occurred ' + error)
     );
   }
 
   public getGroupByUuid(groupUuid: string): Observable < any > {
     const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
     return this.http.get(url).pipe(
-      map((response) => response.json()),
-      catchError((error) => 'An error occurred ' + error)
+      map((response) => response.json())
     );
   }
 
@@ -117,7 +113,8 @@ export class CommunityGroupService {
   public disbandGroup(uuid: string, endDate: Date): any {
     const url = this.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`;
     const body = {
-      endDate
+      endDate: endDate,
+      voided: 1
     };
     return this.http.post(url, body).pipe(
       map((response) => response.json())
@@ -149,7 +146,8 @@ export class CommunityGroupService {
 
   public activateGroup(uuid: any): any {
     const body = {
-      endDate: null
+      endDate: null,
+      voided: 0
     };
     const url = this.getOpenMrsBaseUrl() + `/cohort/${uuid}`;
     return this.http.post(url, body).pipe(

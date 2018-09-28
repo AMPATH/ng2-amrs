@@ -51,42 +51,22 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         });
      }
 
-    public searchGroup() {
-        this.hideResults = false;
-        this.isLoading = true;
-        this.lastSearchString = this.searchString;
-        if (!_.isEmpty(this.errorMessage)) {
-            this.errorMessage = '';
-        }
-        if (this.searchString) {
-            this.subscription = this.groupService.searchCohort(this.searchString, this.searchByLandmark).subscribe((res) => {
-                this.searchResults = res;
-                this.totalGroups = this.searchResults.length;
-                this.isLoading = false;
-            },
-        (error) => {
-            this.isLoading = false;
-        });
-        }
-    }
-
-    public resetSearchList() {
-        this.hideResults = true;
-        this.searchString = '';
-        this.totalGroups = 0;
-        this.isLoading = false;
-    }
-
     public onGroupSelected(groupUuid: string) {
         this.router.navigate(['../group', groupUuid], {relativeTo: this.route});
     }
     public showCreateGroupModal() {
-       const initialState = { editType: 'Create' };
+       const initialState = { editType: 'Create', isModal: true };
        this.modalRef = this.bsModalService.show(GroupEditorComponent, {initialState: initialState});
-       this.modalRef.content.onCreate.subscribe((creatingGroup) => this.routeLoading = true);
+       this.modalRef.content.onCreate.subscribe((creatingGroup: boolean) => this.routeLoading = creatingGroup);
        this.modalRef.content.onSave.subscribe((group) => {
            this.router.navigate(['../group', group['uuid']], {relativeTo: this.route});
        });
+    }
+    public onResults(results) {
+      this.searchResults = results;
+    }
+    public onReset(reset: boolean) {
+     this.hideResults = reset;
     }
 
     public ngOnDestroy() {
@@ -94,15 +74,5 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
-
-    public toggleSearchByLandmark(event) {
-        if (event.checked) {
-            this.searchByLandmark = true;
-        } else {
-            this.searchByLandmark = false;
-        }
-    }
-
-
 
 }

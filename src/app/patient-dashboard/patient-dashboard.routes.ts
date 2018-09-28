@@ -41,6 +41,7 @@ import {
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { PatientCreationComponent } from '../patient-creation/patient-creation.component';
 import { PatientImagingComponent } from './common/imaging/patient-imaging.component';
+import { GroupEnrollmentComponent } from './programs/group-enrollment/group-enrollment.component';
 
 
 export const routes = [
@@ -92,6 +93,9 @@ export const routes = [
           {
             path: ':programClass/:program/patient-vitals',
             component: PatientVitalsComponent
+          },
+          { path: ':programClass/:program/group-enrollment',
+            component: GroupEnrollmentComponent
           },
           {
             path: ':programClass/:program/forms',
