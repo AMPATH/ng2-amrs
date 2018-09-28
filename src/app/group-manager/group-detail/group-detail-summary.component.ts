@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { Group } from '../group-model';
 import * as _ from 'lodash';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
@@ -13,6 +13,7 @@ import { CommunityGroupMemberService } from '../../openmrs-api/community-group-m
 import { DatePickerModalComponent } from '../modals/date-picker-modal.component';
 import { SuccessModalComponent } from '../modals/success-modal.component';
 import { GroupEditorComponent } from '../group-editor/group-editor-component';
+import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
 
 const PEER = 'peer';
 const STAFF = 'staff';
@@ -33,12 +34,13 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public groupNumber: any;
     public landmark: any;
     public provider: any;
+    public program: any;
     public currentLeader: any;
     public selectedLeader: any;
     public modalRef: BsModalRef;
     public modalRefNested: BsModalRef;
     public successMsg: string;
-    private subscription: Subscription;
+    private subscription: Subscription = new Subscription();
     public locations: any;
     public defaultLeadershipType = STAFF;
     public providers = [];
@@ -47,7 +49,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
     public pattern = new RegExp(this.r1.source + this.r2.source);
 
-    @ViewChild('successModal') public successModal: BsModalRef;
+    @Output() updatedGroup: EventEmitter<any> = new EventEmitter();
 
     public endDate = {
         date: {
@@ -63,6 +65,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
         this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
         this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
+        this.getProgram(this.communityGroupService.getGroupAttribute('programUuid', this.group.attributes));
         this.getProvider(this.communityGroupService.getGroupAttribute('provider', this.group.attributes));
 
     }
@@ -72,7 +75,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     constructor(private modalService: BsModalService,
         private communityGroupService: CommunityGroupService,
         private providerResourceService: ProviderResourceService,
-        private locationService: LocationResourceService,
+        private programService: ProgramResourceService,
         private communityGroupMemberService: CommunityGroupMemberService,
         private communityGroupLeaderService: CommunityGroupLeaderService) { }
 
@@ -89,13 +92,15 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     }
 
     public reloadData() {
-        this.communityGroupService.getGroupByUuid(this.group.uuid).subscribe((group) => {
+       const sub = this.communityGroupService.getGroupByUuid(this.group.uuid).subscribe((group) => {
             this.group = group;
+            this.updatedGroup.emit(this.group);
             this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
             this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
             this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
             this.getProvider(this.communityGroupService.getGroupAttribute('provider', this.group.attributes));
         });
+        this.subscription.add(sub);
     }
 
     public generateLeaderObject(leader, allMembers = []) {
@@ -147,20 +152,22 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         this.modalRef = this.modalService.show(DatePickerModalComponent, {
           initialState
         });
-        this.modalRef.content.onSave.subscribe((date) => {
+        const sub = this.modalRef.content.onSave.subscribe((date) => {
           this.modalRef.hide();
           this.disbandGroup(group['uuid'], date);
         });
+        this.subscription.add(sub);
       }
 
 
     public getProvider(providerUuid) {
         if (providerUuid) {
             const v = 'custom:(person:(uuid,display,attributes:(attributeType:(uuid),value,display)),uuid)';
-            this.subscription = this.providerResourceService.getProviderByPersonUuid(providerUuid.value, v)
+            const sub = this.providerResourceService.getProviderByPersonUuid(providerUuid.value, v)
                 .subscribe((provider) => {
                     this.provider = provider;
                 });
+        this.subscription.add(sub);
         }
     }
 
@@ -205,17 +212,20 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public addGroupLeader(value) {
         const personUuid = value['staffLeader'] || value['peerLeader'];
         this.modalRef.hide();
-        this.communityGroupLeaderService.addGroupLeader(this.group.uuid, personUuid, new Date())
+        const sub = this.communityGroupLeaderService.addGroupLeader(this.group.uuid, personUuid, new Date())
         .subscribe((res) => {
             this.reloadData();
         });
+        this.subscription.add(sub);
+
     }
     public disbandGroup(uuid, date) {
-        this.communityGroupService.disbandGroup(uuid, date)
+        const sub = this.communityGroupService.disbandGroup(uuid, date)
             .subscribe((res) => {
                 this.showSuccessModal('Group has been successfully disbanded.');
                 this.group.endDate = res.endDate;
             });
+            this.subscription.add(sub);
     }
 
 
@@ -235,33 +245,40 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
             }
             }
         });
-        return combineLatest(requests).subscribe((updatedContacts) => {
+        const sub = combineLatest(requests).subscribe((updatedContacts) => {
             this.showSuccessModal(`Successfully update contacts for ${leader.name}`);
             this.updateContactsUIState(updatedContacts, leader);
         },
         (error) => {
             console.log(error);
         });
+        this.subscription.add(sub);
+
 
     }
 
     public showUpdateGroupModal() {
+        let program = null;
+        this.program ? program = this.program : program = {name: null, value: null};
         const initialState = {editType: 'Edit',
                               groupName: this.group.name,
                               groupNo: this.groupNumber.value,
                               facility:  {label: this.group.location['display'], value: this.group.location['uuid']},
                               groupType: {label: this.group.cohortType['name'], value: this.group.cohortType['uuid']},
-                              groupProgram: {label: this.group.cohortProgram['name'], value: this.group.cohortProgram['uuid']},
+                              groupProgram: {label: program['name'], value: program['uuid']},
                               provider: {label: this.provider.person.display, value: this.provider.person.uuid},
                               address: this.landmark.value,
-                              groupUuid: this.group.uuid
+                              groupUuid: this.group.uuid,
+                              isModal: true
                               };
         this.modalRef = this.modalService.show(GroupEditorComponent, {initialState: initialState});
-        this.modalRef.content.onSave.subscribe((res) => {
-            this._group = res;
+        const sub = this.modalRef.content.onSave.subscribe((updatedGroup) => {
+            this._group = updatedGroup;
+            this.updatedGroup.emit(updatedGroup);
             this.modalRef.hide();
             this.showSuccessModal('Successfully updated group ' + this.group.name);
         });
+        this.subscription.add(sub);
     }
 
     public updateContactsUIState(updatedContacts, leader) {
@@ -312,17 +329,21 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         this.modalRef.hide();
         if (currentLeader) {
             if (currentLeader['uuid'] !== selectedLeaderUuid) {
+                const sub =
                 this.communityGroupLeaderService.updateGroupLeader(this.group['uuid'], currentLeader['leaderUuid'], selectedLeaderUuid)
                 .subscribe((res) => {
                     this.showSuccessModal('Successfully changed leader for ' + this.group.name);
                     this.reloadData();
                 },
                 (error) => { console.log(error); });
+        this.subscription.add(sub);
+
             }
         } else {
-            this.communityGroupLeaderService.addGroupLeader(this.group['uuid'], selectedLeaderUuid, new Date()).subscribe(
+            const sub = this.communityGroupLeaderService.addGroupLeader(this.group['uuid'], selectedLeaderUuid, new Date()).subscribe(
                 (res) => this.reloadData(),
                 (error) => console.log(error));
+            this.subscription.add(sub);
         }
     }
 
@@ -341,11 +362,25 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
 
 
     public activateGroup(group: any) {
-        this.communityGroupService.activateGroup(group.uuid).subscribe((res) => {
+        const sub = this.communityGroupService.activateGroup(group.uuid).subscribe((res) => {
             this.showSuccessModal('Successfully reactivated group.');
             this.group = res;
         },
         (error) => (console.log(error)));
+        this.subscription.add(sub);
+
+    }
+
+    public getProgram(program: any) {
+        if (program) {
+        const sub = this.programService.getProgramByUuid(program.value).subscribe((prog) => {
+             this.program = prog;
+        },
+        (error) => {
+            console.log(error);
+        });
+        this.subscription.add(sub);
+    }
     }
 
     ngOnDestroy(): void {

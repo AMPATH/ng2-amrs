@@ -41,4 +41,12 @@ export class ProgramResourceService {
         return response.json();
       }));
   }
+
+  public getProgramByUuid(uuid: string) {
+    const url = this.getUrl() + '/' + uuid;
+    return this.http.get(url).pipe(
+      map((response) => {
+        return response.json();
+      }));
+  }
 }

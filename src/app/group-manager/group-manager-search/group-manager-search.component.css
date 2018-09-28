@@ -15,27 +15,6 @@
     font-size: 14px;
   }
   
-  #search-textbox{
-    
-      box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      border:1px solid #BEBEBE;
-      transition: all 0.30s ease-in-out;
-      -webkit-transition: all 0.30s ease-in-out;
-      -moz-transition: all 0.30s ease-in-out;
-      -ms-transition: all 0.30s ease-in-out;
-      -o-transition: all 0.30s ease-in-out;
-      outline: none;
-      font-size:20px;
-  }
-  #search-textbox:focus{
-      -moz-box-shadow: 0 0 8px #88D5E9;
-      -webkit-box-shadow: 0 0 8px #88D5E9;
-      box-shadow: 0 0 8px #88D5E9;
-      border: 1px solid #88D5E9;
-  }
-  
   .alert {
     color: #999;
     padding: 0px;

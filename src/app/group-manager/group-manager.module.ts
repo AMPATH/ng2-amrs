@@ -17,6 +17,7 @@ import { DatePickerModalComponent } from './modals/date-picker-modal.component';
 import { SuccessModalComponent } from './modals/success-modal.component';
 import { CommunityGroupLeaderService } from '../openmrs-api/community-group-leader-resource.service';
 import { GroupEditorComponent } from './group-editor/group-editor-component';
+import { GroupSearchInputComponent } from './group-manager-search/group-search-input/group-search-input.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { GroupEditorComponent } from './group-editor/group-editor-component';
         GroupDetailSummaryComponent,
         DatePickerModalComponent,
         SuccessModalComponent,
-        GroupEditorComponent
+        GroupEditorComponent,
+        GroupSearchInputComponent
     ],
     imports: [
         CommonModule,
@@ -36,7 +38,10 @@ import { GroupEditorComponent } from './group-editor/group-editor-component';
         ConfirmDialogModule,
         DialogModule
      ],
-    exports: [],
+    exports: [
+      GroupSearchInputComponent,
+      GroupEditorComponent
+    ],
     providers: [
         CommunityGroupService,
         CommunityGroupMemberService,

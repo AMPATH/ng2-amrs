@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http } from '@angular/http';
+import { Http, URLSearchParams } from '@angular/http';
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
 @Injectable()
@@ -44,5 +44,13 @@ export class CommunityGroupAttributeService {
         });
         return urls;
 
+    }
+
+    public getAttributesByAttributeType(attributeTypeName: string) {
+        const url = this.getOpenMrsBaseUrl();
+        const params = new URLSearchParams();
+        params.set('attributeType', attributeTypeName);
+        return this.http.get(url, {search: params})
+        .pipe(map((response) => response.json().results));
     }
 }

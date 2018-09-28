@@ -21,67 +21,22 @@
         <tbody>
           <tr style="cursor: pointer;" *ngFor="let group of _groups | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; "
             (click)="selectGroup(group.uuid)">
-            <ng-container *ngFor="let attribute of group.attributes">
-              <td *ngIf="attribute.cohortAttributeType.name == 'groupNumber'">{{attribute.value}}</td>
-            </ng-container>
-            <td *ngIf="group.attributes.length == 0"> {{ getAttribute('groupNumber', group.attributes) }} </td>
+            <td> {{ getAttribute('groupNumber', group.attributes) }} </td>
             <td>{{group.name}}</td>
             <td>{{ getAttribute('landmark', group.attributes) }}</td>
             <td *ngIf="group.location">{{group.location.display}}</td>
             <td *ngIf="!group.location">-</td>
             <td *ngIf="group.endDate == null">Active</td>
             <td *ngIf="group.endDate != null">Inactive</td>
-            <td><button *ngIf="group.endDate == null" class="btn btn-sm btn-danger" (click)="showDisbandGroupModal(disbandGroup,group); $event.stopPropagation()">Disband
+            <td  *ngIf="group.endDate == null"><button class="btn btn-sm btn-danger" (click)="$event.stopPropagation(); showDisbandDateModal(group)">Disband
+              </button>
+            </td>
+            <td *ngIf="group.endDate"><button class="btn btn-sm btn-success" (click)="$event.stopPropagation(); activateGroup(group)">Activate
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+      <pagination-controls *ngIf="_groups.length > 10" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
     </div>
   </div>
-  <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
-
-
-  <ng-template #disbandGroup>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Disband Group Confirmation</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label for="start-date">Date Ended</label>
-        <div class="input-group">
-          <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate"
-            [(ngModel)]="endDate" [options]="endDateOptions" #dp="ngx-mydatepicker" required/>
-
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-              <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-          </span>
-        </div>
-
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="disband(endDate.jsdate)" [disabled]="!endDate">Disband</button>
-      <button type="button" class="btn btn-primary" (click)="modalRef.hide()"> Cancel </button>
-    </div>
-  </ng-template>
-
-  <ng-template #successModal>
-    <div class="modal-header">
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-
-      <h4> Group Disbanded Successfully <span class="fa fa-check-circle" style="color:green"></span></h4>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="modalRef.hide()"> OK </button>
-    </div>
-  </ng-template>

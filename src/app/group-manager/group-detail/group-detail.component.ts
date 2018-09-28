@@ -24,7 +24,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   public modalRef: BsModalRef;
   public nestedModalRef: BsModalRef;
   public subscription: Subscription;
-  public isFiltered: boolean;
+  public isFiltered = true;
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -36,7 +36,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
     this.subscription = this.communityGroupService.getGroupByUuid(uuid).subscribe((res) => {
       this.group = res;
-      this.members = res.cohortMembers;
+      this.members = this.filterCurrent();
     });
   }
 
@@ -93,7 +93,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
 
   public filterCurrent() {
     this.isFiltered = true;
-    this.members = _.filter(this.group.cohortMembers, (member) => member.endDate == null);
+    return _.filter(this.group.cohortMembers, (member) => member.endDate == null);
   }
 
   public removeFilter() {
@@ -105,6 +105,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  onGroupDetailsChanged(updatedGroup) {
+    this.group = updatedGroup;
   }
 
 }
