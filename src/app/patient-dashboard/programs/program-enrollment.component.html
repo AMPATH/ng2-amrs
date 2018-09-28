@@ -12,7 +12,7 @@
   <tbody>
   <tr *ngIf="loadingPatientPrograms">
     <td colspan="4">
-      <div [ngBusy]="{busy:[loadingPatientPrograms],message:'Loading program enrollments.........'}"></div>
+      <!-- <div [ngBusy]="{busy:[loadingPatientPrograms],message:'Loading program enrollments.........'}"></div> -->
     </td>
   </tr>
   <tr style="cursor: pointer;" *ngFor="let row of enrolledPrograms">

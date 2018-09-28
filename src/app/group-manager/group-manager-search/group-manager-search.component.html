@@ -1,0 +1,24 @@
+<mat-progress-bar *ngIf="routeLoading" color="primary" mode="indeterminate"></mat-progress-bar>
+<div class="box-body">
+  <div class="component-wrapper">
+    <div class="group-search">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            <h2>Group Search</h2>
+          </div>
+        </div>
+    <group-search-input (searchResults)="onResults($event)" (hideResults)="onReset($event)"></group-search-input>
+      </div>
+    </div>
+    <div *ngIf="searchResults && !hideResults">
+      <group-manager-search-results *ngIf="searchResults.length" [groups]="searchResults" (groupSelected)="onGroupSelected($event)"></group-manager-search-results>
+    </div>
+    <div clas="row" style="margin-top: 15px;">
+      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <button mat-raised-button (click)="showCreateGroupModal()" style="background: rgb(245, 245, 245); border-radius: 10px; color: #31708f; font-weight: 700">
+          <span class="fa fa-users"></span> Create New Group</button>
+      </div>
+    </div>
+  </div>
+</div>

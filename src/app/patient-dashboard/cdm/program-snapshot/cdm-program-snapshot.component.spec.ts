@@ -1,5 +1,5 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { CdmSummaryResourceService } from '../../../etl-api/cdm-summary-resource.service';
 import { Observable } from 'rxjs';
 import { CdmProgramSnapshotComponent } from './cdm-program-snapshot.component';

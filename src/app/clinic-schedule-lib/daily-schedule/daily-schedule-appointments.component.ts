@@ -1,12 +1,12 @@
 import { LocalStorageService } from './../../utils/local-storage.service';
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {
   ClinicDashboardCacheService
 } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'daily-schedule-appointments',

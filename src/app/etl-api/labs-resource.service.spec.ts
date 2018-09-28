@@ -36,6 +36,10 @@ describe('LabsResourceService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     let patientUuId = 'uuid';
 
     let newLabResults = {

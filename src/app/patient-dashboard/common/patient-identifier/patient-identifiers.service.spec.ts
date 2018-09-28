@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../../app-settings';

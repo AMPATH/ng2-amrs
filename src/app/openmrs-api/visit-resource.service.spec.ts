@@ -33,6 +33,10 @@ describe('VisitResourceService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined', async(inject(
         [VisitResourceService, MockBackend], (service, mockBackend) => {
 

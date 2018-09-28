@@ -1,0 +1,109 @@
+<div *ngIf="group">
+  <h3 style="margin-bottom: 25px;"> <i class="fa fa-users"></i>
+    <span class="text-bold"> Manage Groups \ {{group.name}}</span>
+  </h3>
+  
+ <group-detail-summary [_group]="group" (updatedGroup)="onGroupDetailsChanged($event)"></group-detail-summary>
+  <mat-card>
+    <div class="row" style="margin-bottom: 15px;">
+      <h4 class="col-md-5 col-sm-5">
+        Group Members and Meetings
+      </h4>
+      <div class="col-md-3 col-sm-3 pull-right" *ngIf="group.cohortMembers.length">
+          <div class="btn-group" role="group">
+              <button type="button" class="btn btn-sm btn-default"><i class="fa fa-filter"></i></button>
+            <button type="button"  [ngClass]="{'btn-primary': isFiltered, 'btn-default': !isFiltered }" class="btn btn-sm" (click)="filterCurrent()">Current</button>
+            <button type="button"  [ngClass]="{'btn-primary': !isFiltered, 'btn-default': isFiltered }" class="btn btn-sm" (click)="removeFilter()">All</button>
+          </div>
+          </div>
+    </div>
+
+    <div class="alert alert-warning" *ngIf="group.cohortMembers.length == 0">
+      No members to display. Please add members to the group.
+    </div>
+    <div *ngIf="group.cohortMembers.length > 0">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Identifiers</th>
+          <th>Name</th>
+          <th>Contacts</th>
+          <th>Member Since</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of members | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
+          <td><span *ngFor="let identifier of member.patient.identifiers; let i = index">
+            <span>{{identifier.identifier}}</span>
+            <span *ngIf="i !== member.patient.identifiers.length - 1">,</span>
+          </span></td>
+          <td>{{ member.patient.person.display }}</td>
+          <td>
+            <span *ngFor="let attribute of member.patient.person.attributes">
+              <span *ngIf="attribute.attributeType.uuid === '72a759a8-1359-11df-a1f1-0026b9348838'
+              || attribute.attributeType.uuid === 'c725f524-c14a-4468-ac19-4a0e6661c930'">
+              {{attribute.value}}
+            </span>
+            </span>
+          </td>
+          <td>{{ member.startDate | date : medium }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+    <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+  </div>
+    <div class="row">
+      <div class="pull-right">
+          <div class="btn-group" role="group">
+            <button type="button" (click)="showModal(editMembership)" *ngIf="!group.endDate" class="btn btn-default">Edit Membership</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  </mat-card>
+</div>
+
+
+<ng-template #editMembership>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Edit Membership</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+  
+        <table class="table table-striped" *ngIf="group.cohortMembers">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Contacts</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let member of group.cohortMembers">
+                <td>{{ member.patient.person.display }}</td>
+                <td>-</td>
+                <td>{{ member.startDate | date : medium }}</td>
+                <td>{{ member.endDate | date : medium }}</td>
+                <td *ngIf="!member.endDate">
+                  <button 
+                  (click)="showDateModal(member, 'End Membership For ' + member.patient.person.display)" class="btn btn-sm btn-danger">
+                    End Membership
+                  </button>
+                </td>
+                <td *ngIf="member.endDate">
+                    -
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modalRef.hide()"> Close </button>
+    </div>
+  </ng-template>

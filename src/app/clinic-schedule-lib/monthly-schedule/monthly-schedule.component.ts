@@ -132,8 +132,10 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     });
   }
 
-  public addBadgeTotal(day: CalendarMonthViewDay): void {
-    day.badgeTotal = 0;
+  public beforeMonthViewRender(days: CalendarMonthViewDay[]): void {
+    days.forEach(day => {
+      day.badgeTotal = 0;
+    });
   }
 
   public navigateToDaily(event) {

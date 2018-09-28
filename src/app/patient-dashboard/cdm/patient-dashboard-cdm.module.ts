@@ -9,7 +9,7 @@ import {
 } from 'primeng/primeng';
 import { CdmLandingPageComponent } from './landing-page/landing-page.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
@@ -26,7 +26,7 @@ import { CdmMedicationHistoryComponent } from './cdm-summary/medication-history.
     NgamrsSharedModule,
     PanelModule,
     TabViewModule,
-    Ng2PaginationModule
+    NgxPaginationModule
   ],
   exports: [
     CdmLandingPageComponent,

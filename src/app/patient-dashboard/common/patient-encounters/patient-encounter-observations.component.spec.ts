@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { PatientEncounterObservationsComponent } from './patient-encounter-observations.component';
 import { TestBed } from '@angular/core/testing';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
@@ -92,6 +92,10 @@ describe('Component: PatientEncounterObservationsComponent', () => {
       ]
     };
     processedObs = component.processEncounter(encounter);
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should be be defined', () => {

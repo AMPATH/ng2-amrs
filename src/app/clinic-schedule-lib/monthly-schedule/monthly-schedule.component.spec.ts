@@ -3,18 +3,18 @@
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, fakeAsync, ComponentFixture, tick, flush } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { MonthlyScheduleBaseComponent } from './monthly-schedule.component';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
-import { BusyModule } from 'angular2-busy';
+// import { NgBusyModule } from 'ng-busy';
 import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { ClinicDashboardCacheService }
-from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+  from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { AppSettingsService } from '../../app-settings';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
@@ -22,18 +22,20 @@ import { CacheModule, CacheService } from 'ionic-cache';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule,
-  MdSlideToggleModule, MdDatepickerModule, MdNativeDateModule, MdDatepickerToggle
+import {
+  MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
+  MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
 import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
 import { AngularMultiSelectModule }
-from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+  from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService }
-from './../../etl-api/department-programs-config.service';
-import { SelectDepartmentService
+  from './../../etl-api/department-programs-config.service';
+import {
+  SelectDepartmentService
 } from './../../program-visit-encounter-search/program-visit-encounter-search.service';
 class DataStub {
 
@@ -221,11 +223,11 @@ let results = {
   ]
 };
 class MockRouter {
- public navigate = jasmine.createSpy('navigate');
+  public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
- public params = Observable.of([{ 'id': 1 }]);
- public snapshot = {
+  public params = Observable.of([{ 'id': 1 }]);
+  public snapshot = {
     queryParams: { date: '' }
   };
 }
@@ -237,18 +239,18 @@ describe('MonthlyScheduleComponent', () => {
   let patientProgramResourceService: PatientProgramResourceService;
   let departmentProgConfigService: DepartmentProgramsConfigService;
 
-  beforeEach( async(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BusyModule, CalendarModule.forRoot(),
-       BrowserAnimationsModule, CacheModule, AngularMultiSelectModule ,
-       FormsModule, MdTabsModule,
-       MdProgressSpinnerModule,
-       MdProgressBarModule,
-       MdDatepickerModule,
-       MdNativeDateModule,
-       MdSlideToggleModule,
-       NgxMyDatePickerModule,
-       DateTimePickerModule
+      imports: [CalendarModule.forRoot(),
+        BrowserAnimationsModule, CacheModule, AngularMultiSelectModule,
+        FormsModule, MatTabsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSlideToggleModule,
+        NgxMyDatePickerModule,
+        DateTimePickerModule
       ],
       declarations: [MonthlyScheduleBaseComponent, ProgramVisitEncounterSearchComponent],
       providers: [
@@ -285,15 +287,20 @@ describe('MonthlyScheduleComponent', () => {
         comp = fixture.componentInstance;
         dataStub = fixture.debugElement.injector.get(MonthlyScheduleResourceService);
         departmentProgConfigService = fixture.debugElement.injector.
-        get( DepartmentProgramsConfigService);
+          get(DepartmentProgramsConfigService);
       });
   }));
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should hit the success callback when getMonthlySchedule returns success', fakeAsync(() => {
     const spy = spyOn(dataStub, 'getMonthlySchedule').and.returnValue(
       Observable.of(results)
     );
     comp.getAppointments();
+
+    flush();
     fixture.detectChanges();
     // expect(comp.success).toEqual(true);
     expect(spy.calls.any()).toEqual(true);
@@ -304,6 +311,7 @@ describe('MonthlyScheduleComponent', () => {
       Observable.throw({ error: '' })
     );
     comp.getAppointments();
+    flush();
     fixture.detectChanges();
     // expect(comp.error).toEqual(true);
     expect(spy.calls.any()).toEqual(true);

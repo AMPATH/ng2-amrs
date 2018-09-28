@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';

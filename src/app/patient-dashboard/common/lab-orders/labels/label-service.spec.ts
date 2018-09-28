@@ -12,6 +12,10 @@ describe('LabelService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should return a blob url of pdf file', async(inject([LabelService], (s: LabelService) => {
         let labels = [{
             orderDate: '20/03/2017',

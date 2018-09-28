@@ -32,6 +32,10 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be defined', async(inject(
     [PatientRelationshipTypeResourceService, MockBackend], (service, mockBackend) => {
 

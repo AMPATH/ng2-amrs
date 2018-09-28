@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { AppSettingsService } from '../app-settings';
+import { Observable } from 'rxjs';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
@@ -18,7 +20,7 @@ export class PatientStatusVisualizationResourceService {
           let api: string = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking';
           let params: URLSearchParams = this.getUrlRequestParams(options);
-          let request =  this.http.get(api, { search: params }).map((data) => data.json());
+          let request =  this.http.get(api, { search: params }).pipe(map((data) => data.json()));
           return this.cacheService.cacheRequest(api, params, request);
 
     }
@@ -31,7 +33,7 @@ export class PatientStatusVisualizationResourceService {
             '/patient-status-change-tracking/patient-list';
 
         let params: URLSearchParams = this.getUrlPatientListRequestParams(options);
-        let request = this.http.get(api, { search: params }).map((data) => data.json());
+        let request = this.http.get(api, { search: params }).pipe(map((data) => data.json()));
         return this.cacheService.cacheRequest(api, params, request);
 
     }

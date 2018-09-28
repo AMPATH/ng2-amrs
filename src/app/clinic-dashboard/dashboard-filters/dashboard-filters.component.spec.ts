@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DashboardFiltersComponent } from './dashboard-filters.component';
@@ -62,7 +62,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
 
 }
 
-describe('Component: DashboardFiltersComponent', () => {
+ describe('Component: DashboardFiltersComponent', () => {
   let parentComponent: DashboardFiltersComponent;
   let parentFixture;
   beforeEach(() => {
@@ -102,6 +102,10 @@ describe('Component: DashboardFiltersComponent', () => {
     });
     parentFixture = TestBed.createComponent(DashboardFiltersComponent);
     parentComponent = parentFixture.componentInstance;
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should have a defined component', () => {

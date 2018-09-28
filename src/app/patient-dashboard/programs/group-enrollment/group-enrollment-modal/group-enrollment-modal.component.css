@@ -1,0 +1,27 @@
+.mat-radio-button {
+  margin: 15px;
+}
+#search-results {
+  margin-top: 40px;
+  font-size: 14px;
+}
+.search-input,.create-group{
+  margin: 25px 0px 25px 0px;
+}
+.table>thead>tr>td {
+  font-weight: 700;
+}
+.mat-card {
+  padding: 0px;
+}
+.mat-radio-label-content {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+  border: 1px solid darkgray;
+}
+.mat-radio-button {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+

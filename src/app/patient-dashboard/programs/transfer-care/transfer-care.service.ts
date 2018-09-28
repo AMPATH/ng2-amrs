@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject ,  Observable ,  Subject ,  forkJoin } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { ProgramService } from '../program.service';
 import { Patient } from '../../../models/patient.model';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-
+import { first } from 'rxjs/operators';
 @Injectable()
 export class ProgramsTransferCareService {
   public confirmPayLoad: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -65,7 +63,7 @@ export class ProgramsTransferCareService {
       } else {
         observer.next(_.merge(program, {encounterForms: []}));
       }
-    }).first();
+    }).pipe(first());
   }
 
   public fetchAllProgramTransferConfigs(patientUuid): Observable<any> {
@@ -95,7 +93,7 @@ export class ProgramsTransferCareService {
         programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload));
       }
     });
-    return Observable.forkJoin(programBatch);
+    return forkJoin(programBatch);
   }
 
   public getPatientEncounters(patient: Patient): Observable<any> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
 } from
@@ -16,7 +16,7 @@ import { ProgramWorkFlowStateResourceService
 } from '../../openmrs-api/program-workflow-state-resource.service';
 import { ProgramWorkFlowResourceService
 } from '../../openmrs-api/program-workflow-resource.service';
-
+import { first } from 'rxjs/operators';
 @Injectable()
 export class ProgramService {
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
@@ -125,7 +125,7 @@ export class ProgramService {
         .subscribe((workflows: any) => {
           observer.next(workflows.allWorkflows);
         });
-    }).first();
+    }).pipe(first());
   }
 
   public getProgramWorkFlowStates(workflowUuid: any) {
@@ -134,7 +134,7 @@ export class ProgramService {
         .subscribe((states) => {
           observer.next(states);
         });
-    }).first();
+    }).pipe(first());
   }
 
   public getSelectedProgram(programs, programUuid) {

@@ -3,7 +3,7 @@ import {
   Output
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -100,7 +100,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     return findProvider;
   }
 
-  public saveRetroState(state: MdCheckboxChange) {
+  public saveRetroState(state: MatCheckboxChange) {
     this.enableRetro = state.checked;
     this.retrospectiveDataEntryService.updateProperty('enableRetro', state.checked);
     if (!this.enableRetro) {

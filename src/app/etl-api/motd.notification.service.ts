@@ -1,8 +1,10 @@
-import { Observable } from 'rxjs/Rx';
+
+import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings';
+
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class MOTDNotificationService {
@@ -21,7 +23,7 @@ export class MOTDNotificationService {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
 
-    return this._http.get(url2, options).map((res) => res.json());
+    return this._http.get(url2, options).pipe(map((res) => res.json()));
 
   }
 

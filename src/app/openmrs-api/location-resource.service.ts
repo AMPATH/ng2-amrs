@@ -1,8 +1,10 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
-import { ReplaySubject, Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings';
+import { ReplaySubject, Observable } from 'rxjs';
+
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 @Injectable()
 export class LocationResourceService {
@@ -34,8 +36,8 @@ export class LocationResourceService {
         {
           search: params
         }
-      )
-        .map((res: Response) => res.json())
+      ).pipe(
+        map((res: Response) => res.json()))
         .subscribe(
         (data) => this.locations.next(data.results),
         (error) => this.locations.error(error)
@@ -54,9 +56,9 @@ export class LocationResourceService {
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('v', (v && v.length > 0) ? v : this.v);
-    let request = this.http.get(url, { search: params }).map((response: Response) => {
+    let request = this.http.get(url, { search: params }).pipe(map((response: Response) => {
       return response.json();
-    });
+    }));
 
     return this.cacheService.cacheRequest(url, params, request);
   }
@@ -83,10 +85,10 @@ export class LocationResourceService {
 
     return this.http.get(url, {
       search: params
-    })
-      .map((response: Response) => {
+    }).pipe(
+      map((response: Response) => {
         return response.json().results;
-      });
+      }));
   }
 
 }

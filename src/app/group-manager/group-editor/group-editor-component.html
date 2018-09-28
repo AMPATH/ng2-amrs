@@ -1,0 +1,279 @@
+<div *ngIf="isModal">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{editType}} Group</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div id="editor-row">
+      <div class="container-fluid">
+        <div clas="row">
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            <div class="alert alert-success" *ngIf="success && message!==''">
+              <strong>Success!</strong> {{message}}
+            </div>
+            <div class="alert alert-danger" *ngIf="!success && message!== ''">
+              <strong>Error!</strong> {{message}}
+            </div>
+          </div>
+          <form #form="ngForm">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <label for="location" class="control-label">Facility <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                  <div class="form-group">
+                    <ng-select class="sharp-corners select" placeholder="Please type to search" id="location"
+                      [(ngModel)]="facility" [items]="facilities" (change)="selectFacility($event)" name="facilityInput"
+                      #facilityInput="ngModel" required>
+                    </ng-select>
+                    <div *ngIf="facilityInput.errors && (facilityInput.dirty || facilityInput.touched)">
+                      <span style="font-size: 12px; color: red">Facility is required </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <label for="groupNo">Group Number<span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [ngModel]="groupNo" name="groupNumberInput" id="groupNo"
+                      (ngModelChange)="checkGroupNumber($event)" #groupNumberInput="ngModel" [pattern]="groupNumberPattern"
+                      placeholder="Please enter unique group identifier" required>
+                    <div *ngIf="groupNumberInput.errors && (groupNumberInput.dirty || groupNumberInput.touched)">
+                      <div [hidden]="!groupNumberInput.errors.required" class="warnings">
+                        <span style="font-size: 12px; color: red">Group Number is required </span>
+                      </div>
+                      <div [hidden]="!groupNumberInput.errors.pattern" class="warnings">
+                        <span style="font-size: 12px; color: red">Valid Group Number must be 10 digits where the first
+                          5 and last 5
+                          are separated by a hiphen (-)</span>
+                      </div>
+                    </div>
+                    <div *ngIf="groupNoErrorMessage || !groupNumberInput.valid" class="warnings">
+                      <span style="font-size: 12px; color: red">{{groupNoErrorMessage}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <label>Group Name<span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="groupName" name="groupNameInput" placeholder="Please enter group name"
+                      #groupNameInput="ngModel" [pattern]="groupNamePattern" required>
+                    <div *ngIf="groupNameInput.errors && (groupNameInput.dirty || groupNameInput.touched)">
+                      <div [hidden]="!groupNameInput.errors.required" class="warnings">
+                        <span style="font-size: 12px; color: red">Group Name is required </span>
+                      </div>
+                      <div [hidden]="!groupNameInput.errors.pattern" class="warnings">
+                        <span style="font-size: 12px; color: red">Group Name cannot contain numbers</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <label>Group Program<span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                  <ng-select class="sharp-corners select" placeholder="Please type to search" [(ngModel)]="groupProgram"
+                    [items]="groupPrograms" (change)="selectGroupProgram($event)" name="groupProgramInput"
+                    #groupProgramInput="ngModel" required>
+                  </ng-select>
+                  <div *ngIf="groupProgramInput.errors && (groupProgramInput.dirty || groupProgramInput.touched)">
+                    <span style="font-size: 12px; color: red">Group Program is required </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <label>Health Provider<span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                  <ng-select [loading]="providerLoading" class="sharp-corners select" [items]="providers" name="providerInput"
+                    [(ngModel)]="provider" #providerInput="ngModel" required></ng-select>
+                  <div *ngIf="providerInput.errors && (providerInput.dirty || providerInput.touched)">
+                    <span style="font-size: 12px; color: red">Provider is required </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <label>Landmark <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="address" name="addressInput" placeholder="Please enter landmark"
+                      #addressInput="ngModel" required>
+                    <div *ngIf="addressInput.errors && (addressInput.dirty || addressInput.touched)">
+                      <span style="font-size: 12px; color: red">Landmark is required </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+          </form>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="modal-footer">
+        <button class="btn btn-danger pull-right submit-btn" (click)="modalRef.hide()">Cancel</button>
+        <button *ngIf="editType.toLowerCase() === 'create'" class="btn btn-primary pull-right submit-btn" (click)="createUpdateGroup()"
+          [disabled]="busy || !form.valid || groupNoErrorMessage">
+          Create Group</button>
+        <button *ngIf="editType.toLowerCase() === 'edit'" class="btn btn-primary pull-right submit-btn" (click)="createUpdateGroup()"
+          [disabled]="busy || !form.valid || groupNoErrorMessage">
+          Save Group Changes</button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<div *ngIf="!isModal">
+  <form #form="ngForm">
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label for="location" class="control-label">Facility <span class="text-danger">*</span></label>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+        <div class="form-group">
+          <ng-select class="sharp-corners select" placeholder="Please type to search" id="location" [(ngModel)]="facility"
+            [items]="facilities" (change)="selectFacility($event)" name="facilityInput" #facilityInput="ngModel"
+            required>
+          </ng-select>
+          <div *ngIf="facilityInput.errors && (facilityInput.dirty || facilityInput.touched)">
+            <span style="font-size: 12px; color: red">Facility is required </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label for="groupNo">Group Number<span class="text-danger">*</span></label>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+        <div class="form-group">
+          <input type="text" class="form-control" [ngModel]="groupNo" name="groupNumberInput" id="groupNo"
+            (ngModelChange)="checkGroupNumber($event)" #groupNumberInput="ngModel" [pattern]="groupNumberPattern"
+            placeholder="Please enter unique group identifier" required>
+          <div *ngIf="groupNumberInput.errors && (groupNumberInput.dirty || groupNumberInput.touched)">
+            <div [hidden]="!groupNumberInput.errors.required" class="warnings">
+              <span style="font-size: 12px; color: red">Group Number is required </span>
+            </div>
+            <div [hidden]="!groupNumberInput.errors.pattern" class="warnings">
+              <span style="font-size: 12px; color: red">Valid Group Number must be 10 digits where the first 5 and last
+                5
+                are separated by a hiphen (-)</span>
+            </div>
+          </div>
+          <div *ngIf="groupNoErrorMessage || !groupNumberInput.valid" class="warnings">
+            <span style="font-size: 12px; color: red">{{groupNoErrorMessage}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label>Group Name<span class="text-danger">*</span></label>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="groupName" name="groupNameInput" placeholder="Please enter group name"
+            #groupNameInput="ngModel" [pattern]="groupNamePattern" required>
+          <div *ngIf="groupNameInput.errors && (groupNameInput.dirty || groupNameInput.touched)">
+            <div [hidden]="!groupNameInput.errors.required" class="warnings">
+              <span style="font-size: 12px; color: red">Group Name is required </span>
+            </div>
+            <div [hidden]="!groupNameInput.errors.pattern" class="warnings">
+              <span style="font-size: 12px; color: red">Group Name cannot contain numbers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label>Group Program<span class="text-danger">*</span></label>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+        <ng-select class="sharp-corners select" placeholder="Please type to search" id="groupProgram" [(ngModel)]="groupProgram"
+          [items]="groupPrograms" (change)="selectGroupProgram($event)" name="groupProgramInput" #groupProgramInput="ngModel"
+          required>
+        </ng-select>
+        <div *ngIf="groupProgramInput.errors && (groupProgramInput.dirty || groupProgramInput.touched)">
+          <span style="font-size: 12px; color: red">Group Program is required </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label>Health Provider<span class="text-danger">*</span></label>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+        <ng-select [loading]="providerLoading" class="sharp-corners select" [items]="providers" name="providerInput"
+          [(ngModel)]="provider" #providerInput="ngModel" required></ng-select>
+        <div *ngIf="providerInput.errors && (providerInput.dirty || providerInput.touched)">
+          <span style="font-size: 12px; color: red">Provider is required </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label>Landmark <span class="text-danger">*</span></label>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="address" name="addressInput" placeholder="Please enter landmark"
+            #addressInput="ngModel" required>
+          <div *ngIf="addressInput.errors && (addressInput.dirty || addressInput.touched)">
+            <span style="font-size: 12px; color: red">Landmark is required </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="pull-right">
+      <button class="btn btn-primary" (click)="createAndEmit()" [disabled]="!form.valid || groupNoErrorMessage"> Create
+        and Enroll </button>
+      <button class="btn btn-danger" style="margin-left: 5px;" (click)="onCancel()"> Cancel</button>
+    </div>
+  </div>
+</div>

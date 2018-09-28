@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs';
 import { DynamicRouteModel } from './dynamic-route.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { DashboardModel } from './dashboard.model';
