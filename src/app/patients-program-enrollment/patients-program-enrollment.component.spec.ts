@@ -16,16 +16,13 @@ import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular
 import { AppSettingsService } from './../app-settings/app-settings.service';
 import { LocalStorageService } from './../utils/local-storage.service';
 import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytics.service';
-import { DepartmentProgramFilterComponent } from
-'./../department-program-filter/department-program-filter.component';
-import { UserDefaultPropertiesService } from
-'./../user-default-properties/user-default-properties.service';
+import { DepartmentProgramFilterComponent } from './../department-program-filter/department-program-filter.component';
+import { UserDefaultPropertiesService } from './../user-default-properties/user-default-properties.service';
 import { UserService } from './../openmrs-api/user.service';
-import { Observable } from 'rxjs/Observable';
-import { AngularMultiSelectModule }
-from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { of } from 'rxjs';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AgGridModule } from 'ag-grid-angular';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { IonicStorageModule } from '@ionic/storage';
@@ -46,7 +43,7 @@ const mockActivatedRoute = {
   queryParams: {
     subscribe: jasmine.createSpy('subscribe')
       .and
-      .returnValue(Observable.of(mockParams))
+      .returnValue(of(mockParams))
   }
 };
 
@@ -149,8 +146,8 @@ describe('Component: Patient Program Enrollment', () => {
       [
         FormsModule,
         AngularMultiSelectModule,
-        DateTimePickerModule,
         IonicStorageModule.forRoot(),
+        DateTimePickerModule,
         AgGridModule.withComponents([])
       ],
       declarations: [
@@ -201,8 +198,12 @@ describe('Component: Patient Program Enrollment', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
 
   it('should generate program summary list from summary list response', () => {

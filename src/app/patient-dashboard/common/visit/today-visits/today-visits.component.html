@@ -1,6 +1,6 @@
 <h4 class="component-title">
   <span class="icon-i-outpatient"></span>Today's Visit </h4>
-<div [ngBusy]="{busy:[isBusy],message:'Loading...'}"></div>
+<!-- <div [ngBusy]="{busy:[isBusy],message:'Loading...'}"></div> -->
 <div>
   <p-tabView (onChange)="handleProgramClassChange($event)">
     <p-tabPanel [selected]="programClass.class === programClassUuid" *ngFor="let programClass of groupedVisits" header="{{programClass.display + ' (' + programClass.allVisits.length + ')'}}">

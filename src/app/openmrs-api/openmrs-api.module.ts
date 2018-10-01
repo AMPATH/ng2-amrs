@@ -21,6 +21,10 @@ import {
 import { PatientIdentifierTypeResService } from './patient-identifierTypes-resource.service';
 import { PatientCreationResourceService } from './patient-creation-resource.service';
 import { ObsResourceService } from './obs-resource.service';
+import { CommunityGroupService } from './community-group-resource.service';
+import { CommunityGroupMemberService } from './community-group-member-resource.service';
+import { CommunityGroupAttributeService } from './community-group-attribute-resource.service';
+import { CommunityGroupLeaderService } from './community-group-leader-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -36,6 +40,7 @@ import { ObsResourceService } from './obs-resource.service';
     EncounterResourceService,
     ProgramResourceService,
     ProgramEnrollmentResourceService,
+    CommunityGroupMemberService,
     UserService,
     ProviderResourceService,
     PersonResourceService,
@@ -46,7 +51,11 @@ import { ObsResourceService } from './obs-resource.service';
     PatientRelationshipTypeResourceService,
     PatientIdentifierTypeResService,
     PatientCreationResourceService,
-    ObsResourceService
+    ObsResourceService,
+    CommunityGroupService,
+    CommunityGroupMemberService,
+    CommunityGroupAttributeService,
+    CommunityGroupLeaderService,
   ],
   exports: []
 })

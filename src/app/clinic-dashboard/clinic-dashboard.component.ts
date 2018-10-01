@@ -40,6 +40,9 @@ export class ClinicDashboardComponent implements OnInit {
 
   public getUserDepartment() {
     let department = this.localStorageService.getItem('userDefaultDepartment');
+    if (department === '[""]') {
+      department = undefined;
+    }
     if (!department) {
       this.router.navigate(['/user-default-properties']);
     }
@@ -66,7 +69,7 @@ export class ClinicDashboardComponent implements OnInit {
             }
           } else {
             const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
-            const department = this.selectedDepartment[0].itemName.toLowerCase();
+            const department = this.selectedDepartment.length > 0 ? this.selectedDepartment[0].itemName.toLowerCase() : 'general';
             this.router.navigate(['/clinic-dashboard', userLocation.uuid,
               department, 'daily-schedule']);
           }

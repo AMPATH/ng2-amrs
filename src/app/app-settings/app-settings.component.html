@@ -10,13 +10,13 @@
 
   <div>
     <div class="action-buttons">
-      <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <div class="dropdown" dropdown>
+        <button dropdownToggle class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <span class="glyphicon glyphicon-hdd"></span>
           Templates
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <ul *dropdownMenu  class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <li *ngFor="let row of serverTemplates; let index = index">
             <a (click)="changeServerSettings(row)">{{row.name}}</a>
           </li>

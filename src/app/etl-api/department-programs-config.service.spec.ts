@@ -115,6 +115,10 @@ describe('Service :  Department Programs Configuration Service', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([DepartmentProgramsConfigService], (d: DepartmentProgramsConfigService) => {
             expect(d).toBeTruthy();

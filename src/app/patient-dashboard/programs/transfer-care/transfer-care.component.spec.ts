@@ -8,7 +8,7 @@ import { Http, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MdTabsModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material';
 
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -60,7 +60,7 @@ describe('Component: ProgramsTransferCareComponent', () => {
       ],
       declarations: [ProgramsTransferCareComponent],
       schemas: [ NO_ERRORS_SCHEMA ],
-      imports: [FormsModule, NgamrsSharedModule, RouterTestingModule.withRoutes([]), MdTabsModule ]
+      imports: [FormsModule, NgamrsSharedModule, RouterTestingModule.withRoutes([]), MatTabsModule ]
     });
   });
 
@@ -133,5 +133,6 @@ describe('Component: ProgramsTransferCareComponent', () => {
         });
         // component.getSelectedDepartment('HIV');
         fixture.detectChanges();
+        tick(50);
       })));
 });

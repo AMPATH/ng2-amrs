@@ -3,13 +3,10 @@ import { RouterModule, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdSlideToggleModule, MdTabsModule
-} from '@angular/material';
 
 import { SharedModule, ConfirmDialogModule, DialogModule, MessagesModule,
 TabViewModule, PanelModule
 } from 'primeng/primeng';
-import { Ng2PaginationModule } from 'ng2-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { routes } from './patient-dashboard.routes';
 import { PatientDashboardGuard } from './patient-dashboard.guard';
@@ -34,7 +31,8 @@ import { ProgramTransferCareModule } from './programs/transfer-care/transfer-car
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
 import { ReferralModule } from '../referral-module/referral-module';
-// import { PatientRegistrationModule } from '../patient-creation/patient-creation.module';
+import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
+import { GroupEnrollmentModule } from './programs/group-enrollment/group-enrollment.module';
 
 @NgModule({
   imports: [
@@ -47,12 +45,7 @@ import { ReferralModule } from '../referral-module/referral-module';
     MessagesModule,
     TabViewModule,
     PanelModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
-    MdTabsModule,
-    MdSlideToggleModule,
     LabOrderSearchModule,
-    Ng2PaginationModule,
     NgamrsSharedModule,
     NgSelectModule,
     PatientDashboardCdmModule,
@@ -63,8 +56,8 @@ import { ReferralModule } from '../referral-module/referral-module';
     PatientSearchModule,
     ProgramTransferCareModule,
     ReferralModule,
-    // PatientRegistrationModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    GroupEnrollmentModule
   ],
   declarations: [
     PatientDashboardComponent
@@ -72,6 +65,7 @@ import { ReferralModule } from '../referral-module/referral-module';
   providers: [
     PatientDashboardGuard,
     PatientSearchService,
+    PatientDashboardResolver,
     PatientService,
     PatientProgramService,
     PatientPreviousEncounterService,

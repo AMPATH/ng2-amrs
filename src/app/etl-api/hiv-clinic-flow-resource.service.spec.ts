@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, flush } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
@@ -25,7 +25,11 @@ describe('HivClinicFlowResourceService Tests', () => {
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
-                MockHivClinicFlowResourceService,
+                { provide: MockHivClinicFlowResourceService,
+                    useFactory: () => {
+                        return new MockHivClinicFlowResourceService();
+                    }
+                },
                 {
                     provide: Http,
                     deps: [MockBackend, BaseRequestOptions],
@@ -36,6 +40,10 @@ describe('HivClinicFlowResourceService Tests', () => {
                 }
             ]
         });
+    });
+
+    afterEach(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined',
@@ -53,8 +61,9 @@ describe('HivClinicFlowResourceService Tests', () => {
 
     it('should return clinic flow information for a given '
         + ' date  and location ',
-        inject([HivClinicFlowResourceService, MockBackend],
-            (s: HivClinicFlowResourceService, backend: MockBackend) => {
+        inject([HivClinicFlowResourceService, MockBackend, MockHivClinicFlowResourceService],
+            fakeAsync((s: HivClinicFlowResourceService, backend: MockBackend, mockHivClinicFlow: MockHivClinicFlowResourceService) => {
+                try {
                 backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/patient-flow-data');
@@ -63,23 +72,24 @@ describe('HivClinicFlowResourceService Tests', () => {
                         + '&locationUuids=uuid');
                     expect(connection.request.url).toContain('locationUuids=uuid');
 
-                    let mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
-                    let expectedResults = mockHivClinicFlow.getHivDummyData();
-
                     connection.mockRespond(new Response(
                         new ResponseOptions({
-                            body: expectedResults
+                            body: mockHivClinicFlow.getHivDummyData()
                         }
                         )));
                 });
                 s.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid')
                     .subscribe((result) => {
                         expect(result).toBeDefined();
-                        let mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
-                        let expectedResults = mockHivClinicFlow.getHivDummyData();
-                        expect(result).toEqual(expectedResults.result);
+                        const expectedResults = mockHivClinicFlow.getHivDummyData();
+                        expect(result).toEqual(expectedResults);
                     });
-            })
+                flush();
+                } catch (er) {
+                    console.log('err', er);
+                    throw er;
+                }
+            }))
     );
 
 });

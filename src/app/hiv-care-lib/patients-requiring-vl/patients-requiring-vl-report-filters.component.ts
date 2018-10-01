@@ -13,16 +13,18 @@ import * as Moment from 'moment';
 
 export class PatientsRequiringVLReportFiltersComponent implements OnInit {
     @Output()
-     public generateReport = new EventEmitter();
+    public generateReport = new EventEmitter();
 
     @Output()
-     public startDateChange = new EventEmitter<Date>();
+    public startDateChange = new EventEmitter<Date>();
 
     @Output()
-     public endDateChange = new EventEmitter<Date>();
+    public endDateChange = new EventEmitter<Date>();
 
     @Input()
-     public parentIsBusy: boolean = false;
+    public parentIsBusy: boolean = false;
+
+    public filterCollapsed: boolean = false;
 
     private _startDate: Date;
     public get startDate(): Date {
@@ -62,9 +64,9 @@ export class PatientsRequiringVLReportFiltersComponent implements OnInit {
 
     constructor() { }
 
-     public ngOnInit() { }
+    public ngOnInit() { }
 
-     public onClickedGenerate() {
+    public onClickedGenerate() {
         this.generateReport.emit();
     }
 }

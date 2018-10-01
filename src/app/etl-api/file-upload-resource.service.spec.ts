@@ -29,6 +29,10 @@ describe('FileUploadResourceService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should upload file when upload is called', inject(
         [MockBackend, FileUploadResourceService],
         (backend: MockBackend, s: FileUploadResourceService) => {

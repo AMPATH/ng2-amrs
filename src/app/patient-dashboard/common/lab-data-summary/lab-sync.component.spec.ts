@@ -2,7 +2,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 
 import { Patient } from '../../../models/patient.model';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
@@ -18,11 +18,11 @@ export class FakeTranslatePipe implements PipeTransform {
 }
 describe('LabSyncComponent', () => {
     let fakePatientService = {
-        currentlyLoadedPatient: Observable.of({ uuid: '', person: { uuid: 'persion_uui' } })
+        currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'persion_uui' } })
     };
     let fakeLabsServiceName = {
         getNewPatientLabResults: (args) => {
-            return Observable.of(
+            return of(
                 [{
                     obsDatetime: new Date(),
                     concept: {
@@ -115,9 +115,13 @@ describe('LabSyncComponent', () => {
             });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined', inject([LabsResourceService],
         (service: LabsResourceService) => {
-            expect(comp).toBeTruthy();
+            expect(comp).toBeDefined();
         }));
     it('should render result table when there are new results',
         inject([LabsResourceService, PatientService],
@@ -132,7 +136,7 @@ describe('LabSyncComponent', () => {
     it('should not render new results table if results is empty',
         inject([LabsResourceService, PatientService],
             (service: LabsResourceService) => {
-                spyOn(service, 'getNewPatientLabResults').and.returnValue(Observable.of(
+                spyOn(service, 'getNewPatientLabResults').and.returnValue(of(
                     []
                 ));
                 comp.ngOnInit();

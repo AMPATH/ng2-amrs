@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { SelectModule } from 'ng2-openmrs-formentry/dist/components/select';
-import { BusyModule } from 'angular2-busy';
+import { NgBusyModule } from 'ng-busy';
 
 import {
   DashboardFiltersComponent
@@ -167,7 +167,7 @@ describe('Component: VisualizationComponent', () => {
         NgamrsSharedModule,
         CommonModule,
         AgGridModule,
-        BusyModule,
+        NgBusyModule,
         GrowlModule,
         PanelModule,
         TabViewModule,

@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
@@ -30,6 +30,10 @@ describe('FormResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have getForms defined',
     inject([FormsResourceService],
       (formsResourceService: FormsResourceService) => {
@@ -48,6 +52,7 @@ describe('FormResourceService Unit Tests', () => {
             '(uuid,name),version,published,retired,' +
             'resources:(uuid,name,dataType,valueReference))&q=POC');
         });
+        tick(50);
         expect(formsResourceService.getForms());
       })));
 
@@ -86,6 +91,7 @@ describe('FormResourceService Unit Tests', () => {
           expect(connection.request.url)
             .toContain('/ws/rest/v1/clobdata/form-uuid?v=full');
         });
+        tick(50);
         expect(formsResourceService.getFormClobDataByUuid('form-uuid'));
       })));
 

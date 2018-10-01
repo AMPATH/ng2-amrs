@@ -29,4 +29,8 @@ describe('FeedBackService', () => {
             ]
         });
     });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
 });

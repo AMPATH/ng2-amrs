@@ -31,6 +31,10 @@ describe('Service : CohortResourceService Unit Tests', () => {
 
       });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     let mockAllCohortsResponse = {
                 'uuid': 'uuid',
                 'display': 'adult',

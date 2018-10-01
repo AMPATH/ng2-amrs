@@ -26,7 +26,7 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 class MockActivatedRoute {
-  public params;
+  params;
   private paramsSubject = new BehaviorSubject(this.testParams);
   private _params: {};
   constructor() {
@@ -42,11 +42,11 @@ class MockActivatedRoute {
 }
 
 class MockPropertyService {
-  public getCurrentUserDefaultLocation() {
+  getCurrentUserDefaultLocation() {
     return 'test location';
   }
 
-  public getLocations() {
+  getLocations() {
     return (new BehaviorSubject(null)).asObservable();
   }
 
@@ -88,7 +88,7 @@ describe('Component: User Default Settings Unit Tests', () => {
   beforeEach(async(() => {
     activeRoute = new MockActivatedRoute();
     TestBed.configureTestingModule({
-      imports: [UserDefaultPropertiesModule, CacheModule],
+      imports: [UserDefaultPropertiesModule],
       providers: [
         MockBackend,
         BaseRequestOptions,

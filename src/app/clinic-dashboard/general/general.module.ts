@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChartModule } from 'angular2-highcharts';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule,
-MdSlideToggleModule, MdDatepickerModule, MdNativeDateModule, MdDatepickerToggle
-} from '@angular/material';
+// import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
+// MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatDatepickerToggle
+// } from '@angular/material';
 import {
     DateTimePickerModule
-} from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { CalendarModule } from 'angular-calendar';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { AgGridModule } from 'ag-grid-angular/main';
 import {
     TabViewModule, FieldsetModule, ButtonModule, GrowlModule, AccordionModule
 } from 'primeng/primeng';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
@@ -38,6 +38,8 @@ import { PatientProgramEnrollmentModule } from
 './../../patients-program-enrollment/patients-program-enrollment.module';
 import { DailyScheduleClinicFlowComponent
 } from './clinic-flow/daily-schedule-clinic-flow.component';
+import { GroupManagerModule } from '../../group-manager/group-manager.module';
+
 
 @NgModule({
     imports: [
@@ -46,11 +48,12 @@ import { DailyScheduleClinicFlowComponent
         DataListsModule,
         CommonModule,
         FormsModule,
-        MdTabsModule,
-        MdProgressSpinnerModule,
-        MdProgressBarModule,
-        MdDatepickerModule,
-        MdNativeDateModule,
+        // MatTabsModule,
+        // MatProgressSpinnerModule,
+        // MatProgressBarModule,
+        // MatDatepickerModule,
+        // MatNativeDateModule,
+        GroupManagerModule,
         CalendarModule,
         NgamrsSharedModule,
         AgGridModule,
@@ -61,11 +64,11 @@ import { DailyScheduleClinicFlowComponent
         AccordionModule,
         clinincDashboardGeneralRouting,
         ChartModule,
-        MdSlideToggleModule,
+        // MatSlideToggleModule,
         PatientProgramEnrollmentModule,
         ProgramVisitEncounterSearchModule,
         DepartmentProgramFilterModule,
-        Ng2PaginationModule,
+        NgxPaginationModule,
         HivCareLibModule,
         ClinicScheduleLibModule
     ],

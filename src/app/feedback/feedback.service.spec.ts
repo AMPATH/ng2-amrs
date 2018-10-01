@@ -42,6 +42,10 @@ describe('FeedBackService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
 
     it('should be defined',
         inject([FeedBackService], (s: FeedBackService) => {

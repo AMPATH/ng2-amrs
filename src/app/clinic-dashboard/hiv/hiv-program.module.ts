@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule,
-MdSlideToggleModule, MdDatepickerModule, MdNativeDateModule, MdDatepickerToggle
+import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
+MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatDatepickerToggle
 } from '@angular/material';
 import {
     TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
@@ -11,7 +11,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular/main';
 import {
     DateTimePickerModule
-} from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { CalendarModule } from 'angular-calendar';
 import { ChartModule } from 'angular2-highcharts';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
@@ -84,6 +84,7 @@ import {
 import {
     ProgramVisitEncounterSearchModule
 } from '../../program-visit-encounter-search/program-visit-encounter-search.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
@@ -95,12 +96,12 @@ import {
         DataListsModule,
         CommonModule,
         FormsModule,
-        MdTabsModule,
-        MdProgressSpinnerModule,
-        MdProgressBarModule,
-        MdDatepickerModule,
-        MdNativeDateModule,
-        MdSlideToggleModule,
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSlideToggleModule,
         CalendarModule,
         TabViewModule,
         FieldsetModule,
@@ -125,6 +126,7 @@ import {
         IndicatorSelectComponent,
         DateRangeComponent,
         RangeSliderComponent,
+        RouterModule
     ],
     declarations: [
         Moh731ReportComponent,

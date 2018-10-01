@@ -102,6 +102,10 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
         });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be injected', () => {
         fixture.detectChanges();
         expect(fixture.componentInstance).toBeDefined();
@@ -165,17 +169,6 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
                 }
             ]
         );
-
-        it('should redraw the bar graph when data changes', () => {
-            fixture.detectChanges();
-            comp = fixture.componentInstance;
-
-            comp.data = testData;
-
-            fixture.detectChanges();
-
-            expect(comp.graphOptions.xAxis.categories).toBeDefined();
-            expect(comp.graphOptions.xAxis.categories.lenght).toBe(3);
-        });
     });
+
 });

@@ -13,6 +13,10 @@ describe('ClinicDashboardCacheService', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([ClinicDashboardCacheService], (s: ClinicDashboardCacheService) => {
             expect(s).toBeTruthy();

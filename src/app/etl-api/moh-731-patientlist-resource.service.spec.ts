@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
   Http, Response, Headers, BaseRequestOptions,
@@ -6,10 +6,10 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Moh731PatientListResourceService } from './moh-731-patientlist-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 const expectedPatientListResult = {
   startIndex: 0,
@@ -41,7 +41,7 @@ const expectedPatientListResult = {
 
 export class FakeDataCacheService {
   cacheRequest() {
-    return Observable.of(expectedPatientListResult);
+    return of(expectedPatientListResult);
   }
 }
 
@@ -134,6 +134,7 @@ describe('Service: Moh731PatientListResourceService', () => {
         'locationUuids': '1234',
         'limit': 20
       }).subscribe((result) => {});
+      tick(50);
     })
   );
 
@@ -160,6 +161,7 @@ describe('Service: Moh731PatientListResourceService', () => {
         'locationUuids': '1234',
         'limit': 20
       }).subscribe((result) => {});
+      tick(50);
     })
   );
 
@@ -185,6 +187,7 @@ describe('Service: Moh731PatientListResourceService', () => {
       }).subscribe((result) => {
         expect(result).toEqual(expectedPatientListResult);
       });
+      tick(50);
     })
   );
 

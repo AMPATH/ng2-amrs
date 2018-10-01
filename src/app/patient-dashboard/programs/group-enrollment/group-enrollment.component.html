@@ -1,0 +1,116 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
+<div *ngIf="groups">
+    <div class="row">
+      <div class="pull-right">
+        <button class="btn btn-success" (click)="showEnrollModal()">
+          <i class="fa fa-plus"></i> <b> Enroll Patient to Group</b>
+        </button>
+      </div>
+      </div>
+  <h3 class="component-title">
+      <span class="icon-i-interpreter-services"></span> Current Group Enrollments</h3>
+  <div class="component-body">
+  <div class="alert alert-warning" *ngIf="!currentGroups.length">
+    Patient is currently not enrolled in any groups at this time.
+  </div>
+    <table *ngIf="currentGroups.length > 0" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Group</th>
+          <th>Program</th>
+          <th>Date Enrolled</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="cursor: pointer;" *ngFor="let group of currentGroups">
+          <td>
+            {{group.cohort.name | titlecase}}
+            <ng-container *ngFor="let attribute of group.cohort.attributes">
+              <span *ngIf="attribute.cohortAttributeType.name == 'groupNumber'">({{attribute.value}})</span>
+            </ng-container>
+          </td>
+          <td>
+            <span *ngIf="group.program">{{group.program.name}}</span>
+          </td>
+          <td>{{group.startDate | date : 'short'}}</td>
+          <td>
+           <button mat-raised-button matTooltip="Transfer Group" (click)="showTransferModal(group)"> <i class="fa fa-reply-all" style="color: #337ab7"></i> </button>
+           <button mat-raised-button matTooltip="Exit Group"  (click)="showUnEnrollModal(exitGroupModal, group)">  <i class="fa fa-close" style="color: red"></i> </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="groups" class="box">
+  <h3 class="component-title groups">
+    <i class="fa fa-clock-o"></i> Historical Group Enrollments</h3>
+  <div *ngIf="!historicalGroups.length" class="alert alert-warning">
+    No previous group enrollments.
+  </div>
+    <table class="table table-striped table-hover" *ngIf="historicalGroups.length > 0">
+      <thead>
+        <tr>
+          <th>Group</th>
+          <th>Program</th>
+          <th>Date Joined</th>
+          <th>Date Exited</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="cursor: pointer;" *ngFor="let group of historicalGroups | paginate: { itemsPerPage: 7, currentPage: page }; let i = index;" >
+          <td>
+            {{group.cohort.name | titlecase}}
+            <ng-container *ngFor="let attribute of group.cohort.attributes">
+              <span *ngIf="attribute.cohortAttributeType.name == 'groupNumber'">({{attribute.value}})</span>
+            </ng-container>
+          </td>
+          <td>
+            <span *ngIf="group.program">{{group.program.name}}</span>
+          </td>
+          <td>{{group.startDate | date : 'short'}}</td>
+          <td>{{group.endDate | date : 'short'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  <div class="row">
+    <pagination-controls *ngIf="historicalGroups.length > 7" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+  </div>
+</div>
+
+
+<ng-template #exitGroupModal>
+  <div class="modal-header">
+    Confirm Group Exit
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5> Are you sure you want to remove {{patient.person.display}} from {{groupToUnenroll.cohort.name}}? </h5>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="exitGroup()"> Yes, I'm sure. </button>
+    <button class="btn btn-default" (click)="modalRef.hide()"> Cancel </button>
+  </div>
+</ng-template>
+
+<ng-template #transferGroupModal>
+  <div class="modal-header">
+    Warning
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5> {{patient.person.display}} is enrolled in {{groupToUnenroll.cohort.name}} under {{groupToUnenroll.program.name}}.
+       Would you like to <b>unenroll</b> from <b>{{groupToUnenroll.cohort.name}}</b> and <b>enroll</b> in <b>{{groupToEnroll.name}}</b>?</h5>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="modalRef.hide(); transferGroup(groupToUnenroll, groupToEnroll)"> OK </button>
+    <button class="btn btn-default" (click)="modalRef.hide()"> Cancel </button>
+  </div>
+</ng-template>
