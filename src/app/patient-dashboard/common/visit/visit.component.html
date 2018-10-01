@@ -1,13 +1,14 @@
 <div style="margin-top: 4px; margin-bottom: 4px;" *ngIf="!programIsOnReferral">
-  <strong *ngIf="currentEnrollment" style="color: gray;">
+  <strong *ngIf="currentEnrollment.openmrsModel" style="color: gray;">
     <span>
       Patient enrolled in {{toTitleCase(currentEnrollment.openmrsModel.display)}}
     </span>
-    <span *ngIf="currentEnrollment.openmrsModel.location">{{ (' at ' + currentEnrollment.openmrsModel.location.display ) }}
+    <span *ngIf="currentEnrollment.openmrsModel && currentEnrollment.openmrsModel.location">{{ (' at ' + currentEnrollment.openmrsModel.location.display ) }}
     </span>
     <span>{{(' since ' + currentEnrollment.dateEnrolled)}}.</span>
     <span *ngIf="!currentEnrollment.openmrsModel.location" style="text-transform:none;"> Please associate this program with a clinic.</span>
   </strong>
+  <strong *ngIf="!currentEnrollment.openmrsModel" style="color: gray;">Patient not enrolled in the program you loaded please check the patient</strong>
 </div>
 <patient-referral-visit *ngIf="programIsOnReferral" [patient]="patient"
                         [program]="currentEnrollment"></patient-referral-visit>

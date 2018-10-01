@@ -1,8 +1,8 @@
 <div class="loader" *ngIf="startedVisit"><span><i class="fa fa-spinner fa-spin">
-      </i>Starting Visit...please wait</span></div>
-  <location-filter [locationUuids]="selectedLocation" [showLabel]="false"
-  [disable-county]="true" [multiple]="false" (onLocationChange)="onLocationChanged($event)">
-  </location-filter>
+    </i>Starting Visit...please wait</span></div>
+<location-filter [locationUuids]="selectedLocation" [showLabel]="false" [disable-county]="true" [multiple]="false"
+  (onLocationChange)="onLocationChanged($event)">
+</location-filter>
 <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
 </div>
@@ -12,18 +12,61 @@
 <div *ngIf="!isBusy" class="list-group">
   <div id="allowedVisitList" class="list-group-item" *ngFor="let visitType of visitTypes">
     <div class="visit-area">
-          <a class="question-tooltip pull-right" *ngIf="visitType.message"><i class="glyphicon glyphicon-question-sign"></i></a>
-          <a id="startVisitButton" style="width:100%; text-align: left;
-                  " (click)="startVisit(visitType.uuid)" class="btn btn-default btn-lg">
+      <a class="question-tooltip pull-right" *ngIf="visitType.message"><i class="glyphicon glyphicon-question-sign"></i></a>
+      <a id="startVisitButton" style="width:100%; text-align: left;
+                  " (click)="startVisit(visitType)"
+        class="btn btn-default btn-lg">
 
-            Start {{visitType.name}} <i class="glyphicon glyphicon-circle-arrow-right pull-right"></i>
-          </a>
+        Start {{visitType.name}} <i class="glyphicon glyphicon-circle-arrow-right pull-right"></i> <i *ngIf="visitType.groupVisit"
+          class="fa fa-users pull-right"></i>
+      </a>
 
-          <div class="visit-info col-md-12 col-lg-12 col-sm-12" *ngIf="visitType.message">
-             {{visitType.message}}
-          </div>
-          <div class="info-spacing" *ngIf="visitType.message">
-          </div>
+      <div class="visit-info col-md-12 col-lg-12 col-sm-12" *ngIf="visitType.message">
+        {{visitType.message}}
+      </div>
+      <div class="info-spacing" *ngIf="visitType.message">
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #startGroupVisitModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Start Group Visit</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="isGroupRetrospective" class="alert alert-warning alert-dismissible">
+      <span>You selected a visit for a past date please activate retrospective data entry for the meeting date</span>
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+    </div>
+    <table *ngIf="patientCohort.cohort" class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Group Name :</strong> <span> {{patientCohort.cohort.name}}</span></td>
+        </tr>
+        <tr>
+          <td><strong>Active Since : </strong> {{patientCohort.cohort.startDate | date : medium}}</td>
+        </tr>
+        <tr>
+          <td><strong>Location : </strong> {{patientCohort.cohort.location.display}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-select class="sharp-corners" id="cohort-visit-filter" [placeholder]="'Select a meeting...'" [(ngModel)]="selectedCohortVisit"
+      (change)="onCohortChange($event)" [items]="cohostVisitsDropdownOptions">
+    </ng-select>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide()"> Close </button>
+    <button type="button" class="btn btn-primary" [disabled]="isGroupRetrospective" (click)="saveVisit(selectedVisitType)">
+      Start Visit </button>
+  </div>
+</ng-template>

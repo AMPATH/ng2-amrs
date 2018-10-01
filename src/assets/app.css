@@ -374,3 +374,13 @@ app-formentry p-dialog a.ui-dialog-titlebar-close {
 .ng-select.sharp-corners.ng-select-single .ng-select-container {
   height: 34px;
 }
+.check {
+  color: green;
+  font-size: 1.2em;
+}
+.ex {
+  color: red;
+  font-weight: bold;
+  font-size: 2.1em;
+  
+}
