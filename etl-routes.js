@@ -26,6 +26,7 @@ var departmentProgramsService = require('./departments/departments-programs.serv
 var enrollmentService = require('./service/enrollment.service');
 var resolveLocationUuidToId = require('./location/resolve-location-uuid-to-id');
 var resolveProgramEnrollmentFilterParams = require('./resolve-program-visit-encounter-Ids/resolve-program-visit-encounter-idsv2');
+var programVisitEncounterResolver = require('./resolve-program-visit-encounter-Ids/resolve-program-visit-encounter-idsv2');
 var imagingService = require('./service/radilogy-imaging.service');
 var oncologyReportsService = require('./oncology-reports/oncology-reports-service');
 import {
@@ -334,14 +335,21 @@ module.exports = function () {
                     },
                     handler: function (request, reply) {
                         if (request.query.locationUuids) {
-                            resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
+                            programVisitEncounterResolver.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                 .then((resolve) => {
                                     let encounterIds = resolve.encounterTypeIds;
                                     let visitTypeIds = resolve.visitTypesIds;
                                     let programTypeIds = resolve.programTypeIds;
-                                    request.query.encounterIds = encounterIds;
-                                    request.query.visitTypeIds = visitTypeIds;
-                                    request.query.programTypeIds = programTypeIds;
+                                    if(encounterIds.length > 0){
+                                        request.query.encounterIds = encounterIds;
+                                    }
+                                    if(visitTypeIds.length > 0){
+                                        request.query.visitTypeIds = visitTypeIds;
+                                    }
+                                    if(programTypeIds.length > 0){
+                                        request.query.programTypeIds = programTypeIds;
+                                    }
+                                    
                                     return resolveLocationUuidToId.resolveLocationUuidsParamsToIds(request.query);
                                 })
                                 .then((result) => {
@@ -386,14 +394,22 @@ module.exports = function () {
                             preRequest.resolveLocationIdsToLocationUuids(request,
                                 function () {
                                     request.query.groupBy = 'groupByPerson,groupByd';
-                                    resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
+                                    programVisitEncounterResolver.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                         .then((resolve) => {
+                                            // console.log('Daily appointments', resolve);
                                             let encounterIds = resolve.encounterTypeIds;
                                             let visitTypeIds = resolve.visitTypesIds;
                                             let programTypeIds = resolve.programTypeIds;
-                                            request.query.encounterIds = encounterIds;
-                                            request.query.visitTypeIds = visitTypeIds;
-                                            request.query.programTypeIds = programTypeIds;
+                                            if(programTypeIds.length > 0){
+                                                request.query.programTypeIds = programTypeIds;
+                                            }
+                                            if(visitTypeIds.length > 0){
+                                                request.query.visitTypeIds = visitTypeIds;
+                                            }
+                                            if(encounterIds.length > 0){
+                                                request.query.encounterIds = encounterIds;
+                                            }
+                                            
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
                                             // let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations', 'encounterIds', 'visitTypeIds', 'programTypeIds', 'groupBy'], compineRequestParams);
                                             compineRequestParams.limitParam = compineRequestParams.limit;
@@ -439,14 +455,20 @@ module.exports = function () {
                             preRequest.resolveLocationIdsToLocationUuids(request,
                                 function () {
                                     request.query.groupBy = 'groupByPerson,groupByd';
-                                    resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
+                                    programVisitEncounterResolver.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                         .then((resolve) => {
                                             let encounterIds = resolve.encounterTypeIds;
                                             let visitTypeIds = resolve.visitTypesIds;
                                             let programTypeIds = resolve.programTypeIds;
-                                            request.query.encounterIds = encounterIds;
-                                            request.query.visitTypeIds = visitTypeIds;
-                                            request.query.programTypeIds = programTypeIds;
+                                            if(programTypeIds.length > 0){
+                                                request.query.programTypeIds = programTypeIds;
+                                            }
+                                            if(visitTypeIds.length > 0){
+                                                request.query.visitTypeIds = visitTypeIds;
+                                            }
+                                            if(encounterIds.length > 0){
+                                                request.query.encounterIds = encounterIds;
+                                            }
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
                                             compineRequestParams.limitParam = compineRequestParams.limit;
                                             compineRequestParams.offSetParam = compineRequestParams.startIndex;
@@ -491,14 +513,20 @@ module.exports = function () {
                             preRequest.resolveLocationIdsToLocationUuids(request,
                                 function () {
                                     request.query.groupBy = 'groupByPerson,groupByd';
-                                    resolveClinicDashboardFilterParams.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
+                                    programVisitEncounterResolver.resolveProgramVisitTypeEncounterUuidsParamsToIds(request.query)
                                         .then((resolve) => {
                                             let encounterIds = resolve.encounterTypeIds;
                                             let visitTypeIds = resolve.visitTypesIds;
                                             let programTypeIds = resolve.programTypeIds;
-                                            request.query.encounterIds = encounterIds;
-                                            request.query.visitTypeIds = visitTypeIds;
-                                            // request.query.programTypeIds = programTypeIds;
+                                            if(programTypeIds.length > 0){
+                                                request.query.programTypeIds = programTypeIds;
+                                            }
+                                            if(visitTypeIds.length > 0){
+                                                request.query.visitTypeIds = visitTypeIds;
+                                            }
+                                            if(encounterIds.length > 0){
+                                                request.query.encounterIds = encounterIds;
+                                            }
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
                                             compineRequestParams.limitParam = compineRequestParams.limit;
                                             compineRequestParams.offSetParam = compineRequestParams.startIndex;
@@ -3625,6 +3653,37 @@ module.exports = function () {
                     },
                     description: 'Get a list of Departments and their programs ',
                     notes: 'Returns a  list of Departments and their programs',
+                    tags: ['api'],
+                    validate: {
+                        options: {
+                            allowUnknown: true
+                        },
+                        params: {
+
+                        }
+                    }
+                }
+            },
+            {
+                method: 'GET',
+                path: '/etl/department-programs',
+                config: {
+                    auth: 'simple',
+                    plugins: {},
+                    handler: function (request, reply) {
+                        let department = request.query.department;
+                        let departmentPrograms = departmentProgramsService.getDepartmentPrograms(department)
+                        .then((response) => {
+                            reply(response);
+                        })
+                        .catch((error) => {
+                            console.error('ERROR : DepartmentPrograms Error', error);
+                            reply(error);
+                        });
+                       
+                    },
+                    description: 'Get a list of Programs for a Department',
+                    notes: 'Returns a  list of Programs for a Departments',
                     tags: ['api'],
                     validate: {
                         options: {
