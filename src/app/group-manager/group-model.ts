@@ -3,6 +3,7 @@ export interface Group {
     attributes: any[];
     cohortLeaders: any[];
     cohortMembers: any[];
+    cohortVisits: any[];
     cohortType: any[];
     description: string;
     endDate: Date;

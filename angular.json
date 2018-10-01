@@ -27,7 +27,9 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/assets/css/material.font.css"
+              "src/assets/css/material.font.css",
+              "node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css",
+              "node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.bootstrap.css"
             ],
             "scripts": [
               "src/assets/rgbcolor/index.js",
