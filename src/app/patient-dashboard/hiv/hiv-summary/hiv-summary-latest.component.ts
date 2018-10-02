@@ -54,8 +54,14 @@ export class HivSummaryLatestComponent implements OnInit {
             // check if encounter is clinical
             if ( summary.is_clinical_encounter === 1) {
 
-             this.hivSummary = summary;
-             break;
+              this.hivSummary = summary;
+              let artStartDate =
+              new Date(this.hivSummary.arv_first_regimen_start_date).getFullYear();
+              if (artStartDate === 1899 || artStartDate === 1900) {
+                this.hivSummary.arv_first_regimen_start_date = null;
+              }
+
+              break;
 
           }
 
