@@ -1,0 +1,16 @@
+<busy *ngIf="loadingSummary" [message]="'Please Wait...'"></busy>
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+<div>
+  <ul class="list-group">
+    <li class="list-group-item">Most Recent Diagnosis: Cervical Cancer</li>
+    <li class="list-group-item">Cancer Stage: Stage 1</li>
+    <li class="list-group-item">Treatment plan: Chemotherapy</li>
+    <li class="list-group-item">RTC Date: 05/11/2018</li>
+    <li class="list-group-item">Medication Initiation Start Date: 23/02/2018</li>
+    <li class="list-group-item">Current Medication Regimen: </li>
+    <li class="list-group-item">Enrollment Date: 23/02/2018</li>
+    <li class="list-group-item">Staging Date: 23/02/2018</li>
+  </ul>
+</div>
