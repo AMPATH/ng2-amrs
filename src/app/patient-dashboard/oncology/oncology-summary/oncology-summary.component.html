@@ -1,0 +1,14 @@
+<h4 class="component-title"><span class="fa fa-medkit"></span> Oncology Summary</h4>
+<div>
+  <p-tabView>
+    <p-tabPanel header="{{ program + ' Summary' }}">
+      <oncology-summary-latest [programUuid]="programUuid"></oncology-summary-latest>
+    </p-tabPanel>
+    <p-tabPanel header="Medication History">
+      <oncology-medication-history [programUuid]="programUuid"></oncology-medication-history>
+    </p-tabPanel>
+    <p-tabPanel header="Diagnosis History">
+      <oncology-diagnosis-history [programUuid]="programUuid"></oncology-diagnosis-history>
+    </p-tabPanel>
+  </p-tabView>
+</div>
