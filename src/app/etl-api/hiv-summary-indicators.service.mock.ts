@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { AppSettingsService } from '../app-settings';
-
 import { HivSummaryIndicatorsResourceService } from './hiv-summary-indicators-resource.service';
 
 @Injectable()

@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import {
   VisitResourceService
 } from '../../../openmrs-api/visit-resource.service';

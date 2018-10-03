@@ -5,7 +5,7 @@ import {
     ResponseOptions, Response
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DailyScheduleResourceService } from './daily-scheduled-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -82,7 +82,7 @@ describe('DailyScheduleResourceService Tests', () => {
     it('should return a list containing daily appointments for a given date',
         inject([DailyScheduleResourceService, MockBackend],
             (s: DailyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/daily-appointments/2017-02-01');
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
@@ -101,7 +101,7 @@ describe('DailyScheduleResourceService Tests', () => {
                     startIndex: undefined,
                     locationUuids: 'uuid',
                     limit: undefined
-                }).take(1).subscribe((result) => {
+                }).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedResults.result);
                 });
@@ -111,7 +111,7 @@ describe('DailyScheduleResourceService Tests', () => {
     it('should return a list containing visits for a given date',
         inject([DailyScheduleResourceService, MockBackend],
             (s: DailyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/daily-visits/2017-02-01');
                     expect(connection.request.url).toContain('locationUuids=uuid');
@@ -130,7 +130,7 @@ describe('DailyScheduleResourceService Tests', () => {
                     startIndex: '0',
                     locationUuids: 'uuid',
                     limit: '100'
-                }).take(1).subscribe((result) => {
+                }).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedResults.result);
                 });
@@ -141,7 +141,7 @@ describe('DailyScheduleResourceService Tests', () => {
     it('should return a list containing daily-has-not-returned for a given date',
         inject([DailyScheduleResourceService, MockBackend],
             (s: DailyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).
                         toContain('/etl/daily-has-not-returned/2017-02-01');
@@ -161,7 +161,7 @@ describe('DailyScheduleResourceService Tests', () => {
                     startIndex: '0',
                     locationUuids: 'uuid',
                     limit: '100'
-                }).take(1).subscribe((result) => {
+                }).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedResults.result);
                 });

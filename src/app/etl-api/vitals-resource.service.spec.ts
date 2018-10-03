@@ -2,7 +2,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { VitalsResourceService } from './vitals-resource.service';
 
@@ -44,7 +44,7 @@ describe('Vitals Resource Service Unit Tests', () => {
 
     backend = TestBed.get(MockBackend);
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url).toMatch('/patient/(*)/vitals');
@@ -60,10 +60,10 @@ describe('Vitals Resource Service Unit Tests', () => {
     async(inject([VitalsResourceService, MockBackend],
       (vitalsResourceService: VitalsResourceService, mockBackend: MockBackend) => {
 
-        mockBackend.connections.take(1).subscribe(c =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        vitalsResourceService.getVitals(patientUuid, 0, 20).take(1).subscribe((data) => { },
+        vitalsResourceService.getVitals(patientUuid, 0, 20).subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
 

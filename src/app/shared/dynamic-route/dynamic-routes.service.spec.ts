@@ -51,7 +51,7 @@ describe('Service: DynamicRoutesService', () => {
       routes: []
     };
 
-    service.routes.take(1).subscribe(routes => {
+    service.routes.subscribe(routes => {
         expect(routes).toEqual(dynamicRouteMock);
         done();
       },

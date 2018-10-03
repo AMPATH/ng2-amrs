@@ -89,7 +89,7 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public subscribeToVisitsServiceEvents() {
     this.todayVisitService.visitsEvents
-      .take(1).subscribe((event: VisitsEvent) => {
+      .subscribe((event: VisitsEvent) => {
         switch (event) {
           case VisitsEvent.VisitsLoadingStarted:
             this.onProgramVisitsLoadingStarted();
@@ -183,7 +183,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
     this.todayVisitService.getProgramVisits()
-      .take(1).subscribe(() => { }, (error) => { });
+      .subscribe(() => { }, (error) => { });
   }
 
   public get programIsOnReferral() {
@@ -195,7 +195,7 @@ export class VisitComponent implements OnInit, OnDestroy {
       let filtered = _.filter(this.currentEnrollment.states, (patientState: any) => {
         return patientState.endDate === null && patientState.state.concept.uuid === refer;
       });
-      return filtered.length > 0 && location === this.currentEnrollment.location.uuid;
+      return filtered.length > 0 && this.currentEnrollment && location === this.currentEnrollment.location.uuid;
     } else {
       return false;
     }

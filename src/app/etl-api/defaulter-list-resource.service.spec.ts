@@ -5,7 +5,7 @@ import {
     ResponseOptions, Response
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DefaulterListResourceService } from './defaulter-list-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -130,7 +130,7 @@ describe('DefaulterListResourceService Tests', () => {
         + ' date range and location ',
         inject([DefaulterListResourceService, MockBackend],
             (s: DefaulterListResourceService, backend: MockBackend) => {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/defaulter-list');
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
@@ -150,7 +150,7 @@ describe('DefaulterListResourceService Tests', () => {
                     startIndex: undefined,
                     locationUuids: 'uuid',
                     limit: undefined
-                }).take(1).subscribe((result) => {
+                }).subscribe((result) => {
                     expect(result).toBeDefined();
                     expect(result).toEqual(expectedResults.result);
                 });

@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientIdentifierService } from './patient-identifiers.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';

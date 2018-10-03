@@ -13,7 +13,7 @@ import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.servi
 import { ConceptResourceService  } from '../openmrs-api/concept-resource.service';
 import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { FakeLabOrderResourceService } from '../etl-api/lab-order-resource.mock';
 

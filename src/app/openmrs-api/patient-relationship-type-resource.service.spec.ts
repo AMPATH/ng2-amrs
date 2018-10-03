@@ -6,7 +6,7 @@ import {
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   PatientRelationshipTypeResourceService
 } from './patient-relationship-type-resource.service';
@@ -70,7 +70,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     let backend: MockBackend = TestBed.get(MockBackend);
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toEqual('http://example.url.com/ws/rest/v1/relationshiptype?v=full');
@@ -83,7 +83,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
 
     s.getPatientRelationshipTypes()
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });

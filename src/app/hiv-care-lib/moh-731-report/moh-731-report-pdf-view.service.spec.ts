@@ -56,7 +56,7 @@ describe('Service: MOHReportService', () => {
     (done) => {
       let service: MOHReportService = TestBed.get(MOHReportService);
 
-      service.generatePdf(params, rowData, sectionDefinitions).take(1).subscribe(
+      service.generatePdf(params, rowData, sectionDefinitions).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
           expect(pdf.pdfDefinition).toBeDefined();
@@ -75,7 +75,7 @@ describe('Service: MOHReportService', () => {
     (done) => {
       let service: MOHReportService = TestBed.get(MOHReportService);
 
-      service.generatePdf(params, rowData, sectionDefinitions).take(1).subscribe(
+      service.generatePdf(params, rowData, sectionDefinitions).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
           expect(pdf.pdfDefinition).toBeDefined();
@@ -101,7 +101,7 @@ describe('Service: MOHReportService', () => {
   it('should create pdf url successfully of correct blob type: blob:http://',
     (done) => {
       let service: MOHReportService = TestBed.get(MOHReportService);
-      service.generatePdf(params, rowData, sectionDefinitions).take(1).subscribe(
+      service.generatePdf(params, rowData, sectionDefinitions).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
 
@@ -121,7 +121,7 @@ describe('Service: MOHReportService', () => {
   it('should throw error when pdf dependencies is null or undefined',
     (done) => {
       let service: MOHReportService = TestBed.get(MOHReportService);
-      service.generatePdf(null, null, null).take(1).subscribe(
+      service.generatePdf(null, null, null).subscribe(
         (pdf) => {
           expect(pdf).not.toBeDefined(); // this means it has errored, we don't expect this!!!!
           expect(pdf.pdfSrc).not.toBeDefined();

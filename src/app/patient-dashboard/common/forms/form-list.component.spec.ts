@@ -17,7 +17,7 @@ import { FormListComponent } from './form-list.component';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { forms } from './forms';
 
 @Pipe({ name: 'translate' })

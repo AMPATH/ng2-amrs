@@ -2,7 +2,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientCareStatusResourceService } from './patient-care-status-resource.service';
 
 class MockAppSettingsService {
@@ -63,7 +63,7 @@ describe('PatientCareStatusResource', () => {
                     patient_uuid: 'patient_uuid', startDate: 'date1',
                     endDate: 'date2'
                 })).toBeTruthy();
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl'
                         + '/patient/patient_uuid/monthly-care-status?'
@@ -76,7 +76,7 @@ describe('PatientCareStatusResource', () => {
                     s.getMonthlyPatientCareStatus({
                         patient_uuid: 'patient_uuid', startDate: 'date1',
                         endDate: 'date2'
-                    }).take(1).subscribe((response) => {
+                    }).subscribe((response) => {
                         expect(response.result).toBeTruthy();
                         expect(response.result[0].monthly_patient_care_status).toBe('active');
                     });
@@ -99,7 +99,7 @@ describe('PatientCareStatusResource', () => {
                 expect(s.getDailyPatientCareStatus({
                     patient_uuid: 'patient_uuid', referenceDate: 'date1'
                 })).toBeTruthy();
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl'
                         + '/patient/patient_uuid/daily-care-status?'
@@ -112,7 +112,7 @@ describe('PatientCareStatusResource', () => {
                     s.getDailyPatientCareStatus({
                         patient_uuid: 'patient_uuid', referenceDate: 'date1'
                     }
-                    ).take(1).subscribe((response) => {
+                    ).subscribe((response) => {
                         expect(response.result).toBeTruthy();
                         expect(response.result[0].patient_daily_care_status).toBe('ltfu');
                     });

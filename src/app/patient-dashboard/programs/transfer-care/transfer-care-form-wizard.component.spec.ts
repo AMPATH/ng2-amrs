@@ -149,7 +149,7 @@ describe('Component: ProgramsTransferCareFormWizardComponent', () => {
               }
             }]
         };
-        mockBackend.connections.take(1).subscribe((conn) => {
+        mockBackend.connections.subscribe((conn) => {
           if (_.includes(conn.request.url, '/etl/program-visit-configs')) {
             conn.mockRespond(new Response(new ResponseOptions({body: JSON.stringify(configs)})));
           } else {

@@ -8,7 +8,7 @@ import { FormSchemaService } from './form-schema.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { MockBackend } from '@angular/http/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 describe('Service: FormSchemaService', () => {
 

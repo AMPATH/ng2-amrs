@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientResourceService } from './patient-resource.service';
@@ -49,7 +49,7 @@ describe('PatientService Unit Tests', () => {
 
     let patientUuid = 'xxx-xxx-xxx-xxx';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('patient/' + patientUuid);
       expect(connection.request.url).toContain('v=');
@@ -61,7 +61,7 @@ describe('PatientService Unit Tests', () => {
     });
 
     patientResourceService.getPatientByUuid(patientUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });
@@ -73,7 +73,7 @@ describe('PatientService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -92,7 +92,7 @@ describe('PatientService Unit Tests', () => {
     });
 
     patientResourceService.searchPatient(searchText)
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
         expect(data.length).toBeGreaterThan(0);
         done();
       });
@@ -106,7 +106,7 @@ describe('PatientService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -115,7 +115,7 @@ describe('PatientService Unit Tests', () => {
     });
 
     patientResourceService.searchPatient(searchText)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
       },
       (error: Error) => {
         expect(error).toBeTruthy();

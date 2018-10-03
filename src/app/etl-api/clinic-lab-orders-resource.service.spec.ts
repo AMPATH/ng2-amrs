@@ -5,7 +5,7 @@ import {
   ResponseOptions, Response
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
@@ -84,7 +84,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
   it('should return a list containing clinic lab orders for a given date',
     inject([ClinicLabOrdersResourceService, MockBackend],
       (s: ClinicLabOrdersResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/etl/clinic-lab-orders');
           expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
@@ -103,7 +103,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
           startDate: '2017-02-01',
           locationUuids: 'uuid',
           endDate: '2017-02-01',
-        }).take(1).subscribe((result) => {
+        }).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(expectedResults.result);
         });

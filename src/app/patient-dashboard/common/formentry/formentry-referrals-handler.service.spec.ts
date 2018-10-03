@@ -119,7 +119,7 @@ describe('Service: FormentryReferralsHandler', () => {
         });
 
       service.handleFormReferals(patient, form)
-        .take(1).subscribe((results) => {
+        .subscribe((results) => {
           expect(results).toEqual(
             {
               success: true,

@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ConceptResourceService } from './concept-resource.service';
@@ -49,7 +49,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
     let conceptUuid = 'a8945ba0-1350-11df-a1f1-0026b9348838';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('concept/' + conceptUuid);
       expect(connection.request.url).toContain('v=');
@@ -61,7 +61,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
     });
 
     conceptResourceService.getConceptByUuid(conceptUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });
@@ -72,7 +72,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
     let searchText = 'test';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('q=' + searchText);
       expect(connection.request.url).toContain('v=');
@@ -99,7 +99,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
     });
 
     conceptResourceService.searchConcept(searchText)
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
         expect(data.length).toBeGreaterThan(0);
         done();
       });

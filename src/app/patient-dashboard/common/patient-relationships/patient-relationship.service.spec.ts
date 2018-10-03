@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import {
   PatientRelationshipResourceService
 } from '../../../openmrs-api/patient-relationship-resource.service';
@@ -70,7 +70,7 @@ describe('Service: PatientRelationshipService', () => {
   it('should get patient relationships by patient uuid', (done) => {
     let service: PatientRelationshipService = TestBed.get(PatientRelationshipService);
     let relationships = service.getRelationships('8ac34c4b-8c57-4c83-886d-930e0d6c2d80');
-    relationships.take(1).subscribe((results) => {
+    relationships.subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();
       }

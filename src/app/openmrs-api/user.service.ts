@@ -1,6 +1,6 @@
 
 import {map} from 'rxjs/operators';
-// import { AppSettingsService } from './../app-settings';
+// import { AppSettingsService } from './../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http , Response , Headers, RequestOptions } from '@angular/http';

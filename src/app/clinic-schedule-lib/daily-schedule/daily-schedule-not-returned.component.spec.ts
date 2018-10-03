@@ -15,7 +15,7 @@ import {
 import { DailyScheduleNotReturnedComponent } from './daily-schedule-not-returned.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {

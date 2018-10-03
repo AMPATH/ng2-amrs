@@ -7,7 +7,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { VisitResourceService } from './visit-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 class MockError extends Response implements Error {
     public name: any;
     public message: any;
@@ -56,7 +56,7 @@ describe('VisitResourceService', () => {
         it('should return null when uuid not specified', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -67,7 +67,7 @@ describe('VisitResourceService', () => {
         it('should call the right endpoint', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     expect(conn.request.url).toContain('/ws/rest/v1/visit/' + uuid);
                     expect(conn.request.url).toContain('v=');
                     expect(conn.request.method).toBe(RequestMethod.Get);
@@ -80,14 +80,14 @@ describe('VisitResourceService', () => {
         it('should parse response from visit resource', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(singleResponse) })));
                 });
 
                 const result = service.getVisitByUuid(uuid, { v: '' });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     expect(res).toEqual(singleResponse);
                 });
             })));
@@ -96,12 +96,12 @@ describe('VisitResourceService', () => {
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 const responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.getVisitByUuid('uuid', { v: '' });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     console.log('No Errors');
                 }, (err) => {
                     expect(err).toBe('404 - val');
@@ -123,7 +123,7 @@ describe('VisitResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -133,7 +133,7 @@ describe('VisitResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     expect(conn.request.url).toContain('/ws/rest/v1/visit');
                     expect(conn.request.url).toContain('patient=uuid');
                     expect(conn.request.url).toContain(`v=`);
@@ -151,7 +151,7 @@ describe('VisitResourceService', () => {
         it('should parse response from visits resource', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(visitsResponse) })));
                 });
@@ -162,7 +162,7 @@ describe('VisitResourceService', () => {
                     location:ref,startDatetime,stopDatetime)`
                 });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     expect(res.length).toBeGreaterThan(0);
                     expect(res[0]).toEqual(visitsResponse.results[0]);
                 });
@@ -171,7 +171,7 @@ describe('VisitResourceService', () => {
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 const responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.getPatientVisits({
@@ -180,7 +180,7 @@ describe('VisitResourceService', () => {
                     location:ref,startDatetime,stopDatetime)`
                 });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     console.log('No Errros');
                 }, (err) => {
                     expect(err).toBe('404 - val');
@@ -207,7 +207,7 @@ describe('VisitResourceService', () => {
                     'encounterProviders:(uuid,uuid,provider:(uuid,name),' +
                     'encounterRole:(uuid,name)),location:(uuid,name),' +
                     'visit:(uuid,visitType:(uuid,name))))';
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     expect(conn.request.url).toContain('/ws/rest/v1/visit/' + uuid);
                     expect(conn.request.url).toContain(`v=${custom}`);
                     expect(conn.request.method).toBe(RequestMethod.Get);
@@ -220,14 +220,14 @@ describe('VisitResourceService', () => {
         it('should parse response from visit resource', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(singleResponse) })));
                 });
 
                 const result = service.getVisitEncounters(uuid, { v: '' });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     expect(res).toEqual([]);
                 });
             })));
@@ -236,12 +236,12 @@ describe('VisitResourceService', () => {
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 const responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.getVisitEncounters('uuid', { v: '' });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     console.log('No Errors');
                 }, (err) => {
                     expect(err).toBe('404 - val');
@@ -264,7 +264,7 @@ describe('VisitResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -274,7 +274,7 @@ describe('VisitResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     expect(conn.request.url).toContain('/ws/rest/v1/visittype');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
@@ -287,7 +287,7 @@ describe('VisitResourceService', () => {
             })));
         it('should parse response from visit type resource', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(visitTypesResponse) })));
                 });
@@ -296,7 +296,7 @@ describe('VisitResourceService', () => {
                     v: 'custom:(uuid,name,description)'
                 });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     expect(res.length).toBeGreaterThan(0);
                     expect(res[0]).toEqual(visitTypesResponse.results[0]);
                 });
@@ -305,14 +305,14 @@ describe('VisitResourceService', () => {
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 const responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.getVisitTypes({
                     v: 'custom:(uuid,name,description)'
                 });
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     console.log('No Errors');
                 }, (err) => {
                     expect(err).toBe('404 - val');
@@ -340,7 +340,7 @@ describe('VisitResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -350,7 +350,7 @@ describe('VisitResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     expect(conn.request.url).toContain('/ws/rest/v1/visit');
                     expect(conn.request.method).toBe(RequestMethod.Post);
                     conn.mockRespond(new Response(
@@ -361,14 +361,14 @@ describe('VisitResourceService', () => {
             })));
         it('should parse response from visit save resource', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(newVisitResponse) })));
                 });
 
                 const result = service.saveVisit(newVisitMock);
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     expect(res).toEqual(newVisitResponse);
                 });
             })));
@@ -376,12 +376,12 @@ describe('VisitResourceService', () => {
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 const responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.saveVisit(newVisitMock);
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     console.log('No Errors');
                 }, (err) => {
                     expect(err).toBe('404 - val');
@@ -410,7 +410,7 @@ describe('VisitResourceService', () => {
         it('should return null when params are not specified', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -420,7 +420,7 @@ describe('VisitResourceService', () => {
             })));
         it('should call the right endpoint', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     expect(conn.request.url).toContain(`/ws/rest/v1/visit/${uuid}`);
                     expect(conn.request.method).toBe(RequestMethod.Post);
                     conn.mockRespond(new Response(
@@ -431,14 +431,14 @@ describe('VisitResourceService', () => {
             })));
         it('should parse response from visit update resource', async(inject(
             [VisitResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(visitResponse) })));
                 });
 
                 const result = service.updateVisit(uuid, visitMock);
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     expect(res).toEqual(visitResponse);
                 });
             })));
@@ -446,12 +446,12 @@ describe('VisitResourceService', () => {
             [VisitResourceService, MockBackend], (service, mockBackend) => {
                 const opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 const responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe((conn) => {
+                mockBackend.connections.subscribe((conn) => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.saveVisit(uuid, visitMock);
 
-                result.take(1).subscribe((res) => {
+                result.subscribe((res) => {
                     console.log('No Errors');
                 }, (err) => {
                     expect(err).toBe('404 - val');

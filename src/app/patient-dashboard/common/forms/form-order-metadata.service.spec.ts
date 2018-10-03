@@ -96,7 +96,7 @@ describe('Form Order Metadata Service', () => {
             }];
         it('should call the right endpoint', async(inject(
             [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toBe('./assets/schemas/form-order.json');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
@@ -108,14 +108,14 @@ describe('Form Order Metadata Service', () => {
         it('should parse response of the forms metadata', async(inject(
             [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
                 let uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(forms) })));
                 });
 
                 const result = service.getDefaultFormOrder();
 
-                result.take(1).subscribe(res => {
+                result.subscribe(res => {
                     expect(res).toBeDefined();
                 });
             })));
@@ -124,12 +124,12 @@ describe('Form Order Metadata Service', () => {
             [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
                 let opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 let responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.getDefaultFormOrder();
 
-                result.take(1).subscribe(res => {
+                result.subscribe(res => {
                 }, (err) => {
                     expect(err.status).toBe(404);
                 });

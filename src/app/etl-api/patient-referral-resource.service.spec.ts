@@ -6,7 +6,7 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { CacheModule, CacheService } from 'ionic-cache';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { PatientReferralResourceService } from './patient-referral-resource.service';
 
@@ -125,7 +125,7 @@ describe('PatientReferralResourceService Tests', () => {
   it('should return Patient referral  Report',
     inject([PatientReferralResourceService, MockBackend],
       (s: PatientReferralResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -134,7 +134,7 @@ describe('PatientReferralResourceService Tests', () => {
             )));
         });
 
-        s.getPatientReferralReport(reportParams).take(1).subscribe((result) => {
+        s.getPatientReferralReport(reportParams).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(expectedPatientReferralResults);
         });
@@ -144,7 +144,7 @@ describe('PatientReferralResourceService Tests', () => {
   it('should return Patient referral Report Patient List',
     inject([PatientReferralResourceService, MockBackend],
       (s: PatientReferralResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           connection.mockRespond(new Response(
             new ResponseOptions({
@@ -153,7 +153,7 @@ describe('PatientReferralResourceService Tests', () => {
             )));
         });
 
-        s.getPatientReferralPatientList(reportParams).take(1).subscribe((result) => {
+        s.getPatientReferralPatientList(reportParams).subscribe((result) => {
           expect(result).toBeDefined();
           expect(result).toEqual(patientList.result);
         });

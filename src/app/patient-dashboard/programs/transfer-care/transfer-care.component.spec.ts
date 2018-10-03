@@ -127,7 +127,7 @@ describe('Component: ProgramsTransferCareComponent', () => {
               dateEnrolled: '2017-11-06'
             }
           }];
-        mockBackend.connections.take(1).subscribe((conn) => {
+        mockBackend.connections.subscribe((conn) => {
           conn.mockRespond(new Response(
            new ResponseOptions({body: JSON.stringify(programsResponse)})));
         });

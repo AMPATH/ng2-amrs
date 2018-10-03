@@ -4,7 +4,7 @@ import {
   ResponseOptions, Response, RequestMethod
 } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   PatientStatusVisualizationResourceService
 }
@@ -284,7 +284,7 @@ describe('PatientStatusVisualizationResourceService', () => {
   it('should return patient monthly status aggregate values when getAggregates() is called',
     inject([PatientStatusVisualizationResourceService, MockBackend],
       (s: PatientStatusVisualizationResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl/patient-' +
             'status-change-tracking?startDate=2016-01-01&analysis=' +
@@ -300,7 +300,7 @@ describe('PatientStatusVisualizationResourceService', () => {
           endDate: '2016-12-31',
           locationUuids: 'uuid',
           analysis: 'cumulativeAnalysis'
-        }).take(1).subscribe((response) => {
+        }).subscribe((response) => {
           expect(response.result).toBeTruthy();
           expect(response.result[0].total_patients).toBe(107);
         });
@@ -311,7 +311,7 @@ describe('PatientStatusVisualizationResourceService', () => {
     'status change values when getPatientList() is called',
     inject([PatientStatusVisualizationResourceService, MockBackend],
       (s: PatientStatusVisualizationResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl'
             + '/patient-status-change-tracking/patient-list?startDate=2016-01-01&'
@@ -328,7 +328,7 @@ describe('PatientStatusVisualizationResourceService', () => {
           endDate: '2016-12-31', locationUuids: 'uuid',
           indicator: 'test',
           analysis: 'cumulativeAnalysis'
-        }).take(1).subscribe((response) => {
+        }).subscribe((response) => {
           expect(response.result).toBeTruthy();
         });
       })

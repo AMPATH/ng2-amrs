@@ -28,7 +28,7 @@ import { FakeAppFeatureAnalytics } from
 import { LocalStorageService } from '../../../../utils/local-storage.service';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
-import { AppSettingsService } from '../../../../../app/app-settings/index';
+import { AppSettingsService } from '../../../../../app/app-settings/app-settings.service';
 import {
     DataAnalyticsDashboardService
   } from '../../../../data-analytics-dashboard/services/data-analytics-dashboard.services';

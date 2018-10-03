@@ -109,7 +109,7 @@ describe('Service: Moh731PatientListResourceService', () => {
   it('should call the API with correct url params when getMoh731PatientListReport() is called',
     fakeAsync(() => {
       let backend: MockBackend = TestBed.get(MockBackend);
-      backend.connections.take(1).subscribe((connection: MockConnection) => {
+      backend.connections.subscribe((connection: MockConnection) => {
         expect(connection.request.method).toBe(RequestMethod.Get);
         expect(connection.request.url).toContain('startIndex');
         expect(connection.request.url).toContain('endDate');
@@ -133,7 +133,7 @@ describe('Service: Moh731PatientListResourceService', () => {
         'reportName': 'reportName',
         'locationUuids': '1234',
         'limit': 20
-      }).take(1).subscribe((result) => {});
+      }).subscribe((result) => {});
       tick(50);
     })
   );
@@ -141,7 +141,7 @@ describe('Service: Moh731PatientListResourceService', () => {
   it('should call the correct API url given a set of params',
     fakeAsync(() => {
       let backend: MockBackend = TestBed.get(MockBackend);
-      backend.connections.take(1).subscribe((connection: MockConnection) => {
+      backend.connections.subscribe((connection: MockConnection) => {
         expect(connection.request.url).toEqual('base-url/MOH-731-report/patient-list?' +
           'startIndex=0&endDate=2017-03-19T21:00:00&startDate=2016-03-19T21:00:00' +
           '&reportName=MOH-731-report&indicator=indicator&locationUuids=1234&limit=20');
@@ -160,7 +160,7 @@ describe('Service: Moh731PatientListResourceService', () => {
         'indicator': 'indicator',
         'locationUuids': '1234',
         'limit': 20
-      }).take(1).subscribe((result) => {});
+      }).subscribe((result) => {});
       tick(50);
     })
   );
@@ -168,7 +168,7 @@ describe('Service: Moh731PatientListResourceService', () => {
   it('should return a report with correct structure from the API call',
     fakeAsync(() => {
       let backend: MockBackend = TestBed.get(MockBackend);
-      backend.connections.take(1).subscribe((connection: MockConnection) => {
+      backend.connections.subscribe((connection: MockConnection) => {
         connection.mockRespond(new Response(
           new ResponseOptions({
               body: expectedPatientListResult
@@ -184,7 +184,7 @@ describe('Service: Moh731PatientListResourceService', () => {
         'reportName': 'MOH-731-report',
         'locationUuids': '1234',
         'limit': 20
-      }).take(1).subscribe((result) => {
+      }).subscribe((result) => {
         expect(result).toEqual(expectedPatientListResult);
       });
       tick(50);

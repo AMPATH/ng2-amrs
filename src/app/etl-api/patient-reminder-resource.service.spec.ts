@@ -3,7 +3,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 import { DatePipe } from '@angular/common';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientReminderResourceService } from './patient-reminder-resource.service';
 
@@ -46,7 +46,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
     backend = TestBed.get(MockBackend);
     let patientReminderResourceService: PatientReminderResourceService =
       TestBed.get(PatientReminderResourceService);
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
@@ -59,7 +59,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       connection.mockRespond(new Response(options));
     });
     patientReminderResourceService.getPatientLevelReminders(patientUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
 
@@ -69,11 +69,11 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
       (patientReminderResourceService: PatientReminderResourceService,
        mockBackend: MockBackend) => {
 
-        mockBackend.connections.take(1).subscribe(c =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         patientReminderResourceService.getPatientLevelReminders(patientUuid)
-          .take(1).subscribe((data) => {
+          .subscribe((data) => {
             },
             (error: Error) => {
               expect(error).toBeTruthy();

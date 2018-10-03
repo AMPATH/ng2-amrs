@@ -66,7 +66,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
       service.createDifferentiatedCareEncounter('patient-uuid', 'provider-uuid',
         encounterDate, rtcDate, 'location-uuid')
-        .take(1).subscribe((createdEncounter) => {
+        .subscribe((createdEncounter) => {
           expect(postEncounterSpy.calls.count()).toBe(1);
           done();
         }, (error) => {
@@ -97,7 +97,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
     service.enrollPatientToDifferentiatedCare('patient-uuid', encounterDate,
       'location-uuid')
-      .take(1).subscribe((enrollment) => {
+      .subscribe((enrollment) => {
         expect(postEnrollmentSpy.calls.count()).toBe(1);
         done();
       }, (error) => {
@@ -199,7 +199,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       );
 
       service.endProgramEnrollment('some-uuid', dateCompleted)
-        .take(1).subscribe((enrollment) => {
+        .subscribe((enrollment) => {
           expect(postEnrollmentSpy.calls.count()).toBe(1);
           done();
         }, (error) => {
@@ -242,7 +242,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       });
 
     service.endProgramEnrollments(samplePrograms, dateCompleted)
-      .take(1).subscribe((results) => {
+      .subscribe((results) => {
         expect(endProgEnrollmentSpy.calls.count()).toBe(2);
         expect(endProgEnrollmentSpy.calls.allArgs()).toEqual([
           ['uuid-1', dateCompleted],
@@ -324,7 +324,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
       let sub = service.referToDifferentiatedCare(patient,
         'provider-uuid', encounterDate, rtcDate, 'location-uuid');
-      sub.take(1).subscribe((status) => {
+      sub.subscribe((status) => {
         // console.log('status', status);
 
         expect(hasActiveSpy.calls.count()).toBe(1);

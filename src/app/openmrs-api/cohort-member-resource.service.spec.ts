@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { CohortMemberResourceService } from './cohort-member-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 describe('Service : CohortMemberResourceService Unit Tests', () => {
 
@@ -492,13 +492,13 @@ describe('Get All Cohort Members', () => {
     it('should hit right endpoint for getallCohortMembers and get right response', async(inject(
 
            [CohortMemberResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('/ws/rest/v1/cohort/' +
                      parentUuid + '/member');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                 });
 
-                 service.getAllCohortMembers(parentUuid).take(1).subscribe(res => {
+                 service.getAllCohortMembers(parentUuid).subscribe(res => {
                          expect(res).toEqual(getallCohortMembersResponse);
                 });
 
@@ -511,7 +511,7 @@ describe('Get Cohort Member', () => {
     it('should hit right endpoint for getCohortMember and get right response', async(inject(
 
            [CohortMemberResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('/ws/rest/v1/cohort/' +
                      parentUuid + '/member');
                     expect(conn.request.method).toBe(RequestMethod.Get);
@@ -521,7 +521,7 @@ describe('Get Cohort Member', () => {
                 });
 
 
-                 service.getCohortMember(parentUuid, uuid).take(1).subscribe(res => {
+                 service.getCohortMember(parentUuid, uuid).subscribe(res => {
                          expect(res).toEqual(cohortMemberResponse);
                 });
 
@@ -533,7 +533,7 @@ describe('Add Cohort Member', () => {
 
     it('should hit right endpoint for add Cohort and get right response', async(inject(
            [CohortMemberResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('cohort/' + parentUuid + '/member');
                     expect(conn.request.method).toBe(RequestMethod.Post);
                     conn.mockRespond(new Response(
@@ -541,7 +541,7 @@ describe('Add Cohort Member', () => {
                     ));
                 });
 
-                service.addCohortMember(parentUuid, addCohortMemberPayload).take(1).subscribe(res => {
+                service.addCohortMember(parentUuid, addCohortMemberPayload).subscribe(res => {
                     expect(res).toBe(addCohortMemberResponse );
                 });
 
@@ -555,7 +555,7 @@ describe('Retire Cohort Member', () => {
 
     it('should hit right endpoint for Retire Cohort Member and get right response', async(inject(
            [CohortMemberResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('cohort/' + parentUuid + '/member/' +
                      uuid + '?!purge');
                     expect(conn.request.method).toBe(RequestMethod.Delete);
@@ -564,7 +564,7 @@ describe('Retire Cohort Member', () => {
                     ));
                 });
 
-                service.retireCohortMember(parentUuid , uuid).take(1).subscribe(res => {
+                service.retireCohortMember(parentUuid , uuid).subscribe(res => {
                     expect(res).toBe(retireCohortMemberResponse );
                 });
 

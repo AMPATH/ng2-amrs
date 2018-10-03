@@ -10,6 +10,7 @@
     "test-debug": "ng test --browsers ChromeDebug",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
     "prestart": "node version.js"
@@ -77,7 +78,7 @@
     "ngx-cookie": "^4.0.2",
     "ngx-file-uploader": "git+https://github.com/enyachoke/ngx-file-uploader.git#0.0.9",
     "ngx-mydatepicker": "^0.1.0",
-    "ngx-openmrs-formentry": "git+https://github.com/AMPATH/ngx-openmrs-formentry.git#v2.9.7-alpha5",
+    "ngx-openmrs-formentry": "git+https://github.com/AMPATH/ngx-openmrs-formentry.git#v2.9.7-alpha6",
     "ngx-pagination": "^3.1.1",
     "ngx-select": "^0.0.1",
     "ngx-toastr": "^6.5.0",

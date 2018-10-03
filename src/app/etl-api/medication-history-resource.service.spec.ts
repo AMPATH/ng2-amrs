@@ -3,7 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { MedicationHistoryResourceService } from './medication-history-resource.service';
 
@@ -49,7 +49,7 @@ describe('Medication Resource Service Unit Tests', () => {
       patientUuId: 'uuid'
     };
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url).toMatch('');
@@ -67,10 +67,10 @@ describe('Medication Resource Service Unit Tests', () => {
       (medicationHistoryResourceService: MedicationHistoryResourceService,
        mockBackend: MockBackend) => {
 
-        mockBackend.connections.take(1).subscribe((c) =>
+        mockBackend.connections.subscribe((c) =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        medicationHistoryResourceService.getReport(report , patientUuid).take(1).subscribe((data) => { },
+        medicationHistoryResourceService.getReport(report , patientUuid).subscribe((data) => { },
           (error: Error) => {
             expect(error).toBeTruthy();
 

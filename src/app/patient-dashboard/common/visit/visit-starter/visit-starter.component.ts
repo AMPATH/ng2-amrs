@@ -122,7 +122,7 @@ export class VisitStarterComponent implements OnInit {
     this.patientProgramResourceService
       .getPatientProgramVisitTypes(this.patientUuid,
       this.programUuid, this.programEnrollmentUuid, this.selectedLocation.value)
-      .take(1).subscribe(
+      .subscribe(
       (progConfig) => {
         this.isBusy = false;
         this.programVisitsConfig = progConfig;
@@ -157,7 +157,7 @@ export class VisitStarterComponent implements OnInit {
       ];
     }
 
-    this.visitResourceService.saveVisit(payload).take(1).subscribe(
+    this.visitResourceService.saveVisit(payload).subscribe(
       (savedVisit) => {
          this.isBusy = false;
          this.startedVisit = false;

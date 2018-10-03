@@ -26,7 +26,7 @@ import { MockBackend } from '@angular/http/testing';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 import {
   ProgramEnrollmentResourceService
@@ -347,7 +347,7 @@ describe('Component : Visit-Encounters', () => {
     async(() => {
       let encounterObs = of(mockEncounterResponse);
 
-      encounterObs.take(1).subscribe((res) => {
+      encounterObs.subscribe((res) => {
         comp.groupEncountersByVisits(res);
       });
       fixture.detectChanges();

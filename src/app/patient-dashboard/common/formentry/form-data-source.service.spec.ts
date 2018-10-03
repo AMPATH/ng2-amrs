@@ -10,7 +10,7 @@ import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { CacheModule, CacheService } from 'ionic-cache';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
@@ -59,7 +59,7 @@ describe('Service: FormDataSourceService', () => {
     let service: FormDataSourceService = TestBed.get(FormDataSourceService);
     let result = service.findProvider('text');
 
-    result.take(1).subscribe((results) => {
+    result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0]['value']).toEqual('uuid');
@@ -116,7 +116,7 @@ describe('Service: FormDataSourceService', () => {
     let service: FormDataSourceService = TestBed.get(FormDataSourceService);
     let result = service.findLocation('test');
 
-    result.take(1).subscribe((results) => {
+    result.subscribe((results) => {
       expect(results).toBeTruthy();
       done();
     });

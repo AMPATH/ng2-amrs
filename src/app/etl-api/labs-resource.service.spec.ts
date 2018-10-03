@@ -12,7 +12,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { LabsResourceService } from './labs-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 class MockError extends Response implements Error {
     name: any;
     message: any;
@@ -127,7 +127,7 @@ describe('LabsResourceService', () => {
         it('should call the right endpoint', async(inject(
             [LabsResourceService, MockBackend, AppSettingsService],
             (service, mockBackend, appSettingsService) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url)
                         .toContain(`${appSettingsService
                             .getEtlRestbaseurl().trim()}patient-lab-orders`);
@@ -139,20 +139,20 @@ describe('LabsResourceService', () => {
                         new ResponseOptions({ body: JSON.stringify({}) })));
                 });
 
-                const result = service.getNewPatientLabResults(params).take(1).subscribe((results) => { });
+                const result = service.getNewPatientLabResults(params).subscribe((results) => { });
             })));
 
         it('should parse response from patient labs sync endpoint', async(inject(
             [LabsResourceService, MockBackend], (service, mockBackend) => {
                 let uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(newLabResults) })));
                 });
 
                 const result = service.getNewPatientLabResults(params);
 
-                result.take(1).subscribe(res => {
+                result.subscribe(res => {
                     expect(res).toBeTruthy();
                     expect(res.length).toBe(5);
                     expect(res[0].concept.uuid).toBe(newLabResults.updatedObs[0].concept.uuid);
@@ -163,12 +163,12 @@ describe('LabsResourceService', () => {
             [LabsResourceService, MockBackend], (service, mockBackend) => {
                 let opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 let responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     conn.mockError(new MockError(responseOpts));
                 });
                 const result = service.getNewPatientLabResults(params);
 
-                result.take(1).subscribe(res => {
+                result.subscribe(res => {
                 }, (err) => {
                     expect(err).toBe('404 - val');
                 });
@@ -183,7 +183,7 @@ describe('LabsResourceService', () => {
         it('should return null when patient uuid not specified', async(inject(
             [LabsResourceService, MockBackend], (service, mockBackend) => {
 
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     throw new Error('No requests should be made.');
                 });
 
@@ -195,7 +195,7 @@ describe('LabsResourceService', () => {
         it('should call the right endpoint', async(inject(
             [LabsResourceService, MockBackend, AppSettingsService],
             (service, mockBackend, appSettingsService) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url)
                         .toContain(`${appSettingsService
                             .getEtlRestbaseurl().trim()}patient/${patientUuId}/data`);
@@ -207,13 +207,13 @@ describe('LabsResourceService', () => {
                 });
 
                 const result = service.getHistoricalPatientLabResults(patientUuId, params)
-                    .take(1).subscribe((results) => { });
+                    .subscribe((results) => { });
             })));
 
         it('should set startIndex to 0 when startIndex is not provided',
             async(inject(
                 [LabsResourceService, MockBackend], (service, mockBackend) => {
-                    mockBackend.connections.take(1).subscribe(conn => {
+                    mockBackend.connections.subscribe(conn => {
                         expect(conn.request.url).toContain('startIndex=0');
                         expect(conn.request.method).toBe(RequestMethod.Get);
                         conn.mockRespond(new Response(
@@ -222,12 +222,12 @@ describe('LabsResourceService', () => {
                     delete params.startIndex;
                     const result =
                         service.getHistoricalPatientLabResults(patientUuId, params)
-                            .take(1).subscribe((results) => { });
+                            .subscribe((results) => { });
                 })));
         it('should set limit to 20 when startIndex is not provided',
             async(inject(
                 [LabsResourceService, MockBackend], (service, mockBackend) => {
-                    mockBackend.connections.take(1).subscribe(conn => {
+                    mockBackend.connections.subscribe(conn => {
                         expect(conn.request.url).toContain('limit=20');
                         expect(conn.request.method).toBe(RequestMethod.Get);
                         conn.mockRespond(new Response(
@@ -236,20 +236,20 @@ describe('LabsResourceService', () => {
                     delete params.limit;
                     const result =
                         service.getHistoricalPatientLabResults(patientUuId, params)
-                            .take(1).subscribe((results) => { });
+                            .subscribe((results) => { });
                 })));
 
         it('should parse response from patient labs  endpoint', async(inject(
             [LabsResourceService, MockBackend], (service, mockBackend) => {
                 let uuid = 'uuid';
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     conn.mockRespond(new Response(
                         new ResponseOptions({ body: JSON.stringify(historicalLabResults) })));
                 });
 
                 const result = service.getHistoricalPatientLabResults(patientUuId, params);
 
-                result.take(1).subscribe(res => {
+                result.subscribe(res => {
                     expect(res).toBeTruthy();
                 });
             })));
@@ -257,13 +257,13 @@ describe('LabsResourceService', () => {
             [LabsResourceService, MockBackend], (service, mockBackend) => {
                 let opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
                 let responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     conn.mockError(new MockError(responseOpts));
                 });
 
                 const result = service.getHistoricalPatientLabResults(patientUuId, params);
 
-                result.take(1).subscribe(res => {
+                result.subscribe(res => {
 
                 }, (err) => {
                     expect(err).toBe('404 - val');

@@ -6,7 +6,7 @@ import {
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
 
 describe('Service: Pratient Relationship ResourceService', () => {
@@ -75,7 +75,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     + 'when fetching patient relationships', async(inject(
       [PatientRelationshipResourceService, MockBackend], (service, mockBackend) => {
 
-        mockBackend.connections.take(1).subscribe(conn => {
+        mockBackend.connections.subscribe(conn => {
           throw new Error('No requests should be made.');
         });
 
@@ -92,7 +92,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     let personUuid = 'uuid';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toEqual('http://example.url.com/ws/rest/v1/relationship?v=full&person=uuid');
@@ -105,7 +105,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
 
     s.getPatientRelationships(personUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });
@@ -114,7 +114,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     let s: PatientRelationshipResourceService = TestBed.get(PatientRelationshipResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toEqual('http://example.url.com/ws/rest/v1/relationship');
@@ -126,7 +126,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
 
     s.saveRelationship(relationshipPayload)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });
@@ -136,7 +136,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     + 'when deleting person relationships', async(inject(
       [PatientRelationshipResourceService, MockBackend], (service, mockBackend) => {
 
-        mockBackend.connections.take(1).subscribe(conn => {
+        mockBackend.connections.subscribe(conn => {
           throw new Error('No requests should be made.');
         });
 
@@ -149,7 +149,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     let s: PatientRelationshipResourceService = TestBed.get(PatientRelationshipResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
     let relationshipUuid = 'uuid';
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toEqual('http://example.url.com/ws/rest/v1/relationship/uuid');
@@ -161,7 +161,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     });
 
     s.deleteRelationship(relationshipUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });

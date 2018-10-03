@@ -30,7 +30,7 @@ describe('ClinicFlowCacheService Unit Tests', () => {
             service = TestBed.get(ClinicFlowCacheService);
             service.setSelectedLocation('location-uuid');
 
-            service.getSelectedLocation().take(1).subscribe(location => {
+            service.getSelectedLocation().subscribe(location => {
                 expect(location).toEqual(['location-uuid']);
                 done();
             },
@@ -44,7 +44,7 @@ describe('ClinicFlowCacheService Unit Tests', () => {
             service = TestBed.get(ClinicFlowCacheService);
             service.setSelectedDate('2017-01-12');
 
-            service.getSelectedDate().take(1).subscribe(date => {
+            service.getSelectedDate().subscribe(date => {
                 expect(date).toEqual('2017-01-12');
                 done();
             },
@@ -58,7 +58,7 @@ describe('ClinicFlowCacheService Unit Tests', () => {
             service = TestBed.get(ClinicFlowCacheService);
             service.setClinicFlowData({});
 
-            service.getClinicFlowData().take(1).subscribe(data => {
+            service.getClinicFlowData().subscribe(data => {
                 expect(data).toEqual({});
                 done();
             },

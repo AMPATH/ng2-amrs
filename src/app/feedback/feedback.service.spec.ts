@@ -2,7 +2,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { FeedBackService } from './feedback.service';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
@@ -56,7 +56,7 @@ describe('FeedBackService', () => {
         inject([FeedBackService, AppSettingsService,
             MockBackend, Http], (feedbackService, appSettingsService, backend, http) => {
                 let samplePayload = { phone: '070000000', message: 'message' };
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     let url = appSettingsService.getEtlServer() +
                         '/user-feedback';
                     expect(connection.request.url).toEqual(url);
@@ -68,7 +68,7 @@ describe('FeedBackService', () => {
                     connection.mockRespond(mockResponse);
                 });
 
-                feedbackService.postFeedback(samplePayload).take(1).subscribe(response => {
+                feedbackService.postFeedback(samplePayload).subscribe(response => {
                     expect(response).toEqual([{ status: 'okay' }]);
                 });
             }));

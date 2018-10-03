@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location, APP_BASE_HREF } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
@@ -156,7 +156,7 @@ describe('Component: User Default Settings Unit Tests', () => {
   //       activeRoute.testParams = { confirm: 1 };
   //       component.ngOnInit();
   //       fixture.detectChanges();
-  //       route.params.take(1).subscribe((params) => {
+  //       route.params.subscribe((params) => {
   //         expect(params['confirm']).toEqual(1);
   //         expect(component.query).toEqual('test location');
   //       });
@@ -201,7 +201,7 @@ describe('Component: User Default Settings Unit Tests', () => {
         activeRoute.testParams = { confirm: 1 };
         component.ngOnInit();
         fixture.detectChanges();
-        route.params.take(1).subscribe((params) => {
+        route.params.subscribe((params) => {
           expect(params['confirm']).toEqual(1);
           expect(component.currentLocation).toEqual('test location');
         });

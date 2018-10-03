@@ -253,7 +253,7 @@ describe('Component: LandingPageComponent', () => {
             isEnrolled: false
           }
         ];
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           connection.mockRespond(new Response(
             new ResponseOptions({
                 body: [[{programUuid: '123', uuid: '12345'}], [{uuid: '123'}]]
@@ -272,7 +272,7 @@ describe('Component: LandingPageComponent', () => {
       (ps: PatientService,
        prs: ProgramService, ls: LocationResourceService,
        backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           connection.mockError(new Error('An error occured'));
           component.loadProgramBatch('uuid');
           tick();

@@ -1,12 +1,12 @@
 <div style="margin-top: 4px; margin-bottom: 4px;" *ngIf="!programIsOnReferral">
   <strong *ngIf="currentEnrollment" style="color: gray;">
     <span>
-      Patient enrolled in {{toTitleCase(currentEnrollment.openmrsModel.display)}}
+      Patient enrolled in {{toTitleCase(currentEnrollment?.openmrsModel?.display)}}
     </span>
-    <span *ngIf="currentEnrollment.openmrsModel.location">{{ (' at ' + currentEnrollment.openmrsModel.location.display ) }}
+    <span *ngIf="currentEnrollment?.openmrsModel?.location">{{ (' at ' + currentEnrollment?.openmrsModel?.location?.display ) }}
     </span>
-    <span>{{(' since ' + currentEnrollment.dateEnrolled)}}.</span>
-    <span *ngIf="!currentEnrollment.openmrsModel.location" style="text-transform:none;"> Please associate this program with a clinic.</span>
+    <span>{{(' since ' + currentEnrollment?.dateEnrolled)}}.</span>
+    <span *ngIf="!currentEnrollment?.openmrsModel?.location" style="text-transform:none;"> Please associate this program with a clinic.</span>
   </strong>
 </div>
 <patient-referral-visit *ngIf="programIsOnReferral" [patient]="patient"
@@ -14,7 +14,7 @@
 <div>
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    {{error.message}}
+    {{error?.message}}
   </div>
   <div class="alert alert-success alert-dismissible"
        *ngIf="showVisitStartedMsg && visit && patient && visit.stopDatetime === null">

@@ -4,7 +4,7 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeUserFactory } from '../../common/formentry/mock/user-factory.service.mock';
 import {

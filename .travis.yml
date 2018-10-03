@@ -10,7 +10,7 @@ before_install:
   # Updating NPM to relevant version >= 3 on Node.JS LTS
 - npm i -g brfs
 script:
-- npm run build
+- npm run build-prod
 #- npm run test
 sudo: required
 addons:

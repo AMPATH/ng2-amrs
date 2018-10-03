@@ -47,7 +47,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         reminders: [],
         labDataSummary: []
       };
-      service.generatePdf(pdfDependencies).take(1).subscribe(
+      service.generatePdf(pdfDependencies).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
           expect(pdf.pdfDefinition).toBeDefined();
@@ -73,7 +73,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         reminders: [],
         labDataSummary: []
       };
-      service.generatePdf(pdfDependencies).take(1).subscribe(
+      service.generatePdf(pdfDependencies).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
           expect(pdf.pdfDefinition).toBeDefined();
@@ -115,7 +115,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         reminders: [],
         labDataSummary: []
       };
-      service.generatePdf(pdfDependencies).take(1).subscribe(
+      service.generatePdf(pdfDependencies).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
 
@@ -136,7 +136,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
     (done) => {
       let service: HivPatientClinicalSummaryService = TestBed.get(HivPatientClinicalSummaryService);
       let pdfDependencies: any = null;
-      service.generatePdf(pdfDependencies).take(1).subscribe(
+      service.generatePdf(pdfDependencies).subscribe(
         (pdf) => {
           expect(pdf).not.toBeDefined(); // this means it has errored, we don't expect this!!!!
           expect(pdf.pdfSrc).not.toBeDefined();

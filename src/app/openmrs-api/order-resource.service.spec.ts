@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { OrderResourceService } from './order-resource.service';
@@ -48,7 +48,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
 
     let patientUuid = '3a8cd157-38d4-4a50-9121-ab15c7459382';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).
       toBe('http://example.url.com/ws/rest/v1/order?patient=' + patientUuid +
@@ -63,7 +63,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     });
 
     orderResourceService.getOrdersByPatientUuid(patientUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });
@@ -74,7 +74,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
 
     let orderId = 'ORD-8934';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toBe(
         'http://example.url.com/ws/rest/v1/order/' + orderId + '?' +
@@ -89,7 +89,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     });
 
    orderResourceService.searchOrdersById(orderId)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
 
@@ -101,7 +101,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
 
     let orderUUid = 'uuid';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toBe(
         'http://example.url.com/ws/rest/v1/order/' + orderUUid + '?' +
@@ -117,7 +117,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     });
 
     orderResourceService.getOrderByUuid(orderUUid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
 

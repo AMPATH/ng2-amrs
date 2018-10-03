@@ -12,7 +12,7 @@ const routes: Routes = [
       {
         path: 'oncology',
         loadChildren:
-        './oncology/data-analytics-oncology-program.module#DataAnalyticsOncologyProgramModule'
+        './oncology/data-analytics-oncology.module#DataAnalyticsOncologyProgramModule'
       },
       {
         path: 'referral',

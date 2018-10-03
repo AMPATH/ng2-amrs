@@ -10,7 +10,7 @@ describe('LocalStorageService Tests', () => {
     property2: 'another property'
   };
 
-  beforeAll(() => {
+  beforeEach(() => {
     service = new LocalStorageService();
   });
 
@@ -18,14 +18,28 @@ describe('LocalStorageService Tests', () => {
     window.localStorage.clear();
   });
 
+  afterEach(() => {
+    window.localStorage.clear();
+  });
+
   it('should store a give value', () => {
     service.setItem(keyName, value);
-    expect(window.localStorage.getItem(keyName)).toEqual(value,
+    let v;
+    try {
+       v = window.localStorage.getItem(keyName);
+    } catch (e) {
+      console.error('Error getting item', e);
+    }
+    expect(v).toEqual(value,
       'setItem() should store values');
   });
 
   it('should retrieve a stored value', () => {
-    window.localStorage.setItem(keyName, value);
+    try {
+      window.localStorage.setItem(keyName, value);
+    } catch (e) {
+      console.error('Error getting item', e);
+    }
     expect(service.getItem(keyName)).toEqual(value, 'getItem()');
   });
 
