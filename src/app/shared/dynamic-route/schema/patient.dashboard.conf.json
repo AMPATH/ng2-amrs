@@ -482,6 +482,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Oncology Screening and Diagnosis",
+      "programUuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+      "baseRoute": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -546,6 +556,11 @@
         "url": "patient-vitals",
         "label": "Vitals",
         "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "oncology-summary",
+        "label": "Oncology Summary",
+        "icon": "fa fa-medkit"
       },
       {
         "url": "lab-data-summary",
