@@ -21,7 +21,6 @@ import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.comp
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
 import { PatientMonthlyStatusComponent
 } from './patient-status-change/patient-monthly-status.component';
-import { HivLandingPageComponent } from './landing-page/landing-page.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
 

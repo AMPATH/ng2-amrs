@@ -554,7 +554,7 @@ describe('Service: TodayVisit', () => {
       .and.callThrough();
 
     service.loadDataToProcessProgramVisits()
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
         expect(progConfigSpy.calls.count()).toBe(1);
         expect(visitSpy.calls.count()).toBe(1);
         done();
@@ -591,7 +591,7 @@ describe('Service: TodayVisit', () => {
       .and.callThrough();
 
     service.getProgramVisits()
-      .take(1).subscribe((programVisits) => {
+      .subscribe((programVisits) => {
         expect(service.errors.length).toBe(0);
         expect(processVisitsSpy.calls.count()).toBe(1);
         expect(loadDataSpy.calls.count()).toBe(1);
@@ -603,7 +603,7 @@ describe('Service: TodayVisit', () => {
         visitsEventsSpy.calls.reset();
         // CASE 2: Visits are upto date
         service.getProgramVisits()
-          .take(1).subscribe((progs) => {
+          .subscribe((progs) => {
             expect(processVisitsSpy.calls.count()).toBe(1);
             expect(loadDataSpy.calls.count()).toBe(1);
             expect(service.programVisits).toBe(programVisits);

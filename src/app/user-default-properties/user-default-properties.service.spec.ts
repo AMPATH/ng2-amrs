@@ -74,7 +74,7 @@ describe('User Default Service Unit Tests', () => {
 
   //   backend = TestBed.get(MockBackend);
 
-  //   backend.connections.take(1).subscribe((connection: MockConnection) => {
+  //   backend.connections.subscribe((connection: MockConnection) => {
 
   //     expect(connection.request.method).toBe(RequestMethod.Get);
   //     expect(connection.request.url).toContain('/ws/rest/v1/location?v=default');
@@ -94,9 +94,9 @@ describe('User Default Service Unit Tests', () => {
           }
         }));
 
-        mockBackend.connections.take(1).subscribe(c => c.mockRespond(mockResponse));
+        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
 
-        propertiesResourceService.getLocations().take(1).subscribe((response: Response) => {
+        propertiesResourceService.getLocations().subscribe((response: Response) => {
 
           let data = response.json();
 
@@ -113,10 +113,10 @@ describe('User Default Service Unit Tests', () => {
    inject([UserDefaultPropertiesMockService, MockBackend],
       fakeAsync((propertiesResourceService: UserDefaultPropertiesMockService, mockBackend: MockBackend) => {
 
-        mockBackend.connections.take(1).subscribe(c =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
-        propertiesResourceService.getLocations().take(1).subscribe((response: Response) => {
+        propertiesResourceService.getLocations().subscribe((response: Response) => {
           },
           (error: Error) => {
             expect(error).toBeTruthy();

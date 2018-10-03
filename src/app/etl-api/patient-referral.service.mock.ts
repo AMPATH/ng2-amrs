@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { AppSettingsService } from '../app-settings';
-
 import {
   PatientReferralResourceService
 } from './patient-referral-resource.service';

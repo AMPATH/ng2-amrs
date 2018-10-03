@@ -17,7 +17,7 @@ import {
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramWorkFlowResourceService
@@ -174,7 +174,7 @@ describe('Service: ProgramService', () => {
       dateEnrolled, dateCompleted, locationUuid, enrollmentUuid);
 
     let enrollmement = service.saveUpdateProgramEnrollment(payload);
-    enrollmement.take(1).subscribe((results) => {
+    enrollmement.subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();
       }

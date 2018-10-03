@@ -143,7 +143,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().take(1).subscribe((results: any) => {
+    this.locationResourceService.getLocations().subscribe((results: any) => {
       this.locations = results.map((location) => {
         return {
           value: location.uuid,
@@ -173,7 +173,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
           this.loadingVisit = true;
 
           this.visitResource.updateVisit(this.encounterVisitUuid, visitPayload)
-            .take(1).subscribe((updateVisit) => {
+            .subscribe((updateVisit) => {
               this.loadingVisit = false;
               this.locationName = updateVisit.location.display;
               this.editLocation = !this.editLocation;
@@ -219,7 +219,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       'stopDatetime,attributes:(uuid,value))';
     this.loadingVisit = true;
     this.visitSubscription = this.visitResource.getVisitByUuid(uuid, { v: custom })
-      .take(1).subscribe((visit) => {
+      .subscribe((visit) => {
         this.setVisit(visit);
       });
   }

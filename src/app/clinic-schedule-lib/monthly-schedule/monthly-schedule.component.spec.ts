@@ -4,7 +4,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { TestBed, async, fakeAsync, ComponentFixture, tick, flush } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
 import { MonthlyScheduleBaseComponent } from './monthly-schedule.component';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
@@ -15,7 +16,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { ClinicDashboardCacheService }
   from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';

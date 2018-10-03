@@ -45,7 +45,7 @@ describe('IndicatorResourceService Unit Tests', () => {
   it('should make API call with correct URL',
     inject([IndicatorResourceService, MockBackend],
       fakeAsync((indicatorResourceService: IndicatorResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/indicators-schema?report=reportName');
@@ -58,7 +58,7 @@ describe('IndicatorResourceService Unit Tests', () => {
     inject([MockBackend, IndicatorResourceService],
       (backend: MockBackend, indicatorResourceService: IndicatorResourceService) => {
         // stubbing
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           let options = new ResponseOptions({
             body: JSON.stringify({
               result: [
@@ -71,7 +71,7 @@ describe('IndicatorResourceService Unit Tests', () => {
         });
 
         indicatorResourceService.getReportIndicators({ report: 'reportName' })
-          .take(1).subscribe((response) => {
+          .subscribe((response) => {
             expect(response).toContain({ name: 'Indicator1' });
             expect(response).toBeDefined();
             expect(response['length']).toBeGreaterThan(1);

@@ -57,7 +57,7 @@ describe('AuthenticationService Unit Tests', () => {
       let username = 'test';
       let password = 'test';
 
-      backend.connections.take(1).subscribe((connection: MockConnection) => {
+      backend.connections.subscribe((connection: MockConnection) => {
         let options = new ResponseOptions({
           body: JSON.stringify({
             authenticated: true,
@@ -68,7 +68,7 @@ describe('AuthenticationService Unit Tests', () => {
       });
 
       authenticationService.authenticate(username, password)
-        .take(1).subscribe((response) => {
+        .subscribe((response) => {
           expect(response.json().authenticated).toEqual(true);
           expect(response.json().user).toBeTruthy();
 
@@ -85,7 +85,7 @@ describe('AuthenticationService Unit Tests', () => {
     (backend: MockBackend, service: SessionStorageService,
       authenticationService: AuthenticationService) => {
 
-      backend.connections.take(1).subscribe((connection: MockConnection) => {
+      backend.connections.subscribe((connection: MockConnection) => {
         let options = new ResponseOptions({
           body: JSON.stringify({})
         });
@@ -93,7 +93,7 @@ describe('AuthenticationService Unit Tests', () => {
       });
 
       authenticationService.logOut()
-        .take(1).subscribe((response) => {
+        .subscribe((response) => {
           expect(response.json()).toEqual({});
 
           expect(service.getItem(Constants.CREDENTIALS_KEY)).toEqual(null);

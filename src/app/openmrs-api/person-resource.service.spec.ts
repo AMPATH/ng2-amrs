@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   Http, Response, Headers, BaseRequestOptions, ResponseOptions,
   RequestMethod
@@ -85,7 +85,7 @@ describe('Service: PersonResourceService Unit Tests', () => {
     let personResourceService: PersonResourceService = TestBed.get(PersonResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url).toContain('person/' + personuid);
       expect(connection.request.url).toContain('v=');
@@ -97,7 +97,7 @@ describe('Service: PersonResourceService Unit Tests', () => {
     });
 
     personResourceService.getPersonByUuid(personuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });
@@ -105,7 +105,7 @@ describe('Service: PersonResourceService Unit Tests', () => {
   it('should return null when params are not specified', async(inject(
     [PersonResourceService, MockBackend], (service, mockBackend) => {
 
-      mockBackend.connections.take(1).subscribe(conn => {
+      mockBackend.connections.subscribe(conn => {
         throw new Error('No requests should be made.');
       });
 
@@ -118,7 +118,7 @@ describe('Service: PersonResourceService Unit Tests', () => {
 
     let s: PersonResourceService = TestBed.get(PersonResourceService);
     let backend: MockBackend = TestBed.get(MockBackend);
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toEqual('http://example.url.com/ws/rest/v1/person/' + personuid);
@@ -130,7 +130,7 @@ describe('Service: PersonResourceService Unit Tests', () => {
     });
 
     s.saveUpdatePerson(personuid, personPayload)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
   });

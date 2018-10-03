@@ -8,7 +8,7 @@ import { FormSubmissionService } from './form-submission.service';
 import {
   EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper, Form
 } from 'ngx-openmrs-formentry/dist/ngx-formentry';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
@@ -374,7 +374,7 @@ describe('Service: FormSubmissionService', () => {
         // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm as Form).take(1).subscribe(
+        formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
@@ -435,7 +435,7 @@ describe('Service: FormSubmissionService', () => {
         // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm as Form).take(1).subscribe(
+        formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
@@ -497,7 +497,7 @@ describe('Service: FormSubmissionService', () => {
         // spy on
         let formSubmissionSuccesIndicator: boolean = false;
         let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm as Form).take(1).subscribe(
+        formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;

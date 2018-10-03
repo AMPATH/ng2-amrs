@@ -7,7 +7,7 @@ import { AppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../../app-settings';
+import { AppSettingsService } from '../../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../../utils/local-storage.service';
 import { VisitPeriodComponent } from './visit-period.component';
 import { PatientService } from '../../../services/patient.service';
@@ -291,7 +291,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
     // tell mock to return error on next call
     fakeRes.returnErrorOnNext = true;
     let results = service.getVisitByUuid('uuid', {});
-    results.take(1).subscribe((result) => {
+    results.subscribe((result) => {
       },
       (error) => {
         // when it gets here, then it returned an error

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   Http, Response, Headers,
   BaseRequestOptions, ResponseOptions
@@ -48,7 +48,7 @@ describe('SessionService Unit Tests', () => {
   it('It should return a session', inject([MockBackend, SessionService],
     (backend: MockBackend, sessionService: SessionService) => {
 
-      backend.connections.take(1).subscribe((connection: MockConnection) => {
+      backend.connections.subscribe((connection: MockConnection) => {
         let options = new ResponseOptions({
           body: JSON.stringify({
             authenticated: true,
@@ -64,7 +64,7 @@ describe('SessionService Unit Tests', () => {
       };
 
       sessionService.getSession(credentials)
-        .take(1).subscribe((response) => {
+        .subscribe((response) => {
           expect(response.json().authenticated).toEqual(true);
           expect(response.json().user).toBeTruthy();
         });

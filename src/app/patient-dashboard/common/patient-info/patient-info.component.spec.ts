@@ -12,7 +12,7 @@ import {
   ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService

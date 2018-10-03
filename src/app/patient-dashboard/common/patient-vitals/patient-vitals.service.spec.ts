@@ -6,7 +6,7 @@ import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@a
 
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientVitalsService } from './patient-vitals.service';
 import { VitalsResourceService } from '../../../etl-api/vitals-resource.service';
 
@@ -49,7 +49,7 @@ describe('Service: PatientVitalsService', () => {
 
 
   it('should load Patient Vitals', (done) => {
-    vitals.take(1).subscribe((results) => {
+    vitals.subscribe((results) => {
       if (results) {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
@@ -65,7 +65,7 @@ describe('Service: PatientVitalsService', () => {
 
     let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
@@ -75,7 +75,7 @@ describe('Service: PatientVitalsService', () => {
       connection.mockError(new Error('An error occured while processing the request'));
     });
     service.getvitals(patientUuid, 0)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
     },
       (error: Error) => {
         expect(error).toBeTruthy();

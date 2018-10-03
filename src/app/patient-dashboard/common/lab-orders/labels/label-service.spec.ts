@@ -28,7 +28,7 @@ describe('LabelService', () => {
             identifier: 'ME',
             orderNumber: 'ORD-100'
         }];
-        s.generateBarcodes(labels).take(1).subscribe((url) => {
+        s.generateBarcodes(labels).subscribe((url) => {
             expect(typeof url).toBe('string');
         });
     })));

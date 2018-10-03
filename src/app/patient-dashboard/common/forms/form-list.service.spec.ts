@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { FormListService } from './form-list.service';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
 import * as _ from 'lodash';
 import { forms } from './forms';
@@ -236,7 +236,7 @@ describe('FormListService', () => {
                     'getForms').and.returnValue(
                     of(forms)
                     );
-                formListService.getFormList().take(1).subscribe((actualFormList) => {
+                formListService.getFormList().subscribe((actualFormList) => {
                     expect(actualFormList).toBeTruthy();
                     expect(actualFormList).toEqual(expectedFormsList);
                 });

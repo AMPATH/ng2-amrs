@@ -9,7 +9,7 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 describe('Service: HivSummary', () => {
 
@@ -48,7 +48,7 @@ describe('Service: HivSummary', () => {
 
 
   it('should load hiv summary', (done) => {
-    result.take(1).subscribe((results) => {
+    result.subscribe((results) => {
       if (results) {
       expect(results).toBeTruthy();
        expect(results.length).toBeGreaterThan(0);
@@ -66,7 +66,7 @@ describe('Service: HivSummary', () => {
     let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
     let startIndex = 0;
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.url)
         .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
@@ -76,7 +76,7 @@ describe('Service: HivSummary', () => {
     });
 
     service.getHivSummary(patientUuid, 0, 20)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
     },
       (error: Error) => {
         expect(error).toBeTruthy();
@@ -96,7 +96,7 @@ describe('Service: HivSummary', () => {
         }
       ];
 
-      result.take(1).subscribe((results) => {
+      result.subscribe((results) => {
         if (results) {
         expect(JSON.stringify(results.isPendingViralLoad))
           .toContain(JSON.stringify(isPendingViralLoadMock));
@@ -117,7 +117,7 @@ describe('Service: HivSummary', () => {
         }
       ];
 
-      result.take(1).subscribe((results) => {
+      result.subscribe((results) => {
         if (results) {
         expect(JSON.stringify(results.isPendingCD4))
           .toContain(JSON.stringify(isPendingCD4Mock));

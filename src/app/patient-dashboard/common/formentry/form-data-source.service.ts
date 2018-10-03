@@ -12,7 +12,6 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import * as _ from 'lodash';
 
 @Injectable()
-
 export class FormDataSourceService {
 
   constructor(private providerResourceService: ProviderResourceService,

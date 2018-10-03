@@ -49,7 +49,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
     let appsetting =
       TestBed.get(AppSettingsService);
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
         .toEqual(
@@ -65,7 +65,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
     });
     patientProgramResourceService.getPatientProgramVisitTypes(patientUuid,
       'prog-uuid', 'enroll-uuid', 'location-uuid')
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         expect(response).toEqual({ uuid: 'uuid' });
         done();
       });
@@ -79,7 +79,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
     let appsetting =
       TestBed.get(AppSettingsService);
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
@@ -93,7 +93,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
       connection.mockRespond(new Response(options));
     });
     patientProgramResourceService.getAllProgramVisitConfigs()
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
 
@@ -105,7 +105,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
     let appsetting =
       TestBed.get(AppSettingsService);
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
@@ -119,7 +119,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
       connection.mockRespond(new Response(options));
     });
     patientProgramResourceService.getPatientProgramVisitConfigs('uuid')
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         done();
       });
 
@@ -129,11 +129,11 @@ describe('Patient Program Resource Service Unit Tests', () => {
       (patientProgramResourceService: PatientProgramResourceService,
         mockBackend: MockBackend) => {
 
-        mockBackend.connections.take(1).subscribe(c =>
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         patientProgramResourceService.getAllProgramVisitConfigs()
-          .take(1).subscribe((data) => {
+          .subscribe((data) => {
           },
           (error: Error) => {
             expect(error).toBeTruthy();

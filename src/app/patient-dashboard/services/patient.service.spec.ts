@@ -167,7 +167,7 @@ describe('Service: PatientService', () => {
       uuid: 'init uuid',
       display: 'some display'
     }));
-    patientService.currentlyLoadedPatient.take(1).subscribe(
+    patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient.uuid === 'init uuid') {
           console.log('got notification for the uuid: init uuid');
@@ -192,7 +192,7 @@ describe('Service: PatientService', () => {
     let patientService = TestBed.get(PatientService);
     expect(patientService).toBeDefined();
     patientService.currentlyLoadedPatientUuid.next('init uuid');
-    patientService.currentlyLoadedPatientUuid.take(1).subscribe(
+    patientService.currentlyLoadedPatientUuid.subscribe(
       (uuid) => {
         if (uuid === 'init uuid') {
           console.log('got notification for the uuid: init uuid');

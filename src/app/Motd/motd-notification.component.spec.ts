@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { AppSettingsService } from './../app-settings';
+import { AppSettingsService } from './../app-settings/app-settings.service';
 import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ComponentFixture, TestBed, async , inject } from '@angular/core/testing';

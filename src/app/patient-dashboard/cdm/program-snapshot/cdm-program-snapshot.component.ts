@@ -20,12 +20,9 @@ export class CdmProgramSnapshotComponent implements OnInit {
   public patientData: any = {};
   public loadingData: boolean = false;
   public hasLoadedData: boolean = false;
-  public location: any = {};
 
   constructor(
-    private cdmSummaryResourceService: CdmSummaryResourceService,
-    private http: Http,
-    private appSettingsService: AppSettingsService) {
+    private cdmSummaryResourceService: CdmSummaryResourceService) {
     }
 
   public ngOnInit() {

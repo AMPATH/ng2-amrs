@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { CohortResourceService  } from './cohort-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 describe('Service : CohortResourceService Unit Tests', () => {
 
@@ -147,12 +147,12 @@ describe('Get All Cohorts', () => {
 
     it('should hit right endpoint for getallCohorts and get right response', async(inject(
            [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('ws/rest/v1/cohort');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                 });
 
-                 service.getAllCohorts().take(1).subscribe(res => {
+                 service.getAllCohorts().subscribe(res => {
                          expect(res).toEqual(mockAllCohortsResponse);
                 });
 
@@ -164,7 +164,7 @@ describe('Get Cohort', () => {
 
     it('should hit right endpoint for getCohort and get right response', async(inject(
            [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('ws/rest/v1/cohort/' + uuid );
                     expect(conn.request.method).toBe(RequestMethod.Get);
                     conn.mockRespond(new Response(
@@ -172,7 +172,7 @@ describe('Get Cohort', () => {
                     ));
                 });
 
-                service.getCohort(uuid).take(1).subscribe(res => {
+                service.getCohort(uuid).subscribe(res => {
                     expect(res).toBe(mockCohortResponse);
                 });
 
@@ -186,7 +186,7 @@ describe('Add Cohort', () => {
 
     it('should hit right endpoint for add Cohort and get right response', async(inject(
            [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('ws/rest/v1/cohort');
                     expect(conn.request.method).toBe(RequestMethod.Post);
                     conn.mockRespond(new Response(
@@ -194,7 +194,7 @@ describe('Add Cohort', () => {
                     ));
                 });
 
-                service.addCohort(addCohortPayload).take(1).subscribe(res => {
+                service.addCohort(addCohortPayload).subscribe(res => {
                     expect(res).toBe(addCohortResponse );
                 });
 
@@ -207,7 +207,7 @@ describe('Edit Cohort', () => {
 
     it('should hit right endpoint for edit Cohort and get right response', async(inject(
            [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('ws/rest/v1/cohort');
                     expect(conn.request.method).toBe(RequestMethod.Post);
                     conn.mockRespond(new Response(
@@ -215,7 +215,7 @@ describe('Edit Cohort', () => {
                     ));
                 });
 
-                service.editCohort(editCohortPayload).take(1).subscribe(res => {
+                service.editCohort(editCohortPayload).subscribe(res => {
                     expect(res).toBe(editCohortResponse);
                 });
 
@@ -228,7 +228,7 @@ describe('Retire Cohort', () => {
 
     it('should hit right endpoint for drop Cohort and get right response', async(inject(
            [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url).toContain('ws/rest/v1/cohort/' + uuid + '?!purge');
                     expect(conn.request.method).toBe(RequestMethod.Delete);
                     conn.mockRespond(new Response(
@@ -236,7 +236,7 @@ describe('Retire Cohort', () => {
                     ));
                 });
 
-                service.retireCohort(uuid).take(1).subscribe(res => {
+                service.retireCohort(uuid).subscribe(res => {
                     expect(res).toBe(retireCohortResponse);
                 });
 

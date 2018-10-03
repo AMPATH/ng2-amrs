@@ -5,7 +5,7 @@ import {
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService, CacheModule } from 'ionic-cache';
 import { Observable } from 'rxjs';
@@ -106,13 +106,13 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
 
             [PatientsRequiringVLResourceService, MockBackend],
             (service, mockBackend) => {
-                mockBackend.connections.take(1).subscribe(conn => {
+                mockBackend.connections.subscribe(conn => {
                     expect(conn.request.url)
                         .toContain('/etl/patients-requiring-viral-load-order');
                     expect(conn.request.method).toBe(RequestMethod.Get);
                 });
 
-                service.getPatientList().take(1).subscribe(res => {
+                service.getPatientList().subscribe(res => {
                     expect(res).toEqual(patientsRequiringVLResponse);
                 });
 

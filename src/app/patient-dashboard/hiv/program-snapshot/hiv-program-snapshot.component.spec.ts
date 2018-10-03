@@ -1,11 +1,13 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { HivProgramSnapshotComponent } from './hiv-program-snapshot.component';
 import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
+
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 
 const summaryResult = {
   'encounter_datetime': '2017-04-25T07:54:20.000Z',
@@ -36,6 +38,20 @@ class FakeAppSettingsService {
     return 'openmrs-url';
   }
 }
+
+class FakeLocationResourceService {
+  constructor() {
+  }
+
+  getLocationByUuid(locationUuid, fromCache) {
+    return Observable.of(
+      {
+        uuid: '123'
+      }
+    );
+  }
+}
+
 describe('Component: HivProgramSnapshotComponent', () => {
   let hivService: HivSummaryResourceService,
     appSettingsService: AppSettingsService, component, fixture;
@@ -52,6 +68,10 @@ describe('Component: HivProgramSnapshotComponent', () => {
         {
           provide: AppSettingsService,
           useClass: FakeAppSettingsService
+        },
+        {
+          provide: LocationResourceService,
+          useClass: FakeLocationResourceService
         },
         {
           provide: Http,
@@ -91,36 +111,12 @@ describe('Component: HivProgramSnapshotComponent', () => {
   });
 
   it('should set patient data and location when `getHivSummary` is called',
-    inject([AppSettingsService, HivSummaryResourceService, MockBackend],
-      (s: AppSettingsService, hs: HivSummaryResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: {results: [{uuid: '123'}]}
-              }
-            )));
-        });
+    inject([HivSummaryResourceService],
+      ( hs: HivSummaryResourceService) => {
       component.getHivSummary('uuid');
       expect(component.patientData).toEqual(summaryResult);
       expect(component.location).toEqual({uuid: '123'});
     })
   );
 
-  it('should return a list locations',
-    inject([AppSettingsService, MockBackend],
-      (s: AppSettingsService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
-          expect(connection.request.url).toEqual('openmrs-url/ws/rest/v1/location?v=default');
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: {results: [{uuid: '123'}]}
-              }
-            )));
-        });
-        component.getLocation().take(1).subscribe((result) => {
-          expect(result).toBeDefined();
-          expect(result).toEqual([{uuid: '123'}]);
-        });
-      })
-  );
 });

@@ -52,7 +52,7 @@ describe('Service: LabOrderPostService', () => {
 
         let result = service.postOrderToEid(location, payload);
 
-        result.take(1).subscribe((results) => {
+        result.subscribe((results) => {
             expect(results).toBeTruthy();
             done();
         });

@@ -4,7 +4,7 @@ import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
     ResponseOptions, Response
 } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataEntryStatisticsService } from './data-entry-statistics-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -83,7 +83,7 @@ describe('Service :  Data Entry Statictics Service', () => {
     it('should call the correct data entry stats url',
         inject([DataEntryStatisticsService, MockBackend],
             (d: DataEntryStatisticsService, backend: MockBackend) => {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('data-entry-statistics');
                 });

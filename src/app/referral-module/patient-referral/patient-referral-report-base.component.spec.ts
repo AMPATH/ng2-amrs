@@ -21,7 +21,7 @@ import {
   ReportFiltersComponent
 } from '../../shared/report-filters/report-filters.component';
 import {BaseRequestOptions, Http, HttpModule} from '@angular/http';
-import { AppSettingsService } from '../../app-settings/index';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';

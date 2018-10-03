@@ -6,7 +6,7 @@ import { LabOrdersSearchService } from './lab-orders-search.service';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 
@@ -46,7 +46,7 @@ describe('Service: LabOrdersSearchService', () => {
         let service: LabOrdersSearchService = TestBed.get(LabOrdersSearchService);
         let result = service.searchLabOrder('ORD-4312', false);
 
-        result.take(1).subscribe((order) => {
+        result.subscribe((order) => {
             expect(order).toBeTruthy();
             expect(order.uuid).toEqual('2f949c58-0396-4eff-a398-bad3d5a9610e');
         });
@@ -59,7 +59,7 @@ describe('Service: LabOrdersSearchService', () => {
 
         let results = service.searchLabOrder('ORD-4312', false);
 
-        results.take(1).subscribe((result) => {
+        results.subscribe((result) => {
         },
             (error) => {
                 // when it gets here, then it returned an error

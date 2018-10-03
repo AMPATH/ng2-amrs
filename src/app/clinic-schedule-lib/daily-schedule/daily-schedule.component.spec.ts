@@ -8,7 +8,7 @@ import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-fl
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from './../../utils/local-storage.service';
 import { NgBusyModule } from 'ng-busy';
 import {
@@ -158,7 +158,7 @@ describe('Component: DailySchedule', () => {
     (done) => {
       let service = TestBed.get(ClinicFlowCacheService);
       component.getSelectedDate('2017-01-07');
-      service.getSelectedDate().take(1).subscribe((date) => {
+      service.getSelectedDate().subscribe((date) => {
         expect(date).toEqual('2017-01-07');
         done();
       },
@@ -200,7 +200,7 @@ describe('Component: DailySchedule', () => {
         activatedRoute, service);
 
       component.ngOnInit();
-      service.getSelectedDate().take(1).subscribe((date) => {
+      service.getSelectedDate().subscribe((date) => {
         expect(date).toEqual('2017-01-07');
         done();
       },

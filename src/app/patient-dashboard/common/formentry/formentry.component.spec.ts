@@ -14,7 +14,7 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { FormSchemaService } from './form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeFormFactory } from './mock/form-factory.service.mock';
 import { FakeUserFactory } from './mock/user-factory.service.mock';
@@ -614,7 +614,7 @@ describe('Component: FormentryComponent', () => {
         // check if it calls createForm
         expect(formFactory.createForm).toHaveBeenCalled();
         // now check to ensure we are not setting default data
-        activatedRoute.params.take(1).subscribe(() => {
+        activatedRoute.params.subscribe(() => {
           expect(formentryComponent.loadDefaultValues).not.toHaveBeenCalled();
         });
 

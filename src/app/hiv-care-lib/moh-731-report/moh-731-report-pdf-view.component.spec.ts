@@ -4,7 +4,7 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { MOHReportService } from './moh-731-report-pdf-view.service';

@@ -4,7 +4,7 @@ import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
     ResponseOptions, Response
 } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DepartmentProgramsConfigService } from './department-programs-config.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -129,7 +129,7 @@ describe('Service :  Department Programs Configuration Service', () => {
     it('Should return a list of department programs ',
         inject([DepartmentProgramsConfigService, MockBackend],
             (d: DepartmentProgramsConfigService, backend: MockBackend) => {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/departments-programs-config');
                     connection.mockRespond(new Response(
@@ -137,7 +137,7 @@ describe('Service :  Department Programs Configuration Service', () => {
                             body: mockResponse
                         }
                         )));
-                    d.getDartmentProgramsConfig().take(1).subscribe((result) => {
+                    d.getDartmentProgramsConfig().subscribe((result) => {
                         expect(result).toBeDefined();
                         expect(result).toEqual(mockResponse);
                     });

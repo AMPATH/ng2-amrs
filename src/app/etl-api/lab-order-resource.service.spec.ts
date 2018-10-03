@@ -3,7 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { LabOrderResourceService } from './lab-order-resource.service';
 
@@ -43,7 +43,7 @@ describe('Lab Order Resource Service Unit Tests', () => {
     inject([LabOrderResourceService, MockBackend],
       (labOrderResourceService: LabOrderResourceService, backend: MockBackend) => {
         let expectedResults = {'result': {'locationUuid': '1234'}};
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Post);
           expect(connection.request.url).toContain('eid/order');
           connection.mockRespond(new Response(
@@ -59,7 +59,7 @@ describe('Lab Order Resource Service Unit Tests', () => {
         };
 
         labOrderResourceService.postOrderToEid(location, payload)
-          .take(1).subscribe((result) => {
+          .subscribe((result) => {
             expect(result).toBeDefined();
             expect(result).toEqual(expectedResults);
           });

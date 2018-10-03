@@ -5,7 +5,7 @@ import {
 } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { FileUploadResourceService } from './file-upload-resource.service';
 class MockAppsettings {
     getEtlRestbaseurl() {
@@ -38,7 +38,7 @@ describe('FileUploadResourceService', () => {
         (backend: MockBackend, s: FileUploadResourceService) => {
             const urls = [];
 
-            backend.connections.take(1).subscribe((connection: MockConnection) => {
+            backend.connections.subscribe((connection: MockConnection) => {
                 const req = connection.request;
                 urls.push(req.url);
                 if (req.method === RequestMethod.Get && req.url === '/enter/the/url') {
@@ -53,7 +53,7 @@ describe('FileUploadResourceService', () => {
                 }
             });
 
-            s.upload({}).take(1).subscribe((response) => {
+            s.upload({}).subscribe((response) => {
                 expect(response.image).toBe('uploaded-image');
             });
         })

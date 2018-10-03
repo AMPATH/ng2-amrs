@@ -343,7 +343,7 @@ describe('Component: Visit', () => {
     let sampleForm = {
       uuid: 'some uuid'
     };
-    comp.formSelected.take(1).subscribe(
+    comp.formSelected.subscribe(
       (form) => {
         expect(form).toBe(sampleForm);
         done();
@@ -358,7 +358,7 @@ describe('Component: Visit', () => {
     let sampleEncounter = {
       uuid: 'some uuid'
     };
-    comp.encounterSelected.take(1).subscribe(
+    comp.encounterSelected.subscribe(
       (encounter) => {
         expect(encounter).toBe(sampleEncounter);
         done();

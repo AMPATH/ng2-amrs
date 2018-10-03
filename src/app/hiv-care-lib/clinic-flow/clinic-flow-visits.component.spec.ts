@@ -9,7 +9,7 @@ import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
@@ -157,7 +157,7 @@ describe('Component: ClinicFlowVisitsComponent', () => {
       service.setClinicFlowData(undefined);
       component.ngOnInit();
 
-      service.getClinicFlowData().take(1).subscribe(data => {
+      service.getClinicFlowData().subscribe(data => {
         expect(data).toEqual(undefined);
         done();
       },
@@ -186,7 +186,7 @@ describe('Component: ClinicFlowVisitsComponent', () => {
       expect(component.clinicFlowData.length).toEqual(1);
       expect(component.loadingClinicFlow).toEqual(false);
       expect(component.dataLoaded).toEqual(false);
-      service.getIsLoading().take(1).subscribe(loading => {
+      service.getIsLoading().subscribe(loading => {
         expect(loading).toEqual(false);
         done();
       },

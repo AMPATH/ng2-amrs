@@ -4,7 +4,7 @@ import { Http, Response, Headers, BaseRequestOptions,
    ResponseOptions, RequestMethod } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 
 describe('CdmSummaryService Unit Tests', () => {
@@ -48,7 +48,7 @@ describe('CdmSummaryService Unit Tests', () => {
     let startIndex = '0';
     let limit = '20';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
@@ -67,7 +67,7 @@ describe('CdmSummaryService Unit Tests', () => {
     let startIndex = 0;
     let limit = 20;
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       let options = new ResponseOptions({
         body: JSON.stringify({
@@ -88,7 +88,7 @@ describe('CdmSummaryService Unit Tests', () => {
       connection.mockRespond(new Response(options));
     });
     cdmSummaryResourceService.getCdmSummary(patientUuid, startIndex, limit)
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.length).toBeGreaterThan(0);
       done();
@@ -105,13 +105,13 @@ describe('CdmSummaryService Unit Tests', () => {
     let startIndex = 0;
     let limit = 20;
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
     cdmSummaryResourceService.getCdmSummary(patientUuid, startIndex, limit)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
       },
       (error: Error) => {
         expect(error).toBeTruthy();

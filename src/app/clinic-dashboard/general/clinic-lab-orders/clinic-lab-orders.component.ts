@@ -27,7 +27,9 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public totalSampleNotCollected: any;
   public startDate: any;
   public endDate: any;
-  public isLoadingReport: boolean = false;
+  public filterCollapsed: any;
+  public isLoadingReport = false;
+  public parentIsBusy = false;
   public totalCounts: any;
   @Input() public selectedDate: any;
   public errors: any = [];

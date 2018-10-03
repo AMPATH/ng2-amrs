@@ -1,6 +1,6 @@
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { ErrorLogResourceService } from './error-log-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -47,7 +47,7 @@ describe('ErrorLogResourceService Unit Tests', () => {
   it('should Post Error with correct ReguestMethod and correct API call',
     inject([ErrorLogResourceService, MockBackend],
       fakeAsync((errorLogResourceService: ErrorLogResourceService, backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
+        backend.connections.subscribe((connection: MockConnection) => {
 
           expect(connection.request.method).toBe(RequestMethod.Post);
           expect(connection.request.url).toContain('/forms/error');

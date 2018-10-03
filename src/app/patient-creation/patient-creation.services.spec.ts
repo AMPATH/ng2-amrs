@@ -7,7 +7,7 @@ import {
     RequestMethod
   } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PatientCreationService } from './patient-creation.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
@@ -58,7 +58,7 @@ describe('Service: PatientCreation', () => {
     let service: PatientCreationService = TestBed.get(PatientCreationService);
     let result = service.searchPatient('text', false);
 
-    result.take(1).subscribe((results) => {
+    result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');

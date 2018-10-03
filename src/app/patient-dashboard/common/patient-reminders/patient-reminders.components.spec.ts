@@ -9,7 +9,7 @@ import {
     ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';

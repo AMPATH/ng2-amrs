@@ -100,7 +100,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
         subject.error('Patient is required');
       }, 0);
     } else {
-      this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).take(1).subscribe(
+      this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).subscribe(
         (programConfigs) => {
           this.patientProgramVisitConfigs = programConfigs;
           subject.next(programConfigs);
@@ -135,7 +135,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
 
       this.visitResourceService
         .getPatientVisits({ patientUuid: this.patient.uuid })
-        .take(1).subscribe((visits) => {
+        .subscribe((visits) => {
           this.allPatientVisits = visits;
           this.hasFetchedVisits = true;
           subject.next(visits);
@@ -280,9 +280,9 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   public loadDataToProcessProgramVisits(): Observable<any> {
     let subject = new Subject();
     this.fetchPatientProgramVisitConfigs()
-      .take(1).subscribe(() => {
+      .subscribe(() => {
         this.getPatientVisits()
-          .take(1).subscribe(() => {
+          .subscribe(() => {
             subject.next({ done: true });
           }, (error) => {
             subject.error(error);
@@ -315,7 +315,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
     } else {
       this.programVisits = null;
       this.loadDataToProcessProgramVisits()
-        .take(1).subscribe((data) => {
+        .subscribe((data) => {
           this.processVisitsForPrograms();
           this.needsVisitReload = false;
           this.isLoading = false;

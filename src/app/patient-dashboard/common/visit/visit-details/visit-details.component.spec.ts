@@ -256,7 +256,7 @@ describe('VisitDetailsComponent: ', () => {
     let sampleForm = {
       uuid: 'some uuid'
     };
-    component.formSelected.take(1).subscribe(
+    component.formSelected.subscribe(
       (form) => {
         expect(form).toEqual({ form: sampleForm, visit: component.visit });
         done();
@@ -271,7 +271,7 @@ describe('VisitDetailsComponent: ', () => {
     let sampleEncounter = {
       uuid: 'some uuid'
     };
-    component.encounterSelected.take(1).subscribe(
+    component.encounterSelected.subscribe(
       (encounter) => {
         expect(encounter).toBe(sampleEncounter);
         done();

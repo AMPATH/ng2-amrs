@@ -35,7 +35,7 @@ describe('Drafted Forms Service:', () => {
         let service = TestBed.get(DraftedFormsService);
 
         let sampleForm: Form = new Form(null, null, null);
-        service.draftedForm.take(1).subscribe(form => {
+        service.draftedForm.subscribe(form => {
             if (form) {
                 expect(service.lastDraftedForm).toBe(sampleForm);
                 expect(form).toBe(sampleForm);

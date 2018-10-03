@@ -5,7 +5,7 @@ import {
     ResponseOptions, Response
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HivClinicFlowResourceService } from './hiv-clinic-flow-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -64,7 +64,7 @@ describe('HivClinicFlowResourceService Tests', () => {
         inject([HivClinicFlowResourceService, MockBackend, MockHivClinicFlowResourceService],
             fakeAsync((s: HivClinicFlowResourceService, backend: MockBackend, mockHivClinicFlow: MockHivClinicFlowResourceService) => {
                 try {
-                backend.connections.take(1).subscribe((connection: MockConnection) => {
+                backend.connections.subscribe((connection: MockConnection) => {
                     expect(connection.request.method).toBe(RequestMethod.Get);
                     expect(connection.request.url).toContain('/etl/patient-flow-data');
                     expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
@@ -79,7 +79,7 @@ describe('HivClinicFlowResourceService Tests', () => {
                         )));
                 });
                 s.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid')
-                    .take(1).subscribe((result) => {
+                    .subscribe((result) => {
                         expect(result).toBeDefined();
                         const expectedResults = mockHivClinicFlow.getHivDummyData();
                         expect(result).toEqual(expectedResults);

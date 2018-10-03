@@ -36,7 +36,7 @@ describe('Service: PatientSearch', () => {
     let service: PatientSearchService = TestBed.get(PatientSearchService);
     let result = service.searchPatient('text', false);
 
-    result.take(1).subscribe((results) => {
+    result.subscribe((results) => {
       expect(results).toBeTruthy();
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');
@@ -54,7 +54,7 @@ describe('Service: PatientSearch', () => {
     fakeRes.returnErrorOnNext = true;
     let results = service.searchPatient('text', false);
 
-    results.take(1).subscribe((result) => {
+    results.subscribe((result) => {
     },
       (error) => {
         // when it gets here, then it returned an error

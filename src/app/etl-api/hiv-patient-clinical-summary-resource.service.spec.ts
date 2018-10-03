@@ -53,7 +53,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
       expect(connection.request.method).toBe(RequestMethod.Get);
       expect(connection.request.url)
         .toContain(patientUuid + '/hiv-patient-clinical-summary');
@@ -70,7 +70,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       let options = new ResponseOptions({
         body: {
@@ -86,7 +86,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
     });
     hivPatientClinicalSummaryResourceService
       .fetchPatientSummary(patientUuid)
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
         expect(data).toBeTruthy();
         expect(data.patientUuid).toBeDefined();
         expect(data.notes).toBeDefined();
@@ -106,14 +106,14 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
 
     let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
 
-    backend.connections.take(1).subscribe((connection: MockConnection) => {
+    backend.connections.subscribe((connection: MockConnection) => {
 
       connection.mockError(new Error('An error occured while processing the request'));
     });
 
     hivPatientClinicalSummaryResourceService
       .fetchPatientSummary(patientUuid)
-      .take(1).subscribe((response) => {
+      .subscribe((response) => {
         },
         (error: Error) => {
           expect(error).toBeDefined();

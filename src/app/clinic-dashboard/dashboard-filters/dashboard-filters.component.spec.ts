@@ -12,14 +12,14 @@ import { DateRangeComponent } from './date-range/date-range.component';
 import { GenderSelectComponent } from './gender-selector/gender-selector.component';
 import { IndicatorSelectComponent } from './indicator-selector/indicator-selector.component';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
-import {
-  VisualizationComponent
-} from '../hiv/clinical-summary-visualization/visualization-component';
+// import {
+//   VisualizationComponent
+// } from '../hiv/clinical-summary-visualization/visualization-component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   ClinicalSummaryVisualizationResourceService
 } from '../../etl-api/clinical-summary-visualization-resource.service';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { Http } from '@angular/http';
 import {
@@ -92,7 +92,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
         DashboardFiltersComponent,
         DateRangeComponent,
         GenderSelectComponent,
-        VisualizationComponent,
+        // VisualizationComponent,
         FakeHivCareOverview,
         FakeArtOverviewChart,
         FakepatientStatusOverviewChart,
@@ -120,7 +120,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
     component.updateStartDate(moment([2016, 2, 22]).format());
     component.updateEndDate(moment([2017, 2, 22]).format());
     fixture.detectChanges();
-    component.onDateChange.take(1).subscribe((v) => {
+    component.onDateChange.subscribe((v) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         parentComponent.onDateChanged(v);
@@ -133,7 +133,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
       gender_select: false
     };
     parentFixture.detectChanges();
-    parentComponent.filterModelChange.take(1).subscribe((vv) => {
+    parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
         expect(moment(parentComponent.filterModel.startDate)
           .format('DD/MM/YYYY')).toBe('22/03/2016');
@@ -150,7 +150,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
     let component = fixture.componentInstance;
     expect(component.selectedGender.length).toEqual(0);
     component.onGenderSelected(['F']);
-    component.onGenderChange.take(1).subscribe((gender) => {
+    component.onGenderChange.subscribe((gender) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         expect(component.selectedGender.length).toEqual(1);
@@ -165,7 +165,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
       gender_select: true
     };
     fixture.detectChanges();
-    parentComponent.filterModelChange.take(1).subscribe((vv) => {
+    parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.gender).toBeDefined();
         expect(parentComponent.filterModel.gender[0]).toEqual('F');
@@ -180,7 +180,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
     let component = fixture.componentInstance;
     expect(component.selectedIndicators.length).toEqual(0);
     component.onIndicatorSelected(['indicator']);
-    component.onIndicatorChange.take(1).subscribe((indicators) => {
+    component.onIndicatorChange.subscribe((indicators) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         expect(component.selectedIndicators.length).toEqual(1);
@@ -194,7 +194,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
       range_slider: false,
       gender_select: false
     };
-    parentComponent.filterModelChange.take(1).subscribe((vv) => {
+    parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.indicators).toBeDefined();
         expect(parentComponent.filterModel.indicators[0]).toEqual('indicator');
@@ -209,7 +209,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
     let component = fixture.componentInstance;
     component.start = 11;
     component.end = 13;
-    component.onAgeChangeFinish.take(1).subscribe((age) => {
+    component.onAgeChangeFinish.subscribe((age) => {
       parentComponent.filterModel = {};
       setTimeout(() => {
         expect(component.start).toEqual(11);
@@ -224,7 +224,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
       gender_select: false
     };
     fixture.detectChanges();
-    parentComponent.filterModelChange.take(1).subscribe((vv) => {
+    parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
         expect(parentComponent.filterModel.ageFrom).toBeDefined();
         expect(parentComponent.filterModel.ageTo).toBeDefined();

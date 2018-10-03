@@ -149,7 +149,7 @@ export class VisitDetailsComponent implements OnInit {
         'stopDatetime,attributes:(uuid,value))';
       this.visitResourceService.getVisitByUuid(visitUuid,
         { v: custom })
-        .take(1).subscribe((visit) => {
+        .subscribe((visit) => {
           this.isBusy = false;
           this.visit = visit;
           this.extractAllowedEncounterTypesForVisit();
@@ -167,7 +167,7 @@ export class VisitDetailsComponent implements OnInit {
     this.error = '';
     this.visitResourceService.updateVisit(this.visit.uuid, {
       stopDatetime: new Date()
-    }).take(1).subscribe(
+    }).subscribe(
       (udpatedVisit) => {
         this.isBusy = false;
         this.visitChanged.next(udpatedVisit);
@@ -187,7 +187,7 @@ export class VisitDetailsComponent implements OnInit {
     this.error = '';
     this.visitResourceService.updateVisit(this.visit.uuid, {
       voided: true
-    }).take(1).subscribe(
+    }).subscribe(
       (udpatedVisit) => {
         // this.isBusy = false;
         this.voidVisitEncounters();
@@ -217,7 +217,7 @@ export class VisitDetailsComponent implements OnInit {
       this.isBusy = true;
      forkJoin(
         observableBatch
-      ).take(1).subscribe(
+      ).subscribe(
         (data) => {
           this.isBusy = false;
           this.visitCancelled.next(this.visit);
