@@ -4,6 +4,7 @@
 <div class="programs" *ngIf="enrolledProgrames.length > 0 && !hasError">
   <h4 class="component-title">Patient Care Program Snapshots
   </h4>
+
   <div style="margin: 4px 0px; padding: 4px;" class="container-fluid alert alert-info">
     Do you wish to enroll patient into another program? <enrollment-shortcut class="pull-right" ></enrollment-shortcut>
   </div>
@@ -32,6 +33,12 @@
                 <cdm-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'cdm'"
                               [patient]="patient">
                 </cdm-snapshot>
+                <oncology-snapshot
+                  (addBackground)="onAddBackground($event)"
+                  *ngSwitchCase="'oncology'"
+                  [patient]="patient"
+                  [programUuid]="row.programUuid">
+                </oncology-snapshot>
               </div>
             </div>
             <div class="clear clear-fix">&nbsp;</div>

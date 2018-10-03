@@ -41,6 +41,7 @@ import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 // import { ReferralProviderResourceService } from './referral-provider-resource.service';
 import { RadiologyImagingResourceService } from './radiology-imaging-resource.service';
 import { HivEnhancedReportService } from './hiv-enhanced-program-report.service';
+import { OncologySummaryResourceService } from './oncology-summary-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -74,8 +75,9 @@ import { HivEnhancedReportService } from './hiv-enhanced-program-report.service'
     PatientReferralResourceService,
     CdmSummaryResourceService,
     // ReferralProviderResourceService
-    RadiologyImagingResourceService,
-    HivEnhancedReportService
+    HivEnhancedReportService,
+    OncologySummaryResourceService,
+    RadiologyImagingResourceService
   ],
   exports: []
 })
