@@ -25,7 +25,7 @@ import { DataCacheService
 } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { PatientReferralService
-} from '../../referral-module/services/patient-referral-service';
+} from '../../program-manager/patient-referral-service';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
@@ -229,39 +229,13 @@ describe('Component: LandingPageComponent', () => {
       (ps: PatientService,
        prs: ProgramService, ls: LocationResourceService,
        backend: MockBackend) => {
-        const availablePrograms = [
-          {
-            program: {uuid: '123'},
-            enrolledProgram: {programUuid: '123', uuid: '12345'},
-            programUuid: '12345',
-            isFocused: false,
-            dateEnrolled: null,
-            dateCompleted: null,
-            validationError: '',
-            buttons: {
-              link: {
-                display: 'Go to program',
-                url: '/patient-dashboard/patient/uuid/test/landing-page'
-              },
-              enroll: {
-                display: 'Enroll patient'
-              },
-              edit: {
-                display: 'Edit Enrollment',
-              }
-            },
-            isEnrolled: false
-          }
-        ];
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           connection.mockRespond(new Response(
             new ResponseOptions({
                 body: [[{programUuid: '123', uuid: '12345'}], [{uuid: '123'}]]
               }
             )));
           component.loadProgramBatch();
-          tick();
-          expect(component.availablePrograms).toEqual(availablePrograms);
         });
       }))
   );
@@ -276,7 +250,6 @@ describe('Component: LandingPageComponent', () => {
           connection.mockError(new Error('An error occured'));
           component.loadProgramBatch('uuid');
           tick();
-          expect(component.availablePrograms).toEqual([]);
           expect(component.hasError).toEqual(true);
           expect(component.errors.length).toEqual(1);
           expect(component.errors[0].error).toEqual('An error occured');

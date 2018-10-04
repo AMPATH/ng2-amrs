@@ -1,8 +1,0 @@
-.transfer-care-dialog {
-    top:65px !important;
-  }
-
-.transfer-care-dialog .ui-dialog-content {
-  height: 500px;
-  overflow-y: auto;
-}
