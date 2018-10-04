@@ -5,7 +5,7 @@ import {
   ViewChild, SimpleChanges
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { GridOptions, GridApi } from 'ag-grid/main';

@@ -59,7 +59,7 @@
                    [(ngModel)]="selectedGender" [items]="genderOptions">
         </ng-select>
       </div>
-      <div class="row" *ngIf="isEnabled('programWorkFlowControl')" style="margin-left:0; margin-right:0;">
+      <div class="row" *ngIf="isEnabled('programsControl')" style="margin-left:0; margin-right:0;">
         <div class="form-group col-md-6 col-xs-12" >
           <label for="program">Program </label>
           <div class="input-group">
@@ -79,25 +79,6 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6  col-xs-12" >
-          <label for="states">States </label>
-          <div class="input-group">
-            <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-            <ng-select class="sharp-corners" [multiple]="true" id="states"
-                       [placeholder]="'Select desired State(s) or type to search...'"
-                       [(ngModel)]="selectedStates" [items]="statesOptions">
-            </ng-select>
-            <div class="input-group-addon" (click)="selectAllStates()" style="cursor: pointer;">
-              <div>
-                <span *ngIf="selectedStatesTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
-                <span *ngIf="!selectedStatesTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
-                <span *ngIf="!selectedStatesTagsSelectedAll" >Select All</span>
-                <span *ngIf="selectedStatesTagsSelectedAll">Select None</span>
-              </div>
-
-            </div>
-          </div>
-        </div>
       </div>
       <div *ngIf="isEnabled('locationControl')">
         <location-filter [multiple]="true" [locationUuids]="locations" (onLocationChange)="getSelectedLocations($event)"></location-filter>
@@ -108,7 +89,7 @@
     <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right"
             (click)="onClickedGenerate()">Generate Report</button>
     <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
-    <!--[disabled]="(selectedIndicators.length === 0 ||selectedPrograms.length === 0) ? !disableGenerateButton : disableGenerateButton"-->
+    <div class="clear clear-fix"></div>
   </div>
 
 </div>
