@@ -1,0 +1,38 @@
+<busy *ngIf="transferring" [message]="'Completing programs...'"></busy>
+<p class="alert alert-warning" *ngIf="!complete">
+  The following program(s) are going to be stopped when the patient is transferred out of AMPATH
+</p>
+<div class="step-details" *ngFor="let program of programs">
+  <blockquote class="step-details" style="border-left: 0;"
+              *ngIf="program && program.dateEnrolled && !program.dateCompleted">
+    <p><input checked name="program_{{program.enrolledProgram._openmrsModel.uuid}}" value="{{program.enrolledProgram._openmrsModel.uuid}}"
+              (change)="updateProgramsToEdit($event)" type="checkbox"/>
+      {{program.enrolledProgram._openmrsModel.display}} <span
+        class="pull-right">{{program.enrolledProgram._openmrsModel.location?.display}}</span></p>
+    <footer>Started {{program.dateEnrolled}}</footer>
+    <hr/>
+  </blockquote>
+</div>
+<ng-container *ngIf="showForms && exitEncounters.length > 0">
+  <p>Please fill the following required forms to enroll the patient</p>
+  <form-list (onFormSelected)="fillEnrollmentForm($event)" [showFilter]="false" [encounterTypeFilter]="exitEncounters"></form-list>
+</ng-container>
+<div style="margin-bottom: 20px;" class="alert alert-success" *ngIf="complete">
+  <div class="step-name">
+    <h3 style="margin-top: 0; margin-bottom: 0;">{{editedProgram.display}}</h3>
+  </div>
+  <div class="step-details">
+    <div class="program-body">
+      <p>Patient successfully transferred out of AMPATH</p>
+    </div>
+  </div>
+</div>
+<div class="step-buttons" *ngIf="!complete">
+  <button type="button" class="btn btn-danger pull-left"
+          (click)="goBack()">Back
+  </button>
+  <button class="btn btn-primary pull-right"
+          (click)="showExitForms()">Transfer Out of AMPATH
+  </button>
+  <span class="clear">&nbsp;</span>
+</div>

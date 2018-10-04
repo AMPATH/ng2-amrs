@@ -52,11 +52,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public initialized: boolean = false;
   public indicatorOptions: Array<any>;
   public programOptions: Array<any>;
-  public statesOptions: Array<any>;
   @Output() public onProgramChange = new EventEmitter<any>();
   @Output() public onIndicatorChange = new EventEmitter<any>();
   @Output() public onDateChange = new EventEmitter<any>();
-  @Output() public onStatesChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -69,7 +67,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   ];
   public selectedIndicatorTagsSelectedAll: boolean = false;
   public selectedProgramTagsSelectedAll: boolean = false;
-  public selectedStatesTagsSelectedAll: boolean = false;
   @Output() public onGenderChange = new EventEmitter<any>();
   public disableGenerateReportBtn: boolean = false;
   @Output()
@@ -97,7 +94,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   private _indicators: Array<any> = [];
   private _gender: Array<any> = [];
   private _programs: Array<any> = [];
-  private _states: Array<any> = [];
   constructor(private indicatorResourceService: IndicatorResourceService,
               private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
               private programResourceService: ProgramResourceService,
@@ -147,21 +143,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public set selectedPrograms(v: Array<any>) {
     this._programs = v;
-    if (this._programs) {
-      this.statesOptions = [];
-      this.getProgramWorkFlowStates(this._programs);
-    }
-
     this.onProgramChange.emit(this._programs);
-
-  }
-  @Input()
-  public get selectedStates(): Array<any> {
-    return this._states ;
-  }
-  public set selectedStates(v: Array<any>) {
-    this._states = v;
-    this.onStatesChange.emit(this._states);
 
   }
   @Input()
@@ -212,7 +194,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     if (this.isEnabled('indicatorsControl')) {
       this.getIndicators();
     }
-    if (this.isEnabled('programWorkFlowControl')) {
+    if (this.isEnabled('programsControl')) {
       this.getPrograms();
     }
   }
@@ -272,64 +254,13 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   public getPrograms() {
-    let programs = [];
-    this.programResourceService.getPrograms().take(1).subscribe(
-      (results: any[]) => {
-
-          for (let data of results) {
-
-            if (!_.isEmpty(data.allWorkflows)) {
-            for (let r in data) {
-
-              if (data.hasOwnProperty(r)) {
-                let id = data.uuid;
-                let text = data.display;
-                data['value'] = id;
-                data['label'] = text;
-
-              }
-            }
-            programs.push(data);
-            }
-
-          }
-          this.programOptions = programs;
-      }
-    );
-
-  }
-  public getProgramWorkFlowStates(uuid) {
-    let selectedProgram;
-    if (uuid[0] && uuid[0] !== 'undefined' && uuid[0] !== undefined) {
-       selectedProgram = uuid[0];
-
-    }
-
-    let programs = [];
-    if (selectedProgram) {
-    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram.value).take(1).subscribe(
-      (results) => {
-        let workflows = _.get(results, 'allWorkflows');
-        if (workflows.length > 0) {
-            _.each(workflows, (workflow: any) => {
-              if (workflow.states.length > 0) {
-                programs = _.map(workflow.states, (state: any) => {
-                  return {
-/*
-                    id: state.uuid,
-                    text: state.concept.display
-*/
-                    value: state.concept.uuid,
-                    label: state.concept.display
-                  };
-                });
-              }
-            });
-          }
-        this.statesOptions = programs;
-      }
-    );
-   }
+    this.programResourceService.getPrograms().take(1).subscribe((results: any[]) => {
+        if (results) {
+          this.programOptions = _.map(results, (result) => {
+            return {value: result.uuid, label: result.display};
+          });
+        }
+      });
   }
 
   public selectAll() {
@@ -371,17 +302,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);
-  }
-  public selectAllStates() {
-    if (this.programOptions .length > 0) {
-      if (this.selectedStatesTagsSelectedAll === false) {
-        this.selectedStatesTagsSelectedAll = true;
-        this.selectedStates = this.statesOptions;
-      } else {
-        this.selectedStatesTagsSelectedAll = false;
-        this.selectedStates = [];
-      }
-    }
   }
   public onClickedGenerate() {
     this.generateReport.emit();

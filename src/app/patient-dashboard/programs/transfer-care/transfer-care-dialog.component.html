@@ -1,4 +1,0 @@
-<p-dialog styleClass="transfer-care-dialog" header="Manage Program Enrollment" width="80%" [(visible)]="display" modal="true" appendTo="body">
-  <app-programs-transfer-care [isModal]="true" *ngIf="!showFormWizard" (showFormWizard)="goToFormWizard()"></app-programs-transfer-care>
-  <transfer-care-form-wizard [isModal]="true" *ngIf="showFormWizard" (hideModal)="hideDialog($event)"></transfer-care-form-wizard>
-</p-dialog>

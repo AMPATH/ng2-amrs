@@ -267,10 +267,6 @@ private saveIdentifier(personIdentifierPayload, person) {
               .take(1).subscribe(
                 (success) => {
                   this.displaySuccessAlert('Identifiers saved successfully');
-                  this.patientIdentifier = '';
-                  this.identifierLocation = '';
-                  this.preferredIdentifier = '';
-                  this.identifierType = '';
                   this.patientService.reloadCurrentPatient();
                   setTimeout(() => {
                     this.display = false;
