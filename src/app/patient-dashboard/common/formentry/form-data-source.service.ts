@@ -21,8 +21,7 @@ export class FormDataSourceService {
   }
 
   public getDataSources() {
-
-    let formData: any = {
+    const formData: any = {
       location: this.getLocationDataSource(),
       provider: this.getProviderDataSource(),
       drug: this.getDrugDataSource(),
@@ -293,30 +292,36 @@ export class FormDataSourceService {
       );
   }
 
-  public resolveConcept(uuid) {
-    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
-    this.conceptResourceService.getConceptByUuid(uuid).subscribe((result) => {
-      let mappedConcept = {
-        label: result.name.display,
-        value: result.uuid
-      };
-      conceptResult.next(mappedConcept);
-    }, (error) => {
-      conceptResult.error(error);
+  public resolveConcept(uuid): Observable <any> {
+    return new Observable((observer) => {
+    this.conceptResourceService.getConceptByUuid(uuid)
+     .subscribe(
+      (result: any) => {
+        if (result) {
+          const mappedConcept = {
+            label: result.name.display,
+            value: result.uuid
+          };
+          observer.next(mappedConcept);
+        }
+      }, (error) => {
+           observer.next(error);
+      });
+
     });
-    return conceptResult.asObservable();
   }
 
   public getConceptAnswers(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
     let v = 'custom:(uuid,name,conceptClass,answers)';
     this.conceptResourceService.getConceptByUuid(uuid, true, v)
-      .subscribe((result) => {
+      .take(1).subscribe((result) => {
         let mappedConcepts = this.mapConcepts(result.answers);
         conceptResult.next(mappedConcepts);
       }, (error) => {
         conceptResult.error(error);
-      });
+      })
+      ;
     return conceptResult.asObservable();
 
   }
