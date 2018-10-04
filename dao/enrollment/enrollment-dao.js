@@ -137,9 +137,8 @@ function buildWhereClause(params){
 
     let whereClause =  [];
 
-    whereClause.push("(date_completed IS NULL || date_completed > '" + params.endDate + "')");
-    whereClause.push("AND DATE(date_enrolled) >= '" + params.startDate + "' ");
-    whereClause.push("AND date_enrolled <= '" + params.endDate +"' ");
+    whereClause.push("DATE(date_enrolled) >= '" + params.startDate + "' ");
+    whereClause.push("AND (date_completed IS NULL || date_completed <= '" + params.endDate + "')");
     whereClause.push("AND (p1.death_date IS NULL || p1.death_date < '" + params.endDate + "')");
     whereClause.push("AND (t5.value IS NULL OR t5.value = 'false')");
 
