@@ -1,0 +1,15 @@
+.program-body {
+  padding-top:12px;
+  padding-bottom:12px;
+  border-left: 1px solid rgba(34, 36, 38, .15);
+  border-right: 1px solid rgba(34, 36, 38, .15);
+  border-bottom: 1px solid rgba(34, 36, 38, .15);
+}
+
+.component-title {
+  font-size: 22px;
+  text-transform: capitalize;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(34,36,38,.15);
+  margin-bottom: 20px;
+}

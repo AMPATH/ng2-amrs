@@ -3,13 +3,13 @@
 </div>
 <!-- <add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true"
                       (dialogClosed)="onAddingToCohortClosed()">
-</add-to-cohort-dialog> -->
+</add-to-cohort-dialog>
 <transfer-care-dialog (dialogClosed)="closeDialog()"
-                      *ngIf="manageProgramEnrollment"></transfer-care-dialog>
+                      *ngIf="manageProgramEnrollment"></transfer-care-dialog>-->
 <div
   class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
   *ngIf="patient" style="padding: 4px 26px;">
-  <div class="pull-left">
+  <div class="pull-left-">
     <div class="row clearfix">
       <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
       <span>{{ patient?.person.gender}}</span>
@@ -26,21 +26,21 @@
 		</span>
     </div>
   </div>
-  <div class="pull-right">
+  <!--<div class="pull-right">
     <a (click)="showTransferCareModal()" class="pull-right"
        style="cursor: pointer;margin-left:15px;display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
-      class="icon-i-family-practice"></span>Manage Enrollment</a>
+      class="icon-i-family-practice"></span>Manage Enrollment</a>-->
     <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
-      class="fa fa-plus"></span>Add to Patient List</a> -->
+      class="fa fa-plus"></span>Add to Patient List</a>
     <span class="clear"></span>
-  </div>
+  </div>-->
 </div>
 <div
   class="container-fluid patient-banner-partially hidden-xs {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
   *ngIf="patient" style="padding: 12px 26px;">
-  <div class="pull-left">
+  <div class="pull-left-">
     <div class="row clearfix">
       <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
       <span>{{ patient?.person.gender}}</span>
@@ -55,15 +55,15 @@
 		</span>
     </div>
   </div>
-  <div class="pull-right">
+  <!--<div class="pull-right">
     <a (click)="showTransferCareModal()" class="pull-right"
        style="cursor: pointer;margin-left:15px; display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
       class="icon-i-family-practice"></span>Manage Enrollment</a>
-    <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
+     <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
       style="display: inline-block;margin-right:5px;height: 43px;line-height: 43px !important;"
-      class="fa fa-plus"></span>Add to Patient List</a> -->
+      class="fa fa-plus"></span>Add to Patient List</a>
     <span class="clear"></span>
-  </div>
+  </div>-->
 </div>
 <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>

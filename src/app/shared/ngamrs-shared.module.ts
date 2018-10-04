@@ -6,6 +6,7 @@ import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AgGridModule } from 'ag-grid-angular/main';
 import { SelectModule } from 'ngx-select';
 import {
   MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule, MatSnackBarModule, MatSlideToggleModule, MatCardModule, MatRadioModule,
@@ -45,9 +46,6 @@ import {
 } from './locations/location-filter/location-filter.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { BusyComponent } from './busy-loader/busy.component';
-import {
-  UnenrollPatientProgramsComponent
-} from '../patient-dashboard/common/programs/unenroll-patient-programs.component';
 import { ConfirmDialogModule, DialogModule, TabViewModule } from 'primeng/primeng';
 import {
   HivProgramSnapshotComponent
@@ -56,24 +54,8 @@ import { CdmProgramSnapshotComponent
 } from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
 import { GeneralLandingPageComponent
 } from '../patient-dashboard/general-landing-page/landing-page.component';
-import {
-  ProgramsContainerComponent
-} from '../patient-dashboard/programs/programs-container.component';
-import {
-  ProgramEnrollmentComponent
-} from '../patient-dashboard/programs/program-enrollment.component';
-import { ProgramsComponent } from '../patient-dashboard/programs/programs.component';
 import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
 import { ReportFiltersComponent } from './report-filters/report-filters.component';
-import {
-  EnrollmentManagerFormWizardComponent
-} from '../referral-module/components/enrollment-manager/enrollment-manager-form-wizard.component';
-import {
-  PatientReferralContainerComponent
-} from '../referral-module/components/referral-container/patient-referral-container.component';
-import {
-  PatientReferralItemComponent
-} from '../referral-module/components/referral-container/patient-referral-item.component';
 import { ZeroVlPipe } from './pipes/zero-vl-pipe';
 import {
   PatientEncounterObservationsComponent
@@ -89,6 +71,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
   }
 import { RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
+import { DataListsModule } from './data-lists/data-lists.module';
 
 @NgModule({
   imports: [
@@ -124,6 +107,8 @@ import { RetrospectiveDataEntryModule
     MatSnackBarModule,
     MatSlideToggleModule,
     FormEntryModule,
+    DataListsModule,
+    AgGridModule,
     RetrospectiveDataEntryModule,
     ConfirmDialogModule, DialogModule,
     MatSnackBarModule, NgxPaginationModule,
@@ -131,13 +116,9 @@ import { RetrospectiveDataEntryModule
     MatExpansionModule, MatButtonModule, MatTooltipModule
   ],
   exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
-    RetrospectiveDataEntryModule, MatCardModule,
-    PatientReferralContainerComponent, PatientEncounterObservationsComponent,
+    RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
-    BuildVersionComponent, UnenrollPatientProgramsComponent,
-    ProgramsContainerComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,
-    ProgramEnrollmentComponent, FormListComponent, ReportFiltersComponent,
-    PatientReferralItemComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
+    BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, ToastComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
@@ -145,10 +126,8 @@ import { RetrospectiveDataEntryModule
     CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
-    GeneralLandingPageComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,
-    ProgramsContainerComponent, FormListComponent, PatientReferralContainerComponent,
-    ProgramEnrollmentComponent, ReportFiltersComponent, PatientReferralItemComponent,
-    OnlineTrackerComponent, ToastComponent, UnenrollPatientProgramsComponent,
+    GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent,
+    OnlineTrackerComponent, ToastComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent

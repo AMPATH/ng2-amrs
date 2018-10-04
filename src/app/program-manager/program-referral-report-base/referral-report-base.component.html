@@ -1,0 +1,22 @@
+<h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span>Patient Referral</h4>
+
+<div>
+  <report-filters  [enabledControls]="enabledControls" [(startDate)]="startDate" [(endDate)]="endDate"
+                   [start]="ageRangeStart" [end]="ageRangeEnd"
+                   (onAgeChangeFinish)="onAgeChangeFinished($event)"
+                   (onGenderChange)="getSelectedGender($event)"
+                   (onProgramChange)="getSelectedPrograms($event)"
+                   (onselectedLocationChange) ="getLocations($event)"
+                   [selectedGender]="selectedGender"
+
+
+                   [reportName]="reportName" [parentIsBusy]="isLoadingReport"
+                   (generateReport)="generateReport()">
+  </report-filters>
+  <br/>
+  <br/>
+  <patient-referral-tabular [sectionDefs]="sectionsDef"  [rowData]="data" [dates]="dates" [gender]="gender"
+                   [programUuids]="programUuids"  [age]="age" [provider]="provider"></patient-referral-tabular>
+
+
+</div>
