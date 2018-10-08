@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { DatePipe } from '@angular/common';
 import { Observable, Subject } from 'rxjs/Rx';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import { AppSettingsService } from '../app-settings';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -41,6 +42,15 @@ export class Moh731ResourceService {
     })
       .map((response: Response) => {
         return response.json();
+      }).catch((err: any) => {
+         let error: any = err.json();
+         let errorObj = {
+           'error': error.statusCode,
+           'message': error.message
+         };
+         console.log('error', error);
+         console.log('statusCode', error.statusCode);
+         return Observable.of(errorObj);
       });
 
     return cacheTtl === 0 ?
