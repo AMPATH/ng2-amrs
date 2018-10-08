@@ -3,3 +3,8 @@
   margin: 0;
 }
 
+mat-progress-bar {
+  position: absolute;
+  top:0;
+}
+

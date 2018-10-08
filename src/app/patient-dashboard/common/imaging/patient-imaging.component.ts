@@ -95,7 +95,7 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
     this.fetchingResults = true;
 
     this.radiologyImagingResourceService.getPatientImagingReport(patientIdentifier)
-      .subscribe((result) => {
+      .take(1).subscribe((result) => {
         if (result.resourceType === 'OperationOutcome') {
           this.fetchingResults = false;
         }
@@ -133,9 +133,9 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
       .trackEvent('Patient Dashboard', 'Radiology Image Loaded', 'onClick');
 
     this.radiologyImagingResourceService.getWadoImageUrl(this.patientIdentifier, order.id)
-      .subscribe((url) => {
+      .take(1).subscribe((url) => {
 
-        this.radiologyImagingResourceService.getPatientImages(url).subscribe(
+        this.radiologyImagingResourceService.getPatientImages(url).take(1).subscribe(
       (data) => {
         this.staticModal.show();
         this.imageToShow = this.domSanitizer.bypassSecurityTrustResourceUrl(data);
@@ -156,7 +156,7 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Radiology Image Loaded', 'onClick');
     this.radiologyImagingResourceService.getAllPatientImageResult(this.patientIdentifier)
-      .subscribe((res) => {
+      .take(1).subscribe((res) => {
         this.allImages = res.entry;
 
         let v = this.gitImageIds(this.allImages);
@@ -219,7 +219,7 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
       thumbs: this.thumbs
     };
 
-    this.radiologyImagingResourceService.createRadiologyComments(payload).subscribe((success) => {
+    this.radiologyImagingResourceService.createRadiologyComments(payload).take(1).subscribe((success) => {
       if (success) {
         this.displaySuccessAlert('comment saved successfully');
         console.log('comments created successfully', success);
@@ -273,9 +273,9 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
       .trackEvent('Patient Dashboard', 'Radiology Image Loaded', 'onClick');
 
     this.radiologyImagingResourceService.getWadoImageUrl(this.patientIdentifier, order.id)
-      .subscribe((url) => {
+      .take(1).subscribe((url) => {
 
-          this.radiologyImagingResourceService.getPatientImages(url).subscribe(
+          this.radiologyImagingResourceService.getPatientImages(url).take(1).subscribe(
             (data) => {
 
               this.imageToShow = this.domSanitizer.bypassSecurityTrustResourceUrl(data);

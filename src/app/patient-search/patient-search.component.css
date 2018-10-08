@@ -9,14 +9,15 @@
     background: #FFF;
     padding-top: 1%;
     margin-top: 10px;
-    padding-bottom: 3%;
+  margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 .input-group-btn{
   font-size: 14px;
 }
 
 #search-textbox{
-  
+
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -64,11 +65,11 @@ button.btn-primary {
 @media screen and (max-width: 640px) {
     #search-textbox::-webkit-input-placeholder{
       font-size:14px;
-    } 
+    }
 }
 
 @media screen and (min-width: 641px) {
     #search-textbox::-webkit-input-placeholder{
       font-size:20px;
-    } 
+    }
 }
