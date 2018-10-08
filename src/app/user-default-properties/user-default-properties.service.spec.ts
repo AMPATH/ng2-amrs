@@ -112,7 +112,8 @@ describe('User Default Service Unit Tests', () => {
   it('should return an error from the api',
    inject([UserDefaultPropertiesMockService, MockBackend],
       fakeAsync((propertiesResourceService: UserDefaultPropertiesMockService, mockBackend: MockBackend) => {
-        mockBackend.connections.take(1).subscribe(c =>
+
+        mockBackend.connections.subscribe(c =>
           c.mockError(new Error('An error occured while processing the request')));
 
         propertiesResourceService.getLocations().subscribe((response: Response) => {

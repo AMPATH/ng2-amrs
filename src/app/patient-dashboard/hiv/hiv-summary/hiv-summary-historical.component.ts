@@ -59,7 +59,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     public loadHivSummary(patientUuid, nextStartIndexs) {
         this.hivSummaryService.getHivSummary(
           patientUuid, this.nextStartIndex, 20, false)
-            .take(1).subscribe((data) => {
+            .subscribe((data) => {
                 if (data) {
                   if (data.length > 0) {
                     for (let r in data) {

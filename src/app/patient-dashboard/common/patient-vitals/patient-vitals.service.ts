@@ -14,7 +14,7 @@ export class PatientVitalsService {
     let vitals: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.vitalsResourceService.getVitals(patientUuid,
-      startIndex, this.limit).take(1).subscribe((data) => {
+      startIndex, this.limit).subscribe((data) => {
         if (data) {
           let weight: string;
 

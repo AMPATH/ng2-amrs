@@ -131,14 +131,17 @@ import { VisitStarterComponent } from './visit/visit-starter/visit-starter.compo
 import { TodayVisitService } from './visit/today-visit.service';
 import { TodayVisitsComponent } from './visit/today-visits/today-visits.component';
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
+import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
+import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
 import { FormUpdaterService } from './formentry/form-updater.service';
+import { ReferralModule } from '../../referral-module/referral-module';
 
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
-import { ProgramManagerModule } from '../../program-manager/program-manager.module';
 
 @NgModule({
   imports: [
@@ -172,6 +175,7 @@ import { ProgramManagerModule } from '../../program-manager/program-manager.modu
     EtlApi,
     ButtonModule,
     DateTimePickerModule,
+    ReferralModule,
     AgGridModule.withComponents([
 
     ]),
@@ -181,7 +185,7 @@ import { ProgramManagerModule } from '../../program-manager/program-manager.modu
     HivCareLibModule,
     PatientSearchModule,
     PatientReferralsModule,
-    ProgramManagerModule,
+    ProgramTransferCareModule
   ],
   exports: [
     PatientInfoComponent,

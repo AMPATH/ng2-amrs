@@ -8,8 +8,7 @@ import * as Moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
-import { PatientRoutesFactory
-} from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
+import { PatientRoutesFactory } from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -53,10 +52,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
       });
     const sub2 = this.patientService.isBusy.subscribe(
       (isLoading) => {
-        setTimeout(() => {
-          this.fetchingPatient = isLoading;
-        });
-
+        this.fetchingPatient = isLoading;
       }, (err) => {
         this.fetchingPatient = false;
       });
