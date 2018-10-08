@@ -26,6 +26,7 @@ import { CookieService } from 'ngx-cookie';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { CacheModule } from 'ionic-cache';
 import { NavigationModule } from '../navigation';
+import { ProviderDashboardModule } from '../provider-dashboard/provider-dashboard.module';
 import { RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 
@@ -42,6 +43,10 @@ import { RetrospectiveDataEntryModule
     UsefulLinksModule,
     UserDefaultPropertiesModule,
     RetrospectiveDataEntryModule
+    // ProviderDashboardModule,
+    // CacheModule,
+    // PatientListCohortModule,
+    // PatientDashboardModule
   ],
   declarations: [
     MainDashboardComponent,

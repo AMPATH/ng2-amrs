@@ -32,8 +32,10 @@ import {
   from '../../../etl-api/monthly-scheduled-resource.service';
 import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
+import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
+import { PatientReferralService } from '../../../referral-module/services/patient-referral-service';
 import { RetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
@@ -65,10 +67,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
     orders: []
   };
   public submittedEncounter: any;
-  public referralStatus: any;
   public diffCareReferralStatus: any = undefined;
+  public transferCareForm: string = null;
   public programEncounter: string = null;
-  public step: number;
   public referralEncounterType: string;
   public encounterLocation: any;
   private subscription: Subscription;
@@ -97,10 +98,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
               private monthlyScheduleResourceService: MonthlyScheduleResourceService,
               private draftedFormsService: DraftedFormsService,
               private fileUploadResourceService: FileUploadResourceService,
+              private patientReferralService: PatientReferralService,
               private conceptResourceService: ConceptResourceService,
               private referralsHandler: FormentryReferralsHandlerService,
               private formentryHelperService: FormentryHelperService,
               private patientReminderService: PatientReminderService,
+              private transferCareService: ProgramsTransferCareService,
               private confirmationService: ConfirmationService,
               private personResourceService: PersonResourceService) {
   }
@@ -116,8 +119,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params) => {
       componentRef.visitUuid = params['visitUuid'];
       componentRef.encounterUuid = params['encounter'];
+      componentRef.transferCareForm = params['transferCareEncounter'];
       componentRef.programEncounter = params['programEncounter'];
-      componentRef.step = params['step'] ? parseInt(params['step'], 10) :  null;
       componentRef.referralEncounterType = params['referralEncounterType'];
       if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
@@ -199,6 +202,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       accept: () => {
         this.preserveFormAsDraft = false;
         // allow the user to cancel
+        this.transferCareService.setTransferStatus(false);
         // this.draftedFormsService.setCancelState();
         this.resetLastTab();
         window.history.go(-1);
@@ -225,28 +229,46 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.router.navigate(['/patient-dashboard/patient/' +
           this.patient.uuid + '/general/general/forms']);
         break;
-      case 'programManager':
+      case 'transferCareformWizard':
         this.preserveFormAsDraft = false;
-        this.route.queryParams.subscribe((params) => {
-          let step = params['parentComponent'].split(':')[1];
-          if (step  === 'landing-page') {
-            this.router.navigate(['/patient-dashboard/patient/' +
-            this.patient.uuid + '/general/general/landing-page']);
-          } else if (step === 'new') {
-            this.router.navigate(['/patient-dashboard/patient/' +
-            this.patient.uuid + '/general/general/program-manager/new-program', 'step',
-              params['step']]);
-          } else if (step === 'edit') {
-            this.router.navigate(['/patient-dashboard/patient/' +
-            this.patient.uuid + '/general/general/program-manager/edit-program', 'step',
-              params['step']]);
+        let processId = _.uniqueId('form_transfer_care_');
+        if (this.transferCareService.isModal.getValue()) {
+          this.router.navigate(['/patient-dashboard/patient/' +
+            this.patient.uuid + '/general/general/landing-page'],
+            { queryParams: { completeEnrollment: true, processId: processId } });
+        } else {
+          this.router.navigate(['/patient-dashboard/patient/' +
+            this.patient.uuid + '/general/general/programs/transfer-care/forms'],
+            { queryParams: { processId: processId } });
+        }
+        break;
+      case 'enrollmentManager':
+        this.preserveFormAsDraft = false;
+        this.patientReferralService.getProcessPayload().take(1).subscribe((payload) => {
+          if (payload && _.isUndefined(payload.submittedEncounter)) {
+            // use this processId to signal end of process
+            _.extend(payload, {
+              processId: _.uniqueId('referral_')
+            });
+            this.patientReferralService.saveProcessPayload(_.extend(payload,
+              {
+                submittedEncounter: {
+                  encounter: this.submittedEncounter,
+                  encounterLocation: this.encounterLocation
+                }
+              }));
           }
         });
-        break;
-      case 'programManagerReferral':
-        this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/program-manager/new-program', 'step', 3]);
+        this.route.queryParams.subscribe((params) => {
+          let toLandingPage = params['parentComponent'] === 'landing-page';
+          if (toLandingPage) {
+            this.router.navigate(['/patient-dashboard/patient/' +
+              this.patient.uuid + '/general/general/landing-page']);
+          } else {
+            this.router.navigate(['/patient-dashboard/patient/' +
+              this.patient.uuid + '/general/general/programs/enrollment-manager']);
+          }
+        });
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -303,39 +325,67 @@ export class FormentryComponent implements OnInit, OnDestroy {
         encounterProvider[0].control.setValue(provider);
       }
     });
+
+    this.autoSelectReferPatientStateIfReferring();
+  }
+
+  public autoSelectReferPatientStateIfReferring() {
+    let patientState = this.form.searchNodeByQuestionId('state');
+    if (patientState.length > 0 && (_.isNil(this.referralEncounterType)
+      || !_.includes(['DERMRESPONSE'], this.form.schema.encounterType.name))) {
+      // refer concept uuid
+      let referConceptUuuid = '0c5565c5-45cf-40ab-aa6d-5694aeabae18';
+      patientState[0].control.setValue(referConceptUuuid);
+    }
   }
 
   public onAbortingReferral(event) {
-    this.referralStatus = null;
+    this.showReferralDialog = false;
     this.referralCompleteStatus.next(false);
+  }
+
+  public onReferralSuccess() {
+    this.showReferralDialog = false;
+    this.referralPrograms = [];
+    this.referralCompleteStatus.next(true);
   }
 
   public shouldShowPatientReferralsDialog(data: any): void {
     this.submittedEncounter = data;
-    const referralData = {
-      submittedEncounter: data
-    };
     // check if referral question was filled (questionId is either referrals or patientReferrals)
-    let referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
+    let referralQuestion = this.form.searchNodeByQuestionId('referrals');
+    if (referralQuestion.length === 0) {
+      referralQuestion = this.form.searchNodeByQuestionId('patientReferrals');
+    }
+    // if form has `Patient State` question
+    if (referralQuestion.length === 0) {
+      referralQuestion = this.form.searchNodeByQuestionId('state');
+    }
     // if question exists provide for referrals
     if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
-      // get answer from the selected answer
-      const referralPrograms = this.form.searchNodeByQuestionId('referralsOrdered');
-      if (referralPrograms) {
-        const answer = _.first(referralPrograms).control.value;
+      let answer = _.first(referralQuestion).control.value;
+      if (answer) {
+        let dermEncounterTypes = ['DERMATOLOGY', 'DERMATOLOGYREFERRAL', 'DERMINITIAL',
+          'DERMRESPONSE', 'DERMRETURN'];
+        if (_.includes(dermEncounterTypes, this.form.schema.encounterType.name)) {
+          this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
+            return program.programUuid === 'b3575274-1850-429b-bb8f-2ff83faedbaf'
+              || program.programUuid === '781d8768-1359-11df-a1f1-0026b9348837';
+          });
+          if (this.referralPrograms.length > 0) {
+            this.showReferralDialog = true;
+          }
+        } else {
           // map concept with program
           this.searchReferralConcepts(answer).take(1).subscribe((concepts) => {
             this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
               return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
             });
-            if (this.referralPrograms.length > 0) {
-              _.extend(referralData, {
-                isReferral: true,
-                selectedProgram: _.first(this.referralPrograms)
-              });
-              this.referralStatus = referralData;
-            }
           });
+          if (this.referralPrograms.length > 0) {
+            this.showReferralDialog = true;
+          }
+        }
       }
     } else {
       this.referralCompleteStatus.next(false);
@@ -365,7 +415,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         dead : false,
         deathDate: null,
         causeOfDeath: null
-      }).subscribe(() => {});
+      }).subscribe(() => {
+
+        });
     }
 
     if ((causeOfDeath.length > 0 && _.first(causeOfDeath).control.value.length > 0)
@@ -377,35 +429,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
         };
 
         this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
-          .subscribe(() => {});
-    }
-  }
+          .subscribe(() => {
 
-  public handleProgramManagerRedirects(data: any): void {
-    // check if patient status was filled
-    // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
-    const patientCareStatus = this.form.searchNodeByQuestionId('patstat');
-    const transferOut = this.form.searchNodeByQuestionId('transferOut');
-    if (patientCareStatus.length > 0 && this.isATransferOut(patientCareStatus)) {
-      if (this.shouldRedirectToProgramManager(transferOut)) {
-        this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/program-manager/edit-program'], {
-          queryParams: { 'notice': 'outreach' }
         });
-      }
     }
-  }
-
-  private isATransferOut(question: any[]) {
-    return _.first(question).control.value === 'a89e3ad0-1350-11df-a1f1-0026b9348838';
-  }
-
-  private shouldRedirectToProgramManager(answer: any[]) {
-    return _.includes([
-      'a89c2f42-1350-11df-a1f1-0026b9348838', // AMPATH
-      'a89c301e-1350-11df-a1f1-0026b9348838' // Non-AMPATH
-    ], _.first(answer).control.value);
   }
 
   private searchReferralConcepts(concepts) {
@@ -862,6 +889,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private handleSuccessfulFormSubmission(response: any): void {
     // allow other forms to be filled ( set as incomplete for the guard to allow navigation)
+    this.transferCareService.setTransferStatus(false);
     // show submitted orders if any
     this.displaySubmittedOrders(response);
     this.resetLastTab();
@@ -869,7 +897,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.failedPayloadTypes = null;
     // this.showSuccessDialog = true;
     this.updatePatientDemographics(response);
-    this.handleProgramManagerRedirects(response);
     // handle referrals here
     this.handleFormReferrals(response);
   }

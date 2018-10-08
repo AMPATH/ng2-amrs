@@ -11,7 +11,7 @@ export class PatientReminderService {
     const reminders: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     const sub =
       this.patientReminderResourceService.getPatientLevelReminders(patientUuid)
-      .take(1).subscribe(
+      .subscribe(
       (data) => {
         sub.unsubscribe();
         if (data && data.reminders.length > 0) {

@@ -69,7 +69,7 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { ReferralModule } from '../../../referral-module/referral-module';
-import { PatientReferralService } from '../../../program-manager/patient-referral-service';
+import { PatientReferralService } from '../../../referral-module/services/patient-referral-service';
 import { RetrospectiveDataEntryModule
 } from '../../../retrospective-data-entry/retrospective-data-entry.module';
 import { FakeRetrospectiveDataEntryService

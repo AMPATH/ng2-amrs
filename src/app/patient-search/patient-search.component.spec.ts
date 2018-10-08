@@ -22,7 +22,7 @@ import {
 import {
   PatientReferralService
 } from
-  '../program-manager/patient-referral-service';
+  '../referral-module/services/patient-referral-service';
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
