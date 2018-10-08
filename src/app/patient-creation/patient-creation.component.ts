@@ -523,7 +523,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         }
       }, (err) => {
         this.loaderStatus = false;
-        const error = err.json();
+        const error = err;
         this.errorAlert = error.error.globalErrors[0].code;
       });
 
@@ -559,7 +559,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public generatePatientIdentifier() {
-    this.patientCreationService.generateIdentifier(this.userId).take(1).subscribe((data) => {
+    this.patientCreationService.generateIdentifier(this.userId).take(1).subscribe((data: any) => {
       this.patientIdentifier = data.identifier;
       this.generate = false;
       this.editText = true;

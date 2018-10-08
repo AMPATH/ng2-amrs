@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class CdmSummaryResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
 
   public getUrl(): string {
 
@@ -18,18 +18,18 @@ export class CdmSummaryResourceService {
     let url = this.getUrl();
     url += '/' + patientUuid + '/cdm-summary';
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('limit', limit.toString())
+    .set('startIndex', startIndex.toString());
 
     if (includeNonClinicalEncounter !== undefined) {
-      params.set('includeNonClinicalEncounter', includeNonClinicalEncounter.toString());
+      params = params.set('includeNonClinicalEncounter', includeNonClinicalEncounter.toString());
     }
-    params.set('startIndex', startIndex.toString());
-    params.set('limit', limit.toString());
 
-    return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-        return response.json().result;
+    return this.http.get<any>(url, {
+      params: params
+    }).map((response) => {
+        return response.result;
     });
   }
 }

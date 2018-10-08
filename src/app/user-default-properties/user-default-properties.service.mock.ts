@@ -6,6 +6,7 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserDefaultPropertiesMockService {
@@ -14,7 +15,7 @@ export class UserDefaultPropertiesMockService {
 
   constructor(private userService: UserService
     ,         private localStorage: LocalStorageService
-    ,         private http: Http
+    ,         private http: HttpClient
     ,         private appSettingsService: AppSettingsService) { }
 
  public  getLocations(): Observable<any> {

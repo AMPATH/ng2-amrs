@@ -1,12 +1,12 @@
 
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class HivSummaryIndicatorsResourceService {
-    constructor(protected http: Http, protected appSettingsService: AppSettingsService,
+    constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
     public getUrl(): string {
@@ -18,23 +18,23 @@ export class HivSummaryIndicatorsResourceService {
             + `hiv-summary-indicators/patient-list`;
     }
 
-    public getUrlRequestParams(params): URLSearchParams {
-        let urlParams: URLSearchParams = new URLSearchParams();
+    public getUrlRequestParams(params): HttpParams {
+        let urlParams: HttpParams = new HttpParams();
 
         if (params.indicators) {
-            urlParams.set('indicators', params.indicators);
+            urlParams = urlParams.set('indicators', params.indicators);
         }
 
         if (params.indicator) {
-            urlParams.set('indicator', params.indicator);
+            urlParams = urlParams.set('indicator', params.indicator);
         }
 
-        urlParams.set('endDate', params.endDate);
-        urlParams.set('gender', params.gender);
-        urlParams.set('startDate', params.startDate);
-        urlParams.set('locationUuids', params.locationUuids);
-        urlParams.set('startAge', params.startAge);
-        urlParams.set('endAge', params.endAge);
+        urlParams.set('endDate', params.endDate)
+        .set('gender', params.gender)
+        .set('startDate', params.startDate)
+        .set('locationUuids', params.locationUuids)
+        .set('startAge', params.startAge)
+        .set('endAge', params.endAge);
 
         return urlParams;
     }
@@ -43,11 +43,8 @@ export class HivSummaryIndicatorsResourceService {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl();
         let request = this.http.get(url, {
-            search: urlParams
-        }).pipe(
-            map((response: Response) => {
-                return response.json();
-            }));
+            params: urlParams
+        });
 
         return this.cacheService.cacheRequest(url, urlParams, request);
 
@@ -64,11 +61,11 @@ export class HivSummaryIndicatorsResourceService {
         urlParams.set('startIndex', params.startIndex);
         urlParams.set('limit', params.limit);
         let url = this.getPatientListUrl();
-        let request = this.http.get(url, {
-            search: urlParams
+        let request = this.http.get<any>(url, {
+            params: urlParams
         }).pipe(
-            map((response: Response) => {
-                return response.json().result;
+            map((response) => {
+                return response.result;
             }));
 
         this.cacheService.cacheRequest(url, urlParams, request);

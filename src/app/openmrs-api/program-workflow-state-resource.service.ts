@@ -1,17 +1,16 @@
 
 import {throwError as observableThrowError,  Observable, Subject } from 'rxjs';
-
 import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 // TODO inject service
 
 @Injectable()
 export class ProgramWorkFlowStateResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -28,14 +27,13 @@ export class ProgramWorkFlowStateResourceService {
     let url = this.getUrl() + '/' + workFlowUuid + '/' + 'state';
     let v: string = 'custom:(uuid,initial,terminal,concept:(uuid,retired,display))';
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', v);
-    return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json().results;
-    }),catchError(this.handleError),);
+    let params: HttpParams = new HttpParams()
+    .set('v', v);
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(map((response) => {
+      return response.results;
+    }), catchError(this.handleError));
   }
 
 private handleError(error: any) {

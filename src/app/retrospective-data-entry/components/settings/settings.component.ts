@@ -71,9 +71,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   public fetchLocationOptions() {
-    this.propertyLocationService.getLocations().map((response: Response) => {
-      return response.json();
-    }).take(1).subscribe((locations: any) => {
+    this.propertyLocationService.getLocations()
+    .take(1).subscribe((locations: any) => {
       this.locations = locations.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);

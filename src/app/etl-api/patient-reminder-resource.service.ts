@@ -1,19 +1,16 @@
-
 import {map} from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Response } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
-
+import { Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PatientReminderResourceService {
   public referenceDate: string;
   private _datePipe: DatePipe;
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
     this._datePipe = new DatePipe('en-US');
     this.referenceDate = this._datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
@@ -25,8 +22,8 @@ export class PatientReminderResourceService {
 
   public getPatientLevelReminders(patientUuid: string): Observable<any> {
     let url = this.getUrl(patientUuid)  + '/' + this.referenceDate;
-    return this.http.get(url).pipe(map((response: Response) => {
-        return response.json().result;
+    return this.http.get<any>(url).pipe(map((response) => {
+        return response.result;
     }));
   }
 }

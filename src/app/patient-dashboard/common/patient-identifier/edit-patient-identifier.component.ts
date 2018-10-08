@@ -252,11 +252,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
 
   public generatePatientIdentifier() {
-    this.patientCreationResourceService.generateIdentifier(this.userId).subscribe((data) => {
+    this.patientCreationResourceService.generateIdentifier(this.userId).subscribe((data: any) => {
       this.patientIdentifier = data.identifier;
       this.checkUniversal = false;
     }, ((err) => {
-      console.log(err.json());
+      console.log(err);
     }));
   }
 

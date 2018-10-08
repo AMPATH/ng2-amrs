@@ -2,8 +2,8 @@
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 // TODO inject service
 
@@ -18,7 +18,7 @@ export class PatientResourceService {
     + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
     'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,address6)))';
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -30,17 +30,14 @@ export class PatientResourceService {
    Observable<any> {
 
     let url = this.getUrl();
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('q', searchText);
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
-
+    let params: HttpParams = new HttpParams()
+    .set('q', searchText)
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
+      params: params
     }).pipe(
-      map((response: Response) => {
-        return response.json().results;
+      map((response: any) => {
+        return response.results;
       }));
   }
 
@@ -50,14 +47,13 @@ export class PatientResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
 
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
+      params: params
+    }).pipe(map((response) => {
+      return response;
     }));
   }
   public saveUpdatePatientIdentifier(uuid, identifierUuid, payload): Observable<any> {
@@ -65,11 +61,10 @@ export class PatientResourceService {
       return null;
     }
     let url = this.getUrl() + '/' + uuid + '/' + 'identifier' + '/' + identifierUuid;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
-        return response.json().patient;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+      map((response: any) => {
+        return response.patient;
       }));
   }
 }

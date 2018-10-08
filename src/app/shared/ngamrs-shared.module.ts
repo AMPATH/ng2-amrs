@@ -6,11 +6,10 @@ import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { SelectModule } from 'ngx-select';
-
 import {
-  MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule, MatSnackBarModule, MatSlideToggleModule
+  MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule, MatSnackBarModule, MatSlideToggleModule, MatCardModule, MatRadioModule,
+  MatExpansionModule, MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
@@ -114,21 +113,25 @@ import { RetrospectiveDataEntryModule
     ModalModule.forRoot(),
     // BrowserAnimationsModule
     CacheModule,
+    MatExpansionModule,
     // SelectModule,
     NgSelectModule,
     MatTabsModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatCardModule,
     MatSnackBarModule,
     MatSlideToggleModule,
     FormEntryModule,
     RetrospectiveDataEntryModule,
     ConfirmDialogModule, DialogModule,
-    MatSnackBarModule, NgxPaginationModule
+    MatSnackBarModule, NgxPaginationModule,
+    MatRadioModule, MatMenuModule, MatIconModule,
+    MatExpansionModule, MatButtonModule, MatTooltipModule
   ],
   exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
-    RetrospectiveDataEntryModule,
+    RetrospectiveDataEntryModule, MatCardModule,
     PatientReferralContainerComponent, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, UnenrollPatientProgramsComponent,
@@ -138,7 +141,8 @@ import { RetrospectiveDataEntryModule
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, ToastComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
-    MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, CdmProgramSnapshotComponent],
+    MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
+    CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, ProgramsComponent, EnrollmentManagerFormWizardComponent,

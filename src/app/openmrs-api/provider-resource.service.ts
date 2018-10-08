@@ -2,17 +2,17 @@
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject , ReplaySubject } from 'rxjs';
+import { Observable , ReplaySubject } from 'rxjs';
 import { PersonResourceService } from './person-resource.service';
 import * as _ from 'lodash';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ProviderResourceService {
 
   public v: string = 'full';
 
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               protected personService: PersonResourceService) {
   }
@@ -26,17 +26,15 @@ export class ProviderResourceService {
   Observable<any> {
 
     let url = this.getUrl() ;
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('q', searchText)
+    .set('v', (v && v.length > 0) ? v : this.v);
 
-    params.set('q', searchText);
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
-
-    return this.http.get(url, {
-      search: params
+    return this.http.get<any>(url, {
+      params: params
     }).pipe(
-      map((response: Response) => {
-        return response.json().results;
+      map((response) => {
+        return response.results;
       }));
   }
 
@@ -46,14 +44,11 @@ export class ProviderResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
-    }));
+      params: params
+    });
   }
   public getProviderByPersonUuid(uuid) {
     let providerResults = new ReplaySubject(1);
