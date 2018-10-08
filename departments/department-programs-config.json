@@ -142,6 +142,10 @@
             {
                 "uuid":"876a154d-310d-4caf-8b58-be9dbcc7e753",
                 "name": "HTN AND DM CARE AT THE PRIMARY CARE LEVEL"
+            },
+            {
+                "uuid": "da0c184e-751c-4b7e-a761-a60dc2d3f798",
+                "name": "INTEGRATED SCREENING PROGRAM"
             }
         ]
     },

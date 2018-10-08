@@ -2939,5 +2939,35 @@
       }
     ]
 
+  },
+  "da0c184e-751c-4b7e-a761-a60dc2d3f798": {
+    "name": "INTEGRATED SCREENING PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "c7fd1d31-da42-4a5b-ba76-80c1439b1865",
+        "name": "Integrated Screening Visit",
+        "encounterTypes": [
+          {
+            "uuid": "344719af-b526-46d3-b7f1-64e9ae618619",
+            "display": "HTNDMSCREENING"
+          },
+          {
+            "uuid": "a8ab57df-a539-4a37-9eba-8f9ebd96809e",
+            "display": "FPSCREENING"
+          },
+          {
+            "uuid": "30787193-3a03-443e-b025-f55c126793eb",
+            "display": "MENTALHEALTHSCREENING"
+          }
+        ]
+      }
+    ]
+
   }
 }
