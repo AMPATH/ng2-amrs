@@ -102,6 +102,11 @@ describe('Component: Visit', () => {
         { provide: Router, useClass: RouterStub },
         { provide: ActivatedRoute, useValue: {} },
         {
+          provide: UserDefaultPropertiesService, useFactory: () => {
+            return new FakeDefaultUserPropertiesFactory();
+          }
+        },
+        {
           provide: RetrospectiveDataEntryService, useFactory: () => {
           return new FakeRetrospectiveDataEntryService();
         }

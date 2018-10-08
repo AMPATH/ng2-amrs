@@ -127,8 +127,8 @@ export class PatientReferralResourceService {
     return request;*/
   }
 
-  public getReferralByLocationUuid(locationUuid: string, enrollmentUud?: string) {
-    let url = this.getReferralLocationUrl()  + '/' + locationUuid + '/' + enrollmentUud;
+  public getReferralLocationByEnrollmentUuid(uuid: string) {
+    let url = this.getReferralLocationUrl()  + '/' + uuid;
     return this.http.get(url);
   }
 

@@ -99,7 +99,7 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
   background: #fff;
   box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
   margin-bottom: 30px;
-  padding: 1em;
+  padding: 1em 1em;
   font-size: 14px;
   border: 1px solid rgba(34, 36, 38, .15);
 }
@@ -188,6 +188,10 @@ footer p {
 .skin-black-light .main-header .navbar .nav .open>a:focus,
 .skin-black-light .main-header .navbar .nav>.active>a {
   line-height: 50px;
+}
+
+.box-body .component-wrapper {
+  margin-bottom: 40px;
 }
 
 .clear {
@@ -384,6 +388,10 @@ lab-order-search-container {
 
 location-filter.edit label {
   display: block;
+}
+
+.box-body .component-wrapper {
+  padding-bottom: 140px;
 }
 
 location-filter.no-padding .col-md-12 {

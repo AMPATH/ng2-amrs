@@ -65,7 +65,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
     this.loadingVitals = true;
 
     let request = this.patientVitalsService.getvitals(patientUuid, this.nextStartIndex)
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
         if (data) {
           if (data.length > 0) {
 

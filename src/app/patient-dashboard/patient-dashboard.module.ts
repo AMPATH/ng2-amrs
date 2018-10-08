@@ -27,11 +27,11 @@ import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm
 import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
+import { ProgramTransferCareModule } from './programs/transfer-care/transfer-care.module';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { HttpClient } from '../shared/services/http-client.service';
+import { ReferralModule } from '../referral-module/referral-module';
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
-import { ProgramManagerModule
-} from '../program-manager/program-manager.module';
 
 @NgModule({
   imports: [
@@ -53,7 +53,8 @@ import { ProgramManagerModule
     PatientDashboardHivModule,
     PatientDashboardDermatologyModule,
     PatientSearchModule,
-    ProgramManagerModule,
+    ProgramTransferCareModule,
+    ReferralModule,
     RouterModule.forChild(routes)
   ],
   declarations: [

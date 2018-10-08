@@ -47,7 +47,7 @@ export class HivSummaryLatestComponent implements OnInit {
   public loadHivSummary(patientUuid) {
     this.hivSummaryService.getHivSummary(
       patientUuid, 0, 1, false)
-      .take(1).subscribe((data) => {
+      .subscribe((data) => {
         if (data) {
 
           for (let summary of data){

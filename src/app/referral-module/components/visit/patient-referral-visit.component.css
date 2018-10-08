@@ -1,0 +1,17 @@
+.patient-referral-visit {
+  margin: 0 0 20px 0;
+}
+
+.patient-referral-visit .item-container {
+  border:solid 1px lightgray;
+  padding: 4px 4px 20px 4px;
+}
+
+.patient-referral-visit h3 {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+.patient-referral-visit .button-submit {
+  margin-top: 7px;
+}
