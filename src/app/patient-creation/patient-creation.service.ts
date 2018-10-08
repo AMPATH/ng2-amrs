@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import {
     PatientCreationResourceService
 } from '../openmrs-api/patient-creation-resource.service';
 import { Patient } from '../models/patient.model';
 import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PatientCreationService {
@@ -16,7 +16,7 @@ export class PatientCreationService {
 
     constructor(private resouceService: PatientResourceService,
                 private patientCreationResourceService: PatientCreationResourceService,
-                private http: Http
+                private http: HttpClient
     ) {}
 
     public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {

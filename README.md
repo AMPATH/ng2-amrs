@@ -1,10 +1,10 @@
 # NgxOpenmrsPoc
 
-This is the point of care system used by Ampath Clinics. It should be compatible with most openmrs versions but it is tested against platform 2.0.2 with the rest module. It also requires https://github.com/AMPATH/etl-rest-server for all features to work properly.
+This is the point of care system used by Ampath Clinics. It should be compatible with most openmrs versions but it is tested against platform 2.0.2 with the REST module. It also requires https://github.com/AMPATH/etl-rest-server for all features to work properly.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

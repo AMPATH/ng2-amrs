@@ -182,8 +182,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.isReferral = true;
     this.selectedProgram = row;
     this.program = { value: row.programUuid };
-    this.userDefaultPropertiesService.getLocations().pipe(
-      map((response: Response) => response.json())).take(1).subscribe((locations: any) => {
+    this.userDefaultPropertiesService.getLocations().take(1).subscribe((locations: any) => {
       let location = _.find(locations.results, (_location: any) => {
         return _location.display.trim() === row.referred_from_location.trim();
       });

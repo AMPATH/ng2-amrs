@@ -1,16 +1,14 @@
 
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
 import { ReplaySubject, Observable } from 'rxjs';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class FormsResourceService {
   private forms = new ReplaySubject(1);
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
   }
 
   /**
@@ -24,20 +22,18 @@ export class FormsResourceService {
   public getForms(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
 
-    let params = new URLSearchParams();
-    params.set('v', 'custom:(uuid,name,encounterType:(uuid,name),version,' +
-      'published,retired,resources:(uuid,name,dataType,valueReference))');
-    params.set('q', 'POC');
+    const params = new HttpParams()
+    .set('v', 'custom:(uuid,name,encounterType:(uuid,name),version,' +
+      'published,retired,resources:(uuid,name,dataType,valueReference))')
+      .set('q', 'POC');
 
     if (!this.forms.observers.length || forceRefresh) {
-      this.http.get(
+      this.http.get<any>(
         this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'form',
         {
-          search: params
+          params: params
         }
-      ).pipe(
-        map((res: Response) => res.json()))
-        .take(1).subscribe(
+      ).take(1).subscribe(
           (data) => this.forms.next(data.results),
           (error) => this.forms.error(error)
         );
@@ -51,15 +47,12 @@ export class FormsResourceService {
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'clobdata';
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : 'full');
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : 'full');
 
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
-    }));
+      params: params
+    });
   }
 
   public getFormMetaDataByUuid(uuid: string, v: string = null): Observable<any> {
@@ -67,15 +60,12 @@ export class FormsResourceService {
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'form';
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : 'full');
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : 'full');
 
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
-    }));
+      params: params
+    });
   }
 
 }

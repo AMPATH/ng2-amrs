@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http } from '@angular/http';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class FakeEncounterResourceService {
@@ -9,7 +9,7 @@ export class FakeEncounterResourceService {
   'patient:(uuid,uuid),form:(uuid,name),' +
   'location:ref,encounterType:ref,provider:ref)';
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
   public getUrl(): string {
 
     return '';

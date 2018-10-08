@@ -1,14 +1,13 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Observable } from 'rxjs';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class DailyScheduleResourceService {
-    constructor(protected http: Http, protected appSettingsService: AppSettingsService,
+    constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
     public getUrl(reportName, selectedDate): string {
@@ -16,74 +15,72 @@ export class DailyScheduleResourceService {
     }
 
     public getDailyVisits(params) {
-        let urlParams: URLSearchParams = new URLSearchParams();
         if (!params.startIndex) {
             params.startIndex = '0';
         }
         if (!params.limit) {
             params.limit = '300';
         }
-        urlParams.set('startIndex', params.startIndex);
-        urlParams.set('startDate', params.startDate);
-        urlParams.set('locationUuids', params.locationUuids);
-        urlParams.set('programVisitEncounter', params.programVisitEncounter);
-        urlParams.set('limit', params.limit);
+        let urlParams: HttpParams = new HttpParams()
+        .set('startIndex', params.startIndex)
+        .set('startDate', params.startDate)
+        .set('locationUuids', params.locationUuids)
+        .set('programVisitEncounter', params.programVisitEncounter)
+        .set('limit', params.limit);
         let url = this.getUrl('daily-visits', params.startDate);
-        let request = this.http.get(url, {
-            search: urlParams
+        let request = this.http.get<any>(url, {
+            params: urlParams
         }).pipe(
-            map((response: Response) => {
-                return response.json().result;
+            map((response) => {
+                return response.result;
             }));
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     public getDailyAppointments(params) {
-        let urlParams: URLSearchParams = new URLSearchParams();
-
         if (!params.startIndex) {
             params.startIndex = '0';
         }
         if (!params.limit) {
             params.limit = '300';
         }
-
-        urlParams.set('startIndex', params.startIndex);
-        urlParams.set('startDate', params.startDate);
-        urlParams.set('locationUuids', params.locationUuids);
-        urlParams.set('programVisitEncounter', params.programVisitEncounter);
-        urlParams.set('limit', params.limit);
+        let urlParams: HttpParams = new HttpParams()
+        .set('startIndex', params.startIndex)
+        .set('startDate', params.startDate)
+        .set('locationUuids', params.locationUuids)
+        .set('programVisitEncounter', params.programVisitEncounter)
+        .set('limit', params.limit);
 
         let url = this.getUrl('daily-appointments', params.startDate);
-        let request = this.http.get(url, {
-            search: urlParams
+        let request = this.http.get<any>(url, {
+            params: urlParams
         }).pipe(
-            map((response: Response) => {
-                return response.json().result;
+            map((response) => {
+                return response.result;
             }));
         return this.cacheService.cacheRequest(url, urlParams, request);
     }
 
     public getDailyHasNotReturned(params) {
-        let urlParams: URLSearchParams = new URLSearchParams();
         if (!params.startIndex) {
             params.startIndex = '0';
         }
         if (!params.limit) {
             params.limit = '300';
         }
-        urlParams.set('startIndex', params.startIndex);
-        urlParams.set('startDate', params.startDate);
-        urlParams.set('locationUuids', params.locationUuids);
-        urlParams.set('programVisitEncounter', params.programVisitEncounter);
-        urlParams.set('limit', params.limit);
+        let urlParams: HttpParams = new HttpParams()
+        .set('startIndex', params.startIndex)
+        .set('startDate', params.startDate)
+        .set('locationUuids', params.locationUuids)
+        .set('programVisitEncounter', params.programVisitEncounter)
+        .set('limit', params.limit);
 
         let url = this.getUrl('daily-has-not-returned', params.startDate);
-        let request = this.http.get(url, {
-            search: urlParams
+        let request = this.http.get<any>(url, {
+            params: urlParams
         }).pipe(
-            map((response: Response) => {
-                return response.json().result;
+            map((response) => {
+                return response.result;
             }));
         return this.cacheService.cacheRequest(url, urlParams, request);
     }

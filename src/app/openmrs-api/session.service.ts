@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // TODO inject service
 
 @Injectable()
 export class SessionService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -17,25 +17,20 @@ export class SessionService {
 
   public getSession(credentials: any = null) {
 
-    let headers = new Headers();
+    let headers = new HttpHeaders();
 
     if (credentials && credentials.username) {
-      let base64 = btoa(credentials.username + ':' + credentials.password);
-
-      headers.append('Authorization', 'Basic ' + base64);
+      const base64 = btoa(credentials.username + ':' + credentials.password);
+      headers = headers.append('Authorization', 'Basic ' + base64);
     }
 
     let url = this.getUrl();
-
-    return this.http.get(url, {
-      headers: headers
-    });
+    return this.http.get(url, {headers: headers});
   }
 
   public deleteSession() {
 
     let url = this.getUrl();
-
     return this.http.delete(url, {});
   }
 }

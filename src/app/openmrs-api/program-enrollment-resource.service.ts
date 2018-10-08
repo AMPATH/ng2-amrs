@@ -1,17 +1,16 @@
 
-import {throwError as observableThrowError,  Observable, Subject } from 'rxjs';
-
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
 // TODO inject service
 
 @Injectable()
 export class ProgramEnrollmentResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -30,15 +29,14 @@ export class ProgramEnrollmentResourceService {
       return null;
     }
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', v);
-    params.set('patient', uuid);
+    let params: HttpParams = new HttpParams()
+    .set('v', v)
+    .set('patient', uuid);
 
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json().results;
+      params: params
+    }).pipe(map((response: any) => {
+      return response.results;
     }));
   }
 
@@ -52,14 +50,14 @@ export class ProgramEnrollmentResourceService {
       return null;
     }
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('v', v);
     url = url + '/' + uuid;
-    params.set('v', v);
 
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json().results;
+      params: params
+    }).pipe(map((response: any) => {
+      return response.results;
     }));
   }
 
@@ -72,12 +70,9 @@ export class ProgramEnrollmentResourceService {
       url = url + '/' + payload.uuid;
     }
     delete payload['uuid'];
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
-        return response.json();
-      }),catchError(this.handleError),);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+    catchError(this.handleError));
   }
 
     public updateProgramEnrollmentState(programEnrollmentUuid, payload) {
@@ -92,12 +87,9 @@ export class ProgramEnrollmentResourceService {
     url = url + '/' + programEnrollmentUuid + '/' + 'state' + '/' + payload.uuid;
 
     delete payload['uuid'];
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
-        return response.json();
-      }),catchError(this.handleError),);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+      catchError(this.handleError));
   }
 
   private handleError(error: any) {

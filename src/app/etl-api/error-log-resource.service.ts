@@ -1,16 +1,13 @@
 
-import {map} from 'rxjs/operators';
 
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { ReplaySubject } from 'rxjs';
-
+import { Injectable } from '@angular/core';import { Response } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ErrorLogResourceService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
   }
   /**
    * @param {*} param
@@ -23,12 +20,8 @@ export class ErrorLogResourceService {
     if (!payload) {
       return null;
     }
-    let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'forms/error';
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
-        return response.json();
-      }));
+    const url = this.appSettingsService.getEtlRestbaseurl().trim() + 'forms/error';
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers});
   }
 }

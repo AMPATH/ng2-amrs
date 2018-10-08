@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Response } from '@angular/http';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
@@ -56,8 +54,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
       }
     });
 
-    this.propertyLocationService.getLocations().take(1).subscribe((response: Response) => {
-      this.locations = response.json().results.map((location: any) => {
+    this.propertyLocationService.getLocations().take(1).subscribe((response) => {
+      this.locations = response.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);
         }

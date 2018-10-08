@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { SessionService } from './session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { Constants } from '../utils/constants';
-import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie';
 
 @Injectable()
@@ -29,9 +27,9 @@ export class AuthenticationService {
 
     request
       .take(1).subscribe(
-      (response: Response) => {
+      (response: any) => {
 
-        let data = response.json();
+        let data = response;
 
         if (data.authenticated) {
 

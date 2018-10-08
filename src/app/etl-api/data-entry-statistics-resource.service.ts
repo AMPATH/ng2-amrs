@@ -2,12 +2,12 @@
 import { throwError as observableThrowError,  Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class DataEntryStatisticsService {
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
@@ -38,16 +38,17 @@ export class DataEntryStatisticsService {
 
     if (payload && payload.subType && payload.startDate && payload.endDate && payload.groupBy) {
 
-      let urlParams: URLSearchParams = new URLSearchParams();
+      
 
       let baseUrl = this.getBaseUrl();
       let params: any = this.getDataEntryStatisticsQueryParam(payload);
 
       let dataEntryStatsUrl = 'data-entry-statistics/' + params.subType;
       let url = baseUrl + dataEntryStatsUrl;
-      urlParams.set('startDate', params.startDate);
-      urlParams.set('endDate', params.endDate);
-      urlParams.set('groupBy', params.groupBy);
+      let urlParams: HttpParams = new HttpParams()
+      .set('startDate', params.startDate)
+      .set('endDate', params.endDate)
+      .set('groupBy', params.groupBy);
       if (params.locationUuids) {
           urlParams.set('locationUuids', params.locationUuids);
       }
@@ -61,9 +62,9 @@ export class DataEntryStatisticsService {
          urlParams.set('creatorUuid', params.creatorUuid);
       }
 
-      let request = this.http.get(url, {search : urlParams}).pipe(
-        map((response) => {
-           return response.json().result;
+      let request = this.http.get(url, {params : urlParams}).pipe(
+        map((response: any) => {
+           return response.result;
         }));
 
       return this.cacheService.cacheRequest(url, urlParams, request);
@@ -128,14 +129,13 @@ export class DataEntryStatisticsService {
 
     public getDataEntrySatisticsPatientList(params) {
 
-      let urlParams: URLSearchParams = new URLSearchParams();
-
       let baseUrl = this.getBaseUrl();
       let dataEntryStatsPatientListUrl = 'data-entry-statistics/patientList' ;
       let url = baseUrl + dataEntryStatsPatientListUrl;
-      urlParams.set('startDate', params.startDate);
-      urlParams.set('endDate', params.endDate);
-      urlParams.set('groupBy', 'groupByLocationId,groupByPatientId');
+      let urlParams: HttpParams = new HttpParams()
+      .set('startDate', params.startDate)
+      .set('endDate', params.endDate)
+      .set('groupBy', 'groupByLocationId,groupByPatientId');
 
       if (params.encounterTypeUuids && params.encounterTypeUuids.length > 0) {
           urlParams.set('encounterTypeUuids', params.encounterTypeUuids);
@@ -150,9 +150,9 @@ export class DataEntryStatisticsService {
            urlParams.set('locationUuids', params.locationUuids);
       }
 
-      let request = this.http.get(url, {search : urlParams}).pipe(
-        map((response) => {
-           return response.json().result;
+      let request = this.http.get(url, {params : urlParams}).pipe(
+        map((response: any) => {
+           return response.result;
         }));
 
       return this.cacheService.cacheRequest(url, urlParams, request);

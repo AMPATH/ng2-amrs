@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Response } from '@angular/http';
 import { Router, NavigationEnd } from '@angular/router';
-import { Subject ,  Subscription } from 'rxjs';
-
+import {Subscription } from 'rxjs';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -13,9 +11,6 @@ import { AppState } from '../app.service';
 import {
   UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
-import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
-
-declare let jQuery: any;
 
 @Component({
   selector: 'app-dashboard',

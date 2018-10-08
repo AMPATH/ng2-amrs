@@ -1,14 +1,15 @@
 
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { URLSearchParams } from '@angular/http';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ClinicalNotesResourceService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) { }
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
 
   public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
 
@@ -22,11 +23,10 @@ export class ClinicalNotesResourceService {
       limit = 10;
     }
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('startIndex', startIndex as any as string)
+    .set('limit', limit as any as string);
 
-    params.set('startIndex', startIndex as any as string);
-    params.set('limit', limit as any as string);
-
-    return this.http.get(api, {search: params}).pipe(map((data) => data.json()));
+    return this.http.get(api, {params: params});
   }
 }

@@ -1,15 +1,14 @@
 
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Response } from '@angular/http';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class VitalsResourceService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) { }
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
   public getUrl(): string {
 
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient';
@@ -17,15 +16,14 @@ export class VitalsResourceService {
   public getVitals(patientUuid: string, startIndex: number, limit: number): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/vitals';
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('startIndex', startIndex.toString())
+    .set('limit', limit.toString());
 
-    params.set('startIndex', startIndex.toString());
-    params.set('limit', limit.toString());
-
-    return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json().result;
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(map((response) => {
+      return response.result;
     }));
   }
 }

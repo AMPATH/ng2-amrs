@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Response } from '@angular/http';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortListService } from './cohort-list.service';

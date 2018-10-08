@@ -3,13 +3,14 @@ import { Http } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';
+import { HttpClient } from '@angular/common/http';
 /**
  * FakeProgramEnrollmentResourceService
  */
 export class FakeProviderResourceService {
   public returnErrorOnNext: boolean = false;
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService,
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
               protected personService: PersonResourceService) {
   }
 

@@ -1,26 +1,23 @@
 
 import {throwError as observableThrowError,  Observable } from 'rxjs';
-
 import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class LabsResourceService {
 
-    constructor(private http: Http, private appSettingsService: AppSettingsService) { }
+    constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
     public getNewPatientLabResults(params: { startDate: string, endDate: string,
       patientUuId: string }) {
-        let urlParams: URLSearchParams = new URLSearchParams();
-
-        urlParams.set('startDate', params.startDate);
-        urlParams.set('endDate', params.endDate);
-        urlParams.set('patientUuId', params.patientUuId);
+        let urlParams: HttpParams = new HttpParams()
+        .set('startDate', params.startDate)
+        .set('endDate', params.endDate)
+        .set('patientUuId', params.patientUuId);
         return this.http.get(this.getUrl(),
-            { search: urlParams }).pipe(map(this.parseNewLabResults),
-            catchError(this.handleError),);
+            { params: urlParams }).pipe(map(this.parseNewLabResults),
+            catchError(this.handleError));
     }
 
     public getHistoricalPatientLabResults(patientUuId,
@@ -34,14 +31,13 @@ export class LabsResourceService {
         if (!params.limit) {
             params.limit = '20';
         }
-        let urlParams: URLSearchParams = new URLSearchParams();
-
-        urlParams.set('startIndex', params.startIndex);
-        urlParams.set('limit', params.limit);
+        let urlParams: HttpParams = new HttpParams()
+        .set('startIndex', params.startIndex)
+        .set('limit', params.limit);
         return this.http.get(this.appSettingsService.getEtlRestbaseurl().trim()
             + `patient/${patientUuId}/data`,
-            { search: urlParams }).pipe(map(this.parseHistoricalLabResults),
-            catchError(this.handleError),);
+            { params: urlParams }).pipe(map(this.parseHistoricalLabResults),
+            catchError(this.handleError));
     }
 
     private getUrl() {
@@ -49,11 +45,11 @@ export class LabsResourceService {
     }
 
     private parseHistoricalLabResults(res) {
-        const body = res.json();
+        const body = res;
         return body.result;
     }
     private parseNewLabResults(res) {
-        const body = res.json();
+        const body = res;
 
         if (body.errors) {
             return body;
