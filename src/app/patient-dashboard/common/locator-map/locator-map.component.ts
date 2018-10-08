@@ -46,7 +46,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   }
 
   public onFileChange(file) {
-    this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result) => {
+    this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result: any) => {
       let updatePayload = {
         attributes: [{
           attributeType: this.attributeType,

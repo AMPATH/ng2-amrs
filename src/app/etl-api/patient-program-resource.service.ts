@@ -1,33 +1,26 @@
 
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Response } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Program } from '../models/program.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class PatientProgramResourceService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) {
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
   }
 
   public getAllProgramVisitConfigs(ttl?: number): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
     url += 'program-visit-configs';
-    return this.http.get(url).pipe(map((response: Response) => {
-      return response.json();
-    }));
+    return this.http.get(url);
   }
 
   public getPatientProgramVisitConfigs(patientUuid: string): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
     url += 'patient-program-config?patientUuid=' + patientUuid;
-    return this.http.get(url).pipe(map((response: Response) => {
-      return response.json();
-    }));
+    return this.http.get(url);
   }
-
   /**
    *
    *
@@ -45,11 +38,9 @@ export class PatientProgramResourceService {
     let url = this.appSettingsService.getEtlRestbaseurl().trim()
       + 'patient/' + patientUuid + '/program/' + programUuid +
       '/enrollment/' + enrollmentUuid;
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('intendedLocationUuid', (locationUuid && locationUuid.length > 0)
+    let params: HttpParams = new HttpParams()
+    .set('intendedLocationUuid', (locationUuid && locationUuid.length > 0)
       ? locationUuid : locationUuid);
-    return this.http.get(url, { search: params }).pipe(map((response: Response) => {
-      return response.json();
-    }));
+    return this.http.get(url, { params: params });
   }
 }

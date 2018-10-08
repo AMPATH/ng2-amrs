@@ -2,9 +2,9 @@
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject, ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class OrderResourceService {
@@ -14,7 +14,7 @@ export class OrderResourceService {
   'commentToFulfiller,dateActivated,instructions,orderer:default,' +
   'encounter:full,patient:full,concept:ref)';
 
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService) {
   }
 
@@ -28,13 +28,13 @@ export class OrderResourceService {
 
     let url = this.getUrl();
     url += '/' + orderId;
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
 
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return this._excludeVoidedOrder(response.json());
+      params: params
+    }).pipe(map((response) => {
+      return this._excludeVoidedOrder(response);
     }));
   }
 
@@ -42,14 +42,13 @@ export class OrderResourceService {
   Observable<any> {
 
     let url = this.getUrl();
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('patient', patientUuid);
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('patient', patientUuid)
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
+      params: params
+    }).pipe(map((response) => {
+      return response;
     }));
   }
   public getOrderByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
@@ -58,13 +57,12 @@ export class OrderResourceService {
     url += '/' + uuid;
     // console.log('url', url)
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
+      params: params
+    }).pipe(map((response) => {
+      return response;
     }));
   }
 

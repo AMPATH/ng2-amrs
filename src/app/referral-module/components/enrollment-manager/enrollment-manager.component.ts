@@ -310,8 +310,8 @@ export class EnrollmentManagerComponent implements OnInit, OnDestroy {
 
   private _filterLocationByLocationName(name) {
     return new Promise((resolve, reject) => {
-      this.userDefaultPropertiesService.getLocations().pipe(
-        map((response: Response) => response.json())).take(1).subscribe((locations: any) => {
+      this.userDefaultPropertiesService.getLocations()
+      .take(1).subscribe((locations: any) => {
         let location = _.filter(locations.results, (_location: any) => {
           return _location.display.trim() === name.trim();
         });

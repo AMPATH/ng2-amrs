@@ -74,9 +74,9 @@ export class FormSubmissionService {
                   catchError((res: any) => of({
                     hasError: true,
                     payloadType: [payloadType],
-                    response: res.json(),
+                    response: res,
                     errorMessages: this.processFormSubmissionErrors(
-                      res.json(), payloadType, encounterPayload)
+                      res, payloadType, encounterPayload)
                   })))
               );
             }
@@ -91,9 +91,9 @@ export class FormSubmissionService {
                   catchError((res: any) => of({
                     hasError: true,
                     payloadType: [payloadType],
-                    response: res.json(),
+                    response: res,
                     errorMessages: this.processFormSubmissionErrors(
-                      res.json(), payloadType, personAttrPayload)
+                      res, payloadType, personAttrPayload)
                   })))
               );
             }

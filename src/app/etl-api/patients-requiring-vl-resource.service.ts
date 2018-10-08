@@ -1,16 +1,14 @@
 
-import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PatientsRequiringVLResourceService {
 
-    constructor(private _http: Http, private appSettingsService: AppSettingsService,
+    constructor(private _http: HttpClient, private appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) {
     }
 
@@ -20,22 +18,22 @@ export class PatientsRequiringVLResourceService {
 
     public getPatientList(startDate: string, endDate: string, locationUuids: string,
                           startIndex?: string, limit?: string): Observable<any> {
-        let api: string = this.geturl() + 'patients-requiring-viral-load-order';
-
-        let urlParams: URLSearchParams = new URLSearchParams();
+        const api: string = this.geturl() + 'patients-requiring-viral-load-order';
         if (!startIndex) {
             startIndex = '0';
         }
         if (!limit) {
             limit = '100000';
         }
-        urlParams.set('startDate', startDate);
-        urlParams.set('endDate', endDate);
-        urlParams.set('locationUuids', locationUuids);
-        urlParams.set('startIndex', startIndex);
-        urlParams.set('limit', limit);
 
-        let request = this._http.get(api, { search: urlParams }).pipe(map((data) => data.json()));
+        const urlParams: HttpParams = new HttpParams()
+        .set('startDate', startDate)
+        .set('endDate', endDate)
+        .set('locationUuids', locationUuids)
+        .set('startIndex', startIndex)
+        .set('limit', limit);
+
+        const request = this._http.get(api, { params: urlParams });
         return this.cacheService.cacheRequest(api, urlParams, request);
 
     }

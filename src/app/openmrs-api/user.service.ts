@@ -1,14 +1,12 @@
 
 import {map} from 'rxjs/operators';
-// import { AppSettingsService } from './../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http , Response , Headers, RequestOptions } from '@angular/http';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { Constants } from '../utils/constants';
 import { User } from '../models/user.model';
-import {  URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
@@ -17,7 +15,7 @@ export class UserService {
 
   constructor(
     private sessionStorageService: SessionStorageService,
-    private _http: Http,
+    private _http: HttpClient,
     protected appSettingsService: AppSettingsService) { }
 
   public getLoggedInUser(): User {
@@ -30,13 +28,10 @@ export class UserService {
 
     let baseUrl = this.getOpenMrsBaseUrl();
     let url = baseUrl + 'user?v=custom:(uuid,display,person)';
-
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-
-    return this._http.get(url, options).pipe(
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this._http.get<any>(url, {headers}).pipe(
       map((response) => {
-        return response.json().results;
+        return response.results;
       }));
   }
   public getOpenMrsBaseUrl(): string {
@@ -45,17 +40,17 @@ export class UserService {
   }
 
   public searchUsers(searchText: string) {
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('q', searchText);
-    params.set('v', 'default');
+    let params: HttpParams = new HttpParams()
+    .set('q', searchText)
+    .set('v', 'default');
 
     let allCohortMembersUrl: string = this.baseOpenMrsUrl + 'user' ;
 
-    return this._http.get(allCohortMembersUrl, {
-      search: params
+    return this._http.get<any>(allCohortMembersUrl, {
+      params: params
     }).pipe(
       map((response) => {
-        return response.json().results;
+        return response.results;
       }));
   }
 
@@ -67,16 +62,13 @@ export class UserService {
      }
     let c = 'custom:(uuid,display,person)';
     console.log('getUserByUuid', uuid);
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('v', c);
+    let params: HttpParams = new HttpParams()
+    .set('v', c);
 
     let userUrl: string = this.baseOpenMrsUrl + 'user/' + uuid ;
 
-    return this._http.get(userUrl, {
-      search: params
-    }).pipe(
-      map((response) => {
-        return response.json();
-      }));
+    return this._http.get<any>(userUrl, {
+      params: params
+    });
   }
 }

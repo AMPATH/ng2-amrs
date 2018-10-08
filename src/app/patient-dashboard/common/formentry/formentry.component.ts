@@ -1,13 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 import { forkJoin ,  Observable, Subject, Subscription ,  BehaviorSubject, of } from 'rxjs';
 import { flatMap, first } from 'rxjs/operators';
-
 import * as moment from 'moment';
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 import { format } from 'date-fns';
-
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
@@ -24,7 +21,6 @@ import { FileUploadResourceService } from '../../../etl-api/file-upload-resource
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { FormentryHelperService } from './formentry-helper.service';
-
 import { UserService } from '../../../openmrs-api/user.service';
 import {
   UserDefaultPropertiesService
@@ -40,7 +36,6 @@ import { ProgramsTransferCareService } from '../../programs/transfer-care/transf
 
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { PatientReferralService } from '../../../referral-module/services/patient-referral-service';
-import { EncounterType } from '../../../models/encounter-type.model';
 import { RetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';

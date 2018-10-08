@@ -3,7 +3,6 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Response } from '@angular/http';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
 import { Subscription ,  Observable } from 'rxjs';
@@ -79,8 +78,8 @@ export class LoginComponent implements OnInit {
 
     this.busy = this.authenticationService.authenticate(username, password)
       .take(1).subscribe(
-        (response: Response) => {
-          let data = response.json();
+        (response: any) => {
+          let data = response;
 
           if (data.authenticated) {
 

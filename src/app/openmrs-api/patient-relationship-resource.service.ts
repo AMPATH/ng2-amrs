@@ -2,13 +2,13 @@
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class PatientRelationshipResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -25,15 +25,14 @@ export class PatientRelationshipResourceService {
       return null;
     }
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('v', v)
+    .set('person', uuid);
 
-    params.set('v', v);
-    params.set('person', uuid);
-
-    return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json().results;
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(map((response) => {
+      return response.results;
     }));
   }
 
@@ -42,12 +41,8 @@ export class PatientRelationshipResourceService {
       return null;
     }
     let url = this.getUrl();
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, payload, options).pipe(
-      map((response: Response) => {
-        return response.json();
-      }));
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, payload, {headers});
   }
 
   public updateRelationship(uuid, payload) {
@@ -55,12 +50,8 @@ export class PatientRelationshipResourceService {
       return null;
     }
     let url = this.getUrl() + '/' + uuid;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, payload, options).pipe(
-      map((response: Response) => {
-        return response.json();
-      }));
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, payload, {headers});
   }
 
   public deleteRelationship(uuid) {

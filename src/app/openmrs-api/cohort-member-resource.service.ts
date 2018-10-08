@@ -2,16 +2,15 @@
 import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class CohortMemberResourceService {
 
     public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
 
-    constructor(private _http: Http , private _appSettingsService: AppSettingsService) {
+    constructor(private _http: HttpClient , private _appSettingsService: AppSettingsService) {
     }
 
     public getOpenMrsBaseUrl(): string {
@@ -27,11 +26,11 @@ export class CohortMemberResourceService {
             return null;
           }
 
-         let allCohortMembersUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
+         const allCohortMembersUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
 
-         return this._http.get(allCohortMembersUrl).pipe(
+         return this._http.get<any>(allCohortMembersUrl).pipe(
            map((response) => {
-               return response.json().results;
+               return response.results;
            }));
     }
 
@@ -43,15 +42,9 @@ export class CohortMemberResourceService {
             return null;
           }
 
-         let cohortUrl = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member/' + uuid;
-
-         let headers = new Headers({ 'Content-Type': 'application/json' });
-         let options = new RequestOptions({ headers: headers });
-         return this._http.get(cohortUrl , options).pipe(
-            map((response: Response) => {
-                return response.json();
-            }));
-
+         const cohortUrl = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member/' + uuid;
+         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+         return this._http.get(cohortUrl, {headers});
     }
 
     // Add Cohort member
@@ -61,14 +54,10 @@ export class CohortMemberResourceService {
             return null;
           }
 
-         let addCohortUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
-         let headers = new Headers({ 'Content-Type': 'application/json' });
-         let options = new RequestOptions({ headers: headers });
-         return this._http.post(addCohortUrl , JSON.stringify(payload), options).pipe(
-            map((response: Response) => {
-                return response.json();
-            }));
+         const addCohortUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
+         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+         return this._http.post(addCohortUrl , JSON.stringify(payload), {headers});
     }
 
     // Retire/Void Cohort
@@ -79,17 +68,12 @@ export class CohortMemberResourceService {
             return null;
           }
 
-         let retireRestUrl = 'cohort/' + parentUuid + '/member/' + uuid + '?!purge';
+         const retireRestUrl = 'cohort/' + parentUuid + '/member/' + uuid + '?!purge';
 
-         let retireCohortUrl: string = this.baseOpenMrsUrl + retireRestUrl;
+         const retireCohortUrl: string = this.baseOpenMrsUrl + retireRestUrl;
+         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-         let headers = new Headers({ 'Content-Type': 'application/json' });
-         let options = new RequestOptions({ headers: headers });
-
-         return this._http.delete(retireCohortUrl , options).pipe(
-                map((response) => {
-                    return response.json();
-                }));
+         return this._http.delete(retireCohortUrl, {headers});
 
     }
 

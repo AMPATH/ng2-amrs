@@ -2,14 +2,14 @@
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 
 export class PersonResourceService {
   public v: string = 'full';
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
   public getUrl(): string {
 
@@ -21,14 +21,11 @@ export class PersonResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
-    }).pipe(map((response: Response) => {
-      return response.json();
-    }));
+      params: params
+    });
   }
 
   public saveUpdatePerson(uuid, payload) {
@@ -36,11 +33,10 @@ export class PersonResourceService {
       return null;
     }
     let url = this.getUrl() + '/' + uuid;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options).pipe(
-      map((response: Response) => {
-        return response.json().person;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+      map((response: any) => {
+        return response.person;
       }));
   }
 }

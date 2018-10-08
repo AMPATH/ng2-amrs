@@ -1,13 +1,12 @@
 
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class DepartmentProgramsConfigService {
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
@@ -19,10 +18,7 @@ export class DepartmentProgramsConfigService {
   public getDartmentProgramsConfig(): Observable<any> {
 
     let url = this.getBaseUrl() + 'departments-programs-config';
-    let request = this.http.get(url).pipe(
-      map((response: Response) => {
-        return response.json();
-      }));
+    let request = this.http.get(url);
 
     return this.cacheService.cacheRequest(url, '' , request);
 
