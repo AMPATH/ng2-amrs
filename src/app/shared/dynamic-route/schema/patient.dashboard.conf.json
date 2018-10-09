@@ -40,9 +40,9 @@
           "icon": "icon-i-pathology"
         },
         {
-          "url": "programs",
-          "label": "Manage Enrollments",
-          "icon": "icon-i-family-practice"
+          "url": "program-manager",
+          "label": "Program Manager",
+          "icon": "icon-i-administration"
         },
         {
           "url": "patient-imaging",

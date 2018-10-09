@@ -20,125 +20,105 @@ export class PatientProgramService {
   }
 
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
-    this.loadProgramBatch(uuid);
-    return Observable.create((observer: BehaviorSubject<any[]>) => {
-      this.enrolledPrograms.take(1).subscribe(
-        (data) => {
-          if (data) {
-            observer.next(data);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
-    });
-  }
-
-  private loadProgramsPatientIsEnrolledIn(patientUuid: string) {
-    return Observable.create((observer: Subject<Array<ProgramEnrollment>>) => {
-      if (patientUuid) {
-        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).take(1).subscribe(
-          (data) => {
-            if (data) {
-              observer.next(data);
-            }
-          },
-          (error) => {
-            observer.error(error);
-          }
-        );
-      } else {
-        observer.error('patientUuid is required');
+    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    this.loadProgramBatch(uuid).subscribe((data) => {
+      if (data) {
+        subject.next(data);
       }
+    }, (error) => {
+      subject.error(error);
     });
+    return subject.asObservable();
   }
 
-  private getAvailablePrograms() {
-    return Observable.create((observer: Subject<Array<Program>>) => {
-      this.programService.getAvailablePrograms().take(1).subscribe(
-        (programs) => {
-          if (programs) {
-            observer.next(programs);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
+  public loadProgramsPatientIsEnrolledIn(patientUuid: string): Observable<any> {
+    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe((data) => {
+      if (data) {
+        subject.next(data);
+      }
+    }, (error) => {
+      subject.error(error);
     });
+
+    return subject.asObservable();
   }
 
-  private loadProgramBatch(patientUuid: string): void {
+  private getAvailablePrograms(): Observable<any> {
+    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    this.programService.getAvailablePrograms().subscribe((programs) => {
+      if (programs) {
+        subject.next(programs);
+      }
+    }, (error) => {
+      subject.error(error);
+    });
+
+    return subject.asObservable();
+  }
+
+  private loadProgramBatch(patientUuid: string): Observable<any> {
+    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     let dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
-    let programBatch: Array<Observable<any>> = [];
-    programBatch.push(this.loadProgramsPatientIsEnrolledIn(patientUuid));
-    programBatch.push(this.getAvailablePrograms());
+          this.subscription = combineLatest(this.loadProgramsPatientIsEnrolledIn(patientUuid),
+      this.getAvailablePrograms()
+    ).subscribe((data) => {
+      if (data) {
+        // data[0] = enrolledPrograms
+        // data[1] = availablePrograms
+        let enrolledPrograms = data[0];
+        let _programs = [];
+        _.each(data[1], (program: any) => {
+          let _enrolledProgram: any;
+          let _enrolledPrograms: any = _.filter(enrolledPrograms,
+            (enrolledProgram: any) => {
+              return enrolledProgram.programUuid === program.uuid && !enrolledProgram.voided;
+            });
 
-
-    this.subscription = combineLatest(this.loadProgramsPatientIsEnrolledIn(patientUuid),
-      this.getAvailablePrograms(),
-      (enrolledPrograms, availablePrograms) => {
-        return { enrolledPrograms, availablePrograms };
-      }
-    ).take(1).subscribe((data) => {
-      let enrolledPrograms = data.enrolledPrograms;
-      let _programs = [];
-      // data[1] = availablePrograms
-      _.each(data.availablePrograms, (program: any) => {
-        let _enrolledPrograms: Array<any> = _.filter(enrolledPrograms,
-          (enrolledProgram: any) => {
-            return enrolledProgram.programUuid === program.uuid &&
-              _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
+          let route: any = _.find(dashboardRoutesConfig.programs, (_route: any) => {
+            return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
           });
-        let _enrolledProgram: any;
-        if (_enrolledPrograms.length > 0) {
-          _enrolledProgram = _.last(_enrolledPrograms);
-        }
-
-        let route: any = _.find(dashboardRoutesConfig.programs, (_route: any) => {
-          return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
-        });
-
-        _programs.push({
-          program: program,
-          concept: program.concept,
-          enrolledProgram: _enrolledProgram,
-          programUuid: program.uuid,
-          isFocused: false,
-          isEdit: false,
-          dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
-            this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
-          dateEnrolledView: (!_.isNil(_enrolledProgram)
-            && _.isNil(_enrolledProgram.dateCompleted)) ?
-            this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
-          dateCompleted: null,
-          validationError: '',
-          baseRoute: route ? route.alias : '',
-          buttons: {
-            landing: {
-              display: 'Go to Program',
-              url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
-                route.baseRoute + '/landing-page' : null
+          if (_enrolledPrograms.length > 0) {
+            _enrolledProgram = _.last(_enrolledPrograms);
+          }
+          _programs.push({
+            program: program,
+            concept: program.concept,
+            enrolledProgram: _enrolledProgram || null,
+            programUuid: program.uuid,
+            isFocused: false,
+            isEdit: false,
+            dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
+              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
+            dateEnrolledView: (!_.isNil(_enrolledProgram)
+              && _.isNil(_enrolledProgram.dateCompleted)) ?
+              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
+            dateCompleted: (!_.isNil(_enrolledProgram) && !_.isNil(_enrolledProgram.dateCompleted))
+              ? this._datePipe.transform(_enrolledProgram.dateCompleted, 'yyyy-MM-dd') : null,
+            validationError: '',
+            baseRoute: route ? route.alias : '',
+            buttons: {
+              landing: {
+                display: 'Go to Program',
+                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                  route.baseRoute + '/landing-page' : null
+              },
+              visit: {
+                display: 'Program Visit',
+                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                  route.baseRoute + '/visit' : null
+              }
             },
-            visit: {
-              display: 'Program Visit',
-              url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
-                route.baseRoute + '/visit' : null
-            }
-          },
-          isEnrolled: !_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)
+            isEnrolled: !_.isNil(_enrolledProgram) && _.isNull(_enrolledProgram.dateCompleted)
+          });
         });
-      });
-      this.enrolledPrograms.next(_programs);
-    },
-      (err) => {
-        this.enrolledPrograms.error(err);
-      },
-      () => {
-        this.subscription.unsubscribe();
+        subject.next(_programs);
       }
-    );
+    }, (err) => {
+      subject.error(err);
+      });
+
+    return subject.asObservable();
   }
 
 }

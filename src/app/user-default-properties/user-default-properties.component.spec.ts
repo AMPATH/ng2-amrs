@@ -22,8 +22,8 @@ import { FakeRetrospectiveDataEntryService
 import { RetrospectiveDataEntryService
 } from '../retrospective-data-entry/services/retrospective-data-entry.service';
 import { ProviderResourceService } from '../openmrs-api/provider-resource.service';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
 class MockActivatedRoute {
   params;

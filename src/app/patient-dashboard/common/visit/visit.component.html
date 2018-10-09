@@ -1,4 +1,4 @@
-<div style="margin-top: 4px; margin-bottom: 4px;" *ngIf="!programIsOnReferral">
+<div style="margin-top: 4px; margin-bottom: 4px;">
   <strong *ngIf="currentEnrollment" style="color: gray;">
     <span>
       Patient enrolled in {{toTitleCase(currentEnrollment?.openmrsModel?.display)}}
@@ -9,8 +9,6 @@
     <span *ngIf="!currentEnrollment?.openmrsModel?.location" style="text-transform:none;"> Please associate this program with a clinic.</span>
   </strong>
 </div>
-<patient-referral-visit *ngIf="programIsOnReferral" [patient]="patient"
-                        [program]="currentEnrollment"></patient-referral-visit>
 <div>
   <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

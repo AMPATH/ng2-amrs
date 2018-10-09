@@ -74,52 +74,30 @@
     </div>
   </div>
   <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
-    <strong class="text-success">
+    <p class="text-success" style="margin-bottom: 10px;">
 					<span class="fa-stack fa-lg">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-info fa-stack-1x"></i>
 					</span>
 					Form submitted successfully.
-					</strong>
+					</p>
     <order-list [submittedOrdersModel]="submittedOrders">
     </order-list>
-
-    <br />
     <div *ngIf="diffCareReferralStatus">
       <strong>Differentiated Care Referral</strong>
       <hr style="margin-top:1px; margin-bottom:1px;" />
       <diff-care-referral-status [status]="diffCareReferralStatus"></diff-care-referral-status>
     </div>
-
-    <br>
-    <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button *ngIf="transferCareForm" (click)="navigateTo('transferCareformWizard')" type="button" pButton icon="fa-file" label="Back to Transfer Care"></button>
-        <button *ngIf="programEncounter" (click)="navigateTo('enrollmentManager')" type="button" pButton icon="fa-file" label="Back to Enrollment Manager"></button>
-        <button *ngIf="!(transferCareForm || programEncounter)" (click)="navigateTo('patientDashboard')" type="button" pButton icon="fa-user" label="Patient Dashboard"></button>
-        <button *ngIf="!(transferCareForm || programEncounter)" (click)="navigateTo('patientSearch')" type="button" pButton icon="fa-search" label="Patient Search"></button>
+    <div *ngIf="referralStatus">
+      <program-referral-status [status]="referralStatus"></program-referral-status>
+    </div>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding: 0;margin-right: -0.4em;">
+        <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file" label="Back to Program Manager"></button>
+        <button *ngIf="referralStatus" (click)="navigateTo('programManagerReferral')" class="btn btn-primary" type="button">Complete Referral</button>
+        <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button" class="btn btn-danger">Cancel</button>
+        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button" class="btn btn-primary fa fa-user">Patient Dashboard</button>
+        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button" class="btn btn-primary fa fa-search">Patient Search</button>
       </div>
-    </footer>
-
   </p-dialog>
   <p-confirmDialog [closable]="false" key="duplicateWarning"></p-confirmDialog>
-  <p-dialog header="Patient Referral" [(visible)]="showReferralDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
-    <patient-referral-container *ngIf="referralPrograms.length > 0"
-      (onSuccess)="onReferralSuccess()"
-      (onAborting)="onAbortingReferral($event)"
-      [form]="form"
-      [submittedEncounter]="submittedEncounter"
-      [patient]="patient"
-      [location]="encounterLocation"
-      [programs]="referralPrograms"></patient-referral-container>
-    <h5 *ngIf="referralPrograms.length === 0">
-      <strong class="text-info">
-					<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
-							<i class="fa fa-info fa-stack-1x"></i>
-					</span>
-        The patient must be enrolled in the program in the current location to be able to refer
-      </strong>
-    </h5>
-  </p-dialog>
 </div>

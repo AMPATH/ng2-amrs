@@ -8,10 +8,10 @@ import {
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { analyticsPatientReferralProgramRouting } from './referral-program.routes';
-import { ReferralModule } from '../../referral-module/referral-module';
 import { PatientProgramService } from '../../patient-dashboard/programs/patient-programs.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
+import { ProgramManagerModule } from '../../program-manager/program-manager.module';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
     DataListsModule,
     CommonModule,
     FormsModule,
-    ReferralModule,
+    ProgramManagerModule,
     NgamrsSharedModule
   ],
   exports: [],
