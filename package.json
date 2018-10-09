@@ -10,7 +10,7 @@
     "test-debug": "ng test --browsers ChromeDebug",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot",
+    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot --optimization=false",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
     "prestart": "node version.js"
