@@ -79,6 +79,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public address2: string;
   public address3: string;
   public cityVillage: string;
+  public longitude: string;
+  public latitude: string;
   public stateProvince: string;
   public others = false;
 
@@ -506,6 +508,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             address2: this.address2,
             address3: this.address3,
             cityVillage: this.cityVillage,
+            latitude: this.latitude,
+            longitude: this.longitude,
             stateProvince: this.stateProvince
           }]
         },
