@@ -1958,6 +1958,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "7c21df85-c928-4dc9-93d9-5dd1e8101d32",
+            "display": "LUNGCANCERSCREENING"
           }
         ]
       }
