@@ -68,7 +68,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
     }
     if (path.queryParams['gender']) {
       this.gender = (path.queryParams['gender'] as any);
-     // this.formatGenderToSelectArray(path.queryParams['gender']);
+      this.formatGenderToSelectArray(path.queryParams['gender']);
     }
     if (path.queryParams['startAge']) {
       this.startAge = (path.queryParams['startAge'] as any);

@@ -116,9 +116,9 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     if (selectedGender) {
       for (let i = 0; i < selectedGender.length; i++) {
         if (i === 0) {
-          gender = '' + selectedGender[i];
+          gender = '' + selectedGender[i].value;
         } else {
-          gender = gender + ',' + selectedGender[i];
+          gender = gender + ',' + selectedGender[i].value;
         }
       }
     }
