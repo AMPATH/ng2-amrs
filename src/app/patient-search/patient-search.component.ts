@@ -115,6 +115,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   }
 
   public onResultsFound(results) {
+    console.log('onResultsFound', results);
     if (results.length > 0) {
       this.patients = results;
       this.totalPatients = this.patients.length;
