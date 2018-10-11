@@ -18,6 +18,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public pdfView: any;
   public data = [];
   public sectionsDef = [];
+  public statusError = false;
 
   public showLocationsControl: boolean = false;
   public showIsAggregateControl: boolean = false;
@@ -102,6 +103,7 @@ export class Moh731ReportBaseComponent implements OnInit {
     // set busy indications variables
     // clear error
     this.encounteredError = false;
+    this.statusError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
     this.data = [];
@@ -112,9 +114,17 @@ export class Moh731ReportBaseComponent implements OnInit {
         this.toDateString(this.startDate), this.toDateString(this.endDate),
         this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).take(1).subscribe(
           (data) => {
+            if (data.error) {
+                // if there is an error
+                this.processErrorMsg(data);
+                this.encounteredError = true;
+            } else {
+
+                this.sectionsDef = data.sectionDefinitions;
+                this.data = data.result;
+
+            }
             this.isLoadingReport = false;
-            this.sectionsDef = data.sectionDefinitions;
-            this.data = data.result;
           }, (error) => {
             this.isLoadingReport = false;
             this.errorMessage = error;
@@ -207,5 +217,16 @@ export class Moh731ReportBaseComponent implements OnInit {
 
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
+  }
+  private processErrorMsg(errorObj: any) {
+
+    if (errorObj.error === 404) {
+      this.errorMessage =
+      'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
+      this.statusError = true;
+    } else {
+      this.errorMessage = 'There was a problem generating MOH 731 Report';
+    }
+
   }
 }
