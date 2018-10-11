@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin ,  Observable ,  Subject ,  BehaviorSubject ,  Subscription } from 'rxjs';
 
 import { PatientService } from '../../services/patient.service';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
@@ -8,12 +9,8 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ProgramsTransferCareService } from './transfer-care.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { Observable } from 'rxjs/Observable';
 import { FormListService } from '../../common/forms/form-list.service';
-import { Subject } from 'rxjs/Subject';
 import { Patient } from '../../../models/patient.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'transfer-care-form-wizard',
@@ -99,7 +96,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
 
   private _init() {
     this.route.queryParams.subscribe((params) => {
-      this.transferCareService.getPayload().subscribe((payload) => {
+      this.transferCareService.getPayload().take(1).subscribe((payload) => {
           this.transferCareService.setTransferStatus(false);
           if (!payload) {
             if (this.isModal) {
@@ -143,13 +140,13 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
     this.isBusy = true;
     this.hasError = false;
     this.transferCareService.fetchAllProgramTransferConfigs(this.patient.uuid)
-      .subscribe((configs) => {
+      .take(1).subscribe((configs) => {
       if (configs) {
-        this._loadProgramBatch(payload.programs, configs).subscribe((programs) => {
-            this.formListService.getFormList().subscribe((forms: any[]) => {
+        this._loadProgramBatch(payload.programs, configs).take(1).subscribe((programs) => {
+            this.formListService.getFormList().take(1).subscribe((forms: any[]) => {
                 if (forms.length > 0) {
                   this.subscription = this._getPatientEncounters()
-                    .subscribe((encounters) => {
+                    .take(1).subscribe((encounters) => {
                     // pick today's encounters to remove already filled forms
                     this._pickEncountersByLastTransferDate(encounters.reverse(), payload);
                     let allEncounterForms = [];
@@ -206,12 +203,12 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
 
   private _transferPatient(programs: any[]) {
     this.transferCareService.transferPatient(this.patient, programs)
-      .subscribe(() => {
+      .take(1).subscribe(() => {
       this.allFormsFilled = false;
       this.transferCareService.setTransferStatus(true);
       this.hasError = false;
       if (this.isModal) {
-        this.transferCareService.getPayload().subscribe((payload) => {
+        this.transferCareService.getPayload().take(1).subscribe((payload) => {
           if (payload) {
             let head: string;
             switch (payload.transferType) {
@@ -247,7 +244,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
         setTimeout(() => {
           this._completeProcess();
           this.router.navigate(['..'], {relativeTo: this.route});
-          this.patientService.reloadCurrentPatient();
+                    this.patientService.reloadCurrentPatient();
         }, 50);
       }
     }, (err) => {
@@ -261,7 +258,7 @@ export class ProgramsTransferCareFormWizardComponent implements OnInit, OnDestro
     _.each(programs, (program: any) => {
       programBatch.push(this.transferCareService.attachEncounterForms(program, configs));
     });
-    return Observable.forkJoin(programBatch);
+    return forkJoin(programBatch);
   }
 
   private _completeProcess() {

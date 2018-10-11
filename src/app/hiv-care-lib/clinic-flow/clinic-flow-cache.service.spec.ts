@@ -14,6 +14,10 @@ describe('ClinicFlowCacheService Unit Tests', () => {
         });
     });
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be defined',
         inject([ClinicFlowCacheService], (s: ClinicFlowCacheService) => {
             expect(s).toBeTruthy();

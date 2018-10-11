@@ -1,14 +1,15 @@
+
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 // TODO inject service
 
 @Injectable()
 export class ProgramWorkFlowResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -26,13 +27,10 @@ export class ProgramWorkFlowResourceService {
     let v: string = 'custom:(uuid,display,allWorkflows:(uuid,retired,concept:(uuid,display)' +
       ',states:(uuid,initial,terminal,concept:(uuid,display))))';
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', v);
+    let params: HttpParams = new HttpParams()
+    .set('v', v);
     return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-      return response.json();
+      params: params
     });
   }
 

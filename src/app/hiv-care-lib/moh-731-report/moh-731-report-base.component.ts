@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute , Params } from '@angular/router';
-// import { Observable, Subject } from 'rxjs/Rx';
+// import { Observable, Subject } from 'rxjs';
 
 import * as Moment from 'moment';
 import * as _ from 'lodash';
@@ -110,7 +110,7 @@ export class Moh731ReportBaseComponent implements OnInit {
     this.moh731Resource
       .getMoh731Report(this.getSelectedLocations(this.locationUuids),
         this.toDateString(this.startDate), this.toDateString(this.endDate),
-        this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).subscribe(
+        this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).take(1).subscribe(
           (data) => {
             this.isLoadingReport = false;
             this.sectionsDef = data.sectionDefinitions;

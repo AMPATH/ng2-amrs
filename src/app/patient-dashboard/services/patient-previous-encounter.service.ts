@@ -14,7 +14,7 @@ export class PatientPreviousEncounterService {
 
     return new Promise((resolve, reject) => {
 
-      this.patientService.currentlyLoadedPatient.subscribe(
+      this.patientService.currentlyLoadedPatient.take(1).subscribe(
         (patient) => {
           if (patient) {
             let search = _.find(patient.encounters, (e) => {
@@ -22,7 +22,7 @@ export class PatientPreviousEncounterService {
             });
 
             if (search) {
-              this.encounterResource.getEncounterByUuid(search.uuid).subscribe((_encounter) => {
+              this.encounterResource.getEncounterByUuid(search.uuid).take(1).subscribe((_encounter) => {
                 resolve(_encounter);
               }, (err) => {
                 reject(err);
@@ -31,6 +31,8 @@ export class PatientPreviousEncounterService {
               resolve({});
             }
           }
+        }, (error) => {
+          console.error('Previous encounter error', error);
         });
 
     });

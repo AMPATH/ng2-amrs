@@ -3,7 +3,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 import {
     BaseRequestOptions, Http, HttpModule, Response,
     ResponseOptions, RequestMethod, ResponseType
@@ -17,7 +17,7 @@ import { FormListComponent } from './form-list.component';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { forms } from './forms';
 
 @Pipe({ name: 'translate' })
@@ -70,8 +70,12 @@ describe('FormList Component', () => {
             });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should defined', inject([FormListService], (service: FormListService) => {
-        expect(comp).toBeTruthy();
+        expect(comp).toBeDefined();
     }));
     it('should render form list properly given the forms are available',
         inject([FormListService, FormOrderMetaDataService,
@@ -115,19 +119,19 @@ describe('FormList Component', () => {
 
                 const favouriteFormsSpy = spyOn(formOrderMetaDataService,
                     'getFavouriteForm').and.returnValue(
-                    Observable.of(favourite)
+                    of(favourite)
                     );
                 const defaultOrderSpy = spyOn(formOrderMetaDataService,
                     'getDefaultFormOrder').and.returnValue(
-                    Observable.of(defualtOrdering)
+                    of(defualtOrdering)
                     );
                 const formListSpy = spyOn(formsResourceService,
                     'getForms').and.returnValue(
-                    Observable.of(forms)
+                    of(forms)
                     );
                 const formServiceSpy = spyOn(service,
                     'getFormList').and.returnValue(
-                    Observable.of(forms)
+                    of(forms)
                     );
                 let toggleFavouriteSpy = spyOn(comp, 'toggleFavourite');
                 let formSelectedSypy = spyOn(comp, 'formSelected');

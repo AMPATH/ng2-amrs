@@ -92,7 +92,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       (success) => {
         if (success) {
           this.displaySuccessAlert('Contact saved successfully');
-          this.patientService.fetchPatientByUuid(this.patient.person.uuid);
+          this.patientService.reloadCurrentPatient();
         }
 
       },

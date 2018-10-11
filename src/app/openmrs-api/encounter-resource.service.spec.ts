@@ -6,7 +6,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { EncounterResourceService } from './encounter-resource.service';
 describe('EncounterResourceService', () => {
     beforeEach(() => {
@@ -27,6 +27,10 @@ describe('EncounterResourceService', () => {
                 HttpModule
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined', async(inject(

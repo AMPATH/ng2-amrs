@@ -1,11 +1,11 @@
 <div class="wrapper dashboard-wrapper">
-  <md-progress-bar  *ngIf="loading"
+  <mat-progress-bar  *ngIf="loading"
                     class="example-margin"
                     [color]="'primary'"
                     [mode]="'determinate'"
                     [value]="progressBarTick"
                     [bufferValue]="90">
-  </md-progress-bar>
+  </mat-progress-bar>
     <div class="row">
         <div class="col-sm-12">
             <dashboard-filters [options]="options" [(filterModel)]="filterModel" [startDate]="startDate" [endDate]="endDate" (filterModelChange)="filtersChanged($event)">

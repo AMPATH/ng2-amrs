@@ -48,7 +48,7 @@ export class LabSyncComponent implements OnInit, OnDestroy {
             startDate: startDate,
             endDate: endDate,
             patientUuId: this.patient.person.uuid
-        }).subscribe((result) => {
+        }).take(1).subscribe((result) => {
             this.fetchingResults = false;
 
             if (result.errors && result.errors.length > 0) {

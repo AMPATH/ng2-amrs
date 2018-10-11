@@ -62,7 +62,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
     }
   }
   public getCohortListToShare() {
-    this.subscription = this.cohortListService.getData().subscribe(
+    this.cohortListService.getData().take(1).subscribe(
       (data) => {
         if (data) {
           this.selectedCohortDescription = data.desc;
@@ -78,7 +78,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
     this.fetchingResults = true;
     let sub = this.cohortUserResourceService.getCohortUser(this.selectedCohortUuid);
     if (sub) {
-      sub.subscribe(
+      sub.take(1).subscribe(
 
         (cohorts) => {
           if (cohorts) {
@@ -121,7 +121,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
       user: this.selectedUser.value,
       cohort: this.selectedCohortUuid
     };
-    this.cohortUserResourceService.createCohortUser(cohortUserPayload).subscribe(
+    this.cohortUserResourceService.createCohortUser(cohortUserPayload).take(1).subscribe(
       (success) => {
         if (success) {
           this.displaySuccessAlert('Cohort sharing has been done successfully');
@@ -157,7 +157,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   public deleteCohortUser() {
     this.displayConfirmDialog = false;
     if (this.selectedCohortUserId) {
-      this.cohortUserResourceService.voidCohortUser(this.selectedCohortUserId).subscribe(
+      this.cohortUserResourceService.voidCohortUser(this.selectedCohortUserId).take(1).subscribe(
         (success) => {
           if (success) {
             this.displayConfirmDialog = false;
@@ -189,7 +189,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
       role : role
     };
 
-    this.cohortUserResourceService.updateCohortUser(userId, cohortUserPayload).subscribe(
+    this.cohortUserResourceService.updateCohortUser(userId, cohortUserPayload).take(1).subscribe(
       (success) => {
         if (success) {
           this.displaySuccessAlert('Cohort user role  updated successfully');

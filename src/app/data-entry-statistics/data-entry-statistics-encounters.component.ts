@@ -2,8 +2,7 @@ import { Component,
     OnInit , OnDestroy , AfterViewInit, OnChanges ,
     Output , EventEmitter, Input , ChangeDetectorRef,
     ViewChild , SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 

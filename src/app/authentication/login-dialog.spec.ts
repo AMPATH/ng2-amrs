@@ -20,6 +20,10 @@ describe('App', () => {
     ]
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have required variables',
     inject([LoginDialogComponent], (loginDialogComponent: LoginDialogComponent) => {
       expect(loginDialogComponent.cssClass).toBeTruthy();

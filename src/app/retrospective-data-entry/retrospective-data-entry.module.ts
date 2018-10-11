@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MdCheckboxModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material';
 
 import { SharedModule, DialogModule } from 'primeng/primeng';
 
@@ -15,7 +15,6 @@ import { UserDefaultPropertiesService
 import { BusyComponent } from '../shared/busy-loader/busy.component';
 import { LocationFilterComponent
 } from '../shared/locations/location-filter/location-filter.component';
-import { PatientService } from '../patient-dashboard/services/patient.service';
 import { PatientProgramService } from './../patient-dashboard/programs/patient-programs.service';
 import { ProgramService } from './../patient-dashboard/programs/program.service';
 import { ProgramWorkFlowResourceService } from './../openmrs-api/program-workflow-resource.service';
@@ -26,16 +25,16 @@ import { ProgramWorkFlowStateResourceService } from
     FormsModule,
     CommonModule,
     NgSelectModule,
-    MdCheckboxModule,
+    MatCheckboxModule,
     SharedModule,
     DialogModule,
   ],
-  exports: [MdCheckboxModule, NgSelectModule, RetrospectiveSettingsComponent, BusyComponent,
+  exports: [MatCheckboxModule, NgSelectModule, RetrospectiveSettingsComponent, BusyComponent,
     LocationFilterComponent, RetrospectiveContainerComponent,
     RetrospectiveBannerComponent, EditRetroVisitProviderComponent],
   declarations: [BusyComponent, RetrospectiveSettingsComponent, RetrospectiveBannerComponent,
     EditRetroVisitProviderComponent, LocationFilterComponent, RetrospectiveContainerComponent],
-  providers: [ DataCacheService, RetrospectiveDataEntryService, PatientService,
+  providers: [ DataCacheService, RetrospectiveDataEntryService,
     UserDefaultPropertiesService, PatientProgramService , ProgramService ,
     ProgramWorkFlowResourceService, ProgramWorkFlowStateResourceService],
 })

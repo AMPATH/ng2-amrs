@@ -68,7 +68,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
     }
     if (path.queryParams['gender']) {
       this.gender = (path.queryParams['gender'] as any);
-     // this.formatGenderToSelectArray(path.queryParams['gender']);
+      this.formatGenderToSelectArray(this.gender);
     }
     if (path.queryParams['startAge']) {
       this.startAge = (path.queryParams['startAge'] as any);
@@ -90,7 +90,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString(),
       'indicators': this.indicators,
-      'gender': (this.gender ? this.gender : 'F,M' as any),
+      'gender': this.gender === undefined ? '' : this.gender,
       'startAge': (this.startAge as any),
       'endAge': (this.endAge as any),
       'view': this.currentView
@@ -109,7 +109,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
         value: id, // indicator
         label: text
       };
-      this.selectedIndicators.push(data.value);
+      this.selectedIndicators.push(data);
     });
   }
 
@@ -120,23 +120,16 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   }
 
   public formatGenderToSelectArray(genderParam: string) {
-    if (genderParam.length > 1) {
-      let arr = genderParam.split(',');
-      _.each(arr, (gender) => {
-        let id = gender;
-        let text = gender === 'M' ? 'Male' : 'Female';
-        let data = {
-          value: id,
-          label: text
-        };
-        this.selectedGender.push(data);
-      });
-    } else {
+    let arr = genderParam.split(',');
+    _.each(arr, (indicator) => {
+      let text = indicator;
+      let id = indicator;
+
       let data = {
-        value: genderParam,
-        label: genderParam === 'M' ? 'Male' : 'Female'
+        value: id, // indicator
+        label: text
       };
       this.selectedGender.push(data);
-    }
+    });
   }
 }

@@ -1,15 +1,15 @@
 import { PatientResourceService } from './patient-resource.service';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-import { Http } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Patient } from '../models/patient.model';
+import { HttpClient } from '@angular/common/http';
 /**
  * FakePatientResourceService
  */
 export class FakePatientResourceService extends PatientResourceService {
   public returnErrorOnNext: boolean = false;
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
     super(http, appSettingsService);
   }
 

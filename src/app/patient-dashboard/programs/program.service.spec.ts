@@ -1,6 +1,6 @@
-import { TestBed, fakeAsync, inject } from '@angular/core/testing';
+import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { ProgramService } from './program.service';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
 }
@@ -17,7 +17,7 @@ import {
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramWorkFlowResourceService
@@ -79,6 +79,7 @@ describe('Service: ProgramService', () => {
           });
         // setting enrolledPrograms for the second time
         service.getPatientEnrolledProgramsByUuid(uuid);
+        tick(50);
         expect(programEnrollmentResourceService.
           getProgramEnrollmentByPatientUuid).toHaveBeenCalled();
 
@@ -98,6 +99,7 @@ describe('Service: ProgramService', () => {
             return subject;
           });
         service.getAvailablePrograms();
+        tick(50);
         expect(programResourceService.
           getPrograms).toHaveBeenCalled();
 

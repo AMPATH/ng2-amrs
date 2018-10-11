@@ -64,7 +64,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   public programVisitsEncounters: any = [];
   public encounterTypes: any [];
   public trackEncounterTypes: any = [];
-  public subscription: Subscription = new Subscription();
+  private subs: Subscription[] = [];
   private _datePipe: DatePipe;
 
   constructor(public monthlyScheduleResourceService: MonthlyScheduleResourceService,
@@ -93,7 +93,9 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public filterSelected($event) {
@@ -103,9 +105,10 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public getCurrentLocation() {
-    this.clinicDashboardCacheService.getCurrentClinic().subscribe((location) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().subscribe((location) => {
       this.location = location;
     });
+    this.subs.push(sub);
   }
 
   public navigateToMonth() {
@@ -125,15 +128,17 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       startDate: Moment(startOfMonth(this.viewDate)).format('YYYY-MM-DD'),
       programVisitEncounter: this.encodedParams,
       locationUuids: this.location, limit: 10000
-    }).subscribe((results) => {
+    }).take(1).subscribe((results) => {
       this.events = this.processEvents(results);
     }, (error) => {
       this.fetchError = true;
     });
   }
 
-  public addBadgeTotal(day: CalendarMonthViewDay): void {
-    day.badgeTotal = 0;
+  public beforeMonthViewRender(days: CalendarMonthViewDay[]): void {
+    days.forEach(day => {
+      day.badgeTotal = 0;
+    });
   }
 
   public navigateToDaily(event) {

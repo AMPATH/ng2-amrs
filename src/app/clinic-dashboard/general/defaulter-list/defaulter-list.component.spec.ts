@@ -17,9 +17,9 @@ import {
 import { DefaulterListComponent } from './defaulter-list.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule } from 'ng-busy';
 import { NgamrsSharedModule } from '../../../shared/ngamrs-shared.module';
 import {
     AccordionModule, DataTableModule, SharedModule, TabViewModule,
@@ -113,7 +113,7 @@ describe('Component: DefaulterListComponent', () => {
 
             ],
             declarations: [DefaulterListComponent],
-            imports: [BusyModule,
+            imports: [NgBusyModule,
                 FormsModule,
                 DialogModule,
                 CalendarModule,

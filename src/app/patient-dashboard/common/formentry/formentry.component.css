@@ -39,3 +39,7 @@ form-renderer {
     width: 16px;
     margin-right: 8px;
   }
+
+  #formentry-submit-btn {
+    margin-right: 10px;
+  }

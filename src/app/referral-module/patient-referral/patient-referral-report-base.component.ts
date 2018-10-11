@@ -132,7 +132,7 @@ export class PatientReferralBaseComponent implements OnInit {
         endAge: this.endAge,
         providerUuids: filterProvider,
         notificationStatus: 'All'
-      }).subscribe(
+      }).take(1).subscribe(
       (data) => {
         this.isLoadingReport = false;
         this.sectionsDef = _.uniqBy(data.stateNames, 'name');

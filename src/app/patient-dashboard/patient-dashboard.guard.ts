@@ -1,3 +1,5 @@
+
+import {map,  first } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   Router,
@@ -9,8 +11,7 @@ import {
   CanLoad,
   RouterStateSnapshot
 } from '@angular/router';
-
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject, of } from 'rxjs';
 import { ConfirmationService } from 'primeng/primeng';
 
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
@@ -35,19 +36,22 @@ export class PatientDashboardGuard implements CanActivate,
 
   public canActivate(routeSnapshot: ActivatedRouteSnapshot,
                      state: RouterStateSnapshot): Observable<boolean> {
-    return Observable.of(true).map(() => {
+    return of(true).pipe(map(() => {
       const component: any = routeSnapshot.component;
       if (component.name === 'PatientDashboardComponent') {
         const patientUuid = routeSnapshot.params['patient_uuid'];
         if (patientUuid) {
           // set patient object
-          this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid).subscribe(
+          this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid)
+          .take(1).subscribe(
             (patientObject) => {
               if (patientObject) {
                 const routes = this.patientRoutesFactory
                 .createPatientDashboardRoutes(patientObject);
                 this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
               }
+            }, (error) => {
+              console.error('Error fetching patient', error);
             });
 
         } else {
@@ -55,7 +59,7 @@ export class PatientDashboardGuard implements CanActivate,
         }
       }
       return true;
-    });
+    }));
 
   }
 
@@ -65,7 +69,7 @@ export class PatientDashboardGuard implements CanActivate,
       this.draftedFormsService.lastDraftedForm === undefined ||
       !this.draftedFormsService.lastDraftedForm.rootNode.control.dirty) {
       this.dynamicRoutesService.resetRoutes();
-      return Observable.of(true);
+      return of(true);
     }
 
     // confirm with user
@@ -82,6 +86,6 @@ export class PatientDashboardGuard implements CanActivate,
           observer.next(false);
         }
       });
-    }).first();
+    }).pipe(first());
   }
 }

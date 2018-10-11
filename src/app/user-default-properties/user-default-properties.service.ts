@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserDefaultPropertiesService {
@@ -15,7 +14,7 @@ export class UserDefaultPropertiesService {
 
   constructor(private userService: UserService
     ,         private localStorage: LocalStorageService
-    ,         private http: Http
+    ,         private http: HttpClient
     ,         private appSettingsService: AppSettingsService) { }
 
   public getLocations(): Observable<any> {

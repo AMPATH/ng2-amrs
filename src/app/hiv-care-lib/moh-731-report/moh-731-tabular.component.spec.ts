@@ -39,6 +39,10 @@ describe('Moh731TabularComponent: ', () => {
         });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should be injectable', () => {
         fixture.detectChanges();
         expect(fixture.componentInstance).toBeTruthy();

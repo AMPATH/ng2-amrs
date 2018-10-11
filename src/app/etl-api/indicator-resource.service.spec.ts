@@ -1,6 +1,6 @@
-import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { IndicatorResourceService } from './indicator-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -32,6 +32,10 @@ describe('IndicatorResourceService Unit Tests', () => {
     });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should have getIndicators defined',
     inject([IndicatorResourceService],
       (indicatorResourceService: IndicatorResourceService) => {
@@ -46,6 +50,7 @@ describe('IndicatorResourceService Unit Tests', () => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toContain('/indicators-schema?report=reportName');
         });
+        tick(50);
         expect(indicatorResourceService.getReportIndicators({ report: 'reportName' }));
       })));
 

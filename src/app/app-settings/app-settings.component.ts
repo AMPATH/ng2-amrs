@@ -4,7 +4,7 @@ import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-settings',

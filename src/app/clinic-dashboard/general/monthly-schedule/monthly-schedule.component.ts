@@ -24,7 +24,7 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 export class GeneralMonthlyScheduleComponent extends MonthlyScheduleBaseComponent
 implements OnInit, OnDestroy {
 
-  public subscription: Subscription = new Subscription();
+  public routeSub: Subscription = new Subscription();
   public myDepartment = '';
 
   constructor(
@@ -41,13 +41,13 @@ implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.route.parent.parent.params.subscribe((params) => {
+    this.routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
 }

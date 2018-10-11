@@ -195,7 +195,7 @@ export class VisitComponent implements OnInit, OnDestroy {
       let filtered = _.filter(this.currentEnrollment.states, (patientState: any) => {
         return patientState.endDate === null && patientState.state.concept.uuid === refer;
       });
-      return filtered.length > 0 && location === this.currentEnrollment.location.uuid;
+      return filtered.length > 0 && this.currentEnrollment && location === this.currentEnrollment.location.uuid;
     } else {
       return false;
     }

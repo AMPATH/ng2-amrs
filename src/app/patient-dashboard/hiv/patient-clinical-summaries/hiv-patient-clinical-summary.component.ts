@@ -50,11 +50,11 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
-          this.patientClinicalSummaryResource.fetchPatientSummary(patient.uuid).subscribe(
+          this.patientClinicalSummaryResource.fetchPatientSummary(patient.uuid).take(1).subscribe(
             (pdfDependencies) => {
               if (pdfDependencies) {
                 pdfDependencies.patient = patient;
-                this.patientClinicalSummary.generatePdf(pdfDependencies).subscribe(
+                this.patientClinicalSummary.generatePdf(pdfDependencies).take(1).subscribe(
                   (pdf) => {
                     this.pdfSrc = pdf.pdfSrc;
                     this.pdfMakeProxy = pdf.pdfProxy;

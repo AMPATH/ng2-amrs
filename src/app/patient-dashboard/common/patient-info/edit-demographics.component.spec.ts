@@ -4,7 +4,7 @@ import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { EditDemographicsComponent } from './edit-demographics.component';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';

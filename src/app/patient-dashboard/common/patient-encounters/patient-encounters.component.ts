@@ -54,7 +54,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   public loadPatientEncounters(patientUuid) {
     this.isBusyIndicator(true);
     this.encounters = [];
-    let request = this.patientEncounterService
+    this.patientEncounterService
       .getEncountersByPatientUuid(patientUuid)
       .subscribe(
         (data) => {

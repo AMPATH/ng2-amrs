@@ -25,7 +25,7 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
 export class HivMonthlyScheduleComponent extends MonthlyScheduleBaseComponent
 implements OnInit, OnDestroy {
 
-  public subscription: Subscription = new Subscription();
+  public routeSub: Subscription = new Subscription();
   public myDepartment = 'HIV';
 
   constructor(
@@ -50,7 +50,7 @@ implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Message } from 'primeng/primeng';
 import { ClinicDashboardCacheService }
   from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
@@ -8,12 +8,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-daily-schedule',
   templateUrl: './daily-schedule.component.html',
   styleUrls: ['./daily-schedule.component.css']
 })
-export class DailyScheduleBaseComponent implements OnInit {
+export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public errors: any[] = [];
   public selectedDate: any;
@@ -40,6 +41,7 @@ export class DailyScheduleBaseComponent implements OnInit {
     { label: 'Has not returned', link: 'daily-not-returned' },
   ];
   public _datePipe: DatePipe;
+  private subs: Subscription[] = [];
   constructor(public clinicDashboardCacheService: ClinicDashboardCacheService,
               public router: Router,
               public route: ActivatedRoute,
@@ -50,21 +52,30 @@ export class DailyScheduleBaseComponent implements OnInit {
   public ngOnInit() {
     this.setActiveTab();
     this.updateCurrentDate();
-    // this.clinicDashboardCacheService.getIsLoading().subscribe((value) => {
+    // this.clinicDashboardCacheService.getIsLoading().take(1).subscribe((value) => {
     //   this.loadingData = value;
     // });
 
-    // this.clinicFlowCache.getIsLoading().subscribe((value) => {
+    // this.clinicFlowCache.getIsLoading().take(1).subscribe((value) => {
     //   this.loadingData = value;
     // });
-    this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedLocation = location;
         this.clinicFlowCache.setSelectedLocation(location);
       });
+
+    this.subs.push(sub);
+
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
       this.selectedDate = this.clinicFlowCache.lastClinicFlowSelectedDate;
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public setActiveTab() {

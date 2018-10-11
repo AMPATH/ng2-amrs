@@ -88,6 +88,10 @@
    });
  }));
 
+ afterAll(() => {
+  TestBed.resetTestingModule();
+ });
+
  it('should hit the success callback when getPatientCareStatusReport returns success',
    (done)  => {
     const spy = spyOn(dataStub, 'getPatientCareStatusReport').and.returnValue(
@@ -105,6 +109,7 @@
    Observable.throw({ error: '' })
    );
    comp.getPatientStatusOverviewData();
+   tick(50);
    fixture.detectChanges();
    expect(spy.calls.any()).toEqual(true);
  }));

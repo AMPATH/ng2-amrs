@@ -52,7 +52,7 @@ export class CohortSelectorComponent implements OnInit {
         let obs = this.userCohortResourceService.getUserCohorts(this.user.uuid);
         if (obs) {
             this.loadingList = true;
-            let sub = obs.subscribe(
+            let sub = obs.take(1).subscribe(
                 (cohorts) => {
                     if (cohorts) {
                         this.cohortList = this.filterOutViewOnlyCohorts(cohorts.result);

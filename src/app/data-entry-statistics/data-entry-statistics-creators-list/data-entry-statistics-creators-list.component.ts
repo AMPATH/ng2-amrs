@@ -2,8 +2,7 @@ import { Component,
     OnInit , OnDestroy , AfterViewInit, OnChanges ,
     Output , EventEmitter, Input , ChangeDetectorRef,
     ViewChild , SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
@@ -180,8 +179,8 @@ export class DataEntryStatisticsCreatorsListComponent
                 'encounterUuid': stat.encounter_type_uuid,
                 'encounters_count' : stat.encounters_count,
                 'is_clinical' : stat.is_clinical_encounter,
-                 'location': stat.location,
-                 'locationUuid': stat.location_uuid
+                'location': stat.location,
+                'locationUuid': stat.location_uuid
                });
 
           }else {

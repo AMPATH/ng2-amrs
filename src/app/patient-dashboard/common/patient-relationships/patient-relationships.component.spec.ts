@@ -2,11 +2,11 @@ import { TestBed, async } from '@angular/core/testing';
 import { PatientService } from '../../services/patient.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import {
     ProgramEnrollmentResourceService
 } from '../../../openmrs-api/program-enrollment-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrConfig, ToastrService, Overlay, OverlayContainer } from 'ngx-toastr';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';

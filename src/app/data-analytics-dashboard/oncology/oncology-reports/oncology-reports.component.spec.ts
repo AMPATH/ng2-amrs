@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, tick, fakeAsync, ComponentFixture, flush } from '@angular/core/testing';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { AgGridModule } from 'ag-grid-angular';
@@ -39,7 +39,7 @@ let mockReportsResponse: any = [
 
 // Make the spy return a synchronous Observable with the test data
 const getReportsSpy = getOncologyReportsService.getOncologyReports
-.and.returnValue(Observable.of(mockReportsResponse) );
+.and.returnValue(of(mockReportsResponse) );
 
 const mockParams = {};
 
@@ -51,7 +51,7 @@ const mockActivatedRoute = {
   queryParams: {
     subscribe: jasmine.createSpy('subscribe')
       .and
-      .returnValue(Observable.of(mockParams))
+      .returnValue(of(mockParams))
   }
 };
 
@@ -63,7 +63,7 @@ describe('Component: Oncology Reports', () => {
   let router: ActivatedRoute;
   let oncologyReportService: OncologyReportService;
 
-  beforeEach(async(() => {
+  beforeEach((done) => {
     TestBed.configureTestingModule({
       imports:
       [
@@ -88,16 +88,21 @@ describe('Component: Oncology Reports', () => {
         .get(OncologyReportService);
         route = fixture.debugElement.injector.get(Router);
         router = fixture.debugElement.injector.get(ActivatedRoute);
-
+        done();
       });
-  }));
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
 
   it('should get oncology reports after component initialized', fakeAsync(() => {
     fixture.detectChanges(); // onInit()
+    flush();
     expect(getReportsSpy.calls.any()).toBe(true, 'getReports called');
     expect(comp.oncologyReports).toBe(mockReportsResponse);
   }));

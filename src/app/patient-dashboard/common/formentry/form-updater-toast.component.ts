@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_SNACK_BAR_DATA } from '@angular/material';
+import { MAT_SNACK_BAR_DATA } from '@angular/material';
 @Component({
     selector: 'snackbar',
     template: `<div class="text-center">
@@ -8,5 +8,5 @@ import { MD_SNACK_BAR_DATA } from '@angular/material';
     </div>`
 })
 export class ToastComponent {
-    constructor(@Inject(MD_SNACK_BAR_DATA) public message: string) { }
+    constructor(@Inject(MAT_SNACK_BAR_DATA) public message: string) { }
 }

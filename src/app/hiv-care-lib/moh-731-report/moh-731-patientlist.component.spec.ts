@@ -1,10 +1,10 @@
 import { TestBed, async, fakeAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { DebugElement }    from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import * as moment from 'moment';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Moh731PatientListComponent } from './moh-731-patientlist.component';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AgGridModule } from 'ag-grid-angular';
@@ -12,7 +12,7 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { Moh731ReportBaseComponent } from './moh-731-report-base.component';
 import {
   DateTimePickerModule
-} from 'ng2-openmrs-formentry/dist/components/date-time-picker/date-time-picker.module';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { Moh731PatientListResourceService
@@ -31,14 +31,14 @@ class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = Observable.of(mockParams);
-  public data = Observable.of({'moh731Params': 1});
+  public params = of(mockParams);
+  public data = of({'moh731Params': 1});
 }
 
 class FakeMoh731PatientListResourceService {
 
   public getMoh731PatientListReport(params): Observable<any> {
-    return Observable.of({
+    return of({
       a: 'b'
     });
   }
@@ -98,6 +98,10 @@ describe('Component: Moh731PatientListComponent', () => {
     });
 
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should have a defined component', (done) => {
     expect(currentTestComponent).toBeDefined();

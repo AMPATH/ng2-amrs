@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
+
 import * as _ from 'lodash';
-import { Subject, Observable } from 'rxjs/Rx';
+import { Subject, Observable, forkJoin, combineLatest, Subscription, BehaviorSubject } from 'rxjs';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from './program.service';
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
 
@@ -16,14 +15,14 @@ export class PatientProgramService {
   private subscription: Subscription;
   private _datePipe: DatePipe;
   constructor(private routesProviderService: RoutesProviderService,
-              private programService: ProgramService) {
+    private programService: ProgramService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
     this.loadProgramBatch(uuid);
     return Observable.create((observer: BehaviorSubject<any[]>) => {
-      this.enrolledPrograms.subscribe(
+      this.enrolledPrograms.take(1).subscribe(
         (data) => {
           if (data) {
             observer.next(data);
@@ -33,13 +32,13 @@ export class PatientProgramService {
           observer.error(error);
         }
       );
-    }).first();
+    });
   }
 
   private loadProgramsPatientIsEnrolledIn(patientUuid: string) {
     return Observable.create((observer: Subject<Array<ProgramEnrollment>>) => {
       if (patientUuid) {
-        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
+        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).take(1).subscribe(
           (data) => {
             if (data) {
               observer.next(data);
@@ -52,12 +51,12 @@ export class PatientProgramService {
       } else {
         observer.error('patientUuid is required');
       }
-    }).first();
+    });
   }
 
   private getAvailablePrograms() {
     return Observable.create((observer: Subject<Array<Program>>) => {
-      this.programService.getAvailablePrograms().subscribe(
+      this.programService.getAvailablePrograms().take(1).subscribe(
         (programs) => {
           if (programs) {
             observer.next(programs);
@@ -67,7 +66,7 @@ export class PatientProgramService {
           observer.error(error);
         }
       );
-    }).first();
+    });
   }
 
   private loadProgramBatch(patientUuid: string): void {
@@ -75,12 +74,19 @@ export class PatientProgramService {
     let programBatch: Array<Observable<any>> = [];
     programBatch.push(this.loadProgramsPatientIsEnrolledIn(patientUuid));
     programBatch.push(this.getAvailablePrograms());
-    this.subscription = Observable.forkJoin(programBatch).subscribe((data) => {
-      let enrolledProgrames = data[0];
+
+
+    this.subscription = combineLatest(this.loadProgramsPatientIsEnrolledIn(patientUuid),
+      this.getAvailablePrograms(),
+      (enrolledPrograms, availablePrograms) => {
+        return { enrolledPrograms, availablePrograms };
+      }
+    ).take(1).subscribe((data) => {
+      let enrolledPrograms = data.enrolledPrograms;
       let _programs = [];
       // data[1] = availablePrograms
-      _.each(data[1], (program: any) => {
-        let _enrolledPrograms: Array<any> = _.filter(enrolledProgrames,
+      _.each(data.availablePrograms, (program: any) => {
+        let _enrolledPrograms: Array<any> = _.filter(enrolledPrograms,
           (enrolledProgram: any) => {
             return enrolledProgram.programUuid === program.uuid &&
               _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;

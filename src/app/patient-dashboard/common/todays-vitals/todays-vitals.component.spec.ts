@@ -1,11 +1,11 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
-// import { BehaviorSubject, Observable } from 'rxjs/Rx';
+// import { BehaviorSubject, Observable } from 'rxjs';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { TodaysVitalsComponent } from './todays-vitals.component';
 import { PatientService } from '../../services/patient.service';
@@ -84,6 +84,7 @@ describe('Component: Todays Vitals Unit Tests', () => {
     // spyOn(patientService, 'currentlyLoadedPatient').and.callFake(function (params) {
     //   return patientSubject.asObservable();
     // });
+
 
   });
 

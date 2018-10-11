@@ -2,15 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule,
-  MdSlideToggleModule, MdDatepickerModule, MdNativeDateModule, MdDatepickerToggle
-} from '@angular/material';
+// import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
+//   MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatDatepickerToggle
+// } from '@angular/material';
 import { CalendarModule } from 'angular-calendar';
-import { ClinicDashboardCacheService }
-  from '../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../clinic-dashboard/services/clinic-dashboard-cache.service';
 import {
   DateTimePickerModule
-} from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { EtlApi } from '../etl-api/etl-api.module';
@@ -19,8 +18,8 @@ import { MonthlyScheduleBaseComponent } from './monthly-schedule/monthly-schedul
 import { DailyScheduleBaseComponent } from './daily-schedule/daily-schedule.component';
 import { DailyScheduleVisitsComponent
 } from './daily-schedule/daily-schedule-visits.component';
-import { DailyScheduleAppointmentsComponent }
-  from './daily-schedule/daily-schedule-appointments.component';
+import { DailyScheduleAppointmentsComponent
+} from './daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturnedComponent
 } from './daily-schedule/daily-schedule-not-returned.component';
 import {
@@ -33,12 +32,12 @@ import {
     DataListsModule,
     CommonModule,
     FormsModule,
-    MdTabsModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
-    MdDatepickerModule,
-    MdNativeDateModule,
-    MdSlideToggleModule,
+    // MatTabsModule,
+    // MatProgressSpinnerModule,
+    // MatProgressBarModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
+    // MatSlideToggleModule,
     ProgramVisitEncounterSearchModule,
     NgamrsSharedModule,
     CalendarModule,

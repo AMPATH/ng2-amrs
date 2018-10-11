@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 
-import { Form } from 'ng2-openmrs-formentry';
+import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';

@@ -66,7 +66,7 @@ implements OnInit {
     this.location.replaceState(path.toString());
   }
   public getLocationsSelected() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+    this.dataAnalyticsDashboardService.getSelectedLocations().take(1).subscribe(
         (data)  => {
           if (data) {
             this.locationUuids = data.locations;

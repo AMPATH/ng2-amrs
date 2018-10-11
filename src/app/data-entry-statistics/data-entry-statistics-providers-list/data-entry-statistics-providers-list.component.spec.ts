@@ -83,8 +83,12 @@ describe('Component: Data Entry Provider List', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
   it('should create encounter Provider rows from obtained result', (done: DoneFn) => {
     comp.dataEntryEncounters = mockProviderResult;

@@ -1,5 +1,5 @@
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
-import { Form } from 'ng2-openmrs-formentry';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 export class DraftedFormsService {

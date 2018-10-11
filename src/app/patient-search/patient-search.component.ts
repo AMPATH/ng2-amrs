@@ -93,7 +93,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       } else {
         // load cached result
         this.errorMessage = '';
-        this.patientSearchService.patientsSearchResults.subscribe(
+        this.patientSearchService.patientsSearchResults.take(1).subscribe(
           (patients) => {
             this.onResultsFound(patients);
           },

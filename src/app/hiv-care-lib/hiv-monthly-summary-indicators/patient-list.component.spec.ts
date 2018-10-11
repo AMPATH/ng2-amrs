@@ -5,13 +5,13 @@ import { By } from '@angular/platform-browser';
 import * as moment from 'moment';
 import { SpyLocation } from '@angular/common/testing';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HivMonthlySummaryIndicatorsPatientListComponent } from './patient-list.component';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import {
   HivMonthlySummaryIndicatorsResourceService
 } from '../../etl-api/hiv-monthly-summary-indicators-resource.service';
@@ -19,13 +19,13 @@ class MockRouter {
     navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-    params = Observable.of([{ 'id': 1 }]);
+    params = of([{ 'id': 1 }]);
 }
 
 class FakeHivSummaryIndicatorsResourceService {
 
   getHivSummaryMonthlyIndicatorsPatientList(params): Observable<any> {
-        return Observable.of({ status: 'okay' });
+        return of({ status: 'okay' });
     }
 
 }
@@ -66,6 +66,10 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
         });
 
     }));
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
 
     it('should have a defined component', (done) => {
         expect(currentTestComponent).toBeDefined();

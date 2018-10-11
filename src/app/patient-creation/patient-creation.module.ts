@@ -5,11 +5,11 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { ModalModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import {
-  MdSnackBarModule
+  MatSnackBarModule
 } from '@angular/material';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { PatientCreationComponent } from './patient-creation.component';
 import { PatientCreationService } from './patient-creation.service';
 import {
@@ -26,12 +26,12 @@ import { UserService } from '../openmrs-api/user.service';
 @NgModule({
     imports: [
         CommonModule,
-        MdSnackBarModule,
+        MatSnackBarModule,
         RouterModule,
         FormsModule,
         DateTimePickerModule,
         NgSelectModule,
-        Ng2PaginationModule,
+        NgxPaginationModule,
         ModalModule
     ],
     declarations: [

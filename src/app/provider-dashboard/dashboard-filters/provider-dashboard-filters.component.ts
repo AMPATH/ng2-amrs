@@ -29,6 +29,8 @@ export class ProviderDashboardFiltersComponent
   @Input() public end: number;
   public initialized: boolean = false;
   public loaderStatus: boolean = false;
+  public filterCollapsed: boolean = false;
+  public parentIsBusy: boolean = false;
   public programOptions: Array<any>;
   public statesOptions: Array<any>;
   public locationOptions: Array<any>;
@@ -141,7 +143,7 @@ export class ProviderDashboardFiltersComponent
   }
 
    public getCachedLocations() {
-    this.providerDashboardService.getSelectedLocations().subscribe(
+    this.providerDashboardService.getSelectedLocations().take(1).subscribe(
       (data)  => {
         if (data) {
           this.locations = data.locations;
@@ -151,7 +153,7 @@ export class ProviderDashboardFiltersComponent
 
   public getPrograms() {
     let programs = [];
-    this.programResourceService.getPrograms().subscribe(
+    this.programResourceService.getPrograms().take(1).subscribe(
       (results: any[]) => {
 
           for (let data of results) {
@@ -178,7 +180,7 @@ export class ProviderDashboardFiltersComponent
     }
 
     let programStates = [];
-    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).subscribe(
+    this.programWorkFlowResourceService.getProgramWorkFlows(selectedProgram).take(1).subscribe(
       (results) => {
         let workflows: any = _.get(results, 'allWorkflows');
         if (workflows.length > 0) {
@@ -256,7 +258,7 @@ export class ProviderDashboardFiltersComponent
 
  public getLocations() {
   this.loaderStatus = true;
-  this.locationResourceService.getLocations().subscribe((results: any) => {
+  this.locationResourceService.getLocations().take(1).subscribe((results: any) => {
     this.locations = results.map((location) => {
       return {
         value: location.uuid,

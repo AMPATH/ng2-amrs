@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { CohortResourceService  } from './cohort-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 describe('Service : CohortResourceService Unit Tests', () => {
 
@@ -30,6 +30,10 @@ describe('Service : CohortResourceService Unit Tests', () => {
 
 
       });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
 
     let mockAllCohortsResponse = {
                 'uuid': 'uuid',

@@ -1,3 +1,9 @@
+<style>
+  ng-select>div>div.multiple {
+    max-height: 100px;
+    overflow: scroll;
+  }
+</style>
 <div class="location-filter suggest-container form-group" *ngIf="counties">
   <div [ngClass]="{'col-md-6 col-sm-12 col-xs-12':!disableCounty}">
     <label *ngIf="showLabel" for="location-filter">Location</label>
@@ -5,7 +11,7 @@
       <div class="input-group-addon">
         <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
         <span *ngIf="!loading" class="glyphicon glyphicon-map-marker"></span>
-        <sup *ngIf="selectedLocations && multiple"><span style="font-size: 12px; font-weight: bold; color:#428bca;">{{selectedLocations.length}}</span></sup>
+        <sup *ngIf="selectedLocations && multiple"><span style="font-size: 12px; font-weight: bold; color:#428bca;">{{selectedLocations?.length}}</span></sup>
       </div>
       <ng-select class="sharp-corners" [multiple]="multiple" id="location-filter" (change)="onLocationSelected($event)"
                  [placeholder]="'Select a location...'"

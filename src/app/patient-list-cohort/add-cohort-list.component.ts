@@ -51,7 +51,7 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
             description: this.description,
             memberIds: []
       };
-      this.cohortResourceService.addCohort( cohortListPayload).subscribe(
+      this.cohortResourceService.addCohort( cohortListPayload).take(1).subscribe(
         (success) => {
           this.displaySuccessAlert('Successfully added cohort');
           if ( success ) {

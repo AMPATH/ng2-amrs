@@ -115,7 +115,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
 
         this.patientsRequiringVLResourceService
             .getPatientList(this.toDateString(this.startDate), this.toDateString(this.endDate),
-            this.getSelectedLocations(this.locationUuids)).subscribe(
+            this.getSelectedLocations(this.locationUuids)).take(1).subscribe(
             (data) => {
                 this.isLoadingReport = false;
                 this.data = data.result;

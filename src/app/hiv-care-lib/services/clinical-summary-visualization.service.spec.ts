@@ -46,6 +46,10 @@ describe('Service : ClinicalSummaryVisualizationService', () => {
     service = new ClinicalSummaryVisualizationService();
   });
 
+  // afterAll(() => {
+  //   TestBed.resetTestingModule();
+  // });
+
   it('should generate the correct columns when translateColumns is called', (done) => {
     expect(service.translateColumns).toEqual(expectedCols);
     done();

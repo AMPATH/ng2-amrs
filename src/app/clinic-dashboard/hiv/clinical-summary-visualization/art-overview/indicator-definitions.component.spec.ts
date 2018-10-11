@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import {
-  TestBed, async, fakeAsync, ComponentFixture, ComponentFixtureAutoDetect
+  TestBed, async, fakeAsync, tick, ComponentFixture, ComponentFixtureAutoDetect
 } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -90,11 +90,16 @@ describe('ArtOverviewIndicatorDefComponent', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should return an object dictionary for indicatorDefinitions', fakeAsync(() => {
     const spy = spyOn(dataStub, 'getArtOverviewReport').and.returnValue(
       Observable.of(results)
     );
     comp.createIndicatorDefinitionsDictionary(results.indicatorDefinitions);
+    tick(50);
     expect(comp.indicatorDefinitionsArr).toEqual(indicatorDefinitions);
   }));
 

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
+import { VERSION } from '../../environments/version';
 @Component({
   selector: 'build-version',
-  template: `<p class="text-right text-bold">v{{version}}
-    - build {{buildDate | date:'medium'}}</p>`
+  template: `<p class="text-right text-bold">v{{version}} {{hash}} - build {{buildDate | date:'medium' }}`
 })
 export class BuildVersionComponent implements OnInit {
   public version: string;
   public buildDate: Date;
-
+  public hash: string;
   constructor() {
   }
 
@@ -19,14 +18,9 @@ export class BuildVersionComponent implements OnInit {
   public loadVersion() {
 
     try {
-
-      let json = require('../version.json');
-
-      if (json && json.version) {
-
-        this.version = json.version.version;
-        this.buildDate = new Date(json.version.buildDate);
-      }
+        this.version = VERSION.version;
+        this.hash = VERSION.hash;
+        this.buildDate = new Date(VERSION.buildDate);
 
     } catch (e) {
     }

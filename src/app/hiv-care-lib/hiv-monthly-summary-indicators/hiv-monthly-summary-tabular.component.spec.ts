@@ -8,14 +8,14 @@ import { AgGridModule } from 'ag-grid-angular/main';
 
 ;
 import { HivSummaryMonthlyTabularComponent } from './hiv-monthly-summary-tabular.component';
-import { Observable } from 'rxjs/Rx';
+import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  params = Observable.of([{ 'id': 1 }]);
+  params = of([{ 'id': 1 }]);
 }
 
 describe('HivSummaryMonthlyTabularComponent: ', () => {
@@ -48,6 +48,10 @@ describe('HivSummaryMonthlyTabularComponent: ', () => {
       // el = fixture.debugElement.query(By.css('h1'));
     });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should be injectable', () => {
     fixture.detectChanges();

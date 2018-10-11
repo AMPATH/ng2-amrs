@@ -76,7 +76,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
 
   public showPlainObsView(encounter) {
     this.selectedEncounter = encounter;
-    this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
+    this.encounterResource.getEncounterByUuid(encounter.uuid).take(1).subscribe((_encounter) => {
       // this.modal.dismiss();
       // console.log(this.modal);
       // this.modal.visible = true;

@@ -43,9 +43,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   }
   private _data = new BehaviorSubject<any>([]);
   private selectedClinic: any;
-  private currentClinicSubscription: Subscription= new Subscription();
-  private selectedDateSubscription: Subscription;
-  private visitsSubscription: Subscription;
+  private subs: Subscription[] = [];
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
               private localStorageService: LocalStorageService,
@@ -54,11 +52,11 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.selectedDate = Moment().format('YYYY-MM-DD');
-    this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedClinic = location;
         if (this.selectedClinic) {
-          this.selectedDateSubscription = this.clinicDashboardCacheService.
+          const dateSub = this.clinicDashboardCacheService.
           getDailyTabCurrentDate().subscribe((date) => {
             if (this.loadingDailyVisits === false) {
               this.selectedDate = date;
@@ -68,11 +66,12 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
             }
 
           });
-
+          this.subs.push(dateSub);
         }
       });
+    this.subs.push(sub);
 
-    this.route
+    const routeSub = this.route
       .queryParams
       .subscribe((params) => {
         if (params) {
@@ -82,7 +81,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
             it has been already fetched
             */
 
-          }else {
+          } else {
             let searchParams = this.getQueryParams();
             this.initParams();
             this.getDailyVisits(searchParams);
@@ -91,10 +90,13 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
 
         }
       });
+    this.subs.push(routeSub);
   }
 
   public ngOnDestroy(): void {
-    this.currentClinicSubscription.unsubscribe();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public loadMoreVisits() {
@@ -136,7 +138,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null daily appointments observable');
     } else {
-      this.visitsSubscription = result.subscribe(
+      result.take(1).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.dailyVisitsPatientList = this.dailyVisitsPatientList.concat(

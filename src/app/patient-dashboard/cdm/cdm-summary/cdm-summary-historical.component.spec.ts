@@ -3,10 +3,10 @@ import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@a
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PatientService } from '../../services/patient.service';
 import { CdmSummaryHistoricalComponent } from './cdm-summary-historical.component';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { CdmSummaryResourceService,
 } from '../../../etl-api/cdm-summary-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 describe('Component: CdmSummaryHistorical Unit Tests', () => {
 
@@ -28,7 +28,7 @@ describe('Component: CdmSummaryHistorical Unit Tests', () => {
         },
          AppSettingsService,
          PatientService,
-         Ng2PaginationModule
+         NgxPaginationModule
       ]
     });
 

@@ -59,7 +59,7 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
   public getDepartmentConf() {
 
      this.departmentProgramService.getDartmentProgramsConfig()
-     .subscribe((results) => {
+     .take(1).subscribe((results) => {
          if (results) {
               this.departmentConf = results;
               this._filterDepartmentConfigByName();
@@ -146,9 +146,9 @@ export class ProgramsTransferCareComponent implements OnInit, OnDestroy {
   }
 
   private _getEnrolledProgramsByDepartmentName() {
-    this.patientService.currentlyLoadedPatientUuid.subscribe((patientUuid) => {
+    this.subscription = this.patientService.currentlyLoadedPatientUuid.subscribe((patientUuid) => {
       this.patientProgramService.getCurrentlyEnrolledPatientPrograms(patientUuid)
-        .subscribe((enrollments) => {
+        .take(1).subscribe((enrollments) => {
           let currentDepartmentPrograms = this._getProgramsByDepartmentName();
           let _currentDepartmentPrograms = _.map(currentDepartmentPrograms, (program: any) => {
             return {name: program.name, programUuid: program.uuid};

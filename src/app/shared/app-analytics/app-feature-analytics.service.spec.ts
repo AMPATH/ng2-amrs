@@ -7,7 +7,7 @@ import { SpyLocation } from '@angular/common/testing';
 
 // analytics
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/dist/providers';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
 declare var window: any;
@@ -34,5 +34,9 @@ describe('App Feature Analytics Service', () => {
   beforeEach(inject([AppFeatureAnalytics], (_appFeatureAnalytics: AppFeatureAnalytics) => {
     appFeatureAnalytics = _appFeatureAnalytics;
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
 });

@@ -5,7 +5,7 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { CdmMedicationHistoryComponent } from './medication-history.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { MedicationHistoryResourceService } from
   '../../../etl-api/medication-history-resource.service';

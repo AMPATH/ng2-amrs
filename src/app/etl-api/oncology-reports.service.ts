@@ -1,9 +1,12 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
-import { Observable } from 'rxjs/Observable';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable, of } from 'rxjs';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import * as _ from 'lodash';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class OncologyReportService {
@@ -147,7 +150,7 @@ export class OncologyReportService {
     }
   ]
 }];
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
@@ -159,10 +162,7 @@ export class OncologyReportService {
   public getOncologyReports(): Observable<any> {
 
     let url = this.getBaseUrl() + 'oncology-reports';
-    let request = this.http.get(url)
-      .map((response: Response) => {
-        return response.json();
-      });
+    let request = this.http.get(url);
 
     return this.cacheService.cacheRequest(url, '' , request);
 
@@ -171,19 +171,16 @@ export class OncologyReportService {
   public getSpecificOncologyReport(reportUuid): Observable<any> {
 
     let url = this.getBaseUrl() + 'oncology-report';
-    let urlParams: URLSearchParams = new URLSearchParams();
+    let urlParams: HttpParams = new HttpParams();
 
     if (reportUuid && reportUuid !== '') {
-        urlParams.set('reportUuid', reportUuid);
+        urlParams = urlParams.set('reportUuid', reportUuid);
     } else {
-       return Observable.of({
+       return of({
          'error': 'Null ReportUuid'
        });
     }
-    let request = this.http.get(url, { search: urlParams })
-      .map((response: Response) => {
-        return response.json();
-      });
+    let request = this.http.get(url, { params: urlParams });
 
     return this.cacheService.cacheRequest(url, '' , request);
 

@@ -28,7 +28,7 @@ describe('Service : DataCacheService Unit Tests', () => {
 
     it('should be injected with all dependencies',
     inject([DataCacheService], (dataCache: DataCacheService) => {
-        expect(dataCache).toBeTruthy();
+        expect(dataCache).toBeDefined();
     }));
 
     it('should have all methods defined',

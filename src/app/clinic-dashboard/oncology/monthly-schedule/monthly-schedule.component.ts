@@ -24,7 +24,7 @@ import { MonthlyScheduleResourceService
 export class OncMonthlyScheduleComponent extends
 MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
-  public subscription: Subscription = new Subscription();
+  public routeSub: Subscription = new Subscription();
   public myDepartment = 'ONCOLOGY';
 
   constructor(
@@ -49,7 +49,7 @@ MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
 }

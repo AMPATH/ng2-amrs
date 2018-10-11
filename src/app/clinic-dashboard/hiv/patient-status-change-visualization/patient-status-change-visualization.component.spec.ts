@@ -30,4 +30,8 @@ describe('MonthlyScheduleComponent', () => {
             });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
 });

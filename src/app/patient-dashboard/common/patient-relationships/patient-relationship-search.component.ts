@@ -35,7 +35,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         // load cached result
-        this.patientSearchService.patientsToBindRelationshipSearchResults.subscribe(
+        this.patientSearchService.patientsToBindRelationshipSearchResults.take(1).subscribe(
             (patients) => {
                 this.patients = patients;
                 this.searchString = this.patientSearchService.relationshipSearchString;
@@ -61,7 +61,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             this.patients = [];
             this.subscription = this.patientSearchService
                 .searchPatientToBindRelationship(this.searchString, false)
-                .subscribe(
+                .take(1).subscribe(
                 (data) => {
                     if (data.length > 0) {
                         this.patients = data;

@@ -1,4 +1,5 @@
-import { Component, OnInit, trigger, transition, style, animate, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouteModel } from '../../../shared/dynamic-route/route.model';
 import { DynamicRoutesService } from '../../../shared/dynamic-route/dynamic-routes.service';
@@ -31,7 +32,7 @@ export class PatientSideNavComponent implements OnInit, OnDestroy {
 
 
     constructor(private dynamicRoutesService: DynamicRoutesService,
-                private navigationService: NavigationService) {
+        private navigationService: NavigationService) {
         this.subscribeToRoutesChangeEvents();
     }
 

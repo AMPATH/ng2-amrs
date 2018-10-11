@@ -1,16 +1,18 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject , ReplaySubject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable , ReplaySubject } from 'rxjs';
 import { PersonResourceService } from './person-resource.service';
 import * as _ from 'lodash';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ProviderResourceService {
 
   public v: string = 'full';
 
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               protected personService: PersonResourceService) {
   }
@@ -24,18 +26,16 @@ export class ProviderResourceService {
   Observable<any> {
 
     let url = this.getUrl() ;
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('q', searchText)
+    .set('v', (v && v.length > 0) ? v : this.v);
 
-    params.set('q', searchText);
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
-
-    return this.http.get(url, {
-      search: params
-    })
-      .map((response: Response) => {
-        return response.json().results;
-      });
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(
+      map((response) => {
+        return response.results;
+      }));
   }
 
   public getProviderByUuid(uuid: string, cached: boolean = false, v: string = null):
@@ -44,23 +44,20 @@ export class ProviderResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-      return response.json();
+      params: params
     });
   }
   public getProviderByPersonUuid(uuid) {
     let providerResults = new ReplaySubject(1);
-    this.personService.getPersonByUuid(uuid, false).subscribe(
+    this.personService.getPersonByUuid(uuid, false).take(1).subscribe(
       (result) => {
         if (result) {
           let response = this.searchProvider(result.display);
 
-          response.subscribe(
+          response.take(1).subscribe(
             (providers) => {
               let foundProvider;
               _.each(providers, (provider: any) => {

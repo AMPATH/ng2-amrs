@@ -93,11 +93,13 @@ describe('Service: ProgramsTransferCareService', () => {
     service.getPayload().subscribe((payload) => {
       expect(payload).toEqual({test: 'payload'});
     });
+    tick(50);
 
   })));
 
   it('should update transfer status', inject([], fakeAsync(() => {
     service.setTransferStatus(true);
+    tick(50);
     expect(service.transferComplete()).toBeTruthy();
   })));
 
@@ -111,6 +113,7 @@ describe('Service: ProgramsTransferCareService', () => {
       expect(_programs.encounterForms.length).toEqual(1);
       expect(_programs.encounterForms[0]).toEqual('cbe2d31d-2201-44ce-b52e-fbd5dc7cff33');
     });
+    tick(50);
   })));
 
   it('should return NO forms when program is not in the configs', inject([], fakeAsync(() => {
@@ -122,5 +125,6 @@ describe('Service: ProgramsTransferCareService', () => {
       expect(_programs.encounterForms).toBeDefined();
       expect(_programs.encounterForms.length).toEqual(0);
     });
+    tick(50);
   })));
 });

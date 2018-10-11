@@ -15,16 +15,19 @@ export class AppSettingsService {
 
   private _openmrsServerUrls = [
     'http://localhost:8080/openmrs',
-    'https://test2.ampath.or.ke:8443/amrs',
-    'https://amrs.ampath.or.ke:8443/amrs'
+    // 'https://test2.ampath.or.ke:8443/amrs',
+    // 'https://amrs.ampath.or.ke:8443/amrs'
+    'https://ngx.ampath.or.ke/amrs',
+    'https://ngx.ampath.or.ke/test-amrs'
   ];
 
   private _etlServerUrls = [
     'http://localhost:8002/etl',
-    'https://test1.ampath.or.ke:8002/etl',
-    'https://test2.ampath.or.ke:8002/etl',
-    'https://amrsreporting.ampath.or.ke:8002/etl',
-    'https://amrsreporting.ampath.or.ke:8003/etl'
+    // 'https://test1.ampath.or.ke:8002/etl',
+    // 'https://test2.ampath.or.ke:8002/etl',
+    // 'https://amrsreporting.ampath.or.ke:8002/etl',
+    '/etl-server-test-worcester/etl',
+    'https://ngx.ampath.or.ke/etl-latest/etl'
   ];
 
   private templates = [
@@ -40,8 +43,8 @@ export class AppSettingsService {
     },
     {
       name: 'AMRS Test',
-      amrsUrl: '/amrs-test',
-      etlUrl: '/etl-server-test/etl'
+      amrsUrl: '/test-amrs',
+      etlUrl: '/etl-server-test-worcester/etl'
     }
   ];
 

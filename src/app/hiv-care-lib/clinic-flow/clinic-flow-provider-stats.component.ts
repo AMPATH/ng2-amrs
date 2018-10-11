@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChange, ViewChild } from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 import { Router } from '@angular/router';
@@ -142,7 +142,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       throw new Error('Null clinic flow observable');
     } else {
 
-      this.clinicFlowSubscription = result.subscribe(
+      this.clinicFlowSubscription = result.take(1).subscribe(
         (dataList) => {
           this.patientStatuses = dataList.result;
           this.transformVisitsToDummyEncounters(this.patientStatuses);

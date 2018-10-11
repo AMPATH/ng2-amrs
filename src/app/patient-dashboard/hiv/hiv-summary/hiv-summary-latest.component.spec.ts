@@ -6,7 +6,7 @@ import { HivSummaryService } from './hiv-summary.service';
 import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';

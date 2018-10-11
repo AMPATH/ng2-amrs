@@ -116,7 +116,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         if (typeof params !== 'undefined') {
 
                 this._patientProgramEnrollmentService.getActivePatientEnrollmentPatientList(params)
-                .subscribe((enrollments) => {
+                .take(1).subscribe((enrollments) => {
                     if (enrollments) {
                         this.processEnrollments(enrollments);
                     }

@@ -4,7 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PatientService } from '../../services/patient.service';
 import { CdmSummaryResourceService } from '../../../etl-api/cdm-summary-resource.service';
 import { CdmSummaryLatestComponent } from './cdm-summary-latest.component';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
 
 describe('Component: CdmSummaryLatest Unit Tests', () => {

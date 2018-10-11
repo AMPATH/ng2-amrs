@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
 
 import {
-  TestBed, async, fakeAsync, ComponentFixture, ComponentFixtureAutoDetect
+  TestBed, async, fakeAsync, ComponentFixture, ComponentFixtureAutoDetect, tick
 } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable, of } from 'rxjs';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,7 @@ import {
 class DataStub {
 
   public getHivComparativeOverviewReport(payload): Observable<any> {
-    return Observable.of({ status: 'okay' });
+    return of({ status: 'okay' });
   }
 
 }
@@ -91,11 +91,16 @@ describe('HivCareIndicatorDefComponent', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should return an object dictionary for indicatorDefinitions', fakeAsync(() => {
     const spy = spyOn(dataStub, 'getHivComparativeOverviewReport').and.returnValue(
-      Observable.of(results)
+      of(results)
     );
     comp.createIndicatorDefinitionsDictionary(results.indicatorDefinitions);
+    tick(50);
     expect(comp.indicatorDefinitionsArr).toEqual(indicatorDefinitions);
   }));
 

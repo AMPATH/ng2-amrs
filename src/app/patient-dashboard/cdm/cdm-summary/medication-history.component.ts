@@ -26,7 +26,7 @@ export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
       (patient) => {
         if (patient) {
           this.patientUuid = patient.person.uuid;
@@ -43,7 +43,7 @@ export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
 
   public getMedicationHistory(patientUuid): void {
     this.medicationHistoryResourceService.getCdmMedicationHistory(patientUuid)
-    .subscribe((result) => {
+    .take(1).subscribe((result) => {
       this.encounters = _.filter(result, (row) => {
         return !_.isNil(row.prescriptions);
       });

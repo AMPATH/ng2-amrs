@@ -5,8 +5,10 @@ import { PatientService } from './services/patient.service';
 import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import * as Moment from 'moment';
-import { ToastrService, ToastrConfig } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
+import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
+import { PatientRoutesFactory } from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -20,8 +22,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   public topOffset = 49;
   public leftOffset = 56;
   public headerHeight = 180;
-  private patientSubscription: Subscription;
-  private labSubscription: Subscription;
+  private subscriptions: Subscription[] = [];
 
   @ViewChild('headerElement')
   private headerElement;
@@ -31,26 +32,34 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   private containerElement;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private patientService: PatientService,
-              private labsResourceService: LabsResourceService,
-              private appFeatureAnalytics: AppFeatureAnalytics,
-              private toastrConfig: ToastrConfig, private toastrService: ToastrService) {
+    private patientService: PatientService,
+    private labsResourceService: LabsResourceService,
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private patientRoutesFactory: PatientRoutesFactory,
+    private dynamicRoutesService: DynamicRoutesService,
+    private toastrService: ToastrService) {
 
-    toastrConfig.timeOut = 0;
-    toastrConfig.closeButton = true;
-    toastrConfig.positionClass = 'toast-bottom-right';
-    toastrConfig.extendedTimeOut = 0;
-    toastrConfig.preventDuplicates = true;
-    toastrConfig.enableHtml = true;
   }
 
   public ngOnInit() {
-    this.patientService.isBusy.subscribe(
+   const sub = this.patientService.currentlyLoadedPatient.subscribe(
+      (patientObject) => {
+        if (patientObject) {
+          const routes = this.patientRoutesFactory
+          .createPatientDashboardRoutes(patientObject);
+          this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
+        }
+      });
+    const sub2 = this.patientService.isBusy.subscribe(
       (isLoading) => {
         this.fetchingPatient = isLoading;
       }, (err) => {
         this.fetchingPatient = false;
       });
+
+    this.subscriptions.push(sub);
+    this.subscriptions.push(sub2);
+
     this.getNewResults();
   }
 
@@ -66,28 +75,24 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public ngOnDestroy() {
-    if (this.patientSubscription) {
-      this.patientSubscription.unsubscribe();
-    }
-    if (this.labSubscription) {
-      this.labSubscription.unsubscribe();
-    }
-
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
   }
 
   public getNewResults() {
     let patientEmited: any = { uuid: '' };
-    this.patientSubscription = this.patientService.
+    const sub1 = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {
-        let startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
-        let endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+        const startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+        const endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
         if (patient) {
           patientEmited = patient;
-          this.labSubscription = this.labsResourceService.getNewPatientLabResults({
+          const sub2 = this.labsResourceService.getNewPatientLabResults({
             startDate: startDate,
             endDate: endDate,
             patientUuId: patient.person.uuid
-          }).subscribe((result) => {
+          }).take(1).subscribe((result) => {
             if (result.length > 0) {
               let content = '';
               for (let test of result) {
@@ -116,10 +121,12 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
           }, (err) => {
             console.error(err);
           });
+          this.subscriptions.push(sub2);
         }
       }, (error) => {
         console.error(error);
       });
 
+      this.subscriptions.push(sub1);
   }
 }

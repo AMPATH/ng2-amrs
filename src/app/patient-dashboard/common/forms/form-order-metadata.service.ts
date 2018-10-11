@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
-import { ReplaySubject, Observable } from 'rxjs/Rx';
-import * as _ from 'lodash';
 
+import {throwError as observableThrowError,  ReplaySubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
 import { LocalStorageService } from '../../../utils/local-storage.service';
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class FormOrderMetaDataService {
     private formsOrder = new ReplaySubject(1);
-    constructor(private http: Http, private localStorageService: LocalStorageService) { }
+    constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
     public getDefaultFormOrder(forceRefresh?: boolean) {
         if (!this.formsOrder.observers.length || forceRefresh) {
             this.http.get(
                 './assets/schemas/form-order.json'
-            ).map((res: Response) => res.json())
+            )
                 .subscribe(
-                (data) => this.formsOrder.next(data),
+                (data) => {console.log(data); this.formsOrder.next(data); },
                 (error) => this.formsOrder.error(error)
                 );
         }
@@ -50,7 +50,7 @@ export class FormOrderMetaDataService {
     }
 
     private handleError(error: any) {
-        return Observable.throw(error.message
+        return observableThrowError(error.message
             ? error.message
             : error.status
                 ? `${error.status} - ${error.statusText}`

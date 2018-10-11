@@ -23,6 +23,7 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
     public showFormResults: boolean = false;
     public visitTypeResult: any = [];
     public formTypeResult: any = [];
+    public secondaryFilter: any;
 
      constructor(
      private _formListService: FormListService,
@@ -40,7 +41,7 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
     public getProgramsVisitConfig() {
 
         this._patientProgramService.getAllProgramVisitConfigs()
-        .subscribe((response) => {
+        .take(1).subscribe((response) => {
               if (response) {
                     this.programVisitConfig = JSON.parse(JSON.stringify(response));
                     this.sortVisitList();
@@ -91,7 +92,7 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     public getallFormsList() {
 
-         this._formListService.getFormList().subscribe((formList) => {
+         this._formListService.getFormList().take(1).subscribe((formList) => {
              if (formList) {
                  this.allFormsList = formList;
 

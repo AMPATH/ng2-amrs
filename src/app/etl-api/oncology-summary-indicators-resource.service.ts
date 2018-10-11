@@ -1,10 +1,11 @@
+
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class OncolgyMonthlySummaryIndicatorsResourceService {
-    constructor(protected http: Http, protected appSettingsService: AppSettingsService,
+    constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
     public getUrl(params: any): string {
@@ -18,29 +19,29 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
             + params.type + '-patient-list';
     }
 
-    public getUrlRequestParams(params): URLSearchParams {
-        let urlParams: URLSearchParams = new URLSearchParams();
+    public getUrlRequestParams(params): HttpParams {
+        let urlParams: HttpParams = new HttpParams();
 
         if (params.indicators && params.indicators !== '') {
-            urlParams.set('indicators', params.indicators);
+            urlParams = urlParams.set('indicators', params.indicators);
         }
         if (params.endDate && params.endDate !== '') {
-            urlParams.set('endDate', params.endDate);
+            urlParams = urlParams.set('endDate', params.endDate);
         }
         if (params.startDate && params.startDate !== '') {
-            urlParams.set('startDate', params.startDate);
+            urlParams = urlParams.set('startDate', params.startDate);
         }
         if (params.gender && params.gender.length > 0) {
-            urlParams.set('genders', params.gender);
+            urlParams = urlParams.set('genders', params.gender);
         }
         if (params.startAge && params.startAge !== '') {
-            urlParams.set('startAge', params.startAge);
+           urlParams =  urlParams.set('startAge', params.startAge);
         }
         if (params.endAge && params.endAge !== '') {
-            urlParams.set('endAge', params.endAge);
+            urlParams = urlParams.set('endAge', params.endAge);
         }
         if (params.locationUuids && params.locationUuids !== '') {
-            urlParams.set('locationUuids', params.locationUuids);
+           urlParams = urlParams.set('locationUuids', params.locationUuids);
         }
 
         return urlParams;
@@ -50,11 +51,8 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
         let urlParams = this.getUrlRequestParams(params);
         let url = this.getUrl(params);
         let request =  this.http.get(url, {
-            search: urlParams
-        })
-            .map((response: Response) => {
-                return response.json();
-            });
+            params: urlParams
+        });
 
         return this.cacheService.cacheRequest(url, urlParams, request);
 
@@ -72,11 +70,8 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
         urlParams.set('limit', params.limit);
         let url = this.getPatientListUrl(params);
         let request = this.http.get(url, {
-            search: urlParams
-        })
-            .map((response: Response) => {
-                return response.json();
-            });
+            params: urlParams
+        });
 
         return this.cacheService.cacheRequest(url, urlParams, request);
     }

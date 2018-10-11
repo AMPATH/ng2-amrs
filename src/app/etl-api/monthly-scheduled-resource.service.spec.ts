@@ -5,7 +5,7 @@ import {
     ResponseOptions, Response
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
@@ -134,6 +134,10 @@ describe('MonthlyScheduleResourceService Tests', () => {
                 }
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined',

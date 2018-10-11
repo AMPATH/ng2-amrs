@@ -1,8 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { BehaviorSubject, Subject, ReplaySubject } from 'rxjs/Rx';
-import * as Moment from 'moment';
+import { BehaviorSubject, Subject, ReplaySubject } from 'rxjs';
 @Injectable()
 export class ProviderDashboardService {
   public dataIsLoading: boolean = true;

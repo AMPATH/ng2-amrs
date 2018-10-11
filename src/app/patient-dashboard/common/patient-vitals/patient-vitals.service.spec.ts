@@ -4,9 +4,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientVitalsService } from './patient-vitals.service';
 import { VitalsResourceService } from '../../../etl-api/vitals-resource.service';
 

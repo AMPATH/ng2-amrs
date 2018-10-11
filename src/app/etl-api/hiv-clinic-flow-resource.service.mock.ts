@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MockBackend } from '@angular/http/testing';
 import { ClinicFlowResource } from '../etl-api/clinic-flow-resource-interface';
-import { ResponseOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable, of } from 'rxjs';
 @Injectable()
 export class MockHivClinicFlowResourceService implements ClinicFlowResource {
     public dummyHivClinicFlowData = {
@@ -130,7 +128,7 @@ export class MockHivClinicFlowResourceService implements ClinicFlowResource {
     constructor() { }
 
     public getClinicFlow(dateStarted, locations): Observable<any> {
-        return Observable.of(this.dummyHivClinicFlowData);
+        return of(this.dummyHivClinicFlowData);
     }
 
     public getHivDummyData() {

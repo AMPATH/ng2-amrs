@@ -1,10 +1,10 @@
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { MOHReportService } from './moh-731-report-pdf-view.service';
@@ -146,7 +146,7 @@ describe('Component: MOHReportComponent', () => {
 
 class LocationServiceMock {
   public getLocations(): Observable<any> {
-    return Observable.of([{
+    return of([{
       uuid: '08feae7c-1352-11df-a1f1-0026b9348838',
       display: 'location',
       name: 'location',

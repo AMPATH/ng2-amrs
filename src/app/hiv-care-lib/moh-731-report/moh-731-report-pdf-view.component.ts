@@ -79,7 +79,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         if (params && rowData && sectionDefinitions) {
             this.isBusy = true;
             // console.log('making pdf', rowData);
-            this.mohReportService.generatePdf(params, rowData, sectionDefinitions).subscribe(
+            this.mohReportService.generatePdf(params, rowData, sectionDefinitions).take(1).subscribe(
                 (pdf) => {
                     this.pdfSrc = pdf.pdfSrc;
                     this.pdfMakeProxy = pdf.pdfProxy;
@@ -150,7 +150,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                 console.error(error);
             }
         );
-
     }
 
     private moh731Report(reportsData, sectionDefinitions) {
@@ -162,7 +161,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             let rowsArray = this.getJoinLocations(reportsData);
 
             this.mohReportService.generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions)
-                .subscribe(
+                .take(1).subscribe(
                     (pdf) => {
                         this.pdfSrc = pdf.pdfSrc;
                         this.pdfMakeProxy = pdf.pdfProxy;

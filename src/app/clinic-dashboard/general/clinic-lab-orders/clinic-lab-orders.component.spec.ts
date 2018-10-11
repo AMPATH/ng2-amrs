@@ -8,7 +8,7 @@ import { SpyLocation } from '@angular/common/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders.component';
 import { ClinicLabOrdersResourceService

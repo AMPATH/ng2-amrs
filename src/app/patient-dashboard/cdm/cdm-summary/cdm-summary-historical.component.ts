@@ -40,7 +40,7 @@ export class CdmSummaryHistoricalComponent implements OnInit, OnDestroy {
 
   public getPatient() {
     this.loadingCdmSummary = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
       (patient) => {
         if (patient) {
           this.loadingCdmSummary = false;
@@ -59,7 +59,7 @@ export class CdmSummaryHistoricalComponent implements OnInit, OnDestroy {
 
   public loadCdmSummary(patientUuid, nextStartIndex) {
     this.cdmSummaryService.getCdmSummary(patientUuid, this.nextStartIndex, 20, false)
-    .subscribe((data) => {
+    .take(1).subscribe((data) => {
       if (data) {
         if (data.length > 0) {
           for (let r in data) {

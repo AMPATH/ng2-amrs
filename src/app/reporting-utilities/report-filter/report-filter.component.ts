@@ -82,7 +82,7 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public fetchLocations(): void {
-    this.locationResourceService.getLocations().subscribe(
+    this.locationResourceService.getLocations().take(1).subscribe(
       (locations: any[]) => {
         this.locations = [];
         // tslint:disable-next-line:prefer-for-of
@@ -97,7 +97,7 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public fetchForms(): void {
-    this.formsResourceService.getForms().subscribe(
+    this.formsResourceService.getForms().take(1).subscribe(
       (forms: any[]) => {
         this.forms = [];
         // tslint:disable-next-line:prefer-for-of
@@ -114,7 +114,7 @@ export class ReportFilterComponent implements OnInit {
   public fetchReportIndicators(): void {
     this.indicatorResourceService
       .getReportIndicators({ report: this.reportName })
-      .subscribe(
+      .take(1).subscribe(
       (indicators: any[]) => {
         this.indicators = [];
         // tslint:disable-next-line:prefer-for-of

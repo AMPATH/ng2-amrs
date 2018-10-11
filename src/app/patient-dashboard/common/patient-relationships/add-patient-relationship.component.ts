@@ -8,6 +8,7 @@ import { PatientService } from '../../services/patient.service';
 import { RelationshipType } from '../../../models/relationship-type.model';
 import * as Moment from 'moment';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'add-relationship',
@@ -34,6 +35,7 @@ export class AddPatientRelationshipComponent implements OnInit {
         }
     };
     public showScrollMessage: false;
+    private subscription: Subscription;
 
     constructor(private patientRelationshipService: PatientRelationshipService,
                 private patientRelationshipTypeService: PatientRelationshipTypeService,
@@ -47,6 +49,12 @@ export class AddPatientRelationshipComponent implements OnInit {
             .trackEvent('Patient Dashboard', 'Add Patient Relationship Loaded', 'ngOnInit');
     }
 
+    public ngOnDestroy() {
+        if (this.subscription) {
+          this.subscription.unsubscribe();
+        }
+    }
+
     public showDialog() {
         this.hideResult = true;
         this.display = true;
@@ -55,7 +63,7 @@ export class AddPatientRelationshipComponent implements OnInit {
 
     public getRelationShipTypes(): void {
         let request = this.patientRelationshipTypeService.getRelationshipTypes();
-        request.subscribe((relationshipTypes) => {
+        request.take(1).subscribe((relationshipTypes) => {
             if (relationshipTypes) {
                 this.patientRelationshipTypes = relationshipTypes;
             }
@@ -65,7 +73,7 @@ export class AddPatientRelationshipComponent implements OnInit {
     }
 
     public getPatient() {
-        this.patientService.currentlyLoadedPatient.subscribe(
+        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient) {
                     this.patientUuid = patient.person.uuid;
@@ -78,7 +86,7 @@ export class AddPatientRelationshipComponent implements OnInit {
             this.patientToBindRelationship.person.display !== '') {
             this.isLoading = true;
             let patientRelationshipPayload = this.getPatientRelationshipPayload();
-            this.patientRelationshipService.saveRelationship(patientRelationshipPayload).subscribe(
+            this.patientRelationshipService.saveRelationship(patientRelationshipPayload).take(1).subscribe(
                 (success) => {
                     if (success) {
                         this.isLoading = false;
@@ -145,7 +153,7 @@ export class AddPatientRelationshipComponent implements OnInit {
                     display: ''
                 }
             };
-            this.patientService.fetchPatientByUuid(this.patientUuid);
+            this.patientService.reloadCurrentPatient();
         }, 3000);
     }
 

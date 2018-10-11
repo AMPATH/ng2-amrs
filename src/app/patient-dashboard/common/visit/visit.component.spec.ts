@@ -12,8 +12,8 @@ import { HttpModule, Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { Observable, of } from 'rxjs';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import * as moment from 'moment';
 import { CacheService } from 'ionic-cache';
 
@@ -44,12 +44,13 @@ import { RetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { FakeRetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { delay } from 'rxjs/operators';
 
 class LocationServiceMock {
   constructor() {
   }
   public getLocations(): Observable<any> {
-    return Observable.of([]);
+    return of([]);
   }
 }
 
@@ -64,27 +65,27 @@ describe('Component: Visit', () => {
   beforeEach(async(() => {
     let fakePatientProgramResourceService = {
       getPatientProgramVisitConfigs: (uuid) => {
-        return Observable.of({});
+        return of({});
       },
       getPatientProgramVisitTypes: (
         patient: string, program: string,
         enrollment: string, location: string) => {
-        return Observable.of({});
+        return of({});
       }
     };
 
     let fakeVisitResourceService = {
       getVisitTypes: (args) => {
-        return Observable.of([]);
+        return of([]);
       },
       getPatientVisits: (args) => {
-        return Observable.of([]);
+        return of([]);
       },
       saveVisit: (payload) => {
-        return Observable.of(null);
+        return of(null);
       },
       updateVisit: (uuid, payload) => {
-        return Observable.of(null);
+        return of(null);
       }
     };
 
@@ -140,7 +141,7 @@ describe('Component: Visit', () => {
         }
       ],
       imports: [
-        BusyModule,
+        NgBusyModule,
         UserDefaultPropertiesModule,
         DialogModule,
         FormsModule,
@@ -164,8 +165,12 @@ describe('Component: Visit', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be created', () => {
-    expect(comp).toBeTruthy();
+    expect(comp).toBeDefined();
   });
 
   it('should react to visit loading started event from visit service', () => {
@@ -313,7 +318,7 @@ describe('Component: Visit', () => {
 
     let loadVisitSpy = spyOn(service, 'getProgramVisits')
       .and.callFake(() => {
-        return Observable.of({}).delay(50);
+        return of({}).pipe(delay(50));
       });
 
     comp.triggerVisitLoading();

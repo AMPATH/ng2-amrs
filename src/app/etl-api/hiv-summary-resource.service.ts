@@ -1,12 +1,14 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class HivSummaryResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
 
   public getUrl(): string {
 
@@ -18,19 +20,19 @@ export class HivSummaryResourceService {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams();
 
     if (includeNonClinicalEncounter !== undefined) {
-      params.set('includeNonClinicalEncounter', includeNonClinicalEncounter.toString());
+      params = params.set('includeNonClinicalEncounter', includeNonClinicalEncounter.toString());
     }
-    params.set('startIndex', startIndex.toString());
-    params.set('limit', limit.toString());
+    params.set('startIndex', startIndex.toString())
+          .set('limit', limit.toString());
 
-    return this.http.get(url, {
-      search: params
-    })
-      .map((response: Response) => {
-        return response.json().result;
-      });
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(
+      map((response) => {
+        return response.result;
+      }));
   }
 }

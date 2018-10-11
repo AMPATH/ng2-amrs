@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import {throwError as observableThrowError,  Observable, forkJoin ,  Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { Subject } from 'rxjs/Subject';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { ProgramEnrollmentResourceService } from
@@ -71,7 +70,7 @@ export class DifferentiatedCareReferralService {
     let validity = this.validateReferralInputs(patient, providerUuid, encounterDateTime,
       rtcDate, locationUuid);
     if (validity !== '') {
-      return Observable.throw(validity);
+      return observableThrowError(validity);
     }
 
     let patientUuid = patient.uuid;
@@ -113,7 +112,7 @@ export class DifferentiatedCareReferralService {
         status.otherHivProgUnenrollment.done = true;
       } else {
         this.endProgramEnrollments(activePrograms, encounterDateTime)
-          .subscribe(
+          .take(1).subscribe(
           (response) => {
             status.otherHivProgUnenrollment.unenrolledFrom = activePrograms;
             status.otherHivProgUnenrollment.done = true;
@@ -129,7 +128,7 @@ export class DifferentiatedCareReferralService {
 
       // Step 2: Enroll in Diff Care program
       this.enrollPatientToDifferentiatedCare(patientUuid, encounterDateTime, locationUuid)
-        .subscribe(
+        .take(1).subscribe(
         (response) => {
           status.diffCareProgramEnrollment.enrolled = response;
           status.diffCareProgramEnrollment.done = true;
@@ -145,7 +144,7 @@ export class DifferentiatedCareReferralService {
       // Step 3: Fill in encounter containing rtc date
       this.createDifferentiatedCareEncounter(patientUuid, providerUuid, encounterDateTime,
         rtcDate, locationUuid)
-        .subscribe(
+        .take(1).subscribe(
         (response) => {
           status.encounterCreation.created = response;
           status.encounterCreation.done = true;
@@ -247,7 +246,7 @@ export class DifferentiatedCareReferralService {
       }
     });
 
-    return Observable.forkJoin(allprogramsObservables);
+    return forkJoin(allprogramsObservables);
   }
 
   private onReferralStepCompletion(status: any, finalSubject: Subject<any>) {

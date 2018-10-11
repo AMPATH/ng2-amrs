@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
 } from
@@ -16,7 +16,7 @@ import { ProgramWorkFlowStateResourceService
 } from '../../openmrs-api/program-workflow-state-resource.service';
 import { ProgramWorkFlowResourceService
 } from '../../openmrs-api/program-workflow-resource.service';
-
+import { first } from 'rxjs/operators';
 @Injectable()
 export class ProgramService {
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
@@ -32,7 +32,7 @@ export class ProgramService {
     if (patientsObservable === null) {
       throw new Error('Null patient programs observable');
     } else {
-      patientsObservable.subscribe(
+      patientsObservable.take(1).subscribe(
         (programs) => {
           if (programs.length > 0) {
             let patientPrograms = [];
@@ -61,7 +61,7 @@ export class ProgramService {
     if (programsObservable === null) {
       throw new Error('Null program observable');
     } else {
-      programsObservable.subscribe(
+      programsObservable.take(1).subscribe(
         (programs) => {
           if (programs.length > 0) {
             let availablePrograms = [];
@@ -122,19 +122,19 @@ export class ProgramService {
   public getProgramWorkFlows(programUuid: string) {
     return Observable.create((observer: Subject<any[]>) => {
       this.programWorkFlowResourceService.getProgramWorkFlows(programUuid)
-        .subscribe((workflows: any) => {
+        .take(1).subscribe((workflows: any) => {
           observer.next(workflows.allWorkflows);
         });
-    }).first();
+    }).pipe(first());
   }
 
   public getProgramWorkFlowStates(workflowUuid: any) {
     return Observable.create((observer: Subject<any[]>) => {
       this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflowUuid)
-        .subscribe((states) => {
+        .take(1).subscribe((states) => {
           observer.next(states);
         });
-    }).first();
+    }).pipe(first());
   }
 
   public getSelectedProgram(programs, programUuid) {

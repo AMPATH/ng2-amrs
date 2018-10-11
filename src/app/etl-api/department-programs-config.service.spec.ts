@@ -4,7 +4,7 @@ import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
     ResponseOptions, Response
 } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DepartmentProgramsConfigService } from './department-programs-config.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -113,6 +113,10 @@ describe('Service :  Department Programs Configuration Service', () => {
                 }
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined',

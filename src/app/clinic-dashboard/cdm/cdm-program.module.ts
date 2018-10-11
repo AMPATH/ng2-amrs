@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule
+import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule
 } from '@angular/material';
 import { ClinicScheduleLibModule } from '../../clinic-schedule-lib/clinic-schedule-lib.module';
 import { CalendarModule } from 'angular-calendar';
 import { cdmProgramRouting } from './cdm-program.routes';
 import {
   DateTimePickerModule
-} from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
@@ -31,9 +31,9 @@ import {
     DataListsModule,
     CommonModule,
     FormsModule,
-    MdTabsModule,
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     ProgramVisitEncounterSearchModule
   ],
   exports: [

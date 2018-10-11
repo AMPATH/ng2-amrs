@@ -26,8 +26,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   private locationUuid: any;
   private reportName: string;
   private currentIndicator: string;
-  private routeParamsSubscription: Subscription;
-  private subscription = new Subscription();
+  private routeSub = new Subscription();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -44,7 +43,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    this.routeParamsSubscription = this.route.params.subscribe((params) => {
+    this.routeSub = this.route.params.subscribe((params) => {
       if (params) {
         const monthYear = params['period'].split('|');
         this.reportName = params['report'];
@@ -70,7 +69,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
   public setDateRange(monthYear) {
@@ -82,13 +81,13 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
 
   public loadPatientData(reportName: string) {
     this.isLoadingPatientList = true;
-    this.subscription = this.visualizationResourceService.getReportOverviewPatientList(reportName, {
+    this.visualizationResourceService.getReportOverviewPatientList(reportName, {
       endDate: this.endDate.endOf('month').format(),
       indicator: this.currentIndicator,
       locationUuids: this.locationUuid,
       startIndex: this.startIndex,
       startDate: this.startDate.format()
-    }).subscribe((report) => {
+    }).take(1).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.isLoadingPatientList = false;

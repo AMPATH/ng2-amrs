@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Response } from '@angular/http';
-import { Router, ActivatedRoute, Params }    from '@angular/router';
-import * as _ from 'lodash';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
@@ -9,6 +7,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { RetrospectiveDataEntryService
 } from '../retrospective-data-entry/services/retrospective-data-entry.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'user-default-properties',
@@ -55,8 +54,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
       }
     });
 
-    this.propertyLocationService.getLocations().subscribe((response: Response) => {
-      this.locations = response.json().results.map((location: any) => {
+    this.propertyLocationService.getLocations().take(1).subscribe((response) => {
+      this.locations = response.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);
         }
@@ -85,7 +84,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   public getDepartments() {
     this.departmentProgramService.getDartmentProgramsConfig()
-     .subscribe((results) => {
+     .take(1).subscribe((results) => {
         if (results) {
           _.each(results, (department, key) => {
             if (key !== 'uud4') {

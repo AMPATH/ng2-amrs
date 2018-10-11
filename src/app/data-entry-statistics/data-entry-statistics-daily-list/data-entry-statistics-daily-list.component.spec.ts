@@ -87,8 +87,12 @@ describe('Component: Data Entry Daily List', () => {
       });
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+      expect(comp).toBeDefined();
   });
 
   it('should create encounter daily rows from obtained result', (done: DoneFn) => {

@@ -48,7 +48,7 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
     public getDepartmentConfig() {
 
         this._departmentProgramService.getDartmentProgramsConfig()
-          .subscribe((results) => {
+          .take(1).subscribe((results) => {
             if (results) {
               this.departmentProgConfig = results;
             }
@@ -85,7 +85,7 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
         if (typeof params !== 'undefined') {
 
                 this._patientProgramEnrollmentService.getActivePatientEnrollmentSummary(params)
-                .subscribe((enrollmentSummary) => {
+                .take(1).subscribe((enrollmentSummary) => {
                     if (enrollmentSummary) {
                         this.processEnrollmentSummary(enrollmentSummary);
                     }

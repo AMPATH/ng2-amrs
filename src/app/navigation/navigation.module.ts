@@ -10,10 +10,9 @@ import { PatientSideNavComponent
 import { ClinicSideNavComponent
 } from './side-navigation/clinic-side-nav/clinic-side-nav.component';
 import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
-import { FormOrderMetaDataService }
-from '../patient-dashboard/common/forms/form-order-metadata.service';
+import { FormOrderMetaDataService } from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ng2-openmrs-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
 

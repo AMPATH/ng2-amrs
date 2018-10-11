@@ -1,14 +1,15 @@
 
+import {throwError as observableThrowError,  Observable, of } from 'rxjs';
+
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async, ComponentFixture, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, inject, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 import { FeedBackService } from './feedback.service';
 import { FeedBackComponent } from './feedback.component';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { UserService } from '../openmrs-api/user.service';
 import { UserDefaultPropertiesService }
     from '../user-default-properties/user-default-properties.service';
@@ -19,7 +20,7 @@ import { DepartmentProgramsConfigService
 class DataStub {
 
     public postFeedback(payload): Observable<any> {
-        return Observable.of({ status: 'okay' });
+        return of({ status: 'okay' });
     }
 
 }
@@ -44,7 +45,7 @@ class UserDefaultPropertiesServiceStub {
 class FakeDepartmentProgramsConfigService {
 
   getDartmentProgramsConfig(): Observable<any> {
-    return Observable.of({ status: 'okay' });
+    return of({ status: 'okay' });
   }
 
 }
@@ -56,7 +57,7 @@ describe('FeedBackComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, BusyModule],
+            imports: [FormsModule, NgBusyModule],
             declarations: [FeedBackComponent]
         }).overrideComponent(FeedBackComponent, {
             set: {
@@ -90,6 +91,10 @@ describe('FeedBackComponent', () => {
             });
     }));
 
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should  render properly', () => {
         fixture.componentInstance.ngOnInit();
         fixture.detectChanges();
@@ -103,9 +108,10 @@ describe('FeedBackComponent', () => {
 
     it('should hit the success callback when postFeedback returns success', fakeAsync(() => {
         const spy = spyOn(dataStub, 'postFeedback').and.returnValue(
-            Observable.of({ status: 'okay' })
+            of({ status: 'okay' })
         );
         comp.sendFeedBack();
+        tick(50);
         fixture.detectChanges();
         expect(comp.success).toEqual(true);
         expect(spy.calls.any()).toEqual(true);
@@ -113,9 +119,10 @@ describe('FeedBackComponent', () => {
 
     it('should hit the error callback when postFeedback returns an error', fakeAsync(() => {
         const spy = spyOn(dataStub, 'postFeedback').and.returnValue(
-            Observable.throw({ error: '' })
+            observableThrowError({ error: '' })
         );
         comp.sendFeedBack();
+        tick(50);
         fixture.detectChanges();
         expect(comp.error).toEqual(true);
         expect(spy.calls.any()).toEqual(true);

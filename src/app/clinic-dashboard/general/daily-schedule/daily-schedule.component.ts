@@ -22,7 +22,7 @@ import { SelectDepartmentService
 export class GeneralDailyScheduleComponent extends
 DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
-  public subscription: Subscription = new Subscription();
+  public routeSub: Subscription = new Subscription();
   public myDepartment = '';
   public _datePipe: DatePipe;
   public selectedDate: any;
@@ -37,7 +37,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.route.parent.parent.params.subscribe((params) => {
+   this.routeSub =  this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
@@ -49,7 +49,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
 }

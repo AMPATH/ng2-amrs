@@ -1,4 +1,4 @@
-import { ToastrService, ToastrConfig } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientReminderService } from './patient-reminders.service';
 import { PatientService } from '../../services/patient.service';
@@ -19,16 +19,14 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public errorMessage: string;
 
   constructor(private toastrService: ToastrService,
-              private patientReminderService: PatientReminderService,
-              private patientService: PatientService,
-              private toastrConfig: ToastrConfig,
-              private appFeatureAnalytics: AppFeatureAnalytics) {
+    private patientReminderService: PatientReminderService,
+    private patientService: PatientService,
+    private appFeatureAnalytics: AppFeatureAnalytics) {
 
-    toastrConfig.timeOut = 0;
-    toastrConfig.closeButton = true;
-    toastrConfig.positionClass = 'toast-bottom-right';
-    toastrConfig.extendedTimeOut = 0;
-    toastrConfig.preventDuplicates = true;
+    // toastrConfig.timeOut = 0;
+    // toastrConfig.closeButton = true;
+    // toastrConfig.positionClass = 'toast-bottom-right';
+    // toastrConfig.extendedTimeOut = 0;
 
   }
 
@@ -50,21 +48,19 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patientUuid = patient.person.uuid;
-          let request = this.patientReminderService.getPatientReminders(this.patientUuid);
-          request
-            .subscribe(
-            (data) => {
-              this.reminders = [];
-              if (!patient.person.dead && data && data.personUuid === this.patientUuid) {
-                this.reminders = data.generatedReminders;
-                this.constructReminders(this.reminders);
+          this.patientReminderService.getPatientReminders(this.patientUuid)
+          .subscribe(
+              (data) => {
+                this.reminders = [];
+                if (!patient.person.dead && data && data.personUuid === this.patientUuid) {
+                  this.reminders = data.generatedReminders;
+                  this.constructReminders(this.reminders);
+                }
+              },
+              (error) => {
+                // console.error('error', error);
+                this.errorMessage = error;
               }
-
-            },
-            (error) => {
-              console.error('error', error);
-              this.errorMessage = error;
-            }
             );
         }
       }

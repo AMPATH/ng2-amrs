@@ -105,7 +105,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.isBusy = true;
     let patientUuId = this.patient.uuid;
     this.orderResourceService.getOrdersByPatientUuid(patientUuId)
-      .subscribe((result) => {
+      .take(1).subscribe((result) => {
         console.log('result', result);
         // this.getCorrespingLabOrdersFromAmrs(result.results);
         this.labPatient = result.results[0].patient;
@@ -135,7 +135,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.isBusy = true;
     let patientUuId = this.patient.uuid;
     this.clinicLabOrdersResourceService.getLabOrdersByPatientUuid(patientUuId)
-      .subscribe((result) => {
+      .take(1).subscribe((result) => {
         this.labOrdersEtl = result;
         console.log('this.labOrdersEtl', this.labOrdersEtl);
         this.labOrdersEtl.sort((a, b) => {
@@ -232,7 +232,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     };
     if (this.obsUuid !== null ) {
 
-      this.obsResourceService.voidObs(this.obsUuid).subscribe(
+      this.obsResourceService.voidObs(this.obsUuid).take(1).subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('saved successfully');
@@ -256,7 +256,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
 
     }
 
-    this.obsResourceService.saveObs(obsPayload).subscribe(
+    this.obsResourceService.saveObs(obsPayload).take(1).subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('saved successfully');
@@ -355,7 +355,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   private printLabels(labels) {
     // this.isPrinting = true;
     // this.labelService.generateBarcodes(labels)
-    //   .subscribe((blobUrl) => {
+    //   .take(1).subscribe((blobUrl) => {
     //     this.isPrinting = false;
     //     // window.open(blobUrl);
     //   });

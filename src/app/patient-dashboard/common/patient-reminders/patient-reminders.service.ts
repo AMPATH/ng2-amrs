@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 
 @Injectable()
@@ -8,11 +8,12 @@ export class PatientReminderService {
   }
 
   public getPatientReminders(patientUuid: string): Observable<any> {
-    let reminders: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let clinicalReminders =
-      this.patientReminderResourceService.getPatientLevelReminders(patientUuid);
-    clinicalReminders.subscribe(
+    const reminders: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const sub =
+      this.patientReminderResourceService.getPatientLevelReminders(patientUuid)
+      .subscribe(
       (data) => {
+        sub.unsubscribe();
         if (data && data.reminders.length > 0) {
           let remindersObj = {
             personUuid: data.person_uuid,
@@ -24,6 +25,7 @@ export class PatientReminderService {
       (error) => {
         reminders.error(error);
         console.error(error);
+        sub.unsubscribe();
       });
     return reminders.asObservable();
   }

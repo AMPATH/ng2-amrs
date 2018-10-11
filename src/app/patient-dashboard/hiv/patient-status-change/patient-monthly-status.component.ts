@@ -55,7 +55,7 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
                 getMonthlyPatientCareStatus({
                     startDate: startDate,
                     endDate: endDate, patient_uuid: this.patient.uuid
-                }).subscribe((result) => {
+                }).take(1).subscribe((result) => {
                     this.loadingHistory = false;
                     this.careStatusHistory = result.result;
 

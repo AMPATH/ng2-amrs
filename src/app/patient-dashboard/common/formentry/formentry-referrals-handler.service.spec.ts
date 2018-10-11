@@ -3,9 +3,9 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
-import { Form } from 'ng2-openmrs-formentry';
+import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';
@@ -79,6 +79,10 @@ describe('Service: FormentryReferralsHandler', () => {
 
       });
 
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should inject the service', () => {

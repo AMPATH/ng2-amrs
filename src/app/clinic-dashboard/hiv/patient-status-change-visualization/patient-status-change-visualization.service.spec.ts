@@ -33,6 +33,10 @@ describe('PatientStatusChangeVisualizationService', () => {
     });
   });
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('return column definations when generateColumDefinations() is called',
     inject([PatientStatuChangeVisualizationService],
       (s: PatientStatuChangeVisualizationService) => {

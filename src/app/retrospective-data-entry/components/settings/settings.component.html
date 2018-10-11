@@ -4,10 +4,10 @@
     <legend *ngIf="!modalMode">Retrospective Data Entry</legend>
     <div class="row m-t-20" *ngIf="!bannerMode">
       <div class="col-md-12 col-xs-12" style="margin-bottom: 20px;">
-        <md-checkbox color="primary" labelPosition="after" (change)="saveRetroState($event)"
+        <mat-checkbox color="primary" labelPosition="after" (change)="saveRetroState($event)"
                      [(ngModel)]="enableRetro">
           Enable Retrospective Data Entry
-        </md-checkbox>
+        </mat-checkbox>
       </div>
     </div>
     <ng-container *ngIf="enableRetro">

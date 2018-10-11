@@ -1,10 +1,10 @@
-<md-progress-bar *ngIf="loading"
+<mat-progress-bar *ngIf="loading"
                  class="example-margin"
                  [color]="'primary'"
                  [mode]="'determinate'"
                  [value]="progressBarTick"
                  [bufferValue]="90">
-</md-progress-bar>
+</mat-progress-bar>
 <div class="loader" *ngIf="loading"><span><i class="fa fa-spinner fa-spin">
       </i>{{progressBarTick}}% Loading...</span>
 </div>
@@ -46,13 +46,13 @@
       definitions.</em>
   </div>
   <div class="slide-toggle">
-  <md-slide-toggle
+  <mat-slide-toggle
     style="float:right"
     [color]="'primary'"
     [(ngModel)]="showTable"
     [checked]="showTable"
   ><span *ngIf="!showTable">Show</span> <span *ngIf="showTable">Hide</span> Tabular View
-  </md-slide-toggle>
+  </mat-slide-toggle>
     </div>
   <div class="clear" *ngIf="showIndicatorDefinitions"></div>
   <div *ngIf="showIndicatorDefinitions">
@@ -64,13 +64,13 @@
     </ul>
   </div>
   <div class="slide-toggle">
-  <md-slide-toggle
+  <mat-slide-toggle
     style="float:right"
     [color]="'primary'"
     [(ngModel)]="showIndicatorDefinitions"
     [checked]="showIndicatorDefinitions"
   ><span *ngIf="!showIndicatorDefinitions">Show</span> <span *ngIf="showIndicatorDefinitions">Hide</span> Indicator
     Definitions
-  </md-slide-toggle></div>
+  </mat-slide-toggle></div>
   <div class="clear" *ngIf="showTable"></div>
 </div>

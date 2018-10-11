@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -9,7 +9,7 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 describe('Service: HivSummary', () => {
 
