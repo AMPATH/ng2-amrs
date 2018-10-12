@@ -1,5 +1,7 @@
-
 import { Injectable } from '@angular/core';
+import { Http, Response, Headers, URLSearchParams } from '@angular/http';
+import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -22,21 +24,41 @@ export class Moh731ResourceService {
                          isLegacyReport: boolean,
                          isAggregated: boolean, cacheTtl: number = 0): Observable<any> {
 
+    let report = '';
+    let aggregated = 'false';
+    if(isAggregated){
+          aggregated = 'true';
+    }
+
+    if (isLegacyReport) {
+         report = 'MOH-731-report';
+    } else {
+         report = 'MOH-731-report-2017';
+    }
+
+
     let urlParams: HttpParams = new HttpParams()
     .set('locationUuids', locationUuids)
     .set('startDate', startDate)
-    .set('endDate', endDate);
+    .set('endDate', endDate)
+    .set('reportName', report)
+    .set('isAggregated', aggregated);
 
-    if (isLegacyReport) {
-      urlParams.set('reportName', 'MOH-731-report');
-    } else {
-      urlParams.set('reportName', 'MOH-731-report-2017');
-    }
-    urlParams.set('isAggregated', isAggregated ? 'true' : 'false');
 
-    let request = this.http.get(this.url, {
-      params: urlParams
-    });
+    let request = this.http.get(this.url, { 
+       params: urlParams
+    })
+      .map((response: Response) => {
+        return response;
+      }).catch((err: any) => {
+         console.log('Err', err);
+         let error: any = err;
+         let errorObj = {
+           'error': error.status,
+           'message': error.statusText
+         };
+         return Observable.of(errorObj);
+      });
 
     return cacheTtl === 0 ?
       request : this.cacheService.cacheSingleRequest(this.url, urlParams, request, cacheTtl);
