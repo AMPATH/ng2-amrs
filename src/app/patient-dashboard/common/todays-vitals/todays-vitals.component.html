@@ -16,10 +16,14 @@
                   <strong class="text-primary">Oxygen Sat : </strong>{{vital.oxygenSaturation}} </span>|
           <span *ngIf="vital.height"><strong class="text-primary">Height : </strong>{{vital.height}} |</span>
           <span *ngIf="vital.weight"><strong class="text-primary">Weight : </strong>{{vital.weight}} |</span>
-          <span [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" *ngIf="vital.bmi"><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} </span>
+          <span *ngIf="patient && patient?.person.age < 18 && patient?.person.age >= 5 &&  vital.bmi" 
+            [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" ><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} |</span>
           <span *ngIf="vital.bsa"><strong class="text-primary">BSA : </strong>{{vital.bsa}} |</span>
-      </li>
-    </ul>
+          <span  *ngIf="vital.weightForHeight" [style.color]="vital.weightForHeight && vital.weightForHeight <0 ? 'red':''"><strong class="text-primary">Weight For Height : </strong>{{vital.weightForHeight}} |</span>
+          <span *ngIf="vital.heightForAge" [style.color]="vital.heightForAge && vital.heightForAge <0 ? 'red':''"><strong class="text-primary">Height For Age : </strong>{{vital.heightForAge}} |</span>
+          <span *ngIf="vital.bmiForAge" [style.color]="vital.bmiForAge && vital.bmiForAge <0 ? 'red':''"><strong class="text-primary">BMI For Age : </strong>{{vital.bmiForAge}}</span>
+        </li>
+    </ul>  
   </div>
 </div>
 <ul *ngIf="!todaysVitals" class="list-group">

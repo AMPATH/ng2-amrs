@@ -8,6 +8,10 @@ import {
 import { Vital } from '../../../models/vital.model';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { ZscoreService } from '../../../shared/services/zscore.service';
+import { Patient } from '../../../models/patient.model';
+
+
 
 @Injectable()
 export class TodaysVitalsService {
@@ -15,19 +19,21 @@ export class TodaysVitalsService {
     public loadingEncounters: boolean;
     public errors: any = [];
     public hasVitals: boolean = false;
-
+    public patient: Patient = new Patient({});
     public vitalModel = {
         diastolic: null, systolic: null,
         pulse: null, temperature: null, oxygenSaturation: null,
-        height: null, weight: null, bmi: null , bsa: null
+        height: null, weight: null, bmi: null , bsa: null,
+        weightForHeight: null, heightForAge: null, bmiForAge: null
     };
 
     constructor(
-        private visitResourceService: VisitResourceService) {
+        private visitResourceService: VisitResourceService,
+        private zscoreService: ZscoreService ) {
     }
 
-    public getTodaysVitals(todaysEncounters) {
-
+    public getTodaysVitals(patient: Patient, todaysEncounters) {
+        this.patient = patient;
         let todaysVitals: Subject<Vital[]> = new Subject<Vital[]>();
         let vitals = [];
 
@@ -100,7 +106,13 @@ export class TodaysVitalsService {
                                 this.vitalModel.bmi = this.calcBMI(
                                     this.vitalModel.height,
                                     this.vitalModel.weight);
-
+                                   const zscore = this.zscoreService.getZScoreByGenderAndAge(
+                                       this.patient.person.gender,
+                                       this.patient.person.birthdate, new Date(),
+                                            this.vitalModel.height, this.vitalModel.weight);
+                                    this.vitalModel.weightForHeight = zscore.weightForHeight;
+                                    this.vitalModel.heightForAge =  zscore.heightForAge;
+                                    this.vitalModel.bmiForAge =  zscore.bmiForAge;
                                 this.hasVitals = true;
 
                             }
