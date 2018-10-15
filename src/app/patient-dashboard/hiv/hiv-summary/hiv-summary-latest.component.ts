@@ -58,7 +58,7 @@ export class HivSummaryLatestComponent implements OnInit {
               this.hivSummary = summary;
               let artStartDate =
               new Date(this.hivSummary.arv_first_regimen_start_date).getFullYear();
-              if (artStartDate === 1899 || artStartDate === 1900) {
+              if (isNaN(artStartDate) || artStartDate === 1899 || artStartDate === 1900) {
                 this.hivSummary.arv_first_regimen_start_date = null;
               }
 
