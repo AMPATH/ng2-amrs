@@ -28,11 +28,11 @@ export class ClinicalSummaryVisualizationResourceService {
         let urlParams: HttpParams = new HttpParams()
         .set('startIndex', params.startIndex)
         .set('endDate', params.endDate)
-        .set('gender', params.gender)
+        //.set('gender', params.gender)
         .set('startDate', params.startDate)
-        .set('groupBy', params.groupBy)
+        //.set('groupBy', params.groupBy)
         .set('indicator', params.indicator || params.indicators)
-        .set('order', params.order)
+        //.set('order', params.order)
         .set('locationUuids', params.locationUuids)
         .set('limit', params.limit);
         return urlParams;

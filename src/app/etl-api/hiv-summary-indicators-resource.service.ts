@@ -19,8 +19,12 @@ export class HivSummaryIndicatorsResourceService {
     }
 
     public getUrlRequestParams(params): HttpParams {
-        let urlParams: HttpParams = new HttpParams();
-
+        let urlParams: HttpParams = new HttpParams().set('endDate', params.endDate)
+        .set('gender', params.gender)
+        .set('startDate', params.startDate)
+        .set('locationUuids', params.locationUuids)
+        .set('startAge', params.startAge)
+        .set('endAge', params.endAge);
         if (params.indicators) {
             urlParams = urlParams.set('indicators', params.indicators);
         }
@@ -29,12 +33,6 @@ export class HivSummaryIndicatorsResourceService {
             urlParams = urlParams.set('indicator', params.indicator);
         }
 
-        urlParams.set('endDate', params.endDate)
-        .set('gender', params.gender)
-        .set('startDate', params.startDate)
-        .set('locationUuids', params.locationUuids)
-        .set('startAge', params.startAge)
-        .set('endAge', params.endAge);
 
         return urlParams;
     }
@@ -58,8 +56,8 @@ export class HivSummaryIndicatorsResourceService {
         if (!params.limit) {
             params.limit = '300';
         }
-        urlParams.set('startIndex', params.startIndex);
-        urlParams.set('limit', params.limit);
+        urlParams = urlParams.set('startIndex', params.startIndex);
+        urlParams = urlParams.set('limit', params.limit);
         let url = this.getPatientListUrl();
         let request = this.http.get<any>(url, {
             params: urlParams
