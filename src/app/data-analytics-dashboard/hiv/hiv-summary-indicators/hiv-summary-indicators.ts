@@ -85,6 +85,10 @@ implements OnInit {
     if (path.queryParams['view']) {
       this.currentView = path.queryParams['view'];
     }
+
+    if (path.queryParams['locationUuids']) {
+      this.locationUuids = path.queryParams['locationUuids'];
+    }
     if (pathHasHistoricalValues) {
       this.generateReport();
     }
@@ -99,7 +103,8 @@ implements OnInit {
       'gender': this.gender === undefined ? '' : this.gender,
       'startAge': (this.startAge as any),
       'endAge': (this.endAge as any),
-      'view': this.currentView
+      'view': this.currentView,
+      'locationUuids': this.locationUuids
     };
 
     this.location.replaceState(path.toString());

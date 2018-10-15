@@ -21,8 +21,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public isAggregated: boolean;
   public startAge = 0;
   public endAge = 120;
-  public indicators: string ;
-  public selectedIndicators  = [];
+  public indicators: string;
+  public selectedIndicators = [];
   public selectedGender = [];
   public enabledControls = 'indicatorsControl,datesControl,' +
     'ageControl,genderControl,locationControl';
@@ -68,9 +68,9 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   }
 
   constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
 
-  public ngOnInit() {}
+  public ngOnInit() { }
   public generateReport() {
     // set busy indications variables
     // clear error
@@ -85,26 +85,28 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     this.encounteredError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
+    let uuids = this.getSelectedLocations(this.locationUuids);
+    let params = {
+      endDate: this.toDateString(this.endDate),
+      gender: this.gender ? this.gender : undefined,
+      startDate: this.toDateString(this.startDate),
+      indicators: this.indicators,
+      locationUuids: uuids,
+      startAge: this.startAge,
+      endAge: this.endAge
+    };
     this.hivSummaryIndicatorsResourceService
-      .getHivSummaryIndicatorsReport({
-          endDate: this.toDateString(this.endDate),
-          gender: this.gender ? this.gender : undefined,
-          startDate: this.toDateString(this.startDate),
-          indicators: this.indicators,
-          locationUuids: this.getSelectedLocations(this.locationUuids),
-          startAge: this.startAge,
-          endAge: this.endAge
-       }).take(1).subscribe(
-      (data) => {
-        this.isLoadingReport = false;
-        this.sectionsDef =   data.indicatorDefinitions;
+      .getHivSummaryIndicatorsReport(params).take(1).subscribe(
+        (data) => {
+          this.isLoadingReport = false;
+          this.sectionsDef = data.indicatorDefinitions;
 
-        this.data = data.result;
-      }, (error) => {
-        this.isLoadingReport = false;
-        this.errorMessage = error;
-        this.encounteredError = true;
-      });
+          this.data = data.result;
+        }, (error) => {
+          this.isLoadingReport = false;
+          this.errorMessage = error;
+          this.encounteredError = true;
+        });
   }
 
   public onAgeChangeFinished($event) {

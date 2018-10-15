@@ -7,12 +7,12 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'hiv', loadChildren: () => DataAnalyticsHivModule
+        path: 'hiv', loadChildren:  './hiv/data-analytics-hiv.module#DataAnalyticsHivModule'
       },
       {
         path: 'oncology',
         loadChildren:
-        './oncology/data-analytics-oncology.module#DataAnalyticsOncologyProgramModule'
+        './oncology/data-analytics-oncology.module#DataAnalyticsOncologyModule'
       },
       {
         path: 'referral',
