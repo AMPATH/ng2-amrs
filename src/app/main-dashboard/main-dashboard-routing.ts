@@ -39,7 +39,7 @@ export const dashboardRoutes: Routes = [
         path: 'patient-dashboard', loadChildren: '../patient-dashboard#PatientDashboardModule'
       },
       {
-        path: 'data-analytics', loadChildren: dataAnalyticsModule
+        path: 'data-analytics', loadChildren: '../data-analytics-dashboard/data-analytics.module#DataAnalyticsModule'
       },
       {
         path: 'user-default-properties',

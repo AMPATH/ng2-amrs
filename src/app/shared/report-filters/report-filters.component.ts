@@ -134,7 +134,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public set selectedIndicators(v: Array<any>) {
     this._indicators = v;
-    console.log('SELECTED INDICATORS', v);
     this.onIndicatorChange.emit(this._indicators);
   }
   @Input()
@@ -288,6 +287,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
   public getSelectedLocations(locs: any) {
+    console.log('Selected Locations',this._report,locs);
     if (this._report === 'hiv-summary-report') {
       this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
       return;

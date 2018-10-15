@@ -30,7 +30,8 @@ import {
 } from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { NgBusyModule } from 'ng-busy';
 
-@NgModule({
+@NgModule(
+  {
   imports: [
     DataAnalyticsDashboardOncologyRouting,
     NgamrsSharedModule,
