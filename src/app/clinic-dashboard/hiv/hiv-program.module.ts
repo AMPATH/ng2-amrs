@@ -19,21 +19,19 @@ import { clinicDashboardHivRouting } from './hiv-program.routes';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { HivModuleComponent } from './hiv-program.component';
-import { DepartmentProgramFilterModule } from
-'./../../department-program-filter/department-program-filter.module';
+import { DepartmentProgramFilterModule
+} from './../../department-program-filter/department-program-filter.module';
 import {
     PatientStatusChangeVisualizationContainerComponent
-} from
-'./patient-status-change-visualization/patient-status-change-visualization.container.component';
+} from './patient-status-change-visualization/patient-status-change-visualization.container.component';
 import {
     PatientStatusChangeVisualizationComponent
-} from
-'./patient-status-change-visualization/patient-status-change-visualization.component';
+} from './patient-status-change-visualization/patient-status-change-visualization.component';
 import {
     PatientStatusDatalistCellComponent
 } from './patient-status-change-visualization/patient-status-data-list-cell.component';
-import { PatientStatusChangeListComponent } from
-'./patient-status-change-visualization/patient-status-change-list.component';
+import { PatientStatusChangeListComponent
+} from './patient-status-change-visualization/patient-status-change-list.component';
 import {
     HivSummaryIndicatorComponent
 } from './hiv-summary-indicators/hiv-summary-indicator.component';
@@ -63,9 +61,7 @@ import {
 } from './clinical-summary-visualization/patient-status-overview/patient-status-overview.component';
 import {
     VisualizationPatientListComponent
-} from
-// tslint:disable-next-line:max-line-length
-'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+} from './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import { DashboardFiltersComponent } from '../dashboard-filters/dashboard-filters.component';
 import { DateRangeComponent } from '../dashboard-filters/date-range/date-range.component';
 import { RangeSliderComponent } from '../dashboard-filters/range-slider/range-slider.component';
@@ -86,6 +82,13 @@ import {
 } from '../../program-visit-encounter-search/program-visit-encounter-search.module';
 import { RouterModule } from '@angular/router';
 
+import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
+import {
+    HivEnhancedFiltersComponent
+} from './hiv-enhanced-program/hiv-enhanced-program-filters/hiv-enhanced-program-filters.component';
+import {
+    HivEnhancedPatientListComponent
+} from './hiv-enhanced-program/hiv-enhanced-patient-list/hiv-enhanced-patient-list.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -151,6 +154,9 @@ import { RouterModule } from '@angular/router';
         IndicatorSelectComponent,
         DateRangeComponent,
         RangeSliderComponent,
+        HivEnhancedComponent,
+        HivEnhancedFiltersComponent,
+        HivEnhancedPatientListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService
