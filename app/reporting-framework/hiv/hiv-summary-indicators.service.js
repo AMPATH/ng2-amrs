@@ -89,6 +89,7 @@ export class HivSummaryIndicatorsService {
         });
     }
     getPatientListReport(reportParams) {
+        console.log('Params',reportParams);
         let self = this;
         let gender = reportParams.gender.split(',');
         let locations = reportParams.locationUuids.split(',');

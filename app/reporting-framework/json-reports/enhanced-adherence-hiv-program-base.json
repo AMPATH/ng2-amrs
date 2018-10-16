@@ -1,0 +1,107 @@
+{
+    "name": "enhancedAdherenceHIVProgramBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "enhancedAdherenceHIVProgramCohort",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs"
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs2",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "fhs2.person_id = fhs.person_id AND fhs2.encounter_type = 140"
+            }
+        },
+        {
+            "dataSet": "enhancedAdherenceHIVProgramCohort",
+            "alias": "max_record",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "max_record.person_id = fhs.person_id and max_record.maxdate = fhs.vl_1_date"
+            }
+        },
+        {
+            "table": "amrs.patient_program",
+            "alias": "pp",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "pp.patient_id = fhs.person_id AND pp.program_id = 27"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fhs.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed_not_in_enhanced_care",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " IF(program_id IS NULL, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed_in_enhanced_care",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(program_id = 27, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed_in_enhanced_care_vl_due",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(program_id = 27 AND TIMESTAMPDIFF(DAY, fhs.vl_1_date,'{endDate}') > 90, 1 ,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "mdt_form_completed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(program_id = 27 AND fhs2.encounter_type IS  NULL, 1,NULL)"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.location_uuid in (?)",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.vl_1 >= 1000",
+                "parameterName": ""
+            }
+        ]
+    }
+}

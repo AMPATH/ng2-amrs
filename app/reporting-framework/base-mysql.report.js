@@ -86,6 +86,10 @@ import * as cervical_cancer_monthly_screening_summary_aggregate from './json-rep
 import * as cervical_cancer_monthly_screening_summary_base from './json-reports/cervical-cancer-monthly-screening-summary-base.json';
 
 import * as patient_list_with_contacts_template from './json-reports/patient-list-with-contacts-template.json';
+import * as enhanced_adherence_hiv_program_aggregate from './json-reports/enhanced-adherence-hiv-program-aggregate.json';
+import * as enhanced_adherence_hiv_program_base from './json-reports/enhanced-adherence-hiv-program-base';
+import * as patient_program_cohort from './json-reports/patient-program-cohort';
+import * as enhanced_adherence_hiv_program_cohort from './json-reports/enhanced-adherence-hiv-program-cohort';
 
 export class BaseMysqlReport {
     constructor(reportName, params) {
@@ -394,7 +398,15 @@ export class BaseMysqlReport {
                 case 'clinicalReminderReport':
                     resolve({
                         main: clinical_reminders_report,
-                        flatLabsAndImagingDataSetbase : labs_and_imaging_dataset_base
+                        flatLabsAndImagingDataSetbase: labs_and_imaging_dataset_base
+                    });
+                    break;
+                case 'enhancedAdherenceHIVProgramAggregate':
+                    resolve({
+                        main: enhanced_adherence_hiv_program_aggregate,
+                        enhancedAdherenceHIVProgramBase: enhanced_adherence_hiv_program_base,
+                        patientProgramCohort: patient_program_cohort,
+                        enhancedAdherenceHIVProgramCohort: enhanced_adherence_hiv_program_cohort
                     });
                     break;
                 default:
