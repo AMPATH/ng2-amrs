@@ -92,7 +92,10 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       (success) => {
         if (success) {
           this.displaySuccessAlert('Address saved successfully');
-          this.patientService.reloadCurrentPatient();
+          setTimeout(() => {
+            this.display = false;
+            this.patientService.reloadCurrentPatient();
+          }, 2000);
         }
       },
       (error) => {
@@ -103,9 +106,6 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         });
       }
     );
-    setTimeout(() => {
-      this.display = false;
-    }, 1000);
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;

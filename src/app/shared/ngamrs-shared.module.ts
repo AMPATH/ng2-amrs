@@ -71,6 +71,7 @@ import { RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 import { DataListsModule } from './data-lists/data-lists.module';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AppModalComponent } from './modal/app-modal.component';
 
 @NgModule({
   imports: [
@@ -114,7 +115,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatRadioModule, MatMenuModule, MatIconModule,
     MatExpansionModule, MatButtonModule, MatTooltipModule,PdfViewerModule
   ],
-  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
+  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent, AppModalComponent,
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
@@ -126,7 +127,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent,
-    OnlineTrackerComponent,
+    OnlineTrackerComponent, AppModalComponent,
     BuildVersionComponent, DateSelectorComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent
