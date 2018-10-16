@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:6-alpine
+FROM keymetrics/pm2:10-alpine
 
 COPY . /opt/etl
 RUN apk add --no-cache git

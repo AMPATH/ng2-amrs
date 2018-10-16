@@ -1,0 +1,53 @@
+{
+    "name": "enhancedAdherenceHIVProgramCohort",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fhs.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "maxdate",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " MAX(vl_1_date)"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.location_uuid in (?)",
+                "parameterName": "locationUuids"
+            }
+        ]
+    },
+    "groupBy": {
+        "columns": [
+            "fhs.person_id"
+        ]
+    }
+}
