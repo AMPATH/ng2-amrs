@@ -15,13 +15,13 @@ function buildScope(dataDictionary) {
     }
 
     if (dataDictionary.hivLastTenClinicalEncounters) {
-        buildHivScopeMembers(scope, dataDictionary.hivLastTenClinicalEncounters);
+        buildHivScopeMembers(scope, dataDictionary.hivLastTenClinicalEncounters,
+          dataDictionary.intendedVisitLocationUuid);
     }
 
     if (dataDictionary.intendedVisitLocationUuid) {
         scope.intendedVisitLocationUuid = dataDictionary.intendedVisitLocationUuid;
     }
-
     // add other methods to build the scope objects
     return scope;
 }
@@ -29,6 +29,14 @@ function buildScope(dataDictionary) {
 function buildPatientScopeMembers(scope, patient) {
     scope.age = patient.person.age;
     scope.gender = patient.person.gender;
+}
+
+function isIntraTransfer (lastTenHivSummary, intendedVisitLocationUuid) {
+  if (intendedVisitLocationUuid && Array.isArray(lastTenHivSummary) && lastTenHivSummary.length > 0) {
+    return intendedVisitLocationUuid !== lastTenHivSummary[0].location_uuid;
+  } else {
+    return false;
+  }
 }
 
 function buildProgramScopeMembers(scope, programEnrollment) {
@@ -49,11 +57,13 @@ function buildProgramScopeMembers(scope, programEnrollment) {
     }
 }
 
-function buildHivScopeMembers(scope, lastTenHivSummary) {
+function buildHivScopeMembers(scope, lastTenHivSummary, intendedVisitLocationUuid) {
     if (Array.isArray(lastTenHivSummary) && lastTenHivSummary.length > 0) {
         scope.isFirstAMPATHHIVVisit = false;
         scope.previousHIVClinicallocation = lastTenHivSummary[0].location_uuid;
     } else {
-        scope.isFirstAMPATHHIVVisit = true;
+      // its first AMPATH visit if its not an intra transfer
+        scope.isFirstAMPATHHIVVisit = !isIntraTransfer(lastTenHivSummary, intendedVisitLocationUuid);
+        scope.previousHIVClinicallocation = null;
     }
 }

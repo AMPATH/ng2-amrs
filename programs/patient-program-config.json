@@ -61,11 +61,6 @@
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31"
 
     ],
-    "transferCare": {
-      "AMPATH": [],
-      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
-    },
     "visitTypes": [
       {
         "uuid": "33d13ffb-5f0e-427e-ab80-637491fb6526",
@@ -800,11 +795,6 @@
       "0904172d-0b6a-40df-b8a2-b3653d16dc45",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "transferCare": {
-      "AMPATH": [],
-      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
-    },
     "visitTypes": [
       {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
@@ -2167,11 +2157,6 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
-    "transferCare": {
-      "AMPATH": [],
-      "DISCHARGE": ["cbe2d31d-2201-44ce-b52e-fbd5dc7cff33"],
-      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
-    },
     "incompatibleWith": [
       "781d85b0-1359-11df-a1f1-0026b9348838",
       "781d897a-1359-11df-a1f1-0026b9348838",
@@ -2398,11 +2383,6 @@
       "c6bf3625-de80-4a88-a913-38273e300a55",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "transferCare": {
-      "AMPATH": [],
-      "DISCHARGE": ["9765992c-6279-46cc-915b-452a73e7dab5"],
-      "NON-AMPATH": ["9765992c-6279-46cc-915b-452a73e7dab5"]
-    },
     "visitTypes": [
       {
         "uuid": "b8516e6e-17c6-4f28-bc3d-ec58d591e455",
