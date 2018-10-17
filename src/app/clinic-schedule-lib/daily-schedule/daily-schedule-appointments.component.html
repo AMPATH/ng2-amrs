@@ -1,4 +1,7 @@
 <div class="daily-schedule">
+    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+            </i>{{busyIndicator.message}}</span>
+    </div>
     <patient-list [data]="dailyAppointmentsPatientList">
     </patient-list>
     <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">

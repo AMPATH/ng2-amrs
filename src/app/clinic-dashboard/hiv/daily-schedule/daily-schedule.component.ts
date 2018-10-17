@@ -21,6 +21,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   public myDepartment = 'HIV';
   public _datePipe: DatePipe;
   public selectedDate: any;
+  public paramsSub: Subscription;
 
   constructor(
     public clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -33,6 +34,14 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.paramsSub = this.route
+    .queryParams
+    .subscribe((params) => {
+       if (params.startDate) {
+        this.selectedDate = params.startDate;
+        this.clinicFlowCache.setSelectedDate(this.selectedDate);
+       }
+    });
     this.selectDepartmentService.setDepartment(this.myDepartment);
     this.routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
@@ -47,6 +56,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.routeSub.unsubscribe();
+    this.paramsSub.unsubscribe();
   }
 
 }

@@ -15,20 +15,31 @@ export class DailyScheduleResourceService {
     }
 
     public getDailyVisits(params) {
+        console.log('Service:getDailyVisits', params);
         if (!params.startIndex) {
             params.startIndex = '0';
         }
         if (!params.limit) {
             params.limit = '300';
         }
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startIndex', params.startIndex)
         .set('startDate', params.startDate)
         .set('locationUuids', params.locationUuids)
-        .set('programVisitEncounter', params.programVisitEncounter)
         .set('limit', params.limit);
-        let url = this.getUrl('daily-visits', params.startDate);
-        let request = this.http.get<any>(url, {
+
+        if (params.programType && params.programType.length > 0) {
+            urlParams.append('programType', params.programType);
+        }
+        if (params.visitType && params.visitType.length > 0) {
+            urlParams.append('visitType', params.visitType);
+        }
+        if (params.encounterType && params.encounterType.length > 0) {
+            urlParams.append('encounterType', params.encounterType);
+        }
+        const url = this.getUrl('daily-visits', params.startDate);
+
+        const request = this.http.get<any>(url, {
             params: urlParams
         }).pipe(
             map((response) => {
@@ -44,15 +55,24 @@ export class DailyScheduleResourceService {
         if (!params.limit) {
             params.limit = '300';
         }
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startIndex', params.startIndex)
         .set('startDate', params.startDate)
         .set('locationUuids', params.locationUuids)
-        .set('programVisitEncounter', params.programVisitEncounter)
         .set('limit', params.limit);
 
-        let url = this.getUrl('daily-appointments', params.startDate);
-        let request = this.http.get<any>(url, {
+        if (params.programType && params.programType.length > 0) {
+            urlParams.append('programType', params.programType);
+        }
+        if (params.visitType && params.visitType.length > 0) {
+            urlParams.append('visitType', params.visitType);
+        }
+        if (params.encounterType && params.encounterType.length > 0) {
+            urlParams.append('encounterType', params.encounterType);
+        }
+
+        const url = this.getUrl('daily-appointments', params.startDate);
+        const request = this.http.get<any>(url, {
             params: urlParams
         }).pipe(
             map((response) => {
@@ -68,15 +88,23 @@ export class DailyScheduleResourceService {
         if (!params.limit) {
             params.limit = '300';
         }
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startIndex', params.startIndex)
         .set('startDate', params.startDate)
         .set('locationUuids', params.locationUuids)
-        .set('programVisitEncounter', params.programVisitEncounter)
         .set('limit', params.limit);
+        if (params.programType && params.programType.length > 0) {
+            urlParams.append('programType', params.programType);
+        }
+        if (params.visitType && params.visitType.length > 0) {
+            urlParams.append('visitType', params.visitType);
+        }
+        if (params.encounterType && params.encounterType.length > 0) {
+            urlParams.append('encounterType', params.encounterType);
+        }
 
-        let url = this.getUrl('daily-has-not-returned', params.startDate);
-        let request = this.http.get<any>(url, {
+        const url = this.getUrl('daily-has-not-returned', params.startDate);
+        const request = this.http.get<any>(url, {
             params: urlParams
         }).pipe(
             map((response) => {

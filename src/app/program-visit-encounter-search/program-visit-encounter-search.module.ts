@@ -2,18 +2,20 @@ import { ProgramVisitEncounterSearchComponent } from './program-visit-encounter-
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AngularMultiSelectModule }
-from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { SelectDepartmentService } from './program-visit-encounter-search.service';
-
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
     imports: [
         FormsModule,
         CommonModule,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        DateTimePickerModule,
+        MatTabsModule
     ],
     exports: [ProgramVisitEncounterSearchComponent],
     declarations: [ProgramVisitEncounterSearchComponent],
