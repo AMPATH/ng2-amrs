@@ -28,7 +28,7 @@ import { LocalStorageService } from './utils/local-storage.service';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from './shared/services/data-cache.service';
 import { FeedBackComponent } from './feedback';
-import { FormVisitTypeSearchModule } from './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module';
+// import { FormVisitTypeSearchModule } from './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module';
 import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -67,7 +67,6 @@ interface StoreType {
   imports: [ // import Angular's modules
     BrowserAnimationsModule,
     BrowserModule,
-    FormVisitTypeSearchModule,
     CommonModule,
     CookieModule.forRoot(),
     ModalModule.forRoot(),
@@ -76,7 +75,7 @@ interface StoreType {
     HttpClientModule,
     RouterModule.forRoot(ROUTES, { useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
-    ServiceWorkerModule.register('/combined-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,

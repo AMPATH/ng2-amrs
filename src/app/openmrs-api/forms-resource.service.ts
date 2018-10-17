@@ -33,7 +33,7 @@ export class FormsResourceService {
         {
           params: params
         }
-      ).take(1).subscribe(
+      ).subscribe(
           (data) => this.forms.next(data.results),
           (error) => this.forms.error(error)
         );
