@@ -28,6 +28,15 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
      'visitType': [],
      'encounterType': []
   };
+  public params: any = {
+    'programType': [],
+    'visitType': [],
+    'encounterType': []
+  };
+  public busyIndicator: any = {
+    busy: false,
+    message: 'Please wait...' // default message
+  };
   public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
   public extraColumns: any = {
     headerName: 'Phone Number',
@@ -53,24 +62,11 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-     this.filterSelected();
+     console.log('Has not returned init');
      this.selectedDate = Moment().format('YYYY-MM-DD');
      const sub = this.clinicDashboardCacheService.getCurrentClinic()
        .subscribe((location) => {
          this.selectedClinic = location;
-         if (this.selectedClinic) {
-           const dateSub = this.clinicDashboardCacheService.
-             getDailyTabCurrentDate().subscribe((date) => {
-               if (this.loadingDailyNotReturned === false) {
-                 this.selectedDate = date;
-                 this.initParams();
-                 let params = this.getQueryParams();
-                 this.getDailyHasNotReturned(params);
-               }
-
-             });
-            this.subs.push(dateSub);
-         }
        });
 
       this.subs.push(sub);
@@ -78,20 +74,20 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
      const sub2 = this.route
        .queryParams
        .subscribe((params) => {
-         if (params) {
-           if (this.fetchCount === 0 ) {
-            /*
-            for intial page load do not fetch daily visits as
-            it has been already fetched
-            */
-
-          }else {
-             let searchParams = this.getQueryParams();
-             this.initParams();
-             this.getDailyHasNotReturned(searchParams);
-          }
-           this.fetchCount++;
-         }
+         if (params.programType) {
+             this.params = params;
+             if (params.resetFilter && params.resetFilter === 'true') {
+              console.log('reset filter');
+              this.notReturnedPatientList = [];
+             } else {
+              this.initParams();
+              const searchParams = this.getQueryParams();
+              this.getDailyHasNotReturned(searchParams);
+             }
+          } else {
+            console.log('Empty params', params);
+            this.notReturnedPatientList = [];
+        }
        });
 
        this.subs.push(sub2);
@@ -107,7 +103,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
 
-    let params = this.getQueryParams();
+    const params = this.getQueryParams();
     this.getDailyHasNotReturned(params);
   }
 
@@ -122,17 +118,36 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   }
 
   private getQueryParams() {
-    this.filterSelected();
+    let programType: any = [];
+    let visitType: any = [];
+    let encounterType: any = [];
+    if (this.params.programType.length > 0) {
+        programType = this.params.programType;
+    }
+    if (this.params.visitType && this.params.visitType.length > 0) {
+      visitType = this.params.visitType;
+    }
+    if (this.params.encounterType && this.params.encounterType.length > 0) {
+      encounterType = this.params.encounterType;
+    }
+    if (this.params.startDate) {
+       this.selectedDate = this.params.startDate;
+    } else {
+       this.selectedDate = Moment().format('YYYY-MM-DD');
+    }
     return {
       startDate: this.selectedDate,
-      startIndex: this.nextStartIndex,
+      startIndex: 0,
       locationUuids: this.selectedClinic,
-      programVisitEncounter: this.encodedParams,
-      limit: undefined
+      programType: programType,
+      visitType: visitType,
+      encounterType: encounterType,
+      limit: 1000
     };
 
   }
   private getDailyHasNotReturned(params) {
+    this.setBusy();
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
     let result = this.dailyScheduleResource.
@@ -144,19 +159,19 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       result.take(1).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
-            this.notReturnedPatientList = this.notReturnedPatientList.concat(
-              patientList);
-            let size: number = patientList.length;
-            this.nextStartIndex = this.nextStartIndex + size;
+            this.notReturnedPatientList = patientList;
+            this.dataLoaded = true;
             this.currentTabLoaded = true;
           } else {
             this.dataLoaded = true;
           }
+          this.setFree();
           this.loadingDailyNotReturned = false;
           this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
         }
         ,
         (error) => {
+          this.setFree();
           this.loadingDailyNotReturned = false;
           this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
           this.dataLoaded = true;
@@ -169,24 +184,20 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     }
   }
 
-    private filterSelected() {
+  private setBusy() {
 
-      let cookieKey = 'programVisitEncounterFilter';
+    this.busyIndicator = {
+      busy: true,
+      message: 'Please wait...Loading'
+    };
 
-      let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
+  }
+  private setFree() {
 
-      let programVisitStored = this.localStorageService.getItem(cookieKey);
-
-      if (programVisitStored === null) {
-
-      } else {
-
-         cookieVal =  this.localStorageService.getItem(cookieKey);
-
-         // this._cookieService.put(cookieKey, cookieVal);
-      }
-
-      this.encodedParams = cookieVal;
+    this.busyIndicator = {
+      busy: false,
+      message: ''
+    };
 
   }
 

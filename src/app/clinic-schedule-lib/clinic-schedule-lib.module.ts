@@ -10,6 +10,7 @@ import { ClinicDashboardCacheService } from '../clinic-dashboard/services/clinic
 import {
   DateTimePickerModule
 } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { EtlApi } from '../etl-api/etl-api.module';

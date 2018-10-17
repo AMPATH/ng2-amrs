@@ -32,6 +32,14 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.route
+    .queryParams
+    .subscribe((params) => {
+       if (params.startDate) {
+        this.selectedDate = params.startDate;
+        this.clinicFlowCache.setSelectedDate(this.selectedDate);
+       }
+    });
     this.selectDepartmentService.setDepartment(this.myDepartment);
     this.routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);

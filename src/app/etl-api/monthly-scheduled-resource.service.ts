@@ -15,15 +15,24 @@ export class MonthlyScheduleResourceService {
 
   public getMonthlySchedule(params) {
 
-    let url = this.getUrl();
-    let urlParams: HttpParams = new HttpParams()
+    const url = this.getUrl();
+    const urlParams: HttpParams = new HttpParams()
     .set('endDate', params.endDate)
     .set('startDate', params.startDate)
     .set('locationUuids', params.locationUuids)
-    .set('programVisitEncounter', params.programVisitEncounter)
     .set('limit', params.limit)
     .set('groupBy', 'groupByPerson,groupByAttendedDate,groupByRtcDate');
-    let request = this.http.get<any>(url, {
+    if (params.programType && params.programType.length > 0) {
+      urlParams.append('programType', params.programType);
+    }
+    if (params.visitType && params.visitType.length > 0) {
+      urlParams.append('visitType', params.visitType);
+    }
+    if (params.encounterType && params.encounterType.length > 0) {
+      urlParams.append('encounterType', params.encounterType);
+    }
+
+    const request = this.http.get<any>(url, {
       params: urlParams
     }).pipe(
       map((response) => {
