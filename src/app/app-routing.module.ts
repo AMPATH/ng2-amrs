@@ -12,8 +12,9 @@ export const ROUTES: Routes = [
     path: 'login', loadChildren: './authentication/authentication.module#AuthenticationModule'
   },
   {path: 'feed-back', component: FeedBackComponent},
-  {path: 'form-visit-search', loadChildren:
-   './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module#' +
-   'FormVisitTypeSearchModule'},
+  {
+    path: 'form-visit-search', loadChildren:
+      './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module#FormVisitTypeSearchModule'
+  },
   {path: '**', component: NoContentComponent},
 ];

@@ -3,15 +3,15 @@ import { NgModel } from '@angular/forms';
 import { FormVisitTypeSearchComponent } from './form-visit-type-search.component';
 import { FormListService } from '../forms/form-list.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 export const routes: Routes = [
-  { path: 'form-visit-search', component: FormVisitTypeSearchComponent },
+  { path: '', component: FormVisitTypeSearchComponent },
 ];
-
+export const visitTypeSearchRoutes: ModuleWithProviders = RouterModule.forChild(routes);
 @NgModule({
   declarations: [
     FormVisitTypeSearchComponent
@@ -22,8 +22,7 @@ export const routes: Routes = [
       FormOrderMetaDataService
   ],
   imports: [
-      RouterModule.forRoot(routes, { useHash: true }),
-      BrowserModule, FormsModule
+    visitTypeSearchRoutes,FormsModule,CommonModule
   ]
 })
 
