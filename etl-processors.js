@@ -210,8 +210,6 @@ module.exports = function () {
       patientReferralProcessor.UngroupResults(queryResults.results);
     queryResults.groupedResult =
       patientReferralProcessor.groupResultsByLocation(queryResults.result);
-    queryResults.stateNames    =
-      patientReferralProcessor.getListOfDistinctStatesFromResult(queryResults.result);
     
     return queryResults;
   }

@@ -68,6 +68,7 @@
     "mysql": "^2.15.0",
     "nes": "^6.2.5",
     "ngx-select-ex": "^3.5.4",
+    "nigel": "^3.0.1",
     "node-cache": "^4.2.0",
     "nodemailer": "^4.4.0",
     "promise-mysql": "^3.2.1",

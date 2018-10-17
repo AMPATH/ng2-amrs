@@ -15,8 +15,6 @@ export class PatientReferralService {
 
   
     getAggregateReport(reportParams) {
-
-        reportParams.stateUuids = reportParams.stateUuids?reportParams.stateUuids.replace(/,/g,"','"):null;
         reportParams.locationUuids = reportParams.locationUuids?reportParams.locationUuids.replace(/,/g,"','"):null;
         reportParams.programUuids =reportParams.programUuids? reportParams.programUuids.replace(/,/g,"','"):null;
         // notificationStatus param can either be ALL or null
@@ -25,7 +23,7 @@ export class PatientReferralService {
         reportParams.notificationStatus =reportParams.notificationStatus?null:'null';
         let self = this;
         return new Promise(function (resolve, reject) {
-            reportParams.groupBy = 'groupByLocation,groupByProgram,groupByState';
+            reportParams.groupBy = 'groupByLocation,groupByProgram';
             reportParams.countBy = 'num_persons';
             let report = new PatientReferralAggregateService('referralAggregate',reportParams);
             Promise.join(report.generateReport(reportParams),

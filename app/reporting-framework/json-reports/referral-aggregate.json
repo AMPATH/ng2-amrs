@@ -45,35 +45,15 @@
         },
         {
             "type": "simple_column",
-            "alias": "state_name",
-            "column": "hmsd.state_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "conceptUuids",
-            "column": "hmsd.conceptUuids"
-        },
-        {
-            "type": "simple_column",
-            "alias": "state_concept_id",
-            "column": "hmsd.state_concept_id"
-        },
-        {
-            "type": "simple_column",
             "alias": "location_id",
             "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "providerUuids",
-            "column": "hmsd.providerUuids"
         },
         {
             "type": "derived_column",
             "alias": "counts",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct hmsd.patient_id,hmsd.programUuids,hmsd.state_name)"
+                "expression": "count(distinct hmsd.patient_id,hmsd.programUuids)"
             }
         }
     ],
@@ -81,14 +61,13 @@
         "groupParam": "groupByParam",
         "columns": [
             "location_id",
-            "program_id",
-            "state_name"
+            "program_id"
         ],
         "excludeParam": "excludeParam"
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {
-            "useTemplate": "referral-patient-list-template",
+            "useTemplate": "patient-list-template",
             "useTemplateVersion": "1.0",
             "generatingDirectives": {
                 "joinDirectives": {

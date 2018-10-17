@@ -92,13 +92,16 @@ import {
 
 import {
     PatientlistMysqlReport
-} from './app/reporting-framework/patientlist-mysql.report'
+} from './app/reporting-framework/patientlist-mysql.report';
 import {
     BaseMysqlReport
 } from './app/reporting-framework/base-mysql.report';
 import {
     CDMReportingService
-} from './service/cdm/cdm-reporting.service'
+} from './service/cdm/cdm-reporting.service';
+import {
+  PatientReferralService
+} from './service/patient-referral.service';
 
 module.exports = function () {
 
@@ -1217,31 +1220,178 @@ module.exports = function () {
                     }
                 }
             },
-            {
-                method: 'POST',
-                path: '/etl/patient-referral',
-                config: {
-                    auth: 'simple',
-                    plugins: {},
-                    handler: function (request, reply) {
-                        patientReferralDao.createPatientReferral(request.payload)
-                            .then(function (newCohortReferral) {
-                                reply(newCohortReferral);
-                            })
-                            .catch(function (error) {
-                                if (error && error.isValid === false) {
-                                    reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
-                                } else {
-                                    console.error(error);
-                                    reply(Boom.create(500, 'Internal server error.', error));
-                                }
-                            });
-                    },
-                    description: "Post patient referrals for a given referral",
-                    notes: "Api endpoint that posts patient referrals",
-                    tags: ['api'],
+          {
+            method: 'GET',
+            path: '/etl/patient-referrals',
+            config: {
+              auth: 'simple',
+              plugins: {
+                'openmrsLocationAuthorizer': {
+                  locationParameter: [{
+                    type: 'query', //can be in either query or params so you have to specify
+                    name: 'locationUuids' //name of the location parameter
+                  }],
+                  aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                    {
+                      type: 'query', //can be in either query or params so you have to specify
+                      name: 'reportName', //name of the parameter
+                      value: 'patient-referral-report' //parameter value
+                    }
+                  ]
                 }
-            },
+              },
+              handler: function (request, reply) {
+                //security check
+                request.query.reportName = 'patient-referral-report';
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                  return reply(Boom.forbidden('Unauthorized'));
+                }
+                preRequest.resolveLocationIdsToLocationUuids(request,
+                  function () {
+                    let requestParams = Object.assign({}, request.query, request.params);
+                    let service = new PatientReferralService();
+                    // remove gender filter
+                    delete requestParams['gender'];
+                    service.getAggregateReport(requestParams).then((result) => {
+                      reply(result);
+                  }).catch((error) => {
+                      reply(error);
+                  });
+                  });
+        
+              },
+              description: "Get patient referral for selected clinic",
+              notes: "Returns a list of patient referral for the selected clinic(s),start date, end date",
+              tags: ['api'],
+              validate: {
+                query: {
+                  locationUuids: Joi.string()
+                    .optional()
+                    .description("A list of comma separated location uuids"),
+                  startDate: Joi.string()
+                    .optional()
+                    .description("The start date to filter by"),
+                  endDate: Joi.string()
+                    .optional()
+                    .description("The end date to filter by"),
+                  programUuids: Joi.string()
+                    .optional()
+                    .description("The program to filter by")
+          
+                }
+              }
+            }
+          },
+          {
+            method: 'GET',
+            path: '/etl/referral-patient-list',
+            config: {
+              auth: 'simple',
+              plugins: {
+                'openmrsLocationAuthorizer': {
+                  locationParameter: [{
+                    type: 'query', //can be in either query or params so you have to specify
+                    name: 'locationUuids' //name of the location parameter
+                  }],
+                  aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                    {
+                      type: 'query', //can be in either query or params so you have to specify
+                      name: 'reportName', //name of the parameter
+                      value: 'patient-referral-report' //parameter value
+                    }
+                  ]
+                }
+              },
+              handler: function (request, reply) {
+                //security check
+                request.query.reportName = 'patient-referral-report';
+                if (!authorizer.hasReportAccess(request.query.reportName)) {
+                  return reply(Boom.forbidden('Unauthorized'));
+                }
+        
+                let requestParams = Object.assign({}, request.query, request.params);
+                requestParams.reportName='referralAggregate';
+                let service = new PatientReferralService();
+                
+                service.getPatientListReport2(requestParams).then((result) => {
+          
+                  reply(result);
+              }).catch((error) => {
+                  reply(error);
+              });
+        
+              },
+              description: "Get patient referral for selected clinic",
+              notes: "Returns patient referral for the selected clinic(s),start date, end date",
+              tags: ['api'],
+              validate: {
+                query: {
+                  locationUuids: Joi.string()
+                    .optional()
+                    .description("A list of comma separated location uuids"),
+                  startDate: Joi.string()
+                    .optional()
+                    .description("The start date to filter by"),
+                  endDate: Joi.string()
+                    .optional()
+                    .description("The end date to filter by"),
+                  programUuids: Joi.string()
+                    .optional()
+                    .description("The program to filter by"),
+                  limit: Joi.string()
+                    .optional()
+                    .description("The limit to indicate number of rows")
+          
+                }
+              }
+            }
+          },
+          {
+            method: 'GET',
+            path: '/etl/patient-referral-details/{locationUuid}/{enrollmentUuid}',
+            config: {
+              auth: 'simple',
+              plugins: {},
+              handler: function (request, reply) {
+                patientReferralDao.getPatientReferralByEnrollmentUuid(
+                  request.params['locationUuid'], request.params['enrollmentUuid'])
+                  .then(function (referralLocation) {
+                      reply(referralLocation);
+                  })
+                  .catch(function (error) {
+                    reply(Boom.create(500, 'Internal server error.', error));
+                  });
+              },
+              description: "Get patient referral details by program enrollment uuid",
+              notes: "Api endpoint that returns additional patient referral details by program enrollement uuid",
+              tags: ['api'],
+            }
+          },
+          {
+            method: 'POST',
+            path: '/etl/patient-referral',
+            config: {
+              auth: 'simple',
+              plugins: {},
+              handler: function (request, reply) {
+                patientReferralDao.createPatientReferral(request.payload)
+                  .then(function (newCohortReferral) {
+                    reply(newCohortReferral);
+                  })
+                  .catch(function (error) {
+                    if (error && error.isValid === false) {
+                      reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
+                    } else {
+                      console.error(error);
+                      reply(Boom.create(500, 'Internal server error.', error));
+                    }
+                  });
+              },
+              description: "Post patient referrals for a given referral",
+              notes: "Api endpoint that posts patient referrals",
+              tags: ['api'],
+            }
+          },
             {
                 method: 'POST',
                 path: '/etl/patient-referral/{patientReferralId}',
