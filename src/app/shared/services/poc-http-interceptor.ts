@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, Htt
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { Constants } from '../../utils/constants';
 import { SessionStorageService } from '../../utils/session-storage.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class PocHttpInteceptor implements HttpInterceptor {
@@ -15,14 +16,17 @@ export class PocHttpInteceptor implements HttpInterceptor {
             const authHeader = { Authorization : 'Basic ' + credentials};
             modifiedReq = req.clone({setHeaders: authHeader});
         }
-        return next.handle(modifiedReq).do((event: HttpEvent<any>) => {
-            if (event instanceof HttpResponse) {
-                // do stuff with response here
-              }
-            }, (err: any) => {
-              if (err instanceof HttpErrorResponse) {
-                return observableThrowError(err);
-              }
-        });
+        return next.handle(modifiedReq).pipe(
+            tap(event => {
+                if (event instanceof HttpResponse) {
+                    // do stuff with response here
+                  }
+                }, (err: any) => {
+                  if (err instanceof HttpErrorResponse) {
+                    return observableThrowError(err);
+                  }
+            })
+          );
+
     }
 }

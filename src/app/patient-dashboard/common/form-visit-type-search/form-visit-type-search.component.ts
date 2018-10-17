@@ -41,7 +41,7 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
     public getProgramsVisitConfig() {
 
         this._patientProgramService.getAllProgramVisitConfigs()
-        .take(1).subscribe((response) => {
+        .subscribe((response) => {
               if (response) {
                     this.programVisitConfig = JSON.parse(JSON.stringify(response));
                     this.sortVisitList();
@@ -92,7 +92,7 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     public getallFormsList() {
 
-         this._formListService.getFormList().take(1).subscribe((formList) => {
+         this._formListService.getFormList().subscribe((formList) => {
              if (formList) {
                  this.allFormsList = formList;
 
