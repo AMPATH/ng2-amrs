@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {take} from 'rxjs/operators';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { SessionService } from './session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -26,7 +27,7 @@ export class AuthenticationService {
     let request = this.sessionService.getSession(credentials);
 
     request
-      .take(1).subscribe(
+      .pipe(take(1)).subscribe(
       (response: any) => {
 
         let data = response;
