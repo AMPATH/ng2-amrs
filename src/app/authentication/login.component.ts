@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
     let currentRoute = window.location.toString();
 
     this.busy = this.authenticationService.authenticate(username, password)
-      .take(1).subscribe(
+      .subscribe(
         (response: any) => {
           let data = response;
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SessionService } from '../openmrs-api/session.service';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class OnlineTrackerService {
@@ -16,7 +17,7 @@ export class OnlineTrackerService {
     return new Promise((resolve, reject) => {
 
       this._sessionService.getSession()
-        .take(1).subscribe(
+        .pipe(take(1)).subscribe(
           (results) => {
             this.isOnline = true;
             resolve(this.isOnline);

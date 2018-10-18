@@ -7,6 +7,7 @@ import { RelationshipType } from '../../../models/relationship-type.model';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'edit-relationship',
@@ -54,7 +55,7 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
 
   public getRelationShipTypes(): void {
     const request = this.patientRelationshipTypeService.getRelationshipTypes();
-    request.take(1).subscribe((relationshipTypes: RelationshipType[]) => {
+    request.pipe(take(1)).subscribe((relationshipTypes: RelationshipType[]) => {
       if (relationshipTypes) {
         this.patientRelationshipTypes = relationshipTypes;
         this.selectedRelationshipType = _.find(relationshipTypes,
