@@ -95,8 +95,10 @@
         <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file" label="Back to Program Manager"></button>
         <button *ngIf="referralStatus" (click)="navigateTo('programManagerReferral')" class="btn btn-primary" type="button">Complete Referral</button>
         <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button" class="btn btn-danger">Cancel</button>
-        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button" class="btn btn-primary fa fa-user">Patient Dashboard</button>
-        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button" class="btn btn-primary fa fa-search">Patient Search</button>
+        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button" class="btn btn-primary">
+          <i class="fa fa-user"></i> Patient Dashboard</button>
+        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button" class="btn btn-primary">
+          <i class="fa fa-search"></i> Patient Search</button>
       </div>
   </p-dialog>
   <p-confirmDialog [closable]="false" key="duplicateWarning"></p-confirmDialog>
