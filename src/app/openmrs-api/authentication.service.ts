@@ -49,8 +49,8 @@ export class AuthenticationService {
 
     let response = this.sessionService.deleteSession();
 
-    response
-      .take(1).subscribe(
+    response.pipe(
+      take(1)).subscribe(
       (res: Response) => {
 
         this.clearSessionCache();

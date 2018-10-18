@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {map,  first } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
@@ -42,8 +44,8 @@ export class PatientDashboardGuard implements CanActivate,
         const patientUuid = routeSnapshot.params['patient_uuid'];
         if (patientUuid) {
           // set patient object
-          this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid)
-          .take(1).subscribe(
+          this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid).pipe(
+          take(1)).subscribe(
             (patientObject) => {
               if (patientObject) {
                 const routes = this.patientRoutesFactory

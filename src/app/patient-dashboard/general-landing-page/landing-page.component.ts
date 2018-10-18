@@ -1,8 +1,9 @@
 
-import {map,  first } from 'rxjs/operators';
+import {forkJoin as observableForkJoin,  Subscription , Observable , Subject ,  BehaviorSubject } from 'rxjs';
+
+import {take, map,  first } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Subscription , Observable , Subject } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
@@ -19,7 +20,6 @@ import { PatientReferralResourceService } from '../../etl-api/patient-referral-r
 import { Encounter } from '../../models/encounter.model';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'landing-page',
@@ -140,7 +140,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       programBatch.push(this.getReferralByLocation(location.uuid, program.enrolledProgram.uuid));
     });
 
-    return Observable.forkJoin(programBatch);
+    return observableForkJoin(programBatch);
   }
 
   public getReferralByLocation(locationUuid: string, enrollmentUuid: string): Observable<any> {
@@ -159,7 +159,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public fetchPatientProgramVisitConfigs() {
     this.allProgramVisitConfigs = {};
     this.patientProgramResourceService.
-    getPatientProgramVisitConfigs(this.patient.uuid).take(1).subscribe(
+    getPatientProgramVisitConfigs(this.patient.uuid).pipe(take(1)).subscribe(
       (programConfigs) => {
         this.allProgramVisitConfigs = programConfigs;
       },
@@ -191,7 +191,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           this.programsBusy = false;
           this.patient = patient;
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
-          this.getReferralLocation(this.enrolledProgrames).take(1).subscribe( (reply: any) => {
+          this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe( (reply: any) => {
             if (reply) {
               _.each(this.enrolledProgrames, (program, index) => {
                 let referral = reply[index];
@@ -201,7 +201,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
                   });
                   if (this.patientHasBeenSeenInProgram(program)) {
                     program.referral_completed = true;
-                    this.updateReferalNotificationStatus(program).take(1).subscribe(() => {});
+                    this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => {});
                   }
                 }
               });

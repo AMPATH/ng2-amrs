@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
 import * as Moment from 'moment';
@@ -96,7 +98,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       endAge: this.endAge
     };
     this.hivSummaryIndicatorsResourceService
-      .getHivSummaryIndicatorsReport(params).take(1).subscribe(
+      .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe(
         (data) => {
           this.isLoadingReport = false;
           this.sectionsDef = data.indicatorDefinitions;

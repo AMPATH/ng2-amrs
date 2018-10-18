@@ -1,4 +1,6 @@
 
+import {map} from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
@@ -21,10 +23,10 @@ export class ClinicLabOrdersResourceService {
     .set('startDate', params.startDate);
     return  this.http.get<any>(url , {
       params: urlParams
-    })
-      .map((response) => {
+    }).pipe(
+      map((response) => {
         return response.result;
-      });
+      }));
    // return this.dataCache.cacheRequest(url, urlParams, request);
   }
   public getLabOrdersByPatientUuid(patientUuid): Observable<any> {
@@ -33,10 +35,10 @@ export class ClinicLabOrdersResourceService {
     .set('patientUuid', patientUuid);
     return this.http.get<any>(url , {
       params: urlParams
-    })
-      .map((response) => {
+    }).pipe(
+      map((response) => {
         return response.result;
-      });
+      }));
      // return this.dataCache.cacheRequest(url, urlParams, request);
   }
 

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -101,7 +103,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
       locationUuids: this.locationUuids,
       startIndex: this.startIndex,
       startDate: this.startDate.format()
-    }).take(1).subscribe((report) => {
+    }).pipe(take(1)).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
@@ -13,8 +15,8 @@ export class LabOrdersSearchService {
 
   public searchLabOrder(searchText: string, cached: boolean): Observable<any> {
     const labOrderSearch: Subject<any> = new Subject<any>();
-    this.resouceService.getOrderByUuid(searchText.trim())
-      .take(1).subscribe(
+    this.resouceService.getOrderByUuid(searchText.trim()).pipe(
+      take(1)).subscribe(
       (labOrder) => {
         this.searchString = searchText.trim();
         labOrderSearch.next(labOrder);

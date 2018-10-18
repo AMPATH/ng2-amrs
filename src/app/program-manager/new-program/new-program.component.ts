@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -58,7 +60,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.showForms = false;
     this.route.params.subscribe((params) => {
       this.getDepartmentConf();
-      this.loadPatientProgramConfig().take(1).subscribe((loaded) => {
+      this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
         if (loaded) {
           this.loaded = true;
           if (params['step']) {

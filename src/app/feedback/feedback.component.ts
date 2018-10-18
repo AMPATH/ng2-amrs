@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FeedBackService } from './feedback.service';
 import { UserService } from '../openmrs-api/user.service';
@@ -56,7 +58,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
             || {};
         this.payload.location = location.display || 'Default location not set';
         this.payload.department = this.selectedDepartment || 'Department not selected';
-        this.busy = this.feedBackService.postFeedback(this.payload).take(1).subscribe((res) => {
+        this.busy = this.feedBackService.postFeedback(this.payload).pipe(take(1)).subscribe((res) => {
             this.success = true;
             console.log('this.payload', this.payload.phone);
             this.payload = {
@@ -84,8 +86,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         this.error = false;
     }
     public getDepartmentConf() {
-      this.departmentProgramService.getDartmentProgramsConfig()
-        .take(1).subscribe((results) => {
+      this.departmentProgramService.getDartmentProgramsConfig().pipe(
+        take(1)).subscribe((results) => {
           console.log('results===', results); if (results) {
             this.departmentConf = results;
             this._filterDepartmentConfigByName();

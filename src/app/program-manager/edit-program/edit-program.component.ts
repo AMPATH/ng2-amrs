@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -47,7 +49,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.title = 'Select Programs to edit';
     this.route.params.subscribe((params) => {
       this.getDepartmentConf();
-      this.loadPatientProgramConfig().take(1).subscribe((loaded) => {
+      this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
         if (loaded) {
           this.mapEnrolledProgramsToDepartment(true);
           if (loaded && params['step']) {

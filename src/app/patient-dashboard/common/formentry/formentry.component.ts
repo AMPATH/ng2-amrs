@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin ,  Observable, Subject, Subscription ,  BehaviorSubject, of } from 'rxjs';
@@ -271,7 +273,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
     // let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-    this.retrospectiveDataEntryService.retroSettings.take(1).subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.pipe(take(1)).subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
         location = {
           uuid: retroSettings.location.value,
@@ -324,7 +326,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (referralPrograms) {
         const answer = _.first(referralPrograms).control.value;
           // map concept with program
-          this.searchReferralConcepts(answer).take(1).subscribe((concepts) => {
+          this.searchReferralConcepts(answer).pipe(take(1)).subscribe((concepts) => {
             this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
               return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
             });
@@ -426,7 +428,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     // get patient
 
-    this.getPatient().take(1).subscribe((results) => {
+    this.getPatient().pipe(take(1)).subscribe((results) => {
       this.patient = results;
     });
 
@@ -454,7 +456,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.encounter = data[2] || null;
       // now render form
       return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
-    })).take(1).subscribe(
+    })).pipe(take(1)).subscribe(
       (data: any) => {
         console.log(data.generatedReminders);
         let reminder = _.find(data.generatedReminders, (o: any) => {
@@ -689,8 +691,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     return Observable.create((observer: Subject<any>) => {
       if (this.encounterUuid && this.encounterUuid !== '') {
-        this.encounterResource.getEncounterByUuid(this.encounterUuid)
-          .take(1).subscribe((encounter) => {
+        this.encounterResource.getEncounterByUuid(this.encounterUuid).pipe(
+          take(1)).subscribe((encounter) => {
             // let wrappedEnconter: Encounter = new Encounter(encounter);
             observer.next(encounter);
           }, (error) => {
@@ -732,7 +734,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private saveEncounterOrUpdate(payloadTypes) {
-    this.formSubmissionService.submitPayload(this.form, payloadTypes).take(1).subscribe(
+    this.formSubmissionService.submitPayload(this.form, payloadTypes).pipe(take(1)).subscribe(
       (data) => {
         this.isBusyIndicator(false); // hide busy indicator
         this.handleSuccessfulFormSubmission(data);
@@ -762,7 +764,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         } else {
           return of(false);
         }
-      })).take(1).subscribe(
+      })).pipe(take(1)).subscribe(
         (isDuplicate) => {
           this.isBusyIndicator(false); // hide busy indicator
           if (isDuplicate) {
@@ -876,7 +878,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
-    this.referralCompleteStatus.take(1).subscribe((success) => {
+    this.referralCompleteStatus.pipe(take(1)).subscribe((success) => {
 
       let referralsData = this.referralsHandler.extractRequiredValues(this.form);
       this.diffCareReferralStatus = undefined;
@@ -889,8 +891,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
           accept: () => {
             this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
             this.referralsHandler.handleFormReferals(this.patient,
-              this.form)
-              .take(1).subscribe(
+              this.form).pipe(
+              take(1)).subscribe(
                 (results) => {
                   this.isBusyIndicator(false, '');
                   this.showSuccessDialog = true;
@@ -930,8 +932,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
       // resolve order numbers
       if (this.submittedOrders.orders.length > 0) {
-        this.encounterResource.getEncounterByUuid(this.submittedOrders.encounterUuid)
-          .take(1).subscribe((encounter) => {
+        this.encounterResource.getEncounterByUuid(this.submittedOrders.encounterUuid).pipe(
+          take(1)).subscribe((encounter) => {
             if (encounter && encounter.orders) {
               orders = [];
               // filter out voided orders : voided is not included so we use auditInfo
@@ -964,8 +966,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private setProviderUuid() {
     let request = this.getProviderUuid();
-    request
-      .take(1).subscribe(
+    request.pipe(
+      take(1)).subscribe(
         (data) => {
           this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
             let provider = data.providerUuid;

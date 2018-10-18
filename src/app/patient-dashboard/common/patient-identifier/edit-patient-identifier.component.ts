@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -221,7 +223,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
     this.checkIdentifierFormat();
     if (this.isValidIdentifier === true) {
-      this.patientResourceService.searchPatient(this.patientIdentifier).take(1).subscribe(
+      this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
         (result) => {
           if (result <= 0 && this.newLocation !== this.identifierLocation) {
             if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
@@ -263,8 +265,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 private saveIdentifier(personIdentifierPayload, person) {
   this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
-              personIdentifierPayload)
-              .take(1).subscribe(
+              personIdentifierPayload).pipe(
+              take(1)).subscribe(
                 (success) => {
                   this.displaySuccessAlert('Identifiers saved successfully');
                   this.patientService.reloadCurrentPatient();
@@ -286,7 +288,7 @@ private saveIdentifier(personIdentifierPayload, person) {
     return existingIdentifier;
   }
   private fetchLocations(): void {
-    this.locationResourceService.getLocations().take(1).subscribe(
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
         // tslint:disable-next-line:prefer-for-of

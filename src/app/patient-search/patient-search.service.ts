@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { PatientResourceService } from './../openmrs-api/patient-resource.service';
@@ -17,8 +19,8 @@ export class PatientSearchService {
 
   public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
     let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
-    this.resouceService.searchPatient(searchText.trim(), false)
-      .take(1).subscribe(
+    this.resouceService.searchPatient(searchText.trim(), false).pipe(
+      take(1)).subscribe(
       (patients) => {
         let mappedPatients: Patient[] = new Array<Patient>();
         for (let patient of patients) {
@@ -41,8 +43,8 @@ export class PatientSearchService {
   public searchPatientToBindRelationship(searchText: string, cached: boolean):
   Observable<Patient[]> {
     let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
-    this.resouceService.searchPatient(searchText.trim(), false)
-      .take(1).subscribe(
+    this.resouceService.searchPatient(searchText.trim(), false).pipe(
+      take(1)).subscribe(
       (patients) => {
         let mappedPatients: Patient[] = new Array<Patient>();
         for (let patient of patients) {

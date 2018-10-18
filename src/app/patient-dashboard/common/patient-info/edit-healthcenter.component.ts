@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -81,7 +83,7 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
         attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
       }]
     };
-    this.personResourceService.saveUpdatePerson(person.uuid, healthCenterPayload).take(1).subscribe(
+    this.personResourceService.saveUpdatePerson(person.uuid, healthCenterPayload).pipe(take(1)).subscribe(
       (success) => {
         if (success) {
           this.errors = [];
@@ -105,7 +107,7 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().take(1).subscribe((results: any) => {
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe((results: any) => {
       this.locations = results.map((location) => {
         return {
           value: location.uuid,

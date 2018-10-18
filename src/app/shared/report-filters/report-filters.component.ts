@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {
   Component, OnInit, EventEmitter, ElementRef, forwardRef,
   ViewEncapsulation, AfterViewInit, ChangeDetectorRef
@@ -199,7 +201,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
    public getCachedLocations() {
       if (this._report === 'hiv-summary-report') {
-        this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().take(1).subscribe(
+        this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().pipe(take(1)).subscribe(
           (data)  => {
             if (data) {
               this.locations = data.locations;
@@ -207,14 +209,14 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
           });
       } else if (this._report === 'hiv-summary-monthly-report' ||
       this._report === 'oncology-summary-monthly-report') {
-        this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().take(1).subscribe(
+        this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().pipe(take(1)).subscribe(
           (data)  => {
             if (data) {
               this.locations = data.locations;
             }
           });
       } else {
-        this.dataAnalyticsDashboardService.getSelectedLocations().take(1).subscribe(
+        this.dataAnalyticsDashboardService.getSelectedLocations().pipe(take(1)).subscribe(
           (data)  => {
             if (data) {
               this.locations = data.locations;
@@ -232,7 +234,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     let indicators = [];
     this.indicatorResourceService.getReportIndicators({
      report: this.reportName
-   }).take(1).subscribe(
+   }).pipe(take(1)).subscribe(
      (results: any[]) => {
 
        for (let data of results) {
@@ -253,7 +255,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   public getPrograms() {
-    this.programResourceService.getPrograms().take(1).subscribe((results: any[]) => {
+    this.programResourceService.getPrograms().pipe(take(1)).subscribe((results: any[]) => {
         if (results) {
           this.programOptions = _.map(results, (result) => {
             return {value: result.uuid, label: result.display};

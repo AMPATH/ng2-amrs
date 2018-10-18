@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
@@ -13,7 +15,7 @@ export class PatientRelationshipTypeService {
     }
 
     public getRelationshipTypes(): Observable<any> {
-        this.patientRelationshipTypeResourceService.getPatientRelationshipTypes().take(1).subscribe(
+        this.patientRelationshipTypeResourceService.getPatientRelationshipTypes().pipe(take(1)).subscribe(
             (relatinshipTypes) => {
                 if (relatinshipTypes) {
                     this.relationshipsTypeSubject.next(relatinshipTypes);

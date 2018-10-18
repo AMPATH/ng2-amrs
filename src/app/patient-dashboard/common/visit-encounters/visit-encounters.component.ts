@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
@@ -61,7 +63,7 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
 
      public getPatientEncounters(patientUuid) {
          this._encounterResourceService.getEncountersByPatientUuid(patientUuid ,
-          false, null).take(1).subscribe((resp) => {
+          false, null).pipe(take(1)).subscribe((resp) => {
                 this.patientEncounters = resp.reverse();
 
           });

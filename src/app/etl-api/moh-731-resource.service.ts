@@ -1,8 +1,11 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { DatePipe } from '@angular/common';
 import { Subject } from 'rxjs/Rx';
-import { Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HttpParams, HttpClient } from '@angular/common/http';
@@ -47,18 +50,18 @@ export class Moh731ResourceService {
 
     let request = this.http.get(this.url, { 
        params: urlParams
-    })
-      .map((response: Response) => {
+    }).pipe(
+      map((response: Response) => {
         return response;
-      }).catch((err: any) => {
+      }),catchError((err: any) => {
          console.log('Err', err);
          let error: any = err;
          let errorObj = {
            'error': error.status,
            'message': error.statusText
          };
-         return Observable.of(errorObj);
-      });
+         return observableOf(errorObj);
+      }),);
 
     return cacheTtl === 0 ?
       request : this.cacheService.cacheSingleRequest(this.url, urlParams, request, cacheTtl);

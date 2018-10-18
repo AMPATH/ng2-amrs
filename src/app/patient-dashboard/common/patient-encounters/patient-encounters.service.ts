@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject ,  Subscription } from 'rxjs';
 
@@ -17,7 +19,7 @@ export class PatientEncounterService {
     let encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
     let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
-    this.busy = encounterObservable.take(1).subscribe(
+    this.busy = encounterObservable.pipe(take(1)).subscribe(
       (encounters) => {
         let mappedEncounters: Encounter[] = new Array<Encounter>();
         // tslint:disable-next-line:prefer-for-of

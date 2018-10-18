@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit , OnDestroy , AfterViewInit, OnChanges , Output ,
   EventEmitter, Input , ChangeDetectorRef, ViewChild , SimpleChanges } from '@angular/core';
 import { Subject ,  Observable } from 'rxjs';
@@ -253,8 +255,8 @@ export class DataEntryStatisticsFiltersComponent
 
   public loadProvider(providerUuid) {
 
-    this._providerResourceService.getProviderByUuid(providerUuid)
-    .take(1).subscribe((provider) => {
+    this._providerResourceService.getProviderByUuid(providerUuid).pipe(
+    take(1)).subscribe((provider) => {
          this.provider = provider.display;
          this.selectedProviderUuid = provider.uuid;
     });
@@ -269,8 +271,8 @@ export class DataEntryStatisticsFiltersComponent
     if (!isString) {
 
       _.each(creatorUuids, (creatorUuid) => {
-         this._userService.getUserByUuid(creatorUuid)
-         .take(1).subscribe((result) => {
+         this._userService.getUserByUuid(creatorUuid).pipe(
+         take(1)).subscribe((result) => {
             let specificCreator = {
                'id': result.uuid,
                'itemName': result.person.display
@@ -282,8 +284,8 @@ export class DataEntryStatisticsFiltersComponent
 
     } else {
 
-      this._userService.getUserByUuid(creatorUuids)
-         .take(1).subscribe((result) => {
+      this._userService.getUserByUuid(creatorUuids).pipe(
+         take(1)).subscribe((result) => {
             let specificCreator = {
                'id': result.uuid,
                'itemName': result.person.display
@@ -301,8 +303,8 @@ export class DataEntryStatisticsFiltersComponent
 
   public getDataEntryEncounterTypes() {
     this._dataEntryStatisticsService
-      .getDataEntryStatisticsTypes()
-      .take(1).subscribe((result) => {
+      .getDataEntryStatisticsTypes().pipe(
+      take(1)).subscribe((result) => {
         if (result) {
           let viewTypes = result;
           this.processViewTypes(viewTypes);
@@ -311,8 +313,8 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public getLocations() {
-    this._locationResourceService.getLocations()
-    .take(1).subscribe((result) => {
+    this._locationResourceService.getLocations().pipe(
+    take(1)).subscribe((result) => {
          let locations = result;
          this.processLocations(locations);
     });
@@ -391,8 +393,8 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public getEncounterTypes() {
-    let encounters = this._encounterResourceService.getEncounterTypes('all')
-    .take(1).subscribe((results) => {
+    let encounters = this._encounterResourceService.getEncounterTypes('all').pipe(
+    take(1)).subscribe((results) => {
       if (results) {
             this.processEncounterTypes(results);
       }
@@ -528,8 +530,8 @@ export class DataEntryStatisticsFiltersComponent
   public searchProvider(providerSearchTerm) {
      if (providerSearchTerm.length > 3) {
      this._providerResourceService
-       .searchProvider(providerSearchTerm)
-       .take(1).subscribe((results) => {
+       .searchProvider(providerSearchTerm).pipe(
+       take(1)).subscribe((results) => {
          if (results) {
             this.processProviders(results);
          }
@@ -578,8 +580,8 @@ export class DataEntryStatisticsFiltersComponent
 
   public searchCreator(creatorSearchTerm) {
     this._userService
-      .searchUsers(creatorSearchTerm)
-      .take(1).subscribe((results) => {
+      .searchUsers(creatorSearchTerm).pipe(
+      take(1)).subscribe((results) => {
         if (results) {
            this.processCreators(results);
         }

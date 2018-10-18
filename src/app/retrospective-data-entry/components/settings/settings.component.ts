@@ -1,3 +1,9 @@
+
+import {switchMap} from 'rxjs/operators';
+
+import {debounceTime} from 'rxjs/operators';
+
+import {take} from 'rxjs/operators';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
@@ -71,8 +77,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   public fetchLocationOptions() {
-    this.propertyLocationService.getLocations()
-    .take(1).subscribe((locations: any) => {
+    this.propertyLocationService.getLocations().pipe(
+    take(1)).subscribe((locations: any) => {
       this.locations = locations.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);
@@ -88,7 +94,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     }
 
     let findProvider = this.providerResourceService.searchProvider(term, false);
-    findProvider.take(1).subscribe(
+    findProvider.pipe(take(1)).subscribe(
       (providers) => {
         this.processProviders(providers);
       },
@@ -194,7 +200,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   private _init() {
     this.isLoading = false;
-    this.propertyLocationService.locationSubject.take(1).subscribe((item: any) => {
+    this.propertyLocationService.locationSubject.pipe(take(1)).subscribe((item: any) => {
       if (item) {
         if (this.enableRetro) {
           let retroLocation = this.retrospectiveDataEntryService
@@ -206,7 +212,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
         this.currentLocation = JSON.parse(item);
       }
     });
-    this.retrospectiveDataEntryService.retroSettings.take(1).subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.pipe(take(1)).subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
         if (!_.isNull(retroSettings.error)) {
           this.error = JSON.parse(retroSettings.error);
@@ -232,9 +238,9 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
       this.fetchProviderOptions();
       this.fetchLocationOptions();
 
-      this.suggest.debounceTime(500)
-        .switchMap((term) => this.providerResourceService.searchProvider(term))
-        .take(1).subscribe((data) => {
+      this.suggest.pipe(debounceTime(500),
+        switchMap((term) => this.providerResourceService.searchProvider(term)),
+        take(1),).subscribe((data) => {
           this.processProviders(data);
           this.cdRef.detectChanges();
         });

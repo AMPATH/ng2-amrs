@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -102,7 +104,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
             startDate: startDate,
             endDate: endDate,
             patientUuId: patient.person.uuid
-          }).take(1).subscribe((result) => {
+          }).pipe(take(1)).subscribe((result) => {
             if (result.length > 0) {
               let content = '';
               for (let test of result) {
