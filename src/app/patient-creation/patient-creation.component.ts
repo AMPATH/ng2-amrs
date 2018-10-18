@@ -1,6 +1,8 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription ,  of } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
@@ -20,13 +22,10 @@ import {
   PatientIdentifierTypeResService
 } from '../openmrs-api/patient-identifierTypes-resource.service';
 import { constants } from 'os';
-import { of } from 'rxjs/observable/of';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
-import {
-  MatSnackBar
-} from '@angular/material';
 import { SessionStorageService } from '../utils/session-storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'patient-creation',
@@ -123,7 +122,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public preferredIdentifier;
 
   constructor(
-    public snackbar: MatSnackBar,
+    public toastrService: ToastrService,
     private patientCreationService: PatientCreationService,
     private patientCreationResourceService: PatientCreationResourceService,
     private locationResourceService: LocationResourceService,
@@ -150,7 +149,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.ageEstimate =  this.getAge(this.person.birthdate);
       this.birthdateEstimated =  this.person.birthdateEstimated;
     }
-    this.patientCreationService.getpatientResults().take(1).subscribe((res) => {
+    this.patientCreationService.getpatientResults().pipe(take(1)).subscribe((res) => {
       if (res.length > 0) {
         this.patientResults = res;
         this.found = true;
@@ -207,8 +206,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       };
       this.sessionStorageService.setObject('person', this.person);
       let searchString = this.givenName;
-      this.patientCreationService.searchPatient(searchString, false)
-      .take(1).subscribe((results) => {
+      this.patientCreationService.searchPatient(searchString, false).pipe(
+      take(1)).subscribe((results) => {
         this.loaderStatus = false;
         if (results.length > 0) {
           let birthdate = this.getAge(this.birthDate);
@@ -512,8 +511,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         },
         identifiers: ids
       };
-      this.patientCreationResourceService.savePatient(payload)
-      .take(1).subscribe((success) => {
+      this.patientCreationResourceService.savePatient(payload).pipe(
+      take(1)).subscribe((success) => {
         this.loaderStatus = false;
         this.sessionStorageService.remove('person');
         this.createdPatient = success;
@@ -559,7 +558,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public generatePatientIdentifier() {
-    this.patientCreationService.generateIdentifier(this.userId).take(1).subscribe((data: any) => {
+    this.patientCreationService.generateIdentifier(this.userId).pipe(take(1)).subscribe((data: any) => {
       this.patientIdentifier = data.identifier;
       this.generate = false;
       this.editText = true;
@@ -577,7 +576,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private getPatientIdentifiers() {
-    this.patientCreationResourceService.getPatientIdentifierTypes().take(1).subscribe((data) => {
+    this.patientCreationResourceService.getPatientIdentifierTypes().pipe(take(1)).subscribe((data) => {
       this.patientIdentifierTypes = data;
     });
   }
@@ -613,7 +612,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private getCommonIdentifierTypes() {
-    this.patientIdentifierTypeResService.getPatientIdentifierTypes().take(1).subscribe(
+    this.patientIdentifierTypeResService.getPatientIdentifierTypes().pipe(take(1)).subscribe(
     (data) => {
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < data.length; i++) {
@@ -645,14 +644,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
     },
     (error) => {
-      this.snackbar.open('Error retrieving common patient identifier types', '', {
-        duration: 1200
+      this.toastrService.error('Error retrieving common patient identifier types', '', {
+        timeOut: 2000,
+        positionClass: 'toast-bottom-center'
       });
     });
   }
 
   private getLocations(): void {
-    this.locationResourceService.getLocations().take(1).subscribe(
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
         let counties = [];

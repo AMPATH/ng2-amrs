@@ -89,7 +89,7 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
           relationshipType: this.selectedRelationshipType.uuid
         };
         this.patientRelationshipService.updateRelationship(relative.uuid,
-          patientRelationshipPayload).take(1).subscribe(
+          patientRelationshipPayload).pipe(take(1)).subscribe(
           (success) => {
             if (success) {
               this.displaySuccessAlert('Relationship updated successfully');

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 /**
  * We're loading this component asynchronously
@@ -51,7 +53,7 @@ export class ClinicDashboardComponent implements OnInit {
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().take(1).subscribe((results: any) => {
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe((results: any) => {
       this.locations = results.map((location) => {
         return {
           value: location.uuid,

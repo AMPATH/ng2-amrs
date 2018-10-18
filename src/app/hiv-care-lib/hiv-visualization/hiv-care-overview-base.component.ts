@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as Moment from 'moment';
@@ -79,7 +81,7 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
       order: 'encounter_datetime|asc',
       report: 'clinical-hiv-comparative-overview-report',
       startDate: this.toDateString(this.startDate)
-    }).take(1).subscribe(
+    }).pipe(take(1)).subscribe(
       (data) => {
 
         _.merge(_options,

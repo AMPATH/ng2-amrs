@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
@@ -28,8 +30,8 @@ export class CdmSummaryResourceService {
 
     return this.http.get<any>(url, {
       params: params
-    }).map((response) => {
+    }).pipe(map((response) => {
         return response.result;
-    });
+    }));
   }
 }

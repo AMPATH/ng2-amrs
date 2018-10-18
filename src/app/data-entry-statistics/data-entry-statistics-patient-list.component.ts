@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component,
   OnInit , OnDestroy , AfterViewInit, OnChanges ,
   Output , EventEmitter, Input , ChangeDetectorRef,
@@ -147,8 +149,8 @@ implements OnInit , AfterViewInit {
         busy: true,
         message: 'Fetching patient list..please wait'
       };
-      this._dataEntryStatisticsService.getDataEntrySatisticsPatientList(params)
-      .take(1).subscribe((results) => {
+      this._dataEntryStatisticsService.getDataEntrySatisticsPatientList(params).pipe(
+      take(1)).subscribe((results) => {
          if (results) {
             this.processPatientList(results);
             this.busyIndicator = {

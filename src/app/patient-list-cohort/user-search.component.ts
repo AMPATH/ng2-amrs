@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import {
   Component, OnInit, ViewEncapsulation,
   ViewChild, EventEmitter, Output, OnDestroy
@@ -55,8 +57,8 @@ export class UserSearchComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.users = [];
       this.userService
-        .searchUsers(this.searchString)
-        .take(1).subscribe(
+        .searchUsers(this.searchString).pipe(
+        take(1)).subscribe(
           (data) => {
             if (data.length > 0) {
               this.users = [];

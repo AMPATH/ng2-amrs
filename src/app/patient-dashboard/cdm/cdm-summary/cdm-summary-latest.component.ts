@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -33,7 +35,7 @@ export class CdmSummaryLatestComponent implements OnInit, OnDestroy {
 
   public getPatient() {
     this.loadingCdmSummary = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
       (patient) => {
         if (patient) {
           this.loadingCdmSummary = false;
@@ -51,8 +53,8 @@ export class CdmSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public loadCdmSummary(patientUuid) {
-    this.cdmSummaryService.getCdmSummary(patientUuid, 0, 1, false)
-    .take(1).subscribe((data) => {
+    this.cdmSummaryService.getCdmSummary(patientUuid, 0, 1, false).pipe(
+    take(1)).subscribe((data) => {
       if (data) {
         for (let summary of data){
           if ( summary.is_clinical_encounter === 1) {

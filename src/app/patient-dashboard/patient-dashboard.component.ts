@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -24,6 +26,12 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   public leftOffset = 56;
   public headerHeight = 180;
   private subscriptions: Subscription[] = [];
+  public toastrConfig = {
+    timeOut: 0,
+    positionClass: 'toast-bottom-right',
+    closeButton: true,
+    preventDuplicates: true
+  };
 
   @ViewChild('headerElement')
   private headerElement;
@@ -96,7 +104,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
             startDate: startDate,
             endDate: endDate,
             patientUuId: patient.person.uuid
-          }).take(1).subscribe((result) => {
+          }).pipe(take(1)).subscribe((result) => {
             if (result.length > 0) {
               let content = '';
               for (let test of result) {
@@ -117,7 +125,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
                       .format('DD/MM/YYYY')})`;
                 }
               }
-              this.toastrService.info(content.toLowerCase(), 'New Data from Lab');
+              this.toastrService.info(content.toLowerCase(), 'New Data from Lab', this.toastrConfig);
               // app feature analytics
               this.appFeatureAnalytics
                 .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');

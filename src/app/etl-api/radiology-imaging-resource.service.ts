@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable, Subscriber } from 'rxjs';
@@ -51,8 +53,8 @@ export class RadiologyImagingResourceService {
         .get(url, {
           headers,
           responseType: 'blob'
-        })
-        .take(1).subscribe((m) => {
+        }).pipe(
+        take(1)).subscribe((m) => {
           objectUrl = URL.createObjectURL(m);
           observer.next(objectUrl);
         });

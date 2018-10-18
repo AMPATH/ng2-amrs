@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { LocalStorageService } from './../../utils/local-storage.service';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {
@@ -105,7 +107,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null daily appointments observable');
     } else {
-      result.take(1).subscribe(
+      result.pipe(take(1)).subscribe(
         (patientList) => {
           if (patientList) {
             this.dailyAppointmentsPatientList = patientList;

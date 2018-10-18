@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -135,7 +137,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   }
   public getCauseOfDeath() {
     let conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
-    this.conceptResourceService.getConceptByUuid(conceptUid).take(1).subscribe((data) => {
+    this.conceptResourceService.getConceptByUuid(conceptUid).pipe(take(1)).subscribe((data) => {
       if (data) {
         this.causesOfDeath = data.answers;
       }
@@ -222,7 +224,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         birthdateEstimated: this.birthdateEstimated
 
       };
-      this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).take(1).subscribe(
+      this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).pipe(take(1)).subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('Demographics saved successfully');

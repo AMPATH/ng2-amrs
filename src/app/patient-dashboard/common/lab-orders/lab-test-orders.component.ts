@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import * as Moment from 'moment';
@@ -104,8 +106,8 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.fetchingResults = true;
     this.isBusy = true;
     let patientUuId = this.patient.uuid;
-    this.orderResourceService.getOrdersByPatientUuid(patientUuId)
-      .take(1).subscribe((result) => {
+    this.orderResourceService.getOrdersByPatientUuid(patientUuId).pipe(
+      take(1)).subscribe((result) => {
         console.log('result', result);
         // this.getCorrespingLabOrdersFromAmrs(result.results);
         this.labPatient = result.results[0].patient;
@@ -134,8 +136,8 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.fetchingResults = true;
     this.isBusy = true;
     let patientUuId = this.patient.uuid;
-    this.clinicLabOrdersResourceService.getLabOrdersByPatientUuid(patientUuId)
-      .take(1).subscribe((result) => {
+    this.clinicLabOrdersResourceService.getLabOrdersByPatientUuid(patientUuId).pipe(
+      take(1)).subscribe((result) => {
         this.labOrdersEtl = result;
         console.log('this.labOrdersEtl', this.labOrdersEtl);
         this.labOrdersEtl.sort((a, b) => {
@@ -232,7 +234,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     };
     if (this.obsUuid !== null ) {
 
-      this.obsResourceService.voidObs(this.obsUuid).take(1).subscribe(
+      this.obsResourceService.voidObs(this.obsUuid).pipe(take(1)).subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('saved successfully');
@@ -256,7 +258,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
 
     }
 
-    this.obsResourceService.saveObs(obsPayload).take(1).subscribe(
+    this.obsResourceService.saveObs(obsPayload).pipe(take(1)).subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('saved successfully');

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -46,8 +48,8 @@ export class HivSummaryLatestComponent implements OnInit {
 
   public loadHivSummary(patientUuid) {
     this.hivSummaryService.getHivSummary(
-      patientUuid, 0, 1, false)
-      .take(1).subscribe((data) => {
+      patientUuid, 0, 1, false).pipe(
+      take(1)).subscribe((data) => {
         if (data) {
 
           for (let summary of data){

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -124,7 +126,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
 
     if (this._formFieldsValid(enrolledDate, completedDate, enrollmentUuid)) {
       let payload = this.createPayload(enrollmentUuid, completedDate);
-      this.programService.saveUpdateProgramEnrollment(payload).take(1).subscribe(
+      this.programService.saveUpdateProgramEnrollment(payload).pipe(take(1)).subscribe(
         (enrollment) => {
           if (enrollment) {
             this.removeEnrolledProgram(enrollmentUuid);

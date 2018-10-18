@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
 import {
   ClinicDashboardCacheService
@@ -156,7 +158,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null daily not returned');
     } else {
-      result.take(1).subscribe(
+      result.pipe(take(1)).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.notReturnedPatientList = patientList;

@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -52,12 +54,12 @@ export class ProviderResourceService {
   }
   public getProviderByPersonUuid(uuid) {
     let providerResults = new ReplaySubject(1);
-    this.personService.getPersonByUuid(uuid, false).take(1).subscribe(
+    this.personService.getPersonByUuid(uuid, false).pipe(take(1)).subscribe(
       (result) => {
         if (result) {
           let response = this.searchProvider(result.display);
 
-          response.take(1).subscribe(
+          response.pipe(take(1)).subscribe(
             (providers) => {
               let foundProvider;
               _.each(providers, (provider: any) => {

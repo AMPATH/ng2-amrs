@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { ClinicLabOrdersResourceService
@@ -107,7 +109,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
       startDate: this.startDate,
       endDate: this.endDate
 
-    }).take(1).subscribe((results) => {
+    }).pipe(take(1)).subscribe((results) => {
         if (results) {
           this.orders = results;
           this.selectedVisitType = 'Total Ordered';

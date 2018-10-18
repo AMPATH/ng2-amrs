@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component,
     OnInit , OnDestroy , AfterViewInit,
     Output , EventEmitter, Input , ChangeDetectorRef,
@@ -73,8 +75,8 @@ export class DataEntryStatisticsComponent
    };
 
    this.showEncounterList();
-   this._dataEntryStatisticsService.getDataEntryStatistics(this.params)
-   .take(1).subscribe((results) => {
+   this._dataEntryStatisticsService.getDataEntryStatistics(this.params).pipe(
+   take(1)).subscribe((results) => {
        if (results) {
         this.dataEntryEncounters = results;
         this.busyIndicator = {

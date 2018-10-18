@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
 import * as Moment from 'moment';
@@ -115,7 +117,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
 
         this.patientsRequiringVLResourceService
             .getPatientList(this.toDateString(this.startDate), this.toDateString(this.endDate),
-            this.getSelectedLocations(this.locationUuids)).take(1).subscribe(
+            this.getSelectedLocations(this.locationUuids)).pipe(take(1)).subscribe(
             (data) => {
                 this.isLoadingReport = false;
                 this.data = data.result;

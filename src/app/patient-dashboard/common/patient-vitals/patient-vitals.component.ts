@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Helpers } from '../../../utils/helpers';
@@ -65,8 +67,8 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
     this.loadingVitals = true;
 
 
-    let request = this.patientVitalsService.getvitals(this.patient, this.nextStartIndex)
-      .take(1).subscribe((data) => {
+    let request = this.patientVitalsService.getvitals(this.patient, this.nextStartIndex).pipe(
+      take(1)).subscribe((data) => {
         if (data) {
           if (data.length > 0) {
 

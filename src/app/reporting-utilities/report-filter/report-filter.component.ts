@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import { ReportFilterModel } from './report-filter.model';
@@ -82,7 +84,7 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public fetchLocations(): void {
-    this.locationResourceService.getLocations().take(1).subscribe(
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
         // tslint:disable-next-line:prefer-for-of
@@ -97,7 +99,7 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public fetchForms(): void {
-    this.formsResourceService.getForms().take(1).subscribe(
+    this.formsResourceService.getForms().pipe(take(1)).subscribe(
       (forms: any[]) => {
         this.forms = [];
         // tslint:disable-next-line:prefer-for-of
@@ -113,8 +115,8 @@ export class ReportFilterComponent implements OnInit {
 
   public fetchReportIndicators(): void {
     this.indicatorResourceService
-      .getReportIndicators({ report: this.reportName })
-      .take(1).subscribe(
+      .getReportIndicators({ report: this.reportName }).pipe(
+      take(1)).subscribe(
       (indicators: any[]) => {
         this.indicators = [];
         // tslint:disable-next-line:prefer-for-of

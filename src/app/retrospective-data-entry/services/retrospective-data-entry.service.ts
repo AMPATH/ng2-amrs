@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { isNil, isEmpty, isNull } from 'lodash';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,7 +21,7 @@ export class PatientVitalsService {
     let vitals: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.vitalsResourceService.getVitals(patientUuid,
-      startIndex, this.limit).take(1).subscribe((data) => {
+      startIndex, this.limit).pipe(take(1)).subscribe((data) => {
         if (data) {
           let weight: string;
 

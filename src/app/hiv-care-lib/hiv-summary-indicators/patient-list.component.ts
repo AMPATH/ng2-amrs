@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -95,7 +97,7 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
       endAge: this.endAge,
       gender: this.gender,
       startIndex: this.startIndex
-    }).take(1).subscribe((report) => {
+    }).pipe(take(1)).subscribe((report) => {
       this.patientData = this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;

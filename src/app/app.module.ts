@@ -41,6 +41,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PocHttpInteceptor } from './shared/services/poc-http-interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -76,6 +77,7 @@ interface StoreType {
     RouterModule.forRoot(ROUTES, { useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ToastrModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,

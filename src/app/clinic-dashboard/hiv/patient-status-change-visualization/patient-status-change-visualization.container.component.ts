@@ -1,3 +1,5 @@
+
+import {mergeMap} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
   PatientStatusVisualizationResourceService
@@ -119,8 +121,8 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
   public loadCumulativeAnalysis(event) {
     let analysisType = 'cumulativeAnalysis';
-    const sub = this.clinicDashboardCacheService.getCurrentClinic()
-      .flatMap((location: any) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+      mergeMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
           params['startDate'] = event.startDate.format('YYYY-MM-DD');
@@ -131,7 +133,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.cumulativeAnalysis = params;
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }).subscribe((result) => {
+      })).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.cumulativeAnalysisResults = result;
       }, (error) => {
@@ -142,8 +144,8 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
   public loadMonthlyAnalysis(event) {
     let analysisType = 'monthlyAnalysis';
-    const sub = this.clinicDashboardCacheService.getCurrentClinic()
-      .flatMap((location: any) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+      mergeMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
           params['startDate'] = event.startDate.format('YYYY-MM-DD');
@@ -154,7 +156,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.triggerBusyIndicators(analysisType, true, false);
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }).subscribe((result) => {
+      })).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.monthlyAnalysisResults = result;
       }, (error) => {
@@ -165,8 +167,8 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
   public loadCohortAnalysis(event) {
     let analysisType = 'cohortAnalysis';
-    const sub = this.clinicDashboardCacheService.getCurrentClinic()
-      .flatMap((location: any) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+      mergeMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
           params['startDate'] = event.startDate.endOf('month').format('YYYY-MM-DD');
@@ -177,7 +179,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.triggerBusyIndicators(analysisType, true, false);
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }).subscribe((result) => {
+      })).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.cohortAnalysisResults = result;
       }, (error) => {

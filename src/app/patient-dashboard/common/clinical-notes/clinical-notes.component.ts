@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -106,7 +108,7 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
       this.patientUuid,
       startIndex,
       limit
-    ).take(1).subscribe((data:any) => {
+    ).pipe(take(1)).subscribe((data:any) => {
 
       let _notes = data.notes;
 

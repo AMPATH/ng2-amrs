@@ -81,7 +81,7 @@
     "ngx-openmrs-formentry": "git+https://github.com/AMPATH/ngx-openmrs-formentry.git#v2.9.7-alpha7",
     "ngx-pagination": "^3.1.1",
     "ngx-select": "^0.0.1",
-    "ngx-toastr": "^6.5.0",
+    "ngx-toastr": "^8.10.2",
     "pdfjs-dist": "^1.7.308",
     "pdfkit": "^0.8.0",
     "pdfmake": "0.1.25",

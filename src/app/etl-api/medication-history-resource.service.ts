@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -33,9 +35,9 @@ export class MedicationHistoryResourceService {
 
     return this.http.get<any>(url, {
       params: params
-    }).map((response: any) => {
+    }).pipe(map((response: any) => {
         return response.result;
-    });
+    }));
 
   }
 }

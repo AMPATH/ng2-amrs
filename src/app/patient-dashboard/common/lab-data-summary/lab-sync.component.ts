@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
@@ -48,7 +50,7 @@ export class LabSyncComponent implements OnInit, OnDestroy {
             startDate: startDate,
             endDate: endDate,
             patientUuId: this.patient.person.uuid
-        }).take(1).subscribe((result) => {
+        }).pipe(take(1)).subscribe((result) => {
             this.fetchingResults = false;
 
             if (result.errors && result.errors.length > 0) {

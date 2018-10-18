@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientReminderService } from './patient-reminders.service';
@@ -17,6 +19,12 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public reminders: any;
   public subscription: Subscription;
   public errorMessage: string;
+  public toastrConfig = {
+    timeOut: 0,
+    positionClass: 'toast-bottom-right',
+    closeButton: true,
+    preventDuplicates: true
+  };
 
   constructor(private toastrService: ToastrService,
     private patientReminderService: PatientReminderService,
@@ -48,8 +56,8 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patientUuid = patient.person.uuid;
-          this.patientReminderService.getPatientReminders(this.patientUuid)
-          .take(1).subscribe(
+          this.patientReminderService.getPatientReminders(this.patientUuid).pipe(
+          take(1)).subscribe(
               (data) => {
                 this.reminders = [];
                 if (!patient.person.dead && data && data.personUuid === this.patientUuid) {
@@ -70,17 +78,17 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public constructReminders(reminders) {
     _.each(reminders, (reminder: any) => {
       if (reminder.type === 'success') {
-        this.toastrService.success(reminder.message, reminder.title);
+        this.toastrService.success(reminder.message, reminder.title, this.toastrConfig);
       }
       if (reminder.type === 'warning') {
-        this.toastrService.warning(reminder.message, reminder.title);
+        this.toastrService.warning(reminder.message, reminder.title, this.toastrConfig);
       }
       if (reminder.type === 'danger') {
-        this.toastrService.error(reminder.message, reminder.title);
+        this.toastrService.error(reminder.message, reminder.title, this.toastrConfig);
       }
 
       if (reminder.type === 'info') {
-        this.toastrService.info(reminder.message, reminder.title);
+        this.toastrService.info(reminder.message, reminder.title, this.toastrConfig);
       }
       // app feature analytics
       this.appFeatureAnalytics

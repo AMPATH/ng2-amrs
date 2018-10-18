@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { OncologyReportService } from '../../../etl-api/oncology-reports.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -29,8 +31,8 @@ export class OncologyReportsComponent implements OnInit {
   }
 
   public getOncologyReports() {
-     this._oncologyReportService.getOncologyReports()
-        .take(1).subscribe((result) => {
+     this._oncologyReportService.getOncologyReports().pipe(
+        take(1)).subscribe((result) => {
            this.oncologyReports = result;
         });
   }
