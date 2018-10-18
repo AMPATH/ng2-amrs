@@ -23,10 +23,8 @@ import { constants } from 'os';
 import { of } from 'rxjs/observable/of';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
-import {
-  MatSnackBar
-} from '@angular/material';
 import { SessionStorageService } from '../utils/session-storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'patient-creation',
@@ -123,7 +121,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public preferredIdentifier;
 
   constructor(
-    public snackbar: MatSnackBar,
+    public toastrService: ToastrService,
     private patientCreationService: PatientCreationService,
     private patientCreationResourceService: PatientCreationResourceService,
     private locationResourceService: LocationResourceService,
@@ -645,8 +643,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
     },
     (error) => {
-      this.snackbar.open('Error retrieving common patient identifier types', '', {
-        duration: 1200
+      this.toastrService.error('Error retrieving common patient identifier types', '', {
+        timeOut: 2000,
+        positionClass: 'toast-bottom-center'
       });
     });
   }

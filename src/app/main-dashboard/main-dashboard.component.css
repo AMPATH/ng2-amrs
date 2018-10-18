@@ -290,6 +290,10 @@ a img {
   color: #fff !important;
 }
 
+.box-body .component-wrapper {
+  padding-bottom: 140px;
+}
+
 .banner-top {
   display: block;
   height: 9px;

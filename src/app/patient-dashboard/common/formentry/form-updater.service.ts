@@ -1,16 +1,13 @@
 
 import {map, catchError,  switchMap, combineAll } from 'rxjs/operators';
 import { Injectable, Component } from '@angular/core';
-
-
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormListService } from '../forms/form-list.service';
 import { FormSchemaService } from './form-schema.service';
 import * as _ from 'lodash';
-import { ToastComponent } from './form-updater-toast.component';
 import { Observable, from , of} from 'rxjs';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { MatSnackBar } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 const LAST_UPDATED = 'formsLastUpdated';
 @Injectable()
 export class FormUpdaterService {
@@ -19,7 +16,7 @@ export class FormUpdaterService {
     private formListService: FormListService,
     private formSchemaService: FormSchemaService,
     private localStorageService: LocalStorageService,
-    private toast: MatSnackBar) { }
+    private toast: ToastrService) { }
 
   public setDateLastChecked(timestamp: string) {
     this.localStorageService.setItem(LAST_UPDATED, timestamp);
@@ -30,17 +27,18 @@ export class FormUpdaterService {
 
   public getUpdatedForms() {
     this.checkUpdatedForms().pipe(
-      catchError((error) => { this.toast.dismiss(); return error; }))
+      catchError((error) => { this.toast.clear(); return error; }))
       .subscribe((updatedSchemas: any[]) => {
         if (updatedSchemas.length > 0) {
           let filteredSchemas = updatedSchemas.filter((x) => x !== null);
+          this.toast.clear();
           if (filteredSchemas.length > 0) {
             _.each(filteredSchemas, (schema) => {
               this.replaceSchemaInCache(schema);
             });
             this.showPlainToast('Forms Successfully Updated!', 3000);
           } else {
-            this.showPlainToast('All forms are Up to date.', 3000);
+            this.showPlainToast('All forms are up to date.', 3000);
           }
           this.setDateLastChecked(new Date().toDateString());
         } else {
@@ -90,14 +88,18 @@ export class FormUpdaterService {
   }
 
   private showToastWithSpinner(message) {
-    this.toast.openFromComponent(ToastComponent, { data: message });
+    this.toast.info(message, '', {progressBar: true,
+                                  progressAnimation: 'increasing',
+                                  easeTime: 150,
+                                  timeOut: 45000,
+                                  positionClass: 'toast-bottom-center'});
   }
 
   private showPlainToast(message: string, duration?: number) {
     if (duration) {
-      this.toast.open(message, '', { duration: duration });
+      this.toast.success(message, '', { timeOut: duration, positionClass: 'toast-bottom-center'});
     } else {
-      this.toast.open(message);
+      this.toast.success(message, '', { positionClass: 'toast-bottom-center'});
     }
 
   }

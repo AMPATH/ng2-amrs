@@ -24,6 +24,12 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   public leftOffset = 56;
   public headerHeight = 180;
   private subscriptions: Subscription[] = [];
+  public toastrConfig = {
+    timeOut: 0,
+    positionClass: 'toast-bottom-right',
+    closeButton: true,
+    preventDuplicates: true
+  };
 
   @ViewChild('headerElement')
   private headerElement;
@@ -117,7 +123,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
                       .format('DD/MM/YYYY')})`;
                 }
               }
-              this.toastrService.info(content.toLowerCase(), 'New Data from Lab');
+              this.toastrService.info(content.toLowerCase(), 'New Data from Lab', this.toastrConfig);
               // app feature analytics
               this.appFeatureAnalytics
                 .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
