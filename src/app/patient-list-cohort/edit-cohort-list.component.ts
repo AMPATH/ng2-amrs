@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
@@ -36,7 +38,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
     }
   }
   public getCohortListToEdit() {
-   this.cohortListService.getData().take(1).subscribe(
+   this.cohortListService.getData().pipe(take(1)).subscribe(
       (data) => {
         if (data) {
           this.selectedCohortDescription = data.description;
@@ -58,11 +60,11 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
         // memberIds: []
       };
       this.cohortResourceService.editCohort(this.selectedCohortUuid,
-        cohortListPayload).take(1).subscribe(
+        cohortListPayload).pipe(take(1)).subscribe(
         (success) => {
           if ( success ) {
             this.successAlert = 'Successfully edited cohort';
-            this.cohortResourceService.getCohort(this.selectedCohortUuid).take(1).subscribe(
+            this.cohortResourceService.getCohort(this.selectedCohortUuid).pipe(take(1)).subscribe(
               (edited) => {
                 this.cohortListService.setData(edited);
               }

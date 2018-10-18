@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import {
   Component, OnInit, Input, Output, OnChanges,
   SimpleChange, EventEmitter
@@ -88,7 +90,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
       reportName: 'MOH-731-report-2017',
       locationUuids: _.isArray(params.locations) ? params.locations.join(',') : params.locations
-    }).take(1).subscribe((data) => {
+    }).pipe(take(1)).subscribe((data) => {
       this.isLoading = false;
       if (data.errorMessage) {
         this.hasError = true;

@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
@@ -34,7 +36,7 @@ export class LocationResourceService {
         {
           params: params
         }
-      ).take(1).subscribe(
+      ).pipe(take(1)).subscribe(
         (data) => this.locations.next(data.results),
         (error) => this.locations.error(error)
         );

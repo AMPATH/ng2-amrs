@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import {
   Component, Output, Input, OnInit, EventEmitter,
   ViewEncapsulation, ChangeDetectorRef, AfterViewInit
@@ -152,7 +154,7 @@ private allEncounterLocations: Array<any> = [];
 
   public resolveLocationDetails(): void {
     this.loading = true;
-    this.locationResourceService.getLocations().take(1).subscribe((locations: any[]) => {
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe((locations: any[]) => {
       let locs = locations.map((location) => {
         return {
           value: location.uuid,

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -37,7 +39,7 @@ export class ProgramSummaryComponent extends ProgramManagerBaseComponent impleme
 
   public ngOnInit() {
     this.getDepartmentConf();
-    this.loadPatientProgramConfig().take(1).subscribe((loaded) => {
+    this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
       if (loaded) {
         this.mapEnrolledProgramsToDepartment();
       }

@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {map} from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
@@ -47,7 +49,7 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   public getHivSummary(patientUuid) {
     this.loadingData = true;
-    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).take(1).subscribe((results) => {
+    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
         this.loadingData = false;
         this.hasLoadedData = true;
         let latestVlResult: any;

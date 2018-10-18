@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {throwError as observableThrowError,  Observable, forkJoin ,  Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -111,8 +113,8 @@ export class DifferentiatedCareReferralService {
         // console.log('No programs enrolled in');
         status.otherHivProgUnenrollment.done = true;
       } else {
-        this.endProgramEnrollments(activePrograms, encounterDateTime)
-          .take(1).subscribe(
+        this.endProgramEnrollments(activePrograms, encounterDateTime).pipe(
+          take(1)).subscribe(
           (response) => {
             status.otherHivProgUnenrollment.unenrolledFrom = activePrograms;
             status.otherHivProgUnenrollment.done = true;
@@ -127,8 +129,8 @@ export class DifferentiatedCareReferralService {
       }
 
       // Step 2: Enroll in Diff Care program
-      this.enrollPatientToDifferentiatedCare(patientUuid, encounterDateTime, locationUuid)
-        .take(1).subscribe(
+      this.enrollPatientToDifferentiatedCare(patientUuid, encounterDateTime, locationUuid).pipe(
+        take(1)).subscribe(
         (response) => {
           status.diffCareProgramEnrollment.enrolled = response;
           status.diffCareProgramEnrollment.done = true;
@@ -143,8 +145,8 @@ export class DifferentiatedCareReferralService {
 
       // Step 3: Fill in encounter containing rtc date
       this.createDifferentiatedCareEncounter(patientUuid, providerUuid, encounterDateTime,
-        rtcDate, locationUuid)
-        .take(1).subscribe(
+        rtcDate, locationUuid).pipe(
+        take(1)).subscribe(
         (response) => {
           status.encounterCreation.created = response;
           status.encounterCreation.done = true;

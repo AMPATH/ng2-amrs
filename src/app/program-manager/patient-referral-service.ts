@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -48,8 +50,8 @@ export class PatientReferralService {
 
   public getEncounterProvider(encounterUuid: string): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.encounterResourceService.getEncounterByUuid(encounterUuid)
-      .take(1).subscribe((encounter) => {
+    this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
+      take(1)).subscribe((encounter) => {
         let encounterProvider: any = _.first(encounter.encounterProviders);
         if (encounterProvider) {
           subject.next(encounterProvider.provider);
@@ -63,8 +65,8 @@ export class PatientReferralService {
     return new Promise((resolve, reject) => {
       if (user && user.person) {
         this.providerResourceService
-          .getProviderByPersonUuid(user.person.uuid)
-          .take(1).subscribe(
+          .getProviderByPersonUuid(user.person.uuid).pipe(
+          take(1)).subscribe(
           (provider) => {
             resolve(provider);
           },
@@ -80,8 +82,8 @@ export class PatientReferralService {
 
   public fetchAllProgramManagementConfigs(patientUuid): Observable<any> {
     let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid)
-      .take(1).subscribe((programConfigs) => {
+    this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid).pipe(
+      take(1)).subscribe((programConfigs) => {
       subject.next(programConfigs);
     });
     return subject;
@@ -127,7 +129,7 @@ export class PatientReferralService {
     if (referralObservable === null) {
       throw new Error('Null referral location observable');
     } else {
-      referralObservable.take(1).subscribe(
+      referralObservable.pipe(take(1)).subscribe(
           (referrals) => {
               referral.next(referrals);
            });

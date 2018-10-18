@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -58,8 +60,8 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
 
     public loadHivSummary(patientUuid, nextStartIndexs) {
         this.hivSummaryService.getHivSummary(
-          patientUuid, this.nextStartIndex, 20, false)
-            .take(1).subscribe((data) => {
+          patientUuid, this.nextStartIndex, 20, false).pipe(
+            take(1)).subscribe((data) => {
                 if (data) {
                   if (data.length > 0) {
                     for (let r in data) {

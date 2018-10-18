@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
@@ -54,7 +56,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
       }
     });
 
-    this.propertyLocationService.getLocations().take(1).subscribe((response) => {
+    this.propertyLocationService.getLocations().pipe(take(1)).subscribe((response) => {
       this.locations = response.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);
@@ -83,8 +85,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
   }
 
   public getDepartments() {
-    this.departmentProgramService.getDartmentProgramsConfig()
-     .take(1).subscribe((results) => {
+    this.departmentProgramService.getDartmentProgramsConfig().pipe(
+     take(1)).subscribe((results) => {
         if (results) {
           _.each(results, (department, key) => {
             if (key !== 'uud4') {

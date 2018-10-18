@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import {
     Component, OnInit, Input, ViewEncapsulation
 } from '@angular/core';
@@ -63,7 +65,7 @@ export class AddPatientRelationshipComponent implements OnInit {
 
     public getRelationShipTypes(): void {
         let request = this.patientRelationshipTypeService.getRelationshipTypes();
-        request.take(1).subscribe((relationshipTypes) => {
+        request.pipe(take(1)).subscribe((relationshipTypes) => {
             if (relationshipTypes) {
                 this.patientRelationshipTypes = relationshipTypes;
             }
@@ -86,7 +88,7 @@ export class AddPatientRelationshipComponent implements OnInit {
             this.patientToBindRelationship.person.display !== '') {
             this.isLoading = true;
             let patientRelationshipPayload = this.getPatientRelationshipPayload();
-            this.patientRelationshipService.saveRelationship(patientRelationshipPayload).take(1).subscribe(
+            this.patientRelationshipService.saveRelationship(patientRelationshipPayload).pipe(take(1)).subscribe(
                 (success) => {
                     if (success) {
                         this.isLoading = false;

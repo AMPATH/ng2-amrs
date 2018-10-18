@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { OnInit, Component, OnDestroy } from '@angular/core';
@@ -44,8 +46,8 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
         if (patient !== null) {
           this.patientUuid = patient.person.uuid;
           let request = this.patientRelationshipService.getRelationships(this.patientUuid);
-          request
-            .take(1).subscribe(
+          request.pipe(
+            take(1)).subscribe(
             (relationships) => {
               if (relationships) {
                 this.relationships = relationships;
@@ -66,7 +68,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
 
   public voidRelationship() {
     if (this.selectedRelationshipUuid) {
-      this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).take(1).subscribe(
+      this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).pipe(take(1)).subscribe(
         (success) => {
           if (success) {
             this.patientService.reloadCurrentPatient();

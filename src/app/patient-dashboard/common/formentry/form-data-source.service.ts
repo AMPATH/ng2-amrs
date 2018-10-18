@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {map,  flatMap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
@@ -326,8 +328,8 @@ export class FormDataSourceService {
   public getConceptAnswers(uuid) {
     let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
     let v = 'custom:(uuid,name,conceptClass,answers)';
-    this.conceptResourceService.getConceptByUuid(uuid, true, v)
-      .take(1).subscribe((result) => {
+    this.conceptResourceService.getConceptByUuid(uuid, true, v).pipe(
+      take(1)).subscribe((result) => {
         let mappedConcepts = this.mapConcepts(result.answers);
         conceptResult.next(mappedConcepts);
       }, (error) => {

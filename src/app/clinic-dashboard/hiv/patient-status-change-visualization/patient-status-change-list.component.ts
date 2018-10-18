@@ -1,3 +1,5 @@
+
+import {mergeMap} from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -120,7 +122,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
 
   private getPatients() {
     this.triggerBusyIndicators(1, true, false);
-    const sub = this.clinicDashboardCacheService.getCurrentClinic().flatMap((location) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(mergeMap((location) => {
       if (location) {
         this.filterParams = this.getFilters();
         this.filterParams['locationUuids'] = location;
@@ -128,7 +130,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
           .getPatientList(this.filterParams);
       }
       return [];
-    }).subscribe((results) => {
+    })).subscribe((results) => {
       const data = this.data ? this.data.concat(results.result) : results.result;
       this.data = _.uniqBy(data, 'patient_uuid');
       this.startIndex += results.result.length;

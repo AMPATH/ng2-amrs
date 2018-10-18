@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {
   Component,
   OnInit , OnDestroy , AfterViewInit,
@@ -226,8 +228,8 @@ public setFiltersFromUrlParams(params, mapObj) {
     }
     public getDepartmentPrograms(department) {
 
-        this._departmentProgramService.getDepartmentPrograms(department)
-        .take(1)
+        this._departmentProgramService.getDepartmentPrograms(department).pipe(
+        take(1))
         .subscribe((result) => {
             // console.log('Department Programs', result);
             this.departmentPrograms = result;
@@ -238,8 +240,8 @@ public setFiltersFromUrlParams(params, mapObj) {
     public getProgramVisitsConfig() {
       return new Promise((resolve, reject) => {
 
-        this._patientProgramService.getAllProgramVisitConfigs()
-        .take(1)
+        this._patientProgramService.getAllProgramVisitConfigs().pipe(
+        take(1))
         .subscribe((response) => {
           if (response) {
             this.programVisitsConfig = JSON.parse(JSON.stringify(response));

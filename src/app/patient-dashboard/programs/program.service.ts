@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
 import {
@@ -32,7 +34,7 @@ export class ProgramService {
     if (patientsObservable === null) {
       throw new Error('Null patient programs observable');
     } else {
-      patientsObservable.take(1).subscribe(
+      patientsObservable.pipe(take(1)).subscribe(
         (programs) => {
           if (programs.length > 0) {
             let patientPrograms = [];
@@ -61,7 +63,7 @@ export class ProgramService {
     if (programsObservable === null) {
       throw new Error('Null program observable');
     } else {
-      programsObservable.take(1).subscribe(
+      programsObservable.pipe(take(1)).subscribe(
         (programs) => {
           if (programs.length > 0) {
             let availablePrograms = [];
@@ -121,8 +123,8 @@ export class ProgramService {
 
   public getProgramWorkFlows(programUuid: string) {
     return Observable.create((observer: Subject<any[]>) => {
-      this.programWorkFlowResourceService.getProgramWorkFlows(programUuid)
-        .take(1).subscribe((workflows: any) => {
+      this.programWorkFlowResourceService.getProgramWorkFlows(programUuid).pipe(
+        take(1)).subscribe((workflows: any) => {
           observer.next(workflows.allWorkflows);
         });
     }).pipe(first());
@@ -130,8 +132,8 @@ export class ProgramService {
 
   public getProgramWorkFlowStates(workflowUuid: any) {
     return Observable.create((observer: Subject<any[]>) => {
-      this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflowUuid)
-        .take(1).subscribe((states) => {
+      this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflowUuid).pipe(
+        take(1)).subscribe((states) => {
           observer.next(states);
         });
     }).pipe(first());

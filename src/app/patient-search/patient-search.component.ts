@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy, DoCheck
   , Output, Input, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -71,7 +73,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       } else {
         // load cached result
         this.errorMessage = '';
-        this.patientSearchService.patientsSearchResults.take(1).subscribe(
+        this.patientSearchService.patientsSearchResults.pipe(take(1)).subscribe(
           (patients) => {
             this.onResultsFound(patients);
           },

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MedicationHistoryResourceService } from
@@ -26,7 +28,7 @@ export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
       (patient) => {
         if (patient) {
           this.patientUuid = patient.person.uuid;
@@ -42,8 +44,8 @@ export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
   }
 
   public getMedicationHistory(patientUuid): void {
-    this.medicationHistoryResourceService.getCdmMedicationHistory(patientUuid)
-    .take(1).subscribe((result) => {
+    this.medicationHistoryResourceService.getCdmMedicationHistory(patientUuid).pipe(
+    take(1)).subscribe((result) => {
       this.encounters = _.filter(result, (row) => {
         return !_.isNil(row.prescriptions);
       });

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute , Params } from '@angular/router';
 // import { Observable, Subject } from 'rxjs';
@@ -112,7 +114,7 @@ export class Moh731ReportBaseComponent implements OnInit {
     this.moh731Resource
       .getMoh731Report(this.getSelectedLocations(this.locationUuids),
         this.toDateString(this.startDate), this.toDateString(this.endDate),
-        this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).take(1).subscribe(
+        this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).pipe(take(1)).subscribe(
           (data) => {
             if (data.error) {
                 // if there is an error

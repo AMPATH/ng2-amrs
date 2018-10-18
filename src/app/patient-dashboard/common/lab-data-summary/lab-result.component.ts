@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
@@ -63,7 +65,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
     this.patientUuId = this.patient.person.uuid;
     this.fetchingResults = true;
     this.labsResourceService.getHistoricalPatientLabResults(this.patientUuId,
-      { startIndex: this.nextStartIndex.toString(), limit: '20' }).take(1).subscribe((result) => {
+      { startIndex: this.nextStartIndex.toString(), limit: '20' }).pipe(take(1)).subscribe((result) => {
         if (result) {
           this.labResults = this.formatDateField(result);
           if (this.labResults.length > 0) {

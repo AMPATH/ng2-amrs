@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -90,8 +92,8 @@ export class ProgramManagerBaseComponent implements OnInit {
           });
 
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
-          this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid)
-            .take(1).subscribe((programConfigs) => {
+          this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).pipe(
+            take(1)).subscribe((programConfigs) => {
             if (programConfigs) {
               this.allPatientProgramVisitConfigs = programConfigs;
               this.loaded = true;
@@ -136,8 +138,8 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public getDepartmentConf() {
-    this.departmentProgramService.getDartmentProgramsConfig()
-      .take(1).subscribe((results) => {
+    this.departmentProgramService.getDartmentProgramsConfig().pipe(
+      take(1)).subscribe((results) => {
         if (results) {
           this.departmentConf = results;
           this._filterDepartmentConfigByName();

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Observable, Subject } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
@@ -1019,7 +1021,7 @@ export class HivPatientClinicalSummaryService {
     return Observable.create((observer: Subject<any>) => {
       if (data) {
         HivPatientClinicalSummaryService.data = data;
-        HivPatientClinicalSummaryService.constructPdfStructure().take(1).subscribe(
+        HivPatientClinicalSummaryService.constructPdfStructure().pipe(take(1)).subscribe(
           (pdfStructure) => {
             let pdfProxy = pdfMake.createPdf(pdfStructure);
             pdfProxy.getBase64((output) => {

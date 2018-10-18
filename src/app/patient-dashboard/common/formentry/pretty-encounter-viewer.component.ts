@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { flatMap, delay } from 'rxjs/operators';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -71,8 +73,8 @@ export class PrettyEncounterViewerComponent implements OnInit {
                 } else {
                     this.showErrorMessage(`This encounter has no form.`);
                 }
-            }))
-            .take(1).subscribe((compiledSchema) => {
+            })).pipe(
+            take(1)).subscribe((compiledSchema) => {
                 let unpopulatedform = this.formFactory.createForm(compiledSchema, this.dataSources);
                 this.encounterAdapter.populateForm(unpopulatedform, this.selectedEncounter);
                 this.form = unpopulatedform;

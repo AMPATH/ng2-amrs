@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -200,7 +202,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null Defaulter List observable');
     } else {
-      result.take(1).subscribe(
+      result.pipe(take(1)).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.defaulterList = this.defaulterList.concat(

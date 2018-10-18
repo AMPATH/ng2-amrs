@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
@@ -17,7 +19,7 @@ export class PatientRelationshipService {
 
   public getRelationships(uuid) {
     let relationshipsArr = [];
-    this.patientRelationshipResourceService.getPatientRelationships(uuid).take(1).subscribe(
+    this.patientRelationshipResourceService.getPatientRelationships(uuid).pipe(take(1)).subscribe(
       (relationships) => {
         if (relationships) {
           for (let relationship of relationships) {

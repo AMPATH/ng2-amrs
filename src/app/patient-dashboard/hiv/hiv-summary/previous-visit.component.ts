@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit,  OnDestroy, Inject } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { FormSchemaService } from '../../common/formentry/form-schema.service';
@@ -95,8 +97,8 @@ export class PreviousVisitComponent implements OnInit, OnDestroy {
     public getLastVisitEncounters(patientUuid: any) {
         const searchParams = 'custom:(uuid,encounters)';
         this.visitResourceService
-        .getPatientVisits({patientUuid: patientUuid, v: searchParams})
-        .take(1).subscribe((visits) => {
+        .getPatientVisits({patientUuid: patientUuid, v: searchParams}).pipe(
+        take(1)).subscribe((visits) => {
             _.forEach(visits, (visit) => {
                 if (visit.encounters.length > 0) { this.lastVisit = visit; return false; }});
             if (this.lastVisit) {

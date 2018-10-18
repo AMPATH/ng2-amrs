@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, AfterViewInit, Output,
   EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -216,8 +218,8 @@ public loadFilterFromMap(values: any , map) {
     // get current location
 
   public getLocations() {
-    this._locationResourceService.getLocations()
-    .take(1).subscribe((location) => {
+    this._locationResourceService.getLocations().pipe(
+    take(1)).subscribe((location) => {
         this.setLocations(location);
     });
   }
@@ -261,8 +263,8 @@ public loadFilterFromMap(values: any , map) {
   }
 
   public getDepartmentConfig() {
-    this.departmentProgramService.getDartmentProgramsConfig()
-      .take(1).subscribe((results) => {
+    this.departmentProgramService.getDartmentProgramsConfig().pipe(
+      take(1)).subscribe((results) => {
         if (results) {
           this.departmenProgramtConfig = results;
           this.getAllDepartments();
@@ -272,8 +274,8 @@ public loadFilterFromMap(values: any , map) {
   }
 
   public getProgramVisitsConfig() {
-    this._patientProgramService.getAllProgramVisitConfigs()
-      .take(1).subscribe((response) => {
+    this._patientProgramService.getAllProgramVisitConfigs().pipe(
+      take(1)).subscribe((response) => {
         if (response) {
           this.programVisitsConfig = JSON.parse(JSON.stringify(response));
           this.getAllPrograms();

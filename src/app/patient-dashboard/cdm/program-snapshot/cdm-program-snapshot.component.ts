@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
@@ -38,7 +40,7 @@ export class CdmProgramSnapshotComponent implements OnInit {
 
   public getCdmSummary(patientUuid) {
     this.loadingData = true;
-    this.cdmSummaryResourceService.getCdmSummary(patientUuid, 0, 10).take(1).subscribe((results) => {
+    this.cdmSummaryResourceService.getCdmSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
         this.loadingData = false;
         this.hasLoadedData = true;
         this.patientData = _.first(_.filter(results, (encounter: any) => {

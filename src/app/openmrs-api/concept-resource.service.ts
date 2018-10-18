@@ -1,4 +1,6 @@
 
+import {take} from 'rxjs/operators';
+
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -50,7 +52,7 @@ export class ConceptResourceService {
   public getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
     let filteredConceptResults = [];
     let response = this.searchConcept(searchText);
-    response.take(1).subscribe(
+    response.pipe(take(1)).subscribe(
       (concepts) => {
         filteredConceptResults =
           this.filterResultsByConceptClassesUuid(concepts, conceptClassesUuidArray);

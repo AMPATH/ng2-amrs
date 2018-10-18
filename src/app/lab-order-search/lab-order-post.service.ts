@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
@@ -11,8 +13,8 @@ export class LabOrderPostService {
 
   public postOrderToEid(location, payload: any): Observable<any> {
     let postSubject: Subject<any> = new Subject<any>();
-    this.resouceService.postOrderToEid(location, payload)
-      .take(1).subscribe(
+    this.resouceService.postOrderToEid(location, payload).pipe(
+      take(1)).subscribe(
       (data) => {
         postSubject.next(data);
       },

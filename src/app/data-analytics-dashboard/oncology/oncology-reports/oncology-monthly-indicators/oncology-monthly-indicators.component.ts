@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { OncologyReportService } from '../../../../etl-api/oncology-reports.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -129,8 +131,8 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
 
   public fetchReport() {
     this.loading();
-    this._oncologySummaryService.getOncologySummaryMonthlyIndicatorsReport(this.params)
-    .take(1).subscribe((result) => {
+    this._oncologySummaryService.getOncologySummaryMonthlyIndicatorsReport(this.params).pipe(
+    take(1)).subscribe((result) => {
       this.monthlySummary = result.result;
       this.endLoading();
     });

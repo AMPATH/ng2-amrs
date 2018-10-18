@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Observable ,  Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
@@ -113,8 +115,8 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
         let encounterUuid = todaysEncounter.uuid;
         encounterCount++;
 
-        this._encounterResourceService.getEncounterByUuid(encounterUuid)
-          .take(1).subscribe((encounterDetail) => {
+        this._encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
+          take(1)).subscribe((encounterDetail) => {
 
             encounterWithDetails.push(encounterDetail);
             resultCount++;

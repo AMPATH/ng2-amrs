@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { Observable ,  Subject } from 'rxjs';
@@ -18,8 +20,8 @@ export class FormentryReferralsHandlerService {
     let subject = new Subject<any>();
 
     if (values.hasDifferentiatedCareReferal) {
-      this.handleDifferentiatedCareReferal(patient, values)
-        .take(1).subscribe((results) => {
+      this.handleDifferentiatedCareReferal(patient, values).pipe(
+        take(1)).subscribe((results) => {
           subject.next(
             {
               success: true,

@@ -111,8 +111,8 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public getCurrentLocation() {
-    const sub = this.clinicDashboardCacheService.getCurrentClinic()
-    .take(1).subscribe((location) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+    take(1)).subscribe((location) => {
       this.location = location;
       const params = this.params;
       console.log('location', location);
@@ -146,7 +146,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       visitType: this.params.visitType,
       encounterType: this.params.encounterType,
       locationUuids: this.location, limit: 10000
-    }).take(1).subscribe((results) => {
+    }).pipe(take(1)).subscribe((results) => {
       console.log('Results', results);
       this.events = this.processEvents(results);
       this.setFree();

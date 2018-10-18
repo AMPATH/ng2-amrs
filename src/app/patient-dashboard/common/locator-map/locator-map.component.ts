@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
@@ -58,7 +60,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
       this.imageSaved = false;
       return this.personResourceService
         .saveUpdatePerson(this.patient.person.uuid, updatePayload);
-    })).take(1).subscribe((patient) => {
+    })).pipe(take(1)).subscribe((patient) => {
       this.loading = false;
       this.imageSaved = true;
       this.patientService.reloadCurrentPatient();
@@ -79,7 +81,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     };
     this.loading = true;
     this.subscriptions.push(this.personResourceService
-      .saveUpdatePerson(this.patient.person.uuid, updatePayload).take(1).subscribe((patient) => {
+      .saveUpdatePerson(this.patient.person.uuid, updatePayload).pipe(take(1)).subscribe((patient) => {
         this.patientService.reloadCurrentPatient();
         this.loading = false;
       }, (error) => {

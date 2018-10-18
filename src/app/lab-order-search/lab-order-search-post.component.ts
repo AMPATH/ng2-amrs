@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, Output,
   EventEmitter, OnChanges , SimpleChanges } from '@angular/core';
 
@@ -124,8 +126,8 @@ public ngOnInit() {
 
    public loadHivSummary(patientUuid) {
 
-    this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false)
-      .take(1).subscribe((data) => {
+    this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false).pipe(
+      take(1)).subscribe((data) => {
         this.hivSummary = data && data.length > 0 ? data[0] : null;
         this.isBusy = false;
       }, (err) => {
@@ -165,7 +167,7 @@ public ngOnInit() {
    public getDnaPcrConcepts(uuid, property) {
 
     if (uuid) {
-      this.conceptResourceService.getConceptByUuid(uuid).take(1).subscribe((data) => {
+      this.conceptResourceService.getConceptByUuid(uuid).pipe(take(1)).subscribe((data) => {
           if (data) {
               this.dnaPcrData[property] = data.name.display;
           }
@@ -184,8 +186,8 @@ public ngOnInit() {
 
     const location = this.selectedLabLocation;
     this.isBusy = true;
-    this.labOrderPostService.postOrderToEid(location, payload)
-      .take(1).subscribe((resp) => {
+    this.labOrderPostService.postOrderToEid(location, payload).pipe(
+      take(1)).subscribe((resp) => {
         this.selectedLabLocation = null;
         this.selectedIdentifier = null;
         this.selectedSampleType = null;

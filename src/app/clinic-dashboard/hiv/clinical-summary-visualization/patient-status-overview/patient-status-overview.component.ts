@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, ViewEncapsulation, Input, OnInit, ChangeDetectorRef,
   AfterViewInit,
   OnDestroy} from '@angular/core';
@@ -98,8 +100,8 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit, On
         groupBy: '',
         indicators: '',
         order: 'encounter_datetime%257Casc'
-      })
-      .take(1).subscribe(
+      }).pipe(
+      take(1)).subscribe(
         (data) => {
 
           this.patientStatusData = data.result;
