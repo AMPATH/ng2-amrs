@@ -102,7 +102,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   public gotToProgram() {
     if (this.department) {
       this.removeMessage();
-      this.availableDepartmentPrograms = this.getProgramsByDepartmentName();
+      this.availableDepartmentPrograms = _.orderBy(this.getProgramsByDepartmentName(),
+        ['name'],['asc']);
       if (this.availableDepartmentPrograms.length === 0) {
         this.showMessage('No Active programs in this department');
       } else {

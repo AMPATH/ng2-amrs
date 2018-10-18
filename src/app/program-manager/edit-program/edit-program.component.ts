@@ -124,10 +124,12 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   }
 
   public startAgain() {
-    this.title = 'Select Programs to edit';
     this.resetNext();
     this.currentStep = 1;
     this.jumpStep = 1;
+    let _route = '/patient-dashboard/patient/' + this.patient.uuid
+      + '/general/general/program-manager/edit-program';
+    this.router.navigate([_route], {});
   }
 
   public stopPrograms() {
