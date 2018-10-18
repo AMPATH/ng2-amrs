@@ -19,7 +19,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
-import { ToastComponent } from '../patient-dashboard/common/formentry/form-updater-toast.component';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
@@ -121,19 +120,16 @@ import { DataListsModule } from './data-lists/data-lists.module';
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
-    LocationFilterComponent, ToastComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
+    LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
     CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent,
-    OnlineTrackerComponent, ToastComponent,
+    OnlineTrackerComponent,
     BuildVersionComponent, DateSelectorComponent, PdfViewerComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent
-  ],
-  entryComponents: [
-    ToastComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
     HivSummaryService, {

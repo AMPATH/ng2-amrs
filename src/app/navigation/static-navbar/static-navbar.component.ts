@@ -11,12 +11,7 @@ import { FormUpdaterService } from '../../patient-dashboard/common/formentry/for
 @Component({
   selector: 'static-navbar',
   templateUrl: './static-navbar.component.html',
-  styles: [`::ng-deep snack-bar-container.snackbar {
-    background: rgba(255,255,255,0.8);
-  }
-  ::ng-deep .snackbar .mat-simple-snackbar {
-    color: black;
-  }`]
+  styles: []
 })
 export class StaticNavBarComponent implements OnInit {
   public user: User;

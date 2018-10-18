@@ -19,7 +19,6 @@ from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
 import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
-import { MatSnackBar } from '@angular/material';
 import * as _ from 'lodash';
 @Component({
   selector: 'login',
