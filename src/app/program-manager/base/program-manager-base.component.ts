@@ -147,7 +147,7 @@ export class ProgramManagerBaseComponent implements OnInit {
       });
   }
 
-  public getProgramsByDepartmentName() {
+  public getProgramsByDepartmentName(): any[] {
     let department = _.find(this.departmentConf, (config: any) => {
       return config.name === this.department;
     });

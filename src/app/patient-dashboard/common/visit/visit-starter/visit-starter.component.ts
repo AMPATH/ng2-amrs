@@ -135,47 +135,46 @@ export class VisitStarterComponent implements OnInit {
   }
 
   public startVisit(visitTypeUuid) {
-    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-    this.startedVisit = true;
-    this.isBusy = true;
-    this.error = '';
-    let payload = {
-      patient: this.patientUuid,
-      location: this.selectedLocation.value,
-      startDatetime: new Date(),
-      visitType: visitTypeUuid
-    };
-
-    if (retroSettings && retroSettings.enabled) {
-      payload.location = retroSettings.location.value;
-      payload.startDatetime = this.setRetroDateTime(retroSettings);
-      payload['attributes'] = [
-        {
-          attributeType: '3bb41949-6596-4ff9-a54f-d3d7883a69ed',
-          value: 'true'
-        }
-      ];
-    }
-
-    this.visitResourceService.saveVisit(payload).subscribe(
-      (savedVisit) => {
-         this.isBusy = false;
-         this.startedVisit = false;
-         this.todayVisitService.activateVisitStartedMsg();
-         this.visitStarted.emit(savedVisit);
-      },
-      (error) => {
-        setTimeout( () => {
-          this.isBusy = false;
-          this.error = 'Error starting visit';
-          this.startedVisit = false;
-          this.todayVisitService.hideVisitStartedMessage();
-          console.error('Error starting visit', error);
-
-        }, 3000);
+    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+      this.startedVisit = true;
+      this.isBusy = true;
+      this.error = '';
+      let payload = {
+        patient: this.patientUuid,
+        location: this.selectedLocation.value,
+        startDatetime: new Date(),
+        visitType: visitTypeUuid
+      };
+      if (retroSettings && retroSettings.enabled) {
+        payload.location = retroSettings.location.value;
+        payload.startDatetime = this.setRetroDateTime(retroSettings);
+        payload['attributes'] = [
+          {
+            attributeType: '3bb41949-6596-4ff9-a54f-d3d7883a69ed',
+            value: 'true'
+          }
+        ];
       }
-    );
 
+      this.visitResourceService.saveVisit(payload).subscribe(
+        (savedVisit) => {
+          this.isBusy = false;
+          this.startedVisit = false;
+          this.todayVisitService.activateVisitStartedMsg();
+          this.visitStarted.emit(savedVisit);
+        },
+        (error) => {
+          setTimeout( () => {
+            this.isBusy = false;
+            this.error = 'Error starting visit';
+            this.startedVisit = false;
+            this.todayVisitService.hideVisitStartedMessage();
+            console.error('Error starting visit', error);
+
+          }, 3000);
+        }
+      );
+    });
   }
 
   public onLocationChanged(locations) {

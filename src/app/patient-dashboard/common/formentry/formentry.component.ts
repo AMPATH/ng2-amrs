@@ -272,8 +272,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     let currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
-    // let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-    this.retrospectiveDataEntryService.retroSettings.pipe(take(1)).subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.pipe(take(1))
+      .subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
         location = {
           uuid: retroSettings.location.value,
@@ -346,8 +346,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public updatePatientDemographics(data: any): void {
     // check if patient status was filled
-    // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
-    let patientCareStatus = this.form.searchNodeByQuestionId('patstat');
+
+    let patientCareStatus = this.getPatientStatusQuestion();
     let deathDate = this.form.searchNodeByQuestionId('deathDate');
     let causeOfDeath = this.form.searchNodeByQuestionId('reasdeath');
     if (causeOfDeath.length === 0 ) {
@@ -360,54 +360,75 @@ export class FormentryComponent implements OnInit, OnDestroy {
      *  none of the fields are required. By assumption, if someone fills death death and cause,
      *  the patient is dead
      */
+    let personNamePayload: any = {
+      dead : false,
+      deathDate: null,
+      causeOfDeath: null
+    };
 
     if (patientCareStatus.length > 0
       && _.first(patientCareStatus).control.value !== 'a89335d6-1350-11df-a1f1-0026b9') {
-      this.personResourceService.saveUpdatePerson(this.patient.uuid, {
-        dead : false,
-        deathDate: null,
-        causeOfDeath: null
-      }).subscribe(() => {});
+      this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
+        .subscribe(() => {});
     }
 
     if ((causeOfDeath.length > 0 && _.first(causeOfDeath).control.value.length > 0)
       && (deathDate.length > 0 && _.first(deathDate).control.value.length > 0)) {
-        let personNamePayload = {
-          dead: true,
-          deathDate: _.first(deathDate).control.value,
-          causeOfDeath: _.first(causeOfDeath).control.value
-        };
-
-        this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
-          .subscribe(() => {});
+      personNamePayload.dead = true;
+      personNamePayload.deathDate = _.first(deathDate).control.value;
+      personNamePayload.causeOfDeath = _.first(causeOfDeath).control.value;
+      this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
+        .subscribe(() => {});
     }
   }
 
   public handleProgramManagerRedirects(data: any): void {
     // check if patient status was filled
-    // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
-    const patientCareStatus = this.form.searchNodeByQuestionId('patstat');
-    const transferOut = this.form.searchNodeByQuestionId('transferOut');
-    if (patientCareStatus.length > 0 && this.isATransferOut(patientCareStatus)) {
-      if (this.shouldRedirectToProgramManager(transferOut)) {
-        this.preserveFormAsDraft = false;
-        this.router.navigate(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/program-manager/edit-program'], {
-          queryParams: { 'notice': 'outreach' }
-        });
-      }
+    const patientCareStatus = this.getPatientStatusQuestion();
+    if (this.shouldRedirectToProgramManager(patientCareStatus)) {
+      this.preserveFormAsDraft = false;
+      this.saveTransferLocationIfSpecified();
+      this.router.navigate(['/patient-dashboard/patient/' +
+      this.patient.uuid + '/general/general/program-manager/edit-program'], {
+        queryParams: {'notice': 'outreach'}
+      });
     }
   }
 
-  private isATransferOut(question: any[]) {
-    return _.first(question).control.value === 'a89e3ad0-1350-11df-a1f1-0026b9348838';
+  private hasTransferCareQuestion(question: any[]) {
+    if (question.length > 0) {
+      let answer = _.first(question).control.value;
+      return answer === 'a89e3ad0-1350-11df-a1f1-0026b9348838';
+    }
+    return false;
   }
 
   private shouldRedirectToProgramManager(answer: any[]) {
+    const transferOut = this.form.searchNodeByQuestionId('transferOut');
+    if (transferOut.length > 0) {
+      answer = transferOut;
+    }
     return _.includes([
       'a89c2f42-1350-11df-a1f1-0026b9348838', // AMPATH
       'a89c301e-1350-11df-a1f1-0026b9348838' // Non-AMPATH
     ], _.first(answer).control.value);
+  }
+
+  private getPatientStatusQuestion() {
+    // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
+    // (questionId is careStatus in Transfer Out Form v0.01
+    let patientCareStatus = this.form.searchNodeByQuestionId('patstat');
+    if (patientCareStatus.length == 0) {
+      patientCareStatus = this.form.searchNodeByQuestionId('careStatus');
+    }
+    return patientCareStatus;
+  }
+
+  private saveTransferLocationIfSpecified() {
+    let transferLocation = this.form.searchNodeByQuestionId('transfered_out_to_ampath');
+    if (transferLocation.length > 0) {
+      localStorage.setItem('transferLocation', _.first(transferLocation).control.value);
+    }
   }
 
   private searchReferralConcepts(concepts) {
@@ -717,16 +738,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.submittedOrders.encounterUuid = null;
       this.submittedOrders.orders = [];
       // submit form
-      let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-      if (retroSettings && retroSettings.enabled) {
-        this.confirmRetrospectiveSubmission(payloadTypes);
-      } else {
-        this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
-      }
-
+      this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+          if (retroSettings && retroSettings.enabled) {
+            this.confirmRetrospectiveSubmission(payloadTypes);
+          } else {
+            this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
+          }
+      });
     } else {
-
-      // document.getElementById('formentry-submit-btn').setAttribute('disabled', 'true');
       this.form.markInvalidControls(this.form.rootNode);
       this.enableSubmitBtn();
     }
@@ -975,6 +994,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
               provider = retroSettings.provider.value;
             }
             this.form.valueProcessingInfo.providerUuid = provider;
+            let encounterProvider = this.form.searchNodeByQuestionId('provider',
+              'encounterProvider');
+            if (encounterProvider.length > 0) {
+              encounterProvider[0].control.setValue(provider);
+            }
           });
 
         },
