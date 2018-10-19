@@ -15,7 +15,6 @@ export class PatientReminderService {
       this.patientReminderResourceService.getPatientLevelReminders(patientUuid).pipe(
       take(1)).subscribe(
       (data) => {
-        sub.unsubscribe();
         if (data && data.reminders.length > 0) {
           let remindersObj = {
             personUuid: data.person_uuid,
