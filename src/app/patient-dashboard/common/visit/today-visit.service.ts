@@ -210,25 +210,24 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
 
   public filterVisitsAndCurrentVisits(programVisitObj, visits) {
     // Filter out visits not in the program
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-      let filterVisitDate = moment();
-      if (retroSettings && retroSettings.enabled) {
-        filterVisitDate = moment(retroSettings.visitDate);
-      }
-      let todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
-      let programVisits = this.filterVisitsByVisitTypes(todaysVisits,
-        this.getProgramVisitTypesUuid(programVisitObj.config));
-      let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
+    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
+    let filterVisitDate = moment();
+    if (retroSettings && retroSettings.enabled) {
+      filterVisitDate = moment(retroSettings.visitDate);
+    }
+    let todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
+    let programVisits = this.filterVisitsByVisitTypes(todaysVisits,
+      this.getProgramVisitTypesUuid(programVisitObj.config));
+    let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
 
-      programVisitObj.visits = orderedVisits;
+    programVisitObj.visits = orderedVisits;
 
-      if (orderedVisits.length > 0 &&
-        moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
-        programVisitObj.currentVisit = orderedVisits[0];
-      } else {
-        programVisitObj.currentVisit = null;
-      }
-    });
+    if (orderedVisits.length > 0 &&
+      moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
+      programVisitObj.currentVisit = orderedVisits[0];
+    } else {
+      programVisitObj.currentVisit = null;
+    }
   }
 
   public processVisitsForPrograms() {

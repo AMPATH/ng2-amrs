@@ -179,14 +179,6 @@ private allEncounterLocations: Array<any> = [];
         this.onCountyChanged(this.selectedCounty);
       }
       if (this.locationUuids) {
-        if (typeof this.locationUuids === 'string') {
-          this.selectedLocations = _.first(_.filter(this.locationDropdownOptions,
-            (location) => {
-            return location.value === this.locationUuids
-          }));
-        } else {
-          this.selectedLocations = this.locationUuids;
-        }
         this.onLocationSelected(this.selectedLocations);
       }
       this.loading = false;

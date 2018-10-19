@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
-import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'program-transfer',
@@ -33,7 +31,6 @@ export class TransferProgramComponent implements OnInit {
   public exitEncounters: string[] = [];
   private _formsFilled: boolean = false;
   constructor(private programManagerService: ProgramManagerService,
-              private patientResourceService: PatientResourceService,
               private router: Router) {
   }
 
@@ -69,16 +66,10 @@ export class TransferProgramComponent implements OnInit {
     this.programManagerService.editProgramEnrollments('transfer', this.patient,
       this.programs, null).subscribe((programs) => {
       if (programs) {
-        this.removePreferedIdentifier().subscribe((success) => {
-          this.transferring = false;
-          this.formsFilled = false;
-          this.programTransferComplete.next(programs);
-        }, (err) => {
-          console.log(err);
-        });
+        this.transferring = false;
+        this.formsFilled = false;
+        this.programTransferComplete.next(_.first(programs));
       }
-    }, (err) => {
-      console.log(err);
     });
   }
 
@@ -102,30 +93,6 @@ export class TransferProgramComponent implements OnInit {
     _.remove(this.programs, (_program) => {
       return _program.uuid === event.target.value;
     });
-  }
-
-  private removePreferedIdentifier(): Observable<any> {
-    // get preferred identifier
-    const preferredIdentifier = _.find(this.patient.openmrsModel.identifiers, 'preferred');
-    if (preferredIdentifier) {
-
-
-      let person = {
-        uuid: this.patient.person.uuid
-      };
-
-      let personIdentifierPayload: any = {
-        uuid: preferredIdentifier.uuid,
-        identifier: preferredIdentifier.identifier, // patientIdentifier
-        identifierType: preferredIdentifier.identifierType.uuid, // identifierType
-        preferred: false, // we don't know where the patient is going. so we only remove the preferred state
-        location: preferredIdentifier.location.uuid // location
-      };
-
-
-      return this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
-        personIdentifierPayload.uuid, personIdentifierPayload).take(1);
-    }
   }
 
 }

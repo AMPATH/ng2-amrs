@@ -225,19 +225,18 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private setVisit(visit) {
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-        this.stopDatetime = visit.stopDatetime;
-        this.startDatetime = visit.startDatetime;
-        this.currentVisit = visit ? visit : '';
-        this.locationUuid = visit ? {value: visit.location.uuid, label: visit.location.display} : null;
-        this.locationName = visit ? visit.location.display : null;
-        this.encounterVisitUuid = visit ? visit.uuid : null;
-        if (retroSettings && retroSettings.enabled) {
-          this.retroProviderAttribute = retroSettings.provider;
-        }
-        this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
-        this.loadingVisit = false;
-    });
+    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
+    this.stopDatetime = visit.stopDatetime;
+    this.startDatetime = visit.startDatetime;
+    this.currentVisit = visit ? visit : '';
+    this.locationUuid = visit ? {value: visit.location.uuid, label: visit.location.display} : null;
+    this.locationName = visit ? visit.location.display : null;
+    this.encounterVisitUuid = visit ? visit.uuid : null;
+    if (retroSettings && retroSettings.enabled) {
+      this.retroProviderAttribute = retroSettings.provider;
+    }
+    this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
+    this.loadingVisit = false;
   }
 
   private resetVariables() {

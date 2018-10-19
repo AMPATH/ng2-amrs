@@ -1,7 +1,4 @@
 <busy *ngIf="updating" [message]="'Updating...'"></busy>
-<div style="margin-bottom: 20px;" class="alert alert-danger" *ngIf="hasError">
-  <p>Error editing location. {{message}}</p>
-</div>
 <div class="step-details" *ngIf="!complete">
   <ng-container *ngFor="let program of programs">
     <blockquote class="step-details" style="border-left: 0; margin-bottom: 0; padding-bottom: 0;"
@@ -16,7 +13,7 @@
   </ng-container>
   <div class="row" style="position: relative; padding-bottom: 12px;" *ngIf="!complete">
     <div class="col-md-6 col-xs-12 col-sm-6 cell">
-      <location-filter [locationUuids]="transferLocation" [disable-county]="true" [showLabel]="true" (onLocationChange)="selectLocation($event)"></location-filter>
+      <location-filter [disable-county]="true" [showLabel]="true" (onLocationChange)="selectLocation($event)"></location-filter>
     </div>
     <div class="col-md-6 col-xs-12 col-sm-6 cell">
       <label for="enrolledDate">Date Enrolled</label>
@@ -28,8 +25,9 @@
   </div>
 
 </div>
+
 <div style="margin-bottom: 20px;" class="alert alert-success" *ngIf="complete">
-  <ng-container *ngFor="let program of editedPrograms">
+  <ng-container *ngFor="let program of editedProgram">
   <blockquote class="step-details"  *ngIf="program && !program.dateCompleted" style="border-left: 0;margin-bottom: 0;padding-bottom: 0;">
     <p>{{program.display}} <span
       class="pull-right">New Location: {{program.location?.display}}</span></p>
