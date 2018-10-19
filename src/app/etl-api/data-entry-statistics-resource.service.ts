@@ -38,7 +38,6 @@ export class DataEntryStatisticsService {
 
     if (payload && payload.subType && payload.startDate && payload.endDate && payload.groupBy) {
 
-      
 
       let baseUrl = this.getBaseUrl();
       let params: any = this.getDataEntryStatisticsQueryParam(payload);
@@ -50,16 +49,16 @@ export class DataEntryStatisticsService {
       .set('endDate', params.endDate)
       .set('groupBy', params.groupBy);
       if (params.locationUuids) {
-          urlParams.set('locationUuids', params.locationUuids);
+         urlParams = urlParams.set('locationUuids', params.locationUuids);
       }
       if (params.encounterTypeUuids) {
-         urlParams.set('encounterTypeUuids', params.encounterTypeUuids);
+         urlParams = urlParams.set('encounterTypeUuids', params.encounterTypeUuids);
       }
       if (params.providerUuid) {
-         urlParams.set('providerUuid', params.providerUuid);
+         urlParams = urlParams.set('providerUuid', params.providerUuid);
       }
       if (params.creatorUuid) {
-         urlParams.set('creatorUuid', params.creatorUuid);
+         urlParams = urlParams.set('creatorUuid', params.creatorUuid);
       }
 
       let request = this.http.get(url, {params : urlParams}).pipe(
@@ -138,16 +137,16 @@ export class DataEntryStatisticsService {
       .set('groupBy', 'groupByLocationId,groupByPatientId');
 
       if (params.encounterTypeUuids && params.encounterTypeUuids.length > 0) {
-          urlParams.set('encounterTypeUuids', params.encounterTypeUuids);
+          urlParams = urlParams.set('encounterTypeUuids', params.encounterTypeUuids);
       }
       if (params.providerUuid && params.providerUuid.length > 0) {
-          urlParams.set('providerUuid', params.providerUuid);
+          urlParams = urlParams.set('providerUuid', params.providerUuid);
       }
       if (params.creatorUuid && params.creatorUuid.length > 0) {
-          urlParams.set('creatorUuid', params.creatorUuid);
+          urlParams = urlParams.set('creatorUuid', params.creatorUuid);
       }
       if (params.locationUuids && params.locationUuids.length > 0) {
-           urlParams.set('locationUuids', params.locationUuids);
+           urlParams = urlParams.set('locationUuids', params.locationUuids);
       }
 
       let request = this.http.get(url, {params : urlParams}).pipe(
