@@ -173,7 +173,6 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   public saveProvider(provider) {
     this.providerLoading = false;
-    // this.suggest.next('');
     this.retrospectiveDataEntryService.updateProperty('retroProvider',
       JSON.stringify(provider));
     this.updateErrorState({provider : false});
@@ -244,15 +243,6 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
           this.processProviders(data);
           this.cdRef.detectChanges();
         });
-
-      /*this.suggest.debounceTime(200).distinctUntilChanged().take(1).subscribe((term) => {
-        if (!_.isNull(term)) {
-            this.fetchProviderOptions(term);
-        }
-      }, () => {}, () => {
-        console.log('============>');
-        this.suggest.complete();
-      });*/
     });
   }
 
