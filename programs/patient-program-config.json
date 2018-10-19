@@ -411,6 +411,10 @@
           {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
           }
         ]
       }
