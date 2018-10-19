@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
     {
         context: [
-            "/etl-latest",
+            "/etl-server-test-internal2",
             "/amrs"
         ],
         target: "https://ngx.ampath.or.ke",

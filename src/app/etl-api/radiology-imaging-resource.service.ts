@@ -17,9 +17,8 @@ export class RadiologyImagingResourceService {
   }
   public getPatientImagingReport(patientIdentifier: string): Observable<any> {
     const url = this.getUrl();
-    const params: HttpParams = new HttpParams();
-    params.set('patient', patientIdentifier);
-
+    let params: HttpParams = new HttpParams();
+    params = params.set('patient', patientIdentifier)
     return this.http.get(url + 'radiology-diagnostic-report', {
       params: params
     });
@@ -31,6 +30,7 @@ export class RadiologyImagingResourceService {
     .set('id', id);
 
     return this.http.get(url + 'radiology-images', {
+      responseType: 'text',
       params: params
     });
   }

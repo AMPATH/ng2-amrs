@@ -131,22 +131,16 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
   public fetchImageFromRefpacs(order) {
     this.dateReported = order.effectiveDateTime;
     this.fetchingResults = true;
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Radiology Image Loaded', 'onClick');
 
     this.radiologyImagingResourceService.getWadoImageUrl(this.patientIdentifier, order.id).pipe(
       take(1)).subscribe((url) => {
+        console.log('URL',url);
 
-        this.radiologyImagingResourceService.getPatientImages(url).pipe(take(1)).subscribe(
-      (data) => {
         this.staticModal.show();
-        this.imageToShow = this.domSanitizer.bypassSecurityTrustResourceUrl(data);
+        this.imageToShow = url;
         this.fetchingResults = false;
-
-      }
-    );
-
       }, (error) => {
+        console.log('Error',error);
         this.fetchingResults = false;
         this.error = error;
       }
@@ -155,8 +149,6 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
 
   }
   public fetchAllImageFromRefpacs() {
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Radiology Image Loaded', 'onClick');
     this.radiologyImagingResourceService.getAllPatientImageResult(this.patientIdentifier).pipe(
       take(1)).subscribe((res) => {
         this.allImages = res.entry;
@@ -277,10 +269,9 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
     this.radiologyImagingResourceService.getWadoImageUrl(this.patientIdentifier, order.id).pipe(
       take(1)).subscribe((url) => {
 
-          this.radiologyImagingResourceService.getPatientImages(url).pipe(take(1)).subscribe(
-            (data) => {
+  
 
-              this.imageToShow = this.domSanitizer.bypassSecurityTrustResourceUrl(data);
+              this.imageToShow = url;
 
               if (_.includes(this.isChecked, order.id)) {
                 _.remove(this.compareImages, {
@@ -305,7 +296,6 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
                 this.fetchingResults = false;
               }, 1000);
 
-            });
           this.fetchingResults = false;
 
         }, (error) => {
