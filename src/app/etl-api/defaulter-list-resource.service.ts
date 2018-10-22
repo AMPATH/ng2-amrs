@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -22,16 +22,19 @@ export class DefaulterListResourceService {
     if (!params.limit) {
       params.limit = '300';
     }
-    let urlParams: HttpParams = new HttpParams()
+    const urlParams: HttpParams = new HttpParams()
     .set('startIndex', params.startIndex)
     .set('defaulterPeriod', params.defaulterPeriod)
     .set('maxDefaultPeriod', params.maxDefaultPeriod)
     .set('locationUuids', params.locationUuids)
     .set('limit', params.limit);
-    let url = this.getUrl('defaulter-list');
-    let request = this.http.get<any>(url, {
+    const url = this.getUrl('defaulter-list');
+    const request = this.http.get<any>(url, {
       params: urlParams
-    });
+    }).pipe(
+      map((response: any) => {
+          return response.result;
+      }));
     return this.cacheService.cacheRequest(url, urlParams, request);
 
   }
