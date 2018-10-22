@@ -16,7 +16,7 @@ export class VitalsResourceService {
   public getVitals(patientUuid: string, startIndex: number, limit: number): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/vitals';
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('startIndex', startIndex.toString())
     .set('limit', limit.toString());
 
