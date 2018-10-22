@@ -17,7 +17,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     public hivSummaries: Array<any> = [];
     public patient: Patient;
     public patientUuid: any;
-    public subscription: Subscription;
+    public subscription: Subscription[] = [];
     public experiencedLoadingError: boolean = false;
     public dataLoaded: boolean = false;
     public errors: any = [];
@@ -33,14 +33,14 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-      }
+      this.subscription.forEach((sub) => {
+        sub.unsubscribe();
+      });
     }
 
     public getPatient() {
         this.loadingHivSummary = true;
-        this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+        const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient) {
                     this.patient = patient;
@@ -56,12 +56,12 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                     message: 'error fetching patient'
                 });
             });
+        this.subscription.push(patientSub);
     }
 
     public loadHivSummary(patientUuid, nextStartIndexs) {
-        this.hivSummaryService.getHivSummary(
-          patientUuid, this.nextStartIndex, 20, false).pipe(
-            take(1)).subscribe((data) => {
+        const summarySub = this.hivSummaryService.getHivSummary(
+          patientUuid, this.nextStartIndex, 20, false).subscribe((data) => {
                 if (data) {
                   if (data.length > 0) {
                     for (let r in data) {
@@ -88,9 +88,11 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
 
             }
             );
+        this.subscription.push(summarySub);
     }
     public loadMoreHivSummary() {
       this.isLoading = true;
       this.loadHivSummary(this.patientUuid, this.nextStartIndex);
     }
+
 }
