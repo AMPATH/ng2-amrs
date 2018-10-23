@@ -90,7 +90,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     let uuids = this.getSelectedLocations(this.locationUuids);
     let params = {
       endDate: this.toDateString(this.endDate),
-      gender: this.gender ? this.gender : undefined,
+      gender: this.gender ? this.gender : 'F,M',
       startDate: this.toDateString(this.startDate),
       indicators: this.indicators,
       locationUuids: uuids,
