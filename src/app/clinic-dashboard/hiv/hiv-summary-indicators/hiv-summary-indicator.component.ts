@@ -90,7 +90,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString(),
       'indicators': this.indicators,
-      'gender': this.gender === undefined ? '' : this.gender,
+      'gender': (this.gender ? this.gender : 'F,M' as any),
       'startAge': (this.startAge as any),
       'endAge': (this.endAge as any),
       'view': this.currentView
@@ -132,4 +132,5 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
       this.selectedGender.push(data);
     });
   }
+
 }
