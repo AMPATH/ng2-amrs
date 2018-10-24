@@ -1,7 +1,7 @@
 <div style="padding: 4px;">
   <div class="alert" role="alert" *ngIf="fetchingResults">
     <p>
-      <i class="fa fa-spinner" aria-hidden="true"></i> Contacting lab for new results...</p>
+      <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Contacting lab for new results...</p>
   </div>
   <div class="alert alert-error" role="alert" *ngIf="error">
     <p>
@@ -45,8 +45,8 @@
     </table>
   </div>
 
-  <div class="alert" role="alert " *ngIf="!results.length && !fetchingResults && !error">
-    <p><span class="fa fa-check-circle"></span> Lab results have been synchronized with the EID Lab and are currently up to date.</p>
+  <div class="alert " role="alert " *ngIf="!results.length && !fetchingResults && !error">
+    <p class="text-success text-bold"><span class="fa fa-check-circle"></span> Lab results have been synchronized with the EID Lab and are currently up to date.</p>
   </div>
 
 

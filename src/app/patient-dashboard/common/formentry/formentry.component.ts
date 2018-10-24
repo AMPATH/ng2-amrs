@@ -908,7 +908,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           message: 'You have referred the patient to ' +
             'differentiated care program. Do you want to enroll patient to the program?',
           accept: () => {
-            this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
+            this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program...');
             this.referralsHandler.handleFormReferals(this.patient,
               this.form).pipe(
               take(1)).subscribe(
