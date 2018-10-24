@@ -97,7 +97,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
           .subscribe((params: any) => {
             if (params) {
                 this.params = params;
-                console.log('Visit enounter Params', params);
                 if (params.startDate) {
                 this.getParamsFromUrl(params);
                 }
@@ -160,12 +159,10 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
           const selectedPrograms = this.loadFilterFromMap(params.programType, this.programMaps);
           this.program = selectedPrograms;
           this.loadProgramVisitTypes(params.programType);
-          // console.log('selectedprograms', selectedPrograms);
       }
       if (params.visitType) {
           newParams.visitType = params.visitType;
           const selectedVisitType = this.loadFilterFromMap(params.visitType, this.visitMaps);
-          // console.log('selectedvisitTypes', selectedVisitType);
           const isVisitString = this.isString(params.visitType);
           if (isVisitString) {
               this.loadEncounterTypeFromVisitType(params.visitType);
@@ -181,7 +178,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
           newParams.encounterType = params.encounterType;
           const selectedEncounterType =
           this.loadFilterFromMap(params.encounterType, this.encounterMaps);
-          // console.log('selectedencounterTypes', selectedEncounterType);
           this.encounterType = selectedEncounterType;
       }
       if (params.startDate) {
@@ -206,8 +202,6 @@ public setFiltersFromUrlParams(params, mapObj) {
      filterArray.push(filterItem);
   });
 
-  // console.log(filterArray);
-
   return filterArray;
 
 }
@@ -220,7 +214,6 @@ public setFiltersFromUrlParams(params, mapObj) {
     public getCurrentDepartment() {
 
       this.selectDepartmentService.getDepartment().subscribe((d) => {
-        // console.log('Saved Department', d);
         this.myDepartment = d;
         this.getDepartmentPrograms(d);
       });
@@ -231,7 +224,6 @@ public setFiltersFromUrlParams(params, mapObj) {
         this._departmentProgramService.getDepartmentPrograms(department).pipe(
         take(1))
         .subscribe((result) => {
-            // console.log('Department Programs', result);
             this.departmentPrograms = result;
             this.loadProgramFilter(result);
         });
@@ -281,9 +273,6 @@ public setFiltersFromUrlParams(params, mapObj) {
                   });
              });
       });
-      // console.log('programMaps', this.programMaps);
-      // console.log('visitTypeMaps', this.visitMaps);
-      // console.log('encounterMaps', this.encounterMaps);
 
     }
     public loadProgramFilter(departmentPrograms) {
@@ -300,13 +289,7 @@ public setFiltersFromUrlParams(params, mapObj) {
             const visitTypes: any = programItem.visitTypes;
             this.programVisitMap.set(programUuid, visitTypes);
             this.mapVisitTypeToEncounterTypes(visitTypes);
-            // console.log('programItem' , programItem);
-            // console.log('visitTypes' , visitTypes);
-            // console.log('encounterTypes' , encounterTypes);
           });
-
-          // console.log('programVisitMap', this.programVisitMap);
-          // console.log('visitTypeEncounterTypeMap', this.visitTypeEncounterTypeMap);
 
           this.programs = programsArray;
     }
@@ -319,18 +302,15 @@ public setFiltersFromUrlParams(params, mapObj) {
 
     }
     public selectProgram($event) {
-      // console.log('Event', $event);
       this.loadProgramVisitTypes($event.id);
       this.filterSet = false;
     }
     public loadProgramVisitTypes(program) {
-      // console.log('loadProgramVisitTypes', program);
       const programVisitTypes = this.programVisitMap.get(program);
       const programVisitArray = [];
       this.visitTypes = [];
       if (typeof programVisitTypes !== 'undefined') {
           _.each(programVisitTypes, (visitType: any) => {
-              // console.log('Visit TYpe', visitType);
               const visitTypeUuid = visitType.uuid;
               const visitTypeName = visitType.name;
               const visitTypeObj = {
@@ -340,19 +320,13 @@ public setFiltersFromUrlParams(params, mapObj) {
               this.visitTypes.push(visitTypeObj);
           });
       }
-
-      // console.log('loadProgramVisitTypes VisitTypes', this.visitTypes);
-
-      // this.visitTypes = programVisitArray;
     }
 
     public selectVisitType($event) {
-      // console.log('visittype selected', $event);
       this.loadEncounterTypeFromSelectedVisitType($event.id);
       this.filterSet = false;
     }
     public loadEncounterTypeFromVisitType(visitType) {
-      // console.log('loadEncounterTypeFromVisitType', visitType);
       const encounterTypes = this.visitTypeEncounterTypeMap.get(visitType);
       if (typeof encounterTypes !== 'undefined') {
 
@@ -368,13 +342,10 @@ public setFiltersFromUrlParams(params, mapObj) {
 
       }
 
-      // console.log('loadEncounterTypeFromVisitType', this.encounterTypes);
-
    }
     public loadEncounterTypeFromSelectedVisitType(visitType) {
        const encounterTypes = this.visitTypeEncounterTypeMap.get(visitType);
        const currentEncounterTypes = _.map(this.encounterTypes, 'id');
-       // console.log('currentEncounterTypes', currentEncounterTypes);
        if (typeof encounterTypes !== 'undefined') {
 
         _.each(encounterTypes, (encounterType: any) => {
@@ -385,10 +356,8 @@ public setFiltersFromUrlParams(params, mapObj) {
              'itemName': encounterTypeName
            };
           if (_.includes(currentEncounterTypes, encounterTypeUuid) === false) {
-            // console.log('Does not contain', encounterTypeObj);
             this.encounterTypes.push(encounterTypeObj);
           } else {
-            // console.log('Contains', encounterTypeObj);
           }
       });
 
@@ -409,8 +378,7 @@ public setFiltersFromUrlParams(params, mapObj) {
       this.filterSet = false;
     }
     public programDeSelect($event) {
-      // console.log('program deselect', $event);
-      this.removeProgramVisits($event.id);
+      this.resetFilters();
       this.filterSet = false;
     }
     public removeProgramVisits(program) {
@@ -418,8 +386,6 @@ public setFiltersFromUrlParams(params, mapObj) {
       const programVisitTypes = this.programVisitMap.get(program);
       if (typeof programVisitTypes !== 'undefined') {
          const visitTypesArray = _.map(programVisitTypes, 'uuid');
-
-         // console.log('visitTypes', visitTypesArray);
          this.visitTypes = _.filter(this.visitTypes, (visitType: any) => {
             const visitTypeUuid = visitType.id;
             if (_.includes(visitTypesArray, visitTypeUuid) === false) {
@@ -428,7 +394,6 @@ public setFiltersFromUrlParams(params, mapObj) {
               this.removeVisitEncounterTypes(visitTypeUuid);
               return false;
             }
-            // return (_.includes(visitTypesArray, visitTypeUuid) === false);
          });
          this.visitType = _.filter(this.visitType, (visitType: any) => {
          const visitTypeUuid = visitType.id;
@@ -449,8 +414,6 @@ public setFiltersFromUrlParams(params, mapObj) {
       const visitEncounterTypes = this.visitTypeEncounterTypeMap.get(visitType);
       if (typeof visitEncounterTypes !== 'undefined') {
         const encounterTypesArray = _.map(visitEncounterTypes, 'uuid');
-
-        // console.log('encounterTypes', encounterTypesArray);
         this.encounterTypes = _.filter(this.encounterTypes, (encounterType: any) => {
            const encounterTypeUuid = encounterType.id;
            return (_.includes(encounterTypesArray, encounterTypeUuid) === false);
@@ -464,7 +427,6 @@ public setFiltersFromUrlParams(params, mapObj) {
     }
 
     public onSelectAllPrograms($event) {
-      console.log('Select All programs', $event);
       const programsSelected = $event;
       _.each(programsSelected, (program: any) => {
           const programUuid = program.id;
@@ -599,11 +561,9 @@ public setFiltersFromUrlParams(params, mapObj) {
 
     }
     public getSelectedDate($event) {
-      console.log('date event', $event);
       const newDate: string = Moment($event).format('YYYY-MM-DD');
       this.filterDate = newDate;
       this.filterSet = false;
-      // this.setFilter();
     }
     public previousDay() {
         const currentDay = this.filterDate;

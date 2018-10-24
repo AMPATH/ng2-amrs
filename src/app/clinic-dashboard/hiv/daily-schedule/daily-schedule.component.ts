@@ -11,6 +11,7 @@ import {
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 import { SelectDepartmentService
 } from '../../../program-visit-encounter-search/program-visit-encounter-search.service';
+import * as Moment from 'moment';
 @Component({
   selector: 'hiv-daily-schedule',
   templateUrl: '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component.html'
@@ -22,6 +23,13 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   public _datePipe: DatePipe;
   public selectedDate: any;
   public paramsSub: Subscription;
+  public activeLinkIndex = 0;
+  public tabLinks = [
+    { label: 'Appointments', link: 'daily-appointments' },
+    { label: 'Visits', link: 'daily-visits' },
+    { label: 'Clinic Flow', link: 'clinic-flow' },
+    { label: 'Has not returned', link: 'daily-not-returned' },
+  ];
 
   constructor(
     public clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -34,11 +42,12 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.setActiveTab();
     this.paramsSub = this.route
     .queryParams
     .subscribe((params) => {
        if (params.startDate) {
-        this.selectedDate = params.startDate;
+        this.selectedDate = Moment(params.startDate).format('MMM  D , YYYY ');
         this.clinicFlowCache.setSelectedDate(this.selectedDate);
        }
     });
@@ -49,7 +58,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
       this.selectedDate = this.clinicFlowCache.lastClinicFlowSelectedDate;
     } else {
-      this.selectedDate = this._datePipe.transform(new Date(), 'yyyy-MM-dd');
+      this.selectedDate = Moment().format('MMM  D , YYYY ');
       this.clinicFlowCache.setSelectedDate(this.selectedDate);
     }
   }
@@ -57,6 +66,17 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.routeSub.unsubscribe();
     this.paramsSub.unsubscribe();
+  }
+
+  public setActiveTab() {
+    if (this.router.url) {
+      let path = this.router.url;
+      const n = this.router.url.indexOf('?');
+      path = this.router.url.substring(0, n !== -1 ? n : path.length);
+      path = path.substr(this.router.url.lastIndexOf('/') + 1);
+      this.activeLinkIndex = this.tabLinks.findIndex((x) => x.link === path);
+
+    }
   }
 
 }

@@ -64,7 +64,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-     console.log('Has not returned init');
      this.selectedDate = Moment().format('YYYY-MM-DD');
      const sub = this.clinicDashboardCacheService.getCurrentClinic()
        .subscribe((location) => {
@@ -79,7 +78,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
          if (params.programType) {
              this.params = params;
              if (params.resetFilter && params.resetFilter === 'true') {
-              console.log('reset filter');
               this.notReturnedPatientList = [];
              } else {
               this.initParams();
@@ -87,7 +85,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
               this.getDailyHasNotReturned(searchParams);
              }
           } else {
-            console.log('Empty params', params);
             this.notReturnedPatientList = [];
         }
        });
@@ -152,7 +149,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     this.setBusy();
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
-    let result = this.dailyScheduleResource.
+    const result = this.dailyScheduleResource.
       getDailyHasNotReturned(params);
 
     if (result === null) {
