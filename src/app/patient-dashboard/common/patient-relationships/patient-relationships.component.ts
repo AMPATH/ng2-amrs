@@ -68,13 +68,11 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
 
   public voidRelationship() {
     if (this.selectedRelationshipUuid) {
-      this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).pipe(take(1)).subscribe(
+      this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).subscribe(
         (success) => {
-          if (success) {
             this.patientService.reloadCurrentPatient();
             this.displayConfirmDialog = false;
             this.displaySuccessAlert('Relationship deleted successfully');
-          }
         },
         (error) => {
           console.error('The request failed because of the following ', error);
