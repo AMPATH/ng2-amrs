@@ -58,7 +58,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('Appointments on init');
     this.selectedDate = Moment().format('YYYY-MM-DD');
 
     const sub = this.clinicDashboardCacheService.getCurrentClinic()

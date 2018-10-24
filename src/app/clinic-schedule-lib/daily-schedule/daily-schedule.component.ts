@@ -17,7 +17,7 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public errors: any[] = [];
   private rlaSafe = false;
-  public selectedDate: any;
+  public selectedDate = Moment().format('MMM  D , YYYY ');
   public viewDate = '';
   public changeDate;
   public selectedLocation: any;
@@ -64,27 +64,8 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
     // this.subs.push(sub);
 
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
-      this.selectedDate = this.clinicFlowCache.lastClinicFlowSelectedDate;
+      this.selectedDate = Moment(this.clinicFlowCache.lastClinicFlowSelectedDate).format('MMM  D , YYYY ');
     }
-    this.route
-    .queryParams
-    .subscribe((params) => {
-      console.log('Update current date', params);
-      if (params['startDate']) {
-        console.log('Update current date', params);
-        const paramsDate = params['startDate'];
-        this.viewDate = params.startDate;
-        console.log('View Date', this.viewDate);
-        const m = Moment(this.selectedDate);
-        this.clinicFlowCache.setSelectedDate(params.startDate);
-        this.selectedDate = Moment(paramsDate, 'YYYY-MM-DD').format('MMM dd, YYYY');
-        // this.changeDate = new Date(this.selectedDate);
-        // this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
-      } else {
-
-          this.selectedDate = Moment().format('MMM DD, YYYY');
-      }
-    });
   }
 
   public ngOnDestroy(): void {
@@ -93,17 +74,12 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
     });
   }
   public setActiveTab() {
-    console.log('setActiveTab');
     if (this.router.url) {
       let path = this.router.url;
       const n = this.router.url.indexOf('?');
       path = this.router.url.substring(0, n !== -1 ? n : path.length);
-      console.log('Path', path);
       path = path.substr(this.router.url.lastIndexOf('/') + 1);
       this.activeLinkIndex = this.tabLinks.findIndex((x) => x.link === path);
-      console.log('ActiveLinkIndex', this.activeLinkIndex);
-      console.log('setActiveTab', this.router.url);
-
     }
   }
 
@@ -115,7 +91,7 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public getSelectedDate(date) {
     const m = Moment(this.selectedDate).format('yyyy-MM-dd');
-    this.selectedDate = date;
+    this.selectedDate = Moment(date).format('MMM  D , YYYY ');
     this.changeDate = new Date(this.selectedDate);
     this.clinicDashboardCacheService.setDailyTabCurrentDate(date);
     this.clinicFlowCache.setSelectedDate(date);
@@ -157,11 +133,11 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public filterSelected($event) {
       this.filterSet = true;
-      this.selectedDate = this._datePipe.transform( this.selectedDate, 'yyyy-MM-dd');
+      // this.selectedDate = this._datePipe.transform( this.selectedDate, 'yyyy-MM-dd');
+      this.selectedDate = Moment($event.startDate).format('MMM  D , YYYY ');
       this.changeDate = new Date(this.selectedDate);
   }
   public navigate($event, link) {
-    console.log('Link', link);
     const queryParams = this.route.snapshot.queryParams;
     this.router.navigate(['./' + link], {
       queryParams : queryParams,

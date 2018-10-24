@@ -16,21 +16,25 @@ export class MonthlyScheduleResourceService {
   public getMonthlySchedule(params) {
 
     const url = this.getUrl();
-    const urlParams: HttpParams = new HttpParams()
-    .set('endDate', params.endDate)
-    .set('startDate', params.startDate)
-    .set('locationUuids', params.locationUuids)
-    .set('limit', params.limit)
-    .set('groupBy', 'groupByPerson,groupByAttendedDate,groupByRtcDate');
+
+    const urlParamsObj: any = {};
+    urlParamsObj['startDate'] = params.startDate;
+    urlParamsObj['endDate'] = params.endDate;
+    urlParamsObj['locationUuids'] = params.locationUuids;
+    urlParamsObj['limit'] = params.limit;
+
     if (params.programType && params.programType.length > 0) {
-      urlParams.append('programType', params.programType);
+        urlParamsObj['programType'] = params.programType;
     }
     if (params.visitType && params.visitType.length > 0) {
-      urlParams.append('visitType', params.visitType);
+        urlParamsObj['visitType'] = params.visitType;
     }
     if (params.encounterType && params.encounterType.length > 0) {
-      urlParams.append('encounterType', params.encounterType);
+        urlParamsObj['encounterType'] =  params.encounterType;
     }
+    urlParamsObj['groupBy'] = 'groupByPerson,groupByAttendedDate,groupByRtcDate';
+
+    const urlParams: HttpParams = new HttpParams({fromObject: urlParamsObj});
 
     const request = this.http.get<any>(url, {
       params: urlParams

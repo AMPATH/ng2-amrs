@@ -22,22 +22,25 @@ export class DailyScheduleResourceService {
         if (!params.limit) {
             params.limit = '300';
         }
-        const urlParams: HttpParams = new HttpParams()
-        .set('startIndex', params.startIndex)
-        .set('startDate', params.startDate)
-        .set('locationUuids', params.locationUuids)
-        .set('limit', params.limit);
+
+        const urlParamsObj: any = {};
+        urlParamsObj['startIndex'] = params.startIndex;
+        urlParamsObj['startDate'] = params.startDate;
+        urlParamsObj['locationUuids'] = params.locationUuids;
+        urlParamsObj['limit'] = params.limit;
 
         if (params.programType && params.programType.length > 0) {
-            urlParams.append('programType', params.programType);
+            urlParamsObj['programType'] = params.programType;
         }
         if (params.visitType && params.visitType.length > 0) {
-            urlParams.append('visitType', params.visitType);
+            urlParamsObj['visitType'] = params.visitType;
         }
         if (params.encounterType && params.encounterType.length > 0) {
-            urlParams.append('encounterType', params.encounterType);
+            urlParamsObj['encounterType'] =  params.encounterType;
         }
         const url = this.getUrl('daily-visits', params.startDate);
+
+        const urlParams: HttpParams = new HttpParams({fromObject: urlParamsObj});
 
         const request = this.http.get<any>(url, {
             params: urlParams
@@ -55,21 +58,23 @@ export class DailyScheduleResourceService {
         if (!params.limit) {
             params.limit = '300';
         }
-        const urlParams: HttpParams = new HttpParams()
-        .set('startIndex', params.startIndex)
-        .set('startDate', params.startDate)
-        .set('locationUuids', params.locationUuids)
-        .set('limit', params.limit);
+        const urlParamsObj: any = {};
+        urlParamsObj['startIndex'] = params.startIndex;
+        urlParamsObj['startDate'] = params.startDate;
+        urlParamsObj['locationUuids'] = params.locationUuids;
+        urlParamsObj['limit'] = params.limit;
 
         if (params.programType && params.programType.length > 0) {
-            urlParams.append('programType', params.programType);
+            urlParamsObj['programType'] = params.programType;
         }
         if (params.visitType && params.visitType.length > 0) {
-            urlParams.append('visitType', params.visitType);
+            urlParamsObj['visitType'] = params.visitType;
         }
         if (params.encounterType && params.encounterType.length > 0) {
-            urlParams.append('encounterType', params.encounterType);
+            urlParamsObj['encounterType'] =  params.encounterType;
         }
+
+        const urlParams: HttpParams = new HttpParams({fromObject: urlParamsObj});
 
         const url = this.getUrl('daily-appointments', params.startDate);
         const request = this.http.get<any>(url, {
@@ -88,20 +93,23 @@ export class DailyScheduleResourceService {
         if (!params.limit) {
             params.limit = '300';
         }
-        const urlParams: HttpParams = new HttpParams()
-        .set('startIndex', params.startIndex)
-        .set('startDate', params.startDate)
-        .set('locationUuids', params.locationUuids)
-        .set('limit', params.limit);
+        const urlParamsObj: any = {};
+        urlParamsObj['startIndex'] = params.startIndex;
+        urlParamsObj['startDate'] = params.startDate;
+        urlParamsObj['locationUuids'] = params.locationUuids;
+        urlParamsObj['limit'] = params.limit;
+
         if (params.programType && params.programType.length > 0) {
-            urlParams.append('programType', params.programType);
+            urlParamsObj['programType'] = params.programType;
         }
         if (params.visitType && params.visitType.length > 0) {
-            urlParams.append('visitType', params.visitType);
+            urlParamsObj['visitType'] = params.visitType;
         }
         if (params.encounterType && params.encounterType.length > 0) {
-            urlParams.append('encounterType', params.encounterType);
+            urlParamsObj['encounterType'] =  params.encounterType;
         }
+
+        const urlParams: HttpParams = new HttpParams({fromObject: urlParamsObj});
 
         const url = this.getUrl('daily-has-not-returned', params.startDate);
         const request = this.http.get<any>(url, {
