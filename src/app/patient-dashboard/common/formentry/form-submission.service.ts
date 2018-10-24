@@ -179,12 +179,13 @@ export class FormSubmissionService {
           + this.generateUserFriendlyErrorMessage(response));
     }
     // log to server asynchronous
-    this.logFormError({
+    // At the moment, when you submit successfully, it downs the OpenMRS server
+    /*this.logFormError({
       errorMessages: errors,
       errorResponse: response,
       payloadType: payloadType,
       formPayload: payload
-    });
+    });*/
 
     return errors;
   }

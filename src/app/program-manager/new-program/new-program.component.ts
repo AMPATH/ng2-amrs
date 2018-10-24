@@ -152,13 +152,13 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         this.nextStep = true;
         this.title = this.department + ': Start ' + this.selectedProgram.program
           .openmrsModel.display;
-        const stepInfo = {
+        let stepInfo = {
           incompatibleProgrames: this.incompatibleProgrames
         };
         if (this.enrollmentEncounters.length > 0) {
-          _.extend({
+          _.extend(stepInfo, {
             enrollmentEncounters: this.enrollmentEncounters,
-          })
+          });
         }
         this.filterStateChangeEncounterTypes();
         this.addToStepInfo(stepInfo);
@@ -513,7 +513,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     let requiredStatus = _.find(question.answers, (ans) => ans.value === question.enrollIf);
     if (requiredStatus && question.value !== question.enrollIf) {
       this.showMessage('The question <strong><em>'  + question.name + '</em></strong> MUST be '
-        + question.enrollIf + ' to be able to' + ' enroll the patient into this program');
+        + question.enrollIf + ' to be able to enroll the patient into this program');
     } else {
       this.removeMessage();
     }
