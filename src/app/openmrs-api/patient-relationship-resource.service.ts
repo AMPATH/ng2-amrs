@@ -58,8 +58,8 @@ export class PatientRelationshipResourceService {
     if (!uuid) {
       return null;
     }
-    let url = this.getUrl() + '/' + uuid;
-    return this.http.delete(url, {});
+    const url = this.getUrl() + '/' + uuid;
+    return this.http.delete(url);
   }
 
 }

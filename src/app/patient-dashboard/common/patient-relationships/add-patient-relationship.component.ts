@@ -65,7 +65,7 @@ export class AddPatientRelationshipComponent implements OnInit {
 
     public getRelationShipTypes(): void {
         let request = this.patientRelationshipTypeService.getRelationshipTypes();
-        request.pipe(take(1)).subscribe((relationshipTypes) => {
+        request.subscribe((relationshipTypes) => {
             if (relationshipTypes) {
                 this.patientRelationshipTypes = relationshipTypes;
             }
