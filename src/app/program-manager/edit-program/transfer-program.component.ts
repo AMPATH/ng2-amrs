@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'program-transfer',
@@ -17,21 +17,28 @@ export class TransferProgramComponent implements OnInit {
   @Input() public editedProgram: any;
   @Input() public patient: Patient;
   @Input() public complete: boolean = false;
-  @Input() public set formsFilled(val: boolean) {
+
+  @Input()
+  public set formsFilled(val: boolean) {
     this._formsFilled = val;
     if (val) {
       this.completeProgramTransfer();
     }
   }
+
   public get formsFilled() {
     return this._formsFilled;
   }
+
   @Output() public programTransferComplete: EventEmitter<any> = new EventEmitter(null);
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
   public transferring: boolean = false;
   public showForms: boolean = false;
   public exitEncounters: string[] = [];
+  public hasError: boolean = false;
+  public message: string = '';
   private _formsFilled: boolean = false;
+
   constructor(private programManagerService: ProgramManagerService,
               private patientResourceService: PatientResourceService,
               private router: Router) {
@@ -66,19 +73,39 @@ export class TransferProgramComponent implements OnInit {
       });
       return program;
     });
+
     this.programManagerService.editProgramEnrollments('transfer', this.patient,
       this.programs, null).subscribe((programs) => {
       if (programs) {
         this.removePreferedIdentifier().subscribe((success) => {
           this.transferring = false;
+          this.hasError = false;
           this.formsFilled = false;
           this.programTransferComplete.next(programs);
         }, (err) => {
+          this.showError('Could not remove preferred patient identifier');
           console.log(err);
         });
+        /*this.programManagerService.updatePersonHealthCenter({
+          attributes: [{
+            value: null,
+            attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
+          }],
+          person: {uuid: this.patient.uuid}
+        }).subscribe((success) => {
+
+        }, (err) => {
+          this.hasError = true;
+          this.transferring = false;
+          this.message = 'Could not update patient health center';
+          console.log(err);
+        });*/
+      } else {
+        this.showError('Could not update patient programs');
       }
     }, (err) => {
-      console.log(err);
+        this.showError('Could not update patient programs');
+        console.log(err);
     });
   }
 
@@ -104,16 +131,16 @@ export class TransferProgramComponent implements OnInit {
     });
   }
 
+  private showError(message) {
+    this.hasError = true;
+    this.transferring = false;
+    this.message = message;
+  }
+
   private removePreferedIdentifier(): Observable<any> {
     // get preferred identifier
     const preferredIdentifier = _.find(this.patient.openmrsModel.identifiers, 'preferred');
     if (preferredIdentifier) {
-
-
-      let person = {
-        uuid: this.patient.person.uuid
-      };
-
       let personIdentifierPayload: any = {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier, // patientIdentifier
@@ -122,9 +149,10 @@ export class TransferProgramComponent implements OnInit {
         location: preferredIdentifier.location.uuid // location
       };
 
-
-      return this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
+      return this.patientResourceService.saveUpdatePatientIdentifier(this.patient.person.uuid,
         personIdentifierPayload.uuid, personIdentifierPayload).take(1);
+    } else {
+      return of({});
     }
   }
 

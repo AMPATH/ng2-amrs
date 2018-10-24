@@ -1,5 +1,8 @@
 <busy *ngIf="transferring" [message]="'Completing programs...'"></busy>
-<p class="alert alert-warning" *ngIf="!complete">
+<div style="margin-bottom: 20px;" class="alert alert-danger" *ngIf="hasError">
+  <p>Error transferring out. {{message}}</p>
+</div>
+<p class="alert alert-warning" *ngIf="!hasError && !complete">
   The following program(s) are going to be stopped when the patient is transferred out of AMPATH
 </p>
 <div class="step-details" *ngFor="let program of programs">
