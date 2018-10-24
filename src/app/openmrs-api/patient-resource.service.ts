@@ -52,9 +52,7 @@ export class PatientResourceService {
 
     return this.http.get(url, {
       params: params
-    }).pipe(map((response) => {
-      return response;
-    }));
+    });
   }
   public saveUpdatePatientIdentifier(uuid, identifierUuid, payload): Observable<any> {
     if (!payload || !uuid) {

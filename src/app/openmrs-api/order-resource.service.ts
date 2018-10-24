@@ -47,9 +47,7 @@ export class OrderResourceService {
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
-    }).pipe(map((response) => {
-      return response;
-    }));
+    });
   }
   public getOrderByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
 
