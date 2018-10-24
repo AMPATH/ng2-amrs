@@ -38,15 +38,13 @@ export class PatientService {
     // busy
     this.isBusy.next(true);
     // hit server
-    const subj = combineLatest(
+   return forkJoin(
       this.patientResourceService.getPatientByUuid(patientUuid, false),
       this.patientProgramsService.getCurrentlyEnrolledPatientPrograms(patientUuid),
       this.encounterResource.getEncountersByPatientUuid(patientUuid)
-    );
-
-    return subj.subscribe(
+    ).subscribe(
       (data) => {
-        let patient = data[0];
+        const patient = data[0];
         patient.enrolledPrograms = data[1];
         patient.encounters = data[2];
         this.currentlyLoadedPatient.next(new Patient(patient));

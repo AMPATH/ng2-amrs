@@ -44,8 +44,7 @@ export class PatientDashboardGuard implements CanActivate,
         const patientUuid = routeSnapshot.params['patient_uuid'];
         if (patientUuid) {
           // set patient object
-          this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid).pipe(
-          take(1)).subscribe(
+          this.patientService.currentlyLoadedPatient.subscribe(
             (patientObject) => {
               if (patientObject) {
                 const routes = this.patientRoutesFactory
