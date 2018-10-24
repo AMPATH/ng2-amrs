@@ -84,31 +84,41 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       startAge: this.startAge,
       endAge: this.endAge
     };
-    this.encounteredError = false;
-    this.errorMessage = '';
-    this.isLoadingReport = true;
-    let uuids = this.getSelectedLocations(this.locationUuids);
-    let params = {
-      endDate: this.toDateString(this.endDate),
-      gender: this.gender ? this.gender : 'F,M',
-      startDate: this.toDateString(this.startDate),
-      indicators: this.indicators,
-      locationUuids: uuids,
-      startAge: this.startAge,
-      endAge: this.endAge
-    };
-    this.hivSummaryIndicatorsResourceService
-      .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe(
-        (data) => {
-          this.isLoadingReport = false;
-          this.sectionsDef = data.indicatorDefinitions;
 
-          this.data = data.result;
-        }, (error) => {
-          this.isLoadingReport = false;
-          this.errorMessage = error;
-          this.encounteredError = true;
-        });
+    let uuids = this.getSelectedLocations(this.locationUuids);
+    if (!this.indicators || this.indicators === undefined) {
+      this.isLoadingReport = false;
+      this.encounteredError = true;
+      this.errorMessage = 'Please select Indicator(s) to generate data!';
+    } else if (!uuids) {
+      this.isLoadingReport = false;
+      this.encounteredError = true;
+      this.errorMessage = 'Please select Location(s) to generate data!';
+    } else {
+      this.encounteredError = false;
+      this.errorMessage = '';
+      this.isLoadingReport = true;
+      let params = {
+        endDate: this.toDateString(this.endDate),
+        gender: this.gender ? this.gender : 'F,M',
+        startDate: this.toDateString(this.startDate),
+        indicators: this.indicators,
+        locationUuids: uuids,
+        startAge: this.startAge,
+        endAge: this.endAge
+      };
+      this.hivSummaryIndicatorsResourceService
+      .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe((data) => {
+        this.isLoadingReport = false;
+        this.sectionsDef = data.indicatorDefinitions;
+
+        this.data = data.result;
+      }, (error) => {
+        this.isLoadingReport = false;
+        this.errorMessage = error;
+        this.encounteredError = true;
+      });
+    }
   }
 
   public onAgeChangeFinished($event) {
