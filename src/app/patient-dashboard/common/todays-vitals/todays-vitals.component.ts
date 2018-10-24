@@ -18,7 +18,7 @@ import * as Moment from 'moment';
   styleUrls: [],
 })
 export class TodaysVitalsComponent implements OnInit, OnDestroy {
-  public patients: Patient = new Patient({});
+  public patient: Patient = new Patient({});
   public todaysVitals: Vital[] = [];
   public errors: any[] = [];
   public currentPatientSub: Subscription;
@@ -56,6 +56,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
                  this.loadingTodaysVitals = false;
                  if (data.length > 0) {
                    this.todaysVitals = new Array(data[0]);
+                   console.log('Vitals',this.todaysVitals);
                    this.dataLoaded = true;
                  } else {
                    this.dataLoaded = false;
@@ -134,6 +135,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     this.currentPatientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
+          this.patient = patient;
           this.getTodaysVitals(patient);
         }
       }
