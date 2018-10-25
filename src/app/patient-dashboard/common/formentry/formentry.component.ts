@@ -150,7 +150,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         return;
       }
       componentRef.loadForm();   // load  form
-      this.isBusyIndicator(false);
+      //this.isBusyIndicator(false);
     });
   }
 
@@ -477,7 +477,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.encounter = data[2] || null;
       // now render form
       return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
-    })).pipe(take(1)).subscribe(
+    })).subscribe(
       (data: any) => {
         console.log(data.generatedReminders);
         let reminder = _.find(data.generatedReminders, (o: any) => {
@@ -712,8 +712,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     return Observable.create((observer: Subject<any>) => {
       if (this.encounterUuid && this.encounterUuid !== '') {
-        this.encounterResource.getEncounterByUuid(this.encounterUuid).pipe(
-          take(1)).subscribe((encounter) => {
+        this.encounterResource.getEncounterByUuid(this.encounterUuid).subscribe((encounter) => {
             // let wrappedEnconter: Encounter = new Encounter(encounter);
             observer.next(encounter);
           }, (error) => {
