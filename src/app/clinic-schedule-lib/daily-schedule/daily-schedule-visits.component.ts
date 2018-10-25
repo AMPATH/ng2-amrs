@@ -59,7 +59,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('Visits init');
     this.selectedDate = Moment().format('YYYY-MM-DD');
     const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
@@ -71,13 +70,11 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe((params) => {
         if (params) {
-          console.log('Visits params', params);
           if (params.programType) {
             this.initParams();
             this.params = params;
             const searchParams = this.getQueryParams();
             if (params.resetFilter && params.resetFilter === 'true') {
-                console.log('reset filter');
                 this.dailyVisitsPatientList = [];
             } else {
                this.getDailyVisits(searchParams);
@@ -159,7 +156,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
     } else {
       result.subscribe(
         (patientList) => {
-          console.log('Daily list patient list', patientList);
           if (patientList) {
             this.dailyVisitsPatientList = patientList;
             this.currentTabLoaded = true;

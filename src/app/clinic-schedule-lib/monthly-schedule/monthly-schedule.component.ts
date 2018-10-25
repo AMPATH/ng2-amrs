@@ -83,7 +83,6 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.getCurrentLocation();
-    console.log('monthly on init');
     // this.getAppointments();
   }
 
@@ -98,12 +97,9 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public filterSelected($event: any) {
-         // this.filter = $event;
-         console.log('Event selected', $event);
          this.getCurrentLocation();
          this.params = $event;
          if ($event.resetFilter && $event.resetFilter === true) {
-           console.log('Reset Filter');
            this.events = [];
          } else {
            this.getAppointments();
@@ -115,10 +111,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     take(1)).subscribe((location) => {
       this.location = location;
       const params = this.params;
-      console.log('location', location);
-      console.log('Location Params', this.params);
       if (params && params.hasOwnProperty('programType')) {
-        console.log('locatongetParams', params);
         this.getAppointments();
       }
     });
@@ -147,7 +140,6 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       encounterType: this.params.encounterType,
       locationUuids: this.location, limit: 10000
     }).pipe(take(1)).subscribe((results) => {
-      console.log('Results', results);
       this.events = this.processEvents(results);
       this.setFree();
     }, (error) => {
@@ -167,9 +159,20 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDaily(event) {
+    const scheduleDate = Moment(event.start).format('YYYY-MM-DD');
+    const params: any = {
+    };
     const currentQueryParams: any = this._route.snapshot.queryParams;
-    const endDate = Moment(event.start).format('YYYY-MM-DD');
-    const newQueryParams = Object.assign({endDate: endDate}, currentQueryParams);
+    // only key to be changed is endDate which is readonly in queryparams
+    Object.keys(currentQueryParams).forEach((key) => {
+      if (key === 'startDate') {
+         params['startDate'] = scheduleDate;
+      } else if (key === 'endDate') {
+        params['endDate'] = scheduleDate;
+      } else {
+        params[key] = currentQueryParams[key];
+      }
+    });
     let link = '';
 
     switch (event.type) {
@@ -187,7 +190,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['../daily-schedule/' + link],
           {
-            queryParams: newQueryParams,
+            queryParams: params,
             relativeTo : this._route
           });
   }
