@@ -1,4 +1,5 @@
 <div class="wrapper">
+    <busy *ngIf="isBusy && !errorFlag" [message]="'Loading patient summary...'"></busy>
   <div>
     <div class="panel panel-info">
 
@@ -27,7 +28,7 @@
       </div>
       <div class="panel-body" style="background-color: #ECF0F5">
         <pdf-viewer [src]="pdfSrc"
-                    [page]="page"
+                    [(page)]="page"
                     (after-load-complete)="afterLoadCompletes($event)"
                     [original-size]="false"
                     style="display: block;"

@@ -28,7 +28,6 @@ import { OnlineTrackerComponent } from '../online-tracker';
 import { BuildVersionComponent } from '../build-version';
 import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
@@ -71,6 +70,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
 import { RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 import { DataListsModule } from './data-lists/data-lists.module';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   imports: [
@@ -112,13 +112,13 @@ import { DataListsModule } from './data-lists/data-lists.module';
     ConfirmDialogModule, DialogModule,
     MatSnackBarModule, NgxPaginationModule,
     MatRadioModule, MatMenuModule, MatIconModule,
-    MatExpansionModule, MatButtonModule, MatTooltipModule
+    MatExpansionModule, MatButtonModule, MatTooltipModule,PdfViewerModule
   ],
   exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
-    DateSelectorComponent, PdfViewerComponent, NgxMyDatePickerModule, GeneralLandingPageComponent,
+    DateSelectorComponent,PdfViewerModule , NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
@@ -127,7 +127,7 @@ import { DataListsModule } from './data-lists/data-lists.module';
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent,
     OnlineTrackerComponent,
-    BuildVersionComponent, DateSelectorComponent, PdfViewerComponent,
+    BuildVersionComponent, DateSelectorComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent
   ],
