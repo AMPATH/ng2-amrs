@@ -258,7 +258,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.patientIdentifier = data.identifier;
       this.checkUniversal = false;
     }, ((err) => {
-      console.log(err);
+      console.log(err.json());
     }));
   }
 
@@ -269,7 +269,11 @@ private saveIdentifier(personIdentifierPayload, person) {
               take(1)).subscribe(
                 (success) => {
                   this.displaySuccessAlert('Identifiers saved successfully');
-                  this.patientService.reloadCurrentPatient();
+                  this.patientIdentifier = '';
+                  this.identifierLocation = '';
+                  this.preferredIdentifier = '';
+                  this.identifierType = '';
+                  this.patientService.fetchPatientByUuid(this.patients.person.uuid);
                   setTimeout(() => {
                     this.display = false;
                     this.addDialog = false;
