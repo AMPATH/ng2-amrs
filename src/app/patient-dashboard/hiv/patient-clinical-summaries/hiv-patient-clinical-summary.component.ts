@@ -9,6 +9,7 @@ import {
   HivPatientClinicalSummaryResourceService
 } from '../../../etl-api/hiv-patient-clinical-summary-resource.service';
 import { Subscription } from 'rxjs';
+import { PDFDocumentProxy } from 'pdfjs-dist';
 
 @Component({
   selector: 'hiv-patient-clinical-summaries',

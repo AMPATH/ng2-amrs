@@ -7,6 +7,7 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 import * as _ from 'lodash';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as Moment from 'moment';
+import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 @Component({
     selector: 'moh-731-pdf',
     templateUrl: 'moh-731-report-pdf-view.component.html'
