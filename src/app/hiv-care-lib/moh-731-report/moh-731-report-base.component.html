@@ -26,7 +26,7 @@
         </p-tabPanel>
         <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
           <button class="btn btn-primary" (click)="toggleMohTables()" *ngIf="!showTabularView">Go back to tabular view</button>
-          <div class="loader" *ngIf="showPatientListLoader">Loading patient list....</div>
+          <div class="loader" *ngIf="showPatientListLoader">Loading patient list...</div>
              <moh-731-tabular [hidden]="!showTabularView" [sectionDefs]="sectionsDef" (indicatorSelected)="onIndicatorSelected($event)" [rowData]="data"></moh-731-tabular>
         </p-tabPanel>
     </p-tabView>
