@@ -74,7 +74,7 @@ interface StoreType {
     NgamrsSharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, enableTracing: false }),
+    RouterModule.forRoot(ROUTES, {  paramsInheritanceStrategy: 'always',useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot()

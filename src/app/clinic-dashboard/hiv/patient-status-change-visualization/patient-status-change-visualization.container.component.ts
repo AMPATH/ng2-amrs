@@ -52,7 +52,6 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public ngOnInit() {
-
     this.route.params.forEach((params) => {
       if (params['view']) {
         switch (params['view']) {
@@ -70,6 +69,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
         }
       }
+      this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
   }
 
