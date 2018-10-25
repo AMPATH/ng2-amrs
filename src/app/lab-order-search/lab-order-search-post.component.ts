@@ -126,8 +126,7 @@ public ngOnInit() {
 
    public loadHivSummary(patientUuid) {
 
-    this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false).pipe(
-      take(1)).subscribe((data) => {
+    this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false).subscribe((data) => {
         this.hivSummary = data && data.length > 0 ? data[0] : null;
         this.isBusy = false;
       }, (err) => {
@@ -201,7 +200,7 @@ public ngOnInit() {
       },
       (err) => {
         this.isBusy = false;
-        this.error = err.statusText;
+        this.error = err.error.message;
 
         if (err._body) {
           const json = JSON.parse(err._body);
