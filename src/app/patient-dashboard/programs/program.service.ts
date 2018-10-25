@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import {take, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
 import {
@@ -27,61 +27,47 @@ export class ProgramService {
               private programResourceService: ProgramResourceService) { }
 
   public getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
-    let enrolledPrograms: Subject<ProgramEnrollment[]> = new Subject<ProgramEnrollment[]>();
-    let patientsObservable = this.programEnrollmentResourceService.
-      getProgramEnrollmentByPatientUuid(uuid);
+    const patientsObservable = this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(uuid);
 
     if (patientsObservable === null) {
       throw new Error('Null patient programs observable');
     } else {
-      patientsObservable.pipe(take(1)).subscribe(
-        (programs) => {
+      return patientsObservable.pipe(
+        map((programs) => {
           if (programs.length > 0) {
-            let patientPrograms = [];
-            for (let program of programs) {
+            const patientPrograms = [];
+            for (const program of programs) {
               patientPrograms.push(new ProgramEnrollment(program));
             }
-            enrolledPrograms.next(patientPrograms);
+            return patientPrograms;
           } else {
-            enrolledPrograms.next([]);
+            return [];
           }
-        }
-        ,
-        (error) => {
-          enrolledPrograms.error(error);
-        }
-      );
+        })
+      )
     }
-    return enrolledPrograms.asObservable();
   }
 
   public getAvailablePrograms(): Observable<Program[]> {
-    let patientEnrollablePrograms: Subject<Program[]> = new Subject<Program[]>();
-    let programsObservable = this.programResourceService.
-      getPrograms();
+    const programsObservable = this.programResourceService.getPrograms();
 
     if (programsObservable === null) {
       throw new Error('Null program observable');
     } else {
-      programsObservable.pipe(take(1)).subscribe(
-        (programs) => {
+      return programsObservable.pipe(
+        map((programs) => {
           if (programs.length > 0) {
-            let availablePrograms = [];
-            for (let program of programs) {
+            const availablePrograms = [];
+            for (const program of programs) {
               availablePrograms.push(new Program(program));
             }
-            patientEnrollablePrograms.next(availablePrograms);
+            return availablePrograms;
           } else {
-            patientEnrollablePrograms.next([]);
+            return [];
           }
-        }
-        ,
-        (error) => {
-          patientEnrollablePrograms.error(error);
-        }
+        })
       );
     }
-    return patientEnrollablePrograms.asObservable();
   }
 
   public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted,

@@ -8,6 +8,7 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
 import { ProgramService } from './program.service';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PatientProgramService {
@@ -20,64 +21,38 @@ export class PatientProgramService {
   }
 
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.loadProgramBatch(uuid).subscribe((data) => {
-      if (data) {
-        subject.next(data);
-      }
-    }, (error) => {
-      subject.error(error);
-    });
-    return subject.asObservable();
+    return this.loadProgramBatch(uuid);
   }
 
   public loadProgramsPatientIsEnrolledIn(patientUuid: string): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe((data) => {
-      if (data) {
-        subject.next(data);
-      }
-    }, (error) => {
-      subject.error(error);
-    });
-
-    return subject.asObservable();
+    return this.programService.getPatientEnrolledProgramsByUuid(patientUuid);
   }
 
   private getAvailablePrograms(): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    this.programService.getAvailablePrograms().subscribe((programs) => {
-      if (programs) {
-        subject.next(programs);
-      }
-    }, (error) => {
-      subject.error(error);
-    });
-
-    return subject.asObservable();
+    return this.programService.getAvailablePrograms();
   }
 
   private loadProgramBatch(patientUuid: string): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    let dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
-          this.subscription = combineLatest(this.loadProgramsPatientIsEnrolledIn(patientUuid),
-      this.getAvailablePrograms()
-    ).subscribe((data) => {
-      if (data) {
+    let allAvailablePrograms = [];
+    const dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
+    return this.getAvailablePrograms().flatMap((programs) => {
+      allAvailablePrograms = programs;
+      return this.loadProgramsPatientIsEnrolledIn(patientUuid);
+    }).pipe(
+      map((data) => {
+        if (data) {
         // data[0] = enrolledPrograms
         // data[1] = availablePrograms
-        let enrolledPrograms = data[0];
-        let _programs = [];
-        _.each(data[1], (program: any) => {
+        const enrolledPrograms = data;
+        const _programs = [];
+        _.each(allAvailablePrograms, (program: any) => {
           let _enrolledProgram: any;
-          let _enrolledPrograms: any = _.filter(enrolledPrograms,
-            (enrolledProgram: any) => {
-              return enrolledProgram.programUuid === program.uuid && !enrolledProgram.voided;
-            });
+          const _enrolledPrograms = _.filter(enrolledPrograms, (enrolledProgram: any) =>
+           enrolledProgram.programUuid === program.uuid && !enrolledProgram.voided);
 
-          let route: any = _.find(dashboardRoutesConfig.programs, (_route: any) => {
-            return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
-          });
+          const route: any = _.find(dashboardRoutesConfig.programs, (_route: any) =>
+            _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid
+          );
           if (_enrolledPrograms.length > 0) {
             _enrolledProgram = _.last(_enrolledPrograms);
           }
@@ -112,13 +87,10 @@ export class PatientProgramService {
             isEnrolled: !_.isNil(_enrolledProgram) && _.isNull(_enrolledProgram.dateCompleted)
           });
         });
-        subject.next(_programs);
+        return _programs;
       }
-    }, (err) => {
-      subject.error(err);
-      });
+    }));
 
-    return subject.asObservable();
   }
 
 }
