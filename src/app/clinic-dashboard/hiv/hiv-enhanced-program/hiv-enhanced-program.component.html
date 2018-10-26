@@ -11,55 +11,28 @@
         <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
-                                <li class="tablink">
+                                <li class="tablink" [ngClass]="{'active': activeTab.in_enhanced_care}">
                                         <a class="btn" href="#in_enhanced_care" (click)="generateReport('not_virally_suppressed_in_enhanced_care')" data-toggle="tab">Patients Enrolled</a>
                                 </li>
-                                <li class="tablink">
+                                <li class="tablink" [ngClass]="{'active': activeTab.not_in_enhanced_care}">
                                         <a class="btn" href="#not_in_enhanced_care" (click)="generateReport('not_virally_suppressed_not_in_enhanced_care')" data-toggle="tab">Patients Eligible</a>
                                 </li>
-                                <li class="tablink">
+                                <li class="tablink" [ngClass]="{'active': activeTab.in_enhanced_care_vl_due}">
                                         <a class="btn" href="#in_enhanced_care_vl_due" (click)="generateReport('not_virally_suppressed_in_enhanced_care_vl_due')" data-toggle="tab">Patients Due for Repeat 3 Months VL</a>
                                 </li>
-                                <li class="tablink">
+                                <li class="tablink" [ngClass]="{'active': activeTab.mdt_form_completed}">
                                         <a class="btn" href="#mdt_form_completed" (click)="generateReport('mdt_form_completed')" data-toggle="tab">Patients Requiring MDT Form</a>
                                 </li>
 
                         </ul>
                         <div class="tab-content">
-                                <div class="tab-pane fade in active" id="in_enhanced_care">
-                                        <h4 class="center">All Patients Enrolled in Enhanced Adherence HIV Care (VL => 1000 and enrolled)</h4>
+                                <div class="tab-pane fade in active">
+                                        <h4 class="center">{{sectionTittle}}</h4>
                                         <app-hiv-enhanced-patient-list
                                                 [patientData]="patientData"
                                                 [isLoadingPatientList]="isLoadingPatientList"
                                                 [extraColumns]="extraColumns()"
                                                 #enhanced>
-                                        </app-hiv-enhanced-patient-list>
-                                </div>
-                                <div class="tab-pane fade active" id="not_in_enhanced_care">
-                                        <h4 class="center">Patients eligible for Enhanced Adherence HIV Care (VL >= 1000 but not enrolled)</h4>
-                                        <app-hiv-enhanced-patient-list
-                                                [patientData]="patientData"
-                                                [isLoadingPatientList]="isLoadingPatientList"
-                                                [extraColumns]="extraColumns()"
-                                                #notinenhanced>
-                                        </app-hiv-enhanced-patient-list>
-                                </div>
-                                <div class="tab-pane fade active" id="in_enhanced_care_vl_due">
-                                        <h4 class="center">Patients enrolled in Enhanced Adherence HIV Care but have not had a repeat VL result within 3 months of their last VL</h4>
-                                        <app-hiv-enhanced-patient-list 
-                                                [patientData]="patientData"
-                                                [isLoadingPatientList]="isLoadingPatientList"
-                                                [extraColumns]="extraColumns()"
-                                                #enhancedvldue>
-                                        </app-hiv-enhanced-patient-list>
-                                </div>
-                                <div class="tab-pane fade active" id="mdt_form_completed">
-                                        <h4 class="center">Patients enrolled in Enhanced Adherence HIV who have not had a MDT Form completed within the last 2 months</h4>
-                                        <app-hiv-enhanced-patient-list
-                                                [patientData]="patientData"
-                                                [isLoadingPatientList]="isLoadingPatientList"
-                                                [extraColumns]="extraColumns()"
-                                                #enhancedmdt>
                                         </app-hiv-enhanced-patient-list>
                                 </div>
                         </div>

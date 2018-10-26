@@ -16,6 +16,14 @@ export class HivEnhancedComponent implements OnInit {
   public isLoadingPatientList = false;
   public locationUuid = '';
   public indicators;
+  public activeTab = {
+    in_enhanced_care: true,
+    not_in_enhanced_care: false,
+    in_enhanced_care_vl_due: false,
+    mdt_form_completed : false
+  };
+
+  public sectionTittle: string;
 
   private _startDate: Date = Moment().subtract(1, 'months').toDate();
   public get startDate(): Date {
@@ -66,11 +74,12 @@ export class HivEnhancedComponent implements OnInit {
 
   public generateReport(indicator) {
     this.indicators = indicator;
+    this.setActiveTab();
     this.patientData = [];
     this.storeReportParamsInUrl();
     this.isLoadingPatientList =  true;
     this.hivEnhancedReportService.getPatientList(this.toDateString(this.startDate),
-      this.toDateString(this.endDate), this.locationUuid, this.indicators).subscribe((data) => {
+      this.toDateString(this.endDate), this.locationUuid, this.indicators).take(1).subscribe((data) => {
         this.patientData = this.sortData(data.results.results);
         this.isLoadingPatientList = false;
       }, (err) => {
@@ -136,6 +145,45 @@ export class HivEnhancedComponent implements OnInit {
 
   private onDateChange() {
     this.generateReport(this.indicators);
+  }
+
+  private setActiveTab() {
+     this.resetTabs();
+     const indicator = this.indicators;
+     switch (indicator) {
+       case 'not_virally_suppressed_in_enhanced_care':
+          this.activeTab.in_enhanced_care = true;
+          this.sectionTittle = 'All Patients Enrolled in Enhanced Adherence HIV Care (VL => 1000 and enrolled)';
+          break;
+       case 'not_virally_suppressed_not_in_enhanced_care':
+           this.activeTab.not_in_enhanced_care = true;
+           this.sectionTittle = 'Patients eligible for Enhanced Adherence HIV Care (VL >= 1000 but not enrolled)';
+           break;
+       case 'not_virally_suppressed_in_enhanced_care_vl_due':
+           this.activeTab.in_enhanced_care_vl_due = true;
+           this.sectionTittle =
+           'Patients enrolled in Enhanced Adherence HIV Care but have not had a repeat VL result within 3 months of their last VL';
+           break;
+       case 'mdt_form_completed':
+           this.activeTab.mdt_form_completed = true;
+           this.sectionTittle =
+           'Patients enrolled in Enhanced Adherence HIV who have not had a MDT Form completed within the last 2 months';
+          break;
+        default:
+          break;
+
+     }
+
+  }
+
+  private resetTabs() {
+    this.sectionTittle = '';
+    this.activeTab = {
+      in_enhanced_care: false,
+      not_in_enhanced_care: false,
+      in_enhanced_care_vl_due: false,
+      mdt_form_completed: false
+    };
   }
 
 }
