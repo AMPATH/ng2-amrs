@@ -1,0 +1,67 @@
+.badge-info {
+    background-color: #3a87ad;
+  }
+  
+  .input-group-btn > .btn {
+    margin-left: 5px;
+  }
+  .patient-search{
+      background: #FFF;
+      padding-top: 1%;
+      margin-top: 10px;
+      padding-bottom: 3%;
+  }
+  .input-group-btn{
+    font-size: 14px;
+  }
+  
+  .alert {
+    color: #999;
+    padding: 0px;
+  }
+  
+  .alert .text-bold {
+    color: #333;
+  }
+  
+  .input-group-btn:last-child > .btn {
+    border-radius: 3px;
+  }
+  
+  button.btn-primary {
+    padding: 10px 16px !important;
+  }
+  
+  .form-control:focus {
+    border-color: #f1f1f1;
+  }
+  
+  .glyphicon {
+    margin-right:7px;
+  }
+  #creator-row{
+    margin-top: 5px;
+    margin-bottom: 30px;
+  }
+  .create_group_btn:hover{
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 640px) {
+      #search-textbox::-webkit-input-placeholder{
+        font-size:14px;
+      } 
+  }
+  
+  @media screen and (min-width: 641px) {
+      #search-textbox::-webkit-input-placeholder{
+        font-size:20px;
+      } 
+  }
+  .group-search {
+    margin-top: 25px;
+  }
+  .btn.btn-default {
+    background-color: white;
+    border-color: none;
+  }

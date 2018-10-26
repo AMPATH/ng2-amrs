@@ -14,9 +14,8 @@ import { UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { Patient } from '../../models/patient.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { Subject } from 'rxjs/Rx';
 
 @Component({
   selector: 'program-manager-base',
@@ -27,7 +26,7 @@ export class ProgramManagerBaseComponent implements OnInit {
   public department: string;
   public program: any;
   public title = 'Start Program';
-  public steps: number[] = [1, 2, 3, 4, 5];
+  public steps: number[] = [1, 2, 3, 4, 5, 6];
   public showForms: boolean = false;
   public customTitleClass: string = '';
   public jumpStep: number = -1;

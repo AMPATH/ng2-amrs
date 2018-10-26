@@ -59,6 +59,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public referralPrograms: string[] = [];
   public showSuccessDialog: boolean = false;
   public showReferralDialog: boolean = false;
+  public showProcessReferralsDialog ;
   public referralCompleteStatus: BehaviorSubject<boolean> = new BehaviorSubject(null);
   public patient: Patient = null;
   public submitClicked: boolean = false;
@@ -81,6 +82,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private compiledSchemaWithEncounter: any = null;
   private submitDuplicate: boolean = false;
   private previousEncounters = [];
+  private groupUuid;
+  public isGroupVisit = false;
+  public enrollToGroup = false;
+  public enrollToDC = false;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
               private route: ActivatedRoute,
@@ -113,7 +118,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
     this.wireDataSources();
     const componentRef = this;
-
     // get visitUuid & encounterUuid then load form
     this.route.queryParams.subscribe((params) => {
       componentRef.visitUuid = params['visitUuid'];
@@ -121,6 +125,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       componentRef.programEncounter = params['programEncounter'];
       componentRef.step = params['step'] ? parseInt(params['step'], 10) :  null;
       componentRef.referralEncounterType = params['referralEncounterType'];
+      componentRef.groupUuid = params['groupUuid'];
       if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
         componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
@@ -148,6 +153,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         }, 1);
 
         return;
+      }
+      if (componentRef.groupUuid) {
+        componentRef.isGroupVisit = true;
       }
       componentRef.loadForm();   // load  form
       //this.isBusyIndicator(false);
@@ -256,6 +264,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
           queryParams: { reset: true }
         });
         break;
+      case 'groupManager':
+          this.preserveFormAsDraft = false;
+          this.router.navigate(['/clinic-dashboard/' + this.encounterLocation.value + '/general/group-manager/group/' + this.groupUuid]);
+          break;
+      case 'groupEnrollment':
+          this.preserveFormAsDraft = false;
+          this.router.navigate(['/patient-dashboard/patient/' +
+          this.patient.uuid + '/general/general/group-enrollment'], {queryParams: {referral: true}});
+          break;
       default:
         console.error('unknown path');
     }
@@ -901,16 +918,23 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.shouldShowPatientReferralsDialog(data);
     this.referralCompleteStatus.pipe(take(1)).subscribe((success) => {
 
-      let referralsData = this.referralsHandler.extractRequiredValues(this.form);
+      const referralsData = this.referralsHandler.extractRequiredValues(this.form);
       this.diffCareReferralStatus = undefined;
 
       if (referralsData.hasDifferentiatedCareReferal) {
-        this.confirmationService.confirm({
-          header: 'Process Referrals',
-          message: 'You have referred the patient to ' +
-            'differentiated care program. Do you want to enroll patient to the program?',
-          accept: () => {
-            this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
+        this.showProcessReferralsDialog = true;
+      } else {
+        // display success dialog
+        this.showSuccessDialog = true;
+      }
+      // this.showSuccessDialog = true;
+    });
+  }
+
+  public handleReferralToDC() {
+    this.showProcessReferralsDialog = false;
+    if (this.enrollToDC) {
+      this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program ....');
             this.referralsHandler.handleFormReferals(this.patient,
               this.form).pipe(
               take(1)).subscribe(
@@ -918,6 +942,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
                   this.isBusyIndicator(false, '');
                   this.showSuccessDialog = true;
                   this.diffCareReferralStatus = results.differentiatedCare;
+                  setTimeout(() => {
+                    if (this.enrollToGroup) {
+                    this.navigateTo('groupEnrollment');
+                    }
+                  }, 10000);
                 },
                 (error) => {
                   console.error('Error processing referrals', error);
@@ -926,18 +955,16 @@ export class FormentryComponent implements OnInit, OnDestroy {
                   this.diffCareReferralStatus = error.differentiatedCare;
                 }
               );
-          },
-          reject: () => {
-            this.showSuccessDialog = true;
-          }
-        });
-
-      } else {
-        // display success dialog
+    } else if (this.enrollToGroup) {
         this.showSuccessDialog = true;
-      }
-      // this.showSuccessDialog = true;
-    });
+        setTimeout(() => {
+          if (this.enrollToGroup) {
+          this.navigateTo('groupEnrollment');
+          }
+        }, 10000);
+    } else {
+      this.showSuccessDialog = true;
+    }
   }
 
   private resetLastTab() {
@@ -1042,6 +1069,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     } else {
       this.checkDuplicate(payloadTypes);
     }
+  }
+
+  public hideProcessReferralsDialog() {
+    this.showProcessReferralsDialog = false;
   }
 
 }

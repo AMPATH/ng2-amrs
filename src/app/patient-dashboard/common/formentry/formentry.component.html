@@ -1,7 +1,7 @@
 <div class="form-entry">
-    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+  <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
       </i>{{busyIndicator.message}}</span>
-    </div>
+  </div>
 
   <div *ngIf="!busyIndicator.busy">
     <div class='col-md-12' *ngIf=form>
@@ -15,17 +15,17 @@
         </div>
       </form>
     </div>
-    <br/> &nbsp;
+    <br /> &nbsp;
     <div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
-					<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
-							<i class="fa fa-info fa-stack-1x"></i>
-					</span>
-					The following error(s) occured while submitting form, please review form and retry saving!
-					</strong>
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+              <i class="fa fa-info fa-stack-1x"></i>
+            </span>
+            The following error(s) occured while submitting form, please review form and retry saving!
+          </strong>
         </h5>
       </div>
       <div class="panel-body">
@@ -34,33 +34,34 @@
         </ul>
       </div>
       <div class="panel-footer" style="min-height: 50px">
-        <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry Saving Form</button>
+        <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry
+          Saving Form</button>
       </div>
     </div>
     <div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
-			<span class="fa-stack fa-lg">
-				<i class="fa fa-circle-thin fa-stack-2x"></i>
-				<i class="fa fa-info fa-stack-1x"></i>
-			</span>
-			The form has some validation errors. Scroll to the top of the form to see error list.
-		</strong>
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+              <i class="fa fa-info fa-stack-1x"></i>
+            </span>
+            The form has some validation errors. Scroll to the top of the form to see error list.
+          </strong>
         </h5>
       </div>
     </div>
-    <br/> &nbsp;
+    <br /> &nbsp;
     <div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
-					<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
-							<i class="fa fa-info fa-stack-1x"></i>
-					</span>
-					The following error(s) occured while rendering form, please report this error!
-					</strong>
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+              <i class="fa fa-info fa-stack-1x"></i>
+            </span>
+            The following error(s) occured while rendering form, please report this error!
+          </strong>
         </h5>
       </div>
       <div class="panel-body">
@@ -87,6 +88,9 @@
       <strong>Differentiated Care Referral</strong>
       <hr style="margin-top:1px; margin-bottom:1px;" />
       <diff-care-referral-status [status]="diffCareReferralStatus"></diff-care-referral-status>
+      <div *ngIf="enrollToGroup">
+        You have chosen to also enroll the patient to a group, you will be redirected to the group enrollment page in 10 seconds.
+      </div>
     </div>
     <div *ngIf="referralStatus">
       <program-referral-status [status]="referralStatus"></program-referral-status>
@@ -102,4 +106,17 @@
       </div>
   </p-dialog>
   <p-confirmDialog [closable]="false" key="duplicateWarning"></p-confirmDialog>
+
+  <p-dialog [closable]="true" header="Process Referrals" [(visible)]="showProcessReferralsDialog" [modal]="true">
+      <h4><i class="fa fa-question-circle"></i> You have referred the patient to differentiated care program.</h4>
+        <h4>Do you want to enroll the patient to the program? 
+          <mat-checkbox class="pull-right" color="primary" [(ngModel)]="enrollToDC" [disableRipple]="true"></mat-checkbox>
+        </h4>
+        <h4>Do you want to enroll the patient to a community group? 
+          <mat-checkbox class="pull-right" color="primary" [(ngModel)]="enrollToGroup" [disableRipple]="true"></mat-checkbox>
+        </h4>
+      <p-footer>
+        <button type="button" class="btn btn-primary" style="margin-right: 7px;" (click)="handleReferralToDC()">Proceed</button>
+      </p-footer>
+    </p-dialog>
 </div>

@@ -1,0 +1,47 @@
+mat-radio-button {
+    margin-left: 15px;
+}
+label {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.mat-radio-button{
+    font-weight: 300 !important;
+    font-size:16px;
+    font-family: inherit;
+}
+
+.form-control {
+    font-size: 16px;
+}
+th, td {
+    font-size: 16px;
+}
+h5 {
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+#tablePanelBody {
+    padding: 0px;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+}
+
+.table>thead>tr>th, 
+.table>thead>tr>td, 
+.table>tbody>tr>th, 
+.table>tbody>tr>td, 
+.table>tfoot>tr>th, 
+.table>tfoot>tr>td {
+    padding: 4px;
+    line-height: 35px;
+}
+
+.warnings {
+    font-size: 12px;
+}

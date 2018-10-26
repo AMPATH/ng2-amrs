@@ -1,0 +1,151 @@
+<busy *ngIf="busy" [message]="'Please Wait.........'"></busy>
+<div *ngIf="group">
+  <h3 style="margin-bottom: 25px;"> <i class="fa fa-users"></i>
+    <span class="text-bold"> Manage Groups \ {{group.name}}</span>
+  </h3>
+
+  <group-detail-summary [_group]="group" (updatedGroup)="onGroupDetailsChanged($event)"></group-detail-summary>
+  <mat-card>
+    <div class="row" style="margin-bottom: 15px;">
+      <h4 class="col-md-5 col-sm-5">
+        Group Members and Meetings
+      </h4>
+    </div>
+    <div class="alert alert-warning" *ngIf="!group.cohortMembers.length">
+      The group has no active members, please go to patient dashboard, search for patient and enroll into a group.   
+    </div>
+    <div *ngIf="group.cohortMembers.length">
+      <div class="row" style="margin: 7px;">
+        <div class="pull-right">
+          <div class="btn-group" role="group">
+            <button type="button" (click)="showModal(editMembership)" mat-raised-button>
+              End Memberships</button>
+            <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday" [disabled]="visitStartedToday">
+              <i class="fa fa-group"></i> 
+              <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
+              <span *ngIf="visitStartedToday"> Started Group Meeting</span> 
+            </button>
+          </div>
+        </div>
+      </div>
+      <ag-grid-angular style="width: 100%; height: 450px;" class="ag-blue" [gridOptions]="gridOptions" #dataGrid
+        [rowData]="membersData" [columnDefs]="columns" (cellClicked)='gridOnCellClick($event)' [enableSorting]="true"
+        [enableFilter]="true">
+      </ag-grid-angular>
+      <div class="row" style="margin-top: 15px;">
+        <div class="pull-right">
+          <div class="card">
+            <mat-radio-group [ngModel]="filter" (ngModelChange)="externalFilterChanged($event)">
+              <mat-radio-button value="all" color="primary">All Members</mat-radio-button>
+              <mat-radio-button value="current" color="primary" [checked]="true">Active Members</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+
+
+<ng-template #editMembership>
+
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">End Membership</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table class="table table-striped" *ngIf="group.cohortMembers">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Contacts</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of group.cohortMembers">
+          <td>{{ member.patient.person.display }}</td>
+          <td>-</td>
+          <td>{{ member.startDate | date : 'medium' }}</td>
+          <td>{{ member.endDate | date : 'medium' }}</td>
+          <td *ngIf="!member.endDate">
+            <button (click)="showDateModal(member, 'End Membership For ' + member.patient.person.display)" class="btn btn-sm btn-danger">
+              End Membership
+            </button>
+          </td>
+          <td *ngIf="member.endDate">
+            -
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <div class="btn-group" role="group">
+      <button type="button" (click)="modalRef.hide()" class="btn btn-danger">Cancel</button>
+    </div>
+
+  </div>
+</ng-template>
+
+
+<ng-template #startGroupVisitModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Start Group Meeting</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #startVisitForm="ngForm">
+      <div class="form-group">
+        <label>Visit Type</label>
+        <select type="text" class="form-control" name="visitType" [(ngModel)]="visitType" required>
+          <option [value]=""></option>
+          <option *ngFor="let item of visitTypes" [value]="item.uuid">{{item.display}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="start-date">Select Date</label>
+        <div class="input-group">
+          <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="visitDate"
+            [(ngModel)]="groupVisitDate" #dp="ngx-mydatepicker" required />
+
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveGroupVisit()" [disabled]="!startVisitForm.valid"> Start
+      Group Meeting </button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"> Close </button>
+  </div>
+</ng-template>
+
+<ng-template #startPatientVisitWarningModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Start Group Meeting</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Cannot start a visit for an inactive member
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="modalRef.hide()">OK</button>
+  </div>
+</ng-template>

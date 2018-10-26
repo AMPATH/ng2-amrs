@@ -167,7 +167,7 @@ describe('Service: TodaysVitalsService', () => {
     fakeRes.returnErrorOnNext = false;
     // let vitals = service.getTodaysVitals(mockCdmTriageEncounterDetails);
 
-    service.getTodaysVitals( mockPatient, {mockCdmTriageEncounterDetails).then((results: any) => {
+    service.getTodaysVitals( mockPatient, {mockCdmTriageEncounterDetails}).then((results: any) => {
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].diastolic).toEqual(71);
       expect(results[0].weight).toEqual(68.8);

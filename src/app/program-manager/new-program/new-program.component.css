@@ -1,0 +1,12 @@
+.vertical-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  
+  .vertical-radio-button {
+    margin: 5px;
+  }
+  
+  .vertical-selected-value {
+    margin: 15px 0;
+  }

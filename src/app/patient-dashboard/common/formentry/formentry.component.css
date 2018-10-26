@@ -43,3 +43,19 @@ form-renderer {
   #formentry-submit-btn {
     margin-right: 10px;
   }
+
+label{
+  font-weight: 400 !important;
+}
+.mat-radio-button {
+  margin-left: 15px;
+  font-weight: 400;
+}
+
+@media only screen and (max-width: 960px) {
+  .question {
+    font-weight: 600;
+    margin-top: 25px;
+    margin-left:10px;
+  }
+}

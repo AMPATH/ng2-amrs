@@ -38,6 +38,8 @@ import { PatientProgramEnrollmentModule } from
 './../../patients-program-enrollment/patients-program-enrollment.module';
 import { DailyScheduleClinicFlowComponent
 } from './clinic-flow/daily-schedule-clinic-flow.component';
+import { GroupManagerModule } from '../../group-manager/group-manager.module';
+
 
 @NgModule({
     imports: [
@@ -51,6 +53,7 @@ import { DailyScheduleClinicFlowComponent
         // MatProgressBarModule,
         // MatDatepickerModule,
         // MatNativeDateModule,
+        GroupManagerModule,
         CalendarModule,
         NgamrsSharedModule,
         AgGridModule,

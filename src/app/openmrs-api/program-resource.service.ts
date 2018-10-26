@@ -37,4 +37,9 @@ export class ProgramResourceService {
   public getProgramsIncompatibilities() {
        return this.http.get('../patient-dashboard/programs/programs.json');
   }
+
+  public getProgramByUuid(uuid: string) {
+    const url = this.getUrl() + '/' + uuid;
+    return this.http.get(url);
+  }
 }

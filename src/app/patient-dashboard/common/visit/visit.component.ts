@@ -6,6 +6,9 @@ import { Subscription, Observable } from 'rxjs';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
 import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
+import {
+  UserDefaultPropertiesService
+} from '../../../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'visit',
@@ -57,11 +60,11 @@ export class VisitComponent implements OnInit, OnDestroy {
   }
 
   public getVisitStartedMsgStatus() {
-     this.showVisitStartedMsg = this.todayVisitService.getVisitStartedMsgStatus();
+    this.showVisitStartedMsg = this.todayVisitService.getVisitStartedMsgStatus();
   }
 
   public removeVisitStartedMsg() {
-     this.todayVisitService.hideVisitStartedMessage();
+    this.todayVisitService.hideVisitStartedMessage();
   }
 
   public toTitleCase(text: string): string {
@@ -148,26 +151,26 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public processProgramVisits() {
     if (!_.isEmpty(this.programVisitsObj)) {
-       let returnedVisit = null;
-       let visits = [];
-       let config = [];
-       let currentEnrollment = {
-         'uuid': ''
-       };
-       if (typeof this.programVisitsObj[this.programUuid] === 'undefined') {
-          returnedVisit = null;
-       } else {
-          returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
-          visits = this.programVisitsObj[this.programUuid].visits;
-          config = this.programVisitsObj[this.programUuid].config;
-          currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
-       }
+      let returnedVisit = null;
+      let visits = [];
+      let config = [];
+      let currentEnrollment = {
+        'uuid': ''
+      };
+      if (typeof this.programVisitsObj[this.programUuid] === 'undefined') {
+        returnedVisit = null;
+      } else {
+        returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
+        visits = this.programVisitsObj[this.programUuid].visits;
+        config = this.programVisitsObj[this.programUuid].config;
+        currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
+      }
 
-       this.visit = returnedVisit;
-       this.visits = visits;
-       this.currentProgramConfig = config;
-       this.currentEnrollment = currentEnrollment;
-       this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
+      this.visit = returnedVisit;
+      this.visits = visits;
+      this.currentProgramConfig = config;
+      this.currentEnrollment = currentEnrollment;
+      this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
     }
   }
 

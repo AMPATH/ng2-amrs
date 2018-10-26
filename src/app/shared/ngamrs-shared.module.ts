@@ -114,7 +114,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatRadioModule, MatMenuModule, MatIconModule,
     MatExpansionModule, MatButtonModule, MatTooltipModule,PdfViewerModule
   ],
-  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent,
+  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent, AgGridModule,
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,

@@ -47,6 +47,12 @@
           "label": "Patient Referral",
           "icon": "fa fa-file-pdf-o",
           "isSideBarOpen": false
+        },
+        {
+          "url": "group-manager",
+          "label": "Groups Manager",
+          "icon": "fa fa-users",
+          "isSideBarOpen": true
         }
       ]
     },
