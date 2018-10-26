@@ -115,7 +115,7 @@ function getActiveProgramEnrollmentsPatientList(params) {
 
      var query = "SELECT "+ columns + "FROM " + tables + "WHERE " + whereClause + groupBy;
 
-     // console.log('SQL', query);
+     //console.log('SQL', query);
 
      conn.query(query, {}, function (err, rows, fields) {
       if (err) {
@@ -142,7 +142,7 @@ function buildWhereClause(params){
     whereClause.push("AND (p1.death_date IS NULL || p1.death_date < '" + params.endDate + "')");
     whereClause.push("AND (t5.value IS NULL OR t5.value = 'false')");
 
-    if(params.programTypeIds.length > 1 ){
+    if(params.programTypeIds.length > 0 ){
         whereClause.push("AND pp.program_id IN (" + params.programTypeIds + ")");
     }
 
