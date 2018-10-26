@@ -15,11 +15,19 @@
     font-size: 17px;
     width: 25%;
 }
+
+.tablink.active {
+    border-bottom-color : #673ab7;
+    border-bottom-style: solid;
+    background-color: #ddd;
+    border-bottom-width: 2px;
+}
 .tablink:hover {
     background-color: #dbdbdb;
 }
-.nav-tabs>li.active>a {
-    background-color: #dbdbdb; 
+.nav-tabs >li.active > a {
+    border-style: none;
+    background-color: #dbdbdb;
 }
 .center {
     text-align: center;
