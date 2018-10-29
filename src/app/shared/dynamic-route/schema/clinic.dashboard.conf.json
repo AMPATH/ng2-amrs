@@ -96,12 +96,6 @@
           "label": "Patients Requiring VL",
           "icon": "icon-i-laboratory",
           "isSideBarOpen": false
-        },
-        {
-          "url": "hiv-enhanced-program",
-          "label": "Enhanced Adherence HIV Program",
-          "icon": "fa fa-cart-plus",
-          "isSideBarOpen": false
         }
       ]
     },
