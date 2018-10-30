@@ -10,6 +10,8 @@ import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 
 import { Patient } from '../models/patient.model';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
+import { take } from 'rxjs/operators';
+import { PersonResourceService } from '../openmrs-api/person-resource.service';
 
 @Injectable()
 export class ProgramManagerService {
@@ -19,6 +21,7 @@ export class ProgramManagerService {
 
   constructor(private patientReferralService: PatientReferralService,
               private programService: ProgramService,
+              private personResourceService: PersonResourceService,
               private userService: UserService) {
 
   }
@@ -65,6 +68,12 @@ export class ProgramManagerService {
       }
     });
     return forkJoin(programBatch);
+  }
+
+  public updatePersonHealthCenter(payload: any) {
+    let personUuid = payload.person.uuid;
+    delete payload.person;
+    return this.personResourceService.saveUpdatePerson(personUuid, payload);
   }
 
   private handleReferralWithProvider(payload): void {

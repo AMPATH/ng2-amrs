@@ -39,7 +39,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         { headerName: 'Name', field: 'name' , minWidth: 200},
         { headerName: 'Program', field: 'program',   minWidth: 600,
         cellRenderer : (params) => {
-            return '<div>' + params.value + '</div>';
+            return '<span>' + params.value + '</span>';
         },
         cellStyle: {
             'white-space': 'normal',

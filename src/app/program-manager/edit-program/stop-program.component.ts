@@ -30,6 +30,8 @@ export class StopProgramComponent implements OnInit {
   public completing: boolean = false;
   public showForms: boolean = false;
   public exitEncounters: string[] = [];
+  public hasError: boolean = false;
+  public message: string = '';
   public stoppedPrograms: any[] = [];
   constructor(private programManagerService: ProgramManagerService,
               private router: Router) {
@@ -68,8 +70,13 @@ export class StopProgramComponent implements OnInit {
       this.programs, null).subscribe((programs) => {
       if (programs) {
         this.completing = false;
+        this.hasError = false;
         this.stopProgramComplete.next(programs);
       }
+    }, (err) => {
+      this.hasError = true;
+      this.message = 'Could not stop the program';
+        console.log(err);
     });
 
   }

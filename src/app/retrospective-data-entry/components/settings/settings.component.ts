@@ -57,7 +57,6 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
               private providerResourceService: ProviderResourceService,
               private localStorageService: LocalStorageService,
               private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              // private patientService: PatientService,
               private cdRef: ChangeDetectorRef,
               private userService: UserService) {
     this.user = this.userService.getLoggedInUser();
@@ -87,7 +86,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public fetchProviderOptions(term: string = null) {
+  public fetchProviderOptions(term: string = '') {
     if (!_.isNull(term)) {
       this.providers = [];
       this.providerLoading = true;
@@ -202,48 +201,57 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     this.propertyLocationService.locationSubject.pipe(take(1)).subscribe((item: any) => {
       if (item) {
         if (this.enableRetro) {
-          let retroLocation = this.retrospectiveDataEntryService
-            .mappedLocation(this.currentLocation);
-          this.retrospectiveDataEntryService.updateProperty('retroLocation',
-            JSON.stringify(retroLocation));
-          this.location = retroLocation;
+          this.setLocation();
         }
         this.currentLocation = JSON.parse(item);
       }
     });
-    this.retrospectiveDataEntryService.retroSettings.pipe(take(1)).subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
-        if (!_.isNull(retroSettings.error)) {
-          this.error = JSON.parse(retroSettings.error);
-        } else {
-          this.error = null;
-        }
-        this.location = retroSettings.location;
-        this.provider = retroSettings.provider;
-
-        this.visitDate = retroSettings.visitDate;
-        this.visitTime = retroSettings.visitTime;
-        this.visitTimeState = retroSettings.visitTimeState;
-        this.localStorageService.setItem('retroVisitDate',
-          this.visitDate);
-        let retroLocation = this.retrospectiveDataEntryService
-          .mappedLocation(this.currentLocation);
-        if (!_.isNull(this.location) && !_.isEmpty(this.location)) {
-          retroLocation = this.location;
-        }
-        this.localStorageService.setItem('retroLocation',
-          JSON.stringify(retroLocation));
+        this.setRetroSettings(retroSettings);
       }
       this.fetchProviderOptions();
       this.fetchLocationOptions();
-
-      this.suggest.pipe(debounceTime(500),
-        switchMap((term) => this.providerResourceService.searchProvider(term)),
-        take(1),).subscribe((data) => {
-          this.processProviders(data);
-          this.cdRef.detectChanges();
-        });
+      if (this.suggest) {
+        this.suggest.pipe(debounceTime(500),
+          switchMap((term) => this.providerResourceService.searchProvider(term)))
+          .subscribe((data) => {
+            this.processProviders(data);
+            this.cdRef.detectChanges();
+          });
+      }
     });
+  }
+
+  private setLocation() {
+    let retroLocation = this.retrospectiveDataEntryService
+      .mappedLocation(this.currentLocation);
+    this.retrospectiveDataEntryService.updateProperty('retroLocation',
+      JSON.stringify(retroLocation));
+    this.location = retroLocation;
+  }
+
+  private setRetroSettings(retroSettings) {
+    if (!_.isNull(retroSettings.error)) {
+      this.error = JSON.parse(retroSettings.error);
+    } else {
+      this.error = null;
+    }
+    this.location = retroSettings.location;
+    this.provider = retroSettings.provider;
+
+    this.visitDate = retroSettings.visitDate;
+    this.visitTime = retroSettings.visitTime;
+    this.visitTimeState = retroSettings.visitTimeState;
+    this.localStorageService.setItem('retroVisitDate',
+      this.visitDate);
+    let retroLocation = this.retrospectiveDataEntryService
+      .mappedLocation(this.currentLocation);
+    if (!_.isNull(this.location) && !_.isEmpty(this.location)) {
+      retroLocation = this.location;
+    }
+    this.localStorageService.setItem('retroLocation',
+      JSON.stringify(retroLocation));
   }
 
 }

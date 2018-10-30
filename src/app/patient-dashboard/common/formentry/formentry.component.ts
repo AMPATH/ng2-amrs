@@ -272,8 +272,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     let currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
-    this.retrospectiveDataEntryService.retroSettings.pipe(take(1))
-      .subscribe((retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
         location = {
           uuid: retroSettings.location.value,
@@ -366,7 +365,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       causeOfDeath: null
     };
 
-    if (patientCareStatus.length > 0
+    if (patientCareStatus.length > 0 && causeOfDeath.length > 0
       && _.first(patientCareStatus).control.value !== 'a89335d6-1350-11df-a1f1-0026b9') {
       this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
         .subscribe(() => {});
@@ -408,10 +407,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (transferOut.length > 0) {
       answer = transferOut;
     }
-    return _.includes([
-      'a89c2f42-1350-11df-a1f1-0026b9348838', // AMPATH
-      'a89c301e-1350-11df-a1f1-0026b9348838' // Non-AMPATH
-    ], _.first(answer).control.value);
+    if (answer.length > 0) {
+      return _.includes([
+        'a89c2f42-1350-11df-a1f1-0026b9348838', // AMPATH
+        'a89c301e-1350-11df-a1f1-0026b9348838' // Non-AMPATH
+      ], _.first(answer).control.value);
+    }
+    return false;
   }
 
   private getPatientStatusQuestion() {
@@ -729,8 +731,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.disableSubmitBtn();
     // this.handleFormReferrals();
     if (this.form.valid) {
-      this.isBusyIndicator(true, 'Please wait, saving form...');
       this.formSubmissionService.setSubmitStatus(true);
+      this.isBusyIndicator(true, 'Please wait, saving form...');
       // clear formSubmissionErrors
       this.formSubmissionErrors = null;
       // reset submitted orders
@@ -738,11 +740,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.submittedOrders.orders = [];
       // submit form
       this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-          if (retroSettings && retroSettings.enabled) {
+        if (retroSettings && retroSettings.enabled) {
+          if (this.formSubmissionService.getSubmitStatus() === true) {
             this.confirmRetrospectiveSubmission(payloadTypes);
-          } else {
-            this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
           }
+        } else {
+          this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
+        }
       });
     } else {
       this.form.markInvalidControls(this.form.rootNode);
@@ -772,8 +776,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.patientService.currentlyLoadedPatientUuid
       .pipe(flatMap((patientUuid: string) => {
         return this.encounterResource.getEncountersByPatientUuid(patientUuid);
-      }
-      ), flatMap((encounters) => {
+      }), flatMap((encounters) => {
         this.previousEncounters = encounters;
         if (this.formentryHelperService.encounterTypeFilled(encounters,
           this.form.schema.encounterType.uuid,
@@ -786,7 +789,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         (isDuplicate) => {
           this.isBusyIndicator(false); // hide busy indicator
           if (isDuplicate) {
-            this.saveDuplicate();
+            this.saveDuplicate(payloadTypes);
           } else {
             this.saveEncounterOrUpdate(payloadTypes);
           }
@@ -848,7 +851,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  private saveDuplicate() {
+  private saveDuplicate(payloadTypes: any) {
     let encounterDate = this.extractEncounterDate();
     let duplicateEncounter = this.formentryHelperService
       .getLastDuplicateEncounter(this.previousEncounters,
@@ -867,7 +870,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         `${format(new Date(encounterDate), 'HH:mm')}`,
       accept: () => {
         this.submitDuplicate = true;
-        this.submitForm();
+        this.saveEncounterOrUpdate(payloadTypes);
       },
       reject: () => {
         this.submitDuplicate = false;
@@ -984,8 +987,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private setProviderUuid() {
     let request = this.getProviderUuid();
-    request.pipe(
-      take(1)).subscribe(
+    request.subscribe(
         (data) => {
           this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
             let provider = data.providerUuid;
@@ -999,7 +1001,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
               encounterProvider[0].control.setValue(provider);
             }
           });
-
         },
         (error) => {
           console.warn('Provider not found. Are you a provider?');
