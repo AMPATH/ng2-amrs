@@ -55,6 +55,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public newLocation = '';
   private subscription: Subscription;
   private initialPatientIdentifier: string = '';
+  public isPreferred: boolean = false;
+  public isNewlocation: boolean = false;
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,
@@ -139,11 +141,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
   public setPreferredIdentifier(preferredIdentifier) {
     this.preferredIdentifier = preferredIdentifier;
+    this.isPreferred = true;
   }
   public seIdentifierLocation(location) {
     // this.identifierLocation = location.value;
     this.newLocation = location.value;
     this.invalidLocationCheck = '';
+    this.isNewlocation = true;
   }
 
   public setIdentifierType(identifierType) {
@@ -194,6 +198,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.patientIdentifier = '';
       this.patientIdentifierUuid = '';
       this.preferredIdentifier = '';
+      this.isPreferred = false;
+      this.isNewlocation = false;
     }
   }
 
@@ -226,6 +232,12 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
         (result) => {
           if (result <= 0 && this.newLocation !== this.identifierLocation) {
+            if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
+              personIdentifierPayload.uuid === null) {
+              delete personIdentifierPayload.uuid;
+            }
+            this.saveIdentifier(personIdentifierPayload, person);
+          } else if (result.length > 0 && this.isPreferred || this.isNewlocation) {
             if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
               personIdentifierPayload.uuid === null) {
               delete personIdentifierPayload.uuid;
@@ -273,6 +285,8 @@ private saveIdentifier(personIdentifierPayload, person) {
                   this.identifierLocation = '';
                   this.preferredIdentifier = '';
                   this.identifierType = '';
+                  this.isPreferred = false;
+                  this.isNewlocation = false;
                   this.patientService.fetchPatientByUuid(this.patients.person.uuid);
                   setTimeout(() => {
                     this.display = false;
@@ -399,7 +413,10 @@ private saveIdentifier(personIdentifierPayload, person) {
       if ((id as any).identifier === identifier) {
         return true;
       }
+    } else if (this.isPreferred) {
+      return false;
+    } else {
+      return false;
     }
-    return false;
   }
 }
