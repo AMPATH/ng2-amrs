@@ -45,3 +45,17 @@ td, th {
 .warnings {
     font-size: 12px;
 }
+.input-group-addon {
+    border-radius: 0;
+    border-color: #d2d6de;
+    background-color: #3c8dbc;
+    color: white;
+    height: 34px;
+    padding: 
+}
+input:disabled{
+    background: white;
+}
+div.input-group .input-group-addon{
+    margin-right: 21px;
+}

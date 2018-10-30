@@ -58,7 +58,7 @@ export class GroupEditorComponent implements OnInit {
         this.address = state.address;
         this.groupType = state.groupType;
         this.editType = state.editType || 'create';
-        this.actionButtonText = state.actionButtonText || `${this.editType} Group`;
+        state.actionButtonText? this.actionButtonText = state.actionButtonText : this.actionButtonText = `${this.editType} Group`;
     }
     @Output() hide: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() newGroup: EventEmitter<any> = new EventEmitter();

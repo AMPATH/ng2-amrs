@@ -29,6 +29,7 @@ const SPOUSE_CONTACTS = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
 })
 
 export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
+
     public state: any;
     public group: Group;
     public groupNumber: any;
@@ -48,7 +49,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
     public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
     public pattern = new RegExp(this.r1.source + this.r2.source);
-
+    public activeMembers: any[];
     @Output() updatedGroup: EventEmitter<any> = new EventEmitter();
     public currentMonth = Moment().month() + 1;
     public endDate = {
@@ -69,6 +70,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
 
         this.group = group;
         this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
+        this.activeMembers = _.filter(group.cohortMembers, (member) => !member.endDate);
         this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
         this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
         this.getProgram(this.communityGroupService.getGroupAttribute('programUuid', this.group.attributes));
@@ -85,8 +87,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         private communityGroupMemberService: CommunityGroupMemberService,
         private communityGroupLeaderService: CommunityGroupLeaderService) { console.log(this.endDate, 'END DATE'); }
 
-    ngOnInit(): void {         console.log(Moment().month() + 1, 'MONTH')
- }
+    ngOnInit(): void {}
 
 
 
@@ -102,6 +103,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
        const sub = this.communityGroupService.getGroupByUuid(this.group.uuid).subscribe((group) => {
             this.group = group;
             this.updatedGroup.emit(this.group);
+            this.activeMembers = _.filter(group.cohortMembers, (member) => !member.endDate);
             this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
             this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
             this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
@@ -267,6 +269,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
                               provider: {label: this.provider.person.display, value: this.provider.person.uuid},
                               address: this.landmark.value,
                               groupUuid: this.group.uuid,
+                              actionButtonText: 'Save Changes'
                      };
         this.modalRef = this.modalService.show(modal);
     }

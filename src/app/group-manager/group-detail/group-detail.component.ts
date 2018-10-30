@@ -38,6 +38,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     paginationPageSize: 300,
     isExternalFilterPresent: this.isExternalFilterPresent.bind(this),
     doesExternalFilterPass: this.doesExternalFilterPass.bind(this),
+    suppressHorizontalScroll: false,
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
         this.gridOptions.api.sizeColumnsToFit();
@@ -332,11 +333,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private generateColumns(cohortVisits) {
     const columns = [];
-    columns.push({ headerName: 'Identifiers', field: 'identifiers', pinned: 'left' },
-      { headerName: 'Name', field: 'name', pinned: 'left' },
-      { headerName: 'Contacts', field: 'contacts', pinned: 'left' },
-      { headerName: 'Member From', field: 'member_since', pinned: 'left' },
-      { headerName: 'Member To', field: 'member_to', pinned: 'left'});
+    columns.push({ headerName: 'Identifiers', field: 'identifiers', pinned: 'left', width: 100 },
+      { headerName: 'Name', field: 'name', pinned: 'left', width: 100 },
+      { headerName: 'Contacts', field: 'contacts', pinned: 'left' , width: 100},
+      { headerName: 'Member From', field: 'member_since', pinned: 'left', width: 100 },
+      { headerName: 'Member To', field: 'member_to', pinned: 'left', width: 100});
     let index = 0;
     for (const cohortVisit of cohortVisits) {
       columns.push({

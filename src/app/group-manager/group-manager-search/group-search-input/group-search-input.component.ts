@@ -56,6 +56,7 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
     this.isLoading = false;
     this.lastSearchString = '';
     this.errorMessage = '';
+    this.subscription.unsubscribe();
   }
 
   public toggleSearchByLandmark(event) {

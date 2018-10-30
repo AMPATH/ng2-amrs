@@ -27,8 +27,8 @@
         </tr>
         <tr>
           <td><strong>Members: </strong> 
-            <span *ngIf="group.cohortMembers">{{group.cohortMembers.length}}</span>
-            <span *ngIf="!group.cohortMembers">0</span>
+            <span *ngIf="activeMembers" style="color:green">(active) {{activeMembers.length}}</span>
+            <span *ngIf="group.cohortMembers" style="color: red"> (inactive) {{ group.cohortMembers.length - activeMembers.length }}</span>
           </td>
           <td><strong>Landmark: </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
         </tr>
@@ -122,9 +122,10 @@
             <div class="col-xs-10">
               <div class="input-group">
                 <input type="text" class="form-control" [ngModel]="currentLeader.primaryContacts?.value" name="primaryContacts"
-                  disabled>
-                <span class="input-group-addon" style="cursor: pointer" (click)="showNestedModal(editContacts)"><i
-                    class="fa fa-edit"></i></span>
+                 placeholder="Click the edit contacts button to add" disabled>
+                <div class="input-group-addon" style="cursor: pointer; margin-left: 5px;" (click)="showNestedModal(editContacts)">
+                   <i class="fa fa-edit"></i> Edit Contacts
+                </div>
               </div>
             </div>
           </div>
