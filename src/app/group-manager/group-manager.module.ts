@@ -11,6 +11,7 @@ import { DatePickerModalComponent } from './modals/date-picker-modal.component';
 import { SuccessModalComponent } from './modals/success-modal.component';
 import { GroupEditorComponent } from './group-editor/group-editor-component';
 import { GroupSearchInputComponent } from './group-manager-search/group-search-input/group-search-input.component';
+import { PatientSearchModule } from '../patient-search/patient-search.module';
 
 @NgModule({
     declarations: [
@@ -21,13 +22,14 @@ import { GroupSearchInputComponent } from './group-manager-search/group-search-i
         DatePickerModalComponent,
         SuccessModalComponent,
         GroupEditorComponent,
-        GroupSearchInputComponent,
+        GroupSearchInputComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         NgamrsSharedModule,
-        GroupManagerRouting
+        GroupManagerRouting,
+        PatientSearchModule
      ],
     exports: [
       GroupSearchInputComponent,

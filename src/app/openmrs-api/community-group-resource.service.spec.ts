@@ -85,8 +85,6 @@ describe('CommunityGroupService', () => {
       req.flush(payload, {status: 201, statusText: 'Created'});
     });
 
-    it('should disband group', )
 
 
 });
-t6

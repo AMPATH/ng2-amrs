@@ -1,4 +1,8 @@
-<busy *ngIf="busy" [message]="'Please Wait.........'"></busy>
+<busy *ngIf="busy" [message]="'Please Wait...'"></busy>
+<div class="alert alert-success alert-dismissible fade in" *ngIf="successMessage">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <b>{{successMessage}}</b>
+  </div>
 <div *ngIf="group">
   <h3 style="margin-bottom: 25px;"> <i class="fa fa-users"></i>
     <span class="text-bold"> Manage Groups \ {{group.name}}</span>
@@ -11,16 +15,19 @@
         Group Members and Meetings
       </h4>
     </div>
-    <div class="alert alert-warning" *ngIf="!group.cohortMembers.length">
+    <div class="alert alert-warning" *ngIf="!activeMembers.length">
       The group has no active members, please go to patient dashboard, search for patient and enroll into a group.   
     </div>
-    <div *ngIf="group.cohortMembers.length">
+    <div>
       <div class="row" style="margin: 7px;">
         <div class="pull-right">
           <div class="btn-group" role="group">
-            <button type="button" (click)="showModal(editMembership)" mat-raised-button>
+            <button type="button" (click)="showModal(editMembership)" *ngIf="activeMembers.length" mat-raised-button>
               End Memberships</button>
-            <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday" [disabled]="visitStartedToday">
+              <!-- <button type="button" (click)="showModal(editMembership)" *ngIf="activeMembers.length" mat-raised-button>
+                Memberships</button> -->
+                
+            <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday" [disabled]="visitStartedToday" *ngIf="activeMembers.length">
               <i class="fa fa-group"></i> 
               <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
               <span *ngIf="visitStartedToday"> Started Group Meeting</span> 
@@ -51,40 +58,49 @@
 <ng-template #editMembership>
 
   <div class="modal-header">
-    <h4 class="modal-title pull-left">End Membership</h4>
+    <!-- <h4 class="modal-title pull-left">Memberships</h4> -->
+    <h4 class="modal-title pull-left">End Memberships</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
+    <!-- <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Add Member">
+          <busy *ngIf="validatingEnrollment" [message]="'Validating Enrollment...'"></busy>
+            <app-patient-search (patientSelected)="validateMemberEnrollment($event)" [hideResults]="hideResult" [hideRegistration]="true"></app-patient-search>
+        </mat-tab>
+      <mat-tab label="End Memberships"> -->
+        <table class="table table-striped" *ngIf="group.cohortMembers">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Contacts</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of group.cohortMembers">
+              <td>{{ member.patient.person.display }}</td>
+              <td>-</td>
+              <td>{{ member.startDate | date : 'medium' }}</td>
+              <td>{{ member.endDate | date : 'medium' }}</td>
+              <td *ngIf="!member.endDate">
+                <button (click)="showDateModal(member, 'End Membership For ' + member.patient.person.display)" class="btn btn-sm btn-danger">
+                  End Membership
+                </button>
+              </td>
+              <td *ngIf="member.endDate">
+                -
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      <!-- </mat-tab>
+    </mat-tab-group> -->
 
-    <table class="table table-striped" *ngIf="group.cohortMembers">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Contacts</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let member of group.cohortMembers">
-          <td>{{ member.patient.person.display }}</td>
-          <td>-</td>
-          <td>{{ member.startDate | date : 'medium' }}</td>
-          <td>{{ member.endDate | date : 'medium' }}</td>
-          <td *ngIf="!member.endDate">
-            <button (click)="showDateModal(member, 'End Membership For ' + member.patient.person.display)" class="btn btn-sm btn-danger">
-              End Membership
-            </button>
-          </td>
-          <td *ngIf="member.endDate">
-            -
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 
   <div class="modal-footer">
@@ -108,8 +124,9 @@
       <div class="form-group">
         <label>Visit Type</label>
         <select type="text" class="form-control" name="visitType" [(ngModel)]="visitType" required>
-          <option [value]=""></option>
-          <option *ngFor="let item of visitTypes" [value]="item.uuid">{{item.display}}</option>
+          <ng-container *ngFor="let item of visitTypes">
+          <option *ngIf="item.display.toLowerCase().includes('community')" [value]="item.uuid">{{item.display}}</option>
+          </ng-container>
         </select>
       </div>
       <div class="form-group">
@@ -143,7 +160,7 @@
     </button>
   </div>
   <div class="modal-body">
-    Cannot start a visit for an inactive member
+    Membership has been ended for this member, further action are not allowed.
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" (click)="modalRef.hide()">OK</button>

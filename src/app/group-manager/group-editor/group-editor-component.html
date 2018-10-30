@@ -26,16 +26,15 @@
       <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
         <div class="form-group">
           <input type="text" class="form-control" [ngModel]="groupNo" name="groupNumberInput" id="groupNo"
-            (ngModelChange)="checkGroupNumber($event)" #groupNumberInput="ngModel" pattern="\d{5}-\d{5}"
+            (ngModelChange)="checkGroupNumber($event)" #groupNumberInput="ngModel" pattern="DC-\d{5}-\d{5}"
             placeholder="Please enter unique group identifier" required>
           <div *ngIf="groupNumberInput.errors && (groupNumberInput.dirty || groupNumberInput.touched)">
             <div [hidden]="!groupNumberInput.errors.required" class="warnings">
               <span style="font-size: 12px; color: red">Group Number is required </span>
             </div>
             <div [hidden]="!groupNumberInput.errors.pattern" class="warnings">
-              <span style="font-size: 12px; color: red">Valid Group Number must be 10 digits where the first 5 and last
-                5
-                are separated by a hyphen (-)</span>
+              <span style="font-size: 12px; color: red">Valid Group Number must be 10 digits prefixed wth DC and the first 5 and last
+                5 are separated by a hyphen (-)</span>
             </div>
           </div>
           <div *ngIf="groupNoErrorMessage || !groupNumberInput.valid" class="warnings">
@@ -88,7 +87,7 @@
         </div>
       </div>
       <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
-        <ng-select [loading]="providerLoading" class="sharp-corners select" [items]="providers" name="providerInput"
+        <ng-select [loading]="providerLoading" [typeahead]="providerSuggest" class="sharp-corners select" [items]="providers" name="providerInput"
           [(ngModel)]="provider" #providerInput="ngModel" required></ng-select>
         <div *ngIf="providerInput.errors && (providerInput.dirty || providerInput.touched)">
           <span style="font-size: 12px; color: red">Provider is required </span>

@@ -10,6 +10,7 @@ import { CommunityGroupAttributeService } from '../../openmrs-api/community-grou
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { Input } from '@angular/core';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 const DEFAULT_GROUP_TYPE = 'community_group';
 const HIV_DIFFERENTIATED_CARE_PROGRAM = {'label': 'HIV DIFFERENTIATED CARE PROGRAM', 'value': '334c9e98-173f-4454-a8ce-f80b20b7fdf0'};
@@ -46,6 +47,7 @@ export class GroupEditorComponent implements OnInit {
     public groupNoErrorMessage = '';
     public allGroupNumbers = [];
     public saving = false;
+    public providerSuggest: Subject<any> = new Subject();
     @Input() set state(state) {
         this.groupNo = state.groupNo;
         this.groupUuid = state.groupUuid;
@@ -77,13 +79,17 @@ export class GroupEditorComponent implements OnInit {
     ngOnInit(): void {
         this.allFacilities();
         this.getCohortPrograms();
-        this.fetchProviderOptions();
         if (this.editType.toLowerCase() === 'create') {
             this.getLoggedInProvider();
             this.getCurrentUserLocation();
             this.setDefaultProgram();
         }
         this.fetchAllGroupNumbers();
+        this.providerSuggest.pipe(debounceTime(350),
+        switchMap((term: string) => this.providerResourceService.searchProvider(term)))
+        .subscribe((data) => {
+          this.processProviders(data);
+        });
     }
 
     public fetchAllGroupNumbers() {
@@ -288,7 +294,7 @@ export class GroupEditorComponent implements OnInit {
           this.providers = [];
           this.providerLoading = true;
         }
-         const findProvider = this.providerResourceService.searchProvider(term, false);
+        const findProvider = this.providerResourceService.searchProvider(term, false);
         findProvider.subscribe(
           (providers) => {
             this.processProviders(providers);
@@ -299,11 +305,12 @@ export class GroupEditorComponent implements OnInit {
         );
         return findProvider;
       }
-         private processProviders(providers) {
-            this.providerLoading = false;
-            const filteredProviders = _.filter(providers, (p: any) => !_.isNil(p.person));
-            this.providers = filteredProviders.map((provider) => {
-                return {
+
+    private processProviders(providers) {
+        this.providerLoading = false;
+        const filteredProviders = _.filter(providers, (p: any) => !_.isNil(p.person));
+        this.providers = filteredProviders.map((provider) => {
+        return {
                     label: provider.person.display,
                     value: provider.uuid
                 };
@@ -341,4 +348,5 @@ export class GroupEditorComponent implements OnInit {
     public onCancel() {
       this.hide.emit(true);
     }
+
 }

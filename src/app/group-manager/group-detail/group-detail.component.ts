@@ -23,6 +23,8 @@ import { GridOptions } from 'ag-grid';
 })
 
 export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  validatingEnrollment: boolean;
+  public successMessage: string;
   @ViewChild(AgGridNg2) dataGrid: AgGridNg2;
   @ViewChild('startGroupVisitModal') startGroupVisitModal: TemplateRef<any>;
   @ViewChild('startPatientVisitWarningModal') startPatientVisitWarningModal: TemplateRef<any>;
@@ -54,12 +56,13 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public subscription: Subscription;
   public isFiltered = true;
   public subscriptions = new Subscription();
-  public visitType: any = '';
+  public visitType = '0d608b80-1cb5-4c85-835a-29072683ca27';
+  public currentMonth = Moment().month() + 1;
   public today = {
     'year': Moment().year(),
-    'month': Moment().month(),
+    'month': this.currentMonth,
     'day': Moment().date()
-}
+};
   public groupVisitDate: any = {
     date: this.today,
     jsdate: new Date()
@@ -73,7 +76,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public errorSavingVisit = false;
   public error = false;
   public patientDashboardConfig: any = require('../../shared/dynamic-route/schema/patient.dashboard.conf.json');
-
+  public activeMembers: any[];
   public membersData: any[] = [];
   public columns: any[] = [];
   public visitStartedToday: boolean;
@@ -88,6 +91,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private modalService: BsModalService) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      if (params.newGroup) {
+        this.showGroupCreatedSuccessMessage();
+      }
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -99,16 +107,22 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadGroup();
   }
 
+  public showGroupCreatedSuccessMessage() {
+    this.successMessage = 'Group Created Successfully';
+    setTimeout(() => {
+      this.successMessage = null;
+    }, 7000);
+  }
   public loadGroup() {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
     this.subscriptions.add(this.communityGroupService.getGroupByUuid(uuid).subscribe((res) => {
       this.group = res;
+      this.activeMembers = _.filter(res.cohortMembers, (member) => !member.endDate);
       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
         return Math.abs(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
       });
       this.checkIfTodayVisitStarted(this.cohortVisits);
-      const members = this.generateMemberObject(this.group.cohortMembers);
-      this.generateMembersData(members, res.cohortVisits);
+      this.generateMembersData(res.cohortMembers, res.cohortVisits);
     }, (error) => {
       this.error = true;
     }));
@@ -123,7 +137,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public generateMembersData(cohortMembers, cohortVisits) {
     this.membersData = [];
     this.columns = [];
-    this.membersData = this.generateRowData(cohortMembers, cohortVisits);
+    const members = this.generateMemberObject(cohortMembers);
+    this.membersData = this.generateRowData(members, cohortVisits);
     this.columns = this.generateColumns(cohortVisits);
   }
 
@@ -312,6 +327,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onGroupDetailsChanged(updatedGroup) {
     this.group = updatedGroup;
+    this.generateMembersData(this.group.cohortMembers, this.group.cohortVisits);
   }
 
   private generateColumns(cohortVisits) {
@@ -338,5 +354,47 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       index = index + 1;
     }
     return columns;
+  }
+
+  public validateMemberEnrollment(patient) {
+    this.validatingEnrollment = true;
+    this.communityGroupMemberService.getCurrentlyEnrolledProgramsAndGroups(patient.uuid).subscribe(
+      (results) => {
+        const programsEnrolled =  results[0];
+        const groupsEnrolled = results[1];
+        let currentGroupsEnrolled = [];
+        if (groupsEnrolled.length) {
+          currentGroupsEnrolled = _.filter(groupsEnrolled, (group) => !group.voided);
+        }
+        const validation = this.communityGroupMemberService.validateMemberEnrollment(programsEnrolled, currentGroupsEnrolled, this.group);
+        switch (true) {
+          case validation.alreadyEnrolled:
+              this.showEnrollmentAlert('Patient already enrolled in this group!');
+              break;
+          // case validation.enrolledInAnotherGroupInSameProgram:
+          //     this.showTransferConfirmationModal();
+          //     break;
+          case validation.notEnrolledInGroupProgram:
+             this.showEnrollmentAlert('Enroll patient to DC Program first from patient dashboard.');
+             break;
+          default: this.enrollPatientToGroup(this.group, patient);
+          }
+        });
+  }
+
+  private enrollPatientToGroup(group, patient) {
+    console.log('Enrolling');
+  }
+
+  private showEnrollmentAlert(msg: string) {
+    console.log(msg);
+  }
+
+  private transferPatientFromGroup() {
+
+  }
+
+  private showTransferConfirmationModal() {
+
   }
 }

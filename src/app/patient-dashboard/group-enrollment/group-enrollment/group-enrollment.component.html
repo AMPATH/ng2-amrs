@@ -37,8 +37,9 @@
           <tbody>
             <tr *ngFor="let result of searchResults | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
               <td>
-                <input *ngIf="!result.currentlyEnrolled" type="radio" [value]="result" name="group" ngModel required>
-                <i class="fa fa-check-circle" style="color:green" *ngIf="result.currentlyEnrolled">Enrolled</i>
+                <input *ngIf="!result.currentlyEnrolled && !result.endDate" type="radio" [value]="result" name="group" ngModel required>
+                <span style="color:green" *ngIf="result.currentlyEnrolled"> Already Enrolled</span>
+                <span class="fa fa-check-cross" style="color:red" *ngIf="result.endDate"> Group Inactive</span>
               </td>
               <td>
                 {{getAttribute('groupNumber', result.attributes)}}

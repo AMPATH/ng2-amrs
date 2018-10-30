@@ -62,9 +62,13 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     }
 
 
-    public navigateToGroupDetails(group) {
+    public navigateToGroupDetails(group, newGroup?) {
         this.modalRef.hide();
-        this.router.navigate(['../group', group['uuid']], {relativeTo: this.route});
+        if (newGroup) {
+            this.router.navigate(['../group', group['uuid']], {relativeTo: this.route, queryParams: {newGroup: true}});
+        } else {
+            this.router.navigate(['../group', group['uuid']], {relativeTo: this.route});
+        }
     }
     public onResults(results) {
       this.searchResults = results;

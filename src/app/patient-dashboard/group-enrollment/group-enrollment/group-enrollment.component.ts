@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { CommunityGroupService } from '../../../openmrs-api/community-group-resource.service';
 import { MatRadioChange } from '@angular/material';
 import { Output } from '@angular/core';
@@ -6,13 +6,13 @@ import { Input } from '@angular/core';
 import * as _ from 'lodash';
 import { CommunityGroupMemberService } from '../../../openmrs-api/community-group-member-resource.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 @Component({
   selector: 'group-enrollment',
   templateUrl: './group-enrollment.component.html',
   styleUrls: ['./group-enrollment.component.css']
 })
-export class GroupEnrollmentComponent implements OnInit {
+export class GroupEnrollmentComponent implements OnInit, OnDestroy {
 
   hideResults: boolean;
   modalRef: BsModalRef;
@@ -23,6 +23,7 @@ export class GroupEnrollmentComponent implements OnInit {
   public selectedGroup;
   public errorMessage;
   public loading: boolean;
+  public subscription: Subscription = new Subscription();
   @Input() public currentGroups: any[] = [];
   @Input() public currentEnrolledPrograms: any[] = [];
   @Input() public action = 'Enroll'; // can be enroll/transfer
@@ -81,8 +82,7 @@ export class GroupEnrollmentComponent implements OnInit {
       .map(program => program.programUuid)
       .indexOf(this.getAttribute('programUuid', result.attributes)) > -1);
     if (this.currentEnrolledPrograms && this.searchResults.length === 0 && results.length > 0) {
-      this.errorMessage = `No groups found for the program(s) patient is currently enrolled in.
-                           Please enroll the patient into the same program the group is and try again.`;
+      this.errorMessage = `Patient needs to be enrolled in DC program first before enrolling in a community group.`;
     } else {
       this.errorMessage = null;
     }
@@ -91,16 +91,19 @@ export class GroupEnrollmentComponent implements OnInit {
   public enroll(group) {
     if (this.action.toLowerCase() === 'enroll') {
       const existingGroupInProgram = this.isPatientEnrolledInGroupInSameProgram(group);
-      console.log(existingGroupInProgram);
       if (existingGroupInProgram) {
         this.groupToUnenroll = existingGroupInProgram;
         this.groupToEnroll = group;
         this.modalRef = this.modalService.show(this.transferGroupConfirmationModal);
       } else {
-        this.enrollMember(group).subscribe((res) => {
+        this.subscription.add(this.enrollMember(group).subscribe((res) => {
           this.group.emit(group);
           this.hide.emit(true);
-        });
+        },
+        (error) => {
+          this.errorMessage = error.error.message;
+        }
+        ));
       }
     } else {
       this.transferGroup(this.selectedGroup, group);
@@ -117,7 +120,7 @@ export class GroupEnrollmentComponent implements OnInit {
 
   public transferGroup(currentGroup, newGroup) {
     this.loading = true;
-    this.unEnrollMember(currentGroup.uuid)
+    this.subscription.add(this.unEnrollMember(currentGroup.uuid)
       .flatMap((res) => this.enrollMember(newGroup))
       .subscribe((response) => {
           this.group.emit(newGroup);
@@ -126,7 +129,7 @@ export class GroupEnrollmentComponent implements OnInit {
           }
           this.hide.emit(true);
         },
-        (error) => console.log(error));
+        (error) => console.log(error)));
   }
 
   public isPatientEnrolledInGroupInSameProgram(group) {
@@ -164,6 +167,11 @@ export class GroupEnrollmentComponent implements OnInit {
 
   public hideComponent() {
     this.hide.emit(true);
+  }
+
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

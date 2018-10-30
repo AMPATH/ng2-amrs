@@ -86,7 +86,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     Angulartics2Module,
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     FormsModule,
-    NgxMyDatePickerModule,
+    NgxMyDatePickerModule.forRoot(),
     RouterModule,
     Ng2Bs3ModalModule,
     DateTimePickerModule,

@@ -75,7 +75,7 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   public disband(group: any, endDate: Date) {
     const index = _.indexOf(this._groups, group);
     this.modalRef.hide();
-    this.subscription.add(this.communityGroupService.disbandGroup(group.uuid, endDate).subscribe(
+    this.subscription.add(this.communityGroupService.disbandGroup(group.uuid, endDate, '').subscribe(
       (updatedGroup) => {
         this._groups[index] = updatedGroup;
       },

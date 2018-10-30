@@ -1,5 +1,8 @@
 <div class="alert alert-danger" *ngIf="group.endDate">
   <h4 class="text-danger"> Ended on {{group.endDate | date : 'medium'}}</h4>
+  <h4 class="text-danger"> Reason: <span *ngIf="group.voidReason"> {{group.voidReason}} </span>
+    <span *ngIf="!group.voidReason"> not provided </span>
+  </h4> 
 </div>
 <mat-card>
   <mat-card-title>
@@ -66,7 +69,7 @@
       <button type="button" mat-raised-button *ngIf="!group.endDate"  (click)="showUpdateGroupModal(updateGroupModal)">Edit Details</button>
       <button type="button" mat-raised-button  *ngIf="currentLeader && !group.endDate" (click)="showModal(editLeadership)">Edit Leader</button>
       <button type="button" mat-raised-button *ngIf="!currentLeader && !group.endDate" (click)="showModal(addLeadership)">Add Leader</button>
-      <button type="button" mat-raised-button style="color:red" *ngIf="!group.endDate" (click)="showDisbandDateModal(group, 'End ' + group.name)">End Group</button>
+      <button type="button" mat-raised-button style="color:red" *ngIf="!group.endDate" (click)="showModal(endGroupModal)">End Group</button>
       <button type="button" mat-raised-button style="color:green" *ngIf="group.endDate" (click)="activateGroup(group)">Activate Group</button>
     </div>
   </div>
@@ -322,3 +325,39 @@
   </group-editor>
   </div>
 </ng-template>
+
+<ng-template #endGroupModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">End {{group.name}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #endGroupForm="ngForm">
+        <div class="form-group">
+          <label for="start-date">Select Date</label>
+          <span class="text-danger">*</span>
+          <div class="input-group">
+            <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="endDate"
+              [(ngModel)]="endDate" #dp="ngx-mydatepicker" name="date" [options]="dateOptions"  required/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reason">Reason</label>
+          <span class="text-danger">*</span>
+          <textarea id="reason" class="form-control" name="reason" placeholder=
+          "Enter reason for ending the group" ngModel required></textarea>
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="disbandGroup(endGroupForm.value.date.formatted, endGroupForm.value.reason)" [disabled]="!endGroupForm.valid"> End Group</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()"> Cancel </button>
+      </div>
+    </ng-template>

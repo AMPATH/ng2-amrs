@@ -29,7 +29,7 @@ const SPOUSE_CONTACTS = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
 })
 
 export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
-    state: { editType: string; groupName: string; groupNo: any; facility: { label: any; value: any; }; groupType: { label: any; value: any; }; groupProgram: { label: any; value: any; }; provider: { label: any; value: any; }; address: any; groupUuid: string; };
+    public state: any;
     public group: Group;
     public groupNumber: any;
     public landmark: any;
@@ -50,19 +50,24 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     public pattern = new RegExp(this.r1.source + this.r2.source);
 
     @Output() updatedGroup: EventEmitter<any> = new EventEmitter();
-
+    public currentMonth = Moment().month() + 1;
     public endDate = {
         date: {
-            'year': Moment().year(),
-            'month': Moment().month(),
-            'day': Moment().date()
-        }
+            month: this.currentMonth,
+            year: Moment().year(),
+            day: Moment().date()
+        },
+        formatted: Moment().format('YYYY-MM-DD')
+    };
+
+    public dateOptions = {
+        dateFormat: 'yyyy-mm-dd',
+        appendSelectorToBody: true
     };
 
     @Input() set _group(group: Group) {
 
         this.group = group;
-        console.log(this.group);
         this.groupNumber = this.communityGroupService.getGroupAttribute('groupNumber', this.group.attributes);
         this.landmark = this.communityGroupService.getGroupAttribute('landmark', this.group.attributes);
         this.currentLeader = this.getCurrentLeader(group.cohortLeaders, group.cohortMembers);
@@ -78,9 +83,10 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         private providerResourceService: ProviderResourceService,
         private programService: ProgramResourceService,
         private communityGroupMemberService: CommunityGroupMemberService,
-        private communityGroupLeaderService: CommunityGroupLeaderService) { }
+        private communityGroupLeaderService: CommunityGroupLeaderService) { console.log(this.endDate, 'END DATE'); }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {         console.log(Moment().month() + 1, 'MONTH')
+ }
 
 
 
@@ -149,24 +155,6 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
       }
 
 
-    public showDisbandDateModal(group: any, title: string, okBtnText ?: string, closeBtnText ?: string) {
-        const initialState = {
-          label: 'Select Date',
-          okBtnText: okBtnText || 'OK',
-          closeBtnText: closeBtnText || 'Cancel',
-          title: title
-        };
-        this.modalRef = this.modalService.show(DatePickerModalComponent, {
-          initialState
-        });
-        const sub = this.modalRef.content.onSave.subscribe((date) => {
-          this.modalRef.hide();
-          this.disbandGroup(group['uuid'], date);
-        });
-        this.subscription.add(sub);
-      }
-
-
     public getProvider(providerUuid) {
         if (providerUuid) {
             const v = 'custom:(person:(uuid,display,attributes:(attributeType:(uuid),value,display)),uuid)';
@@ -225,11 +213,14 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         this.subscription.add(sub);
 
     }
-    public disbandGroup(uuid, date) {
-        const sub = this.communityGroupService.disbandGroup(uuid, date)
+    public disbandGroup(date, reason) {
+        console.log(date, reason);
+        this.modalRef.hide();
+        const sub = this.communityGroupService.disbandGroup(this.group.uuid, date, reason)
             .subscribe((res) => {
-                this.showSuccessModal('Group has been successfully disbanded.');
-                this.group.endDate = res.endDate;
+                this.showSuccessModal('Group has been successfully disbanded and all members have been removed.');
+                this.group = res;
+                this.updatedGroup.emit(this.group);
             });
             this.subscription.add(sub);
     }

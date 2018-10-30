@@ -28,7 +28,7 @@ export class CommunityGroupService {
     if (searchByLandmark) {
       return this.getGroupsByLandmark(searchString);
     } else {
-      const regex = new RegExp(/^\d/);
+      const regex = new RegExp(/DC-\d{5}-\d{5}/);
       if (regex.test(searchString)) {
         return this.getGroupByGroupNumber(searchString);
       } else {
@@ -107,12 +107,14 @@ export class CommunityGroupService {
   }
 
 
-  public disbandGroup(uuid: string, endDate: Date): any {
+  public disbandGroup(uuid: string, endDate: Date, reason: string): any {
     const url = this.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`;
     const body = {
       endDate: endDate,
-      voided: true
+      voided: true,
+      voidReason: reason
     };
+    console.log(body);
     return this.http.post(url, body);
   }
 
@@ -136,7 +138,8 @@ export class CommunityGroupService {
   public activateGroup(uuid: any): any {
     const body = {
       endDate: null,
-      voided: false
+      voided: false,
+      voidReason: null
     };
     const url = this.getOpenMrsBaseUrl() + `/cohort/${uuid}`;
     return this.http.post(url, body);
