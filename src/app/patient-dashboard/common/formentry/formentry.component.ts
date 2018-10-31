@@ -317,12 +317,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
       submittedEncounter: data
     };
     // check if referral question was filled (questionId is either referrals or patientReferrals)
-    let referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
+    const referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
     // if question exists provide for referrals
     if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
       // get answer from the selected answer
       const referralPrograms = this.form.searchNodeByQuestionId('referralsOrdered');
-      if (referralPrograms) {
+      if (referralPrograms.length > 0) {
         const answer = _.first(referralPrograms).control.value;
           // map concept with program
           this.searchReferralConcepts(answer).pipe(take(1)).subscribe((concepts) => {
