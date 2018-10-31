@@ -15,25 +15,29 @@
         Group Members and Meetings
       </h4>
     </div>
-    <div class="alert alert-warning" *ngIf="!activeMembers.length">
-      The group has no active members, please go to patient dashboard, search for patient and enroll into a group.   
+    <div class="alert alert-warning" *ngIf="!activeMembers.length && group.endDate">
+      The group has no active members, please activate group to enroll.   
     </div>
+    <div class="alert alert-warning" *ngIf="!activeMembers.length && !group.endDate">
+        The group has no active members.  Enroll members first.  
+      </div>
     <div>
-      <div *ngIf="!group.endDate" class="row" style="margin: 7px;">
-        <div class="pull-right">
-          <div class="btn-group" role="group">
-            <button type="button" (click)="showModal(editMembership)" *ngIf="activeMembers.length" mat-raised-button>
-              End Memberships</button>
-              <!-- <button type="button" (click)="showModal(editMembership)" *ngIf="activeMembers.length" mat-raised-button>
-                Memberships</button> -->
-                
-            <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday" [disabled]="visitStartedToday" *ngIf="activeMembers.length">
-              <i class="fa fa-group"></i> 
-              <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
-              <span *ngIf="visitStartedToday"> Started Group Meeting</span> 
-            </button>
-          </div>
-        </div>
+      <div class="row" style="margin: 7px;">
+          <div class="pull-right">
+              <div class="btn-group" role="group">
+                <button type="button" (click)="showModal(editMembership)" mat-raised-button>
+                  <span *ngIf="!group.endDate">End Memberships </span>
+                  <span *ngIf="group.endDate">View Memberships </span>
+                </button>
+    
+                <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday"
+                  [disabled]="visitStartedToday" *ngIf="activeMembers.length || !group.endDate">
+                  <i class="fa fa-group"></i>
+                  <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
+                  <span *ngIf="visitStartedToday"> Started Group Meeting</span>
+                </button>
+              </div>
+            </div>
       </div>
       <ag-grid-angular style="width: 100%; height: 450px;" class="ag-blue" [gridOptions]="gridOptions" #dataGrid
         [rowData]="membersData" [columnDefs]="columns" (cellClicked)='gridOnCellClick($event)' [enableSorting]="true"
@@ -160,7 +164,7 @@
     </button>
   </div>
   <div class="modal-body">
-    Membership has been ended for this member, further action are not allowed.
+    Membership has been ended for this member, further actions are not allowed.
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" (click)="modalRef.hide()">OK</button>

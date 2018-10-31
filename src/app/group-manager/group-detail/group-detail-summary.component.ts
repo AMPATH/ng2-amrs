@@ -364,6 +364,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
         const sub = this.communityGroupService.activateGroup(group.uuid).subscribe((res) => {
             this.showSuccessModal('Successfully reactivated group.');
             this.group = res;
+            this.updatedGroup.emit(this.group);
         },
         (error) => (console.log(error)));
         this.subscription.add(sub);
