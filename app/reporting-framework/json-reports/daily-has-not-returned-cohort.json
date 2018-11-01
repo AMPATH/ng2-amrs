@@ -20,6 +20,11 @@
             "type": "simple_column",
             "alias": "max_rtc_date",
             "column": "MAX(rtc_date)"
+        },
+        {
+            "type": "simple_column",
+            "alias": "next_clinical_encounter_datetime",
+            "column": "next_clinical_encounter_datetime"
         }
     ],
     "filters": {
@@ -32,8 +37,18 @@
             },
             {
                 "filterType": "tableColumns",
+                "conditionExpression": "rtc_date <= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
                 "conditionExpression": "t2.location_id in (?)",
                 "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.is_clinical = 1",
+                "parameterName": ""
             }
         ]
     },
