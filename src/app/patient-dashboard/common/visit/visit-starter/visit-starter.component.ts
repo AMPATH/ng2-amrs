@@ -43,8 +43,13 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   public selectedVisitType: any = {};
   public isGroupRetrospective = false;
   public retroSettings: any;
+  public _patientEnrolledInGroup: boolean;
 
   private _patientUuid: string;
+  @Input() set patientEnrolledInGroup(enrolled: boolean) {
+    this._patientEnrolledInGroup = enrolled;
+  }
+
   @Input()
   public get patientUuid(): string {
     return this._patientUuid;
@@ -116,6 +121,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     this.setUserDefaultLocation();
     // this.getCurrentProgramEnrollmentConfig();
   }
+
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
