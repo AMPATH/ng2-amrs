@@ -55,7 +55,8 @@ describe('SCOPE BUILDER SERVICE:', function () {
 
             var expectedScopeObject = {
                 age: 20,
-              gender: 'F',
+                gender: 'F',
+                hasPreviousInitialVisit: false,
                 intendedVisitLocationUuid: 'location-uuid',
                 programLocation: 'some location uuid'
             };

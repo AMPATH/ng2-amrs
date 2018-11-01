@@ -850,14 +850,14 @@ module.exports = function () {
                         var enrollment = requestParams.enrollmentUuid;
                         var locationUuid = requestParams.intendedLocationUuid || '';
 
-                        patientProgramService
-                            .getPatientProgramEnrollmentVisits(patientUuid, programUuid, enrollment, locationUuid)
-                            .then(function (programVisits) {
-                                reply(programVisits);
-                            })
-                            .catch(function (error) {
-                                reply(Boom.badImplementation('An internal error occurred'));
-                            })
+                        patientProgramService.getPatientProgramVisits(patientUuid, programUuid, enrollment, locationUuid)
+                        .then((programVisits)=>{
+                            reply(programVisits);
+                        })
+                        .catch((error)=>{
+                            reply(Boom.badImplementation('An internal error occurred'));
+                        });
+
                     },
                     description: 'Get program config of a patient',
                     notes: 'Returns program config  of a patient',

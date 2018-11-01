@@ -2,6 +2,7 @@ var Promise = require("bluebird");
 var scopeBuilder = require("./scope-builder.service");
 var dataResolver = require("./patient-data-resolver.service");
 var expressionRunner = require('../expression-runner/expression-runner');
+var initialEncounters = require('../dao/patient/etl-patient-initial-encounters-dao');
 
 var def = {
     isVisitTypeAllowed: isVisitTypeAllowed,
@@ -37,7 +38,7 @@ function separateAllowedDisallowedVisitTypes(scope, visitTypes) {
 }
 
 function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
-    intendedVisitLocationUuid, allProgramsConfig) {
+    intendedVisitLocationUuid, allProgramsConfig, initialVisit) {
     return new Promise(function (success, error) {
         var program = allProgramsConfig[programUuid];
         if (!program) {
@@ -56,18 +57,20 @@ function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
                 // add missing properties 
                 dataObject.programUuid = programUuid;
                 dataObject.intendedVisitLocationUuid = intendedVisitLocationUuid;
+                dataObject.hasPreviousInitialVisit = initialVisit;
 
-                // build scope
-                var scopeObj = scopeBuilder.buildScope(dataObject);
-                var visits = program.visitTypes;
+                  // build scope
+                  var scopeObj = scopeBuilder.buildScope(dataObject);
+                  var visits = program.visitTypes;
 
-                // console.log('dataObject', dataObject);
-                // console.log('scope', scopeObj);
-                // console.log('visits', program.visitTypes);
-                program.visitTypes =
-                    separateAllowedDisallowedVisitTypes(scopeObj, visits);
+                  // console.log('dataObject', dataObject);
+                  // console.log('scope', scopeObj);
+                  // console.log('visits', program.visitTypes);
+                  program.visitTypes =
+                      separateAllowedDisallowedVisitTypes(scopeObj, visits);
 
-                success(program);
+                  success(program);
+
             })
             .catch(function (dataErr) {
                 console.error(dataErr);

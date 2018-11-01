@@ -5,7 +5,10 @@ var def = {
 module.exports = def;
 
 function buildScope(dataDictionary) {
-    var scope = {};
+
+    var scope = {
+        hasPreviousInitialVisit: false
+    };
     if (dataDictionary.patient) {
         buildPatientScopeMembers(scope, dataDictionary.patient);
     }
@@ -22,6 +25,10 @@ function buildScope(dataDictionary) {
     if (dataDictionary.intendedVisitLocationUuid) {
         scope.intendedVisitLocationUuid = dataDictionary.intendedVisitLocationUuid;
     }
+    if (dataDictionary.hasPreviousInitialVisit) {
+        scope.hasPreviousInitialVisit = dataDictionary.hasPreviousInitialVisit;
+    }
+    // console.log('buildScope scope', scope);
     // add other methods to build the scope objects
     return scope;
 }
