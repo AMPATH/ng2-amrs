@@ -9,6 +9,9 @@ import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
 import {
   UserDefaultPropertiesService
 } from '../../../user-default-properties/user-default-properties.service';
+import { CommunityGroupMemberService } from '../../../openmrs-api/community-group-member-resource.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'visit',
@@ -16,6 +19,7 @@ import {
   styleUrls: ['visit.component.css']
 })
 export class VisitComponent implements OnInit, OnDestroy {
+
   public currentProgramConfig: any;
   public showVisitStartedMsg: boolean = false;
 
@@ -40,13 +44,23 @@ export class VisitComponent implements OnInit, OnDestroy {
   public isBusy: boolean = false;
   private todayVisitsEventSub: Subscription;
 
+  @ViewChild('enrollModal') public enrollModal;
+  public modalRef: BsModalRef;
+  public currentCommunityGroups: any[] = [];
+  public modalState: { action: string; currentGroups: any; currentEnrolledPrograms: any[]; patient: any; };
+  public patientEnrolledInGroup = false;
+  public communityEnrollmentSuccessMessage;
+
   constructor(
-    private todayVisitService: TodayVisitService
+    private todayVisitService: TodayVisitService,
+    private communityGroupMemberService: CommunityGroupMemberService,
+    private bsModalService: BsModalService
   ) { }
 
   public ngOnInit() {
     this.subscribeToVisitsServiceEvents();
     this.checkForAlreadyLoadedVisits();
+    this.checkIfPatientEnrolledInGroup();
     // this.isBusy = true;
     // app feature analytics
     // this.appFeatureAnalytics
@@ -57,6 +71,48 @@ export class VisitComponent implements OnInit, OnDestroy {
     if (this.todayVisitsEventSub) {
       this.todayVisitsEventSub.unsubscribe();
     }
+  }
+
+  public checkIfPatientEnrolledInGroup() {
+    this.isBusy = true;
+    this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.todayVisitService.patient.uuid)
+    .subscribe((groups) => {
+      this.isBusy = false;
+      if (!_.isEmpty(groups)) {
+          _.forEach(groups, (group) => {
+            if (!group.voided) {
+            this.currentCommunityGroups.push(group);
+            const program = _.filter(group.cohort.attributes, (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
+            if (program) {
+              if (program['value'] === this.programUuid) {
+                this.patientEnrolledInGroup = true;
+                return false;
+              }
+            }
+          }
+          });
+      }
+    });
+  }
+
+  public enrollInGroup() {
+    this.modalState = {
+      action: 'Enroll',
+      currentGroups: this.currentCommunityGroups,
+      currentEnrolledPrograms: [{programUuid: this.programUuid}],
+      patient: this.todayVisitService.patient
+    };
+    this.modalRef = this.bsModalService.show(this.enrollModal, {
+      backdrop: 'static',
+      class: 'modal-lg'
+    });
+  }
+
+  public onEnrollToGroup(group) {
+    this.modalRef.hide();
+    this.patientEnrolledInGroup = true;
+    this.communityEnrollmentSuccessMessage = `Successfully enrolled to ${group.name}`;
+    setTimeout(() => this.communityEnrollmentSuccessMessage = null, 5000);
   }
 
   public getVisitStartedMsgStatus() {

@@ -138,6 +138,7 @@ import { HttpClient } from '../../shared/services/http-client.service';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
 import { ProgramManagerModule } from '../../program-manager/program-manager.module';
 import { ZscoreService } from '../../shared/services/zscore.service';
+import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.module';
 
 @NgModule({
   imports: [
@@ -175,6 +176,7 @@ import { ZscoreService } from '../../shared/services/zscore.service';
     PatientSearchModule,
     PatientReferralsModule,
     ProgramManagerModule,
+    GroupEnrollmentModule
   ],
   exports: [
     PatientInfoComponent,
