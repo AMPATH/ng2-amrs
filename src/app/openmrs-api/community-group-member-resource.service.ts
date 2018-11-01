@@ -64,6 +64,11 @@ export class CommunityGroupMemberService {
     return this.http.post(url, body);
   }
 
+  public transferMember(currentGroup, newGroup, patient) {
+    return this.endMembership(currentGroup.uuid, new Date())
+      .flatMap((res) => this.createMember(newGroup.uuid, patient.uuid));
+  }
+
   getMemberCohortsByPatientUuid(patientUuid: string): Observable < any > {
     const url = this.getOpenMrsGroupModuleUrl();
     const params = new HttpParams()
@@ -77,7 +82,7 @@ export class CommunityGroupMemberService {
 
   validateMemberEnrollment(programsEnrolled: any, groupsEnrolled: Group[], groupToEnroll: Group): GroupEnrollmentValidation {
         // tslint:disable-next-line:prefer-const
-        let validations: GroupEnrollmentValidation;
+        let validations: GroupEnrollmentValidation = new GroupEnrollmentValidation();
         try {
             const groupProgramUuid = this.communityService.getGroupAttribute('programUuid', groupToEnroll.attributes).value;
             const patientEnrolledInGroupProgram = this._isPatientEnrolledInGroupProgram(programsEnrolled, groupProgramUuid);
@@ -105,38 +110,70 @@ export class CommunityGroupMemberService {
   private _isPatientAlreadyEnrolledInGroup(groupsEnrolled, groupToEnrollUuid) {
       const found = _.find(groupsEnrolled, (group) => group.cohort.uuid === groupToEnrollUuid);
       if (found) {
-          return true;
+          return {
+            found: true,
+            data: found
+          };
       } else {
-          return false;
+          return {
+            found: false,
+            data: null
+          };
       }
   }
 
   private _isPatientEnrolledInAnotherGroupInSameProgram(groupsEnrolled, groupProgramUuid) {
       let found;
+      let _group;
       _.forEach(groupsEnrolled, (group) => {
           found = _.find(group.cohort.attributes, (attribute) => attribute.value === groupProgramUuid);
+          if (!_.isUndefined(found)) {
+            _group = group;
+          }
           return _.isUndefined(found);
       });
       if (found) {
-          return true;
+          return {
+            found: true,
+            data: _group
+          };
       } else {
-          return false;
+          return {
+            found: false,
+            data: null
+          };
       }
 
   }
   private _isPatientEnrolledInGroupProgram(programsEnrolled: any[], groupProgramUuid): any {
-    const found = _.find(programsEnrolled, (program) => program.programUuid === groupProgramUuid);
+    const currentProgramsEnrolled = _.filter(programsEnrolled, (program) => program.dateCompleted == null);
+    const found = _.find(currentProgramsEnrolled, (program) => program.programUuid === groupProgramUuid);
     if (found) {
-        return true;
+        return {
+          found: true,
+          data: found
+        };
     } else {
-        return false;
+        return {
+          found: false,
+          data: null
+        };
     }
   }
 
 }
 
-export interface GroupEnrollmentValidation {
-    alreadyEnrolled: boolean;
-    enrolledInAnotherGroupInSameProgram: boolean;
-    notEnrolledInGroupProgram: boolean;
+export class GroupEnrollmentValidation {
+    alreadyEnrolled: {
+      found: boolean;
+      data: any;
+    };
+    enrolledInAnotherGroupInSameProgram: {
+      found: boolean;
+      data: any;
+    };
+    notEnrolledInGroupProgram: {
+      found: boolean;
+      data: any;
+    };
 }

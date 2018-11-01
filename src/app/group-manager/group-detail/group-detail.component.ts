@@ -15,6 +15,7 @@ import { DatePickerModalComponent } from '../modals/date-picker-modal.component'
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
 import { SuccessModalComponent } from '../modals/success-modal.component';
 import { GridOptions } from 'ag-grid';
+import { GroupTransferModalComponent } from '../modals/group-transfer-modal.component';
 
 @Component({
   selector: 'group-detail',
@@ -23,6 +24,7 @@ import { GridOptions } from 'ag-grid';
 })
 
 export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  enrollmentErrorMessage: string;
   validatingEnrollment: boolean;
   public successMessage: string;
   @ViewChild(AgGridNg2) dataGrid: AgGridNg2;
@@ -94,7 +96,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
       if (params.newGroup) {
-        this.showGroupCreatedSuccessMessage();
+        this.showSuccessMessage('Group Created Successfully!');
       }
     });
   }
@@ -108,8 +110,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadGroup();
   }
 
-  public showGroupCreatedSuccessMessage() {
-    this.successMessage = 'Group Created Successfully';
+  public showSuccessMessage(msg) {
+    this.successMessage = msg;
     setTimeout(() => {
       this.successMessage = null;
     }, 7000);
@@ -118,6 +120,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
     this.subscriptions.add(this.communityGroupService.getGroupByUuid(uuid).subscribe((res) => {
       this.group = res;
+      _.forEach(this.group.cohortMembers, (member) => {
+        member['phoneNumber'] = _.filter(member.patient.person.attributes,
+          (attribute) => attribute.attributeType.uuid === '72a759a8-1359-11df-a1f1-0026b9348838')[0];
+      });
       this.activeMembers = _.filter(res.cohortMembers, (member) => !member.endDate);
       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
         return Math.abs(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
@@ -359,43 +365,68 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public validateMemberEnrollment(patient) {
     this.validatingEnrollment = true;
+    this.enrollmentErrorMessage = null;
     this.communityGroupMemberService.getCurrentlyEnrolledProgramsAndGroups(patient.uuid).subscribe(
       (results) => {
         const programsEnrolled =  results[0];
         const groupsEnrolled = results[1];
         let currentGroupsEnrolled = [];
-        if (groupsEnrolled.length) {
+        if (groupsEnrolled) {
           currentGroupsEnrolled = _.filter(groupsEnrolled, (group) => !group.voided);
         }
         const validation = this.communityGroupMemberService.validateMemberEnrollment(programsEnrolled, currentGroupsEnrolled, this.group);
+        console.log(validation);
         switch (true) {
-          case validation.alreadyEnrolled:
+          case validation.alreadyEnrolled.found:
+              this.validatingEnrollment = false;
               this.showEnrollmentAlert('Patient already enrolled in this group!');
               break;
-          // case validation.enrolledInAnotherGroupInSameProgram:
-          //     this.showTransferConfirmationModal();
-          //     break;
-          case validation.notEnrolledInGroupProgram:
+          case !validation.notEnrolledInGroupProgram.found:
+             this.validatingEnrollment = false;
              this.showEnrollmentAlert('Enroll patient to DC Program first from patient dashboard.');
              break;
-          default: this.enrollPatientToGroup(this.group, patient);
+          case validation.enrolledInAnotherGroupInSameProgram.found:
+             this.validatingEnrollment = false;
+             const groupToUnenroll = validation.enrolledInAnotherGroupInSameProgram.data;
+             this.showTransferConfirmationModal(this.group, groupToUnenroll, patient);
+             break;
+          default:
+          this.validatingEnrollment = false;
+          this.enrollPatientToGroup(this.group, patient);
           }
         });
   }
 
-  private enrollPatientToGroup(group, patient) {
-    console.log('Enrolling');
+  private enrollPatientToGroup(group: Group, patient: Patient) {
+    this.communityGroupMemberService.createMember(group.uuid, patient.uuid).subscribe((result) => {
+      this.reloadData();
+      this.modalRef.hide();
+      this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${group.name}`);
+    });
   }
 
   private showEnrollmentAlert(msg: string) {
-    console.log(msg);
+    this.enrollmentErrorMessage = msg;
   }
 
-  private transferPatientFromGroup() {
-
+  private transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient) {
+    this.communityGroupMemberService.transferMember(groupToUnenroll, groupToEnroll, patient)
+    .subscribe((res) => {
+      this.reloadData();
+      this.modalRef.hide();
+      this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`);
+    },
+    (error) => console.log(error));
   }
 
-  private showTransferConfirmationModal() {
+  private showTransferConfirmationModal(groupToEnroll, groupToUnenroll, patient) {
+    this.nestedModalRef = this.modalService.show(GroupTransferModalComponent,
+      {initialState: { groupToEnroll, groupToUnenroll, patient }});
+    this.nestedModalRef.content.onConfirm.subscribe((confirmed) => {
+      if (confirmed) {
+        this.transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient);
+      }
+    });
 
   }
 }
