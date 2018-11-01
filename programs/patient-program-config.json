@@ -803,7 +803,7 @@
       {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
         "message": "Patient must not have prior clinical encounter.",
-        "allowedIf": "age > 2 && isFirstAMPATHHIVVisit",
+        "allowedIf": "age > 2 && !hasPreviousInitialVisit",
         "name": "PMTCT Antenatal Initial Visit",
         "encounterTypes": [
           {
@@ -831,7 +831,7 @@
       {
         "uuid": "02e3ce61-fa24-445e-a1f0-6e3299142966",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "!isFirstAMPATHHIVVisit",
+        "allowedIf": "hasPreviousInitialVisit",
         "name": "PMTCT Antenatal Return Visit",
         "encounterTypes": [
           {
@@ -859,12 +859,16 @@
       {
         "uuid": "b1a978ca-9315-4ba2-ac2b-84efb9a68c5c",
         "message": "Patient must not have prior clinical encounter.",
-        "allowedIf": "age > 2 && isFirstAMPATHHIVVisit",
+        "allowedIf": "!hasPreviousInitialVisit",
         "name": "PMTCT Postnatal Initial Visit",
         "encounterTypes": [
           {
             "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTINITIAL"
+          },
+          {
+            "uuid": "8d5b2dde-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "PEDSINITIAL"
           },
           {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
@@ -887,7 +891,7 @@
       {
         "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "!isFirstAMPATHHIVVisit",
+        "allowedIf": "hasPreviousInitialVisit",
         "name": "PMTCT Postnatal Return Visit",
         "encounterTypes": [
           {
