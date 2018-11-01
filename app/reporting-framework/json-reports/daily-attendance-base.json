@@ -77,6 +77,11 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "encounter_type not in (21,99999)",
                 "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression":  "t2.is_clinical = 1",
+                "parameterName": ""
             }
         ]
     }

@@ -133,6 +133,11 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "t2.rtc_date = max_rtc_date",
                 "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression":  "t2.is_clinical = 1",
+                "parameterName": ""
             }
         ]
     }
