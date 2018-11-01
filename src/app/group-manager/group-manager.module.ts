@@ -8,6 +8,7 @@ import { GroupDetailComponent } from './group-detail/group-detail.component';
 import { GroupManagerRouting } from './group-manager.routes';
 import { GroupDetailSummaryComponent } from './group-detail/group-detail-summary.component';
 import { DatePickerModalComponent } from './modals/date-picker-modal.component';
+import { GroupTransferModalComponent } from './modals/group-transfer-modal.component';
 import { SuccessModalComponent } from './modals/success-modal.component';
 import { GroupEditorComponent } from './group-editor/group-editor-component';
 import { GroupSearchInputComponent } from './group-manager-search/group-search-input/group-search-input.component';
@@ -22,7 +23,8 @@ import { PatientSearchModule } from '../patient-search/patient-search.module';
         DatePickerModalComponent,
         SuccessModalComponent,
         GroupEditorComponent,
-        GroupSearchInputComponent
+        GroupSearchInputComponent,
+        GroupTransferModalComponent
     ],
     imports: [
         CommonModule,
@@ -40,6 +42,7 @@ import { PatientSearchModule } from '../patient-search/patient-search.module';
     ],
     entryComponents: [
         DatePickerModalComponent,
-        SuccessModalComponent    ]
+        SuccessModalComponent,
+        GroupTransferModalComponent    ]
 })
 export class GroupManagerModule {}
