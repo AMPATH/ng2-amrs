@@ -78,7 +78,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t6.program_type_id in ?",
+                "conditionExpression": "t2.program_id in ?",
                 "parameterName": "programTypeIds"
             },
             {
