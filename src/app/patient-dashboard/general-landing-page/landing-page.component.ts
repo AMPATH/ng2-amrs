@@ -94,24 +94,22 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public patientHasBeenSeenInProgram(program) {
-    if (!_.isUndefined(program.referred_from_location)) {
+    if (!_.isUndefined(program.referred_to_location_uuid)) {
       const patientEncounters = this.patient.encounters;
-      const enrollmentForms = this.filterRequiredEnrollmentForms(program);
-      let referralEncounter = _.find(patientEncounters, (encounter) => {
-        // patient was referred to this location
-        if (encounter.location.uuid === program.referred_from_location_uuid
-          && _.includes(enrollmentForms, encounter.encounterType.uuid)) {
-
-          const localEncounter = _.find(patientEncounters, (_encounter) => {
-            return moment(_encounter.encounterDatetime)
-              .isAfter(moment(encounter.encounterDatetime));
-          });
-          return !_.isNil(localEncounter);
+      let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+      // patient was referred to this location
+      if (location.uuid === program.referred_to_location_uuid) {
+        let referralEncounter = _.find(patientEncounters, (encounter) => {
+          return encounter.location.uuid === program.referred_from_location_uuid
+            && program.encounter_uuid === encounter.uuid;
+        });
+        if (!_.isNil(referralEncounter)) {
+          return this.hasValidVisitInReferredLocation(referralEncounter, patientEncounters,
+            location.uuid);
         }
-
         return false;
-      });
-      return !_.isNil(referralEncounter)
+      }
+      return false;
     }
 
     return false;
@@ -182,6 +180,20 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     return [];
   }
 
+  private hasValidVisitInReferredLocation(referralEncounter: any , encounters: any[],
+                                          locationUuid: string) {
+    // search for visit encounters who's location is the referred to location
+    const encounterWithVisit = _.find(encounters, (encounter) => {
+      return !_.isNull(encounter.visit) && encounter.visit.location.uuid === locationUuid;
+    });
+    if (!_.isNil(encounterWithVisit)) {
+      // visit date must be after the referral encounter date
+      return moment(encounterWithVisit.visit.startDatetime)
+        .isAfter(moment(referralEncounter.encounterDatetime));
+    }
+    return false;
+  }
+
   private loadProgramBatch(): void {
     this._resetVariables();
     this.programsBusy = true;
@@ -200,6 +212,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
                     referral_completed : !_.isNil(referral.notification_status)
                   });
                   if (this.patientHasBeenSeenInProgram(program)) {
+                    console.log('Patient seen');
                     program.referral_completed = true;
                     this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => {});
                   }

@@ -16,7 +16,9 @@ export class PrettyEncounterViewerComponent implements OnInit {
 
     public selectedEncounter: any;
     @Input() set encounter(encounter) {
+      if(encounter) {
         this.displayEncounterObs(encounter);
+      }
     }
     public form: Form;
     public showLoader: boolean;
