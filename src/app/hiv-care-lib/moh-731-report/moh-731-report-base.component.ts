@@ -29,7 +29,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public showTabularView: boolean = true;
   public showPatientListLoader: boolean = false;
   public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
+  public showInfoMessage: boolean = false;
   public errorMessage: string = '';
   public currentView: string = 'pdf'; // can be pdf or tabular or patientList
   public currentIndicator: string = '';
@@ -104,7 +104,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public generateReport() {
     // set busy indications variables
     // clear error
-    this.encounteredError = false;
+    this.showInfoMessage = false;
     this.statusError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
@@ -118,19 +118,23 @@ export class Moh731ReportBaseComponent implements OnInit {
           (data) => {
             if (data.error) {
                 // if there is an error
-                this.processErrorMsg(data);
-                this.encounteredError = true;
+                this.processInfoMsg(data);
+                this.showInfoMessage = true;
             } else {
-
-                this.sectionsDef = data.sectionDefinitions;
-                this.data = data.result;
-
+                // simple way to avoid a report with dashes. If this columnm exists, the report is full
+                if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
+                  this.showInfoMessage = true;
+                  this.processInfoMsg(data, true);
+                } else {
+                  this.sectionsDef = data.sectionDefinitions;
+                  this.data = data.result;
+                }
             }
             this.isLoadingReport = false;
           }, (error) => {
             this.isLoadingReport = false;
             this.errorMessage = error;
-            this.encounteredError = true;
+            this.showInfoMessage = true;
           });
   }
 
@@ -220,9 +224,9 @@ export class Moh731ReportBaseComponent implements OnInit {
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
   }
-  private processErrorMsg(errorObj: any) {
+  private processInfoMsg(message: any, isEmpty: boolean = false) {
 
-    if (errorObj.error === 404) {
+    if (message.error === 404 || isEmpty) {
       this.errorMessage =
       'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
       this.statusError = true;
