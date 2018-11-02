@@ -1,4 +1,3 @@
-
 <h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> MOH 731 Report</h4>
 <div class="loader" *ngIf="isLoadingReport||showPatientListLoader"><span><i class="fa fa-spinner fa-spin">
       </i>Loading...</span></div>
@@ -10,7 +9,7 @@
     (generateReport)="generateReport()">
 
 </moh-731-report-filters>
-<div class="alert alert-danger fade in" *ngIf="encounteredError">
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
     <a href="#" class="close" data-dismiss="alert">&times;</a>
     <h4 *ngIf="!statusError"><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occurred while trying to load the report.
         Please try again.
@@ -19,7 +18,7 @@
         <small >{{errorMessage}}</small>
     </p>
 </div>
-<div *ngIf="!isLoadingReport && !encounteredError">
+<div *ngIf="!isLoadingReport && !showInfoMessage">
     <p-tabView (onChange)="onTabChanged($event)">
         <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
             <moh-731-pdf #mohPdf [selectedLocations]="locationUuids" [isAggregated]="isAggregated" [startDate]="startDate" [endDate]="endDate" [data]="data" [sectionsDef]="sectionsDef"></moh-731-pdf>
