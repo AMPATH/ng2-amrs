@@ -18,6 +18,7 @@ import { CommunityGroupMemberService } from '../../../../openmrs-api/community-g
 import { CommunityGroupService } from '../../../../openmrs-api/community-group-resource.service';
 import { ProviderResourceService } from '../../../../openmrs-api/provider-resource.service';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-visit-starter',
@@ -26,7 +27,6 @@ import { Subscription } from 'rxjs';
 })
 export class VisitStarterComponent implements OnInit, OnDestroy {
 
-  @ViewChild('startGroupVisitModal') public startGroupVisitModal;
 
   public programVisitsConfig: any = {};
   public modalRef: BsModalRef;
@@ -44,7 +44,8 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   public isGroupRetrospective = false;
   public retroSettings: any;
   public _patientEnrolledInGroup: boolean;
-
+  public groupVisitStartedFromClinicDashboard: boolean;
+  @ViewChild('startGroupVisitModal') public startGroupVisitModal;
   private _patientUuid: string;
   @Input() set patientEnrolledInGroup(enrolled: boolean) {
     this._patientEnrolledInGroup = enrolled;
@@ -114,11 +115,18 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     private communityGroupMemberService: CommunityGroupMemberService,
     private communityGroupService: CommunityGroupService,
     private datePipe: DatePipe,
+    private route: ActivatedRoute,
     private providerResourceService: ProviderResourceService,
   ) { }
 
   public ngOnInit() {
     this.setUserDefaultLocation();
+    this.route.queryParams.subscribe((queryParams) => {
+      if (queryParams['groupUuid']) {
+        this._patientEnrolledInGroup = true;
+        this.groupVisitStartedFromClinicDashboard = true;
+      }
+    });
     // this.getCurrentProgramEnrollmentConfig();
   }
 

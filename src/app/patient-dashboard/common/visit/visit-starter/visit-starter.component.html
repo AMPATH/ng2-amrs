@@ -11,7 +11,7 @@
 </div>
 <div *ngIf="!isBusy" class="list-group">
   <div id="allowedVisitList" class="list-group-item" *ngFor="let visitType of visitTypes">
-    <div class="visit-area" *ngIf="(visitType.groupVisit && _patientEnrolledInGroup) || !visitType.groupVisit">
+    <div class="visit-area" *ngIf="(visitType.groupVisit && _patientEnrolledInGroup) || (!visitType.groupVisit && !groupVisitStartedFromClinicDashboard)">
       <a class="question-tooltip pull-right" *ngIf="visitType.message"><i class="glyphicon glyphicon-question-sign"></i></a>
       <a id="startVisitButton" style="width:100%; text-align: left;
                   " (click)="startVisit(visitType)"
