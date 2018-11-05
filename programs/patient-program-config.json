@@ -586,7 +586,7 @@
         "incompatible": [{
           "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
           "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": true
+          "required": false
         }],
         "intraAmpath": [],
         "discharge": [{
