@@ -43,9 +43,12 @@ export class CdmProgramSnapshotComponent implements OnInit {
     this.cdmSummaryResourceService.getCdmSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
         this.loadingData = false;
         this.hasLoadedData = true;
+        this.hasData = true;
         this.patientData = _.first(_.filter(results, (encounter: any) => {
           return encounter.is_clinical_encounter === 1;
         }));
+    }, (err) => {
+      this.hasError = true;
     });
   }
 
