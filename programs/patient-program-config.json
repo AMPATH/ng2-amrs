@@ -588,17 +588,6 @@
           "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
           "name": "AMPATH POC Know Your Status Form v1.0",
           "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }],
-        "nonAmpath": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
         }]
       }
     },
