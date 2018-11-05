@@ -25,7 +25,7 @@ import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.serv
 import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
 import { TitleCasePipe } from './shared/pipes/title-case.pipe';
 import { LocalStorageService } from './utils/local-storage.service';
-import { CacheService } from 'ionic-cache';
+import { CacheModule } from 'ionic-cache';
 import { DataCacheService } from './shared/services/data-cache.service';
 import { FeedBackComponent } from './feedback';
 // import { FormVisitTypeSearchModule } from './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module';
@@ -74,10 +74,11 @@ interface StoreType {
     NgamrsSharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, {  paramsInheritanceStrategy: 'always',useHash: true, enableTracing: false }),
+    RouterModule.forRoot(ROUTES, {  paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CacheModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
@@ -95,7 +96,6 @@ interface StoreType {
       useClass: PocHttpInteceptor,
       multi: true
     },
-    CacheService,
     DataCacheService
   ],
   exports: [
