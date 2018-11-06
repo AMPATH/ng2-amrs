@@ -180,6 +180,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    // this.isBusyIndicator(true, 'Please wait, Submitting form');
     setTimeout(() => {
       if (!this.form.valid && this.form.showErrors) {
         document.body.scrollTop = 0;
@@ -189,6 +190,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
     if (!isSaving) {
       this.submitForm();
+    } else {
+      this.isBusyIndicator(false, '');
     }
   }
 
@@ -727,12 +730,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
+    this.isBusyIndicator(true, 'Please wait, saving form...');
     this.form.showErrors = !this.form.valid;
     this.disableSubmitBtn();
     // this.handleFormReferrals();
     if (this.form.valid) {
       this.formSubmissionService.setSubmitStatus(true);
-      this.isBusyIndicator(true, 'Please wait, saving form...');
+      // this.isBusyIndicator(true, 'Please wait, saving form...');
       // clear formSubmissionErrors
       this.formSubmissionErrors = null;
       // reset submitted orders
@@ -751,11 +755,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
     } else {
       this.form.markInvalidControls(this.form.rootNode);
       this.enableSubmitBtn();
+      this.isBusyIndicator(false, '');
     }
 
   }
 
   private saveEncounterOrUpdate(payloadTypes) {
+    this.isBusyIndicator(true, 'Please wait, saving form...');
     this.formSubmissionService.submitPayload(this.form, payloadTypes).pipe(take(1)).subscribe(
       (data) => {
         this.isBusyIndicator(false); // hide busy indicator
@@ -1019,6 +1025,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private confirmRetrospectiveSubmission(payloadTypes): void {
+    this.isBusyIndicator(false);
     this.confirmationService.confirm({
       header: 'Retrospective Form Submission',
       message: 'This form is going to be submitted retrospectively. ' +
