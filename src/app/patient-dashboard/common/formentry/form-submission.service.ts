@@ -207,9 +207,9 @@ export class FormSubmissionService {
     if (_.isEmpty(response.error)) {
       message = 'Please check your internet connection, you seem to be offline.';
     } else {
-      if (!_.isEmpty(response.error.fieldErrors)) { // handle field errors
-        let arrayErrors: Array<any> = [];
-        _.each(_.values(response.error.fieldErrors), (fieldErrors) => {
+      if (!_.isEmpty(response.error.error.fieldErrors)) { // handle field errors
+        const arrayErrors: Array<any> = [];
+        _.each(_.values(response.error.error.fieldErrors), (fieldErrors) => {
           _.each(fieldErrors, (error: any) => {
             arrayErrors.push(error.message);
           });
