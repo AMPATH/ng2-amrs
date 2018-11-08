@@ -17,6 +17,7 @@ import { UserDefaultPropertiesService
 
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramManagerService } from '../program-manager.service';
+import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
 
 @Component({
   selector: 'new-program',
@@ -44,6 +45,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
               public patientProgramResourceService: PatientProgramResourceService,
               public cdRef: ChangeDetectorRef,
               public localStorageService: LocalStorageService,
+              private routesProviderService: RoutesProviderService,
               private programManagerService: ProgramManagerService) {
     super(
       patientService,
@@ -208,6 +210,16 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     });
   }
 
+  public startVisit() {
+    const dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
+    const route: any = _.find(dashboardRoutesConfig.programs, (_route: any) =>
+      _route['programUuid'] === this.newlyEnrolledProgram.program.uuid);
+    let _route = '/patient-dashboard/patient/' + this.patient.uuid + '/' + route.alias + '/' +
+      route.baseRoute + '/visit';
+
+    this.router.navigate([_route], {});
+  }
+
   public referPatient() {
     this.removeMessage();
     this.enrolling = true;
@@ -231,6 +243,9 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
 
         this.enrolling = false;
         this.completeEnrollment();
+      } else {
+        this.enrolling = false;
+        this.showMessage('Error. Could not refer the patient');
       }
 
     }, (error) => {
@@ -410,7 +425,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.jumpStep = this.currentStep;
     this.title = 'Program Successfully Started';
     this.unenrolledProgrames = this.getSerializedStepInfo('incompatibleProgrames');
-    this.tick(3000).then(() => {
+    this.tick(300).then(() => {
       this.refreshPatient();
       this.localStorageService.remove('pm-data');
     });
