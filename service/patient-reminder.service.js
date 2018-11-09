@@ -25,47 +25,97 @@ function viralLoadReminders(data) {
             data.months_since_last_vl_date + ' months ago.';
     }
 
-    switch (data.needs_vl_coded) {
-        case 1:
-            reminders.push({
-                message: 'Patient requires viral load. Viral loads > 1000 ' +
-                'must be repeated in three months. ' + labMessage,
-                title: 'Viral Load Reminder',
-                type: 'danger',
-                display: {
-                    banner: true,
-                    toast: true
-                }
-            });
-            break;
-        case 2:
-            reminders.push({
-                message: 'Patient requires viral load. Patients newly on ART require ' +
-                'a viral load test every 6 months. ' + labMessage,
-                title: 'Viral Load Reminder',
-                type: 'danger',
-                display: {
-                    banner: true,
-                    toast: true
-                }
-            });
-            break;
-        case 3:
-            reminders.push({
-                message: 'Patient requires viral load. Patients on ART > 1 year require ' +
-                'a viral load test every year. ' + labMessage,
-                title: 'Viral Load Reminder',
-                type: 'danger',
-                display: {
-                    banner: true,
-                    toast: true
-                }
-            });
-            break;
-        default:
-            console.info.call('No Clinical Reminder For Selected Patient' + data.needs_vl_coded);
+    let isAdult = checkAge(new Date(data.birth_date));
+    
+    if (!isAdult && data.months_since_last_vl_date >= 6) {
+        reminders.push({
+            message: 'Patient requires viral load. Patients who are between 0-24 years old ' +
+            'require a viral load test every 6 months. ' + labMessage,
+            title: 'Viral Load Reminder',
+            type: 'danger',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
+    } else if (isAdult && data.needs_vl_coded === 2 && data.months_since_last_vl_date >= 6 ) {
+        reminders.push({
+            message: 'Patient requires viral load. Patients older than 25 years and newly on ART require ' +
+            'a viral load test every 6 months. ' + labMessage,
+            title: 'Viral Load Reminder',
+            type: 'danger',
+            display: {
+                banner: true,
+                toast: true
+            }
+        }); 
+    } else if (isAdult && data.needs_vl_coded === 3 && data.months_since_last_vl_date >= 12) {
+        reminders.push({
+            message: 'Patient requires viral load. Patients older than 25 years and on ART > 1 year require ' +
+            'a viral load test every year. ' + labMessage,
+            title: 'Viral Load Reminder',
+            type: 'danger',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
+    } else if (data.is_pregnant === 1 && data.needs_vl_coded === 4 && data.viral_load < 1000 && data.viral_load === null) {
+        reminders.push({
+            message: 'Patient requires viral load. A pregnant woman newly on ART requires ' +
+            'a viral load test at 3 months. ' + labMessage,
+            title: 'Viral Load Reminder',
+            type: 'danger',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
+    } else if (data.is_pregnant === 1 && data.needs_vl_coded === 4 && data.viral_load >= 1000 && data.last_vl_date >= 3) {
+        reminders.push({
+            message: 'Patient requires viral load. A pregnant woman newly on ART and VL > 1000 year requires ' +
+            'a viral load test every 3 months. ' + labMessage,
+            title: 'Viral Load Reminder',
+            type: 'danger',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
+    } else if (data.is_pregnant === 1 && data.is_postnatal === 1 && data.needs_vl_coded === 4 && data.last_vl_date >= 3) {
+        reminders.push({
+            message: 'Patient requires viral load. A postnatal woman newly on ART requires ' +
+            'a viral load test every 3 months. ' + labMessage,
+            title: 'Viral Load Reminder',
+            type: 'danger',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
     }
+
     return reminders;
+}
+
+function checkAge(dateString) {
+    let today = new Date();
+    let birthDate = new Date(dateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    isInfant(dateString);
+    if (age <= 24) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function isInfant(dateString) {
+    let months = Moment().diff(dateString, 'months');
 }
 
 function qualifiesDifferenciatedReminders(data){
@@ -78,21 +128,21 @@ function qualifiesDifferenciatedReminders(data){
             data.months_since_last_vl_date + ' months ago.';
     }
 
-    switch (data.qualifies_differenciated_care) {
-        case 1:
-            reminders.push({
-                message: 'Patient qualifies for differentiated care. Viral loads < 1000 and age > 18 ' + diffMessage,
-                title: 'Differentiated Care Reminder',
-                type: 'warning',
-                display: {
-                    banner: true,
-                    toast: true
-                }
-            });
-            break;
-        default:
-            console.info.call('No Differenciated Care Reminder For Selected Patient' + data.qualifies_differenciated_care);
+    if (data.qualifies_differenciated_care && data.is_postnatal === 0  && data.is_pregnant === 0) {
+        reminders.push({
+            message: 'Patient qualifies for differentiated care. Viral load is LDL and age >= 20. ' + diffMessage,
+            title: 'Differentiated Care Reminder',
+            type: 'warning',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
+            
+    } else {
+        console.info.call('No Differenciated Care Reminder For Selected Patient' + data.qualifies_differenciated_care);
     }
+    
     return reminders;
 
 }
@@ -254,6 +304,66 @@ function qualifiesEnhancedReminders(data) {
             break;
         default:
             console.info.call('No Enhanced Care Reminder For Selected Patient' + data.qualifies_enhanced);
+        
+    }
+
+    return reminders;
+
+}
+
+function dnaReminder(data) {
+    let reminders = [];
+
+    if (data.is_infant === 1) {
+        switch (data.dna_pcr_reminder) {
+            case 1:
+                reminders.push({
+                    message: 'HIV Exposed Infants require a DNA/PCR test at the age of 0-6 weeks.',
+                    title: 'DNA/PCR Reminder',
+                    type: 'warning',
+                    display: {
+                      banner: true,
+                      toast: true
+                    }
+                });
+                break;
+            case 2:
+                reminders.push({
+                    message: 'HIV Exposed Infants require a DNA/PCR test at the age of 6 months.',
+                    title: 'DNA/PCR Reminder',
+                    type: 'warning',
+                    display: {
+                      banner: true,
+                      toast: true
+                    }
+                });
+                break;
+            case 3:
+                reminders.push({
+                    message: 'HIV Exposed Infants require a DNA/PCR test at the age of 12 months.',
+                    title: 'DNA/PCR Reminder',
+                    type: 'warning',
+                    display: {
+                      banner: true,
+                      toast: true
+                    }
+                });
+                break;
+            case 4:
+                reminders.push({
+                    message: 'HIV Exposed Infants require an Antibody test at the age of 18-24 months.',
+                    title: 'DNA/PCR Reminder',
+                    type: 'warning',
+                    display: {
+                      banner: true,
+                      toast: true
+                    }
+                });
+                break;
+            default:
+                console.info.call('No DNA/PCR Reminder For Selected Patient' + data.qna_pcr_reminder);
+        }
+        
     }
 
     return reminders;
@@ -279,6 +389,7 @@ function generateReminders(etlResults, eidResults) {
   let inh_reminders = inhReminders(data);
   let vl_reminders = viralLoadReminders(data);
   let qualifies_enhanced = qualifiesEnhancedReminders(data);
+  let dna_pcr_reminder = dnaReminder(data);
   let currentReminder = [];
   if(pending_vl_lab_result.length> 0) {
     currentReminder = pending_vl_lab_result.concat(inh_reminders);
@@ -289,7 +400,8 @@ function generateReminders(etlResults, eidResults) {
       inh_reminders,
       qualifies_differenciated_care_reminders,
       vl_reminders,
-      qualifies_enhanced);
+      qualifies_enhanced,
+      dna_pcr_reminder);
   }
   
   reminders = reminders.concat(currentReminder);
@@ -309,6 +421,3 @@ function transformZeroVl(vl){
     } 
 
 }
-
-
-
