@@ -732,11 +732,15 @@
           "answers" : [
             {
               "value": "positive",
-              "label": "Yes"
+              "label": "Pregnant"
             },
             {
               "value": "negative",
-              "label": "No"
+              "label": "Not Pregnant"
+            },
+            {
+              "value": "positive",
+              "label": "Not applicable(child)"
             }
           ],
           "relatedQuestions": [
