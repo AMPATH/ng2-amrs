@@ -215,6 +215,51 @@ function pendingViralLoadLabResult(eidResults) {
   return reminders;
 }
 
+function qualifiesEnhancedReminders(data) {
+    let reminders = [];
+
+    switch (data.qualifies_enhanced) {
+        case 1:
+            reminders.push({
+                message: 'The Patient’s Viral load is greater than 1000. Patients with viral load greater than 1000 should be enrolled in the Enhanced Adherence HIV Program.',
+                title: 'Enhanced Adherence HIV Program',
+                type: 'warning',
+                display: {
+                    banner: true,
+                    toast: true
+                }
+            });
+            break;
+        case 2:
+            reminders.push({
+                message: 'The patient is eligible to return to the Standard HIV Program.',
+                title: 'Enhanced Adherence HIV Program',
+                type: 'warning',
+                display: {
+                    banner: true,
+                    toast: true
+                }
+            });
+            break;
+        case 3:
+            reminders.push({
+                message: 'Patient requires 3 months repeat VL',
+                title: 'Enhanced Adherence HIV Program',
+                type: 'warning',
+                display: {
+                    banner: true,
+                    toast: true
+                }
+            });
+            break;
+        default:
+            console.info.call('No Enhanced Care Reminder For Selected Patient' + data.qualifies_enhanced);
+    }
+
+    return reminders;
+
+}
+
 function generateReminders(etlResults, eidResults) {
   let reminders = [];
   let patientReminder;
@@ -233,6 +278,7 @@ function generateReminders(etlResults, eidResults) {
   let qualifies_differenciated_care_reminders = qualifiesDifferenciatedReminders(data);
   let inh_reminders = inhReminders(data);
   let vl_reminders = viralLoadReminders(data);
+  let qualifies_enhanced = qualifiesEnhancedReminders(data);
   let currentReminder = [];
   if(pending_vl_lab_result.length> 0) {
     currentReminder = pending_vl_lab_result.concat(inh_reminders);
@@ -242,7 +288,8 @@ function generateReminders(etlResults, eidResults) {
       pending_vl_orders,
       inh_reminders,
       qualifies_differenciated_care_reminders,
-      vl_reminders);
+      vl_reminders,
+      qualifies_enhanced);
   }
   
   reminders = reminders.concat(currentReminder);

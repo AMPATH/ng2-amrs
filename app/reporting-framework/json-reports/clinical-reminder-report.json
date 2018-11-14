@@ -46,6 +46,14 @@
               "type": "left",
               "joinCondition": "t3.person_uuid = t1.uuid"
             }
+        },
+        {                                                                                                                                                                                                                                                                                                                                                                                    
+            "table": "amrs.patient_program",                                                                                                                                                                                                                                                                                                                                                    
+            "alias": "t7",                                                                                                                                                                                                                                                                                                                                                                   
+            "join": {                                                                                                                                                                                                                                                                                                                                                                        
+                "type": "left",                                                                                                                                                                                                                                                                                                                                                              
+                "joinCondition": "t1.person_id = t7.patient_id AND t7.program_id = 27 AND t7.date_completed IS NULL"                                                                                                                                                                                                                                                                                                                                
+            }                                                                                                                                                                                                                                                                                                                                                                                
         }
     ],
     "columns": [
@@ -200,6 +208,14 @@
             "expressionOptions": {
                 "expression": "DATEDIFF(DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY), now())"
             }
+        },
+        {                                                                                                                                                                                                                                                                                                                                                                                    
+            "type": "derived_column",                                                                                                                                                                                                                                                                                                                                                        
+            "alias": "qualifies_enhanced",                                                                                                                                                                                                                                                                                                                                                            
+            "expressionType": "simple_expression",                                                                                                                                                                                                                                                                                                                                           
+            "expressionOptions": {                                                                                                                                                                                                                                                                                                                                                           
+                "expression":"case when vl_1 >= 1000 and (t7.program_id is null) then 1 when (vl_1 between 1 and 999) and (t7.program_id is not null) then 2 when (t7.program_id is not null and t7.date_completed is null) and timestampdiff(month,vl_1_date, '{referenceDate}') >= 3 then 3 else 0 end"                                                                                                                                                                                                                                                             
+            }                                                                                                                                                                                                                                                                                                                                                                                
         }
     ],
     "indexDirectives": [
