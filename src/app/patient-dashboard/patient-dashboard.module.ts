@@ -32,6 +32,7 @@ import { HttpClient } from '../shared/services/http-client.service';
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { ProgramManagerModule
 } from '../program-manager/program-manager.module';
+import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.module';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { ProgramManagerModule
     PatientDashboardDermatologyModule,
     PatientSearchModule,
     ProgramManagerModule,
+    GroupEnrollmentModule,
     RouterModule.forChild(routes)
   ],
   declarations: [

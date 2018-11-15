@@ -43,7 +43,7 @@ import {
     NgamrsSharedModule,
     CalendarModule,
     RouterModule,
-    NgxMyDatePickerModule
+    NgxMyDatePickerModule.forRoot()
   ],
   exports: [
     EtlApi,

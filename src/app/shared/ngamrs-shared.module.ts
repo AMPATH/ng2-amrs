@@ -4,7 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { SelectModule } from 'ngx-select';
@@ -87,7 +87,7 @@ import { AppModalComponent } from './modal/app-modal.component';
     Angulartics2Module,
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     FormsModule,
-    NgxMyDatePickerModule,
+    NgxMyDatePickerModule.forRoot(),
     RouterModule,
     Ng2Bs3ModalModule,
     DateTimePickerModule,
@@ -113,15 +113,16 @@ import { AppModalComponent } from './modal/app-modal.component';
     ConfirmDialogModule, DialogModule,
     MatSnackBarModule, NgxPaginationModule,
     MatRadioModule, MatMenuModule, MatIconModule,
-    MatExpansionModule, MatButtonModule, MatTooltipModule,PdfViewerModule
+    MatExpansionModule, MatButtonModule, MatTooltipModule,
+    PdfViewerModule, ReactiveFormsModule
   ],
-  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent, AppModalComponent,
+  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent, AppModalComponent, AgGridModule,
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
-    DateSelectorComponent,PdfViewerModule , NgxMyDatePickerModule, GeneralLandingPageComponent,
+    DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
-    LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule,
+    LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
     CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
   declarations: [

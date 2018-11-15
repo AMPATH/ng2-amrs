@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
-
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { ProgramManagerBaseComponent } from '../base/program-manager-base.component';
 import { PatientService } from '../../patient-dashboard/services/patient.service';
@@ -18,6 +17,7 @@ import { UserDefaultPropertiesService
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramManagerService } from '../program-manager.service';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
+import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
 
 @Component({
   selector: 'new-program',
@@ -25,6 +25,7 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
   styleUrls: ['./new-program.component.css']
 })
 export class NewProgramComponent extends ProgramManagerBaseComponent implements OnInit {
+  newlyEnrolledGroup: any;
   public incompatibleProgrames: any[] = [];
   public unenrolledProgrames: any[] = [];
   public unenrollmentForms: string[] = [];
@@ -36,6 +37,10 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   public maxDate: string;
   public reasonForUnenroll: string = `
   The selected program is incompatible with the following programs, please unenroll to continue.`;
+  public enrollToGroup: string;
+  public groupEnrollmentState: any;
+  public patientCurrentGroups: any;
+
   constructor(public patientService: PatientService,
               public programService: ProgramService,
               public router: Router,
@@ -46,7 +51,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
               public cdRef: ChangeDetectorRef,
               public localStorageService: LocalStorageService,
               private routesProviderService: RoutesProviderService,
-              private programManagerService: ProgramManagerService) {
+              private programManagerService: ProgramManagerService,
+              private groupMemberService: CommunityGroupMemberService) {
     super(
       patientService,
       programService,
@@ -65,6 +71,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
         if (loaded) {
           this.loaded = true;
+          this.getCurrentPatientGroups(this.patient.uuid);
           if (params['step']) {
             this.loadOnParamInit(params);
           }
@@ -305,6 +312,9 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     let questionWithWrongAnswer = _.find(this.requiredProgramQuestions, (q) => {
       return question.qtype === q.qtype && q.value !== q.enrollIf;
     });
+    if (question.qtype === 'enrollToGroup') {
+      this.enrollToGroup = question.value;
+    }
 
     if (questionWithWrongAnswer) {
       this.preQualifyProgramEnrollment(questionWithWrongAnswer);
@@ -390,7 +400,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     const targetQuestion = _.find(questions, (q: any) => {
       return question.qtype === q.qtype;
     });
-    return targetQuestion? targetQuestion : question;
+    return targetQuestion ? targetQuestion : question;
   }
 
   private loadOnParamInit(params: any) {
@@ -420,15 +430,35 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   private completeEnrollment() {
-    this.enrollmentCompleted = true;
-    this.currentStep++;
-    this.jumpStep = this.currentStep;
-    this.title = 'Program Successfully Started';
-    this.unenrolledProgrames = this.getSerializedStepInfo('incompatibleProgrames');
-    this.tick(300).then(() => {
+    if (this.enrollToGroup === 'true') {
+      console.log('if(true)', this.enrollToGroup);
+      let count = 1;
+      this.refreshPatient().subscribe((refreshing) => {
+        if (!refreshing) {
+          this.groupEnrollmentState = {
+            patient: this.patient,
+            action: 'Enroll',
+            currentEnrolledPrograms: _.filter(this.enrolledProgrames, (program) => program.isEnrolled),
+            currentGroups: this.patientCurrentGroups
+          };
+          if (count === 1) {
+            this.currentStep++;
+            this.nextStep = true;
+            count++;
+          }
+        }
+      });
+    } else {
+      this.enrollmentCompleted = true;
+      this.currentStep = this.currentStep + 2;
+      this.jumpStep = this.currentStep;
+      this.title = 'Program Successfully Started';
+      this.unenrolledProgrames = this.getSerializedStepInfo('incompatibleProgrames');
+      this.tick(3000).then(() => {
       this.refreshPatient();
       this.localStorageService.remove('pm-data');
     });
+  }
 
   }
 
@@ -591,5 +621,18 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     return this.programVisitConfig && !_.isUndefined(this.programVisitConfig.enrollmentOptions)
       && !_.isUndefined(this.programVisitConfig.enrollmentOptions.requiredProgramQuestions);
   }
+
+  public goToSuccessStep(newGroup) {
+    this.currentStep++;
+    this.nextStep = true;
+    this.newlyEnrolledGroup = newGroup;
+  }
+
+  getCurrentPatientGroups(patientUuid: string) {
+    this.groupMemberService.getMemberCohortsByPatientUuid(patientUuid).subscribe((groups) => {
+      this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
+    });
+  }
+
 
 }

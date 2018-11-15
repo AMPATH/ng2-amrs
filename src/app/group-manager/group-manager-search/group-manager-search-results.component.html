@@ -1,0 +1,37 @@
+<div *ngIf="_groups" class="panel panel-primary">
+  <div class="panel panel-default">
+    <div class="container-fluid">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Group Number</th>
+            <th>Group Name</th>
+            <th>Facility</th>
+            <th>Landmark</th>
+            <th>Status</th>
+            <th>Actions</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor: pointer;" *ngFor="let group of _groups | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; "
+            (click)="selectGroup(group.uuid)">
+            <td> {{ getAttribute('groupNumber', group.attributes) }} </td>
+            <td>{{group.name}}</td>
+            <td *ngIf="group.location">{{group.location.display}}</td>
+            <td>{{ getAttribute('landmark', group.attributes) }}</td>
+            <td *ngIf="!group.location">-</td>
+            <td *ngIf="group.endDate == null">Active</td>
+            <td *ngIf="group.endDate != null">Inactive</td>
+            <td  *ngIf="group.endDate == null"><button class="btn btn-sm btn-danger" (click)="$event.stopPropagation(); showDisbandDateModal(group)">Disband
+              </button>
+            </td>
+            <td *ngIf="group.endDate"><button class="btn btn-sm btn-success" (click)="$event.stopPropagation(); activateGroup(group)">Activate
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls *ngIf="_groups.length > 10" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+    </div>
+  </div>

@@ -6,6 +6,16 @@ const PROXY_CONFIG = [
         ],
         target: "https://ngx.ampath.or.ke",
         secure: false
+    },
+    {
+        context: [
+            "/etl-latest",
+        ],
+        target: "http://localhost:8002",
+        secure: false,
+        pathRewrite: {
+            "^/etl-latest": ""
+          },
     }
 ]
 
