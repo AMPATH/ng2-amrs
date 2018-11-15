@@ -49,7 +49,8 @@ describe('Patient Reminder Service Unit Tests', function () {
                         "overdue_vl_lab_order": 0,
                         "new_viral_load_present": 0,
                         "months_since_last_vl_date": 32,
-                        "is_on_inh_treatment": 0
+                        "is_on_inh_treatment": 0,
+                        "qualifies_enhanced": 0
                     }
                 ]
             };
@@ -122,7 +123,8 @@ describe('Patient Reminder Service Unit Tests', function () {
             "overdue_vl_lab_order": 0,
             "new_viral_load_present": 0,
             "months_since_last_vl_date": 32,
-            "is_on_inh_treatment": 0
+            "is_on_inh_treatment": 0,
+            "qualifies_enhanced": 0
           }
         ]
       };
