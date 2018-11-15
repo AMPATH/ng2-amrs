@@ -250,7 +250,7 @@ describe('MonthlyScheduleComponent', () => {
         MatDatepickerModule,
         MatNativeDateModule,
         MatSlideToggleModule,
-        NgxMyDatePickerModule,
+        NgxMyDatePickerModule.forRoot(),
         DateTimePickerModule
       ],
       declarations: [MonthlyScheduleBaseComponent, ProgramVisitEncounterSearchComponent],

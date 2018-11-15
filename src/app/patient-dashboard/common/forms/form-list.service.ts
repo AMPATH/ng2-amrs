@@ -61,7 +61,8 @@ export class FormListService {
         }
         // comment out /*item.published && */ for all unretired forms (NOTE : ng-forms build)
         let publishedOpenmrsForms = _.filter(unsortArray, (item) => {
-          return item.published && !item.retired;
+          // return item.published && !item.retired;
+          return !item.retired;
         });
 
         return publishedOpenmrsForms;

@@ -131,7 +131,8 @@ export class TodayVisitsComponent implements OnInit {
       this.router.navigate(['../formentry', selected.form.uuid],
         {
           relativeTo: this.route,
-          queryParams: { visitUuid: selected.visit.uuid }
+          queryParams: { visitUuid: selected.visit.uuid },
+          queryParamsHandling: 'merge'
         });
     }
   }

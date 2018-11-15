@@ -79,6 +79,10 @@ const routes: Routes = [
     {
         path: 'referral',
         loadChildren: '../referral/patient-referral-program.module#PatientReferralProgramModule'
+    },
+    {
+        path: 'group-manager',
+        loadChildren: '../../group-manager/group-manager.module#GroupManagerModule'
     }
 ];
 

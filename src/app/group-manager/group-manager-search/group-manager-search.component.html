@@ -1,0 +1,59 @@
+<div class="box-body">
+  <div class="search-wrapper">
+    <div class="group-search">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            <h2>Group Search</h2>
+          </div>
+        </div>
+    <group-search-input (searchResults)="onResults($event)" (hideResults)="onReset($event)"></group-search-input>
+      </div>
+    </div>
+    <div *ngIf="searchResults.length && !hideResults">
+        <div class="alert">
+            <span class="total text-bold">{{searchResults.length}}</span>
+            <span *ngIf="searchResults.length === 1"> group found</span>
+            <span *ngIf="searchResults.length !== 1"> groups found</span>
+          </div>
+      <group-manager-search-results *ngIf="searchResults.length" [groups]="searchResults" (groupSelected)="onGroupSelected($event)"></group-manager-search-results>
+    </div>
+    <div clas="row" style="margin-top: 15px;">
+      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <button mat-raised-button (click)="showModal(createGroupModal)" style="background: rgb(245, 245, 245); border-radius: 10px; color: #31708f; font-weight: 700">
+          <span class="fa fa-users"></span> Create New Group</button>
+
+          <button mat-raised-button (click)="showModal(groupsInFaciltyModal)" style="background: rgb(245, 245, 245); border-radius: 10px; color: #31708f; font-weight: 700; margin-left: 15px;">
+              <span class="fa fa-eye"></span> View All Groups In This Facility</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createGroupModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Create Group</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  <div class="modal-body">
+  <group-editor (newGroup)="navigateToGroupDetails($event, true)" (hide)="modalRef.hide()" (newLocation)="onLocationChange($event)">
+  </group-editor>
+  </div>
+</ng-template>
+
+<ng-template #groupsInFaciltyModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Groups in {{this.currentUserFacility.display}}:</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  <div class="modal-body" *ngIf="groupsInCurrentFacility">
+    <group-manager-search-results *ngIf="groupsInCurrentFacility.length" [groups]="groupsInCurrentFacility" (groupSelected)="onGroupSelected($event)"></group-manager-search-results>
+    <div *ngIf="!groupsInCurrentFacility.length" class="alert alert-warning">
+      <p> <i class="fa fa-exclamation-triangle"></i> No community groups in current facility </p>
+    </div>
+  </div>
+</ng-template>

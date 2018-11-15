@@ -6,6 +6,12 @@ import { Subscription, Observable } from 'rxjs';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
 import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
+import {
+  UserDefaultPropertiesService
+} from '../../../user-default-properties/user-default-properties.service';
+import { CommunityGroupMemberService } from '../../../openmrs-api/community-group-member-resource.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'visit',
@@ -13,6 +19,7 @@ import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
   styleUrls: ['visit.component.css']
 })
 export class VisitComponent implements OnInit, OnDestroy {
+
   public currentProgramConfig: any;
   public showVisitStartedMsg: boolean = false;
 
@@ -37,13 +44,23 @@ export class VisitComponent implements OnInit, OnDestroy {
   public isBusy: boolean = false;
   private todayVisitsEventSub: Subscription;
 
+  @ViewChild('enrollModal') public enrollModal;
+  public modalRef: BsModalRef;
+  public currentCommunityGroups: any[] = [];
+  public modalState: { action: string; currentGroups: any; currentEnrolledPrograms: any[]; patient: any; };
+  public patientEnrolledInGroup = false;
+  public communityEnrollmentSuccessMessage;
+
   constructor(
-    private todayVisitService: TodayVisitService
+    private todayVisitService: TodayVisitService,
+    private communityGroupMemberService: CommunityGroupMemberService,
+    private bsModalService: BsModalService
   ) { }
 
   public ngOnInit() {
     this.subscribeToVisitsServiceEvents();
     this.checkForAlreadyLoadedVisits();
+    this.checkIfPatientEnrolledInGroup();
     // this.isBusy = true;
     // app feature analytics
     // this.appFeatureAnalytics
@@ -56,12 +73,54 @@ export class VisitComponent implements OnInit, OnDestroy {
     }
   }
 
+  public checkIfPatientEnrolledInGroup() {
+    this.isBusy = true;
+    this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.todayVisitService.patient.uuid)
+    .subscribe((groups) => {
+      this.isBusy = false;
+      if (!_.isEmpty(groups)) {
+          _.forEach(groups, (group) => {
+            if (!group.voided) {
+            this.currentCommunityGroups.push(group);
+            const program = _.filter(group.cohort.attributes, (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
+            if (program) {
+              if (program['value'] === this.programUuid && this.programUuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0') {
+                this.patientEnrolledInGroup = true;
+                return false;
+              }
+            }
+          }
+          });
+      }
+    });
+  }
+
+  public enrollInGroup() {
+    this.modalState = {
+      action: 'Enroll',
+      currentGroups: this.currentCommunityGroups,
+      currentEnrolledPrograms: [{programUuid: this.programUuid}],
+      patient: this.todayVisitService.patient
+    };
+    this.modalRef = this.bsModalService.show(this.enrollModal, {
+      backdrop: 'static',
+      class: 'modal-lg'
+    });
+  }
+
+  public onEnrollToGroup(group) {
+    this.modalRef.hide();
+    this.patientEnrolledInGroup = true;
+    this.communityEnrollmentSuccessMessage = `Successfully enrolled to ${group.name}`;
+    setTimeout(() => this.communityEnrollmentSuccessMessage = null, 5000);
+  }
+
   public getVisitStartedMsgStatus() {
-     this.showVisitStartedMsg = this.todayVisitService.getVisitStartedMsgStatus();
+    this.showVisitStartedMsg = this.todayVisitService.getVisitStartedMsgStatus();
   }
 
   public removeVisitStartedMsg() {
-     this.todayVisitService.hideVisitStartedMessage();
+    this.todayVisitService.hideVisitStartedMessage();
   }
 
   public toTitleCase(text: string): string {
@@ -148,26 +207,26 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public processProgramVisits() {
     if (!_.isEmpty(this.programVisitsObj)) {
-       let returnedVisit = null;
-       let visits = [];
-       let config = [];
-       let currentEnrollment = {
-         'uuid': ''
-       };
-       if (typeof this.programVisitsObj[this.programUuid] === 'undefined') {
-          returnedVisit = null;
-       } else {
-          returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
-          visits = this.programVisitsObj[this.programUuid].visits;
-          config = this.programVisitsObj[this.programUuid].config;
-          currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
-       }
+      let returnedVisit = null;
+      let visits = [];
+      let config = [];
+      let currentEnrollment = {
+        'uuid': ''
+      };
+      if (typeof this.programVisitsObj[this.programUuid] === 'undefined') {
+        returnedVisit = null;
+      } else {
+        returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
+        visits = this.programVisitsObj[this.programUuid].visits;
+        config = this.programVisitsObj[this.programUuid].config;
+        currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
+      }
 
-       this.visit = returnedVisit;
-       this.visits = visits;
-       this.currentProgramConfig = config;
-       this.currentEnrollment = currentEnrollment;
-       this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
+      this.visit = returnedVisit;
+      this.visits = visits;
+      this.currentProgramConfig = config;
+      this.currentEnrollment = currentEnrollment;
+      this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
     }
   }
 
