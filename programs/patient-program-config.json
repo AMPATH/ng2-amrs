@@ -1505,6 +1505,22 @@
               "label": "Exposed"
             }
           ]
+        },
+        {
+          "qtype": "enrollToGroup",
+          "name": "Enroll to community group",
+          "enrollIf": "",
+          "value": "",
+          "answers": [
+            {
+              "value": true,
+              "label": "Yes"
+            },
+            {
+              "value": false,
+              "label": "No"
+            }
+          ]
         }
       ],
       "stateChangeEncounterTypes": {
@@ -1539,8 +1555,19 @@
     ],
     "visitTypes": [
       {
+        "uuid": "0d608b80-1cb5-4c85-835a-29072683ca27",
+        "name": "DC Community Visit",
+        "groupVisit": true,
+        "encounterTypes": [
+          {
+            "uuid": "0e9e0b44-5650-4d07-8ccc-77c3dca9cbbf",
+            "display": "DIFFERENTIATEDCARECOMMUNITY"
+          }
+        ]
+       },
+      {
         "uuid": "9bf3fadd-4938-40fa-a093-4e01bf197876",
-        "name": "Differentiated Care Clinical Visit ",
+        "name": "Differentiated Care Facility Visit ",
         "allowedIf": "programLocation === intendedVisitLocationUuid",
         "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
         "encounterTypes": [
@@ -1567,6 +1594,14 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
           }
         ]
       },
@@ -1597,6 +1632,10 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "4b15b7f1-5905-497d-8b04-76a186fb42c2",
+            "display": "DIFFERENTIATEDCAREPHARMACY"
           }
         ]
       },
