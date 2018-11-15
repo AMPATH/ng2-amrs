@@ -1,0 +1,24 @@
+.dynamic-provider-list{
+    z-index: 1;
+    position: absolute;
+  }
+  label{
+      text-align: right !important;
+  }
+  #editor-row{
+    margin-top: 5px;
+    margin-bottom: 30px;
+  }
+  .submit-btn{
+    margin-right: 5px;
+  }
+.container-fluid .row span:not(.id-label) {
+  padding-right: 0px !important;
+}
+  label{ 
+    font-size: 15px;
+    font-weight:500;
+  }
+  .select {
+    font-size: 14px !important;
+  }

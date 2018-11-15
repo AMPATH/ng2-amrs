@@ -122,7 +122,7 @@ export function highchartsFactory() {
     ChartModule,
     ReportingUtilitiesModule,
     DataListsModule,
-    NgxMyDatePickerModule,
+    NgxMyDatePickerModule.forRoot(),
   ],
   exports: [
     Moh731TabularComponent,

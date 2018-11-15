@@ -72,6 +72,14 @@ export class Patient extends BaseModel {
   public set encounters(encounters: any[]) {
      this._encounters = encounters;
   }
+  public get allIdentifiers() {
+    if (this._identifier.length > 0) {
+      return this._identifier.map( id => id.identifier).toString()
+    }
+    return '';
+  }
+
+
   public get searchIdentifiers() {
 
     if (this._identifier.length > 0) {

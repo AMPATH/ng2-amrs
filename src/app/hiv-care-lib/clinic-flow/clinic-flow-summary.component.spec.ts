@@ -104,8 +104,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
         CalendarModule,
         DataListsModule,
         NgamrsSharedModule,
-        NgxMyDatePickerModule,
-        NgxMyDatePickerModule,
+        NgxMyDatePickerModule.forRoot(),
         MatTabsModule,
         CommonModule, Angulartics2Module,
         RouterModule

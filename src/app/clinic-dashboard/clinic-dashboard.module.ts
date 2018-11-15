@@ -93,7 +93,7 @@ import { ClinicRoutesFactory
     NgamrsSharedModule,
     CalendarModule.forRoot(),
     AgGridModule.withComponents([]),
-    NgxMyDatePickerModule,
+    NgxMyDatePickerModule.forRoot(),
     MatTabsModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,

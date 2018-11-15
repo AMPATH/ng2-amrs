@@ -62,11 +62,10 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
   color: #fff !important;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"] {
   display: inline-block;
   height: 43px;
-  line-height: 43px !important;
+  line-height: 43px;
 }
 
 [class^="icon-menu-letter"] {

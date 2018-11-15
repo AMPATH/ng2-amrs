@@ -21,7 +21,6 @@ export class FormsComponent implements OnInit {
   }
 
   public formSelected(form) {
-    console.log('Form Selected', form);
     if (form) {
       // @Analytics: indicate the start of form loading
       this.appFeatureAnalytics
