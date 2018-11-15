@@ -50,7 +50,11 @@ describe('Patient Reminder Service Unit Tests', function () {
                         "new_viral_load_present": 0,
                         "months_since_last_vl_date": 32,
                         "is_on_inh_treatment": 0,
-                        "qualifies_enhanced": 0
+                        "qualifies_enhanced": 0,
+                        "is_pregnant": 0,
+                        "is_postnatal": 0,
+                        "is_infant": 0,
+                        "dna_pcr_reminder": 0
                     }
                 ]
             };
@@ -73,7 +77,7 @@ describe('Patient Reminder Service Unit Tests', function () {
                             }
                         },
                         {
-                        "message": "Patient requires viral load. Patients on ART > 1 year" +
+                        "message": "Patient requires viral load. Patients older than 25 years and on ART > 1 year" +
                         " require a viral load test every year. Last viral load: LDL on" +
                         " (12-06-2014) 32 months ago.",
                         "title": "Viral Load Reminder",
@@ -124,7 +128,11 @@ describe('Patient Reminder Service Unit Tests', function () {
             "new_viral_load_present": 0,
             "months_since_last_vl_date": 32,
             "is_on_inh_treatment": 0,
-            "qualifies_enhanced": 0
+            "qualifies_enhanced": 0,
+            "is_pregnant": 0,
+            "is_postnatal": 0,
+            "is_infant": 0,
+            "dna_pcr_reminder": 0
           }
         ]
       };
