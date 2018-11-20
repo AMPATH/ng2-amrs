@@ -113,7 +113,6 @@ export class FormCreationDataResolverService implements Resolve<any> {
       // console.log('Data required to load forms', dataRequiredToLoadForm);
       finalAcceptFunc(dataRequiredToLoadForm);
     } else {
-      console.log('visit', dataRequiredToLoadForm);
       finalAcceptFunc(dataRequiredToLoadForm);
       // console.log('waiting for data to load ...', dataRequiredToLoadForm);
     }

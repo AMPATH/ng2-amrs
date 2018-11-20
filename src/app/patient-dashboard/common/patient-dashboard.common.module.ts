@@ -137,7 +137,8 @@ import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
 import { ProgramManagerModule } from '../../program-manager/program-manager.module';
-import { ZscoreService } from '../../shared/services/zscore.service';
+import { ZscoreService } from '../../shared/services/zscore.service';;
+import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 
 @NgModule({
   imports: [
@@ -311,6 +312,7 @@ import { ZscoreService } from '../../shared/services/zscore.service';
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
+    VitalsDatasource,
     TodayVisitService],
 })
 export class PatientDashboardCommonModule { }
