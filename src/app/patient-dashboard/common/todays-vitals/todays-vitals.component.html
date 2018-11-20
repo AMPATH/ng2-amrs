@@ -1,30 +1,20 @@
-<div *ngIf="todaysVitals.length>0">
-  <div *ngFor="let vital of todaysVitals">
-    <ul class="list-group">
-      <li class="list-group-item">
-          <span *ngIf="vital.diastolic" [style.color]="(vital.systolic && (vital.systolic <= 80 || vital.systolic >= 140)) ? 'red':''">
-  <strong class="text-primary">
-    BP : </strong>{{vital.systolic && vital.systolic + "/"}}</span>
-          <span [style.color]="(vital.diastolic && (vital.diastolic <= 50 || vital.diastolic >= 90)) ? 'red':''">
-  {{vital.diastolic && vital.diastolic}} </span>|
-          <span *ngIf="vital.pulse" [style.color]="(vital.pulse && vital.pulse >= 100)?'red':''">
-                  <strong class="text-primary">
-                    Pulse : </strong>{{vital.pulse}} </span>|
-          <span *ngIf="vital.temperature" [style.color]="(vital.temperature && (vital.temperature <= 35.0 ||
-                vital.temperature >= 38.0)) ? 'red':''"><strong class="text-primary">Temperature : </strong>{{vital.temperature}} </span>|
-          <span *ngIf="vital.oxygenSaturation" [style.color]="(vital.oxygenSaturation && vital.oxygenSaturation <= 89)? 'red':''">
-                  <strong class="text-primary">Oxygen Sat : </strong>{{vital.oxygenSaturation}} </span>|
-          <span *ngIf="vital.height"><strong class="text-primary">Height : </strong>{{vital.height}} |</span>
-          <span *ngIf="vital.weight"><strong class="text-primary">Weight : </strong>{{vital.weight}} |</span>
-          <span *ngIf="patient && patient?.person.age >= 18 && vital.bmi" 
-            [style.color]="(vital.bmi && (vital.bmi <= 18 || vital.bmi >= 30))? 'red':''" ><strong class="text-primary">BMI:Kg/M2 : </strong>{{vital.bmi}} |</span>
-          <span *ngIf="vital.bsa"><strong class="text-primary">BSA : </strong>{{vital.bsa}} |</span>
-          <span  *ngIf="patient && patient?.person.age < 5 && vital.weightForHeight" [style.color]="vital.weightForHeight && vital.weightForHeight <0 ? 'red':''"><strong class="text-primary">Weight For Height : </strong>{{vital.weightForHeight}} |</span>
-          <span *ngIf="patient && patient?.person.age < 5 && vital.heightForAge" [style.color]="vital.heightForAge && vital.heightForAge <0 ? 'red':''"><strong class="text-primary">Height For Age : </strong>{{vital.heightForAge}} |</span>
-          <span *ngIf="patient && patient?.person.age < 18 && patient?.person.age >= 5  &&  vital.bmiForAge" [style.color]="vital.bmiForAge && vital.bmiForAge <0 ? 'red':''"><strong class="text-primary">BMI For Age : </strong>{{vital.bmiForAge}}</span>
-        </li>
-    </ul>  
-  </div>
+<div *ngIf="todaysVitals">
+  <ul class="list-group">
+    <li class="list-group-item" [ngClass]="{'show-more': !showAll, 'row': showAll}">
+  <ng-container *ngFor="let vital of todaysVitals; index as i">
+          <span [ngClass]="{'col-sm-6 col-xs-6': showAll}" *ngIf="vital.show && !vital.isCompoundedWith" [style.color]="vital.color">
+            <strong class="text-primary">
+              {{vital.label}}
+            </strong>
+            <span class="value">{{vital.value}}</span>
+            <ng-container *ngIf="vital.compoundValue">
+              /<span [style.color]="vital.compoundValue.color">{{vital.compoundValue.value}} </span>
+            </ng-container>
+            <span *ngIf="!showAll && i < todaysVitals.length-1" style="color: #444;">|</span>
+          </span>
+  </ng-container>
+      <i (click)="toggleMore()" class="fa fa-ellipsis-h" aria-hidden="true"></i></li>
+</ul>
 </div>
 <ul *ngIf="!todaysVitals" class="list-group">
   <li class="list-group-item">

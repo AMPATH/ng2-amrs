@@ -57,7 +57,6 @@ export class ZscoreService {
    scoreModel.bmiForAge = helper.calcBMIForAgeZscore(refModel.bmiForAgeRef, height, weight);
    scoreModel.weightForHeight = helper.calcWeightForHeightZscore(refModel.weightForHeightRef, height, weight);
    scoreModel.heightForAge = helper.calcHeightForAgeZscore(refModel.heightForAgeRef, height, weight);
-   console.log('Z Score',scoreModel);
    return scoreModel;
  }
 

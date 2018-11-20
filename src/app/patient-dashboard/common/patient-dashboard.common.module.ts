@@ -139,6 +139,7 @@ import { PatientImagingComponent } from './imaging/patient-imaging.component';
 import { ProgramManagerModule } from '../../program-manager/program-manager.module';
 import { ZscoreService } from '../../shared/services/zscore.service';
 import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.module';
+import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 
 @NgModule({
   imports: [
@@ -313,6 +314,7 @@ import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.modu
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
+    VitalsDatasource,
     TodayVisitService],
 })
 export class PatientDashboardCommonModule { }
