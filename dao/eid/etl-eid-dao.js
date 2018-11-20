@@ -58,6 +58,38 @@ module.exports = function () {
           });
     };
 
+    function getPocToLabOrderPayload(request) {
+
+      var rawPayload = JSON.parse(JSON.stringify(request.payload));
+      var labName = request.params.lab;
+      var orderNumber = rawPayload.orderNumber;
+
+      return new Promise(function(resolve, reject) {
+
+     // getEidOrder(rawPayload, labName, orderNumber)
+     //   .then(function(orders) {
+
+     //     if(orders.length == 0) {
+
+            var eidPayLoad = eidService.generatePocToEidPayLoad(rawPayload);
+            if(!_.isEmpty(eidPayLoad)){
+                resolve(eidPayLoad);
+            }else{
+              reject('Error Generating Payload');
+            }
+              
+      //    } else {
+
+      //      callback(Boom.badData('Forbidden: An order with the same order number exists in the eid system'));
+      //    }
+
+      //  }).catch(function(err) {
+      //    reject(err.message); 
+       // });
+
+      });
+  };
+
     function getEidOrder(rawPayload, labName, orderNumber) {
 
       var payload = {
@@ -155,6 +187,7 @@ module.exports = function () {
 
     return {
         postLabOrderToEid: postLabOrderToEid,
+        getPocToLabOrderPayload: getPocToLabOrderPayload,
         loadOrderJustifications: loadOrderJustifications,
         getEidOrder: getEidOrder
     }

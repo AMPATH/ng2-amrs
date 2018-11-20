@@ -72,6 +72,68 @@
         }
     }
 
+    function generatePocToEidPayLoad(payload){
+        console.log('generatePocToEidPayLoad', payload);
+        var eidPayload = {
+        };
+        switch(payload.type){
+            case 'VL':
+            eidPayload = {
+                "mflCode": getLocation(payload, 'mflCode'),
+                "patient_identifier": payload.patientIdentifier,
+                "dob": payload.birthDate,
+                "datecollected": payload.dateDrawn,
+                "sex": getGenderCode(payload.sex),
+                "prophylaxis": getArtRegimen(payload) || 14,
+                "regimenline": 1,
+                "sampletype": payload.sampleType ? payload.sampleType : 1,
+                "justification": getTestOrderJustification(payload) || 0,
+                "pmtct": getPmtctIntervention(payload) || 5
+            };
+            break;
+            case 'DNAPCR':
+            eidPayload = {
+                "mflCode": getLocation(payload, 'mflCode'),
+                "patient_identifier": payload.patientIdentifier,
+                "dob": payload.birthDate,
+                "datecollected": payload.dateDrawn,
+                "sex": getGenderCode(payload.sex),
+                "feeding": getInfantFeedingPlan(payload) || 0,
+                "pcrtype": "",
+                "regimen": getInfantProphylaxis(payload) || 5,
+                "entry_point": getDnaPcrEntryPoint(payload) || 0,
+                "mother_prophylaxis": getPmtctIntervention(payload) || 5,
+                "mother_last_result": "",
+                "spots": "",
+                "mother_age": "",
+                "ccc_no": "",
+                "lab": ""
+            };
+            break;
+            case 'CD4':
+            eidPayload = {
+                "mflCode": getLocation(payload, 'mflCode'),
+                "dob": payload.birthDate,
+                "datecollected": payload.dateDrawn,
+                "sex":  getGenderCode(payload.sex),
+                "patient_name": payload.patientName,
+                "medicalrecordno": payload.patientIdentifier,
+                "order_no": payload.orderNumber,
+                "amrs_location": getLocation(payload, 'mrsId'),
+                "provider_identifier": payload.providerIdentifier
+            };
+            break;
+            default:
+
+
+        };
+
+        console.log('generatePocToEidPayLoad',  eidPayload);
+
+        return eidPayload;
+
+    }
+
     function getEidServerUrl(lab, orderType, apiCall) {
         var serverConfig = config.eidServer[lab];
         switch (orderType) {
@@ -131,6 +193,21 @@
     function getLocation(rawPayload, code) {
         var result = eidFacilityMap[rawPayload.locationUuid];
         if (result) return result[code];
+    }
+    function getGenderCode(gender){
+        var genderCode;
+        switch(gender){
+          case 'F':
+          genderCode = 2;
+          break;
+          case 'M':
+          genderCode = 1;
+          break;
+          default:
+          genderCode = 0;
+        }
+        return genderCode;
+
     }
 
     function hasCode(list, code) {
@@ -196,6 +273,7 @@
 
     module.exports = {
         generatePayload: generatePayloadByOrderType,
+        generatePocToEidPayLoad: generatePocToEidPayLoad,
         getEidServerUrl: getEidServerUrl
     };
 })();
