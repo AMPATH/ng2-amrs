@@ -10,6 +10,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Moh731PatientListResourceService } from './moh-731-patientlist-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 const expectedPatientListResult = {
   startIndex: 0,
@@ -78,7 +79,7 @@ describe('Service: Moh731PatientListResourceService', () => {
         },
         {
           provide: Moh731PatientListResourceService,
-          useFactory: (http: Http, appSettingsService: AppSettingsService,
+          useFactory: (http: HttpClient, appSettingsService: AppSettingsService,
                        dataCacheService: DataCacheService) => {
             return new Moh731PatientListResourceService(http, appSettingsService,
               dataCacheService);

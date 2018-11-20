@@ -1,6 +1,5 @@
-
-import {take} from 'rxjs/operators';
-import { Observable ,  Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -8,83 +7,120 @@ import { Patient } from '../../../models/patient.model';
 import { Vital } from '../../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
 import { EncounterResourceService }
-from './../../../openmrs-api/encounter-resource.service';
+  from './../../../openmrs-api/encounter-resource.service';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { CommonVitalsSource } from './sources/common-vitals.source';
+import { HivTriageSource } from './sources/hiv-triage.source';
+import { OncologyTriageSource } from './sources/oncology-triage.source';
+import { ZScoreSource } from './sources/z-score.source';
 
 @Component({
   selector: 'todays-vitals',
   templateUrl: './todays-vitals.component.html',
-  styleUrls: [],
+  styles: [
+      `
+      .list-group-item.show-more {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .list-group-item.row {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .list-group-item.row span.value {
+        padding-left: 10px;
+      }
+
+      .list-group-item i {
+        line-height: 25px;
+        font-size: 32px;
+        position: absolute;
+        right: 15px;
+        top: 12px;
+        background-color: #fff;
+        padding-left: 15px;
+      }`,
+      `@media screen and (min-width: 768px) {
+      .list-group-item i {
+        display: none;
+      }
+    }`
+  ],
 })
 export class TodaysVitalsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
-  public todaysVitals: Vital[] = [];
+  public todaysVitals: Array<Vital | any> = [];
   public errors: any[] = [];
   public currentPatientSub: Subscription;
   public loadingTodaysVitals: boolean = false;
   public dataLoaded: boolean = false;
+  public showAll: boolean = false;
+  private vitalSources: any[] = [];
 
   constructor(
-  private patientService: PatientService,
-  private vitalService: TodaysVitalsService ,
-  private _encounterResourceService: EncounterResourceService) { }
+    private patientService: PatientService,
+    private vitalService: TodaysVitalsService,
+    private _encounterResourceService: EncounterResourceService) {
+  }
 
   public ngOnInit(): void {
+    this.vitalSources = [
+      CommonVitalsSource,
+      HivTriageSource,
+      OncologyTriageSource,
+      ZScoreSource
+    ];
     this.subscribeToPatientChangeEvent();
   }
 
- public ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.currentPatientSub) {
       this.currentPatientSub.unsubscribe();
     }
   }
 
-  public getTodaysVitals(patient: Patient) {
-   const patientUuid = patient.person.uuid;
-    this.resetVariables();
+  public toggleMore() {
+    this.showAll = !this.showAll;
+  }
 
-    this._encounterResourceService.getEncountersByPatientUuid(patientUuid).
-    subscribe((encounters) => {
-        this.todaysVitals = [];
-        const todaysEncounters = this.getTodaysEncounters(encounters);
-        this.getTodaysEncounterDetails(todaysEncounters)
-        .then((encounterDetails) => {
-          this.vitalService.getTodaysVitals(patient, encounterDetails)
-           .then( (data: any) => {
-             if (data) {
-                 this.loadingTodaysVitals = false;
-                 if (data.length > 0) {
-                   this.todaysVitals = new Array(data[0]);
-                   console.log('Vitals',this.todaysVitals);
-                   this.dataLoaded = true;
-                 } else {
-                   this.dataLoaded = false;
-                   this.todaysVitals = [];
-                 }
-             }
+  public getTodaysVitals(patient: Patient) {
+    this.resetVariables();
+    const todaysEncounters = this.getTodaysEncounters(this.patient.encounters);
+    this.getTodaysEncounterDetails(todaysEncounters)
+      .then((encounterDetails) => {
+        this.vitalService.getTodaysVitals(patient, encounterDetails, this.vitalSources)
+          .then((data: any) => {
+            if (data) {
+              this.loadingTodaysVitals = false;
+              this.todaysVitals = data;
+              this.dataLoaded = true;
+            }
           }).catch((error) => {
-            this.loadingTodaysVitals = false;
-            this.dataLoaded = true;
-            this.errors.push({
-              id: 'Todays Vitals',
-              message: 'error fetching todays vitals'
-            });
+          this.loadingTodaysVitals = false;
+          this.dataLoaded = true;
+          console.log(error);
+          this.errors.push({
+            id: 'Todays Vitals',
+            message: 'error fetching todays vitals'
           });
         });
+      }).catch((err) => {
+      console.log('we are in here', err);
     });
-
   }
 
   public getTodaysEncounters(encounters) {
-    this.todaysVitals = [];
     let today = Moment().format('YYYY-MM-DD');
     let todaysEncounters = [];
     _.each(encounters, (encounter: any) => {
-        let encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD');
-        if (encounterDate === today) {
-           todaysEncounters.push(encounter);
-        }
+      let encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD');
+      if (encounterDate === today) {
+        todaysEncounters.push(encounter);
+      }
     });
 
     return todaysEncounters;
@@ -93,21 +129,19 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
 
   public getTodaysEncounterDetails(todaysEncounters) {
 
-    this.todaysVitals = [];
-
     return new Promise((resolve, reject) => {
 
       let encounterWithDetails = [];
       let encounterCount = 0;
       let resultCount = 0;
 
-      let checkCount  = () => {
+      let checkCount = () => {
 
-          if (resultCount === encounterCount) {
+        if (resultCount === encounterCount) {
 
-             resolve(encounterWithDetails);
+          resolve(encounterWithDetails);
 
-          }
+        }
 
       };
 
@@ -119,11 +153,11 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
         this._encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
           take(1)).subscribe((encounterDetail) => {
 
-            encounterWithDetails.push(encounterDetail);
-            resultCount++;
-            checkCount();
+          encounterWithDetails.push(encounterDetail);
+          resultCount++;
+          checkCount();
 
-          });
+        });
 
       });
 
@@ -142,8 +176,8 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     );
   }
 
- public resetVariables() {
-    this.todaysVitals = [];
+  public resetVariables() {
+    this.todaysVitals = undefined;
     this.dataLoaded = false;
     this.loadingTodaysVitals = false;
   }
