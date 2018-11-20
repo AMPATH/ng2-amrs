@@ -66,77 +66,77 @@ let motdNotifications = [
     ];
 
 
-describe('Component : MOTD Notification', () => {
+// describe('Component : MOTD Notification', () => {
 
-    let comp: MOTDNotificationComponent;
-    let fixture: ComponentFixture<MOTDNotificationComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
-    let nativeElement: any;
+//     let comp: MOTDNotificationComponent;
+//     let fixture: ComponentFixture<MOTDNotificationComponent>;
+//     let de: DebugElement;
+//     let el: HTMLElement;
+//     let nativeElement: any;
 
-    // async beforeEach
-    beforeEach(async(() => {
-
-
-      TestBed.configureTestingModule({
-        imports: [
-          CookieModule.forRoot(),
-        ],
-        declarations: [MOTDNotificationComponent], // declare the test component
-        providers: [
-          CookieService,
-          MOTDNotificationService,
-          MockBackend,
-          BaseRequestOptions,
-          FakeAppSettingsService,
-          LocalStorageService,
-          AppSettingsService,
-          MockRouter,
-          MockActivatedRoute,
-          {
-            provide: Http,
-            useFactory: (backendInstance: MockBackend,
-              defaultOptions: BaseRequestOptions) => {
-              return new Http(backendInstance, defaultOptions);
-            },
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          { provide: Router, useClass: MockRouter }, {
-            provide: ActivatedRoute,
-            useClass: MockActivatedRoute
-          },
-        ]
-      })
-        .compileComponents();  // compile template and css
-    }));
+//     // async beforeEach
+//     beforeEach(async(() => {
 
 
+//       TestBed.configureTestingModule({
+//         imports: [
+//           CookieModule.forRoot(),
+//         ],
+//         declarations: [MOTDNotificationComponent], // declare the test component
+//         providers: [
+//           CookieService,
+//           MOTDNotificationService,
+//           MockBackend,
+//           BaseRequestOptions,
+//           FakeAppSettingsService,
+//           LocalStorageService,
+//           AppSettingsService,
+//           MockRouter,
+//           MockActivatedRoute,
+//           {
+//             provide: Http,
+//             useFactory: (backendInstance: MockBackend,
+//               defaultOptions: BaseRequestOptions) => {
+//               return new Http(backendInstance, defaultOptions);
+//             },
+//             deps: [MockBackend, BaseRequestOptions]
+//           },
+//           { provide: Router, useClass: MockRouter }, {
+//             provide: ActivatedRoute,
+//             useClass: MockActivatedRoute
+//           },
+//         ]
+//       })
+//         .compileComponents();  // compile template and css
+//     }));
 
-  beforeEach(() => {
-
-    fixture = TestBed.createComponent(MOTDNotificationComponent);
-    comp = fixture.componentInstance;
-    nativeElement = fixture.nativeElement;
-    let spy = spyOn(comp, 'getMotdNotifications');
-
-    // Service from the root injector
-    let cookieService = fixture.debugElement.injector.get(CookieService);
-    let motdService = fixture.debugElement.injector.get(MOTDNotificationService);
-    let route = fixture.debugElement.injector.get(MockRouter);
-    let activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
-
-  });
-
-  afterAll(() => {
-    TestBed.resetTestingModule();
-  });
-
-it('Should be create an instance of the component', async(() => {
-  expect(comp).toBeDefined();
-}));
 
 
-});
+//   beforeEach(() => {
+
+//     fixture = TestBed.createComponent(MOTDNotificationComponent);
+//     comp = fixture.componentInstance;
+//     nativeElement = fixture.nativeElement;
+//     let spy = spyOn(comp, 'getMotdNotifications');
+
+//     // Service from the root injector
+//     let cookieService = fixture.debugElement.injector.get(CookieService);
+//     let motdService = fixture.debugElement.injector.get(MOTDNotificationService);
+//     let route = fixture.debugElement.injector.get(MockRouter);
+//     let activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
+
+//   });
+
+//   afterAll(() => {
+//     TestBed.resetTestingModule();
+//   });
+
+// it('Should be create an instance of the component', async(() => {
+//   expect(comp).toBeDefined();
+// }));
+
+
+// });
 
 
 
