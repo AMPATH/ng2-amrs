@@ -20,6 +20,14 @@ export class LabsResourceService {
             catchError(this.handleError));
     }
 
+  public getUpgradePatientLabResults(params: { patientUuid: string}) {
+    let urlParams: HttpParams = new HttpParams()
+      .set('patientUuid', params.patientUuid);
+    return this.http.get(this.getUpgradeUrl(),
+      { params: urlParams }).pipe(map(this.parseNewLabResults),
+      catchError(this.handleError));
+  }
+
     public getHistoricalPatientLabResults(patientUuId,
                                           params: { startIndex: string, limit: string }) {
         if (!patientUuId) {
@@ -43,6 +51,10 @@ export class LabsResourceService {
     private getUrl() {
         return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient-lab-orders';
     }
+
+  private getUpgradeUrl() {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + 'sync-patient-labs';
+  }
 
     private parseHistoricalLabResults(res) {
         const body = res;
