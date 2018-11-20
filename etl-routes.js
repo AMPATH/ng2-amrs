@@ -29,6 +29,9 @@ var resolveProgramEnrollmentFilterParams = require('./resolve-program-visit-enco
 var programVisitEncounterResolver = require('./resolve-program-visit-encounter-Ids/resolve-program-visit-encounter-idsv2');
 var imagingService = require('./service/radilogy-imaging.service');
 var oncologyReportsService = require('./oncology-reports/oncology-reports-service');
+var pocEidPayloadHelper = require('./app/lab-integration/utils/poc-eid-payload-helper.js');
+import { LabSyncService } from './app/lab-integration/lab-sync-service';
+import { LabClient } from './app/lab-integration/utils/lab-client';
 import {
     MonthlyScheduleService
 } from './service/monthly-schedule-service';
@@ -101,8 +104,9 @@ import {
     CDMReportingService
 } from './service/cdm/cdm-reporting.service';
 import {
-  PatientReferralService
+    PatientReferralService
 } from './service/patient-referral.service';
+
 
 module.exports = function () {
 
@@ -340,16 +344,16 @@ module.exports = function () {
                                     let encounterIds = resolve.encounterTypeIds;
                                     let visitTypeIds = resolve.visitTypesIds;
                                     let programTypeIds = resolve.programTypeIds;
-                                    if(encounterIds.length > 0){
+                                    if (encounterIds.length > 0) {
                                         request.query.encounterIds = encounterIds;
                                     }
-                                    if(visitTypeIds.length > 0){
+                                    if (visitTypeIds.length > 0) {
                                         request.query.visitTypeIds = visitTypeIds;
                                     }
-                                    if(programTypeIds.length > 0){
+                                    if (programTypeIds.length > 0) {
                                         request.query.programTypeIds = programTypeIds;
                                     }
-                                    
+
                                     return resolveLocationUuidToId.resolveLocationUuidsParamsToIds(request.query);
                                 })
                                 .then((result) => {
@@ -400,16 +404,16 @@ module.exports = function () {
                                             let encounterIds = resolve.encounterTypeIds;
                                             let visitTypeIds = resolve.visitTypesIds;
                                             let programTypeIds = resolve.programTypeIds;
-                                            if(programTypeIds.length > 0){
+                                            if (programTypeIds.length > 0) {
                                                 request.query.programTypeIds = programTypeIds;
                                             }
-                                            if(visitTypeIds.length > 0){
+                                            if (visitTypeIds.length > 0) {
                                                 request.query.visitTypeIds = visitTypeIds;
                                             }
-                                            if(encounterIds.length > 0){
+                                            if (encounterIds.length > 0) {
                                                 request.query.encounterIds = encounterIds;
                                             }
-                                            
+
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
                                             // let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations', 'encounterIds', 'visitTypeIds', 'programTypeIds', 'groupBy'], compineRequestParams);
                                             compineRequestParams.limitParam = compineRequestParams.limit;
@@ -460,13 +464,13 @@ module.exports = function () {
                                             let encounterIds = resolve.encounterTypeIds;
                                             let visitTypeIds = resolve.visitTypesIds;
                                             let programTypeIds = resolve.programTypeIds;
-                                            if(programTypeIds.length > 0){
+                                            if (programTypeIds.length > 0) {
                                                 request.query.programTypeIds = programTypeIds;
                                             }
-                                            if(visitTypeIds.length > 0){
+                                            if (visitTypeIds.length > 0) {
                                                 request.query.visitTypeIds = visitTypeIds;
                                             }
-                                            if(encounterIds.length > 0){
+                                            if (encounterIds.length > 0) {
                                                 request.query.encounterIds = encounterIds;
                                             }
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
@@ -518,13 +522,13 @@ module.exports = function () {
                                             let encounterIds = resolve.encounterTypeIds;
                                             let visitTypeIds = resolve.visitTypesIds;
                                             let programTypeIds = resolve.programTypeIds;
-                                            if(programTypeIds.length > 0){
+                                            if (programTypeIds.length > 0) {
                                                 request.query.programTypeIds = programTypeIds;
                                             }
-                                            if(visitTypeIds.length > 0){
+                                            if (visitTypeIds.length > 0) {
                                                 request.query.visitTypeIds = visitTypeIds;
                                             }
-                                            if(encounterIds.length > 0){
+                                            if (encounterIds.length > 0) {
                                                 request.query.encounterIds = encounterIds;
                                             }
                                             let compineRequestParams = Object.assign({}, request.query, request.params);
@@ -639,13 +643,13 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                             let requestParams = Object.assign({}, request.query, request.params);
-                                   let service = new CDMReportingService();                           
-                                   service.getPatientSummaryReport(requestParams).then((result) => {
-                                    reply(result);
-                                }).catch((error) => {
-                                    reply(error);
-                                });
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new CDMReportingService();
+                        service.getPatientSummaryReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
                     },
                     description: 'Get patient CDM summary',
                     notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
@@ -675,13 +679,13 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                             let requestParams = Object.assign({}, request.query, request.params);
-                                   let service = new CDMReportingService();                                                 
-                                   service.getPatientMedicationHistoryReport(requestParams).then((result) => {
-                                    reply(result);
-                                }).catch((error) => {
-                                    reply(error);
-                                });
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        let service = new CDMReportingService();
+                        service.getPatientMedicationHistoryReport(requestParams).then((result) => {
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
                     },
                     description: 'Get patient medication history',
                     notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
@@ -721,7 +725,7 @@ module.exports = function () {
                                 let report = new BaseMysqlReport('clinicalReminderReport', reportParams.requestParams);
                                 report.generateReport().then((results) => {
                                     try {
-                                        if(results.results.results.length > 0 ) {
+                                        if (results.results.results.length > 0) {
                                             let processedResults = patientReminderService.generateReminders(results.results.results, eidReminders);
                                             results.result = processedResults;
                                         } else {
@@ -851,12 +855,12 @@ module.exports = function () {
                         var locationUuid = requestParams.intendedLocationUuid || '';
 
                         patientProgramService.getPatientProgramVisits(patientUuid, programUuid, enrollment, locationUuid)
-                        .then((programVisits)=>{
-                            reply(programVisits);
-                        })
-                        .catch((error)=>{
-                            reply(Boom.badImplementation('An internal error occurred'));
-                        });
+                            .then((programVisits) => {
+                                reply(programVisits);
+                            })
+                            .catch((error) => {
+                                reply(Boom.badImplementation('An internal error occurred'));
+                            });
 
                     },
                     description: 'Get program config of a patient',
@@ -1248,178 +1252,178 @@ module.exports = function () {
                     }
                 }
             },
-          {
-            method: 'GET',
-            path: '/etl/patient-referrals',
-            config: {
-              auth: 'simple',
-              plugins: {
-                'openmrsLocationAuthorizer': {
-                  locationParameter: [{
-                    type: 'query', //can be in either query or params so you have to specify
-                    name: 'locationUuids' //name of the location parameter
-                  }],
-                  aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
-                    {
-                      type: 'query', //can be in either query or params so you have to specify
-                      name: 'reportName', //name of the parameter
-                      value: 'patient-referral-report' //parameter value
+            {
+                method: 'GET',
+                path: '/etl/patient-referrals',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query', //can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }],
+                            aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                                {
+                                    type: 'query', //can be in either query or params so you have to specify
+                                    name: 'reportName', //name of the parameter
+                                    value: 'patient-referral-report' //parameter value
+                                }
+                            ]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        //security check
+                        request.query.reportName = 'patient-referral-report';
+                        if (!authorizer.hasReportAccess(request.query.reportName)) {
+                            return reply(Boom.forbidden('Unauthorized'));
+                        }
+                        preRequest.resolveLocationIdsToLocationUuids(request,
+                            function () {
+                                let requestParams = Object.assign({}, request.query, request.params);
+                                let service = new PatientReferralService();
+                                // remove gender filter
+                                delete requestParams['gender'];
+                                service.getAggregateReport(requestParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+                            });
+
+                    },
+                    description: "Get patient referral for selected clinic",
+                    notes: "Returns a list of patient referral for the selected clinic(s),start date, end date",
+                    tags: ['api'],
+                    validate: {
+                        query: {
+                            locationUuids: Joi.string()
+                                .optional()
+                                .description("A list of comma separated location uuids"),
+                            startDate: Joi.string()
+                                .optional()
+                                .description("The start date to filter by"),
+                            endDate: Joi.string()
+                                .optional()
+                                .description("The end date to filter by"),
+                            programUuids: Joi.string()
+                                .optional()
+                                .description("The program to filter by")
+
+                        }
                     }
-                  ]
                 }
-              },
-              handler: function (request, reply) {
-                //security check
-                request.query.reportName = 'patient-referral-report';
-                if (!authorizer.hasReportAccess(request.query.reportName)) {
-                  return reply(Boom.forbidden('Unauthorized'));
-                }
-                preRequest.resolveLocationIdsToLocationUuids(request,
-                  function () {
-                    let requestParams = Object.assign({}, request.query, request.params);
-                    let service = new PatientReferralService();
-                    // remove gender filter
-                    delete requestParams['gender'];
-                    service.getAggregateReport(requestParams).then((result) => {
-                      reply(result);
-                  }).catch((error) => {
-                      reply(error);
-                  });
-                  });
-        
-              },
-              description: "Get patient referral for selected clinic",
-              notes: "Returns a list of patient referral for the selected clinic(s),start date, end date",
-              tags: ['api'],
-              validate: {
-                query: {
-                  locationUuids: Joi.string()
-                    .optional()
-                    .description("A list of comma separated location uuids"),
-                  startDate: Joi.string()
-                    .optional()
-                    .description("The start date to filter by"),
-                  endDate: Joi.string()
-                    .optional()
-                    .description("The end date to filter by"),
-                  programUuids: Joi.string()
-                    .optional()
-                    .description("The program to filter by")
-          
-                }
-              }
-            }
-          },
-          {
-            method: 'GET',
-            path: '/etl/referral-patient-list',
-            config: {
-              auth: 'simple',
-              plugins: {
-                'openmrsLocationAuthorizer': {
-                  locationParameter: [{
-                    type: 'query', //can be in either query or params so you have to specify
-                    name: 'locationUuids' //name of the location parameter
-                  }],
-                  aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
-                    {
-                      type: 'query', //can be in either query or params so you have to specify
-                      name: 'reportName', //name of the parameter
-                      value: 'patient-referral-report' //parameter value
+            },
+            {
+                method: 'GET',
+                path: '/etl/referral-patient-list',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query', //can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }],
+                            aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                                {
+                                    type: 'query', //can be in either query or params so you have to specify
+                                    name: 'reportName', //name of the parameter
+                                    value: 'patient-referral-report' //parameter value
+                                }
+                            ]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        //security check
+                        request.query.reportName = 'patient-referral-report';
+                        if (!authorizer.hasReportAccess(request.query.reportName)) {
+                            return reply(Boom.forbidden('Unauthorized'));
+                        }
+
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        requestParams.reportName = 'referralAggregate';
+                        let service = new PatientReferralService();
+
+                        service.getPatientListReport2(requestParams).then((result) => {
+
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+
+                    },
+                    description: "Get patient referral for selected clinic",
+                    notes: "Returns patient referral for the selected clinic(s),start date, end date",
+                    tags: ['api'],
+                    validate: {
+                        query: {
+                            locationUuids: Joi.string()
+                                .optional()
+                                .description("A list of comma separated location uuids"),
+                            startDate: Joi.string()
+                                .optional()
+                                .description("The start date to filter by"),
+                            endDate: Joi.string()
+                                .optional()
+                                .description("The end date to filter by"),
+                            programUuids: Joi.string()
+                                .optional()
+                                .description("The program to filter by"),
+                            limit: Joi.string()
+                                .optional()
+                                .description("The limit to indicate number of rows")
+
+                        }
                     }
-                  ]
                 }
-              },
-              handler: function (request, reply) {
-                //security check
-                request.query.reportName = 'patient-referral-report';
-                if (!authorizer.hasReportAccess(request.query.reportName)) {
-                  return reply(Boom.forbidden('Unauthorized'));
+            },
+            {
+                method: 'GET',
+                path: '/etl/patient-referral-details/{locationUuid}/{enrollmentUuid}',
+                config: {
+                    auth: 'simple',
+                    plugins: {},
+                    handler: function (request, reply) {
+                        patientReferralDao.getPatientReferralByEnrollmentUuid(
+                            request.params['locationUuid'], request.params['enrollmentUuid'])
+                            .then(function (referralLocation) {
+                                reply(referralLocation);
+                            })
+                            .catch(function (error) {
+                                reply(Boom.create(500, 'Internal server error.', error));
+                            });
+                    },
+                    description: "Get patient referral details by program enrollment uuid",
+                    notes: "Api endpoint that returns additional patient referral details by program enrollement uuid",
+                    tags: ['api'],
                 }
-        
-                let requestParams = Object.assign({}, request.query, request.params);
-                requestParams.reportName='referralAggregate';
-                let service = new PatientReferralService();
-                
-                service.getPatientListReport2(requestParams).then((result) => {
-          
-                  reply(result);
-              }).catch((error) => {
-                  reply(error);
-              });
-        
-              },
-              description: "Get patient referral for selected clinic",
-              notes: "Returns patient referral for the selected clinic(s),start date, end date",
-              tags: ['api'],
-              validate: {
-                query: {
-                  locationUuids: Joi.string()
-                    .optional()
-                    .description("A list of comma separated location uuids"),
-                  startDate: Joi.string()
-                    .optional()
-                    .description("The start date to filter by"),
-                  endDate: Joi.string()
-                    .optional()
-                    .description("The end date to filter by"),
-                  programUuids: Joi.string()
-                    .optional()
-                    .description("The program to filter by"),
-                  limit: Joi.string()
-                    .optional()
-                    .description("The limit to indicate number of rows")
-          
+            },
+            {
+                method: 'POST',
+                path: '/etl/patient-referral',
+                config: {
+                    auth: 'simple',
+                    plugins: {},
+                    handler: function (request, reply) {
+                        patientReferralDao.createPatientReferral(request.payload)
+                            .then(function (newCohortReferral) {
+                                reply(newCohortReferral);
+                            })
+                            .catch(function (error) {
+                                if (error && error.isValid === false) {
+                                    reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
+                                } else {
+                                    console.error(error);
+                                    reply(Boom.create(500, 'Internal server error.', error));
+                                }
+                            });
+                    },
+                    description: "Post patient referrals for a given referral",
+                    notes: "Api endpoint that posts patient referrals",
+                    tags: ['api'],
                 }
-              }
-            }
-          },
-          {
-            method: 'GET',
-            path: '/etl/patient-referral-details/{locationUuid}/{enrollmentUuid}',
-            config: {
-              auth: 'simple',
-              plugins: {},
-              handler: function (request, reply) {
-                patientReferralDao.getPatientReferralByEnrollmentUuid(
-                  request.params['locationUuid'], request.params['enrollmentUuid'])
-                  .then(function (referralLocation) {
-                      reply(referralLocation);
-                  })
-                  .catch(function (error) {
-                    reply(Boom.create(500, 'Internal server error.', error));
-                  });
-              },
-              description: "Get patient referral details by program enrollment uuid",
-              notes: "Api endpoint that returns additional patient referral details by program enrollement uuid",
-              tags: ['api'],
-            }
-          },
-          {
-            method: 'POST',
-            path: '/etl/patient-referral',
-            config: {
-              auth: 'simple',
-              plugins: {},
-              handler: function (request, reply) {
-                patientReferralDao.createPatientReferral(request.payload)
-                  .then(function (newCohortReferral) {
-                    reply(newCohortReferral);
-                  })
-                  .catch(function (error) {
-                    if (error && error.isValid === false) {
-                      reply(Boom.badRequest('Validation errors:' + JSON.stringify(error)));
-                    } else {
-                      console.error(error);
-                      reply(Boom.create(500, 'Internal server error.', error));
-                    }
-                  });
-              },
-              description: "Post patient referrals for a given referral",
-              notes: "Api endpoint that posts patient referrals",
-              tags: ['api'],
-            }
-          },
+            },
             {
                 method: 'POST',
                 path: '/etl/patient-referral/{patientReferralId}',
@@ -3227,6 +3231,26 @@ module.exports = function () {
                 }
             },
             {
+                method: 'GET',
+                path: '/etl/sync-patient-labs',
+                config: {
+                    auth: 'simple',
+                    handler: function (request, reply) {
+                        if (config.eidSyncOn === true) {
+                            let labSyncService = new LabSyncService();
+                            labSyncService.syncLabsByPatientUuid(request.query.patientUuid).then((result) => {
+                                reply(result);
+                            }).catch((error) => {
+                                console.log('Error',error);
+                                reply(Boom.notFound('Sorry, sync service temporarily unavailable.'));
+                            });
+                        }
+                        else
+                            reply(Boom.notImplemented('Sorry, sync service temporarily unavailable.'));
+                    }
+                }
+            },
+            {
                 method: 'POST',
                 path: '/etl/eid/order/{lab}',
                 config: {
@@ -3237,7 +3261,21 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        dao.postLabOrderToEid(request, reply);
+                        if (request.params.lab === 'ampath') {
+                            var rawPayload = JSON.parse(JSON.stringify(request.payload));
+                            pocEidPayloadHelper.generatePocToEidPayLoad(rawPayload).then((eidPayLoad) => {
+                                let client = new LabClient(config.hivLabSystem);
+                                return client.postLabPayload(eidPayLoad);
+                            }).then((result)=>{
+                                reply(result);
+                            }).catch((error) => {
+                                let errorObject = JSON.parse(error.error)
+                                console.log('Error',errorObject);
+                                reply(errorObject.error).code(error.statusCode);
+                            });
+                        } else {
+                            dao.postLabOrderToEid(request, reply);
+                        }
                     }
                 }
             },
@@ -3673,14 +3711,14 @@ module.exports = function () {
                     handler: function (request, reply) {
                         let department = request.query.department;
                         let departmentPrograms = departmentProgramsService.getDepartmentPrograms(department)
-                        .then((response) => {
-                            reply(response);
-                        })
-                        .catch((error) => {
-                            console.error('ERROR : DepartmentPrograms Error', error);
-                            reply(error);
-                        });
-                       
+                            .then((response) => {
+                                reply(response);
+                            })
+                            .catch((error) => {
+                                console.error('ERROR : DepartmentPrograms Error', error);
+                                reply(error);
+                            });
+
                     },
                     description: 'Get a list of Programs for a Department',
                     notes: 'Returns a  list of Programs for a Departments',
