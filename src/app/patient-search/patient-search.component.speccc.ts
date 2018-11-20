@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { LocalStorageService } from './../utils/local-storage.service';
+import { LocalStorageService } from '../utils/local-storage.service';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { PatientSearchComponent } from './patient-search.component';
 import { By }              from '@angular/platform-browser';
