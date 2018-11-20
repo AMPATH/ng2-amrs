@@ -323,7 +323,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
         field: 'test',
         pinned: 'left',
         cellStyle: {
-          'text-align': 'center'
+          'text-align': 'left'
         },
         tooltip: (params: any) => {
           if (!_.isEmpty(params.data.toolTip)) {
@@ -342,7 +342,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
           width: 100,
           field: result.testDatetime,
           cellStyle: {
-            'text-align': 'center'
+            'text-align': 'left'
           },
           pinned: '',
           tooltip: (params: any) => {
