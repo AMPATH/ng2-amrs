@@ -2017,6 +2017,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "bb1ad67a-5363-42fd-a53e-ba0047eb431c",
+            "display": "SICKLECELLSCREENING"
           }
         ]
       }
