@@ -48,7 +48,7 @@ export class LabSyncComponent implements OnInit, OnDestroy {
     this.getCombinedResult().pipe(take(1)).subscribe((results: any[]) => {
       this.fetchingResults = false;
       // the intention of combining is to have both systems sync. So we take just one result
-      const result = results[0];
+      const result = results[1];
       if (result.errors && result.errors.length > 0) {
         this.error = result.errors;
       } else {

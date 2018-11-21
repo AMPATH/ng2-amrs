@@ -2,7 +2,7 @@
 import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { PatientService } from './services/patient.service';
 import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
@@ -96,16 +96,11 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     let patientEmited: any = { uuid: '' };
     const sub1 = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {
-        const startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
-        const endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
-        if (patient) {
-          patientEmited = patient;
-          const sub2 = this.labsResourceService.getNewPatientLabResults({
-            startDate: startDate,
-            endDate: endDate,
-            patientUuId: patient.person.uuid
-          }).pipe(take(1)).subscribe((result) => {
-            if (result.length > 0) {
+        if(patient) {
+          const sub2 = this.getCombinedResult(patient).pipe(take(1)).subscribe((results: any[]) => {
+            // the intention of combining is to have both systems sync. So we take just one result
+            if (results.length > 0) {
+              const result = results[1];
               let content = '';
               for (let test of result) {
                 if (test.groupMembers) {
@@ -141,4 +136,20 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
 
       this.subscriptions.push(sub1);
   }
+
+  public getCombinedResult(patient: any): Observable<any[]> {
+    const startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+    const endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+    const batch: Observable<any>[] = [];
+    batch.push(this.labsResourceService.getNewPatientLabResults({
+      startDate: startDate,
+      endDate: endDate,
+      patientUuId: patient.person.uuid
+    }));
+    batch.push(this.labsResourceService.getUpgradePatientLabResults({
+      patientUuid: patient.person.uuid
+    }));
+    return combineLatest(batch);
+  }
+
 }
