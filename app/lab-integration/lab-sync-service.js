@@ -146,14 +146,7 @@ export class LabSyncService {
         const promises = [];
         const labExceptions = this.getLabExceptions();
         for (let obs of payload) {
-
-            if (obs.value && !labExceptions[obs.value.toUpperCase()]) {
-                promises.push(obsService.postObsToAMRS(obs));
-            } else if (obs.value && labExceptions[obs.value.toUpperCase()]) {
-                obs.concept = '457c741d-8f71-4829-b59d-594e0a618892'
-                obs.value = labExceptions[obs.value.toUpperCase()];
-                promises.push(obsService.postObsToAMRS(obs));
-            }
+            promises.push(obsService.postObsToAMRS(obs));
         }
         return promises;
     }

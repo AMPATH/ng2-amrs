@@ -30,7 +30,7 @@ export class EidCompareOperator {
                 var obsObj = obsResults[i];
                 var equalDate = this.areDatesEqual(eidObj.obsDatetime, obsObj.obsDatetime);
                 var obsValue = '';
-                if (obsObj.value) {
+                if (obsObj.value !== null) {
                     if (typeof (obsObj.value) === 'object') {
                         obsValue = obsObj.value.uuid.toString();
                     } else {
@@ -42,7 +42,7 @@ export class EidCompareOperator {
                     }
                 }
 
-                if(eidObj.groupMembers){
+                if (eidObj.groupMembers) {
                     //Introduce check for group members
                     if (obsObj.concept === eidObj.concept && equalDate) {
                         found = true;
@@ -50,7 +50,7 @@ export class EidCompareOperator {
                 }
             }
 
-            
+
         }
 
         return found;

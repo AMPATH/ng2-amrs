@@ -209,7 +209,6 @@ module.exports = function () {
     
   }
   function convertViralLoadExceptionToRestConsumableObs(viralLoad, patientUuId) {
-    console.log('Lab Exeptions============>')
     var date = moment(viralLoad.DateCollected).format();
     var body = {
       person: patientUuId,
