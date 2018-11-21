@@ -2,7 +2,7 @@
 var moment = require('moment');
 var _ = require('underscore');
 
-export  class EidCompareOperator {
+export class EidCompareOperator {
 
     constructor() { }
     getAllResults(eidResults, obsResults) {
@@ -29,19 +29,28 @@ export  class EidCompareOperator {
             for (var i = 0; i < obsResults.length; i++) {
                 var obsObj = obsResults[i];
                 var equalDate = this.areDatesEqual(eidObj.obsDatetime, obsObj.obsDatetime);
-                var obsValue='';
-                if (obsObj.value && typeof(obsObj.value) === 'object') {
-                    obsValue = obsObj.value.uuid.toString();
-                } 
-                
-                if (obsObj.value && !typeof(obsObj.value) === 'object'){
-                    obsValue = obsObj.value.toString();
+                var obsValue = '';
+                if (obsObj.value) {
+                    if (typeof (obsObj.value) === 'object') {
+                        obsValue = obsObj.value.uuid.toString();
+                    } else {
+                        obsValue = obsObj.value.toString();
+                    }
+                    if (obsObj.concept === eidObj.concept &&
+                        obsValue === eidObj.value.toString() && equalDate) {
+                        found = true;
+                    }
                 }
-                if (obsObj.concept.uuid === eidObj.concept &&
-                    obsValue === eidObj.value.toString() && equalDate) {
-                    found = true;
+
+                if(eidObj.groupMembers){
+                    //Introduce check for group members
+                    if (obsObj.concept === eidObj.concept && equalDate) {
+                        found = true;
+                    }
                 }
             }
+
+            
         }
 
         return found;

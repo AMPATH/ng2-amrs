@@ -63,7 +63,6 @@ export class LabSyncService {
                 client.fetchCD4({ patient_id: response.identifiers.join() })
             ]).then((allResults) => {
                 let viralLoadResults = allResults[0];
-                console.log('Viral Load', viralLoadResults);
                 let dnaPCR = allResults[1];
                 let cd4Results = allResults[2];
                 let labResultsPromises = []
@@ -128,6 +127,10 @@ export class LabSyncService {
                     let combinedMissing = that.combineObs('missingResults', flattenResult);
                     //TODO Handle this
                     let combinedconflicting = that.combineObs('conflictingResults', flattenResult);
+
+                    console.log('Conflicting', combinedconflicting);
+                    console.log('Missing', combinedMissing);
+
                     fields[0].conflicts = JSON.stringify(combinedconflicting);
                     return Promise.all(that.combineObsPostPromises(combinedMissing)).then((savedObs) => {
                         fields[0].status = 0;
@@ -141,12 +144,12 @@ export class LabSyncService {
 
     combineObsPostPromises(payload) {
         const promises = [];
-        const labExceptions =  this.getLabExceptions();
+        const labExceptions = this.getLabExceptions();
         for (let obs of payload) {
 
             if (obs.value && !labExceptions[obs.value.toUpperCase()]) {
                 promises.push(obsService.postObsToAMRS(obs));
-            }else if (obs.value && labExceptions[obs.value.toUpperCase()]){
+            } else if (obs.value && labExceptions[obs.value.toUpperCase()]) {
                 obs.concept = '457c741d-8f71-4829-b59d-594e0a618892'
                 obs.value = labExceptions[obs.value.toUpperCase()];
                 promises.push(obsService.postObsToAMRS(obs));
@@ -163,18 +166,18 @@ export class LabSyncService {
         return combined;
     }
 
- getLabExceptions() {
+    getLabExceptions() {
         return {
-          "POOR SAMPLE QUALITY": "a89c3f1e-1350-11df-a1f1-0026b9348838",
-          "NOT DONE": "a899ea48-1350-11df-a1f1-0026b9348838",
-          "INDETERMINATE": "a89a7ae4-1350-11df-a1f1-0026b9348838",
-          "BELOW DETECTABLE LIMIT": "a89c3f1e-1350-11df-a1f1-0026b9348838",
-          "UNABLE TO COLLECT SAMPLE": "a8afcec6-1350-11df-a1f1-0026b9348838",
-          "SPECIMEN NOT RECEIVED": "0271c15e-4f7f-4a18-9b45-2d7e5b6f7057",
-          "ORDERED FOR WRONG PATIENT": "3366412a-e279-4428-a671-37221804c6e6",
-          "COLLECT NEW SAMPLE": "a89c3f1e-1350-11df-a1f1-0026b9348838"
+            "POOR SAMPLE QUALITY": "a89c3f1e-1350-11df-a1f1-0026b9348838",
+            "NOT DONE": "a899ea48-1350-11df-a1f1-0026b9348838",
+            "INDETERMINATE": "a89a7ae4-1350-11df-a1f1-0026b9348838",
+            "BELOW DETECTABLE LIMIT": "a89c3f1e-1350-11df-a1f1-0026b9348838",
+            "UNABLE TO COLLECT SAMPLE": "a8afcec6-1350-11df-a1f1-0026b9348838",
+            "SPECIMEN NOT RECEIVED": "0271c15e-4f7f-4a18-9b45-2d7e5b6f7057",
+            "ORDERED FOR WRONG PATIENT": "3366412a-e279-4428-a671-37221804c6e6",
+            "COLLECT NEW SAMPLE": "a89c3f1e-1350-11df-a1f1-0026b9348838"
         }
-      }
+    }
 
     processViralLoadResults(result, patientUuid) {
         let vlAdapter = new VLAdapter(result, patientUuid);
@@ -183,13 +186,14 @@ export class LabSyncService {
 
     processDNAPCRResults(result, patientUuid) {
         let dnaPCRAdapter = new DNAPCRAdapter(result, patientUuid);
-        return Promise.all([dnaPCRAdapter.getLabResults()]);
+        return Promise.all([dnaPCRAdapter.getLabResults(), obsService.getPatientAllTestObsByPatientUuId(patientUuid)]);
     }
 
     processCD4Results(result, patientUuid) {
         let cd4Adapter = new CD4Adapter(result, patientUuid);
-        return Promise.all([cd4Adapter.getLabResults()]);
+        return Promise.all([cd4Adapter.getLabResults(), obsService.getPatientAllTestObsByPatientUuId(patientUuid)]);
     }
+
 
     handleLabRequestError(error) {
         throw Error(error.message)
