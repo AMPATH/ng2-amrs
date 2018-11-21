@@ -27,8 +27,7 @@ export class TodaysVitalsService {
     }
 
     public getTodaysVitals(todaysEncounters) {
-
-        let todaysVitals: Subject<Vital[]> = new Subject<Vital[]>();
+        this.resetVitalsModel();
         let vitals = [];
 
         return new Promise((resolve, reject) => {
@@ -160,6 +159,16 @@ export class TodaysVitalsService {
             default:
                 return ;
         }
+
+    }
+
+    private resetVitalsModel() {
+
+        this.vitalModel = {
+            diastolic: null, systolic: null,
+            pulse: null, temperature: null, oxygenSaturation: null,
+            height: null, weight: null, bmi: null , bsa: null
+        };
 
     }
 
