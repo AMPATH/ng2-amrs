@@ -34,7 +34,7 @@ export class TodaysVitalsService {
 
     public getTodaysVitals(patient: Patient, todaysEncounters) {
         this.patient = patient;
-        let todaysVitals: Subject<Vital[]> = new Subject<Vital[]>();
+        this.resetVitalsModel();
         let vitals = [];
 
         return new Promise((resolve, reject) => {
@@ -103,18 +103,27 @@ export class TodaysVitalsService {
                             let populateVital = this.populateModel(vital);
                             if (typeof populateVital !== 'undefined') {
 
-                                this.vitalModel.bmi = this.calcBMI(
-                                    this.vitalModel.height,
-                                    this.vitalModel.weight);
-                                   const zscore = this.zscoreService.getZScoreByGenderAndAge(
-                                       this.patient.person.gender,
-                                       this.patient.person.birthdate, new Date(),
-                                            this.vitalModel.height, this.vitalModel.weight);
-                                    this.vitalModel.weightForHeight = zscore.weightForHeight;
-                                    this.vitalModel.heightForAge =  zscore.heightForAge;
-                                    this.vitalModel.bmiForAge =  zscore.bmiForAge;
-                                this.hasVitals = true;
+                                    this.vitalModel.bmi = this.calcBMI(
+                                       this.vitalModel.height,
+                                       this.vitalModel.weight
+                                    );
+                                    if ((typeof this.vitalModel.height !== 'undefined' && this.vitalModel.height !== null) &&
+                                    (typeof this.vitalModel.weight !== 'undefined' && this.vitalModel.weight !== null))  {
 
+                                        const zscore = this.zscoreService.getZScoreByGenderAndAge(
+                                            this.patient.person.gender,
+                                            this.patient.person.birthdate, new Date(),
+                                            this.vitalModel.height, this.vitalModel.weight
+                                         );
+                                         this.vitalModel.weightForHeight = zscore.weightForHeight;
+                                         this.vitalModel.heightForAge =  zscore.heightForAge;
+                                         this.vitalModel.bmiForAge =  zscore.bmiForAge;
+
+                                    }
+                                    this.hasVitals = true;
+
+                            } else {
+                                console.log('populate vital undefined');
                             }
 
                         }
@@ -172,6 +181,17 @@ export class TodaysVitalsService {
             default:
                 return ;
         }
+
+    }
+
+    private resetVitalsModel() {
+
+        this.vitalModel = {
+            diastolic: null, systolic: null,
+            pulse: null, temperature: null, oxygenSaturation: null,
+            height: null, weight: null, bmi: null , bsa: null,
+            weightForHeight: null, heightForAge: null, bmiForAge: null
+        };
 
     }
 
