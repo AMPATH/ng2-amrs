@@ -1,7 +1,6 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
 var Promise = require('bluebird');
-var noteService = require('../../service/notes.service');
 var encounterService = require('../../service/openmrs-rest/encounter.js')
 var db = require('../../etl-db');
 var _ = require('underscore');
