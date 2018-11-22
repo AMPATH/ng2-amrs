@@ -121,14 +121,16 @@ export class Moh731ReportBaseComponent implements OnInit {
                 this.processInfoMsg(data);
                 this.showInfoMessage = true;
             } else {
-                // simple way to avoid a report with dashes. If this columnm exists, the report is full
-                if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
-                  this.showInfoMessage = true;
-                  this.processInfoMsg(data, true);
-                } else {
-                  this.sectionsDef = data.sectionDefinitions;
-                  this.data = data.result;
-                }
+              this.sectionsDef = data.sectionDefinitions;
+              this.data = data.result;
+                // // simple way to avoid a report with dashes. If this columnm exists, the report is full
+                // if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
+                //   this.showInfoMessage = true;
+                //   this.processInfoMsg(data, true);
+                // } else {
+                //   this.sectionsDef = data.sectionDefinitions;
+                //   this.data = data.result;
+                // }
             }
             this.isLoadingReport = false;
           }, (error) => {
