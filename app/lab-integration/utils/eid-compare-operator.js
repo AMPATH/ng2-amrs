@@ -37,7 +37,7 @@ export class EidCompareOperator {
                         obsValue = obsObj.value.toString();
                     }
                     if (obsObj.concept === eidObj.concept &&
-                        obsValue === eidObj.value.toString() && equalDate) {
+                        obsValue.trim() === eidObj.value.toString().trim() && equalDate) {
                         found = true;
                     }
                 }
