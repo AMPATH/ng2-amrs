@@ -81,14 +81,6 @@
             "expressionOptions": {
                 "expression": "diagnostic_interval"
             }
-        },
-        {
-            "type": "derived_column",
-            "alias": "clients_staged_before_treatment",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(clients_staged_before_treatment)"
-            }
         }
     ],
     "groupBy": {
