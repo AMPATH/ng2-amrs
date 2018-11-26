@@ -3237,13 +3237,8 @@ module.exports = function () {
                     auth: 'simple',
                     handler: function (request, reply) {
                         if (config.eidSyncOn === true) {
-                            let labSyncService = new LabSyncService();
-                            labSyncService.syncLabsByPatientUuid(request.query.patientUuid).then((result) => {
-                                reply(result);
-                            }).catch((error) => {
-                                console.log('Error',error);
-                                reply(Boom.notFound('Sorry, sync service temporarily unavailable.'));
-                            });
+                            const labSyncService = new LabSyncService();
+                            labSyncService.syncAllLabsByPatientUuid(request.query.patientUuid, reply);
                         }
                         else
                             reply(Boom.notImplemented('Sorry, sync service temporarily unavailable.'));

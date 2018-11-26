@@ -20,7 +20,7 @@
     "ampath-json-query-gen": "git+https://github.com/AMPATH/ampath-json-query-gen.git#v1.0.0-alpha11",
     "ampath-json2sql": "git+https://github.com/AMPATH/ampath-json2sql.git#v1.0.10",
     "array-merge-by-key": "1.0.1",
-    "async": "2.6.0",
+    "async": "^2.6.1",
     "babel": "^6.5.2",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.4.0",
