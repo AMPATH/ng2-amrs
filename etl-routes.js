@@ -3256,20 +3256,29 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        if (request.params.lab === 'ampath') {
+                        if (request.params.lab !== '') {
                             var rawPayload = JSON.parse(JSON.stringify(request.payload));
+                            var labName = request.params.lab;
                             pocEidPayloadHelper.generatePocToEidPayLoad(rawPayload).then((eidPayLoad) => {
-                                let client = new LabClient(config.hivLabSystem);
-                                return client.postLabPayload(eidPayLoad);
+                                let configObj = config.hivLabSystem[labName];
+                                if(typeof configObj !== 'undefined'){
+
+                                    let client = new LabClient(configObj);
+                                    return client.postLabPayload(eidPayLoad);
+
+                                }else{
+                                   console.error('Undefined Lab Configuration');
+                                }
+                               
                             }).then((result)=>{
                                 reply(result);
                             }).catch((error) => {
                                 let errorObject = JSON.parse(error.error)
-                                console.log('Error',errorObject);
+                                console.error('Error',errorObject);
                                 reply(errorObject.error).code(error.statusCode);
                             });
-                        } else {
-                            dao.postLabOrderToEid(request, reply);
+                        }else{
+                            console.error('No Lab Specified');
                         }
                     }
                 }
