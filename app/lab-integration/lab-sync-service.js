@@ -73,7 +73,8 @@ export class LabSyncService {
       if (response.identifiers.length === 0) {
         throw new Error('Patient without identifiers!');
       }
-      let client = new LabClient(labLocation);
+      let configObj = config.hivLabSystem[labLocation];
+      let client = new LabClient(configObj);
       return Promise.all([
         client.fetchViralLoad({patient_id: response.identifiers.join()}),
         client.fetchDNAPCR({patient_id: response.identifiers.join()}),
