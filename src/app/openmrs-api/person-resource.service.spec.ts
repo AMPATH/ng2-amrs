@@ -1,42 +1,35 @@
 
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { TestBed, async } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import {
-  Http, Response, Headers, BaseRequestOptions, ResponseOptions,
-  RequestMethod
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PersonResourceService } from './person-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 // Load the implementations that should be tested
 
 describe('Service: PersonResourceService Unit Tests', () => {
+  let service: PersonResourceService;
+
+  let httpMock: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         LocalStorageService,
         PersonResourceService
       ],
     });
+
+    service = TestBed.get(PersonResourceService);
+    httpMock = TestBed.get(HttpTestingController);
+
   }));
   afterEach(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
@@ -74,65 +67,57 @@ describe('Service: PersonResourceService Unit Tests', () => {
     ]
   };
 
-  it('should be injected with all dependencies',
-    inject([PersonResourceService],
-      (personResourceService: PersonResourceService) => {
-        expect(personResourceService).toBeTruthy();
-      }));
+  it('should be injected with all dependencies', () => {
+    expect(service).toBeDefined();
+  })
 
-  it('should return a person when the correct uuid is provided', (done) => {
+  it('should return a person when the correct uuid is provided without v', (done) => {
 
-    let personResourceService: PersonResourceService = TestBed.get(PersonResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url).toContain('person/' + personuid);
-      expect(connection.request.url).toContain('v=');
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    personResourceService.getPersonByUuid(personuid)
+    service.getPersonByUuid(personuid)
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(service.getUrl() + '/' + personuid +
+      '?v=full');
+    expect(req.request.urlWithParams).toContain('person/' + personuid);
+    expect(req.request.urlWithParams).toContain('v=');
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify({}));
   });
+  it('should return a person when the correct uuid is provided with v', (done) => {
 
-  it('should return null when params are not specified', async(inject(
-    [PersonResourceService, MockBackend], (service, mockBackend) => {
-
-      mockBackend.connections.subscribe(conn => {
-        throw new Error('No requests should be made.');
+    service.getPersonByUuid(personuid, false, '9')
+      .subscribe((response) => {
+        done();
       });
 
-      const result = service.saveUpdatePerson(null);
+    const req = httpMock.expectOne(service.getUrl() + '/' + personuid +
+      '?v=9');
+    expect(req.request.urlWithParams).toContain('person/' + personuid);
+    expect(req.request.urlWithParams).toContain('v=');
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify({}));
+  });
 
-      expect(result).toBeNull();
-    })));
+  it('should return null when params are not specified', async(() => {
+
+    const result = service.saveUpdatePerson(null, null);
+
+    expect(result).toBeNull();
+  }));
 
   it('should call the right endpoint when updating a person', (done) => {
 
-    let s: PersonResourceService = TestBed.get(PersonResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url)
-        .toEqual('http://example.url.com/ws/rest/v1/person/' + personuid);
-      expect(connection.request.method).toBe(RequestMethod.Post);
-      let options = new ResponseOptions({
-        body: JSON.stringify({})
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    s.saveUpdatePerson(personuid, personPayload)
+    service.saveUpdatePerson(personuid, personPayload)
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(service.getUrl() + '/' + personuid );
+    expect(req.request.url).toContain('person/' + personuid);
+    expect(req.request.method).toBe('POST');
+    req.flush(JSON.stringify({}));
   });
 });
 

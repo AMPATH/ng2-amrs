@@ -1,147 +1,178 @@
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { LocationResourceService } from './location-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
-// Load the implementations that should be tested
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
+class StorageService {
+
+}
 describe('LocationResourceService Unit Tests', () => {
+
+  let service: LocationResourceService;
+
+  let httpMock: HttpTestingController;
+
+  let appSettingsService: AppSettingsService;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CacheModule],
+      imports: [CacheModule, HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         LocationResourceService,
         LocalStorageService,
         DataCacheService,
-        CacheService
-      ],
+        CacheService,
+        {provide: CacheStorageService, useClass: StorageService}
+      ]
     });
+
+    service = TestBed.get(LocationResourceService);
+
+    httpMock = TestBed.get(HttpTestingController);
+
+    appSettingsService = TestBed.get(AppSettingsService);
+
   }));
 
   afterAll(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
-  it('should have getLocations defined',
-    inject([LocationResourceService],
-      (locationResourceService: LocationResourceService) => {
-        expect(locationResourceService.getLocations()).toBeTruthy();
-      }));
+  it('should have getLocations defined', () => {
+    expect(service).toBeDefined();
+  })
 
-  it('should make API call with correct URL',
-    inject([LocationResourceService, MockBackend],
-      fakeAsync((locationResourceService: LocationResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
+  it('should make API call with correct URL', fakeAsync(() => {
+    tick(50);
+    service.getLocations(true);
 
-          expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toContain('/ws/rest/v1/location?v=full');
-        });
-        tick(50);
-        expect(locationResourceService.getLocations());
-      })));
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams)
+      .toContain('/ws/rest/v1/location?v=full');
+  }));
 
-  it('It should return an array of location object when getLocation is invoked',
-    inject([MockBackend, LocationResourceService],
-      (backend: MockBackend, locationResourceService: LocationResourceService) => {
-        // stubbing
-        backend.connections.subscribe((connection: MockConnection) => {
-          let options = new ResponseOptions({
-            body: JSON.stringify({
-              results: [
-                {
-                  uuid: 'uuid',
-                  display: 'location'
-                }, {
-                  uuid: 'uuid',
-                  display: 'location'
-                }
-              ]
-            })
-          });
-          connection.mockRespond(new Response(options));
-        });
+  it('It should return an array of location object when getLocation is invoked', () => {
 
-        locationResourceService.getLocations()
-          .subscribe((response) => {
-            expect(response).toContain({ uuid: 'uuid', display: 'location' });
-            expect(response).toBeDefined();
+    let results = [
+      {
+        uuid: 'uuid',
+        display: 'location'
+      }, {
+        uuid: 'uuid',
+        display: 'location'
+      }
+    ]
+    service.getLocations()
+      .subscribe((result) => {
+        expect(results).toContain({ uuid: 'uuid', display: 'location' });
+        expect(results).toBeDefined();
 
-          });
-      }));
+      });
 
-  it('should return a location when the correct uuid is provided',
-    inject([MockBackend, LocationResourceService],
-      (backend: MockBackend, locationResourceService: LocationResourceService) => {
-        // stubbing
-        let locationUuid = 'xxx-xxx-xxx-xxx';
-        backend.connections.subscribe((connection: MockConnection) => {
-          expect(connection.request.url).toContain('location/' + locationUuid);
-          expect(connection.request.url).toContain('v=');
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams)
+      .toContain('/ws/rest/v1/location?v=full');
+    req.flush(results);
+  });
 
-          let options = new ResponseOptions({
-            body: JSON.stringify({
-              results: [
-                {
-                  uuid: 'xxx-xxx-xxx-xxx',
-                  display: 'location'
-                }
-              ]
-            })
-          });
-          connection.mockRespond(new Response(options));
-        });
 
-        locationResourceService.getLocationByUuid(locationUuid)
-          .subscribe((response) => {
-            expect(response.results[0].uuid).toBe('xxx-xxx-xxx-xxx');
-          });
-      }));
+  it('should return a location when the correct uuid is provided without v', () => {
+    let locationUuid = 'xxx-xxx-xxx-xxx';
+    let results = [
+      {
+        uuid: 'xxx-xxx-xxx-xxx',
+        display: 'location'
+      }
+    ]
 
-  it('should return a list of locations matching search string provided',
-    inject([MockBackend, LocationResourceService],
-      (backend: MockBackend, locationResourceService: LocationResourceService) => {
-        // stubbing
-        let searchText = 'test';
-        backend.connections.subscribe((connection: MockConnection) => {
-          expect(connection.request.url).toContain('q=' + searchText);
-          expect(connection.request.url).toContain('v=');
+    service.getLocationByUuid(locationUuid)
+      .subscribe((result) => {
+        expect(results[0].uuid).toBe('xxx-xxx-xxx-xxx');
+      });
 
-          let options = new ResponseOptions({
-            body: JSON.stringify({
-              results: [
-                {
-                  uuid: 'uuid',
-                  display: ''
-                },
-                {
-                  uuid: 'uuid',
-                  display: ''
-                }
-              ]
-            })
-          });
-          connection.mockRespond(new Response(options));
-        });
+    // stubbing
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '/' + locationUuid + '?v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('location/' + locationUuid);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush(results);
+  });
+  it('should return a location when the correct uuid is provided with v', (done) => {
+    let locationUuid = 'xxx-xxx-xxx-xxx';
+    let results = [
+      {
+        uuid: 'xxx-xxx-xxx-xxx',
+        display: 'location'
+      }
+    ]
 
-        locationResourceService.searchLocation(searchText)
-          .subscribe((data) => {
-            expect(data.length).toBeGreaterThan(0);
-          });
+    service.getLocationByUuid(locationUuid, false, '9')
+      .subscribe((response) => {
+        done();
+      });
 
-      }));
+    // stubbing
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '/' + locationUuid + '?v=9');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('location/' + locationUuid);
+    expect(req.request.urlWithParams).toContain('v=9');
+    req.flush(results);
+  });
+
+  it('should return a list of locations matching search string provided without v', () => {
+    let searchText = 'test';
+    let results = [
+      {
+        uuid: 'uuid',
+        display: ''
+      },
+      {
+        uuid: 'uuid',
+        display: ''
+      }
+    ]
+    service.searchLocation(searchText)
+      .subscribe((data) => {
+        // expect(data.length).toBeGreaterThan(0);
+      });
+
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?q=' + searchText + '&v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('q=' + searchText);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush(results);
+  });
+  it('should return a list of locations matching search string provided with v', (done) => {
+    let searchText = 'test';
+    let results = [
+      {
+        uuid: 'uuid',
+        display: ''
+      },
+      {
+        uuid: 'uuid',
+        display: ''
+      }
+    ]
+    service.searchLocation(searchText, false, '9')
+      .subscribe((data) => {
+        done();
+      });
+
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?q=' + searchText + '&v=9');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('q=' + searchText);
+    expect(req.request.urlWithParams).toContain('v=9');
+    req.flush(results);
+  });
 
 });

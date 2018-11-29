@@ -31,6 +31,22 @@ describe('Drafted Forms Service:', () => {
         expect(service).toBeTruthy();
     });
 
+    it('should have all the required functions defined and callable', () =>{
+        let service = TestBed.get(DraftedFormsService);
+        spyOn(service, 'getRouteSnapshot').and.callFake(() => {})
+        service.getRouteSnapshot()
+        expect(service.getRouteSnapshot).toHaveBeenCalled();
+
+        spyOn(service, 'setCancelState').and.callFake(() => {})
+        service.setCancelState()
+        expect(service.setCancelState).toHaveBeenCalled();
+
+        let sampleForm: Form = new Form(null, null, null);
+        spyOn(service, 'setDraftedForm').and.callFake(() => {})
+        service.setDraftedForm(sampleForm)
+        expect(service.setDraftedForm).toHaveBeenCalled();
+    })
+
     it('should notify subscribers when a drafted form is set', (done) => {
         let service = TestBed.get(DraftedFormsService);
 
@@ -43,7 +59,6 @@ describe('Drafted Forms Service:', () => {
             }
         });
         service.setDraftedForm(sampleForm);
-
     });
 });
 

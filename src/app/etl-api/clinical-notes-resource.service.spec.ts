@@ -69,7 +69,7 @@ describe('Clinical notes Resource Service Unit Tests', () => {
 
         mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
 
-        notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data) => {
+        notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data: any) => {
 
           expect(data).toBeTruthy();
           expect(data.status).toBeDefined();

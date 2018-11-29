@@ -1,125 +1,139 @@
 
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { TestBed, async } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { OrderResourceService } from './order-resource.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 // Load the implementations that should be tested
 
 describe('Service : OrderResourceService Unit Tests', () => {
 
+  let orderResourceService: OrderResourceService;
+  let httpMock: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         LocalStorageService,
         OrderResourceService
       ],
     });
+
+    orderResourceService = TestBed.get(OrderResourceService);
+    httpMock = TestBed.get(HttpTestingController);
   }));
+
   afterEach(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
-  it('should be injected with all dependencies',
-    inject([OrderResourceService],
-      (orderResourceService: OrderResourceService) => {
-        expect(orderResourceService).toBeTruthy();
-      }));
-  it('should return a list of orders when the correct PatientUuid is provided', (done) => {
+  it('should be injected with all dependencies', () => {
+    expect(orderResourceService).toBeDefined();
+  })
 
-    let orderResourceService: OrderResourceService = TestBed.get(OrderResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+  it('should return a list of orders when the correct PatientUuid is provided without v  ', () => {
 
     let patientUuid = '3a8cd157-38d4-4a50-9121-ab15c7459382';
 
-    backend.connections.subscribe((connection: MockConnection) => {
+    orderResourceService.getOrdersByPatientUuid(patientUuid).subscribe();
 
-      expect(connection.request.url).
-      toBe('http://example.url.com/ws/rest/v1/order?patient=' + patientUuid +
-        '&v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
-        'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-        'instructions,orderer:default,encounter:full,patient:full,concept:ref)');
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
+    const req = httpMock.expectOne(orderResourceService.getUrl() + '?patient=' + patientUuid + 
+    '&v=custom:(display,uuid,orderNumber,accessionNumber,' +
+    'orderReason,orderReasonNonCoded,urgency,action,' +
+    'commentToFulfiller,dateActivated,instructions,orderer:default,' +
+    'encounter:full,patient:full,concept:ref)');
 
-    orderResourceService.getOrdersByPatientUuid(patientUuid)
-      .subscribe((response) => {
-        done();
-      });
+    expect(req.request.method).toBe('GET');
+
+    req.flush(JSON.stringify({}));
   });
-  it('should return an order when a matching order number is provided', (done) => {
+  it('should return a list of orders when the correct PatientUuid is provided with v', () => {
 
-    let orderResourceService: OrderResourceService = TestBed.get(OrderResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+    let patientUuid = '3a8cd157-38d4-4a50-9121-ab15c7459382';
+
+    orderResourceService.getOrdersByPatientUuid(patientUuid, false, '9').subscribe();
+
+    const req = httpMock.expectOne(orderResourceService.getUrl() + '?patient=' + patientUuid + 
+    '&v=9');
+
+    expect(req.request.method).toBe('GET');
+
+    req.flush(JSON.stringify({}));
+  });
+  it('should return an order when a matching order number is provided without v', (done) => {
 
     let orderId = 'ORD-8934';
 
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url).toBe(
-        'http://example.url.com/ws/rest/v1/order/' + orderId + '?' +
-        'v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
-        'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-        'instructions,orderer:default,encounter:full,patient:full,concept:ref)');
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-   orderResourceService.searchOrdersById(orderId)
+    orderResourceService.searchOrdersById(orderId)
       .subscribe((response) => {
         done();
       });
 
+      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderId + 
+      '?v=custom:(display,uuid,orderNumber,accessionNumber,' +
+      'orderReason,orderReasonNonCoded,urgency,action,' +
+      'commentToFulfiller,dateActivated,instructions,orderer:default,' +
+      'encounter:full,patient:full,concept:ref)');
+  
+      expect(req.request.method).toBe('GET');
+  
+      req.flush(JSON.stringify({}));
   });
-  it('should return an order when a orderUuid  is provided', (done) => {
+  it('should return an order when a matching order number is provided with v', (done) => {
 
-    let orderResourceService: OrderResourceService = TestBed.get(OrderResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+    let orderId = 'ORD-8934';
+
+    orderResourceService.searchOrdersById(orderId, false, '9')
+      .subscribe((response) => {
+        done();
+      });
+
+      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderId + 
+      '?v=9');
+  
+      expect(req.request.method).toBe('GET');
+  
+      req.flush(JSON.stringify({}));
+  });
+  it('should return an order when a orderUuid  is provided without v', (done) => { 
 
     let orderUUid = 'uuid';
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url).toBe(
-        'http://example.url.com/ws/rest/v1/order/' + orderUUid + '?' +
-        'v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
-        'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-        'instructions,orderer:default,encounter:full,patient:full,concept:ref)'
-      );
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
 
     orderResourceService.getOrderByUuid(orderUUid)
       .subscribe((response) => {
         done();
       });
+
+      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderUUid + '?' +
+      'v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
+      'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
+      'instructions,orderer:default,encounter:full,patient:full,concept:ref)');
+  
+      expect(req.request.method).toBe('GET');
+  
+      req.flush(JSON.stringify({}));
+
+  });
+  it('should return an order when a orderUuid  is provided with v', (done) => { 
+
+    let orderUUid = 'uuid';
+
+    orderResourceService.getOrderByUuid(orderUUid, false, '9')
+      .subscribe((response) => {
+        done();
+      });
+
+      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderUUid + '?' +
+      'v=9');
+  
+      expect(req.request.method).toBe('GET');
+  
+      req.flush(JSON.stringify({}));
 
   });
 });

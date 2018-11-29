@@ -129,7 +129,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
                     // check for state during fetching
                     expect(comp.isLoadingReport).toBe(true);
-                    expect(comp.encounteredError).toBe(false);
+                    expect(comp.statusError).toBe(false);
                     expect(comp.errorMessage).toBe('');
                     expect(comp.sectionsDef).toEqual([]);
                     expect(comp.data).toEqual([]);
@@ -139,7 +139,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
                         // check for state after successful loading
                         expect(comp.isLoadingReport).toBe(false);
-                        expect(comp.encounteredError).toBe(false);
+                        expect(comp.statusError).toBe(false);
                         expect(comp.errorMessage).toBe('');
 
                         // results should be set
@@ -160,7 +160,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
             // simulate previous erroneous state
             comp.isLoadingReport = false;
-            comp.encounteredError = true;
+            comp.statusError = true;
             comp.errorMessage = 'some error';
             comp.data = [{ some: 'data' }];
             comp.sectionsDef = [{ some: 'sectionDefinitions' }];
@@ -183,7 +183,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
                         // check for state after successful loading
                         expect(comp.isLoadingReport).toBe(false);
-                        expect(comp.encounteredError).toBe(true);
+                        expect(comp.statusError).toBe(true);
                         expect(comp.errorMessage).toEqual('some error');
 
                         // results should be set

@@ -1,46 +1,40 @@
-import { async, inject, TestBed } from '@angular/core/testing';
-import {
-  BaseRequestOptions, Http, HttpModule, Response,
-  ResponseOptions, RequestMethod
-} from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   PatientRelationshipTypeResourceService
 } from './patient-relationship-type-resource.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('Service: Pratient Relationship ResourceService', () => {
+
+  let service: PatientRelationshipTypeResourceService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         PatientRelationshipTypeResourceService,
         AppSettingsService,
-        LocalStorageService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        }
+        LocalStorageService
       ],
       imports: [
-        HttpModule
+        HttpClientTestingModule
       ]
     });
+
+    service = TestBed.get(PatientRelationshipTypeResourceService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
   afterAll(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
-  it('should be defined', async(inject(
-    [PatientRelationshipTypeResourceService, MockBackend], (service, mockBackend) => {
-
-      expect(service).toBeDefined();
-    })));
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  })
   let relationshipTypesResponse = {
     results: [{
       uuid: '7878d348-1359-11df-a1f1-0026b9348838',
@@ -62,35 +56,18 @@ describe('Service: Pratient Relationship ResourceService', () => {
     }]
   };
 
-
   it('should call the right endpoint when getting person relationship types', (done) => {
-
-    let s: PatientRelationshipTypeResourceService =
-      TestBed.get(PatientRelationshipTypeResourceService);
-
-    let backend: MockBackend = TestBed.get(MockBackend);
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url)
-        .toEqual('http://example.url.com/ws/rest/v1/relationshiptype?v=full');
-      expect(connection.request.url).toContain('v=');
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      let options = new ResponseOptions({
-        body: JSON.stringify(relationshipTypesResponse)
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    s.getPatientRelationshipTypes()
+    service.getPatientRelationshipTypes()
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(service.getUrl() + '?v=full');
+    expect(req.request.urlWithParams)
+      .toEqual('https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/relationshiptype?v=full');
+    expect(req.request.urlWithParams).toContain('v=');
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify(relationshipTypesResponse));
   });
 
 });
-
-
-
-
-

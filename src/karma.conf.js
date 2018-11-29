@@ -39,7 +39,7 @@ module.exports = function (config) {
         flags: ['--remote-debugging-port=9333']
       }
     },
-    singleRun: true,
+    singleRun: false,
     captureTimeout: 210000,
     browserDisconnectTolerance: 3,
     browserDisconnectTimeout: 210000,

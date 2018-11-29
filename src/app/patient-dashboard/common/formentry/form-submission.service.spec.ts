@@ -1,9 +1,7 @@
 
 import {throwError as observableThrowError, of,  Observable, Subject } from 'rxjs';
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { Http, BaseRequestOptions, Response, ResponseOptions, HttpModule } from '@angular/http';
 import { FormSubmissionService } from './form-submission.service';
 import {
   EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper, Form
@@ -19,6 +17,9 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { ZscoreService } from 'src/app/shared/services/zscore.service';
 
 describe('Service: FormSubmissionService', () => {
 
@@ -88,12 +89,14 @@ describe('Service: FormSubmissionService', () => {
     message: 'Unable to convert object into response content',
   };
 
+  class StorageService {
+    
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
       providers: [
-        BaseRequestOptions,
-        MockBackend,
         FormSubmissionService,
         EncounterAdapter,
         PersonAttribuAdapter,
@@ -112,14 +115,11 @@ describe('Service: FormSubmissionService', () => {
         ErrorLogResourceService,
         DataCacheService,
         CacheService,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        ZscoreService,
+        {provide: CacheStorageService, useClass: StorageService}
       ],
       imports: [
-        HttpModule, CacheModule
+        CacheModule, HttpClientTestingModule
       ]
     });
   });
