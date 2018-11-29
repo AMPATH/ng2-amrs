@@ -153,7 +153,7 @@ class FakeCacheStorageService {
   }
 }
 
-/*describe('Component: FormentryComponent', () => {
+xdescribe('Component: FormentryComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -769,49 +769,3 @@ class FakeCacheStorageService {
   );
 });
 
-
-class EncounterResourceServiceMock {
-  constructor() {
-  }
-
-  public getEncounterByUuid(formSchema: object): any {
-    const subject = of({
-      uuid: 'encounter-uuid',
-      display: 'encounter'
-    });
-    return subject;
-
-  }
-}
-
-class PatientServiceMock {
-  public currentlyLoadedPatient: BehaviorSubject<Patient>
-    = new BehaviorSubject(
-      new Patient({
-        uuid: 'patient-uuid',
-        display: 'patient name',
-        person: {
-          uuid: 'person-uuid',
-          display: 'person name'
-        }
-      })
-    );
-
-  constructor() {
-  }
-
-}
-
-export class FakePatientReferralService {
-
-  constructor() { }
-
-  public saveProcessPayload(payload: any) {
-
-  }
-
-  public getProcessPayload() {
-    return of({});
-  }
-
-}*/

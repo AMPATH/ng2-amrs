@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { AddCohortListComponent } from './add-cohort-list.component';
 import { CohortListService } from './cohort-list.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from './../utils/local-storage.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: AddCohortList Unit Tests', () => {
 
@@ -72,9 +72,8 @@ describe('Component: AddCohortList Unit Tests', () => {
     });
     component.displayErrorAlert((err, data) => {
     });
-    expect(component.displayErrorAlert).toHaveBeenCalled();
-
-    done();
+    expect(component.displayErrorAlert).toHaveBeenCalled(); 
+   done();
 
   });
 });
