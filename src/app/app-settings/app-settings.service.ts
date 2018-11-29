@@ -57,7 +57,7 @@ export class AppSettingsService {
   }
 
   constructor(private localStorageService: LocalStorageService) {
-    let cachedUrls =
+    const cachedUrls =
       localStorageService.getObject(AppSettingsService.OPENMRS_LIST_STORAGE_KEY);
     if (cachedUrls) {
       this._openmrsServerUrls = cachedUrls;
@@ -66,14 +66,14 @@ export class AppSettingsService {
         this.openmrsServerUrls);
     }
 
-    let cachedUrl = localStorageService.getItem(AppSettingsService.OPENMRS_SERVER_KEY);
+    const cachedUrl = localStorageService.getItem(AppSettingsService.OPENMRS_SERVER_KEY);
     if (cachedUrl) {
       this._openmrsServer = cachedUrl;
     } else {
       this.setOpenmrsServer(AppSettingsService.DEFAULT_OPENMRS_SERVER_URL);
     }
 
-    let cachedEtlUrls = localStorageService.getItem(AppSettingsService.ETL_LIST_STORAGE_KEY);
+    const cachedEtlUrls = localStorageService.getItem(AppSettingsService.ETL_LIST_STORAGE_KEY);
     if (cachedEtlUrls) {
       this._etlServerUrls = JSON.parse(cachedEtlUrls);
     } else {
@@ -81,7 +81,7 @@ export class AppSettingsService {
         JSON.stringify(this.etlServerUrls));
     }
 
-    let cachedEtlUrl = localStorageService.getItem(AppSettingsService.ETL_SERVER_KEY);
+    const cachedEtlUrl = localStorageService.getItem(AppSettingsService.ETL_SERVER_KEY);
     if (cachedEtlUrl) {
       this._etlServer = cachedEtlUrl;
     } else {

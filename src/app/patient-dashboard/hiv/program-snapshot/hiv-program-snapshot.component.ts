@@ -1,4 +1,3 @@
-
 import {take} from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
@@ -16,12 +15,12 @@ const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 })
 export class HivProgramSnapshotComponent implements OnInit {
   @Input() public patient: Patient;
-  public hasError: boolean = false;
-  public hasData: boolean = false;
+  public hasError = false;
+  public hasData = false;
   public patientData: any = {};
-  public loadingData: boolean = false;
-  public hasLoadedData: boolean = false;
-  public isVirallyUnsuppressed: boolean = false;
+  public loadingData = false;
+  public hasLoadedData = false;
+  public isVirallyUnsuppressed = false;
   public patientCareStatus: any;
   @Output() public addBackground = new EventEmitter();
   public location: any = {};
@@ -73,7 +72,7 @@ export class HivProgramSnapshotComponent implements OnInit {
         this.patientData = _.first(_.filter(results, (encounter: any) => {
           return encounter.is_clinical_encounter === 1;
         }));
-        let patientDataCopy = this.patientData;
+        const patientDataCopy = this.patientData;
         if (!_.isNil(this.patientData)) {
           // assign latest vl and vl_1_date
           this.patientData = Object.assign(patientDataCopy,
@@ -104,7 +103,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   public getPatientCareStatus(id: any) {
-    let translateMap = {
+    const translateMap = {
       '159': 'DECEASED',
       '9079': 'UNTRACEABLE',
       '9080': 'PROCESS OF BEING TRACED',
@@ -126,11 +125,11 @@ export class HivProgramSnapshotComponent implements OnInit {
     // if it is past RTC Date by 1 week and status = continue, can you make background pink
     if (this.patientCareStatus === 6101 &&
       moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
-      let color = this.backgroundColor.pink;
+      const color = this.backgroundColor.pink;
       this.addBackground.emit(color);
     }
     if (this.patientCareStatus  === 1287 ) {
-      let color = this.backgroundColor.yellow;
+      const color = this.backgroundColor.yellow;
       this.addBackground.emit(color);
     }
 

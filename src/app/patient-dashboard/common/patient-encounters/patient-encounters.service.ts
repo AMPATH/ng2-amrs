@@ -1,7 +1,7 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject ,  Subscription } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../models/encounter.model';
@@ -14,14 +14,14 @@ export class PatientEncounterService {
   }
 
   public getEncountersByPatientUuid(patientUuid: string,
-                                    cached: boolean = false,
-                                    v: string = null): Observable<Encounter[]> {
-    let encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
-    let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
+    cached: boolean = false,
+    v: string = null): Observable<Encounter[]> {
+    const encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
+    const encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
     this.busy = encounterObservable.pipe(take(1)).subscribe(
       (encounters) => {
-        let mappedEncounters: Encounter[] = new Array<Encounter>();
+        const mappedEncounters: Encounter[] = new Array<Encounter>();
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < encounters.length; i++) {
           mappedEncounters.push(new Encounter(encounters[i]));

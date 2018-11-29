@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { OnInit, Component, OnDestroy } from '@angular/core';
@@ -13,20 +13,20 @@ import { Subscription } from 'rxjs';
 
 export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
-  public displayConfirmDialog: boolean = false;
+  public displayConfirmDialog = false;
   public patientUuid: string;
-  public loadingRelationships: boolean = false;
+  public loadingRelationships = false;
   public errors: any;
   public relationships: any = [];
   public selectedRelationshipUuid: string;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;
 
   constructor(private patientService: PatientService,
-              private patientRelationshipService: PatientRelationshipService) {
+    private patientRelationshipService: PatientRelationshipService) {
   }
 
   public ngOnInit(): void {
@@ -45,15 +45,15 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient !== null) {
           this.patientUuid = patient.person.uuid;
-          let request = this.patientRelationshipService.getRelationships(this.patientUuid);
+          const request = this.patientRelationshipService.getRelationships(this.patientUuid);
           request.pipe(
             take(1)).subscribe(
-            (relationships) => {
-              if (relationships) {
-                this.relationships = relationships;
-                this.loadingRelationships = false;
+              (relationships) => {
+                if (relationships) {
+                  this.relationships = relationships;
+                  this.loadingRelationships = false;
+                }
               }
-            }
             );
         }
       }
@@ -70,9 +70,9 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
     if (this.selectedRelationshipUuid) {
       this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).subscribe(
         (success) => {
-            this.patientService.reloadCurrentPatient();
-            this.displayConfirmDialog = false;
-            this.displaySuccessAlert('Relationship deleted successfully');
+          this.patientService.reloadCurrentPatient();
+          this.displayConfirmDialog = false;
+          this.displaySuccessAlert('Relationship deleted successfully');
         },
         (error) => {
           console.error('The request failed because of the following ', error);

@@ -1,12 +1,7 @@
-import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AgGridModule } from 'ag-grid-angular';
-import { DataEntryStatisticsCreatorsListComponent } from
-'./data-entry-statistics-creators-list.component';
+import { DataEntryStatisticsCreatorsListComponent } from './data-entry-statistics-creators-list.component';
 
 const mockCreatorResult: any = [
   {
@@ -45,10 +40,10 @@ const mockCreatorResultRow: any = [
     BETWEENCAREVISIT: 1,
     total: 7,
     total_clinical: 6,
-    clinicalEncounters: [ 'uuid1' ],
+    clinicalEncounters: ['uuid1'],
     location: 'MTRH-1',
     locationUuid: 'uuid'
-   }
+  }
 ];
 const mockParams = {
   providerUuid: '',
@@ -65,9 +60,9 @@ describe('Component: Data Entry Creators List', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:
-      [
-        AgGridModule.withComponents([])
-      ],
+        [
+          AgGridModule.withComponents([])
+        ],
       declarations: [
         DataEntryStatisticsCreatorsListComponent
       ],
@@ -77,25 +72,51 @@ describe('Component: Data Entry Creators List', () => {
       .then(() => {
         fixture = TestBed.createComponent(DataEntryStatisticsCreatorsListComponent);
         comp = fixture.componentInstance;
-        cd = fixture.debugElement.injector.get(ChangeDetectorRef);
+        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef as any);
 
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
   it('should create an instance', () => {
-      expect(comp).toBeDefined();
+    expect(comp).toBeDefined();
   });
   it('should create encounter Creator rows from obtained result', (done: DoneFn) => {
     comp.dataEntryEncounters = mockCreatorResult;
     comp.params = mockParams;
-    let spy = spyOn(comp, 'setPinnedRow').and.returnValue(true);
+    const spy = spyOn(comp, 'setPinnedRow').and.returnValue(true);
     comp.processCreatorData();
     cd.detectChanges();
     expect(comp.creatorRowData).toEqual(mockCreatorResultRow);
+    done();
+  });
+
+  it('should generate the correct totals row', (done: DoneFn) => {
+    const totalCreatorEncounters = 6;
+    const totalCreatorClinicalEncounters = 4;
+    const totalsMap = new Map();
+    comp.params = {
+      'locationUuids': '08feae7c-1352-11df-a1f1-0026b9348838'
+    };
+    totalsMap.set('HIVTRIAGE', 2);
+    totalsMap.set('ADULTRETURN', 2);
+    totalsMap.set('DIFFERENTIATEDCARECLINICIAN', 2);
+    const expectedTotal = {
+      creators: 'Totals',
+      creatorUuid: '',
+      total: 6,
+      total_clinical: 4,
+      clinicalEncounters: [],
+      locationUuid: '08feae7c-1352-11df-a1f1-0026b9348838',
+      HIVTRIAGE: 2,
+      ADULTRETURN: 2,
+      DIFFERENTIATEDCARECLINICIAN: 2
+    };
+    const totalsRow = comp.createTotalsRow(totalsMap, totalCreatorEncounters, totalCreatorClinicalEncounters);
+    expect(totalsRow).toEqual(expectedTotal);
     done();
   });
 

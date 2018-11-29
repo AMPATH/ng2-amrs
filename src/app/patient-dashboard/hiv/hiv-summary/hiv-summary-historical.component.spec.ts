@@ -1,7 +1,4 @@
 import { TestBed, inject, async } from '@angular/core/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-
 import { HivSummaryService } from './hiv-summary.service';
 import { HivSummaryHistoricalComponent } from './hiv-summary-historical.component';
 import { PatientService } from '../../services/patient.service';
@@ -10,17 +7,19 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
-import { ProgramEnrollmentResourceService }
-  from '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+  ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: HivSummaryHistorical Unit Tests', () => {
 
@@ -29,6 +28,7 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
@@ -42,15 +42,6 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
         EncounterResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         LocalStorageService
       ]

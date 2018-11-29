@@ -6,12 +6,12 @@ import { EncounterResourceService } from '../openmrs-api/encounter-resource.serv
  * FakeLabOrderResourceService
  */
 export class FakeLabOrderResourceService {
-    public returnErrorOnNext: boolean = false;
+    public returnErrorOnNext = false;
     constructor() {
     }
     public postOrderToEid(location, payload: any): Observable<any> {
-        let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-        let data = {
+        const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+        const data = {
           result: {
             'type': 'VL',
             'locationUuid': 'xxxxxx',

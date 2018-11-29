@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import *  as _ from 'lodash';
-import { AppFeatureAnalytics } from
-  '../../../../shared/app-analytics/app-feature-analytics.service';
+import * as _ from 'lodash';
+import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
 import { TodayVisitService, VisitsEvent } from '../today-visit.service';
 import { TitleCasePipe } from '../../../../shared/pipes/title-case.pipe';
 
@@ -13,12 +12,12 @@ import { TitleCasePipe } from '../../../../shared/pipes/title-case.pipe';
 })
 export class TodayVisitsComponent implements OnInit {
 
-  public programClassUuid: string = '';
-  public programUuid: string = '';
+  public programClassUuid = '';
+  public programUuid = '';
   public isBusy = false;
   public errors = [];
   public groupedVisits = [];
-  public index: number = 0;
+  public index = 0;
 
   constructor(
     private router: Router,

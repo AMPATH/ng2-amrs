@@ -30,8 +30,8 @@ export class HivCareIndicatorDefComponent implements OnInit {
   }
 
   public createIndicatorDefinitionsDictionary(indicatorDefinitions) {
-    let arr = [];
-    let dictionary = {};
+    const arr = [];
+    const dictionary = {};
     _.each(indicatorDefinitions, (indicatorDefinition: any) => {
       dictionary[indicatorDefinition.name] = indicatorDefinition.description;
     });

@@ -1,10 +1,10 @@
-import { OnInit, OnDestroy, Component, ViewChild } from "@angular/core";
-import { GeneXpertResourceService } from "./genexpert-images-resource.service";
-import { Subscription } from "rxjs";
-import { PatientService } from "../../services/patient.service";
-import { mergeMap } from "rxjs/operators";
-import { ModalDirective } from "ngx-bootstrap";
-import { AppSettingsService } from "../../../app-settings/app-settings.service";
+import { OnInit, OnDestroy, Component, ViewChild } from '@angular/core';
+import { GeneXpertResourceService } from './genexpert-images-resource.service';
+import { Subscription } from 'rxjs';
+import { PatientService } from '../../services/patient.service';
+import { mergeMap } from 'rxjs/operators';
+import { ModalDirective } from 'ngx-bootstrap';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 @Component({
     selector: 'genexpert-images',
@@ -30,7 +30,7 @@ export class GeneXpertImagesComponent implements OnInit, OnDestroy {
             if (patient) {
                 this.getImages(patient.uuid);
             }
-        }))
+        }));
     }
 
     getImages(patientUuid) {

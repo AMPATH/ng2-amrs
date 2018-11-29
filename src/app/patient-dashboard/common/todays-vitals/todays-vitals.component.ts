@@ -6,8 +6,7 @@ import { Patient } from '../../../models/patient.model';
 
 import { Vital } from '../../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
-import { EncounterResourceService }
-  from './../../../openmrs-api/encounter-resource.service';
+import { EncounterResourceService } from './../../../openmrs-api/encounter-resource.service';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { CommonVitalsSource } from './sources/common-vitals.source';
@@ -56,9 +55,9 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   public todaysVitals: Array<Vital | any> = [];
   public errors: any[] = [];
   public currentPatientSub: Subscription;
-  public loadingTodaysVitals: boolean = false;
-  public dataLoaded: boolean = false;
-  public showAll: boolean = false;
+  public loadingTodaysVitals = false;
+  public dataLoaded = false;
+  public showAll = false;
   private vitalSources: any[] = [];
 
   constructor(
@@ -114,10 +113,10 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysEncounters(encounters) {
-    let today = Moment().format('YYYY-MM-DD');
-    let todaysEncounters = [];
+    const today = Moment().format('YYYY-MM-DD');
+    const todaysEncounters = [];
     _.each(encounters, (encounter: any) => {
-      let encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD');
+      const encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD');
       if (encounterDate === today) {
         todaysEncounters.push(encounter);
       }
@@ -131,11 +130,11 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
 
     return new Promise((resolve, reject) => {
 
-      let encounterWithDetails = [];
+      const encounterWithDetails = [];
       let encounterCount = 0;
       let resultCount = 0;
 
-      let checkCount = () => {
+      const checkCount = () => {
 
         if (resultCount === encounterCount) {
 
@@ -147,7 +146,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
 
       _.each(todaysEncounters, (todaysEncounter: any) => {
 
-        let encounterUuid = todaysEncounter.uuid;
+        const encounterUuid = todaysEncounter.uuid;
         encounterCount++;
 
         this._encounterResourceService.getEncounterByUuid(encounterUuid).pipe(

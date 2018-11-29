@@ -1,14 +1,11 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-    BaseRequestOptions, XHRBackend, Http, RequestMethod,
-    ResponseOptions, Response, URLSearchParams
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HivSummaryIndicatorsResourceService } from './hiv-summary-indicators-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 const expectedHivSummaryIndicatorsResults = {
     startIndex: 0,
@@ -27,6 +24,14 @@ const expectedHivSummaryIndicatorsResults = {
 
     }]
 };
+
+class MockCacheStorageService {
+    constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
+}
 
 const reportParams = {
     startIndex: undefined,
@@ -59,34 +64,32 @@ const patientList = {
 };
 
 describe('HivSummaryIndicatorsResourceService Tests', () => {
-    let service;
+    let service, httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
-          imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 HivSummaryIndicatorsResourceService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
                 {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory:
-                    (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
                     }
-                }
+                },
             ]
         });
+        service = TestBed.get(HivSummaryIndicatorsResourceService);
+        httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
+
 
     it('should be defined',
         inject([HivSummaryIndicatorsResourceService],
@@ -105,59 +108,33 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
             })
     );
 
-    it('should return report urlRequest parameters',
-        inject([HivSummaryIndicatorsResourceService, MockBackend],
-            (s: HivSummaryIndicatorsResourceService, backend: MockBackend) => {
-                let urlParams = s.getUrlRequestParams(reportParams);
-                let params = urlParams.toString();
-                expect(params).toContain('locationUuids=08fec056-1352-11df-a1f1-0026b9348838');
-                expect(params).toContain('endDate=2017-04-27');
-                expect(params).toContain('gender=M,F');
-                expect(params).toContain('startDate=2017-03-01');
-                expect(params).toContain('indicators=on_arvs');
-                expect(params).toContain('startAge=0');
-                expect(params).toContain('endAge=110');
+    it('should return report urlRequest parameters', () => {
+        const urlParams = service.getUrlRequestParams(reportParams);
+        const params = urlParams.toString();
+        expect(params).toContain('locationUuids=08fec056-1352-11df-a1f1-0026b9348838');
+        expect(params).toContain('endDate=2017-04-27');
+        expect(params).toContain('gender=M,F');
+        expect(params).toContain('startDate=2017-03-01');
+        expect(params).toContain('indicators=on_arvs');
+        expect(params).toContain('startAge=0');
+        expect(params).toContain('endAge=110');
 
-            }
-        )
-    );
+    });
 
-    it('should return Hiv Summary Indicators Report',
-        inject([HivSummaryIndicatorsResourceService, MockBackend],
-            (s: HivSummaryIndicatorsResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: expectedHivSummaryIndicatorsResults
-                        }
-                        )));
-                });
+    it('should return Hiv Summary Indicators Report', () => {
 
-                s.getHivSummaryIndicatorsReport(reportParams).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(expectedHivSummaryIndicatorsResults);
-                });
-            })
-    );
+        service.getHivSummaryIndicatorsReport(reportParams).subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(expectedHivSummaryIndicatorsResults);
+        });
 
-    it('should return Hiv Summary Indicators Report Patient List',
-        inject([HivSummaryIndicatorsResourceService, MockBackend],
-            (s: HivSummaryIndicatorsResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: patientList
-                        }
-                        )));
-                });
+    });
 
-                s.getHivSummaryIndicatorsPatientList(reportParams).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(patientList.result);
-                });
-            })
-    );
+    it('should return Hiv Summary Indicators Report Patient List', () => {
+        service.getHivSummaryIndicatorsPatientList(reportParams).subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(patientList.result);
+        });
+    });
 
 });

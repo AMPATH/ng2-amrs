@@ -63,9 +63,6 @@ describe('Clinical Notes Helper functions', () => {
     ];
   });
 
-  // afterAll(() => {
-  //   TestBed.resetTestingModule();
-  // });
 
   it('Should return correct date format from DatePipe  ', () => {
     expect(datePipe.transform('2016-05-11T08:41:28.000Z', 'dd-MM-yyyy')).toEqual('11-05-2016');
@@ -119,5 +116,4 @@ describe('Clinical Notes Helper functions', () => {
     expect(mockNotes[0].ccHpiAssessment).toBeUndefined();
 
   });
-
 });

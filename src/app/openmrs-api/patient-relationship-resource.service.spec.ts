@@ -1,40 +1,36 @@
 import { async, inject, TestBed } from '@angular/core/testing';
-import {
-  BaseRequestOptions, Http, HttpModule, Response,
-  ResponseOptions, RequestMethod
-} from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Service: Pratient Relationship ResourceService', () => {
+
+  let service: PatientRelationshipResourceService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         PatientRelationshipResourceService,
         AppSettingsService,
-        LocalStorageService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        }
+        LocalStorageService
       ],
       imports: [
-        HttpModule
-      ]
+        HttpClientTestingModule]
     });
+
+    service = TestBed.get(PatientRelationshipResourceService);
+    httpMock = TestBed.get(HttpTestingController);
+
   });
 
-  afterAll(() => {
+  afterEach(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
-  let patientRelationshipResponse = {
+  const patientRelationshipResponse = {
     results: [
       {
         uuid: 'c7a62ab1-f034-4da3-bdce-87ce655521b8',
@@ -58,112 +54,104 @@ describe('Service: Pratient Relationship ResourceService', () => {
       }]
   };
 
-  let relationshipPayload = {
+  const relationshipPayload = {
     personA: 'personAuuid',
     relationshipType: 'relationshipTypeUUid',
     personB: 'personBuuid',
     startDate: '2016-07-22T00:00:00.000+0300'
   };
 
-  it('should be defined', async(inject(
-    [PatientRelationshipResourceService, MockBackend], (service, mockBackend) => {
-
-      expect(service).toBeDefined();
-    })));
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
   it('should return null when PatientUuid not specified'
-    + 'when fetching patient relationships', async(inject(
-      [PatientRelationshipResourceService, MockBackend], (service, mockBackend) => {
+    + 'when fetching patient relationships', async(() => {
 
-        mockBackend.connections.subscribe(conn => {
-          throw new Error('No requests should be made.');
-        });
+      httpMock.expectNone({});
 
-        const result = service.getPatientRelationships(null);
-        expect(result).toBeNull();
-      })));
+      const result = service.getPatientRelationships(null);
+      expect(result).toBeNull();
+    }));
 
 
 
   it('should call the right endpoint when getting person relationships', (done) => {
 
-    let s: PatientRelationshipResourceService = TestBed.get(PatientRelationshipResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+    const personUuid = 'uuid';
 
-    let personUuid = 'uuid';
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url)
-        .toEqual('http://example.url.com/ws/rest/v1/relationship?v=full&person=uuid');
-      expect(connection.request.url).toContain('v=');
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      let options = new ResponseOptions({
-        body: JSON.stringify(patientRelationshipResponse)
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    s.getPatientRelationships(personUuid)
+    service.getPatientRelationships(personUuid)
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(service.getUrl() + '?v=full&person=uuid');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('?v=full');
+    req.flush(JSON.stringify(patientRelationshipResponse));
   });
+
+  it('should return null when relationshipPayload not specified', async(() => {
+
+    httpMock.expectNone({});
+
+    const result = service.saveRelationship(null);
+    expect(result).toBeNull();
+  }));
 
   it('should call the right endpoint when updating person relationships', (done) => {
 
-    let s: PatientRelationshipResourceService = TestBed.get(PatientRelationshipResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url)
-        .toEqual('http://example.url.com/ws/rest/v1/relationship');
-      expect(connection.request.method).toBe(RequestMethod.Post);
-      let options = new ResponseOptions({
-        body: JSON.stringify(patientRelationshipResponse)
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    s.saveRelationship(relationshipPayload)
+    service.saveRelationship(relationshipPayload)
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(service.getUrl());
+    expect(req.request.method).toBe('POST');
+    expect(req.request.url).toBe(service.getUrl());
+    req.flush(JSON.stringify(patientRelationshipResponse));
+  });
+  it('should return null when uuid and payload not specified', async(() => {
+
+    httpMock.expectNone({});
+
+    const result = service.updateRelationship(null, null);
+    expect(result).toBeNull();
+  }));
+
+  it('should call the right endpoint when updating person relationships', (done) => {
+
+    service.updateRelationship('uuid', relationshipPayload)
+      .subscribe((response) => {
+        done();
+      });
+
+    const req = httpMock.expectOne(service.getUrl() + '/' + 'uuid');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.url).toContain('uuid');
+    req.flush(JSON.stringify(patientRelationshipResponse));
   });
 
 
   it('should return null when PatientUuid not specified'
-    + 'when deleting person relationships', async(inject(
-      [PatientRelationshipResourceService, MockBackend], (service, mockBackend) => {
+    + 'when deconsting person relationships', async(() => {
+      httpMock.expectNone({});
+      const result = service.deleteRelationship(null);
+      expect(result).toBeNull();
+    }));
 
-        mockBackend.connections.subscribe(conn => {
-          throw new Error('No requests should be made.');
-        });
+  it('should call the right endpoint when deconsting person relationships', (done) => {
+    const relationshipUuid = 'uuid';
 
-        const result = service.deleteRelationship(null);
-        expect(result).toBeNull();
-      })));
-
-  it('should call the right endpoint when deleting person relationships', (done) => {
-
-    let s: PatientRelationshipResourceService = TestBed.get(PatientRelationshipResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
-    let relationshipUuid = 'uuid';
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url)
-        .toEqual('http://example.url.com/ws/rest/v1/relationship/uuid');
-      expect(connection.request.method).toBe(RequestMethod.Delete);
-      let options = new ResponseOptions({
-        body: JSON.stringify(patientRelationshipResponse)
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    s.deleteRelationship(relationshipUuid)
+    service.deleteRelationship(relationshipUuid)
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(service.getUrl() + '/' + relationshipUuid);
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.url).toBe(service.getUrl() + '/' + relationshipUuid);
+    req.flush(JSON.stringify(patientRelationshipResponse));
   });
 
 

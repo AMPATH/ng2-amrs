@@ -1,16 +1,11 @@
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-  Http, Response, Headers, BaseRequestOptions,
-  ResponseOptions, RequestMethod
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Moh731PatientListResourceService } from './moh-731-patientlist-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 const expectedPatientListResult = {
   startIndex: 0,
@@ -54,21 +49,13 @@ export class FakeAppSettingsService {
 
 describe('Service: Moh731PatientListResourceService', () => {
   let service: Moh731PatientListResourceService;
+  let httpMock: HttpTestingController;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         LocalStorageService,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppSettingsService,
           useClass: FakeAppSettingsService
@@ -77,18 +64,11 @@ describe('Service: Moh731PatientListResourceService', () => {
           provide: DataCacheService,
           useClass: FakeDataCacheService
         },
-        {
-          provide: Moh731PatientListResourceService,
-          useFactory: (http: HttpClient, appSettingsService: AppSettingsService,
-                       dataCacheService: DataCacheService) => {
-            return new Moh731PatientListResourceService(http, appSettingsService,
-              dataCacheService);
-          },
-          deps: [Http, AppSettingsService, DataCacheService]
-        }
+        Moh731PatientListResourceService
       ],
     });
     service = TestBed.get(Moh731PatientListResourceService);
+    httpMock = TestBed.get(HttpTestingController);
   }));
 
   afterEach(() => {
@@ -109,22 +89,6 @@ describe('Service: Moh731PatientListResourceService', () => {
 
   it('should call the API with correct url params when getMoh731PatientListReport() is called',
     fakeAsync(() => {
-      let backend: MockBackend = TestBed.get(MockBackend);
-      backend.connections.subscribe((connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url).toContain('startIndex');
-        expect(connection.request.url).toContain('endDate');
-        expect(connection.request.url).toContain('startDate');
-        expect(connection.request.url).toContain('reportName');
-        expect(connection.request.url).toContain('indicator');
-        expect(connection.request.url).toContain('locationUuids');
-        expect(connection.request.url).toContain('limit');
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              body: expectedPatientListResult
-            }
-          )));
-      });
       service.getMoh731PatientListReport({
         'startIndex': 0,
         'isLegacy': true,
@@ -134,24 +98,26 @@ describe('Service: Moh731PatientListResourceService', () => {
         'reportName': 'reportName',
         'locationUuids': '1234',
         'limit': 20
-      }).subscribe((result) => {});
+      }).subscribe((result) => { });
       tick(50);
+      const appSettingsService = TestBed.get(AppSettingsService);
+      const req = httpMock.expectOne('base-url/MOH-731-report/patient-list?' +
+        'startIndex=0&endDate=2017-03-19T21:00:00&startDate=2016-03-19T21:00:00' +
+        '&reportName=reportName&indicator=indicator&locationUuids=1234&limit=20');
+      expect(req.request.urlWithParams).toContain('startIndex');
+      expect(req.request.urlWithParams).toContain('endDate');
+      expect(req.request.urlWithParams).toContain('startDate');
+      expect(req.request.urlWithParams).toContain('reportName');
+      expect(req.request.urlWithParams).toContain('indicator');
+      expect(req.request.urlWithParams).toContain('locationUuids');
+      expect(req.request.urlWithParams).toContain('limit');
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedPatientListResult);
     })
   );
 
   it('should call the correct API url given a set of params',
     fakeAsync(() => {
-      let backend: MockBackend = TestBed.get(MockBackend);
-      backend.connections.subscribe((connection: MockConnection) => {
-        expect(connection.request.url).toEqual('base-url/MOH-731-report/patient-list?' +
-          'startIndex=0&endDate=2017-03-19T21:00:00&startDate=2016-03-19T21:00:00' +
-          '&reportName=MOH-731-report&indicator=indicator&locationUuids=1234&limit=20');
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              body: expectedPatientListResult
-            }
-          )));
-      });
       service.getMoh731PatientListReport({
         'startIndex': 0,
         'isLegacy': true,
@@ -161,21 +127,19 @@ describe('Service: Moh731PatientListResourceService', () => {
         'indicator': 'indicator',
         'locationUuids': '1234',
         'limit': 20
-      }).subscribe((result) => {});
+      }).subscribe((result) => { });
       tick(50);
+      const appSettingsService = TestBed.get(AppSettingsService);
+      const req = httpMock.expectOne('base-url/MOH-731-report/patient-list?' +
+        'startIndex=0&endDate=2017-03-19T21:00:00&startDate=2016-03-19T21:00:00' +
+        '&reportName=MOH-731-report&indicator=indicator&locationUuids=1234&limit=20');
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedPatientListResult);
     })
   );
 
   it('should return a report with correct structure from the API call',
     fakeAsync(() => {
-      let backend: MockBackend = TestBed.get(MockBackend);
-      backend.connections.subscribe((connection: MockConnection) => {
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              body: expectedPatientListResult
-            }
-          )));
-      });
       service.getMoh731PatientListReport({
         'startIndex': 0,
         'isLegacy': true,
@@ -189,7 +153,13 @@ describe('Service: Moh731PatientListResourceService', () => {
         expect(result).toEqual(expectedPatientListResult);
       });
       tick(50);
+      const req = httpMock.expectOne('base-url/MOH-731-report/patient-list?' +
+        'startIndex=0&endDate=2017-03-19T21:00:00&startDate=2016-03-19T21:00:00' +
+        '&reportName=MOH-731-report&indicator=indicator&locationUuids=1234&limit=20');
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedPatientListResult);
     })
   );
 
 });
+

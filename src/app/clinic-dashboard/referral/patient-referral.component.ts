@@ -37,7 +37,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     this.route.parent.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
       if (params.location_uuid) {
-        let data = {};
+        const data = {};
         data['value'] = params.location_uuid;
         this.locationUuids.push(data as any);
       }
@@ -54,8 +54,8 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   }
 
   public loadReportParamsFromUrl() {
-    let path = this.router.parseUrl(this.location.path());
-    let pathHasHistoricalValues = path.queryParams['startDate'] &&
+    const path = this.router.parseUrl(this.location.path());
+    const pathHasHistoricalValues = path.queryParams['startDate'] &&
       path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
@@ -77,7 +77,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   }
 
   public storeReportParamsInUrl() {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString()

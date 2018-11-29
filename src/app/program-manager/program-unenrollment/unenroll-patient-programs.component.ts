@@ -19,11 +19,11 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
 
   public enrollmentUdateErrors: any[] = [];
   public enrollmentDetails: any = {};
-  public message: string = '';
-  @Input() public showForms: boolean = false;
+  public message = '';
+  @Input() public showForms = false;
   @Input() public encounterTypeFilter: string[] = [];
   @Input() public patient: Patient;
-  @Input() public unenrollExpressely: boolean = false;
+  @Input() public unenrollExpressely = false;
 
   @Input()
   public get enrollments(): any {
@@ -46,7 +46,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
   @Output() public unenrollmentCompleted = new EventEmitter();
   @Output() public unEnrollmentCancelled = new EventEmitter();
   public enrolledPrograms: any;
-  public hasValidationErrors: boolean = true;
+  public hasValidationErrors = true;
   public currentError: any = '';
   private _datePipe: DatePipe;
 
@@ -82,9 +82,9 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
   }
 
   public fillUnenrollmentForm(form) {
-    let _route = '/patient-dashboard/patient/' + this.patient.uuid
+    const _route = '/patient-dashboard/patient/' + this.patient.uuid
       + '/general/general/formentry';
-    let routeOptions = {
+    const routeOptions = {
       queryParams: {
         step: 3,
         parentComponent: 'programManager:new'
@@ -95,7 +95,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
   }
 
   private initCompletedDate() {
-    for (let enrolled of this.enrolledPrograms) {
+    for (const enrolled of this.enrolledPrograms) {
       this.enrollmentDetails[enrolled.enrollmentUuid] = this._datePipe.transform(
         new Date(), 'yyyy-MM-dd');
     }
@@ -103,7 +103,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
 
   private unEnrollFromPrograms(enrollmentDetails) {
 
-    for (let property in enrollmentDetails) {
+    for (const property in enrollmentDetails) {
       if (enrollmentDetails.hasOwnProperty(property)) {
         this.unenrollPatient(property, enrollmentDetails[property]);
       }
@@ -119,12 +119,12 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
   }
 
   private unenrollPatient(enrollmentUuid, completedDate) {
-    let enrolled: any = this.getEnrollmentDetails(enrollmentUuid);
-    let enrolledDate = enrolled ? enrolled[0].enrolledDate : null;
-    let program = enrolled ? enrolled[0].name : null;
+    const enrolled: any = this.getEnrollmentDetails(enrollmentUuid);
+    const enrolledDate = enrolled ? enrolled[0].enrolledDate : null;
+    const program = enrolled ? enrolled[0].name : null;
 
     if (this._formFieldsValid(enrolledDate, completedDate, enrollmentUuid)) {
-      let payload = this.createPayload(enrollmentUuid, completedDate);
+      const payload = this.createPayload(enrollmentUuid, completedDate);
       this.programService.saveUpdateProgramEnrollment(payload).pipe(take(1)).subscribe(
         (enrollment) => {
           if (enrollment) {
@@ -156,7 +156,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
   }
 
   private getEnrollmentDetails(enrollmentUuid) {
-    let enrolled: any = _.filter(this.enrolledPrograms, (e: any) => {
+    const enrolled: any = _.filter(this.enrolledPrograms, (e: any) => {
       return e.enrollmentUuid === enrollmentUuid;
     });
     return enrolled ? enrolled : null;

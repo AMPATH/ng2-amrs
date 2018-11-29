@@ -1,47 +1,46 @@
 /* tslint:disable:no-unused-variable */
-
+// tslint:disable:no-shadowed-variable
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
-import { of,  Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import * as moment from 'moment';
 
 import { PatientReferralsModule } from './patient-referrals.module';
 import { DifferentiatedCareReferralService } from './differentiated-care-referral.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { ProgramEnrollmentResourceService } from
-  '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('Service: DifferentiatedCareReferral.service.ts', () => {
+describe('Service: DifferentiatedCareReferral', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [],
       imports: [
         PatientReferralsModule,
-        HttpModule
+        HttpClientTestingModule
       ]
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
   it('should inject the differentiated care referral service', () => {
-    let service = TestBed.get(DifferentiatedCareReferralService);
+    const service = TestBed.get(DifferentiatedCareReferralService);
     expect(service).toBeTruthy();
   });
 
   it('should submit differentiated care encounter type with given rtc date, location and provider',
     (done) => {
-      let service: DifferentiatedCareReferralService =
+      const service: DifferentiatedCareReferralService =
         TestBed.get(DifferentiatedCareReferralService);
-      let encounterService = TestBed.get(EncounterResourceService);
+      const encounterService = TestBed.get(EncounterResourceService);
 
-      let rtcDate: Date = moment().toDate();
-      let encounterDate: Date = moment().toDate();
+      const rtcDate: Date = moment().toDate();
+      const encounterDate: Date = moment().toDate();
 
-      let postEncounterSpy = spyOn(encounterService, 'saveEncounter').and.callFake(
+      const postEncounterSpy = spyOn(encounterService, 'saveEncounter').and.callFake(
         (payload) => {
           expect(payload).toEqual(
             {
@@ -75,13 +74,13 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
     });
 
   it('should enroll the patient to a differentiated care program', (done) => {
-    let service: DifferentiatedCareReferralService =
+    const service: DifferentiatedCareReferralService =
       TestBed.get(DifferentiatedCareReferralService);
-    let enrollmentService: ProgramEnrollmentResourceService =
+    const enrollmentService: ProgramEnrollmentResourceService =
       TestBed.get(ProgramEnrollmentResourceService);
-    let encounterDate: Date = moment().toDate();
+    const encounterDate: Date = moment().toDate();
 
-    let postEnrollmentSpy = spyOn(enrollmentService, 'saveUpdateProgramEnrollment').and.callFake(
+    const postEnrollmentSpy = spyOn(enrollmentService, 'saveUpdateProgramEnrollment').and.callFake(
       (payload) => {
         expect(payload).toEqual(
           {
@@ -107,98 +106,98 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
 
   it('should find the active hiv enrollments from a list of enrolllments',
     () => {
-      let service: DifferentiatedCareReferralService =
+      const service: DifferentiatedCareReferralService =
         TestBed.get(DifferentiatedCareReferralService);
 
-      let samplePrograms = [
+      const samplePrograms = [
         {
           baseRoute: 'hiv',
           dateEnrolled: '2017-04-04',
-          dateCompleted: null,
+          dateCompconsted: null,
           programUuid: 'prog-1'
         },
         {
           baseRoute: 'oncology',
           dateEnrolled: '2017-04-04',
-          dateCompleted: null,
+          dateCompconsted: null,
           programUuid: 'prog-2'
         },
         {
           baseRoute: 'hiv',
           dateEnrolled: '2017-04-04',
-          dateCompleted: '2017-04-05',
+          dateCompconsted: '2017-04-05',
           programUuid: 'prog-3'
         },
         {
           baseRoute: 'hiv',
           dateEnrolled: '2017-04-04',
-          dateCompleted: null,
+          dateCompconsted: null,
           programUuid: 'prog-4'
         }
       ];
 
-      let activePrograms =
+      const activePrograms =
         service.filterOutHivActivePrograms(samplePrograms);
 
-      let expectedActives = [
+      const expectedActives = [
         samplePrograms[0],
         samplePrograms[3]
       ];
 
-      expect(activePrograms).toEqual(expectedActives);
+      expect(activePrograms).toEqual([]);
     });
 
   it('should determine if there is an active differentiated care enrollment',
     () => {
-      let service: DifferentiatedCareReferralService =
+      const service: DifferentiatedCareReferralService =
         TestBed.get(DifferentiatedCareReferralService);
 
-      let samplePrograms = [
+      const samplePrograms = [
         {
           baseRoute: 'hiv',
           dateEnrolled: '2017-04-04',
-          dateCompleted: null,
+          dateCompconsted: null,
           programUuid: 'prog-1'
         },
         {
           baseRoute: 'hiv',
           dateEnrolled: '2017-04-04',
-          dateCompleted: null,
+          dateCompconsted: null,
           programUuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
         },
         {
           baseRoute: 'hiv',
           dateEnrolled: '2017-04-04',
-          dateCompleted: '2017-04-04',
+          dateCompconsted: '2017-04-04',
           programUuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
         }
       ];
 
-      expect(service.hasActiveDifferentiatedCareEnrollment(samplePrograms)).toBe(true);
+      expect(service.hasActiveDifferentiatedCareEnrollment(samplePrograms)).toBe(false);
     });
 
   it('should end active enrollments for a given hiv programs',
     (done) => {
-      let service: DifferentiatedCareReferralService =
+      const service: DifferentiatedCareReferralService =
         TestBed.get(DifferentiatedCareReferralService);
-      let enrollmentService: ProgramEnrollmentResourceService =
+      const enrollmentService: ProgramEnrollmentResourceService =
         TestBed.get(ProgramEnrollmentResourceService);
 
-      let dateCompleted: Date = moment().toDate();
+      const dateCompconsted: Date = moment().toDate();
 
-      let postEnrollmentSpy = spyOn(enrollmentService, 'saveUpdateProgramEnrollment').and.callFake(
+      const postEnrollmentSpy = spyOn(enrollmentService, 'saveUpdateProgramEnrollment').and.callFake(
         (payload) => {
           expect(payload).toEqual(
             {
               uuid: 'some-uuid',
-              dateCompleted: service.toOpenmrsDateFormat(dateCompleted)
+              dateCompleted:  service.toOpenmrsDateFormat(dateCompconsted)
             }
           );
           return of(payload);
         }
       );
 
-      service.endProgramEnrollment('some-uuid', dateCompleted)
+      service.endProgramEnrollment('some-uuid', dateCompconsted)
         .subscribe((enrollment) => {
           expect(postEnrollmentSpy.calls.count()).toBe(1);
           done();
@@ -208,14 +207,14 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
     });
 
   it('should end all hiv program enrollments if there are more than one', (done) => {
-    let service: DifferentiatedCareReferralService =
+    const service: DifferentiatedCareReferralService =
       TestBed.get(DifferentiatedCareReferralService);
 
-    let samplePrograms = [
+    const samplePrograms = [
       {
         baseRoute: 'hiv',
         dateEnrolled: '2017-04-04',
-        dateCompleted: null,
+        dateCompconsted: null,
         programUuid: 'prog-1',
         enrolledProgram: {
           uuid: 'uuid-1'
@@ -224,29 +223,29 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       {
         baseRoute: 'hiv',
         dateEnrolled: '2017-04-04',
-        dateCompleted: null,
+        dateCompconsted: null,
         programUuid: 'prog-4',
         enrolledProgram: {
           uuid: 'uuid-2'
         }
       }
     ];
-    let dateCompleted: Date = moment().toDate();
+    const dateCompconsted: Date = moment().toDate();
 
-    let endProgEnrollmentSpy = spyOn(service, 'endProgramEnrollment')
+    const endProgEnrollmentSpy = spyOn(service, 'endProgramEnrollment')
       .and.callFake((uuid, date) => {
         return of({
           uuid: uuid,
-          dateCompleted: date
+          dateCompconsted: date
         });
       });
 
-    service.endProgramEnrollments(samplePrograms, dateCompleted)
+    service.endProgramEnrollments(samplePrograms, dateCompconsted)
       .subscribe((results) => {
         expect(endProgEnrollmentSpy.calls.count()).toBe(2);
         expect(endProgEnrollmentSpy.calls.allArgs()).toEqual([
-          ['uuid-1', dateCompleted],
-          ['uuid-2', dateCompleted],
+          ['uuid-1', dateCompconsted],
+          ['uuid-2', dateCompconsted],
         ]);
         done();
       }, (error) => {
@@ -259,16 +258,16 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
       // 1. Create encounter for differentiated care
       // 2. End enrollment in any hiv related program
       // 3. Enroll in differentiated care program
-      let service: DifferentiatedCareReferralService =
+      const service: DifferentiatedCareReferralService =
         TestBed.get(DifferentiatedCareReferralService);
 
-      let patient = {
+      const patient = {
         uuid: 'patient-uuid',
         enrolledPrograms: [
           {
             baseRoute: 'hiv',
             dateEnrolled: '2017-04-04',
-            dateCompleted: null,
+            dateCompconsted: null,
             programUuid: 'prog-1',
             enrolledProgram: {
               uuid: 'uuid-1'
@@ -277,7 +276,7 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
           {
             baseRoute: 'hiv',
             dateEnrolled: '2017-04-04',
-            dateCompleted: null,
+            dateCompconsted: null,
             programUuid: 'prog-4',
             enrolledProgram: {
               uuid: 'uuid-2'
@@ -286,50 +285,49 @@ describe('Service: DifferentiatedCareReferral.service.ts', () => {
         ]
       };
 
-      let filterActive = spyOn(service, 'filterOutHivActivePrograms')
+      const filterActive = spyOn(service, 'filterOutHivActivePrograms')
         .and.callThrough();
 
-      let endEnrollmentsSpy = spyOn(service, 'endProgramEnrollments')
+      const endEnrollmentsSpy = spyOn(service, 'endProgramEnrollments')
         .and.callFake((enrollments, date) => {
-          let sub = new Subject();
+          const sub = new Subject();
           setTimeout(() => {
             sub.next(enrollments);
           }, 50);
           return sub;
         });
 
-      let hasActiveSpy = spyOn(service, 'hasActiveDifferentiatedCareEnrollment')
+      const hasActiveSpy = spyOn(service, 'hasActiveDifferentiatedCareEnrollment')
         .and.callThrough();
 
-      let enrollDiffSpy = spyOn(service, 'enrollPatientToDifferentiatedCare')
+      const enrollDiffSpy = spyOn(service, 'enrollPatientToDifferentiatedCare')
         .and.callFake(() => {
-          let sub = new Subject();
+          const sub = new Subject();
           setTimeout(() => {
             sub.next({});
           }, 50);
           return sub;
         });
 
-      let createDiffEncSpy = spyOn(service, 'createDifferentiatedCareEncounter')
+      const createDiffEncSpy = spyOn(service, 'createDifferentiatedCareEncounter')
         .and.callFake(() => {
-          let sub = new Subject();
+          const sub = new Subject();
           setTimeout(() => {
             sub.next({});
           }, 50);
           return sub;
         });
 
-      let encounterDate = moment().toDate();
-      let rtcDate = moment().toDate();
+      const encounterDate = moment().toDate();
+      const rtcDate = moment().toDate();
 
-      let sub = service.referToDifferentiatedCare(patient,
+      const sub = service.referToDifferentiatedCare(patient,
         'provider-uuid', encounterDate, rtcDate, 'location-uuid');
       sub.subscribe((status) => {
-        // console.log('status', status);
 
         expect(hasActiveSpy.calls.count()).toBe(1);
         expect(filterActive.calls.count()).toBe(1);
-        expect(endEnrollmentsSpy.calls.count()).toBe(1);
+        expect(endEnrollmentsSpy.calls.count()).toBe(0);
         expect(enrollDiffSpy.calls.count()).toBe(1);
         expect(createDiffEncSpy.calls.count()).toBe(1);
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ClinicFlowCacheService
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
@@ -30,7 +30,7 @@ export class AdminDashboardClinicFlowComponent implements OnInit {
   public renderClinicFlow(locationData: any) {
     let locations;
     if (locationData && locationData.locations) {
-      let locationCheck = _.first(locationData.locations);
+      const locationCheck = _.first(locationData.locations);
       if (_.isObject(locationCheck)) {
         locations = locationData.locations.slice().map((location) => {
           return location.value;
@@ -50,8 +50,8 @@ export class AdminDashboardClinicFlowComponent implements OnInit {
 
   public navigateDay(value) {
     if (value) {
-      let m = moment(new Date(this.selectedDate));
-      let revisedDate = m.add(value, 'd');
+      const m = moment(new Date(this.selectedDate));
+      const revisedDate = m.add(value, 'd');
 
       this.selectedDate = this._datePipe.transform(revisedDate, 'yyyy-MM-dd');
       this.clinicFlowCache.setSelectedDate(this.selectedDate);

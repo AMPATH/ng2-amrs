@@ -25,7 +25,7 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
         }
     }
 
-    @Input() public hideDatePicker: boolean = false;
+    @Input() public hideDatePicker = false;
     @Output() public dateSelected = new EventEmitter();
     private _datePipe: DatePipe;
     private _default: any;
@@ -62,8 +62,8 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
     public navigateDay(value) {
 
         if (value) {
-            let m = Moment(new Date(this.selectedDate));
-            let revisedDate = m.add(value, 'd');
+            const m = Moment(new Date(this.selectedDate));
+            const revisedDate = m.add(value, 'd');
 
             this.initDate(revisedDate);
 
@@ -76,7 +76,7 @@ export class DateSelectorComponent implements OnInit, OnDestroy {
 
     public onDateChanged(event: IMyDateModel): void {
         this.selectedDate = this.getDate(event.date);
-        let formattedDate = this._datePipe.transform(
+        const formattedDate = this._datePipe.transform(
             this.selectedDate, 'yyyy-MM-dd');
         this.dateSelected.emit(formattedDate);
     }

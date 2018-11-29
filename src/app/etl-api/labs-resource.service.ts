@@ -39,7 +39,7 @@ export class LabsResourceService {
         if (!params.limit) {
             params.limit = '20';
         }
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startIndex', params.startIndex)
         .set('limit', params.limit);
         return this.http.get(this.appSettingsService.getEtlRestbaseurl().trim()

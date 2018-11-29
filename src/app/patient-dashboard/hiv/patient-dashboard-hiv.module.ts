@@ -25,11 +25,9 @@ import { PatientMonthlyStatusComponent
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
 
-import { Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
-import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
-import { GeneXpertResourceService} from './genexpert-images/genexpert-images-resource.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
+import { GeneXpertResourceService } from './genexpert-images/genexpert-images-resource.service';
 
 @NgModule({
   imports: [
@@ -46,7 +44,8 @@ import { GeneXpertResourceService} from './genexpert-images/genexpert-images-res
     OpenmrsApi,
     FormEntryModule,
     TabViewModule,
-    GrowlModule, PanelModule
+    GrowlModule, PanelModule,
+    HttpClientModule
   ],
   exports: [
     HivPatientClinicalSummaryComponent,
@@ -69,11 +68,9 @@ import { GeneXpertResourceService} from './genexpert-images/genexpert-images-res
   providers: [
     GeneXpertResourceService,
     {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+      provide: HTTP_INTERCEPTORS,
+      useClass: PocHttpInteceptor,
+      multi: true
     }
   ],
 })

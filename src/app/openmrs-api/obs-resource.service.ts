@@ -16,7 +16,7 @@ export class ObsResourceService {
     if (!payload) {
       return null;
     }
-    let url = this.getUrl() + 'obs';
+    const url = this.getUrl() + 'obs';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
@@ -25,7 +25,7 @@ export class ObsResourceService {
     if (!payload || !uuid) {
       return null;
     }
-    let url = this.getUrl() + 'obs/' + uuid;
+    const url = this.getUrl() + 'obs/' + uuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
@@ -34,14 +34,14 @@ export class ObsResourceService {
     if (!uuid) {
       return null;
     }
-    let url = this.getUrl() + 'obs/' + uuid + '?!purge';
+    const url = this.getUrl() + 'obs/' + uuid + '?!purge';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });
   }
 
   public getObsPatientObsByConcept(uuid, conceptUuuid) {
-    let url = this.getUrl() + 'obs';
-    let params = new HttpParams().set('patient', uuid).set('concept', conceptUuuid).set('v', 'full');
+    const url = this.getUrl() + 'obs';
+    const params = new HttpParams().set('patient', uuid).set('concept', conceptUuuid).set('v', 'full');
     return this.http.get(url, { params: params });
   }
 

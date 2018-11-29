@@ -15,14 +15,14 @@ export class MedicationHistoryResourceService {
 
   public getReport( report: string, patientUuid: string) {
 
-    let api = this.appSettingsService.getEtlServer() +  '/patient/'
+    const api = this.appSettingsService.getEtlServer() +  '/patient/'
     + patientUuid + '/medical-history-report' ;
 
     if (!report) {
       report = 'medical-history-report';
     }
 
-    let params: HttpParams = new HttpParams();
+    const params: HttpParams = new HttpParams();
 
     return this.http.get<any>(api, { params: params });
   }
@@ -31,7 +31,7 @@ export class MedicationHistoryResourceService {
     let url = this.getUrl();
     url += '/' + patientUuid + '/medication-change';
 
-    let params: HttpParams = new HttpParams();
+    const params: HttpParams = new HttpParams();
 
     return this.http.get<any>(url, {
       params: params

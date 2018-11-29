@@ -1,7 +1,5 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { VisitSummaryComponent } from './visit-summary.component';
 
@@ -11,9 +9,9 @@ describe('VisitSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VisitSummaryComponent ]
+      declarations: [VisitSummaryComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,11 +20,19 @@ describe('VisitSummaryComponent', () => {
     fixture.detectChanges();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should have required properties', () => {
+
+    expect(component.setVisitSummary).toBeDefined();
+    expect(component.viewVisitDetails).toBeDefined();
+    expect(component.visitSummaryDetails).toBeUndefined();
+    expect(component.visitSummarySelected).toBeDefined();
+
   });
 });

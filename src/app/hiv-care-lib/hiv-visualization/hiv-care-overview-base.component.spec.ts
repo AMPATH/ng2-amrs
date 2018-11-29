@@ -25,7 +25,7 @@ import {
 describe('HivCareComparativeOverviewBaseComponent:', () => {
   let fixture: ComponentFixture<HivCareComparativeOverviewBaseComponent>;
   let comp: HivCareComparativeOverviewBaseComponent;
-  let el;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -33,7 +33,8 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
         // ReportFilters
       ],
       providers: [
-        { provide: ClinicalSummaryVisualizationResourceService,
+        {
+          provide: ClinicalSummaryVisualizationResourceService,
           useClass: ClinicalVisualizationResourceServiceMock
         },
         DataAnalyticsDashboardService
@@ -52,7 +53,7 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -66,7 +67,7 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
 
   it('should generate hiv care comparative report using paramaters supplied',
     (done) => {
-      let fakeReply: any = {
+      const fakeReply: any = {
         result: [
           {
             'reporting_date': '2016-07-30T21:00:00.000Z',
@@ -91,11 +92,11 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
       };
 
       comp = fixture.componentInstance;
-      let service = fixture.componentInstance.visualizationResourceService;
-      let hivSpy = spyOn(service, 'getHivComparativeOverviewReport')
-        .and.callFake(({endDate: endDate, startDate: startDate,
+      const service = fixture.componentInstance.visualizationResourceService;
+      const hivSpy = spyOn(service, 'getHivComparativeOverviewReport')
+        .and.callFake(({ endDate: endDate, startDate: startDate,
           indicators: indicators, locationUuids: locationUuids }) => {
-          let subject =  new Subject<any>();
+          const subject = new Subject<any>();
 
           // check for params conversion accuracy
           expect(endDate).toEqual('2017-02-01T03:00:00+03:00');
@@ -136,10 +137,10 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
   it('should report errors when generating hiv care comparative report fails',
     (done) => {
       comp = fixture.componentInstance;
-      let service = fixture.componentInstance.visualizationResourceService;
-      let hivSpy = spyOn(service, 'getHivComparativeOverviewReport')
+      const service = fixture.componentInstance.visualizationResourceService;
+      const hivSpy = spyOn(service, 'getHivComparativeOverviewReport')
         .and.callFake((locationUuids, startDate, endDate) => {
-          let subject = new Subject<any>();
+          const subject = new Subject<any>();
 
           setTimeout(() => {
             subject.error('some error');

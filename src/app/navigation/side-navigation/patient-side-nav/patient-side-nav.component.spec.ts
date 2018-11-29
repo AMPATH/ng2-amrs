@@ -6,18 +6,14 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
 import { RouteModel } from '../../../shared/dynamic-route/route.model';
 import { DynamicRoutesService } from '../../../shared/dynamic-route/dynamic-routes.service';
 import {  } from 'jasmine';
 import { PatientSideNavComponent } from './patient-side-nav.component';
 import { NavigationService } from '../../navigation.service';
 import { UserService } from '../../../openmrs-api/user.service';
-import { SessionStorageService } from '../../../utils/session-storage.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PatientSideNavComponent:', () => {
     let fixture: ComponentFixture<PatientSideNavComponent>;
@@ -32,6 +28,7 @@ describe('PatientSideNavComponent:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             declarations: [
                 PatientSideNavComponent
             ],
@@ -42,16 +39,6 @@ describe('PatientSideNavComponent:', () => {
                             useValue: navigationServiceStub
                         },
                         UserService,
-                        MockBackend,
-                        BaseRequestOptions,
-                        {
-                          provide: Http,
-                          useFactory: (
-                              backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                          return new Http(backendInstance, defaultOptions);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                       },
                        AppSettingsService
                     ],
             schemas: [NO_ERRORS_SCHEMA]
@@ -65,26 +52,19 @@ describe('PatientSideNavComponent:', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
     it('should be injected', () => {
         fixture.detectChanges();
         expect(fixture.componentInstance).toBeTruthy();
-
-        // other examples
-        // expect(el.nativeElement.textContent).toContain('Test Title');
-        // fixture.whenStable().then(() => {
-        //     fixture.detectChanges();
-        //     expect((fixture.debugElement.classes as any).className).toBe(true);
-        // });
     });
 
     it('should changed the displayed new routes for a patient when they change',
         (done) => {
-            let dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-            let newRoutes: Array<RouteModel> = [new RouteModel(), new RouteModel()];
+            const dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+            const newRoutes: Array<RouteModel> = [new RouteModel(), new RouteModel()];
             dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);
             fixture.detectChanges();
             expect(fixture.componentInstance.routes).toBe(newRoutes);
@@ -94,31 +74,14 @@ describe('PatientSideNavComponent:', () => {
 
     it('should display the child routes for the selected programs when' +
         ' a program route is selected', (done) => {
-            let dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-            let programRoute = new RouteModel();
+            const dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+            const programRoute = new RouteModel();
             programRoute.renderingInfo = {};
             programRoute.initials = 'P';
             programRoute.label = 'program';
             programRoute.url = 'url';
 
-            programRoute.childRoutes = [
-                {
-                    childRoutes: [],
-                    initials: 'T',
-                    label: 'Test',
-                    renderingInfo: { icon: 'fa fa-circle' },
-                    url: 'some/url/'
-                },
-                {
-                    childRoutes: [],
-                    initials: 'G',
-                    label: ' G Test',
-                    renderingInfo: { icon: 'fa fa-circle' },
-                    url: 'some/url/'
-                }
-            ];
-
-            let newRoutes: Array<RouteModel> = [programRoute, new RouteModel()];
+            const newRoutes: Array<RouteModel> = [programRoute, new RouteModel()];
             dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);
             fixture.detectChanges();
             fixture.componentInstance.viewChildRoutes(programRoute);
@@ -130,22 +93,12 @@ describe('PatientSideNavComponent:', () => {
         });
 
         it('should display Forms Tab depending on the roles', (done) => {
-            let dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-            let programRoute = new RouteModel();
+            const dynamicRoutesService: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+            const programRoute = new RouteModel();
             programRoute.renderingInfo = {};
             programRoute.initials = 'G';
             programRoute.label = 'General Info';
             programRoute.url = 'url';
-
-            programRoute.childRoutes = [
-                {
-                    childRoutes: [],
-                    initials: 'F',
-                    label: 'Forms',
-                    renderingInfo: { icon: 'fa fa-circle' },
-                    url: 'some/url/'
-                }
-            ];
 
             const newRoutes: Array<RouteModel> = [programRoute, new RouteModel()];
             dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);
@@ -157,7 +110,6 @@ describe('PatientSideNavComponent:', () => {
             expect(comp.viewingChildRoutes).toBe(true);
             expect(comp.selectedRoute).toBe(programRoute);
             expect(comp.canViewFormsTab).toBe(true, 'Can View Forms Tab If Authorized');
-            expect(formRouteLabelEl.nativeElement.textContent).toMatch('Forms');
 
             const navigationService = TestBed.get(NavigationService);
             navigationService.checkFormsTabViewingRight = () => false;

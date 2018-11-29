@@ -28,7 +28,7 @@ export class OrderResourceService {
 
     let url = this.getUrl();
     url += '/' + orderId;
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
 
     return this.http.get(url, {
@@ -41,8 +41,8 @@ export class OrderResourceService {
   public getOrdersByPatientUuid(patientUuid: string, cached: boolean = false, v: string = null):
   Observable<any> {
 
-    let url = this.getUrl();
-    let params: HttpParams = new HttpParams()
+    const url = this.getUrl();
+    const params: HttpParams = new HttpParams()
     .set('patient', patientUuid)
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
@@ -55,7 +55,7 @@ export class OrderResourceService {
     url += '/' + uuid;
     // console.log('url', url)
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params

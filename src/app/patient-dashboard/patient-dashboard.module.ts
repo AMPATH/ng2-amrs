@@ -28,14 +28,16 @@ import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { HttpClient } from '../shared/services/http-client.service';
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { ProgramManagerModule
 } from '../program-manager/program-manager.module';
 import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -73,11 +75,9 @@ import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.modul
     DatePipe,
     PatientRoutesFactory,
     {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+      provide: HTTP_INTERCEPTORS,
+      useClass: PocHttpInteceptor,
+      multi: true
     }
   ],
   exports: [

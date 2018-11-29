@@ -17,7 +17,7 @@ describe('Service: FormentryHelperService', () => {
   });
 
   it('should create an instance of FormentryHelperService', () => {
-    let service: FormentryHelperService = TestBed.get(FormentryHelperService);
+    const service: FormentryHelperService = TestBed.get(FormentryHelperService);
     expect(service).toBeTruthy();
   });
 
