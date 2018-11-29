@@ -14,8 +14,8 @@ import * as Moment from 'moment';
 })
 export class HivCareComparativeChartComponent implements OnInit {
   public indicatorDef: Array<any> = [];
-  public showHivCareTabularView: boolean = true;
-  public showIndicatorDefinitions: boolean = false;
+  public showHivCareTabularView = true;
+  public showIndicatorDefinitions = false;
   private xAxisCategories: Array<any> = [];
   private patientsInCare: Array<any> = [];
   private patientsOnArt: Array<any> = [];
@@ -64,7 +64,7 @@ export class HivCareComparativeChartComponent implements OnInit {
 
   public goToPatientList(indicator, filters) {
 
-    let dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
+    const dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
       filters.split('/')[0] ,
       filters.split('/')[1] - 1
        );
@@ -84,7 +84,7 @@ export class HivCareComparativeChartComponent implements OnInit {
       endDate = Moment(this._dates.endDate).format('DD-MM-YYYY');
     }
 
-    let that = this;
+    const that = this;
     _.merge(options, {
       colors: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'],
       title : { text : this.chartTitle },
@@ -108,7 +108,7 @@ export class HivCareComparativeChartComponent implements OnInit {
           point: {
             events: {
               click: function() {
-                let indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
+                const indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 that.goToPatientList(
                   indicators['clinical-hiv-comparative-overview'][this.series.name],
                   this.category);

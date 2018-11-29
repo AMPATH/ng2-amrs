@@ -1,61 +1,42 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import {
-    Http, BaseRequestOptions, RequestMethod,
-    ConnectionBackend, Response, ResponseOptions
-} from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { FileUploadResourceService } from './file-upload-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 class MockAppsettings {
     getEtlRestbaseurl() {
         return 'etl.ampath.or.ke';
     }
 }
 describe('FileUploadResourceService', () => {
-    let service;
+    let s, httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             providers: [
-                BaseRequestOptions,
-                MockBackend,
-                ConnectionBackend,
-                {
-                    provide: Http, useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                }, { provide: AppSettingsService, useClass: MockAppsettings },
+                { provide: AppSettingsService, useClass: MockAppsettings },
                 FileUploadResourceService
             ]
         });
+        s = TestBed.get(FileUploadResourceService);
+        httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    it('should upload file when upload is called', inject(
-        [MockBackend, FileUploadResourceService],
-        (backend: MockBackend, s: FileUploadResourceService) => {
-            const urls = [];
+    it('should be defined', () => {
+        expect(s).toBeDefined();
+    });
 
-            backend.connections.subscribe((connection: MockConnection) => {
-                const req = connection.request;
-                urls.push(req.url);
-                if (req.method === RequestMethod.Get && req.url === '/enter/the/url') {
-                    connection.mockRespond((new Response(
-                        new ResponseOptions({
-                            body: [
-                                {
-                                    image: 'uploaded-image'
-                                }]
-                        }
-                        ))));
-                }
-            });
+    it('should upload file when upload is called', () => {
 
-            s.upload({}).subscribe((response) => {
-                expect(response.image).toBe('uploaded-image');
-            });
-        })
-    );
+        s.upload({}).subscribe((response: any) => {
+            expect(response.image).toBe('uploaded-image');
+        });
+
+        const req = httpMock.expectOne(s.getUrl());
+        expect(req.request.method).toBe('POST');
+        req.flush({ image: 'uploaded-image' });
+    });
 });

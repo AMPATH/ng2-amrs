@@ -2,8 +2,6 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientIdentifierService } from './patient-identifiers.service';
 import { CacheModule, CacheService } from 'ionic-cache';
@@ -11,28 +9,32 @@ import { PatientResourceService } from '../../../openmrs-api/patient-resource.se
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
+class MockCacheStorageService {
+  constructor(a, b) {}
+
+  public ready() {
+    return true;
+  }
+}
 describe('Service: PatientIdentifierService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CacheModule],
+      imports: [CacheModule, HttpClientTestingModule],
       providers: [
         PatientIdentifierService,
         PatientResourceService,
         LocationResourceService,
         LocalStorageService,
-        MockBackend,
-        BaseRequestOptions,
         AppSettingsService,
         DataCacheService,
         CacheService,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: CacheStorageService, useFactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
         }
       ]
     });
@@ -43,23 +45,20 @@ describe('Service: PatientIdentifierService', () => {
   });
 
   it('should create an instance', () => {
-    let service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
     expect(service).toBeTruthy();
   });
   it('should return the correct common identifiers', () => {
-    let service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
-    let commonIdentifiers = service.commonIdentifierTypes();
+    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+    const commonIdentifiers = service.commonIdentifierTypes();
     expect(commonIdentifiers[0]).toBe('KENYAN NATIONAL ID NUMBER');
     expect(commonIdentifiers[1]).toBe('AMRS Medical Record Number');
     expect(commonIdentifiers[2]).toBe('AMRS Universal ID');
     expect(commonIdentifiers[3]).toBe('CCC Number');
   });
   it('should return the correct getLuhnCheckDigit', () => {
-    let service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
-    let checkDigit = service.getLuhnCheckDigit('number');
+    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+    const checkDigit = service.getLuhnCheckDigit('number');
   });
-
-
-
 });
 

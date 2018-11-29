@@ -77,12 +77,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     'year': Moment().year(),
     'month': this.currentMonth,
     'day': Moment().date()
-};
+  };
   public groupVisitDate: any = {
     date: this.today,
     jsdate: new Date(),
     formatted: Moment().format('YYYY-MM-DD')
-};
+  };
   public cohortVisits = [];
   public patientVisitPayload: any;
   public visitTypes = [];
@@ -143,10 +143,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
         return Math.abs(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
       });
-      this.groupVisitDate =  {
+      this.groupVisitDate = {
         date: this.today,
         jsdate: new Date()
-    };
+      };
       this.checkIfTodayVisitStarted(this.cohortVisits);
       this.generateMembersData(res.cohortMembers, res.cohortVisits);
     }, (error) => {
@@ -195,7 +195,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (programUuid && personUuid) {
         this.router.navigate([`/patient-dashboard/patient/${personUuid}/`,
-          'hiv', programUuid.value, 'visit'], {queryParams: {groupUuid: this.group.uuid}});
+          'hiv', programUuid.value, 'visit'], { queryParams: { groupUuid: this.group.uuid } });
       }
 
     }
@@ -361,9 +361,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const columns = [];
     columns.push({ headerName: 'Identifiers', field: 'identifiers', pinned: 'left', width: 100 },
       { headerName: 'Name', field: 'name', pinned: 'left', width: 100 },
-      { headerName: 'Contacts', field: 'contacts', pinned: 'left' , width: 100},
+      { headerName: 'Contacts', field: 'contacts', pinned: 'left', width: 100 },
       { headerName: 'Member From', field: 'member_since', pinned: 'left', width: 100 },
-      { headerName: 'Member To', field: 'member_to', pinned: 'left', width: 100});
+      { headerName: 'Member To', field: 'member_to', pinned: 'left', width: 100 });
     let index = 0;
     for (const cohortVisit of cohortVisits) {
       columns.push({
@@ -388,7 +388,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enrollmentErrorMessage = null;
     this.communityGroupMemberService.getCurrentlyEnrolledProgramsAndGroups(patient.uuid).subscribe(
       (results) => {
-        const programsEnrolled =  results[0];
+        const programsEnrolled = results[0];
         const groupsEnrolled = results[1];
         let currentGroupsEnrolled = [];
         if (groupsEnrolled) {
@@ -398,23 +398,23 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(validation);
         switch (true) {
           case validation.alreadyEnrolled.found:
-              this.validatingEnrollment = false;
-              this.showEnrollmentAlert('Patient already enrolled in this group!');
-              break;
+            this.validatingEnrollment = false;
+            this.showEnrollmentAlert('Patient already enrolled in this group!');
+            break;
           case !validation.notEnrolledInGroupProgram.found:
-             this.validatingEnrollment = false;
-             this.showEnrollmentAlert('Enroll patient to DC Program first from patient dashboard.');
-             break;
+            this.validatingEnrollment = false;
+            this.showEnrollmentAlert('Enroll patient to DC Program first from patient dashboard.');
+            break;
           case validation.enrolledInAnotherGroupInSameProgram.found:
-             this.validatingEnrollment = false;
-             const groupToUnenroll = validation.enrolledInAnotherGroupInSameProgram.data;
-             this.showTransferConfirmationModal(this.group, groupToUnenroll, patient);
-             break;
+            this.validatingEnrollment = false;
+            const groupToUnenroll = validation.enrolledInAnotherGroupInSameProgram.data;
+            this.showTransferConfirmationModal(this.group, groupToUnenroll, patient);
+            break;
           default:
-          this.validatingEnrollment = false;
-          this.enrollPatientToGroup(this.group, patient);
-          }
-        });
+            this.validatingEnrollment = false;
+            this.enrollPatientToGroup(this.group, patient);
+        }
+      });
   }
 
   private enrollPatientToGroup(group: Group, patient: Patient) {
@@ -431,17 +431,17 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient) {
     this.communityGroupMemberService.transferMember(groupToUnenroll, groupToEnroll, patient)
-    .subscribe((res) => {
-      this.reloadData();
-      this.modalRef.hide();
-      this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`);
-    },
-    (error) => console.log(error));
+      .subscribe((res) => {
+        this.reloadData();
+        this.modalRef.hide();
+        this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`);
+      },
+        (error) => console.log(error));
   }
 
   private showTransferConfirmationModal(groupToEnroll, groupToUnenroll, patient) {
     this.nestedModalRef = this.modalService.show(GroupTransferModalComponent,
-      {initialState: { groupToEnroll, groupToUnenroll, patient }});
+      { initialState: { groupToEnroll, groupToUnenroll, patient } });
     this.nestedModalRef.content.onConfirm.subscribe((confirmed) => {
       if (confirmed) {
         this.transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient);
@@ -459,9 +459,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.visitStartedForThisDate = !_.isUndefined(_.find(this.group.cohortVisits,
-                                                        (visit) => Moment(visit.startDate).isSame(date.formatted, 'day')));
+      (visit) => Moment(visit.startDate).isSame(date.formatted, 'day')));
     if (this.visitStartedForThisDate) {
-        return;
+      return;
     }
     this.groupVisitDate = date;
   }

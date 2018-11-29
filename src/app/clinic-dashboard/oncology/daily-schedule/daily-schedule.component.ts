@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { ClinicDashboardCacheService }
-  from '../../services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DailyScheduleBaseComponent
 } from '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component';

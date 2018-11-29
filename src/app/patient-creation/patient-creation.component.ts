@@ -1,8 +1,9 @@
 
-import {take} from 'rxjs/operators';
-import { Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
+import { take } from 'rxjs/operators';
+import {
+  Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
 } from '@angular/core';
-import { Subscription ,  of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
@@ -39,7 +40,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public patients: Patient = new Patient({});
   public person: any;
-  public display: boolean = false;
+  public display = false;
   public subscription: Subscription;
   public userId;
   public givenName: string;
@@ -47,7 +48,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public middleName: string;
   public preferred: any;
   public ispreferred: boolean;
-  public loaderStatus: boolean = false;
+  public loaderStatus = false;
   public preferredOptions = [
     { label: 'Yes', val: true },
     { label: 'No', val: false }
@@ -59,11 +60,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public patientExists = true;
   public preferredNameuuid: string;
   public birthDate: any;
-  public birthdateEstimated: boolean = false;
-  public dead: boolean = false;
+  public birthdateEstimated;
+  public dead = false;
   public gender: any;
   public createdPatient;
-  public page: number = 1;
+  public page = 1;
   public idKey;
   public selectId;
 
@@ -89,38 +90,38 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public commonIdentifier;
   public patientIdentifierTypes: any;
   public patientIdentifierType: any;
-  public identifierAdded: boolean = false;
-  public commonAdded: boolean = false;
+  public identifierAdded = false;
+  public commonAdded = false;
   public locations = [];
   public counties: any;
   public identifiers = [];
   public patientResults: Patient[];
   public found = false;
   public selectedLocation: string;
-  public identifierLocation: string = '';
-  public invalidLocationCheck: string = '';
+  public identifierLocation = '';
+  public invalidLocationCheck = '';
   public commonIdentifierTypes: any = [];
   public commonIdentifierTypeFormats: any = [];
-  public identifierValidity: string = '';
-  public isValidIdentifier: boolean = false;
+  public identifierValidity = '';
+  public isValidIdentifier = false;
   public ageEstimate: number;
 
-  public errors: boolean = false;
+  public errors = false;
   public successAlert: any = '';
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
-  public editText: boolean = false;
-  public errorMessage: string = '';
-  public hasError: boolean = false;
-  public isError: boolean = false;
-  public disable: boolean = false;
-  public errorMessages: string = '';
-  public birthError: string = '';
+  public editText = false;
+  public errorMessage = '';
+  public hasError = false;
+  public isError = false;
+  public disable = false;
+  public errorMessages = '';
+  public birthError = '';
   public modalRef: BsModalRef;
   public universal: any;
-  public generate: boolean = true;
+  public generate = true;
   public preferredIdentifier;
 
   constructor(
@@ -148,8 +149,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.familyName = this.person.familyName;
       this.gender = this.person.gender;
       this.birthDate = this.person.birthdate;
-      this.ageEstimate =  this.getAge(this.person.birthdate);
-      this.birthdateEstimated =  this.person.birthdateEstimated;
+      this.ageEstimate = this.getAge(this.person.birthdate);
+      this.birthdateEstimated = this.person.birthdateEstimated;
     }
     this.patientCreationService.getpatientResults().pipe(take(1)).subscribe((res) => {
       if (res.length > 0) {
@@ -207,48 +208,48 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         birthdateEstimated: this.birthdateEstimated
       };
       this.sessionStorageService.setObject('person', this.person);
-      let searchString = this.givenName;
+      const searchString = this.givenName;
       this.patientCreationService.searchPatient(searchString, false).pipe(
-      take(1)).subscribe((results) => {
-        this.loaderStatus = false;
-        if (results.length > 0) {
-          let birthdate = this.getAge(this.birthDate);
-          results = _.filter(results, (o) => {
-            return (o.person.age === birthdate - 1 ||
-            o.person.age === birthdate ||
-            o.person.age === birthdate + 1);
-          });
-          let res = this.filterPatients(results);
-          if (res.length > 0) {
-            this.patientResults = res;
-            this.patientCreationService.patientResults(this.patientResults);
-            this.found = true;
+        take(1)).subscribe((results) => {
+          this.loaderStatus = false;
+          if (results.length > 0) {
+            const birthdate = this.getAge(this.birthDate);
+            results = _.filter(results, (o) => {
+              return (o.person.age === birthdate - 1 ||
+                o.person.age === birthdate ||
+                o.person.age === birthdate + 1);
+            });
+            const res = this.filterPatients(results);
+            if (res.length > 0) {
+              this.patientResults = res;
+              this.patientCreationService.patientResults(this.patientResults);
+              this.found = true;
+            } else {
+              this.continue();
+            }
+
           } else {
             this.continue();
           }
-
-        } else {
-          this.continue();
-        }
-      });
+        });
     }
   }
 
   public filterPatients(results) {
-    let options = {
+    const options = {
       keys: ['person.gender']
     };
-    let fuse = new Fuse(results, options);
+    const fuse = new Fuse(results, options);
     results = fuse.search(this.gender);
     return results;
 
   }
 
   public getAge(dateString) {
-    let today = new Date();
-    let birthDate = new Date(dateString);
+    const today = new Date();
+    const birthDate = new Date(dateString);
     let age = today.getFullYear() - birthDate.getFullYear();
-    let m = today.getMonth() - birthDate.getMonth();
+    const m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
@@ -257,7 +258,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public selectPatient(patient) {
     this.router.navigate(['/patient-dashboard/patient/' + patient.uuid +
-    '/general/general/patient-info']);
+      '/general/general/patient-info']);
   }
 
   public continue() {
@@ -398,7 +399,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public createPatient() {
     this.loaderStatus = false;
     this.errors = false;
-    let ids = [];
+    const ids = [];
     this.successAlert = '';
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
@@ -431,10 +432,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
     if (this.identifiers.length > 1 && !this.preferredIdentifier) {
       this.errors = true;
-    } else if (this.identifiers.length === 0 ) {
+    } else if (this.identifiers.length === 0) {
       this.errors = true;
     } else if (this.identifiers.length === 1) {
-      let value = this.identifiers[0];
+      const value = this.identifiers[0];
       this.preferredIdentifier = value;
       ids.push({
         identifierType: value.identifierType,
@@ -466,28 +467,28 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.loaderStatus = true;
       this.birthError = '';
       this.errorAlert = '';
-      let attributes = [];
+      const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
-          value:  this.patientPhoneNumber,
+          value: this.patientPhoneNumber,
           attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
         });
       }
       if (this.alternativePhoneNumber) {
         attributes.push({
-            value:  this.alternativePhoneNumber,
-            attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+          value: this.alternativePhoneNumber,
+          attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
         });
       }
       if (this.partnerPhoneNumber) {
         attributes.push({
-          value:  this.partnerPhoneNumber,
+          value: this.partnerPhoneNumber,
           attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
         });
       }
       if (this.nextofkinPhoneNumber) {
         attributes.push({
-          value:  this.nextofkinPhoneNumber,
+          value: this.nextofkinPhoneNumber,
           attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
         });
       }
@@ -516,26 +517,26 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         identifiers: ids
       };
       this.patientCreationResourceService.savePatient(payload).pipe(
-      take(1)).subscribe((success) => {
-        this.loaderStatus = false;
-        this.sessionStorageService.remove('person');
-        this.createdPatient = success;
-        if (this.createdPatient) {
-          this.modalRef = this.modalService.show(this.successModal,
-            { backdrop: 'static', keyboard: false});
-        }
-      }, (err) => {
-        this.loaderStatus = false;
-        const error = err;
-        this.errorAlert = error.error.globalErrors[0].code;
-      });
+        take(1)).subscribe((success) => {
+          this.loaderStatus = false;
+          this.sessionStorageService.remove('person');
+          this.createdPatient = success;
+          if (this.createdPatient) {
+            this.modalRef = this.modalService.show(this.successModal,
+              { backdrop: 'static', keyboard: false });
+          }
+        }, (err) => {
+          this.loaderStatus = false;
+          const error = err;
+          this.errorAlert = error.error.globalErrors[0].code;
+        });
 
     }
   }
   public loadDashboard(createdPatient) {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
-    '/general/general/patient-info']);
+      '/general/general/patient-info']);
     this.errorAlert = '';
   }
   public close() {
@@ -582,7 +583,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public loadProgramManager(createdPatient) {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
-    '/general/general/program-manager/new-program']);
+      '/general/general/program-manager/new-program']);
   }
 
   private getPatientIdentifiers() {
@@ -623,52 +624,52 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   private getCommonIdentifierTypes() {
     this.patientIdentifierTypeResService.getPatientIdentifierTypes().pipe(take(1)).subscribe(
-    (data) => {
-      // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].name === 'AMRS Universal ID') {
-          this.universal = {
-            identifierType: data[i].uuid,
-            identifierTypeName: data[i].name
-          };
-        } else {
-          this.commonIdentifierTypes.push({
-            val: data[i].uuid,
-            label: data[i].name
-          });
+      (data) => {
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].name === 'AMRS Universal ID') {
+            this.universal = {
+              identifierType: data[i].uuid,
+              identifierTypeName: data[i].name
+            };
+          } else {
+            this.commonIdentifierTypes.push({
+              val: data[i].uuid,
+              label: data[i].name
+            });
+          }
+
+          if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
+            this.commonIdentifierTypeFormats[data[i].uuid] = {
+              format: '^[0-9]*$',
+              checkdigit: data[i].checkDigit
+            };
+          } else {
+            this.commonIdentifierTypeFormats[data[i].uuid] = {
+              format: data[i].format,
+              checkdigit: data[i].checkDigit
+            };
+          }
+
         }
 
-        if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
-          this.commonIdentifierTypeFormats[data[i].uuid] = {
-            format: '^[0-9]*$',
-            checkdigit: data[i].checkDigit
-          };
-        } else {
-          this.commonIdentifierTypeFormats[data[i].uuid] = {
-            format: data[i].format,
-            checkdigit: data[i].checkDigit
-          };
-        }
-
-      }
-
-    },
-    (error) => {
-      this.toastrService.error('Error retrieving common patient identifier types', '', {
-        timeOut: 2000,
-        positionClass: 'toast-bottom-center'
+      },
+      (error) => {
+        this.toastrService.error('Error retrieving common patient identifier types', '', {
+          timeOut: 2000,
+          positionClass: 'toast-bottom-center'
+        });
       });
-    });
   }
 
   private getLocations(): void {
     this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
-        let counties = [];
+        const counties = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < locations.length; i++) {
-          this.locations.push({label: locations[i].name, value: locations[i].uuid});
+          this.locations.push({ label: locations[i].name, value: locations[i].uuid });
           counties.push(locations[i].stateProvince);
         }
         this.counties = _.uniq(counties);
@@ -701,8 +702,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   private checkIdentifierFormat() {
     this.isValidIdentifier = false;
     this.identifierValidity = '';
-    let identifierType = this.patientIdentifierType;
-    let identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
+    const identifierType = this.patientIdentifierType;
+    const identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
       (identifierType as any).val);
     let identifierHasCheckDigit = null;
     let identifierHasRegex = null;
@@ -731,8 +732,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private checkLuhnCheckDigit() {
-    let checkDigit = this.commonIdentifier.split('-')[1];
-    let expectedCheckDigit =
+    const checkDigit = this.commonIdentifier.split('-')[1];
+    const expectedCheckDigit =
       this.patientCreationService.getLuhnCheckDigit(this.commonIdentifier.split('-')[0]);
     if (checkDigit === 'undefined' || checkDigit === undefined) {
       this.identifierValidity = 'Invalid Check Digit';
@@ -767,7 +768,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       date = (yearDiff - baseYear) * 31556926000;
     }
 
-    let estimateDate = new Date(date).toISOString();
+    const estimateDate = new Date(date).toISOString();
 
     return estimateDate;
   }

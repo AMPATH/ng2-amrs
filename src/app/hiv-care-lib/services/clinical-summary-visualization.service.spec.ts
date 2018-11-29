@@ -2,7 +2,7 @@ import { ClinicalSummaryVisualizationService } from './clinical-summary-visualiz
 
 describe('Service : ClinicalSummaryVisualizationService', () => {
   let service: ClinicalSummaryVisualizationService;
-  let expectedCols = {
+  const expectedCols = {
     'clinical-hiv-comparative-overview': {
       'reporting_month': 'Reporting Month',
       'currently_in_care_total': 'Patients In Care',
@@ -40,15 +40,11 @@ describe('Service : ClinicalSummaryVisualizationService', () => {
     }
   };
 
-  let tableData = [{'t': 1}];
+  const tableData = [{'t': 1}];
 
   beforeEach(() => {
     service = new ClinicalSummaryVisualizationService();
   });
-
-  // afterAll(() => {
-  //   TestBed.resetTestingModule();
-  // });
 
   it('should generate the correct columns when translateColumns is called', (done) => {
     expect(service.translateColumns).toEqual(expectedCols);
@@ -61,14 +57,14 @@ describe('Service : ClinicalSummaryVisualizationService', () => {
   });
 
   it('should be able to flip table columns when flipTranlateColumns is called', (done) => {
-    let flippedCols = service.flipTranlateColumns;
+    const flippedCols = service.flipTranlateColumns;
     expect(flippedCols['clinical-art-overview']['Raltegravir']).toEqual('on_raltegravir');
     done();
   });
 
   it('should be able to add onCellClicked and cellRenderer when generateTabularViewColumns' +
     ' is called', (done) => {
-    let tableCols = service.generateTabularViewColumns;
+    const tableCols = service.generateTabularViewColumns;
     expect(tableCols[0].onCellClicked).toBeDefined();
     done();
   });

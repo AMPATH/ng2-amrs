@@ -24,7 +24,7 @@ export class LoginDialogComponent implements OnInit {
   @ViewChild('modal')
   public modal: ModalComponent;
 
-  public cssClass: string = 'login-dialog';
+  public cssClass = 'login-dialog';
 
   constructor() {
   }

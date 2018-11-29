@@ -61,17 +61,12 @@ import {
 import {
   PrettyEncounterViewerComponent
 } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
-import { XHRBackend, RequestOptions, Http } from '@angular/http';
-import { HttpClient } from './services/http-client.service';
-export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOptions,
-  router: Router, sessionStorageService: SessionStorageService) {
-  return new HttpClient(xhrBackend, requestOptions, router, sessionStorageService);
-  }
 import { RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 import { DataListsModule } from './data-lists/data-lists.module';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppModalComponent } from './modal/app-modal.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -82,6 +77,7 @@ import { AppModalComponent } from './modal/app-modal.component';
       spinnerLines: 12
     }),
     CommonModule,
+    HttpClientModule,
     OpenmrsApi,
     EtlApi,
     Angulartics2Module,
@@ -134,11 +130,7 @@ import { AppModalComponent } from './modal/app-modal.component';
     CdmProgramSnapshotComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
-    HivSummaryService, {
-      provide: Http,
-      useFactory: httpClient,
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }],
+    HivSummaryService],
 })
 export class NgamrsSharedModule {
 

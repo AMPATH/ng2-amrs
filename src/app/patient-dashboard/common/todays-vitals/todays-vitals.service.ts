@@ -15,7 +15,7 @@ import { VitalsDatasource } from './vitals.datasource';
 @Injectable()
 export class TodaysVitalsService {
   public patient: Patient = new Patient({});
-  private dataSources: any[] = [];
+  private vitalSources: any[] = [];
 
   constructor(
     private visitResourceService: VisitResourceService,
@@ -24,43 +24,46 @@ export class TodaysVitalsService {
 
   public getTodaysVitals(patient: Patient, todaysEncounters, sources) {
     this.patient = patient;
-    this.dataSources = sources || [];
+    this.vitalSources = sources || [];
+    this.vitalsDataSource.vitalSources = [];
     return new Promise((resolve, reject) => {
-      for (let encounterItem of todaysEncounters) {
+      for (const encounterItem of todaysEncounters) {
         this.getVitalsFromObs(encounterItem.obs);
       }
-      resolve(this.vitalsDataSource.dataSources);
+
+      resolve(this.vitalsDataSource.vitalSources);
     });
 
   }
 
   private getVitalsFromObs(obsArray) {
     let createdVital: any;
-    _.each(this.dataSources, (source) => {
+    _.each(this.vitalSources, (source) => {
       const vitalSource = new source(new Vital({}), this.patient);
-      for (let obs of obsArray) {
-        let ob = obs;
+      for (const obs of obsArray) {
+        const ob = obs;
         if (typeof ob.concept !== 'undefined') {
           createdVital = vitalSource.getVitals(ob, this.vitalsDataSource);
           if (typeof createdVital !== 'undefined' && createdVital.name) {
             const vitalModel = createdVital[createdVital.name];
             if (vitalModel && vitalModel.show) {
-              this.vitalsDataSource.addToSource(vitalModel);
+              this.vitalsDataSource.addToVitalSource(vitalModel);
             }
           }
         }
       }
-      if(!this.vitalsDataSource.hasVital('bmi')) {
-        this.vitalsDataSource.addToSource(vitalSource.getBMI(createdVital));
+      if (!this.vitalsDataSource.hasVital('weight') || this.vitalsDataSource.hasVital('height')) {
+        this.vitalsDataSource.addToVitalSource(vitalSource.getBMI(new Vital({}),
+          this.vitalsDataSource.getVital('weight'), this.vitalsDataSource.getVital('height')));
       }
     });
     this.applyCompounding();
   }
 
   private applyCompounding() {
-    let compounds = _.filter(this.vitalsDataSource.dataSources, 'isCompoundedWith');
+    const compounds = _.filter(this.vitalsDataSource.vitalSources, 'isCompoundedWith');
     _.each(compounds, (compound) => {
-      let toCompound = _.find(this.vitalsDataSource.dataSources, (s) => compound.isCompoundedWith === s.name);
+      const toCompound = _.find(this.vitalsDataSource.vitalSources, (s) => s && compound.isCompoundedWith === s.name);
       if (toCompound) {
         toCompound.compoundValue = compound;
       }

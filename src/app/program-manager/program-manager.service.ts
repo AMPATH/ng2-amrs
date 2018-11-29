@@ -31,7 +31,7 @@ export class ProgramManagerService {
   }
 
   public referPatient(payload) {
-    let encounter: any = _.first(payload.submittedEncounter);
+    const encounter: any = _.first(payload.submittedEncounter);
     _.extend(payload, {
       notificationStatus: null,
       referralReason: '',
@@ -47,16 +47,16 @@ export class ProgramManagerService {
   }
 
   public editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc) {
-    let programBatch: Array<Observable<any>> = [];
+    const programBatch: Array<Observable<any>> = [];
     _.each(programs, (program: any) => {
-      let location = program.enrolledProgram._openmrsModel.location.uuid;
-      let unenrollPayload = this.programService.createEnrollmentPayload(
-        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateCompleted),
+      const location = program.enrolledProgram._openmrsModel.location.uuid;
+      const unenrollPayload = this.programService.createEnrollmentPayload(
+        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled || program.enrolledProgram.dateEnrolled),
         this.toOpenmrsDateFormat(program.dateCompleted), location ,
         program.enrolledProgram._openmrsModel.uuid);
       // if intra-ampath, unenroll and enroll in the new location
       if (theChange === 'location') {
-        let enrollPayload = this.programService.createEnrollmentPayload(
+        const enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled),
           null,
           newLoc, '');
@@ -71,13 +71,13 @@ export class ProgramManagerService {
   }
 
   public updatePersonHealthCenter(payload: any) {
-    let personUuid = payload.person.uuid;
+    const personUuid = payload.person.uuid;
     delete payload.person;
     return this.personResourceService.saveUpdatePerson(personUuid, payload);
   }
 
   private handleReferralWithProvider(payload): void {
-    let currentUser = this.userService.getLoggedInUser();
+    const currentUser = this.userService.getLoggedInUser();
     this.patientReferralService.getUserProviderDetails(currentUser)
       .then((provider) => {
         if (provider) {
@@ -152,7 +152,7 @@ export class ProgramManagerService {
   }
 
   private toOpenmrsDateFormat(dateToConvert: any): string {
-    let date = moment(dateToConvert);
+    const date = moment(dateToConvert);
     if (date.isValid()) {
       return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
     }

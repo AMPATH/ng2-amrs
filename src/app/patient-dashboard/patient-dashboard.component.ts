@@ -20,7 +20,7 @@ import { PatientRoutesFactory
 })
 export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
 
-  public fetchingPatient: boolean = false;
+  public fetchingPatient = false;
   public patient: Patient;
   public topOffset = 49;
   public leftOffset = 56;
@@ -93,37 +93,36 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public getNewResults() {
-    let patientEmited: any = { uuid: '' };
+    const patientEmited: any = { uuid: '' };
     const sub1 = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {
-        if(patient) {
+        if (patient) {
           const sub2 = this.getCombinedResult(patient).pipe(take(1)).subscribe((results: any[]) => {
             // the intention of combining is to have both systems sync. So we take just one result
             if (results.length > 0) {
-              const result = results[1];
-              let content = '';
-              for (let test of result) {
-                if (test.groupMembers) {
-                  for (let l of test.groupMembers) {
-                    if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
-                      content = content +
-                        `CD4%: ${l.value} `;
+              const result = results[1][0];
+              if (result.updatedObs && result.updatedObs.length > 0) {
+                let content = '';
+                for (const test of result) {
+                  if (test.groupMembers) {
+                    for (const l of test.groupMembers) {
+                      if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
+                        content = content +
+                          `CD4%: ${l.value} `;
+                      }
+                      if (l.uuid === 'f9424af5-1fd3-4a8f-8d43-7b098eb20ac3') {
+                        content = content +
+                          `CD4: ${l.value} `;
+                      }
                     }
-                    if (l.uuid === 'f9424af5-1fd3-4a8f-8d43-7b098eb20ac3') {
-                      content = content +
-                        `CD4: ${l.value} `;
-                    }
+                  } else {
+                    content = content +
+                      `${test.display} (collected on ${Moment(test.obsDatetime)
+                        .format('DD/MM/YYYY')})`;
                   }
-                } else {
-                  content = content +
-                    `${test.display} (collected on ${Moment(test.obsDatetime)
-                      .format('DD/MM/YYYY')})`;
                 }
+                this.toastrService.info(content.toLowerCase(), 'New Data from Lab', this.toastrConfig);
               }
-              this.toastrService.info(content.toLowerCase(), 'New Data from Lab', this.toastrConfig);
-              // app feature analytics
-              this.appFeatureAnalytics
-                .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
             }
           }, (err) => {
             console.error(err);

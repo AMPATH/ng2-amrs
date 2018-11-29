@@ -24,10 +24,7 @@ import { PatientMonthlyStatusComponent
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
 
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
-import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -44,7 +41,8 @@ import { HttpClient } from '../../shared/services/http-client.service';
     OpenmrsApi,
     FormEntryModule,
     TabViewModule,
-    GrowlModule, PanelModule
+    GrowlModule, PanelModule,
+    HttpClientModule
   ],
   exports: [
     HivPatientClinicalSummaryComponent,
@@ -64,13 +62,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     PreviousVisitComponent
   ],
   providers: [
-    {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
   ],
 })
 export class PatientDashboardHivModule { }

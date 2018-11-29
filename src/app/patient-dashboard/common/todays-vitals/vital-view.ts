@@ -7,7 +7,7 @@ export class VitalView implements VitalViewInterface {
   public vital: Vital;
   public name: string;
   public order: number;
-  public show: boolean = true;
+  public show = true;
   public compoundValue: any;
   public isCompoundedWith: string;
   private _value: string | number;
@@ -19,7 +19,7 @@ export class VitalView implements VitalViewInterface {
     this.name = options.name;
     // set the default order far from 0
     this.order = options.order || 100;
-    this.show = options.show === undefined? this.show : options.show;
+    this.show = options.show === undefined ? this.show : options.show;
     this.compoundValue = options.compoundValue || null;
     this.isCompoundedWith = options.isCompoundedWith || null;
   }

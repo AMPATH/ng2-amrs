@@ -7,12 +7,10 @@ import { ProviderResourceService } from '../../../openmrs-api/provider-resource.
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Provider } from '../../../models/provider.model';
 import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
 import { ZscoreService } from '../../../shared/services/zscore.service';
 @Injectable()
 export class FormDataSourceService {
@@ -36,11 +34,11 @@ export class FormDataSourceService {
   }
 
   public getLocationDataSource() {
-    let resolve = (uuid: string) => {
+    const resolve = (uuid: string) => {
       return this.getLocationByUuid(uuid);
     };
 
-    let find = (text: string) => {
+    const find = (text: string) => {
       return this.findLocation(text);
     };
 
@@ -51,10 +49,10 @@ export class FormDataSourceService {
   }
 
   public getProviderDataSource() {
-    let resolve = (uuid: string) => {
+    const resolve = (uuid: string) => {
       return this.getProviderByUuid(uuid);
     };
-    let find = (text: string) => {
+    const find = (text: string) => {
       return this.findProvider(text);
     };
 
@@ -65,10 +63,10 @@ export class FormDataSourceService {
   }
 
  public  getDrugDataSource() {
-    let resolve = (uuid: string) => {
+    const resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
-    let find = (text: string) => {
+    const find = (text: string) => {
       return this.findDrug(text);
     };
 
@@ -79,10 +77,10 @@ export class FormDataSourceService {
   }
 
   public getProblemDataSource() {
-    let resolve = (uuid: string) => {
+    const resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
-    let find = (text: string) => {
+    const find = (text: string) => {
       return this.findProblem(text);
     };
 
@@ -93,7 +91,7 @@ export class FormDataSourceService {
   }
 
   public getConceptAnswersDataSource() {
-    let datasource = {
+    const datasource = {
       cachedOptions: [],
       dataSourceOptions: {
         concept: undefined
@@ -101,19 +99,19 @@ export class FormDataSourceService {
       resolveSelectedValue: undefined,
       searchOptions: undefined
     };
-    let find = (uuid: string) => {
+    const find = (uuid: string) => {
       if (datasource.cachedOptions.length > 0) {
         return Observable.create((observer: Subject<any>) => {
           observer.next(datasource.cachedOptions);
         });
       }
-      let valuesObservable = this.getConceptAnswers(datasource.dataSourceOptions.concept);
+      const valuesObservable = this.getConceptAnswers(datasource.dataSourceOptions.concept);
       valuesObservable.subscribe((results) => {
         datasource.cachedOptions = results;
       });
       return valuesObservable;
     };
-    let resolve = (uuid: string) => {
+    const resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
     datasource.resolveSelectedValue = resolve;
@@ -124,9 +122,9 @@ export class FormDataSourceService {
   }
 
   public getWhoStagingCriteriaDataSource() {
-    let sourceChangedSubject = new Subject();
+    const sourceChangedSubject = new Subject();
 
-    let datasource = {
+    const datasource = {
       cachedOptions: [],
       dataSourceOptions: {
         concept: undefined
@@ -136,23 +134,23 @@ export class FormDataSourceService {
       dataFromSourceChanged: sourceChangedSubject.asObservable(),
       changeConcept: undefined
     };
-    let find = (uuid: string) => {
+    const find = (uuid: string) => {
       if (datasource.cachedOptions.length > 0) {
         return Observable.create((observer: Subject<any>) => {
           observer.next(datasource.cachedOptions);
         });
       }
-      let valuesObservable = this.getConceptSetMembers(datasource.dataSourceOptions.concept);
+      const valuesObservable = this.getConceptSetMembers(datasource.dataSourceOptions.concept);
       valuesObservable.subscribe((results) => {
         datasource.cachedOptions = results;
       });
       return valuesObservable;
     };
-    let resolve = (uuid: string) => {
+    const resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
 
-    let changeConcept = (uuid: string) => {
+    const changeConcept = (uuid: string) => {
       datasource.dataSourceOptions.concept = uuid;
       datasource.cachedOptions = [];
       sourceChangedSubject.next([]);
@@ -171,19 +169,19 @@ export class FormDataSourceService {
   }
 
   public findProvider(searchText): Observable<Provider[]> {
-    let providerSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-    let findProvider = this.providerResourceService.searchProvider(searchText, false);
+    const providerSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+    const findProvider = this.providerResourceService.searchProvider(searchText, false);
     findProvider.subscribe(
       (provider) => {
-        let selectedOptions = [];
-        let filtered = _.filter(provider, (p: any) => {
+        const selectedOptions = [];
+        const filtered = _.filter(provider, (p: any) => {
           if (p.person) {
             return true;
           } else {
             return false;
           }
         });
-        let mappedProviders = filtered.map((p: any) => {
+        const mappedProviders = filtered.map((p: any) => {
           return {
             value: p.uuid,
             label: p.display,
@@ -201,7 +199,7 @@ export class FormDataSourceService {
   }
 
   public getProviderByUuid(uuid): Observable<any> {
-    let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     return this.providerResourceService.getProviderByUuid(uuid, false).pipe(
       map(
       (provider) => { return {
@@ -220,11 +218,11 @@ export class FormDataSourceService {
       }));
   }
   public getProviderByPersonUuid(uuid) {
-    let providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.providerResourceService.getProviderByPersonUuid(uuid)
       .subscribe(
       (provider) => {
-        let mappedProvider = {
+        const mappedProvider = {
           label: (provider as any).display,
           value: (provider as any).person.uuid,
           providerUuid: (provider as any).uuid
@@ -240,10 +238,10 @@ export class FormDataSourceService {
   }
 
   public getPatientObject(patient: Patient): object {
-    let model: object = {};
-    let gender = patient.person.gender;
-    let age = patient.person.age;
-    let birthdate = patient.person.birthdate;
+    const model: object = {};
+    const gender = patient.person.gender;
+    const age = patient.person.age;
+    const birthdate = patient.person.birthdate;
     model['sex'] = gender;
     model['age'] = age;
     model['birthdate'] = birthdate;
@@ -268,11 +266,11 @@ export class FormDataSourceService {
   }
 
   public findLocation(searchText): Observable<Location[]> {
-    let locationSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-    let findLocation = this.locationResourceService.searchLocation(searchText, false);
+    const locationSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+    const findLocation = this.locationResourceService.searchLocation(searchText, false);
     findLocation.subscribe(
       (locations) => {
-        let mappedLocations = locations.map((l: any) => {
+        const mappedLocations = locations.map((l: any) => {
           return {
             value: l.uuid,
             label: l.display
@@ -326,11 +324,11 @@ export class FormDataSourceService {
   }
 
   public getConceptAnswers(uuid) {
-    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
-    let v = 'custom:(uuid,name,conceptClass,answers)';
+    const conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    const v = 'custom:(uuid,name,conceptClass,answers)';
     this.conceptResourceService.getConceptByUuid(uuid, true, v).pipe(
       take(1)).subscribe((result) => {
-        let mappedConcepts = this.mapConcepts(result.answers);
+        const mappedConcepts = this.mapConcepts(result.answers);
         conceptResult.next(mappedConcepts);
       }, (error) => {
         conceptResult.error(error);
@@ -341,8 +339,8 @@ export class FormDataSourceService {
   }
 
   public getConceptSetMembers(uuid) {
-    let conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
-    let v = 'custom:(uuid,name,conceptClass,setMembers)';
+    const conceptResult: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    const v = 'custom:(uuid,name,conceptClass,setMembers)';
     this.conceptResourceService.getConceptByUuid(uuid, true, v)
       .subscribe((result) => {
         let mappedConcepts: Array<any> = this.mapConcepts(result.setMembers);
@@ -357,9 +355,9 @@ export class FormDataSourceService {
   }
 
   public findDrug(searchText) {
-    let conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.conceptResourceService.searchConcept(searchText).subscribe((concepts) => {
-      let filtered = _.filter(concepts, (concept: any) => {
+      const filtered = _.filter(concepts, (concept: any) => {
         if (concept.conceptClass &&
           concept.conceptClass.uuid === '8d490dfc-c2cc-11de-8d13-0010c6dffd0f') {
           return true;
@@ -367,16 +365,16 @@ export class FormDataSourceService {
           return false;
         }
       });
-      let mappedDrugs = this.mapConcepts(filtered);
+      const mappedDrugs = this.mapConcepts(filtered);
       conceptResults.next(mappedDrugs);
     });
     return conceptResults.asObservable();
   }
 
   public findProblem(searchText) {
-    let conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const conceptResults: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     this.conceptResourceService.searchConcept(searchText).subscribe((concepts) => {
-      let filtered = _.filter(concepts, (concept: any) => {
+      const filtered = _.filter(concepts, (concept: any) => {
         if (concept.conceptClass &&
           concept.conceptClass.uuid === '8d4918b0-c2cc-11de-8d13-0010c6dffd0f') {
           return true;
@@ -394,13 +392,13 @@ export class FormDataSourceService {
           return true;
         }
       });
-      let mappedProblems = this.mapConcepts(filtered);
+      const mappedProblems = this.mapConcepts(filtered);
       conceptResults.next(mappedProblems);
     });
     return conceptResults.asObservable();
   }
   public mapConcepts(concepts) {
-    let mappedConcepts = concepts.map((concept) => {
+    const mappedConcepts = concepts.map((concept) => {
       return {
         value: concept.uuid,
         label: concept.name.display
@@ -410,12 +408,12 @@ export class FormDataSourceService {
   }
 
   public getCachedProviderSearchResults(): any {
-    let sourcekey = 'cachedproviders';
+    const sourcekey = 'cachedproviders';
     return this.localStorageService.getObject(sourcekey);
   }
 
   private setCachedProviderSearchResults(searchProviderResults): void {
-    let sourcekey = 'cachedproviders';
+    const sourcekey = 'cachedproviders';
     this.localStorageService.setObject(sourcekey, searchProviderResults);
   }
 

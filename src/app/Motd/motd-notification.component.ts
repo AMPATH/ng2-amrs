@@ -10,7 +10,7 @@
  */
 
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
@@ -27,11 +27,11 @@ export class MOTDNotificationComponent implements OnInit {
 
   public displayNotifications: any = [];
 
-  public overlayClass: string = '';
+  public overlayClass = '';
 
-  public warningIcon: string = 'fa fa-exclamation-circle fa-fw fa-2x';
+  public warningIcon = 'fa fa-exclamation-circle fa-fw fa-2x';
 
-  public infoIcon: string = 'fa fa-info-circle fa-fw fa-2x';
+  public infoIcon = 'fa fa-info-circle fa-fw fa-2x';
 
   // cookie key will be the current days date
 
@@ -41,7 +41,7 @@ export class MOTDNotificationComponent implements OnInit {
   public cookieValue: string = 'motdVal' + this.currentDate;
 
   constructor(private _motdSservice: MOTDNotificationService,
-              private _cookieService: CookieService) {
+    private _cookieService: CookieService) {
 
   }
 
@@ -69,17 +69,17 @@ export class MOTDNotificationComponent implements OnInit {
 
   public filterNotifications() {
     // only show notifications not loaded in cookies based on id
-    let notifications = this.notifications;
+    const notifications = this.notifications;
     if (notifications.length > 0) {
 
       notifications.forEach((notification) => {
 
         // console.log('Filter Notification', notification);
 
-        let startDate = Moment(notification.startDate);
-        let endDate = Moment(notification.expireTime);
-        let messageId = notification.message_id;
-        let alertInterval = parseInt(notification.alert_interval, 0);
+        const startDate = Moment(notification.startDate);
+        const endDate = Moment(notification.expireTime);
+        const messageId = notification.message_id;
+        const alertInterval = parseInt(notification.alert_interval, 0);
 
         // console.log('Alert INterval', alertInterval);
 
@@ -114,7 +114,7 @@ export class MOTDNotificationComponent implements OnInit {
 
         // console.log('Cookie key set', cookieKey);
 
-        let currentNotificationCookie = this._cookieService.get(cookieKey);
+        const currentNotificationCookie = this._cookieService.get(cookieKey);
 
         if (typeof currentNotificationCookie === 'undefined') {
 

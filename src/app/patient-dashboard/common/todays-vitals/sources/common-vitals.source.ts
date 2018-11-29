@@ -6,10 +6,10 @@ import { VitalSourceInterface } from './vital-source.interface';
 
 export class CommonVitalsSource implements VitalSourceInterface {
   constructor(public vitalModel: any | Vital,
-              public patient: Patient) {
+    public patient: Patient) {
   }
 
-  public getVitals(ob: any): VitalView  {
+  public getVitals(ob: any): VitalView {
     switch (ob.concept.uuid) {
       case 'a8a65d5a-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({

@@ -27,7 +27,7 @@ export class ProgramReferralStatusComponent implements OnInit {
   }
   private _status: any;
   constructor(private departmentProgramService: DepartmentProgramsConfigService,
-              private localStorageService: LocalStorageService) {
+    private localStorageService: LocalStorageService) {
   }
 
   public ngOnInit() {
@@ -50,11 +50,11 @@ export class ProgramReferralStatusComponent implements OnInit {
 
   private saveProgramAndDepartment(departmentConfig) {
     _.each(departmentConfig, (config: any) => {
-      let departmentProgram = _.find(config.programs, (program) => {
+      const departmentProgram = _.find(config.programs, (program) => {
         return program && program.uuid === this.status.selectedProgram.programUuid;
       });
       if (departmentProgram) {
-        let currentPmData = this.localStorageService.getObject('pm-data') || {};
+        const currentPmData = this.localStorageService.getObject('pm-data') || {};
         this.department = config.name;
         this.localStorageService.setObject('pm-data', _.merge(currentPmData, {
           department: config.name

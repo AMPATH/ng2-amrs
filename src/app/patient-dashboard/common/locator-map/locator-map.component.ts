@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
@@ -12,9 +12,9 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientService } from '../../services/patient.service';
 
 @Component({
-    selector: 'locator-map',
-    templateUrl: './locator-map.component.html',
-    styleUrls: ['./locator-map.css']
+  selector: 'locator-map',
+  templateUrl: './locator-map.component.html',
+  styleUrls: ['./locator-map.css']
 })
 
 export class LocatorMapComponent implements OnInit, OnDestroy {
@@ -28,9 +28,9 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
 
   constructor(private fileUploadResourceService: FileUploadResourceService,
-              private appSettingsService: AppSettingsService,
-              private patientService: PatientService,
-              private personResourceService: PersonResourceService) {
+    private appSettingsService: AppSettingsService,
+    private patientService: PatientService,
+    private personResourceService: PersonResourceService) {
   }
 
   public ngOnInit() {
@@ -49,7 +49,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
 
   public onFileChange(file) {
     this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result: any) => {
-      let updatePayload = {
+      const updatePayload = {
         attributes: [{
           attributeType: this.attributeType,
           value: result.image
@@ -73,7 +73,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
 
   public clearPhoto() {
     this.dataModel = null;
-    let updatePayload = {
+    const updatePayload = {
       attributes: [{
         attributeType: this.attributeType,
         voided: true
@@ -90,7 +90,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   }
 
   public setPhoto() {
-    let photo = this.patient.person.getPersonAttribute(this.attributeType);
+    const photo = this.patient.person.getPersonAttribute(this.attributeType);
     if (photo) {
       this.dataModel = photo;
     } else {

@@ -6,7 +6,7 @@ import { Patient } from '../../../../models/patient.model';
 export class OncologyTriageSource extends CommonVitalsSource implements VitalSourceInterface {
 
   constructor(public model: any | Vital,
-              public patient: Patient) {
+    public patient: Patient) {
     super(model, patient);
   }
 

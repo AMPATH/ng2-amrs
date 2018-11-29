@@ -34,7 +34,6 @@ import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-
 describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
   let fixture: ComponentFixture<HivMonthlySummaryIndicatorBaseComponent>;
   let comp: HivMonthlySummaryIndicatorBaseComponent;
-  let el;
   class FakeActivatedRoute {
     url = '';
   }
@@ -45,7 +44,8 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
         ReportFiltersComponent
       ],
       providers: [
-        { provide: HivMonthlySummaryIndicatorsResourceService,
+        {
+          provide: HivMonthlySummaryIndicatorsResourceService,
           useClass: HivMonthlyIndicatorsResServiceMock
         },
         DataAnalyticsDashboardService,
@@ -76,7 +76,7 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -90,7 +90,7 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
 
   it('should generate hiv summary monthly report using paramaters supplied',
     (done) => {
-      let fakeReply: any = {
+      const fakeReply: any = {
         result: [{
           'location': 'MTRH Module 1',
           'location_uuid': '08feae7c-1352-11df-a1f1-0026b9348838',
@@ -106,19 +106,19 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
       };
 
       comp = fixture.componentInstance;
-      let service = fixture.componentInstance.hivIndicatorsResourceService;
-      let hivSpy = spyOn(service, 'getHivSummaryMonthlyIndicatorsReport')
-        .and.callFake(({endDate: endDate, gender: gender,  startDate: startDate,
+      const service = fixture.componentInstance.hivIndicatorsResourceService;
+      const hivSpy = spyOn(service, 'getHivSummaryMonthlyIndicatorsReport')
+        .and.callFake(({ endDate: endDate, gender: gender, startDate: startDate,
           indicators: indicators, locationUuids: locationUuids,
-          startAge: startAge, endAge: endAge}) => {
-          let subject =  new Subject<any>();
+          startAge: startAge, endAge: endAge }) => {
+          const subject = new Subject<any>();
 
           // check for params conversion accuracy
           expect(endDate).toEqual('2017-02-01T03:00:00+03:00');
           expect(gender).toEqual('M');
           expect(startDate).toEqual('2017-01-01T03:00:00+03:00');
           expect(indicators).toBe('on_arvs,patients');
-         // expect(locationUuids).toBe('uuid-1,uuid-2');
+          // expect(locationUuids).toBe('uuid-1,uuid-2');
           expect(startAge).toEqual(0);
           expect(endAge).toEqual(120);
 
@@ -160,10 +160,10 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
   it('should report errors when generating hiv summary monthly report fails',
     (done) => {
       comp = fixture.componentInstance;
-      let service = fixture.componentInstance.hivIndicatorsResourceService;
-      let hivSpy = spyOn(service, 'getHivSummaryMonthlyIndicatorsReport')
+      const service = fixture.componentInstance.hivIndicatorsResourceService;
+      const hivSpy = spyOn(service, 'getHivSummaryMonthlyIndicatorsReport')
         .and.callFake((locationUuids, startDate, endDate) => {
-          let subject = new Subject<any>();
+          const subject = new Subject<any>();
 
           setTimeout(() => {
             subject.error('some error');

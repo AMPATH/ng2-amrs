@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
-import { Subscription ,  BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import * as _ from 'lodash';
 import { PatientService } from '../../../services/patient.service';
 import { LocationResourceService } from '../../../../openmrs-api/location-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
-import { RetrospectiveDataEntryService
+import {
+  RetrospectiveDataEntryService
 } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
@@ -20,11 +21,11 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   public patientSubscription: Subscription;
   public routeSubscription: Subscription;
   public visitSubscription: Subscription;
-  public loadingVisitPeriod: boolean = true;
-  public encounterVisitUuid: string = '';
-  public encounterUuid: string = '';
-  public startDatetime: string = '';
-  public stopDatetime: string = '';
+  public loadingVisitPeriod = true;
+  public encounterVisitUuid = '';
+  public encounterUuid = '';
+  public startDatetime = '';
+  public stopDatetime = '';
   public retroProviderAttribute: any;
   public encounters: any[] = [];
   public data: any;
@@ -32,13 +33,13 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   public locationUuid: any;
   public loaderStatus: boolean;
   public locations = [];
-  public loadedInitialLocation: boolean = false;
-  public loadingVisit: boolean = true;
-  public editLocation: boolean = true;
+  public loadedInitialLocation = false;
+  public loadingVisit = true;
+  public editLocation = true;
   public visitLocation: any;
   public currentVisit: any;
   public currentVisitType: any;
-  public locationName: string = '';
+  public locationName = '';
 
   @Output() public editedLocation = new EventEmitter();
 
@@ -55,10 +56,10 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   constructor(private patientService: PatientService, private visitResource: VisitResourceService,
-              private router: Router, private route: ActivatedRoute,
-              private locationResourceService: LocationResourceService,
-              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              private confirmationService: ConfirmationService) {
+    private router: Router, private route: ActivatedRoute,
+    private locationResourceService: LocationResourceService,
+    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+    private confirmationService: ConfirmationService) {
 
   }
 
@@ -107,7 +108,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   public loadVisitByEncounter(encounterUuid) {
     this.loadingVisit = true;
-    let visit = this.getEncounterVisit(encounterUuid);
+    const visit = this.getEncounterVisit(encounterUuid);
     this.loadingVisit = false;
     if (visit) {
       this.setVisit(visit);
@@ -161,14 +162,14 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     if (event && this.encounterVisitUuid && this.currentVisit && this.currentVisit.location
       && this.currentVisit.location.uuid !== event.value) {
 
-      let visitPayload = {
+      const visitPayload = {
         location: event.value
       };
 
       this.confirmationService.confirm({
         header: 'Change visit location',
         message: 'This will change the visit location ' +
-        'upon confirmation. Do you want to continue?',
+          'upon confirmation. Do you want to continue?',
         accept: () => {
           this.loadingVisit = true;
 
@@ -188,14 +189,14 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   private setInitialLocation() {
     this.locationUuid = this.currentVisit && this.currentVisit.location ?
-      { value: this.currentVisit.location.uuid, label:  this.currentVisit.location.display } : '';
+      { value: this.currentVisit.location.uuid, label: this.currentVisit.location.display } : '';
   }
 
   private getEncounterVisit(encounterUuid) {
     if (this.encounters.length === 0) {
       return null;
     }
-    let filtered = _.filter(this.encounters, (encounter: any) => {
+    const filtered = _.filter(this.encounters, (encounter: any) => {
       if (encounter.uuid === encounterUuid) {
         return true;
       } else {
@@ -212,7 +213,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private getVisitPeriod(uuid) {
-    let custom = 'custom:(uuid,' +
+    const custom = 'custom:(uuid,' +
       'location:ref' +
       '),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
@@ -226,17 +227,17 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   private setVisit(visit) {
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-        this.stopDatetime = visit.stopDatetime;
-        this.startDatetime = visit.startDatetime;
-        this.currentVisit = visit ? visit : '';
-        this.locationUuid = visit ? {value: visit.location.uuid, label: visit.location.display} : null;
-        this.locationName = visit ? visit.location.display : null;
-        this.encounterVisitUuid = visit ? visit.uuid : null;
-        if (retroSettings && retroSettings.enabled) {
-          this.retroProviderAttribute = retroSettings.provider;
-        }
-        this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
-        this.loadingVisit = false;
+      this.stopDatetime = visit.stopDatetime;
+      this.startDatetime = visit.startDatetime;
+      this.currentVisit = visit ? visit : '';
+      this.locationUuid = visit ? { value: visit.location.uuid, label: visit.location.display } : null;
+      this.locationName = visit ? visit.location.display : null;
+      this.encounterVisitUuid = visit ? visit.uuid : null;
+      if (retroSettings && retroSettings.enabled) {
+        this.retroProviderAttribute = retroSettings.provider;
+      }
+      this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
+      this.loadingVisit = false;
     });
   }
 

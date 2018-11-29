@@ -20,12 +20,12 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
 
   public data = [];
   public hivComparativeChartOptions: any;
-  public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
-  public errorMessage: string = '';
+  public isLoadingReport = false;
+  public encounteredError = false;
+  public errorMessage = '';
   public dates: any;
   public enabledControls = 'datesControl, locationControl';
-  public loadingHivCare: boolean = false;
+  public loadingHivCare = false;
   private _startDate: Date = Moment().subtract(1, 'year').toDate();
   public get startDate(): Date {
     return this._startDate;
@@ -66,7 +66,7 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
       startDate: this._startDate,
       endDate: this._endDate
     };
-    let _options = {};
+    const _options = {};
     this.encounteredError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;

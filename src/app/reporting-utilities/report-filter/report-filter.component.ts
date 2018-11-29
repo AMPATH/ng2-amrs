@@ -27,6 +27,7 @@ export class ReportFilterComponent implements OnInit {
   @Input() public reportFilterTitle: string;
   @Input() public reportName: string;
   @Input() public enabledControls: string[];
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onGenerateReport: EventEmitter<any> = new EventEmitter();
   @Input() public reportFilterModel: ReportFilterModel;
   @Output() public reportFilterModelChange: EventEmitter<any> = new EventEmitter();

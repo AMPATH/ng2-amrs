@@ -19,12 +19,12 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public patientData: any;
   public translatedIndicator: string;
   public overrideColumns: Array<any> = [];
-  public isLoading: boolean = false;
-  public dataLoaded: boolean = false;
+  public isLoading = false;
+  public dataLoaded = false;
   public startDate: any;
   public endDate: any;
-  public isLoadingPatientList: boolean = false;
-  private startIndex: number = 0;
+  public isLoadingPatientList = false;
+  private startIndex = 0;
   private locationUuid: any;
   private reportName: string;
   private currentIndicator: string;
@@ -75,8 +75,8 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public setDateRange(monthYear) {
-    let startDate = monthYear[0].split('/');
-    let endDate = monthYear[1].split('/');
+    const startDate = monthYear[0].split('/');
+    const endDate = monthYear[1].split('/');
     this.startDate = moment([startDate[2], startDate[1] - 1, startDate[0]]);
     this.endDate = moment([endDate[2], endDate[1] - 1, endDate[0]]);
   }

@@ -1,35 +1,44 @@
 import { Injectable } from '@angular/core';
 
-import { Vital } from '../../../models/vital.model';
 import * as _ from 'lodash';
-import { Patient } from '../../../models/patient.model';
 import { VitalView } from './vital-view';
 
 
 @Injectable()
 export class VitalsDatasource {
-  private _dataSources: VitalView[] = [];
+  private _vitalSources: VitalView[] = [];
   constructor() {
   }
 
-  get dataSources(): any {
-    return _.sortBy(_.uniqBy(this._dataSources, 'name'), 'order');
+  get vitalSources(): any {
+    return _.sortBy(_.uniqBy(this._vitalSources, 'name'), 'order');
   }
 
-  addToSource(dataSource: VitalView | VitalView[]) {
-    if (_.isArray(dataSource)) {
-        this._dataSources = _.concat(this._dataSources, dataSource);
+  set vitalSources(value) {
+    this._vitalSources = value;
+  }
+
+  addToVitalSource(source: VitalView | VitalView[]) {
+    if (_.isArray(source)) {
+        this._vitalSources = _.concat(this._vitalSources, source);
     } else {
-      this._dataSources.push(dataSource as VitalView);
+      this._vitalSources.push(source as VitalView);
     }
   }
 
   public hasVital(key): boolean {
-    const source = _.find(this._dataSources, (_source: VitalView) => {
-      return _source.name === key;
+    const source = _.find(this._vitalSources, (_source: VitalView) => {
+      return _source && _source.name === key;
+    });
+    return source !== undefined;
+  }
+
+  public getVital(key): VitalView {
+    const source = _.find(this._vitalSources, (_source: VitalView) => {
+      return _source && _source.name === key;
     });
 
-    return source !== undefined;
+    return source;
   }
 
 }

@@ -1,4 +1,3 @@
-
 import {throwError as observableThrowError,  ReplaySubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
@@ -22,8 +21,8 @@ export class FormOrderMetaDataService {
         return this.formsOrder;
     }
     public setFavouriteForm(name: string) {
-        let formNames = this.getFavouriteForm();
-        let obj = {
+        const formNames = this.getFavouriteForm();
+        const obj = {
             name: name
         };
         if (_.find(formNames, obj) === undefined) {
@@ -33,15 +32,15 @@ export class FormOrderMetaDataService {
 
     }
     public removeFavouriteForm(name) {
-        let formNames = this.getFavouriteForm();
-        let obj = {
+        const formNames = this.getFavouriteForm();
+        const obj = {
             name: name
         };
         formNames.splice(_.indexOf(formNames, _.find(formNames, obj)), 1);
         this.localStorageService.setObject('formNames', formNames);
     }
     public getFavouriteForm() {
-        let storedData = this.localStorageService.getItem('formNames');
+        const storedData = this.localStorageService.getItem('formNames');
         let arrayData = [];
         if (storedData) {
             arrayData = JSON.parse(storedData);

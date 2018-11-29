@@ -3,8 +3,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { ClinicFlowVisitsComponent } from './clinic-flow-visits.component';
-import { ClinicDashboardCacheService }
-  from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
@@ -38,18 +37,18 @@ import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface
 import * as Moment from 'moment';
 import {
   HivClinicFlowResourceService
-} from
-  '../../etl-api/hiv-clinic-flow-resource.service';
+} from '../../etl-api/hiv-clinic-flow-resource.service';
 import { Observable } from 'rxjs';
-import { MockHivClinicFlowResourceService
+import {
+  MockHivClinicFlowResourceService
 } from '../../etl-api/hiv-clinic-flow-resource.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: ClinicFlowVisitsComponent', () => {
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
+  let component,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
-    mockHivClinicFlowResourceService: MockHivClinicFlowResourceService,
-    clinicFlowResource: ClinicFlowResource, router: Router, fixture, componentInstance;
+    clinicFlowResource: ClinicFlowResource, router: Router, fixture;
 
 
   beforeEach(() => {
@@ -57,8 +56,6 @@ describe('Component: ClinicFlowVisitsComponent', () => {
       providers: [
         LocalStorageService,
         ClinicDashboardCacheService,
-        MockBackend,
-        BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
         CacheService,
@@ -80,14 +77,6 @@ describe('Component: ClinicFlowVisitsComponent', () => {
           useClass: class { navigate = jasmine.createSpy('navigate'); }
         },
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        {
           provide: AppFeatureAnalytics, useFactory: () => {
             return new FakeAppFeatureAnalytics();
           }, deps: []
@@ -95,7 +84,9 @@ describe('Component: ClinicFlowVisitsComponent', () => {
 
       ],
       declarations: [ClinicFlowVisitsComponent],
-      imports: [NgBusyModule,
+      imports: [
+        NgBusyModule,
+        HttpClientTestingModule,
         FormsModule,
         DialogModule,
         CalendarModule,
@@ -152,7 +143,7 @@ describe('Component: ClinicFlowVisitsComponent', () => {
   it('should not pupulate variables when ngOnInit is invoked'
     + ' when clinicFlowData is empty',
     (done) => {
-      let service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+      const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
       service.setClinicFlowData(undefined);
       component.ngOnInit();
 
@@ -170,7 +161,7 @@ describe('Component: ClinicFlowVisitsComponent', () => {
     + ' is invoked',
     (done) => {
       spyOn(component, 'columns').and.callThrough();
-      let cols = component.columns();
+      const cols = component.columns();
       expect(component.columns).toHaveBeenCalled();
       expect(cols.length).toEqual(9);
       done();
@@ -180,7 +171,7 @@ describe('Component: ClinicFlowVisitsComponent', () => {
   it('should load clinic flow data and setIsLoading data when getClinicFlow() '
     + ' is invoked',
     (done) => {
-      let service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+      const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
       component.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid');
       expect(component.clinicFlowData.length).toEqual(1);
       expect(component.loadingClinicFlow).toEqual(false);

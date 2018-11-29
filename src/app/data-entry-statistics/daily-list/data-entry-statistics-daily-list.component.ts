@@ -1,39 +1,49 @@
 import {
   Component,
-  OnInit, OnDestroy, AfterViewInit, OnChanges,
-  Output, EventEmitter, Input, ChangeDetectorRef,
-  SimpleChanges
+  OnInit, AfterViewInit, OnChanges,
+  Output, EventEmitter, Input, ChangeDetectorRef, SimpleChanges
 } from '@angular/core';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { GridOptions } from 'ag-grid/main';
 
 @Component({
-  selector: 'data-entry-statistics-monthly-list',
-  templateUrl: './data-entry-statistics-monthly-list.component.html',
-  styleUrls: ['./data-entry-statistics-monthly-list.component.css']
+  selector: 'data-entry-statistics-daily-list',
+  templateUrl: './data-entry-statistics-daily-list.component.html',
+  styleUrls: ['./data-entry-statistics-daily-list.component.css']
 })
-export class DataEntryStatisticsMonthlyListComponent
+export class DataEntryStatisticsDailyListComponent
   implements OnInit, OnChanges, AfterViewInit {
-  public title = 'Encounters Per Type Per Month';
+  public title = 'Encounter Types Per Day';
+  public totalEncounters = 0;
   public pinnedBottomRowData: any = [];
-  @Input() public params: any;
 
   public gridOptions: GridOptions = {
     enableColResize: true,
     enableSorting: true,
     enableFilter: true,
     showToolPanel: false,
-    pagination: true,
-    paginationPageSize: 300
+    onGridSizeChanged: () => {
+      if (this.gridOptions.api) {
+        this.gridOptions.api.sizeColumnsToFit();
+      }
+    },
+    onGridReady: (params) => {
+      if (this.gridOptions.api) {
+        this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.groupDefaultExpanded = -1;
+      }
+    }
   };
 
-  @Input() public dataEntryEncounters: any = [];
+  @Input() public dataEntryEncounters: any;
+  @Input() public params: any;
   @Output() public patientListParams = new EventEmitter<any>();
-  public monthlyStats: any = [];
-  public monthlyRowData: any[];
+
   public dataEntryEncounterColdef: any = [];
-  public totalMonthlyEncounters: number = 0;
+
+  public dataEntryStats: any = [];
+  public dataEntryRowData: any[];
 
   constructor(
     private _cd: ChangeDetectorRef
@@ -46,17 +56,20 @@ export class DataEntryStatisticsMonthlyListComponent
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.dataEntryEncounters && this.dataEntryEncounters.length > 0) {
-      this.procesMonthlyData();
+    if (changes.dataEntryEncounters
+      && this.dataEntryEncounters.length > 0) {
+      this.processEncounterListData();
     } else {
-      this.monthlyRowData = [];
+      this.dataEntryRowData = [];
     }
   }
 
-  public procesMonthlyData() {
-    let trackColumns = [];
-    let dataEntryEncounters = this.dataEntryEncounters;
-    let encounterMap = new Map();
+  // process encounter list data
+
+  public processEncounterListData() {
+    const trackColumns = [];
+    const dataEntryEncounters = this.dataEntryEncounters;
+    const encounterMap = new Map();
 
     this.dataEntryEncounterColdef = [];
     this.pinnedBottomRowData = [];
@@ -71,13 +84,13 @@ export class DataEntryStatisticsMonthlyListComponent
       },
       {
         headerName: 'Encounter Types',
-        field: 'encounter_type', // 'encounterType'
+        field: 'encounter_type' // 'encounterType'
       },
       {
         headerName: 'Total',
         field: 'rowTotals', // 'rowTotals',
         onCellClicked: (column) => {
-          let patientListParams = {
+          const patientListParams = {
             'providerUuid': this.params.providerUuid,
             'locationUuids': column.data.locationUuid,
             'encounterTypeUuids': column.data.encounterTypeUuid,
@@ -97,29 +110,27 @@ export class DataEntryStatisticsMonthlyListComponent
       }
     );
     this.gridOptions.groupDefaultExpanded = -1;
+    const dynamicCols = [];
 
     _.each(dataEntryEncounters, (stat: any) => {
-      let encounterId = stat.encounter_type_id;
-      let month = stat.month;
-      let monthStart = Moment(month).startOf('month').format('YYYY-MM-DD');
-      let monthEnd = Moment(month).endOf('month').format('YYYY-MM-DD');
-      let location = stat.location;
-      // console.log('Stat', stat);
+      // load the other columns based on date
+      const encounterDate = Moment(stat.date).format('DD-MM-YYYY');
+      // let startDate = Moment(stat.date).toISOString();
+      // let encounterId = stat.encounter_type_id;
 
-      if (_.includes(trackColumns, month) === false) {
+      if (_.includes(trackColumns, encounterDate) === false) {
 
-        this.dataEntryEncounterColdef.push(
+        dynamicCols.push(
           {
-            headerName: month,
-            field: month,
+            headerName: encounterDate,
+            field: encounterDate,
             onCellClicked: (column) => {
-              let patientListParams = {
-                'startDate': monthStart,
+              const patientListParams = {
+                'startDate': Moment(stat.date).format('YYYY-MM-DD'),
                 'encounterTypeUuids': column.data.encounterTypeUuid,
+                'endDate': Moment(stat.date).format('YYYY-MM-DD'),
                 'locationUuids': column.data.locationUuid,
                 'providerUuid': this.params.providerUuid,
-                'endDate': monthEnd
-
               };
               this.patientListParams.emit(patientListParams);
             },
@@ -137,39 +148,38 @@ export class DataEntryStatisticsMonthlyListComponent
           }
         );
 
-        trackColumns.push(month);
+        trackColumns.push(encounterDate);
 
       }
 
-      let encounterTypes = [];
-
-      let monthlyObj: any = {
+      const encounterObj = {
         'location': stat.location,
         'locationUuid': stat.locationUuid,
         'encounterTypes': []
       };
 
-      let e = {
+      const e = {
         'encounterTypeUuid': stat.encounter_type_uuid,
         'encounterName': stat.encounter_type,
         'encounterCounts': [
           {
-            'encounterMonth': stat.month,
+            'encounterDate': encounterDate,
             'encounterCount': stat.encounters_count
           }
         ]
       };
 
-      let savedEncounter = encounterMap.get(stat.location);
+      const savedEncounter = encounterMap.get(stat.location);
+
       if (typeof savedEncounter !== 'undefined') {
 
-        let savedEncounterTypes: any = savedEncounter.encounterTypes;
-        let savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
+        const savedEncounterTypes: any = savedEncounter.encounterTypes;
+        const savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
 
         if (typeof savedSpecificEncounter !== 'undefined') {
 
           savedEncounter.encounterTypes[stat.encounter_type].encounterCounts.push({
-            'encounterMonth': stat.month,
+            'encounterDate': encounterDate,
             'encounterCount': stat.encounters_count
           });
 
@@ -178,47 +188,74 @@ export class DataEntryStatisticsMonthlyListComponent
           savedEncounter.encounterTypes[stat.encounter_type] = e;
 
         }
-
         encounterMap.set(stat.location, savedEncounter);
 
       } else {
 
-        monthlyObj.encounterTypes[stat.encounter_type] = e;
+        encounterObj.encounterTypes[stat.encounter_type] = e;
 
-        encounterMap.set(stat.location, monthlyObj);
+        encounterMap.set(stat.location, encounterObj);
       }
 
     });
 
-    this.processMonthlyRows(encounterMap);
+    // sort col defs based on dates i.e first to last date
+    const sortedDymanicCols = this.sortColumnHeadersByDate(dynamicCols);
+
+    this.mergeColsDef(sortedDymanicCols);
+
+    this.processEncounterRows(encounterMap);
 
   }
 
-  public processMonthlyRows(encounterMap) {
+  public sortColumnHeadersByDate(columns) {
+    return columns.sort((a: any, b: any) => {
+      const splitDateA = (a.field).split('-');
+      const splitDateB = (b.field).split('-');
+      // create date object for comparison
+      const dateA = new Date(splitDateA[2], splitDateA[1], splitDateA[0]);
+      const dateB = new Date(splitDateB[2], splitDateB[1], splitDateB[0]);
 
-    let allRows = [];
+      if (dateA > dateB) {
+        return 1;
+      } else if (dateA < dateB) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+
+  }
+
+  public mergeColsDef(dynamicCols) {
+
+    _.each(dynamicCols, (col) => {
+      this.dataEntryEncounterColdef.push(col);
+    });
+
+  }
+
+  public processEncounterRows(encounterMap) {
+
+    const allRows = [];
     let totalEncounters = 0;
-    let colSumMap = new Map();
-    let encountersRows = [];
     encounterMap.forEach((encounterItem: any, encounterIndex) => {
-      let locationName = encounterItem.location;
-      let locationUuid = encounterItem.locationUuid;
-      let encounterTypes = encounterItem.encounterTypes;
-
+      const locationName = encounterItem.location;
+      const locationUuid = encounterItem.locationUuid;
+      const encounterTypes = encounterItem.encounterTypes;
       Object.keys(encounterTypes).forEach((key) => {
-        // console.log(key);
-        let encounterRow = {
+        const encounterRow = {
           'rowTotals': 0
         };
         encounterRow['location'] = locationName;
         encounterRow['locationUuid'] = locationUuid;
         encounterRow['encounter_type'] = key;
         encounterRow['encounterTypeUuid'] = encounterTypes[key].encounterTypeUuid;
-        let encounterType = encounterTypes[key];
-        let encounterCounts = encounterType.encounterCounts;
+        const encounterType = encounterTypes[key];
+        const encounterCounts = encounterType.encounterCounts;
         let rowTotal = 0;
         _.each(encounterCounts, (encounterCount) => {
-          encounterRow[encounterCount.encounterMonth] = encounterCount.encounterCount;
+          encounterRow[encounterCount.encounterDate] = encounterCount.encounterCount;
           rowTotal += encounterCount.encounterCount;
 
         });
@@ -228,27 +265,21 @@ export class DataEntryStatisticsMonthlyListComponent
       });
 
     });
+    this.dataEntryRowData = allRows;
+    this.totalEncounters = totalEncounters;
 
-    this.totalMonthlyEncounters = totalEncounters;
-
-    // let totalsRow = this.createTotalsRow(colSumMap, totalEncounters);
-    // let totalRowArray = [];
-    // totalRowArray.push(totalsRow);
-    // this.pinnedBottomRowData = totalRowArray;
-    this.monthlyRowData = allRows;
-    this.setPinnedRow();
 
   }
-  public createTotalsRow(totalsMap, totalEncounters) {
 
-    let rowTotalObj = {
+  public createTotalsRow(totalsMap, totalEncounters) {
+    const rowTotalObj = {
       'encounterUuid': '',
       'encounterType': 'Total',
       'rowTotals': totalEncounters
     };
 
-    totalsMap.forEach((monthTotal, index) => {
-      rowTotalObj[index] = monthTotal;
+    totalsMap.forEach((dateTotal, index) => {
+      rowTotalObj[index] = dateTotal;
     });
 
     return rowTotalObj;
@@ -256,12 +287,10 @@ export class DataEntryStatisticsMonthlyListComponent
   }
 
   public setPinnedRow() {
-
     if (this.gridOptions.api) {
       this.gridOptions.api.setPinnedBottomRowData(this.pinnedBottomRowData);
     }
     return true;
-
   }
 
 }

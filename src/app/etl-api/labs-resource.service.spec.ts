@@ -4,45 +4,34 @@
  */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import {
-    Http, BaseRequestOptions, RequestMethod, ConnectionBackend,
-    Response, ResponseOptions, ResponseType
-} from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-
 import { LabsResourceService } from './labs-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-class MockError extends Response implements Error {
-    name: any;
-    message: any;
-}
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+
 describe('LabsResourceService', () => {
+    let service, httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
+            imports: [HttpClientTestingModule],
             providers: [
-                BaseRequestOptions,
-                MockBackend,
-                ConnectionBackend,
-                {
-                    provide: Http, useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                },
                 LabsResourceService,
                 LocalStorageService,
                 AppSettingsService
             ]
         });
+        service = TestBed.get(LabsResourceService);
+        httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    let patientUuId = 'uuid';
+    const patientUuId = 'uuid';
 
-    let newLabResults = {
+    const newLabResults = {
         updatedObs: [{
             obsDatetime: new Date(),
             concept: {
@@ -83,7 +72,7 @@ describe('LabsResourceService', () => {
         ]
     };
 
-    let historicalLabResults = {
+    const historicalLabResults = {
         startIndex: '0',
         size: '30',
         result: [
@@ -112,162 +101,140 @@ describe('LabsResourceService', () => {
             }
         ]
     };
-    it('should be defined', async(inject(
-        [LabsResourceService, MockBackend], (service, mockBackend) => {
-
-            expect(service).toBeDefined();
-        })));
+    it('should be defined', async(() => {
+        expect(service).toBeDefined();
+    }));
 
     describe('get New Lab Data By PatientUuid', () => {
-        let params = {
+        const params = {
             startDate: '2014-12-01',
             endDate: '2014-12-02',
             patientUuId: patientUuId
         };
-        it('should call the right endpoint', async(inject(
-            [LabsResourceService, MockBackend, AppSettingsService],
-            (service, mockBackend, appSettingsService) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toContain(`${appSettingsService
-                            .getEtlRestbaseurl().trim()}patient-lab-orders`);
-                    expect(conn.request.url).toContain('endDate=' + params.endDate);
-                    expect(conn.request.url).toContain('startDate=' + params.startDate);
-                    expect(conn.request.url).toContain('patientUuId=' + params.patientUuId);
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify({}) })));
-                });
+        it('should call the right endpoint', async(() => {
+            const appSettingsService = TestBed.get(AppSettingsService);
+            const result = service.getNewPatientLabResults(params).subscribe((results) => { });
+            const req = httpMock.expectOne(service.getUrl() + '?startDate=2014-12-01&endDate=2014-12-02&patientUuId=uuid');
+            expect(req.request.urlWithParams).toContain('endDate=' + params.endDate);
+            expect(req.request.urlWithParams).toContain('startDate=' + params.startDate);
+            expect(req.request.urlWithParams).toContain('patientUuId=' + params.patientUuId);
+            expect(req.request.urlWithParams)
+                .toContain(`${appSettingsService
+                    .getEtlRestbaseurl().trim()}patient-lab-orders`);
+            expect(req.request.method).toBe('GET');
+            req.flush({});
+        }));
 
-                const result = service.getNewPatientLabResults(params).subscribe((results) => { });
-            })));
+        it('should parse response from patient labs sync endpoint', async(() => {
 
-        it('should parse response from patient labs sync endpoint', async(inject(
-            [LabsResourceService, MockBackend], (service, mockBackend) => {
-                let uuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(newLabResults) })));
-                });
+            const result = service.getNewPatientLabResults(params);
 
-                const result = service.getNewPatientLabResults(params);
+            result.subscribe(res => {
+                expect(res).toBeTruthy();
+                expect(res.length).toBe(5);
+                expect(res[0].concept.uuid).toBe(newLabResults.updatedObs[0].concept.uuid);
+            });
+            const req = httpMock.expectOne(service.getUrl() + '?startDate=2014-12-01&endDate=2014-12-02&patientUuId=uuid');
+            req.flush(newLabResults);
+        }));
 
-                result.subscribe(res => {
-                    expect(res).toBeTruthy();
-                    expect(res.length).toBe(5);
-                    expect(res[0].concept.uuid).toBe(newLabResults.updatedObs[0].concept.uuid);
-                });
-            })));
+        it('should parse errors from patient labs sync endpoint', async(() => {
+            const result = service.getNewPatientLabResults(params);
 
-        it('should parse errors from patient labs sync endpoint', async(inject(
-            [LabsResourceService, MockBackend], (service, mockBackend) => {
-                let opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
-                let responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.subscribe(conn => {
-                    conn.mockError(new MockError(responseOpts));
-                });
-                const result = service.getNewPatientLabResults(params);
-
-                result.subscribe(res => {
-                }, (err) => {
-                    expect(err).toBe('404 - val');
-                });
-            })));
+            result.subscribe(res => {
+            }, (err) => {
+                expect(err).toBe('404 - val');
+            });
+            const req = httpMock.expectOne(service.getUrl() + '?startDate=2014-12-01&endDate=2014-12-02&patientUuId=uuid');
+            req.flush({ type: Error, status: 404, statusText: 'val' });
+        }));
 
     });
     describe('get Historical Lab Data By PatientUuid', () => {
-        let params = {
+        const params = {
             startIndex: '0',
             limit: '20'
         };
-        it('should return null when patient uuid not specified', async(inject(
-            [LabsResourceService, MockBackend], (service, mockBackend) => {
+        it('should return null when patient uuid not specified', async(() => {
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
 
-                const result = service.getHistoricalPatientLabResults(null, params);
+            const result = service.getHistoricalPatientLabResults(null, params);
+            const req = httpMock.expectNone('');
 
-                expect(result).toBeNull();
-            })));
+            expect(result).toBeNull();
+        }));
 
-        it('should call the right endpoint', async(inject(
-            [LabsResourceService, MockBackend, AppSettingsService],
-            (service, mockBackend, appSettingsService) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toContain(`${appSettingsService
-                            .getEtlRestbaseurl().trim()}patient/${patientUuId}/data`);
-                    expect(conn.request.url).toContain('startIndex=' + params.startIndex);
-                    expect(conn.request.url).toContain('limit=' + params.limit);
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify({}) })));
-                });
+        it('should call the right endpoint', async(() => {
+            const appSettingsService = TestBed.get(AppSettingsService);
 
-                const result = service.getHistoricalPatientLabResults(patientUuId, params)
-                    .subscribe((results) => { });
-            })));
+            const result = service.getHistoricalPatientLabResults(patientUuId, params)
+                .subscribe((results) => { });
+            const req = httpMock.expectOne(appSettingsService.getEtlRestbaseurl().trim()
+                + `patient/${patientUuId}/data?startIndex=0&limit=20`);
+            expect(req.request.urlWithParams)
+                .toContain(`${appSettingsService
+                    .getEtlRestbaseurl().trim()}patient/${patientUuId}/data`);
+            expect(req.request.urlWithParams).toContain('startIndex=' + params.startIndex);
+            expect(req.request.urlWithParams).toContain('limit=' + params.limit);
+            expect(req.request.method).toBe('GET');
+            req.flush({});
+        }));
 
         it('should set startIndex to 0 when startIndex is not provided',
-            async(inject(
-                [LabsResourceService, MockBackend], (service, mockBackend) => {
-                    mockBackend.connections.subscribe(conn => {
-                        expect(conn.request.url).toContain('startIndex=0');
-                        expect(conn.request.method).toBe(RequestMethod.Get);
-                        conn.mockRespond(new Response(
-                            new ResponseOptions({ body: JSON.stringify({}) })));
-                    });
-                    delete params.startIndex;
-                    const result =
-                        service.getHistoricalPatientLabResults(patientUuId, params)
-                            .subscribe((results) => { });
-                })));
+            async(() => {
+                delete params.startIndex;
+                const appSettingsService = TestBed.get(AppSettingsService);
+                const result =
+                    service.getHistoricalPatientLabResults(patientUuId, params)
+                        .subscribe((results) => { });
+                const req = httpMock.expectOne(appSettingsService.getEtlRestbaseurl().trim()
+                    + `patient/${patientUuId}/data?startIndex=0&limit=20`);
+                expect(req.request.urlWithParams).toContain('startIndex=0');
+                expect(req.request.method).toBe('GET');
+                req.flush({});
+            }));
         it('should set limit to 20 when startIndex is not provided',
-            async(inject(
-                [LabsResourceService, MockBackend], (service, mockBackend) => {
-                    mockBackend.connections.subscribe(conn => {
-                        expect(conn.request.url).toContain('limit=20');
-                        expect(conn.request.method).toBe(RequestMethod.Get);
-                        conn.mockRespond(new Response(
-                            new ResponseOptions({ body: JSON.stringify({}) })));
-                    });
-                    delete params.limit;
-                    const result =
-                        service.getHistoricalPatientLabResults(patientUuId, params)
-                            .subscribe((results) => { });
-                })));
+            async(() => {
+                const appSettingsService = TestBed.get(AppSettingsService);
+                delete params.limit;
+                const result =
+                    service.getHistoricalPatientLabResults(patientUuId, params)
+                        .subscribe((results) => { });
+                const req = httpMock.expectOne(appSettingsService.getEtlRestbaseurl().trim()
+                    + `patient/${patientUuId}/data?startIndex=0&limit=20`);
+                expect(req.request.urlWithParams).toContain('limit=20');
+                expect(req.request.method).toBe('GET');
+                req.flush({});
+            }));
 
-        it('should parse response from patient labs  endpoint', async(inject(
-            [LabsResourceService, MockBackend], (service, mockBackend) => {
-                let uuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(historicalLabResults) })));
-                });
+        it('should parse response from patient labs  endpoint', async(() => {
+            const appSettingsService = TestBed.get(AppSettingsService);
 
-                const result = service.getHistoricalPatientLabResults(patientUuId, params);
+            const result = service.getHistoricalPatientLabResults(patientUuId, params);
 
-                result.subscribe(res => {
-                    expect(res).toBeTruthy();
-                });
-            })));
-        it('should parse errors errors', async(inject(
-            [LabsResourceService, MockBackend], (service, mockBackend) => {
-                let opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
-                let responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.subscribe(conn => {
-                    conn.mockError(new MockError(responseOpts));
-                });
+            result.subscribe(res => {
+                expect(historicalLabResults).toBeTruthy();
+            });
+            const req = httpMock.expectOne(appSettingsService.getEtlRestbaseurl().trim()
+                + `patient/${patientUuId}/data?startIndex=0&limit=20`);
+            expect(req.request.urlWithParams).toContain('limit=20');
+            expect(req.request.method).toBe('GET');
+            req.flush(JSON.stringify(historicalLabResults));
+        }));
+        it('should parse errors errors', async(() => {
+            const appSettingsService = TestBed.get(AppSettingsService);
+            const result = service.getHistoricalPatientLabResults(patientUuId, params);
 
-                const result = service.getHistoricalPatientLabResults(patientUuId, params);
+            result.subscribe(res => {
 
-                result.subscribe(res => {
-
-                }, (err) => {
-                    expect(err).toBe('404 - val');
-                });
-            })));
+            }, (err) => {
+                expect(err).toBe('404 - val');
+            });
+            const req = httpMock.expectOne(appSettingsService.getEtlRestbaseurl().trim()
+                + `patient/${patientUuId}/data?startIndex=0&limit=20`);
+            expect(req.request.urlWithParams).toContain('limit=20');
+            expect(req.request.method).toBe('GET');
+            req.flush({ type: Error, status: 404, statusText: 'val' });
+        }));
     });
 });
