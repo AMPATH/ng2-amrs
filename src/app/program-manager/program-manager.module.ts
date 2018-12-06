@@ -36,6 +36,8 @@ import { PatientReferralTabularComponent
 } from './program-referral-report-base/patient-referral-tabular.component';
 import { PatientReferralService } from './patient-referral-service';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
+import {GroupByPriority} from '../shared/pipes/group-by-priority.pipe';
+
 @NgModule({
   imports: [
     RouterModule.forChild([]),
@@ -57,7 +59,7 @@ import { ProgramReferralResourceService } from '../etl-api/program-referral-reso
     ProgramManagerContainerComponent, EditProgramComponent, ProgramWizardComponent,
     NewProgramComponent, ProgramSummaryComponent, ProgramWizardStepComponent,
     EditProgramLocationComponent, StopProgramComponent,
-    TransferProgramComponent, UnenrollPatientProgramsComponent,
+    TransferProgramComponent, UnenrollPatientProgramsComponent, GroupByPriority,
     ProgramWizardHeaderComponent, ProgramManagerBaseComponent, ProgramReferralStatusComponent],
   providers: [
     ProgramEnrollmentResourceService,
