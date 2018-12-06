@@ -35,7 +35,8 @@
         </div>
         <div class="step-details">
             <mat-radio-group class="vertical-radio-group" [ngModel]="program" (ngModelChange)="selectProgram($event)">
-                <mat-radio-button class="vertical-radio-button" name="program" *ngFor="let _program of availableDepartmentPrograms" 
+                <mat-radio-button class="vertical-radio-button" name="program"
+                                  *ngFor="let _program of availableDepartmentPrograms | GroupByPriority"
                 value="{{_program.uuid}}" color="primary">
                 {{_program.name}}
                 </mat-radio-button>
