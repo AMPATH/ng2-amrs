@@ -37,6 +37,7 @@ import { PatientReferralTabularComponent
 import { PatientReferralService } from './patient-referral-service';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
 import { GroupEnrollmentModule } from '../patient-dashboard/group-enrollment/group-enrollment.module';
+import {GroupByPriority} from '../shared/pipes/group-by-priority.pipe';
 
 @NgModule({
   imports: [
@@ -60,7 +61,7 @@ import { GroupEnrollmentModule } from '../patient-dashboard/group-enrollment/gro
     ProgramManagerContainerComponent, EditProgramComponent, ProgramWizardComponent,
     NewProgramComponent, ProgramSummaryComponent, ProgramWizardStepComponent,
     EditProgramLocationComponent, StopProgramComponent,
-    TransferProgramComponent, UnenrollPatientProgramsComponent,
+    TransferProgramComponent, UnenrollPatientProgramsComponent, GroupByPriority,
     ProgramWizardHeaderComponent, ProgramManagerBaseComponent, ProgramReferralStatusComponent],
   providers: [
     ProgramEnrollmentResourceService,
