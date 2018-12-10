@@ -15,7 +15,14 @@ module.exports = function () {
     return link;
   }
   function removeWhiteSpace(string) {
-    return string.replace(/\s+/g, '');
+    var whitePaceVar;
+    if(string === '' || string === null){
+         whitePaceVar = '';
+    }else{
+        whitePaceVar = string.replace(/\s+/g, '');
+    }
+    return whitePaceVar;
+
   }
   function checkStatusOfViralLoad(viralLoadPayload) {
     var status = 0;
