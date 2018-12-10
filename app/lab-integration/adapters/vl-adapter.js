@@ -8,7 +8,9 @@ export class VLAdapter extends LabAdapter {
   }
 
   getLabResults() {
-    return Promise.all(this.results.map((result) => this.mapResult(this.transformLabResult(result))));
+    return Promise.all(this.results.map((result) => 
+    this.mapResult(this.transformLabResult(result)
+  )));
   }
 
   mapResult(result) {

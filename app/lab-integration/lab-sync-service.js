@@ -54,6 +54,8 @@ export class LabSyncService {
         console.log('Syncing patient...1');
         return this.syncAndGetPatientLabResults(patientUuid, labLocation);
       }
+    }).catch((error)=>{
+      console.error('getLabSyncLog error', error);
     });
   }
   
@@ -99,6 +101,8 @@ export class LabSyncService {
             });
           }
           return eidCompareOperator.getAllResults(labVLObs, amrsObs);
+        }).catch((error) => {
+           console.error('ERROR : processViralLoadResults', error);
         }));
         
         labResultsPromises.push(that.processDNAPCRResults(dnaPCR.data || [], patientUuid).then((processedObs) => {
@@ -116,7 +120,10 @@ export class LabSyncService {
             });
           }
           return eidCompareOperator.getAllResults(labDNAPCRObs, amrsObs);
-        }));
+        }).catch((error) => {
+          console.error('ERROR : processDNAPCRResults', error);
+        })
+      );
         
         labResultsPromises.push(that.processCD4Results(cd4Results.data || [], patientUuid).then((processedObs) => {
           const eidCompareOperator = new EidCompareOperator();
@@ -134,7 +141,10 @@ export class LabSyncService {
           }
           
           return eidCompareOperator.getAllResults(labCD4Obs, amrsObs);
-        }));
+        }).catch((error) => {
+          console.error('ERROR: processCD4Results', error);
+        })
+      );
         
         return Promise.all(labResultsPromises).then((obs) => {
           const flatten           = arr => arr.reduce(
@@ -153,8 +163,14 @@ export class LabSyncService {
           return Promise.all(that.combineObsPostPromises(combinedMissing)).then((savedObs) => {
             fields[0].status = 0;
             return eidService.saveEidSyncLog(table, fields);
+          }).catch((error)=> {
+            console.error('ERROR : combineObsPostPromises', error);
           });
+        }).catch((error) => {
+           console.error('ERROR : labResultsPromises', error);
         });
+      }).catch((error)=>{
+        console.error('ERROR : Fetching results', error);
       });
     });
     

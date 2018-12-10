@@ -3223,10 +3223,12 @@ module.exports = function () {
                 config: {
                     auth: 'simple',
                     handler: function (request, reply) {
-                        if (config.eidSyncOn === true)
-                            eidLabData.getPatientLabResults(request, reply);
-                        else
+                        if (config.eidSyncOn === true){
+                           const labSyncService = new LabSyncService();
+                            labSyncService.syncAllLabsByPatientUuid(request.query.patientUuId, reply);
+                        }else {
                             reply(Boom.notImplemented('Sorry, sync service temporarily unavailable.'));
+                        }
                     }
                 }
             },
