@@ -1,5 +1,4 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,9 +11,9 @@ import { ProgramService } from '../../patient-dashboard/programs/program.service
 import { Patient } from '../../models/patient.model';
 
 @Component({
-    selector: 'unenroll-patient-programs',
-    templateUrl: 'unenroll-patient-programs.component.html',
-    styleUrls: ['./unenroll-patient-programs.component.css'],
+  selector: 'unenroll-patient-programs',
+  templateUrl: 'unenroll-patient-programs.component.html',
+  styleUrls: ['./unenroll-patient-programs.component.css'],
 })
 export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
 
@@ -52,7 +51,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
   private _datePipe: DatePipe;
 
   constructor(private programService: ProgramService,
-              private router: Router) {
+    private router: Router) {
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -147,12 +146,13 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
     });
 
     if (this.enrolledPrograms.length === 0) {
+      this.unenrollExpressely = false;
       this.unenrollmentCompleted.emit(true);
     }
   }
 
   private createPayload(enrollmentUuid, completedDate) {
-    return {uuid: enrollmentUuid, dateCompleted: completedDate};
+    return { uuid: enrollmentUuid, dateCompleted: completedDate };
   }
 
   private getEnrollmentDetails(enrollmentUuid) {
@@ -180,7 +180,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
     }
 
     if ((!_.isNil(completedDate) && !moment(completedDate).isAfter(enrolledDate)
-        && !moment(completedDate).isSame(enrolledDate))) {
+      && !moment(completedDate).isSame(enrolledDate))) {
       this._showErrorMessage('Date Completed should be after Date Enrolled');
       return false;
     }
