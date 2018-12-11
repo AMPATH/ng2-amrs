@@ -207,7 +207,7 @@ private allEncounterLocations: Array<any> = [];
   public getCountyByLocations(): Promise<any> {
     return new Promise((resolve) => {
       // filter the locations
-      let filteredCounties = _.filter(this.locations, (location) => {
+      let filteredCounties = _.filter(this.locations, (location: any) => {
         let mappedLocations = this.multiple ? _.map(this.selectedLocations, 'value')
           : [this.selectedLocations.value];
         return _.includes(mappedLocations, location.uuid);

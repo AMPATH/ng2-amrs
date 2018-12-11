@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MatRadioModule } from '@angular/material';
 
 import { USER_DEFAULT_PROPERTIES_ROUTE } from './user-default-properties.routes';
 import { UtilsModule } from '../utils/utils.module';
@@ -15,6 +16,7 @@ import { RetrospectiveDataEntryModule
 @NgModule({
   imports: [
     CommonModule,
+    MatRadioModule,
     FormsModule,
     UtilsModule,
     NgBusyModule,
