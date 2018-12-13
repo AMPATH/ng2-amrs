@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
@@ -7,7 +7,8 @@ import { User } from '../models/user.model';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
-import { RetrospectiveDataEntryService
+import {
+  RetrospectiveDataEntryService
 } from '../retrospective-data-entry/services/retrospective-data-entry.service';
 import * as _ from 'lodash';
 
@@ -23,22 +24,23 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public user: User;
   public filteredList: Array<any> = [];
   public departments = [];
-  public selectedDepartment: any;
+  public selectedDepartment: string = '';
   public selectedIdx: number = -1;
   public location: any;
   public confirming: boolean = false;
   public isLoading: boolean = false;
   public locations: Array<any> = [];
   public currentLocation: any;
+  public disable = false;
   private retroSettings: any;
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
-              private userService: UserService,
-              private localStorageService: LocalStorageService,
-              private departmentProgramService: DepartmentProgramsConfigService,
-              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              private propertyLocationService: UserDefaultPropertiesService
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private localStorageService: LocalStorageService,
+    private departmentProgramService: DepartmentProgramsConfigService,
+    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+    private propertyLocationService: UserDefaultPropertiesService
   ) {
 
   }
@@ -46,7 +48,12 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public ngOnInit() {
 
     this.isBusy = true;
+    this.getDepartments();
+
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
+    if (!this.currentLocation) {
+      this.disable = true;
+    }
     // if the user is confirming, prefill the current location
     this.route.params.subscribe((params: Params) => {
       if (params['confirm'] !== undefined) {
@@ -65,28 +72,33 @@ export class UserDefaultPropertiesComponent implements OnInit {
       this.isBusy = false;
     });
 
-    let department = this.localStorageService.getItem('userDefaultDepartment');
-    department = JSON.parse(department);
-    if (department) {
-      this.selectedDepartment = department[0];
+    let department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
+    if (department !== null) {
+      this.selectedDepartment = department[0].itemName;
+    } else {
+      this.selectedDepartment = 'HIV';
+      setTimeout(() => {
+        this.selectDepartment(this.selectedDepartment);
+      }, 1000);
+
     }
 
-    this.getDepartments();
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-          this.retroSettings = retroSettings;
+      this.retroSettings = retroSettings;
     });
 
   }
 
+
   public goToPatientSearch() {
-      this.isLoading = true;
-      this.router.navigate(['patient-dashboard/patient-search']);
+    this.isLoading = true;
+    this.router.navigate(['patient-dashboard/patient-search']);
 
   }
 
   public getDepartments() {
     this.departmentProgramService.getDartmentProgramsConfig().pipe(
-     take(1)).subscribe((results) => {
+      take(1)).subscribe((results) => {
         if (results) {
           _.each(results, (department, key) => {
             if (key !== 'uud4') {
@@ -101,16 +113,21 @@ export class UserDefaultPropertiesComponent implements OnInit {
             }
           });
         }
-     });
+      });
   }
 
   public selectDepartment(event) {
-    let department = [event];
+    let deptObject = _.find(this.departments, (el) => {
+      return el.itemName === event;
+    });
+
+    let department = [deptObject];
     this.selectedDepartment = event;
     this.localStorageService.setItem('userDefaultDepartment', JSON.stringify(department));
   }
 
- public select(item) {
+  public select(item) {
+    this.disable = false;
     let location = JSON.stringify({ uuid: item.value, display: item.label });
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
     this.propertyLocationService.setUserProperty('retroLocation', JSON.stringify(item));

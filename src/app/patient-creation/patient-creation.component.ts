@@ -540,7 +540,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   public close() {
     this.modalRef.hide();
-    this.router.navigate(['/clinic-dashboard/']);
+    this.router.navigate(['/patient-dashboard/patient-search']);
     this.errorAlert = '';
   }
   public reset() {
@@ -577,6 +577,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     } else {
       this.others = false;
     }
+  }
+
+  public loadProgramManager(createdPatient) {
+    this.modalRef.hide();
+    this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
+    '/general/general/program-manager/new-program']);
   }
 
   private getPatientIdentifiers() {
