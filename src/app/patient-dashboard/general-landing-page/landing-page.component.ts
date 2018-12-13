@@ -6,7 +6,7 @@ import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } fro
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-
+import { Router} from '@angular/router';
 import { ProgramService } from '../programs/program.service';
 import { PatientService } from '../services/patient.service';
 import { Patient } from '../../models/patient.model';
@@ -52,7 +52,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   constructor(private patientService: PatientService,
               private patientReferralService: PatientReferralService,
               private userDefaultPropertiesService: UserDefaultPropertiesService,
-              private patientProgramResourceService: PatientProgramResourceService) {
+              private patientProgramResourceService: PatientProgramResourceService,
+              private router: Router) {
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -178,6 +179,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       return _.map(_.filter(encounterTypes, 'required'), 'uuid');
     }
     return [];
+  }
+
+  public loadProgramManager() {
+    this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid +
+    '/general/general/program-manager/new-program']);
   }
 
   private hasValidVisitInReferredLocation(referralEncounter: any , encounters: any[],

@@ -410,6 +410,7 @@
           You have successfully registered the patient <strong>{{ createdPatient?.person.display | uppercase }}</strong>
         </div>
         <button type="button" class="btn btn-primary" (click)="loadDashboard(createdPatient)">Load Patient Dashboard</button>
+        <button style="margin-left: 20px;" class="btn btn-primary" (click)="loadProgramManager(createdPatient)">Enroll into Program</button>
         <button type="button" class="btn btn-danger pull-right" (click)="close()">Close</button>
       </div>
     </ng-template>
