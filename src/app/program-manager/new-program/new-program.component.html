@@ -11,14 +11,15 @@
           <h2><i class="fa fa-arrow-right"></i> Select Department </h2>
         </div>
         <div class="step-details">
-          <p class="checkbox-container-" *ngFor="let _department of programDepartments">
-            <input name="department" [ngModel]="department" value="{{_department.name}}" (ngModelChange)="selectDepartment($event)"
-              type="radio">
-            {{_department.name}}
-          </p>
+          <mat-radio-group class="vertical-radio-group" [ngModel]="department" (ngModelChange)="selectDepartment($event)">
+            <mat-radio-button class="vertical-radio-button" name="department" *ngFor="let _department of programDepartments"
+              value="{{_department.name}}" color="primary">
+              {{_department.name}}
+            </mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="step-buttons">
-          <button type="button" class="btn btn-primary pull-right" (click)="gotToProgram()">Continue</button>
+          <button type="button" class="btn btn-primary pull-right" (click)="goToProgram()">Continue</button>
           <span class="clear">&nbsp;</span>
         </div>
       </div>
@@ -40,8 +41,8 @@
 
         </div>
         <div class="step-buttons">
-          <button type="button" class="btn btn-danger pull-left" (click)="back()">Back</button>
-          <button type="button" class="btn btn-primary pull-right" (click)="gotToDetails()">Continue</button>
+          <button type="button" class="btn btn-danger pull-left" (click)="back()">Change Department</button>
+          <button type="button" class="btn btn-primary pull-right" (click)="goToDetails()">Continue</button>
           <span class="clear">&nbsp;</span>
         </div>
       </div>
@@ -51,7 +52,6 @@
     <div class="wizard-body component">
       <div class="step" *ngIf="programIncompatible">
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i>Program Incompatibility</h2>
         </div>
         <div class="step-details">
           <unenroll-patient-programs [enrollments]="incompatibleProgrames" [reason]="reasonForUnenroll" [patient]="patient"
@@ -85,7 +85,6 @@
                       </ng-container>
                     </select>
                   </ng-container>
-
                 </div>
                 <div style="margin-bottom: 12px;" class="col-md-4 cell">
                   <label for="enrolledDate">Date Enrolled</label>
@@ -94,9 +93,13 @@
                       (ngModelChange)="saveEnrollmentDate($event)" [max]="maxDate" type="date" />
                   </div>
                 </div>
+
                 <div class="col-md-4 col-xs-12 cell">
-                  <location-filter (onLocationChange)="getSelectedLocation($event)" [disable-county]="true"></location-filter>
+                  <location-filter [locationUuids]="selectedLocation" (onLocationChange)="getSelectedLocation($event)"
+                    [disable-county]="true">
+                  </location-filter>
                 </div>
+
               </div>
             </div>
             <ng-container *ngIf="showForms">
@@ -116,6 +119,20 @@
       </div>
     </div>
   </program-wizard-step>
+  <program-wizard-step [name]="'Group Enrollment Step'">
+    <busy *ngIf="refreshingPatient" [message]="'Refreshing Patient Info...'"></busy>
+    <div class="wizard-body component" *ngIf="enrollToGroup">
+      <div class="step" *ngIf="availableDepartmentPrograms">
+        <div class="step-name">
+          <h2><i class="fa fa-arrow-right"></i> Enroll to Group </h2>
+        </div>
+        <div class="step-details">
+          <!-- <group-enrollment [state]="groupEnrollmentState" (group)="goToSuccessStep($event)">
+          </group-enrollment> -->
+        </div>
+      </div>
+    </div>
+  </program-wizard-step>
   <program-wizard-step [name]="'Program Enrollment Success'">
     <div class="wizard-body component">
       <div class="step">
@@ -128,6 +145,12 @@
               <hr />
               <p>{{newlyEnrolledProgram.formFilled}}</p>
             </ng-container>
+          </blockquote>
+        </div>
+        <div style="margin-bottom: 20px;" class="alert alert-success" *ngIf="newlyEnrolledGroup">
+          <blockquote class="step-details" style="border-left: 0; padding: 0;">
+            <p> <i class="fa fa-users"></i>{{newlyEnrolledGroup.name}}<span class="pull-right">{{newlyEnrolledGroup.location?.display}}</span></p>
+            <footer>Started <strong>{{newlyEnrolledGroup.startDate | date: 'longDate'}}</strong></footer>
           </blockquote>
         </div>
         <div style="margin-bottom: 20px;background-color: #d9edf7 !important;" class="alert alert-info" *ngIf="newlyEnrolledProgram && isReferral">
@@ -174,7 +197,6 @@
   </program-wizard-step>
 </program-wizard>
 <busy *ngIf="!loaded" [message]="'Loading...'"></busy>
-<busy *ngIf="refreshingPatient" [message]="'Refreshing Patient Info...'"></busy>
 <p class="alert alert-danger" *ngIf="hasError">
   Error loading patient program config. Please make sure that your network is working fine.
 </p>

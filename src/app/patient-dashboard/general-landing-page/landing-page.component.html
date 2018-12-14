@@ -49,7 +49,8 @@
 </div>
 <div *ngIf="!programsBusy && enrolledProgrames.length === 0 && !hasError">
   <p class="alert alert-info">
-    The patient is not enrolled in any program. Go to program manager to enroll the patient in a program
+    The patient is not enrolled in any program. 
+    <button class="btn btn-primary pull-right" (click)="loadProgramManager()">Enroll into Program</button>
   </p>
 </div>
 <div class="errors" *ngIf="errors.length > 0">
