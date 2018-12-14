@@ -58,6 +58,7 @@ import {
 } from './referral/patient-referral-program.module';
 import { ClinicRoutesFactory
 } from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
+
 @NgModule({
   declarations: [
     /**
