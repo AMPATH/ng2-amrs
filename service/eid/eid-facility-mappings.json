@@ -1726,5 +1726,14 @@
         "description": "Moi Teaching and Referral Hospital Adolescent Clinic.",
         "mflCode": "15204",
         "eidDisplay": ""
+    },
+    "af0d01d4-7c15-491d-be73-50512ab67e3a":{
+        "mrsId": 211,
+        "mrsDisplay": "Alphima Medical Clinic",
+        "cityVillage": "Eldoret",
+        "county": "",
+        "description": "A Private Hospital in Eldoret.",
+        "mflCode": "23646",
+        "eidDisplay": ""
     }
 }
