@@ -3,26 +3,39 @@ import { Injectable } from '@angular/core';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { RouteModel } from '../../../shared/dynamic-route/route.model';
 import { Patient } from '../../../models/patient.model';
+import { LocalStorageService } from '../../../utils/local-storage.service';
 @Injectable()
 export class ClinicRoutesFactory {
 
-  constructor(public routesProvider: RoutesProviderService) { }
+  public selectedDepartment: any;
+
+  constructor(public routesProvider: RoutesProviderService,
+  private _localStorageService: LocalStorageService) { }
 
   public createClinicDashboardRoutes(locationUuid): RouteModel[] {
 
     if (locationUuid === null || locationUuid === undefined) {
       throw new Error('Location is requred');
     }
+    let selectedDepartment: any;
+    const setDepartment: any = JSON.parse(this._localStorageService.getItem('userDefaultDepartment'));
+    selectedDepartment = setDepartment[0].itemName;
+    this.selectedDepartment = selectedDepartment;
 
     let clinicRoutesConfig: any = this.routesProvider.clinicDashboardConfig;
     clinicRoutesConfig = this.processSharedRoutes(clinicRoutesConfig);
 
     const routes: RouteModel[] = [];
     if (Array.isArray(clinicRoutesConfig['departments'])) {
-      for (let department of clinicRoutesConfig.departments) {
-        routes.push(
-          this.createClinicRouteModel(department, locationUuid)
-        );
+      for (const department of clinicRoutesConfig.departments) {
+        const departmentName = department.departmentName;
+        if (departmentName === this.selectedDepartment) {
+
+            routes.push(
+              this.createClinicRouteModel(department, locationUuid)
+            );
+
+        }
       }
     }
 
@@ -68,6 +81,7 @@ export class ClinicRoutesFactory {
     model.renderingInfo = {
       icon: routInfo.icon
     };
+    model.isDistinct = routInfo.isDistinct;
     return model;
   }
 

@@ -49,6 +49,11 @@ import {
 import { ClinicFlowSummaryComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
 import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
+import { DepartmentSelectComponent } from '../department-select/department-select.component';
+import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
+import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
+import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
+import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
 
 const routes: Routes = [
     {
@@ -136,6 +141,30 @@ const routes: Routes = [
     {
         path: 'hiv-enhanced-program',
         component: HivEnhancedComponent
+    },
+    {
+        path: 'defaulter-list',
+        component: DefaulterListComponent
+    },
+    {
+        path: 'clinic-lab-orders',
+        component: ClinicLabOrdersComponent
+    },
+    { path: 'program-enrollment',
+       children: [
+        {
+            path: '',
+            component: PatientsProgramEnrollmentComponent
+        },
+        {
+            path: 'patient-list',
+            component: ProgramEnrollmentPatientListComponent
+        }
+    ]
+    },
+    {
+        path: 'department-select',
+        component : DepartmentSelectComponent
     }
 ];
 
