@@ -46,13 +46,13 @@ export class ProgramManagerService {
     return this.referralCompleteStatus;
   }
 
-  public editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc) {
+  public editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc?) {
     const programBatch: Array<Observable<any>> = [];
     _.each(programs, (program: any) => {
       const location = program.enrolledProgram._openmrsModel.location.uuid;
       const unenrollPayload = this.programService.createEnrollmentPayload(
         program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled || program.enrolledProgram.dateEnrolled),
-        this.toOpenmrsDateFormat(program.dateCompleted), location ,
+        this.toOpenmrsDateFormat(program.dateCompleted || new Date()), location ,
         program.enrolledProgram._openmrsModel.uuid);
       // if intra-ampath, unenroll and enroll in the new location
       if (theChange === 'location') {
@@ -151,8 +151,8 @@ export class ProgramManagerService {
     this.referralCompleteStatus.error(err);
   }
 
-  private toOpenmrsDateFormat(dateToConvert: any): string {
-    const date = moment(dateToConvert);
+  private toOpenmrsDateFormat(dateToConvert?: any): string {
+    const date = dateToConvert ? moment(dateToConvert) : moment();
     if (date.isValid()) {
       return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
     }

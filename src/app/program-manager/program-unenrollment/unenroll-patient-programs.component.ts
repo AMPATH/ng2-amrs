@@ -96,8 +96,7 @@ export class UnenrollPatientProgramsComponent implements OnInit, OnDestroy {
 
   private initCompletedDate() {
     for (const enrolled of this.enrolledPrograms) {
-      this.enrollmentDetails[enrolled.enrollmentUuid] = this._datePipe.transform(
-        new Date(), 'yyyy-MM-dd');
+      this.enrollmentDetails[enrolled.enrollmentUuid] = moment().subtract(1, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
     }
   }
 

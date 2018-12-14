@@ -482,7 +482,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (referralsQuestion.length === 0) {
       referralsQuestion = this.form.searchNodeByQuestionId('patientReferrals');
     }
-    return referralsQuestion;
+    return (referralsQuestion.length > 0 && !_.isEmpty(_.first(referralsQuestion).control.value)) ? referralsQuestion : [];
   }
 
   private saveTransferLocationIfSpecified() {
