@@ -212,9 +212,11 @@ public setFiltersFromUrlParams(params, mapObj) {
         this.showFilters = false;
     }
     public getCurrentDepartment() {
+      console.log('getCurrentDepartment');
 
       this.selectDepartmentService.getDepartment().subscribe((d) => {
         this.myDepartment = d;
+        console.log('getCurrentDepartment', d);
         this.getDepartmentPrograms(d);
       });
 

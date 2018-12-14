@@ -39,6 +39,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    console.log('cdm schedule loaded');
     this.setActiveTab();
     this.route
     .queryParams

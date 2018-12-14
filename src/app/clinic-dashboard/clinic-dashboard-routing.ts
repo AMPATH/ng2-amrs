@@ -5,7 +5,6 @@ import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
-import { DefaulterListComponent } from './defaulter-list/defaulter-list.component';
 import { VisualizationPatientListComponent } from
 './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import {
@@ -31,6 +30,7 @@ import { PatientsProgramEnrollmentComponent } from
 '../patients-program-enrollment/patients-program-enrollment.component';
 import { ProgramEnrollmentPatientListComponent } from
 './../patients-program-enrollment/program-enrollent-patient-list.component';
+
 const clinicDashboardRoutes: Routes = [
   {
     path: '', component: ClinicDashboardComponent,

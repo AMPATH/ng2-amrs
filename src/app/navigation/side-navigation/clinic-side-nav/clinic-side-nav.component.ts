@@ -9,6 +9,7 @@ import { NavigationService } from '../../navigation.service';
 @Component({
     selector: 'clinic-side-nav',
     templateUrl: './clinic-side-nav.component.html',
+    styleUrls: ['./clinic-side-nav.component.css'],
     animations: [
         trigger('enterChild', [
             transition(':enter', [
@@ -55,6 +56,7 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
     public subscribeToRoutesChangeEvents() {
         this.changingRoutesSub =
             this.dynamicRoutesService.clinicRoutes.subscribe((next) => {
+                console.log('Clinic routes', next);
                 this.routes = next;
                 if (this.routes && this.routes.length > 0) {
                     this.selectedRoute = this.routes[0];

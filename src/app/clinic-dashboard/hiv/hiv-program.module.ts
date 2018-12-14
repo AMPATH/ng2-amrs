@@ -89,6 +89,9 @@ import {
 import {
     HivEnhancedPatientListComponent
 } from './hiv-enhanced-program/hiv-enhanced-patient-list/hiv-enhanced-patient-list.component';
+import { DepartSelectModule } from '../department-select/department-select.module';
+import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
+import { GeneralModule } from '../general/general.module';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -114,7 +117,9 @@ import {
         ChartModule,
         ProgramVisitEncounterSearchModule,
         ClinicScheduleLibModule,
-        DepartmentProgramFilterModule
+        DepartmentProgramFilterModule,
+        DepartSelectModule,
+        GeneralModule
     ],
     exports: [
         HivSummaryIndicatorComponent,
@@ -156,7 +161,8 @@ import {
         RangeSliderComponent,
         HivEnhancedComponent,
         HivEnhancedFiltersComponent,
-        HivEnhancedPatientListComponent
+        HivEnhancedPatientListComponent,
+        DefaulterListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

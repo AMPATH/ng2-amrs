@@ -3,6 +3,7 @@ export class RouteModel {
   public url: string;
   public initials: string;
   public renderingInfo: any;
+  public isDistinct: boolean;
   public childRoutes: Array<RouteModel> =  [];
     constructor() {
 
