@@ -63,9 +63,9 @@ describe('Service: Moh731PatientListResourceService', () => {
         BaseRequestOptions,
         LocalStorageService,
         {
-          provide: Http,
+          provide: HttpClient,
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
+           // return new Htt(backendInstance, defaultOptions);
           },
           deps: [MockBackend, BaseRequestOptions]
         },
@@ -76,16 +76,16 @@ describe('Service: Moh731PatientListResourceService', () => {
         {
           provide: DataCacheService,
           useClass: FakeDataCacheService
-        },
+        },/*
         {
           provide: Moh731PatientListResourceService,
-          useFactory: (http: HttpClient, appSettingsService: AppSettingsService,
+          useFactory: (http: Http, appSettingsService: AppSettingsService,
                        dataCacheService: DataCacheService) => {
             return new Moh731PatientListResourceService(http, appSettingsService,
               dataCacheService);
           },
           deps: [Http, AppSettingsService, DataCacheService]
-        }
+        }*/
       ],
     });
     service = TestBed.get(Moh731PatientListResourceService);

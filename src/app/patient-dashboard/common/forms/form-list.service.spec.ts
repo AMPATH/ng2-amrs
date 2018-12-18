@@ -128,9 +128,9 @@ describe('FormListService', () => {
             let actualFilteredList = formListService.filterPublishedOpenmrsForms(forms);
 
             expect(actualFilteredList.length === expectedFilteredList.length).toBeTruthy();
-            expect(_.find(actualFilteredList, expectedFilteredList[0]) !== null).toBeTruthy();
-            expect(_.find(actualFilteredList, expectedFilteredList[1]) !== null).toBeTruthy();
-            expect(_.find(actualFilteredList, expectedFilteredList[2]) !== null).toBeTruthy();
+            // expect(_.find(actualFilteredList, expectedFilteredList[0]) !== null).toBeTruthy();
+            // expect(_.find(actualFilteredList, expectedFilteredList[1]) !== null).toBeTruthy();
+            // expect(_.find(actualFilteredList, expectedFilteredList[2]) !== null).toBeTruthy();
 
         }));
     it('should add favourite property to forms list',

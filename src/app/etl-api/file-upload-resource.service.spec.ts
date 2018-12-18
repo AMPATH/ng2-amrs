@@ -53,7 +53,7 @@ describe('FileUploadResourceService', () => {
                 }
             });
 
-            s.upload({}).subscribe((response) => {
+            s.upload({}).subscribe((response: any) => {
                 expect(response.image).toBe('uploaded-image');
             });
         })

@@ -1,13 +1,13 @@
 import { of } from 'rxjs';
-import { AppSettingsService } from './../app-settings/app-settings.service';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { ComponentFixture, TestBed, async , inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { MOTDNotificationComponent } from './motd-notification.component';
 import { MOTDNotificationService } from '../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
-import { Http, RequestMethod , BaseRequestOptions } from '@angular/http';
+import { Http, RequestMethod, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import * as Moment from 'moment';
@@ -48,7 +48,7 @@ let motdNotifications = [
     'message': 'Release Meeting ate dev office 2',
     'title': 'Release Meeting',
     'startDate': '2017-07-09T21:00:00.000Z',
-     'expireTime': today + 'T21:00:00.000Z',
+    'expireTime': today + 'T21:00:00.000Z',
     'dateCreated': '0000-00-00 00:00:00',
     'alert_type': 2,
     'alert_interval': 3
@@ -58,57 +58,57 @@ let motdNotifications = [
     'message': 'Release Meeting ate dev office 2',
     'title': 'Release Meeting',
     'startDate': '2017-07-09T21:00:00.000Z',
-     'expireTime': today + 'T21:00:00.000Z',
+    'expireTime': today + 'T21:00:00.000Z',
     'dateCreated': '0000-00-00 00:00:00',
     'alert_type': 2,
     'alert_interval': 2
-    }
-    ];
+  }
+];
 
 
 describe('Component : MOTD Notification', () => {
 
-    let comp: MOTDNotificationComponent;
-    let fixture: ComponentFixture<MOTDNotificationComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
-    let nativeElement: any;
+  let comp: MOTDNotificationComponent;
+  let fixture: ComponentFixture<MOTDNotificationComponent>;
+  let de: DebugElement;
+  let el: HTMLElement;
+  let nativeElement: any;
 
-    // async beforeEach
-    beforeEach(async(() => {
+  // async beforeEach
+  beforeEach(async(() => {
 
 
-      TestBed.configureTestingModule({
-        imports: [
-          CookieModule.forRoot(),
-        ],
-        declarations: [MOTDNotificationComponent], // declare the test component
-        providers: [
-          CookieService,
-          MOTDNotificationService,
-          MockBackend,
-          BaseRequestOptions,
-          FakeAppSettingsService,
-          LocalStorageService,
-          AppSettingsService,
-          MockRouter,
-          MockActivatedRoute,
-          {
-            provide: Http,
-            useFactory: (backendInstance: MockBackend,
-              defaultOptions: BaseRequestOptions) => {
-              return new Http(backendInstance, defaultOptions);
-            },
-            deps: [MockBackend, BaseRequestOptions]
+    TestBed.configureTestingModule({
+      imports: [
+        CookieModule.forRoot(),
+      ],
+      declarations: [MOTDNotificationComponent], // declare the test component
+      providers: [
+        CookieService,
+        MOTDNotificationService,
+        MockBackend,
+        BaseRequestOptions,
+        FakeAppSettingsService,
+        LocalStorageService,
+        AppSettingsService,
+        MockRouter,
+        MockActivatedRoute,
+        {
+          provide: Http,
+          useFactory: (backendInstance: MockBackend,
+            defaultOptions: BaseRequestOptions) => {
+            return new Http(backendInstance, defaultOptions);
           },
-          { provide: Router, useClass: MockRouter }, {
-            provide: ActivatedRoute,
-            useClass: MockActivatedRoute
-          },
-        ]
-      })
-        .compileComponents();  // compile template and css
-    }));
+          deps: [MockBackend, BaseRequestOptions]
+        },
+        { provide: Router, useClass: MockRouter }, {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        },
+      ]
+    })
+      .compileComponents();  // compile template and css
+  }));
 
 
 
@@ -131,10 +131,9 @@ describe('Component : MOTD Notification', () => {
     TestBed.resetTestingModule();
   });
 
-it('Should be create an instance of the component', async(() => {
-  expect(comp).toBeDefined();
-}));
-
+  it('Should be create an instance of the component', async(() => {
+    expect(comp).toBeDefined();
+  }));
 
 });
 

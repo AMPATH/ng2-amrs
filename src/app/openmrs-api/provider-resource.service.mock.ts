@@ -1,5 +1,4 @@
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import { Http } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';

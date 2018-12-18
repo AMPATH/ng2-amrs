@@ -1,43 +1,38 @@
-import { async, inject, TestBed } from '@angular/core/testing';
-import {
-    BaseRequestOptions, Http, HttpModule, Response,
-    ResponseOptions, RequestMethod
-} from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { EncounterResourceService } from './encounter-resource.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 describe('EncounterResourceService', () => {
+
+    let httpMock: HttpTestingController;
+    let service: EncounterResourceService;
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
                 EncounterResourceService,
                 AppSettingsService,
-                LocalStorageService,
-                MockBackend,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                }
+                LocalStorageService
             ],
             imports: [
-                HttpModule
+                HttpClientTestingModule
             ]
         });
+
+        service = TestBed.get(EncounterResourceService);
+        
+        httpMock = TestBed.get(HttpTestingController);
     });
 
     afterAll(() => {
+        httpMock.verify();
         TestBed.resetTestingModule();
     });
 
-    it('should be defined', async(inject(
-        [EncounterResourceService, MockBackend], (service, mockBackend) => {
-
-            expect(service).toBeDefined();
-        })));
+    it('should be defined', () => {
+        expect(service).toBeDefined();
+    });
     describe('get Encounters by PatientUuid', () => {
         let encountersResponse = {
             results: [
@@ -64,35 +59,27 @@ describe('EncounterResourceService', () => {
                 }]
         };
 
-        it('should return null when PatientUuid not specified', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+        it('should return null when PatientUuid not specified', () => {
+            let uuid = '08feb5b6-1352-11df-a1f1-0026b9348838';
+            httpMock.expectNone({})
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
+            const result = service.getEncountersByPatientUuid(null);
 
-                const result = service.getEncountersByPatientUuid(null);
+            expect(result).toBeNull();
+        });
 
-                expect(result).toBeNull();
-            })));
-        it('should call the right endpoint', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                let patientUuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toBe('http://example.url.com/ws/rest/v1/encounter?patient='
-                        + patientUuid + '&v=custom:(uuid,encounterDatetime,patient:(uuid,uuid),' +
-                        'form:(uuid,name),visit:(uuid,display,auditInfo,startDatetime,' +
-                        'stopDatetime,location:(uuid,display),' +
-                        'visitType:(uuid,name)),location:ref,encounterType:ref,encounterProviders' +
-                        ':(uuid,display,provider:(uuid,display)))');
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(encountersResponse) })));
-                });
+        it('should call the right endpoint', () => {
+            let patientUuid = 'uuid';
+            service.getEncountersByPatientUuid(patientUuid).subscribe()
 
-                const result = service.getEncountersByPatientUuid(patientUuid);
-            })));
+            const request = httpMock.expectOne(service.getUrl() + 'encounter' + '?patient=uuid&v=custom:(uuid,encounterDatetime,' +
+            'patient:(uuid,uuid),form:(uuid,name),' +
+            'visit:(uuid,display,auditInfo,startDatetime,stopDatetime,location:(uuid,display)' +
+                    ',visitType:(uuid,name)),' +
+            'location:ref,encounterType:ref,encounterProviders:(uuid,display,provider:(uuid,display)))');
+            expect(request.request.method).toBe('GET');
+            request.flush(encountersResponse);
+        });
 
 
     });
@@ -130,37 +117,37 @@ describe('EncounterResourceService', () => {
             }
         };
 
-        it('should return null when params are not specified', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+        it('should return null when params are not specified', () => {
+            let patientUuid = 'uuid';
+            let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+                'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+                'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
+                'location:ref,encounterType:ref,encounterProviders:(uuid,display' +
+                ',provider:(uuid,display)),orders:full,obs:(uuid,obsDatetime,' +
+                'concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
+            httpMock.expectNone({})
+            const result = service.getEncounterByUuid(null);
 
-                const result = service.getEncounterByUuid(null);
+            expect(result).toBeNull();
+        });
+        it('should call the right endpoint', () => {
+            let patientUuid = 'uuid';
+            let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+                'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+                'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
+                'location:ref,encounterType:ref,encounterProviders:(uuid,display' +
+                ',provider:(uuid,display)),orders:full,obs:(uuid,obsDatetime,' +
+                'concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
 
-                expect(result).toBeNull();
-            })));
-        it('should call the right endpoint', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                let patientUuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
-                    let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
-                    'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
-                    'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
-                    'location:ref,encounterType:ref,encounterProviders:(uuid,display' +
-                     ',provider:(uuid,display)),orders:full,obs:(uuid,obsDatetime,' +
-                    'concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
-                    expect(conn.request.url)
-                        .toBe('http://example.url.com/ws/rest/v1/encounter/' + patientUuid + '?v='
-                        + _customDefaultRep);
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(encounterResponse) })));
-                });
-                const result = service.getEncounterByUuid(patientUuid);
+            service.getEncounterByUuid(patientUuid).subscribe((res) => {
+                expect(res).toEqual(encounterResponse);
+            });
+            const request = httpMock.expectOne(service.getUrl() + 'encounter/' + patientUuid + '?v=' +_customDefaultRep);
+            expect(request.request.method).toBe('GET');
+            request.flush(encounterResponse);
 
-            })));
+        });
 
     });
     describe('get Encounter types', () => {
@@ -188,31 +175,25 @@ describe('EncounterResourceService', () => {
                 }
             ]
         };
-        it('should return null when params are not specified', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+        it('should return null when params are not specified', () => {
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
+            httpMock.expectNone({});
 
-                const result = service.getEncounterTypes(null);
+            const result = service.getEncounterTypes(null);
 
-                expect(result).toBeNull();
-            })));
-        it('should call the right endpoint', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toBe('http://example.url.com/ws/rest/v1/encountertype');
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(encounterTypeResponse) })));
-                });
+            expect(result).toBeNull();
+        });
 
-                const result = service.getEncounterTypes({
-                    v: 'custom:(uuid,name)'
-                });
-            })));
+        it('should call the right endpoint', () => {
+
+            service.getEncounterTypes('all').subscribe()
+
+            const request = httpMock.expectOne(service.getUrl() + 'encountertype');
+            expect(request.request.url)
+                .toBe('https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encountertype');
+            expect(request.request.method).toBe('GET');
+            request.flush(encounterTypeResponse);
+        });
     });
 
     describe('save new Encounter', () => {
@@ -247,28 +228,23 @@ describe('EncounterResourceService', () => {
                 ]
             }
         };
-        it('should return null when params are not specified', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+        it('should return null when params are not specified', () => {
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
+            httpMock.expectNone({});
+            const result = service.saveEncounter(null);
 
-                const result = service.saveEncounter(null);
+            expect(result).toBeNull();
+        });
+        it('should call the right endpoint', () => {
 
-                expect(result).toBeNull();
-            })));
-        it('should call the right endpoint', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toBe('http://example.url.com/ws/rest/v1/encounter');
-                    expect(conn.request.method).toBe(RequestMethod.Post);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(newEncounterResponse) })));
-                });
+            service.saveEncounter(newEncounterMock).subscribe((res) => {
+                expect(res).toEqual(newEncounterResponse);
+            });
 
-                const result = service.saveEncounter(newEncounterMock);
-            })));
+            const request = httpMock.expectOne(service.getUrl() + 'encounter');
+            expect(request.request.method).toBe('POST');
+            request.flush(newEncounterResponse);
+        });
     });
     describe('update encounters', () => {
         let encounterMock = {
@@ -303,57 +279,44 @@ describe('EncounterResourceService', () => {
             }
         };
         let uuid = 'uuid';
-        it('should return null when params are not specified', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+        it('should return null when params are not specified', () => {
+            httpMock.expectNone({});
+            const result = service.updateEncounter(null, null);
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
+            expect(result).toBeNull();
+        });
+        it('should call the right endpoint', () => {
 
-                const result = service.updateEncounter(null);
-
-                expect(result).toBeNull();
-            })));
-        it('should call the right endpoint', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toBe('http://example.url.com/ws/rest/v1/encounter/' + uuid);
-                    expect(conn.request.method).toBe(RequestMethod.Post);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(encounterResponse) })));
-                });
-
-                const result = service.updateEncounter(uuid, encounterMock);
-            })));
+            service.updateEncounter(uuid, encounterMock).subscribe((res) => {
+                expect(res).toEqual(encounterResponse);
+            });
+            const request = httpMock.expectOne(service.getUrl() + 'encounter/' + uuid);
+            expect(request.request.method).toBe('POST');
+            request.flush(encounterResponse);
+        });
     });
 
     describe('Should Delete encounters', () => {
-        let uuid = 'encounter-uuid';
-        it('should return null when params are not specified', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
+        let uuid = 'uuid';
+        it('should return null when params are not specified', () => {
 
-                mockBackend.connections.subscribe(conn => {
-                    throw new Error('No requests should be made.');
-                });
+            httpMock.expectNone(service.getUrl() + 'encounter/' + uuid + '?!purge');
 
-                const result = service.voidEncounter(null);
+            const result = service.voidEncounter(null);
 
-                expect(result).toBeNull();
-            })));
+            expect(result).toBeNull();
+        });
 
-        it('should call the right endpoint', async(inject(
-            [EncounterResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toBe('http://example.url.com/ws/rest/v1/encounter/' + uuid + '?!purge');
-                    expect(conn.request.method).toBe(RequestMethod.Delete);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify({}) })));
-                });
+        it('should call the right endpoint', () => {
 
-                const result = service.voidEncounter(uuid);
-            })));
+            service.voidEncounter(uuid).subscribe((res) => {
+                expect(res).toBe('deleted');
+            })
+
+            const request = httpMock.expectOne(service.getUrl() + 'encounter/' + uuid + '?!purge');
+            expect(request.request.method).toBe('DELETE');
+            request.flush('deleted');
+        });
     });
 });
 

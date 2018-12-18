@@ -101,7 +101,7 @@ describe('PatientSideNavComponent:', () => {
             programRoute.label = 'program';
             programRoute.url = 'url';
 
-            programRoute.childRoutes = [
+            /*programRoute.childRoutes = [
                 {
                     childRoutes: [],
                     initials: 'T',
@@ -116,7 +116,7 @@ describe('PatientSideNavComponent:', () => {
                     renderingInfo: { icon: 'fa fa-circle' },
                     url: 'some/url/'
                 }
-            ];
+            ];*/
 
             let newRoutes: Array<RouteModel> = [programRoute, new RouteModel()];
             dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);
@@ -137,7 +137,7 @@ describe('PatientSideNavComponent:', () => {
             programRoute.label = 'General Info';
             programRoute.url = 'url';
 
-            programRoute.childRoutes = [
+            /*programRoute.childRoutes = [
                 {
                     childRoutes: [],
                     initials: 'F',
@@ -145,7 +145,7 @@ describe('PatientSideNavComponent:', () => {
                     renderingInfo: { icon: 'fa fa-circle' },
                     url: 'some/url/'
                 }
-            ];
+            ];*/
 
             const newRoutes: Array<RouteModel> = [programRoute, new RouteModel()];
             dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);

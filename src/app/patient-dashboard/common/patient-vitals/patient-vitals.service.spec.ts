@@ -34,7 +34,7 @@ describe('Service: PatientVitalsService', () => {
       ]
     });
       service = TestBed.get(PatientVitalsService);
-      vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);
+     // vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);
 
 
   });
@@ -63,7 +63,8 @@ describe('Service: PatientVitalsService', () => {
   it('should return an error when load patient vitals is not successful', (done) => {
     let backend: MockBackend = TestBed.get(MockBackend);
 
-    let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
+    // let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
+    let patientUuid: any = { }
 
     backend.connections.subscribe((connection: MockConnection) => {
 

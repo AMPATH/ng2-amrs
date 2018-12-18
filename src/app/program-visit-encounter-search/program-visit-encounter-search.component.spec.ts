@@ -238,10 +238,7 @@ describe('Component: ProgramVisitEncounterSearch', () => {
       expect(comp).toBeDefined();
   });
   it('should load departments from departments config', () => {
-    comp.programDepartments = departmentConfig;
-    comp.getAllDepartments();
     let departments = comp.departments;
-
     expect(departments).toEqual(mockDepartmentsFilter);
   });
 
@@ -249,9 +246,7 @@ describe('Component: ProgramVisitEncounterSearch', () => {
 
     comp.department = departmentSelected;
     comp.departments = mockDepartmentsFilter;
-    comp.programDepartments = departmentConfig;
-    comp.programVisitsEncounters = JSON.parse(JSON.stringify(mockProgramVisitsConfig));
-    comp.selectDepartment(departmentSelected);
+    // comp.programVisitsEncounters = JSON.parse(JSON.stringify(mockProgramVisitsConfig));
     let programs = JSON.stringify(comp.programs);
 
     expect(programs).toEqual(JSON.stringify(programsSelected));

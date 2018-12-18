@@ -7,12 +7,10 @@ import { ProviderResourceService } from '../../../openmrs-api/provider-resource.
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Provider } from '../../../models/provider.model';
 import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
 import { ZscoreService } from '../../../shared/services/zscore.service';
 @Injectable()
 export class FormDataSourceService {

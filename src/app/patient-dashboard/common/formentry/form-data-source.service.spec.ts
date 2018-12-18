@@ -14,11 +14,21 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { ZscoreService } from 'src/app/shared/services/zscore.service';
+import { HttpClient } from 'selenium-webdriver/http';
+
+class FakeCacheStorageService {
+  constructor(a, b) {
+  }
+
+}
 
 describe('Service: FormDataSourceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CacheModule],
+      imports: [CacheModule, HttpClientTestingModule],
       providers: [
         FormDataSourceService,
         LocationResourceService,
@@ -29,18 +39,16 @@ describe('Service: FormDataSourceService', () => {
         LocalStorageService,
         DataCacheService,
         CacheService,
+        ZscoreService,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: CacheStorageService, useFactory: () => {
+            return new FakeCacheStorageService(null, null);
+          }, deps: []
         },
         {
           provide: ProviderResourceService, useFactory: () => {
-          return new FakeProviderResourceService(null, null, null);
-        }, deps: []
+            return new FakeProviderResourceService(null, null, null);
+          }, deps: []
         }
       ]
     });
@@ -68,49 +76,83 @@ describe('Service: FormDataSourceService', () => {
 
   });
 
+  it('should call getConceptAnswersDataSource', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getConceptAnswersDataSource').and.callFake(() => { });
+
+    service.getConceptAnswersDataSource();
+    expect(service.getConceptAnswersDataSource).toHaveBeenCalled()
+  })
+
+  it('should call getDataSources', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getDataSources').and.callFake(() => { });
+
+    service.getDataSources();
+    expect(service.getDataSources).toHaveBeenCalled()
+  })
+
   it('should  find provider when getProviderByPersonUuid is called' +
     ' with a person uuid', inject([ProviderResourceService],
-    fakeAsync((providerResourceService: ProviderResourceService) => {
-      let service: FormDataSourceService = TestBed.get(FormDataSourceService);
-      let uuid: string = 'person-uuid-1';
-      spyOn(providerResourceService, 'getProviderByPersonUuid')
-        .and.callFake((params) => {
-        let subject = new BehaviorSubject<any>({});
-        subject.next({
-          person: {
-            uuid: 'uuid',
-            display: 'display'
-          }
-        });
-        return subject;
-      });
-      //
-      service.getProviderByPersonUuid(uuid);
-      tick(50);
-      expect(providerResourceService.getProviderByPersonUuid).toHaveBeenCalled();
+      fakeAsync((providerResourceService: ProviderResourceService) => {
+        let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+        let uuid: string = 'person-uuid-1';
+        spyOn(providerResourceService, 'getProviderByPersonUuid')
+          .and.callFake((params) => {
+            let subject = new BehaviorSubject<any>({});
+            subject.next({
+              person: {
+                uuid: 'uuid',
+                display: 'display'
+              }
+            });
+            return subject;
+          });
 
-    })));
+        service.getProviderByPersonUuid(uuid);
+        tick(50);
+        expect(providerResourceService.getProviderByPersonUuid).toHaveBeenCalled();
+
+      })));
+
+  it('should call getConceptAnswers', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getConceptAnswers').and.callFake(() => { });
+
+    service.getConceptAnswers('uuid');
+    expect(service.getConceptAnswers).toHaveBeenCalled()
+  })
+
+  it('should call getWhoStagingCriteriaDataSource', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getWhoStagingCriteriaDataSource').and.callFake(() => { });
+
+    service.getWhoStagingCriteriaDataSource();
+    expect(service.getWhoStagingCriteriaDataSource).toHaveBeenCalled()
+  })
 
   it('should find provider when getProviderByProviderUuid is called' +
     ' with a provider uuid', inject([ProviderResourceService],
-    fakeAsync((providerResourceService: ProviderResourceService) => {
-      let service: FormDataSourceService = TestBed.get(FormDataSourceService);
-      let uuid: string = 'provider-uuid-1';
-      spyOn(providerResourceService, 'getProviderByUuid')
-        .and.callFake((params) => {
-        let subject = new BehaviorSubject<any>({});
-        subject.next({
-          uuid: 'uuid',
-          display: 'display'
+      fakeAsync((providerResourceService: ProviderResourceService) => {
+        let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+        let uuid: string = 'provider-uuid-1';
+        spyOn(providerResourceService, 'getProviderByUuid')
+          .and.callFake((params) => {
+            let subject = new BehaviorSubject<any>({});
+            subject.next({
+              uuid: 'uuid',
+              display: 'display'
+            });
+            return subject;
+          });
+        //
+        service.getProviderByUuid(uuid).subscribe((data) => {
+          expect(data).toBeTruthy();
+          tick(50);
         });
-        return subject;
-      });
-      //
-      service.getProviderByUuid(uuid);
-      tick(50);
-      expect(providerResourceService.getProviderByUuid).toHaveBeenCalled();
+        expect(providerResourceService.getProviderByUuid).toHaveBeenCalled();
 
-    })));
+      })));
 
   it('should find location by search text', (done) => {
     let service: FormDataSourceService = TestBed.get(FormDataSourceService);
@@ -123,24 +165,77 @@ describe('Service: FormDataSourceService', () => {
 
   });
 
+  it('should call getProblemDataSource', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getProblemDataSource').and.callFake(() => { });
+
+    service.getProblemDataSource();
+    expect(service.getProblemDataSource).toHaveBeenCalled()
+  })
+
+  it('should call findDrug to find drug by search text', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'findDrug').and.callFake(() => { });
+
+    service.findDrug('test');
+    expect(service.findDrug).toHaveBeenCalled()
+  })
+
+  it('should call getConceptSetMembers', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getConceptSetMembers').and.callFake(() => { });
+
+    service.getConceptSetMembers('uuid');
+    expect(service.getConceptSetMembers).toHaveBeenCalled()
+  })
+
+  it('should call getCachedProviderSearchResults', () => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    spyOn(service, 'getCachedProviderSearchResults').and.callFake(() => { });
+
+    service.getCachedProviderSearchResults();
+    expect(service.getCachedProviderSearchResults).toHaveBeenCalled()
+  })
+
   it('should get location by location uuid', inject([LocationResourceService],
     fakeAsync((locationResourceService: LocationResourceService) => {
       let service: FormDataSourceService = TestBed.get(FormDataSourceService);
       let uuid: string = 'location-uuid-1';
       spyOn(locationResourceService, 'getLocationByUuid')
         .and.callFake((params) => {
-        let subject = new BehaviorSubject<any>({});
-        subject.next({
-          uuid: 'uuid',
-          display: 'display'
+          let subject = new BehaviorSubject<any>({});
+          subject.next({
+            uuid: 'uuid',
+            display: 'display'
+          });
+          return subject;
         });
-        return subject;
-      });
-      //
       service.getLocationByUuid(uuid);
       tick(50);
       expect(locationResourceService.getLocationByUuid).toHaveBeenCalled();
 
     })));
+
+  it('should find location by uuid', async((done) => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    let result = service.getLocationByUuid('test');
+
+    result.subscribe((results) => {
+      expect(results).toBeTruthy();
+      done();
+    });
+
+  }));
+
+  it('should call resolveConcept', async((done) => {
+    let service: FormDataSourceService = TestBed.get(FormDataSourceService);
+    let result = service.resolveConcept('test');
+
+    result.subscribe((results) => {
+      expect(results).toBeTruthy();
+      done();
+    });
+
+  }));
 
 });
